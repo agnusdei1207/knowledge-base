@@ -11,160 +11,167 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: TOGAF ADM 아키텍처 개발 방법은(는) 시험 빈출 핵심 요약 및 융합 토픽 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: TOGAF ADM(Architecture Development Method)은 엔터프라이즈 아키텍처(EA)를 8개 단계(Preliminary, A~H)와 Requirements Management로 구성된 반복적(Iterative) 사이클로 개발하는 Open Group의 표준 방법론으로, Business/Data/Application/Technology 4개 도메인을 아키텍처 뷰(View)와 뷰포인트(Viewpoint)로 추상화하여 전략-전환-거버넌스 흐름을 통합 관리한다.
+> 2. **가치**: ADM 적용 시 아키텍처 산출물 재사용률 40~60% 향상, 프로젝트 중복 투자 20~30% 절감, 의사결정 속도 3~5배 개선(실제 Gartner/Forrester 사례 기준)되며, Architecture Repository 기반의 통제된 거버넌스로 전사 IT 정합성을 확보한다.
+> 3. **판단 포인트**: 프로젝트 특성에 따라 **Iteration 패턴**(전체 사이클 반복 vs Phase G/H 중심 vs Phase A 중심)을 선택하고, **ADM Baseline vs Target vs Transition** 시점의 경계 정의, 그리고 **SBB(Solution Building Block)** 적용 시 ABB(Architecture Building Block)와의 매핑 정밀도가 아키텍처 ROI의 결정적 변수가 된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-TOGAF ADM 아키텍처 개발 방법은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+TOGAF ADM은 1995년 The Open Group의 전신인 The Open Group consortium에서 출발하여, 기존 Zachman Framework이 제공하는 분류 체계(What/How/Where/Who/When/Why)는 있으나 **"어떻게 만들어야 하는가"**에 대한 프로세스가 부재한 한계를 해결하기 위해 등장했다. ADM은 단순 문서 템플릿이 아니라, **"전략적 목표 → 아키텍처 비전 → 상세 설계 → 이행 → 거버넌스"**로 이어지는 엔터프라이즈 아키텍처 라이프사이클 전체를 정의하는 **반복적-점진적(Iterative-Incremental) 개발 방법론**이다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, TOGAF ADM Architecture Development Method 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+기존 2000년대 초반까지의 엔터프라이즈 아키텍처는 **Big-Bang Approach**(수년 단위 일회성 문서화)에 의존하여, 비즈니스 환경 변화 시 산출물이 즉각 obsolete 처리되거나, 문서는 존재하지만 실제 프로젝트와 괴리가 큰 **"Drawerware(서랍속 아키텍처)"** 현상이 빈번했다. ADM은 **Requirements Management**를 사이클 중앙에 배치하여 사이클 외부의 새로운 요구사항을 흡수하고, Phase A~H 각 단계의 **Statement of Architecture Work**를 통해 점진적으로 정제하는 방식을 채택한다. 또한 **TOGAF 9.2 → 10(2024~2025 발행 예정)**의 흐름에서는 **Agile/Lean 통합**, **Digital Transformation 가속화**, **Practical EA** 트랙을 통해 경량화(Lean ADM) 지원을 강화하고 있다.
 
 ```text
-+--------------------------------------------------------------+
-|                    TOGAF ADM 아키텍처 개발 방법 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[ TOGAF ADM 사이클 전체 구조 ]
+
+                     ┌────────────────────────────────┐
+                     │  Preliminary Phase             │
+                     │  (프레임워크/거버넌스 정의)    │
+                     └─────────────┬──────────────────┘
+                                   │
+                                   ▼
+              ┌─────────────────────────────────────────┐
+              │   Requirements Management (중앙 허브)   │◄──────┐
+              │   (요구사항 변경 흡수)                  │       │
+              └────┬──────┬──────┬──────┬──────┬────────┘       │
+                   │      │      │      │      │                │
+                   ▼      ▼      ▼      ▼      ▼                │
+              Phase A  Phase B Phase C Phase D Phase E ...──────┘
+              (Vision) (Biz)  (Info)  (App)  (Tech)
+                   │      │      │      │      │
+                   └──────┴──────┴──────┴──────┘
+                              │  Gap 분석
+                              ▼
+                       Phase F (Migration Planning)
+                              │
+                              ▼
+                       Phase G (Implementation Governance)
+                              │
+                              ▼
+                       Phase H (Architecture Change Management)
+                              │
+                              ▼
+              (전체 사이클 재진입 / 신규 사이클 시작)
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
-
-- **📢 섹션 요약 비유**: TOGAF ADM 아키텍처 개발 방법은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: ADM은 마치 **도시계획 수립-시공-유지보수**의 전 과정을 다루는 마스터플랜과 같다. 한 번 도시를 짓고 끝나는 것이 아니라, 신축·재개발·재정비의 순환 과정을 거쳐 도시가 진화하듯, ADM도 **"지금의 도시(As-Is) → 5년 후的理想 도시(To-Be) → 단계별 재개발(Transition)"** 사이클을 끊임없이 반복한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-TOGAF ADM 아키텍처 개발 방법의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+ADM의 핵심 메커니즘은 **Architecture Development Cycle**과 이를 둘러싼 3개 컴포넌트(Architecture Content, Capability, Governance & Repository)의 상호작용이다. 8단계 + Requirements Management + Preliminary = 총 10개 컴포넌트가 **Architecture Repository**라는 단일 진실 공급원(Source of Truth)을 중심으로 협업한다.
+
+ADM의 8개 Phase는 다음의 역할을 수행한다:
+- **Preliminary**: TOGAF 프레임워크 자체를 조직에 맞춤(Customization)하고 Architecture Capability, Board, Principles를 정의
+- **Phase A (Architecture Vision)**: 이해관계자(Stakeholder) 식별, Architecture Vision 문서, Stakeholder Map 작성, Request for Architecture Work 검토
+- **Phase B (Business Architecture)**: Baseline/Target Business Architecture, 조직·역할·프로세스·기능 모델링(BPMN, ARIS, UML Activity)
+- **Phase C (Information Systems Architectures)**: Data Architecture(CIA - Conceptual/Logical/Physical)와 Application Architecture 매핑
+- **Phase D (Technology Architecture)**: 물리적/논리적 컴포넌트 배치, 플랫폼(OS, 미들웨어, 네트워크) 정의
+- **Phase E (Opportunities & Solutions)**: SBB 식별, Work Package/Architecture Building Block(ABB) → SBB 매핑
+- **Phase F (Migration Planning)**: Transition Architecture, Implementation & Migration Plan, Project Portfolio 매핑
+- **Phase G (Implementation Governance)**: 실제 이행 프로젝트의 아키텍처 적합성 검증(Compliance Review)
+- **Phase H (Architecture Change Management)**: 새로운 요구·기술 변화에 대한 Architecture Repository 업데이트 및 사이클 재시작 트리거
+
+**ADM Iteration**은 4가지 패턴으로 분류된다:
+1. **Architecture Iteration**: 전체 ADM 사이클을 처음부터 반복
+2. **Development Iteration**: 단일 Phase 내에서의 산출물 정제
+3. **Transition Iteration**: Phase G/H 사이의 이행 사이클
+4. **Platform Iteration**: 동일 Phase에서 플랫폼/OS 별 변형
 
 ```text
-+--------------------------------------------------------------+
-|              TOGAF ADM Architecture Development Method 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+[ ADM Phase별 산출물 및 핵심 기법 흐름 ]
+
+ Preliminary          Phase A             Phase B             Phase C/D
+┌──────────┐      ┌──────────┐       ┌──────────┐       ┌──────────┐
+│ 원칙     │      │ 비전     │       │ Baseline │       │ Baseline │
+│ 거버넌스 │─────▶│ 이해관계 │──────▶│ Target   │──────▶│ Target   │
+│ 표준     │      │ 자 맵    │       │ Biz Mod  │       │ Data/App │
+│ Repository│     │ SOW 초안 │       │ Gap      │       │ Tech Mod │
+└──────────┘      └──────────┘       └──────────┘       └──────────┘
+                                                                │
+                                                                ▼
+                          Phase E ◀─────  Phase F  ◀───── Gap 분석
+                       ┌──────────┐    ┌──────────┐      ┌──────────┐
+                       │ SBB 식별 │    │ 이행계획 │      │ Gap      │
+                       │ WP 정의  │    │ Portfolio│      │ Statement│
+                       │ ROA/CBA  │    │ Transition│     │ Impact   │
+                       └──────────┘    └──────────┘      └──────────┘
+                              │              │
+                              ▼              ▼
+                          Phase G  ◀───── Implementation
+                       ┌──────────┐
+                       │ Architecture
+                       │ Contract
+                       │ Compliance
+                       │ Review
+                       └──────────┘
+                              │
+                              ▼
+                          Phase H
+                       ┌──────────┐
+                       │ Change   │
+                       │ Repository│
+                       │ Update   │
+                       └──────────┘
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Architecture Repository** | 통합 저장소 | Architecture MetaModel(코어+확장), **Architecture Landscape(0~3번 영역)**: 0.Architectural Repository, 1.Standards Information Base, 2.Reference Architectures, 3.Populated Architectures, 4.Governance Logs |
+| **Architecture Content Framework** | 산출물 메타모델 | Deliverable/Artifact/Building Block(ABB/SBB/ARB/SRB) 구분, **ABB(Architecture Building Block)**는 논리적/추상적, **SBB(Solution Building Block)**는 구현 가능한 시스템 컴포넌트 |
+| **ADM Guidelines & Techniques** | 35+ 보조 기법 | Stakeholder Management, Architecture Patterns, Business Scenarios, Gap Analysis, Migration Planning Techniques, Interoperability Requirements, Risk/Cost Assessment, **Business Transformation Readiness Assessment**, Capability-Based Planning |
+| **Architecture Capability Framework** | 조직 역량 | Architecture Board(ARB), Architecture Governance(Compliance/Survey/Reviews), Architecture Skills Framework(Role: Sponsor/Architect/Designer/Implementer) |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**핵심 메커니즘 - Gap 분석 & Transition Architecture**:
+ADM의 진정한 차별점은 **Gap Analysis**를 통해 Baseline(현재 상태) - Target(목표 상태) 차이를 도출하고, 이를 **Transition Architecture**(중간 단계)로 분해하여 Work Package 단위로 이행 가능하게 만드는 것이다. Gap = {Target Capability} - {Baseline Capability} + {Transition delta}, 이 공식이 **Implementation Factor, Cost %, Time %**로 분해되어 Phase F의 **Implementation & Migration Plan(IMP)**을 산출한다. 여기서 **Cost% = f(Delta Capability, Complexity Factor)**로 산정되며, 일반적으로 Phase F에서 CBA(Cost-Benefit Analysis)와 함께 ROA(Return on Architecture Investment)를 측정한다.
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+**ArchiMate 3.2와의 매핑**:
+TOGAF ADM 산출물은 **ArchiMate** 언어와 1:1 매핑된다. 예) Phase A의 Architecture Vision은 ArchiMate의 **Motivation Layer(Goal, Driver, Stakeholder)**, Phase B의 Business Architecture는 **Business Layer(Process, Service, Function, Actor)**, Phase C/D는 **Application/Technology Layer**로 표현된다. 이는 **TOGAF Series Guide: ArchiMate 3.0 Bridge** 문서에 상세히 명세되어 있다.
+
+- **📢 섹션 요약 비유**: ADM Phase A~H는 마치 **집 짓기 공정도**와 같다. A(설계 컨셉 도출) → B(거실·주방 배치) → C(배관·전기 배선) → D(자재·규격 확정) → E(인테리어 옵션 선정) → F(시공 일정표) → G(시공 감리) → H(완공 후 증축·개조). 각 공정마다 도면(Deliverable)이 쌓여 결국 **건축물 증명서(Architecture Contract)**로 귀결된다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-TOGAF ADM 아키텍처 개발 방법을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+TOGAF ADM은 EA 프레임워크 시장에서 다른 표준들과 비교되며 상호보완적으로 사용된다. 특히 Zachman은 **분류 체계(Classification)**, TOGAF ADM은 **프로세스(Process)**, FEAF는 **성과관리(Performance Reference Model)**, DoDAF는 **국방 도메인 뷰(View)**, Gartner은 **방법론 통찰(Methodology Insights)**을 강조한다.
 
-| 구분 | 전통적 접근 | TOGAF ADM 아키텍처 개발 방법 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+| 구분 | **TOGAF ADM** | **Zachman Framework** | **FEAF (Federal EA)** | **DoDAF 2.0** |
+| :--- | :--- | :--- | :--- |
+| **핵심 초점** | 아키텍처 개발 프로세스(How) | 분류 체계/관점 매트릭스(What) | 미국 연방정부 표준 + PRM | 국방 도메인 All-View 모델링 |
+| **반복성** | Iterative(8+1 Phase Cycle) | 비반복적(분류 메타모델) | 비반복적(5개 Reference Model) | 비반복적(8개 View) |
+| **산출물** | Deliverables, Artifacts, Building Blocks | 셀(Cell) 6×5=30개 매트릭스 | PRM, BRM, SRM, DRM, ARM | AV, OV, SV, TV, DIV, StdV, SvcV 등 8 View |
+| **거버넌스** | Architecture Board, Compliance Review | 미정의(메타모델만 제공) | EA Assessment, A-EMAF | FITBWG, Configuration Management |
+| **표현 언어** | ArchiMate 3.2(연동) | 미정의(중립) | DoDAF/DM2(일부) | DoDAF Meta Model(DM2) |
+| **기술사 활용** | 민간 SI/공공 EA 사업의 **사실상 표준** | 분류 기준 제시 시 인용 | 공공부문 RFP 응답 시 | 국방 M&S, C4I 시스템 설계 시 |
 
-관련 기술 영역과의 연결점도 중요하다. TOGAF ADM 아키텍처 개발 방법은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
+**상호운용성 및 통합 패턴**:
+- **TOGAF + ArchiMate**: Open Group 통합 전략으로, ADM Phase B는 ArchiMate Business Layer로, Phase C/D는 Application/Technology Layer로 매핑. **TOGAF-ArchiMate Mapping Guide** 참조
+- **TOGAF + BPMN**: Phase B의 비즈니스 프로세스 모델링 시 BPMN 2.0을 사용, ArchiMate Business Process와 1:1 매핑
+- **TOGAF + UML**: Phase C의 Application/Component 설계 시 UML Class/Component/Deployment Diagram 활용
+- **TOGAF + SAFe/Agile**: Phase E~G에서 **SAFe Program Increment(PI)** 단위로 Work Package 매핑, **Agile ADM** 경량화 패턴(TOGAF 9.2 Supplement)
+- **TOGAF + ITIL 4**: Phase G의 거버넌스 단계에서 Service Value System과의 연계(SVS) - Change Enablement, Service Design
 
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 TOGAF ADM 아키텍처 개발 방법은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
+- **📢 섹션 요약 비유**: EA 프레임워크를 **의료 시스템**에 비유하면, TOGAF ADM은 **진료 절차 매뉴얼(어떤 검사를 어떤 순서로 할지)**, Zachman은 **환자 정보 분류 체계(체온·혈압·혈액형 어디에 기록할지)**, FEAF은 **미국 의료보험 청구 표준 양식**, DoDAF는 **군진 병원 특수 프로토콜**이라고 할 수 있다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 TOGAF ADM 아키텍처 개발 방법을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
+EA 사업을 수행하는 기술사는 ADM의 **적용 범위(Scope)**, **Iteration 주기**, **거버넌스 깊이**를 비즈니스 임팩트와 조직 성숙도에 맞춰 결정해야 한다. **Gartner EA Maturity Model(0~5 레벨)**에서 Level 2~3 조직은 ADM Core + Iteration + Architecture Repository 구축이 필수, Level 4 이상은 Lean ADM + Agile + Real-Time Architecture Health Check로 진화한다.
 
 ### 기술사형 판단 체크리스트
 
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
+1. **Iteration Depth 결정**: 단일 프로젝트 EA vs 전사 EA에 따라 Phase 반복 깊이를 결정했는가? (예: Digital Transformation SI는 Phase A+B 집중, Legacy Modernization은 Phase D~G 반복)
+2. **Baseline 정밀도 검증**: As-Is Architecture를 정량적 지표(응답시간, 가용성, ROI)로 측정 가능한 수준으로 작성했는가? (단순 org chart ❌ → 정량 KPI 매핑 ⭕)
+3. **Gap 분석의 Work Package 분해 정밀도**: Gap → Transition Architecture → Work Package로 3단계 이상 분해했는가? WP가 6개월 이내 1팀 단위 수행 가능한 크기(<= 50 person-month)인가?
+4. **SBB-ABB 매핑 검증**: Phase E에서 정의한 SBB가 기존 SI Vendor 솔루션과 **100% 1:1 매핑** 가능한지, 또는 커스터마이징 발생 시 Architecture Contract에 반영했는가?
+5. **Architecture Governance 활성화**: Phase G의 Compliance Review가 단순 체크리스트 ❌, 실제 프로젝트 Board 승인 게이트 ⭕로 작동하는가? 비준수 시 Architecture Exception Process가 운영되는가?
 
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-TOGAF ADM 아키텍처 개발 방법을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, TOGAF ADM 아키텍처 개발 방법 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: TOGAF ADM 아키텍처 개발 방법은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | TOGAF ADM 아키텍처 개발 방법의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | TOGAF ADM 아키텍처 개발 방법의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-TOGAF ADM 아키텍처 개발 방법 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. TOGAF ADM 아키텍처 개발 방법은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+### 피해야 할
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 502 / 600

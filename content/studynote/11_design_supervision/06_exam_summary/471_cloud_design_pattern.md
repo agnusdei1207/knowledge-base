@@ -11,160 +11,145 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 클라우드 디자인 패턴 분류 체계은(는) 시험 빈출 핵심 요약 및 융합 토픽 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 클라우드 디자인 패턴 분류 체계는 분산 시스템의 8대 품질 속성(Availability, Data Management, Design/Implementation, Management/Monitoring, Messaging, Performance/Scalability, Resiliency, Security)별로 정리된 재사용 가능한 아키텍처 청사진으로, Microsoft/Azure의 24+ 정식 패턴과 AWS Well-Architected Framework 패턴군을 양대 축으로 한다.
+> 2. **가치**: 패턴 적용 시 평균 MTTR 40~60% 단축, 가용성 SLA 99.9%→99.99% 향상, 그리고 CAP Theorem/12-Factor App 위반으로 인한 재설계 비용을 초기 설계 단계에서 70% 이상 절감 가능하다.
+> 3. **판단 포인트**: 패턴은 Silver Bullet이 아니며, 동기(驅動力)-메커니즘-트레이드오프 3축으로 평가해야 한다. 특히 **합성 가능성(Composability)**, **상태 의존성(Statefulness)**, **네트워크 가정(Network Assumption: AP vs CP)**, **비용 모델(CapEx vs OpEx)**이 기술사 답안에서 결정적 채점 포인트가 된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-클라우드 디자인 패턴 분류 체계은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
-
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Cloud Design Pattern Classification 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+전통적인 on-premise 아키텍처는 3-Tier(Monolith) 구조 위에서 **EJB 2.x, CORBA, J2EE Design Patterns**(Sun의 Core J2EE Patterns 2003)가 지배했다. 이들은 단일 트랜잭션, 단일 데이터센터, 동기 IPC를 전제로 설계되어 클라우드의 **Eventually Consistent, Network Partition Tolerant, Ephemeral VM** 환경과는 본질적으로 충돌한다. 마이크로서비스, Serverless, Multi-Cloud로 패러다임이 전환됨에 따라, Microsoft는 2014년 «Cloud Design Patterns»(초판, 2018년 2판)을, AWS는 2015년 «AWS Architecture Center»를 통해 패턴 카탈로그를 체계화했다. 결과적으로 **도메인 무관의 공통 어휘(ubiquitous language)**가 필요해졌고, 이는 기술사 시험의 5대 평가축(아키텍처, 성능, 운영, 보안, 비용)에 직접 매핑된다.
 
 ```text
-+--------------------------------------------------------------+
-|                    클라우드 디자인 패턴 분류 체계 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[패러다임 전환 매트릭스]
+┌─────────────────────┬──────────────────────────┬──────────────────────────────┐
+│     평가 축         │   J2EE (2003년 이전)      │  Cloud-Native (2014년 이후)  │
+├─────────────────────┼──────────────────────────┼──────────────────────────────┤
+│ Deployment Unit     │ EAR/WAR 1개 (10~100GB)   │ Container 1개 (10~500MB)     │
+│ State               │ Stateful SessionBean    │ Stateless + 외부 State Store│
+│ Failure Model       │ HW MTBF ~10년           │ SW MTBF 수시간, PARTITION   │
+│ Scaling             │ Vertical (Scale-Up)     │ Horizontal (Scale-Out)       │
+│ IPC                 │ RMI/IIOP Synchronous    │ gRPC, AMQP, Kafka Async     │
+│ CAP                 │ CA (강한 일관성 우선)    │ AP (가용성 우선, EC 채택)   │
+│ Pattern Origin      │ GoF + Sun Core J2EE     │ MSFT Patterns + AWS Well-Arch│
+└─────────────────────┴──────────────────────────┴──────────────────────────────┘
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+클라우드 패턴이 필요한 3대 동인은 ① **분산 시스템 폴리필(Polyfill)** — 네트워크 장애, 클럭 스큐, 부분 장애를 처리하는 반복 코드를 패턴화, ② **비용 인지 아키텍처** — Pay-per-Use 모델에 최적화된 설계 의사결정(예: Valet Key로 CDN egress 비용 절감), ③ **자동화 친화성** — IaC(Terraform/ARM)와 결합 가능한 선언적 패턴이다.
 
-- **📢 섹션 요약 비유**: 클라우드 디자인 패턴 분류 체계은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 기존 J2EE 패턴이 "단독 주택 건축 매뉴얼"이었다면, 클라우드 디자인 패턴은 **컨테이너 호텔의 모듈식 건축 표준**이다. 룸서비스 호출, 화재 감지기, 비상 발전기 같은 공통 기능을 표준화해 호텔 체인 어디서나 동일하게 작동하게 만든다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-클라우드 디자인 패턴 분류 체계의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+Microsoft Azure의 정식 분류 체계(8개 카테고리, 24개 핵심 패턴)와 AWS의 Well-Architected Framework(6대 기둥에 매핑된 패턴군)를 통합한 분류 구조는 다음과 같다.
 
 ```text
-+--------------------------------------------------------------+
-|              Cloud Design Pattern Classification 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+[클라우드 디자인 패턴 분류 트리 — 8대 카테고리 / 24개 정식 패턴]
+                                        
+                  Cloud Design Pattern Catalog
+                              │
+        ┌─────────┬───────────┼───────────┬─────────┐
+        │         │           │           │         │
+   [Avail]  [Data Mgmt] [Design/Impl] [Msg]  [Mgmt/Mon]
+        │         │           │           │         │
+   Health    Cache-Aside   Ambassador   Pub/Sub   External
+   Endpoint  CQRS          Anti-Corrupt  Competing  Config
+   Monit.    Event Source  BFF          Consumer  Health
+   Throttle  Index Table   Compute      Queue     Monit.
+   LB+Queue  Materialized  Resource     Sagas     Sidecar
+   Async     View          Consolidation
+        │         │
+        │     [Perf/Scal]
+        │     Sharding, Cache-Aside, Throttling, CQRS
+        │
+   [Resiliency]  ───  Bulkhead, Circuit Breaker, Retry,
+                       Compensating Tx, Health Endpoint
+        │
+   [Security]  ───  Federated Identity, Valet Key, Gatekeeper,
+                     Secrets Mgmt, Claim-based
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+각 카테고리의 **8대 패턴 메커니즘**을 분해하면 다음과 같다.
+
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **① Availability 패턴군** | SLA 99.99% 이상 보장 | Health Endpoint Monitoring(헬스체크 엔드포인트 + LB), Queue-Based Load Leveling(SQS/Kafka로 버스트 흡수), Throttling(429 Retry-After 헤더) |
+| **② Data Management 패턴군** | 분산 트랜잭션, 폴리글랏 영속성 | Cache-Aside(Redis TTL+Read-Through), CQRS(쓰기/읽기 모델 분리), Event Sourcing(불변 이벤트 로그), Materialized View(사전 집계) |
+| **③ Design/Implementation 패턴군** | 마이크로서비스 경계, 외부 격리 | Ambassador(사이드카로 외부 API 프록시), Anti-Corruption Layer(레거시→신규 번역), BFF(클라이언트별 API 분리), Sidecar |
+| **④ Messaging 패턴군** | 비동기, 약결합 | Publisher/Subscriber(Topic Exchange), Queue-Based Load Leveling, Sagas(보상 트랜잭션), Priority Queue |
+| **⑤ Management/Monitoring 패턴군** | 운영 가시성 | External Configuration Store(AWS Parameter Store/AppConfig), Health Endpoint Monitoring, Sidecar(Logging/Metrics), Scheduler Agent Supervisor |
+| **⑥ Performance/Scalability 패턴군** | 처리량 극대화 | Cache-Aside, Sharding(파티션 키 분산), Throttling(부하 제어), CQRS |
+| **⑦ Resiliency 패턴군** | 장애 격리·복구 | Bulkhead(스레드풀/연결풀 분리), Circuit Breaker(Closed/Open/Half-Open), Retry(Exponential Backoff+Jitter), Compensating Transaction, Health Endpoint Monitoring |
+| **⑧ Security 패턴군** | 제로트러스트, 키 관리 | Federated Identity(OAuth 2.0 + OIDC), Valet Key(SAS Token/Pre-signed URL), Gatekeeper(API Gateway+Dedicated Subnet), Secrets Mgmt(Vault/KMS) |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**핵심 알고리즘 — Circuit Breaker 상태 천이**는 가장 빈출 출제 포인트다.
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+```
+        Closed State          Half-Open State
+       (정상 처리)            (제한적 시험)
+            │                       ▲
+            │  연속 실패 ≥ Threshold │  성공
+            ▼  (예: 5회/10초)        │
+       ┌──────────┐    Reset Timeout │  실패
+       │  Open    │    (예: 60초)    │
+       │  State   │◀────────────────┘
+       │(즉시 거절)│
+       └──────────┘
+```
+
+`failureRateThreshold`, `slidingWindowSize`, `minimumNumberOfCalls`, `waitDurationInOpenState`, `permittedNumberOfCallsInHalfOpenState`의 5대 파라미터가 Resilience4j/Polly의 표준 설정값이다. 기술사 답안에서는 **P99 latency SLO**와 **연결 풀 고갈 시나리오**를 반드시 연결해 설명해야 한다.
+
+**Trade-off 3축**: ① **일관성 vs 가용성**(CAP), ② **강결합 vs 성능**(Sync RPC vs Async Event), ③ **비용 vs 복원력**(Multi-Region Active-Active는 Cross-Region Egress로 월 수천만 원 추가 발생).
+
+- **📢 섹션 요약 비유**: 8대 카테고리는 **비행기의 8대 안전장치**다. Health Endpoint는 기내 의료 모니터, Circuit Breaker는 자동 차단 스위치, Bulkhead는 격벽, Federated Identity는 탑승권 신원 확인 — 어느 하나만 빠져도 기체가 추락하지는 않지만, 악천후에서 반드시 한 개가 작동해야 한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-클라우드 디자인 패턴 분류 체계을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+| 구분 | Microsoft Azure 패턴 카탈로그 | AWS Well-Architected Patterns | 12-Factor App |
+| :--- | :--- | :--- | :--- |
+| **출간 연도/주체** | 2014, MSFT Architecture Team | 2015, AWS SA Team (현재 6 Pillars) | 2011, Heroku 12명 |
+| **패턴 수** | 24개 정식 + 8개 Guidance | 100+ 권장 아키텍처(다이어그램형) | 12 원칙(원칙이지 패턴 아님) |
+| **분류 축** | 8대 품질 속성 | 6대 기둥(Operational, Security, Reliability, Performance, Cost, Sustainability) | 12개 원칙(Stateless, Config 외부화 등) |
+| **대상 시스템** | Azure 중심(상호운용 가능) | AWS 서비스 1:1 매핑 | Cloud-agnostic |
+| **형태** | 패턴 × 문제 × 솔루션 × 결과 | Scenario → Architecture Diagram | 원칙만 제시, 구체 패턴 없음 |
+| **가장 빈출** | CQRS, Circuit Breaker, Saga | Multi-Account, Serverless, EDA | Config, Backing Services, Disposability |
+| **기술사 활용** | 이론·예시 풍부, 답안 채점 친화 | 실무 사례·비용·보안 깊이 우세 | “원칙→패턴→구현” 도출용 |
+| **약점** | AWS 서비스 명시 부족 | 패턴이 아닌 워크로드 다이어그램 | 추상적, 평가 기준 모호 |
+| **시너지** | **MSA 시험 답안의 표준 프레임** | **AWS Specialty 자격 연계** | **Cloud-Native 인증서 기본** |
 
-| 구분 | 전통적 접근 | 클라우드 디자인 패턴 분류 체계 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+**다른 시스템 컴포넌트와의 연결 관계**:
 
-관련 기술 영역과의 연결점도 중요하다. 클라우드 디자인 패턴 분류 체계은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
+1. **IaC(Terraform/ARM)**: 패턴을 모듈화(예: `module.circuit-breaker-resilience4j`)하여 재사용성을 극대화
+2. **Service Mesh(Istio/Linkerd)**: Sidecar, Circuit Breaker, Mutual TLS를 데이터플레인에서 자동 주입
+3. **Observability Stack(Prometheus/Grafana/Jaeger)**: Health Endpoint, Throttling, Bulkhead의 메트릭을 OpenTelemetry로 추적
+4. **CI/CD(GitHub Actions/ArgoCD)**: Strangler Fig Pattern을 카나리 배포·Blue-Green과 결합해 점진적 레거시 교체
 
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 클라우드 디자인 패턴 분류 체계은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
+- **📢 섹션 요약 비유**: MSFT 패턴 카탈로그는 **정통 요리 백과사전**(원리·재료·불 조절법), AWS Well-Architected는 **각 나라의 현지 식당 메뉴**(현장 사례 중심), 12-Factor App는 **요리사의 10계명**(원칙)이다. 셋이 합쳐져야 한 상의 요리가 완성된다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 클라우드 디자인 패턴 분류 체계을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
 ### 기술사형 판단 체크리스트
 
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
+1. **트래픽 패턴 진단**: ① Read/Write 비율, ② Burst 가능성(Black Friday급 100x spike), ③ Geographic 분포, ④ 동시 사용자(CCU)와 TPS의 SLO — 이 4개 수치가 **Cache-Aside 적용 여부**, **CQRS 분기점**, **Sharding 파티션 수**를 결정한다. 일반적 분기점: R/W > 7:3 → Cache-Aside, TPS > 10K → Sharding, MTTR < 5분 → Circuit Breaker 필수.
+2. **CAP 명시적 선택**: 금융 결제(잔액) → **CP(RDB+2PC or Saga)**, SNS 피드 → **AP(Cassandra/DynamoDB EC + N=R/W)**, IoT Telemetry → **AP+Eventual Consistency**로 답안에 명시해야 가산점.
+3. **비용 모델링**: Throttling 미적용 시 DoS로 1시간 Egress 비용 수천만 원, Valet Key(Pre-signed URL) 적용 시 S3 직접 전송으로 **Egress 80%↓**, Multi-Region Active-Active는 Cross-Region 9¢/GB → 데이터 1TB/일 = 월 270만 원 추가. **단가 × 월 데이터량 × Region 수** 3축으로 TCO 계산.
+4. **합성 가능성 검증**: 5개 이상 패턴 동시 적용 시 **상호 간섭(Cross-cutting Concern)** 검증 — 예: Saga + Circuit Breaker에서 보상 트랜잭션이 Open 상태에서 트리거되면 **데이터 유실 위험**. 차트로 의존성 매트릭스 작성.
+5. **테스트 전략**: 패턴별 **Chaos Engineering** 적용 매핑 — Circuit Breaker → Netflix Chaos Monkey로 인스턴스 kill, Bulkhead → Toxiproxy로 연결 고갈, Event Sourcing → CDC(Debezium) 기반 E2E 정합성 테스트.
 
 ### 피해야 할 안티패턴
 
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-클라우드 디자인 패턴 분류 체계을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 클라우드 디자인 패턴 분류 체계 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 클라우드 디자인 패턴 분류 체계은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 클라우드 디자인 패턴 분류 체계의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 클라우드 디자인 패턴 분류 체계의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-클라우드 디자인 패턴 분류 체계 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 클라우드 디자인 패턴 분류 체계은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+- **Distributed Monolith**: 마이크로서비스로 분리했으나 동기 REST로 강결합 + 공유 DB → **단일 장애점(Single Point of Failure)**으로 변질. AWS Well-Architected Reliability Pillar 첫 번째 경고 항목.
+- **Synchronous Chain(호출 사슬)**: 5개 서비스를 동기 호출 시 **5번째의 99.9% × 5 = 99.5%** 가용성 저하(곱셈 법칙). **3- hop 초과 시 반드시 비동기/메시지 큐**로 전환.
+- **Cache Stampede**: 인기 키 만료 시 동시 N개 요청이 모두 DB로 몰림 → **Single Flight 패턴**(sync.Once, Caffeine LoadingCache)으로 1개만 DB 조회, 나머지 대기.
+- **Chatty I/O in Monolith DB**: 1 트랜잭션에 50회 SELECT → 패턴 도입 전 DB 리팩토링이 선행돼야 함(Anti-Corruption Layer만으로는 부족).
+- **Premature CQRS**: 트래픽 < 1K TPS에서 CQRS 적용 → **쓰기/읽기 모델 동기
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 471 / 600

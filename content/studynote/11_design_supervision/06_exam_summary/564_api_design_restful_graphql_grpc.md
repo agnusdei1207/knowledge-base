@@ -12,7 +12,7 @@ tags = ["studynote-design-supervision"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: API 설계 패러다임은 **리소스 중심(REST/HTTP-JSON)**, **쿼리 중심(GraphQL/Schema-First)**, **계약 중심(gRPC/Protobuf over HTTP/2)**의 3축으로 수렴하며, 각기 다른 직렬화·전송·계약 정의 메커니즘을 통해 *네트워크 효율성·타입 안전성·클라이언트 자율성*을 상충관계(Trade-off) 속에서 최적화한다.
-> 2. **가치**: 페이로드 절감(REST 대비 GraphQL/gRPC 평균 40~80%), 계약 기반 코드 자동 생성(`.proto` → 12+ 언어 SDK), HTTP/2 멀티플렉싱을 통한 동시성 처리(Head-of-Line Blocking 제거), Strongly-Typed Schema를 통한 런타임 오류 컴파일 타임 전환으로 **MTTR 평균 30% 감소** 효과를 창출한다.
+> 2. **가치**: 페이로드 절감(REST 대비 GraphQL/gRPC 평균 40~80%), 계약 기반 코드 자동 생성(`.proto` -> 12+ 언어 SDK), HTTP/2 멀티플렉싱을 통한 동시성 처리(Head-of-Line Blocking 제거), Strongly-Typed Schema를 통한 런타임 오류 컴파일 타임 전환으로 **MTTR 평균 30% 감소** 효과를 창출한다.
 > 3. **판단 포인트**: **내부 서비스 간 통신(Backend-to-Backend)**은 gRPC 우선, **외부 공개 API(B2C/공공)**는 REST·OpenAPI 3.1 우선, **애그리게이션·BFF(Backend-For-Frontend)**는 GraphQL Federation 또는 BFF 패턴을 적용하는 *3-Tier API 전략*이 핵심 의사결정 프레임이다.
 
 ---
@@ -29,20 +29,20 @@ tags = ["studynote-design-supervision"]
 [API 설계 패러다임 진화 흐름]
 
    1990s        2000s         2010s 초         2010s 후반~현재
- ┌─────────┐  ┌──────────┐  ┌─────────────┐  ┌──────────────────┐
- │  CORBA  │→ │SOAP/WS-* │→ │   REST/HTTP │→ │ GraphQL  + gRPC  │
- │ (IIOP)  │  │(XML/WSDL)│  │  (JSON/URI) │  │  (Schema/Proto)  │
- └─────────┘  └──────────┘  └─────────────┘  └──────────────────┘
+ +---------+  +----------+  +-------------+  +------------------+
+ |  CORBA  |-> |SOAP/WS-* |-> |   REST/HTTP |-> | GraphQL  + gRPC  |
+ | (IIOP)  |  |(XML/WSDL)|  |  (JSON/URI) |  |  (Schema/Proto)  |
+ +---------+  +----------+  +-------------+  +------------------+
    RPC기반     표준화중심      자원중심          계약·쿼리·이벤트
    바이너리     무거운스택     웹친화적           고성능·타입안정
-                    │                │                  │
-                    ▼                ▼                  ▼
-              [WSDL→UDDI]      [OpenAPI 3.1]      [GraphQL SDL / .proto]
+                    |                |                  |
+                    v                v                  v
+              [WSDL->UDDI]      [OpenAPI 3.1]      [GraphQL SDL / .proto]
               (정적 발견)       (동적 문서화)        (계약 자동생성)
 ```
 
 **MSA 환경에서의 API 설계가 필수불가결한 이유**는 다음과 같이 정량화된다:
-- Netflix는 700+ 마이크로서비스 간 통신을 위해 **REST→gRPC 전환**으로 P99 latency를 평균 50% 절감 (2018~2020).
+- Netflix는 700+ 마이크로서비스 간 통신을 위해 **REST->gRPC 전환**으로 P99 latency를 평균 50% 절감 (2018~2020).
 - GitHub는 v3 REST API의 **GraphQL 버전(2016)**을 통해 모바일 앱의 네트워크 요청 수를 평균 90% 감소.
 - Shopify, Yelp, Pinterest는 **BFF + GraphQL Federation**으로 50+ 도메인 서비스의 데이터를 단일 엔드포인트로 통합.
 
@@ -65,23 +65,23 @@ REST는 **자원(Resource)**을 URI로 표현하고, **HTTP 동사(Verb)**로 �
 [RESTful API 요청-응답 플로우 (Level 2-3)]
 
   Client                        Server                  Database
-    │                              │                       │
-    │  GET /users/42/orders       │                       │
-    │  Accept: application/json    │                       │
-    │  Authorization: Bearer xxx   │                       │
-    ├─────────────────────────────►│                       │
-    │                              │  SELECT * FROM orders │
-    │                              │  WHERE user_id = 42   │
-    │                              ├──────────────────────►│
-    │                              │◄──────────────────────┤
-    │  200 OK                      │   [rows...]           │
-    │  Content-Type: application/json                       │
-    │  Link: </orders?page=2>; rel="next"                   │
-    │  { "id":42, "name":"Kim",   │                       │
-    │    "orders":[ {...} ] }     │                       │
-    │◄─────────────────────────────┤                       │
-    │                              │                       │
-    
+    |                              |                       |
+    |  GET /users/42/orders       |                       |
+    |  Accept: application/json    |                       |
+    |  Authorization: Bearer xxx   |                       |
+    +-----------------------------►|                       |
+    |                              |  SELECT * FROM orders |
+    |                              |  WHERE user_id = 42   |
+    |                              +----------------------►|
+    |                              |◄----------------------+
+    |  200 OK                      |   [rows...]           |
+    |  Content-Type: application/json                       |
+    |  Link: </orders?page=2>; rel="next"                   |
+    |  { "id":42, "name":"Kim",   |                       |
+    |    "orders":[ {...} ] }     |                       |
+    |◄-----------------------------+                       |
+    |                              |                       |
+
     ※ HTTP 상태코드 활용 규약
     2xx: Success (200 OK, 201 Created, 204 No Content)
     3xx: Redirection (301 Moved, 304 Not Modified, 캐시)
@@ -91,7 +91,7 @@ REST는 **자원(Resource)**을 URI로 표현하고, **HTTP 동사(Verb)**로 �
 
 **핵심 제약 조건**(Architectural Constraints):
 1. **Client-Server**: 관심사 분리
-2. **Stateless**: 각 요청은 독립, 서버는 클라이언트 컨텍스트 미보유 → 수평확장에 유리
+2. **Stateless**: 각 요청은 독립, 서버는 클라이언트 컨텍스트 미보유 -> 수평확장에 유리
 3. **Cacheable**: `Cache-Control`, `ETag`, `Last-Modified`로 HTTP 캐시 활용
 4. **Uniform Interface**: URI(자원 식별), HTTP동사(자원 조작), MIME타입(표현), HATEOAS(상태전이)
 5. **Layered System**: 로드밸런서·CDN·API Gateway 투명 삽입 가능
@@ -105,48 +105,48 @@ GraphQL은 **단일 엔드포인트(POST /graphql)**에서 클라이언트가 **
 [GraphQL 요청-응답 플로우 (단일 엔드포인트)]
 
   Client                  GraphQL Server           Resolvers       Data Sources
-    │                          │                       │                │
-    │  POST /graphql          │                       │                │
-    │  query: "{             │                       │                │
-    │    user(id:42) {        │                       │                │
-    │      name               │                       │                │
-    │      orders {           │                       │                │
-    │        id, totalPrice   │                       │                │
-    │      }                  │                       │                │
-    │    }                    │                       │                │
-    │  }"                     │                       │                │
-    ├─────────────────────────►│                       │                │
-    │                          │  Parse & Validate     │                │
-    │                          │  (Schema Introspection│                │
-    │                          │   + Type Check)       │                │
-    │                          │  ─────────────►       │                │
-    │                          │  Build Execution Plan │                │
-    │                          │  (병렬/순차 최적화)   │                │
-    │                          │                       │                │
-    │                          │  user(42) ───────────►│  REST/gRPC     │
-    │                          │                       ├───────────────►│
-    │                          │  orders(42) ─────────►│  DataLoader    │
-    │                          │  (Batching + Caching) ├───────────────►│
-    │                          │                       │                │
-    │                          │◄──────────────────────┤                │
-    │  200 OK                  │   { user: {           │                │
-    │  { data:{                │     name:"Kim",       │                │
-    │     user:{               │     orders:[          │                │
-    │        name:"Kim",       │       {id:1,total:...}│                │
-    │        orders:[{...}]    │     ]                 │                │
-    │     }                    │   }                   │                │
-    │   }}                     │   }                   │                │
-    │◄─────────────────────────┤                       │                │
-    │                          │                       │                │
+    |                          |                       |                |
+    |  POST /graphql          |                       |                |
+    |  query: "{             |                       |                |
+    |    user(id:42) {        |                       |                |
+    |      name               |                       |                |
+    |      orders {           |                       |                |
+    |        id, totalPrice   |                       |                |
+    |      }                  |                       |                |
+    |    }                    |                       |                |
+    |  }"                     |                       |                |
+    +-------------------------►|                       |                |
+    |                          |  Parse & Validate     |                |
+    |                          |  (Schema Introspection|                |
+    |                          |   + Type Check)       |                |
+    |                          |  -------------►       |                |
+    |                          |  Build Execution Plan |                |
+    |                          |  (병렬/순차 최적화)   |                |
+    |                          |                       |                |
+    |                          |  user(42) -----------►|  REST/gRPC     |
+    |                          |                       +---------------►|
+    |                          |  orders(42) ---------►|  DataLoader    |
+    |                          |  (Batching + Caching) +---------------►|
+    |                          |                       |                |
+    |                          |◄----------------------+                |
+    |  200 OK                  |   { user: {           |                |
+    |  { data:{                |     name:"Kim",       |                |
+    |     user:{               |     orders:[          |                |
+    |        name:"Kim",       |       {id:1,total:...}|                |
+    |        orders:[{...}]    |     ]                 |                |
+    |     }                    |   }                   |                |
+    |   }}                     |   }                   |                |
+    |◄-------------------------+                       |                |
+    |                          |                       |                |
     ※ Subscription은 WebSocket / Server-Sent Events 기반
-    ※ Persisted Query: 쿼리를 서버에 미리 등록 → 네트워크 페이로드 0에 수렴
+    ※ Persisted Query: 쿼리를 서버에 미리 등록 -> 네트워크 페이로드 0에 수렴
 ```
 
 **GraphQL 핵심 구성요소**:
 - **Schema Definition Language (SDL)**: `type`, `query`, `mutation`, `subscription`, `input`, `enum`, `union`, `interface`로 계약 정의
 - **Resolver**: Schema 필드별 데이터 fetch 함수 (4-argument: `parent, args, context, info`)
-- **Execution Engine**: 쿼리를 AST로 파싱 → 참조 그래프 분석 → N+1 문제 해결 위해 `DataLoader` (배치·캐시) 사용
-- **N+1 Problem 해결**: 필드별 개별 호출 대신 `batch`로 묶어 한 번에 조회 (예: 사용자 100명의 주문 → 1회 배치 쿼리)
+- **Execution Engine**: 쿼리를 AST로 파싱 -> 참조 그래프 분석 -> N+1 문제 해결 위해 `DataLoader` (배치·캐시) 사용
+- **N+1 Problem 해결**: 필드별 개별 호출 대신 `batch`로 묶어 한 번에 조회 (예: 사용자 100명의 주문 -> 1회 배치 쿼리)
 
 ### 3. gRPC 아키텍처
 
@@ -155,41 +155,41 @@ gRPC는 Google의 **Stubby**(2001년~ 내부 RPC 시스템)에서 파생된 **�
 ```text
 [gRPC 통신 플로우 (Unary, Server Streaming, Client Streaming, Bidirectional)]
 
-  ┌──────────┐                  ┌──────────┐                  ┌──────────┐
-  │ gRPC     │  .proto 컴파일   │ Stub/    │  HTTP/2 Stream  │ gRPC     │
-  │ Client   │  ────────────►   │ Channel  │  ─────────────►  │ Server   │
-  │          │                  │ (Stub)   │                  │ (Service)│
-  └──────────┘                  └──────────┘                  └──────────┘
-       │                              │                              │
-       │  1. .proto 파일 작성         │                              │
-       │  ──────────────────────►     │                              │
-       │                              │  2. protoc 컴파일            │
-       │                              │  → 메시지 클래스 자동생성     │
-       │                              │  → 서버/클라이언트 Stub 생성  │
-       │                              │                              │
-       │  3. Stub 메서드 호출         │                              │
-       │  (언어 네이티브 함수처럼)    │                              │
-       │ ────────────────────────────►                              │
-       │                              │  4. Protobuf 직렬화          │
-       │                              │  (Binary, ~JSON 대비 1/3)     │
-       │                              │  5. HTTP/2 Stream으로 전송    │
-       │                              │  (Header 압축 HPACK)         │
-       │                              │  6. Multiplexing (단일 TCP)  │
-       │                              │ ────────────────────────────►│
-       │                              │                              │
-       │  4가지 통신 패턴             │                              │
-       │  ┌────────────────────┐     │                              │
-       │  │ Unary: 1 req → 1 res    │                              │
-       │  │ Server Stream: 1 req → N│                              │
-       │  │ Client Stream: N → 1    │                              │
-       │  │ Bidi Stream: N ↔ N      │                              │
-       │  └────────────────────┘     │                              │
-       │                              │                              │
+  +----------+                  +----------+                  +----------+
+  | gRPC     |  .proto 컴파일   | Stub/    |  HTTP/2 Stream  | gRPC     |
+  | Client   |  ------------►   | Channel  |  -------------►  | Server   |
+  |          |                  | (Stub)   |                  | (Service)|
+  +----------+                  +----------+                  +----------+
+       |                              |                              |
+       |  1. .proto 파일 작성         |                              |
+       |  ----------------------►     |                              |
+       |                              |  2. protoc 컴파일            |
+       |                              |  -> 메시지 클래스 자동생성     |
+       |                              |  -> 서버/클라이언트 Stub 생성  |
+       |                              |                              |
+       |  3. Stub 메서드 호출         |                              |
+       |  (언어 네이티브 함수처럼)    |                              |
+       | ----------------------------►                              |
+       |                              |  4. Protobuf 직렬화          |
+       |                              |  (Binary, ~JSON 대비 1/3)     |
+       |                              |  5. HTTP/2 Stream으로 전송    |
+       |                              |  (Header 압축 HPACK)         |
+       |                              |  6. Multiplexing (단일 TCP)  |
+       |                              | ----------------------------►|
+       |                              |                              |
+       |  4가지 통신 패턴             |                              |
+       |  +--------------------+     |                              |
+       |  | Unary: 1 req -> 1 res    |                              |
+       |  | Server Stream: 1 req -> N|                              |
+       |  | Client Stream: N -> 1    |                              |
+       |  | Bidi Stream: N ↔ N      |                              |
+       |  +--------------------+     |                              |
+       |                              |                              |
 ```
 
 **gRPC 핵심 기술**:
-- **Protocol Buffers v3**: `.proto` 파일에 `service`, `rpc`, `message` 정의 → `protoc` 컴파일러가 **12개 이상 언어**(Go, Java, C++, Python, Node.js, Ruby, PHP, C#, Dart, Kotlin, Rust 등)용 SDK 자동 생성
-- **HTTP/2 전송 계층**: Multiplexing(이진 데이터 프레임 단위로 다중 스트림 동시 전송 → **HOL Blocking 회피**), Header 압축(HPACK), 바이너리 프레이밍, 서버 푸시(제한적)
+- **Protocol Buffers v3**: `.proto` 파일에 `service`, `rpc`, `message` 정의 -> `protoc` 컴파일러가 **12개 이상 언어**(Go, Java, C++, Python, Node.js, Ruby, PHP, C#, Dart, Kotlin, Rust 등)용 SDK 자동 생성
+- **HTTP/2 전송 계층**: Multiplexing(이진 데이터 프레임 단위로 다중 스트림 동시 전송 -> **HOL Blocking 회피**), Header 압축(HPACK), 바이너리 프레이밍, 서버 푸시(제한적)
 - **서비스 정의 4가지 패턴**:
   1. **Unary**: 일반 RPC (`GetUser(UserId) returns (User)`)
   2. **Server Streaming**: 서버가 다수 메시지 전송 (`Subscribe(Stock) returns (stream Price)`)

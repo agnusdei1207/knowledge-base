@@ -11,160 +11,191 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 블록체인 감리 스마트 계약 검증은(는) 시험 빈출 핵심 요약 및 융합 토픽 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: EVM 바이트코드(혹은 Solidity/Vyper 소스)에 대한 **정적 분석(Slither, Mythril)**, **동적 분석(Echidna, Foundry Fuzz)**, **기호 실행(Manticore, KEVM)**, **형식 검증(Certora, K-Framework, Coq)**을 결합하여 **불변식(invariant)**과 **사후/사전조건**을 수학적으로 증명하고, 이를 CI/CD 및 온체인 모니터링(Forta, Tenderly)과 연계하는 다층 검증 체계.
+> 2. **가치**: 단일 감사 대비 **중대 취약점(High/Critical)** 탐지율을 60%->90% 이상으로 끌어올리며, **2022 Ronin Bridge 6.25억 USD 해킹**, **2023 Curve Vyper 컴파일러 재진입 버그** 등 컴파일러·VM 레이어 결함까지 추적 가능. 재진입(Reentrancy), 산술 오버플로우, 권한 상승, 오라클 조작 등 **SWC(Smart Contract Weakness Classification)** 100여 항목에 대한 자동화 커버리지를 제공한다.
+> 3. **판단 포인트**: **신뢰 비용(가스 한도, 검증 시간)** vs **보안 수준(형식적 안전성)**의 트레이드오프, **업그레이드 가능성(Proxy 패턴)**으로 인한 **Storage Layout 검증** 필요성, **크로스체인 메시지 검증(CCIP, LayerZero, Wormhole)**, 그리고 **EIP-4337 Account Abstraction**·**ZK-Rollup(Validity Proof)** 시대의 **Off-chain proof verification**으로의 패러다임 전환.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-블록체인 감리 스마트 계약 검증은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+스마트 계약은 **불변성(Immutability)**이라는 블록체인의 본질적 특성상, 배포 후 패치가 사실상 불가(EIP-1967 Transparent Proxy, UUPS 등 업그레이드 패턴 제외). 이로 인해 일반 SW 개발의 "배포 후 보안 패치" 모델이 무력화되며, **Pre-deployment Verification**이 절대적 강제사항이 된다. 2024년 기준 DeFi TVL이 1,000억 USD를 돌파하면서 단일 취약점이 곧 국가적 금융사고로 이어지는 구조가 고착화되었고, 전통적 정보시스템 감리(ISO/IEC 27001, ISMS-P)와는 별도로 **블록체인 전용 감사 표준(Solidity Visual Auditor, Sigma Prime, Trail of Bit's Slither, OpenZeppelin Defender)**이 요구된다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Blockchain Audit Smart Contract Verification 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+특히 **컴파일러 자체의 버그**(Vyper 0.2.15의 `eval_loop` 재진입 결함으로 Curve Finance 5,200만 USD 손실, 2023.07)와 **EVM 사양의 미묘한 차이**(EIP-150 1/64 가스 규칙, EIP-1884 가스 재가격 책정)로 인해 **소스 코드 검증만으로는 불충분**하며, **바이트코드 레벨의 정적/동적 분석**과 **형식적 의미론(formal semantics)**에 기반한 증명이 필수적이다.
 
 ```text
-+--------------------------------------------------------------+
-|                    블록체인 감리 스마트 계약 검증 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
++----------------------------------------------------------------------+
+|        Pre-deployment Smart Contract Verification Pipeline          |
+|                                                                      |
+|  [Source: .sol / .vyper]                                              |
+|         |                                                            |
+|         v  solc/vyper --ir-optimized --asm                            |
+|  +----------------+  +-----------------+  +----------------------+  |
+|  | 1. Static      |  | 2. Fuzzing &    |  | 3. Formal            |  |
+|  |    Analysis    |  |   Symbolic Exec |  |    Verification      |  |
+|  |  (Slither,     |  |  (Echidna,      |  |  (Certora CVL,       |  |
+|  |   Mythril,     |  |   Foundry Inv,  |  |   K-Framework,       |  |
+|  |   Securify)    |  |   Manticore)    |  |   Isabelle/HOL,      |  |
+|  +-------+--------+  +--------+--------+  |   Coq, KEVM)         |  |
+|          |                    |            +----------+-----------+  |
+|          +-------------+------+                       |              |
+|                        v                              |              |
+|          +--------------------------+                 |              |
+|          |  SWC Registry Mapping    |<-----------------+              |
+|          |  (100+ weakness IDs)     |                                |
+|          |  CWE -> SWC -> EIP cross   |                                |
+|          +------------+-------------+                                |
+|                       v                                              |
+|          +--------------------------+   +-------------------------+  |
+|          |  CI/CD Gate (GitHub      |--->|  Audit Report (PDF/MD)  |  |
+|          |  Actions, Defender)      |   |  + Gas Profile          |  |
+|          +------------+-------------+   |  + Invariant Spec       |  |
+|                       v                  +------------+------------+  |
+|          +--------------------------+                  |              |
+|          |  Testnet Deploy          |<------------------+              |
+|          |  (Goerli, Sepolia,       |                                 |
+|          |   Holesky, Kaia, Klaytn) |                                 |
+|          +------------+-------------+                                 |
+|                       v                                               |
+|          +--------------------------+  +---------------------------+ |
+|          |  Mainnet Launch          |-->|  Post-deploy Monitoring  | |
+|          |  (EIP-4844 Blob, EIP-    |  |  (Forta Agent, Tenderly  | |
+|          |   1559, EIP-4337 AA)     |  |   Sentinel, The Graph)   | |
+|          +--------------------------+  +---------------------------+ |
++----------------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**전통적 정보시스템 감리(웹/모바일)** vs **블록체인 스마트 계약 검증**의 핵심 차이는 다음 5가지다.
 
-- **📢 섹션 요약 비유**: 블록체인 감리 스마트 계약 검증은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+| 차원 | 전통 SW 감리 | 스마트 계약 검증 |
+|:---|:---|:---|
+| 패치 가능성 | 패치/릴리스 가능 | 업그레이드 패턴 외 사실상 불가 |
+| 신뢰 경계 | 중앙 서버·DB | 분산 합의, 누구나 invoke 가능 |
+| 자원 제약 | 메모리·스토리지 충분 | **Gas(Opcode별 상한)**, Stack 깊이 1024 |
+| 식별자 | URI/URL/Domain | **0xC0FFEE 주소**, CREATE2 결정론 주소 |
+| 위협 모델 | 인가된 사용자 | 익명·악의적 actor가 가스만 지불하면 호출 |
+
+- **📢 섹션 요약 비유**: 블록체인 스마트 계약 검증을 **한 번 깐 병마개 음료수**에 비유할 수 있다. 일반 웹앱은 마개를 잘못 조여도 "뚜껑을 다시 열어서 조이면" 되지만, 스마트 계약은 일봉인(tamper-evident seal) 후 공장 출하되어, 소비자가 마시는 순간 오염이 발견되면 **전 세계에 이미 유통된 음료**를 회수할 수 없는 것과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-블록체인 감리 스마트 계약 검증의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+스마트 계약 검증의 4대 축은 **① 정적 분석(Static)**, **② 동적 퍼징(Fuzzing)**, **③ 기호 실행(Symbolic Execution)**, **④ 형식 검증(Formal Verification)**이다. 각각 **CFG(Control Flow Graph)**, **Concolic Testing**, **SMT Solver(Z3, CVC5)**, **Proof Assistant(Coq, Isabelle, Lean4)**에 기반한다.
 
 ```text
-+--------------------------------------------------------------+
-|              Blockchain Audit Smart Contract Verification 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+              +---------------------------------------------+
+              |      Smart Contract Code under Test         |
+              |   (Solidity 0.8.24+ / Vyper 0.3.x)         |
+              +---------------------+-----------------------+
+                                    |
+        +---------------------------+----------------------------+
+        v                           v                            v
++---------------+         +------------------+         +------------------+
+| STATIC        |         | DYNAMIC / FUZZ   |         | FORMAL           |
+|               |         |                  |         |                  |
+| • Slither     |         | • Foundry Fuzz   |         | • Certora (CVL)  |
+| • Mythril     |         |   (property)     |         | • K-Framework    |
+| • 4naly3er     |         | • Echidna        |         | • KEVM           |
+| • Aderyn       |         |   (grammar+dict) |         | • Act (coq)      |
+|               |         | • Manticore      |         | • Solidity SMTC  |
+| Control Flow  |         |   (symb+concr)   |         |                  |
+| Dependence    |         |                  |         | Spec: invariant, |
+| Taint Flow    |         | Property:        |         |  require/ensure, |
+|               |         |  assert(state)   |         |  parametric rule |
++------+--------+         +--------+---------+         +---------+--------+
+       |                          |                             |
+       |   +----------------------+--------------+              |
+       v   v                                     v              v
++---------------------------------------------------------------------+
+|              SMT Solver Backbone (Z3 / CVC5 / Boolector)            |
+|  • Bit-vector theory (256-bit EVM word)                            |
+|  • Integer + Array theory                                           |
+|  • Custom theory: keccak256(), ecrecover(), mapping                 |
++-----------------------------+---------------------------------------+
+                              v
+              +-------------------------------+
+              |  Vulnerability Database       |
+              |  • SWC-100~SWC-136 (current)  |
+              |  • CWE-841 Process Control    |
+              |  • OWASP SC Top 10 (2023)     |
+              |  • Trail of Bits Building     |
+              |    Secure Contracts           |
+              +-------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
-| :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
+|:---|:---|:---|
+| **Slither** (Trail of Bits) | SlithIR(SSA-like 3주소 코드 IR) 기반 데이터 플로우·컨트롤 플로우 분석, 90개+ 내장 detector | `slither contract.sol --detect reentrancy-eth,unchecked-transfer,arbitrary-send-eth --filter paths`; 데이터 의존성 추적으로 `msg.sender` 오염(taint) 흐름 검출 |
+| **Mythril** (ConsenSys) | LASER(Symbolic) + Z3 SMT로 EVM 바이트코드 기호 실행 | `myth analyze <addr> --execution-timeout 900`; ERC-20 transferFrom 후 잔액 불변식 위배 경로 탐색 |
+| **Echidna** (Trail of Bits) | Property-based fuzzing, 사용자 정의 invariant | `echidna-test contract.sol --contract Test --test-mode assertion`; ABI에서 시드된 무작위 호출, **희소성(shrink)** 으로 최소 반례 추출 |
+| **Foundry Fuzz** (Paradigm) | Forge에 내장된 무작위·경계값 퍼저, `invariant_` 함수 | `forge test --match-contract InvariantTest --fuzz-runs 100000`; counterexample 출력 + 자동 회귀 테스트 등록 |
+| **Manticore** | Concolic(symbolic+concrete hybrid) 실행, EVM·WASM 지원 | `manticore.ethereum.SymbolicAccount`, ETH/MEM 모델링, tx 30+ 심볼릭 분기 |
+| **Certora Prover** | CVL(Certora Verification Language) 기반 **hyperproperty** 검증 | `rule onlyAdminCanMint { ... }`; 모든 `s0, s1` 상태에 대해 `assert ...` 위반 시 counterexample 시각화 |
+| **K-Framework / KEVM** | EVM Yellow Paper의 **수학적 의미론** 구현, 재귀적 도달성 분석 | `evm.k`, Solidity -> Yul -> EVM bytecode 단계별 도달성 증명; **Gas 0 문제는 K로 가장 먼저 발견** |
+| **Formalism (Runtime Verification)** | 0-runtime 보장용 **Reachability** 검증 | K-Framework 기반 상용화, 컨퍼런스/금융 프로토콜에 적용 |
+| **Forta Agent** | 온체인 사후 탐지, Python/TS 스크립트 | `FortaAgent.handleTransaction(txEvent)`; Flash Loan, Sandwich, Reentrancy 패턴 감지 |
+| **Tenderly Alert** | 트랜잭션 시뮬레이션·Revert 추적 | `tenderly.co/contract/.../alerts`; production RPC 변형 + 자동 forked state 디버깅 |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+### 형식 검증의 핵심 메커니즘 — Invariant & Rule Spec
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+Certora의 **CVL**은 다음과 같은 구문을 갖는다.
+
+```solidity
+// CVL spec example (Certora)
+methods {
+    function deposit(uint256) external payable;
+    function withdraw(uint256) external returns (uint256);
+}
+
+rule depositorsNeverLoseFunds {
+    env e;
+    uint256 amount;
+    require e.msg.value == amount;
+
+    mathint balanceBefore = nativeBalances[e.msg.sender];
+    deposit(e, amount);
+    mathint balanceAfter  = nativeBalances[e.msg.sender];
+
+    assert balanceAfter >= balanceBefore, "deposit reduced balance";
+}
+
+invariant totalSupplyMatchesSum()
+    to_mathint(totalSupply) == sumOfAllBalances()
+    {
+        preserved with (env e1) {
+            require e1.msg.sender != currentContract;
+        }
+    }
+```
+
+이처럼 **함수 호출 전/후의 관계**(pre/post condition) 또는 **상태 불변식**(totalSupply == Σbalance)을 SMT가 자동으로 증명/반증한다. 실패 시 **counterexample**(구체적 트랜잭션 호출 시퀀스)이 출력되어 즉시 재현 가능하다.
+
+### EVM 바이트코드와 SMT의 접점
+
+EVM의 256-bit 워드(`uint256`)는 SMT의 **bit-vector theory**와 정확히 매핑되지만, 다음은 **개별 이론(theory) 정의**가 필요하다:
+
+- `keccak256(a, b)`: 비트벡터 비선형 함수 -> **해시 추상화(padding/unification)**
+- `ecrecover(h, v, r, s)`: **타원곡선 scalar 곱셈** -> 비표준
+- `block.timestamp`, `block.number`: 환경 변수 -> free symbolic input
+
+KEVM은 이 모든 것을 **K의 정의(≡_K)** 안에서 명시적으로 다뤄, **Yellow Paper vs 실제 클라이언트(Geth, Nethermind, Besu)**의 사양 불일치까지 검증 가능한 유일한 도구다.
+
+- **📢 섹션 요약 비유**: 4가지 검증 기법을 **의료 진단**에 비유하면, 정적 분석은 **X-ray(빠르지만 표면적)**, 퍼징은 **혈액 검사(대량 표본)**, 기호 실행은 **CT 스캔(전신 단면)**, 형식 검증은 **유전자 검사(결정론적 증명)**다. 의료가 단일 검사만으로 진단하지 않듯, 스마트 계약도 **4단 동시 적용**이 표준이 되었다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-블록체인 감리 스마트 계약 검증을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 블록체인 감리 스마트 계약 검증 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 블록체인 감리 스마트 계약 검증은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 블록체인 감리 스마트 계약 검증은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 블록체인 감리 스마트 계약 검증을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-블록체인 감리 스마트 계약 검증을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 블록체인 감리 스마트 계약 검증 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 블록체인 감리 스마트 계약 검증은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 블록체인 감리 스마트 계약 검증의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 블록체인 감리 스마트 계약 검증의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-블록체인 감리 스마트 계약 검증 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 블록체인 감리 스마트 계약 검증은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| 구분 | **전통 SI 감리** (웹/모바일) | **블록체인 스마트 계약 검증** |
+|:---|:---|:---|
+| **검증 대상** | 소스 코드 + 인프라 구성 + 라이선스 | Solidity/Vyper/Yul 바이트코드 + 컴파일러 + 의존 컨트랙트 |
+| **위협 모델** | OWASP Top 10, STRIDE | SWC Registry, OWASP SC Top 10(2023), DeFi-specific attack vectors |
+| **자동화 도구** | SonarQube, Veracode, Fortify, Semgrep | Slither, Mythril, Echidna, Foundry, Certora |
+| **표준/체크리스트** | OWASP ASVS, ISO 27001 Annex A | **ConsenSys Best Practices 2024**, **Solidity Visual Auditor**, **OpenZeppelin Defender**, **Sigma Prime Security Guidelines** |
+| **인력 스킬** | 시큐어코딩, 모의해킹, 침투테스트 | **EVM opcode 이해**, Solidity 내부, 형식 검증 명세 언어(CVL, ACT), Cryptography |
+| **비용** | 1,000~5,000 만원 | 1,000~30,000 만원(규모에 따라, Certora 사용 시 추가) |
+| **산출물** | 취약점 목록 + 권고사항 + 위험도(Matrix) | Audit Report + Invariant Spec + Test Coverage(%) + Formal Proofs(PDF) + On-chain Monitor
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 497 / 600

@@ -11,160 +11,177 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: RPA 프로세스 자동화 봇 관리은(는) 시험 빈출 핵심 요약 및 융합 토픽 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: RPA 봇 관리는 Orchestrator(제어 서버)를 중심으로 Unattended/Attended 봇의 라이프사이클(설계->배포->실행->모니터링->폐기)을 Credential Vault, Queue, Schedule, Audit Log와 결합해 통제하는 거버넌스 체계이며, UiPath/Automation Anywhere/Blue Prism/MS Power Automate의 Control Room 아키텍처가 그 표준 참조 모델이다.
+> 2. **가치**: 도입 기업 평균 FTE(전환가능근로시간) 20~35% 절감, 처리속도 5~10배 향상, 휴먼에러 90%v를 달성하며, CoE(Center of Excellence) 운영 시 봇당 ROI 6~12개월 내 회수, 거버넌스 성숙도 Level 4 이상에서 자동화율 70% 이상 도달이 가능하다.
+> 3. **판단 포인트**: Attended vs Unattended 비율, IDP/AI 결합 범위, Credential 분리(PAM 연동 여부), Queue 기반 병렬처리 vs Sequential 처리, 그리고 CoE-분산형 거버넌스 모델 채택 여부가 운영 안정성·확장성·컴플라이언스의 핵심 트레이드오프이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-RPA 프로세스 자동화 봇 관리은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+RPA(Robotic Process Automation)는 사람이 GUI·API·CLI로 수행하던 반복 업무를 소프트웨어 봇이 대행하는 기술이다. 그러나 현장에서는 "봇을 만드는 것"보다 "이미 만든 수십~수백 개 봇을 어떻게 깨지지 않고, 권한이 새지 않고, SLA를 지키며 운영할 것인가"가 훨씬 더 큰 과제이다. 이를 **Bot Management(봇 관리)**라 부르며, 단순한 자동화 도구 활용을 넘어 **IT 운영 거버넌스**, **정보보호 통제**, **비용 최적화**가 결합된 영역이다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, RPA Process Automation Bot Management 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+기존의 자동화 실패 사례들을 분석하면 대부분 다음 세 가지에서 비롯된다.
+- (1) 봇이 영업/마케팅/재무 등 다수 부서에 산재되어 **Shadow RPA**(그림자 자동화)로 운영됨
+- (2) 봇에 저장된 서비스 계정·공인인증서가 평문으로 노출되어 **자격증명 유출** 사고 발생
+- (3) UI 변경·인증 만료·예외 케이스 발생 시 봇이 멈춰 **휴먼 개입 없는 사일런트 페일(Silent Fail)**이 누적됨
+
+따라서 "개발·테스트·배포·스케줄링·모니터링·예외처리·자격증명·라이선스·감사로그"를 **단일 통제 평면(Control Plane)**에서 관리하는 Orchestrator 기반 봇 관리가 필수적이다. Gartner는 2026년 이후 RPA 시장이 **Hyperautomation**(RPA+AI+Process Mining+IDP+Low-code) 플랫폼으로 재편된다고 전망하며, 이때 Bot Management는 그 핵심 운영 레이어가 된다.
 
 ```text
-+--------------------------------------------------------------+
-|                    RPA 프로세스 자동화 봇 관리 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[ 전통 RPA 운영 vs 현대 Bot Management 운영 ]
+
+ (기존)                                  (현대)
+ +-------------+                          +-------------------+
+ | Excel 매크로 |                          | Orchestrator      |
+ | 부서별 RPA   |                          |   +- Bot Repo     |
+ | 로컬 PC 실행 |      ----------►         |   +- Schedule     |
+ | ID/PW 평문  |                          |   +- Queue        |
+ | 로그 없음    |                          |   +- Credential V.|
+ +-------------+                          |   +- Audit/Alert  |
+                                          +---------+---------+
+                                                    |
+                                          +---------v---------+
+                                          | Unattended Bot Pool|
+                                          |   +- Bot 1 (VM)   |
+                                          |   +- Bot 2 (VM)   |
+                                          |   +- Bot 3 (VM)   |
+                                          +-------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**왜 필요한가 (레거시 vs 신규 패러다임 비교)**
+- **레거시**: 매크로·VBA·CLI 스크립트가 사용자 PC에 분산, IT 가시성 0, 인증정보 로컬 보관, 실패 시 수동 재처리
+- **신규**: 중앙 Orchestrator가 모든 봇의 실행·자격증명·로그·라이선스를 통제, Active Directory/SSO/PAM과 연동, KPI 대시보드 제공
+- **본질적 차이**: "자동화율(%)"보다 "자동화 신뢰도(Availability × Accuracy × Auditability)"가 KPI가 됨
 
-- **📢 섹션 요약 비유**: RPA 프로세스 자동화 봇 관리은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: RPA 봇 관리는 마치 **도시의 택시 종합관제센터**와 같다. 택시(봇) 개별로 돌아다니게 두면 사고·승차거부·요금 조작이 빈번하지만, 관제센터(Orchestrator)가 차량 상태·기사 자격·배차·정산·블랙박스를 모두 통제하면 시민(업무요청자)은 안심하고 탈 수 있다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-RPA 프로세스 자동화 봇 관리의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+RPA Bot Management의 표준 참조 아키텍처는 **4계층 구조**로 이해할 수 있다.
 
 ```text
-+--------------------------------------------------------------+
-|              RPA Process Automation Bot Management 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+[ RPA Bot Management 4계층 참조 아키텍처 ]
+
+ +------------------------------------------------------------------+
+ |  4. Governance & Analytics Layer                                |
+ |     +- CoE Portal        +- Process Mining (Celonis/UiPath PM)   |
+ |     +- KPI Dashboard     +- License/Usage Analytics             |
+ |     +- Audit/Compliance (ISO 27001, SOX, 개인정보보호법)         |
+ +------------------------------------------------------------------+
+ |  3. Control Plane (Orchestrator / Control Room)                  |
+ |     +- Bot Repository & Versioning                              |
+ |     +- Schedule / Trigger / Queue Dispatcher                     |
+ |     +- Credential Vault (AES-256, HSM 연계)                      |
+ |     +- RBAC/ABAC (역할/속성 기반 접근제어)                       |
+ |     +- Audit Log (Immutable, WORM)                              |
+ |     +- License Manager (Concurrent/Node-locked/Unattended)       |
+ +------------------------------------------------------------------+
+ |  2. Bot Runtime Layer                                            |
+ |     +--------------+  +--------------+  +--------------+         |
+ |     | Attended Bot |  | Unattended   |  | Hybrid Bot   |         |
+ |     | (User-Assist)|  |  Bot Pool    |  | (Trigger+AI) |         |
+ |     +--------------+  +--------------+  +--------------+         |
+ |         (Workstation)        (VM/Container)    (VM+IDP/ML)        |
+ +------------------------------------------------------------------+
+ |  1. Target System / Data Source Layer                            |
+ |     ERP(SAP/Oracle) | CRM | Legacy(Mainframe/Terminal) |         |
+ |     Web Portal | Email/SMTP | DB | API(REST/SOAP) | File(MFT)    |
+ +------------------------------------------------------------------+
+        ^                          |                        ^
+        |                          |                        |
+   [Human User]            [Event/Webhook]            [AI Services]
+                                                  (OCR/LLM/ML Model)
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+### 1) Orchestrator(제어 평면) 핵심 동작 원리
+
+Orchestrator는 RPA의 **두뇌**이며, 다음 6가지 핵심 기능을 제공한다.
+
+1. **Bot 배포 및 버전관리**: `package.nupkg`(UiPath), `Process.zip`(AA), `Release`(BP) 형식으로 패키징된 자동화 산출물을 Repository에 등록, 환경(Development/Staging/Production)별 승격(Promotion) 관리
+2. **스케줄링**: Cron 표현식 또는 트리거(Webhook/이벤트/큐 도착) 기반 실행, SLA 윈도우와 영업일 캘린더 반영
+3. **큐(Queue) 기반 분배**: 다수 트랜잭션을 여러 Unattended Bot에 SLAM(Simple License Allocation Method) 또는 Round-Robin으로 분배, **재시도 정책**(최대 N회, 백오프 간격) 적용
+4. **자격증명 볼트(Credential Vault)**: 봇이 사용할 서비스 계정·API Key·공인인증서를 AES-256으로 암호화하여 보관, 봇 실행 시 메모리 주입(Zero Standing Privilege)
+5. **로깅·모니터링**: 모든 실행 로그(Level: Trace/Debug/Info/Warn/Error/Fatal), 화면캡처(Screenshot), 사용 이벤트, API 호출, **Audit Trail**을 SIEM(Splunk/Sentinel)과 연동
+6. **라이선선스 관리**: 동시실행(Concurrent) vs 전용(Node-locked) vs Unattended/Attended 구분, **Bot Density**(1 VM당 동시실행 수) 정책
+
+### 2) Attended vs Unattended vs Hybrid 봇
+
+| 구분 | Attended Bot | Unattended Bot | Hybrid Bot |
+|---|---|---|---|
+| **트리거** | 사용자 클릭/단축키 | 스케줄/이벤트/Queue | 둘 다 |
+| **실행 위치** | 사용자 PC/세션 | 전용 VM/RDP/Citrix | 전용 VM + 사람 승인 |
+| **자격증명** | 사용자 SSO | Orchestrator Vault | 상황별 |
+| **감시 수준** | 사용자 행동로그 | 전체 화면·API 로그 | 승인 단계 포함 |
+| **적합 업무** | 의사결정 보조, 부분 자동화 | 대량 배치, 24×7 운영 | 4-Eyes Principle(결재·승인) |
+| **라이선스** | Attended (저가) | Unattended (고가) | 복합 |
+
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Orchestrator** | 중앙 제어 평면 | REST API, gRPC 기반 봇 에이전트(High-Density Robot) 통신, WebSocket으로 실시간 상태 푸시, 멀티테넌시 지원 |
+| **Bot Runtime** | 자동화 실행 주체 | UiPath Robot.exe, Automation Anywhere Bot Runner, Blue Prism Runtime Resource, .NET/Java/Chromium 기반 UI Automation, Native Citrix/멀티프로토콜 지원 |
+| **Credential Vault** | 비밀정보 격리 보관 | CyberArk/BeyondTrust PAM 연동, HashiCorp Vault(KV v2 Engine) 통합, TDE/HSM 기반 마스터키 보호, 봇에 평문 전달 없음 |
+| **Queue & Dispatcher** | 트랜잭션 분배·재처리 | 우선순위 큐, SLA 기반 에스컬레이션, 비즈니스 예외(Business Exception) vs 시스템 예외(Application Exception) 분리 처리, **Retry Scope** 패턴 |
+| **Process Mining** | 자동화 후보 발굴 | Celonis/UiPath Process Mining이 ERP 로그를 분석해 As-Is 프로세스 맵핑 -> 자동화 후보 점수화(ROI, 발생빈도, 표준화도) |
+| **Task Mining** | 사용자 행동 분석 | 사용자 PC의 클릭/입력 이벤트를 캡처해 반복패턴 탐지 -> 자동화 후보 추천(Discovery) |
+| **IDP(지능형 문서처리)** | 비정형 문서 인식 | OCR(Tesseract/Google Vision/Azure FR) + NLP/LLM(LayoutLM, GPT-4o)으로 송장·계약서·신고서 자동 추출, Confidence Score 기반 HITL(Human-in-the-Loop) |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+### 3) 핵심 알고리즘·파라미터
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+- **봇 디스패치 알고리즘**
+  - `SLAM(Simple License Allocation Method)`: N개 라이선스, M개 동시 작업 시 가용 라이선스만큼 즉시 할당, 초과 작업은 큐 적재
+  - `Round-Robin with Affinity`: 동일 고객/계정 작업은 동일 봇에 affinity를 두어 캐시·세션 재사용
+  - `Least-Loaded`: 현재 작업 수가 가장 적은 봇에 할당, 처리 균등화
+- **재시도 정책 파라미터**
+  - `MaxRetries` (보통 3~5회)
+  - `RetryInterval` (지수 백오프: 30s -> 2m -> 8m)
+  - `NonRetryableExceptions` (인증실패, 데이터무결성오류는 즉시 데드레터 큐로)
+- **예외 분류**
+  - **Business Exception**: 입력 데이터 오류 (계좌없음, 잔액부족) -> 재처리 큐 적재, HITL 알림
+  - **System Exception**: 시스템/네트워크/UI 변경 (페이지 못찾음, 타임아웃) -> 자동 재시도 후 데드레터
+  - **Application Exception**: 봇 자체 결함 (NullReference, Selectors 실패) -> 개발팀 티켓 발행
+
+- **📢 섹션 요약 비유**: Orchestrator는 **공항 관제탑**이다. 이착륙 스케줄(스케줄), 활주로 배정(Queue), 조종사 자격증명(Credential), 관제 로그(Black Box) 모두를 중앙에서 통제하기 때문에 비행기(봇) 수백 대가 동시에 안전하게 운항할 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-RPA 프로세스 자동화 봇 관리을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+### 1) RPA vs BPA vs Hyperautomation vs Intelligent Automation
 
-| 구분 | 전통적 접근 | RPA 프로세스 자동화 봇 관리 |
+| 구분 | RPA (Robotic Process Automation) | BPA (Business Process Automation) | Hyperautomation | Intelligent Automation |
+| :--- | :--- | :--- | :--- | :--- |
+| **핵심 범위** | GUI·반복 작업 자동화 | 전체 업무프로세스 재설계 | RPA+AI+PM+IDP+iPaaS | RPA + AI(ML/NLP) |
+| **자동화 대상** | 태스크(Task) | 프로세스(End-to-End) | 조직 전체 | 의사결정 포함 태스크 |
+| **구조 변경** | 없음 (비파괴) | 있음 (BPMN 모델링) | 있음 (To-Be 최적화) | 일부 있음 |
+| **인지능력** | 없음 (Rule-based) | 일부 (규칙 엔진) | 있음 (LLM·ML 통합) | 있음 (예측·판단) |
+| **관리 도구** | Orchestrator | BPMS (Camunda, Pega) | 통합 CoE 플랫폼 | AI 거버넌스 추가 |
+| **적합 시나리오** | 단기·저비용 자동화 | 장기·대규모 표준화 | 디지털 트랜스포메이션 | 비정형·고변동 업무 |
+
+### 2) 주요 RPA 플랫폼 비교
+
+| 플랫폼 | UiPath | Automation Anywhere | Blue Prism | MS Power Automate |
+| :--- | :--- | :--- | :--- | :--- |
+| **아키텍처** | Studio + Orchestrator + Robot (3-tier) | Control Room + Bot Creator + Bot Runner | Application Server + Resource PC + Runtime | Power Platform (Low-code 통합) |
+| **강점** | AI Center, Process Mining 내장, 생태계 | Cloud-native (A360), IQ Bot(IDP) | 엔터프라이즈 거버넌스, SAP 깊이 통합 | Microsoft 365/CRM/Dataverse 연동 |
+| **약점** | 라이선스 비용 높음 | 윈도우 종속성 큼 | 학습곡선 가파름 | 엔터프라이즈급 기능 한계 |
+| **Citrix/멀티프로토콜** | ◎ | ◯ | ◎ | △ |
+| **IDP/OCR** | Document Understanding (DU) | IQ Bot, AA AI | Decipher IDP | AI Builder |
+| **온프레미스** | 지원 | 일부 | ◎ (강점) | 불가 (클라우드) |
+| **한국 시장 점유율(2024 기준)** | 1위 | 2위 | 3위 (금융·공공) | 4위 (중소·MS친화) |
+| **라이선스 모델** | Concurrent / Named User | Bot 단위 Concurrent | Concurrent Runtime | Per user / Per flow |
+
+### 3) Bot Management의 인접 기술 연결
+
+| 연결 기술 | 통합 방식 | 효과 |
 | :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. RPA 프로세스 자동화 봇 관리은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 RPA 프로세스 자동화 봇 관리은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 RPA 프로세스 자동화 봇 관리을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-RPA 프로세스 자동화 봇 관리을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, RPA 프로세스 자동화 봇 관리 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: RPA 프로세스 자동화 봇 관리은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | RPA 프로세스 자동화 봇 관리의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | RPA 프로세스 자동화 봇 관리의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-RPA 프로세스 자동화 봇 관리 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. RPA 프로세스 자동화 봇 관리은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| **ITSM (ServiceNow/Jira)** | Orchestrator API -> Incident 자동 생성, Change Management 연동 | 장애 티켓 자동화, 변경 통제 |
+| **PAM (CyberArk/BeyondTrust)** | Credential Vault 대신 PAM API로 계정 발급/회수 | 제로 스탠딩 권한, 감사 충족 |
+| **SIEM (Splunk/Sentinel/ArcSight)** | Audit Log를 sysbeat/CEF로 전송 | 이상행위 탐지, 컴플라이언스 리포팅 |
+| **Process Mining (Celonis/UiPath PM)** | 이벤트 로그를 프로세스 맵으로 시각화 -> 자동화 후보 발굴 | To-Be 프로세스 최적화, ROI 정밀 산출 |
+| **iPaaS (MuleSoft/Boomi)** | API 기반 자동화는 iPaaS로, UI 기반은 RPA로 라우팅 | TCO
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 578 / 600
