@@ -29,9 +29,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Quartz plugins
-        run: npm run install-plugins
-
       - name: Type and format check
         run: npm run check
 
