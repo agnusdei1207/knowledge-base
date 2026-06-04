@@ -40,7 +40,7 @@ tags = ["studynote-data-engineering"]
 전통적인 ETL에서 벗어나, 무한한 클라우드 스토리지에 데이터를 먼저 적재하고(Load) 나중에 클라우드 DW의 막강한 컴퓨팅 파워로 변환(Transform)하는 ELT 아키텍처.
 ```text
     [ ELT-based Cloud Data Lakehouse Architecture / ELT 기반 클라우드 데이터 레이크하우스 아키텍처 ]
-    
+
     (Sources / 원본)     (Extract & Load / 추출/적재)   [ Data Lakehouse (S3 / GCS) / 데이터 호수 ]     (Transform via dbt / 변환)
     +---------+       +----------------+        +-----------------------------------+       +-------------+
     | RDBMS   |       | Fivetran /     |        | 1. Bronze Layer (Raw JSON/CSV)    |       |             |

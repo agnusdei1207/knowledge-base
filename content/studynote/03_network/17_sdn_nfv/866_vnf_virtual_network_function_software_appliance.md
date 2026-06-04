@@ -39,7 +39,7 @@ tags = ["studynote-network"]
 
 옛날 통신사 전산실을 가득 채웠던 쇳덩어리들이 전부 VNF 소프트웨어로 변신했습니다.
 
-1. <strong>보안 및 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 장비 (vFW, vRouter)</strong>: 
+1. <strong>보안 및 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 장비 (vFW, vRouter)</strong>:
    - 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/)) 하드웨어 라우터 ➜ **가상 라우터(vRouter) VNF** (소프트웨어 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))
    - 팰로앨토(Palo Alto) 물리 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) ➜ <strong>가상 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>(vFW) VNF</strong>
    - L4/L7 로드밸런서 ➜ **가상 로드밸런서(vLB) VNF** (F5, Nginx 등)

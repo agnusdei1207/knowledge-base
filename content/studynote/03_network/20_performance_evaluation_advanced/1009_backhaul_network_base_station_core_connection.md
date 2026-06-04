@@ -39,7 +39,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: <strong>말단 엣지(Edge)의 접속망(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/">스몰셀</a>, 기지국, <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/">AP</a>)들이 수집한 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 한데 모아 중앙 코어 네트워크(<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/">EPC</a>, <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/">5GC</a>)나 백본망으로 전달해 주는 통신사의 '중간 수송용 등뼈(척추) 네트워크'</strong>입니다. 
+- **개념**: <strong>말단 엣지(Edge)의 접속망(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/">스몰셀</a>, 기지국, <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/">AP</a>)들이 수집한 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 한데 모아 중앙 코어 네트워크(<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/">EPC</a>, <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/">5GC</a>)나 백본망으로 전달해 주는 통신사의 '중간 수송용 등뼈(척추) 네트워크'</strong>입니다.
 - **병목의 무덤**: 앞단([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/))이 아무리 20Gbps로 폰과 미친 듯이 쏴대도, 이 뒷단(백홀 광케이블) 파이프가 1Gbps짜리 구형 랜선으로 꽉 막혀있으면 폰 속도도 무조건 1Gbps로 꼬라박습니다(병목 현상). 5G의 진짜 속도는 이 땅속 백홀 공사를 100기가짜리로 튼튼하게 파묻어 놨느냐에 달렸습니다.
 
 ```text
@@ -57,9 +57,9 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-1. **광케이블 (Fiber-optic) 기반 🌟 표준 🌟**: 
+1. **광케이블 (Fiber-optic) 기반 🌟 표준 🌟**:
    - 99%의 도심 기지국은 893번의 [OTN](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/893_otn_optical_transport_network_g709_fec_container/) 광전송 장비를 써서 땅속으로 굵직한 광케이블을 박아 코어망과 엮습니다. 비싸지만 속도와 신뢰성이 무적입니다.
-2. **무선 마이크로웨이브 릴레이 (Wireless Backhaul)**: 
+2. **무선 마이크로웨이브 릴레이 (Wireless Backhaul)**:
    - 산꼭대기나 섬마을 기지국에 광케이블을 땅 파서 묻으려면 공사비 100억 원이 깨집니다.
    - 이때는 기지국 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 옆에 커다란 <strong>'접시 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a>'</strong>를 하나 더 달아서, 육지에 있는 다른 산꼭대기 접시 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 향해 초고주파 레이저 빔(마이크로웨이브)을 다이렉트로 허공에 쏴버려서 기지국끼리 무선 릴레이로 코어망까지 이어붙입니다. 공사비가 싼 대신 새가 날아가다 부딪히거나 비가 오면 핑이 튑니다.
 
@@ -78,7 +78,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 4G 시절엔 백홀 하나면 충분했지만, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대에 기지국([BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/))이 클라우드 서버([C-RAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/156_c_ran_cloud_ran/)) 전산실로 이사 가면서 망이 찢어졌습니다.
-  - [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(RU) ➜ 동네 전산실(DU) 구간을 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/">프론트홀</a>(<a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1011_fronthaul_network_c_ran_cpri_roef/">Fronthaul</a>)</strong>로 부르고, 
+  - [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(RU) ➜ 동네 전산실(DU) 구간을 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/">프론트홀</a>(<a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1011_fronthaul_network_c_ran_cpri_roef/">Fronthaul</a>)</strong>로 부르고,
   - 동네 전산실(DU) ➜ 서울 중앙 코어망([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/)) 구간을 <strong>백홀(Backhaul)</strong>로 부르게 되며 뼈대가 훨씬 더 정밀하게 분업화되었습니다. (910번 [미드홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/) 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

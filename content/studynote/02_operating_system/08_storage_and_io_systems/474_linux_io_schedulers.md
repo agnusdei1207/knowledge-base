@@ -68,7 +68,7 @@ tags = ["studynote-operating-system"]
 디스크는 '[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write)'보다 <strong>'읽기(Read)'</strong>가 수만 배 더 시급하다.
 - 앱이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 값을 덮어쓰는(Write) 건, 램 버퍼에 대충 던져놓고 딴일 하러 가면 된다([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)).
 - 하지만 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽을(Read) 때는? 디스크에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 올라올 때까지 앱 스레드가 꼼짝없이 기절(Blocked)해서 기다려야 한다.
-- **Deadline의 철학**: 
+- **Deadline의 철학**:
   1. 엘리베이터(C-LOOK)처럼 거리를 계산해 큐를 정렬한다.
   2. 근데 큐 옆에 <strong>'타이머 큐'</strong>를 두 개 더 판다. (Read 큐 = 500ms 제한, Write 큐 = 5초 제한). 읽기에 극단적 특혜를 줬다.
   3. 평소엔 엘리베이터 큐대로 예쁘게 긁다가, [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 500ms가 임박한 Read 요청이 터지면?
@@ -80,7 +80,7 @@ tags = ["studynote-operating-system"]
 ### 2. CFQ (Completely Fair Queuing)의 낭만과 멸망
 
 CFQ는 리눅스 2.6 시절을 씹어 먹던 제왕이었다.
-- **동작 원리**: 64개의 프로세스가 돌고 있으면, OS 안에 <strong>64개의 내부 I/O 큐</strong>를 따로 판다. 
+- **동작 원리**: 64개의 프로세스가 돌고 있으면, OS 안에 <strong>64개의 내부 I/O 큐</strong>를 따로 판다.
 - 그리고 디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))라는 거대한 피자를 64개의 프로세스에게 돌아가면서 '시간 조각(Time [Slice](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/))'으로 떼어준다.
 - "크롬아, 네가 100ms 동안 디스크 혼자 독점해서 다 긁어! 그다음은 엑셀, 네가 100ms 독점해!"
 - **장점**: 어떤 미친 프로세스([바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/))가 1초에 1억 번 디스크를 긁어대도, 걔한테 허락된 시간은 100ms뿐이라 다른 프로세스들이 절대 렉이 안 걸린다. 궁극의 공평성(Fairness)이다.
@@ -106,7 +106,7 @@ CFQ는 리눅스 2.6 시절을 씹어 먹던 제왕이었다.
 ### BFQ (Budget Fair Queuing)의 스마트폰 혁명
 CFQ가 SSD에서 처참히 망하자, 똑똑한 이탈리아 해커들이 <strong>BFQ</strong>라는 걸그룹 같은 이름의 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 이식했다.
 - CFQ의 문제점: "엑셀 너 디스크 100ms(시간) 동안 써!"라고 했더니, 빠른 SSD에서 엑셀 혼자 100ms 동안 10GB를 긁어버렸다([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 독식).
-- **BFQ의 흑마술**: "시간이 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 예산(Budget)을 쏜다! 엑셀 너는 딱 50MB(섹터 개수)만 긁고 나와!" 
+- **BFQ의 흑마술**: "시간이 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 예산(Budget)을 쏜다! 엑셀 너는 딱 50MB(섹터 개수)만 긁고 나와!"
 - <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>)</strong>: BFQ는 유저가 화면에서 <strong>터치(Touch)</strong>하거나 마우스를 움직이는 액티브한 프로세스(GUI)를 귀신같이 알아채고 걔한테 I/O [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 왕창 몰아준다.
 - **결과**: 안드로이드 폰 뒤에서 10GB짜리 원신(Genshin) 게임을 다운받는 중(디스크 100% 혹사)이라도, 유저가 카카오톡 창을 스크롤하면 <strong>1프레임의 버벅거림(Jitter)도 없이 부드럽게 내려가는 솜털 같은 체감 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>(UX 극대화)</strong>을 달성하며 모바일 OS 천하를 통일했다.
 
@@ -129,7 +129,7 @@ CFQ가 SSD에서 처참히 망하자, 똑똑한 이탈리아 해커들이 <stron
 
 ### 실무 시나리오: AWS EBS 볼륨과 `echo none`의 마법
 1. **문제 상황**: 클라우드(AWS EC2)에서 비싼 돈을 주고 IOPS 64,000짜리 `io2` 볼륨([NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 기반)을 붙여 MySQL을 켰는데, IOPS가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000밖에 안 나오고 CPU `sy`([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 로드)가 치솟는다.
-2. **원인 분석**: 
+2. **원인 분석**:
    - AWS에서 제공한 기본 리눅스 이미지가 I/O [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 `mq-deadline`이나 `bfq`로 세팅해 둔 것이다.
    - 디스크가 너무 빠르다 보니, OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 쿼리를 예쁘게 정렬하고 시간제한 재고([Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/) 연산) 예산 배분(BFQ 연산)하느라 오히려 CPU가 발목을 잡혀 트래픽을 못 쏴주고 있었다.
 3. **신의 튜닝 (1초 컷)**:

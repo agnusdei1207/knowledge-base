@@ -28,7 +28,7 @@ tags = ["software_engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/)의 심장부는 만들기 (Build) ➔ 측정 (Measure) ➔ 학습 (Learn)으로 이어지는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)다. 
+[린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/)의 심장부는 만들기 (Build) ➔ 측정 (Measure) ➔ 학습 (Learn)으로 이어지는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -91,7 +91,7 @@ tags = ["software_engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/)은 "빨리 실패하고 싸게 실패하라 (Fail Fast, Fail Cheap)"는 철학을 바탕으로 벤처 생태계의 패러다임을 바꿨다. 
+[린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/)은 "빨리 실패하고 싸게 실패하라 (Fail Fast, Fail Cheap)"는 철학을 바탕으로 벤처 생태계의 패러다임을 바꿨다.
 
 1년 뒤에 한 번 크게 실패하여 문을 닫는 대신, 한 달에 한 번씩 작은 실패를 반복하면 결국 고객이 열광하는 Product-Market Fit (PMF)을 찾아낼 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 비약적으로 상승한다. 이 방법론은 이제 스타트업을 넘어 대기업의 사내 벤처, 새로운 소프트웨어 개발 방법론의 필수 생존 교본으로 자리 잡았다.
 

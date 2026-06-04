@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/">커널 패닉</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/">Kernel Panic</a>)</strong>: OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 스스로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 수 없는 치명적 내부 오류(예: 널 포인터 역참조, 하드웨어 예외)를 만났을 때, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오염을 막기 위해 시스템을 강제로 정지시키는 현상.
   - **Kdump**: 패닉이 발생한 순간의 전체 물리 메모리 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 변수, [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 목록 등)을 캡처(Dump)하는 리눅스의 공식 크래시 덤프 매커니즘.
 
-- **필요성 (죽어가는 자의 유언을 듣기 위한 사투)**: 
+- **필요성 (죽어가는 자의 유언을 듣기 위한 사투)**:
   - 서버가 갑자기 죽고 재부팅되면 `/var/log/messages`에는 "죽었다"는 사실조차 기록되지 않는다. (죽는 순간 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템에 쓸 정신이 없기 때문).
   - 관리자는 왜 죽었는지 알 수 없어 며칠 뒤 또 서버가 죽는 악순환을 겪는다.
   - 램(RAM)에 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(유언)를 디스크에 써야 하는데, 패닉이 난 1번 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이미 미쳐버린 상태라 1번 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 디스크 드라이버를 쓰면 애먼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 날려버릴 위험이 크다.
@@ -91,7 +91,7 @@ Kdump가 동작하려면 하나의 물리 서버 안에 두 개의 리눅스 [�
 
 ### Makedumpfile과 덤프 최적화 ([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 방어)
 
-1TB짜리 램을 쓰는 DB 서버가 패닉이 났을 때, 1TB를 통째로 디스크에 쓰려면 몇 시간이 걸린다. 그동안 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 중단(Downtime)된다. 
+1TB짜리 램을 쓰는 DB 서버가 패닉이 났을 때, 1TB를 통째로 디스크에 쓰려면 몇 시간이 걸린다. 그동안 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 중단(Downtime)된다.
 - **makedumpfile 도구**: Capture Kernel은 덤프를 뜰 때 전체 램을 다 복사하지 않는다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 중 '0으로 채워진 빈 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))', '유저 스페이스 캐시([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)', '사용자 프로세스(App) 영역' 등 덤프 분석에 필요 없는 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 걸러내고(Filtering) zlib/lzo로 압축한다.
 - 그 결과 1TB 램의 덤프 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 불과 몇백 MB의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 핵심 코어 덤프로 줄어들어, 단 1~2분 만에 덤프를 끝내고 서버를 빠르게 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)시킨다.
 
@@ -216,7 +216,7 @@ Kdump와 Kexec 메커니즘은 소프트웨어의 완벽성이란 존재하지 �
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 컴퓨터([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))가 심하게 아파서 갑자기 기절(패닉)해 버리면, 왜 기절했는지 아무도 이유를 알 수가 없어요.
-2. 그래서 컴퓨터의 머릿속 작은 방에 항상 비상용 '꼬마 구급 대원(Capture [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))'을 숨겨두어요. 
+2. 그래서 컴퓨터의 머릿속 작은 방에 항상 비상용 '꼬마 구급 대원(Capture [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))'을 숨겨두어요.
 3. 메인 컴퓨터가 기절하는 순간, 꼬마 대원이 짠! 하고 깨어나서 메인 컴퓨터가 마지막으로 뭘 하고 있었는지 수첩(vmcore)에 다 적어두고 컴퓨터를 재부팅시켜요. 나중에 의사(엔지니어)는 그 수첩만 보면 왜 아팠는지 바로 알 수 있답니다!
 
 ---

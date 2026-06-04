@@ -55,7 +55,7 @@ WRED는 큐(버퍼)에 물이 얼마나 찼는지 수위([Queue](/knowledge-base
 ### 2. Weighted([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))의 진가: 차별적 살생부
 WRED의 진정한 무서움은, 위에서 말한 1~3번의 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 수위를 <strong>"DSCP 딱지(신분)마다 다르게 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>"</strong>한다는 것이다.
 
-- **BE (천민 패킷)**: 
+- **BE (천민 패킷)**:
   - 최소 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 20%로 낮게 잡는다. 즉, 큐가 20%만 차도 "어이 천민들, 너희부터 버려질 준비 해라"라며 가장 먼저 사살(Drop)이 시작된다.
 - **AF31 (우등생 패킷)**:
   - 최소 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 50%로 잡는다. 큐가 절반 찰 때까지는 절대 버리지 않고 안전하게 지켜주다가, 50%를 넘어야 솎아내기 시작한다.

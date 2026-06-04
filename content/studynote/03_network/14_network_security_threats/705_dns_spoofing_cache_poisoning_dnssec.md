@@ -46,7 +46,7 @@ tags = ["studynote-network"]
 ### 2. [DNS Cache Poisoning](/knowledge-base/studynote/09_security/03_network_security/265_dns_cache_poisoning/) (캐시 포이즈닝 / 독극물 주입) 🌟
 더 스케일이 크고 악랄한 공격입니다. 개인 한 명을 속이는 게 아니라, 통신사(KT, SKT)의 거대한 로컬 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버 자체를 오염시켜 버립니다.
 1. 해커가 KT의 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버에게 `bank.com`의 주소를 묻습니다. KT 서버는 답을 찾으러 상위 서버로 질문을 던집니다.
-2. 이때 해커가 상위 서버인 척 위장하여 KT 서버에 엄청난 양의 가짜 응답 패킷(해커 IP)을 마구 쏟아붓습니다. 
+2. 이때 해커가 상위 서버인 척 위장하여 KT 서버에 엄청난 양의 가짜 응답 패킷(해커 IP)을 마구 쏟아붓습니다.
 3. 이 중 하나가 KT 서버에 먹혀들어 가면, KT 서버의 메모리(Cache) 장부에는 `bank.com = 해커 IP`라고 기록(Poisoning, 독극물 오염)되어 버립니다.
 4. 이제 KT 인터넷을 쓰는 수십만 명의 시민들이 은행에 접속하려 할 때마다, 오염된 KT [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버가 일제히 가짜 해커 IP를 뿌려대어 수십만 명을 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 사이트로 납치해 버립니다.
 

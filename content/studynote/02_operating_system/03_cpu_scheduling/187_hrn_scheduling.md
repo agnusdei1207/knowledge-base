@@ -31,7 +31,7 @@ tags = ["studynote-operating-system"]
                      ▼
    HRN의 잣대: "너 덩치 대비 얼마나 오래 억울하게 기다렸어?" (시간의 흐름 반영)
                      ▼
-   우선순위 결정 = "나의 불만도(대기 시간)"와 "내 본래 덩치(서비스 시간)"의 비율 
+   우선순위 결정 = "나의 불만도(대기 시간)"와 "내 본래 덩치(서비스 시간)"의 비율
 ```
 **[다이어그램 해설]** HRN의 핵심은 프로세스를 절대적인 크기만으로 차별하지 않고, 그 프로세스가 겪은 '억울한 시간'을 점수에 합산해 준다는 것이다. 이는 고정 우선순위 스케줄링에서 기아를 막기 위해 임의로 점수를 올려주던 '[에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))' 기법을 아예 단일 수학 공식 하나로 우아하게 통합해 낸 것이다.
 
@@ -46,7 +46,7 @@ tags = ["studynote-operating-system"]
 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 다음 프로세스를 선택해야 할 때마다([비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)형이므로 누군가 끝날 때마다), 큐에 있는 모든 프로세스의 응답 비율(Response Ratio)을 계산하여 가장 큰(Highest) 값을 가진 녀석을 뽑는다.
 
 > **응답 비율 (Response Ratio)** = $ \frac{대기 시간 (W) + [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간 (S)}{[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간 (S)} $
-> 
+>
 > 수학적으로 분해하면 = $ 1 + \frac{대기 시간 (W)}{[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간 (S)} $
 
 #### 수식의 작동 원리 (천재성 분석)
@@ -98,7 +98,7 @@ tags = ["studynote-operating-system"]
 | 3세대 | **HRN** | <strong>"도착순(대기) + 끝나는 순(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>) 둘 다 합쳐서 계산해!"</strong> | 매번 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 수학 연산을 해야 하는 **오버헤드** | 똑똑하고 공평하나 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 무거움 |
 
 ### HRN의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 오버헤드 한계
-HRN이 완벽해 보이지만 메인스트림 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에 탑재되지 못한 이유가 명확히 존재한다. 
+HRN이 완벽해 보이지만 메인스트림 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에 탑재되지 못한 이유가 명확히 존재한다.
 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)형이므로 프로세스 교체가 일어나는 시점마다 Ready 큐에 있는 100개의 프로세스 전원을 순회하며 `(W + S) / S` [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 나눗셈 연산을 수백 번씩 돌려야 한다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 O(1)의 속도로 빛같이 다음 놈을 찾아야 하는 밀리초(ms) 단위의 경쟁 환경에서, 이 복잡한 O(N) 수식 연산은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/169_dispatch_latency/">디스패치 지연</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/169_dispatch_latency/">Dispatch Latency</a>)</strong>을 극악으로 올려버려 결국 응답성을 망치게 된다.
 
 - **📢 섹션 요약 비유**: 모든 사람의 사연(대기시간)과 능력([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간)을 매번 완벽하게 수식으로 채점해서(HRN) 가장 억울한 사람을 골라주는 법정은 완벽하게 공평하지만, 재판관(CPU)이 이 수학 공식을 계산하느라 하루 종일 시간을 보내버려 정작 판결([처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))이 늦어지는 모순에 빠집니다.

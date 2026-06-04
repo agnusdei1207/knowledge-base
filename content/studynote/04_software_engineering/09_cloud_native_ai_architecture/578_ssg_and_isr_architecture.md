@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **SSG (Static Site Generation)**: 서버(Node.js) 없이 배포하는 기술. 소스 코드를 짤 때 `npm run build`를 치면, 툴(Gatsby/Next.js)이 빌드하는 그 1분의 시간 동안 마크다운(MD)이나 DB를 다 긁어와서 완벽하게 예쁜 `index.html`, `about.html` 수천 장을 하드디스크에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 찍어낸다. 그걸 그냥 Nginx나 S3+CDN에 올려두고 퇴근하면 끝.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/">ISR</a> (Incremental Static Regeneration)</strong>: SSG로 10만 장을 올렸는데 가격이 바뀌면? 10만 장 다시 구우려면 30분 걸린다! 그래서 도입된 마술. "기존 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 걍 내비둬! 10초 쿨타임 걸어두고, 유저가 새로 접속하면 일단 낡은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 던져주면서 뒤에선 봇(Bot)이 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 딱 그 '1장'만 몰래 다시 구워서 바꿔치기(Regeneration)해!"
 

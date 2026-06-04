@@ -27,7 +27,7 @@ tags = ["studynote-software-engineering"]
 
 - **등장 배경**: 맥콜 품질 모델은 1970년대 미 공군의 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) 개선 프로젝트에서 탄생하였다. 이후 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 분야에서 널리 활용되며, ISO/IEC 9126, ISO/IEC 25010 등의 국제 표준에 영향을 주었다.
 
-- **📢 섹션 요약 비유**: 맥콜 품질 모델은 "건강검진항목"과 같다. 단순히 "건강하다/아프다"에서는なく, 혈압([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)), 시력([사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/)), 폐기능(효율성) 등을 분별적으로평가하여, 인々의건강 상태를다방면부터판단하는. 
+- **📢 섹션 요약 비유**: 맥콜 품질 모델은 "건강검진항목"과 같다. 단순히 "건강하다/아프다"에서는なく, 혈압([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)), 시력([사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/)), 폐기능(효율성) 등을 분별적으로평가하여, 인々의건강 상태를다방면부터판단하는.
 
 ---
 

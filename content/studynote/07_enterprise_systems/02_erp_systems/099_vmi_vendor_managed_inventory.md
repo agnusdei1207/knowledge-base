@@ -16,7 +16,7 @@ tags = ["enterprise_systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-전통적인 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 관리([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/))에서는 정보의 흐름과 물건의 흐름이 단절되어 있었다. 마트(소매점)는 창고가 비어야만 제조사에 발주를 넣었고, 제조사는 소매점에서 언제 얼마만큼의 주문이 들어올지 몰라 맹목적으로 안전 재고를 공장에 쌓아두어야만 했다. 
+전통적인 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 관리([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/))에서는 정보의 흐름과 물건의 흐름이 단절되어 있었다. 마트(소매점)는 창고가 비어야만 제조사에 발주를 넣었고, 제조사는 소매점에서 언제 얼마만큼의 주문이 들어올지 몰라 맹목적으로 안전 재고를 공장에 쌓아두어야만 했다.
 
 이러한 정보 비대칭은 소비자 수요의 작은 변동이 도매상, 제조사, 부품업체로 갈수록 눈덩이처럼 증폭되는 채찍 효과를 낳았다. 이로 인해 소매점은 매번 결품(Out of Stock)으로 판매 기회를 날리고, 제조사는 악성 재고 유지비에 시달리는 악순환이 발생했다. 이를 해결하기 위해 소매점의 판매 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 제조사가 직접 보고 최적의 타이밍에 알아서 물건을 채워 넣는 시스템, 즉 VMI가 필요해졌다. 1980년대 월마트와 P&G의 성공적인 협력 사례가 대표적이다.
 

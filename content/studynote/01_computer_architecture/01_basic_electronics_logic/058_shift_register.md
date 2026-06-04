@@ -116,8 +116,8 @@ SI -> [FF0] -> [FF1] -> [FF2] -> [FF3] -> SO
 
 ## 어린이를 위한 3줄 비유 설명
 
-시프트 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 줄지어 선 친구들이 한 칸씩 옆으로 움직이는 거예요.  
-뒤에서 새 친구가 들어오면 앞사람들이 같이 밀려나요.  
+시프트 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 줄지어 선 친구들이 한 칸씩 옆으로 움직이는 거예요.
+뒤에서 새 친구가 들어오면 앞사람들이 같이 밀려나요.
 그래서 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 옮기거나 나누고 붙이는 데 아주 편해요.
 
 ---

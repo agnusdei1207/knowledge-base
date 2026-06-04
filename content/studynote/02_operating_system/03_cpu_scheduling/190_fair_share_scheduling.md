@@ -31,7 +31,7 @@ tags = ["studynote-operating-system"]
 
   [1. 기존 RR 스케줄링 (개체 수 평등)]
   전체 프로세스 10개 ─▶ 각각 10%씩 분배
-  ▶ 사용자 A 획득량: 10% 
+  ▶ 사용자 A 획득량: 10%
   ▶ 사용자 B 획득량: 90% (🚨 꼼수로 시스템 90% 강탈 성공! A는 분통 터짐)
 
   [2. Fair-share 스케줄링 (사용자별 50:50 보장)]
@@ -54,7 +54,7 @@ tags = ["studynote-operating-system"]
 
 1. <strong>지분 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> (Share Assignment)</strong>: 시스템 관리자가 User A: 50%, User B: 50% 등 사전에 그룹별 권리([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한다.
 2. **트래킹 (Usage Tracking)**: 타이머 인터럽트가 뜰 때마다, 현재 돌고 있는 프로세스의 CPU 사용 시간을 기록하고, 동시에 <strong>그 프로세스 주인의 그룹 계좌(누적 사용량)에도 시간을 합산</strong>시킨다.
-3. **페널티 부과 (Dynamic Priority Decay)**: 
+3. **페널티 부과 (Dynamic Priority Decay)**:
    - 특정 그룹의 총사용량이 자신에게 할당된 지분(50%)을 초과하려 하면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 그 그룹에 속한 <strong>모든 프로세스들의 우선순위를 일제히 수직 하락(Demotion)</strong>시켜 버린다.
    - 우선순위가 떨어졌으므로 [단기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/)([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/)/[MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/))는 이 그룹의 프로세스들을 레디 큐 바닥으로 유배 보내고, 아직 지분을 못 채운 다른 그룹의 프로세스를 멱살 잡고 끌어올려 CPU를 먹여준다.
 
@@ -96,7 +96,7 @@ tags = ["studynote-operating-system"]
 | <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 융합</strong> | 상용 OS 도입 실패 | 현대 클라우드 [Cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) 아키텍처로 100% 흡수/승리 |
 
 ### 다단계 큐([MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/))와의 환상적인 융합
-Fair-share는 혼자서 돌아가는 게 아니라 기존의 [다단계 피드백 큐](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/)([MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/))를 조종하는 <strong>보이지 않는 손</strong>으로 융합되어 사용된다. MLFQ에서 각 프로세스의 우선순위 번호를 매길 때, 단순히 (기본 점수 - 최근 CPU 사용량) 공식을 쓰던 것에 추가로 <strong>(- 소속 그룹의 누적 사용량)</strong>이라는 폭탄 페널티를 하나 더 더해버리는 식으로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 접목되었다. 
+Fair-share는 혼자서 돌아가는 게 아니라 기존의 [다단계 피드백 큐](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/)([MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/))를 조종하는 <strong>보이지 않는 손</strong>으로 융합되어 사용된다. MLFQ에서 각 프로세스의 우선순위 번호를 매길 때, 단순히 (기본 점수 - 최근 CPU 사용량) 공식을 쓰던 것에 추가로 <strong>(- 소속 그룹의 누적 사용량)</strong>이라는 폭탄 페널티를 하나 더 더해버리는 식으로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 접목되었다.
 
 - **📢 섹션 요약 비유**: 복권 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 시장 바닥에서 개인끼리 티켓을 거래하는 '자유 시장 자본주의'라면, 공평 몫 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 정부가 도별로 예산 쿼터를 정확히 잘라 배급하고 초과하면 징수해 버리는 철저한 '계획 통제 경제'입니다. 클라우드 사업자 입장에서는 맘대로 요동치는 자본주의보다, 통제 가능한 계획경제가 훨씬 안전하여 승리하게 되었습니다.
 
@@ -105,7 +105,7 @@ Fair-share는 혼자서 돌아가는 게 아니라 기존의 [다단계 피드�
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. <strong>AWS EC2 / 클라우드 인스턴스의 훔쳐 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 방지 (Noisy Neighbor)</strong>: 클라우드 제공자([CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/))의 베어메탈 서버 한 대에는 넷플릭스의 가상 머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 1대와 듣보잡 회사의 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 3대가 같이 얹혀있다. 넷플릭스가 돈을 50% 냈으므로 CPU의 50%를 받아야 하는데, 듣보잡 회사들이 봇넷을 깔아서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 무한대로 돌린다 치자. 
+1. <strong>AWS EC2 / 클라우드 인스턴스의 훔쳐 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 방지 (Noisy Neighbor)</strong>: 클라우드 제공자([CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/))의 베어메탈 서버 한 대에는 넷플릭스의 가상 머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 1대와 듣보잡 회사의 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 3대가 같이 얹혀있다. 넷플릭스가 돈을 50% 냈으므로 CPU의 50%를 받아야 하는데, 듣보잡 회사들이 봇넷을 깔아서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 무한대로 돌린다 치자.
    - **실무 조치**: CSP의 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)(Xen/[KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/)) 내부에 탑재된 Fair-share [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 테넌트(사용자 그룹) 단위의 CPU 어카운팅을 감시하다가, 듣보잡 3인방의 지분이 자신들의 쿼터(예: 총합 50%)를 넘으려 하는 찰나에 멱살을 잡고 우선순위를 쓰레기통에 처박아 강제 쓰로틀링(Throttling)을 건다. 이로 인해 넷플릭스는 옆집이 터지든 말든 쾌적하게 50%를 영원히 쓴다.
 2. <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/">Cgroups</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/668_cgroups_hw_resource_allocation/">Control Groups</a>) 의 CPU Share</strong>: 리눅스 환경의 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/), K8s는 이 Fair-share 스케줄링의 끝판왕인 `cgroups`를 사용한다. Pod를 띄울 때 `cpu.shares=1024`, `cpu.shares=512`를 주는 행위가 바로 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에게 "내 그룹([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))의 몫(Share)을 저 비율 2:1로 찢어서 Fair-share의 연대 책임 룰에 넣어라"라고 명령을 내리는 것이다. 이 값이 없었다면 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 하나가 뻗었을 때 Node 전체가 즉사했을 것이다.
 

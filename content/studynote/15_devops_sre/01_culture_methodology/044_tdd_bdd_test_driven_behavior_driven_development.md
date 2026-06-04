@@ -27,10 +27,10 @@ Red-Green-Refactor 사이클:
   1. RED: 실패하는 테스트 작성
      아직 구현이 없으니 당연히 실패
      → 테스트가 요구사항을 정의
-     
+
   2. GREEN: 최소 코드로 테스트 통과
      통과만 하면 됨, 완벽하지 않아도 OK
-     
+
   3. REFACTOR: 코드 개선
      테스트는 그린 상태 유지하며 코드 정리
      중복 제거, 가독성 향상
@@ -40,11 +40,11 @@ TDD 사이클 예시 (Python):
   # RED: 테스트 먼저
   def test_add():
       assert add(2, 3) == 5  # add 함수 없음 → 실패
-      
+
   # GREEN: 최소 구현
   def add(a, b):
       return a + b  # 테스트 통과
-      
+
   # REFACTOR: 개선 (이 예시는 이미 단순)
 
 TDD의 3 규칙 (Uncle Bob):
@@ -56,7 +56,7 @@ TDD의 3 규칙 (Uncle Bob):
   단위 테스트 (Unit): 함수/클래스 개별
   통합 테스트 (Integration): 모듈 간 연동
   E2E 테스트 (End-to-End): 사용자 시나리오 전체
-  
+
   TDD: 주로 단위 테스트 중심
 ```
 
@@ -82,12 +82,12 @@ Gherkin 언어 (자연어 테스트 시나리오):
       When 사용자가 상품 A를 카트에 추가한다
       Then 카트에 상품 A가 1개 있다
       And 카트 합계 금액이 10,000원이다
-      
+
   Scenario: 재고 없는 상품 추가 시도
       Given 재고가 0인 상품 B가 있다
       When 사용자가 상품 B를 카트에 추가한다
       Then "품절" 오류 메시지가 표시된다
-      
+
   Given: 사전 조건 (Pre-condition)
   When: 행동 (Action)
   Then: 기대 결과 (Expected Outcome)
@@ -95,10 +95,10 @@ Gherkin 언어 (자연어 테스트 시나리오):
 BDD 도구:
   Cucumber (Java, Ruby, JavaScript):
     Gherkin 파일 → 자동 테스트 실행
-    
+
   Behave (Python):
     given, when, then 데코레이터
-    
+
   SpecFlow (.NET):
     C# 통합
 
@@ -119,36 +119,36 @@ TDD 실천 패턴:
 
 테스트 더블 (Test Double):
   실제 의존성 대신 테스트용 대체물
-  
+
   Mock: 호출 기대값 설정 + 검증
     mock_repo.find_by_id.return_value = user
     mock_repo.find_by_id.assert_called_once_with(123)
-    
+
   Stub: 정해진 값만 반환
     stub_repo.find_by_id = lambda id: User(id=id, name="test")
-    
+
   Spy: 실제 동작 + 호출 기록
   Fake: 간단한 실제 구현 (메모리 DB 등)
 
 Python pytest 예시:
   import pytest
   from unittest.mock import Mock
-  
+
   class UserService:
       def __init__(self, repo):
           self.repo = repo
       def get_user(self, user_id):
           return self.repo.find_by_id(user_id)
-  
+
   def test_get_user_returns_user():
       # Arrange
       mock_repo = Mock()
       mock_repo.find_by_id.return_value = {"id": 1, "name": "Alice"}
       service = UserService(mock_repo)
-      
+
       # Act
       result = service.get_user(1)
-      
+
       # Assert
       assert result["name"] == "Alice"
       mock_repo.find_by_id.assert_called_once_with(1)
@@ -157,13 +157,13 @@ AAA 패턴 (Arrange-Act-Assert):
   Arrange: 테스트 환경 설정
   Act: 테스트 대상 실행
   Assert: 결과 검증
-  
+
   = Given-When-Then의 코드 버전
 
 테스트 커버리지:
   목표: 80% 이상 (단위 테스트 기준)
   100%는 오히려 과도할 수 있음 (Getter/Setter)
-  
+
   도구: Istanbul (JS), Coverage.py, JaCoCo (Java)
 ```
 
@@ -179,19 +179,19 @@ TDD/BDD + CI/CD 파이프라인:
 완전 자동화 흐름:
   1. 개발자: 로컬에서 TDD 사이클
      Red → Green → Refactor
-     
+
   2. git push → PR 생성
-  
+
   3. CI 파이프라인 자동 실행:
      단위 테스트 → 통합 테스트 → E2E 테스트
-     
+
   4. BDD 시나리오 자동 검증:
      Cucumber: .feature 파일 실행
-     
+
   5. 테스트 커버리지 리포트 생성
-  
+
   6. 품질 게이트: 커버리지 < 80% → 머지 차단
-  
+
   7. 모든 테스트 통과 → 프로덕션 자동 배포
 
 GitHub Actions 예시:
@@ -211,14 +211,14 @@ GitHub Actions 예시:
        /E2E\          ← 적게 (느림, 비용)
       /통합테스트\     ← 중간
      /단위테스트/      ← 많이 (빠름, 저렴)
-     
+
   단위 70% + 통합 20% + E2E 10% 권장
 
 TDD 도입 장벽과 극복:
   "시간이 없어요": 테스트 작성 시간 = 디버깅 시간 감소
   "테스트 작성 어려워요": 레거시는 테스트 가능 설계 먼저
   "100% 커버리지 요구": 80%로 시작, 점진적 개선
-  
+
   XP의 실천: "테스트 없는 코드는 레거시 코드"
 ```
 
@@ -238,7 +238,7 @@ TDD 도입 장벽과 극복:
 
 BDD 시나리오 (Gherkin):
   Feature: 결제 처리
-    
+
     Scenario: 정상 결제
       Given 사용자 A가 잔액 50,000원을 보유한다
       And 주문 금액이 30,000원이다
@@ -246,7 +246,7 @@ BDD 시나리오 (Gherkin):
       Then 결제가 성공한다
       And 사용자 잔액이 20,000원이 된다
       And 주문 상태가 "결제 완료"로 변경된다
-      
+
     Scenario: 잔액 부족
       Given 사용자 B가 잔액 10,000원을 보유한다
       And 주문 금액이 30,000원이다
@@ -260,16 +260,16 @@ TDD 구현:
   def test_process_payment_success():
       mock_user = Mock(balance=50000)
       mock_order = Mock(amount=30000)
-      
+
       result = payment_service.process(mock_user, mock_order)
-      
+
       assert result.success == True
       assert mock_user.balance == 20000
-      
+
   def test_process_payment_insufficient_balance():
       mock_user = Mock(balance=10000)
       mock_order = Mock(amount=30000)
-      
+
       with pytest.raises(InsufficientBalanceError):
           payment_service.process(mock_user, mock_order)
 
@@ -279,7 +279,7 @@ TDD 구현:
     프로덕션 버그: 70% 감소
     디버깅 시간: 60% 감소
     리팩토링 안전성: 대폭 향상
-  
+
   ROI: 6개월 후 개발 속도 20% 향상
   (초기 속도 저하 후 리팩토링 가속)
 ```

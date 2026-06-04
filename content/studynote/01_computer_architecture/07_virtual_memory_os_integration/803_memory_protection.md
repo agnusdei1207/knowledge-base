@@ -1,5 +1,5 @@
 +++
-title = "307. 메모리 보호 (Memory Protection)"
+title = "803. 메모리 보호 (Memory Protection)"
 date = 2026-04-20
 
 [taxonomies]

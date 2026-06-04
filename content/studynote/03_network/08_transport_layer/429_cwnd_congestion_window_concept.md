@@ -49,7 +49,7 @@ tags = ["studynote-network"]
 **[ 시나리오 A: 똥컴 수신자 vs 빵빵한 인터넷망 ]**
 - 수신자 램 여유 (RWND) = [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) KB
 - 인터넷망 상태 (CWND) = 100 KB (오 뻥 뚫렸네!)
-- 내 PC의 결정: MIN([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), 100) = <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a> KB만 발사!</strong> 
+- 내 PC의 결정: MIN([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), 100) = <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a> KB만 발사!</strong>
 - (인터넷은 쌩쌩하지만 수신자가 체할까 봐 배려함).
 
 **[ 시나리오 B: 슈퍼컴 수신자 vs 막혀터진 인터넷망 ]**
@@ -109,7 +109,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-파일을 다운받을 때 처음에 몇백 KB/s 로 시작했다가 1초 뒤에 몇십 MB/s 로 치솟는 경험을 해봤을 것이다. 
+파일을 다운받을 때 처음에 몇백 KB/s 로 시작했다가 1초 뒤에 몇십 MB/s 로 치솟는 경험을 해봤을 것이다.
 이것이 바로 **내 PC의 CWND가 1에서 시작했다가 영수증(ACK)을 받으며 기하급수적으로 창문을 팽창시키고 있는 워밍업 시간** 때문이다. (다음 장에서 배울 [Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/)).
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

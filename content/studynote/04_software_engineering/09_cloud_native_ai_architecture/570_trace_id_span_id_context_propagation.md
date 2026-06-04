@@ -19,9 +19,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/">Trace ID</a> (거대한 우산)</strong>: 고객이 '결제 버튼'을 딱 1번 누르는 순간 생성되는 단 1개의 난수(UUID). 50대 서버를 돌아다니는 내내 절대 변하지 않는 <strong>'1회 방문의 전체 그룹 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/">식별자</a>'</strong>.
-  - **Span ID (쪼가리 번호)**: 서버가 1개, 1개 행동(DB 찌르기, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 쏘기)을 할 때마다 생성되는 구간 번호표. 
+  - **Span ID (쪼가리 번호)**: 서버가 1개, 1개 행동(DB 찌르기, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 쏘기)을 할 때마다 생성되는 구간 번호표.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a> Propagation (문맥 전파)</strong>: A 서버가 B 서버를 HTTP나 Kafka로 찌를 때, 나만 알고 있는 이 `Trace ID`와 `Span ID`를 패킷 껍데기(Header)에 박아 넣어서 B 서버의 뇌([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))로 전염시키는 행위.
 
 - <strong>필요성 (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 프로토콜의 무상태 <a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a> 병맛)</strong>: 50대 파드가 K8s에 떠 있다. HTTP는 붕어 대가리다. 요청 끝나면 뒤돌아서 까먹는다. 앞단 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이에 1번 요청이 들어오고, 0.001초 뒤에 2번 요청이 들어왔다. 둘 다 똑같이 결제 서버를 찌른다. 결제 서버 입장에선 **"도대체 이 패킷이 아까 들어온 1번 유저 건지 2번 유저 건지 물리적으로 1도 알 길이 없다!"** 이 붕어 대가리 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 통신망에서 1번 유저의 트래픽을 끝까지 식별해 내려면, 강제로 택배 송장 바코드(`Trace ID`)를 이마에 붙이고 끝까지 넘겨주는(Propagation) 릴레이 강제 헌법이 아니면 디버깅은 수학적으로 불가능하다.

@@ -175,7 +175,7 @@ P(y=k|x) = exp(Xβ_k) / Σ_j exp(Xβ_j)
 └──────────────────────┴─────────────────────────────┘
 ```
 
-<strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/374_elastic_net_regression/">Elastic Net</a></strong>: Ridge + [Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/) 결합: λ₁||β||₁ + λ₂||β||₂²  
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/374_elastic_net_regression/">Elastic Net</a></strong>: Ridge + [Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/) 결합: λ₁||β||₁ + λ₂||β||₂²
 변수 선택 + 상관 변수 함께 선택(Group [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/)).
 
 📢 **섹션 요약 비유**: Ridge는 "모든 직원 급여를 조금씩 삭감", Lasso는 "성과 없는 직원은 해고"와 같다. Ridge는 모든 변수를 유지하며 작게 만들고, Lasso는 중요하지 않은 변수를 완전히 제거한다.

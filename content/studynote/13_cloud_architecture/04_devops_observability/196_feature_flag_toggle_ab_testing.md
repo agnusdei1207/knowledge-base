@@ -107,7 +107,7 @@ if (showNewUI) {
   ✅ 만료일: 생성 시 설정 (ex: 2026-07-01)
   ✅ 담당자: 팀 / 개인 명시
   ✅ 용도: Release / Experiment / Ops / Permission
-  
+
 플래그 제거 시점:
   - 전체 사용자 100% 적용 후 2주 이내 코드에서 제거
   - 분기별 Stale Flag 감사 수행

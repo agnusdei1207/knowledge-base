@@ -23,7 +23,7 @@ tags = ["studynote-network"]
 - **필요성**: 구형 [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/)([RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))는 라우터가 15개만 넘어가도 소문이 전달되는 데 몇 분이 걸려 인터넷이 마비되었고, "내 앞이 끊어졌는데 니 앞이 뚫려있다고 뻥치냐?"라며 무한 루프에 빠져 죽어버렸다. 거대해진 대기업 사내망을 버텨내려면, <strong>"라우터 CPU가 연산하느라 좀 고생하더라도, 차라리 찝찝한 소문을 믿지 말고 모든 라우터가 100% 동일한 전체 지도를 공유하게 만들자!"</strong>라는 발상의 전환이 링크 상태의 위대한 탄생 배경이다.
 
 - **💡 비유**: 링크 상태는 1,000피스짜리 <strong>"직소 퍼즐 맞추기"</strong>와 같습니다.
-  - [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/)가 남이 완성해 놓은 퍼즐 그림을 말로만 전해 듣는 것이라면, 링크 상태는 **동네 사람들 1,000명이 자기가 가진 퍼즐 조각(LSA)을 테이블 중앙에 모조리 쏟아붓습니다(Flooding)**. 
+  - [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/)가 남이 완성해 놓은 퍼즐 그림을 말로만 전해 듣는 것이라면, 링크 상태는 **동네 사람들 1,000명이 자기가 가진 퍼즐 조각(LSA)을 테이블 중앙에 모조리 쏟아붓습니다(Flooding)**.
   - 모든 사람이 각자 조각을 맞춰서 똑같은 '동네 전체 풍경 그림(토폴로지 DB)'을 완성한 뒤, 자기 위치에서 부산까지 가는 최적의 펜 선([다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 쭉 그어버립니다.
 
 ```text
@@ -47,12 +47,12 @@ tags = ["studynote-network"]
 - 라우터는 이 LSA 엽서를 **이웃들에게 무작정 복사해서 뿌려댄다(Flooding)**. 이웃들도 받으면 또 복사해서 넘긴다. 결과적으로 1초 만에 전국의 모든 라우터가 이 LSA 엽서를 똑같이 수집하게 된다.
 
 ### 2. 지도 완성: [LSDB](/knowledge-base/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/) (Link [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/)) 구축
-- 모든 라우터는 수집한 100개의 LSA 엽서를 모아 커다란 스케치북에 동네 입체 지도를 완성한다. 
+- 모든 라우터는 수집한 100개의 LSA 엽서를 모아 커다란 스케치북에 동네 입체 지도를 완성한다.
 - 이것을 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/">LSDB</a> (토폴로지 테이블)</strong>라고 부르며, 한 지역(Area) 안에 있는 100대의 라우터는 메모리 속에 <strong>100% 토시 하나 안 틀리고 완벽하게 동일한 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/">LSDB</a> 지도</strong>를 가지게 된다.
 
 ### 3. 나만의 지름길 파기: [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([SPF](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 가동
 지도를 완성했으면 라우터의 두뇌(CPU)가 미친 듯이 회전하기 시작한다.
-- 지도는 똑같지만 라우터마다 자기 서 있는 '위치'가 다르다. 
+- 지도는 똑같지만 라우터마다 자기 서 있는 '위치'가 다르다.
 - 라우터는 자기 자신을 나무의 뿌리(Root)로 삼고, [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)) 수학 공식을 팽팽 돌려 <strong>가장 코스트(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 점수)가 싼 길만 남기고 나머지 잔가지를 다 쳐내 버린다</strong>.
 - 이렇게 예쁘게 깎아낸 소나무 모양의 뼈대를 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/">SPF</a> Tree (<a href="/knowledge-base/studynote/05_database/07_exam_summary/547_graph_shortest_path_db_mapping/">Shortest Path</a> First Tree)</strong>라고 부른다. 라우터는 이 트리 정보 중 알맹이만 쏙 빼서 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블(RIB)에 최종 등재한다.
 

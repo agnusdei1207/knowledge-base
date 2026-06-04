@@ -59,7 +59,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 자체 배터리가 없으므로 전파를 힘차게 '발사(송신)'할 체력이 없습니다. 그래서 남의 힘을 교묘하게 빌립니다.
-- **원리**: 
+- **원리**:
   - 주변 공기 중에는 남들이 켜놓은 강력한 와이파이나 TV 방송 전파(Ambient RF)가 가득 차 있습니다.
   - 백스캐터 센서는 이 지나가는 강력한 <strong>전파를 흡수하지 않고, 내 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 스위치를 온/오프(반사/비반사)하며 마치 모스부호처럼 빛을 '반사(튕겨내기, Backscatter)'</strong> 시킵니다.
   - 내 센서가 측정한 온도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(0, 1)에 맞춰서 반사를 1초에 1,000번씩 튕겨주면, 저 멀리 있는 스마트폰이 튕겨 나온 전파를 주워서 "아, 온도가 25도구나!" 하고 해석해 냅니다.

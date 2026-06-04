@@ -33,7 +33,7 @@ tags = ["studynote-ict-convergence"]
   애플리케이션 (마이크로서비스)
        │
        ├──[로그(Logs)]────────► Loki / Elasticsearch
-       │   구조화 이벤트, 에러 스택  
+       │   구조화 이벤트, 에러 스택
        ├──[메트릭(Metrics)]──► Prometheus / Datadog
        │   CPU, RPS, 응답시간
        └──[트레이스(Traces)]──► Jaeger / Zipkin / Tempo

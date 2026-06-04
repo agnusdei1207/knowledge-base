@@ -103,23 +103,23 @@ with DAG(
         task_id='extract_orders',
         job_name='extract-rds-orders',
     )
-    
+
     validate = PythonOperator(
         task_id='validate_data_quality',
         python_callable=run_dq_checks,
     )
-    
+
     transform = SnowflakeOperator(
         task_id='transform_fact_sales',
         sql='sql/transform_fact_sales.sql',
         snowflake_conn_id='snowflake_prod',
     )
-    
+
     notify = PythonOperator(
         task_id='send_slack_alert',
         python_callable=send_success_alert,
     )
-    
+
     # 의존성 정의
     extract >> validate >> transform >> notify
 ```
@@ -167,7 +167,7 @@ def extract_task(**context):
 
 def validate_task(**context):
     row_count = context['ti'].xcom_pull(
-        task_ids='extract_orders', 
+        task_ids='extract_orders',
         key='row_count'
     )
     if row_count < 100:
@@ -202,22 +202,22 @@ def validate_task(**context):
 ```python
 # dbt DAG 예시 (DbtTaskGroup 또는 DbtOperator)
 with DAG('dbt_daily_transform', schedule='0 3 * * *', ...):
-    
+
     dbt_seed = BashOperator(
         task_id='dbt_seed',
         bash_command='dbt seed --profiles-dir /dbt --project-dir /dbt'
     )
-    
+
     dbt_run = BashOperator(
         task_id='dbt_run',
         bash_command='dbt run --profiles-dir /dbt --project-dir /dbt'
     )
-    
+
     dbt_test = BashOperator(
         task_id='dbt_test',
         bash_command='dbt test --profiles-dir /dbt --project-dir /dbt'
     )
-    
+
     dbt_seed >> dbt_run >> dbt_test
 ```
 

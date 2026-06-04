@@ -81,7 +81,7 @@ tags = ["ict_convergence"]
 
 머클 증명은 특정 거래가 해당 블록에 포함되어 있음을 증명하는 메커니즘이다. 증명받고자 하는 리프노드의 해시값부터 시작하여,형제 노드(Sibling Node)의 해시값들을 순차적으로 적용해 상류로 올라가며 최종적으로얻은 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)가 실제 블록의 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)와 일치하면, 해당 거래의 존재가 유효하다고 판단된다. 리프노드가 8개인 경우, 어떤 거래를 증명하는 데 필요한의는 최대 3개의형제 노드 해시값뿐이다(트리의 height가 log2(8) = 3이기 때문).
 
-머클 증명의 예를 들어보면, TX3의 존재를 증명하려면: 수선 TX3의 해시(H3)를알고 있다.다음에형제 노드 H4를얻어 H(3,4)를 계산한다. 그 다음형제 노드 H(1,2)를얻어 최종적으로 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)를 계산한다. 계산된 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)와 실제 블록의 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)가 일치하면, TX3가 블록에 포함되어 있음이 증명된다. 전체 거래 목록이 아니라 단지 2~3개의 해시값만으로これ이/가가능에서ある. 
+머클 증명의 예를 들어보면, TX3의 존재를 증명하려면: 수선 TX3의 해시(H3)를알고 있다.다음에형제 노드 H4를얻어 H(3,4)를 계산한다. 그 다음형제 노드 H(1,2)를얻어 최종적으로 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)를 계산한다. 계산된 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)와 실제 블록의 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)가 일치하면, TX3가 블록에 포함되어 있음이 증명된다. 전체 거래 목록이 아니라 단지 2~3개의 해시값만으로これ이/가가능에서ある.
 
 ### 📢 비유 요약
 

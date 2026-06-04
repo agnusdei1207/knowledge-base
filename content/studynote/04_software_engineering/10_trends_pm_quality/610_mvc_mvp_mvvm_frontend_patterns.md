@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **M (Model, 모델)**: 눈에 안 보이는 진짜 비즈니스 로직과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(잔고 1만 원, 유저 이름).
   - <strong>V (<a href="/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a>, 뷰)</strong>: 눈에 보이는 예쁜 껍데기 화면(버튼, 빨간 글씨).
   - <strong>C / P / <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/">중재자</a> 3대장)</strong>: 유저가 화면(V) 버튼을 눌렀을 때 뇌(M)한테 "야 돈 까라!" 지시하고, 뇌가 바꾼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 화면에 "야 잔고 0원으로 다시 그려!" 지휘하는 가운데 다리 역할의 진화 폼들.

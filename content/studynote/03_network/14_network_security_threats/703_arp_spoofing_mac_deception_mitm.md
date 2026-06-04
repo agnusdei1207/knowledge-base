@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">Address Resolution Protocol</a>)</strong>: 컴퓨터가 통신할 때, 상대방의 IP 주소를 이용해 물리적인 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(랜카드 번호)를 찾아내는 프로토콜입니다. 
+- <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">Address Resolution Protocol</a>)</strong>: 컴퓨터가 통신할 때, 상대방의 IP 주소를 이용해 물리적인 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(랜카드 번호)를 찾아내는 프로토콜입니다.
 - **문제점**: ARP는 "192.168.0.1(공유기 IP) 가진 놈 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 뭐야?"라고 물었을 때, 누군가 "그거 나야! 내 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 [AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/):BB야!"라고 대답하면, <strong>그 대답이 진짜인지 가짜인지 전혀 의심하지 않고 자신의 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> 캐시(메모리) 장부에 그대로 덮어써 버리는 치명적인 건망증과 순진함</strong>을 가지고 있습니다.
 
 ```text
@@ -39,7 +39,7 @@ tags = ["studynote-network"]
 
 해커는 이 순진함을 악용하여 내부망(LAN) 전체의 트래픽을 가로채는 [중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/)(MitM)을 시전합니다.
 
-1. 해커가 타겟 컴퓨터(희생자 A)에게 가짜 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 응답 패킷([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Reply)을 무차별로 날립니다. 
+1. 해커가 타겟 컴퓨터(희생자 A)에게 가짜 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 응답 패킷([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Reply)을 무차별로 날립니다.
 2. 메시지 내용: "안녕? 내가 게이트웨이 라우터(공유기)야! 내 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소는 [해커의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)]이야!"
 3. 희생자 A의 컴퓨터는 바보같이 자신의 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 장부를 업데이트하여, 공유기의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 해커의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소로 잘못 덮어씁니다. ([ARP Cache Poisoning](/knowledge-base/studynote/09_security/03_network_security/318_arp_cache_poisoning/), 캐시 오염)
 4. 이제 희생자 A가 네이버에 접속하려고 패킷을 날리면, 그 패킷은 진짜 공유기가 아니라 **모조리 해커의 컴퓨터로 쏙쏙 들어옵니다.**

@@ -64,7 +64,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- 똑똑한 뇌가 빠져나갔기 때문에, 이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계를 만들 때 복잡한 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 소프트웨어를 넣을 필요가 없어졌습니다. 
+- 똑똑한 뇌가 빠져나갔기 때문에, 이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계를 만들 때 복잡한 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 소프트웨어를 넣을 필요가 없어졌습니다.
 - 덕분에 시스코나 주니퍼의 1,000만 원짜리 장비 대신, 대만의 폭스콘이 만든 <strong>100만 원짜리 싸구려 빈 껍데기 기계(화이트박스, 859번 문서)</strong>를 사다가 깔아도 똑같이 10Gbps의 엄청난 속도를 뿜어냅니다. 하드웨어의 파괴적 원가 절감입니다.
 - 단, 뇌(컨트롤러)와 깡통([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))이 서로 말을 알아들어야 하니, 전 세계 공통 언어인 <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/">OpenFlow</a>(오픈플로우, 855번 문서)</strong>라는 명령어를 써서 대화하게 됩니다.
 

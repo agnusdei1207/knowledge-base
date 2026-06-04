@@ -46,7 +46,7 @@ tags = ["studynote-network"]
 2. **$C$ (서버 회선 수)**: 우리 회사가 돈 주고 사다 놓은 <strong>물리적 통신 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>/서버 개수</strong> (예: 회선 12개).
 
 ### 2. 에를랑 B의 무자비한 가설 (Loss System)
-- 에를랑 B 공식은 <strong>"대기 줄(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)이 없다"</strong>고 가정합니다. 
+- 에를랑 B 공식은 <strong>"대기 줄(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)이 없다"</strong>고 가정합니다.
 - 식당에 밥 먹으러 왔는데 자리가 꽉 찼다? "번호표 뽑고 기다리세요"가 아니라, **"자리 없으니까 나가 이 새꺄!"** 하고 손님을 그 자리에서 즉시 발로 걷어차서 버려버리는(Loss) 지독한 시스템을 전제로 수학을 돌립니다. (전화망이나 실시간 회선 교환망의 특징입니다.)
 
 ```text

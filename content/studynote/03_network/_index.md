@@ -29,7 +29,7 @@ tags = ["studynote-network"]
 #### 2. 데이터 흐름 및 캡슐화 아키텍처 다이어그램 (ASCII)
 ```text
     [ Network Encapsulation & Routing Flow / 네트워크 캡슐화 및 라우팅 흐름 ]
-    
+
     [ Host A (Sender / 송신자) ]                                 [ Host B (Receiver / 수신자) ]
     +--------------------------------+                           +--------------------------------+
     | App:   [HTTP Data]             |                           | App:   [HTTP Data]             |

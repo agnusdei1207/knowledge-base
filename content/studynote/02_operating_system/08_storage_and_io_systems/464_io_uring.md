@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: `io_uring`은 링(Ring) 형태의 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 2개를 유저와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 셰어하우스처럼 같이 쓰는 시스템이다. 유저는 '제출 링(Submission [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), SQ)'에 "이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽어줘"라고 쪽지만 밀어 넣고 딴일 하러 간다(시스템 콜 안 부름!). [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 백그라운드에서 그 쪽지를 빼서 디스크를 긁어온 뒤, '완료 링(Completion [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), CQ)'에 "다 퍼왔다!"라고 데이터와 함께 쪽지를 던져놓는다. 
+- **개념**: `io_uring`은 링(Ring) 형태의 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 2개를 유저와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 셰어하우스처럼 같이 쓰는 시스템이다. 유저는 '제출 링(Submission [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), SQ)'에 "이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽어줘"라고 쪽지만 밀어 넣고 딴일 하러 간다(시스템 콜 안 부름!). [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 백그라운드에서 그 쪽지를 빼서 디스크를 긁어온 뒤, '완료 링(Completion [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), CQ)'에 "다 퍼왔다!"라고 데이터와 함께 쪽지를 던져놓는다.
 - **필요성**: [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD가 1초에 기가바이트를 뿜어내는 시대가 왔다. 하드웨어는 엄청나게 빠른데, 리눅스의 I/O 소프트웨어(`epoll`, `libaio`)가 멍청해서 속도를 갉아먹었다. `epoll`은 알림만 줄 뿐 결국 데이터를 가져오려면 유저가 `read()` 함수를 호출해야 했다. `read()`를 호출하면? 유저 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로 넘어가는 <strong>'시스템 콜(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a>)'</strong> 렉이 터진다. 초당 100만 번 `read`를 치면 CPU가 이 모드 전환 비용(Overhead)에 깔려 즉사한다. "아니, 그냥 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이랑 유저 사이에 중간 바구니([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/))를 놔두고, 시스템 콜 칠 필요 없이 바구니로만 쪽지를 주고받으면 안 돼?"라는 발상의 전환이 `io_uring`을 탄생시켰다.
 
 - **등장 배경 및 리눅스의 열등감 폭발**:
@@ -120,7 +120,7 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: RocksDB와 Redis의 `io_uring` 도입 전쟁
-1. **문제 상황**: 인메모리 캐시인 Redis조차도 최신 100Gbps 네트워크 환경에서는 1만 번의 `epoll` 시스템 콜([문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 오버헤드 때문에 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 벽에 부딪혔다. 
+1. **문제 상황**: 인메모리 캐시인 Redis조차도 최신 100Gbps 네트워크 환경에서는 1만 번의 `epoll` 시스템 콜([문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 오버헤드 때문에 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 벽에 부딪혔다.
 2. <strong><code>io_uring</code> 벤치마크의 충격</strong>:
    - 디스크 DB인 RocksDB나 캐시인 Redis에 `io_uring` 엔진을 붙여서 테스트해 보았다.
    - 기존 `epoll` 대비 <strong>초당 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>(IOPS)이 20%~40% 이상 공짜로 뻥튀기</strong>되고, CPU 사용률은 오히려 떨어지는 기적의 벤치마크 결과가 전 세계 IT 커뮤니티를 휩쓸었다.
@@ -129,7 +129,7 @@ tags = ["studynote-operating-system"]
    - "서버 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 5.1 이상으로 올리고 `io_uring`을 켜는 것"만으로 회사 인프라 비용을 수억 원 깎을 수 있는 현대 백엔드 튜닝의 최전선이다.
 
 ### 보안의 위협: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해킹의 새로운 고속도로
-`io_uring`이 너무 빠르고 기능이 막강하다 보니, 해커들에게도 최고의 무기가 되었다. 
+`io_uring`이 너무 빠르고 기능이 막강하다 보니, 해커들에게도 최고의 무기가 되었다.
 - 이 기술은 유저 램과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 램 사이의 벽을 허물고 링버퍼를 직통으로 공유한다.
 - 해커들이 이 링버퍼의 메모리 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 로직을 살짝 비틀어([Use-After-Free](/knowledge-base/studynote/09_security/04_endpoint_security/351_use_after_free/) 취약점 등) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 권한(Root)을 탈취하는 [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/)(0-Day) 공격이 수십 건씩 쏟아져 나왔다.
 - 너무 심각한 탓에 구글 크롬OS나 안드로이드 등은 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이고 나발이고 해킹당하면 끝이다"라며 `io_uring`을 강제로 비활성화(Disable)하는 해프닝이 벌어지기도 했다. 극한의 속도는 극한의 보안 취약점을 동반한다는 징크스를 여실히 보여준다.

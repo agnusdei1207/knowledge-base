@@ -44,7 +44,7 @@ tags = ["studynote-operating-system"]
   4. accept() → 연결 수락 (블로킹)
   5. recv()/send() → 데이터 교환
   6. close() → 연결 종료
-  
+
   클라이언트:
   1. socket() → 소켓 생성
   2. connect(서버IP, 서버Port) → 연결 시도
@@ -68,25 +68,25 @@ tags = ["studynote-operating-system"]
 
 1. 단일 프로세스 (Single Process):
   연결 하나씩 순차 처리
-  
+
   while True:
       conn = accept()
       handle(conn)  # 완료될 때까지 대기
-  
+
   문제: 동시 접속 불가 (처음부터 비실용)
 
 2. 멀티프로세스 (Multi-Process):
   요청마다 fork()로 자식 프로세스 생성
-  
+
   while True:
       conn = accept()
       pid = fork()
       if pid == 0:   # 자식 프로세스
           handle(conn)
           exit()
-  
+
   Apache 전통 방식 (prefork MPM)
-  
+
   단점:
   fork() 비용: ~수ms, 메모리 복사(CoW)
   프로세스당 메모리: ~50MB
@@ -94,25 +94,25 @@ tags = ["studynote-operating-system"]
 
 3. 멀티스레드 (Multi-Thread):
   요청마다 스레드 생성 (또는 스레드 풀)
-  
+
   while True:
       conn = accept()
       thread = Thread(target=handle, args=(conn,))
       thread.start()
-  
+
   Apache worker MPM
-  
+
   스레드 특성:
   프로세스보다 생성 빠름 (~수십us)
   메모리 공유 (stack만 분리, 약 8MB)
-  
+
   단점:
   C10K(10,000 동시 연결) 시 스레드 10,000개
   컨텍스트 스위칭 오버헤드 급증
 
 4. 이벤트 루프 (Event Loop / Non-Blocking I/O):
   단일 스레드가 모든 연결 이벤트 처리
-  
+
   epoll (Linux):
   while True:
       events = epoll.wait()  # 준비된 이벤트 대기
@@ -121,13 +121,13 @@ tags = ["studynote-operating-system"]
               handle_read(event.fd)
           elif event.type == WRITE:
               handle_write(event.fd)
-  
+
   Nginx, Node.js 방식
-  
+
   장점:
   C10K 이상 처리 (C100K+)
   메모리 효율 (스레드 수 제한)
-  
+
   단점:
   CPU 집약 작업에 부적합
   콜백 지옥 (비동기 복잡성)
@@ -142,7 +142,7 @@ tags = ["studynote-operating-system"]
 ```
 C10K 문제 (1999, Dan Kegel):
   단일 서버에서 동시 10,000 연결 처리 도전
-  
+
   당시 Apache (멀티프로세스) 한계:
   프로세스 10,000개 × 50MB = 500GB 메모리 필요
   컨텍스트 스위칭: 10,000번/초 → CPU 병목
@@ -153,32 +153,32 @@ epoll (Linux 2.6):
   select(): O(N) - 전체 FD 스캔
   poll(): O(N) - 유사
   epoll(): O(1) - 이벤트 기반 준비 통보
-  
+
   epoll 메커니즘:
   - epoll_create(): 이벤트 큐 생성
   - epoll_ctl(): FD 등록/수정/삭제
   - epoll_wait(): 준비된 이벤트 블로킹 대기
-  
+
   10,000 연결 중 100개 활성 → 100개만 처리
 
 Nginx 아키텍처:
   마스터 프로세스 1개
   워커 프로세스 = CPU 코어 수 (예: 16개)
   각 워커: 이벤트 루프로 수천 연결 처리
-  
+
   구성:
   worker_processes auto;  # CPU 코어 수
   events {
       worker_connections 1024;
       use epoll;
   }
-  
+
   이론적 최대: 16 × 1024 = 16,384 동시 연결
 
 Node.js libuv:
   V8 엔진 + libuv(이벤트 루프 라이브러리)
   epoll(Linux), kqueue(macOS), IOCP(Windows) 통합
-  
+
   비동기 I/O:
   fs.readFile('data.json', (err, data) => {
       // I/O 완료 후 콜백 (블로킹 없음)
@@ -218,16 +218,16 @@ IP 해시 (IP Hash):
 
 헬스 체크 (Health Check):
   주기적으로 서버 상태 확인
-  
+
   HTTP: GET /health → 200 OK (정상)
   TCP: 연결 시도 성공 여부
-  
+
   이상 감지 시: 라우팅에서 제외 (자동)
 
 L4 vs L7 로드밸런서:
   L4 (Transport): IP/Port 기반 (빠름, 내용 모름)
   L7 (Application): URL/헤더 기반 (느리지만 스마트)
-  
+
   L7 예:
   /api/ → API 서버 클러스터
   /static/ → 파일 서버
@@ -265,14 +265,14 @@ API 서버 (Nginx + Node.js):
       ...
       keepalive 100;
   }
-  
+
   Node.js PM2 클러스터:
   instances = CPU 코어 수
   → 각 인스턴스: 이벤트 루프로 I/O 처리
 
 연결 풀:
   DB 연결 풀: 서버당 20연결 × 20대 = 400연결
-  
+
   연결 생성 비용: ~20ms
   풀로 재사용 → ~1ms 이하
 
@@ -280,7 +280,7 @@ API 서버 (Nginx + Node.js):
   Nginx + epoll: 50,000 RPS 안정 처리
   P99: 23ms (목표 50ms 대비 여유)
   서버 1대 CPU: 45% (헤드룸 55%)
-  
+
   쿠버네티스 HPA:
   CPU 70% 초과 시 자동 스케일아웃
   RPS 급증 → 20 → 40대 자동 확장

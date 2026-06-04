@@ -18,7 +18,7 @@ tags = ["ict_convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-초연결 사회는 사람(Human), 사물(Thing), 공간(Space)이 통신 인프라를 통해 거미줄처럼 밀접하게 연결되어, 오프라인의 물리적 현실이 디지털 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 실시간 동기화되는 세상을 뜻한다. 
+초연결 사회는 사람(Human), 사물(Thing), 공간(Space)이 통신 인프라를 통해 거미줄처럼 밀접하게 연결되어, 오프라인의 물리적 현실이 디지털 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 실시간 동기화되는 세상을 뜻한다.
 
 과거 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 기반의 인터넷이 '공간의 제약'을 극복하고, 스마트폰 기반의 모바일 웹이 '시간의 제약'을 없앴다면, 이제는 연결의 주체가 '만물'로 확장되었다. 이 개념이 필요한 이유는 인구 증가와 자원 고갈, 도시화로 인한 복잡한 사회 문제를 해결하기 위해, 인간의 인지 능력을 뛰어넘어 사물들이 스스로 소통하고 제어하는([M2M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/602_m2m_machine_to_machine_telemetry/), Machine to Machine) 지능화된 자동화 인프라가 필수적이기 때문이다.
 

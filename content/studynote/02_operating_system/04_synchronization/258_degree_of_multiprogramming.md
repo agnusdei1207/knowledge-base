@@ -28,7 +28,7 @@ tags = ["studynote-operating-system"]
   [다중 프로그래밍 정도(DOM)에 따른 CPU의 시간 활용 변화]
 
   [ 1. 단일 프로그래밍 (DOM = 1) ]
-  P1: [██ 연산 ██] [░░ I/O 대기 ░░] [██ 연산 ██] 
+  P1: [██ 연산 ██] [░░ I/O 대기 ░░] [██ 연산 ██]
   CPU: 일함       ( 🚨 CPU 놀고 있음 ) 일함      ─▶ CPU 이용률 50%
 
   [ 2. 다중 프로그래밍 (DOM = 2) ]
@@ -97,7 +97,7 @@ DOM이 임계점을 넘어가면, 각 프로세스가 배정받는 메모리 조
 
 ### 실무 시나리오
 1. <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/">장기 스케줄러</a>의 죽음과 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/">중기 스케줄러</a>(Swapper)의 등장</strong>:
-   현대 데스크톱 OS나 스마트폰(iOS, Android)에는 과거 메인프레임 시절의 깐깐한 "[장기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/)(입장 거부 관리자)"가 아예 존재하지 않는다. 
+   현대 데스크톱 OS나 스마트폰(iOS, Android)에는 과거 메인프레임 시절의 깐깐한 "[장기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/)(입장 거부 관리자)"가 아예 존재하지 않는다.
    - **사용자의 오만**: 유저가 앱 아이콘을 클릭하면 OS는 묻지도 따지지도 않고 무조건 메모리에 올린다(DOM 무한 상승).
    - <strong>실무 아키텍처 (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/">중기 스케줄러</a>의 투입)</strong>: DOM이 걷잡을 수 없이 높아져 램이 터지기 직전이 되면, <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/">중기 스케줄러</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/">Medium-term Scheduler</a>)</strong>가 깨어난다. 이 녀석은 현재 메모리에서 놀고 있는(Sleep) 프로세스들을 골라 통째로 압축해서 디스크(Swap 영역)로 쫓아내 버린다(Swap-out). 이를 통해 강제로 메모리 공간을 확보하여 살아남은 프로세스들의 DOM 한계치를 방어해 낸다.
 2. <strong>웹 서버 (Tomcat, Apache)의 Max Connections 및 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">Thread Pool</a> 튜닝</strong>: 실무 백엔드에서 DOM을 통제하는 것은 OS가 아니라 개발자가 짠 '[스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)'이다.

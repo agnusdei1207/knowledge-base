@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **시스템 프로그램 (System Program)**: 컴퓨터 하드웨어를 제어하고, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 동작을 보조하며, 응용 프로그램이 실행될 수 있는 플랫폼을 제공하는 소프트웨어. (예: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), 컴파일러, 디버거, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 관리 유틸리티)
   - **응용 프로그램 (Application Program)**: 사용자가 실제 업무나 오락 등 특정한 목적을 수행하기 위해 직접 사용하는 소프트웨어. (예: MS Office, 웹 브라우저, 카카오톡)
 
-- <strong>필요성 (역할 분담과 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>)</strong>: 
+- <strong>필요성 (역할 분담과 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>)</strong>:
   - 만약 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 프로세서(응용 프로그램) 개발자가 문서를 저장하기 위해 하드디스크의 모터를 돌리는 C언어 코드(하드웨어 제어)까지 직접 짜야 한다면, 프로그램 하나를 만드는 데 10년이 걸릴 것이다.
   - 또한, [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 프로세서가 버그가 나서 디스크 모터를 잘못 돌리면 컴퓨터 전체가 고장 나게 된다.
   - **해결책**: 하드웨어를 제어하는 복잡하고 위험한 일은 '시스템 프로그램'이 전담하고, '응용 프로그램'은 시스템 프로그램에게 "이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 좀 저장해 줘"라고 부탁만 하도록([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 및 권한 분리) 소프트웨어 계층을 나누었다.
@@ -122,7 +122,7 @@ tags = ["studynote-operating-system"]
    - **대응 (아키텍처 적용)**: 응용 프로그램을 배포할 때, 호스트 OS의 시스템 프로그램에 의존하지 않도록 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a></strong>로 감싸서 배포한다. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 응용 프로그램과 그 프로그램이 필요로 하는 '유저 스페이스 시스템 프로그램(glibc 등)'을 하나의 이미지로 묶어버림으로써 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 문제를 원천 해결한다.
 
 2. <strong>시나리오 — 응용 프로그램의 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하 원인 규명 (Syscall 오버헤드)</strong>: 웹 서버(응용 프로그램)가 트래픽이 몰릴 때 CPU는 100%인데 정작 네트워크로 데이터는 안 나가는 현상.
-   - **원인 분석**: `strace` 도구(시스템 프로그램)를 붙여보니, 응용 프로그램이 1바이트씩 쪼개서 `write()` 시스템 콜을 수만 번 호출하고 있었다. 
+   - **원인 분석**: `strace` 도구(시스템 프로그램)를 붙여보니, 응용 프로그램이 1바이트씩 쪼개서 `write()` 시스템 콜을 수만 번 호출하고 있었다.
    - **기술사적 판단**: 응용 프로그램(Ring 3)이 시스템 프로그램(Ring 0)에게 일을 시킬 때마다 권한 변경([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 비용이 막대하게 든다. 개발자에게 응용 프로그램의 버퍼(Buffer) 크기를 1바이트에서 8KB로 늘려, 시스템 프로그램([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))을 호출하는 횟수를 수만 번에서 수백 번으로 줄이도록 코드 최적화를 지시해야 한다.
 
 ### 의사결정 및 튜닝 플로우

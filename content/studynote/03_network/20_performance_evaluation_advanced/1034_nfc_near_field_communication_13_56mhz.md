@@ -68,7 +68,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)나 와이파이는 10m 밖 주차장의 해커가 내 전파를 훔쳐보고 결제 암호를 털어갈 수 있습니다.
-- **NFC의 철벽**: 전파가 아니라 <strong>'자기장 결합(Inductive <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">Coupling</a>)'</strong> 원리를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에 물리적인 통신 거리가 <strong>10cm 이내</strong>로 제한됩니다. 
+- **NFC의 철벽**: 전파가 아니라 <strong>'자기장 결합(Inductive <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">Coupling</a>)'</strong> 원리를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에 물리적인 통신 거리가 <strong>10cm 이내</strong>로 제한됩니다.
 - 해커가 내 삼성페이 결제 정보를 훔치려면, 내 스마트폰과 편의점 결제기 사이 10cm 틈새로 머리를 들이밀어야만 해킹이 가능합니다(물리적 보안 에어갭 완벽 구현). 모바일 결제 시장을 평정한 결정적 이유입니다.
 
 NFC 표준을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 메쉬가 기반 조건을 만든다면, NFC 표준은 그 위에서 핵심 메커니즘을 구현하고, RFID 충돌 방지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.

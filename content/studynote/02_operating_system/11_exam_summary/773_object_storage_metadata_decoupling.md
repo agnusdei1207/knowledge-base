@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - 사진, 영상, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 등 크기가 다양하고 수정할 일이 거의 없는 비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하는 데 특화된 스토리지다.
   - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 3가지로 구성된다: ① <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 본체</strong> (사진 그 자체) ② <strong>고유 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/">식별자</a> ID</strong> (해시값처럼 고유한 이름) ③ <strong>확장 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a></strong> ("이 사진은 2026년 철수가 찍은 고양이 사진" 등 텍스트 태그).
 
-- **필요성(문제의식)**: 
-  - 전통적인 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템([NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/), [NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/))은 폴더 안에 폴더를 넣는 트리(Tree) 계층 구조다. 
+- **필요성(문제의식)**:
+  - 전통적인 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템([NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/), [NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/))은 폴더 안에 폴더를 넣는 트리(Tree) 계층 구조다.
   - 사진이 100만 장일 땐 괜찮지만, 클라우드에 100억 장이 쌓이면? C드라이브에서 `\Users\photo\2026\cat.jpg` 를 찾느라 폴더 테이블을 5번씩 뒤져야 하고, 트리 구조를 관리하는 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 서버가 과부하로 터져버린다.
   - 블록 스토리지([SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/))는 빠르지만 서버에 직접 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)해야 해서 여러 대의 웹 서버가 동시에 공유하기 까다롭고, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(작성자 등)을 남기기 어렵다.
   - **해결책**: "폴더의 벽을 다 허물고 거대한 광장(Flat)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 던져두자. 대신 각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 '고유한 일련번호(ID)'를 붙이고, 그 번호만 치면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어느 대륙의 어느 서버에 있든 한 번에([REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)) 꺼내 주자!"
@@ -32,7 +32,7 @@ tags = ["studynote-operating-system"]
   - <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템 (폴더 구조)</strong>: 도서관에서 책을 찾을 때, '3층 -> 과학 섹션 -> 물리 책장 -> 3번째 선반' 순서대로 계단을 오르내리며 찾아가야 하는 빡빡한 구조. (책이 너무 많아지면 미로가 됨).
   - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/">오브젝트 스토리지</a></strong>: 자동차 발레파킹(Valet Parking) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/). 차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 맡기면 직원이 차를 어디 주차장 구석에 댔는지 나는 알 필요가 없다. 그냥 받은 '플라스틱 번호표(오브젝트 ID)'만 건네주면, 직원이 알아서 1분 만에 차를 내 앞에 대령해 준다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 2006년 아마존이 AWS S3 (Simple Storage [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 출시하며 "어떤 양의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)든 저장하고 검색할 수 있는 인터넷 스토리지" 개념을 대중화시켰고, 넷플릭스, 페이스북 등의 미디어 폭발을 견뎌낸 뼈대가 되었다.
 
 ```text
@@ -70,7 +70,7 @@ tags = ["studynote-operating-system"]
 
 ### [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 노드의 완전 분리 (Decoupling) 아키텍처
 
-[오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)가 페타바이트 확장을 견디는 핵심 비밀은 아키텍처의 분업화에 있다. 
+[오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)가 페타바이트 확장을 견디는 핵심 비밀은 아키텍처의 분업화에 있다.
 
 ```text
   ┌───────────────────────────────────────────────────────────────────┐

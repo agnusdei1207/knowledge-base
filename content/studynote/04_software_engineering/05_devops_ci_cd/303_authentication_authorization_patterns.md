@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>인증 (<a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a>, AuthN)</strong>: 시스템에 접근하려는 주체(User, System)가 자신이 주장하는 그 사람이 맞는지(ID/PW, 생체정보 등으로) 확인하는 절차.
   - <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a> (<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">Authorization</a>, AuthZ)</strong>: 인증된 주체가 특정 자원(게시판, 관리자 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))에 접근하거나 행동을 할 수 있는 '권한(Permission)'이 있는지 검증하는 절차.
 

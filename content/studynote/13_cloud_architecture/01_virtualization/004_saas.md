@@ -21,7 +21,7 @@ tags = ["cloud_architecture"]
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-[SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) (Software [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))는 [클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) 스택의 가장 꼭대기(최상위 계층)에 위치하며, 비 IT 직군을 포함한 모든 일반 소비자와 기업 고객이 일상적으로 접하는 클라우드 형태다. 대표적인 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 Google Workspace(문서/메일), Salesforce([CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)), Slack(메신저), Zoom 등이 있다. 
+[SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) (Software [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))는 [클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) 스택의 가장 꼭대기(최상위 계층)에 위치하며, 비 IT 직군을 포함한 모든 일반 소비자와 기업 고객이 일상적으로 접하는 클라우드 형태다. 대표적인 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 Google Workspace(문서/메일), Salesforce([CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)), Slack(메신저), Zoom 등이 있다.
 
 과거 '패키지 소프트웨어([On-Premise](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) Software)' 시대에는 기업이 MS 오피스나 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 시스템을 도입하려면 막대한 라이선스 비용(CapEx)을 지불하고, CD/DVD로 설치한 뒤, 사내 IT 직원이 일일이 버전을 업그레이드하고 보안 패치를 적용해야 했다. 이로 인해 부서마다 사용하는 S/W 버전이 달라 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 문제가 빈번했고, 사무실 밖(외부 네트워크)에서는 시스템에 접근조차 어려웠다. SaaS는 이 소프트웨어 소유의 개념을 '접속(Access)'과 '구독(Subscription)'으로 혁신하여 유지보수의 수고를 제로(0)로 만들었다.
 
@@ -43,7 +43,7 @@ tags = ["cloud_architecture"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-[SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 아키텍처의 수익성을 결정짓는 가장 핵심적인 내부 원리는 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/">멀티 테넌시</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/">Multi-Tenancy</a>)</strong>이다. 수많은 고객사(Tenant)마다 서버를 따로 구축해 주면(Single-Tenant), 클라우드 벤더는 인프라 비용과 관리 비용을 감당할 수 없다. 
+[SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 아키텍처의 수익성을 결정짓는 가장 핵심적인 내부 원리는 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/">멀티 테넌시</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/">Multi-Tenancy</a>)</strong>이다. 수많은 고객사(Tenant)마다 서버를 따로 구축해 주면(Single-Tenant), 클라우드 벤더는 인프라 비용과 관리 비용을 감당할 수 없다.
 
 | 구성 요소 | 역할 | 내부 설계/동작 메커니즘 | 실무 설계 과제 | 비유 |
 |:---|:---|:---|:---|:---|

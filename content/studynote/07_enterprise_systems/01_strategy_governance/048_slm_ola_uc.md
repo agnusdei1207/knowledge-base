@@ -29,24 +29,24 @@ SLM (Service Level Management):
   |
   SLA (Service Level Agreement): 고객 ↔ IT 서비스 제공자
   "IT 부서가 고객에게 제공하는 서비스 수준"
-  
+
 IT 서비스 제공자 (내부)
   |
   OLA (Operational Level Agreement): 내부 팀 간 합의
   "서비스 데스크 ↔ 네트워크팀 ↔ DB팀"
-  
+
   |
   UC (Underpinning Contract): IT 제공자 ↔ 외부 공급자
   "외부 클라우드, 통신사, 소프트웨어 벤더와의 계약"
 
 SLA 체인 원칙:
   SLA 약속 ≤ OLA 합의 ≤ UC 계약
-  
+
   예:
   SLA: 인시던트 P1 복구 4시간 이내
   OLA: 서버팀이 네트워크팀에 알림 후 30분 내 처리
   UC: 클라우드 제공자 가용성 99.95% 보장
-  
+
   OLA 위반 → SLA 위반 가능성 높음
   UC 위반 → SLA 위반 가능성 높음
 ```
@@ -63,12 +63,12 @@ SLA (Service Level Agreement) 구성요소:
 1. 서비스 범위:
   어떤 서비스, 어떤 업무 시간
   "이메일 서비스, 24×7 x 365"
-  
+
 2. 서비스 수준 목표:
   가용성 (Availability): 99.9%
   응답 시간 (Response Time): < 200ms (P95)
   인시던트 해결 시간 (Resolution Time): P1 4시간
-  
+
 3. 측정 방법:
   측정 도구: Datadog, Prometheus
   측정 주기: 5분 간격 헬스체크
@@ -128,7 +128,7 @@ SLA 연결:
 OLA 측정:
   ITSM 도구 (ServiceNow, Jira Service Desk)
   인시던트 각 단계 타임스탬프 자동 기록
-  
+
   주간 OLA 위반 리포트:
   어떤 팀이 어떤 단계에서 OLA 초과?
 
@@ -149,7 +149,7 @@ SLM 성숙도 모델:
 레벨 1 - 임시 (Ad-hoc):
   SLA 문서 있지만 측정 없음
   위반 시 인지 불가
-  
+
 레벨 2 - 반응적 (Reactive):
   SLA 측정 도구 있음
   위반 발생 후 인지

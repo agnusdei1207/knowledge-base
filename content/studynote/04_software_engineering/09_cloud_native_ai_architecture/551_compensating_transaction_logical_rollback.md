@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>전진 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a> TX)</strong>: 정상적인 릴레이. (ex. `계좌에서 -1만 원 출금` Commit 완료).
   - <strong>보상 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>(Compensating TX)</strong>: 다음 단계(배송)가 실패했다는 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)) 편지를 받고, <strong>어쩔 수 없이 뒤로 백(Back) 돌며 수습하는 연산. (ex. <code>계좌에 +1만 원 입금</code> Commit).</strong>
   - 주의: DB 엔진의 `Rollback` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(마법)가 아니다. 개발자가 스프링(Spring) 코드 열어서 환불 API를 한땀 한땀 새로 짠 <strong>순도 100%의 비즈니스 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>(Logical) <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a></strong>다.

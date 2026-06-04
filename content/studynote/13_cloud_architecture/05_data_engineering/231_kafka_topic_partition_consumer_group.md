@@ -169,10 +169,10 @@ while True:
         if msg.error().code() == KafkaError._PARTITION_EOF:
             continue
         raise KafkaException(msg.error())
-    
+
     # 처리 로직
     process_order(msg.value())
-    
+
     # 처리 성공 후 커밋
     consumer.commit(asynchronous=False)
 ```

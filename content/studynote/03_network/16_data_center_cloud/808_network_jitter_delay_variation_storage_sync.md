@@ -38,7 +38,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (Delay / <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong>: 서울에서 부산까지 택배가 가는 **절대적인 시간**. (예: 5초 걸림)
-- **지터 (Jitter)**: 택배들이 도착하는 **시간 간격의 오차**. 
+- **지터 (Jitter)**: 택배들이 도착하는 **시간 간격의 오차**.
   - (1번 택배: 5초, 2번: 5초, 3번: 5초) ➜ [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 길지만 **지터는 0** (완벽히 안정적)
   - (1번 택배: 1초, 2번: 9초, 3번: 3초) ➜ **지터 폭발!** (시스템 대혼란)
 
@@ -80,9 +80,9 @@ tags = ["studynote-network"]
 
 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 망 설계자들은 이 미친 지터를 잡아내기 위해 돈을 쏟아붓습니다.
 
-1. **Jitter Buffer (지터 버퍼)의 한계**: 
+1. **Jitter Buffer (지터 버퍼)의 한계**:
    - 도착하는 패킷을 잠시 바구니(버퍼)에 모아뒀다가 일정한 간격으로 예쁘게 뽑아주는 기술입니다. 화상 회의(Zoom)에서는 최고지만, 1ms가 급한 스토리지 망에서는 이 버퍼에서 기다리는 시간조차 치명적인 딜레이([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))가 되어 못 씁니다.
-2. <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">Quality of Service</a>) 최우선 할당</strong>: 
+2. <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">Quality of Service</a>) 최우선 할당</strong>:
    - 스위치와 라우터 장비에서 스토리지 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 패킷(예: [FCoE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/697_fcoe/), [iSCSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/) 패킷)을 발견하면, 다른 유튜브 트래픽들을 무조건 옆으로 밀어버리고 대기열([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 없이 0순위 하이패스로 통과시켜 도착 시간을 완벽하게 일정하게 맞춥니다. ([TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) 기술 적용)
 3. <strong>Lossless <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a> (DCB, <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">Data Center</a> Bridging) 도입</strong>:
    - 아예 스토리지 전용 무결손(Lossless) [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)망을 구성하여, 지터와 패킷 드랍 자체를 근원적으로 제거하는 값비싼 인프라를 깔아버립니다.

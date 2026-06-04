@@ -30,8 +30,8 @@ tags = ["studynote-network"]
 - 수신기는 전체 1의 개수를 세어봅니다. "어? 1이 5개(홀수)네? 우리 짝수로 보내기로 했잖아! 전송 중에 깨졌군. 다 버려!" (에러 검출 성공).
 
 ### [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 패리티의 치명적 한계
-이 방식은 <strong>단일 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 에러(딱 1개만 깨졌을 때)</strong>만 완벽히 잡습니다. 
-만약 번개가 크게 쳐서 `1010001`이 `0110001`로 <strong>2개의 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>가 동시에 뒤집혀 버리면</strong>, 1의 개수는 그대로 3개 ➔ 꼬리의 `1`과 합치면 4개(짝수)가 유지됩니다. 
+이 방식은 <strong>단일 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 에러(딱 1개만 깨졌을 때)</strong>만 완벽히 잡습니다.
+만약 번개가 크게 쳐서 `1010001`이 `0110001`로 <strong>2개의 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>가 동시에 뒤집혀 버리면</strong>, 1의 개수는 그대로 3개 ➔ 꼬리의 `1`과 합치면 4개(짝수)가 유지됩니다.
 수신기는 1의 개수가 짝수이므로 "오! 아무 문제 없네!" 하고 <strong>심각하게 깨진 쓰레기 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 정상으로 착각</strong>하고 받아버리는 끔찍한 결함이 있습니다.
 
 ```text

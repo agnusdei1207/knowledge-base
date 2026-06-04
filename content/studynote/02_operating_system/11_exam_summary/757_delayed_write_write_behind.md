@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - 응용 프로그램이 `write()` 시스템 콜을 호출하면, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 물리적 디스크 섹터에 자기장을 기록하지 않는다.
   - 단지 램(RAM)에 할당된 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 영역의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 캐시(<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> Cache)</strong>에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 덮어쓰고, 해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 '수정됨(Dirty)'이라는 꼬리표([Dirty Bit](/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/))만 붙여둔 채 앱에게 "저장 완료!"라고 거짓(?) 보고를 한다.
   - 이후 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내의 백그라운드 플러시(Flush) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 주기적으로(예: 리눅스 기본값 5초 또는 30초) 이 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 모아 디스크에 실제로 기록([Write-back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/))한다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 워드프로세서에서 키보드로 "A"를 한 글자 칠 때마다 물리적 디스크 헤드가 움직여서 플래터를 긁는다면([Synchronous](/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) Write), 글자 하나 칠 때마다 화면이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 밀리초(ms)씩 멈칫하는 지옥의 타이핑 환경이 펼쳐질 것이다.
   - 게다가 디스크의 똑같은 위치를 1초 동안 100번 고쳐 쓴다면, 디스크를 100번 긁는 것은 미친 짓이다.
   - **해결책**: "어차피 메모리 공간이 남으니까 일단 램에다 끄적여놔라. 그러다 1초 동안 100번 고친 최종 완성본만 1번 디스크에 쓰자. 훨씬 빠르고 디스크 수명도 길어진다!"
@@ -32,7 +32,7 @@ tags = ["studynote-operating-system"]
   - 가게 사장님이 손님이 물건을 100원어치 살 때마다 은행(디스크)에 뛰어갔다 와서 입금([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))하면 장사를 할 수가 없다.
   - <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a></strong>: 손님이 돈을 내면 일단 계산대 금고(메모리 캐시)에 던져 넣고 영수증을 끊어준 뒤 다음 손님을 바로 받는다. 그리고 저녁에 문을 닫을 때 금고에 모인 돈(더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))을 한 번에 은행에 가져가서 입금(백그라운드 플러시)하는 가장 보편적인 효율적 장사법이다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - CPU/메모리 속도는 기하급수적으로 빨라진 반면 자기(Magnetic) 하드 디스크의 물리적 회전 속도는 제자리걸음을 하면서, 둘 사이의 마찰을 줄이기 위한 [버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/) 아키텍처의 기본 동작 모드로 확립되었다.
 
 ```text

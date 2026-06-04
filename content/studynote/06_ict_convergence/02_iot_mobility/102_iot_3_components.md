@@ -73,9 +73,9 @@ IoT의 핵심 원리는 [데이터](/knowledge-base/studynote/05_database/01_db_
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-기술사는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 시스템을 설계할 때 단순 하드웨어 조립이 아닌 <strong>병목(<a href="/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>) 해결과 보안 내재화</strong>에 집중해야 한다. 
+기술사는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 시스템을 설계할 때 단순 하드웨어 조립이 아닌 <strong>병목(<a href="/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>) 해결과 보안 내재화</strong>에 집중해야 한다.
 
-예를 들어, 산불 감지 센서 수만 개를 설치할 때 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 5G망으로 플랫폼에 실시간 전송하도록 설계하면 통신비 폭탄과 배터리 방전으로 프로젝트는 실패한다. 이 경우, 산불 징후가 있을 때만 신호를 보내는 <strong>온디바이스 엣지 처리</strong>와 배터리로 수년간 버티는 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">LoRa</a> 등 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/">LPWAN</a> 네트워크</strong>를 결합하는 의사결정을 내려야 한다. 
+예를 들어, 산불 감지 센서 수만 개를 설치할 때 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 5G망으로 플랫폼에 실시간 전송하도록 설계하면 통신비 폭탄과 배터리 방전으로 프로젝트는 실패한다. 이 경우, 산불 징후가 있을 때만 신호를 보내는 <strong>온디바이스 엣지 처리</strong>와 배터리로 수년간 버티는 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">LoRa</a> 등 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/">LPWAN</a> 네트워크</strong>를 결합하는 의사결정을 내려야 한다.
 
 또한, 보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))은 3대 구성 요소 특정 한 곳에만 적용하는 것이 아니라, 디바이스 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)), 네트워크 암호화, 플랫폼 접근통제 등 전체 계층에 수평적으로 적용하는 종단간 보안 아키텍처를 수립해야 한다.
 

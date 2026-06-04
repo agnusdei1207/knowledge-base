@@ -19,7 +19,7 @@ tags = ["studynote-algorithm"]
 
 ## Ⅰ. 문제 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/): 잠재변수와 불완전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)
 
-<strong>완전 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> (Complete <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>)</strong>: (X, Z) — 관측값 X와 잠재변수 Z 모두 알 때  
+<strong>완전 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> (Complete <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>)</strong>: (X, Z) — 관측값 X와 잠재변수 Z 모두 알 때
 <strong>불완전 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> (Incomplete <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>)</strong>: X만 관측, Z는 숨겨져 있음
 
 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/">MLE</a>(Maximum Likelihood Estimation) 목표</strong>:
@@ -45,10 +45,10 @@ Q(θ | θ_old) = E_{Z|X, θ_old} [ log P(X, Z | θ) ]
              = Σ_Z P(Z|X, θ_old) · log P(X, Z|θ)
 ```
 
-**E-단계 (Expectation Step)**:  
+**E-단계 (Expectation Step)**:
 현재 파라미터 θ_old를 고정하고, 잠재변수 Z의 사후 분포 P(Z|X, θ_old)를 계산해 Q 함수를 구성.
 
-**M-단계 (Maximization Step)**:  
+**M-단계 (Maximization Step)**:
 Q 함수를 최대화하는 새 파라미터를 찾음:
 
 ```
@@ -88,7 +88,7 @@ Q 함수를 최대화하는 새 파라미터를 찾음:
 
 EM이 각 반복마다 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 우도를 감소시키지 않는 이유는 **Jensen 부등식(Jensen's Inequality)** 때문이다.
 
-**Jensen 부등식**: f가 오목 함수(concave)이면, E[f(X)] ≤ f(E[X]).  
+**Jensen 부등식**: f가 오목 함수(concave)이면, E[f(X)] ≤ f(E[X]).
 log는 오목 함수이므로:
 
 ```
@@ -117,7 +117,7 @@ log Σ_Z P(Z|X, θ_old) · [P(X,Z|θ) / P(Z|X, θ_old)]
 P(x) = Σ_{k=1}^{K} π_k · N(x | μ_k, Σ_k)
 ```
 
-파라미터: π_k (혼합 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)), μ_k (평균), Σ_k (공분산 행렬)  
+파라미터: π_k (혼합 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)), μ_k (평균), Σ_k (공분산 행렬)
 잠재변수 Z_i = k: i번째 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 k번째 클러스터에 속함
 
 **GMM의 E/M 단계 구체 계산**:

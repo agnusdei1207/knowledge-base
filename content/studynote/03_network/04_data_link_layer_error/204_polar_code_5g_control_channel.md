@@ -23,7 +23,7 @@ tags = ["studynote-network"]
 
 1. **지저분한 채널들**: 무선 전파를 쏠 때, 100개의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(채널)를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낸다고 칩시다. 이 100개의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)는 모두 노이즈가 껴서 지저분합니다 (에러율 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%씩).
 2. **극성화 마법 (Polarization)**: 폴라 코드는 이 100개의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 서로 수학적으로 비틀고 꼬아서 하나로 묶는 흑마법(나비 연산, Butterfly [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/))을 부립니다.
-3. **기적의 결과 (양극화)**: 꼬여진 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 다시 열어보니 기적이 일어났습니다. 
+3. **기적의 결과 (양극화)**: 꼬여진 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 다시 열어보니 기적이 일어났습니다.
    - 100개의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 중 <strong>50개는 노이즈가 단 1도 없는 100% 투명하고 완벽한 무결점 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>(Capacity 1)</strong>로 변했습니다.
    - 나머지 <strong>50개는 쓰레기 노이즈로 꽉 차서 1비트도 보낼 수 없는 완전한 똥물 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>(Capacity 0)</strong>로 변했습니다.
    - 즉, 어중간했던 채널들이 **완벽한 천국(1)과 완벽한 지옥(0) 양극단(Polar)으로 쫙 갈라져 버렸습니다!**

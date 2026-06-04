@@ -25,11 +25,11 @@ tags = ["studynote-ict-convergence"]
   이더리움: ETH, ERC-20 토큰
   솔라나: SOL, SPL 토큰
   비트코인: BTC
-  
+
   문제:
   이더리움 ETH를 솔라나 DeFi에서 사용?
   → 직접 불가 (다른 네트워크)
-  
+
   각 체인의 장점:
   이더리움: 생태계, 보안
   솔라나: 초고속, 저비용
@@ -75,7 +75,7 @@ tags = ["studynote-ict-convergence"]
 특성:
   래핑 토큰(Wrapped Token) 발행
   원본 자산이 브릿지 컨트랙트에 보관
-  
+
   wBTC (Wrapped Bitcoin):
   비트코인 → BitGo 보관 → 이더리움 wBTC 발행
   ERC-20 형태로 DeFi 사용 가능
@@ -85,7 +85,7 @@ tags = ["studynote-ict-convergence"]
 체인 A → 체인 B:
   체인 A에서 토큰 소각 (Burn)
   체인 B에서 동일량 발행 (Mint)
-  
+
   특성:
   총 공급량 일정 유지
   크로스체인 네이티브 토큰에 적합
@@ -95,10 +95,10 @@ tags = ["studynote-ict-convergence"]
 양쪽 체인에 유동성 풀 유지:
   체인 A 풀: 1000 USDC
   체인 B 풀: 1000 USDC
-  
+
   사용자 A→B 전송:
   A 풀에서 수령 → B 풀에서 전달
-  
+
   Stargate Finance 방식
   락/민트 없이 즉시 전송
 ```
@@ -114,12 +114,12 @@ tags = ["studynote-ict-convergence"]
 
 1. Ronin Bridge 해킹 (2022.03, $625M):
    Axie Infinity의 사이드체인 브릿지
-   
+
    원인:
    9개 검증자 중 5개가 서명하면 트랜잭션 승인
    해커: 9개 중 5개 검증자 키 탈취
    (Sky Mavis 4개 + Axie DAO 1개 유출)
-   
+
    결과:
    17만 ETH + 2,550만 USDC 탈취
    약 6,250억원 규모
@@ -127,11 +127,11 @@ tags = ["studynote-ict-convergence"]
 
 2. Wormhole 해킹 (2022.02, $320M):
    솔라나-이더리움 브릿지
-   
+
    원인:
    스마트 컨트랙트 서명 검증 버그
    가짜 서명으로 12만 wETH 발행
-   
+
    결과:
    Jump Trading이 3,200억원 보전 (생태계 유지)
 
@@ -179,11 +179,11 @@ ZK (Zero-Knowledge) 브릿지:
 
 LayerZero:
   울트라 라이트 노드 (Ultra-Light Node)
-  
+
   Oracle + Relayer 분리:
   Oracle: 블록 해시 전달 (Chainlink)
   Relayer: 트랜잭션 증명 전달 (독립)
-  
+
   둘 다 공모해야 공격 가능
   → 신뢰 최소화
 
@@ -240,7 +240,7 @@ Circle CCTP (Cross-Chain Transfer Protocol):
   소액 이동: Stargate (빠른 유동성)
   대형 이동: 공식 브릿지 (보안 우선)
   USDC: CCTP (공식 경로)
-  
+
   모니터링:
   - 브릿지 TVL (Total Value Locked) 모니터링
   - 주요 해킹 경보 구독 (Rekt.news 등)

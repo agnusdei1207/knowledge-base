@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **게스트 OS (Guest OS)**: 클라우드 인스턴스 내부에서 도는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (예: Ubuntu, Amazon Linux 2023).
   - <strong>부트스트랩 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/">Bootstrapping</a>)</strong>: OS가 부팅되는 극초기 단계에 스스로 자신의 환경을 구축하는 과정.
   - **Cloud-init**: Canonical(우분투 제작사)이 만들어 AWS 등에 표준으로 정착시킨 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 도구. 인스턴스가 켜질 때 딱 한 번(또는 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 따라 매 부팅 시) 실행되어 OS를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한다.
 
-- **필요성 (서버 찍어내기의 딜레마)**: 
+- **필요성 (서버 찍어내기의 딜레마)**:
   - 예전에는 웹 서버 100대를 띄우려면, 관리자가 일일이 SSH로 접속해서 호스트 이름을 바꾸고, Nginx를 설치하고, 계정의 암호를 세팅했다 (수작업 지옥).
   - 그래서 미리 Nginx가 다 깔린 '이미지([AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/))'를 구워뒀는데, Nginx 버전이 바뀔 때마다 이미지를 새로 구워야 해서 이미지 관리(Image Sprawl)에만 인력이 다 갈려 나갔다.
   - **해결책**: "빈 깡통 OS(바닐라 이미지)를 띄운 직후, 클라우드 인프라가 OS 안으로 '[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 지시서'를 밀어 넣어주면 OS가 혼자 알아서 세팅하게 만들자"는 개념이 탄생했다.
@@ -131,7 +131,7 @@ runcmd:
 | **2. Bootstrapper** | **Cloud-init** | 부팅 **중** (최초 1회) | IP, SSH키 부여. 동적 스크립트 실행 | 너무 무거운 패키지 설치 시 부팅 시간이 수 분 지연됨 |
 | <strong>3. <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">Config</a> Manager</strong>| <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/">Ansible</a>, Chef</strong> | 부팅 **후** (런타임 지속 관리)| 수만 대 서버 동시 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) 가능 | 타겟 서버에 Python, [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 등이 미리 열려 있어야 함 |
 
-<strong>최상의 조합 (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/">Immutable Infrastructure</a>)</strong>: 
+<strong>최상의 조합 (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/">Immutable Infrastructure</a>)</strong>:
 1) Packer로 Nginx, [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 등 무거운 패키지만 미리 깔아서 [AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/)(이미지)를 구워 둔다.
 2) Cloud-init은 부팅될 때 딱 필요한 '[환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)'나 '최신 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)' 1개만 다운받게 한다. (부팅 10초 컷)
 3) 부팅 후에는 아무것도 건드리지 않고, 업데이트가 필요하면 1번부터 다시 구워서 클러스터를 통째로 교체해 버린다.
@@ -150,8 +150,8 @@ runcmd:
 ### 실무 시나리오
 
 1. <strong>시나리오 — AWS EC2 인스턴스의 비밀번호 분실 및 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> (Cloud-init 마술)</strong>: 실수로 접속용 `.pem` 키를 잃어버려서 EC2 서버에 영영 접속할 수 없게 된 주니어 개발자의 절망적인 상황.
-   - **원리 파악**: 인스턴스는 한 번 부팅되어 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화가 끝나면, 재부팅을 해도 Cloud-init의 `User-Data`를 다시 실행하지 않는다(방어 기제). 
-   - **대응 (기술사적 가이드)**: AWS 콘솔에서 인스턴스를 중지(Stop)한다. `User-Data` 편집 창을 열고, 스크립트 상단에 새 텍스트를 추가한다. 그리고 재부팅할 때 Cloud-init이 "이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 옛날에 실행한 게 아니라 새 거네!"라고 인식하도록 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 형식을 멀티파트([MIME](/knowledge-base/studynote/03_network/09_application_layer_web_email/492_mime_multipurpose_internet_mail_extensions/))로 조작하거나, AWS Systems Manager(SSM)를 우회하여 찔러 넣는다. 
+   - **원리 파악**: 인스턴스는 한 번 부팅되어 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화가 끝나면, 재부팅을 해도 Cloud-init의 `User-Data`를 다시 실행하지 않는다(방어 기제).
+   - **대응 (기술사적 가이드)**: AWS 콘솔에서 인스턴스를 중지(Stop)한다. `User-Data` 편집 창을 열고, 스크립트 상단에 새 텍스트를 추가한다. 그리고 재부팅할 때 Cloud-init이 "이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 옛날에 실행한 게 아니라 새 거네!"라고 인식하도록 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 형식을 멀티파트([MIME](/knowledge-base/studynote/03_network/09_application_layer_web_email/492_mime_multipurpose_internet_mail_extensions/))로 조작하거나, AWS Systems Manager(SSM)를 우회하여 찔러 넣는다.
    - **결과**: 부팅 단계에서 Cloud-init이 강제 재실행되며 `/home/ubuntu/.ssh/authorized_keys` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 나의 새 공개키를 덮어쓰고, 서버를 포맷하지 않고도 접속 권한을 되찾게 된다.
 
 2. <strong>시나리오 — 보안에 취약한 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> 서버 <a href="/knowledge-base/studynote/09_security/05_web_app_security/468_ssrf/">SSRF</a>(<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/487_ssrf_server_side_request_forgery/">Server-Side Request Forgery</a>) 공격 방어</strong>: 해커가 내 웹 서버의 엉성한 이미지 다운로드 기능을 악용하여, `http://169.254.169.254/latest/meta-data/iam/security-credentials/` 주소로 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청을 쏘게 만들었다. 서버는 자기가 요쳥한 줄 알고 AWS [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) Role의 토큰을 고스란히 해커에게 반환했고([SSRF](/knowledge-base/studynote/09_security/05_web_app_security/468_ssrf/) 공격), 해커는 내 클라우드를 장악했다. (실제 2019년 캐피털원 1억 명 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 유출 사건의 원인)

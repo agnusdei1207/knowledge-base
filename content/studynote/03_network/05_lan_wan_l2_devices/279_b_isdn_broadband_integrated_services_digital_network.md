@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: 광대역 종합 정보 통신망(Broadband ISDN). 기존 64Kbps 음성 위주의 N-ISDN(협대역 ISDN)을 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 광통신 기반(155Mbps 이상)으로 확장하여, 화상 전화, VOD, [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 인터넷을 단일 회선으로 통합 제공하려 했던 ITU-T의 차세대 통신망 청사진이다.
 - **필요성**: 1980년대까지만 해도 집에 전화선 1가닥, 케이블 TV선 1가닥, [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 통신 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 1가닥이 흉측하게 다 따로 들어왔다. 통신사 입장에서도 이 3개의 망을 따로 유지 보수하는 것은 엄청난 낭비였다. "이걸 하나로 합치면 어떨까? 광케이블 하나만 집에 꽂아주면 거기서 전화, TV, 인터넷이 다 되게 하자!"라는 전 우주적인 망 통합의 필요성에서 기획되었다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - 과거: 전기 선, 수도관, 가스관을 집집마다 따로따로 3번 땅을 파서 묻는 비효율적인 공사.
   - B-ISDN: <strong>"초대형 특수 만능 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>"</strong> 하나만 땅에 묻으면, 그 안에서 전기, 물, 가스가 알아서 척척 분리되어 쏟아져 나오는 미래 지향적 스마트 배관 시스템.
 

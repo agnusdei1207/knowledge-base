@@ -58,7 +58,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-샘플링 오라클이 성공하려면 <strong>'어떤 샘플을 뽑을 것인가'</strong>가 전부다. 아무 숫자나 랜덤하게 5개를 뽑았다가는 진짜 버그가 있는 구간을 쏙 피해 갈 수 있다. 
+샘플링 오라클이 성공하려면 <strong>'어떤 샘플을 뽑을 것인가'</strong>가 전부다. 아무 숫자나 랜덤하게 5개를 뽑았다가는 진짜 버그가 있는 구간을 쏙 피해 갈 수 있다.
 그래서 샘플링 오라클은 반드시 <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/">블랙박스 테스트</a> 설계 기법(412번 문서)</strong>과 영혼의 단짝처럼 붙어 다닌다.
 
 1. <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/">동등 분할</a> (<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/">Equivalence Partitioning</a>)</strong>

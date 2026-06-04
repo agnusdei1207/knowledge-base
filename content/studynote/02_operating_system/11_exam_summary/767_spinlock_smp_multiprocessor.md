@@ -19,20 +19,20 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - 멀티스레드 환경에서 공유 데이터를 보호하는 자물쇠([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))의 한 종류다.
   - 뮤텍스([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))나 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)([Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/))는 자물쇠가 잠겨있으면 "스레드를 재운다(Sleep & Block)."
   - 반면 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)은 잠겨있어도 자지 않고 문고리를 초당 수백만 번 덜그럭거리며 "열렸어? 열렸어?" 계속 확인하는 무식하고도 맹렬한 방식([Busy Waiting](/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/))이다.
 
-- **필요성(문제의식)**: 
-  - 공유 변수의 숫자를 `+1` 올리는 아주 단순한 작업(단 몇 클럭 소요)을 위해 뮤텍스를 걸었다 치자. 
-  - 뮤텍스가 잠겨있어서 OS가 내 스레드를 재우는 데(문맥 저장) 수 마이크로초(µs)가 걸린다. 그런데 내가 잠든 순간 즉시 락이 풀려버렸다! 나를 다시 깨우는 데 또 수 마이크로초가 걸린다. 
+- **필요성(문제의식)**:
+  - 공유 변수의 숫자를 `+1` 올리는 아주 단순한 작업(단 몇 클럭 소요)을 위해 뮤텍스를 걸었다 치자.
+  - 뮤텍스가 잠겨있어서 OS가 내 스레드를 재우는 데(문맥 저장) 수 마이크로초(µs)가 걸린다. 그런데 내가 잠든 순간 즉시 락이 풀려버렸다! 나를 다시 깨우는 데 또 수 마이크로초가 걸린다.
   - **해결책**: "어차피 락이 0.001초 만에 풀릴 게 뻔한데, 그 짧은 시간에 짐 싸서 자러 가는([문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 시간 낭비가 더 크다! 차라리 제자리에서 0.001초 동안 빙빙 돌며 대기하다가 풀리는 순간 빛의 속도로 낚아채자!"
 
   - **뮤텍스 (수면 대기)**: 공중화장실 문이 잠겨있으면 아예 휴게실([대기 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/))로 돌아가 소파에 누워 자다가, 직원이 "화장실 비었어요"라고 깨워주면 짐 챙겨서 다시 오는 방식 (왕복 10분 낭비).
   - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/">스핀락</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/">바쁜 대기</a>)</strong>: 문이 잠겨있어도 그 자리에 서서 문고리를 0.1초마다 돌려보며 숨죽이고 기다리다가, 안에 있는 사람이 나오는 찰나의 순간 즉시 튀어 들어가는 맹수 같은 대기 방식.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 과거 싱글 코어(Uniprocessor) 시절에는 아무 쓸모없는 기능이었다. 그러나 다중 코어([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/)) 시대가 도래하면서, 코어 1번이 락을 쥐고 있는 동안 코어 2번이 병렬적으로 스핀(루프)을 도는 전략이 성립하게 되며 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 가장 핵심적인 저수준 락으로 등극했다.
 
 ```text

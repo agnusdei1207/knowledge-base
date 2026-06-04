@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: IGRP의 단점(클래스풀)을 완벽히 해결하고 수렴(Convergence) 속도를 극대화한 시스코의 하이브리드 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/). ([프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 번호 88번, [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) `224.0.0.10` 사용).
 - **필요성**: OSPF는 전 세계 표준이고 완벽에 가까웠다. 하지만 결정적인 단점이 있었다. 선이 하나 끊어지면 동네방네 엽서를 다 뿌린(Flooding) 다음, 라우터 CPU가 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) 수학 공식을 다시 처음부터 끝까지 팽팽 돌려야만 우회로가 뚫렸다. "CPU 부하도 심하고, 계산하는 데 2~3초 걸리잖아? <strong>우린 공식 안 돌리고 끊어지자마자 0초 만에 바로 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>(수렴)되는 미친 속도의 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>(DUAL)을 만들 거야!</strong>" 시스코 엔지니어들의 집념이 만들어 낸 괴물이다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a></strong>: 회사 출근길 1번 다리가 무너졌습니다. 나는 즉시 헬기를 띄워 도시 전체 지도를 다시 그리고([SPF](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/) 연산), 2번 다리로 돌아가는 길을 찾아냅니다. 정확하지만 지도 그리는 데 3분이 걸립니다.
   - **EIGRP (DUAL)**: 평소 출근할 때 이미 <strong>"1번 다리가 무너지면 2번 다리로 간다"는 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 플랜(Feasible Successor)을 수첩에 미리 적어 놨습니다</strong>. 1번 다리가 무너지는 걸 본 순간, 뇌(CPU)를 거치지 않고 몸이 반사적으로 2번 다리 쪽으로 핸들을 확 꺾어버립니다 (0초 수렴).
 
@@ -52,7 +52,7 @@ EIGRP의 심장인 DUAL의 용어는 시험에 100% 단골 출제된다.
 - **FD (Feasible Distance)**: 내 라우터에서 목적지까지 가는 총점수 (총 코스트).
 - **AD (Advertised Distance)**: 내 옆집 라우터부터 목적지까지 가는 점수.
 - **Successor (석세서, 1등 경로)**: FD가 가장 낮아서 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블에 올라간 메인 도로.
-- <strong>Feasible Successor (피저블 석세서, 2등 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 경로) ★핵심</strong>: 
+- <strong>Feasible Successor (피저블 석세서, 2등 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 경로) ★핵심</strong>:
   - 조건: `2등 길의 AD < 1등 길의 FD`
   - 이 이상한 공식을 통과한 2등 길만 토폴로지 장부에 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a>용으로 합격 마크를 찍어둔다</strong>. (루프를 방지하기 위한 절대 수학 공식이다).
 
@@ -80,7 +80,7 @@ EIGRP의 심장인 DUAL의 용어는 시험에 100% 단골 출제된다.
 
 ### 3. [RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/) (Reliable Transport [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)
 - RIP나 OSPF가 그냥 브로드캐스트/[멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)로 엽서를 툭 던지고 마는 반면, EIGRP는 지도를 보낼 때 <strong>RTP라는 깐깐한 배달 증명서 시스템</strong>을 쓴다.
-- 내가 이웃한테 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)(`224.0.0.10`)로 지도를 쏘면, 이웃은 반드시 나한테 유니캐스트로 "나 지도 잘 받았어(ACK)!"라고 서명해서 돌려줘야 한다. 
+- 내가 이웃한테 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)(`224.0.0.10`)로 지도를 쏘면, 이웃은 반드시 나한테 유니캐스트로 "나 지도 잘 받았어(ACK)!"라고 서명해서 돌려줘야 한다.
 - 답장이 안 오면 그놈한테만 다시 1:1로 16번이나 재전송하며 끝까지 챙기는 끈질긴 책임감을 보여준다.
 
 - **📢 섹션 요약 비유**: <strong> EIGRP의 DUAL <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>은 타이어가 터졌을 때 즉석에서 고무를 녹여 타이어를 다시 만드는 것(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a>)이 아니라, 평소에 트렁크에 공기가 꽉 찬 </strong>"완벽한 스페어타이어(Feasible Successor)"**를 싣고 다니다가 펑크가 나자마자 1분 만에 갈아 끼우고 쾌속 질주하는 F1 피트스톱의 정수입니다.

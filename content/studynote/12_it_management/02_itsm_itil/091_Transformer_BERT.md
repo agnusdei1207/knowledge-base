@@ -20,7 +20,7 @@ tags = ["it_management"]
 
 ## Ⅰ. 개요 및 필요성
 
-Transformer는 2017년 구글이 "Attention Is All You Need" 논문에서 발표한 딥러닝 아키텍처로, 자연어 처리(NLP) 분야의 패러다임을 바꾼 핵심 기술이다. 
+Transformer는 2017년 구글이 "Attention Is All You Need" 논문에서 발표한 딥러닝 아키텍처로, 자연어 처리(NLP) 분야의 패러다임을 바꾼 핵심 기술이다.
 
 과거 언어 번역이나 문장 분석에는 단어를 순서대로 하나씩 읽어 들이는 [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)([Recurrent Neural Network](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/))이 표준으로 사용되었다. 그러나 RNN은 치명적인 단점이 있었다. 순서대로 읽다 보니 문장이 길어지면 앞에 읽었던 단어의 의미를 잊어버리는 [장기 의존성](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/)([Long-term Dependency](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/)) 문제가 발생했고, 이전 단어 처리가 끝나야 다음 단어를 처리할 수 있어 GPU를 활용한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산이 불가능했다. Transformer는 단어의 순서에 얽매이지 않고 문장 전체를 한 번에 입력받아, 모든 단어가 서로 어떤 연관이 있는지를 셀프 [어텐션 메커니즘](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/296_attention_mechanism/)을 통해 동시에 계산해냄으로써 이 두 가지 문제를 완벽하게 해결했다.
 
@@ -99,7 +99,7 @@ BERT는 문장의 처음과 끝을 동시에 파악하므로 문맥의 의미를
 
 ## Ⅴ. 기대효과 및 결론
 
-Transformer와 BERT의 등장은 자연어 처리 역사상 가장 거대한 도약이다. [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리를 통한 방대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 학습 능력을 바탕으로, 인공지능이 문맥의 뉘앙스를 인간 수준으로 이해하게 되었다. 
+Transformer와 BERT의 등장은 자연어 처리 역사상 가장 거대한 도약이다. [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리를 통한 방대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 학습 능력을 바탕으로, 인공지능이 문맥의 뉘앙스를 인간 수준으로 이해하게 되었다.
 
 그러나 시퀀스 길이에 따른 폭발적인 연산 비용과 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))이 요구하는 천문학적인 컴퓨팅 자원([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))은 뚜렷한 한계점이다. 앞으로는 Longformer, Linformer처럼 연산 복잡도를 줄이는 연구와, 언어를 넘어 이미지, 음성까지 하나의 Transformer로 통합 처리하는 [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/)([Multimodal](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/)) 기술로 확장이 가속화될 것이다. 결론적으로 Transformer는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 순서를 무시하고 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)의 본질에 직접 집중한 혁명적 아키텍처"로 기억해야 한다.
 

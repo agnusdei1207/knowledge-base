@@ -21,9 +21,9 @@ tags = ["studynote-software-engineering"]
 
 소프트웨어 품질을 개선하려면 측정을 해야 한다("측정할 수 없으면 관리할 수 없다"). 그래서 관리자들은 코드 라인 수(LOC), 하루 커밋 횟수, 버그 발견 개수 등 시스템에서 뽑아낼 수 있는 모든 숫자를 엑셀로 모으기 시작했다.
 
-그런데 매달 엄청난 양의 보고서를 만들고도, 정작 "그래서 우리 회사의 소프트웨어 품질이 좋아진 거야?"라는 질문에는 아무도 대답하지 못했다. 목적 없이 수집된 숫자는 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))'일 뿐, '정보(Information)'가 아니었기 때문이다. 
+그런데 매달 엄청난 양의 보고서를 만들고도, 정작 "그래서 우리 회사의 소프트웨어 품질이 좋아진 거야?"라는 질문에는 아무도 대답하지 못했다. 목적 없이 수집된 숫자는 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))'일 뿐, '정보(Information)'가 아니었기 때문이다.
 
-이러한 <strong>'측정을 위한 측정(목적 전치 현상)'</strong>을 비판하며 빅터 바실리(Victor Basili)가 제안한 방법론이 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/366_gqm/">GQM</a> (Goal-Question-<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">Metric</a>)</strong>이다. 
+이러한 <strong>'측정을 위한 측정(목적 전치 현상)'</strong>을 비판하며 빅터 바실리(Victor Basili)가 제안한 방법론이 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/366_gqm/">GQM</a> (Goal-Question-<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">Metric</a>)</strong>이다.
 
 - **📢 섹션 요약 비유**: 살을 빼는 게 목적(Goal)인데, 무작정 하루에 물을 몇 컵 마셨는지, 머리카락이 몇 가닥 빠졌는지(무의미한 [Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))를 매일 엑셀에 적는 것은 바보짓이다. 살을 빼려면 '내 몸무게가 줄었는가?(Question)'를 묻고 '체중계 숫자([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))'만 재면 된다.
 

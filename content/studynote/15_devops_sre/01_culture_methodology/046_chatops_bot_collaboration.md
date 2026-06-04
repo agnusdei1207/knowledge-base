@@ -25,7 +25,7 @@ ChatOps 정의:
   엔지니어 A → SSH → 서버 작업
   엔지니어 B → 모르는 상태
   기록: 없음 또는 별도 문서
-  
+
 ChatOps:
   엔지니어 A → 슬랙 채널 명령어
   봇 → 실제 작업 실행
@@ -33,15 +33,15 @@ ChatOps:
   자동 기록: 채팅 로그 = 감사 추적
 
 ChatOps 3대 구성:
-  
+
   1. 채팅 플랫폼:
   Slack, Microsoft Teams, Discord
   메시지 기반 협업 공간
-  
+
   2. 챗봇 (ChatBot):
   Hubot (GitHub), Lita, Errbot
   슬랙 앱 (Slack Bolt, Python/Node)
-  
+
   3. 스크립트/통합:
   봇이 실행하는 실제 스크립트
   CI/CD, 클라우드 API, 모니터링
@@ -50,11 +50,11 @@ ChatOps 핵심 명령 예:
   #deploy-prod 채널:
   "hubot deploy myapp v1.2.3 to production"
   → 봇: 배포 시작, 결과 채널에 보고
-  
+
   #incident 채널:
   "hubot incident create P1 api-server-down"
   → 봇: PagerDuty 알림, 티켓 생성, 온콜 호출
-  
+
   "hubot scale api-server to 10"
   → AWS Auto Scaling 그룹 크기 변경
 ```
@@ -77,26 +77,26 @@ Hubot (GitHub, CoffeeScript/JavaScript):
   from slack_bolt import App
   from slack_bolt.adapter.socket_mode import SocketModeHandler
   import subprocess
-  
+
   app = App(token="xoxb-...")
-  
+
   @app.message("deploy (\w+) (\w+)")
   def deploy_command(message, say, context):
     app_name = context["matches"][0]
     version = context["matches"][1]
-    
+
     say(f"Starting deploy: {app_name}:{version}")
-    
+
     result = subprocess.run(
       ["./deploy.sh", app_name, version],
       capture_output=True, text=True
     )
-    
+
     if result.returncode == 0:
       say(f"✅ Deploy success: {app_name}:{version}")
     else:
       say(f"❌ Deploy failed: {result.stderr}")
-  
+
   SocketModeHandler(app, "xapp-...").start()
 
 슬래시 명령어:
@@ -107,7 +107,7 @@ Hubot (GitHub, CoffeeScript/JavaScript):
   배포 전 확인 버튼:
   "정말로 production에 배포할까요?"
   [✅ 확인] [❌ 취소]
-  
+
   → 실수 방지 UX
 ```
 
@@ -125,7 +125,7 @@ Hubot (GitHub, CoffeeScript/JavaScript):
 1. 모니터링 알림:
   Datadog → Slack #alerts
   경보: "API 서버 P99 응답시간 5초 초과"
-  
+
   봇 자동 생성:
   "🚨 P1 ALERT: api-server latency > 5s
    Incident ID: INC-2024-0301
@@ -141,10 +141,10 @@ Hubot (GitHub, CoffeeScript/JavaScript):
 3. 진단 명령어:
   "/k8s pods api-namespace"
   → 봇: kubectl 실행 → 결과 표시
-  
+
   "/logs api-server 5m"
   → 봇: 최근 5분 로그 요약
-  
+
   "/metrics api-server"
   → 봇: Datadog 현재 지표
 
@@ -156,7 +156,7 @@ Hubot (GitHub, CoffeeScript/JavaScript):
   "/incident resolve INC-2024-0301"
   → 봇: 타임라인 정리, 채널 아카이브
   → 자동 포스트모텀 템플릿 생성
-  
+
 장점:
   모든 대응 채팅 로그 = 타임라인 자동 완성
   신규 엔지니어 실시간 학습
@@ -181,17 +181,17 @@ ChatOps 보안 고려사항:
 
 1. 인증:
   봇 명령어 실행 전 사용자 인증
-  
+
   a. Slack 사용자 ID 기반 권한:
   AUTHORIZED_USERS = ["U123", "U456"]
-  
+
   if user_id not in AUTHORIZED_USERS:
     say("권한 없음")
     return
-  
+
   b. PagerDuty/Okta SSO 연동:
   명령어 실행 전 재인증 요구
-  
+
   c. RBAC:
   개발자: 개발 환경만
   SRE: 스테이징까지
@@ -200,7 +200,7 @@ ChatOps 보안 고려사항:
 2. 명령어 제한:
   위험 명령 블랙리스트
   "delete", "drop" 등 파괴적 명령 차단
-  
+
 3. MFA (다단계 인증):
   프로덕션 변경 = 추가 확인 버튼 + 승인자
 
@@ -245,7 +245,7 @@ Week 2: 배포 봇
   /deploy <app> <version> <env>
   → GitHub Actions 트리거
   → 결과 채널 보고
-  
+
   승인 워크플로:
   프로덕션 배포 → 팀장 슬랙 버튼 승인
 
@@ -253,7 +253,7 @@ Week 3: 인시던트 봇
   #incident 채널 자동화
   /incident create → PagerDuty + Jira 연동
   /rollback → 이전 버전 배포
-  
+
 Week 4: 진단 봇
   /status <service> → 헬스체크
   /logs <service> <분> → 최근 로그
@@ -264,8 +264,8 @@ Week 4: 진단 봇
   인시던트 MTTR: 45분 → 18분
   신입 온보딩: 4주 → 2주 (채팅 로그 학습)
   프로덕션 실수 배포: 월 3건 → 0건 (승인 프로세스)
-  
-  엔지니어 만족도: 
+
+  엔지니어 만족도:
   "배포하면서 팀 전체가 보는 게 처음엔 불편했지만
    서로 배우는 효과가 커서 지금은 없으면 안 됨"
 ```

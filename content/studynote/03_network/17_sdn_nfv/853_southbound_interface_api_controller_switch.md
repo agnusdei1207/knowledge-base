@@ -61,7 +61,7 @@ tags = ["studynote-network"]
 뇌와 기계가 대화하는 언어([프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))에는 여러 종류가 있습니다.
 
 ### 1. [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) (오픈플로우) - 절대적 1대장
-- 가장 유명하고 상징적인 사우스바운드 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)입니다. 
+- 가장 유명하고 상징적인 사우스바운드 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)입니다.
 - 컨트롤러가 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 플로우 테이블을 찰흙 주무르듯 아주 미세하고 정밀하게 마음대로 뜯어고칠 수 있게 해주는 마법의 척수 신경 언어입니다. (다음 855번 문서에서 심층 분석)
 
 ### 2. OVSDB ([Open vSwitch](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/) [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))

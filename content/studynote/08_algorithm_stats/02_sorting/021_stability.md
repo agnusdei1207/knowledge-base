@@ -78,7 +78,7 @@ tags = ["studynote-algorithm"]
 삽입 정렬:
   A를 앞으로 이동 시 B₁을 만나면 이미 B₁ < A이므로 중단
   → B₁과 B₂의 상대 위치는 절대 바뀌지 않음 ✅
-  
+
 원칙: "같은 키는 더 앞에 있는 원소를 이기지 못한다"
 ```
 
@@ -130,15 +130,15 @@ tags = ["studynote-algorithm"]
 
 ### 실무 시나리오
 
-**시나리오 1 — 전자상거래 상품 정렬**: 먼저 카테고리순, 같은 카테고리 내 가격 낮은 순  
-→ 가격으로 먼저 정렬(안정 정렬) → 카테고리로 정렬  
+**시나리오 1 — 전자상거래 상품 정렬**: 먼저 카테고리순, 같은 카테고리 내 가격 낮은 순
+→ 가격으로 먼저 정렬(안정 정렬) → 카테고리로 정렬
 → 같은 카테고리 내 가격 순서 보존 ✅
 
-<strong>시나리오 2 — <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> ORDER BY 다중 컬럼</strong>: `ORDER BY grade ASC, name ASC`  
-→ name으로 먼저 안정 정렬 → grade로 안정 정렬  
+<strong>시나리오 2 — <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> ORDER BY 다중 컬럼</strong>: `ORDER BY grade ASC, name ASC`
+→ name으로 먼저 안정 정렬 → grade로 안정 정렬
 → 최종: grade 순 정렬, 같은 grade는 name 순 ✅
 
-<strong>시나리오 3 — <a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/">기수 정렬</a> 내부</strong>: 십의 자리 정렬 후 백의 자리 정렬 시  
+<strong>시나리오 3 — <a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/">기수 정렬</a> 내부</strong>: 십의 자리 정렬 후 백의 자리 정렬 시
 → 반드시 안정 정렬이어야 십의 자리 결과가 보존됨
 
 ### 기술사 선택 가이드
@@ -213,8 +213,8 @@ tags = ["studynote-algorithm"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-🎭 **같은 반 짝꿍 줄 세우기**: 키가 같은 친구들이 여럿이면, 먼저 온 순서대로 줄 세우는 게 안정 정렬이에요. 불안정 정렬은 같은 키면 누가 앞에 서든 상관없다고 해요.  
-🃏 **같은 숫자 카드 정리**: 하트 5와 다이아 5를 순서대로 정리할 때, 안정 정렬은 원래 카드 순서를 기억해서 같은 숫자를 정렬해요.  
+🎭 **같은 반 짝꿍 줄 세우기**: 키가 같은 친구들이 여럿이면, 먼저 온 순서대로 줄 세우는 게 안정 정렬이에요. 불안정 정렬은 같은 키면 누가 앞에 서든 상관없다고 해요.
+🃏 **같은 숫자 카드 정리**: 하트 5와 다이아 5를 순서대로 정리할 때, 안정 정렬은 원래 카드 순서를 기억해서 같은 숫자를 정렬해요.
 📋 **성적표 다중 정렬**: 먼저 이름순 정렬 후 점수순으로 재정렬할 때, 같은 점수면 이름 순서가 그대로 남아 있어야 제대로 된 성적표가 돼요!
 
 ---

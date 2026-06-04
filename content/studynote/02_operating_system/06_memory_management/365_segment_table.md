@@ -59,7 +59,7 @@ tags = ["studynote-operating-system"]
 
 ### 주소 번역 및 하드웨어 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)) 3단계 방어선
 
-CPU가 뱉어낸 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) `<s, d>`가 물리 메모리에 도달하기까지, [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 내부에서는 삼엄한 2중 검문소가 돌아간다. 
+CPU가 뱉어낸 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) `<s, d>`가 물리 메모리에 도달하기까지, [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 내부에서는 삼엄한 2중 검문소가 돌아간다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -139,14 +139,14 @@ CPU가 뱉어낸 [논리 주소](/knowledge-base/studynote/02_operating_system/0
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: 인텔 x86의 GDT/LDT 흑역사
-1. **인텔의 야심작 (80286)**: 
-   - 32비트 시대를 열며 인텔은 이 우아한 세그먼트 테이블 기술을 CPU 하드웨어 단에 완전히 박아넣었다. 
+1. **인텔의 야심작 (80286)**:
+   - 32비트 시대를 열며 인텔은 이 우아한 세그먼트 테이블 기술을 CPU 하드웨어 단에 완전히 박아넣었다.
    - 시스템 전역 장부인 <strong>GDT(Global Descriptor Table)</strong>와 프로세스 개별 장부인 <strong>LDT(Local Descriptor Table)</strong>를 만들고, 이 장부를 거치지 않고서는 램을 1바이트도 만질 수 없게 아키텍처를 고정해 버렸다.
 2. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>(Linux/Windows)의 반란</strong>:
    - 세그먼트 테이블 연산이 너무 느리고 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)가 끔찍하자, 리눅스 토발즈와 윈도우 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자들은 이 하드웨어를 우회하기로 결심했다.
 3. **Flat Memory Model (투명 인간 기법)**:
    - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자들은 GDT(세그먼트 테이블) 안에 딱 4개의 빈 껍데기 세그먼트([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 유저 코드, 유저 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 만들어 두고, <strong>이 4개의 Base 주소를 몽땅 0번지로, Limit을 몽땅 4GB(무한대)로 세팅</strong>해 버렸다.
-   - CPU가 억지로 이 세그먼트 테이블을 읽고 덧셈을 해봐야 `가상 주소 + 0 = 가상 주소`, `Limit은 4GB 통과`가 되면서 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 0으로 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 유닛으로 주소를 그대로 패스해 버리게 만들었다. 
+   - CPU가 억지로 이 세그먼트 테이블을 읽고 덧셈을 해봐야 `가상 주소 + 0 = 가상 주소`, `Limit은 4GB 통과`가 되면서 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 0으로 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 유닛으로 주소를 그대로 패스해 버리게 만들었다.
    - 즉, 현업 실무에서는 이 세그먼트 테이블을 "어쩔 수 없이 거쳐 가야 하는 바보 같은 0 더하기 관문"으로 전락시켜 버린 것이다.
 
 ### 진정한 유산: [Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Fault (SIGSEGV)

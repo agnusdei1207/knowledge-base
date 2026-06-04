@@ -56,7 +56,7 @@ tags = ["studynote-network"]
 
 기존 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 비콘은 전파의 "소리 크기(RSSI)"로 거리를 쟀다(가까우면 크게 들리고 멀면 작게 들림). 문제는 해커가 멀리서 스피커 파워(증폭기)만 키우면 폰은 "어? 1미터 앞인가 보네!" 하고 속아서 차 문을 열어버리는 치명적 구조였다. UWB는 힘(RSSI)이 아니라 <strong>시간(Time)</strong>으로 승부한다.
 
-1. **ToF (비행시간 측정)**: 폰이 [UWB](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/160_uwb_ultra_wideband/) 바늘을 빵 쏘며 스톱워치를 누른다. 
+1. **ToF (비행시간 측정)**: 폰이 [UWB](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/160_uwb_ultra_wideband/) 바늘을 빵 쏘며 스톱워치를 누른다.
 2. 자동차 키 수신기가 바늘을 맞고 즉시 반사 펄스를 빵 쏜다.
 3. 폰이 반사 펄스를 받은 순간 스톱워치를 멈춘다.
 4. 빛의 속도($3 \times [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^8 m/s$) $\times$ (왕복 시간 / 2) = **정확한 물리적 절대 거리 계산 완성**.

@@ -57,7 +57,7 @@ tags = ["studynote-network"]
 물리 랜카드 안의 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 칩을 아래 두 가지 부품으로 쪼갭니다.
 
 1. **PF (Physical Function, 물리 기능)**:
-   - 딱 1개만 존재하는 랜카드의 <strong>'본체(대장)'</strong>입니다. 
+   - 딱 1개만 존재하는 랜카드의 <strong>'본체(대장)'</strong>입니다.
    - [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)(VMWare, [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 등)가 이 PF를 쥐고 랜카드의 환경 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(속도, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 등)을 통제합니다.
 
 2. **VF (Virtual Function, 가상 기능)**:

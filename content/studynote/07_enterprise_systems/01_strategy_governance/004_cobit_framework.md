@@ -22,7 +22,7 @@ tags = ["enterprise_systems"]
 
 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/">COBIT</a> (Control Objectives for Information and related Technology)</strong>은 조직의 정보 및 기술(I&T)을 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에 맞춰 통제하고 가치를 극대화하기 위해 설계된 종합 프레임워크이다. 과거 IT 부서는 "서버가 다운되지 않으면 내 할 일을 다 한 것"이라는 기술 중심주의([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))에 빠져 있었다. 반면 경영진은 IT에 막대한 돈을 쏟아부으면서도 "그 투자가 우리 매출에 무슨 도움이 되는가?"라는 본질적 질문에 답을 얻지 못했다.
 
-이러한 <strong>'비즈니스-IT 간의 단절'</strong>과 연이어 터지는 대규모 IT [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 실패(예: 엔론 사태 이후 SOX법 제정)는 기업들로 하여금 IT가 통제 불능 상태에 있음을 깨닫게 했다. 기업들은 IT를 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)하고 통제할 '표준화된 자와 저울'이 필요했다. 
+이러한 <strong>'비즈니스-IT 간의 단절'</strong>과 연이어 터지는 대규모 IT [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 실패(예: 엔론 사태 이후 SOX법 제정)는 기업들로 하여금 IT가 통제 불능 상태에 있음을 깨닫게 했다. 기업들은 IT를 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)하고 통제할 '표준화된 자와 저울'이 필요했다.
 
 COBIT은 바로 이 지점에서 탄생했다. COBIT은 막연한 'IT 거버넌스' 개념을 구체적인 프로세스, [핵심 성과 지표](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)([KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)), 성숙도 모델로 쪼개어 놓았다. 이를 통해 경영진은 비즈니스 목표 달성을 위해 IT 조직이 어떤 프로세스를 가동해야 하고, 어떤 위험을 통제해야 하는지 명확히 추적([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))할 수 있게 되었다.
 

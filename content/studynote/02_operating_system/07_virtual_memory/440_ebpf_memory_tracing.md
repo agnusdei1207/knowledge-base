@@ -65,11 +65,11 @@ tags = ["studynote-operating-system"]
 
 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 문제는 램과 디스크를 오가는 OS와 유저 앱의 합작품이다. eBPF는 두 마리 토끼를 다 잡기 위해 두 종류의 바늘을 쓴다.
 
-1. **Uprobe (User-space Probe)**: 
+1. **Uprobe (User-space Probe)**:
    - 유저 애플리케이션의 바이너리(`libc.so` 등)에 꽂는 바늘.
    - 찌르는 타겟: `malloc()`, `free()`, `mmap()` 함수.
    - 역할: C/C++ 개발자가 얼마나 게으르게 코드를 짰는지, 힙 메모리를 달라고 징징대는 빈도와 해제하지 않고 도망간 놈(Leak)을 색출한다.
-2. <strong>Kprobe (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a>-space Probe)</strong>: 
+2. <strong>Kprobe (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a>-space Probe)</strong>:
    - [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 코어 함수에 꽂는 바늘.
    - 찌르는 타겟: `handle_mm_fault()`([페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 해결사), `kswapd`(디스크 스왑 빗자루), `shrink_page_list`(램 뺏기).
    - 역할: "유저가 100MB 달라고 했는데, OS가 진짜 물리 램 100MB를 주느라 디스크를 얼마나 긁어댔는가?", "[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)이 터져서 남의 램을 뺏느라 몇 밀리초의 렉([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 걸렸는가?" 같은 하드웨어와 OS 간의 핏빛 전쟁터를 생중계한다.
@@ -78,7 +78,7 @@ tags = ["studynote-operating-system"]
 
 ### [BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/) Maps ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 비동기 수송관)
 
-[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 코드는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 수집한 램 도둑질 정보(예: 폴트가 터진 주소 1만 개)를 유저 화면(터미널)으로 어떻게 보낼까? 
+[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 코드는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 수집한 램 도둑질 정보(예: 폴트가 터진 주소 1만 개)를 유저 화면(터미널)으로 어떻게 보낼까?
 `printf`로 찍으면 디스크 I/O가 터져서 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 자체가 시스템을 마비시키는 짐덩어리가 된다.
 - **해결책**: eBPF는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간에 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/">BPF</a> Maps (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 인메모리 해시/<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>/히스토그램 테이블)</strong>라는 바구니를 만들어둔다.
 - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 폴트가 터질 때마다 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 코드가 1클럭 만에 바구니에 "폴트 1 추가요" 하고 숫자만 쓱 증가시키고(Update) 사라진다.
@@ -139,7 +139,7 @@ C/C++ 메모리 누수를 잡는 양대 산맥의 철학적 차이다.
    - 엔지니어는 즉시 THP 옵션을 `never`로 끄고, 1초 렉을 0초로 박멸한다. [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 현미경이 없었다면 영원히 미궁에 빠졌을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 깊숙한 병목을 잡아낸 승리다.
 
 ### [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)-Kill 트레이싱 (Oomkill 툴)
-[도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 갑자기 죽으면 "에러 137([OOM Killed](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/110_oom_out_of_memory_killed_kubernetes_limits/))"이라는 무정한 한 줄만 남기고 로그가 증발한다. 도대체 램이 100GB인데 왜 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 1GB Limit이 터졌을까? 
+[도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 갑자기 죽으면 "에러 137([OOM Killed](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/110_oom_out_of_memory_killed_kubernetes_limits/))"이라는 무정한 한 줄만 남기고 로그가 증발한다. 도대체 램이 100GB인데 왜 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 1GB Limit이 터졌을까?
 eBPF의 `oomkill` 툴을 띄워두면, 리눅스 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러가 총을 빼 들고 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 머리를 날리는 그 찰나의 순간에 "누가 총을 맞았는지(Victim), 쏠 때 당시의 램 잔고는 몇이었는지, [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 점수(Score)는 몇 점이었는지, 그리고 **결정적으로 누가 램을 왕창 달라고 찔렀길래 방아쇠가 당겨졌는지(Trigger)**" 부검 리포트를 터미널에 완벽하게 박제해 준다. [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 메모리 릭 디버깅의 신의 한 수다.
 
 - **📢 섹션 요약 비유**: [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러가 암살을 저지르고 떠난 살인 현장([도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 죽음)에는 핏자국(에러 137)만 남아서 누가 왜 죽였는지 미제 사건이 됩니다. eBPF는 암살자의 총구에 초소형 블랙박스를 달아놓고, 방아쇠가 당겨지는 순간 "누가 죽이라고 시켰고(Trigger), 피해자의 빚(메모리)이 얼마였는지" 동영상으로 다 찍어서 수사관(엔지니어)에게 넘겨주는 완벽한 블랙박스입니다.

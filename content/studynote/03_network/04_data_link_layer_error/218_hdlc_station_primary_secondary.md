@@ -39,19 +39,19 @@ tags = ["studynote-network"]
 
 ### 1. 주국 (Primary Station) - "통제실의 왕"
 - **역할**: 네트워크 전체의 통신 링크를 지배하고 관리하는 대장 서버입니다.
-- **권한**: 
+- **권한**:
   - 통신망에 문제가 생기면 연결을 끊거나 에러 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 지시하는 모든 <strong>명령(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/">Command</a>)</strong> 프레임을 발행할 수 있는 유일한 권한자입니다.
   - "부산지점 터미널아, 지금 나한테 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 있어? 있으면 쏴 봐([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/), [Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))"라고 지시합니다.
 
 ### 2. 종국 (Secondary Station) - "수동적인 신하"
 - **역할**: 주국의 철저한 통제를 받는 말단 기기(터미널)입니다.
-- **권한**: 
+- **권한**:
   - 스스로 먼저 주국에게 "나 이거 보낼래!" 하고 명령을 내릴 권한이 0%입니다.
   - 오직 주국이 "말해봐"라고 명령을 내렸을 때만 억눌려 있던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 **응답(Response)** 프레임 형태로 굽신거리며 쏘아 올릴 수 있습니다.
 
 ### 3. 혼성국 (Combined Station) - "현대의 평등한 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)"
 - **역할**: 주국과 종국의 능력을 모두 몸속에 때려 박은, <strong>스스로 왕이면서 신하인 하이브리드 개체</strong>입니다.
-- **권한**: 
+- **권한**:
   - 내 맘대로 상대방에게 먼저 명령([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/)) 프레임을 쏠 수도 있고, 상대방이 물어보면 응답(Response) 프레임을 보낼 수도 있는 100% 자율적인 노드입니다.
   - <strong>현대 인터넷(<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>/IP)에 물려있는 우리들의 노트북, 스마트폰이 전부 이 '혼성국'에 해당</strong>합니다.
 

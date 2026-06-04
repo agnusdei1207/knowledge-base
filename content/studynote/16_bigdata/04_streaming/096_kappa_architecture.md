@@ -26,15 +26,15 @@ Jay Kreps는 2014년 "Questioning the [Lambda Architecture](/knowledge-base/stud
 ```
 Lambda의 핵심 문제:
   "배치와 실시간에서 동일한 로직을 두 번 구현"
-  
+
   배치 코드 (Spark SQL):
     SELECT user_id, SUM(amount) FROM orders GROUP BY user_id
-  
+
   실시간 코드 (Flink Java):
     stream.keyBy(e -> e.getUserId())
           .window(TumblingEventTimeWindows.of(Time.hours(1)))
           .sum("amount")
-  
+
   → 비즈니스 규칙이 바뀌면 두 곳을 모두 수정
   → 버그가 배치에서 수정되도 실시간에는 반영 안 될 수 있음
   → 두 결과가 미묘하게 다른 경우 디버깅 어려움
@@ -129,7 +129,7 @@ Step 5: v1 잡과 v1 출력 테이블 종료/삭제
 ```
 실제 많은 기업이 사용하는 절충안:
   "주요 파이프라인은 Kappa, 복잡한 집계만 배치"
-  
+
   Kafka → Flink (실시간, 표준 사례) → 결과 DB
   ↓ 특정 복잡 집계에만
   S3/Delta Lake (배치, 월별 전체 통계) → DW

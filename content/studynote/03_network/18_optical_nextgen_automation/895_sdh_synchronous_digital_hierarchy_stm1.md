@@ -58,8 +58,8 @@ tags = ["studynote-network"]
 SDH는 짐을 실어 나르는 완벽하게 규격화된 '표준 박스'를 정의했습니다.
 
 ### 1. 기본 블록: [STM](/knowledge-base/studynote/02_operating_system/04_synchronization/268_software_transactional_memory/)-1 (155.52 Mbps)
-- SDH 세계를 이루는 가장 기본이 되는 첫 번째 레고 블록입니다. 
-- 가로 270바이트, 세로 9줄로 이루어진 이 박스 하나에 전화 통화나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 구겨 넣으면, <strong>155.52 Mbps</strong>의 속도가 나옵니다. 
+- SDH 세계를 이루는 가장 기본이 되는 첫 번째 레고 블록입니다.
+- 가로 270바이트, 세로 9줄로 이루어진 이 박스 하나에 전화 통화나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 구겨 넣으면, <strong>155.52 Mbps</strong>의 속도가 나옵니다.
 
 ### 2. [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) (위계, Hierarchy)의 예술
 - 더 빠른 속도가 필요하면 복잡한 변환 없이, 이 [STM](/knowledge-base/studynote/02_operating_system/04_synchronization/268_software_transactional_memory/)-1 기본 박스들을 차곡차곡 곱하기 4씩 쌓아 올리면 끝납니다.
@@ -82,7 +82,7 @@ SDH를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- [STM](/knowledge-base/studynote/02_operating_system/04_synchronization/268_software_transactional_memory/) 박스 앞쪽에는 항상 <strong>오버헤드(Overhead)</strong>라는 이름의 꼬리표 공간이 있습니다. 
+- [STM](/knowledge-base/studynote/02_operating_system/04_synchronization/268_software_transactional_memory/) 박스 앞쪽에는 항상 <strong>오버헤드(Overhead)</strong>라는 이름의 꼬리표 공간이 있습니다.
 - 여기에 에러 감시, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 제어, 경보(Alarm) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 적어 보냅니다. 바다 밑 광케이블이 끊어지면, 이 오버헤드 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 읽고 전화국 장비가 50ms 만에 우회로로 꺾어주는(Self-Healing 링) 철통 방어 체계의 심장 역할을 했습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

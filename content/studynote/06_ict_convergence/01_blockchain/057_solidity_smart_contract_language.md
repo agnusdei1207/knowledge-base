@@ -113,8 +113,8 @@ Gas / 상태 저장
 
 ## 어린이를 위한 3줄 비유 설명
 
-솔리디티는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에서 돌아가는 규칙 책이에요.  
-책에 적힌 대로만 움직이기 때문에, 처음부터 잘 써야 해요.  
+솔리디티는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에서 돌아가는 규칙 책이에요.
+책에 적힌 대로만 움직이기 때문에, 처음부터 잘 써야 해요.
 돈이 걸려 있어서 장난처럼 쓰면 안 돼요.
 
 ---

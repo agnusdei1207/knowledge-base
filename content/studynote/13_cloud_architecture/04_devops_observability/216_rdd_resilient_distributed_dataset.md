@@ -143,7 +143,7 @@ rdd_partitioned = rdd.partitionBy(numPartitions=200,
                                    partitionFunc=custom_hash)
 
 # 3. 외부 라이브러리와 통합
-rdd.mapPartitions(lambda records: 
+rdd.mapPartitions(lambda records:
                   process_with_native_lib(records))
 
 # 4. 장시간 실행 중 체크포인팅 (Lineage 절단)

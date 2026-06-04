@@ -130,8 +130,8 @@ Compliance Audit
 
 ## 어린이를 위한 3줄 비유 설명
 
-버릴 건 버려요.  
-남길 건 잠깐 남겨요.  
+버릴 건 버려요.
+남길 건 잠깐 남겨요.
 이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 그런 약속이에요.
 
 ---

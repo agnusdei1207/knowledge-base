@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-과거의 소프트웨어는 뼈대부터 지붕까지 회사 내부에서 직접 코딩했다. 하지만 오늘날의 개발은 이미 누군가 만들어둔 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(NPM, Maven, PyPI 등) 수백 개를 레고 블록처럼 조립하여 완성한다. 
+과거의 소프트웨어는 뼈대부터 지붕까지 회사 내부에서 직접 코딩했다. 하지만 오늘날의 개발은 이미 누군가 만들어둔 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(NPM, Maven, PyPI 등) 수백 개를 레고 블록처럼 조립하여 완성한다.
 
 문제는 이 '부품' 중 하나에 치명적인 취약점이 숨어있을 때 발생한다. 2021년 전 세계를 강타한 **Log4j 사태** 당시, 수많은 기업은 "우리 회사 서버 중에 Log4j 2.14 이하 버전을 쓰는 곳이 도대체 어디인가?"를 찾는 데만 며칠을 허비하며 해커에게 속수무책으로 당했다. 시스템 안에 무슨 부품이 들어있는지 '명세서'가 없었기 때문이다.
 
@@ -80,7 +80,7 @@ SBOM은 단순히 엑셀로 적은 목록이 아니라, 기계(Machine)가 읽�
 | **소유권** | 보안팀, 개발팀 내부에서 사용 | 파트너사, 고객사, 규제 기관에 <strong>제출하고 공유</strong>하는 용도 |
 | **핵심 역할**| 소스코드 스캔 $\rightarrow$ [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) DB 대조 $\rightarrow$ 경고 | "내부에는 이런 부품이 들어있습니다"라는 투명한 사실 공표 |
 
-즉, 좋은 [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) 도구를 사용해야 완벽하고 정확한 SBOM을 추출할 수 있다. 
+즉, 좋은 [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) 도구를 사용해야 완벽하고 정확한 SBOM을 추출할 수 있다.
 
 - **📢 섹션 요약 비유**: SCA가 몸의 성분을 분석하는 '체성분 분석기(인바디 기계)'라면, SBOM은 그 기계가 출력해 준 '체성분 분석 결과지(종이)'다. 다른 병원(고객사)에 갈 때는 기계가 아니라 결과지를 가져가야 한다.
 

@@ -47,7 +47,7 @@ tags = ["studynote-operating-system"]
 │    앱은 자기 발밑에 있는 램을 배정받아 QPI 다리 없이 초고속 연산!    │
 └──────────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 체제에서 `malloc()` 시점엔 메모리가 어디(어느 노드)에 배정될지 아무도 모른다. 진짜 주소는 <strong>"가장 처음 데이터를 쓰는(Touch) 그 찰나의 순간, 그 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 작업을 수행하는 CPU가 소속된 노드"</strong>로 결정(Binding)된다. 이것이 리눅스의 절대 원칙인 First-Touch Policy다. 
+**[다이어그램 해설]** [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 체제에서 `malloc()` 시점엔 메모리가 어디(어느 노드)에 배정될지 아무도 모른다. 진짜 주소는 <strong>"가장 처음 데이터를 쓰는(Touch) 그 찰나의 순간, 그 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 작업을 수행하는 CPU가 소속된 노드"</strong>로 결정(Binding)된다. 이것이 리눅스의 절대 원칙인 First-Touch Policy다.
 
 - **📢 섹션 요약 비유**: 온라인 쇼핑몰(malloc)에서 물건을 주문할 때 배송지 창고가 결정되는 게 아닙니다. 내가 결제 버튼(First-touch)을 누르는 순간 내 스마트폰의 GPS(현재 CPU 노드)를 추적해서, 가장 가까운 지역 물류센터(로컬 램)에서 물건이 출발하도록 매핑해 주는 극강의 위치 기반 로켓 배송입니다.
 
@@ -62,7 +62,7 @@ First-Touch는 완벽해 보이지만, <strong>OS 스케줄러가 <a href="/know
 - CPU 0이 너무 바빠서, OS가 이 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 널널한 CPU [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)(Node 1)으로 강제로 이주시켰다.
 - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 Node 1에서 연산하는데, 자기가 찜해둔 데이터는 저 멀리 Node 0에 버려져 있다. 모든 메모리 접근이 끔찍하게 느린 Remote Access로 100% 역전된다.
 - **Auto NUMA의 출동**: 이를 본 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 3.8 이후)은 놔둘 수 없어서 백그라운드 데몬을 돌린다. "어? 너 Node 1로 이사 갔네? 그럼 내가 네가 쓰던 Node 0의 램 데이터를 몽땅 Node 1의 빈 램으로 낑낑대며 복사([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Migration)해 줄게!"
-- **결과**: 이 백그라운드 램 이사 작업(Memcpy) 때문에 캐시가 다 깨지고 서버 CPU가 요동치는 <strong>Jitter(<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/">스파이크</a>)</strong>가 터진다. 
+- **결과**: 이 백그라운드 램 이사 작업(Memcpy) 때문에 캐시가 다 깨지고 서버 CPU가 요동치는 <strong>Jitter(<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/">스파이크</a>)</strong>가 터진다.
 
 ---
 
@@ -76,7 +76,7 @@ First-Touch는 완벽해 보이지만, <strong>OS 스케줄러가 <a href="/know
    - **단점**: Node 0 램을 다 쓰면, Node 1에 100GB가 남아있어도 이 앱은 램 부족([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))으로 총 맞아 죽는다.
 2. <strong><code>numactl --interleave=all</code> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 마법)</strong>
    - "First-touch 다 무시하고, 네가 램을 달라고 폴트를 터뜨릴 때마다 [노드 0 -> 노드 1 -> 노드 2] 순서대로 카드를 섞듯이 번갈아 가며 프레임을 매핑해 줘라!"
-   - **장점**: 대형 DB가 풀 스캔을 때릴 때 특정 노드 램 컨트롤러만 터져나가는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목을 완벽히 찢어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시킨다. 
+   - **장점**: 대형 DB가 풀 스캔을 때릴 때 특정 노드 램 컨트롤러만 터져나가는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목을 완벽히 찢어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시킨다.
    - **단점**: 항상 50% 확률로 리모트 램을 밟게 되어 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 속도는 미세하게 느려진다.
 
 - **📢 섹션 요약 비유**: OS의 자동 배정(Auto [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/))은 내가 이사 갈 때마다 이삿짐센터가 내 짐을 억지로 다 싸서 쫓아다니는 피곤한 방식입니다. `numactl` 수동 통제는 아예 "나는 평생 서울(Node 0)에서 안 벗어날 거니까 짐도 여기 다 박아놔!(membind)"라고 선언하거나, "어차피 출장 많이 다니니까 내 짐을 전국 지사에 1/N로 똑같이 다 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시켜 놔!(interleave)"라고 전략적으로 짐을 세팅하는 실무의 짬바이브입니다.
@@ -126,7 +126,7 @@ First-Touch는 완벽해 보이지만, <strong>OS 스케줄러가 <a href="/know
    - 결국 멀쩡한 DB 캐시가 날아가면서 10만 배 느린 디스크 읽기 렉이 터진다.
 3. <strong>실무의 철퇴 (<code>vm.zone_reclaim_mode = 0</code>)</strong>:
    - 현대 엔지니어들은 이 옵션을 무조건 `0`으로 꺼버린다.
-   - "야! 내 동네 램 꽉 차면 남의 동네(Node 1) 램 빌려 쓰면 되잖아! QPI 다리 건너가서 조금 느려지는 게(Remote Access), 디스크 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) 터지는 것보다 1만 배 낫다!" 
+   - "야! 내 동네 램 꽉 차면 남의 동네(Node 1) 램 빌려 쓰면 되잖아! QPI 다리 건너가서 조금 느려지는 게(Remote Access), 디스크 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) 터지는 것보다 1만 배 낫다!"
    - [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 가장 서늘한 실전 튜닝 값이다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): THP와 NUMA의 최악의 화학작용

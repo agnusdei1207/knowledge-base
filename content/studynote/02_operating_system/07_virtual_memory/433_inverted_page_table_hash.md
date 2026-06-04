@@ -63,7 +63,7 @@ tags = ["studynote-operating-system"]
 
 세상에 완벽한 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)는 없다. 가상 주소 공간은 무한(64비트)인데, 해시가 뱉어내는 앵커 테이블 방 개수는 유한(예: 10만 개)하기 때문에 <strong>비둘기집 원리</strong>에 의해 무조건 충돌이 난다.
 - **상황**: `프로세스 B의 20번 페이지`를 해시에 돌렸더니, 우연히 아까랑 똑같이 `결과값 88`이 튀어나왔다.
-- <strong>해결책 (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/">Chaining</a>, 체이닝)</strong>: 
+- <strong>해결책 (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/">Chaining</a>, 체이닝)</strong>:
   - 88번 앵커를 타고 역 테이블 405번 줄에 갔더니 내가 찾는 `[PID: B, Page: 20]`이 아니라 아까 들어간 `[PID: A, Page: 10]`이 있다! (충돌/Miss).
   - 당황하지 않는다. 405번 줄 끝에는 <strong><code>Next Pointer (다음 줄 번호)</code></strong>가 달려 있다. (예: `Next = 912번 줄`).
   - MMU는 912번 줄로 다시 점프(RAM 3차 방문)해서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. 거기에 `[PID: B, Page: 20]`이 있으면 성공이다.

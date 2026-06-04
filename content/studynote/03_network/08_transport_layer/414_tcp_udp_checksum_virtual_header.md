@@ -23,7 +23,7 @@ tags = ["studynote-network"]
 - **필요성**: 내가 여자친구 계좌로 '100만 원'을 송금하는 패킷을 쐈다. 가다가 낡은 해저 광케이블에서 전기적 노이즈(스파크)가 튀어서 100만 원의 `0`이 `1`로 바뀌어 '110만 원'이 되어버렸다. 은행 서버(수신자)가 이 패킷을 덥석 받고 110만 원을 송금해 버리면 내 인생은 망한다. <strong>"야! 내가 보낼 때 이 패킷 안의 모든 숫자를 다 더해서 그 '합계(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">Checksum</a>)'를 봉투 겉면에 적어둘 테니까, 너도 받으면 다 더해봐! 합계가 다르면 가다가 깨진 거니까 무조건 찢어 버려(Drop)!"</strong>
 
 - **💡 비유**: [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)은 은행에서 돈 뭉치를 보낼 때 찍어두는 <strong>"무게 스티커"</strong>와 같습니다.
-  - 내가 50,000원짜리 지폐 100장([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 박스에 담습니다. 
+  - 내가 50,000원짜리 지폐 100장([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 박스에 담습니다.
   - 박스의 총무게를 저울로 재보니 정확히 "100.[5g](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)([체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/))"이 나옵니다. 겉면에 100.5g이라고 씁니다.
   - 택배 기사(인터넷)가 가다가 실수로 지폐 한 장을 잃어버렸습니다.
   - 수취인(서버)이 박스를 받고 저울에 재보니 "99.[5g](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)"이 나옵니다.
@@ -49,7 +49,7 @@ tags = ["studynote-network"]
 1. 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전체를 16비트 단위로 쪼개어 세로로 쭉 나열한다.
 2. 몽땅 다 더한다 (덧셈).
 3. 만약 넘침(Carry)이 발생하면 맨 뒤에 다시 더해준다.
-4. **마지막에 나온 결과의 0과 1을 전부 뒤집어버린다 (1의 보수).** 
+4. **마지막에 나온 결과의 0과 1을 전부 뒤집어버린다 (1의 보수).**
 5. 그 숫자를 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 칸에 딱 적어서 보낸다.
 - 받는 쪽은 자기가 계산한 거랑 겉면에 적힌 거랑 더해봤을 때, <strong>모든 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>가 1111 1111... 로 꽉 채워지면 "에러 없음(정상)!"</strong>으로 판정하고, 0이 하나라도 섞여 있으면 "에러 발생!"으로 무조건 패킷을 버린다.
 

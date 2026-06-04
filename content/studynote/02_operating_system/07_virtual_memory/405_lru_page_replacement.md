@@ -23,7 +23,7 @@ tags = ["studynote-operating-system"]
 - **필요성**: FIFO를 썼더니 맨 처음에 메모리에 올라온 '핵심 전역 변수'나 'Init() 함수'가 늙었다는 이유로 억울하게 쫓겨났다가 다시 램으로 올라오는 삽질([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 무한 반복되었다. 공학자들은 "들어온 시간이 중요한 게 아니라, 방금 전까지 누가 얘를 계속 건드리고 있었느냐가 중요한 거 아니야?"라는 본질을 깨달았다. 즉, 프로그램의 코드가 `for` 루프를 돌며 계속 특정 변수만 괴롭히는 특성(지역성)을 캐치하여, "최근에 버림받은 놈을 죽이자"는 냉혹한 실용주의가 필요했다.
 
 - **등장 배경 및 OPT의 그림자**:
-  1. <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/">OPT</a>(미래 투시)의 좌절</strong>: 미래를 아는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 코딩할 수 없다. 
+  1. <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/">OPT</a>(미래 투시)의 좌절</strong>: 미래를 아는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 코딩할 수 없다.
   2. **시간 대칭성 가설**: "미래에 가장 늦게 쓰일 놈 = 과거에 가장 안 쓴 놈". 과거와 미래가 거울처럼 데칼코마니 대칭을 이룬다는 천재적 가설을 채택.
   3. **대성공과 오버헤드**: 시뮬레이션 결과 [OPT](/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/) 턱밑까지 폴트를 막아냈으나, "과거를 완벽하게 기억하는 데 드는 비용(CPU 낭비)"이 너무 커 실무 도입에 장벽을 맞았다.
 
@@ -79,7 +79,7 @@ LRU는 이론이 너무 예쁘지만, 저 "맨 앞으로 순위 당겨주기"를
 ### 그래서 현업(OS)은 어떻게 하는가? (포기 선언)
 
 결론부터 말하면, 윈도우, 리눅스, 맥 OS 등 <strong>세상에 존재하는 그 어떤 범용 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>도 이 '완벽한 100% 순수 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a>'를 사용하지 않는다.</strong>
-소프트웨어(OS)가 매 클럭마다 인터럽트를 걸어 순위를 바꾸는 건 미친 짓이고, 하드웨어(CPU)가 수백만 장의 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 포인터를 실시간 조작할 회로를 납땜하는 것도 돈 낭비다. 
+소프트웨어(OS)가 매 클럭마다 인터럽트를 걸어 순위를 바꾸는 건 미친 짓이고, 하드웨어(CPU)가 수백만 장의 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 포인터를 실시간 조작할 회로를 납땜하는 것도 돈 낭비다.
 결국 인류는 "완벽한 LRU는 포기하자. 그냥 1비트만 써서 대충 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 비스무리하게 흉내만 내는 가짜 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)(Pseudo-[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) / [Clock Algorithm](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/302_clock_algorithm/))로 퉁치자!"라고 역사적 백기를 들게 된다.
 
 - **📢 섹션 요약 비유**: 순수 LRU는 사장님이 전 직원 1만 명의 사원증 태그 시간을 초 단위로 기록해서, 어제 1초라도 더 일찍 퇴근한 놈을 오늘 자르는 숨 막히는 지옥입니다. 기록하다가 인사팀(OS)이 과로사합니다. 그래서 현실에서는 그냥 퇴근할 때 지문 1번(1비트)만 찍게 하고 대충 평가하는 근사치([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)) 평가로 타협한 것입니다.

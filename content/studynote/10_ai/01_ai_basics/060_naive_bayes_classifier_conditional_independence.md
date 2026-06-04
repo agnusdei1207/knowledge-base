@@ -129,8 +129,8 @@ P(C) × Π P(xi|C)
 
 ## 어린이를 위한 3줄 비유 설명
 
-[나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)는 각 증상을 따로 점수 매겨서 병을 찾는 방법이에요.  
-좀 단순하지만 아주 빨라요.  
+[나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)는 각 증상을 따로 점수 매겨서 병을 찾는 방법이에요.
+좀 단순하지만 아주 빨라요.
 그래서 스팸 메일처럼 빨리 골라야 할 때 좋아요.
 
 ---

@@ -36,8 +36,8 @@ tags = ["studynote-operating-system"]
    - 방어 코드 0줄: CPU/메모리 성능 100% 효율 달성!
    - 1년에 1번 데드락 터짐 ─▶ 사용자가 수동으로 재부팅함. (1분 소요)
    >> 💸 1년 장애 비용: 재부팅 1분 (1만 원)
-   
-  ✅ 결론: 수학자와 이론가들은 방어를 택하지만, 
+
+  ✅ 결론: 수학자와 이론가들은 방어를 택하지만,
            돈과 성능을 따지는 실무 엔지니어(Linux/Windows)는 100% 타조를 택한다.
 ```
 **[다이어그램 해설]** 컴퓨터 공학에서 '완벽함'은 항상 돈(비용)을 요구한다. [타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/)은 무책임한 것이 아니라, [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)과 통계에 기반한 가장 고도의 '공학적 최적화'다. 버그를 고치는 비용이 버그가 주는 피해보다 크다면, 그 버그는 고치지 않는 것이 비즈니스의 진리다.
@@ -51,19 +51,19 @@ tags = ["studynote-operating-system"]
 ### [타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/)의 유일한 전제 조건: "책임 전가"
 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 데드락을 무시한다는 것은, <strong>데드락의 발생 책임과 처리 책임을 "응용 프로그램(User Space) 개발자"와 "사용자"에게 100% 떠넘긴다</strong>는 뜻이다.
 
-1. <strong>OS <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 스탠스</strong>: 
+1. <strong>OS <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 스탠스</strong>:
    - [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/): "네가 뮤텍스를 꼬아([순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)) 썼든, 자원을 안 뱉든([점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)) 난 모른다. 난 네가 요청한 대로 자원을 줬을 뿐이다."
    - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 락: OS 자체는 무너지면 안 되기 때문에, 사용자 프로그램의 데드락은 무시해도, <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 소스 코드(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/">System Call</a>) 내부에 있는 락(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/">Spinlock</a> 등)</strong>만큼은 리누스 토발즈가 [Lock Ordering](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/) 규칙(예방)을 써서 결벽증처럼 완벽하게 데드락을 방어해 두었다.
-2. <strong>사용자의 스탠스 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">Task</a> Manager)</strong>: 
+2. <strong>사용자의 스탠스 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">Task</a> Manager)</strong>:
    - 윈도우에서 크롬 창이 하얗게 굳었다(데드락). 사용자는 `Ctrl+Shift+Esc`를 눌러 작업 관리자를 켜고 강제 종료(Kill)를 누른다.
    - 이것이 바로 <strong>인간(Human)을 데드락 탐지기 및 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>기(<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a> &amp; <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a>)로 사용하는 아키텍처</strong>다.
-3. **애플리케이션 개발자의 스탠스**: 
+3. **애플리케이션 개발자의 스탠스**:
    - OS가 안 막아주니 백엔드 개발자는 스프링(Spring)에서 DB 트랜잭션을 짤 때 데드락이 터지지 않게끔 락 획득 순서([Lock Hierarchy](/knowledge-base/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/))를 철저히 지키고 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)(`tryLock`)을 코딩해야만 서버를 유지할 수 있다.
 
 ### 데드락 발생 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 공식과 무시의 타당성
 - $P(D)$: 프로그램이 특정 구간에서 데드락에 빠질 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)
 - $N$: 하루에 프로그램을 실행하는 횟수
-데드락은 보통 타이밍([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))이 0.0001초 단위로 맞물려야 터지는 극악의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)($P(D) \approx [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-7}$)을 가진다. 
+데드락은 보통 타이밍([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))이 0.0001초 단위로 맞물려야 터지는 극악의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)($P(D) \approx [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-7}$)을 가진다.
 따라서 일반적인 프로그램에서 $P(D) \times N$은 거의 0에 수렴한다. 이 수학적 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 덕분에 [타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/)이 "배째라" 전술을 쓰면서도 99.9%의 시간 동안 멀쩡하게 돌아가는 것이다.
 
 - **📢 섹션 요약 비유**: 도로(OS)에 신호등을 아예 없애버리는 대신([타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/)), "사고 나면 전부 운전자(개발자) 과실이고, 차가 막히면 니들이 알아서 차를 버리고 가라(사용자 강제 종료)"고 법을 정한 것입니다. 운전자들이 알아서 조심조심 운전하기 때문에 오히려 교통 흐름이 빨라집니다.
@@ -95,7 +95,7 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 
 ### 실무 시나리오
 1. <strong>클라우드 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 아키텍처의 <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/">타조 알고리즘</a> (Liveness Probe)</strong>: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s) 클라우드 환경에서는 노드나 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 데드락에 빠지는 것을 심각하게 디버깅하지 않는다.
-   - **실무 작동**: K8s는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)에 5초마다 `/health` API를 때리는 `Liveness Probe`를 달아둔다. [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 내부에 데드락이 터져서 스레드가 멈추고 5초 동안 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답이 없으면? 
+   - **실무 작동**: K8s는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)에 5초마다 `/health` API를 때리는 `Liveness Probe`를 달아둔다. [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 내부에 데드락이 터져서 스레드가 멈추고 5초 동안 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답이 없으면?
    - **아키텍트 조치**: 원인 분석 따위는 하지 않는다. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)는 그냥 무식하게 해당 컨테이너를 <strong>SIGKILL</strong>로 박살 내고 새 컨테이너를 1초 만에 다시 띄운다(Restart). 이것이 [타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/)(무시)과 클라우드 네이티브의 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Auto-healing)가 결합된 현대 백엔드의 완벽한 무중단 장애 대응법이다.
 2. **소프트웨어 워치독 (Software Watchdog) 패턴**: 백엔드 애플리케이션(Java, Go)에서 내가 짠 데몬 스레드가 데드락에 빠질까 두려울 때 도입하는 디자인 패턴이다.
    - **구현**: 데몬 스레드가 루프를 돌 때마다 공유 변수(Heartbeat)를 1씩 올린다. 별도의 워치독 스레드는 1분마다 이 숫자가 올랐는지 확인한다.

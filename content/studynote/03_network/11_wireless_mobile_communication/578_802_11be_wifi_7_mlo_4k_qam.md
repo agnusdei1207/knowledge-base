@@ -37,7 +37,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 320MHz 초광대역폭 채널 지원
-- Wi-Fi 6E에서 개통된 6GHz의 넓은 영토를 극한까지 끌어다 씁니다. 
+- Wi-Fi 6E에서 개통된 6GHz의 넓은 영토를 극한까지 끌어다 씁니다.
 - 기존 최대 차선 폭이던 160MHz 채널 두 개를 이어 붙여서, 한 번에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏟아붓는 도로 폭을 무려 <strong>320MHz</strong>까지 확장했습니다. (도로 폭이 2배 넓어지니 기본 속도도 2배가 됨)
 
 ### 2. 4K-QAM (4096-QAM) 고밀도 변조
@@ -48,7 +48,7 @@ tags = ["studynote-network"]
 가장 핵심적이고 체감 성능이 큰 변화입니다.
 - **과거의 한계**: 듀얼/[트라이](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/) 밴드 공유기라도, 스마트폰은 2.4GHz나 5GHz 중 <strong>오직 한 개의 주파수(링크)에만 연결</strong>되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받아야 했습니다.
 - **MLO 기술**: 스마트폰과 공유기가 <strong>2.4GHz, 5GHz, 6GHz 주파수 대역에 '동시에 다중(Multi)으로' <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>(Link)를 꽂아서 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 결합하여 주고받습니다.</strong>
-- **효과**: 
+- **효과**:
   - **속도 뻥튀기**: 5GHz로 영화 절반을, 6GHz로 나머지 절반을 동시에 다운받아 속도가 합산됩니다.
   - **초저지연 보장**: 5GHz 차선에 갑자기 간섭(노이즈)이 생겨 막히면, 대기하지 않고 즉시 뚫려있는 6GHz 차선으로 남은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 던져버립니다. 이 덕분에 핑(Ping)이 생명인 클라우드 게임에서 유선 랜선과 똑같은 1ms 대의 초저지연을 무선으로 달성합니다.
 

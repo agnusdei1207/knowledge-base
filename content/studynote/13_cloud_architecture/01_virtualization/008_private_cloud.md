@@ -20,7 +20,7 @@ tags = ["cloud_architecture"]
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
 **전통적 레거시 인프라의 한계와 프라이빗 클라우드의 진화**
-과거의 낡은 전산실([On-Premise](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/))은 부서별로 서버, 스토리지, 네트워크 장비가 뿔뿔이 흩어져 있는 '[사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))' 구조였다. 영업팀의 서버가 남더라도 회계팀 서버가 부족할 때 자원을 빌려줄 수 없어 고가용성 하드웨어가 무용지물이 되는 비효율의 극치를 보였다. 한편, 혁신적인 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)가 등장했으나 금융, 국방, 헬스케어 등 핵심 산업군에서는 민감한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 외부에 두는 것을 법적 규제([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/))가 가로막았다. 
+과거의 낡은 전산실([On-Premise](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/))은 부서별로 서버, 스토리지, 네트워크 장비가 뿔뿔이 흩어져 있는 '[사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))' 구조였다. 영업팀의 서버가 남더라도 회계팀 서버가 부족할 때 자원을 빌려줄 수 없어 고가용성 하드웨어가 무용지물이 되는 비효율의 극치를 보였다. 한편, 혁신적인 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)가 등장했으나 금융, 국방, 헬스케어 등 핵심 산업군에서는 민감한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 외부에 두는 것을 법적 규제([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/))가 가로막았다.
 이러한 딜레마 속에서 등장한 프라이빗 클라우드 (Private Cloud)는 "[퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)의 편리한 자동화 시스템을 우리 회사 전산실 내부로 그대로 복사해 오자"는 사상이다. 기업은 스스로가 클라우드 사업자([CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/))가 되어, 자체 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 전체를 하나의 거대한 가상 자원 풀(Pool)로 묶고 사내 개발팀에게 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) API를 제공하게 되었다.
 
 **💡 비유**: 외부 사람들과 섞여 밥을 먹는 거대한 퍼블릭 호텔 뷔페가 불안하다면, 최고의 셰프와 시스템을 통째로 우리 집 주방(전산실)으로 초빙하여 우리 가족 전용 최고급 프라이빗 뷔페를 차린 것과 같다.
@@ -36,7 +36,7 @@ tags = ["cloud_architecture"]
 [프라이빗 클라우드 (자원 풀링 및 동적 할당)]
 [영업팀] ──────┐          ┌──────────────────────────────────┐
                │  (API)   │   [ 하이퍼바이저 기반 가상 자원 풀 ]   │
-               ├─요청 ──► │  VM1 | VM2 | VM3 | VM4 | VM5   │ (여유 자원을 
+               ├─요청 ──► │  VM1 | VM2 | VM3 | VM4 | VM5   │ (여유 자원을
                │          │  (물리 서버 A + B 가상화 통합)   │  실시간 재배치)
 [회계팀] ──────┘          └──────────────────────────────────┘
 ```
@@ -49,7 +49,7 @@ tags = ["cloud_architecture"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
 <strong>프라이빗 클라우드의 기반: <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/">SDDC</a> (Software Defined <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">Data Center</a>)</strong>
-프라이빗 클라우드는 물리적 하드웨어의 한계를 극복하기 위해 컴퓨팅, 스토리지, 네트워크 자원 전체를 소프트웨어로 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)하여 제어하는 [SDDC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/) 아키텍처 위에 구축된다. 
+프라이빗 클라우드는 물리적 하드웨어의 한계를 극복하기 위해 컴퓨팅, 스토리지, 네트워크 자원 전체를 소프트웨어로 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)하여 제어하는 [SDDC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/) 아키텍처 위에 구축된다.
 
 | 핵심 구성 요소 | 기술 요약 | 역할 및 동작 메커니즘 | 실무 솔루션 예시 |
 |:---|:---|:---|:---|
@@ -71,7 +71,7 @@ tags = ["cloud_architecture"]
 │ - VM 생명   │                  │   가상 스위치 │                 │   볼륨 마운트│
 │   주기 관리 │                  │   방화벽 생성 │                 │             │
 └──────┬──────┘                  └─────────────┘                 └─────────────┘
-       │                                                                      
+       │
 ┌──────▼──────────────────────────────────────────────────────────────────────────┐
 │  Physical Infra Layer (기업 내부 데이터센터의 x86 서버, 광 스위치, 스토리지 장비)   │
 └─────────────────────────────────────────────────────────────────────────────────┘
@@ -121,7 +121,7 @@ tags = ["cloud_architecture"]
 "장비만 사면 클라우드가 된다"는 환상은 프라이빗 클라우드 구축 프로젝트의 가장 큰 실패 원인이다.
 
 <strong>시나리오: 포탈 없는 가짜 클라우드 (무늬만 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>)</strong>
-기업이 수십억 원을 들여 VMware 장비를 도입했지만, 사내 개발자가 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 한 대를 신청할 때마다 결재 문서를 올리고 인프라 팀이 수동으로 클릭하여 1주일 뒤에나 IP를 할당해 주는 상황. 
+기업이 수십억 원을 들여 VMware 장비를 도입했지만, 사내 개발자가 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 한 대를 신청할 때마다 결재 문서를 올리고 인프라 팀이 수동으로 클릭하여 1주일 뒤에나 IP를 할당해 주는 상황.
 * **해결 판단**: 이는 프라이빗 클라우드가 아니라 단순한 '서버 통합(Server Consolidation)'에 불과하다. 클라우드의 핵심 본질인 온디맨드 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Self-Service)가 결여되어 있기 때문이다. 실무에서는 철저한 [CMP](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/)(Cloud [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Platform) 구축과 [테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)) 연계를 통해 결재 프로세스 자체를 자동 승인 워크플로우로 뜯어고쳐, 개발자가 5분 만에 자원을 획득하도록 조직 문화를 혁신해야 한다.
 
 <strong>도입 실패 방지(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a>) <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>

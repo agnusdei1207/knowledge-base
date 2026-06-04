@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>Generative <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> (생성형 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>)</strong>: 글짓기 천재. 텍스트, 이미지, 코드를 그럴싸하게 "만들어주는" 수동적 자판기.
   - <strong>Agentic <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> (에이전틱 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>)</strong>: 행동하는 대리인(Agent). 만들어진 텍스트를 들고 밖(현실 세계)으로 나가서 진짜 API를 찌르고, DB를 긁고, 이메일을 쏘는 "행동(Action)"을 스스로 판단해 집행하는 능동적 터미네이터.
 

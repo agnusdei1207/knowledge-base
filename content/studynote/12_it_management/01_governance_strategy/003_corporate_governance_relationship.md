@@ -18,7 +18,7 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. 개요 및 필요성
 
-1990년대 초반, 전산실(IT 부서)은 기업의 지하 구석에서 월급 명세서를 출력해 주던 타자수 집단이었다. 하지만 인터넷과 클라우드 시대가 도래하면서 IT 예산은 기업 전체 예산의 50%를 훌쩍 넘기 시작했다. 
+1990년대 초반, 전산실(IT 부서)은 기업의 지하 구석에서 월급 명세서를 출력해 주던 타자수 집단이었다. 하지만 인터넷과 클라우드 시대가 도래하면서 IT 예산은 기업 전체 예산의 50%를 훌쩍 넘기 시작했다.
 
 이사회의 이사들(경영진)은 당황했다. 100억 원짜리 차세대 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 시스템을 도입한다는데, 이게 우리 회사의 글로벌 진출(기업 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))에 진짜 필요한 건지 판단할 지식이 없었다. IT 부서는 "이게 최신 기술입니다"라고 돈을 타 갔지만 프로젝트는 실패했고, 손실은 고스란히 기업이 떠안았다. 결국 경영진은 "더 이상 IT를 공대생들에게 알아서 하라고 맡겨둘 수 없다"며, 기업의 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(Corporate)과 IT의 실행(IT)을 톱니바퀴처럼 맞물려 이사회 수준에서 강력하게 통제하는 체계를 구축했다. 이것이 IT 거버넌스가 [기업 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/003_corporate_governance_it_governance/)의 가장 중요한 하위 구조로 편입된 역사적 배경이다.
 
@@ -91,7 +91,7 @@ IT 세계에서 가장 혼동되는 두 개념의 쇳덩어리 분리.
 
 ## Ⅴ. 기대효과 및 결론
 
-과거 "기술은 기술자에게 맡겨라"라는 방임주의는 거대한 IT 프로젝트의 연쇄 부도라는 피눈물 나는 교훈을 남겼다. 
+과거 "기술은 기술자에게 맡겨라"라는 방임주의는 거대한 IT 프로젝트의 연쇄 부도라는 피눈물 나는 교훈을 남겼다.
 
 [기업 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/003_corporate_governance_it_governance/)와 IT 거버넌스의 강력한 정렬(Alignment)은 비즈니스와 기술을 한 몸으로 묶어버리는 족쇄이자 날개다. IT는 더 이상 비용을 까먹는 지원 부서가 아니라 비즈니스 혁신을 최전선에서 이끄는 무기가 되었으며, 경영진은 이 무기가 아군(이익)을 향해 쏘아지는지 적([리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))을 향해 쏘아지는지 통제할 의무를 진다. 결론적으로 훌륭한 IT 거버넌스 없이는 훌륭한 [기업 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/003_corporate_governance_it_governance/)도 성립할 수 없는 시대, 둘은 운명 공동체가 되었다.
 

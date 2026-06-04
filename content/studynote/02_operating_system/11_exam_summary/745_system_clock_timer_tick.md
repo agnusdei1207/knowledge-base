@@ -20,13 +20,13 @@ tags = ["studynote-operating-system"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 시스템 클럭(System [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/))은 컴퓨터 내부에 있는 물리적인 발진기(Oscillator)이며, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 이 클럭을 이용해 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)된 주기(Hz)마다 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 발생시키도록 타이머 칩을 프로그래밍한다. 이때 발생하는 1회의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 <strong>타이머 틱 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/">Timer</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/">Tick</a>)</strong> 또는 <strong>지피스 (Jiffies)</strong>라고 부른다.
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 초창기 비선점형(Non-preemptive) 시스템에서는 프로그램이 자발적으로 CPU를 양보(Yield)하지 않으면 무한 루프 버그에 빠졌을 때 시스템 전체가 영원히 멈추는(Hang) 문제가 있었다.
   - **해결책**: "사용자 프로그램이 아무리 꽉 막힌 연산을 하더라도, 하드웨어가 강제로 CPU 제어권을 뺏어서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에게 돌려주는 절대적인 타이머 시계람을 달아두자!"
 
   - 학교의 <strong>'수업 종소리'</strong>와 같다. 학생들이 교실(CPU)에서 제아무리 몰입해서 딴짓(무한 루프)을 하고 있더라도, 50분마다 무조건 울리는 쉬는 시간 종소리(타이머 틱)가 울리면 선생님(OS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/))이 교실로 들어와서 학생들을 강제로 쉬게 하고([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 다음 과목으로 넘어갈 수 있다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - x86 구조의 고전적인 PIT (Programmable Interval [Timer](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/)) 칩이 1193182Hz의 기본 클럭을 나누어 100Hz(10ms) 주기의 틱을 발생시켰다.
   - 이후 멀티코어 시대에 맞춰 코어별로 독립적인 로컬 APIC (Advanced Programmable [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Controller) 타이머가 도입되어 [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 스케줄링의 기초가 되었다.
 

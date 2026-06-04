@@ -74,9 +74,9 @@ tags = ["studynote-algorithm"]
 
 분할정복 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 점화식 T(n) = a·T(n/b) + f(n) 을 해결하는 공식이다.
 
-- **a**: [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 호출 수  
-- **b**: 문제 크기 감소 인자  
-- **f(n)**: 분할/병합 비용  
+- **a**: [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 호출 수
+- **b**: 문제 크기 감소 인자
+- **f(n)**: 분할/병합 비용
 - **c = log_b(a)**: 기준 지수
 
 | 조건 | 결과 | 예시 |
@@ -140,15 +140,15 @@ tags = ["studynote-algorithm"]
 
 ### 시스템 설계에서 복잡도 선택 기준
 
-<strong>시나리오 1 — 검색 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong>: n=100만 건 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 실시간 조회  
-→ O(n) [선형 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/)은 100만 연산, O(log n) [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)/[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 20연산  
+<strong>시나리오 1 — 검색 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong>: n=100만 건 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 실시간 조회
+→ O(n) [선형 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/)은 100만 연산, O(log n) [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)/[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 20연산
 → <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a>(B-트리) 구조로 O(log n) 보장 필수</strong>
 
-**시나리오 2 — 실시간 정렬**: 스트리밍 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 실시간 랭킹  
-→ O(n²) [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)은 n이 커지면 불가  
+**시나리오 2 — 실시간 정렬**: 스트리밍 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 실시간 랭킹
+→ O(n²) [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)은 n이 커지면 불가
 → <strong>힙(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/">Heap</a>) 자료구조로 O(log n) 삽입/삭제 + O(n log n) 전체 정렬</strong>
 
-<strong>시나리오 3 — ML <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 연산</strong>: 행렬 곱셈 기본 O(n³), 스트라센 O(n^2.81)  
+<strong>시나리오 3 — ML <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 연산</strong>: 행렬 곱셈 기본 O(n³), 스트라센 O(n^2.81)
 → n=1000일 때 10억 vs 5억 연산, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 가속 필수
 
 ### 기술사 답안 핵심 포인트
@@ -227,8 +227,8 @@ tags = ["studynote-algorithm"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-🍭 **친구 100명에게 사탕 나눠주기**: 한 명씩 세어가며 나눠주면 O(n)이지만, 미리 이름 목록을 만들어 두면 O(1)에 찾을 수 있어요.  
-📚 **도서관에서 책 찾기**: 책이 무작위로 꽂혀 있으면 O(n)이지만, 알파벳 순서로 정렬되어 있으면 절반씩 줄여가며 O(log n)에 찾아요.  
+🍭 **친구 100명에게 사탕 나눠주기**: 한 명씩 세어가며 나눠주면 O(n)이지만, 미리 이름 목록을 만들어 두면 O(1)에 찾을 수 있어요.
+📚 **도서관에서 책 찾기**: 책이 무작위로 꽂혀 있으면 O(n)이지만, 알파벳 순서로 정렬되어 있으면 절반씩 줄여가며 O(log n)에 찾아요.
 🏗️ **레고 블록 쌓기**: 블록이 10개면 쌓기 쉽지만 100개면 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000번 비교해야 한다면(O(n²)), 빨리 포기하고 더 똑똑한 방법을 찾아야 해요!
 
 ---

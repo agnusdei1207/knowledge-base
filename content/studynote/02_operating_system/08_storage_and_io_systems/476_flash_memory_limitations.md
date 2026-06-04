@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))는 빛처럼 빠르지만 완벽하지 않다. 
+- **개념**: [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))는 빛처럼 빠르지만 완벽하지 않다.
   - **Erase-before-write (덮어쓰기 불가)**: 이미 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쓰여진 빈방(Cell)에 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바로 밀어 넣을 수 없다. 무조건 텅 빈(Erased) 상태로 초기화한 뒤에야 전자를 넣을 수 있다.
   - **Asymmetric I/O Unit (비대칭 입출력 단위)**: 읽기(Read)와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write)는 작고 예쁜 4KB '[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))' 단위로 가능한데, 지우기(Erase) 연산은 무식하게 크고 무거운 2MB '블록(Block)' 단위로만 작동한다.
   - **Wear-out (수명 제한)**: 지울 때마다 20V가 넘는 번개(고전압)를 때려 박아야 해서, 셀의 절연막(산화막)이 타들어가 결국 전자를 가두지 못하는 구멍 난 독(Dead Cell)이 된다.
@@ -131,16 +131,16 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오: DB 트랜잭션과 [Write Amplification](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/) ([쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/))의 공포
 1. **문제 상황**: MySQL [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 유저 결제 잔액을 1바이트 고쳤다. OS 커널이 이걸 디스크([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))에 `4KB` 버퍼 블록으로 쏜다.
-2. **나비효과**: 
+2. **나비효과**:
    - [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부에는 방금 덮어쓰기를 하느라 쓰레기 공간(Invalid [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))이 하나 생겼다.
    - 며칠 뒤 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부에서 이 쓰레기를 치우기 위해 2MB짜리 블록을 통째로 엎고 다시 쓰는 조각모음(GC)이 백그라운드에서 터진다.
    - 유저는 겨우 **1바이트** 썼는데, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부에서는 플래시 셀을 갉아먹는 <strong>2MB(200만 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a>)짜리 굽기(Erase)</strong>가 발생한 것이다!
-3. <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/">Write Amplification</a> (WA, <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/">쓰기 증폭</a>)</strong>: 
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/">Write Amplification</a> (WA, <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/">쓰기 증폭</a>)</strong>:
    - `실제 SSD가 쓴 양 / OS가 쓰라고 명령한 양` 의 비율을 [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)이라 한다. 위 경우 증폭률이 수만 배다.
    - 이 [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/) 때문에 아무리 좋은 SSD를 꽂아도 DB 서버는 1년 만에 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 셀이 몽땅 타버려 디스크가 Read-Only로 잠기는 돌연사(Brick)를 맞이한다.
 4. **실무적 타협 (Sequential Append-Only)**:
    - 똑똑한 DB 엔진(RocksDB, LevelDB)이나 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 시스템([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 값을 '수정(Update)'하지 않는다.
-   - 그냥 뒤에다가 무조건 '이어 붙이기(Append-Only, Sequential Write)'만 때려버린다. 
+   - 그냥 뒤에다가 무조건 '이어 붙이기(Append-Only, Sequential Write)'만 때려버린다.
    - 덮어쓰기를 안 하니 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 안에 쓰레기 빈방이 안 생기고(순차적으로 꽉꽉 채워짐), GC가 돌 일도 없어 [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)이 1에 수렴하게 되어 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 수명이 10년으로 늘어난다. [소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/)(LSM Tree)가 하드웨어의 약점을 완벽히 커버해 낸 눈물겨운 실무 지식이다.
 
 - **📢 섹션 요약 비유**: 모기 한 마리(1바이트 수정) 잡겠다고 초가삼간 2MB(블록 Erase)를 다 불태우는 게 SSD의 비극입니다. 차라리 모기를 안 잡고 다음 방에 모기장(Append-Only) 치고 새로 살림을 차리는 게 건물을 오래 쓰는(수명 방어) 유일한 생존법입니다.

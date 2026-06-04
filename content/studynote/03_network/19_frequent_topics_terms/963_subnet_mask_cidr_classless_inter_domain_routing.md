@@ -42,7 +42,7 @@ tags = ["studynote-network"]
 - **구형 클래스 방식**: 첫 8자리 자르면 A클래스, 16자리 자르면 B, 24자리 자르면 C클래스. 무조건 이 3개로만 잘랐습니다. (주소 낭비 폭발)
 - **서브넷 마스크의 등판**: IP 주소 밑에 `255.255.255.0` 같은 숫자를 깔아둡니다.
   - 마스크를 이진수로 풀면 `11111111.11111111.11111111.00000000` 입니다.
-  - **규칙**: 마스크의 <strong><code>1</code>이 덮여있는 부분은 "건드리지 마! 동네 주소(Network)야!"</strong> 이고, <strong><code>0</code>이 덮여있는 부분은 "내 맘대로 컴퓨터 꽂아서 쓰는 집 주소(Host)야!"</strong>라는 선 긋기 룰입니다. 
+  - **규칙**: 마스크의 <strong><code>1</code>이 덮여있는 부분은 "건드리지 마! 동네 주소(Network)야!"</strong> 이고, <strong><code>0</code>이 덮여있는 부분은 "내 맘대로 컴퓨터 꽂아서 쓰는 집 주소(Host)야!"</strong>라는 선 긋기 룰입니다.
   - 이를 통해 큰 덩어리의 네트워크를 작은 부서별(영업팀, 인사팀) 네트워크(Subnet)로 잘게 쪼개어 [브로드캐스트 스톰](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1097_broadcast_storm_switching_loop_stp/)(소음)을 완벽히 차단합니다.
 
 ```text

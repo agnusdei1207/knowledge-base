@@ -19,7 +19,7 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-채찍 효과 ([Bullwhip Effect](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/093_bullwhip_effect_supply_chain/))는 소매점, 도매상, 지역 총판, 제조 공장으로 주문이 거슬러 올라갈수록 실제 소비자 수요의 작은 변동이 과장되어 발주량이 채찍처럼 크게 출렁이는 현상을 말한다. 
+채찍 효과 ([Bullwhip Effect](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/093_bullwhip_effect_supply_chain/))는 소매점, 도매상, 지역 총판, 제조 공장으로 주문이 거슬러 올라갈수록 실제 소비자 수요의 작은 변동이 과장되어 발주량이 채찍처럼 크게 출렁이는 현상을 말한다.
 
 이러한 왜곡이 발생하는 근본 원인은 각 단계의 참여자가 하위 단계의 '주문량'만 보고 수요를 예측하기 때문이다. 배송이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)될까 봐 불안해서 미리 넉넉히 시키는 '가수요(과잉 발주)', 주문을 모아서 한 번에 처리하려는 '일괄 주문(Batch [Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/))' 등이 겹치면 제조 공장은 실제 10개가 팔렸는데 100개를 생산하는 참사가 벌어진다. 이를 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)하기 위해 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 전체가 투명한 하나의 유기체처럼 움직이게 만드는 정보 통합(Information Integration)과 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)([Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)) 축소 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필수적으로 요구되었다.
 
@@ -62,7 +62,7 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅲ. 비교 및 연결
 
-채찍 효과를 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)하기 위한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)들을 관리 주체와 공유 수준에 따라 비교해 볼 수 있다. 
+채찍 효과를 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)하기 위한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)들을 관리 주체와 공유 수준에 따라 비교해 볼 수 있다.
 
 | 비교 항목 | 전통적 재고 관리 | 정보 공유 (Information Sharing) | [VMI](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/) ([Vendor Managed Inventory](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/)) | CPFR (Collaborative Planning, Forecasting & Replenishment) |
 | :--- | :--- | :--- | :--- | :--- |
@@ -71,7 +71,7 @@ tags = ["studynote-enterprise-systems"]
 | **정보의 흐름** | 단절 (발주서만 전달) | POS 실판매 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/) | 실재고량 및 판매 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/) | 판촉, 기획 등 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 공유 |
 | <strong>채찍 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a>력</strong> | 낮음 (심각한 왜곡) | 중간 (예측 정확도 향상) | 높음 (가수요 차단) | 매우 높음 (궁극적 협업) |
 
-단순히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넘겨주는 수준(Information Sharing)을 넘어, 공급자가 발주 권한을 가져가면([VMI](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/)), 더 나아가 양사가 판촉 기획까지 같이 하면(CPFR) 채찍 효과는 완벽에 가깝게 소멸한다. 
+단순히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넘겨주는 수준(Information Sharing)을 넘어, 공급자가 발주 권한을 가져가면([VMI](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/)), 더 나아가 양사가 판촉 기획까지 같이 하면(CPFR) 채찍 효과는 완벽에 가깝게 소멸한다.
 
 - **📢 섹션 요약 비유**: 정보 공유가 "우리 집 냉장고에 우유 몇 개 남았는지 문자로 알려줄게"라면, VMI는 "우유 아저씨가 우리 집 냉장고를 직접 열어보고 알아서 채워놓고 돈만 빼가세요" 하는 것이다.
 

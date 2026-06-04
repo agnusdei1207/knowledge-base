@@ -19,14 +19,14 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 세상엔 수백 개의 암호화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 있지만 그 뼈대는 딱 3개다. 
+- **개념**: 세상엔 수백 개의 암호화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 있지만 그 뼈대는 딱 3개다.
   1. <strong>대칭키 (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/653_symmetric_key_cryptography_fast_speed/">Symmetric Key</a> - <a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a>)</strong>: 잠글 때 쓴 열쇠와 풀 때 쓰는 열쇠가 똑같다. (자물쇠 1개, 열쇠 1개)
   2. <strong>비대칭키 (Asymmetric <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a> - <a href="/knowledge-base/studynote/09_security/03_network_security/110_rsa/">RSA</a>/<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/">ECC</a>)</strong>: 잠글 때 쓴 열쇠(공개키)로는 절대 못 풀고, 나만 몰래 가진 열쇠(개인키)로만 풀 수 있다. (열쇠가 2개 1세트)
   3. **일방향 해시 (One-way Hash - SHA)**: 고기를 갈아서 햄버거 패티로 만든다. 패티를 다시 소고기 모양으로 되돌릴 수(복호화) 없는 '파괴적 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)' 믹서기다.
 
 - **필요성**: 주니어 개발자들은 "가장 안전한 거 하나만 쓰면 안 돼?"라고 묻는다. 불가능하다. 비대칭키([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/))는 무적에 가깝지만 너무 무거운 수학(소인수분해) 연산을 써서, 동영상 1GB짜리를 암호화하려면 서버 CPU가 터지고 1시간이 걸린다. 반면 대칭키([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))는 빛처럼 빠르지만, 처음에 친구한테 이 열쇠를 건네주다 해커(우체부)한테 뺏기면 세상이 끝난다. <strong>이 끔찍한 장단점을 교묘하게 섞어서 "열쇠 교환은 무거운 비대칭키로, 1GB짜리 진짜 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전송은 빠른 대칭키로, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 훼손 여부는 가벼운 해시로" 짬짜면처럼 섞어 써야(하이브리드 암호화) 1초 만에 안전한 결제 시스템이 켜지기 때문</strong>에 3가지 잣대를 완벽히 숙지해야 한다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - <strong>대칭키(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a>)</strong>는 <strong>'집 현관문 열쇠'</strong>입니다. 열쇠 1개로 잠그고 엽니다. 복사해서 엄마랑 나눠 가지면 엄청 빠르고 편하지만, 우편함에 넣어두고 몰래 가져가라고 하다 도둑이 채가면 끝장납니다(키 교환의 위험).
   - <strong>비대칭키(<a href="/knowledge-base/studynote/09_security/03_network_security/110_rsa/">RSA</a>)</strong>는 <strong>'입구가 하나뿐인 투입형 우체통'</strong>입니다. 동네 사람 누구나(공개키) 우체통에 편지([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 넣을 수 있습니다. 하지만 한 번 들어가면 아무도 못 꺼냅니다. 오직 우체통 바닥을 여는 유일한 마스터키(개인키)를 가진 집배원 아저씨 딱 1명만 편지를 꺼내 읽을(복호화) 수 있습니다.
   - <strong>해시(SHA)</strong>는 <strong>'문서 파쇄기'</strong>입니다. 100장짜리 비밀 문서를 징~ 하고 갈아서 '3cm 뭉치'로 만들어버립니다. 다시 종이로 되돌릴 수 없지만, 나중에 똑같은 100장을 가져와서 파쇄기에 넣으면 완벽히 똑같은 모양의 '3cm 뭉치'가 나옵니다. 원본이 같은지만 확인할 때 쓰는 지독한 마법입니다.

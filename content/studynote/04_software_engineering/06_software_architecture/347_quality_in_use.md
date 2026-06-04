@@ -23,11 +23,11 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 제품의 품질 특성([기능 적합성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/342_functional_suitability/), [성능 효율성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/343_performance_efficiency/), [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) 등)이 우수하더라도, 실제 사용자가 제품을 사용하여 목표를 달성하는 데 어려움이 있다면 그 소프트웨어는실패작이다. 사용 품질 평가는 이러한 간극(Gap)을 파악하고, 실제 사용자 관점에서의 품질을평가하는 데 필수적이다. 또한 사용 품질 평가는 제품 개선의 우선순위를 결정하는 데 중요한참고자료가 된다.
 
-- **💡 비유**: 사용 품질은 "음식의 맛"에 비유할 수 있다. 재료(제품 품질)가 좋아도([기능 적합성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/342_functional_suitability/)), 조리([성능 효율성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/343_performance_efficiency/)),성り부け(사용성) 모두 좋아도, 최종적으로 먹었을 때 맛이 없으면(사용품질 낮음) 그 요리는실패작이다. 반대로 재료가 다소 부족하더라도, 맛있게 조리되면(사용품질 높음)객부터만족される. 
+- **💡 비유**: 사용 품질은 "음식의 맛"에 비유할 수 있다. 재료(제품 품질)가 좋아도([기능 적합성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/342_functional_suitability/)), 조리([성능 효율성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/343_performance_efficiency/)),성り부け(사용성) 모두 좋아도, 최종적으로 먹었을 때 맛이 없으면(사용품질 낮음) 그 요리는실패작이다. 반대로 재료가 다소 부족하더라도, 맛있게 조리되면(사용품질 높음)객부터만족される.
 
 - **등장 배경**: 사용 품질(Quality [in Use](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/694_confidential_computing_data_in_use/))은 ISO/IEC 9126에서는 명시적으로 정의되지 않았다. ISO/IEC 25010으로 개정될 때 제품 품질(Product Quality)과 함께사용품질이명시적에정의され, 4つ의효과척도가 포함되었다. 이는 소프트웨어가「작동용」부터「사용자위중심적개치창출」へ와/과いう 패러다임 변화를 반영한다.
 
-- **📢 섹션 요약 비유**: 사용 품질은 "영화 평점"에 비유할 수 있다. 기술적 완성도(제품 품질)가 높아도(영상 화질, 음질),ストーリー이/가つまらなければ(사용품질 낮음)관중은만족しない. 최종적な관객의만족도가사용품질을반영하는. 
+- **📢 섹션 요약 비유**: 사용 품질은 "영화 평점"에 비유할 수 있다. 기술적 완성도(제품 품질)가 높아도(영상 화질, 음질),ストーリー이/가つまらなければ(사용품질 낮음)관중은만족しない. 최종적な관객의만족도가사용품질을반영하는.
 
 ---
 

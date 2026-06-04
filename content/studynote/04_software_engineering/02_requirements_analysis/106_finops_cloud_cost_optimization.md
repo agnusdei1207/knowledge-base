@@ -88,7 +88,7 @@ FinOps는 과거 전산실 시대의 고전적인 "예산 삭감(Cost Cutting)" 
 클라우드 아키텍트는 설계 초기부터 인프라의 요구 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 비용 사이에서 줄타기를 하는 실무적 결단을 내려야 한다.
 
 ### 판단 기준 및 아키텍처 선택
-1. <strong>요금 모델 (Pricing Model) 매핑 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 
+1. <strong>요금 모델 (Pricing Model) 매핑 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>:
    - **온디맨드 (On-Demand)**: 언제 지울지 모르는 예측 불가능한 단기 테스트 서버에 사용한다 (무약정, 단가 비쌈).
    - **예약 인스턴스 (Reserved Instance, RI)**: 1년 365일 무조건 켜져 있어야 하는 핵심 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB) 서버에 채택해 40~60%의 대폭 할인을 받아낸다.
    - <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/">스팟 인스턴스</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/">Spot Instance</a>)</strong>: 클라우드 사업자의 남는 자원을 경매로 빌리며, 중간에 강제 회수당해도 무방한 대규모 배치(Batch)나 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 워크로드에 사용해 90% 극단적 할인을 취한다.

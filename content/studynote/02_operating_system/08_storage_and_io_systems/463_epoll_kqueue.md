@@ -60,7 +60,7 @@ tags = ["studynote-operating-system"]
 ### [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부의 쌍두마차: [Red-Black Tree](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/) 와 Ready List
 
 `epoll`의 미친 성능은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 박혀있는 두 개의 자료구조에서 나온다.
-1. <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/">Red-Black Tree</a> (감시 명단)</strong>: 
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/">Red-Black Tree</a> (감시 명단)</strong>:
    - 사용자가 `epoll_ctl(EPOLL_CTL_ADD, 소켓 5번)`을 호출하면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 5번 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/) 노드에 예쁘게 매달아 둔다.
    - 트리를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 10만 개를 꽂아놔도, 중간에 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 1개를 삭제하거나 추가할 때 걸리는 시간이 $O(\log N)$으로 사실상 찰나의 순간에 끝난다. (기존 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 삽입/삭제의 O(N) 병목을 갈아버림).
 2. **Ready List (더블 링크드 리스트 - 대기실)**:
@@ -72,13 +72,13 @@ tags = ["studynote-operating-system"]
 
 ### Level-Triggered (LT) vs Edge-Triggered (ET) 의 지독한 딜레마
 
-`epoll`을 쓸 때 가장 개발자들을 돌아버리게 만드는 두 가지 모드 설정이다. 
+`epoll`을 쓸 때 가장 개발자들을 돌아버리게 만드는 두 가지 모드 설정이다.
 
 - **Level-Triggered (LT, 기본 모드)**:
   - [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 버퍼에 읽을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 1바이트라도 남아 있으면, `epoll_wait`를 칠 때마다 <strong>"아직 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 남았어!! 또 읽어!! 계속 읽어!!"</strong> 하고 미친 듯이 알람(Event)을 울려댄다.
   - 프로그래밍이 너무 쉽다. 대충 읽고 남겨놔도 OS가 계속 알려주니 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 날아갈 일(버그)이 없다. (안전함).
 - **Edge-Triggered (ET, 극한 최적화 모드)**:
-  - 텅 빈 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 "새로 도착한 그 찰나의 순간(Edge)"에 딱 1번만 알람을 준다. 
+  - 텅 빈 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 "새로 도착한 그 찰나의 순간(Edge)"에 딱 1번만 알람을 준다.
   - 내가 10KB가 왔는데 5KB만 읽고 냅뒀다? OS는 두 번 다시 알람을 주지 않는다. 남은 5KB는 영원히 썩어버린다.
   - 이 모드를 쓰려면 무조건 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 `Non-blocking`으로 파놓고, 1번 알람이 울리면 에러(`EAGAIN`)가 뜰 때까지 `while` 문을 돌려 바닥까지 싹싹 긁어 읽는 지독한 코딩을 해야 한다.
   - **Nginx의 선택**: 코딩은 지옥 같지만, 알람이 딱 1번만 울리므로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 이벤트 큐 오버헤드가 제로(0)에 수렴한다. Nginx 웹서버가 1위가 된 결정적 이유가 바로 이 <strong>Edge-Triggered (ET) 모드의 완벽한 구사</strong>다.
@@ -131,7 +131,7 @@ tags = ["studynote-operating-system"]
 3. **결과**: 디스크 I/O가 없고 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 렉이 0%로 수렴하므로, 싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로도 멀티 코어에 버금가는 극한의 스루풋([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 내며 전 세계 캐시 DB 시장을 씹어 먹었다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): `epoll` 서버 안에서의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크 블로킹
-앞 장에서도 말했지만 너무 중요해서 반복한다. `epoll`은 "네트워크 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)"이나 "[파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)"에 대해서는 완벽한 신(God)이지만, <strong>하드디스크의 텍스트 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/">Block Device</a>)</strong>을 감시하라고 던져주면 무조건 "얘는 항상 Ready 상태임!"이라고 구라를 치며 바보처럼 동작한다. 
+앞 장에서도 말했지만 너무 중요해서 반복한다. `epoll`은 "네트워크 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)"이나 "[파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)"에 대해서는 완벽한 신(God)이지만, <strong>하드디스크의 텍스트 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/">Block Device</a>)</strong>을 감시하라고 던져주면 무조건 "얘는 항상 Ready 상태임!"이라고 구라를 치며 바보처럼 동작한다.
 리눅스 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(EXT4) 구조상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 무조건 램으로 읽어와야([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 하므로 epoll의 넌블로킹 감시 룰이 먹히지 않기 때문이다. `epoll` 서버에서 일반 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽는 순간 싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 하드디스크 모터 도는 시간(8ms) 동안 정지하며 1만 명의 유저가 팅겨버린다. ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 비동기로 읽으려면 별도의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀이나 최근의 `io_uring`을 써야만 한다).
 
 - **📢 섹션 요약 비유**: `epoll`은 카카오톡(네트워크)에서 누가 메시지 보냈는지 1초 만에 딱딱 찍어주는 기가 막힌 알림장입니다. 그런데 내가 책장에 꽂힌 책(디스크 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))을 이 알림장에 등록해 놓고 "책이 저절로 나한테 날아오면 알람 줘"라고 하면, 알림장은 "책은 무조건 거기 있으니까(Always Ready) 네가 직접 걸어가서 가져와!"라며 내 발목([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 락)을 강제로 잡고 놔주지 않는 치명적 맹점을 가졌습니다.

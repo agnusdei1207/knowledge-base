@@ -25,7 +25,7 @@ tags = ["enterprise_systems"]
 
 이러한 접근법이 필요한 이유는, 내비게이션 시스템과 동일하다. 우리가 목적지(TO-BE)에 도달하기 위해서는, 현재 내 위치([AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/))를 정확히 알아야만 최적의 경로(Transition [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 이행 계획)를 그릴 수 있다. 현재의 병목, 비효율, 중복된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디에 있는지 모른 채 신기술만 도입하면, 최신 IT 인프라 위에서 구시대적인 쓰레기 프로세스가 돌아가는 'Garbage In, Garbage Out' 현상을 면치 못한다.
 
-다음 도식은 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS에서 TO-BE로 나아가는 전반적인 갭 분석([Gap Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/107_gap_analysis_task_identification/)) 프레임워크의 흐름을 보여준다. 
+다음 도식은 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS에서 TO-BE로 나아가는 전반적인 갭 분석([Gap Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/107_gap_analysis_task_identification/)) 프레임워크의 흐름을 보여준다.
 
 ```text
 [ 갭 분석 (Gap Analysis) 기반 전환 메커니즘 ]
@@ -96,7 +96,7 @@ tags = ["enterprise_systems"]
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-[AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS와 TO-BE를 분석한 후, 도출된 갭을 메꾸기 위한 이행(Transition) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 크게 시스템의 성격과 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 수용도에 따라 다양한 방식으로 선택된다. 
+[AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS와 TO-BE를 분석한 후, 도출된 갭을 메꾸기 위한 이행(Transition) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 크게 시스템의 성격과 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 수용도에 따라 다양한 방식으로 선택된다.
 
 <strong>전환(Transition) 아키텍처 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 비교 매트릭스</strong>
 
@@ -129,7 +129,7 @@ tags = ["enterprise_systems"]
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
-실제 IT 컨설팅 현장([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/), [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/), [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) 프로젝트)에서 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)/TO-BE 모델링은 다양한 함정과 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)을 동반한다. 
+실제 IT 컨설팅 현장([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/), [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/), [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) 프로젝트)에서 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)/TO-BE 모델링은 다양한 함정과 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)을 동반한다.
 
 **실무 시나리오 및 의사결정**
 
@@ -164,7 +164,7 @@ tags = ["enterprise_systems"]
 | **시스템 구축** | 요구사항 번복, 프로젝트 기간/비용 초과 | 명확한 스코프([Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/)) 정의로 구축 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 방지 |
 | **프로세스 통제** | 레거시 업무의 무비판적 전산화 (비효율 유지) | 베스트 프랙티스 내재화로 글로벌 표준 업무 장착 |
 
-**미래 전망**: 
+**미래 전망**:
 전통적으로 화이트보드와 인터뷰에 의존하던 수동적 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 분석은, 기업 내 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 빨아들여 AI가 프로세스를 자동으로 그려주는 <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/">프로세스 마이닝</a>(<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/">Process Mining</a>)</strong> 솔루션(Celonis, ProM 등)으로 완벽하게 대체되고 있다. 또한, TO-BE 모델 역시 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)([Digital Twin](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)) 공간에서 시뮬레이션을 돌려 병목이 해소되는지 미리 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(What-If Analysis)해 볼 수 있는 '지능형 모델링' 시대로 나아가고 있다.
 
 📢 **섹션 요약 비유**: [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)/TO-BE 모델링은 짙은 안개 속에서 항해하는 기업이라는 배에, 현재 좌표를 찍어주는 GPS([AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/))와 목적지를 향한 최적의 항로를 계산해 주는 자동 항법 장치(TO-BE)를 달아주는 핵심 나침반입니다.

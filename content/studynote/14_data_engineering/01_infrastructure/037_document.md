@@ -52,14 +52,14 @@ tags = ["studynote-data-engineering"]
 
 내포 (Embedding):
   관련 데이터를 한 문서 안에 포함
-  
+
   {
     "order_id": "order_001",
     "items": [  // 주문 항목을 내포
       {"product": "노트북", "qty": 1}
     ]
   }
-  
+
   장점: 단일 읽기로 완전한 데이터
         조인 없음, 빠른 조회
   단점: 데이터 중복, 문서 크기 증가
@@ -67,12 +67,12 @@ tags = ["studynote-data-engineering"]
 
 참조 (Reference):
   다른 문서의 ID만 저장
-  
+
   {
     "order_id": "order_001",
     "customer_id": "user_789"  // 참조만 저장
   }
-  
+
   장점: 중복 없음, 정규화
   단점: 여러 번 조회 필요
   적합: 독립적으로 업데이트되는 데이터
@@ -155,7 +155,7 @@ RDBMS 방식:
     "category": "clothing",
     "specs": {"size": "32", "color": "blue", "material": "cotton"}
   }
-  
+
   -> 각 상품마다 다른 속성을 유연하게 저장!
 ```
 
@@ -173,7 +173,7 @@ RDBMS 방식:
 MongoDB 솔루션:
   products 컬렉션에 다양한 구조의 문서 저장
   인덱스: 카테고리, 가격, 이름에 인덱스 생성
-  
+
   인덱스 생성:
     db.products.createIndex({"category": 1, "price": -1})
     -> 카테고리별 가격 내림차순 조회 최적화

@@ -61,7 +61,7 @@ tags = ["studynote-operating-system"]
 | <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">Partition</a>)</strong> | 프로그램이 적재되는 고정된 공간 | 부팅 시 분할되어 고정된 시작/끝 물리 주소를 가짐 | Memory Block | 기숙사의 고정된 1인실 방 |
 | **할당 상태 테이블** | 각 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)의 사용 여부 기록 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 1: 사용(1), [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 2: 빈방(0) 등 단순 비트맵 | 비트맵(Bitmap) | 기숙사 경비실의 빈방 불빛 |
 | <strong>작업 큐 (Job <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)</strong> | 디스크에서 대기 중인 프로그램 줄 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)마다 개별 큐를 두거나, 하나의 통합 큐를 운영 | Scheduling [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) | 방 배정을 기다리는 대기 줄 |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/">MMU</a> 방어선</strong> | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 밖 메모리 침범 방지 | 베이스와 [한계 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/)가 해당 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 크기로 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))됨 | [Memory Protection](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) | 방을 못 벗어나게 하는 자물쇠 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/">MMU</a> 방어선</strong> | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 밖 메모리 침범 방지 | 베이스와 [한계 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/)가 해당 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 크기로 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))됨 | [Memory Protection](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) | 방을 못 벗어나게 하는 자물쇠 |
 
 ---
 
@@ -129,7 +129,7 @@ tags = ["studynote-operating-system"]
 │ 페이징     │ 4KB 고정    │ 평균 2KB   │ 수천 방에 찢어  │
 └──────────┴────────────┴────────────┴────────────────────┘
 ```
-**[매트릭스 해설]** 컴퓨터 공학은 돌고 돈다. 관리하기 귀찮아서 고정 크기로 잘랐던 투박한 과거의 방식이, 시간이 흘러 하드웨어가 발전하자 방 크기를 현미경 단위(4KB)로 썰어버리면서 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)를 완벽히 잡아내는 궁극의 기술([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))로 재탄생한 것이다. 
+**[매트릭스 해설]** 컴퓨터 공학은 돌고 돈다. 관리하기 귀찮아서 고정 크기로 잘랐던 투박한 과거의 방식이, 시간이 흘러 하드웨어가 발전하자 방 크기를 현미경 단위(4KB)로 썰어버리면서 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)를 완벽히 잡아내는 궁극의 기술([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))로 재탄생한 것이다.
 
 - **📢 섹션 요약 비유**: 옛날엔 수박을 반 갈라 파는 고정 분할이라 다 못 먹고 버리는 내부 낭비가 컸다면, 지금은 깍둑썰기로 4KB씩 잘게 파는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)으로 진화하여 낭비 없이 먹을 수 있게 된 것입니다.
 

@@ -23,7 +23,7 @@ DevOps와 [지속적 통합](/knowledge-base/studynote/04_software_engineering/0
 
 이제 시스템 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)의 핵심은 장애 예방([MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 증가)에서 <strong>빠른 장애 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a> 단축)</strong>로 옮겨갔다. 배포 직후 치명적인 오류가 발생했을 때, 개발자가 당황하며 원인을 찾고 코드를 수정하여 다시 빌드하는 수동 과정은 고객의 이탈을 부른다. 따라서 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 자체가 스스로 에러율을 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하다가 위험 수위를 넘으면 자동으로 과거의 안전지대로 도망치는 '에러율 기반 자동 롤백' [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필수적인 아키텍처로 자리 잡았다.
 
-- **📢 섹션 요약 비유**: 롤백은 최새로운 유형의 스포츠카(새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))를 타고 트랙에 나섰을 때, 브레이크에 조금이라도 이상 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(에러율)가 감지되면 즉각 차를 차고로 강제 복귀시키는 스마트 안전 시스템이다. 
+- **📢 섹션 요약 비유**: 롤백은 최새로운 유형의 스포츠카(새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))를 타고 트랙에 나섰을 때, 브레이크에 조금이라도 이상 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(에러율)가 감지되면 즉각 차를 차고로 강제 복귀시키는 스마트 안전 시스템이다.
 
 ---
 

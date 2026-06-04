@@ -18,7 +18,7 @@ tags = ["software_engineering"]
 ---
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
-소프트웨어 위기 (Software Crisis)는 1968년 NATO [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 회의에서 처음 제기된 용어로, 소프트웨어의 규모와 복잡성이 급격히 증가함에 따라 개발 비용이 하드웨어 비용을 초과하고, 프로젝트의 납기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 및 품질 저하가 일상화되는 현상을 의미한다. 
+소프트웨어 위기 (Software Crisis)는 1968년 NATO [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 회의에서 처음 제기된 용어로, 소프트웨어의 규모와 복잡성이 급격히 증가함에 따라 개발 비용이 하드웨어 비용을 초과하고, 프로젝트의 납기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 및 품질 저하가 일상화되는 현상을 의미한다.
 
 과거에는 하드웨어의 제약(메모리 부족, 느린 처리 속도)이 가장 큰 문제였으나, 하드웨어 기술이 비약적으로 발전하면서 사용자들이 요구하는 소프트웨어의 기능과 규모가 기하급수적으로 커졌다. 그러나 이를 개발하는 방식은 여전히 소수 프로그래머의 직관과 경험에 의존하는 '주먹구구식'에 머물러 있었다. 그 결과, 예측 불가능한 버그가 속출하고 유지보수 비용이 천문학적으로 증가하며, 결국 프로젝트 자체가 실패로 돌아가는 사태가 빈번해졌다. 이러한 위기 상황을 타개하고 체계적인 관리와 개발 방법론을 정립하기 위해 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)이 필수적으로 요구되었다.
 
@@ -124,7 +124,7 @@ tags = ["software_engineering"]
 (인력 부족)    (구조 문제)
     ▼             ▼
 [Brooks의 법칙 고려]  [코드 복잡도/결합도 분석]
-인력 추가 시 소통   ──> 즉각적인 리팩토링 및 
+인력 추가 시 소통   ──> 즉각적인 리팩토링 및
 비용 증가 경계          아키텍처 재설계 결정
 ```
 **[도식 설명]**

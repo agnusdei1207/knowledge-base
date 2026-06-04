@@ -18,7 +18,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[부호 있는 정수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/082_signed_integer/)(Signed)가 [시프트 연산](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/119_shift_operations/)기(Shifter)에 들어오면 컴퓨터는 심각한 고민에 빠진다. 
+[부호 있는 정수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/082_signed_integer/)(Signed)가 [시프트 연산](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/119_shift_operations/)기(Shifter)에 들어오면 컴퓨터는 심각한 고민에 빠진다.
 
 양수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)야 그냥 오른쪽으로 밀어버리고 0을 채우면 나누기 2가 되지만, 음수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 오른쪽으로 밀고 무지성으로 빈자리에 0을 쑤셔 넣으면([논리 시프트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/120_logical_shift/)) 음수 부호(맨 앞의 1)가 깨지면서 갑자기 거대한 양수로 신분 세탁이 일어난다. 아키텍트들은 "음수를 오른쪽으로 밀 때, 앞쪽 빈자리에 무조건 0을 넣지 말고 원래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 가지고 있던 부호([MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/))를 복사해서 끈질기게 채워 넣자"는 방어 로직을 쇳덩어리에 융합했다. 이것이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 수치적 영혼(부호)을 끝까지 보존하는 산술 시프트의 탄생이다.
 

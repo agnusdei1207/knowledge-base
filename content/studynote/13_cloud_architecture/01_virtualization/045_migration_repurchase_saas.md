@@ -23,20 +23,20 @@ AWS 클라우드 이전 6R 프레임워크:
 
 1. Retire (폐기):
    더 이상 필요 없는 애플리케이션 폐기
-   
+
    예: 사용 안 하는 레거시 리포팅 도구
    판단: 사용자 < 5%, 비즈니스 가치 없음
    결과: 비용 절감, 복잡성 감소
 
 2. Retain (유지):
    클라우드 이전 보류 (현재 위치 유지)
-   
+
    이유: 규제, 최근 업그레이드, 기술 부채 해결 우선
    예: 6개월 내 EOL(End of Life) 예정 시스템
 
 3. Rehost (Lift & Shift):
    코드·아키텍처 변경 없이 클라우드로 이전
-   
+
    속도: 빠름 (가장 간단)
    비용: 초기 이전 이후 최적화 별도 필요
    예: VM → EC2 1:1 이전
@@ -44,20 +44,20 @@ AWS 클라우드 이전 6R 프레임워크:
 
 4. Replatform (이식):
    핵심 아키텍처 유지, 일부 최적화
-   
+
    예: DB → RDS (관리형 서비스), Tomcat → Elastic Beanstalk
    비용 절감 + 운영 부담 감소
 
 5. Repurchase (SaaS 재구매):
    기존 On-Premise 소프트웨어 → SaaS 교체
-   
+
    예: Exchange → Microsoft 365
        Siebel → Salesforce
    개발/운영 부담 완전 제거
 
 6. Refactor / Re-architect (재설계):
    클라우드 네이티브 아키텍처로 완전 재설계
-   
+
    예: 모놀리식 → MSA + 컨테이너
    비용: 가장 높음, 장기 이익 최대
    적용: 핵심 비즈니스 차별화 서비스
@@ -79,13 +79,13 @@ Repurchase SaaS 전환 유형:
 이메일/협업:
   On-Premise Exchange → Microsoft 365 (Exchange Online)
   On-Premise 파일서버 → SharePoint Online / Teams
-  
+
   장점: 라이선스+서버+패치 비용 제거
   비용: 사용자당 월 $12~35 (M365 E3)
 
 CRM:
   SAP CRM, Siebel → Salesforce
-  
+
   과정:
   1. 데이터 이전 (Customer, Account, Opportunity)
   2. 사용자 교육
@@ -95,7 +95,7 @@ CRM:
 ERP:
   SAP ECC → SAP S/4HANA Cloud
   Oracle EBS → Oracle Fusion Cloud
-  
+
   복잡도 최고: 핵심 비즈니스 프로세스
   기간: 1~3년
   비용: 수억~수백억
@@ -111,7 +111,7 @@ HR/급여:
   - 공통 비즈니스 기능 (이메일, HR)
   - 차별화 필요 없음
   - 빠른 전환 필요
-  
+
   자체 개발 적합:
   - 핵심 경쟁 우위 기능
   - 특수 비즈니스 프로세스
@@ -135,7 +135,7 @@ SaaS 데이터 이전 (Data Migration):
 
 2. 데이터 매핑:
    소스 스키마 ↔ SaaS 데이터 모델 매핑
-   
+
    예: Siebel → Salesforce
    Siebel: ACCOUNT.ACCOUNT_NAME → SF: Account.Name
    Siebel: S_CONTACT.FST_NAME → SF: Contact.FirstName
@@ -144,7 +144,7 @@ SaaS 데이터 이전 (Data Migration):
    Extract: 소스 DB에서 데이터 추출
    Transform: 매핑에 따라 변환 + 정제
    Load: Salesforce API로 업로드
-   
+
    도구: Informatica, Talend, MuleSoft, CSV + Data Loader
 
 4. 검증:
@@ -161,7 +161,7 @@ SaaS 데이터 이전 (Data Migration):
   간단: 이메일 (메일박스 이전)
   중간: CRM 고객 데이터
   복잡: ERP (수십 년 트랜잭션 이력)
-  
+
   ERP 이전 전략:
   신규 이력: SaaS
   구 이력: 아카이브 또는 레거시 병행
@@ -199,10 +199,10 @@ Salesforce 5년 TCO:
 추가 가치 고려:
   Salesforce: 자동 업그레이드 (신기능 포함)
   On-Premise: 업그레이드 프로젝트 별도 비용
-  
+
   Salesforce: 모바일·AI 기능 즉시 제공
   On-Premise: 추가 개발 필요
-  
+
   Salesforce: 글로벌 접근 (원격 근무)
   On-Premise: VPN 필수
 
@@ -210,7 +210,7 @@ TCO 결론:
   단기(3년): On-Premise 유리할 수 있음
   장기(5년+): SaaS 경쟁력 증가
   기회비용 포함 시: SaaS 우위
-  
+
   핵심: 숫자만 보지 말고 전략적 유연성 포함 평가
 ```
 
@@ -245,7 +245,7 @@ TCO 결론:
   메일 데이터: Exchange Migration (ExchangeGUID 매핑)
   공유 폴더: SharePoint Online 마이그레이션
   (SharePoint Migration Tool)
-  
+
   통합:
   SAP ↔ M365 (Azure AD SSO)
   Teams ↔ 화상회의 레거시 → Teams Rooms
@@ -256,7 +256,7 @@ TCO 결론:
   사용자 만족도: 4.2/5.0
   보안: ATP (Advanced Threat Protection) 도입
   원격근무 지원 크게 향상 (COVID-19 기간 중 완료)
-  
+
   교훈:
   "사용자 변화관리 80%, 기술 20%"
   현지화 교육이 채택률 결정적

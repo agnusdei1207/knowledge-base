@@ -69,7 +69,7 @@ SONET은 이 51.84Mbps짜리 OC-1 박스를 계속 곱해서 속도를 올립니
 SONET/[SDH](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/) 전송망이 수십 년간 국가 심장부를 지킨 절대적인 이유는 <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 치유(Self-Healing)</strong> 능력 때문입니다.
 
 - **링(Ring) 토폴로지 구성**: 전화국 A, B, C, D를 직선으로 잇지 않고 둥근 원(Ring) 모양으로 엮습니다. 그리고 광케이블을 무조건 **2가닥(Working 선 + Protect 선)** 깔아둡니다.
-- <strong>0.05초의 기적 (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/104_aps_advanced_planning_scheduling/">APS</a>, Automatic <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">Protection</a> Switching)</strong>: 
+- <strong>0.05초의 기적 (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/104_aps_advanced_planning_scheduling/">APS</a>, Automatic <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">Protection</a> Switching)</strong>:
   - 산사태가 나서 A와 B 사이의 주 회선(Working) 광케이블이 뚝 끊어졌습니다.
   - 끊어지자마자 SONET 프레임 앞부분에 있는 감시 꼬리표(Overhead) 센서가 "비상! A-B 단절!" 알람을 울립니다.
   - A와 B 장비는 찰나의 순간에 **50ms (0.05초)** 만에 스위치를 '딸깍' 돌려서, 트래픽을 예비 선로(Protect)로 밀어 넣어 반대 방향으로 원을 뺑 돌아서 가게 만듭니다. (우회 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)). 사람들은 통화가 끊긴 줄도 모릅니다.

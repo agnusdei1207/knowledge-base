@@ -21,7 +21,7 @@ tags = ["studynote-operating-system"]
 
 - **개념**: [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)([Edge Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/))은 컴퓨팅 자원을 중앙 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)가 아닌, 사용자와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스(센서, 카메라)와 물리적으로 가장 가까운 '가장자리(Edge)'에 전진 배치하는 아키텍처다. 엣지 OS는 이 제약된 하드웨어(Raspberry [Pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/), NVIDIA Jetson 등) 위에서 구동되도록 뼈대만 남긴 커스텀 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)다.
 
-- **필요성 (클라우드의 한계 극복)**: 
+- **필요성 (클라우드의 한계 극복)**:
   - 자율주행차가 시속 100km로 달리다 사람을 발견했다. 이 비전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 AWS 클라우드로 보내 판단을 기다리면(왕복 100ms) 차는 이미 사람을 친 뒤다.
   - 공장 센서에서 1초에 수기가바이트씩 쏟아지는 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 전부 클라우드로 올리면 통신망이 마비되고 통신비가 폭발한다.
   - **해결책**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 태어난 곳에서 즉시(1~10ms 이내) 1차 가공 및 추론(Inference)을 끝내야 한다. 이를 위해선 CPU, RAM, 전력이 극도로 모자란 엣지 기기에서 1초 만에 부팅되고 메모리를 거의 안 먹는 초경량 OS가 필수적이다.

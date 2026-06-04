@@ -45,7 +45,7 @@ VPC를 만들면, 192.168.x.x 같은 가짜 사설 IP 대역(CIDR) 덩어리를 
 - 인터넷 게이트웨이(IGW, 837번 문서)라는 정문과 직접 연결되어 있어, 누구나 들어오고 나갈 수 있습니다.
 
 ### 2. Private Subnet (비밀 방 / 내부 보안 구역) 🌟
-- **역할**: 외부 인터넷과 완전히 단절된, 창문 하나 없는 밀실입니다. 
+- **역할**: 외부 인터넷과 완전히 단절된, 창문 하나 없는 밀실입니다.
 - **적용**: 해커가 절대 해킹하면 안 되는 <strong>고객 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>(DB) 서버, 핵심 비즈니스 로직(WAS) 서버</strong> 등을 이 방에 꽁꽁 숨겨둡니다.
 - **접근 방법**: 이 비밀 방에 있는 DB 서버는 밖(인터넷)에서 절대로 직접 IP를 치고 들어올 수 없습니다. 오직 아까 Public Subnet에 띄워놓은 '안전한 우리 회사 웹 서버'만이 이 DB 서버에 1:1로 접속(East-West)하여 데이터를 빼 갈 수 있습니다(보안 격리망의 본질).
 
@@ -68,7 +68,7 @@ VPC를 만들면, 192.168.x.x 같은 가짜 사설 IP 대역(CIDR) 덩어리를 
 
 ## Ⅲ. 비교 및 연결
 
-- 수백만 기업의 VPC가 겹치지 않게 돌아가는 마법의 기반은 앞서 배운 817번의 <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/">VXLAN</a> (가상 확장 랜)</strong> 같은 오버레이 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 기술입니다. 
+- 수백만 기업의 VPC가 겹치지 않게 돌아가는 마법의 기반은 앞서 배운 817번의 <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/">VXLAN</a> (가상 확장 랜)</strong> 같은 오버레이 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 기술입니다.
 - 삼성이 `10.0.0.1`을 쓰고 구글도 `10.0.0.1`을 쓰더라도, VPC 소프트웨어 엔진이 밑바닥에서 터널 ID(VNI)를 다르게 씌워버리기 때문에 패킷이 절대 엉뚱한 회사 방으로 흘러 들어가지 않는 100% 논리적 격리성을 완성합니다.
 
 VPC를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. DSR가 기반 조건을 만든다면, VPC는 그 위에서 핵심 메커니즘을 구현하고, 클라우드 서브넷 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 인터넷 게이트웨이,…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.

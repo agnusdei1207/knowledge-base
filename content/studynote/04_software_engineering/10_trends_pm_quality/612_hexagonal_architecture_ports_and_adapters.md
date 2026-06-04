@@ -19,9 +19,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **육각형 (Hexagon)**: 코어 뇌에 꽂히는 외부 잡동사니(웹, DB, 메시지 큐)가 다방면으로 무한히 많다는 걸 보여주기 위해 육각형으로 그린 것.
-  - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a> (구멍/<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a>)</strong>: 코어(뇌)가 세상과 대화하기 위해 자기 몸에 뚫어놓은 '[USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 잭 구멍(Interface)'. 
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a> (구멍/<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a>)</strong>: 코어(뇌)가 세상과 대화하기 위해 자기 몸에 뚫어놓은 '[USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 잭 구멍(Interface)'.
   - <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">Adapter</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a>/변환기)</strong>: 밖의 220V 전기를 그 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 구멍에 맞게 깎아서 꽂아주는 통역사.
 
 - **필요성 (양방향 스파게티 침공의 멸망)**: 옛날엔 `Controller ➡ Service ➡ DB` 로 화살표가 무조건 밑으로 쏠렸다. 주니어가 `Service` 로직 안에 `@KafkaListener` 를 떡칠하고, 파싱 코드를 한가운데 쑤셔 박아 코어 뇌가 오염됐다. <strong>"비즈니스 로직은 순수한 수학 공식이어야 하잖아!! 왜 통신 프로토콜이 내 뇌를 직접 찌르게 냅둬?! 뇌 겉에다 '입력 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>' 하나만 뚫고, 밖에서 카프카용 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a> 따로 짜서 꽂아 넣게 분리해!!"</strong> 이 오염에 대한 강박적 혐오가 헥사고날 철창을 완성했다.

@@ -19,19 +19,19 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - 2006년 구글의 엔지니어들이 개발하여 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 편입시킨 시스템.
   - 프로세스들을 폴더(계층 트리)처럼 묶어두고, 각 폴더에 `cpu.max`, `memory.max` 같은 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 두어, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)와 메모리 관리자가 이 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값을 절대 넘지 못하게 가차 없이 목을 조르는(Throttling) 메커니즘.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 과거 리눅스는 자유민주주의(?)였다. 프로세스가 `malloc()`으로 메모리를 달라는 대로 줬다.
   - 학생 1명(특정 앱)이 도서관 자리를 혼자 100개 맡아버리거나, 식당 밥(CPU)을 혼자 다 먹어버려도 막을 규정이 없었다. 결국 다른 착한 학생(주요 데몬)들이 굶어 죽어 서버가 뻗었다([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)).
   - **해결책**: "사용자나 프로세스를 그룹으로 묶고, 그룹별로 하루 식량(CPU 2코어, 램 4GB)을 할당하자. 식량을 다 먹으면 다음 날까지 절대 더 주지 말고 굶겨라(Throttling)!"
 
   - **기존 OS**: 무한 리필 뷔페. 뚱뚱한 손님 한 명이 작정하고 고기를 다 쓸어가면, 뒤에 온 손님 수십 명은 먹을 게 없어 불만을 터뜨리고 식당이 망한다.
-  - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/">cgroups</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/">컨트롤 그룹</a>)</strong>: 철저한 고급 도시락 배급제. VIP석 손님(중요 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))에겐 3단 고기 도시락(CPU 4코어)을 보장하고, 일반석 손님에겐 김밥 한 줄(CPU 0.5코어)만 준다. 뷔페 음식이 아무리 많이 남아도 자기 도시락을 다 먹은 사람은 더 먹을 수 없다. 
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/">cgroups</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/">컨트롤 그룹</a>)</strong>: 철저한 고급 도시락 배급제. VIP석 손님(중요 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))에겐 3단 고기 도시락(CPU 4코어)을 보장하고, 일반석 손님에겐 김밥 한 줄(CPU 0.5코어)만 준다. 뷔페 음식이 아무리 많이 남아도 자기 도시락을 다 먹은 사람은 더 먹을 수 없다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 구글이 자신들의 거대한 데이터센터에서 수만 개의 검색 엔진 프로세스와 배치(Batch) 잡을 한 서버에 섞어 돌리려다 자원 충돌로 골머리를 앓자, 이를 해결하기 위해 직접 만들어 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 커뮤니티에 던진 기술이다.
 
 ```text
@@ -137,7 +137,7 @@ Cgroups는 단순히 "CPU, 램 제한" 하나로 끝나는 게 아니라 여러 
 ### 실무 시나리오 및 서버 튜닝
 
 1. <strong>시나리오 — <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a>(K8s) CPU Limit Throttling에 의한 10배 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 현상</strong>: 노드에 CPU 코어가 16개나 남아도는데, CPU Limit을 `200m` (0.2 코어)로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한 Node.js [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답 시간이 10ms에서 500ms로 엄청나게 튀는 현상이 터졌다. 앱 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)엔 에러도 없다.
-   - **원인 분석**: [Cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) CPU [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 제어의 잔혹성이다. 100ms(주기) 중 20ms([Quota](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/))만 실행이 허가된다. 만약 21ms가 걸리는 연산이 들어오면? 앱은 20ms를 처리한 뒤, 다음 주기가 올 때까지 무려 <strong>80ms 동안 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>에 의해 강제로 산소호흡기가 떼어지고 수면(Throttled)</strong> 상태에 빠진다. 1ms 연산을 위해 80ms를 징벌적으로 기다리는 끔찍한 병목이다. 
+   - **원인 분석**: [Cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) CPU [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 제어의 잔혹성이다. 100ms(주기) 중 20ms([Quota](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/))만 실행이 허가된다. 만약 21ms가 걸리는 연산이 들어오면? 앱은 20ms를 처리한 뒤, 다음 주기가 올 때까지 무려 <strong>80ms 동안 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>에 의해 강제로 산소호흡기가 떼어지고 수면(Throttled)</strong> 상태에 빠진다. 1ms 연산을 위해 80ms를 징벌적으로 기다리는 끔찍한 병목이다.
    - **아키텍트 판단 (CPU Limit 제거 튜닝)**: 이런 단발성 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Tail [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))에 민감한 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서는 아키텍트들이 과감한 결단을 내린다. K8s 매니페스트에서 <strong>CPU <code>requests</code>만 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>하고, CPU <code>limits</code>는 아예 지워버린다(Unbounded)</strong>. 이렇게 하면 평소에는 자원을 보장받고, 서버 코어가 남으면 10코어든 20코어든 Limit 없이 땡겨써서 스로틀링(Throttling) 자체를 회피한다. 넷플릭스 등 글로벌 기업들의 기본 K8s 튜닝 공식이다.
 
 2. <strong>시나리오 — OOMKilled가 아닌 System <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 패닉 사태</strong>: 메모리를 많이 먹는 DB [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 Limit을 안 걸고 배포했다. 어느 날 DB가 미쳐서 노드의 물리 램 128GB를 다 먹어버렸다. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)만 죽은 게 아니라, 호스트 서버의 리눅스 전체가 패닉에 빠져 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 에이전트([Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/))까지 죽고 노드가 뻗어버렸다.

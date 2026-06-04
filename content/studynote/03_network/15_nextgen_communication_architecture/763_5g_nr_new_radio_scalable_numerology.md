@@ -39,7 +39,7 @@ tags = ["studynote-network"]
 
 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) NR은 전파를 쏘는 운동장을 주파수 높낮이에 따라 크게 두 개의 리그(Frequency Range)로 완벽히 쪼개놓았습니다. 이것이 5G를 이해하는 가장 중요한 축입니다. (상세 내용은 764번, 765번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 
-1. **FR1 (Sub-6 GHz)**: 
+1. **FR1 (Sub-6 GHz)**:
    - **대역**: 410 MHz ~ 7.125 GHz 사이의 대역. (보통 "6GHz 이하 대역"이라 부름)
    - **특징**: 기존 4G LTE가 놀던 동네와 비슷해서 전파가 멀리 가고 장애물도 잘 넘습니다(커버리지 좋음). 하지만 엄청난 속도 뻥튀기는 힘듭니다. 현재 한국을 비롯한 전 세계가 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 상용망으로 깔고 있는 주력 대역(한국 3.5GHz)입니다.
 2. <strong>FR2 (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/">mmWave</a>, <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/">밀리미터파</a>)</strong>:
@@ -63,7 +63,7 @@ tags = ["studynote-network"]
 
 ### 1. 스케러블 뉴머롤로지 (Scalable Numerology) - "자유자재 블록"
 - 4G LTE는 도로([부반송파](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/)) 간격을 무조건 '15kHz'라는 1가지 규격으로만 찍어냈습니다.
-- [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) NR은 이 간격을 15, 30, 60, 120, 240kHz로 **마치 레고 블록처럼 상황에 맞게 2배수로 늘렸다 줄였다(Scalable) 할 수 있습니다.** 
+- [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) NR은 이 간격을 15, 30, 60, 120, 240kHz로 **마치 레고 블록처럼 상황에 맞게 2배수로 늘렸다 줄였다(Scalable) 할 수 있습니다.**
   - 속도가 필요한 넷플릭스는 간격을 넓게(120kHz) 해서 팍팍 쏘고, 멀리 가야 하는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서는 좁게(15kHz) 해서 쏘는 완벽한 융통성을 가졌습니다.
 
 ### 2. 유연한 슬롯 구조 (Mini-Slot)

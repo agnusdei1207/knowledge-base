@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 WBS (Work Breakdown Structure):
   프로젝트를 계층적 작업으로 분해
-  
+
   프로젝트
   ├── 모듈A
   │   ├── 설계: 5일, 1명
@@ -37,7 +37,7 @@ WBS (Work Breakdown Structure):
 
 합산:
   노력 = Σ (작업 × 인원 × 일수)
-  
+
   비용 = 노력 × 단가 + 비인력 비용
 
 상향식 장점:
@@ -54,7 +54,7 @@ WBS (Work Breakdown Structure):
 이중 검증:
   상향식 추정 + 하향식(유추) 비교
   차이 > 20% → 원인 분석
-  
+
   위험: 하향식 < 상향식
   → 범위 과소 측정 또는 팀 비효율
 
@@ -77,14 +77,14 @@ LOC 유형:
   물리적 LOC: 공백·주석 포함 모든 줄
   논리적 LOC (LLOC): 실행 가능 구문만
   SLOC (Source LOC): 주석·공백 제외
-  
+
   일반적으로 SLOC 사용
 
 LOC 기반 산정:
 
 1. 작업량(Effort) 추정:
    Effort = LOC / Productivity
-   
+
    예:
    예상 LOC: 10,000
    생산성: 200 LOC/인월
@@ -92,12 +92,12 @@ LOC 기반 산정:
 
 2. 비용 추정:
    Cost = Effort × Rate
-   
+
    50 인월 × 500만/월 = 2.5억
 
 3. 기간 추정:
    Duration = Effort / Team_Size
-   
+
    50 인월 / 5명 = 10개월
 
 LOC 측정 도구:
@@ -142,10 +142,10 @@ Cobol           107                레거시 비즈니스
   1 FP 기능을 구현하는 데:
   C: 128줄
   Python: 33줄
-  
+
   → C로 100,000 LOC = 781 FP
   → Python으로 100,000 LOC = 3,030 FP
-  
+
   LOC만으로 비교하면 Python이 3.9배 기능 더 많음!
   → LOC 기반 비교는 동일 언어에서만 유효
 
@@ -153,7 +153,7 @@ Cobol           107                레거시 비즈니스
   COBOL: 50~100
   Java:  150~300
   Python: 300~600
-  
+
   Python 팀이 LOC 적어도 더 많은 기능 구현 가능
 
 규모 추정 시 고려:
@@ -178,7 +178,7 @@ COCOMO II (Constructive Cost Model):
 
 기본 공식:
   PM = A × (Size)^E × ΠEM_i
-  
+
   PM: 노력 (인월, Person-Months)
   Size: KSLOC (천 줄 단위 SLOC)
   A: 2.94 (보정 상수)
@@ -187,12 +187,12 @@ COCOMO II (Constructive Cost Model):
 
 규모 효과 (Scale Factor):
   E = 0.91 + 0.01 × ΣSF_i
-  
+
   SF 예시:
   선례성 (Precedentedness): 유사 프로젝트 경험
   팀 응집성 (Team Cohesion)
   프로세스 성숙도 (Process Maturity)
-  
+
   E 범위: 0.91~1.23
 
 비용 드라이버 (EM, 일부):
@@ -204,11 +204,11 @@ COCOMO II (Constructive Cost Model):
 예시 계산:
   Size = 100 KSLOC, E = 1.05
   EM_RELY = 1.10, EM_CPLX = 1.30, EM_ACAP = 0.85
-  
+
   PM = 2.94 × (100)^1.05 × 1.10 × 1.30 × 0.85
      = 2.94 × 140 × 1.218
      = 501 인월
-  
+
   5년짜리 팀 10명 → 50개월 → 4.2년
 
 기간 추정:
@@ -255,11 +255,11 @@ LOC 검증:
 
 차이 분석:
   상향식 13.65 인월 vs LOC 75 인월
-  
+
   원인: 기존 ERP 위에 커스터마이징
   → 순수 신규 개발 LOC 비율 낮음
   → LOC 모델이 과대 추정
-  
+
   결론: 상향식이 더 현실적
   LOC는 레거시/커스터마이징에 부적합
 

@@ -24,13 +24,13 @@ tags = ["studynote-data-engineering"]
   Oozie:                    Airflow:
   workflow.xml              from airflow import DAG
   <workflow-app>            from airflow.operators import *
-    <action name="hive">    
+    <action name="hive">
       <hive>...</hive>      with DAG('etl', ...) as dag:
       <ok to="next"/>         t1 = HiveOperator(...)
       <error to="fail"/>      t2 = SparkSubmitOperator(...)
     </action>                 t1 >> t2
   </workflow-app>
-  
+
   XML 설정 → Python 코드
   복잡하고 장황 → 직관적
 ```
@@ -66,18 +66,18 @@ with DAG(
     start_date=datetime(2025, 1, 1),
     catchup=False,
 ) as dag:
-    
+
     extract = HiveOperator(
         task_id='extract',
         hql='INSERT INTO staging SELECT * FROM raw WHERE date = "{{ ds }}"'
     )
-    
+
     transform = SparkSubmitOperator(
         task_id='transform',
         application='/jobs/transform.py',
         application_args=['--date', '{{ ds }}']
     )
-    
+
     extract >> transform  # 의존성 정의
 ```
 

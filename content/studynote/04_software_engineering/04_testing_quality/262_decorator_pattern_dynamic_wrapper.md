@@ -70,9 +70,9 @@ tags = ["studynote-software-engineering"]
 
 핵심은 259번 어댑터와 똑같이 <strong>'내 뱃속에 똑같은 놈을 품는 것(합성 Composition)'</strong>입니다.
 
-1. <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">Component</a> (공통 껍데기)</strong>: 
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">Component</a> (공통 껍데기)</strong>:
    - `[커피]` 인터페이스입니다. `가격계산하기()` 라는 구멍이 있습니다.
-2. **ConcreteComponent (본체 알맹이)**: 
+2. **ConcreteComponent (본체 알맹이)**:
    - `[아메리카노]` 진짜 객체입니다. 가격은 3,000원입니다.
 3. **Decorator (마법의 포장지 뼈대) 🌟**:
    - `[커피]` 인터페이스를 똑같이 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a></strong>받습니다 (겉모습은 커피).

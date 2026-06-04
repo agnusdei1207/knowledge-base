@@ -60,7 +60,7 @@ tags = ["studynote-network"]
 컨트롤러와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 3가지 종류의 카톡(메시지)을 주고받으며 살아 숨 쉽니다.
 
 1. <strong>Controller-to-<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a> (컨트롤러 ➜ <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>) 메시지</strong>
-   - **하달**: "야 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)야, 내가 짜준 새 플로우 룰 장부(FlowMod) 지금 다운로드해서 칩셋에 적용해!" 
+   - **하달**: "야 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)야, 내가 짜준 새 플로우 룰 장부(FlowMod) 지금 다운로드해서 칩셋에 적용해!"
    - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 상태를 검사하거나, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 수정할 때 뇌가 일방적으로 지시하는 하향식 메시지입니다.
 2. <strong>Asynchronous (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> ➜ 컨트롤러) 비동기 메시지</strong>
    - **보고 (Packet-In) 🌟 핵심 🌟**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)로 처음 보는 낯선 패킷이 들어왔습니다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 자기 장부(플로우 테이블)를 뒤져봤는데 어떻게 하라는 룰이 없습니다(Miss). [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 패킷을 버리지 않고 냅다 컨트롤러에게 <strong>"형님! 처음 보는 놈인데 이거 어떻게 할까요?(Packet-In)"</strong>라고 무전을 쳐서 올려보냅니다.
@@ -82,8 +82,8 @@ OpenFlow를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 1세대 SDN을 화려하게 장식했지만, 치명적인 단점이 있었습니다. 
-- 패킷의 껍데기(IP, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 등) 수십 가지를 일일이 대조(Match)하려다 보니, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계의 비싼 메모리([TCAM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/591_tcam_packet_classification/))가 꽉 차서 수만 개의 룰을 심기 어려웠습니다(오버헤드). 
+- 1세대 SDN을 화려하게 장식했지만, 치명적인 단점이 있었습니다.
+- 패킷의 껍데기(IP, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 등) 수십 가지를 일일이 대조(Match)하려다 보니, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계의 비싼 메모리([TCAM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/591_tcam_packet_classification/))가 꽉 차서 수만 개의 룰을 심기 어려웠습니다(오버헤드).
 - 이를 타개하기 위해, 지금은 하드웨어 칩 자체의 프로그래밍을 뜯어고치는 <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/">P4</a>(874번 문서)</strong>나, 장비의 껍데기 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 파일만 가볍게 휙 던져주는 **NETCONF(875번)** 규약이 오픈플로우의 자리를 대신 위협하며 다음 세대로 진화 중입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

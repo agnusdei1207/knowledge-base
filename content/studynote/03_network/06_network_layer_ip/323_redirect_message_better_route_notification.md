@@ -40,7 +40,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 비효율적인 핀볼(Ping-Pong) 통신과 교정
-같은 192.168.0.0/24 동네에 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 1대와 2대의 라우터(R1, R2)가 물려있다. 
+같은 192.168.0.0/24 동네에 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 1대와 2대의 라우터(R1, R2)가 물려있다.
 - R1은 인터넷으로 가는 기본 게이트웨이다.
 - R2는 옆 건물 공장 전용망([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).x.x.x)으로 가는 직통 게이트웨이다.
 - PC의 게이트웨이는 R1(`192.168.0.1`) 하나만 덜렁 세팅되어 있다.
@@ -75,7 +75,7 @@ tags = ["studynote-network"]
 
 ### 2. 해커의 악용: [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Redirect 공격 (MITM)
 마치 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Spoofing처럼 너무 사람을 잘 믿어서 발생하는 치명적인 해킹 공격이다.
-해커가 같은 네트워크에 숨어서 내 PC로 <strong>가짜 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/">ICMP</a> Redirect(Type 5) 메시지</strong>를 날린다. 
+해커가 같은 네트워크에 숨어서 내 PC로 <strong>가짜 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/">ICMP</a> Redirect(Type 5) 메시지</strong>를 날린다.
 - 해커: "야 PC야, 구글(8.8.8.8)로 가려면 기본 게이트웨이 말고 내 노트북 IP(192.168.0.99)로 보내는 게 제일 빨라! 내 쪽으로 보내라!"
 - 멍청한 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/): "어머나 친절하셔라. 알겠습니다!" ([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 오염)
 - 결국 내 PC가 구글로 보내는 모든 비밀번호 패킷이 해커 노트북으로 줄줄이 납치당한다.

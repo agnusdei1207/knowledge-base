@@ -137,7 +137,7 @@ FaaS는 만능이 아니며 워크로드의 특성에 따라 [IaaS](/knowledge-b
 [서버리스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/215_serverless_architecture_faas_aws_lambda/)는 도입 초기에는 훌륭하지만, 트래픽이 거대해지면 기존 환경과는 전혀 다른 성격의 장애 병목을 유발한다.
 
 <strong>시나리오: RDBMS 커넥션 풀 고갈 현상 (치명적 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a>)</strong>
-가장 흔한 실패 사례는 FaaS에서 기존 온프레미스형 RDBMS(MySQL, [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))를 직접 호출하는 것이다. 
+가장 흔한 실패 사례는 FaaS에서 기존 온프레미스형 RDBMS(MySQL, [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))를 직접 호출하는 것이다.
 이 도식은 오토 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)되는 [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 환경이 백엔드 DB 연결 병목을 어떻게 유발하는지 시각화한다.
 ```text
 [Client / 클라이언트]        [API Gateway / API 게이트웨이]             [FaaS (AWS Lambda)]            [RDBMS]

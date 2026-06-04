@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: 여러 대의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 링(Ring) 형태나 다중 경로로 꼬여 있어, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 프레임이 목적지를 찾지 못하고 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들 사이를 영원히 맴도는 심각한 장애 현상이다.
 - **발생 이유 (이중화의 역설)**: 네트워크 관리자들은 선이 끊어지는 장애를 대비해 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) A, B, C를 서로 예비용([Backup](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/))으로 연결해 삼각형(Loop)을 만든다. 그런데 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 모르는 길을 물어볼 때 사방으로 방송(Flooding)하는 습성이 있어, 이 예비용 선로를 타고 방송이 다시 자기 자신에게 되돌아오는 재앙이 시작된다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - 루핑은 <strong>"거울 방(거울의 방)에 레이저 포인터를 쏜 것"</strong>과 같습니다. 한 줄기의 빛([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 거울([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))들에 끝없이 반사되어 방 전체가 눈이 부시게 하얘지고 아무것도 볼 수 없게 됩니다.
   - TTL이 없는 L2 루핑은 <strong>"브레이크가 고장 난 채 영원히 달리는 무한동력 열차"</strong>입니다.
 

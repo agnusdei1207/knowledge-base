@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 육지의 전파(RF) 통신과 바닷속 통신은 아예 우주가 다릅니다.
 
 1. **전자파의 죽음 (심한 감쇠)**: 물방울은 전파를 다 빨아먹습니다. 와이파이 전파는 물속에서 10cm, 초장파(VLF)를 써도 10m를 겨우 갑니다.
-2. **음파(Acoustic) 도입의 필수**: 돌고래처럼 음파(소리 파동)를 씁니다. 음파는 바닷속에서 수십 km를 날아갑니다. 
+2. **음파(Acoustic) 도입의 필수**: 돌고래처럼 음파(소리 파동)를 씁니다. 음파는 바닷속에서 수십 km를 날아갑니다.
 3. <strong>소리의 치명적 느림 (<a href="/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/">전파 지연</a> 폭발)</strong>: 전파(빛)는 1초에 30만 km를 가지만, 바닷속 소리는 1초에 고작 <strong>1,500m</strong>를 갑니다. 10km 밖의 잠수함에 핑(Ping)을 쏘면 왕복하는 데 무려 13초(13,000ms)가 걸리는 끔찍한 딜레이가 터집니다([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD 같은 기존 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 전면 붕괴).
 
 ```text
@@ -60,8 +60,8 @@ tags = ["studynote-network"]
 바닷속 소리 통신의 가장 큰 적은 느린 것보다 '메아리(Echo)'입니다.
 
 - **다중경로 반사의 저주**: 잠수함이 "안녕" 하고 소리를 지르면, 직선으로 날아가는 소리 외에도, 수면(파도)에 튕기고 바다 밑바닥(진흙)에 튕겨서 1초, 2초 뒤에 메아리가 되어 "녀영~" 하고 연속해서 도착합니다. 원래 신호와 메아리가 엉켜서 신호가 걸레짝(ISI 간섭)이 됩니다.
-- <strong>OFDM(직교 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/073_주파수_분할_다중화_FDM/">주파수 분할 다중화</a>)의 등판</strong>: 808번에서 배운 OFDM을 음파 통신에 적용합니다. 
-  - "안녕"이라는 소리를 1개의 큰 소리로 지르지 않고, 수천 개의 가느다란 주파수 톤으로 잘게 쪼갭니다(다중 [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/)). 
+- <strong>OFDM(직교 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/073_주파수_분할_다중화_FDM/">주파수 분할 다중화</a>)의 등판</strong>: 808번에서 배운 OFDM을 음파 통신에 적용합니다.
+  - "안녕"이라는 소리를 1개의 큰 소리로 지르지 않고, 수천 개의 가느다란 주파수 톤으로 잘게 쪼갭니다(다중 [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/)).
   - 그리고 소리 중간중간에 아주 길게 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 구간(Guard Interval)</strong>을 둬서, 앞에 쏜 소리의 메아리가 다 가라앉을 때까지 푹 기다렸다가 다음 소리를 쏩니다. 메아리가 섞이는 걸 원천 차단하여 바닷속에서 끊김 없는 영상 전송 수준의 광대역 신호를 뽑아냅니다.
 
 수중 통신을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 스마트 헬스케어 BAN가 기반 조건을 만든다면, 수중 통신은 그 위에서 핵심 메커니즘을 구현하고, [지중 통신](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/929_mi_magnetic_induction_underground_radio_communication/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.

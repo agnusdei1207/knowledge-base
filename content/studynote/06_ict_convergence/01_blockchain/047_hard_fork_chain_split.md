@@ -25,32 +25,32 @@ tags = ["studynote-ict-convergence"]
   새 규칙 ⊂ 이전 규칙 (더 엄격한 규칙)
   이전 노드: 새 블록을 유효하다고 판단 (OK)
   새 노드: 이전 블록을 무효로 판단
-  
+
   예: SegWit (Bitcoin, 2017)
   이전 노드: SegWit 트랜잭션을 "아무 사람이나 쓸 수 있는 출력"으로 봄 (유효)
   새 노드: 위트니스 서명 검증
-  
+
   체인 분리 없음 (과반수 지지 시)
 
 하드 포크 (Hard Fork):
   새 규칙 ≠ 이전 규칙 (비호환 변경)
   이전 노드: 새 블록을 무효로 판단 (거부)
   새 노드: 이전 블록을 무효로 판단
-  
+
   과반수 미달 → 두 체인 영구 공존
-  
+
 하드 포크 유형:
 
 1. 합의 하드 포크 (Consensual):
   커뮤니티 전체 동의 → 모두 업그레이드
   이전 체인 사실상 소멸
-  
+
   예: 이더리움 Merge (PoW→PoS)
   모든 노드 동의 → 단일 체인
 
 2. 논쟁 하드 포크 (Contentious):
   커뮤니티 분열 → 체인 분리
-  
+
   예: 비트코인 캐시 (BCH, 2017)
   비트코인에서 분리
   두 체인 독립 유지
@@ -68,18 +68,18 @@ tags = ["studynote-ict-convergence"]
 1. 이더리움 DAO 해킹 사건 (2016):
   배경:
   DAO(탈중앙 자율 조직) 3.6억 달러 해킹
-  
+
   커뮤니티 결정:
   "블록체인 불변성 vs 피해 복구"
-  
+
   하드 포크 찬성파 (ETH):
   특정 블록에서 해킹 트랜잭션 되돌리기
   → 오늘날 이더리움 (ETH)
-  
+
   하드 포크 반대파 (ETC):
   "블록체인은 불변이어야"
   → 이더리움 클래식 (ETC, 포크 전 체인)
-  
+
   결과:
   ETH: 현재 시총 2위 (대부분 채택)
   ETC: 소수 유지
@@ -88,10 +88,10 @@ tags = ["studynote-ict-convergence"]
   배경:
   비트코인 확장성 논쟁
   "블록 크기 1MB → 8MB"
-  
+
   찬성: 대형 블록으로 TPS 향상
   반대: "탈중앙화 저해"
-  
+
   결과:
   BTC: 1MB 유지 (SegWit 채택)
   BCH: 8MB 분리 → 이후 BSV 재분리
@@ -119,7 +119,7 @@ tags = ["studynote-ict-convergence"]
 문제:
   체인 분리 직후: A체인 = B체인 (동일 기록 공유)
   A체인 트랜잭션이 B체인에도 유효!
-  
+
   시나리오:
   A(ETH): Alice → Bob 10 ETH 서명 전송
   B(ETC): 동일 서명을 ETC 네트워크에 브로드캐스트
@@ -136,7 +136,7 @@ tags = ["studynote-ict-convergence"]
   ETH: chainId = 1
   ETC: chainId = 61
   BSC: chainId = 56
-  
+
   서명 = ECDSA(txData + chainId)
   → 다른 체인에서 서명 무효
 
@@ -167,17 +167,17 @@ tags = ["studynote-ict-convergence"]
 비트코인 거버넌스:
   BIP (Bitcoin Improvement Proposal)
   코어 개발자 + 채굴자 + 사용자 비공식 합의
-  
+
   BIP 상태:
   Draft → Accepted → Final/Rejected
-  
+
   채굴자 신호: "이 업그레이드 지지"
   임계값(예: 95%) 달성 → 활성화
 
 이더리움 거버넌스:
   EIP (Ethereum Improvement Proposal)
   이더리움 재단 + 클라이언트 팀 + 커뮤니티
-  
+
   EIP 과정:
   Draft → Review → Last Call → Final
   핵심 EIP: 하드 포크 포함 여부 결정
@@ -186,7 +186,7 @@ DAO 기반 거버넌스 (DeFi):
   Compound, Uniswap:
   토큰 보유자 → 온체인 투표
   → 프로토콜 업그레이드 결정
-  
+
   장점: 투명, 탈중앙
   단점: 토큰 집중 → 실질적 중앙화
   고래(Whale)가 과반수 토큰 보유 시 독점
@@ -210,7 +210,7 @@ Polkadot 거버넌스:
 상황:
   주요 블록체인 하드 포크 예정 (30일 후)
   거래소: 10개 블록체인 지원
-  
+
   이번 포크: 비트코인 X체인 논쟁 포크
   X체인 → XA체인 + XB체인 분리 예정
 
@@ -223,7 +223,7 @@ Polkadot 거버넌스:
 포크 당일 - 3시간 전:
   XA, XB 입출금 일시 중단
   (혼선 방지)
-  
+
   체인 분리 확인:
   두 체인 독립 실행 확인
   리플레이 보호 구현 여부 확인

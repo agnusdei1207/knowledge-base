@@ -136,7 +136,7 @@ SPL을 흔히 CBD([컴포넌트](/knowledge-base/studynote/04_software_engineeri
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
-실무에서 [SPL](/knowledge-base/studynote/04_software_engineering/03_design_architecture/187_spl_software_product_line_variability/) 도입 시 겪는 가장 치명적인 실패 원인은 '선제적 [도메인 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/170_domain_analysis/)(Proactive)'의 환상에 빠져 1년 내내 범용 아키텍처만 설계하다가 시장 진입 타이밍을 놓치는 것이다. 
+실무에서 [SPL](/knowledge-base/studynote/04_software_engineering/03_design_architecture/187_spl_software_product_line_variability/) 도입 시 겪는 가장 치명적인 실패 원인은 '선제적 [도메인 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/170_domain_analysis/)(Proactive)'의 환상에 빠져 1년 내내 범용 아키텍처만 설계하다가 시장 진입 타이밍을 놓치는 것이다.
 
 <strong>1. 실무 시나리오: 빅뱅 방식의 실패와 점진적 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/187_spl_software_product_line_variability/">SPL</a> 이관(Reactive Approach)</strong>
 - **상황**: 전자상거래 솔루션을 B2B, B2C, C2C용으로 분화시키기 위해, 기존 코드를 전면 폐기하고 2년간 완벽한 [SPL](/knowledge-base/studynote/04_software_engineering/03_design_architecture/187_spl_software_product_line_variability/) 코어 자산을 만들겠다는 계획(Big-bang)을 세움.

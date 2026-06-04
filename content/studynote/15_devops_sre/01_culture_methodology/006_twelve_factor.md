@@ -75,7 +75,7 @@ tags = ["devops_sre"]
      - 원격 실행 지원
 ```
 
-이 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)의 핵심은 12가지 원칙이 단순히"팁" 모음이 아니라, 애플리케이션의 개발→부서→운행→관측 전생명주기를カバー하는체계화된 framework라는 점이다. 각 원칙은상호에 연결되어 있어, 하나를 어기면 다른 원칙의 효과도타료절구된다. 예를 들어, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(③)을 코드에 하드코딩하면 개발/운영 환경 일치(⑨)는 불가능해지고, [무상태 프로세스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/012_stateless_processes/)(⑫)를 어기면 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)(⑭)과 [폐기 가능성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/015_disposability/)(⑮)은실효가ない. 
+이 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)의 핵심은 12가지 원칙이 단순히"팁" 모음이 아니라, 애플리케이션의 개발→부서→운행→관측 전생명주기를カバー하는체계화된 framework라는 점이다. 각 원칙은상호에 연결되어 있어, 하나를 어기면 다른 원칙의 효과도타료절구된다. 예를 들어, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(③)을 코드에 하드코딩하면 개발/운영 환경 일치(⑨)는 불가능해지고, [무상태 프로세스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/012_stateless_processes/)(⑫)를 어기면 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)(⑭)과 [폐기 가능성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/015_disposability/)(⑮)은실효가ない.
 
 > 📢 **섹션 요약 비유**: 12 팩터 앱은 건강을 위한 12가지 생활습관과 같다. 운동([코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/)), 식단([종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)), 수면([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)) 등이 모두관련되어 있으며, 기중 하나를 아무리 잘수っ고い고も 다른 것이 부실하면 전체 건강은개선されない.  12가지를 균형 있게실천해야 비로소 지속적 건강을 얻을 수 있다.
 

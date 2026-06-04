@@ -20,7 +20,7 @@ tags = ["studynote-database"]
 
 - **개념**: DIKW 피라미드는 데이터가 인간이나 기계에 의해 처리되고 해석됨에 따라 그 가치와 유용성이 기하급수적으로 상승하는 단계를 묘사한 모델이다. 하위 단계일수록 양(Quantity)은 많지만 의미(Meaning)는 희박하고, 상위 단계로 갈수록 양은 줄어들되 본질적인 가치와 통찰력은 깊어진다.
 - **💡 비유**: DIKW는 '원유를 정제하여 휘발유를 만드는 정유 과정'과 같다. 땅속에서 갓 퍼 올린 시커먼 원유(Data)는 그 자체론 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 어렵지만, 불순물을 제거하고 끓여서 등유나 경유(Information)로 만들고, 이를 자동차 엔진에 최적화된 연료로 가공(Knowledge)하여, 결국 이를 통해 전 세계를 여행하는 이동의 가치(Wisdom)를 창출하는 것과 같은 이치다.
-- **등장 배경**: 
+- **등장 배경**:
   지식 경영학자 러셀 [에코](/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/)프(Russell Ackoff) 등에 의해 대중화된 이 모델은, 정보 과잉 시대에 "무엇을 저장하고 어떻게 활용할 것인가"에 대한 답을 주기 위해 탄생했다. 초창기 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 단순히 '데이터 저장'에만 급급했으나, 이후 의사결정 지원 시스템(DSS)과 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))가 발전하면서 데이터에서 어떻게 지식과 지혜를 추출해 낼 것인가가 기업의 생존 경쟁력이 되었다. 현대 빅데이터 시대에는 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(거대 언어 모델)이 방대한 텍스트 데이터에서 인간 수준의 지혜를 흉내 내는 단계까지 도달하며 이 모델의 중요성이 재조명되고 있다.
 
 단순한 사실이 최상위 통찰로 응축되는 과정을 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하면 다음과 같다.
@@ -135,7 +135,7 @@ tags = ["studynote-database"]
 
 ### 실무 시나리오
 
-1. **시나리오 — 이커머스 쇼핑몰의 데이터 정체 및 가치 하락 사태**: 
+1. **시나리오 — 이커머스 쇼핑몰의 데이터 정체 및 가치 하락 사태**:
   **상황**: 매일 10TB의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Data)를 쌓고 있지만, 마케팅 팀은 "이 손님이 내일 뭘 살지 모르겠다"며 불평함. 시스템이 Data 단계에서 Information 단계로 넘어가지 못하는 '데이터 쓰레기장' 상태.
   **판단**: 아키텍트는 즉시 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">데이터 웨어하우스</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">DW</a>)와 BI(Business Intelligence) 툴</strong>을 융합 구축한다. 의미 없는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 유저별 구매 주기와 선호 카테고리(Information)로 정제하여 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한다. 여기서 그치지 않고 [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 도입해 "장바구니에 A를 담은 사람은 B를 80% [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 산다"는 지식(Knowledge)을 시스템에 주입한다. 결국 재구매 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 높은 고객에게 할인 쿠폰을 자동 발송하는 지혜(Wisdom)의 자동화 엔진을 완성하여 매출을 20% 펌핑시킨다.
 

@@ -19,7 +19,7 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터 과학은 불 대수(Boolean Logic)의 지배를 받았다. 참(True, 1) 아니면 거짓(False, 0)뿐이었다. 
+[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터 과학은 불 대수(Boolean Logic)의 지배를 받았다. 참(True, 1) 아니면 거짓(False, 0)뿐이었다.
 이 깐깐한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)로 세탁기를 만들려니 문제가 터졌다. "세탁물 5kg이 넘으면 물을 100L 넣어라!"라고 코딩했더니, 세탁물이 4.99kg일 때는 물을 50L만 넣어서 세탁기가 고장 난 것처럼 멍청하게 동작했다. 세상일은 0과 1처럼 칼로 자를 수 없기 때문이다.
 
 1965년, 로트피 자데(Lotfi Zadeh) 교수는 이 이분법적 컴퓨터에 인간의 '융통성'을 주입하기 위해 <strong>퍼지 로직 (Fuzzy Logic)</strong>을 창시했다. "어떤 원소가 집합에 속한다(1), 안 속한다(0)로 나누지 마라. <strong>키가 175cm인 사람은 '키가 큰 사람' 집합에 0.6만큼 속하고, '보통 키' 집합에 0.4만큼 속한다고 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>(소속도)로 표현하자!</strong>"
@@ -68,7 +68,7 @@ tags = ["studynote-ai"]
 ```
 
 **핵심 원리 (소속 함수와 비퍼지화)**:
-퍼지의 심장인 <strong>소속 함수(Membership Function)</strong>는 보통 세모($\triangle$)나 사다리꼴 모양으로 그린다. 이 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)가 겹치는 구간(회색 지대)이 융통성의 원천이다. 
+퍼지의 심장인 <strong>소속 함수(Membership Function)</strong>는 보통 세모($\triangle$)나 사다리꼴 모양으로 그린다. 이 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)가 겹치는 구간(회색 지대)이 융통성의 원천이다.
 마지막 단계인 <strong>비퍼지화(Defuzzification)</strong>는 퍼지 추론의 결론으로 나온 여러 개의 찌그러진 다각형 넓이들을 하나의 명확한 조향각이나 모터 속도(예: 34.5도)로 찍어내는 과정이다. 주로 다각형 전체 넓이의 중심 좌표(x축)를 구하는 <strong>무게 중심법(Centroid Method)</strong>이 가장 정밀하여 국룰로 쓰인다.
 
 | 요소 | 역할 |

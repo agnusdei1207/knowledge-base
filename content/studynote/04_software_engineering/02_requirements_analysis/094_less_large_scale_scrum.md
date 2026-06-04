@@ -103,7 +103,7 @@ LeSS의 뼈대는 철저하고 완벽한 단일화 구조인 '1-1-1 아키텍처
 
 ## Ⅴ. 기대효과 및 결론
 
-LeSS는 [대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/) 환경에서 흔히 겪는 조직의 팽창과 관료화, 의사결정의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) 문제를 "복잡성을 더하지 않는다"는 단 하나의 대원칙으로 정면 돌파한다. 
+LeSS는 [대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/) 환경에서 흔히 겪는 조직의 팽창과 관료화, 의사결정의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) 문제를 "복잡성을 더하지 않는다"는 단 하나의 대원칙으로 정면 돌파한다.
 
 오직 1명의 PO와 1개의 백로그를 향한 정렬은 거대 프로젝트가 방향을 잃지 않게 만드는 최고의 나침반이다. 비록 기존 관리 계층을 축소해야 하기에 경영진의 반발이 심하고 팀 간 자발적 조율이 고도화되어야 한다는 한계 전제조건이 있지만, 이 험난한 도입 문턱을 넘고 나면 조직 전체가 하나의 거대한 스타트업처럼 움직이는 기적을 맛볼 수 있다. "More with LeSS" — 더 큰 성과는 더 적은 규칙에서 나옴을 기억해야 한다.
 

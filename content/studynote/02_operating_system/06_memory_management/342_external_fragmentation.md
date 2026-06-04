@@ -59,7 +59,7 @@ tags = ["studynote-operating-system"]
 
 ### [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)를 통제하려는 동적 할당 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 발버둥
 
-외부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)가 생기는 것을 조금이라도 늦춰보려고 OS는 `First-fit(최초 적합)`, `Best-fit(최적 적합)`, `Worst-fit(최악 적합)` 이라는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 고안했다. 
+외부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)가 생기는 것을 조금이라도 늦춰보려고 OS는 `First-fit(최초 적합)`, `Best-fit(최적 적합)`, `Worst-fit(최악 적합)` 이라는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 고안했다.
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 동작 방식 | 외부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 관점에서의 결과 | 비유 |
 |:---|:---|:---|:---|

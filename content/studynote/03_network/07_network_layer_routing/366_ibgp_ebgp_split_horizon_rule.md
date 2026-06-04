@@ -76,9 +76,9 @@ tags = ["studynote-network"]
 
 ### 3. Full-Mesh 구조의 확장성 문제
 라우터가 3대(A, B, C)면 1:1로 맺을 iBGP 연결은 $3 \times (3-1)/2 = 3$개로 할 만하다.
-하지만 통신사처럼 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 라우터가 1,000대가 되면? 
-$1000 \times 999 / 2 = 499,500$개의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 179번 연결 세션이 필요하다. 
-이 50만 개의 세션을 라우터가 맺다가 CPU가 타버린다(확장성 붕괴). 
+하지만 통신사처럼 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 라우터가 1,000대가 되면?
+$1000 \times 999 / 2 = 499,500$개의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 179번 연결 세션이 필요하다.
+이 50만 개의 세션을 라우터가 맺다가 CPU가 타버린다(확장성 붕괴).
 이 끔찍한 노가다를 피하기 위해 등장한 꼼수가 바로 다음 장에 배울 <strong>Route Reflector(경로 반사기)</strong>다.
 
 - **📢 섹션 요약 비유**: ** iBGP 스플릿 호라이즌은 다단계 판매(루핑)를 금지하는 **"방문판매법"**입니다. 물건([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정보)은 본사(A)에서 지사장(B, C)에게만 팔 수 있고, 지사장이 다른 지사장에게 되파는 짓은 절대 금지됩니다. 그래서 본사(A)는 전국 모든 지사장과 일일이 계약(Full-Mesh)을 맺어야 하는 지옥의 노가다에 시달립니다.

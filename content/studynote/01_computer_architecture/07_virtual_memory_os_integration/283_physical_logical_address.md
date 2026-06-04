@@ -12,7 +12,7 @@ tags = ["studynote-computer-architecture"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) (Logical Address)는 프로세스가 바라보는 작업용 주소 공간이고, [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) ([Physical Address](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/))는 실제 주기억장치인 RAM (Random Access Memory) 칩에 찍히는 하드웨어 주소다.
-> 2. **가치**: 이 둘을 분리하면 모든 프로세스가 자기만의 0번지부터 시작하는 것처럼 실행되므로 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/), 재배치, 멀티태스킹이 동시에 가능해진다.
+> 2. **가치**: 이 둘을 분리하면 모든 프로세스가 자기만의 0번지부터 시작하는 것처럼 실행되므로 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/), 재배치, 멀티태스킹이 동시에 가능해진다.
 > 3. **판단 포인트**: 핵심은 주소를 "많이 주는 것"이 아니라, [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) ([Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/))가 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)를 얼마나 빠르고 안전하게 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)로 번역하느냐에 있다.
 
 ---
@@ -21,7 +21,7 @@ tags = ["studynote-computer-architecture"]
 
 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)와 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)의 분리는 프로그램이 보는 메모리 세계와 하드웨어가 가진 실제 메모리 배치를 분리하는 구조다. 프로그램은 보통 자신의 코드, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), 힙이 연속된 하나의 공간에 있다고 생각하지만, 실제 RAM은 운영체제가 여러 프로세스와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/), 입출력 버퍼를 섞어 배치한 조각난 공간일 수 있다. 이 간극을 그대로 노출하면 프로그램은 "내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 실제 어디 있는지"를 매번 알아야 하고, 다른 프로그램의 영역을 침범할 위험도 커진다.
 
-이 개념이 필요해진 이유는 멀티프로그래밍과 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) 때문이다. 하나의 물리 메모리를 여러 작업이 함께 쓰는 순간, 주소 체계를 분리하지 않으면 프로그램 충돌이 곧 시스템 장애로 이어진다. 반대로 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)를 도입하면 프로세스는 항상 같은 형태의 주소 공간을 사용하고, 운영체제는 뒤에서 실제 배치만 바꿔 끼우면 된다.
+이 개념이 필요해진 이유는 멀티프로그래밍과 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) 때문이다. 하나의 물리 메모리를 여러 작업이 함께 쓰는 순간, 주소 체계를 분리하지 않으면 프로그램 충돌이 곧 시스템 장애로 이어진다. 반대로 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)를 도입하면 프로세스는 항상 같은 형태의 주소 공간을 사용하고, 운영체제는 뒤에서 실제 배치만 바꿔 끼우면 된다.
 
 아래 그림은 "프로세스가 보는 주소"와 "하드웨어가 접근하는 주소"가 다른 계층에 속한다는 점을 보여준다.
 
@@ -95,7 +95,7 @@ tags = ["studynote-computer-architecture"]
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-예를 들어 4킬로바이트(KB) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쓰는 시스템에서 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)의 하위 12비트는 오프셋으로 그대로 유지된다. 상위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)만 다른 물리 프레임으로 바뀌므로, 프로그램은 연속 공간처럼 보이는 메모리를 사용하면서도 운영체제는 실제 RAM을 떨어진 여러 프레임에 나누어 배치할 수 있다. 이것이 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 유연성, 그리고 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/)의 기술적 출발점이다.
+예를 들어 4킬로바이트(KB) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쓰는 시스템에서 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)의 하위 12비트는 오프셋으로 그대로 유지된다. 상위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)만 다른 물리 프레임으로 바뀌므로, 프로그램은 연속 공간처럼 보이는 메모리를 사용하면서도 운영체제는 실제 RAM을 떨어진 여러 프레임에 나누어 배치할 수 있다. 이것이 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 유연성, 그리고 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/)의 기술적 출발점이다.
 
 **📢 섹션 요약 비유**: 택배 송장은 "아파트 101호"만 적지만, 물류센터는 내부 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)표를 보고 실제 배송 차량과 구역을 정한다. 주소 변환은 호수를 택배 동선으로 바꾸는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 작업과 같다.
 

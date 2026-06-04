@@ -41,9 +41,9 @@ tags = ["studynote-network"]
 
 ### NETCONF의 4계층 구조 (완벽한 구조화) 🌟
 NETCONF는 패킷을 보낼 때 4겹의 옷을 입습니다.
-1. **보안 전송 계층 (Secure Transport)**: 
+1. **보안 전송 계층 (Secure Transport)**:
    - 텔넷(Telnet) 같은 평문이 아니라, 무조건 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/">SSH</a> (<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/">Secure Shell</a>)</strong>나 TLS를 기반으로 암호화 파이프를 뚫어 해커의 감청을 완벽히 차단합니다.
-2. **메시지 계층 (Message)**: 
+2. **메시지 계층 (Message)**:
    - `<rpc>`, `<rpc-reply>` 태그를 사용하여 원격 절차 호출 구조(클라이언트-서버 통신)를 만듭니다.
 3. **오퍼레이션 계층 (Operations) 🌟**:
    - `edit-config` ([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 바꿔라), `get-config` ([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 가져와라) 같은 핵심 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)들이 들어갑니다.

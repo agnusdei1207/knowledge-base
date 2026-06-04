@@ -93,7 +93,7 @@ tags = ["studynote-software-engineering"]
 ```
 잔류 위험 (Residual Risk):
   대응 전략 적용 후에도 남아있는 위험
-  
+
   완화 후 잔류 위험:
     완화 전: 확률3, 영향4, 점수12 (높음)
     완화 후: 확률2, 영향3, 점수6  (중간)
@@ -101,10 +101,10 @@ tags = ["studynote-software-engineering"]
 
 보조 위험 (Secondary Risk):
   위험 대응 전략 실행으로 발생하는 새로운 위험
-  
+
   예: 외주 전가(Transfer) → 외주사 부도 위험 (보조)
   테스트 자동화(Mitigate) → 자동화 유지보수 위험 (보조)
-  
+
 위험 유발 원인(Trigger):
   위험 발생 징후 (Early Warning Signal)
   비상 계획 실행 기준점

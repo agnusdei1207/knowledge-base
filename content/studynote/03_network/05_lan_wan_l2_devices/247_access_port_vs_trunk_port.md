@@ -19,12 +19,12 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내부의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 논리적으로 설정하는 모드(Mode)다. 
-- **필요성**: 
+- **개념**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내부의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 논리적으로 설정하는 모드(Mode)다.
+- **필요성**:
   - 내 자리의 PC는 자신이 어느 VLAN에 속해 있는지 전혀 알지 못한다. PC는 단순히 순수한 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임을 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)로 보낼 뿐이다. 이때 PC가 꽂히는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 <strong>"이 선으로 들어오는 건 전부 <a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a> 10번이야"</strong>라고 미리 지정해 두어야(Access) 통신이 성립된다.
   - 반면, A [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 B [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 선 하나로 이을 때는, 그 선을 통해 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 20, [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 30 등 수많은 데이터가 동시에 건너가야 한다. 따라서 짐을 섞어 싣고 꼬리표를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 특수한 고속도로(Trunk) 모드가 필요하다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - <strong>접근 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(Access)</strong>: 각 부서([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/)) 방으로 들어가는 <strong>"개별 방문"</strong>입니다. 이 문을 나서는 사람은 누구나 당연히 그 방(영업부) 소속이므로 굳이 가슴에 소속 명찰(태그)을 달 필요가 없습니다.
   - <strong>트렁크 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(Trunk)</strong>: 여러 부서 사람들이 다 함께 타는 건물 중앙의 <strong>"공용 엘리베이터"</strong>입니다. 여기서는 영업부, 인사부 사람들이 섞여 있으므로, 내릴 층을 헷갈리지 않게 반드시 가슴에 소속 명찰([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 태그)을 달고 타야 합니다.
 

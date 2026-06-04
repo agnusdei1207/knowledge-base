@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/167_non_preemptive_scheduling/">비선점형 스케줄링</a> (Non-Preemptive)</strong>: 실행 중인 프로세스가 I/O를 요청하거나 스스로 종료할 때까지 CPU를 계속 독점하는 방식.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/166_preemptive_scheduling/">선점형 스케줄링</a> (Preemptive)</strong>: OS가 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)를 이용해 실행 중인 프로세스의 CPU를 강제로 회수하고, 다른 우선순위가 높은 프로세스에 할당할 수 있는 방식.
 
-- **필요성 (독재의 종식과 반응성 확보)**: 
+- **필요성 (독재의 종식과 반응성 확보)**:
   - [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)형 방식에서는 개발자가 실수로 `while(true)` 무한 루프 코드를 짜면, 그 프로세스가 CPU를 영원히 쥐고 놔주지 않아서 마우스도 안 움직이고 컴퓨터 전체가 먹통(Freeze)이 된다.
   - 시간이 중요한 대화형 시스템(사용자 입력)에서는, 다른 무거운 작업이 돌고 있더라도 내 키보드 입력이 즉시 처리되어야 한다.
   - **해결책**: 프로세스의 '자발적 양보'에 기대는 순진한 생각을 버리고, OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 타이머 칩(하드웨어)을 무기로 삼아 <strong>"시간 다 됐어! 강제 하차해!"</strong>라고 쫓아내는 선점형(강압적) 스케줄링이 필수적으로 대두되었다.

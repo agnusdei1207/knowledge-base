@@ -67,19 +67,19 @@ COBIT의 가장 강력한 내부 원리는 **목표 폭포수(Goals Cascade)** �
 ```text
 이 흐름도는 이해관계자의 요구가 어떻게 구체적인 프로세스 통제로 이어지는지 '목표 폭포수(Goals Cascade)'의 전개 과정을 보여준다.
 
-[1. 이해관계자 요구 (Stakeholder Drivers)] 
+[1. 이해관계자 요구 (Stakeholder Drivers)]
    "개인정보 유출로 인한 과징금(GDPR 등)을 피하고 싶다"
          │ (연계)
          ▼
-[2. 전사 목표 (Enterprise Goals)] 
+[2. 전사 목표 (Enterprise Goals)]
    "법적 규제 및 내부 정책을 100% 준수한다"
          │ (매핑)
          ▼
-[3. IT 관련 목표 (IT-related Goals)] 
+[3. IT 관련 목표 (IT-related Goals)]
    "IT 시스템의 민감 데이터 기밀성과 보안을 보장한다"
          │ (도출)
          ▼
-[4. 프로세스 통제 (Process / Enabler Goals)] 
+[4. 프로세스 통제 (Process / Enabler Goals)]
    "접근 제어 프로세스(DSS05) 확립, 주 1회 권한 검토, 모의 해킹 실시"
          │ (적용)
          ▼
@@ -193,7 +193,7 @@ COBIT은 1996년 첫 등장 이후 끊임없이 진화하며, 기업이 복잡�
 
 #### 미래 전망 및 표준
 *   **버전의 진화**: COBIT 5를 거쳐 현재는 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/005_cobit_2019/">COBIT 2019</a></strong> 체계로 발전하였다. COBIT 2019는 클라우드, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/), [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 등 현대적 IT 환경의 다변성을 수용하기 위해 '설계 요인(Design Factors)'을 도입하여 기업 맞춤형(Tailored) 거버넌스 구축을 강력히 지원한다.
-*   **미래 방향성**: 규제 컴플라이언스([GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/), 금융권 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 완화 등)가 갈수록 복잡해짐에 따라, COBIT은 인프라 코드에 통제 규칙을 내재화하는 [컴플라이언스 애즈 코드](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/525_compliance_as_code_automation/)([Compliance as Code](/knowledge-base/studynote/12_it_management/01_governance_strategy/048_compliance_as_code/)) 및 GRC 자동화 솔루션과 결합하는 형태로 진화하고 있다. 
+*   **미래 방향성**: 규제 컴플라이언스([GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/), 금융권 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 완화 등)가 갈수록 복잡해짐에 따라, COBIT은 인프라 코드에 통제 규칙을 내재화하는 [컴플라이언스 애즈 코드](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/525_compliance_as_code_automation/)([Compliance as Code](/knowledge-base/studynote/12_it_management/01_governance_strategy/048_compliance_as_code/)) 및 GRC 자동화 솔루션과 결합하는 형태로 진화하고 있다.
 
 📢 **섹션 요약 비유**: COBIT은 복잡한 IT 밀림에서 길을 잃지 않게 해주는 '전지전능한 지도'입니다. 지도 전체를 외울 필요는 없지만, 길을 잃었거나 새로운 길을 개척해야 할 때 가장 정확한 나침반 역할을 해줍니다.
 

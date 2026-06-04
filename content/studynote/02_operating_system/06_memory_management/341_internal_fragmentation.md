@@ -70,9 +70,9 @@ tags = ["studynote-operating-system"]
 ### 블록 크기(Block Size)와 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)의 상관관계 공식
 
 시스템 설계자는 이 "규격(Block Size)"을 정할 때 심각한 트레이드오프에 직면한다.
-- **[페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)를 키우면 (예: 4KB -> 4MB)**: 
+- **[페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)를 키우면 (예: 4KB -> 4MB)**:
   [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 크기가 줄어들고 디스크 I/O 효율이 좋아지지만, 프로세스당 버려지는 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 공간이 최대 3.99MB로 폭증한다. (메모리 낭비 심화)
-- **[페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)를 줄이면 (예: 4KB -> 512Byte)**: 
+- **[페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)를 줄이면 (예: 4KB -> 512Byte)**:
   내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 낭비는 최대 511Byte로 줄어들지만, 수억 개의 조각이 생겨 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)이 메모리의 절반을 차지해버리는 배보다 배꼽이 큰 상황이 발생한다.
 
 ```text

@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> (<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/">Translation Lookaside Buffer</a>)</strong>: "주소 변환(Translation)을 위해 옆에(Lookaside) 빼둔 버퍼(Buffer)". 최근에 사용된 가상 주소와 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)의 쌍(Pair)을 저장해 두는 CPU 내부의 연관 메모리(Associative Memory).
   - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/358_tlb_hit_miss/">TLB Hit</a></strong>: 요청한 가상 주소의 매핑 정보가 TLB에 존재함.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> Miss</strong>: 요청한 가상 주소의 매핑 정보가 TLB에 없어서, 메모리의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 직접 뒤져야 함.
 
-- **필요성 (2배로 느려지는 메모리 접근 방어)**: 
+- **필요성 (2배로 느려지는 메모리 접근 방어)**:
   - [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)을 도입해서 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)는 잡았지만, 속도에 치명적인 문제가 생겼다.
   - CPU가 `x = 10` 이라는 값을 읽으려면, 1) 먼저 램에 있는 '[페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)'을 읽어서 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)를 찾고, 2) 그 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)로 다시 램에 가서 10을 가져와야 한다. 즉, 메모리에 접근할 때마다 <strong>2번의 메모리 I/O</strong>가 발생하여 속도가 반토막 났다 ([Memory Wall](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/)).
   - **해결책**: 인간의 뇌(캐시)를 쓰자. 방금 찾아본 주소 번역 결과는 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 칩셋 내부의 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 캐시([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/))에 저장해 두고, 다음번엔 램까지 안 가고 여기서 바로 꺼내 쓰게 만들었다.

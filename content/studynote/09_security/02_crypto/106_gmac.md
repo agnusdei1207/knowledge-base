@@ -99,7 +99,7 @@ GMAC 단독으로는 [데이터](/knowledge-base/studynote/05_database/01_db_arc
 
 ## Ⅴ. 기대효과 및 결론
 
-GMAC은 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 암호 연산이라는 물리적 족쇄를 끊어내고 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 연산(수학)이라는 우회로를 통해 대규모 트래픽 시대의 목마름을 완벽히 해결했다. 
+GMAC은 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 암호 연산이라는 물리적 족쇄를 끊어내고 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 연산(수학)이라는 우회로를 통해 대규모 트래픽 시대의 목마름을 완벽히 해결했다.
 
 다만 성능과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 능력을 극한으로 끌어올린 대가로 "단 한 번의 [Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/) 재사용도 용납하지 않는" 가혹한 취약성 관리의 책임을 개발자에게 넘겼다. 결론적으로 하드웨어 가속(PCLMULQDQ) 버프를 받은 GMAC은 사실상 지구상에서 가장 효율적인 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 엔진이며, 인터넷 보안의 절대 표준인 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3과 IPsec이 GCM을 기본으로 채택할 수밖에 없었던 공학적 승리다.
 

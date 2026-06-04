@@ -19,10 +19,10 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-대기업이나 메이저 IT 회사에서는 1년에도 수백 개의 소프트웨어 프로젝트가 동시에 돌아간다. 
+대기업이나 메이저 IT 회사에서는 1년에도 수백 개의 소프트웨어 프로젝트가 동시에 돌아간다.
 "A팀은 보안 검수도 안 하고 오픈해서 해킹당하고", "B팀과 C팀은 똑같은 결제 모듈을 각자 돈 들여 개발하고", "D팀은 프로젝트가 6개월 지연됐는데 사장님한테는 90% 완료됐다고 거짓말"을 하는 끔찍한 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 현상이 벌어진다.
 
-PM(프로젝트 매니저)들은 당장 자기 프로젝트 일정 맞추기에 급급해서 회사 전체의 이익이나 표준 품질(Quality)을 챙길 여력이 없다. 
+PM(프로젝트 매니저)들은 당장 자기 프로젝트 일정 맞추기에 급급해서 회사 전체의 이익이나 표준 품질(Quality)을 챙길 여력이 없다.
 
 이 무법지대를 통제하기 위해, <strong>"모든 프로젝트가 회사의 표준 규칙(방법론)대로 돌아가는지 감시하고, PM들이 공통으로 필요한 템플릿과 인력을 지원해 주는 중앙 관제탑"</strong>을 세우기로 했다. 이것이 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/">PMO</a>(<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/">Project Management Office</a>)</strong>다.
 

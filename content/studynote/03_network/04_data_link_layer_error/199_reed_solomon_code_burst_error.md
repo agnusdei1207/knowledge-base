@@ -43,7 +43,7 @@ tags = ["studynote-network"]
    - 전송할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조각(점들)을 지나는 하나의 부드러운 수학적 곡선([다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/))을 그립니다.
    - 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 10개라면, 그 곡선을 따라 여분의 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 점(패리티 심볼) 4개를 더 찍어서 <strong>총 14개의 점</strong>을 수신기로 날려 보냅니다. (이것이 잉여 비트입니다.)
 2. **수신과 에러 복원**:
-   - 우주 공간을 날아가다 운석(노이즈)에 맞아 중간에 있는 점 2개가 통째로 날아갔습니다. 
+   - 우주 공간을 날아가다 운석(노이즈)에 맞아 중간에 있는 점 2개가 통째로 날아갔습니다.
    - 수신기는 14개 중 무사히 도착한 12개의 점을 모읍니다. 그리고 **이 12개의 점을 지나는 유일한 곡선을 수학적으로 다시 그려봅니다(방정식 풀기).**
    - 곡선을 다시 그려보니, 앗! 아까 날아갔던 빈 공간에 원래 어떤 점이 있었어야 했는지 그 위치와 값이 수학적으로 100% 완벽하게 유추(복원)됩니다!
 

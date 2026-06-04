@@ -31,8 +31,8 @@ tags = ["studynote-network"]
    - NAK를 받은 송신기는 보관 중이던 1번 프레임을 다시 쏩니다.
 3. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 아예 증발 (분실) 시</strong>:
    - 송신기가 0번을 쐈는데, 라우터가 뻗어서 0번이 공중 분해됐습니다.
-   - 수신기는 아무것도 안 왔으니 ACK도 안 보냅니다. 
-   - 송신기의 <strong>초시계(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/">Timeout</a> 타이머)</strong>가 다 돌아가 버립니다(Time Out). 
+   - 수신기는 아무것도 안 왔으니 ACK도 안 보냅니다.
+   - 송신기의 <strong>초시계(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/">Timeout</a> 타이머)</strong>가 다 돌아가 버립니다(Time Out).
    - 송신기는 "아, 가다가 죽었나 보네"라며 혼자 판단하고 0번 프레임을 무조건 재전송합니다.
 
 ```text
@@ -53,7 +53,7 @@ tags = ["studynote-network"]
 정지-대기 ARQ는 칩셋을 아주 싸고 단순하게 만들 수 있다는 장점 외에는 모든 것이 최악입니다.
 
 - **전송 효율(Utilization) 지옥**:
-  태평양을 건너는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 광케이블 100Gbps 망을 깔아놓았다고 칩시다. 
+  태평양을 건너는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 광케이블 100Gbps 망을 깔아놓았다고 칩시다.
   송신기가 눈곱만 한 1바이트짜리 패킷 하나를 쏘고, 그 패킷이 미국을 찍고 ACK로 돌아올 때까지 <strong>수백 밀리초(ms) 동안 그 어마어마한 광케이블 고속도로에는 단 하나의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>도 날아가지 않고 텅텅 빈 상태로 방치</strong>됩니다.
 - 송신기가 초당 100만 개를 쏠 수 있는 엔진을 가졌어도, 핑퐁을 기다리느라 하루 종일 1만 개도 못 쏘는 끔찍한 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비가 발생합니다.
 

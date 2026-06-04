@@ -55,18 +55,18 @@ tags = ["studynote-security"]
    SIEM 연동 안 된 시스템
    레거시 장비 (로그 생성 안 됨)
    클라우드 워크로드 미등록
-   
+
 2. 낮은 신호 대 잡음비:
    하루 로그 수백만 건 중 공격 신호
    알람 피로(Alert Fatigue) -> 진짜 경보 놓침
-   
+
 3. 고도화된 공격:
    LOLBAS (Living-off-the-Land):
      정상 툴(PowerShell, certutil) 사용
      -> 행위 자체는 정상 처럼 보임
    침묵 공격 (Low and Slow):
      오랜 기간 조용히 정보 수집
-     
+
 4. 위협 인텔리전스 부재:
    최신 IoC(침해 지표) 업데이트 안 됨
    신규 TTPs(전술/기술/절차) 미반영
@@ -86,17 +86,17 @@ tags = ["studynote-security"]
 
 MTTD (Mean Time to Detect):
   공격 시작부터 탐지까지 평균 시간
-  
+
   글로벌 평균: ~197일 (IBM Cost of a Breach 2023)
   우수 조직: < 30일
-  
+
   MTTD가 긴 이유:
     APT(지능형 지속 위협): 수개월간 잠복
     합법적 자격증명 사용 -> 탐지 어려움
 
 MTTR (Mean Time to Respond/Recover):
   탐지부터 격리/복구까지 평균 시간
-  
+
   글로벌 평균: ~70일
   목표: < 1시간 (자동화된 플레이북)
 
@@ -131,16 +131,16 @@ MTBF (Mean Time Between Failures):
 2. 위협 인텔리전스 (CTI):
    MISP, OpenCTI로 IoC 자동 업데이트
    SIEM에 실시간 위협 피드 연동
-   
+
 3. 침투 테스트 / 레드팀:
    주기적 외부 관점 공격 시뮬레이션
    TIBER-EU: 금융권 레드팀 프레임워크
-   
+
 4. SOC 고도화:
    UEBA (사용자/개체 행위 분석):
    -> 정상 기준선 학습 후 이상 행위 탐지
    -> 내부자 위협, LOLBAS 탐지에 유효
-   
+
 5. 자동화 대응 (SOAR):
    탐지 즉시 자동 격리/알림
    MTTR < 분 단위로 단축

@@ -50,19 +50,19 @@ SUB=1: S = A + ~B + 1  (뺄셈, 2의 보수)
 Ripple Carry Adder (RCA):
   각 FA의 Carry-Out이 다음 FA의 Carry-In으로
   전달 지연: n × t_FA  (n=비트 수, t_FA=FA 지연)
-  
+
   4비트: 4 × t_FA
   32비트: 32 × t_FA  (느림!)
 
 Carry Lookahead Adder (CLA):
   Generate: G_i = A_i AND B_i  (항상 올림 생성)
   Propagate: P_i = A_i XOR B_i  (올림 전파)
-  
+
   C_i+1 = G_i OR (P_i AND C_i)
-  
+
   모든 Carry를 병렬로 미리 계산
   지연: O(log n) (2단계 로직 게이트)
-  
+
   32비트 CLA vs RCA:
   RCA: ~32 t_FA
   CLA: ~4-5 게이트 지연 (블록 CLA)
@@ -86,7 +86,7 @@ Carry Lookahead Adder (CLA):
 오버플로 검출 회로:
   V = C_n XOR C_(n-1)
   (MSB Carry-Out XOR MSB Carry-In)
-  
+
   V = 1이면 오버플로 발생
 
 예시 (4비트 부호 있는):
@@ -133,7 +133,7 @@ Carry Lookahead Adder (CLA):
 RISC-V 32비트 ALU:
   32비트 CLA 기반 가감산기
   SUB 신호: rs2를 반전 + Carry-In=1
-  
+
   NZVC 플래그 -> 조건 분기 명령어에 활용:
     BEQ (Branch if Equal):  Z=1
     BNE (Branch if Not Equal): Z=0

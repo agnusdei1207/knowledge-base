@@ -20,7 +20,7 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 모든 현대 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/), [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 키, [전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/) 등)의 근간은 '예측 불가능한 무작위 비밀키(난수)'를 얼마나 잘 만들어내느냐에 달려 있습니다.
-- <strong>기존 PRNG (의사 <a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/">난수 생성기</a>, Pseudo-RNG)</strong>: 현재 소프트웨어가 만드는 난수(C언어의 `rand()` 등)는 컴퓨터의 시계(Time)나 마우스 커서의 움직임을 씨앗(Seed) 삼아 복잡한 수학 공식을 돌려 만든 '가짜 난수'입니다. 
+- <strong>기존 PRNG (의사 <a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/">난수 생성기</a>, Pseudo-RNG)</strong>: 현재 소프트웨어가 만드는 난수(C언어의 `rand()` 등)는 컴퓨터의 시계(Time)나 마우스 커서의 움직임을 씨앗(Seed) 삼아 복잡한 수학 공식을 돌려 만든 '가짜 난수'입니다.
 - **해커의 공격**: 패턴과 씨앗 값을 알아내면 해커의 슈퍼컴퓨터가 "아, 얘가 1분 뒤에 뽑아낼 암호키는 `A7X9`겠네!"라고 100% 예측하여 암호를 무혈입성으로 뚫어버리는 치명적 결함이 있었습니다. (양자 컴퓨터의 쇼어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 위협과 별개의 본질적 위협)
 
 ```text

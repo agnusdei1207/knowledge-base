@@ -66,7 +66,7 @@ tags = ["studynote-network"]
 
 이 쓰레기 같은 전파 성질을 멱살 잡고 통신망으로 만든 기술들입니다.
 
-1. <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/">스몰셀</a> (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/">Small Cell</a>) 초밀집 도배</strong>: 
+1. <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/">스몰셀</a> (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/">Small Cell</a>) 초밀집 도배</strong>:
    - 전파가 100m밖에 못 가니까, 강남역 가로등과 전봇대, 편의점 천장마다 100m 간격으로 10만 개의 미니 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)([스몰셀](/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/))를 벌집처럼 촘촘하게 도배해 버리는 무식한 하드웨어 공해(원가 폭발)로 커버리지를 덮었습니다.
 2. <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">빔포밍</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">Beamforming</a>) 🌟</strong>:
    - 허공으로 동그랗게 쏘면 산소에 깎여 10m도 못 가니, 100개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 칩을 모아 에너지를 하나로 뭉친 뒤, 움직이는 내 스마트폰을 향해 레이저 포인트처럼 집중해서 쏘는(지향성 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)) 흑마법으로 뚫고 나가는 힘을 100배 키워 거리를 간신히 1km로 늘렸습니다. (926번 연계)

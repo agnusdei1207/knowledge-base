@@ -47,7 +47,7 @@ tags = ["security"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-CIA Triad를 구현하기 위해 시스템은 다양한 보안 통제([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Control)를 계층적으로 적용한다. 
+CIA Triad를 구현하기 위해 시스템은 다양한 보안 통제([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Control)를 계층적으로 적용한다.
 
 | 구성 요소 | 역할 및 목적 | 내부 동작 메커니즘 | 관련 기술 및 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 실무 비유 |
 |:---|:---|:---|:---|:---|
@@ -60,7 +60,7 @@ CIA Triad를 구현하기 위해 시스템은 다양한 보안 통제([Security]
 보안 통제가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에 어떻게 적용되는지 살펴보자. 다음은 클라이언트가 서버의 자산에 접근하는 과정에서 CIA 요소가 단계별로 개입하는 흐름도이다.
 
 ```text
-[Client] 
+[Client]
    │ (1. 기밀성: TLS 암호화 채널 형성)
    ▼
 [API Gateway / WAF] -- (2. 가용성: 트래픽 필터링 및 Rate Limiting)
@@ -68,7 +68,7 @@ CIA Triad를 구현하기 위해 시스템은 다양한 보안 통제([Security]
    ├─> [인증/인가 서버] (3. 기밀성: RBAC 기반 권한 검증)
    │
    ▼
-[Application Server] 
+[Application Server]
    │
    ├─> (4. 무결성: 입력 데이터 Hash 검증 및 SQL Injection 방지)
    │
@@ -150,7 +150,7 @@ CIA 모델은 직관적이지만 현대의 복잡한 비즈니스 요구사항�
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-CIA Triad를 기반으로 설계된 [보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/)는 조직의 자산 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)와 비즈니스 연속성 확보에 결정적인 기여를 한다. 
+CIA Triad를 기반으로 설계된 [보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/)는 조직의 자산 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)와 비즈니스 연속성 확보에 결정적인 기여를 한다.
 
 | 기대효과 구분 | 도입 전 (Ad-hoc 보안) | 도입 후 (CIA 기반 체계적 보안) | 정량/정성 지표 |
 |:---|:---|:---|:---|

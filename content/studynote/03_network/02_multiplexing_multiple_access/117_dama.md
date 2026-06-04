@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-[위성 통신](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/)(Satellite Communication) 환경에서 위성 중계기 자원은 매우 희소하고 비싸다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)의 [PAMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/118_pama/) ([Pre-Assigned Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/118_pama/)) 방식은 노드 간 통신 빈도에 상관없이 전용 주파수나 타임 슬롯을 고정적으로 할당하였다. 이는 지속적인 대용량 트래픽 통신에는 적합하지만, 대부분의 지상국(Earth [Station](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/))이나 VSAT(Very Small Aperture Terminal) 노드들이 간헐적이고 돌발적인 트래픽(예: 은행 결제망, 원격 검침)을 발생시키는 환경에서는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비가 극심했다. 
+[위성 통신](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/)(Satellite Communication) 환경에서 위성 중계기 자원은 매우 희소하고 비싸다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)의 [PAMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/118_pama/) ([Pre-Assigned Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/118_pama/)) 방식은 노드 간 통신 빈도에 상관없이 전용 주파수나 타임 슬롯을 고정적으로 할당하였다. 이는 지속적인 대용량 트래픽 통신에는 적합하지만, 대부분의 지상국(Earth [Station](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/))이나 VSAT(Very Small Aperture Terminal) 노드들이 간헐적이고 돌발적인 트래픽(예: 은행 결제망, 원격 검침)을 발생시키는 환경에서는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비가 극심했다.
 
 DAMA (Demand Assignment [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))는 이러한 한계를 타파하기 위해 등장한 혁신적 패러다임이다. 노드들이 평소에는 공통 제어 채널만 주시하다가, 통신할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 생겼을 때만 중앙 제어기(NCC)에 채널을 요청하여 임시 대역을 부여받고, 통신이 끝나면 즉각 반납하는 방식을 취한다. 이는 한정된 위성 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)으로 실제 물리적 채널 수보다 훨씬 많은 노드를 수용해야 하는 현대 비즈니스 통신망의 핵심 요구를 완벽히 해결한다.
 
@@ -127,7 +127,7 @@ DAMA 시스템을 실제 위성망(예: 국방 전술망, [해상 통신망](/kn
    │   └─ 아니오
    │        │
    │        ├─ 2. 공통 제어 채널(CSC)의 충돌률(Collision Rate)이 급증했는가?
-   │        │   ├─ 예 => [진단] 할당 요청(Request) 패킷들이 Slotted ALOHA 경쟁에서 서로 충돌하여 파괴됨. 
+   │        │   ├─ 예 => [진단] 할당 요청(Request) 패킷들이 Slotted ALOHA 경쟁에서 서로 충돌하여 파괴됨.
    │        │   │        => [조치] 제어 채널 대역폭 확대 또는 백오프 알고리즘 튜닝 필요.
    │        │   └─ 아니오 => [진단] 위성 링크 자체의 물리적 감쇠(Rain Fade 등) 확인 필요.
 ```

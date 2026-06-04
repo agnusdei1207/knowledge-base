@@ -70,7 +70,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 아키텍처가 클라우드 시대를 지배한 치명적 이유입니다.
-- <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a></strong>: 서버는 클라이언트(폰)의 과거 상태(로그인 여부 등)를 절대 기억하지 않습니다. 
+- <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a></strong>: 서버는 클라이언트(폰)의 과거 상태(로그인 여부 등)를 절대 기억하지 않습니다.
 - 클라이언트는 매번 요청(GET)을 날릴 때마다 "저 로그인 한 철수인데요, 5번 유저 주세요"라고 토큰(인증표)을 패킷에 포함해서 쏴야 합니다.
 - **클라우드의 축복**: 서버가 고객의 기억(상태)을 뇌(RAM)에 저장하지 않으니 서버가 엄청 가벼워집니다. 트래픽이 폭주해서 카카오 서버를 1대에서 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000대로 늘려도([Scale-Out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)), எந்த 서버로 요청이 들어가든 100% 완벽하게 처리됩니다.
 

@@ -19,9 +19,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-웹 애플리케이션을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하기 위해 기업들은 수십 년간 [웹 방화벽](/knowledge-base/studynote/03_network/19_frequent_topics_terms/993_waf_web_application_firewall/)([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/), [Web Application Firewall](/knowledge-base/studynote/09_security/05_web_app_security/242_waf_web_application_firewall_l7_protection/))을 시스템 앞단에 세워두었다. WAF는 네트워크 트래픽을 감시하며 `<script>`나 `SELECT` 같은 단어가 보이면 공격으로 간주하고 차단했다. 
+웹 애플리케이션을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하기 위해 기업들은 수십 년간 [웹 방화벽](/knowledge-base/studynote/03_network/19_frequent_topics_terms/993_waf_web_application_firewall/)([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/), [Web Application Firewall](/knowledge-base/studynote/09_security/05_web_app_security/242_waf_web_application_firewall_l7_protection/))을 시스템 앞단에 세워두었다. WAF는 네트워크 트래픽을 감시하며 `<script>`나 `SELECT` 같은 단어가 보이면 공격으로 간주하고 차단했다.
 
-하지만 WAF는 치명적인 한계가 있었다. 암호화된 트래픽([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))을 까보기 어렵고, 방어 룰(Rule)을 우회하는 신종 해킹 기법 앞에서는 속수무책이었으며, 무엇보다 이 트래픽이 실제로 서버 내부에서 어떻게 작동하는지(문맥) 전혀 알 수 없어 수많은 '오탐(False Positive)'을 낳았다. 
+하지만 WAF는 치명적인 한계가 있었다. 암호화된 트래픽([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))을 까보기 어렵고, 방어 룰(Rule)을 우회하는 신종 해킹 기법 앞에서는 속수무책이었으며, 무엇보다 이 트래픽이 실제로 서버 내부에서 어떻게 작동하는지(문맥) 전혀 알 수 없어 수많은 '오탐(False Positive)'을 낳았다.
 
 이를 해결하기 위해 가트너(Gartner)가 제안한 개념이 <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/">RASP</a>(<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/">Runtime Application Self-Protection</a>)</strong>다. 성벽([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)) 밖에서 적을 막는 대신, 애플리케이션 자체에 '자가 면역 세포(Agent)'를 심어 공격이 실제 실행되기 직전에 심장부에서 차단하자는 혁신적인 아이디어다.
 

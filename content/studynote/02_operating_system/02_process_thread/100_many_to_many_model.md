@@ -85,7 +85,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅴ. 기대효과 및 결론
 
-다대다 모델은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 자원의 엄격한 제한 안에서 응용 프로그램에게 무한한 논리적 실행 흐름을 허락하는 궁극의 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 패러다임이다. 
+다대다 모델은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 자원의 엄격한 제한 안에서 응용 프로그램에게 무한한 논리적 실행 흐름을 허락하는 궁극의 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 패러다임이다.
 
 개발자는 콜백 지옥(Callback Hell) 같은 복잡한 비동기 코딩을 할 필요 없이 직관적인 동기식 코드를 작성하면서도, 뒷단에서는 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 수만 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 적은 수의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 쪼개어 돌리는 마법을 누릴 수 있다. 이는 클라우드 환경에서 서버의 메모리 풋프린트를 극단적으로 줄여 인프라 비용을 절감하는 핵심 동력이 된다. 다대다 모델의 철학은 OS 밖으로 뛰쳐나와 현대 백엔드 아키텍처의 필수 표준 기술로 완전히 자리 잡았다.
 

@@ -69,13 +69,13 @@ tags = ["studynote-software-engineering"]
 
 ADR은 논문이 아닙니다. 마크다운(.md) 파일로 개발자답게 1장짜리로 아주 짧고 명확하게 적습니다.
 
-1. <strong>상황 및 배경 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a>)</strong>: 
+1. <strong>상황 및 배경 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a>)</strong>:
    - 왜 우리가 이 결정을 고민하게 되었는가? (예: "블랙프라이데이 때 동접자 10만 명이 몰려서 기존 MySQL 구조로는 결제 서버가 3번이나 다운되었다.")
-2. **결정 사항 (Decision) 🌟**: 
+2. **결정 사항 (Decision) 🌟**:
    - 그래서 우리가 내린 최종 결론은 무엇인가? (예: "따라서 결제 시스템의 DB를 RDBMS에서 고성능 NoSQL인 Redis로 교체하기로 결정한다.")
-3. **대안 및 트레이드오프 (Alternatives & Trade-offs)**: 
+3. **대안 및 트레이드오프 (Alternatives & Trade-offs)**:
    - 왜 다른 대안들은 버렸는가? (예: "서버 대수를 늘리는 대안도 있었지만 서버비가 한 달에 1억이 추가되므로 버렸다. Redis를 쓰면 일관성이 약간 떨어지지만(트레이드오프), 속도를 위해 감수한다.")
-4. **결과 (Consequences)**: 
+4. **결과 (Consequences)**:
    - 이 결정으로 인해 앞으로 우리 팀이 겪을 좋은 점과 나쁜 점은 무엇인가? (예: "좋은 점: 속도가 10배 빨라진다. 나쁜 점: 팀원 전체가 다음 주까지 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 문법을 새로 공부해야 한다.")
 
 - **📢 섹션 요약 비유**: ADR ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Decision Record)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
@@ -89,7 +89,7 @@ ADR은 논문이 아닙니다. 마크다운(.md) 파일로 개발자답게 1장�
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))는 10개의 팀이 100개의 독립된 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(캡슐)를 각자 다른 언어와 DB로 맘대로 쪼개어 만듭니다.
-- 옆 팀이 왜 저런 요상한 언어로 서버를 띄웠는지, 왜 저런 구조를 짰는지 소통이 1도 안 됩니다([사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 현상). 
+- 옆 팀이 왜 저런 요상한 언어로 서버를 띄웠는지, 왜 저런 구조를 짰는지 소통이 1도 안 됩니다([사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 현상).
 - **효과**: 소스 코드 저장소(GitHub) 폴더에 `docs/adr/001-use-redis.md` 처럼 문서를 턱 하니 같이 넣어두면(코드와 문서의 일체화), 신입 개발자가 코드를 까보기 전에 ADR 파일부터 쫙 읽으면서 <strong>"아~ 우리 시스템 뼈대가 이런 피눈물 나는 역사를 거쳐 진화해 왔구나!" 하고 단 하루 만에 아키텍처의 철학(영혼)을 100% 흡수</strong>할 수 있게 됩니다.
 
 > 📢 **섹션 요약 비유**: <strong>ADR(아키텍처 결정 기록)</strong>은 100년 된 한옥(소프트웨어)의 대들보 밑에 숨겨져 있는 <strong>'조상님들의 건축 일기장(오답 노트)'</strong>과 같습니다. 현대의 후손(신입 개발자)이 한옥을 수리하려고 지붕을 까봤더니, 멀쩡한 참나무 기둥 대신 휘어빠진 소나무 기둥이 기형적인 모양으로 박혀있습니다. 후손이 "미쳤네, 당장 참나무로 싹 갈아엎어!"라고 도끼를 드는 순간, 기둥 밑에서 낡은 일기장(ADR)이 툭 떨어집니다. 일기장에는 이렇게 적혀있습니다. **"[상황] 1980년에 대홍수가 나서 지붕이 무너질 뻔했다. [대안] 튼튼한 참나무를 구하려 했지만 돈이 없었다. [결정] 그래서 비록 휘어지기 쉽지만 물을 먹으면 팽창해서 빈틈을 꽉 막아주는 소나무 기둥을 임시방편으로 크로스로 엮어서 버티기로 결정했다. [결과] 이 결정 덕분에 비는 안 새지만, 내년에 벌레가 꼬일 수 있으니 주의하라."** 후손은 이 일기장(ADR)을 읽고 나서야, 왜 선배들이 이렇게 미친 기형적인 뼈대(아키텍처)를 짤 수밖에 없었는지 그 당시의 피 터지는 사연(트레이드오프)을 100% 이해하게 됩니다. 단순한 코드 쪼가리로는 절대 알 수 없는 설계자들의 철학과 '왜(Why)'를 영원히 박제하여, 후배들이 똑같은 멍청한 실수를 두 번 다시 반복하지 않게 지켜주는 팀의 위대한 유산입니다.

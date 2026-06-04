@@ -57,7 +57,7 @@ HTM은 이 모순을 해결한다. "일단 락 없이 동시에 실행(Optimisti
 
 ### Intel TSX (Transactional [Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) Extensions)
 
-Intel TSX는 코어의 <strong>L1 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 캐시</strong> 공간을 활용해 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 임시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장한다. 
+Intel TSX는 코어의 <strong>L1 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 캐시</strong> 공간을 활용해 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 임시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장한다.
 
 - **Read Set**: [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 내에서 읽은 메모리 주소 집합 (캐시 라인 마킹)
 - **Write Set**: [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 내에서 쓴 주소 집합 (L1 캐시에만 저장, 메인 메모리 반영 안함)

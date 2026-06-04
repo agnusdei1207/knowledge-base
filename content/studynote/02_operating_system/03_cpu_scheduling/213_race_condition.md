@@ -28,13 +28,13 @@ tags = ["studynote-operating-system"]
   [경쟁 조건의 핵심 원인: 고급 언어와 어셈블리어의 괴리]
 
   [C언어 소스코드] (인간의 눈에는 1줄의 원자적 동작으로 보임)
-  Bank_Account++;  
+  Bank_Account++;
 
   [실제 CPU 어셈블리어] (기계의 눈에는 3줄의 분절된 동작임)
   1. LOAD R1, [Bank_Account]  (메모리에서 레지스터 R1으로 값을 가져옴)
   2. ADD R1, 1                (레지스터 안에서 1을 더함)
   3. STORE [Bank_Account], R1 (레지스터 값을 다시 메모리에 씀)
-  
+
   🚨 맹점: CPU는 1번, 2번, 3번 명령어 사이사이 언제든지 타이머 인터럽트를 걸어
           현재 프로세스의 멱살을 잡고 쫓아낼 수(Context Switch) 있다.
 ```

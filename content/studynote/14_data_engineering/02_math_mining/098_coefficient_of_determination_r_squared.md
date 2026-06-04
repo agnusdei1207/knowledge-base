@@ -19,7 +19,7 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-[회귀 분석](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)([Regression Analysis](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/))의 궁극적인 목표는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 산포(Variation)를 주어진 변수들로 얼마나 잘 예측하고 설명할 수 있는지를 밝히는 것이다. 모델을 학습시킨 후, 이 모델이 정말 유효한지 평가하기 위해 MSE나 RMSE 같은 절대 오차 지표를 주로 사용한다. 
+[회귀 분석](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)([Regression Analysis](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/))의 궁극적인 목표는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 산포(Variation)를 주어진 변수들로 얼마나 잘 예측하고 설명할 수 있는지를 밝히는 것이다. 모델을 학습시킨 후, 이 모델이 정말 유효한지 평가하기 위해 MSE나 RMSE 같은 절대 오차 지표를 주로 사용한다.
 
 하지만 절대 오차 지표는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 스케일(단위)에 종속적이어서 "그래서 이 오차가 전반적으로 얼마나 훌륭한 결과인가?"를 판단하기 어렵다. 집값을 억 단위로 예측할 때의 오차와, 온도를 1도 단위로 예측할 때의 오차를 직접 비교할 수 없기 때문이다. 따라서 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 흩어짐 대비 현재 모델이 오차를 얼마나 줄였는지를 0~1 사이의 비율(%)로 표준화한 지표인 결정 계수($R^2$)가 필요해졌다.
 
@@ -29,7 +29,7 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-R-Squared는 전체 분산의 덩어리를 모델이 설명한 부분과 설명하지 못한 부분으로 분해(Decomposition)하여 계산한다. 
+R-Squared는 전체 분산의 덩어리를 모델이 설명한 부분과 설명하지 못한 부분으로 분해(Decomposition)하여 계산한다.
 
 - **SST (Total Sum of Squares)**: 실제값들이 평균에서 얼마나 떨어져 있는지를 나타내는 전체 변동량.
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/">SSR</a> (Regression Sum of Squares)</strong>: 회귀 모델의 예측값이 평균에서 얼마나 떨어져 있는지를 나타내는 모델의 설명된 변동량.
@@ -98,7 +98,7 @@ R-Squared는 전체 분산의 덩어리를 모델이 설명한 부분과 설명�
 
 ## Ⅴ. 기대효과 및 결론
 
-결정 계수($R^2$)는 복잡한 회귀 모델의 복잡성을 제거하고 "이 모델이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 패턴을 얼마나 정복했는가?"를 하나의 직관적인 퍼센티지로 알려주는 가장 대중적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표다. 
+결정 계수($R^2$)는 복잡한 회귀 모델의 복잡성을 제거하고 "이 모델이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 패턴을 얼마나 정복했는가?"를 하나의 직관적인 퍼센티지로 알려주는 가장 대중적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표다.
 
 전통적인 통계학을 넘어 현대의 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)([랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/), [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) 계열 등) 알고리즘에서도 회귀 문제를 풀 때 가장 1차적인 벤치마크 지표로 사용된다. 딥러닝과 비선형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석이 주류가 된 미래에도, 유사 결정 계수(Pseudo R-Squared) 등의 형태로 변형되어 "모델의 설명 가능성(Explainability)"을 증명하는 표준 잣대로서 그 가치는 흔들리지 않을 것이다.
 

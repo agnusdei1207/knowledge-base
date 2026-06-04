@@ -137,8 +137,8 @@ Compliance
 
 ## 어린이를 위한 3줄 비유 설명
 
-일기장을 쓰면 나중에 무슨 일이 있었는지 알 수 있어요.  
-그 일기장을 못 고치게 보관해야 더 믿을 수 있어요.  
+일기장을 쓰면 나중에 무슨 일이 있었는지 알 수 있어요.
+그 일기장을 못 고치게 보관해야 더 믿을 수 있어요.
 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적은 그런 믿을 수 있는 기록이에요.
 
 ---

@@ -21,7 +21,7 @@ tags = ["studynote-computer-architecture"]
 
 ARM Cortex-A 시리즈는 ARM의 세 프로파일 중 애플리케이션 영역을 담당하는 코어 계열이다. 여기서 핵심은 "명령을 빨리 실행하는 것"만이 아니라, 여러 앱과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 서로 격리한 채 큰 메모리 공간에서 동시에 굴리는 능력이다. 그래서 Cortex-A는 스마트폰, 스마트 TV, 차량 인포테인먼트, 네트워크 게이트웨이, 저전력 서버처럼 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 자체가 중요한 장비에 주로 들어간다.
 
-이 계열이 필요해진 이유는 모바일 기기가 단순 전화기에서 작은 PC로 바뀌었기 때문이다. 브라우저, 지도, 카메라 파이프라인, 암호화, 무선 스택이 한 칩에서 동시에 돌아가려면 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/), 프로세스 분리, 예외 처리, 캐시 계층이 반드시 필요하다. 이런 기능이 없으면 앱 하나의 오류가 시스템 전체를 멈추게 만들고, 대용량 메모리도 효율적으로 다룰 수 없다.
+이 계열이 필요해진 이유는 모바일 기기가 단순 전화기에서 작은 PC로 바뀌었기 때문이다. 브라우저, 지도, 카메라 파이프라인, 암호화, 무선 스택이 한 칩에서 동시에 돌아가려면 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/), 프로세스 분리, 예외 처리, 캐시 계층이 반드시 필요하다. 이런 기능이 없으면 앱 하나의 오류가 시스템 전체를 멈추게 만들고, 대용량 메모리도 효율적으로 다룰 수 없다.
 
 아래 그림은 Cortex-A가 "앱 실행 환경 전체"를 품는 코어라는 점을 보여준다.
 
@@ -89,7 +89,7 @@ Cortex-A를 정확히 이해하려면 같은 ARM 계열의 Cortex-R, Cortex-M과
 | 구분 | Cortex-A | Cortex-R | Cortex-M |
 | :--- | :------- | :------- | :------- |
 | 핵심 목표 | OS 기반 고성능 애플리케이션 | 실시간 제어와 안전 | 초저전력 제어와 MCU |
-| 메모리 체계 | [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/), 대형 캐시, 외부 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) | [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) 장치 ([Memory Protection](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) Unit, MPU), 긴밀 결합 메모리 (Tightly Coupled Memory, TCM) | 단순 메모리 맵, 내부 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/)/Flash |
+| 메모리 체계 | [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/), 대형 캐시, 외부 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) | [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) 장치 ([Memory Protection](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) Unit, MPU), 긴밀 결합 메모리 (Tightly Coupled Memory, TCM) | 단순 메모리 맵, 내부 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/)/Flash |
 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기준 | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) | 최악 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/), 안정성 | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 반응, 전력 |
 | 주 사용 환경 | Linux, Android, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) | 실시간 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (Real-Time [Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), RTOS) | [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/), 소형 RTOS |
 | 대표 장비 | 스마트폰, TV, Arm 서버 | [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/), 자동차 제어 | 센서, 웨어러블, 가전 |
@@ -104,7 +104,7 @@ x86과의 비교도 중요하다. x86 역시 리치 OS와 [가상 메모리](/kn
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 필요하니 무조건 Cortex-A"라는 판단이 가장 위험하다. Cortex-A는 강력하지만, 그 힘은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)·메모리·열 설계·전원 설계가 받쳐줄 때만 나온다. 반대로 리치 OS가 필요한데 Cortex-M을 고르면 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템, 복수 프로세스 관리에서 곧 한계를 만난다.
+실무에서는 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 필요하니 무조건 Cortex-A"라는 판단이 가장 위험하다. Cortex-A는 강력하지만, 그 힘은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)·메모리·열 설계·전원 설계가 받쳐줄 때만 나온다. 반대로 리치 OS가 필요한데 Cortex-M을 고르면 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템, 복수 프로세스 관리에서 곧 한계를 만난다.
 
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 

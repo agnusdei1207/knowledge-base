@@ -62,7 +62,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-드라이버들은 서로 사이가 안 좋습니다. 
+드라이버들은 서로 사이가 안 좋습니다.
 - <strong>상충 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>: "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))"을 올리려고 암호화를 빼자니 "[보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))"이 개박살납니다. [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)을 빵빵하게 하려고 방화벽을 3중으로 치면, 클릭 딜레이가 3초가 걸려 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 죽고, 장비값(제약)이 폭발합니다.
 - **결론**: 완벽한 아키텍처는 우주에 존재하지 않습니다. 아키텍트는 3대 드라이버 사이에서 피 터지게 싸우는 요소들을 저울질하며, <strong>"지금 우리 회사 비즈니스에서 제일 중요한 1순위 품질(예: 무조건 싼 가격)을 위해 다른 품질(보안)을 눈물을 머금고 포기(Trade-off)하는 가장 아름다운 타협점"</strong>을 도면으로 그려내는 협상의 달인이어야 합니다.
 

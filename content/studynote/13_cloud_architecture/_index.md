@@ -18,7 +18,7 @@ tags = ["studynote-cloud-architecture"]
 ---
 
 ### Ⅰ. 개요 (Context & Background)
-과거 기업들은 트래픽의 최고점(Peak)을 예상하여 막대한 비용을 들여 자체 데이터센터(On-premise)에 서버를 선제적으로 구매했다(Over-provisioning). 그러나 평상시에는 서버의 90%가 유휴 상태로 방치되어 전력과 공간을 낭비하는 치명적 비효율을 낳았다. 
+과거 기업들은 트래픽의 최고점(Peak)을 예상하여 막대한 비용을 들여 자체 데이터센터(On-premise)에 서버를 선제적으로 구매했다(Over-provisioning). 그러나 평상시에는 서버의 90%가 유휴 상태로 방치되어 전력과 공간을 낭비하는 치명적 비효율을 낳았다.
 <strong>클라우드 컴퓨팅(Cloud Computing)</strong>은 가상화(Virtualization) 기술을 통해 물리적 하드웨어를 논리적 자원으로 쪼개어, 수도나 전기처럼 '원하는 시점에 원하는 만큼만 꺼내 쓰는' 유틸리티 컴퓨팅의 이상을 실현했다. 오늘날의 클라우드는 단순한 인프라 대여(IaaS)를 넘어, 머신러닝 가속기, 서버리스 함수(FaaS), 전사적 데이터 웨어하우스를 API 형태로 제공하며 현대 IT 아키텍처의 근간(Backbone)으로 완전히 결착되었다.
 
 ---
@@ -40,7 +40,7 @@ tags = ["studynote-cloud-architecture"]
 클라우드 네이티브의 사실상(De facto) 운영체제인 쿠버네티스의 Control Plane과 Worker Node 구조다.
 ```text
     [ Kubernetes (K8s) Cluster Architecture / 쿠버네티스 클러스터 아키텍처 ]
-    
+
     (Control Plane - Master / 마스터 노드)
     +-------------------------------------------------------------+
     |  [ API Server / API 서버 ] <--- (kubectl / CI/CD Pipeline)  |

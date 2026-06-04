@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/">IPC</a> (Inter-Process Communication)</strong>: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 제공하는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)), 메시지 큐(Message [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)), [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)([Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)), [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)([Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)) 등의 프로세스 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신 메커니즘.
   - **오버헤드 (Overhead)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신이라는 목적을 달성하기 위해, 부가적으로 소모되는 시간(CPU 연산)이나 메모리 비용.
 
-- **필요성 (격리의 딜레마)**: 
+- **필요성 (격리의 딜레마)**:
   - 프로세스는 본래 "남의 메모리를 절대 볼 수 없도록" 철저히 고립되어 있다.
   - 하지만 크롬 브라우저의 '렌더링 프로세스'와 '네트워크 프로세스'가 분리되어 있다면, 이 둘은 반드시 이미지를 주고받아야 한다.
   - **딜레마**: 안전하게 주자니 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 거치느라 너무 느리고(메시지 패싱), 빠르게 주자니 벽을 허물어야 해서 충돌(레이스 컨디션)이 발생한다.

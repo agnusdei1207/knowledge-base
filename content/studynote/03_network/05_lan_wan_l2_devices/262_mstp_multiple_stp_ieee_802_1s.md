@@ -20,12 +20,12 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 여러 개의 VLAN을 하나의 [스패닝 트리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/) 인스턴스(MSTI)로 매핑(묶음 처리)하여, 네트워크에 존재하는 [스패닝 트리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/)의 개수를 획기적으로 줄이는 IEEE 국제 표준 규격.
-- **필요성**: [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), 20, 30... 1000이 있다고 치자. 
+- **필요성**: [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), 20, 30... 1000이 있다고 치자.
   - 1개의 트리만 쓰면(CST), A~B 간의 우회 선로는 영원히 차단(Block)되어 비싼 돈 주고 깐 광케이블이 평생 놀고먹는다. ([로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/) 불가)
   - 그래서 시스코는 VLAN마다 트리를 그렸다(PVST). "[VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 10은 A선로로, [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 20은 B선로로 가게 하자!" ([로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/) 가능). 하지만 VLAN이 1000개면 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 1000개의 BPDU를 2초마다 찍어내느라 뇌(CPU)가 타버린다.
   - **해결책**: "[VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 1~500은 1번 그룹으로, 501~1000은 2번 그룹으로 묶자! 그럼 트리는 딱 2개만 계산하면 되잖아!" 이것이 MSTP의 탄생 배경이다.
 
-- **💡 비유**: 1000명의 택배 기사([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/))가 매일 본사로 출근합니다. 
+- **💡 비유**: 1000명의 택배 기사([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/))가 매일 본사로 출근합니다.
   - **CST**: 1000명이 모두 똑같은 1번 도로만 쓰고, 2번 도로는 텅 비워둠. (비효율)
   - **PVST**: 1000명에게 각자 내비게이션 경로를 1000장 그려줌. (본사 직원 과로사)
   - **MSTP**: "1번~500번 기사는 1번 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)(인스턴스 1)에 타! 501~1000번 기사는 2번 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)(인스턴스 2)에 타!" (고작 2대의 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 경로만 관리하면 완벽한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 탑승 완료!)

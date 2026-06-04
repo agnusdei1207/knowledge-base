@@ -58,7 +58,7 @@ tags = ["studynote-operating-system"]
 
 Worst-Fit 역시 탐색 속도를 줄이기 위해 장부(Free List) 정렬이라는 꼼수를 부린다.
 - 매번 O(N)으로 장부를 다 뒤지면 너무 느리므로, 구멍 크기가 **가장 큰 것부터 작은 것 순으로(내림차순)** 장부를 유지한다.
-- 이렇게 하면 [First-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/) 방식으로 맨 앞단만 딱 찔러도 그게 곧 Worst-Fit이 된다. 
+- 이렇게 하면 [First-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/) 방식으로 맨 앞단만 딱 찔러도 그게 곧 Worst-Fit이 된다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -134,7 +134,7 @@ Worst-Fit [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/
 ### 실무 시나리오: Worst-Fit이 유일하게 쓰이는 특수 환경 ([Buddy System](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/))
 
 범용 OS에서는 멸종한 Worst-Fit의 철학이 놀랍게도 Linux 커널의 핵심인 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/">버디 시스템</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/">Buddy System</a>)</strong> 내부에서 부활했다.
-1. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/">버디 시스템</a>의 쪼개기</strong>: 
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/">버디 시스템</a>의 쪼개기</strong>:
    - 16KB를 요구하는 프로세스에게, 커널은 16KB 빈방을 찾지 않고 의도적으로 가장 거대한 1024KB짜리 통짜 덩어리를 골라잡는다. (Worst-Fit의 철학)
 2. **반으로 가르기**:
    - 1024를 512 두 개로 쪼개고, 512를 256 두 개로 쪼개고... 이 짓을 16KB가 나올 때까지 반복한다.

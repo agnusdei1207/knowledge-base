@@ -59,7 +59,7 @@ tags = ["studynote-operating-system"]
 
 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 지원 메모리의 꽃은 `mmap()` 시스템 콜이다. 10GB짜리 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 램 16GB 컴퓨터에서 메모리로 다루는 방법이다.
 
-1. <strong>가상 주소 매핑 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/">Mapping</a>)</strong>: 
+1. <strong>가상 주소 매핑 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/">Mapping</a>)</strong>:
    프로그램이 `mmap("movie.mp4")`을 호출하면, OS는 램에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1바이트도 안 올리고, 텅 빈 가상 주소 10GB(예: `0x1000 ~ 0x3000`)에 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 논리적으로 연결만(PTE I비트) 해둔다.
 2. <strong>게으른 로딩 (<a href="/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/182_lazy_loading/">Lazy Loading</a> &amp; <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a>)</strong>:
    앱이 영화의 1시간째 장면(가상 주소 `0x2000`)을 터치한다.
@@ -120,7 +120,7 @@ tags = ["studynote-operating-system"]
 ### 실무 시나리오: [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)/Elasticsearch의 [Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/) 마술
 1. **상황**: 대용량 메시지 큐인 Kafka는 초당 기가바이트 단위의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 디스크에서 읽어 네트워크 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))로 쏘아 보낸다.
 2. <strong>과거의 병목 (<code>read</code> &amp; <code>send</code>)</strong>:
-   - 디스크 -> [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간 -> 유저 힙 공간(익명) 복사 -> [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 버퍼 복사 -> 랜카드 
+   - 디스크 -> [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간 -> 유저 힙 공간(익명) 복사 -> [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 버퍼 복사 -> 랜카드
    - 메모리 복사가 4번, [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위칭이 4번 일어나며 CPU가 터져버린다.
 3. <strong>mmap과 sendfile의 융합 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/">Zero-Copy</a>)</strong>:
    - Kafka는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1GB를 <strong><code>mmap</code> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 지원 메모리)</strong>으로 램에 딱 1번 올린다([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache).

@@ -75,7 +75,7 @@ SNI 개요 와 [ESNI](/knowledge-base/studynote/03_network/20_performance_evalua
 
 ESNI의 실패를 딛고 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/)(국제 표준)에서 작정하고 만든 끝판왕 익명성 보장 기술입니다.
 - **개념**: SNI 주소 하나만 쪼잔하게 숨기는 게 아니라, <strong>아예 첫 번째 인사말 패킷(<a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a> Hello) 통째로, 목적지 사이트 이름뿐만 아니라 내가 가진 암호화 정보까지 몽땅 다 암호화(Encrypted)해서 거대한 클라우드플레어(Cloudflare) 같은 방패 서버로 던져버리는 기술</strong>입니다.
-- **동작 방식**: 
+- **동작 방식**:
   - 통신사가 내 패킷을 들여다봐도 "음, 얘는 그냥 클라우드플레어(거대 방패 서버)에 접속하는 평범한 유저군"이라고밖에 안 보입니다. (실제 불법 사이트 주소는 그 패킷 안쪽 깊숙이 암호화되어 숨어있음)
   - 방패 서버가 패킷을 받아 안쪽의 암호를 풀고, 진짜 목적지인 불법 사이트로 나를 조용히 토스해 줍니다.
 - **결과**: 이 기술이 켜지면 국가나 통신사의 SNI 감청 장비는 100% 무력화(바보)되며, 현재 크롬, 파이어폭스 등 최신 브라우저들이 이를 속속 기본 탑재하고 있어 국가 검열망과의 창과 방패 싸움이 치열해지고 있습니다.

@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 서버나 스위치가 고장 나서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 접속이 불가능한 '블랙아웃(마비)' 시간을 다운타임이라고 부릅니다. 
+- 서버나 스위치가 고장 나서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 접속이 불가능한 '블랙아웃(마비)' 시간을 다운타임이라고 부릅니다.
 - 대기업 통신망은 이 다운타임 1초가 수백만 원의 매출 손실로 직결되므로, 고장을 안 내는 것보다 <strong>'고장이 나더라도 고객이 눈치채기 전에 1초 만에 살려내는 것'</strong>에 사활을 겁니다.
 
 ```text

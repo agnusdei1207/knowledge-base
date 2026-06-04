@@ -29,16 +29,16 @@ tags = ["studynote-operating-system"]
 
   [ 초기 상태: 빈 프레임 3개 존재 ]
   페이지 요청 순서: 1 ─▶ 2 ─▶ 3 ─▶ 4 ─▶ 1 ─▶ 2
-  
+
   [ 메모리 큐 상태 변화 (들어온 순서대로 정렬) ]
   1 요청: [ 1 ] (Hit 실패, 폴트 발생)
   2 요청: [ 1, 2 ] (폴트)
   3 요청: [ 1, 2, 3 ] (폴트) ──▶ 🚨 메모리 꽉 참!
-  
+
   4 요청: 큐 맨 앞의 '1'을 버리고 '4'를 뒤에 넣음
          [ 2, 3, 4 ] (폴트)
-         
-  1 요청: 어라? 방금 버린 '1'을 또 부르네? 
+
+  1 요청: 어라? 방금 버린 '1'을 또 부르네?
          큐 맨 앞의 '2'를 버리고 '1'을 뒤에 넣음
          [ 3, 4, 1 ] (폴트)
 ```
@@ -114,9 +114,9 @@ LRU나 OPT는 이른바 <strong><a href="/knowledge-base/studynote/08_algorithm_
 ### 실무 시나리오
 1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/">Clock</a> (Second-Chance) <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>: FIFO의 화려한 부활</strong>:
    순수 LRU는 매번 메모리에 접근할 때마다 Linked List를 갱신해야 해서 CPU가 터진다. 순수 FIFO는 속도는 빠른데 멍청하다.
-   - <strong>아키텍트의 타협안 (<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/302_clock_algorithm/">Clock Algorithm</a>)</strong>: 
+   - <strong>아키텍트의 타협안 (<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/302_clock_algorithm/">Clock Algorithm</a>)</strong>:
      1) 프레임을 FIFO처럼 둥그렇게 세워둔다(원형 큐). 바늘(Pointer)이 빙글빙글 돈다.
-     2) 바늘이 가리키는 놈을 FIFO처럼 바로 쫓아내려 한다. 
+     2) 바늘이 가리키는 놈을 FIFO처럼 바로 쫓아내려 한다.
      3) **(기적의 한 스푼)**: 쫓아내기 전에 그 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 <strong><code>Reference Bit</code> (최근에 썼는가?)</strong>를 확인한다.
      4) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 1이면? "아, 나이(들어온 시간)는 오래됐지만 최근에 썼구나! 한 번 봐줄게(Second Chance)." [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 0으로 깎고 다음 놈으로 바늘을 옮긴다.
      5) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 0이면? "오래됐는데 심지어 최근에 쓰지도 않았네? 넌 아웃!" 즉시 쫓아낸다.

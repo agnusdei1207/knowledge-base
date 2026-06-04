@@ -44,7 +44,7 @@ tags = ["studynote-network"]
 MPTCP는 기존의 낡은 방화벽이나 멍청한 라우터들을 속이기 위해, 겉보기엔 완벽한 일반 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 패킷인 척 위장한다.
 
 ### 1. 첫 번째 길 뚫기 (Primary Subflow)
-통신을 시작할 때 스마트폰은 구글 서버에 똑같이 3-Way Handshake를 건다. 
+통신을 시작할 때 스마트폰은 구글 서버에 똑같이 3-Way Handshake를 건다.
 단, `SYN` 패킷의 빈칸(Option)에 <strong><code>MP_CAPABLE</code></strong> 이라는 비밀 암호를 적어 보낸다.
 - 스마트폰: "나 와이파이(IP: `192.168.0.5`)로 통신 건다! 덧붙여서 나 MPTCP 할 줄 알아! (MP_CAPABLE)"
 - 구글 서버: "오 나도 MPTCP 할 줄 알아! 일단 와이파이 길(Subflow 1)로 통신 시작하자!"

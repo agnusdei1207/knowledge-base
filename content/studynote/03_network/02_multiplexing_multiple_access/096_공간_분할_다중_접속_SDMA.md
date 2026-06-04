@@ -19,7 +19,7 @@ tags = ["network"]
 
 ## Ⅰ. 개요 및 필요성
 
-SDMA (Space [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))는 제한된 무선 통신 자원의 한계를 극복하기 위해 '공간(Space)'이라는 새로운 축을 분할 기준으로 삼은 혁신적인 접속 방식이다. 
+SDMA (Space [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))는 제한된 무선 통신 자원의 한계를 극복하기 위해 '공간(Space)'이라는 새로운 축을 분할 기준으로 삼은 혁신적인 접속 방식이다.
 
 기존의 주파수 분할([FDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/)), 시분할([TDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/)), 코드 분할([CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/)) 방식은 모두 [무지향성 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/172_omni_directional_vs_directional_antenna/)(모든 방향으로 전파 확산)를 기반으로 하여, 물리적인 주파수나 시간 자원이 고갈되면 더 이상 사용자를 받을 수 없었다. 트래픽이 폭증하면서 통신망의 용량 한계가 찾아오자, 엔지니어들은 [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/) 기술을 도입했다. 전파를 사방으로 낭비하는 대신 특정 사용자가 있는 방향으로만 날카로운 빔(Beam)을 쏘아 간섭을 차단하고, 완벽히 분리된 다른 방향의 사용자에게는 동일한 시간과 주파수로 또 다른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 동시에 전송하게 만든 것이다.
 
@@ -111,7 +111,7 @@ SDMA는 물리적 공간을 무선 자원의 3번째 축으로 개척해 스펙�
 기존 다중 접속 (FDMA / TDMA / CDMA) 한계 도달
     │
     ▼
-스마트 안테나 (Smart Antenna) · 빔포밍 (Beamforming) 
+스마트 안테나 (Smart Antenna) · 빔포밍 (Beamforming)
     │
     ▼
 공간 분할 다중 접속 (SDMA) 구조 완성
@@ -120,7 +120,7 @@ SDMA는 물리적 공간을 무선 자원의 3번째 축으로 개척해 스펙�
 5G 대규모 안테나 융합: Massive MIMO · MU-MIMO
     │
     ▼
-6G 진화: Cell-Free Massive MIMO 환경 
+6G 진화: Cell-Free Massive MIMO 환경
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명

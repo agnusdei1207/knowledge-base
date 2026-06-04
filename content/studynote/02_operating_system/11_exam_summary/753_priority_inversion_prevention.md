@@ -20,7 +20,7 @@ tags = ["studynote-operating-system"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 선점형(Preemptive) 우선순위 기반 스케줄링 환경에서 3개 이상의 프로세스가 공유 자원을 사용할 때, 논리적으로는 높은 우선순위(High) 작업이 먼저 실행되어야 함에도 불구하고 중간 우선순위(Medium) 작업들이 CPU를 가로채어 높은 우선순위 작업이 무한정 대기하게 되는 현상.
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 로봇의 브레이크 제어(High)가 내비게이션 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 저장(Low)이 쥐고 있는 '센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))'을 기다리고 있다 치자.
   - 이때 음악 재생 프로그램(Medium)이 깨어나서 내비게이션(Low)보다 우선순위가 높다며 CPU를 뺏어버렸다.
   - 내비게이션은 CPU를 뺏겼으니 영원히 락을 풀지 못하고, 브레이크 제어(High)는 락이 안 풀리니 영원히 브레이크를 못 밟는다. 결과적으로 고작 음악 재생 따위 때문에 1순위 브레이크가 작동하지 않아 로봇이 박살 난다.
@@ -29,7 +29,7 @@ tags = ["studynote-operating-system"]
   - 병원 응급실에서 <strong>응급 환자(High)</strong>가 왔는데, <strong>가벼운 감기 환자(Low)</strong>가 유일한 X-ray 방([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))에 들어가 있다. 응급 환자는 밖에서 대기 중이다.
   - 이때 X-ray가 필요 없는 <strong>골절 환자(Medium)</strong>들이 우르르 몰려와서 감기 환자를 방에서 쫓아내고 의사(CPU)를 먼저 만나버린다. 감기 환자는 방에 다시 못 들어가서 X-ray 옷도 못 갈아입고, 응급 환자는 죽어간다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 단일 CPU에서 복잡한 멀티스레드 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 락([세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/), 뮤텍스)이 도입되면서 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 우선순위 로직과 락의 [대기 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/) 로직이 서로 충돌(불일치)하여 생겨난 현대적 난제다.
 
 ```text
@@ -67,7 +67,7 @@ tags = ["studynote-operating-system"]
 
 ### 방어 기법 1. 우선순위 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([Priority Inheritance](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))
 
-현대 리눅스와 RTOS에서 사용하는 가장 대중적이고 아름다운 해결책이다. 
+현대 리눅스와 RTOS에서 사용하는 가장 대중적이고 아름다운 해결책이다.
 
 - **메커니즘**: 하위 프로세스(L)가 자원을 쥐고 있을 때 상위 프로세스(H)가 그 자원을 요청하면, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 즉시 <strong>L의 우선순위를 찌질한 Low에서 막강한 High로 강제 승격(Inheritance)</strong>시켜 버린다.
 - **효과**: L이 갑자기 1순위 권력을 쥐게 되므로, 중간에 깔짝대던 M 프로세스들이 절대 L을 선점(Preempt)할 수 없다. L은 방해받지 않고 초고속으로 자원 사용을 끝낸 뒤 락을 반환하고 다시 Low로 돌아간다. 락이 풀리면 원래 H가 즉시 자원을 쥐고 실행된다.
@@ -170,7 +170,7 @@ tags = ["studynote-operating-system"]
 **[다이어그램 해설]** 이 트리는 미세한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)조차 허용하지 않는 임베디드, 금융, 미디어 시스템 엔지니어들의 바이블이다. 락을 쓰면 [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/)이 따라올 수밖에 없다. 따라서 1원칙은 "락을 치워라([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/))"다. 락을 피할 수 없다면, 기본 제공되는 깡통 뮤텍스를 절대 쓰지 말고 OS가 제공하는 [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/)([Priority Inheritance](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/)) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이나 로버스트(Robust) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 명시적으로 켜서 '스마트한 방패'를 씌워주어야 시스템이 극한의 부하에서도 데드라인을 보장한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **우선순위 하이재킹 (Priority Hijacking)**: 해커가 악의적으로 L [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 만들어 시스템의 중요 자원 락을 잡은 뒤 절대로 놔주지 않게(무한 루프) 프로그래밍하면, H [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)이고 뭐고 영원히 자원을 못 받아(Denial of [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 시스템 전체가 마비된다. 따라서 락을 쥔 채로 I/O 대기(Sleep)에 빠지거나 복잡한 연산을 하는 코드 작성은 금기 중의 금기다. 
+- **우선순위 하이재킹 (Priority Hijacking)**: 해커가 악의적으로 L [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 만들어 시스템의 중요 자원 락을 잡은 뒤 절대로 놔주지 않게(무한 루프) 프로그래밍하면, H [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)이고 뭐고 영원히 자원을 못 받아(Denial of [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 시스템 전체가 마비된다. 따라서 락을 쥔 채로 I/O 대기(Sleep)에 빠지거나 복잡한 연산을 하는 코드 작성은 금기 중의 금기다.
 
 - **📢 섹션 요약 비유**: 권력을 빌려줘서 빨리 방을 빼게 하는 것([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/))은 좋지만, 방에 들어간 놈이 화장실 문을 잠그고 아예 잠을 자버린다면([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)) 왕의 권력도 무용지물이 됩니다. 락 안에서는 숨도 쉬지 말고 빠져나오는 것이 시큐어 코딩의 핵심입니다.
 

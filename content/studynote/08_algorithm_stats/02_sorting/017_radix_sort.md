@@ -120,15 +120,15 @@ tags = ["studynote-algorithm"]
 
 ### 실제 적용 시나리오
 
-**시나리오 1 — 전화번호 정렬**: 11자리 숫자 n=1억 건  
-→ d=[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/), k=[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), 시간 = O([11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)·(10⁸+[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))) ≈ O(n)  
+**시나리오 1 — 전화번호 정렬**: 11자리 숫자 n=1억 건
+→ d=[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/), k=[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), 시간 = O([11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)·(10⁸+[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))) ≈ O(n)
 → 비교 정렬 O(n log n) 대비 약 3.5배 빠름
 
-<strong>시나리오 2 — <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/">IPv4</a> 주소 정렬</strong>: 4바이트(8비트×4), k=256  
-→ d=4, 각 옥텟(Octet)별로 [계수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/016_counting_sort/)  
+<strong>시나리오 2 — <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/">IPv4</a> 주소 정렬</strong>: 4바이트(8비트×4), k=256
+→ d=4, 각 옥텟(Octet)별로 [계수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/016_counting_sort/)
 → 네트워크 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 정렬에 활용
 
-<strong>시나리오 3 — 해시 <a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/018_bucket_sort/">버킷 정렬</a></strong>: 해시값(고정 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))으로 레코드 정렬  
+<strong>시나리오 3 — 해시 <a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/018_bucket_sort/">버킷 정렬</a></strong>: 해시값(고정 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))으로 레코드 정렬
 → [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 구성 시 활용
 
 ### [기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/) 선택 트레이드오프
@@ -201,8 +201,8 @@ tags = ["studynote-algorithm"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-📮 <strong>우편번호 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong>: 편지를 우편번호 마지막 자리 → 그다음 자리 → 맨 앞 자리 순으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하면, 마치 마법처럼 모든 편지가 순서대로 쌓여요.  
-🗂️ **서랍장 정리**: 10개 서랍이 있고, 각 자릿수마다 한 번씩 정리하면 몇 번의 정리로 수백만 개도 완벽하게 정돈할 수 있어요.  
+📮 <strong>우편번호 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong>: 편지를 우편번호 마지막 자리 → 그다음 자리 → 맨 앞 자리 순으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하면, 마치 마법처럼 모든 편지가 순서대로 쌓여요.
+🗂️ **서랍장 정리**: 10개 서랍이 있고, 각 자릿수마다 한 번씩 정리하면 몇 번의 정리로 수백만 개도 완벽하게 정돈할 수 있어요.
 🔢 **자릿수 미용실**: 숫자의 일의 자리, 십의 자리, 백의 자리를 차례로 꾸미면(정렬하면), 마지막엔 모두 아름답게 줄을 서 있어요!
 
 ---

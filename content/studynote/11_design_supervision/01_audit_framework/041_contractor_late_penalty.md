@@ -120,7 +120,7 @@ tags = ["studynote-design-supervision"]
 
 고립 데이터 (Orphan Data):
   다른 테이블 삭제 후 관계 끊긴 레코드
-  
+
 개인정보 품질:
   만료된 개인정보 미삭제
   비식별화 대상 정보 노출

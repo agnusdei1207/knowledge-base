@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **브로드캐스트의 저주**: 100대의 PC가 하나의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 물려있으면 한 대가 "[ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)!" 소리치면 99대가 다 들어야 해서 랜망이 마비됩니다. 
+- **브로드캐스트의 저주**: 100대의 PC가 하나의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 물려있으면 한 대가 "[ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)!" 소리치면 99대가 다 들어야 해서 랜망이 마비됩니다.
 - **VLAN의 해결책**: 비싼 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계를 논리적(소프트웨어)으로 쪼갭니다. 1~5번 구멍은 영업팀([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)), 6~10번은 인사팀([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 20). 영업팀이 소리쳐도 절대 인사팀 구멍으로는 데이터가 넘어가지 않아(브로드캐스트 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분할) 성능과 보안이 극대화됩니다.
 
 ```text
@@ -64,8 +64,8 @@ tags = ["studynote-network"]
    - 이 태그 안에는 <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a> ID (VID: 10번)</strong>가 쾅 찍혀있습니다. ("나는 영업팀이다!")
 2. **트렁크 선 전송**: 태그가 붙은 패킷 수백 개가 하나의 트렁크 랜선을 타고 2층 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)로 날아갑니다.
 3. **포스트잇 떼기 (Tag Removal) 및 분배**:
-   - 2층 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 트렁크 구멍으로 패킷을 받습니다. 
-   - 껍데기에 붙은 `VLAN ID: 10` 포스트잇을 스캔합니다. "오! 너 1층 영업팀에서 온 애구나?" 
+   - 2층 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 트렁크 구멍으로 패킷을 받습니다.
+   - 껍데기에 붙은 `VLAN ID: 10` 포스트잇을 스캔합니다. "오! 너 1층 영업팀에서 온 애구나?"
    - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 <strong>손님(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>)에게 전달하기 직전에 그 포스트잇(태그)을 쥐도 새도 모르게 싹 뜯어서 버려버립니다(Untagged).</strong> 그리고 2층의 영업팀 10번 구멍으로만 패킷을 쏙 밀어 넣어 줍니다.
    - PC는 자기가 포스트잇이 붙어 날아온 줄 꿈에도 모르고(투명성 보장) 평화롭게 통신을 마칩니다.
 

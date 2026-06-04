@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-자원 타입은 하나인데 물건이 여러 개(예: 총알 100발, 프린터 5대)라면 자원 배분 역학은 극도로 모호해진다. 
+자원 타입은 하나인데 물건이 여러 개(예: 총알 100발, 프린터 5대)라면 자원 배분 역학은 극도로 모호해진다.
 
 A, B, C 세 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 서로의 자원을 물고 물리면서 원형의 덫(사이클)을 만들었다고 치자. 단일 인스턴스라면 전멸이다. 하지만 다중 인스턴스 환경에서는 <strong>고리에 참여하지 않은 잉여 자원(혹은 엉뚱한 제3자가 잠시 들고 있는 인스턴스)</strong>이 존재한다. D [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 인쇄를 마치고 프린터를 OS에 반납하면, A [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 냅다 그 프린터를 잡아채 작업을 끝내게 되어 연쇄적으로 B와 C의 대기마저 확 풀려버리는 극적인 해소가 가능하다.
 

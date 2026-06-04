@@ -41,7 +41,7 @@ tags = ["studynote-network"]
 
 1. **공개 정보 공유**: 앨리스와 밥은 인터넷 게시판([도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 가능)에 "우리 기본 베이스 물감으로 <strong>노란색</strong>을 쓰자"고 대놓고 약속합니다. (해커도 노란색을 봅니다.)
 2. <strong>개인키 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: 앨리스는 자신만 아는 **빨간색** 물감을, 밥은 자신만 아는 **파란색** 물감을 각자 몰래 고릅니다. (절대 남에게 안 보여줌)
-3. **혼합 및 전송 (핵심)**: 
+3. **혼합 및 전송 (핵심)**:
    - 앨리스는 기본(노란색)에 자기꺼(빨간색)를 섞어 <strong>주황색</strong>을 만듭니다.
    - 밥은 기본(노란색)에 자기꺼(파란색)를 섞어 <strong>초록색</strong>을 만듭니다.
    - 이 섞인 <strong>주황색</strong>과 <strong>초록색</strong>을 인터넷으로 쿨하게 서로에게 전송합니다. (해커가 중간에 주황색, 초록색 물감을 가로챕니다.)
@@ -83,7 +83,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 디피-헬만은 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)(스니핑)에는 우주 최강이지만, 중간에 끼어드는 <strong><a href="/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/">중간자 공격</a>(<a href="/knowledge-base/studynote/09_security/03_network_security/266_mitm_attack/">Man-In-The-Middle Attack</a>)</strong>에는 무기력하게 당합니다.
-- **해커의 위장**: 앨리스가 "주황색 물감"을 밥에게 던질 때, 중간에 있는 해커 다스가 잽싸게 가로챕니다. 그리고 다스는 자기가 만든 "보라색 물감"을 마치 앨리스인 척 밥에게 줍니다. 
+- **해커의 위장**: 앨리스가 "주황색 물감"을 밥에게 던질 때, 중간에 있는 해커 다스가 잽싸게 가로챕니다. 그리고 다스는 자기가 만든 "보라색 물감"을 마치 앨리스인 척 밥에게 줍니다.
 - 밥은 다스와 똥색 열쇠를 만들고, 앨리스도 다스와 똥색 열쇠를 만들게 됩니다. 두 사람은 서로 통신한다고 착각하지만, 실제로는 다스가 중간에서 양쪽의 암호를 모두 다 풀어보며([도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)/조작) 비웃고 있게 됩니다.
 - **해결책**: 이를 막기 위해 반드시 통신 전, 상대방이 가짜인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/">전자 서명</a>(<a href="/knowledge-base/studynote/09_security/03_network_security/110_rsa/">RSA</a>, <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서)</strong> 과정을 추가하여 결합해 사용해야 합니다.
 

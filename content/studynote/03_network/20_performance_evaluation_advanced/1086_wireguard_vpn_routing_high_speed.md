@@ -41,7 +41,7 @@ tags = ["studynote-network"]
 
 ### 1. 암호화의 독재 (크립토 민첩성 삭제)
 - 구형 VPN은 "우리 어떤 암호 쓸래? [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 쓸래? [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 쓸래?"라며 협상(Handshake)하느라 시간을 다 버렸습니다.
-- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/387_wireguard_vpn_modern_tunneling/">WireGuard</a></strong>: "협상 따위 없다! 내 방식에 무조건 맞춰!" 
+- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/387_wireguard_vpn_modern_tunneling/">WireGuard</a></strong>: "협상 따위 없다! 내 방식에 무조건 맞춰!"
 - 오직 가장 빠르고 뚫리지 않는 최신 암호 조합 <strong>단 1개 세트(ChaCha20, Curve25519, BLAKE2 등)</strong>만 강제합니다. 협상할 필요가 없으니 접속 버튼을 누르는 순간 0.1초 만에 딜레이 없이 쾅 연결되어 버립니다.
 
 ### 2. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스페이스 네이티브 (Kernel-Space Native) 🌟

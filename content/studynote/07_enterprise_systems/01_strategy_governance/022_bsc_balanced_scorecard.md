@@ -89,7 +89,7 @@ BSC의 아키텍처는 기업의 비전과 [전략](/knowledge-base/studynote/04
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-BSC는 독립적인 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 프레임워크가 아니며, [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/), [MBO](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/025_mbo_management_by_objectives/), OKR과 같은 성과 관리 도구들과 상호 보완적(또는 대체적) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 맺는다. 
+BSC는 독립적인 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 프레임워크가 아니며, [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/), [MBO](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/025_mbo_management_by_objectives/), OKR과 같은 성과 관리 도구들과 상호 보완적(또는 대체적) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 맺는다.
 
 | 항목 | [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) (Balanced Scorecard) | [MBO](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/025_mbo_management_by_objectives/) ([Management by Objectives](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/025_mbo_management_by_objectives/)) | [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) (Objectives & [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Results) |
 |:---|:---|:---|:---|

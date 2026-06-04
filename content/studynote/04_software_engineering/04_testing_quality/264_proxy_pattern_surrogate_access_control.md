@@ -81,7 +81,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **핵심 룰**: 프록시(비서) 클래스는 진짜 객체(회장님) 클래스와 <strong>반드시 똑같은 인터페이스(껍데기 조약)</strong>를 상속받아야 합니다! 
+- **핵심 룰**: 프록시(비서) 클래스는 진짜 객체(회장님) 클래스와 <strong>반드시 똑같은 인터페이스(껍데기 조약)</strong>를 상속받아야 합니다!
 - 그래야 클라이언트(사용자) 입장에선 비서인지 회장님인지 전혀 눈치채지 못하고 똑같은 `showImage()` 함수를 때리며 편하게 속아 넘어갈 수 있습니다.
 
 > 📢 **섹션 요약 비유**: <strong>프록시(Proxy) 패턴</strong>은 거물급 아이돌 스타(진짜 무거운 객체) 앞을 가로막고 있는 <strong>'만능 매니저(대리인 객체)'</strong>입니다. 옛날엔 동네 꼬마, 사생팬, 진짜 방송국 피디(클라이언트들)가 모두 다이렉트로 아이돌(진짜 객체)을 찾아가 옷깃을 잡아끌었습니다. 아이돌은 쉴 틈이 없어 과로사합니다(메모리 폭발, 보안 붕괴). 이를 막기 위해 소속사가 매니저(프록시)를 앞에 세웁니다. 이 매니저는 겉보기엔 아이돌의 명찰과 똑같은 옷(인터페이스)을 입고 있습니다. 1. 사생팬이 사인을 요구하면 매니저가 컷(보안 프록시 [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/)) 해버립니다. 2. 잡지사가 예전 사진을 달라고 하면, 굳이 자고 있는 아이돌을 깨우지 않고 매니저가 자기 가방에 있던 예전 사진을 대신 던져줍니다([캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 프록시). 3. 진짜 방송국 피디가 와서 "생방송 무대 나가야 해!"라고 강력하게 요구하는 그 마지막 결정적 순간([함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/))에만! 매니저가 조용히 뒤로 가서 아이돌(Real Subject)을 깨워 무대 위로 올려보냅니다([지연 로딩](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/182_lazy_loading/)). 진짜 핵심 자산이 피곤하게 닳거나 털리는 것을 막고, 문 앞의 비서가 궂은일을 싹 다 짬처리해 시스템을 극도로 최적화하는 방어의 꽃입니다.

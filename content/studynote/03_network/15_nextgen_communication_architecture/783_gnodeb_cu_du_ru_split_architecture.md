@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국은 쇳덩어리 하나가 아니라, 역할에 따라 <strong>RU ➜ DU ➜ CU</strong>라는 3개의 블록으로 칼로 썰어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치(Distributed)한 아키텍처를 가집니다.
 
 ### 1. RU (Radio Unit) - "단순 무식한 뿔([안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/))"
-- **역할**: 전봇대나 건물 옥상 꼭대기에 달린 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 쇳덩어리입니다. 
+- **역할**: 전봇대나 건물 옥상 꼭대기에 달린 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 쇳덩어리입니다.
 - 스마트폰과 허공에서 무선 전파(RF) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 주고받고, 아날로그 전파를 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(0과 1)로 변환해 밑에 있는 DU에게 토스하는 가장 단순한 막일만 담당합니다.
 
 ### 2. DU (Distributed Unit) - "동네 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 두뇌 (하위 제어)"

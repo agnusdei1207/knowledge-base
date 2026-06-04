@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내에서 특정 자료구조(예: `task_struct`, `inode`)를 담을 공간을 만들 때 쓰는 전용 메모리 할당 방식이다.
   - 하나의 '슬랩(Slab)'은 하나 이상의 연속된 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(4KB~8KB)로 구성되며, 이 슬랩 안에 동일한 크기의 '객체(Object)' 수십~수백 개가 도장 찍히듯 미리 만들어져(초기화되어) 들어간다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 1. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/">내부 단편화</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/">Internal Fragmentation</a>)</strong>: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 96바이트짜리 작은 `task_struct` 하나가 필요한데, 하부 메모리 관리자([버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/))는 무식하게 무조건 4096바이트(4KB) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 1장을 통째로 준다. 4000바이트가 버려진다.
   - 2. **객체 초기화 오버헤드**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 객체 하나를 만들 때는 메모리 할당뿐만 아니라 내부에 있는 [뮤텍스 락](/knowledge-base/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/), 리스트 포인터 등을 초기화하는 무거운 CPU 작업이 필요하다. 객체를 쓰고 버릴 때마다 이 짓을 반복하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 느려진다.
   - **해결책**: "96바이트짜리 전용 빵틀(캐시)을 만들어서 4KB 밀가루([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 안에 42개의 빵(객체)을 꽉꽉 찍어내자! 그리고 다 먹은 빵 껍데기(해제된 객체)는 버리지 말고 씻어뒀다가 다음 사람에게 바로 주자!"
@@ -31,7 +31,7 @@ tags = ["studynote-operating-system"]
   - **기존 방식**: 식당에서 손님이 올 때마다 찰흙을 빚어 새 그릇을 만들고(초기화), 손님이 다 먹으면 그릇을 깨서 쓰레기통에 버린다(메모리 해제).
   - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/349_slab_allocator/">슬랩 할당기</a></strong>: 식당에 '국밥용 그릇 세트(Slab Cache)', '반찬용 접시 세트'를 잔뜩 쌓아둔다. 손님이 국밥을 시키면 씻어둔 빈 국밥 그릇을 1초 만에 꺼내 쓰고, 다 먹으면 다시 설거지해서 그 세트 더미에 올려둔다(객체 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)).
 
-- **등장 배경**: 
+- **등장 배경**:
   - 1994년 SunOS(Solaris)의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해커 Jeff Bonwick이 최초로 설계했으며, 이후 Linux 등 현대 유닉스 계열 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 디폴트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 할당기 알고리즘으로 채택되었다.
 
 ```text
@@ -70,12 +70,12 @@ tags = ["studynote-operating-system"]
 
 ### [슬랩 할당기](/knowledge-base/studynote/02_operating_system/06_memory_management/349_slab_allocator/)의 객체 재사용(Object [Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)) 원리
 
-메모리 할당에서 가장 비용이 큰 것은 '메모리에 주소를 매기는 것'이 아니라 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 초기화(Constructor)하는 것'이다. 
+메모리 할당에서 가장 비용이 큰 것은 '메모리에 주소를 매기는 것'이 아니라 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 초기화(Constructor)하는 것'이다.
 
 - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 프로세스를 만들 때(fork), `task_struct` 객체를 할당받는다.
 - 프로세스가 종료될 때(exit), 이 객체 메모리를 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에 완전히 반납하여 파괴(Destructor)하지 않는다.
 - 대신 슬랩 캐시로 돌려보내는데, 이때 <strong>초기화된 상태(락, <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/">세마포어</a> 구조 등)를 그대로 유지한 채 '빈(Free)' 상태로만 표시</strong>해 둔다.
-- 다음 번에 또 프로세스를 만들면, 파괴되지 않고 살아있는 이 빈 껍데기를 그대로 가져다 쓴다. 
+- 다음 번에 또 프로세스를 만들면, 파괴되지 않고 살아있는 이 빈 껍데기를 그대로 가져다 쓴다.
 - $\rightarrow$ **결과**: 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/소멸에 드는 CPU 연산 비용 0 달성.
 
 ### 메모리 정렬(Alignment)과 캐시 색상화([Cache Coloring](/knowledge-base/studynote/02_operating_system/06_memory_management/379_cache_coloring/))
@@ -125,7 +125,7 @@ tags = ["studynote-operating-system"]
 ### 과목 융합 관점
 
 - **자료구조 (객체 지향 프로그래밍)**: 슬랩은 Java나 C#에서 자주 쓰이는 <strong>오브젝트 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/">풀링</a> (Object <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/">Pooling</a>)</strong> 디자인 패턴의 완벽한 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 버전이다. DB 커넥션을 맺고 끊는 게 너무 느려서 '커넥션 풀'을 100개 만들어두고 재사용하는 웹 서버의 백엔드 로직과 정확히 동일한 아키텍처 철학을 공유한다.
-- <strong>메모리 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a> 방어 (외부 vs 내부)</strong>: 
+- <strong>메모리 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a> 방어 (외부 vs 내부)</strong>:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/">버디 시스템</a>(Buddy)</strong>: 통짜 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(4KB~4MB)를 관리하며, 조각난 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 뭉쳐서 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>(External)</strong>를 방어한다.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/349_slab_allocator/">슬랩 할당기</a>(Slab)</strong>: 그 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 안에서 잘게 쪼개진 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 관리하여 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/">내부 단편화</a>(Internal)</strong>를 방어한다. 두 시스템의 완벽한 상호보완적 융합이다.
 

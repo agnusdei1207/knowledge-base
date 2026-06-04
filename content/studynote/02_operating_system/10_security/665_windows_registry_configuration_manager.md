@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>Windows <a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/">Registry</a></strong>: 윈도우 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 애플리케이션의 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 하드웨어 정보, 사용자 프로필 등을 저장하는 중앙 집중식 계층형 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/).
   - <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/">Hive</a> (하이브)</strong>: [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 트리의 특정 가지(Branch)를 물리적으로 저장하고 있는 디스크 상의 바이너리 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/).
 
-- <strong>필요성 (INI <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 지옥의 종식)</strong>: 
+- <strong>필요성 (INI <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 지옥의 종식)</strong>:
   - 과거 Windows 3.1 시절까지는 모든 프로그램이 각자의 폴더에 `win.ini`, `system.ini` 같은 텍스트 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 만들었다.
   - 프로그램이 수천 개로 늘어나자, OS가 부팅될 때 수천 개의 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 열고 파싱(Parsing)하느라 부팅이 엄청나게 느려졌다. (I/O 병목 및 캐시 부재)
   - 더 심각한 것은 보안이었다. 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 '누가 읽고 쓸 수 있는지' 권한을 섬세하게 통제하기 어려웠고, 여러 프로세스가 동시에 한 INI [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 쓰려다 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 깨지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 문제가 빈발했다.
@@ -98,7 +98,7 @@ tags = ["studynote-operating-system"]
 
 ### 트랜잭셔널 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) (TxR - Transactional [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/))
 
-[레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)는 OS의 심장이므로, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write) 도중 정전이 나면 윈도우는 영원히 부팅되지 않는다(Blue Screen). 
+[레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)는 OS의 심장이므로, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write) 도중 정전이 나면 윈도우는 영원히 부팅되지 않는다(Blue Screen).
 이를 막기 위해 Windows Vista부터 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>의 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>(ACID)</strong> 개념을 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)에 도입했다.
 
 - 애플리케이션이나 윈도우 업데이트가 수백 개의 키를 수정할 때, 이를 하나의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(`RegCreateTransaction`)으로 묶는다.

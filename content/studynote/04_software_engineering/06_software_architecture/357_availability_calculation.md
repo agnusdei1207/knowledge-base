@@ -25,7 +25,7 @@ tags = ["studynote-software-engineering"]
 
 - **💡 비유**: [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)은 "항공사 운항률"에 비유할 수 있다. 항공사에서 비행기가 운항하는 시간(正常运行时间)과 정비 시간(고장/수리 시간)의 비율이 운항률이고, 이것이 높으면리용객는 더 편리하게리용할 수 있다.
 
-- **📢 섹션 요약 비유**: [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)은 "병원 의사의 진료 가능 시간"에 비유할 수 있다. 의사가 환자를 진료하는 시간(정상 동작 시간)과 다른 업무(수리 시간)로 인해 진료를 할 수 없는시간의비솔이 Availability에서ある. 
+- **📢 섹션 요약 비유**: [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)은 "병원 의사의 진료 가능 시간"에 비유할 수 있다. 의사가 환자를 진료하는 시간(정상 동작 시간)과 다른 업무(수리 시간)로 인해 진료를 할 수 없는시간의비솔이 Availability에서ある.
 
 ---
 

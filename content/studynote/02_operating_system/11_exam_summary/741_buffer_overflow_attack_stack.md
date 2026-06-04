@@ -13,21 +13,21 @@ tags = ["studynote-operating-system"]
 
 > 1. **본질**: [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) ([Buffer Overflow](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/))는 프로그램이 할당된 메모리 공간(버퍼)의 경계를 넘어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓸 때 발생하는 취약점으로, 주로 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 영역의 함수 리턴 주소 (Return Address)를 악의적으로 덮어쓰는 데 사용된다.
 > 2. **가치**: C/C++ 언어의 태생적 한계(문자열 경계 검사 부재)를 노린 가장 고전적이고 치명적인 원격 코드 실행(RCE) 기법으로, 현대 시스템의 보안 방어 기술([ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/), [DEP](/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/)/NX)을 발전시킨 핵심 원동력이다.
-> 3. **융합**: 운영체제의 프로세스 주소 공간 레이아웃, CPU의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (EIP/[RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/), [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/), EBP) 제어 메커니즘, 그리고 가상 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) 기법이 총망라된 주제로, 악성코드 동작의 0순위 진입점(Entry Point)이다.
+> 3. **융합**: 운영체제의 프로세스 주소 공간 레이아웃, CPU의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (EIP/[RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/), [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/), EBP) 제어 메커니즘, 그리고 가상 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) 기법이 총망라된 주제로, 악성코드 동작의 0순위 진입점(Entry Point)이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 메모리 버퍼에 할당된 용량보다 더 큰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 입력받을 때, 인접한 메모리 영역을 덮어쓰는 (Overwrite) 현상. 이 중 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> 기반 <a href="/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/">버퍼 오버플로우</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a>-based <a href="/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/">Buffer Overflow</a>)</strong>는 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 시 생성되는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Frame)의 제어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조작하여 프로그램의 실행 흐름을 해커가 원하는 코드로 돌리는 공격이다.
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - `strcpy`, `gets`, `sprintf` 같은 표준 C [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 함수들은 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 길이를 검사하지 않고 널 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)(`\0`)가 나올 때까지 무작정 메모리에 복사한다.
   - 이로 인해, 해커가 의도적으로 긴 문자열을 입력하면, 함수가 끝난 후 CPU가 되돌아갈 '이전 주소(Return Address)'가 해커의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 덮어씌워져 버린다.
 
   - 서랍장([스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))에 옷([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 넣을 때, 서랍이 꽉 차면 멈춰야 하는데 계속 욱여넣어서 밑 칸에 들어있던 '부모님의 중요 서류(리턴 주소)'까지 밀어내고 덮어버리는 것과 같다.
   - 서랍을 닫고 다시 열었을 때, 원래 있던 서류 대신 해커가 끼워 넣은 '은행 송금 지시서(쉘코드)'가 실행되는 셈이다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 1988년 모리스 웜(Morris [Worm](/knowledge-base/studynote/02_operating_system/10_security/590_worm/))이 `fingerd`의 `gets()` [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)를 악용해 인터넷을 마비시키면서 세상에 알려졌다.
   - 1996년 Aleph One이 발표한 "Smashing The [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) For Fun And Profit" 문서는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 공격을 체계적으로 공식화하여 보안 업계에 엄청난 파장을 일으켰다.
 
@@ -111,7 +111,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅲ. 비교 및 연결
 
-### [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) 기법 ([Mitigation](/knowledge-base/studynote/09_security/12_identity_threat_advanced/605_golden_silver_ticket_mitigation/)) 비교
+### [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) 기법 ([Mitigation](/knowledge-base/studynote/09_security/12_identity_threat_advanced/605_golden_silver_ticket_mitigation/)) 비교
 
 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 공격에 맞서 운영체제와 컴파일러는 방패를 진화시켜 왔다. 해커의 공격(창)과 OS의 방어(방패) 간의 군비 경쟁이다.
 
@@ -134,7 +134,7 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오 및 [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)
 
-1. **시나리오 — 레거시 C 시스템의 원격 코드 실행 취약점**: 금융권의 오래된 C언어 기반 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 서버에서 해커가 조작된 패킷을 보내 서버를 크래시시키거나 원격 쉘을 탈취하는 정황이 포착됨. 
+1. **시나리오 — 레거시 C 시스템의 원격 코드 실행 취약점**: 금융권의 오래된 C언어 기반 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 서버에서 해커가 조작된 패킷을 보내 서버를 크래시시키거나 원격 쉘을 탈취하는 정황이 포착됨.
    - **원인 분석**: 코드 분석 결과 패킷의 헤더 파싱 부에서 `strcpy(dest, src)`를 사용 중이었음. 해커가 src 길이를 극단적으로 길게 조작한 패킷을 보냄.
    - <strong>아키텍트 판단 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/">시큐어 코딩</a>)</strong>: 길이 제어가 없는 위험 함수를 모두 퇴출시킨다. `strcpy` $\rightarrow$ `strncpy` 또는 `strlcpy`로, `sprintf` $\rightarrow$ `snprintf`로 전면 교체하여 목적지 버퍼의 `sizeof()`를 넘는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 잘라버리도록(Truncate) 소스코드를 리팩토링한다.
 
@@ -190,7 +190,7 @@ tags = ["studynote-operating-system"]
 - **CERT C Coding Standard**: 안전한 C 언어 코딩 보안 가이드라인
 - **MITRE CWE-119**: 메모리 버퍼의 범위를 벗어난 연산 (Improper Restriction of Operations within the Bounds of a Memory Buffer)
 
-[버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)는 단순한 코딩 실수가 아니라, "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)"을 위해 "안전"을 희생했던 70년대 C 언어 설계 철학의 빚을 50년째 갚고 있는 컴퓨터 공학의 원죄다. 이 빚을 청산하기 위해 운영체제는 수많은 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) 기법을 겹겹이 두르게 되었고, 현대의 방어 체계는 이제 소프트웨어를 넘어 하드웨어 칩([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/), PAC) 레벨의 영역으로 진입했다.
+[버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)는 단순한 코딩 실수가 아니라, "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)"을 위해 "안전"을 희생했던 70년대 C 언어 설계 철학의 빚을 50년째 갚고 있는 컴퓨터 공학의 원죄다. 이 빚을 청산하기 위해 운영체제는 수많은 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) 기법을 겹겹이 두르게 되었고, 현대의 방어 체계는 이제 소프트웨어를 넘어 하드웨어 칩([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/), PAC) 레벨의 영역으로 진입했다.
 
 - **📢 섹션 요약 비유**: 예전에는 목수의 손재주(코딩 실력)에만 의존해 부서지지 않는 의자를 만들었다면, 미래에는 절대 부서지지 않는 강철 나무([Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/) 언어, 하드웨어 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))를 재료로 사용하여 원초적인 사고를 막아내는 방향으로 발전하고 있습니다.
 

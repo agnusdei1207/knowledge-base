@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-과거의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 라우터는 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/)), 주니퍼(Juniper) 등 제조사가 칩셋 안에 하드코딩해 둔 자신들만의 룰과 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(Network OS)로 동작했다. 이 폐쇄적인 생태계에서는 관리자가 장비의 동작 방식을 마음대로 바꿀 수 없었다. 
+과거의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 라우터는 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/)), 주니퍼(Juniper) 등 제조사가 칩셋 안에 하드코딩해 둔 자신들만의 룰과 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(Network OS)로 동작했다. 이 폐쇄적인 생태계에서는 관리자가 장비의 동작 방식을 마음대로 바꿀 수 없었다.
 
 이러한 문제를 해결하기 위해 스탠포드 대학교 연구진은 "장비는 그저 패킷을 고속으로 전달만 하고, 똑똑한 경로는 외부의 서버(컨트롤러)가 계산해서 알려주면 어떨까?"라는 발상을 현실화했다. 이때 외부 서버와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 대화할 수 있도록 제정된 최초의 개방형 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 바로 <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/">OpenFlow</a></strong>이다. OpenFlow는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)(Software-Defined Networking)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플레인과 컨트롤 플레인을 물리적으로 절단해낸 상징적인 인터페이스다.
 

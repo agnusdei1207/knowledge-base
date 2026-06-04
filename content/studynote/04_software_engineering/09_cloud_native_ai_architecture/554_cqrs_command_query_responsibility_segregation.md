@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: CQRS는 영어 길어서 쫄 필요 없다. 
+- **개념**: CQRS는 영어 길어서 쫄 필요 없다.
   - <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/">Command</a> (명령)</strong>: "돈 넣어라, 비번 바꿔라" ➡ DB 상태를 바꾸는(Write, Update, Delete) 묵직한 삽질.
   - **Query (조회)**: "내 잔고 얼마냐?" ➡ DB 상태를 건드리지 않고 눈으로 보기만 하는(Read) 깃털 같은 행위.
   - **책임 분리 (RS)**: 이 삽질과 눈팅을 똑같은 1개의 오라클([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) DB 서버에서 처리하지 말고, 아예 DB를 2개로 찢어서 "삽질 전용 DB", "눈팅 전용 DB"로 역할을 완벽히 나누자(Segregation)는 흑마법이다.

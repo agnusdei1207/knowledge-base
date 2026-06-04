@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 내 시스템(Order)이 상대방 시스템(Pay)의 `http://pay.com/charge` API를 호출해야 한다. 그런데 상대방 시스템이 아직 개발 중이거나 너무 무거워서 내 로컬(Local) 환경에 띄울 수가 없다. 이때 내 노트북이나 사내 망에 가짜 서버(WireMock)를 띄워놓고 주소를 `http://localhost/charge`로 바꾼다. 이 가짜 서버는 내가 찌르면 완벽한 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 응답 `{"status":"OK"}`를 0.1초 만에 툭 뱉어낸다. 
+- **개념**: 내 시스템(Order)이 상대방 시스템(Pay)의 `http://pay.com/charge` API를 호출해야 한다. 그런데 상대방 시스템이 아직 개발 중이거나 너무 무거워서 내 로컬(Local) 환경에 띄울 수가 없다. 이때 내 노트북이나 사내 망에 가짜 서버(WireMock)를 띄워놓고 주소를 `http://localhost/charge`로 바꾼다. 이 가짜 서버는 내가 찌르면 완벽한 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 응답 `{"status":"OK"}`를 0.1초 만에 툭 뱉어낸다.
 
 - **필요성**: 1개의 모놀리식 덩어리를 50개의 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))로 쪼갰다. 혁신일 줄 알았는데 지옥이 열렸다. A가 B를 부르고 B가 C를 부르는데, 막내 C팀 개발자가 휴가를 가서 C 서버를 안 띄워놨다. A와 B팀 전체 100명의 개발자가 통합 테스트를 돌리지 못하고 하루 종일 손가락을 빤다. 카카오페이 연동 개발을 하는데 진짜 카카오 서버를 하루에 1만 번 찌르면 카카오가 디도스(DDoS) 공격인 줄 알고 우리 회사 IP를 블록(Block) 시킨다. <strong>외부 인프라 연동의 종속성과 비용 문제를 부수지 않으면 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 환경에서는 단 하루도 개발을 진행할 수 없다.</strong>
 

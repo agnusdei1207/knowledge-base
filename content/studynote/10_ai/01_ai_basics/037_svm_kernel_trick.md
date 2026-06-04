@@ -50,16 +50,16 @@ tags = ["studynote-ai"]
 1. 선형 커널 (Linear Kernel):
    K(xi, xj) = xi · xj
    사용: 선형 분리 가능한 고차원 데이터 (텍스트 분류)
-   
+
 2. 다항식 커널 (Polynomial Kernel):
    K(xi, xj) = (γ * xi · xj + r)^d
    사용: 이미지 분류, d=2,3
-   
+
 3. RBF/가우시안 커널 (Radial Basis Function):
    K(xi, xj) = exp(-γ || xi - xj ||^2)
    사용: 가장 범용적, 비선형 분류
    해석: 거리가 가까울수록 유사도 1, 멀수록 0
-   
+
 4. 시그모이드 커널:
    K(xi, xj) = tanh(γ * xi · xj + r)
    사용: 신경망과 유사 (일부 데이터에 적합)
@@ -119,7 +119,7 @@ SVM 단점:
 딥러닝이 더 나은 경우:
   - 대규모 데이터 (>100K 샘플)
   - 이미지, 텍스트, 오디오 (raw 입력)
-  
+
 SVM이 더 나은 경우:
   - 소규모 구조화 데이터 (수천 샘플)
   - 고차원 텍스트 (TF-IDF + Linear SVM)

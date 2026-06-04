@@ -38,13 +38,13 @@ tags = ["studynote-algorithm"]
 
 ### K-Way 외부 병합 정렬 (External [Merge Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)) 단계
 
-<strong>1단계 — 런(Run) <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>:  
+<strong>1단계 — 런(Run) <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>:
 메모리에 M 크기 청크를 읽어 내부 정렬 후 디스크에 임시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(런) 저장
 
-**2단계 — K-Way 병합 (Merge Passes)**:  
+**2단계 — K-Way 병합 (Merge Passes)**:
 K개 런 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 동시에 읽으면서 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/))으로 최솟값을 선택해 병합
 
-**3단계 — 반복**:  
+**3단계 — 반복**:
 런이 1개 남을 때까지 패스 반복
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 외부 병합 정렬 흐름
@@ -223,8 +223,8 @@ K개 런 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/5
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-📦 **방 정리 이사 트럭**: 방(메모리)에 다 안 들어오는 짐을 트럭(런 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))에 나눠 싣고, 여러 트럭을 동시에 비교하며 새 집(결과 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))에 순서대로 넣어요.  
-🗂️ **선생님의 학생부 정리**: 선생님이 한 번에 100명 이름만 기억할 수 있다면, 100명씩 묶어서 정렬하고 합치는 방식으로 전교생 3,000명 이름도 정렬할 수 있어요.  
+📦 **방 정리 이사 트럭**: 방(메모리)에 다 안 들어오는 짐을 트럭(런 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))에 나눠 싣고, 여러 트럭을 동시에 비교하며 새 집(결과 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))에 순서대로 넣어요.
+🗂️ **선생님의 학생부 정리**: 선생님이 한 번에 100명 이름만 기억할 수 있다면, 100명씩 묶어서 정렬하고 합치는 방식으로 전교생 3,000명 이름도 정렬할 수 있어요.
 🔀 **합류 도로**: 여러 도로(K개 런 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))에서 차가 동시에 나와서, 제일 앞에 있는 차를 순서대로 고속도로(결과)에 합류시키면 돼요!
 
 ---

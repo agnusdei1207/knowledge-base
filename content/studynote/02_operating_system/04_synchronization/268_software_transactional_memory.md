@@ -21,13 +21,13 @@ tags = ["studynote-operating-system"]
 
 > ⚠️ 이 문서는 [다중 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/) 프로그래밍에서 개발자를 지옥으로 몰아넣는 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 기반 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)의 끔찍한 한계(데드락, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하)를 극복하기 위해, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 '[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)' 개념을 메모리 제어에 그대로 가져와 락 없이 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)을 구현한 혁신적 프로그래밍 패러다임인 STM을 다룹니다.
 
-1990년대부터 프로그래머들은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌을 막기 위해 <strong>락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>, 뮤텍스)</strong>을 사용했다. 
+1990년대부터 프로그래머들은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌을 막기 위해 <strong>락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>, 뮤텍스)</strong>을 사용했다.
 "내가 화장실(공유 변수) 쓸 거니까 문 잠그고([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)), 다 쓰면 열어줄게(Unlock)!"
-하지만 화장실이 수만 개, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 수천 개로 늘어나자 대참사가 벌어졌다. 
+하지만 화장실이 수만 개, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 수천 개로 늘어나자 대참사가 벌어졌다.
 - A 스레 해드가 1번 락을 쥐고 2번 락을 기다리는데, B [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 2번 락을 쥐고 1번 락을 기다리는 <strong>데드락(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)</strong>.
 - 수백 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 락 하나를 얻기 위해 줄을 서서 대기하며 CPU 코어가 놀고 있는 병목 현상.
 
-"[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스는 수만 명의 접속자가 동시에 쇼핑몰에 접속해도 락 때문에 멈추는 일이 없잖아? <strong>DB가 쓰는 '<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">Transaction</a>)' 기술을 프로그래밍 언어의 메모리 변수에다 쑤셔 넣으면 안 될까?</strong>" 
+"[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스는 수만 명의 접속자가 동시에 쇼핑몰에 접속해도 락 때문에 멈추는 일이 없잖아? <strong>DB가 쓰는 '<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">Transaction</a>)' 기술을 프로그래밍 언어의 메모리 변수에다 쑤셔 넣으면 안 될까?</strong>"
 이 기발한 아이디어에서 출발한 것이 바로 <strong>STM (Software Transactional Memory)</strong>이다.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.

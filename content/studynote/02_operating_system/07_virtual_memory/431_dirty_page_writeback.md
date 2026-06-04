@@ -96,7 +96,7 @@ tags = ["studynote-operating-system"]
    - 램 전체 용량의 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%가 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 되면, 백그라운드의 청소부(flusher)가 **사용자 몰래(Asynchronous)** 깨어나서 슬금슬금 디스크로 짐을 나른다. 유저 앱은 아무 렉을 못 느끼고 계속 쾌속 질주한다.
 2. <strong><code>vm.dirty_ratio</code> (기본 20%)</strong>:
    - 유저 앱이 미쳐서 하드디스크 속도보다 더 빨리 램에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏟아부었다! 백그라운드 청소부가 치우는 속도를 추월해버려서 램의 20%가 오염되었다.
-   - **재앙 발생**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 즉시 유저 앱의 실행을 강제로 멈춰 세운다(Blocked). "야! 더 이상 램에 쓰지 마! 네가 직접 디스크로 짐 날라!"라며 <strong>동기식(<a href="/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/">Synchronous</a>) Writeback</strong>을 강제한다. 
+   - **재앙 발생**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 즉시 유저 앱의 실행을 강제로 멈춰 세운다(Blocked). "야! 더 이상 램에 쓰지 마! 네가 직접 디스크로 짐 날라!"라며 <strong>동기식(<a href="/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/">Synchronous</a>) Writeback</strong>을 강제한다.
    - 유저 앱(예: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 복사창)이 갑자기 수 초 동안 화면이 얼어버리는 이유가 바로 이 2차 방파제에 부딪혔기 때문이다.
 
 ```text
@@ -108,7 +108,7 @@ tags = ["studynote-operating-system"]
 │ 20% 돌파  │ 💥 비상사태  │ **강제 정지 ☠️**│ 화면 얼어붙음 (수 초)│
 └──────────┴────────────┴────────────┴──────────────────────────────┘
 ```
-**[매트릭스 해설]** [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 3.0에 기가바이트 단위의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 복사할 때 처음엔 미친 듯이 1초 만에 90%까지 가다가(램에 쓰는 중), 갑자기 남은 시간 1분을 띄우고 창이 얼어버리는(dirty_ratio 돌파로 강제 디스크 I/O) 현상의 100% 하드웨어적 근거다. 
+**[매트릭스 해설]** [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 3.0에 기가바이트 단위의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 복사할 때 처음엔 미친 듯이 1초 만에 90%까지 가다가(램에 쓰는 중), 갑자기 남은 시간 1분을 띄우고 창이 얼어버리는(dirty_ratio 돌파로 강제 디스크 I/O) 현상의 100% 하드웨어적 근거다.
 
 - **📢 섹션 요약 비유**: 쓰레기통(더티 램)이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 찰 때는 엄마(백그라운드 데몬)가 조용히 갖다 버려서 내가 노는 데 지장이 없습니다. 하지만 내가 쓰레기를 너무 빨리 만들어서 20%까지 차버리면, 엄마가 내 등짝을 때리며 "놀지 말고 네가 직접 쓰레기장(디스크)에 버리고 와!"라고 시켜서 노는 흐름(앱 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))이 뚝 끊겨버리는 원리입니다.
 

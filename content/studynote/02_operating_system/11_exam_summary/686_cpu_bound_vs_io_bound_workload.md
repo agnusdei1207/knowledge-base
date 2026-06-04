@@ -19,20 +19,20 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **CPU Burst (버스트)**: 프로세스가 CPU를 잡고 미친 듯이 연산만 수행하는 연속적인 시간 구간.
   - **I/O Burst**: 프로세스가 디스크에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽거나 네트워크 패킷을 기다리며 대기(Block/Sleep)하는 시간 구간.
   - 프로세스의 일생은 [CPU 버스트 $\rightarrow$ I/O 버스트 $\rightarrow$ CPU 버스트 $\rightarrow$ I/O 버스트]의 끝없는 반복이다.
 
-- **CPU 바운드 프로세스**: 
+- **CPU 바운드 프로세스**:
   - I/O 버스트보다 **CPU 버스트가 압도적으로 긴** 프로그램.
   - 예: 동영상 인코딩, 3D 렌더링, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 학습, 비트코인 채굴, 무한 루프.
 
-- **I/O 바운드 프로세스**: 
+- **I/O 바운드 프로세스**:
   - CPU 버스트는 아주 짧고, **I/O 버스트(대기 시간)가 압도적으로 긴** 프로그램.
   - 예: 카카오톡(사용자 키보드 대기), 웹 브라우저, 웹 서버(DB와 네트워크 대기), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 복사 프로그램.
 
-- <strong>필요성 (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a>의 편애)</strong>: 
+- <strong>필요성 (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a>의 편애)</strong>:
   - OS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 두 프로세스를 똑같이 대우하면 시스템이 엉망이 된다. 동영상 인코딩(CPU 바운드)이 CPU를 꽉 잡고 안 놔주면, 사용자가 카카오톡(I/O 바운드)에 글자를 쳤을 때 3초 뒤에나 글자가 찍힌다(응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)).
   - **해결책**: OS는 불공평해야 한다. 사용자와 소통하는 **I/O 바운드 프로세스의 우선순위를 강제로 높여주어(Boost)**, 이들이 키보드 입력을 받는 즉시 CPU를 새치기(Preempt)하게 만들어야 시스템이 부드럽게 돌아간다.
 

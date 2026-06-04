@@ -92,7 +92,7 @@ tags = ["studynote-operating-system"]
 - [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)이나 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))로 통신하면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼로 복사하고 핑퐁 치느라 오버헤드가 작살난다.
 - **해결책**: 카톡과 엑셀이 똑같은 `shared_data.txt` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 `mmap`으로 매핑한다.
 - OS는 두 프로세스의 가상 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 화살표를 물리 램의 '동일한 프레임([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache 1장)'에 십자수처럼 꽂아버린다.
-- 카톡이 포인터 변수에 `A`를 쓰면, 엑셀이 0.000001초 만에 자기 포인터에서 `A`를 바로 읽어낸다! 
+- 카톡이 포인터 변수에 `A`를 쓰면, 엑셀이 0.000001초 만에 자기 포인터에서 `A`를 바로 읽어낸다!
 - 시스템 콜 0회, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사 0회. <strong>세상에서 존재하는 가장 빠르고 폭력적인 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/">프로세스 간 통신</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/">IPC</a>) 채널이 바로 이 <code>mmap</code> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/">공유 메모리</a>다.</strong>
 
 ```text
@@ -113,13 +113,13 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: MongoDB의 흑역사와 ElasticSearch의 성공
-1. <strong>MongoDB의 <a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 실수</strong>: 
+1. <strong>MongoDB의 <a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 실수</strong>:
    - 몽고DB [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 버전은 자체적인 디스크 읽기 로직을 버리고 100% OS의 `mmap`에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 관리를 위임했다. "[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)아 네가 알아서 램에 올리고 지워줘!"
    - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 1TB로 커지자 대재앙이 났다. 잦은 수정(Write)으로 Dirty Page가 수백 GB 쌓였는데, 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 데몬(`pdflush`)이 이걸 하드디스크에 한 번에 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)시키려고 스레드를 얼려버려 DB가 수십 초씩 기절했다. (결국 몽고DB는 mmap을 버리고 WiredTiger 엔진으로 도망침).
 2. **ElasticSearch의 승리 (Lucene 엔진)**:
    - 전 세계 최고의 검색 엔진 엘라스틱서치는 반대로 `mmap`을 신처럼 다룬다.
    - 검색 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`.cfs`)은 만들어진 후 절대 수정되지 않는 **읽기 전용(Read-Only, Clean)** [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이다.
-   - 100GB짜리 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 `mmap`으로 올려두면, 아무리 램이 꽉 차서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 쫓겨나도 Dirty Page가 아니므로 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 렉(8ms)이 전혀 발생하지 않고 0.1초 만에 램에서 쓱쓱 삭제(Drop)된다. 
+   - 100GB짜리 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 `mmap`으로 올려두면, 아무리 램이 꽉 차서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 쫓겨나도 Dirty Page가 아니므로 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 렉(8ms)이 전혀 발생하지 않고 0.1초 만에 램에서 쓱쓱 삭제(Drop)된다.
    - 램 64GB짜리 서버로 1TB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 전문 검색을 0.1초 만에 끝내는 ES의 미친 속도는 바로 이 `mmap`의 특징(Clean [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 드랍)을 극한까지 악용한 아키텍처 덕분이다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): mmap에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 덧붙이기 (Append)

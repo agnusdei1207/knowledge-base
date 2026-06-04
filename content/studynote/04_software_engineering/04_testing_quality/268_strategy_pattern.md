@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 전략 패턴은 동일한 목적을 달성하지만 구현 방식이 다른 여러 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(전략)을 각각 하나의 클래스로 묶어 분리(Encapsulate)하고, 런타임(실행 중)에 이들을 클라이언트 클래스에 갈아 끼울 수 있도록 하는 패턴이다.
 
-- **필요성**: 내비게이션 앱을 개발한다고 가정하자. 처음에는 '자동차 경로 탐색' [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)만 있었다. 이후 '도보 경로', '대중교통 경로', '자전거 경로'가 차례로 추가되었다. 만약 이를 하나의 `Navigator` 클래스 안에 수많은 `if-else` 문으로 욱여넣는다면, 코드는 금세 수천 줄이 되어 스파게티 코드가 되고 만다. 자전거 경로의 버그를 고치다가 자동차 경로까지 망가뜨리는 일이 빈번해진다. 
+- **필요성**: 내비게이션 앱을 개발한다고 가정하자. 처음에는 '자동차 경로 탐색' [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)만 있었다. 이후 '도보 경로', '대중교통 경로', '자전거 경로'가 차례로 추가되었다. 만약 이를 하나의 `Navigator` 클래스 안에 수많은 `if-else` 문으로 욱여넣는다면, 코드는 금세 수천 줄이 되어 스파게티 코드가 되고 만다. 자전거 경로의 버그를 고치다가 자동차 경로까지 망가뜨리는 일이 빈번해진다.
 
 - **💡 비유**: 리그 오브 레전드(LoL)나 오버워치 같은 게임에서 챔피언이 '무기'를 바꾸는 것과 같습니다. 검을 들면 '베기', 활을 들면 '쏘기'로 공격 방식([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))이 달라지지만, 챔피언 자체의 '공격한다()'라는 본질적인 행위 명령은 변하지 않습니다.
 

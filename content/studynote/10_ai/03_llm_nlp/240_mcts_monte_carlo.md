@@ -19,12 +19,12 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-체스 세계 챔피언은 1997년에 컴퓨터([미니맥스 알고리즘](/knowledge-base/studynote/10_ai/01_ai_basics/019_minimax_algorithm/))에게 무너졌다. 하지만 동양의 보드게임 '바둑' 앞에서는 슈퍼컴퓨터도 고철 덩어리에 불과했다. 
+체스 세계 챔피언은 1997년에 컴퓨터([미니맥스 알고리즘](/knowledge-base/studynote/10_ai/01_ai_basics/019_minimax_algorithm/))에게 무너졌다. 하지만 동양의 보드게임 '바둑' 앞에서는 슈퍼컴퓨터도 고철 덩어리에 불과했다.
 체스는 돌을 둘 때 나오는 뻗어 나가는 나뭇가지(Branching Factor)가 약 35개다. 하지만 바둑은 한 턴에 250개의 가지가 뻗는다. 이걸 몇 수 앞까지만 계산하려고 해도 우주의 원자 수보다 많은 경우의 수($[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{170}$)가 튀어나왔다. [미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/)나 A* 탐색 같은 '완벽주의 계산법'은 바둑판에 올라오자마자 메모리가 폭발하며 장렬히 전사했다.
 
 "야! 이 모든 길을 다 계산하는 건 물리적으로 불가능해! 그냥 사람처럼 <strong>'직감(대충 찍기)'</strong>으로 승부하자!"
 
-모나코의 도박장 이름에서 유래한 '몬테카를로(Monte Carlo)' [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)론이 게임 트리와 결합했다. 
+모나코의 도박장 이름에서 유래한 '몬테카를로(Monte Carlo)' [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)론이 게임 트리와 결합했다.
 "A 지점에 돌을 놓았을 때 이길까 질까? 계산하지 마! 그냥 여기서부터 게임이 끝날 때까지 무작위(Random)로 1,000판을 미친 듯이 시뮬레이션해 봐. 어라? A에 놨더니 1,000판 중 800판을 이겼네? 그럼 A가 80% [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 좋은 길이야!"
 이 무식하고 폭력적인 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 시뮬레이션이 고전 AI의 오만함을 부수고 탄생시킨 위대한 비대칭 탐색 아키텍처, 그것이 바로 <strong>몬테카를로 트리 탐색 (MCTS)</strong>이다.
 

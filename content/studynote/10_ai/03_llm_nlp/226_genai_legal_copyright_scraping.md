@@ -19,7 +19,7 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-2022년 ChatGPT와 Midjourney의 등장은 인류를 환호하게 했지만, 곧바로 수백만 명의 작가, 화가, 언론사들을 거대한 분노로 몰아넣었다. 
+2022년 ChatGPT와 Midjourney의 등장은 인류를 환호하게 했지만, 곧바로 수백만 명의 작가, 화가, 언론사들을 거대한 분노로 몰아넣었다.
 "이봐, AI가 이렇게 글을 잘 쓰고 그림을 잘 그리는 이유가 뭔지 알아? **내 평생의 피땀 눈물이 담긴 기사와 그림을 나한테 단 1원도 안 주고 훔쳐 가서(Web Scraping) 기계 뇌 속에 다 집어넣었기 때문이잖아!** 이건 거대한 도둑질이야!"
 
 이 분노는 즉각적인 천문학적 소송전으로 이어졌다. 뉴욕타임스는 OpenAI를 고소했고, 게티이미지(Getty Images)는 자사 [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)까지 통째로 베껴서 그려내는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 회사들을 법정에 세웠다. 기존의 [저작권](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/)법([Copyright](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/310_ai_ethics_bias_copyright/) Law)은 '인간 대 인간'의 표절만을 상정하고 만들어졌기 때문에, 수십억 장의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 갈아 넣어 '통계적 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))'로 변환해 버리는 <strong>블랙박스 기계(<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a>) 앞에서는 완전히 붕괴해 버렸다.</strong>

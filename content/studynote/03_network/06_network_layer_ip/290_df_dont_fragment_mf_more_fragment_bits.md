@@ -20,11 +20,11 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: IP [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))를 직접적으로 통제하는 Flags 필드(3비트) 내의 2번, 3번째 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/).
-- **필요성**: 
+- **필요성**:
   - 원래 라우터의 1원칙은 "패킷이 크면 찢어서라도 목적지까지 배달해라"다. 하지만 TCP와 같은 상위 계층은 조각난 패킷을 재조립하는 데 엄청난 CPU 연산을 써야 하므로, "아예 처음부터 안 찢어지게 작게 보내고 싶다"는 니즈가 생겼다. 그래서 라우터에게 <strong>"찢을 바엔 차라리 버려(DF)!"</strong>라고 명령할 권한을 부여했다.
   - 라우터가 임의로 패킷을 찢었을 때, 목적지 PC는 언제까지 기다려야 모든 조각이 다 온 건지 알 수가 없다. 누군가 꼬리표에 <strong>"내가 마지막 조각이야(MF=0)"</strong>라고 외쳐주지 않으면 영원히 버퍼 메모리만 차지하게 되므로 MF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 탄생했다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - **DF (Don't Fragment)**: 유리그릇에 **"취급 주의: 분해 불가"** 스티커를 붙이는 것. 택배 박스에 안 들어가면 억지로 쪼개지 말고 반송 처리하라는 강력한 경고입니다.
   - **MF (More Fragment)**: 긴 영화를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(ZIP) 3개로 나눠서 보낼 때 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름을 `영화.part1 (뒤에 더 있음)`, `영화.part2 (뒤에 더 있음)`, `영화.part3 (이게 끝!)`으로 지어주는 친절한 작명법입니다.
 
@@ -57,7 +57,7 @@ tags = ["studynote-network"]
 - 수신자 PC에 1번 조각(MF=1) 도착 ──▶ "오케이 버퍼에 담고 기다림"
 - 2번 조각(MF=1) 도착 ──▶ "오케이 버퍼에 담음"
 - **문제 발생**: 3번 조각(MF=0)이 해저 케이블 노이즈로 증발해 버렸다!
-- 수신자 PC는 MF=0인 꼬리 조각이 안 왔기 때문에 조립을 시작하지 못하고 버퍼 메모리를 잡고 하염없이 기다리다, 일정 시간이 지나면(Reassembly [Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)) "에잇 망했다!" 하고 **힘들게 모은 1번, 2번 조각마저 통째로 쓰레기통에 쏟아버린다(Drop)**. 
+- 수신자 PC는 MF=0인 꼬리 조각이 안 왔기 때문에 조립을 시작하지 못하고 버퍼 메모리를 잡고 하염없이 기다리다, 일정 시간이 지나면(Reassembly [Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)) "에잇 망했다!" 하고 **힘들게 모은 1번, 2번 조각마저 통째로 쓰레기통에 쏟아버린다(Drop)**.
 - 결국 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))가 많이 발생할수록 패킷 하나만 잃어버려도 전체가 날아가 재전송해야 하는 최악의 효율이 발생하므로, 네트워크 엔지니어들은 기를 쓰고 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)가 일어나지 않게 MTU를 조절한다.
 
 ```text

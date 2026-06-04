@@ -34,12 +34,12 @@ tags = ["data_engineering"]
   ↑
   │                    [Scale-up (수직 확장)] : 고가 장비 한계 도달 (장벽)
   │                   ↗ ✖ (물리적 한계, 비용 폭발)
-  │                 ↗ 
-  │               ↗      
+  │                 ↗
+  │               ↗
   │             ↗      [Scale-out (수평 확장)] : 지속적 노드 추가
   │           ↗    ────────────────────────────────────────────▶ (선형 확장)
   │         ↗    ─ 노드 1 ─ 노드 2 ─ 노드 3 ─ 노드 N ...
-  │       ↗    ─ 
+  │       ↗    ─
   └─────────────────────────────────────────────────────→ 데이터 규모 (PB+)
 ```
 
@@ -132,7 +132,7 @@ A 방식([스케일 업](/knowledge-base/studynote/01_computer_architecture/15_a
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
-실무 환경에서 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 아키텍처를 도입할 때는 무조건적인 수평 확장이 능사가 아님을 명심해야 한다. 
+실무 환경에서 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 아키텍처를 도입할 때는 무조건적인 수평 확장이 능사가 아님을 명심해야 한다.
 
 1. <strong>상태 저장 (Stateful) vs 상태 없음 (<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a>)</strong>: [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)이 가장 이상적으로 작동하는 곳은 웹 서버와 같이 상태를 유지하지 않는([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 계층이다. 반면 RDBMS 같이 강력한 정합성을 요하는 저장소는 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)에 제약이 많아 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)([Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/))이나 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 도입 같은 아키텍처 변경이 수반되어야 한다.
 2. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 핫스팟 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Hotspot) 문제</strong>: 분할 키([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 잘못 설정하여 특정 노드에 트래픽이나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 몰리는 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏠림 현상'이 발생하면, 클러스터의 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 그 한 대의 느린 노드 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 하향 평준화되는 심각한 지연이 발생한다.
@@ -162,7 +162,7 @@ A 방식([스케일 업](/knowledge-base/studynote/01_computer_architecture/15_a
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-[스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)은 단순한 장비 확장을 넘어 [클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) 시대의 핵심 동력으로 자리 잡았다. 
+[스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)은 단순한 장비 확장을 넘어 [클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) 시대의 핵심 동력으로 자리 잡았다.
 
 | 기대 효과 | 도입 전 ([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/) 의존) | 도입 후 ([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 기반) | 비즈니스 가치 |
 |:---|:---|:---|:---|

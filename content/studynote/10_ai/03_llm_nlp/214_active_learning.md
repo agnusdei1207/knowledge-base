@@ -19,10 +19,10 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-현대의 딥러닝 모델(특히 [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/))은 굶주린 돼지와 같다. 정답(Label)이 달린 사진 100만 장을 먹여야 겨우 똑똑해진다. 
-고양이나 강아지 사진이라면 동네 중학생 알바 100명을 고용해서 라벨링([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Labeling)을 시키면 싸게 막을 수 있다. 하지만 "이 초음파 사진이 폐암 1기인지 2기인지 픽셀로 칠하라"는 숙제는 대학 병원 전문의만 할 수 있다. 전문의 100명을 1년 동안 고용해 100만 장을 라벨링하는 건 회사가 파산하는 지름길이다. 
+현대의 딥러닝 모델(특히 [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/))은 굶주린 돼지와 같다. 정답(Label)이 달린 사진 100만 장을 먹여야 겨우 똑똑해진다.
+고양이나 강아지 사진이라면 동네 중학생 알바 100명을 고용해서 라벨링([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Labeling)을 시키면 싸게 막을 수 있다. 하지만 "이 초음파 사진이 폐암 1기인지 2기인지 픽셀로 칠하라"는 숙제는 대학 병원 전문의만 할 수 있다. 전문의 100명을 1년 동안 고용해 100만 장을 라벨링하는 건 회사가 파산하는 지름길이다.
 
-그래서 공학자들은 분노했다. "가만 보니 100만 장 중에 90만 장은 너무 뻔한 정상 폐 사진이잖아? 이런 걸 의사한테 왜 보여줘! 딥러닝 네가 먼저 대충 훑어보고, 진짜 헷갈리는 애매한 사진 딱 1만 장만 추려내. 그것만 의사 선생님한테 가져가서 정답을 물어보자!" 
+그래서 공학자들은 분노했다. "가만 보니 100만 장 중에 90만 장은 너무 뻔한 정상 폐 사진이잖아? 이런 걸 의사한테 왜 보여줘! 딥러닝 네가 먼저 대충 훑어보고, 진짜 헷갈리는 애매한 사진 딱 1만 장만 추려내. 그것만 의사 선생님한테 가져가서 정답을 물어보자!"
 
 이것이 기계가 수동적으로 주는 밥만 먹는 것(Passive [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))을 거부하고, 밥상에서 자신이 먹고 싶은 가장 영양가 높은 반찬([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 직접 찍어서 가져오라고 지시하는 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">액티브</a> 러닝 (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a>, 능동 학습)</strong>의 위대한 탄생이다.
 

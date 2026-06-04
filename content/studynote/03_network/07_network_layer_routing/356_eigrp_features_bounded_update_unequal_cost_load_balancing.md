@@ -20,11 +20,11 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: Cisco의 독자 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)인 EIGRP가 경쟁 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/), [RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/)) 대비 기술적 우위를 점하게 해주는 핵심 최적화 기능들.
-- **필요성**: 
+- **필요성**:
   - (업데이트 문제) RIP는 30초마다 전체 지도를 쏴서 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 갉아먹었다. OSPF는 부분 업데이트를 하긴 하지만, 변화가 생기면 무조건 같은 Area 내의 '모든 라우터'에게 싹 다(Flooding) 뿌려야 해서 여전히 CPU 낭비가 심했다. <strong>"딱 필요한 놈한테, 딱 필요한 정보만 주자!"</strong>라는 극한의 실용주의가 필요했다.
   - ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 문제) OSPF는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 1Gbps인 길과 500Mbps인 길이 있으면 무조건 1Gbps 길로만 패킷을 몰아넣고 500Mbps 길은 1Gbps 길이 끊어질 때까지 그냥 놀린다. <strong>"아니, 둘 다 합치면 1.5Gbps인데 왜 하나를 놀려? 점수가 달라도 2:1 비율로 나눠 쏘면 되잖아!"</strong>라는 경제적 발상이 EIGRP를 특별하게 만들었다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - **부분/제한적 업데이트**: 사내 게시판에 "오늘 점심 메뉴 바뀜"이라고 전체 공지(Flooding)를 때리지 않고, <strong>점심 메뉴가 바뀐 부서 사람들에게만 조용히 사내 메신저(Bounded)로 "제육볶음 대신 돈까스 나옴(Partial)"이라고 콕 집어 알려주는 세련된 사내 통신망</strong>입니다.
   - <strong>Unequal Cost 부하 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a></strong>: 짐 100개를 옮겨야 할 때, 10톤 트럭(1등 경로) 한 대만 혹사하고 5톤 트럭(2등 경로)은 주차장에 놀리는 게 아니라, <strong>"너는 2번 왕복할 때 얘는 1번 왕복하게 맞춰서, 둘이 동시에 짐을 나르자!"</strong>라고 기막히게 분배하는 물류 반장입니다.
 

@@ -94,7 +94,7 @@ tags = ["database"]
 
 ## Ⅴ. 기대효과 및 결론
 
-2NF를 완벽히 적용하면 부분 함수 종속으로 인한 갱신, 삽입, [삭제 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/092_deletion_anomaly/) 현상이 획기적으로 줄어든다. 특히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 중복 저장이 방지되므로 저장 공간이 절약되고 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 유지가 쉬워진다. 
+2NF를 완벽히 적용하면 부분 함수 종속으로 인한 갱신, 삽입, [삭제 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/092_deletion_anomaly/) 현상이 획기적으로 줄어든다. 특히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 중복 저장이 방지되므로 저장 공간이 절약되고 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 유지가 쉬워진다.
 
 하지만 지나친 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(테이블 쪼개기)는 조인 연산을 증가시켜 조회([Select](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/)) 성능을 떨어뜨릴 수 있다. 따라서 2NF는 필수적인 기본 원칙으로 지키되, 읽기 성능이 극단적으로 중요한 시스템에서는 의도적으로 비정규화([역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/))를 고려하는 유연성도 필요하다. 결론적으로 2NF는 "모든 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 [기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/) 전체에 맹목적으로 충성해야 한다"는 관계형 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 핵심 규율을 확립하는 관문이다.
 

@@ -18,7 +18,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-정규화 (Normalization)는 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 숫자의 맨 앞자리에 0이 오지 못하게 소수점을 왼쪽이나 오른쪽으로 밀어내고, 밀어낸 칸 수만큼 지수 (Exponent)를 조절해 값의 크기를 똑같이 맞춰주는 표준화 작업이다. 
+정규화 (Normalization)는 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 숫자의 맨 앞자리에 0이 오지 못하게 소수점을 왼쪽이나 오른쪽으로 밀어내고, 밀어낸 칸 수만큼 지수 (Exponent)를 조절해 값의 크기를 똑같이 맞춰주는 표준화 작업이다.
 
 소수점의 위치를 자유롭게 두는 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) ([Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)) 방식은 표현 범위가 넓지만, 표현의 파편화라는 치명적 문제가 발생한다. 예를 들어 $0.5$를 저장할 때 누군가는 $0.1 \times 2^0$으로, 다른 누군가는 $0.01 \times 2^1$로 제멋대로 표기한다면, 컴퓨터가 두 숫자의 대소를 비교(`==`)할 때 매번 소수점을 일일이 맞춰보아야 하므로 연산 속도가 극도로 느려진다. 이 혼란을 해결하기 위해 아키텍트들은 "무조건 맨 앞은 `1.`로 시작하라"는 엄격한 규격을 강제하여 연산 장치의 복잡도를 대폭 낮추었다.
 
@@ -76,9 +76,9 @@ tags = ["studynote-computer-architecture"]
 
 실무의 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산 최적화는 정규화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 덧셈 병목을 해결하고 예외 상황을 통제하는 데 집중된다.
 
-1. <strong>정렬 (Alignment)과 가드 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> (Guard <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>) 튜닝</strong>  
+1. <strong>정렬 (Alignment)과 가드 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> (Guard <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>) 튜닝</strong>
    두 정규화 숫자를 더할 때는 반드시 작은 쪽의 소수점을 뒤로 밀어 지수를 큰 쪽에 맞춰야 한다. 이때 작은 수가 가수부 23비트 밖으로 밀려나 증발하는 흡수 오차 (Absorption Error)가 발생한다. 아키텍트는 FPU 내부에 가드 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (Guard, Round, Sticky)라는 임시 레지스터를 추가해 버려지는 꼬리 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 안전하게 받아내고 반올림 정확도를 수호해야 한다. 곱셈은 지수만 더하면 되므로 덧셈보다 하드웨어 부담이 적다는 점을 인지해야 한다.
-2. **FTZ (Flush-To-Zero) 융합 최적화**  
+2. **FTZ (Flush-To-Zero) 융합 최적화**
    오디오 시그널 프로세싱 (DSP)이나 게임 물리 엔진에서 숫자가 매우 작아져 비정규화 (Subnormal) 영역으로 떨어지면 CPU 점유율이 100%로 치솟는 스파이크가 발생한다. 실무 엔지니어는 컴파일러 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)(`_MM_SET_FLUSH_ZERO_MODE`)를 활성화해, 숫자가 정규화 하한선을 벗어나면 가차 없이 0으로 뭉개버리도록 (FTZ) 강제하여 실시간(Real-time) 처리 속도를 방어해야 한다.
 
 - **📢 섹션 요약 비유**: [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 덧셈은 <strong>'10억 원짜리 수표와 1원짜리 동전을 한 장부에 적는 일'</strong>이다. 단위를 맞추기 위해 1원의 위치를 뒤로 밀어내다 보면 장부 칸을 벗어나 버려지므로, 장부 바깥 허공에 임시 메모장(가드 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))을 덧대어 1원을 끝까지 추적하는 하드웨어 설계가 필수다.
@@ -87,7 +87,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-정규화 (Normalization)는 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 세계에서 아날로그적 무질서를 통제하는 가장 강력한 디지털 제방이다. 무조건 맨 앞을 1로 두자는 강제 룰을 통해 전 세계 하드웨어의 FPU 설계가 표준화되었다. 
+정규화 (Normalization)는 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 세계에서 아날로그적 무질서를 통제하는 가장 강력한 디지털 제방이다. 무조건 맨 앞을 1로 두자는 강제 룰을 통해 전 세계 하드웨어의 FPU 설계가 표준화되었다.
 
 이러한 규격 통일은 대소 비교 로직을 단순화시켜 처리 속도를 극대화했으며, 나아가 숨겨진 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (Hidden [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))라는 트릭을 통해 메모리 한 방울까지 짜내는 극한의 효율을 완성했다. 비정규화 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이라는 한계가 존재하지만, 정규화 메커니즘을 온전히 이해하는 것만으로도 개발자는 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 오차의 원인과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목을 정확히 추적할 수 있는 하드웨어적 통찰을 얻게 된다.
 

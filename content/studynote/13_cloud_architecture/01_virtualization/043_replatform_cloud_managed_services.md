@@ -29,7 +29,7 @@ Re-platform 특징:
   최소한의 코드 변경
   플랫폼/미들웨어 교체
   클라우드 관리형 서비스 활용
-  
+
   변경 범위:
     ✓ DB 엔진 → 클라우드 관리형 DB (RDS, Cloud SQL)
     ✓ 앱 서버 → 컨테이너 (ECS, EKS, Cloud Run)
@@ -62,7 +62,7 @@ Re-platform 주요 패턴:
    온프레미스 MySQL → AWS RDS for MySQL
    온프레미스 PostgreSQL → Amazon RDS for PostgreSQL
    Oracle → AWS Aurora PostgreSQL (Oracle 탈피)
-   
+
    획득 이점:
      자동 백업 + Point-in-Time Recovery
      멀티 AZ 고가용성 자동 구성
@@ -71,7 +71,7 @@ Re-platform 주요 패턴:
 
 2. 앱 서버 → 컨테이너 서비스:
    VM(Apache Tomcat) → AWS ECS/EKS
-   
+
    코드 변경: Dockerfile 작성만 필요
    획득 이점:
      오토스케일링
@@ -109,7 +109,7 @@ Re-platform 시 주의:
   1. 기존 방식 + RDS로 이전
      mysqldump → S3 → RDS 복원
      다운타임: 데이터 크기에 따라 수 시간
-  
+
   2. AWS DMS (Database Migration Service):
      지속적 복제 (Change Data Capture)
      다운타임 최소화 (수분 컷오버)
@@ -128,11 +128,11 @@ RDS 최적화:
   인스턴스 유형:
     범용: db.t3/m6g (소규모)
     메모리 최적화: db.r6g (DB 서버)
-    
+
   스토리지:
     gp3 (기본): 범용 SSD
     io2: 고 IOPS (OLTP, 금융)
-    
+
   읽기 복제본:
     읽기 쿼리를 Read Replica로 분산
     → Primary 부하 감소 50~80%
@@ -158,7 +158,7 @@ ECS vs EKS 선택:
     AWS 전용 오케스트레이터
     설정 간단, AWS 서비스 통합 우수
     소규모 / AWS 전용 팀 적합
-    
+
   EKS (Elastic Kubernetes Service):
     Kubernetes 표준 API
     이식성 높음 (멀티 클라우드)
@@ -170,19 +170,19 @@ Re-platform 컨테이너화 단계:
      FROM adoptopenjdk:11-jre-hotspot
      COPY target/app.jar /app/app.jar
      ENTRYPOINT ["java", "-jar", "/app/app.jar"]
-     
+
   2. ECR(Elastic Container Registry)에 이미지 푸시
-  
+
   3. ECS Task Definition 정의:
      CPU: 1vCPU, Memory: 2GB
      환경변수: DB_URL, API_KEY (Secrets Manager 연동)
-     
+
   4. ECS Service 생성:
      Desired Count: 3 (최소 인스턴스)
      Auto Scaling: CPU 70% 이상 → 스케일 아웃
-     
+
   5. ALB (Application Load Balancer) 연동
-  
+
   6. CI/CD 파이프라인 연결 (CodePipeline/GitHub Actions)
 
 Fargate 활용:
@@ -217,18 +217,18 @@ Re-platform 목표:
   Week 1-2: RDS 마이그레이션
     DMS 설정 → 지속 복제 → 피크 시간 외 컷오버
     다운타임: 15분
-    
+
   Week 3-4: Redis → ElastiCache
     설정 변경: redis://old-host → cluster-endpoint
     코드 변경: 없음 (Redis 클라이언트 호환)
-    
+
   Week 5-8: Tomcat → ECS Fargate
     Dockerfile 작성 → 테스트 → 스테이징 → 운영
     ALB 생성 → ECS Service 연결
-    
+
   Week 9-10: WAF 적용
     OWASP Top 10 규칙 활성화
-    
+
   Week 11-12: 모니터링 최적화
     RDS Performance Insights, CloudWatch 대시보드
 

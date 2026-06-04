@@ -21,7 +21,7 @@ tags = ["data_engineering"]
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)노드 (DataNode)는 [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 클러스터라는 거대한 공장 구역에서 직접 땀을 흘리며 물건([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록)을 짊어지고 나르는 수만 명의 현장 작업자들이다. 마스터인 [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)([NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/))가 아무리 훌륭한 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 장부를 가지고 있어도, 그 거대한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조각들을 실제로 담아낼 거대한 그릇이 없다면 시스템은 동작하지 않는다. 
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)노드 (DataNode)는 [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 클러스터라는 거대한 공장 구역에서 직접 땀을 흘리며 물건([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록)을 짊어지고 나르는 수만 명의 현장 작업자들이다. 마스터인 [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)([NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/))가 아무리 훌륭한 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 장부를 가지고 있어도, 그 거대한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조각들을 실제로 담아낼 거대한 그릇이 없다면 시스템은 동작하지 않는다.
 
 과거의 스토리지 어플라이언스는 고가용성을 유지하기 위해 디스크 자체를 엄청나게 비싸고 절대 고장 나지 않는(혹은 RAID로 하드웨어적 이중화가 된) 특수 장비로 채웠다. 하지만 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 설계자들은 반대의 철학을 채택했다. "디스크는 숨 쉬듯 고장 나는 소모품이다." 따라서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)노드에는 아주 저렴한 저사양 x86 컴퓨터와 평범한 [SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/) 하드디스크를 여러 개 꽂아 넣는다. 어떤 디스크나 서버 전원이 타버려서 망가지더라도, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)노드들끼리 서로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 벌 복사([Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))해두었기 때문에 시스템은 아무 일 없었다는 듯 평온하게 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 이어간다.
 
@@ -34,7 +34,7 @@ tags = ["data_engineering"]
   비용: 10억 원 / 확장불가              비용: 1억 원 (100대) / 무한 확장
     ┌─────────────────┐               ┌──────┐ ┌──────┐ ┌──────┐
     │ RAID 컨트롤러   │               │DN 1  │ │DN 2  │ │DN 3  │ ...
-    │ 특수 이중화 파워│   ──────>     │Disk A│ │Disk B│ │Disk C│ 
+    │ 특수 이중화 파워│   ──────>     │Disk A│ │Disk B│ │Disk C│
     │ 고성능 SAN 디스크│               │Disk B│ │Disk C│ │Disk D│
     └─────────────────┘               └──────┘ └──────┘ └──────┘
   (이 박스가 타버리면 회사 마비)       (DN 2가 불타도 1과 3에 복제본 존재!)
@@ -48,7 +48,7 @@ tags = ["data_engineering"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)노드는 멍청한 하드디스크가 아니다. [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 클라이언트를 응대하고, 네트워크로 이웃 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)노드와 통신하며, 마스터에게 끊임없이 자신의 상태를 보고하는 지능형 소프트웨어 데몬(Daemon)이다. 
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)노드는 멍청한 하드디스크가 아니다. [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 클라이언트를 응대하고, 네트워크로 이웃 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)노드와 통신하며, 마스터에게 끊임없이 자신의 상태를 보고하는 지능형 소프트웨어 데몬(Daemon)이다.
 
 | 구성 요소 | 역할 | 내부 동작 | [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 비유 |
 |:---|:---|:---|:---|:---|
@@ -69,7 +69,7 @@ tags = ["data_engineering"]
        │                            │====== 릴레이 복사 ======>│ (디스크 캐싱)             │
        │---- 블록A 패킷 2 쓰기 ---->│                         │====== 릴레이 복사 ======>│
        │                            │                         │                         │
-      ... (네트워크 스트리밍으로 동시에 흘러감. 1번이 다 받고 2번 주는 게 아님!) ...      
+      ... (네트워크 스트리밍으로 동시에 흘러감. 1번이 다 받고 2번 주는 게 아님!) ...
        │                            │                         │                         │
        │<==== ACK 패킷 수신 성공 == │<==== ACK 수신 성공 ==== │<==== ACK 수신 성공 ==== │
        │ (최종 3개 노드 복제 완료)   │                         │                         │
@@ -101,7 +101,7 @@ tags = ["data_engineering"]
   [연산 서버군] (CPU)                     [하둡 통합 노드 군단] (CPU + DataNode)
    Spark 1  Spark 2                     서버 A: [Spark Task] + [DataNode (블록A)]
      ▲        ▲                           └─ (로컬 메모리로 빛의 속도 로드)
-     │ 1TB    │ 1TB                       
+     │ 1TB    │ 1TB
    ──┴────────┴── (네트워크 폭발!)      서버 B: [Spark Task] + [DataNode (블록B)]
      │        │                           └─ (자신의 디스크에서 스스로 연산)
   [DataNode1] [DataNode2]               ===> 💥네트워크 대역폭 사용량 '제로' 근접!

@@ -144,8 +144,8 @@ MicroVM / Serverless
 
 ## 어린이를 위한 3줄 비유 설명
 
-VM은 집을 통째로 빌리는 것처럼 무겁지만 안전해요.  
-[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 방만 빌리는 것처럼 가볍고 빨라요.  
+VM은 집을 통째로 빌리는 것처럼 무겁지만 안전해요.
+[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 방만 빌리는 것처럼 가볍고 빨라요.
 둘을 잘 섞어 쓰면 빠르면서도 안전하게 만들 수 있어요.
 
 ---

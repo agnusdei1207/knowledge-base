@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a> (단일 고장점)</strong>: 컨트롤러 서버 1대에 전국망 1,000대의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 맡기면, 1대가 죽었을 때 전국 통신이 마비됩니다. 
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a> (단일 고장점)</strong>: 컨트롤러 서버 1대에 전국망 1,000대의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 맡기면, 1대가 죽었을 때 전국 통신이 마비됩니다.
 - **해결책**: 컨트롤러 서버를 3대, 5대, 7대로 여러 대 묶어서(Cluster) 구축합니다. 한 놈이 죽으면 옆에 놈이 리더(Master) 자리를 물려받아 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 통제를 멈춤 없이 이어나갑니다(Active-Standby 또는 Active-Active 구조의 고가용성, HA 보장).
 
 ```text
@@ -40,7 +40,7 @@ tags = ["studynote-network"]
 클러스터링의 가장 치명적인 부작용입니다.
 
 - **상황**: 5대의 컨트롤러가 완벽하게 동기화되어 일하다가, 중간 네트워크 선이 끊어져 <strong>[A그룹: 2대]</strong>와 <strong>[B그룹: 3대]</strong>로 네트워크가 단절(Network [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))됩니다.
-- **뇌의 분열**: 양쪽 그룹은 상대방이 진짜 죽어서 통신이 안 되는 건지, 아니면 선만 끊긴 건지 구별하지 못합니다. 
+- **뇌의 분열**: 양쪽 그룹은 상대방이 진짜 죽어서 통신이 안 되는 건지, 아니면 선만 끊긴 건지 구별하지 못합니다.
 - 그래서 양쪽이 모두 "아, 저쪽 대장이 죽었구나! 이제 우리 그룹이 리더로 승격해서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들에게 명령(플로우 테이블)을 내리자!"라고 스스로 착각하여 <strong>하나의 망에 두 명의 왕(Master)이 동시에 존재</strong>하게 됩니다. 이들이 서로 모순되는 경로(명령)를 하달하면서 네트워크 전체 트래픽이 지옥(블랙홀)으로 빠집니다.
 
 ```text
@@ -88,7 +88,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-ONOS는 5대의 뇌를 뒀다고 5대가 한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 똑같이 명령을 내리지 않습니다(충돌). 
+ONOS는 5대의 뇌를 뒀다고 5대가 한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 똑같이 명령을 내리지 않습니다(충돌).
 - 1,000대의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 중 1~200번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 1번 뇌가 'Master(대장)'가 되어 독점 관리하고, 2번 뇌는 이 그룹의 'Standby(대기)'로 역할(Role)을 분담합니다.
 - 만약 1번 뇌가 죽으면 뗏목([Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 0.01초 만에 2번 뇌를 1~200번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 새로운 Master로 승격시켜 끊김 없는 고가용성을 완성합니다.
 

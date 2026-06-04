@@ -85,7 +85,7 @@ tags = ["studynote-security"]
 
 ### 실무적 의사결정 (보완책 적용)
 1. <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/">솔트</a> (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/">Salt</a>) 추가</strong>: 패스워드 원본 앞뒤에 무작위 문자열(소금)을 뿌려 해시한다. 해커의 기존 레인보우 테이블을 완전한 휴지조각으로 만든다.
-2. <strong><a href="/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/">키 스트레칭</a> (<a href="/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/">Key Stretching</a>)</strong>: 믹서기를 한 번만 돌리지 않고, 수천 번 반복해서 돌려 연산 시간을 고의로 지연시킨다. 해커가 대입 공격을 시도할 때 컴퓨터가 과부하 걸리게 만든다. 
+2. <strong><a href="/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/">키 스트레칭</a> (<a href="/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/">Key Stretching</a>)</strong>: 믹서기를 한 번만 돌리지 않고, 수천 번 반복해서 돌려 연산 시간을 고의로 지연시킨다. 해커가 대입 공격을 시도할 때 컴퓨터가 과부하 걸리게 만든다.
 3. <strong>권장 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> 채택</strong>: 실무에서는 단순히 SHA-256을 쓰지 않고, [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)와 스트레칭이 내장된 `Bcrypt`, `PBKDF2`, `Argon2` [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 프레임워크를 기본 탑재해야 한다.
 
 - **📢 섹션 요약 비유**: 문이 너무 튼튼하지만 너무 빨리 열린다면 도둑이 수만 개의 열쇠를 순식간에 꽂아볼 수 있다. [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)는 도둑의 만능 열쇠 묶음을 버리게 만드는 것이고, [키 스트레칭](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/)은 열쇠를 돌리는 데 무조건 1초씩 뻑뻑하게 걸리게 만들어 도둑을 지치게 하는 방어벽이다.

@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: OSPF가 Broadcast Multi-Access 환경([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)망 등)에서 LSA([링크 상태](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/) 엽서)의 무분별한 플러딩을 억제하고 [Adjacency](/knowledge-base/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/)(인접성) 맺는 횟수를 줄이기 위해 선출하는 대표 라우터(DR)와 예비 라우터(BDR).
 - **필요성**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하나에 라우터 5대가 꽂혀 있다 치자. 5대가 서로서로 1:1 찐친([Adjacency](/knowledge-base/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/))을 맺으려면 수학 공식으로 $n(n-1)/2 = [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)$ 개의 인접성이 생기고 엽서도 그만큼 날아다닌다. 만약 라우터가 100대 꽂혀 있다면? 인접성이 무려 4,950개가 생겨 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 엽서 폭풍에 휩싸여(Flooding Storm) 사망한다. "야! 100명이 서로 떠들지 말고, **'반장' 한 명 딱 뽑아! 99명의 평민은 무조건 반장이랑만 1:1로 찐친을 맺고 정보는 반장한테만 줘! 반장이 다 취합해서 스피커로 한방에 공지할게!!**"라는 미친 최적화 아이디어다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - **DR이 없을 때**: 100명의 학생이 교실에서 "내 숙제 봐라!" 하면서 99명의 친구들에게 각자 자기 숙제 99장을 복사해서 날리는 <strong>아수라장(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 폭발)</strong>입니다.
   - **DR이 있을 때**: <strong>"반장(DR)"</strong>이 교탁에 섭니다. 99명의 학생(평민)은 조용히 반장에게만 자기 숙제 1장씩을 제출합니다. 반장이 99장을 다 모아서 예쁘게 제본한 다음, <strong>"자, 이게 우리 반 전체 숙제 모음집(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/">LSDB</a>)이다!"</strong>라며 한 방에 쫙 뿌려줍니다. 교실은 눈물 나게 조용해집니다.
 
@@ -47,7 +47,7 @@ OSPF는 멍청하게 브로드캐스트를 쓰지 않고 조용한 단톡방([�
 - <strong><code>224.0.0.6</code> (반장/부반장 전용 귓속말 방)</strong>: 평민(DROther)들은 이 방에 못 들어온다. 평민이 선로가 끊겨서 비상 보고를 할 때 이 방으로 쏙 밀어 넣으면, 오직 반장(DR)과 부반장(BDR) 둘만 그 비보를 조용히 챙겨 듣는다.
 
 ### 2. 평민(DROther)들의 인접성 상태
-DR이 있는 환경에서, 평민 라우터(DROther)들끼리 `show ip ospf neighbor` 명령어를 쳐보면 상태가 <strong><code>2-Way</code> (그냥 아는 사이)</strong>에서 멈춰있고 절대로 `Full` (완벽한 찐친)로 넘어가지 않는다. 
+DR이 있는 환경에서, 평민 라우터(DROther)들끼리 `show ip ospf neighbor` 명령어를 쳐보면 상태가 <strong><code>2-Way</code> (그냥 아는 사이)</strong>에서 멈춰있고 절대로 `Full` (완벽한 찐친)로 넘어가지 않는다.
 왜냐하면 "평민끼리는 정보(LSA)를 1:1로 주고받지 않는다"는 룰 때문이다. 평민은 오직 <strong>반장(DR)과 부반장(BDR)하고만 <code>Full</code> 상태를 맺는다.</strong> (시험에 100% 나오는 단골 개념이다).
 
 ### 3. 피 튀기는 반장 선거 (Election)

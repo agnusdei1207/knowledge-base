@@ -17,7 +17,7 @@ tags = ["software_engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-과거 전통적인 IT 환경에서 운영팀(Ops)의 목표는 언제나 '서버 가동률 100%'였다. 이들은 서버의 가용성을 지키기 위해 개발팀(Dev)이 가져오는 새로운 기능의 배포를 "장애를 유발할 수 있다"며 극도로 보수적으로 통제(Gatekeeping)했다. 반면 개발팀은 사용자에게 빠르게 가치를 전달하는 '속도'가 생명이었다. 
+과거 전통적인 IT 환경에서 운영팀(Ops)의 목표는 언제나 '서버 가동률 100%'였다. 이들은 서버의 가용성을 지키기 위해 개발팀(Dev)이 가져오는 새로운 기능의 배포를 "장애를 유발할 수 있다"며 극도로 보수적으로 통제(Gatekeeping)했다. 반면 개발팀은 사용자에게 빠르게 가치를 전달하는 '속도'가 생명이었다.
 
 구글의 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))는 이러한 소모적인 부서 간 갈등을 수학적으로 끊어냈다. "가동률을 99.9%에서 99.99%로 올리려면 인프라 증설 비용이 10배 폭증하지만, 정작 사용자는 자신의 모바일 [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/) 때문에 그 차이를 체감조차 못 한다." 따라서 100% 가용성은 비즈니스적으로 비합리적이며, 타협점인 목표 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/), [Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/))을 설정하고 나머지 남는 실패 허용 시간을 **에러 예산 (Error Budget)** 으로 선언하여 과감한 혁신의 연료로 태워야 한다는 것이다.
 

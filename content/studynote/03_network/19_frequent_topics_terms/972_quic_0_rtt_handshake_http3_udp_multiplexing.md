@@ -20,7 +20,7 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 구글이 TCP를 버린 이유입니다.
-1. <strong>극악의 연결 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (Handshake 지옥)</strong>: 
+1. <strong>극악의 연결 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (Handshake 지옥)</strong>:
    - [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 3-Way Handshake로 1번 왕복(1-[RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/)), 게다가 보안([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)) 챙긴다고 암호키 맞추느라 또 2번 왕복(2-[RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))을 합니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내기도 전에 인사하느라 총 3번을 왕복(3-[RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))하며 수백 밀리초를 까먹습니다.
 2. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/971_hol_blocking_head_of_line_tcp_http_delay/">HOL Blocking</a> (971번 문서)</strong>: 패킷 1개 유실되면 뒤에 멀쩡히 도착한 100개 패킷도 폰 화면에 못 뜨고 무한 대기합니다.
 3. **망 전환 시 통신 끊김**: 폰 들고 지하철 타다 와이파이 ➜ LTE로 바뀌면 IP 주소가 바뀝니다. TCP는 IP가 바뀌면 무조건 터널이 끊어진 걸로 간주해, 아까 그 3번 인사를 처음부터 다시 시작합니다(유튜브 끊김 현상).
@@ -53,7 +53,7 @@ tags = ["studynote-network"]
 
 ### 3. Connection ID (IP가 바뀌어도 안 끊김)
 - 와이파이에서 LTE로 바뀌어 내 폰의 IP 주소가 `1.1.1.1` ➜ `2.2.2.2`로 싹 바뀌었습니다.
-- TCP는 IP가 바뀌면 연결이 찢어집니다. 
+- TCP는 IP가 바뀌면 연결이 찢어집니다.
 - QUIC은 패킷에 IP 주소가 아니라 <strong>고유한 'Connection ID(연결 여권 번호)'</strong>를 박아 쏩니다. IP가 100번 바뀌어도 네이버 서버는 "어? 너 아까 걔구나?" 하고 신분을 알아채서 단 1초의 끊김도 없이 유튜브 영상을 부드럽게 이어서(Seamless) 쏴줍니다.
 
 ```text

@@ -111,7 +111,7 @@ def largest_rectangle(heights):
 
 ### 단조 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 패턴 인식 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - [ ] "다음으로 더 큰/작은 원소" → 단조 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)
-- [ ] "이전으로 더 큰/작은 원소" → 역방향 단조 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)  
+- [ ] "이전으로 더 큰/작은 원소" → 역방향 단조 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)
 - [ ] "범위 내 최솟값/최댓값" → 단조 덱(Monotonic [Deque](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/084_deque/))
 - [ ] "히스토그램, 빗물, 온도" 유형 → 단조 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 99%
 

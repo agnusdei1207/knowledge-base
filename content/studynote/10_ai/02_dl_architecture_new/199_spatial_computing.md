@@ -19,7 +19,7 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-컴퓨터의 역사는 인간과 기계가 상호작용하는 인터페이스([HCI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/630_hci/))의 역사다. 키보드를 치는 CLI(도스)에서, 마우스로 창을 클릭하는 GUI(윈도우)로, 그리고 손가락으로 유리를 문지르는 NUI(스마트폰 터치)로 진화했다. 
+컴퓨터의 역사는 인간과 기계가 상호작용하는 인터페이스([HCI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/630_hci/))의 역사다. 키보드를 치는 CLI(도스)에서, 마우스로 창을 클릭하는 GUI(윈도우)로, 그리고 손가락으로 유리를 문지르는 NUI(스마트폰 터치)로 진화했다.
 
 하지만 스마트폰조차도 결국 '네모난 2D 유리판'이라는 물리적 감옥에 인간의 시선을 가두었다. 1990년대부터 연구자들은 <strong>"이 유리판을 부수고, 컴퓨터의 정보와 엑셀 창, <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a> 챗봇을 내 눈앞의 현실 거실 허공에 둥둥 띄울 수 없을까?"</strong>라는 거대한 꿈을 꾸었다. 이를 실현하는 기술이 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/">공간 컴퓨팅</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/">Spatial Computing</a>)</strong>이다.
 
@@ -96,7 +96,7 @@ XR(확장 현실) 기기들이 [공간 컴퓨팅](/knowledge-base/studynote/12_i
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-산업 현장에서 [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)은 단순히 게임이나 노는 도구가 아니다. 보잉(Boeing) 항공기 조립 공장이나 존슨앤드존슨 수술실의 생산성을 10배 올리는 B2B 아키텍처의 혁명이다. 
+산업 현장에서 [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)은 단순히 게임이나 노는 도구가 아니다. 보잉(Boeing) 항공기 조립 공장이나 존슨앤드존슨 수술실의 생산성을 10배 올리는 B2B 아키텍처의 혁명이다.
 
 ### 실무 아키텍처 판단 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
 1. <strong>M2P <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a> (Motion-to-Photon)의 강박적 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a></strong>: 사용자가 고개를 휙 돌렸을 때(Motion), 화면 속 3D 그래픽의 위치가 계산되어 눈으로 쏘아지는 데(Photon) 걸리는 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)이 20ms(0.02초)를 넘어가면 사용자는 즉각 구토와 극심한 멀미(Motion Sickness)를 느낀다. 이 12ms~20ms의 지옥 같은 벽을 뚫기 위해, 무거운 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 렌더링은 클라우드로 보내지 않고 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/">NPU</a> (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 전용칩, 예: 애플 R1칩)</strong> 하드웨어를 디바이스에 직접 쑤셔 박아 온디바이스(On-Device) 로컬 렌더링 아키텍처로 무조건 짜야 한다. 클라우드 통신은 죽음이다.
@@ -111,7 +111,7 @@ XR(확장 현실) 기기들이 [공간 컴퓨팅](/knowledge-base/studynote/12_i
 
 ## Ⅴ. 기대효과 및 결론
 
-[공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)([Spatial Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/))의 도래는 1984년 매킨토시([Mac](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))가 도입한 마우스와 GUI(그래픽 윈도우) 이후 40년 만에 일어난 인류와 컴퓨터 상호작용의 가장 거대하고 파괴적인 혁명이다. 
+[공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)([Spatial Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/))의 도래는 1984년 매킨토시([Mac](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))가 도입한 마우스와 GUI(그래픽 윈도우) 이후 40년 만에 일어난 인류와 컴퓨터 상호작용의 가장 거대하고 파괴적인 혁명이다.
 
 우리는 네모난 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)라는 좁은 창문을 통해 디지털 세상을 들여다보는 방관자에서, 이제 거실, 사무실, 공장 전체가 거대한 컴퓨터 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 화면이 되는 3D 디지털 생태계의 주인공으로 걸어 들어간다. 외과의사는 허공에 띄운 환자의 3D 심장 홀로그램을 손으로 돌려보며 수술을 시뮬레이션하고, 공장 작업자는 수백 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 매뉴얼을 뒤적이는 대신 눈앞의 기계 나사 위에 겹쳐 뜨는 화살표(AR 가이드)를 보며 오차 0%로 조립을 끝낸다.
 

@@ -70,7 +70,7 @@ MFU를 주창한 학자들이 믿었던 단 하나의 무기는 <strong>'프로�
 - **MFU의 반격**: 이때 MFU를 쓰면 카운트가 10만인 `LoadFont()`를 귀신같이 솎아내어 쓰레기통에 쳐박는다! 그리고 `Type()` 함수를 완벽하게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)한다. "거봐, 내 방식이 맞지?"
 
 ### 환상의 파괴: 왜 실패했는가?
-이론상 저런 특수한 상황(페이즈 전환)에서는 기가 막히게 들어맞는다. 
+이론상 저런 특수한 상황(페이즈 전환)에서는 기가 막히게 들어맞는다.
 하지만 저 페이즈 전환은 프로그램 런타임 1시간 중 단 <strong>0.1%</strong>의 순간에만 벌어진다. 나머지 99.9%의 시간 동안은 `Type()` 함수 안의 `while` 루프가 미친 듯이 도는 <strong>'안정 상태(Steady <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)'</strong>다. 안정 상태에서 MFU를 켜두면, 방금 자기가 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)했던 `Type()` 함수의 카운트가 10만이 되는 순간 자기 손으로 `Type()`을 죽여버린다. 빈대 1마리 잡겠다고 99채의 초가삼간을 매 클럭마다 불태우는 짓이다.
 
 - **📢 섹션 요약 비유**: 수능 1교시 국어 시험이 끝나고 2교시 수학이 시작될 때, MFU는 책상에 쌓여있는 국어 문제집(카운트 1만)을 쓰레기통에 버려버리는 아주 똑똑한 짓을 합니다. 하지만 수학 시험 중간에 갑자기 수학 공식집(카운트 계속 오름)을 "많이 봤으니 이제 쓸모없겠지?"라며 창밖으로 던져버려 시험을 망치게 만드는 정신 분열 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)입니다.
@@ -123,7 +123,7 @@ MFU는 LFU와 완벽하게 똑같이 램을 1바이트 읽을 때마다 [페이�
 
 ### 예외적 상상: 안티 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 스캔의 역이용
 백신 프로그램(V3, 알약)이 1TB짜리 하드디스크의 모든 파일을 순차적으로 1번씩 쫙 읽고(Full Scan) 지나간다고 치자.
-이 스캔용 파일들은 한 번 읽히고 나면 두 번 다시 안 불리는 일회성 쓰레기들이다. 
+이 스캔용 파일들은 한 번 읽히고 나면 두 번 다시 안 불리는 일회성 쓰레기들이다.
 이런 극도로 특수한 '1회용 순차 읽기' 환경에서는, 카운트가 1이라도 올라간 놈(스캔 완료된 놈)을 즉시 쓰레기통에 쳐박아 버리는 MFU 비스무리한 로직이 아주 잠깐 유효할 수도 있다. (하지만 이마저도 그냥 FIFO나 MRU(Most Recently Used)로 더 싸게 쳐낼 수 있어 MFU는 설 자리가 없다).
 
 - **📢 섹션 요약 비유**: 굳이 쓸모없는 MFU를 배우는 이유는, "독버섯을 먹으면 왜 죽는지"를 알아야 산에서 안전하게 버섯(좋은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 캘 수 있기 때문입니다. 컴퓨터 구조에서 '하지 말아야 할 짓의 끝판왕'을 보여주는 반면교사 교보재입니다.
@@ -142,7 +142,7 @@ MFU는 LFU와 완벽하게 똑같이 램을 1바이트 읽을 때마다 [페이�
 
 ### 결론 및 미래 전망
 
-MFU (Most Frequently Used) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 "발상의 전환이 언제나 정답은 아니다"라는 뼈아픈 교훈을 남긴 [페이지 교체 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/)계의 흑역사다. 빈도(Frequency)를 맹신한 LFU의 한계를 비틀어 보려 한 시도는 가상했지만, 컴퓨터 프로그램의 태생적 핏줄인 '반복(Loop) 본능'을 거스른 대가는 시스템 마비라는 처참한 결과로 돌아왔다. 현대의 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 하드웨어 설계에서 MFU는 완벽히 퇴출되어 단 1줄의 코드도 남아있지 않지만, 이 실패를 딛고 일어선 공학자들은 결국 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)(시간)와 [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)(빈도)를 교묘하게 섞고 쇠퇴율(Decay)을 적용하는 'W-TinyLFU'나 'ARC(Adaptive Replacement Cache)' 같은 현대 최고의 캐시 하이브리드 아키텍처를 창조해 낼 수 있었다. 
+MFU (Most Frequently Used) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 "발상의 전환이 언제나 정답은 아니다"라는 뼈아픈 교훈을 남긴 [페이지 교체 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/)계의 흑역사다. 빈도(Frequency)를 맹신한 LFU의 한계를 비틀어 보려 한 시도는 가상했지만, 컴퓨터 프로그램의 태생적 핏줄인 '반복(Loop) 본능'을 거스른 대가는 시스템 마비라는 처참한 결과로 돌아왔다. 현대의 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 하드웨어 설계에서 MFU는 완벽히 퇴출되어 단 1줄의 코드도 남아있지 않지만, 이 실패를 딛고 일어선 공학자들은 결국 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)(시간)와 [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)(빈도)를 교묘하게 섞고 쇠퇴율(Decay)을 적용하는 'W-TinyLFU'나 'ARC(Adaptive Replacement Cache)' 같은 현대 최고의 캐시 하이브리드 아키텍처를 창조해 낼 수 있었다.
 
 - **📢 섹션 요약 비유**: MFU는 비를 피하겠다고([LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) 단점 해결) 물속으로 뛰어드는(핵심 코어 파괴) 어리석은 짓이었습니다. 결국 인류는 물속으로 뛰어드는 대신 '우산([에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) 기법)'이라는 완벽한 발명품을 만들어내며 빗속(메모리 부족)을 우아하게 뚫고 나가는 현대 캐시 아키텍처를 완성했습니다.
 

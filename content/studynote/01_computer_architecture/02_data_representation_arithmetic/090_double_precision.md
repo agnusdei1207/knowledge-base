@@ -93,7 +93,7 @@ FP64의 가수부는 숨겨진 [비트](/knowledge-base/studynote/01_computer_ar
 
 ## Ⅴ. 기대효과 및 결론
 
-배정밀도 (FP64)는 유한한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 무한한 실수를 표현해야 하는 컴퓨팅 환경에서 계산 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) ([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))을 보장하는 궁극의 해법이다. 
+배정밀도 (FP64)는 유한한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 무한한 실수를 표현해야 하는 컴퓨팅 환경에서 계산 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) ([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))을 보장하는 궁극의 해법이다.
 
 연산 지연과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)의 낭비라는 명확한 한계가 존재하지만, 우주 항공, 고에너지 물리학, 양자 화학 분야에서는 대체 불가능한 표준이다. 하드웨어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 발전과 함께 슈퍼컴퓨터의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표인 [FLOPS](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/137_flops/)([Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) Operations Per Second) 측정의 절대적인 척도로 작용하고 있다. 소프트웨어 엔지니어는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 허용 오차 범위와 시스템의 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 저울질하여 배정밀도의 무게를 견딜 수 있는지 판단해야 한다.
 

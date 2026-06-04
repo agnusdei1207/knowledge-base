@@ -88,10 +88,10 @@ COBIT 2019는 **40개 Governance & Management Objective** 를 5개 도메인(EDM
 
 IT 투자의 재무적 정당성은 5대 지표로 평가하며, 할인을 포함한 NPV(순현재가치)가 **1차 관문** 이다. VOI(Value on Investment)는 **Net Benefit = (Tangible + Intangible) − Cost** 로 산정하고, Risk-Adjusted ROI = (기대이익 − 기댓값 손실) / 총투자 × 100 으로 보정한다. **Real Options Valuation(Black-Scholes 확장)** 은 향후 2~3년 시점에 추가 기능·중단·확장 의사결정의 유연성을 화폐가치로 환산한다.
 
-- **NPV** = Σ( CF_t / (1+r)^t ) − I₀  
-- **IRR**: NPV=0이 되는 할인율 r, **Hurdle Rate(또는 WACC+α)** 와 비교  
-- **Payback Period** = 투자금 회수에 소요되는 기간 (Discounted Payback은 NPV 기준)  
-- **TCO**(Total Cost of Ownership) = 직접비(HW·SW·인력) + 간접비(교육·다운타임·보안) + 기회비용  
+- **NPV** = Σ( CF_t / (1+r)^t ) − I₀
+- **IRR**: NPV=0이 되는 할인율 r, **Hurdle Rate(또는 WACC+α)** 와 비교
+- **Payback Period** = 투자금 회수에 소요되는 기간 (Discounted Payback은 NPV 기준)
+- **TCO**(Total Cost of Ownership) = 직접비(HW·SW·인력) + 간접비(교육·다운타임·보안) + 기회비용
 - **VOI** = (B_tangible + B_intangible) − TCO
 
 ### 3) 프로젝트 성과 측정 — Earned Value Management(EVM)

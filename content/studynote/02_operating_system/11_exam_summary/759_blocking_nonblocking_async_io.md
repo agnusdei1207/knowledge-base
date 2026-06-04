@@ -19,13 +19,13 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - I/O 모델은 크게 두 가지 기준 축(제어권 반환, 결과 통보)의 조합으로 나뉜다.
   - <strong>블로킹 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a>)</strong>: `read()` 함수를 호출하면, 하드웨어에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전부 퍼 올릴 때까지(수 밀리초~수 초) 함수가 리턴하지 않고 프로세스를 <strong>대기(Sleep) 상태로 기절</strong>시킨다.
   - <strong>논블로킹 (Non-<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">blocking</a>)</strong>: `read()`를 호출했을 때 당장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없으면, 프로세스를 기절시키지 않고 즉시 `-1` (EAGAIN 에러)을 **리턴하여 제어권을 돌려준다**. 앱은 다른 일을 하다가 나중에 다시 와서 물어봐야 한다.
   - **비동기 (Asynchronous)**: 앱이 `aio_read()`를 던져두고 쿨하게 자기 할 일을 하러 떠난다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 다 준비되면 OS가 백그라운드에서 앱 버퍼에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 채워놓고, 콜백(Callback) 함수나 시그널로 <strong>"다 됐어!"라고 알아서 알람</strong>을 울려준다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 네트워크 채팅 서버를 블로킹 방식으로 짰다고 가정하자. 1번 접속자가 `recv()` 함수에 걸려 키보드를 안 치고 가만히 있으면, 서버 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 기절해 버려서 2번 접속자는 접속조차 못 하고 화면이 멈춘다.
   - 이를 해결하려고 접속자마다 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 1개씩 떼어주면([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)-per-request), 접속자 10만 명일 때 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 오버헤드와 램 고갈로 서버가 터져버린다.
   - **해결책**: "기다리지 말고 바로 반환해라!(논블로킹) 다 되면 네가 나한테 찔러줘라!(비동기) 그러면 나(단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) 혼자서 10만 명을 다 상대할 수 있다."
@@ -34,7 +34,7 @@ tags = ["studynote-operating-system"]
   - <strong>논블로킹(Non-<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">blocking</a>)</strong>: 주문해 놓고 자리로 돌아가 책을 읽으면서, 1분마다 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)에 가서 "제 커피 나왔어요?" 하고 물어보는([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 부산스러운 손님.
   - **비동기(Asynchronous)**: 배달 앱으로 주문해 놓고 잊어버린 채 집안일을 하다가, 라이더가 문 앞(Callback)에 커피를 두고 "띵동!" 벨을 누르면 그때 문만 열고 가져오는 최고의 살림꾼.
 
-- **등장 배경**: 
+- **등장 배경**:
   - [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단순한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O는 블로킹으로 충분했으나, 1990년대 인터넷의 폭발로 수많은 동시 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 연결([Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) Connection)을 처리해야 하면서 `select`, `poll`, `epoll`을 거쳐 현대의 진정한 비동기 I/O 프레임워크(`io_uring`, `AIO`)로 진화했다.
 
 ```text
@@ -136,7 +136,7 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오 및 트러블슈팅
 
-1. <strong>시나리오 — Node.js 서버의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/">Event Loop</a> Block (동기 함수 남용)</strong>: 초당 5,000 요청을 처리하던 Node.js 벡엔드가 갑자기 멈춰버림. 
+1. <strong>시나리오 — Node.js 서버의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/">Event Loop</a> Block (동기 함수 남용)</strong>: 초당 5,000 요청을 처리하던 Node.js 벡엔드가 갑자기 멈춰버림.
    - **원인 분석**: 개발자가 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 파싱하겠다고 `fs.readFileSync()`라는 <strong>동기/블로킹 함수</strong>를 호출해 버림. 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 수천 명을 쳐내던 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)가 디스크에서 100MB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 다 읽어올 때까지 1초간 완벽히 기절(Block)함. 그 1초 동안 밀려든 수천 개의 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)이 큐에 쌓이다가 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 타임아웃이 터짐.
    - **아키텍트 판단 (비동기 함수 강제화)**: 싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 논블로킹 기반의 프레임워크(Node.js, Netty, Vert.x)에서는 비즈니스 로직 단에서 무거운 암호화 연산이나 블로킹 I/O를 단 한 줄이라도 호출하면 시스템 전체가 암살당한다. 반드시 `fs.readFile()` 같은 비동기 래퍼(콜백/Promise)를 사용하거나, 무거운 연산은 별도의 Worker [Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)(워커 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))로 오프로드(Offload)시키는 철저한 아키텍처 리뷰를 거쳐야 한다.
 

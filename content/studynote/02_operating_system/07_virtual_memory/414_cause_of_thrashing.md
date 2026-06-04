@@ -117,7 +117,7 @@ CPU를 만드는 제조사([ISA](/knowledge-base/studynote/01_computer_architect
 ### 실무 시나리오: Java OOM과 Swappiness에 얽힌 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 방어
 현업 백엔드 엔지니어는 커널의 이 '최소 프레임' 붕괴를 막기 위해 하드코어한 튜닝을 한다.
 1. **문제 상황**: 메모리가 32GB인 서버에 20GB 힙을 쓰는 자바 앱 2개를 무지성으로 올렸다. (Total 40GB).
-2. **리눅스의 딜레마**: 
+2. **리눅스의 딜레마**:
    - [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)가 돌며 램을 미친 듯이 스왑 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(디스크)으로 쫓아낸다.
    - 자바의 [가비지 컬렉터](/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/)(GC)가 한 번 돌면 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 메모리 전체를 다 훑어봐야(Full Scan) 한다.
    - 쫓겨났던 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 램으로 퍼오느라 다른 자바 앱의 핵심 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)(최소 프레임)마저 스왑으로 쫓겨나는 <strong>초대형 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>)</strong>이 폭발한다.

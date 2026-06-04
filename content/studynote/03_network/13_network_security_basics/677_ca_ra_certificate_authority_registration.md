@@ -20,7 +20,7 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/)([공개키 기반 구조](/knowledge-base/studynote/03_network/13_network_security_basics/676_pki_public_key_infrastructure/)) 피라미드의 정점에 있는 최고 권력자이자 신뢰의 원천입니다.
-- **주요 역할**: 
+- **주요 역할**:
   - 하위 기관([RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/))이 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)을 마친 사용자의 '공개키'에다가, 자신의 무소불위 <strong>'<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a> 개인키'로 강력한 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/">전자서명</a> 도장을 쾅 찍어 진짜 디지털 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서(X.509)를 찍어내는 발급소</strong>입니다.
   - 또한 만료되거나 해킹당한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서의 <strong>폐기 목록(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/">CRL</a>)을 발행하고 관리</strong>하는 핵심 책임을 집니다.
 - <strong><a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> (Root <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a> vs Sub <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a>)</strong>:
@@ -43,9 +43,9 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 CA의 업무 과부하를 막기 위해 고객을 최일선에서 직접 대면하는 프론트 데스크입니다.
-- **주요 역할 (신분 검사기)**: 
+- **주요 역할 (신분 검사기)**:
   - 사용자가 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 달라고 찾아오면(인터넷이든 방문이든), 주민등록증, 사업자등록증, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유권 등을 깐깐하게 심사하여 <strong>"이 사람이 진짜 홍길동(또는 진짜 네이버)이 맞는지" 신원을 철저히 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>(Identity <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>)</strong>합니다.
-  - [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 끝나면 승인 도장을 찍어 CA로 서류를 올려보냅니다([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 발급 요청). 
+  - [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 끝나면 승인 도장을 찍어 CA로 서류를 올려보냅니다([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 발급 요청).
 - **권한의 한계**: RA는 신분 검사만 할 뿐, <strong>절대 자신의 도장으로 최종 '<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서'를 직접 발급하지 못합니다.</strong> 발급 권한은 오직 CA에게만 있습니다. (은행에서 공인인증서 만들 때 은행 창구 직원이 [RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/) 역할입니다.)
 
 ```text

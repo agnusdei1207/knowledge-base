@@ -129,8 +129,8 @@ Secure Coding
 
 ## 어린이를 위한 3줄 비유 설명
 
-글자를 일부러 꼬아요.  
-읽기 어렵게 만들어요.  
+글자를 일부러 꼬아요.
+읽기 어렵게 만들어요.
 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 그런 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)예요.
 
 ---

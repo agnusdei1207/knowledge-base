@@ -73,7 +73,7 @@ tags = ["software_engineering"]
 | <strong>반정형 (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/">UML</a>, 의사결정표)</strong> | **높음 (실무적 스윗스팟 🚀)** | **중간 (표와 다이어그램 규격화)** | **90% 이상의 금융, B2B 엔터프라이즈 시스템 뼈대 표준** |
 | **정형 (수학적 논리식 Z언어)** | **극강 완벽 (100% 버그 증명 록온 ✨)** | **천문학적 우주 폭발 (수학자 섭외 💀)** | 우주선 궤도 수정 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/), 원자력 발전소 냉각수 제어 봇 |
 
-소프트웨어 공학의 영원한 진리는 "은통알은 없다(No Silver Bullet)"다. 모든 문서의 완전성을 100% 맞추려고 수학 공식(정형 명세)만 1년 내내 적고 있으면 회사는 코딩도 못 해보고 파산한다(Analysis Paralysis 분석 마비). 
+소프트웨어 공학의 영원한 진리는 "은통알은 없다(No Silver Bullet)"다. 모든 문서의 완전성을 100% 맞추려고 수학 공식(정형 명세)만 1년 내내 적고 있으면 회사는 코딩도 못 해보고 파산한다(Analysis Paralysis 분석 마비).
 **아키텍트의 극한 완급 조절 ✨**: 생명이나 수십억 돈이 오가는 [결제 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 봇 코어]에 대해서는 의사결정표로 명확성을 한계까지 쥐어짜고, 중요도가 낮은 [마이페이지 UI 색상 찌꺼기]는 걍 자연어 프로토타이핑 그림으로 퉁치고 빨리 넘겨버리는 <strong>Risk-based(위험 기반) 가위질(<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/">Tailoring</a>) 테크닉</strong>이야말로 기술사의 최고 덕목이다.
 
 - **📢 섹션 요약 비유**: 이 딜레마는 다리를 건설할 때의 <strong>'설계도 깐깐함 조절'</strong>과 같습니다. 동네 냇가를 건널 징검다리를 놓을 때 수백 장의 강철 강도 테스트 도면(정형 수학 명세)을 그리는 건 100% 미친 오버엔지니어링 뻘짓입니다. 하지만 10km짜리 인천대교를 놓을 때(생명 직결 코어) 대충 스케치북에 "가급적 튼튼하게" 적어두고(자연어) 시멘트를 붓는 건 1만 명 동반 타살 붕괴 테러입니다. 다리 크기에 맞춰 돋보기의 도수를 융합 조절해야 살 수 있습니다.
@@ -85,11 +85,11 @@ tags = ["software_engineering"]
 이 낡은 IEEE 830의 6대 헌법은 현대 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) 파이프라인에서 어떻게 0.1초 컷 자동화 쉴드로 환생했는가?
 
 ### 실무 판단 시나리오
-1. **완전성(Completeness) 누락 방어막 치기 💥**: 
-   기획자 왈: "포인트 5만 원 이상이면 배송비 무료 처리해 주세요." 주니어 개발자가 이대로 짰다. 
-   **대재앙 발동**: 블랙프라이데이 피크! 쿠폰 써서 4만 9천 원이 되었을 때의 예외 처리(Exception) 로직이 빵꾸 나 있었다. 결제 서버 쓰레드가 멈춰 무한 랙 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 걸리고 전사 쇼핑몰 100% 올스탑 셧다운 타 죽었다 💀. 
+1. **완전성(Completeness) 누락 방어막 치기 💥**:
+   기획자 왈: "포인트 5만 원 이상이면 배송비 무료 처리해 주세요." 주니어 개발자가 이대로 짰다.
+   **대재앙 발동**: 블랙프라이데이 피크! 쿠폰 써서 4만 9천 원이 되었을 때의 예외 처리(Exception) 로직이 빵꾸 나 있었다. 결제 서버 쓰레드가 멈춰 무한 랙 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 걸리고 전사 쇼핑몰 100% 올스탑 셧다운 타 죽었다 💀.
    - **판단 (아키텍트 메스 🪓)**: 완전성 원칙의 치명적 위반이다. 명세서에는 해피 패스(정상 동작)뿐만 아니라, <strong>[대안 흐름(Alternative Flow)과 예외 흐름(Exception Flow)]</strong>을 유스케이스 문서에 100% 강제 매워 넣어야 한다. 예외 로직의 빈칸은 곧바로 서버 병목과 램 폭파 도미노로 직결된다 쾅!!
-2. <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/">BDD</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/126_bdd_behavior_driven_development_given_when_then/">Behavior-Driven Development</a>) 융합 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 가능성 록온 ✨</strong>: 
+2. <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/">BDD</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/126_bdd_behavior_driven_development_given_when_then/">Behavior-Driven Development</a>) 융합 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 가능성 록온 ✨</strong>:
    "시스템은 초보자도 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 쉽게 유연하게 동작해야 한다" 이딴 쓰레기 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 불가 문장을 없애기 위해 아키텍트는 <strong>Gherkin 문법</strong>을 꺼내 든다.
    <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/"> 🚀 [BDD</a> 기반 무결점 실행 가능 명세 (Executable <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/">Specification</a>) ]</strong>
    `Given` 총 결제액이 6만 원이고, `And` 1만 5천 원 쿠폰을 적용했다면 (완전성 예외 통제 🛡️)
@@ -99,7 +99,7 @@ tags = ["software_engineering"]
    - **아키텍트 쾌속 팩폭**: "이 Gherkin 텍스트 자체가 곧바로 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 빌드 서버에서 JUnit 테스트 코드로 1초 만에 자동 변환 렌더링 쳐져서 기계가 O/X를 채점한다 쾅!! 자연어가 코드와 동기화되는 기적(Single Source of Truth)이 완성된 거다 🚀!!"
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **구현 방식(How)의 하드코딩 침범 오지랖 파국 💀**: 기획자가 명세서에 "메인 화면은 가로 스와이프로 넘기고, 백엔드는 Spring Boot랑 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 캐시를 써서 1초 안에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏴라"라고 기술 스택을 못 박아버리는 오만함. 
+- **구현 방식(How)의 하드코딩 침범 오지랖 파국 💀**: 기획자가 명세서에 "메인 화면은 가로 스와이프로 넘기고, 백엔드는 Spring Boot랑 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 캐시를 써서 1초 안에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏴라"라고 기술 스택을 못 박아버리는 오만함.
   - **팩폭**: 명세서(SRS)는 철저하게 "무엇(What)을 해야 하는가"만 적어야 한다. 비밀번호를 어떻게 해싱해서 뚫을지(How)는 아키텍트와 백엔드 코더가 가장 최신 기술을 골라 자유롭게 세팅해야 할 설계(Design)의 성역이다. 요구사항 단계에서 억지로 DB나 언어 스펙을 강제 락킹하면 더 빠르고 싼 혁신 아키텍처 도입 기회를 스스로 척살해 버리는 족쇄가 된다.
 
 - **📢 섹션 요약 비유**: 이 오지랖 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)은 식당 손님이 웨이터에게 "안 맵고 부드러운 오므라이스 1개 줘(What)"라고 명세서를 적어내는 것을 넘어, 주방에 쳐들어가서 "야 웍은 테팔 거 쓰고 프라이팬 10번 돌리고 가스레인지만 써라(How)"라고 간섭질하는 미친 짓입니다. 주방장(개발자)은 인덕션이라는 100배 더 빠르고 좋은 도구가 있어도 쓸 수가 없어 결국 요리 퀄리티(시스템 아키텍처)를 다 망치고 타 죽게 됩니다.
@@ -108,12 +108,12 @@ tags = ["software_engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-모호성 없는 깐깐한 [소프트웨어 요구사항 명세서](/knowledge-base/studynote/04_software_engineering/03_design_architecture/149_software_requirements_specification_srs/)(SRS)는 뒷단(개발, 테스트)에서 터지는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정 랙 비용(Cost)을 10배에서 100배까지 도끼로 썰어내 압살 시킨다. 
+모호성 없는 깐깐한 [소프트웨어 요구사항 명세서](/knowledge-base/studynote/04_software_engineering/03_design_architecture/149_software_requirements_specification_srs/)(SRS)는 뒷단(개발, 테스트)에서 터지는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정 랙 비용(Cost)을 10배에서 100배까지 도끼로 썰어내 압살 시킨다.
 
-첫 단추인 명세가 비정형의 자연어 늪에 빠져 1도라도 비틀어지면, 아무리 AWS 클라우드 K8s [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 스텔스 아키텍처로 코드를 예술로 짰어도 결국 '고객이 전혀 원하지 않는 100점짜리 완벽한 쓰레기'로 전락하여 런칭 날 소송 파산을 맞게 될 뿐이다. 
+첫 단추인 명세가 비정형의 자연어 늪에 빠져 1도라도 비틀어지면, 아무리 AWS 클라우드 K8s [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 스텔스 아키텍처로 코드를 예술로 짰어도 결국 '고객이 전혀 원하지 않는 100점짜리 완벽한 쓰레기'로 전락하여 런칭 날 소송 파산을 맞게 될 뿐이다.
 비록 세상이 기민한 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 폭풍으로 덮이며 수천 장의 무거운 폭포수 SRS 책자를 '구닥다리 똥 덩어리'라 조롱하지만, "모호성을 타파하고, 예외를 빠짐없이 꽉꽉 메우며, 테스트 가능한 계량적 숫자로 계약을 확정한다"는 IEEE 830의 위대한 공학적 결벽증 헌법만큼은 형태만 잘게 쪼개진 '유저 스토리([User Story](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/))'로 바뀌었을 뿐 영원한 0순위 생존 철학이다.
 
-"나쁜 명세서 위에 지은 좋은 시스템 아키텍처란 우주 어디에도 존재하지 않는다." 
+"나쁜 명세서 위에 지은 좋은 시스템 아키텍처란 우주 어디에도 존재하지 않는다."
 정확하고(Correct), 명확하며(Unambiguous), 추적 가능한(Traceable) 단단한 명세 문장 1줄을 깎아내는 피 튀기는 고통이야말로, 소프트웨어 엔지니어가 단순한 if-else 타이핑(Coding) 노가다꾼에서 거대 시스템의 생사를 통제하는 진정한 마스터 아키텍트로 도약하기 위해 반드시 뚫고 나가야 하는 위대한 인문학적 수련의 결정체다 🚀.
 
 - **📢 섹션 요약 비유**: 이 6대 품질 특성은 험난한 사막 지뢰밭을 건너기 전, 우리 팀이 가진 유일한 지도(명세서)를 검열하는 <strong>'6개의 최첨단 엑스레이 돋보기'</strong>입니다. 북쪽 방향이 팩트 맞는지(정확), 글씨가 안 번졌는지(명확), 중간에 잉크 날아가 지워진 골목길은 없는지(완전) 돋보기로 출발 전 100% 깐깐하게 무결점 스캔 쳐 둬야만 ➔ 나중에 물 없는 사막 한가운데서 개발자 100명이 길을 잃고 멘붕 떼죽음을 당하는 프로젝트 파산 대재앙을 완벽히 방어해 낼 수 있는 절대 생명줄입니다.

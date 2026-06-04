@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 일반적인 분기(Branch) 커버리지는 `if`문 전체가 참/거짓인 길만 걸어본다. 조건(Condition) 커버리지는 `if`문 안의 개별 변수 A, B가 참/거짓인 길을 걸어본다. MC/DC는 이 둘을 합친 것을 넘어, <strong>"A라는 변수 혼자서 전체 if문의 운명을 결정짓는 순간(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/">Independence</a> Effect)"</strong>을 반드시 찾아내어 테스트하도록 강제하는 기법이다. 
+- **개념**: 일반적인 분기(Branch) 커버리지는 `if`문 전체가 참/거짓인 길만 걸어본다. 조건(Condition) 커버리지는 `if`문 안의 개별 변수 A, B가 참/거짓인 길을 걸어본다. MC/DC는 이 둘을 합친 것을 넘어, <strong>"A라는 변수 혼자서 전체 if문의 운명을 결정짓는 순간(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/">Independence</a> Effect)"</strong>을 반드시 찾아내어 테스트하도록 강제하는 기법이다.
 
 - **필요성**: 자율주행 자동차의 브레이크 로직이 `if (장애물_있음 && 속도 > 100 && 브레이크_고장 == False)` 라고 치자. 단순히 참/거짓만 1번씩 테스트하고 넘어가면, 개발자가 코딩을 실수해서 `&&`를 `||`로 잘못 적어놨을 때 발견할 수가 없다. "장애물이 없음에도 속도가 100이 넘는다는 이유 하나만으로 브레이크가 콱 밟히는" 고속도로 대참사가 발생한다. 즉, <strong>"A, B, C 각각의 변수가 다른 변수에 묻혀서(마스킹되어) 오작동하는 것을 완벽히 방지"</strong>하기 위해서는 각 변수의 '독립적인 영향력'을 현미경으로 뜯어보는 MC/DC 검증이 인류의 목숨을 위해 반드시 필요했다.
 

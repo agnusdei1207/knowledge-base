@@ -46,7 +46,7 @@ VTEP이 박스를 뜯고 나면, 알맹이 패킷(L2)을 만납니다. 근데 �
 
 ### 2. BDI (인터페이스)의 마법 (L2 ➜ L3 점프)
 - BDI는 이 [Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 방에 달린 <strong>논리적인 가상 IP 라우터 문(SVI의 진화형)</strong>입니다.
-- **동작**: 같은 VNI 100번(같은 서브넷)끼리 통신할 때는 그냥 방 안에서 스위칭(L2)으로 끝냅니다. 
+- **동작**: 같은 VNI 100번(같은 서브넷)끼리 통신할 때는 그냥 방 안에서 스위칭(L2)으로 끝냅니다.
 - 그런데 100번 방에 있던 서버가 200번 방(다른 IP 대역)에 있는 서버랑 대화하고 싶어 합니다! 이때 패킷이 방 천장에 있는 가상의 문 <strong>BDI (가상 게이트웨이 IP, 예: 192.168.1.1)</strong>를 쾅 치고 올라가면, BDI가 이를 IP [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(L3) 패킷으로 변환하여 다른 VNI 대역으로 마법처럼 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 점프를 튕겨줍니다. ([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 환경의 핵심 라우터 엔진)
 
 ```text

@@ -18,12 +18,12 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 왜 '인덱스' [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-100억 쇼핑몰 유저 테이블 1억 건이 하드디스크에 쌓여있다. 유저가 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 창에 `ID: agnusdei` 치고 엔터를 눌렀다. 
-**대재앙 발동 💥**: 인덱스가 없으면? 오라클 DB 엔진은 하드디스크 1번 회원 블록부터 1억 번 블록까지 눈알이 빠지도록 무지성 1줄 1줄 싹 다 훑어 내려간다(Full Table Scan 파국). 내 아이디가 하필 9,999만 번째 줄에 있다면 ➔ 톰캣(Tomcat) 서버는 무한 로딩 빙글빙글 5분 대기 랙 걸리다 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 뻗어 올스탑 셧다운 멸망 💀 터진다. 
+100억 쇼핑몰 유저 테이블 1억 건이 하드디스크에 쌓여있다. 유저가 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 창에 `ID: agnusdei` 치고 엔터를 눌렀다.
+**대재앙 발동 💥**: 인덱스가 없으면? 오라클 DB 엔진은 하드디스크 1번 회원 블록부터 1억 번 블록까지 눈알이 빠지도록 무지성 1줄 1줄 싹 다 훑어 내려간다(Full Table Scan 파국). 내 아이디가 하필 9,999만 번째 줄에 있다면 ➔ 톰캣(Tomcat) 서버는 무한 로딩 빙글빙글 5분 대기 랙 걸리다 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 뻗어 올스탑 셧다운 멸망 💀 터진다.
 
-**아키텍트 대장 극딜 🪓**: "야 이 미친 씨발 1억 번을 언제 다 뒤져 디스크 바늘 모터 타 죽어 쾅!!! 
-**하늘이 두 쪽 나도 당장 [ID 컬럼]만 가위로 오려 빼내서 ➔ 알파벳순(가나다순)으로 예쁘게 쫙 정렬(Sort)된 [미니 요약 장부 텐트] 를 하드디스크 옆방에 새로 1개 파서 록온 락킹 쳐 박아라 쾅 🚀!!! 
-이 요약 장부가 100% 정렬되어 있으니까 ➔ 찾을 때 처음부터 안 뒤지고 중간 딱 찔러서 위아래로 반씩 도끼 찢기([이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) [Binary Search](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)) 쳐 들어가면 0.01초 광속으로 ID 스캔 색출 척살 쌉가능이잖아 미친아 ✨!!**" 
+**아키텍트 대장 극딜 🪓**: "야 이 미친 씨발 1억 번을 언제 다 뒤져 디스크 바늘 모터 타 죽어 쾅!!!
+**하늘이 두 쪽 나도 당장 [ID 컬럼]만 가위로 오려 빼내서 ➔ 알파벳순(가나다순)으로 예쁘게 쫙 정렬(Sort)된 [미니 요약 장부 텐트] 를 하드디스크 옆방에 새로 1개 파서 록온 락킹 쳐 박아라 쾅 🚀!!!
+이 요약 장부가 100% 정렬되어 있으니까 ➔ 찾을 때 처음부터 안 뒤지고 중간 딱 찔러서 위아래로 반씩 도끼 찢기([이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) [Binary Search](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)) 쳐 들어가면 0.01초 광속으로 ID 스캔 색출 척살 쌉가능이잖아 미친아 ✨!!**"
 이 피 말리는 디스크 I/O 병목 랙 타죽음을 우회 기만 스킵 패스(Bypass) 쳐버리기 위한 처절한 갈증이, '인덱스'라는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 튜닝의 영원한 성배(Holy Grail)를 빚어냈다.
 
 - **📢 섹션 요약 비유**: <strong>인덱스가 없는 테이블</strong>은 10만 권의 책이 아무렇게나 산더미처럼 쌓여있는 <strong>'폐지 수집장 쇳덩이'</strong>입니다. 해리포터 1권 찾으려면 10만 권 다 들춰봐야 뒤집니다(풀스캔 뻗음 💥). <strong>인덱스가 걸린 테이블</strong>은, 도서관 입구에 떡 하니 세워져 있는 <strong>'도서 검색용 컴퓨터(색인 장부)'</strong>입니다! 컴퓨터에 해리포터 치면 0.1초 컷으로 "3층 A열 5번 책장 팩트 록온 쾅!(ROWID)" 쪽지가 나옵니다. 그럼 딴 책 쳐다보지도 않고 엘리베이터 타고 3층 A열 5번으로 다이렉트 점프 꽂아 책 딱 1권만 쏙 뽑아오면 게임 끝나는 엄청난 공간 스텔스 텔레포트 혁명입니다 🚀.
@@ -32,7 +32,7 @@ tags = ["studynote-database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-"야 1억 건 정렬 장부 만들었어도 그거 찾는 데 한세월 아님 ㅋ?" 
+"야 1억 건 정렬 장부 만들었어도 그거 찾는 데 한세월 아님 ㅋ?"
 아키텍처의 꽃이자, 오라클/MySQL [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 매일 수억 번씩 굴려대는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/">B-Tree</a> (Balanced Tree)</strong> 3단 점프 십자 스캐너 도해다.
 
 ```text
@@ -65,14 +65,14 @@ tags = ["studynote-database"]
 ```
 
 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">아키텍트의 피 터지는 메스: 인덱스의 치명적 딜레마 (읽기는 광속 🚀, [쓰기</a>는 지옥 💀)]</strong>
-사내 포털 개발자 놈이 신나서 "우왕 인덱스 개빠르네 ㅋ 테이블 [이름, 나이, 주소, 성별] 컬럼 20개에 무지성 인덱스 싹 다 떡칠 `CREATE` 쳐 발라 데헷 ㅋ" 
-**대재앙 발동 💥**: 신입 사원 1명이 오늘 새로 입사(INSERT)했다. 
-오라클 DB 엔진 피눈물: "아 씨발 원본 테이블에 1줄 넣는 건 0.01초 컷인데 ➔ 좆소 코더가 인덱스 장부 20개나 깎아놨네 💀!! 
-원판 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쓰고 난 뒤 ➔ <strong><code>이름 인덱스 장부</code> 서랍 낑낑 열어서 가나다순 자리 찢어 비집고 끼워 넣고, <code>나이 인덱스 장부</code> 열어서 숫자순 끼워 넣고... 무려 21번의 쌩노가다 디스크 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>(Write) 오버헤드 연산을 쳐 돌려야 함 타죽음 뻗음 💥!!!</strong> 
-만약 이름 개명 업데이트(UPDATE)라도 쳐버리면? ➔ 옛날 인덱스 자리 지우개로 지우고 새 가나다 자리로 이사 보내는 끔찍한 <strong>[인덱스 재정렬(Index Split) 부하 폭탄]</strong>이 연쇄 터져 DB 서버 용광로 폭사 올스탑 마비 멸망 터진다 쾅!!" 
+사내 포털 개발자 놈이 신나서 "우왕 인덱스 개빠르네 ㅋ 테이블 [이름, 나이, 주소, 성별] 컬럼 20개에 무지성 인덱스 싹 다 떡칠 `CREATE` 쳐 발라 데헷 ㅋ"
+**대재앙 발동 💥**: 신입 사원 1명이 오늘 새로 입사(INSERT)했다.
+오라클 DB 엔진 피눈물: "아 씨발 원본 테이블에 1줄 넣는 건 0.01초 컷인데 ➔ 좆소 코더가 인덱스 장부 20개나 깎아놨네 💀!!
+원판 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쓰고 난 뒤 ➔ <strong><code>이름 인덱스 장부</code> 서랍 낑낑 열어서 가나다순 자리 찢어 비집고 끼워 넣고, <code>나이 인덱스 장부</code> 열어서 숫자순 끼워 넣고... 무려 21번의 쌩노가다 디스크 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>(Write) 오버헤드 연산을 쳐 돌려야 함 타죽음 뻗음 💥!!!</strong>
+만약 이름 개명 업데이트(UPDATE)라도 쳐버리면? ➔ 옛날 인덱스 자리 지우개로 지우고 새 가나다 자리로 이사 보내는 끔찍한 <strong>[인덱스 재정렬(Index Split) 부하 폭탄]</strong>이 연쇄 터져 DB 서버 용광로 폭사 올스탑 마비 멸망 터진다 쾅!!"
 **아키텍트 철칙 🪓**: 인덱스는 공짜가 아니다. 조회([SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/))의 천국 스피드는 ➔ 입력/수정/삭제([DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/))의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 지옥 오버헤드 랙과 완벽하게 1:1 등가교환(Trade-off) 됨을 뼛속에 새겨라. 1개 테이블당 인덱스는 3~5개를 절대 안 넘게 핀셋 다이어트 설계 록온 치는 게 DBA의 0순위 성배다.
 
-- **📢 섹션 요약 비유**: [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) 인덱스 점프는 <strong>'거대 1억 명 아파트 단지 동호수 찾기 스나이퍼'</strong>입니다. 1억 명 아파트에서 '이순신' 찾는다고 1동 1호부터 1만 동 끝까지 초인종 싹 다 누르고 다니면 미친놈(풀스캔 뻗음 💥)이죠. 
+- **📢 섹션 요약 비유**: [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) 인덱스 점프는 <strong>'거대 1억 명 아파트 단지 동호수 찾기 스나이퍼'</strong>입니다. 1억 명 아파트에서 '이순신' 찾는다고 1동 1호부터 1만 동 끝까지 초인종 싹 다 누르고 다니면 미친놈(풀스캔 뻗음 💥)이죠.
 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) 마법은 ➔ 관리사무소 경비 아저씨(Root 대장)한테 물어보고 ➔ 305동 엘리베이터(Branch 가지)를 타고 ➔ 14층 명패(Leaf 잎사귀)를 딱 본 다음 ➔ 1402호 현관문(테이블 ROWID 진짜 주소)을 다이렉트로 발로 뻥 차고 들어가는 🚀, 오직 단 3번의 직진 다이빙뿐인 완벽한 오차 0% 무결점 스텔스 색출 타격술입니다 ✨.
 
 ---
@@ -103,19 +103,19 @@ MySQL (InnoDB 엔진)에서 극단적으로 운명이 갈라지는 물리 아키
 1억 건의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 심연에서 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 뇌를 조종 튜닝하여 0.1초 컷 마법을 부리는 실무 아키텍트의 피 터지는 메스 3대장 룰이다.
 
 ### 실무 판단 시나리오
-1. <strong>인덱스 컬럼 가공 변형의 뼈아픈 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 무력화 💀 (Index Suppressing 파국)</strong>: 
-   주니어 개발자가 "우왕 ㅋ 나 이번에 SQL 튜닝 예술로 짰음 ㅋ" 라며 ➔ `SELECT * FROM 사원 WHERE SUBSTR(생년월일, 1, 4) = '1990';` (1990년생 다 뽑아 ㅋ) 날림. `생년월일` 컬럼에 인덱스 걸어뒀으니 광속 뜰 줄 알았다. 
+1. <strong>인덱스 컬럼 가공 변형의 뼈아픈 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 무력화 💀 (Index Suppressing 파국)</strong>:
+   주니어 개발자가 "우왕 ㅋ 나 이번에 SQL 튜닝 예술로 짰음 ㅋ" 라며 ➔ `SELECT * FROM 사원 WHERE SUBSTR(생년월일, 1, 4) = '1990';` (1990년생 다 뽑아 ㅋ) 날림. `생년월일` 컬럼에 인덱스 걸어뒀으니 광속 뜰 줄 알았다.
    **대재앙 발동 💥**: 1,000만 건 테이블 무지성 풀스캔 뻗음 터지며 서버 CPU 용광로 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 셧다운 뻗음 💀!!
-   - **아키텍트 팩폭 🪓**: "야 이 미친 좆소 타자기 새끼야 SQL 튜닝의 영원한 0순위 금기 절대 헌법!! <strong>[하늘이 두 쪽 나도 인덱스 걸린 좌변(원본 컬럼)을 함수(<code>SUBSTR</code>, <code>+1</code>) 따위로 감싸서 훼손 변형시키면 인덱스는 즉사 소각 타죽어 버린다 쾅!!!]</strong> 
-   DB 뇌([옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)) 왈: '야 이 씨발놈아 내가 만든 인덱스 장부는 `19900101` 이라는 순수한 날것 텍스트 쇳덩이 글자 그대로 가나다순 예쁘게 쫙 정렬해 놓은 완벽한 서랍이야 ㅋ. 근데 네가 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에서 그 글자를 가위(`SUBSTR`)로 앞 4자리만 싹둑 자른 요상한 찌끄레기 똥 글자(`1990`)를 들이밀며 나보고 핑퐁 찾으라 하면 ➔ 나는 이 쓰레기 조각이 내 서랍 어디에 껴있는지 가나다순으로 절대 찾을 길이 없잖아 뇌 정지 뻗음 💀!! 걍 인덱스 포기하고 원본 테이블 풀스캔 탱크 갈길게 수고 쾅!!' 
+   - **아키텍트 팩폭 🪓**: "야 이 미친 좆소 타자기 새끼야 SQL 튜닝의 영원한 0순위 금기 절대 헌법!! <strong>[하늘이 두 쪽 나도 인덱스 걸린 좌변(원본 컬럼)을 함수(<code>SUBSTR</code>, <code>+1</code>) 따위로 감싸서 훼손 변형시키면 인덱스는 즉사 소각 타죽어 버린다 쾅!!!]</strong>
+   DB 뇌([옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)) 왈: '야 이 씨발놈아 내가 만든 인덱스 장부는 `19900101` 이라는 순수한 날것 텍스트 쇳덩이 글자 그대로 가나다순 예쁘게 쫙 정렬해 놓은 완벽한 서랍이야 ㅋ. 근데 네가 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에서 그 글자를 가위(`SUBSTR`)로 앞 4자리만 싹둑 자른 요상한 찌끄레기 똥 글자(`1990`)를 들이밀며 나보고 핑퐁 찾으라 하면 ➔ 나는 이 쓰레기 조각이 내 서랍 어디에 껴있는지 가나다순으로 절대 찾을 길이 없잖아 뇌 정지 뻗음 💀!! 걍 인덱스 포기하고 원본 테이블 풀스캔 탱크 갈길게 수고 쾅!!'
    **수술 록온 🚀**: 무.조.건 좌변을 벌거벗겨라 쾅!! `WHERE 생년월일 LIKE '1990%';` 또는 `WHERE 생년월일 >= '19900101' AND 생년월일 <= '19901231';` 로 **우변(상수 쪽) 텍스트를 마개조 비틀어 튜닝해야만** ➔ 좌변 원본 인덱스 뼈대가 훼손 1바이트 없이 살아남아 예쁘게 뿌리에서 잎사귀로 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) 고속도로 스키 타며 0.1초 광속 질주 생존 달성한다 쾅 ✨!"
 
-2. <strong>복합 인덱스(<a href="/knowledge-base/studynote/05_database/03_relational_model/161_composite_index_leading_column/">Composite Index</a>) 순서(Order)가 빚어낸 멸망 참사 💀</strong>: 
+2. <strong>복합 인덱스(<a href="/knowledge-base/studynote/05_database/03_relational_model/161_composite_index_leading_column/">Composite Index</a>) 순서(Order)가 빚어낸 멸망 참사 💀</strong>:
    `CREATE INDEX IDX_사원 ON 사원 (성별, 부서, 이름);` 3단 합체 십자 복합 인덱스 멋지게 팠음 ㅋ. 코더 A가 `SELECT * FROM 사원 WHERE 부서='영업부' AND 이름='홍길동';` [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 쐈다. 인덱스 타겠지 데헷 ㅋ? ➔ 쌩 풀스캔 돌며 서버 터짐 💥.
-   - **판단**: 복합 인덱스의 **'선두 컬럼(Leading Column) 누락'** 법칙을 무시한 아키텍처 설계 붕괴다. 
-   복합 인덱스는 3조건이 공평 평등하게 묶인 게 아니다!! 1차 대분류 '성별' ➔ 2차 중분류 '부서' ➔ 3차 소분류 '이름' 순으로 꽉꽉 눌러 세운 지독한 마트료시카 계급장 구조다 🪓. 
-   근데 A가 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에서 1차 대분류인 `성별`을 묻지도 않고 스킵 까고 ➔ 냅다 2차, 3차 질문(`부서, 이름`)만 들이밀었다. 
-   DB [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 극대노 💥: "야! 남자 중에 영업부 홍길동인지, 여자 중에 영업부 홍길동인지 1차 대문 대분류(`성별`)를 안 알려주면 ➔ 내가 이 수백만 장의 남자/여자 서랍 1차 입구를 어떻게 뚫고 들어가 다 뒤지란 거야 뇌 터져 💀? 걍 인덱스 타기 포기 컷! 1억 건 쌩 풀스캔 탱크 갈게 쾅!!" 
+   - **판단**: 복합 인덱스의 **'선두 컬럼(Leading Column) 누락'** 법칙을 무시한 아키텍처 설계 붕괴다.
+   복합 인덱스는 3조건이 공평 평등하게 묶인 게 아니다!! 1차 대분류 '성별' ➔ 2차 중분류 '부서' ➔ 3차 소분류 '이름' 순으로 꽉꽉 눌러 세운 지독한 마트료시카 계급장 구조다 🪓.
+   근데 A가 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에서 1차 대분류인 `성별`을 묻지도 않고 스킵 까고 ➔ 냅다 2차, 3차 질문(`부서, 이름`)만 들이밀었다.
+   DB [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 극대노 💥: "야! 남자 중에 영업부 홍길동인지, 여자 중에 영업부 홍길동인지 1차 대문 대분류(`성별`)를 안 알려주면 ➔ 내가 이 수백만 장의 남자/여자 서랍 1차 입구를 어떻게 뚫고 들어가 다 뒤지란 거야 뇌 터져 💀? 걍 인덱스 타기 포기 컷! 1억 건 쌩 풀스캔 탱크 갈게 쾅!!"
    아키텍트는 복합 인덱스 짤 때 ➔ [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) `WHERE` 조건에 <strong>'반드시 100% 무.조.건. 쓰이는 필수 조건 컬럼(예: 날짜, ID)'을 무조건 복합 인덱스 괄호의 1번(선두 Leading) 맨 앞자리에 콱 쳐 박아 록온(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)시켜 넣어야만</strong> ➔ 뒤에 딸려오는 인덱스 꼬리들이 연쇄적으로 살아 숨 쉬며 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) 고속도로를 완벽히 관통 돌파해 낼 수 있다 🚀.
 
 ### 커버링 인덱스 (Covering Index) 우회 스텔스 융합 예술 ✨
@@ -154,8 +154,8 @@ SQL 튜닝의 찐 고수 아키텍트 신들이 가장 사랑하는 0순위 무�
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설 🪓]** 원본 테이블을 방문하는 행위(Table Access by ROWID) 자체가 ➔ 하드디스크 바늘을 괴롭히는 가장 비싸고 피 터지는 최악의 코스트(Cost) 오버헤드 비용이다. 
-[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 `SELECT` 절에 뽑는 놈들과 `WHERE` 조건에 있는 놈들을 모.조.리 몽땅 다 긁어서 ➔ 인덱스 컬럼 선언부 괄호 안에 `CREATE INDEX` 로 포함시켜 조금 뚱뚱한 인덱스를 깎아 록온([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)-on) 박아버리면? 
+**[다이어그램 해설 🪓]** 원본 테이블을 방문하는 행위(Table Access by ROWID) 자체가 ➔ 하드디스크 바늘을 괴롭히는 가장 비싸고 피 터지는 최악의 코스트(Cost) 오버헤드 비용이다.
+[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 `SELECT` 절에 뽑는 놈들과 `WHERE` 조건에 있는 놈들을 모.조.리 몽땅 다 긁어서 ➔ 인덱스 컬럼 선언부 괄호 안에 `CREATE INDEX` 로 포함시켜 조금 뚱뚱한 인덱스를 깎아 록온([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)-on) 박아버리면?
 ➔ [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 뱉어내야 할 모든 100% 정보가 이미 껍데기 인덱스 장부 1장 안에 100% 완벽히 다 존재하므로(Covered 커버 쉴드 텐트 완료 ✨), 굳이 무겁디무거운 본판(진짜 테이블 쇳덩이) 창고 대문을 낑낑 열러 갈 필요(Random I/O 랙) 없이 ➔ 걍 가벼운 껍데기 인덱스 장부만 스윽 0.01초 컷 인메모리(In-Memory)급 광속 스캔 치고 결과를 Bypass 우회 렌더링 던져버리는 극강 스텔스 스피드 튜닝 예술의 궁극기다 🚀.
 
 ---
@@ -164,12 +164,12 @@ SQL 튜닝의 찐 고수 아키텍트 신들이 가장 사랑하는 0순위 무�
 
 인덱스(Index)는 거대하고 어두운 100억 건 쇳덩이 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 바다(물리적 디스크) 한가운데 띄워 놓은 단 한 가닥의 찬란한 은빛 나침반이자 광속 텔레포트 게이트 쉴드다.
 
-과거 "서버 램 1TB 꽂고 깡클럭 100배 CPU 달았으니 검색 1초 컷 나오겠지 ㅋ 데헷 ㅋ" 무지몽매한 쇳덩이 스펙 맹신론자 코더들의 오만함을 도끼로 찍어 찢어발기고 ➔ <strong>"야 이 씨발 아무리 CPU 코어가 수백 개 불타오르고 램이 수백 기가 우주 팽창을 쳐도!! 무지성으로 1번부터 1억 번까지 책장을 다 훑어 넘기는 무식한 쌩 풀스캔(Full Scan)의 야만성 앞에서는 ➔ 결국 디스크 I/O 바늘 모터 병목이 걸려 거대한 폭주 기관차처럼 서버 램 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 셧다운 터져 뻗어 박살 날 수밖에 없는 절대 물리 법칙 팩폭 헌법이다 쾅 💀!!!"</strong> 
+과거 "서버 램 1TB 꽂고 깡클럭 100배 CPU 달았으니 검색 1초 컷 나오겠지 ㅋ 데헷 ㅋ" 무지몽매한 쇳덩이 스펙 맹신론자 코더들의 오만함을 도끼로 찍어 찢어발기고 ➔ <strong>"야 이 씨발 아무리 CPU 코어가 수백 개 불타오르고 램이 수백 기가 우주 팽창을 쳐도!! 무지성으로 1번부터 1억 번까지 책장을 다 훑어 넘기는 무식한 쌩 풀스캔(Full Scan)의 야만성 앞에서는 ➔ 결국 디스크 I/O 바늘 모터 병목이 걸려 거대한 폭주 기관차처럼 서버 램 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 셧다운 터져 뻗어 박살 날 수밖에 없는 절대 물리 법칙 팩폭 헌법이다 쾅 💀!!!"</strong>
 
 인덱스는 단순히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찾는 도구를 넘어, 인간 아키텍트가 "내가 향후 10년 동안 이 쇳덩이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떤 비즈니스 조건(WHERE)으로, 어떤 로직 순서(ORDER BY)로 탐색 타격 스나이퍼 쏠 것인가"에 대한 비즈니스 뼈대 철학([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Knowledge)을 ➔ 물리적 디스크 쇳덩이 공간 위에 미리 정교하게 가나다순 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) 조각 텐트로 깎아 올려둔 극한의 공간 시간 분할 설계([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) 예술 작품이다.
 
-비록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 한 줄을 밀어 넣을(INSERT) 때마다 새롭게 10개의 인덱스 장부 서랍을 열고 낑낑 찢어 고쳐 써야 하는 피 튀기는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 딜레이(Write Overhead Index Split 💥)의 저주 세금을 이빨 꽉 깨물고 지불 짊어져야만 하지만!! 
-유저가 "검색" 버튼을 클릭하는 그 0.001초 찰나의 폭발 순간에 ➔ 1억 건의 산더미 쇳덩이 쓰레기들을 단 3번의 찰칵찰칵 블록 점프([B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) I/O)만으로 완벽 무결점 1타 컷 암살 관통 스킵 스키 타 돌파해 내며 ➔ 당신의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 0.01초 광속 화면에 불 뿜듯 쾌속 렌더링 쳐 뿌려주는 저 인덱스 잎사귀(Leaf) 끝단 주소(ROWID)들의 영롱한 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 록온을 보는 순간!! 
+비록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 한 줄을 밀어 넣을(INSERT) 때마다 새롭게 10개의 인덱스 장부 서랍을 열고 낑낑 찢어 고쳐 써야 하는 피 튀기는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 딜레이(Write Overhead Index Split 💥)의 저주 세금을 이빨 꽉 깨물고 지불 짊어져야만 하지만!!
+유저가 "검색" 버튼을 클릭하는 그 0.001초 찰나의 폭발 순간에 ➔ 1억 건의 산더미 쇳덩이 쓰레기들을 단 3번의 찰칵찰칵 블록 점프([B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) I/O)만으로 완벽 무결점 1타 컷 암살 관통 스킵 스키 타 돌파해 내며 ➔ 당신의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 0.01초 광속 화면에 불 뿜듯 쾌속 렌더링 쳐 뿌려주는 저 인덱스 잎사귀(Leaf) 끝단 주소(ROWID)들의 영롱한 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 록온을 보는 순간!!
 우리는 왜 50년 전 컴퓨터 공학 천재들이 B-Tree라는 이 위대하고도 무자비한 자본주의 트레이드오프(등가교환) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 자신들의 영혼을 갈아 넣었는지 무릎을 치며 경외하게 될 것이다 🚀✨.
 
 ---

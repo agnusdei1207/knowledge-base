@@ -56,7 +56,7 @@ tags = ["studynote-it-management"]
 │    │• Headroom 30%    │    │• Burst(Buffer)   │    │• Auto Stop/Start ││
 │    └──────────────────┘    └──────────────────┘    └──────────────────┘│
 │                                                                         │
-│   핵심 공식: Required Capacity = (Peak_RPS × Avg_Latency_SLA) / (Target │ 
+│   핵심 공식: Required Capacity = (Peak_RPS × Avg_Latency_SLA) / (Target │
 │   Utilization × Concurrency_Factor) + Safety_Buffer(20~30%)            │
 └─────────────────────────────────────────────────────────────────────────┘
 ```

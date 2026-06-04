@@ -61,7 +61,7 @@ tags = ["studynote-operating-system"]
 ### 1. [버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/) ([Buffer Cache](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/))라는 거대한 충격 흡수기
 
 블록 장치의 치명적 단점은 "1바이트를 고치고 싶어도 무조건 4KB 블록을 통째로 엎어야 한다"는 것이다.
-- `A`라는 글자를 `B`로 바꾸고 싶다. 
+- `A`라는 글자를 `B`로 바꾸고 싶다.
 - 디스크에 다이렉트로 쓰면? 디스크는 1바이트 쓰기를 거부한다. 해당 4KB 블록 전체를 램으로 읽어와서(`Read`), 램 안에서 1바이트를 `B`로 고치고, 다시 4KB 통째로 디스크에 덮어써야(`Write`) 한다. (이른바 Read-Modify-Write 폭탄).
 - <strong>OS의 구원 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/">버퍼 캐시</a>)</strong>: OS는 이 미친 짓을 막기 위해 램에 <strong>'<a href="/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/">버퍼 캐시</a>'</strong>라는 중간 저수지를 크게 파놨다. 앱이 1바이트씩 1만 번을 수정하면, 디스크를 1만 번 긁는 게 아니라 램에 있는 4KB 캐시 블록 1개 안에서만 조용히 1만 번 값을 바꾼다. 나중에 한가할 때(Flush) 변경된 4KB 블록 딱 1개만 디스크에 조용히 내려쓴다. 블록 장치는 이 램 캐시 없이는 아예 실사용이 불가능한 수준의 느린 깡통이다.
 
@@ -95,9 +95,9 @@ tags = ["studynote-operating-system"]
 | **덮어쓰기(Write)**| 그 자리(섹터) 원판 위에 바로 자석으로 덮어씀 | 그 자리 덮어쓰기 불가. <strong>다른 빈 블록에 새로 쓰고 옛날 건 버림 (Trim/<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/">Garbage Collection</a> 렉 발생)</strong> |
 
 ### [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/) ([Flash Translation Layer](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/))의 흑마술
-SSD는 사실 OS를 속이고 있는 완벽한 사기꾼이다. 
+SSD는 사실 OS를 속이고 있는 완벽한 사기꾼이다.
 - OS가 "3번 블록에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덮어써줘"라고 명령하면, SSD는 3번 칩셋에 덮어쓰지 못한다(플래시 메모리는 덮어쓰기가 물리적으로 불가능하고, 통째로 지우고 새로 써야 하기 때문).
-- [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부에 있는 초소형 컴퓨터(ARM 컨트롤러)와 펌웨어인 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/">FTL</a></strong>이 씩 웃으며, "응 3번에 쓸게"라고 OS에게 대답해 놓고는, 몰래 텅 빈 <strong>90번 블록</strong>에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓴 뒤, 자기 내부 비밀 장부(매핑 테이블)에 "앞으로 OS가 3번 달라고 하면 90번을 줘라"라고 화살표를 슬쩍 꺾어버린다([Wear Leveling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)). 
+- [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부에 있는 초소형 컴퓨터(ARM 컨트롤러)와 펌웨어인 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/">FTL</a></strong>이 씩 웃으며, "응 3번에 쓸게"라고 OS에게 대답해 놓고는, 몰래 텅 빈 <strong>90번 블록</strong>에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓴 뒤, 자기 내부 비밀 장부(매핑 테이블)에 "앞으로 OS가 3번 달라고 하면 90번을 줘라"라고 화살표를 슬쩍 꺾어버린다([Wear Leveling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)).
 - OS는 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부에서 이런 엽기적인 주소 돌려막기와 블록 짬처리가 벌어지는 줄 1도 모른 채, "역시 내 LBA 지시는 완벽하게 통제되고 있어"라고 착각하며 살아간다. 하드웨어가 스스로 펌웨어를 달고 똑똑해져서 OS의 짐을 덜어준 하극상의 현장이다.
 
 ```text
@@ -117,7 +117,7 @@ SSD는 사실 OS를 속이고 있는 완벽한 사기꾼이다.
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 기술과 리눅스 `blk-mq` (멀티 큐) 혁명
-1. <strong>과거의 병목 (Single <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)</strong>: 
+1. <strong>과거의 병목 (Single <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)</strong>:
    - 옛날 리눅스 블록 레이어는 64개의 CPU 코어가 하드디스크에 I/O를 요청할 때, 디스크 입구에 있는 <strong>단 1개의 병목 큐(Single Request <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)</strong>에 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸고 줄을 서야 했다. 디스크가 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 시절엔 이 1개 줄로도 충분했다.
 2. **SSD의 반란 (수십만 IOPS)**:
    - 괴물 같은 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD가 등장해 1초에 100만 개의 블록(IOPS)을 쏠 수 있게 되었다.
@@ -129,7 +129,7 @@ SSD는 사실 OS를 속이고 있는 완벽한 사기꾼이다.
    - 이 아키텍처 혁신 덕분에 AWS 클라우드 스토리지(EBS)가 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 수백만 쿼리를 딜레이 없이 씹어먹는 전설이 시작되었다.
 
 ### 512B 섹터에서 4K(Advanced Format) 섹터로의 대이동
-과거 모든 하드디스크의 물리적 블록(섹터) 크기는 512바이트였다. 하지만 용량이 테라바이트로 커지자 512바이트 단위로 관리 장부를 쓰려니 장부 용량이 하드를 다 파먹었다. 디스크 벤더들은 물리적 섹터 크기를 아예 <strong>4096바이트 (4KB Advanced Format)</strong>로 키워버렸다. 
+과거 모든 하드디스크의 물리적 블록(섹터) 크기는 512바이트였다. 하지만 용량이 테라바이트로 커지자 512바이트 단위로 관리 장부를 쓰려니 장부 용량이 하드를 다 파먹었다. 디스크 벤더들은 물리적 섹터 크기를 아예 <strong>4096바이트 (4KB Advanced Format)</strong>로 키워버렸다.
 이 4KB는 놀랍게도 가상 메모리의 <strong>'<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>(<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a>) 크기(4KB)'</strong>와 완벽하게 1:1로 일치한다. 이 톱니바퀴의 일치 덕분에, 리눅스는 디스크에서 4KB 블록을 긁어오는 즉시 아무 변환이나 쪼개기 없이 램의 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 프레임에 블록처럼 딱 끼워 넣을 수 있게 되어([Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/) I/O), 컴퓨터 시스템 전반의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 비약적으로 상승했다.
 
 - **📢 섹션 요약 비유**: 햄버거집([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 주방장이 1초에 100개를 만들 수 있는 초인이 되었는데, 카운터에 주문받는 알바(Single [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))가 1명뿐이라 손님들이 주문하다 지쳐 쓰러집니다. 사장님(OS)이 키오스크(Multi-[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))를 64대 설치해서 손님들이 동시에 결제하게 만들자, 그제야 주방장의 미친 제작 속도가 100% 뿜어져 나오기 시작한 혁신입니다.

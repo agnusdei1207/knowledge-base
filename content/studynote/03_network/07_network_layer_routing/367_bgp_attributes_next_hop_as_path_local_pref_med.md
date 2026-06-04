@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: BGP가 수신된 여러 개의 경로 중 하나를 "Best Path"로 선택하기 위해 비교하는 일련의 파라미터(변수) 집합. 
+- **개념**: BGP가 수신된 여러 개의 경로 중 하나를 "Best Path"로 선택하기 위해 비교하는 일련의 파라미터(변수) 집합.
 - **필요성**: 삼성전자([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 100)가 인터넷을 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위해 KT 망([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 200)과 SKT 망([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 300)을 동시에 뚫어 놨다(멀티 호밍). KT는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 빵빵하고 요금이 비싸며, SKT는 요금이 싸다. 만약 OSPF처럼 속도만 보고 길을 찾으면 트래픽이 비싼 KT로만 다 몰려서 삼성전자 파산한다. "야, 사내 직원들 유튜브 보는 트래픽은 싼 SKT 쪽으로 밀어 넣고, VIP 고객들이 접속하는 건 빵빵한 KT 쪽으로 들어오게 <strong>인위적으로 조작할 '수치 조작 다이얼(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">Attribute</a>)'들이 필요하다!!</strong>"
 
 - **💡 비유**: BGP의 Attributes는 게임 캐릭터의 <strong>"스탯(능력치) 보드"</strong>와 같습니다.
@@ -82,7 +82,7 @@ tags = ["studynote-network"]
 
 ### 6. Next_Hop 속성의 주의점
 BGP에서 Next_Hop(다음 징검다리 IP)은 OSPF와 조금 다르다.
-eBGP로 남의 나라에서 엽서를 받아 [iBGP](/knowledge-base/studynote/03_network/07_network_layer_routing/366_ibgp_ebgp_split_horizon_rule/) 식구들에게 돌릴 때, **"Next_Hop 주소를 나(관문)로 바꾸지 않고, 남의 나라 라우터 IP를 그대로 살려서 뿌려버린다"**. 
+eBGP로 남의 나라에서 엽서를 받아 [iBGP](/knowledge-base/studynote/03_network/07_network_layer_routing/366_ibgp_ebgp_split_horizon_rule/) 식구들에게 돌릴 때, **"Next_Hop 주소를 나(관문)로 바꾸지 않고, 남의 나라 라우터 IP를 그대로 살려서 뿌려버린다"**.
 그러면 내부 식구들은 그 IP가 어딘지 몰라서 길이 끊긴다. 그래서 관문 라우터는 반드시 `next-hop-self`라는 명령어를 쳐서 "야야, 모르는 주소 찾지 말고 일단 나한테 쏴!"라고 엽서를 고쳐서 뿌려야만 망이 정상 작동한다.
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a> 속성은 카지노의 </strong>"포커 패"**입니다. [Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(포카드)가 있으면 무조건 이기고, 그게 없으면 Local Pref(풀하우스), 그것도 없으면 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path(스트레이트) 순서대로 패를 까서 가장 높은 카드를 쥔 경로 하나가 판돈(트래픽)을 모두 쓸어가는 냉혹한 도박판입니다.

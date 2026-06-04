@@ -52,7 +52,7 @@ tags = ["studynote-computer-architecture"]
 Enable 핀 활용:
   E=0: 모든 출력 0 (비활성)
   E=1: 정상 동작
-  
+
   -> 여러 디코더를 계층화 가능
 
 3-to-8 디코더를 2-to-4 두 개로:
@@ -85,14 +85,14 @@ Active-Low 출력:
 
 예: F(A,B,C) = AB + C = m3 + m7 + m1 + m3 + m5 + m7
   = Σ(1, 3, 5, 7) + (AB)
-  
+
   3-to-8 디코더 + OR 게이트:
     Y1, Y3, Y5, Y7을 OR -> F 출력
-    
+
 장점:
   설계 자동화 용이
   PLD(Programmable Logic Device)의 기반
-  
+
 디멀티플렉서 (DEMUX):
   Enable 핀을 데이터 입력으로 사용하면
   1개 입력 -> 2^n개 출력 중 하나로 전달
@@ -111,20 +111,20 @@ CPU 명령어 사이클에서 디코더:
 1. Fetch: 메모리에서 명령어 가져옴
 2. Decode: 명령어 디코더가 해석
    연산코드(Opcode) 비트 -> 제어 신호
-   
+
 예: ADD 명령어 (opcode = 0001)
   디코더 출력:
     ALU_Op[1:0] = 00 (덧셈)
     RegWrite = 1 (레지스터 쓰기)
     MemRead = 0
     MemWrite = 0
-    
+
 3. Execute: 제어 신호대로 ALU 동작
 
 마이크로코드 디코더:
   복잡한 CISC 명령어 -> 마이크로연산 시퀀스
   ROM 기반 (수평형 vs 수직형 마이크로코드)
-  
+
 RISC vs CISC 디코더:
   RISC: 고정 길이 명령어 -> 디코더 단순
   CISC: 가변 길이 명령어 -> 복잡한 디코더
@@ -142,7 +142,7 @@ FPGA에서 디코더 활용:
 모듈 선택 디코더:
   SoC에서 여러 I/O 모듈 (UART, SPI, I2C)
   주소 버스 상위 4비트로 모듈 선택
-  
+
   addr[31:28]:
     0000 -> UART 선택 (Chip Select)
     0001 -> SPI 선택

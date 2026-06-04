@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/">캐시 일관성</a> (<a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/">Cache Coherence</a>)</strong>: 여러 CPU 코어가 각각 자신의 L1 캐시를 가지고 있을 때, 코어 1이 변수 `A`를 수정하면, 코어 2의 캐시에 들어있는 옛날 변수 `A`의 값이 '쓰레기(Invalid)'가 됨을 즉시 알려주어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 무결성을 유지하는 [하드웨어 동기화](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/413_hardware_synchronization/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(예: MESI).
   - <strong>폴스 셰어링 (<a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/">False Sharing</a>)</strong>: 변수 `A`와 `B`는 아무런 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 관련이 없는데, 우연히 물리적으로 너무 가깝게 붙어있어서 <strong>하나의 캐시 라인(Cache Line, 64바이트 묶음)</strong>에 동거하게 될 때 발생한다. 코어 1이 `A`만 고치고 코어 2가 `B`만 고쳐도, 하드웨어는 "같은 묶음(캐시 라인)이 변했다!"고 착각하여 서로의 캐시를 핑퐁처럼 무효화시키며 엄청난 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 폭락(Stall)을 유발하는 현상.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - "멀티코어 CPU를 샀는데, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 4개를 돌리니까 오히려 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1개 돌릴 때보다 속도가 느려져요!"
   - 초보 개발자는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 락([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))을 안 쓰려고 변수 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) `int count[4]`를 만들어서 코어마다 `count[0]`, `count[1]`을 따로 쓰게 했다. [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로는 완벽한 동시성이지만, 물리적으로 `count[0]`부터 `count[3]`까지가 하나의 64바이트 캐시 라인에 뭉쳐 들어가 버린다.
   - 코어 1이 0번을 고칠 때마다 코어 2의 캐시가 다 날아가고, 코어 2가 1번을 고치면 코어 1의 캐시가 다 날아가는 상호 파괴(Ping-pong) 늪에 빠졌다.
@@ -31,7 +31,7 @@ tags = ["studynote-operating-system"]
   - 두 학생(코어)이 도서관에서 각자 1번 문제(변수 A)와 2번 문제(변수 B)를 풀기로 했다. 문제는 두 문제가 <strong>하나의 시험지 종이(캐시 라인)</strong>에 앞뒤로 적혀 있다는 점이다.
   - 1번 학생이 시험지에 답을 쓰고 지우개를 쓸 때마다, 2번 학생은 종이를 뺏겨서 자기 문제를 풀지 못하고 기다려야 한다. 둘은 서로 다른 문제를 풀고 있지만(False), 종이 한 장을 공유(Sharing)하고 있기 때문에 멱살잡이가 일어나는 것이다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 과거 싱글 코어 시절에는 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 문제가 없었다. 2000년대 후반 멀티코어([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/)) 시대가 열리고 L1/L2 캐시 구조가 복잡해지면서, 고성능 서버 아키텍처(게임 서버, 금융 트레이딩)에서 가장 잡기 어려운 극악의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 원인으로 대두되었다.
 
 ```text

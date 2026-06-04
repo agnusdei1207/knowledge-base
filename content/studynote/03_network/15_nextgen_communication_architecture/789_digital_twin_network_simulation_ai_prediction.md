@@ -39,10 +39,10 @@ tags = ["studynote-network"]
 
 그냥 그림만 그리는 3D 모델링이 아닙니다. 두 세계가 <strong>살아 숨 쉬며 실시간으로 호흡을 맞추는(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>)</strong> 것이 핵심입니다.
 
-1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수집 및 매핑 (현실 ➜ 가상)</strong>: 
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수집 및 매핑 (현실 ➜ 가상)</strong>:
    - 서울 강남 기지국의 트래픽 양, 온열, 고장 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/), [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 등의 텔레메트리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 0.1초 단위로 쫙 빨아들여, 가상 공간에 만들어둔 가짜 강남 기지국 모델에 그대로 피드백합니다. 가상 기지국도 진짜 기지국처럼 온도가 올라가고 트래픽이 차오릅니다.
-2. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 기반 시뮬레이션 (가상 공간 내 테스트)</strong>: 
-   - 가상 공간 안의 시간은 내 마음대로 빨리 돌릴 수 있습니다. AI가 쌍둥이 망 안에서 온갖 짓을 다 해봅니다. "만약 크리스마스이브 12시에 카톡이 100배 폭주하면(가상 트래픽 주입) 강남 기지국이 터질까?" 시뮬레이션했더니 진짜 터집니다. 
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 기반 시뮬레이션 (가상 공간 내 테스트)</strong>:
+   - 가상 공간 안의 시간은 내 마음대로 빨리 돌릴 수 있습니다. AI가 쌍둥이 망 안에서 온갖 짓을 다 해봅니다. "만약 크리스마스이브 12시에 카톡이 100배 폭주하면(가상 트래픽 주입) 강남 기지국이 터질까?" 시뮬레이션했더니 진짜 터집니다.
 3. <strong>고장 예측 및 최적 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 도출 (선행 관측)</strong>:
    - 가상 망에서 어떻게 해야 기지국이 안 터지는지 1만 번을 반복 학습([강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/))시켜, "B 경로를 차단하고 C 라우터로 트래픽을 돌리면 절대 안 터짐"이라는 최적의 해답([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 찾아냅니다.
 4. **자가 치유망 강제 집행 (가상 ➜ 현실) 🌟**:

@@ -19,7 +19,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) ([Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/))는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)라는 거대한 [컨테이너 오케스트레이션](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 플랫폼 내부를 논리적으로 쪼개는 '가상 클러스터' 단위다. 기본적으로 K8s는 모든 자원을 `default` [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)에 할당하지만, 조직 규모가 커지고 다양한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 올라가면 단일 공간 관리에 한계가 발생한다. 
+[네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) ([Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/))는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)라는 거대한 [컨테이너 오케스트레이션](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 플랫폼 내부를 논리적으로 쪼개는 '가상 클러스터' 단위다. 기본적으로 K8s는 모든 자원을 `default` [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)에 할당하지만, 조직 규모가 커지고 다양한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 올라가면 단일 공간 관리에 한계가 발생한다.
 
 이 개념이 없다면 서로 다른 부서가 동일한 이름의 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) ([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))나 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 배포할 때 충돌이 발생하거나 덮어쓰기되는 대참사가 일어난다. 또한, 특정 팀의 애플리케이션이 클러스터의 전체 CPU와 메모리를 독식하여 다른 핵심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) ([Out Of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))으로 죽어버리는 자원 탈취 문제가 발생한다. 따라서 논리적 공간을 분리하여 각자의 샌드박스를 제공하는 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)가 필수적이다.
 
@@ -56,7 +56,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 격리 체계는 논리적 격리인 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)와 물리적 격리인 다중 클러스터 (Multi-Cluster) 접근법으로 나뉜다. 
+[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 격리 체계는 논리적 격리인 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)와 물리적 격리인 다중 클러스터 (Multi-Cluster) 접근법으로 나뉜다.
 
 | 항목 | [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) ([Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)) 격리 | 다중 클러스터 (Multi-Cluster) 격리 |
 | :--- | :--- | :--- |

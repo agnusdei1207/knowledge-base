@@ -29,7 +29,7 @@ tags = ["studynote-design"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-상충점은 단일 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)에 영향을 미치는 [민감도점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/)([Sensitivity Point](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/))이 2개 이상의 상반된 품질 요구사항을 동시에 건드릴 때 발생한다. 
+상충점은 단일 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)에 영향을 미치는 [민감도점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/)([Sensitivity Point](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/))이 2개 이상의 상반된 품질 요구사항을 동시에 건드릴 때 발생한다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐

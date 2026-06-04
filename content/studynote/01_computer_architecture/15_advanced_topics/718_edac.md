@@ -129,7 +129,7 @@ EDAC의 기대효과는 장애가 터진 뒤 원인을 찾는 시간을 줄이�
 | :-- | :-- |
 | CE/UE (Corrected Error / Uncorrected Error) | EDAC이 가장 기본적으로 집계하는 오류 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
 | MCA ([Machine Check Architecture](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/717_memory_mca/)) | EDAC이 읽어 오는 대표적 하드웨어 오류 보고 경로 |
-| [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) (Error Correcting [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) | EDAC [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 출발점이 되는 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) 기법 |
+| [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) (Error Correcting [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) | EDAC [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 출발점이 되는 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) 기법 |
 | `rasdaemon` | EDAC 이벤트를 장기 저장·알림으로 연결하는 사용자 영역 도구 |
 | [BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) ([Baseboard Management Controller](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/)) | 온도·[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 텔레메트리와 함께 봐야 정확한 원인 추적이 가능 |
 

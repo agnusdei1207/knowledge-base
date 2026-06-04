@@ -57,7 +57,7 @@ tags = ["studynote-operating-system"]
 리눅스가 처음 부팅될 때, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 가상 주소 공간의 상단(예: 3GB ~ 4GB 구간)을 차지한다.
 놀라운 점은 이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 영역의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블은 <strong>가상 주소와 물리 주소를 1:1로 그냥 더하기만 해서 매핑</strong>해 놓는다는 것이다.
 - `커널 가상 주소 = 물리 램 주소 + PAGE_OFFSET(예: 0xC0000000)`
-- **의도**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 물리 메모리 1번지를 건드리고 싶으면 복잡하게 장부를 뒤질 필요 없이 그냥 가상 주소 0xC0000001을 찌르면 1클럭 만에 다이렉트로 전기 신호가 간다. 
+- **의도**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 물리 메모리 1번지를 건드리고 싶으면 복잡하게 장부를 뒤질 필요 없이 그냥 가상 주소 0xC0000001을 찌르면 1클럭 만에 다이렉트로 전기 신호가 간다.
 - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 램을 할당할 때(kmalloc), 이 다이렉트 매핑 구역에서 연속된 땅을 푹 퍼주기 때문에 가상 주소가 연속이면 물리 주소도 무조건 100% 연속됨이 하드웨어적으로 보장된다.
 
 ---
@@ -89,7 +89,7 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|
 | **물리적 연속성** | 전혀 보장 안 됨 ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault로 땜빵) | <strong>100% 완벽 보장 (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/">Direct</a> 매핑)</strong> |
 | **할당 시점** | 뻥카 침 ([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Allocation). 부를 때 줌. | 뻥카 안 침 (Eager). 즉시 물리 램 차감. |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/">메모리 보호</a></strong> | 권한 없으면 SegFault 내고 앱 죽임 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 자기 메모리 잘못 찌르면 <strong>서버가 블루스크린 뜨며 즉사 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/">Kernel Panic</a>)</strong> |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/">메모리 보호</a></strong> | 권한 없으면 SegFault 내고 앱 죽임 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 자기 메모리 잘못 찌르면 <strong>서버가 블루스크린 뜨며 즉사 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/">Kernel Panic</a>)</strong> |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">스와핑</a> 여부</strong> | 램 부족하면 스왑 디스크로 쫓겨남 | **절대 스왑되지 않음 (Never Swapped)** |
 
 ### [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리의 비(비) [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)(No-Swap) 철학
@@ -120,14 +120,14 @@ tags = ["studynote-operating-system"]
 ### 실무 시나리오: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)(Leak)와 서버 폭발
 1. **상황**: C언어 백엔드 개발자가 유저 앱에서 `malloc`을 하고 `free`를 안 하면 램이 샌다(Leak). 이때 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer가 그 앱을 쏴 죽이면 램이 100% 회수되고 서버는 평온을 되찾는다.
 2. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>의 누수</strong>:
-   - 어떤 서버 개발자가 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(.ko)을 C언어로 짜서 리눅스에 로드했다. 
+   - 어떤 서버 개발자가 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(.ko)을 C언어로 짜서 리눅스에 로드했다.
    - 이 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 안에서 패킷이 들어올 때마다 `kmalloc()`을 호출하고 반환(`kfree`)을 까먹었다.
 3. **재앙의 도래**:
    - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리는 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer의 암살 대상에서 제외된 VIP다. 절대 죽일 수 없다!
    - 램 16GB가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리로 100% 꽉 찼다. 스왑으로 쫓아낼 수도 없다(No-Swap).
    - [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 더 이상 마우스 커서를 움직일 4KB 램조차 할당받지 못한다.
    - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/">Kernel Panic</a> (블루스크린)</strong>이 터지며 굉음과 함께 서버 하드웨어가 멈춰버린다.
-4. **결론**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)단에서의 메모리 관리는 유저 모드와 달리 '안전장치가 없는 외줄 타기'다. 그래서 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 코드를 올릴 때는 구글, 레드햇 등 전 세계 천재들의 살벌한 코드 리뷰를 거쳐 메모리 반환을 완벽히 증명해야만 한다. 
+4. **결론**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)단에서의 메모리 관리는 유저 모드와 달리 '안전장치가 없는 외줄 타기'다. 그래서 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 코드를 올릴 때는 구글, 레드햇 등 전 세계 천재들의 살벌한 코드 리뷰를 거쳐 메모리 반환을 완벽히 증명해야만 한다.
 
 ### Slabinfo를 통한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모니터링
 서버 메모리가 이유 없이 꽉 찼을 때 엔지니어는 `cat /proc/slabinfo` 또는 `slabtop` 명령어를 친다.

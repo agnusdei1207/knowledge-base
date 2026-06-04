@@ -58,11 +58,11 @@ tags = ["studynote-operating-system"]
 
 ### 익명 공유 매핑 (Anonymous Shared [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))
 
-[공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위해 꼭 하드디스크에 `data.txt` 같은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 있어야만 할까? 아니다. 
+[공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위해 꼭 하드디스크에 `data.txt` 같은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 있어야만 할까? 아니다.
 임시로 빠르게 램에서만 통신하고 버릴 거면 디스크 I/O가 아깝다.
 - 이때 `mmap` 함수에 <strong><code>MAP_ANONYMOUS | MAP_SHARED</code></strong> 옵션을 준다.
 - OS는 디스크 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 없이, 허공(램)에 순수한 빈 프레임을 하나 띄워주고 두 프로세스가 이를 공유하게 묶어준다.
-- 이 방식은 `fork()`로 자식을 낳았을 때 부모와 자식 간에 가장 빠르고 더러운 통신 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 구축할 때 필수적으로 쓰이는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 흑마술이다. 
+- 이 방식은 `fork()`로 자식을 낳았을 때 부모와 자식 간에 가장 빠르고 더러운 통신 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 구축할 때 필수적으로 쓰이는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 흑마술이다.
 
 ---
 
@@ -75,7 +75,7 @@ tags = ["studynote-operating-system"]
    - 앱 A가 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏟아부어도 디스크가 드르륵거리지 않는다. 램의 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache에만 냅다 박히기 때문에 (Dirty [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 통신 속도는 무조건 램 속도(DDR5 급)를 뽑아낸다.
    - OS 데몬(`pdflush`)이 나중에 한가할 때 뒤에서 조용히 디스크로 100GB를 쓱쓱 밀어 넣는다.
 2. <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>의 구심점 (Sync Point)</strong>:
-   - A가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰고 서버가 뻗었다? 걱정할 필요 없다. 
+   - A가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰고 서버가 뻗었다? 걱정할 필요 없다.
    - A가 다시 켜지면 OS는 이미 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache나 디스크에 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)된 그 동일한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 다시 물어주기 때문에, 재부팅(Crash) 후에도 다른 프로세스(B)와 통신 맥락([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))이 100% 보존되는 [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)(Persistence) 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))를 공짜로 얻게 된다.
 
 - **📢 섹션 요약 비유**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유 매핑은 그냥 공터에 돗자리만 펴고(익명 공유) 밥을 먹는 게 아니라, 아주 튼튼한 은행 금고([버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/)) 안에 밥상을 차리는 셈입니다. 밥 먹는 도중 지진(서버 크래시)이 나도, 금고 안의 밥상은 완벽하게 보존되어 내일 다시 와서 먹던 밥을 이어서 먹을 수 있는 [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)이 보장됩니다.
@@ -86,7 +86,7 @@ tags = ["studynote-operating-system"]
 
 ### 비교 1: [Message Passing](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) (메시지 패싱) vs [Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) ([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/))
 
-[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)([프로세스 간 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/))의 영원한 양대 산맥이다. 
+[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)([프로세스 간 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/))의 영원한 양대 산맥이다.
 
 | 비교 항목 | [Message Passing](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) ([소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/), [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/), MQ) | [Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) ([mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/) [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)) |
 |:---|:---|:---|

@@ -21,7 +21,7 @@ tags = ["studynote-operating-system"]
 
 꽉 막힌 톨게이트 룰(예방/회피) 대신, 교차로 신호등을 아예 꺼버리고 사거리에 차들이 자유롭게 진입하게 냅둔다면 어떨까? (방임주의). 당장은 엄청 트래픽이 시원하게 뚫리지만, 재수가 없으면 4대가 꼬리를 물고 교차로가 완전 정지해 버리는 암흑 데드락이 필연적으로 발생한다.
 
-<strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a> 탐지(<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>)</strong>는 이 방임 시스템 뒷면에 붙어있는 "드론 순찰대"다. 
+<strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a> 탐지(<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>)</strong>는 이 방임 시스템 뒷면에 붙어있는 "드론 순찰대"다.
 차가 돌든지 말든지 평소에는 자원을 다 내어준다. 그러다가 드론(탐지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))이 위에서 슥 내려다보다가 "어? 저기 차선 4개가 둥글게 원형 꼬리를 물어 사이클이 형성됐군(데드락 발병)" 하고 늦게나마 진단서를 끊는 것이다. 진단이 떴으니 그제야 견인차([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))를 불러 부수고 치우면 된다.
 
 **💡 비유**: 파티장에서 "한 사람당 고기 5점까지만!(회피)" 룰을 없애고 맘대로 퍼먹게 냅둔다. 대신 매 30분마다 매니저(탐지기)가 순환(순회)하면서, 고기 접시를 손에 꽉 쥔 채 남의 접시 김치만 내놓으라며 서로 물고 늘어져 굳어버린 진상 테이블(데드락)이 있는가 감시해 잡아내는 사후 순찰 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/).
@@ -56,7 +56,7 @@ tags = ["studynote-operating-system"]
 
 데드락 탐지([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 모양새는 놀랍게도 예방/회피 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/), 뱅커스)의 복붙(Copy-paste)에 가깝다. 단지 쓰는 '타이밍'이 완전히 다르다.
 
-1. <strong>단일 자원 환경 탐지 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/">Wait-for Graph</a>)</strong>: 
+1. <strong>단일 자원 환경 탐지 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/">Wait-for Graph</a>)</strong>:
    - 회피 때는 미래 점선(Claim)을 넣었지만, 탐지는 진짜 리얼루 막 붙어있는 지금의 "A대기→B대기→C대기" 방향 화살표만 그린다.
    - 주기적으로 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 돌려 그 안에 닫힌 폐곡선(Cycle)이 뚫리면 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 확진!
 2. <strong>다중 자원 환경 탐지 (탐지 전용 은행원 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>)</strong>:

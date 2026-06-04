@@ -127,18 +127,18 @@ n=8: 4 × 3 × 4 / 2 = 24개 비교기
 
 ### 하드웨어 가속 정렬 응용
 
-<strong>시나리오 1 — <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/">FPGA</a> 고빈도 거래(HFT)</strong>:  
-주식 주문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 나노초 단위로 정렬  
-→ 정렬 네트워크 [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) 구현으로 5ns 이하 레이턴시  
+<strong>시나리오 1 — <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/">FPGA</a> 고빈도 거래(HFT)</strong>:
+주식 주문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 나노초 단위로 정렬
+→ 정렬 네트워크 [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) 구현으로 5ns 이하 레이턴시
 → 소프트웨어 정렬 대비 1000배 이상 빠름
 
-<strong>시나리오 2 — <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 정렬 (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/">CUDA</a>)</strong>:  
-수백만 원소 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 정렬  
-→ CUB([CUDA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/) Unbound) 라이브러리의 바이토닉 정렬  
+<strong>시나리오 2 — <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 정렬 (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/">CUDA</a>)</strong>:
+수백만 원소 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 정렬
+→ CUB([CUDA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/) Unbound) 라이브러리의 바이토닉 정렬
 → NVIDIA GPU에서 초당 수십억 원소 처리
 
-<strong>시나리오 3 — 네트워크 패킷 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong>:  
-라우터에서 패킷 우선순위 정렬  
+<strong>시나리오 3 — 네트워크 패킷 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong>:
+라우터에서 패킷 우선순위 정렬
 → [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 기반 정렬 네트워크로 라인 속도(line-rate) 처리
 
 ### 기술사 관점 핵심 포인트
@@ -213,8 +213,8 @@ n=8: 4 × 3 × 4 / 2 = 24개 비교기
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-🏭 **공장 조립 라인**: 어떤 물건이 와도 같은 순서로 조립되는 컨베이어 벨트처럼, 정렬 네트워크는 어떤 숫자가 와도 미리 정해진 순서로 비교해서 정렬해요!  
-⚡ **전기 회로**: 정렬 네트워크는 칩([FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/))에 전기 회로처럼 새겨져 있어서, 전기 신호가 지나가는 순간 정렬이 완료돼요 — 엄청 빠르죠!  
+🏭 **공장 조립 라인**: 어떤 물건이 와도 같은 순서로 조립되는 컨베이어 벨트처럼, 정렬 네트워크는 어떤 숫자가 와도 미리 정해진 순서로 비교해서 정렬해요!
+⚡ **전기 회로**: 정렬 네트워크는 칩([FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/))에 전기 회로처럼 새겨져 있어서, 전기 신호가 지나가는 순간 정렬이 완료돼요 — 엄청 빠르죠!
 🎭 **정해진 안무**: 댄서들이 미리 짜인 안무대로 춤추듯, [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/)들이 정해진 순서대로 숫자를 교환하면 어떤 숫자가 들어와도 정렬이 완료돼요!
 
 ---

@@ -81,7 +81,7 @@ POP3는 메일에 아무런 꼬리표를 달 수 없었지만, IMAP은 이메일
 
 IMAP이 모바일 네트워크(3G/4G) 시대의 제왕이 된 가장 강력한 기술적 무기다.
 
-- **헤더 우선 다운로드**: 친구가 100MB짜리 동영상을 첨부해서 보냈다. 폰에서 앱을 켜면 IMAP은 영리하게 "편지 봉투의 발신자 이름과 제목(Header)" 단 1KB만 쏙 빼와서 목록 화면을 그려준다. 
+- **헤더 우선 다운로드**: 친구가 100MB짜리 동영상을 첨부해서 보냈다. 폰에서 앱을 켜면 IMAP은 영리하게 "편지 봉투의 발신자 이름과 제목(Header)" 단 1KB만 쏙 빼와서 목록 화면을 그려준다.
 - **페이로드 정밀 타격**: 사용자가 그 제목을 보고 호기심이 생겨서 클릭하면, 그제야 텍스트 본문(Text Payload)을 스트리밍하듯 당겨온다.
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a> 레인지(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">Byte</a> Range) 추출</strong>: 심지어 첨부파일인 PDF가 너무 크면, "이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 0바이트부터 100KB까지만 먼저 줘볼래?"라고 쪼개어 받아 미리보기(Preview)를 구현할 수 있는 미친 수준의 최적화 통신 능력을 뽐낸다.
 
@@ -161,7 +161,7 @@ IMAP4를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 엔터프라이즈 인프라 담당자가 회사 메일 시스템을 클라우드로 이사 갈 때 쓰는 궁극의 무기다. 시스템의 '상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))'를 누가 통제할 것인가에 대한 답이다. 상태를 클라이언트가 쥐고 있던 [POP3](/knowledge-base/studynote/03_network/09_application_layer_web_email/489_pop3_post_office_protocol_v3/) 시절엔 PC가 망가지면 회사의 정보 자산이 함께 날아갔다. IMAP은 모든 상태를 서버 중앙 집중화(Server-centric)로 끌어올린 덕분에, 클라이언트는 그저 언제든 버리고 갈아 끼울 수 있는 '투명한 껍데기 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)(Thin [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))'로 전락했다. 
+**[다이어그램 해설]** 엔터프라이즈 인프라 담당자가 회사 메일 시스템을 클라우드로 이사 갈 때 쓰는 궁극의 무기다. 시스템의 '상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))'를 누가 통제할 것인가에 대한 답이다. 상태를 클라이언트가 쥐고 있던 [POP3](/knowledge-base/studynote/03_network/09_application_layer_web_email/489_pop3_post_office_protocol_v3/) 시절엔 PC가 망가지면 회사의 정보 자산이 함께 날아갔다. IMAP은 모든 상태를 서버 중앙 집중화(Server-centric)로 끌어올린 덕분에, 클라이언트는 그저 언제든 버리고 갈아 끼울 수 있는 '투명한 껍데기 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)(Thin [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))'로 전락했다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - **기술적**: [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 143(평문 IMAP) 통신은 비밀번호가 스니핑에 그대로 노출되므로, 사내 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 정책에서 143 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 원천 차단하고 오직 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 993 (IMAPS - SSL/<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 캡슐화)</strong>로만 접속하도록 메일 서버 라우팅을 강제 통제하고 있는가?

@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">Monitor</a>)</strong>: 순차적이고 재사용 가능한 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 코드 블록. 내부의 프로시저(함수)들은 한 번에 하나의 프로세스만 실행할 수 있도록 보장된다.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/">조건 변수</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/">Condition Variable</a>)</strong>: 특정 조건이 만족될 때까지 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 대기열에 재워두고, 조건이 맞으면 깨워주는 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 내부의 신호등.
 
-- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/">세마포어</a>의 휴먼 에러 극복)</strong>: 
+- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/">세마포어</a>의 휴먼 에러 극복)</strong>:
   - [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 훌륭하지만 '어셈블리어'처럼 너무 날것([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/))이다. 개발자가 `P()`와 `V()`의 순서를 바꾸거나, `P()`를 두 번 쓰거나, `V()`를 까먹으면 시스템 전체가 데드락에 빠지거나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 다 깨져버린다.
   - **해결책**: "개발자를 믿지 마라! 아예 언어(Compiler)가 함수 시작할 때 자동으로 자물쇠를 잠그고, 함수 끝날 때 자동으로 풀어주게 만들자!" 이것이 바로 C.A.R. Hoare와 Brinch Hansen이 제안한 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)다.
 
@@ -77,12 +77,12 @@ tags = ["studynote-operating-system"]
 
 생산자-소비자 문제에서 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)가 어떻게 우아하게 작동하는지 보자.
 
-- <strong><code>wait()</code> 의 마법</strong>: 
-  - 소비자가 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 안으로 들어왔는데(락 획득 성공), 버퍼가 텅 비어있다. 
-  - 소비자는 `wait()`를 부른다. 
-  - <strong>이 순간, 소비자는 자기가 꽉 쥐고 있던 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>의 락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)을 스스로 풀고! <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/">조건 변수</a> 큐(구석탱이)로 가서 잠이 든다.</strong> 
+- <strong><code>wait()</code> 의 마법</strong>:
+  - 소비자가 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 안으로 들어왔는데(락 획득 성공), 버퍼가 텅 비어있다.
+  - 소비자는 `wait()`를 부른다.
+  - <strong>이 순간, 소비자는 자기가 꽉 쥐고 있던 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>의 락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)을 스스로 풀고! <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/">조건 변수</a> 큐(구석탱이)로 가서 잠이 든다.</strong>
   - 락이 풀렸으므로 밖에서 기다리던 생산자가 드디어 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 안으로 들어올 수 있게 된다! (이것이 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)로 짜기 제일 헷갈리는 부분인데, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)가 완벽하게 처리해 준다.)
-  
+
 - <strong><code>notify() / signal()</code> 의 마법</strong>:
   - 새로 들어온 생산자가 버퍼에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 채운다.
   - 생산자가 `notify()`를 부른다.
@@ -122,7 +122,7 @@ tags = ["studynote-operating-system"]
    - **원인 분석**: `wait()`와 `sleep()`의 차이를 모르는 주니어의 치명적 실수다. [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 내부에서 `wait()`를 부르면 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 락을 예쁘게 풀고 대기실로 가서 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 들어올 수 있게 양보한다. 하지만 `sleep()`은 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a> 락(자물쇠)을 꽉 쥔 채로 침을 흘리며 자버리는 행위</strong>다. 1초 동안 다른 어떤 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)도 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)에 못 들어오고 전체 서버의 트래픽이 멈춰 선다([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)).
    - **대응 (기술사적 가이드)**: [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)([임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) 내부에서는 절대로 `sleep()`이나 동기식 네트워크 I/O를 호출해서는 안 된다. 대기가 필요하다면 무조건 `wait()`를 통해 락을 풀고 [조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/)로 빠져야 한다.
 
-2. <strong>시나리오 — <code>notify()</code>의 허공 증발 (Lost Wake-up Problem)</strong>: 
+2. <strong>시나리오 — <code>notify()</code>의 허공 증발 (Lost Wake-up Problem)</strong>:
    - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 `notify()`를 날려 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A를 깨우려 했다.
    - 그런데 우연한 타이밍 문제([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))로 인해, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 `wait()`를 호출하며 잠들기 0.001초 전에 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 `notify()`를 먼저 불렀다.
    - **원인 분석**: [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 $S$라는 숫자를 +1 올려두기 때문에 나중에 온 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 통과한다. 하지만 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>의 <code>notify()</code>는 상태(숫자)를 저장하지 않는다.</strong> 깨울 놈이 없으면 그냥 허공에 흩어지고 끝이다. 0.001초 뒤에 잠든 A [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 영원히 깨워줄 사람이 없어 무한 수면에 빠진다(Lost Wake-up).

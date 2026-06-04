@@ -18,7 +18,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-태풍으로 통신탑이 무너져 도시의 인터넷이 3일간 끊겼다고 가정해 보자. 신용카드 단말기, 카카오페이, 모바일 뱅킹은 모두 먹통이 된다. 사람들은 생수를 사기 위해 빵집에 가지만, 오직 '현금(종이 지폐)'만 쓸 수 있다. 한국은행이 아무리 훌륭한 중앙은행 디지털 화폐([CBDC](/knowledge-base/studynote/06_ict_convergence/01_blockchain/061_cbdc_central_bank_digital_currency/))를 만들어 발행했어도 인터넷이 끊겼을 때 결제가 안 된다면, 그것은 진짜 국가 화폐(Legal Tender)로서의 지위를 가질 수 없다. 
+태풍으로 통신탑이 무너져 도시의 인터넷이 3일간 끊겼다고 가정해 보자. 신용카드 단말기, 카카오페이, 모바일 뱅킹은 모두 먹통이 된다. 사람들은 생수를 사기 위해 빵집에 가지만, 오직 '현금(종이 지폐)'만 쓸 수 있다. 한국은행이 아무리 훌륭한 중앙은행 디지털 화폐([CBDC](/knowledge-base/studynote/06_ict_convergence/01_blockchain/061_cbdc_central_bank_digital_currency/))를 만들어 발행했어도 인터넷이 끊겼을 때 결제가 안 된다면, 그것은 진짜 국가 화폐(Legal Tender)로서의 지위를 가질 수 없다.
 
 이 치명적인 아킬레스건을 해결하기 위해 고안된 것이 <strong>오프라인 결제 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>이다. 통신이 단절된 지하실이나 재난 상황에서도, 내 스마트폰(또는 IC 카드)과 편의점 사장님의 스마트폰을 딱(NFC) 부딪히면 내 폰 안의 디지털 금고(SE)에서 돈이 빠져나가 사장님 폰으로 넘어간다. 나중에 인터넷이 복구되면 기기들이 알아서 중앙 서버에 "우리 며칠 전에 거래했어요"라고 영수증([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))을 올려 사후 정산을 맞추는 기적의 구명조끼 아키텍처다.
 
@@ -71,7 +71,7 @@ tags = ["studynote-ict-convergence"]
 | **위협 모델** | 중앙 서버 해킹 및 네트워크 디도스 공격 | <strong>개인 스마트폰 해킹 및 기기 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> (이중 지불)</strong> |
 | **결제 한도** | 통장 잔액 내에서 무제한 (또는 카드 한도) | 오프라인 남용을 막기 위해 **소액 한도(예: 30만 원) 제한** |
 
-기존 페이 시스템에서 스마트폰은 단지 내 계좌번호(토큰)를 단말기에 '보여주는 껍데기'일 뿐, 돈을 빼는 연산은 저 멀리 카드사 서버에서 일어난다. 하지만 [CBDC](/knowledge-base/studynote/06_ict_convergence/01_blockchain/061_cbdc_central_bank_digital_currency/) 오프라인 환경에서는 내 스마트폰 칩 내부가 직접 돈을 관리하는 '미니 한국은행'의 역할을 임시로 대행하게 된다. 
+기존 페이 시스템에서 스마트폰은 단지 내 계좌번호(토큰)를 단말기에 '보여주는 껍데기'일 뿐, 돈을 빼는 연산은 저 멀리 카드사 서버에서 일어난다. 하지만 [CBDC](/knowledge-base/studynote/06_ict_convergence/01_blockchain/061_cbdc_central_bank_digital_currency/) 오프라인 환경에서는 내 스마트폰 칩 내부가 직접 돈을 관리하는 '미니 한국은행'의 역할을 임시로 대행하게 된다.
 
 - **📢 섹션 요약 비유**: 기존 페이는 식당에서 '외상 장부 달아줘(카드 결제)'라고 말하는 것이다. 주인이 장부 관리인(카드사)에게 전화를 걸 수 없으면 밥을 못 먹는다. [CBDC](/knowledge-base/studynote/06_ict_convergence/01_blockchain/061_cbdc_central_bank_digital_currency/) 오프라인 결제는 내 주머니에서 '황금 동전(오프라인 토큰)'을 직접 꺼내 식당 주인 손에 쥐여주는 것이다. 전화선이 끊기든 말든 주인이 진짜 금인 것만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(기기 간 상호인증)하면 밥을 먹을 수 있다.
 

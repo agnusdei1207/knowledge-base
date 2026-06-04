@@ -55,23 +55,23 @@ AARRR 퍼널 (Pirate Metrics):
 A - Acquisition (획득):
   DAU/MAU 비율, 채널별 CPA(Cost Per Acquisition)
   병목 지표: 광고 클릭률 < 1% → 크리에이티브 실험
-  
+
 A - Activation (활성화):
   첫 핵심 가치 경험 달성률
   병목 지표: 온보딩 완료율 < 30% → 온보딩 UX 개선
-  
+
 R - Retention (유지):
   D1/D7/D30 유지율 (Cohort 분석)
   병목 지표: D7 < 25% → 푸시 알림 실험
-  
+
 R - Referral (추천):
   바이럴 계수 K = (초대 발송률) × (수락률)
   K > 1 = 바이럴 성장 (자가 증식)
-  
+
 R - Revenue (수익):
   ARPU, LTV, CAC
   LTV > CAC × 3 = 건강한 성장 지표
-  
+
 병목 분석 도구:
   퍼널 시각화: Mixpanel, Amplitude
   Cohort 분석: 동일 시점 가입 집단 추적
@@ -89,16 +89,16 @@ R - Revenue (수익):
 
   Growth PM (Product Manager)
   실험 우선순위 결정, OKR 관리
-  
+
   데이터 분석가
   코호트 분석, 통계 검증, 대시보드 운영
-  
+
   그로스 엔지니어
   실험 인프라(피처 플래그), 추적 코드 구현
-  
+
   그로스 마케터
   채널 실험, 크리에이티브 A/B 테스트
-  
+
   UX 디자이너
   온보딩, 활성화 실험 설계
 
@@ -127,24 +127,24 @@ R - Revenue (수익):
 수집 레이어:
   SDK: Segment, Firebase, Amplitude SDK
   서버 이벤트: 백엔드 이벤트 로깅
-  
+
 저장 레이어:
   이벤트 DB: BigQuery, Redshift, Snowflake
-  
+
 분석 레이어:
   SQL 쿼리: 코호트 분석, 퍼널 쿼리
   BI 도구: Tableau, Looker, Metabase
-  
+
 액션 레이어:
   A/B 테스트: Optimizely, Firebase Remote Config
   마케팅 자동화: Braze, Clevertap
-  
+
 주요 지표 정의:
   North Star Metric (NSM):
     Airbnb: "예약 야간 수"
     Spotify: "구독 청취 시간"
     회사 전체가 집중할 단일 핵심 지표
-  
+
   Leading Indicator vs Lagging Indicator:
     Leading: D1 유지율 (미래 성과 예측)
     Lagging: 월간 매출 (과거 결과)
@@ -162,7 +162,7 @@ B2B SaaS 그로스 해킹 사례:
 
 초기 상황:
   MAU 5,000 → 목표: 1년 내 MAU 30,000
-  
+
 OKR 설정:
   O: "자기증식 성장 엔진 구축"
   KR1: 유저 추천(Referral) 비율 10% → 25%

@@ -212,8 +212,8 @@ tags = ["algorithm_stats"]
 셸 정렬은 Gap을 점차 줄여 가며 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)을 반복하는 방식으로, Gap 시퀀스 선택에 따라 O(n^1.5)까지 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 개선한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 ### 👶 어린이를 위한 3줄 비유 설명
 
-📏 **멀리서 먼저 짝 맞추기**: 셸 정렬은 긴 줄에서 먼 거리(Gap)의 친구끼리 먼저 키를 맞추고, 점점 가까운 친구들끼리 맞추는 방법이에요!  
-🔢 **Gap 줄이기**: 처음엔 4칸 간격, 다음엔 2칸, 마지막엔 1칸으로 간격을 줄여가요. 마지막 1칸은 그냥 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)인데 이미 거의 정렬되어 있어서 엄청 빨라요!  
+📏 **멀리서 먼저 짝 맞추기**: 셸 정렬은 긴 줄에서 먼 거리(Gap)의 친구끼리 먼저 키를 맞추고, 점점 가까운 친구들끼리 맞추는 방법이에요!
+🔢 **Gap 줄이기**: 처음엔 4칸 간격, 다음엔 2칸, 마지막엔 1칸으로 간격을 줄여가요. 마지막 1칸은 그냥 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)인데 이미 거의 정렬되어 있어서 엄청 빨라요!
 ⚡ **효율적인 이동**: 원소가 제자리까지 조금씩 이동하는 대신, 처음부터 크게 뛰어서 빠르게 이동해요. 마치 체스의 나이트처럼 멀리 이동하는 거예요!
 
 

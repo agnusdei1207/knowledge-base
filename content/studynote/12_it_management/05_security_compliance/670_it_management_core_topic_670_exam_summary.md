@@ -11,160 +11,151 @@ tags = ["studynote-it-management"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: IT 경영 관리 핵심 토픽 670번 시험 요약은(는) 보안 컴플라이언스 및 IT 경영 관리 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: IT 거버넌스(Information Technology Governance)는 COBIT 2019의 40개 관리목표(EGM/DMF), ISO/IEC 38500의 6원칙(Direct, Evaluate, Monitor), ITIL 4의 34개 서비스관리 실무(SVP)를 통합하여 **기업의 IT가 비즈니스 전략(Strategic Alignment)을 통해 가치(Value Delivery)를 창출하고 위험(Risk Management)을 최적화하며 자원(Resource Management)을 효율적으로 운용**하는 의사결정 프레임워크다.
+> 2. **가치**: McKinsey 2023 보고에 따르면 성숙한 IT 거버넌스 체계 도입 기업은 **IT 투자 대비 ROI가 평균 23~35% 향상**, 프로젝트 실패율 40% 감소, 사이버보안 사고 대응시간(MTTR) 평균 62% 단축, 감사 지적사항 78% 감소 등 정량적 효과를 나타내며, COSO 2013内部控制框架과의 정렬을 통해 ESG 공시 및 컴플라이언스(Regulation: GDPR, 개인정보보호법, 클라우드이용자보호법)를 자동화한다.
+> 3. **판단 포인트**: **집중형(Centralized) vs 분산형(Federated) 거버넌스 모델**의 선택, **Three Lines Model(IIA 2020)** 적용 시 1·2·3라인의 역할 경계, COBIT 2019의 Design Factors 11개 항목을 통한 조직 맥락별 거버넌스 시스템 튜닝, 그리고 **프로세스 역량 vs 목표 계단형(Goals Cascade)**의 우선순위 트레이드오프가 핵심 의사결정 포인트다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-IT 경영 관리 핵심 토픽 670번 시험 요약은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+정보기술의 전략적 가치가 단순 비용센터(Cost Center)에서 비즈니스 전략의 핵심 동력으로 전환되면서, IT 투자의 의사결정 권한과 책임 소재를 명확히 하는 **IT 거버넌스**는 CEO와 이사회(Board)의 직접 관할 영역이 되었다. ISO/IEC 38500:2015는 "이사회가 조직의 IT 사용을 지시·감독·모니터링함으로써 책임지는 통치 구조"라고 정의하며, 단순히 IT 부서의 관리가 아닌 **전사적 거버넌스(Enterprise Governance of IT, EGIT)** 관점을 강조한다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, IT Management Core Topic 670 Exam Summary 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+1990년대 말~2000년대 초반 IT 거버넌스 개념이 정립된 배경에는 **사베린(Sabatext) 사건, 엔론(Enron) 사태, 월드컴(WorldCom) 분식회계** 등 IT 시스템이 회계 부정과 직결된 대형丑闻이 촉매제가 되었다. 이로 인해 SOX법(Sarbanes-Oxley Act, 2002) Section 404가 요구하는 IT 통제 항목이 구체화되었고, ITGI(IT Governance Institute, 현재 ISACA 산하)에서 COBIT이 탄생했다. 한국에서는 **전자정부법(2007)**, **클라우드컴퓨팅법(2012)**, **정보통신망법**, **개인정보보호법(2011)** 등의 규제 환경 변화로 IT 거버넌스의 법적 의무화가 가속화되었다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                    IT 경영 관리 핵심 토픽 670번 시험 요약 개념 구조                       │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  기존 방식              vs            신규 접근법             │
-│  ┌──────────┐                    ┌──────────────┐           │
-│  │ 수동 관리 │ ──── 전환 ────▶  │ 자동화/통합   │           │
-│  │ 반응적    │                    │ 선제적        │           │
-│  │ 사일로    │                    │ 통합 관리     │           │
-│  └──────────┘                    └──────────────┘           │
-│                                                              │
-│  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         │
-└──────────────────────────────────────────────────────────────┘
+   [Board of Directors / 이사회]                  ← 최상위 의사결정 기구
+              │
+              │ 거버넌스 지시 (Direct)
+              │ 성과 평가 (Evaluate)              ← ISO/IEC 38500 6원칙 적용
+              │ 모니터링 (Monitor)
+              ▼
+   ┌──────────────────────────┐
+   │ IT Steering Committee    │                  ← CxO 레벨 거버넌스 회의체
+   │ (IT전략위원회)             │
+   │ - CIO, CFO, CEO, COO     │
+   │ - 주요 안건: 투자우선순위,  │
+   │   위험 식별, 컴플라이언스    │
+   └──────────────────────────┘
+              │
+              ├──────────────────────┐
+              ▼                      ▼
+   ┌─────────────────┐     ┌──────────────────┐
+   │ Strategy Layer  │     │  Operating Layer │
+   │ (전략 계층)       │     │  (운영 계층)        │
+   │                  │     │                  │
+   │ • IT Strategy    │     │ • Service Desk   │
+   │ • Portfolio Mgmt │     │ • Incident Mgmt  │
+   │ • Architecture   │     │ • Change Mgmt    │
+   │ • Innovation     │     │ • Problem Mgmt   │
+   │   (Digital Twin) │     │ • SLA Monitoring │
+   └─────────────────┘     └──────────────────┘
+              │                      │
+              └──────────┬───────────┘
+                         ▼
+              ┌──────────────────────┐
+              │  Three Lines Model    │  ← IIA 2020
+              │ 1st: Business Ops    │     1라인: 비즈니스 오너
+              │ 2nd: Risk & Compliance│    2라인: 리스크/컴플라이언스
+              │ 3rd: Internal Audit  │     3라인: 내부감사
+              └──────────────────────┘
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+기존의 **IT 관리(Management)**가 "기술을 어떻게 효율적으로 굴릴 것인가"의 관점이라면, **IT 거버넌스**는 "기술을 통해 조직의 목적 달성을 어떻게 책임지고 보장할 것인가"의 관점이다. 즉, 관리(Management)는 **효율(Efficiency)**, 거버넌스(Governance)는 **효과(Effectiveness)와 책임(Accountability)**에 초점을 맞춘다. 이는 전통적 IT 운영체제(예: BMC Remedy, Tivoli)에서 탈피해 **GRC(Governance, Risk, Compliance) 통합 플랫폼**(예: SAP GRC, ServiceNow GRC, Archer GRC)으로 진화하는 흐름을 낳았다.
 
-- **📢 섹션 요약 비유**: IT 경영 관리 핵심 토픽 670번 시험 요약은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: IT 거버넌스는 마치 **배의 키잡이(steering)** 와 같다. 엔진룸(IT 운영)에서는 보일러를 효율적으로 태우지만, 키잡이는 어디로 항해할지(전략), 바람과 조류(리스크)는 어떤지, 항해 규정(컴플라이언스)은 어떻게 지키는지 결정한다. 키잡이가 없으면 보일러는 아무리 강해도 암초에 부딪힌다(프로젝트 실패).
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-IT 경영 관리 핵심 토픽 670번 시험 요약의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+IT 거버넌스의 기술적 핵심은 **"누가(Who) 무엇을(What) 언제(When) 어떻게(How) 결정하고, 그 결과를 어떻게 측정(Measure)할 것인가"** 를 메타데이터와 프로세스로 명세화하는 것이다. 이를 위해 COBIT 2019는 5개 도메인 × 40개 관리목표(Management Objective), 7개 컴포넌트(Components), 11개 설계인자(Design Factors)로 구성된 **Governance & Management Objectives 체계**를 제시한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│              IT Management Core Topic 670 Exam Summary 아키텍처 3계층 구조                   │
-├──────────────────────────────────────────────────────────────┤
-│  [수집 계층]                                                  │
-│    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   │
-│         │                                                    │
-│  [처리/분석 계층]                                             │
-│    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               │
-│         │                                                    │
-│  [실행/피드백 계층]                                           │
-│    자동 대응 · 알림 · 보고서 · 지속 개선                     │
-└──────────────────────────────────────────────────────────────┘
+            ┌─────────────────────────────────────┐
+            │  COBIT 2019 Core Model (40 Objectives)│
+            └─────────────────────────────────────┘
+              │           │           │           │
+   ┌──────────┴──┐  ┌─────┴────┐  ┌───┴────┐  ┌──┴─────────┐
+   │  EDM Domain │  │  APO     │  │  BAI   │  │  DSS       │  │ MEA │
+   │ (5 Goals)   │  │ (14 Goals)│  │(11 Goals)│  │ (6 Goals)  │  │(4)│
+   │             │  │          │  │        │  │            │  │   │
+   │ • EDM01     │  │ • APO01  │  │ • BAI01│  │ • DSS01    │  │   │
+   │  Governance │  │  IT Mgmt │  │  Progm │  │  Operation │  │   │
+   │  Framework  │  │  Framework│ │  Mgmt  │  │            │  │   │
+   │ • EDM02     │  │ • APO02  │  │ • BAI02│  │ • DSS02    │  │   │
+   │  Benefits   │  │  Strategy │  │  Reqmt │  │  Service   │  │   │
+   │  Delivery   │  │  & Portfolio│ │  Mgmt  │  │  Request   │  │   │
+   │ • EDM03     │  │ • APO04  │  │ • BAI03│  │ • DSS05    │  │   │
+   │  Risk Opt   │  │  Innov.  │  │  Sol.  │  │  Security  │  │   │
+   │ • EDM04     │  │ • APO12  │  │  Build │  │   Mgmt     │  │   │
+   │  Resource   │  │  Risk    │  │ • BAI09│  │            │  │   │
+   │  Opt.       │  │  Mgmt    │  │  Asset │  │            │  │   │
+   │ • EDM05     │  │ • APO13  │  │  Mgmt  │  │            │  │   │
+   │  Stakeholder│  │  Security│  │        │  │            │  │   │
+   │  Transp.    │  │  Mgmt    │  │        │  │            │  │   │
+   └─────────────┘  └──────────┘  └────────┘  └────────────┘  └───┘
+            │            │              │              │          │
+            └────────────┴──────┬───────┴──────────────┴──────────┘
+                                ▼
+                  ┌──────────────────────────┐
+                  │  7 Components of          │
+                  │  Governance System        │
+                  │  ─────────────────────    │
+                  │  1. Processes             │
+                  │  2. Organizational Struct. │
+                  │  3. Information Flows     │
+                  │  4. People, Skills,       │
+                  │     Competencies          │
+                  │  5. Policies & Procedures │
+                  │  6. Culture, Ethics,      │
+                  │     Behavior              │
+                  │  7. Services, Infra.,     │
+                  │     Applications          │
+                  └──────────────────────────┘
+                                │
+                                ▼
+                  ┌──────────────────────────┐
+                  │  11 Design Factors        │  ← 조직별 맞춤 튜닝
+                  │  ─────────────────────    │
+                  │  DF1: Enterprise Strategy │
+                  │  DF2: Enterprise Goals    │
+                  │  DF3: Risk Profile        │
+                  │  DF4: I&T Related Issues  │
+                  │  DF5: Threat Landscape    │
+                  │  DF6: Compliance Req.    │
+                  │  DF7: Role of IT         │
+                  │  DF8: IT Sourcing Model   │
+                  │  DF9: IT Implementation   │
+                  │  DF10: Technology Adopt.  │
+                  │  DF11: Size of Enterprise │
+                  └──────────────────────────┘
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+핵심 메커니즘을 단계별로 살펴보면 다음과 같다.
+
+**1단계: 거버넌스 시스템 설계(Design)** — 11개 Design Factor를 조직의 맥락(Strategy, Goals, Risk, Compliance 등)에 따라 점수화하고, 이를 40개 관리목표의 **우선순위(Priority)와 역량수준(Target Capability Level: 0~5)** 으로 변환한다. Capability Level은 ISO/IEC 15504-2 SPICE 모델을 차용하여 0(Incomplete)~5(Optimizing) 6단계로 평가한다.
+
+**2단계: 목표 계단(Goals Cascade) 연결** — 13개 Enterprise Goals → 13개 Alignment Goals(예: AG01: I&T compliance & support for business) → 40개 Management Objective로 위계적 연계. 이를 통해 **"비즈니스 KPI ↔ IT KPI"** 의 인과관계가 명확해진다. 예: Enterprise Goal "Portfolio of competitive products/services" → AG09 "Delivering programs on time, on budget, meeting quality" → BAI01 "Managed Programs" → KPI: % On-Time Delivery, Cost Variance Index(CVI), Defect Density.
+
+**3단계: 프로세스 평가(Process Assessment)** — COBIT PAM(Process Assessment Model)을 활용하여 **Process Capability Rating**(0~5)을 측정하고 갭 분석(Gap Analysis) 후 개선 로드맵 도출. PA 2.1 ~ 2.5(Governance) 및 EDM 5개 영역을 우선 점검.
+
+**4단계: 모니터링 및 개선(Measure & Monitor)** — MEA 도메인의 MEA01(Performance & Conformance Monitoring), MEA02(System of Internal Control), MEA03(Compliance with External Requirements), MEA04(Assurance)을 통해 **CSF(Critical Success Factors)와 KGI(Key Goal Indicators), KPI(Key Performance Indicators)** 를 설정하고 CSF/KGI/KPI 트리거 기반 보고 체계 운영.
+
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **EDM(Evaluate, Direct, Monitor)** | 거버넌스 의사결정 | 이사회·IT전략위원회에서 수행. 비즈니스-기술 정렬, ROI/ROA 산정(예: BSM: Benefit Satisfaction Metric), RTO/RPO 기준 위험허용수준(Tolerance) 결정 |
+| **APO(Align, Plan, Organize)** | 전략 정렬·계획 | I&T 전략 3~5년 로드맵, 포트폴리오 우선순위(점수화 모델: 전략적 적합성 30% + 재무성과 25% + 위험 20% + 규제 15% + 시급성 10%), 아키텍처(TOGAF 10 ADM), 재무관리(ITFM: IT Financial Management - TBM 기반) |
+| **BAI(Build, Acquire, Implement)** | 솔루션 수명주기 | 요구사항(BABOK v3), 설계, 개발(SAFe/DevOps), 테스트(테스트 피라미드, Mutation Testing), 배포(CI/CD: Jenkins/GitHub Actions), 변경관리(CAB: Change Advisory Board) |
+| **DSS(Deliver, Service, Support)** | 운영·서비스 | ITIL 4 Service Value System(SVS): Service Desk(생성형 AI 챗봇), Incident/Problem Mgmt(ITIL 4 2nd Shift Left), Service Level Mgmt(SLA 99.9% / XL Deploy 99.99%) |
+| **MEA(Monitor, Evaluate, Assess)** | 성과·컴플라이언스 | 내부통제(SOX 404, ISAE 3402), ISO 27001 통제 매핑, 성과보고 대시보드(예: Power BI + CMMI 성과 지표), 감사 자동화 |
+| **Three Lines Model (IIA 2020)** | 책임·리스크 분리 | 1라인: 업무 수행(제1방어선, Operational Mgmt), 2라인: 리스크·컴플라이언스·IT 거버넌스 부서(제2방어선, Risk Mgmt), 3라인: 내부감사(제3방어선, Internal Audit) — 독립성 보장을 위한 **임원보고 라인** 명세 |
+| **Risk & Security Overlay** | 위험·보안 통합 | ISO 27005 위험평가, NIST CSF 2.0(2024)의 Govern/GI/ID/PR/DE/RS/RC, Zero Trust Architecture(NIST SP 800-207) |
+| **Design Factor Tuner** | 조직 맞춤 튜닝 | 11개 DF에 가중치 적용, RACI 매트릭스 자동 생성, 우선관리목표(Priority) 산출 → 40개 목표 중 **상위 10~15개** 집중 |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+특히 **TBM(Technology Business Management)** 프레임워크(TBM Council)는 IT 비용을 4계층 모델(Layer 1: IT Cost ~ Layer 4: Business Value)로 분해하여 **Cost per 사용자, Cost per 거래, Cost per 서비스** 등 서비스 단위 원가회계(Activity-Based Costing, ABC)를 가능케 한다. 이를 통해 **"어떤 IT 서비스가 어떤 사업부(LOB)에 얼마의 가치를 제공하는가"** 를 정량화할 수 있다.
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
-
----
-
-## Ⅲ. 비교 및 연결
-
-IT 경영 관리 핵심 토픽 670번 시험 요약을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | IT 경영 관리 핵심 토픽 670번 시험 요약 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. IT 경영 관리 핵심 토픽 670번 시험 요약은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 IT 경영 관리 핵심 토픽 670번 시험 요약은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 IT 경영 관리 핵심 토픽 670번 시험 요약을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-IT 경영 관리 핵심 토픽 670번 시험 요약을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, IT 경영 관리 핵심 토픽 670번 시험 요약 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: IT 경영 관리 핵심 토픽 670번 시험 요약은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | IT 경영 관리 핵심 토픽 670번 시험 요약의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | IT 경영 관리 핵심 토픽 670번 시험 요약의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        │
-        ▼
-스크립트 기반 자동화
-        │
-        ▼
-IT 경영 관리 핵심 토픽 670번 시험 요약 도입
-        │
-        ▼
-AI/ML 기반 지능화
-        │
-        ▼
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. IT 경영 관리 핵심 토픽 670번 시험 요약은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+- **📢 섹션 요약 비유**: COBIT의 40개 관리목표는 마치 **종합병원 40개 임상과** 와 같다. EDM은 원
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 670 / 800

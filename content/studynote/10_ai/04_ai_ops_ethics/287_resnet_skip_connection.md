@@ -152,7 +152,7 @@ $$\frac{\partial L}{\partial x_l} = \frac{\partial L}{\partial x_L} \cdot \left(
 VGGNet (단순 적층)           ResNet (잔차 연결)
 ─────────────────           ─────────────────
 x → [Conv] → [Conv] → y    x → [Conv] → [Conv] → y
-                            └─────────────────────┘
+                            +---------- skip ------+
                                      +x
                              기울기 경로 항상 열림
 ```

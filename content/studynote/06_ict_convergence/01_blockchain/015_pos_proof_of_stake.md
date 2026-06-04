@@ -55,7 +55,7 @@ PoS의 보안 철학 중 가장 중요한 "방어 공격 메커니즘 (Slashing)
 ```text
 [Validator 검증자] --(정상 검증 및 서명)--> [블록 확정] ==> [블록 이자 보상(Reward) 획득]
         |
-   (악의적 분기 시도) 
+   (악의적 분기 시도)
    (동시에 2개 블록에 이중 서명)
         |
         v
@@ -92,7 +92,7 @@ A 방식(순수 PoS)은 누구나 32 ETH만 있으면 [검증](/knowledge-base/s
 실무에서 PoS [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)을 아키텍처로 채택하거나 스테이킹 인프라를 운영할 때는, PoS 고유의 내재적 공격 시나리오와 안티패턴을 철저히 방어해야 합니다.
 
 1. **Nothing at Stake (잃을 것이 없는 문제) 취약점**
-   - 체인이 A와 B 두 갈래로 나뉘었을 때(Fork), 채굴자는 전력을 두 곳 모두에 쏟을 수 없어 하나를 택해야 하는 PoW와 달리, PoS 노드는 전력이 들지 않으므로 양쪽 체인에 모두 투표(서명)하여 어느 쪽이 이기든 보상을 챙기려 할 수 있습니다. 
+   - 체인이 A와 B 두 갈래로 나뉘었을 때(Fork), 채굴자는 전력을 두 곳 모두에 쏟을 수 없어 하나를 택해야 하는 PoW와 달리, PoS 노드는 전력이 들지 않으므로 양쪽 체인에 모두 투표(서명)하여 어느 쪽이 이기든 보상을 챙기려 할 수 있습니다.
    - **실무 해결책**: 이중 투표를 모니터링하여 적발 시 지분을 즉시 몰수하는 가혹한 슬래싱(Slashing) 로직을 이더리움 Casper 알고리즘처럼 컨트랙트에 강제 탑재해야만 이 현상을 막을 수 있습니다.
 
 2. <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">Long Range</a> Attack (장거리 공격)</strong>

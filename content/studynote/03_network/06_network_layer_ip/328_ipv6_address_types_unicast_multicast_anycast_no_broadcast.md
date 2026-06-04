@@ -19,10 +19,10 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: IPv6가 통신 대상의 범위를 지정하기 위해 사용하는 3대 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 캐스트(Cast) 방식. 
+- **개념**: IPv6가 통신 대상의 범위를 지정하기 위해 사용하는 3대 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 캐스트(Cast) 방식.
 - **필요성**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 시절, 브로드캐스트(255.255.255.255)는 편하긴 했지만 악의 축이었다. 내가 질문 하나를 던지면 같은 네트워크에 있는 수천 대의 PC가 일하던 걸 멈추고(CPU [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 패킷을 뜯어봐야 했다. 이를 견디다 못한 설계자들은 <strong>"모든 사람에게 강제로 소리치는 방송(Broadcast) 기능을 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>에서 완전히 삭제"</strong>하고, 원하는 사람만 듣게 하는 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)와 가장 가까운 한 명만 찾는 애니캐스트로 세상을 개편했다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - **유니캐스트 (1:1)**: "철수야 이리 와!" (철수 한 명에게 콕 집어 말함)
   - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a> (1:N)</strong>: "방송부원들만 이리 와!" (방송부 단톡방에만 메시지를 보냄. 방송부가 아닌 학생들은 아예 안 들림)
   - **애니캐스트 (1:1 중 가장 가까운 놈)**: 길을 가다 쓰러졌을 때 "거기 119구급차 아무나 제일 빨리 와!" 하고 소리치면, 전국 119센터 중 **내 위치에서 1분 거리에 있는 가장 가까운 구급차 딱 한 대만** 출동하는 시스템.
@@ -49,7 +49,7 @@ tags = ["studynote-network"]
 
 ### 2. [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) (Multicast) - 1:N 특정 그룹
 IPv6의 진정한 살림꾼이다. 주소가 <strong><code>ff00::/8</code> (즉, <code>ff</code>로 시작)</strong>하면 무조건 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)다.
-- 브로드캐스트가 사라졌기 때문에 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 찾기)도 사라졌다. 
+- 브로드캐스트가 사라졌기 때문에 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 찾기)도 사라졌다.
 - 대신 IPv6는 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/336_ndp_neighbor_discovery_protocol_ipv6/">NDP</a>(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/336_ndp_neighbor_discovery_protocol_ipv6/">Neighbor Discovery Protocol</a>)</strong>라는 것을 쓰는데, "내 이웃 찾기 전용 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 그룹(`ff02::1:ff...` 형태의 Solicited-node [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/))"이라는 단톡방에 질문을 쏘면, 그 IP를 가진 당사자만 단톡방에서 대답해 준다. 동네 다른 PC들은 단톡방에 없으므로 조용히 꿀잠을 잘 수 있다.
 
 ### 3. 애니캐스트 (Anycast) - 1:1 of N (가장 가까운 하나)

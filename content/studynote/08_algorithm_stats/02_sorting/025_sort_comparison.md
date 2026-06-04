@@ -199,8 +199,8 @@ tags = ["studynote-algorithm"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-🔧 **도구 상자**: 망치([퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)), 드라이버([삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)), 레이저 커터([기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/))처럼 상황마다 맞는 도구가 달라요 — 만능 도구는 없지만 상황을 알면 최고의 선택을 할 수 있어요!  
-🏆 **운동 종목 챔피언**: 수영 1등이 육상에서도 1등은 아니에요. 정렬도 마찬가지 — 정수 정렬 챔피언([계수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/016_counting_sort/))이 실수 정렬에서도 1등은 아니에요.  
+🔧 **도구 상자**: 망치([퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)), 드라이버([삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)), 레이저 커터([기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/))처럼 상황마다 맞는 도구가 달라요 — 만능 도구는 없지만 상황을 알면 최고의 선택을 할 수 있어요!
+🏆 **운동 종목 챔피언**: 수영 1등이 육상에서도 1등은 아니에요. 정렬도 마찬가지 — 정수 정렬 챔피언([계수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/016_counting_sort/))이 실수 정렬에서도 1등은 아니에요.
 📖 **요리 레시피**: 어떤 재료가 오냐에 따라 레시피가 달라지듯, 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 오냐에 따라 최고의 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 달라져요!
 
 ---

@@ -86,10 +86,10 @@ HTTP가 상태를 기억하지 않고([Stateless](/knowledge-base/studynote/15_d
 ### 2. 상태 비저장 ([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 메커니즘
 Stateless는 <strong>"서버가 클라이언트의 이전 상태(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a>)를 보존하지 않는 구조"</strong>입니다. 클라이언트가 이전 통신의 연속 선상에서 새로운 요청을 하더라도, 서버는 이를 완전히 독립적인 새로운 요청으로 취급합니다.
 
-- **장점**: 
+- **장점**:
   - 상태 보존을 위한 메모리 공간 할당 불필요
   - 특정 서버에 클라이언트가 종속되지 않으므로, 로드 밸런서(L4/L7)를 통해 어떠한 백엔드 서버로든 트래픽을 자유롭게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)) 가능
-- **단점**: 
+- **단점**:
   - 매 요청마다 클라이언트가 자신을 증명할 모든 추가 정보([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID, 장바구니 내용 등)를 반복해서 전송해야 하므로 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비 발생
 
 ```text

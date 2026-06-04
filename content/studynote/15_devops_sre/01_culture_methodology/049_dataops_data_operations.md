@@ -27,7 +27,7 @@ DataOps 없을 때:
   변경: 직접 수정, 테스트 없음
   배포: 수동, 의존성 파악 어려움
   장애: 몇 시간 후 발견, 원인 불명
-  
+
   결과: 데이터 신뢰도 저하 → 분석팀 불신
 
 DevOps 원칙의 데이터 적용:
@@ -40,13 +40,13 @@ DevOps → DataOps 매핑:
   인시던트 관리: 데이터 이상 탐지 + 대응
 
 DataOps 구성 요소:
-  
+
   코드로서의 파이프라인:
   Airflow DAG, dbt 모델 → Git 버전 관리
-  
+
   데이터 CI/CD:
   PR → 자동 품질 테스트 → 스테이징 → 프로덕션
-  
+
   데이터 옵저버빌리티:
   파이프라인 지표, 데이터 품질 모니터링
   이상 탐지 + 알림
@@ -98,7 +98,7 @@ dbt 테스트 예:
   개발: dev_schema (개인 샌드박스)
   스테이징: staging_schema (CI 테스트)
   프로덕션: prod_schema
-  
+
   dbt profiles.yml:
   target: dev  # 개인 개발 시
   prod:
@@ -106,7 +106,7 @@ dbt 테스트 예:
 
 Airflow CI/CD:
   GitHub Actions → DAG 유효성 검사 → 자동 배포
-  
+
   파이프라인 롤백:
   이전 DAG 버전으로 즉시 롤백 가능 (Git 기반)
 ```
@@ -125,31 +125,31 @@ Airflow CI/CD:
 
 1. 신선도 (Freshness):
   데이터가 얼마나 최신인가?
-  
+
   체크: 마지막 업데이트 시간
   알림: 예상보다 2시간 이상 지연 시 알림
 
 2. 분포 (Distribution):
   데이터 값의 통계적 분포가 정상인가?
-  
+
   체크: 평균, 표준편차, min/max 추적
   이상: 매출 평균이 갑자기 0이 됨 → 파이프라인 오류
 
 3. 볼륨 (Volume):
   데이터 행 수가 정상 범위인가?
-  
+
   체크: 일별 행 수 변동
   이상: 전날 100만 행 → 오늘 10 행 → 오류!
 
 4. 스키마 (Schema):
   데이터 구조가 변경되었는가?
-  
+
   체크: 컬럼 추가/삭제/타입 변경 탐지
   이상: 상위 서비스에서 컬럼 이름 변경 → 자동 탐지
 
 5. 계보 (Lineage):
   데이터가 어디서 왔고 어디에 쓰이는가?
-  
+
   영향 분석:
   orders 테이블 변경 → 어떤 하위 모델 영향받나?
 
@@ -158,7 +158,7 @@ Airflow CI/CD:
   Metaplane: 경량 오픈소스 대안
   dbt Artifacts: 기본 계보 추적
   Great Expectations: 데이터 품질 테스트
-  
+
   Airflow UI: DAG 실행 현황 + 로그
   Grafana: 파이프라인 지표 대시보드
 ```
@@ -236,19 +236,19 @@ TO-BE 목표: Level 3~4
   모든 변환 로직 dbt 모델로 전환
   GitHub Actions: PR 시 자동 dbt test
   환경 분리: dev/staging/prod
-  
+
   효과: 배포 오류 70% 감소
 
 2. Airflow + 모니터링 (2개월):
   DAG 실행 현황 Grafana 대시보드
   실패 DAG → PagerDuty 알림 (5분 내)
-  
+
   효과: 장애 탐지 6시간 → 30분
 
 3. 데이터 옵저버빌리티 (Monte Carlo, 2개월):
   신선도·볼륨·분포 자동 모니터링
   이상 탐지 → Slack 자동 알림
-  
+
   효과: 데이터 이상 조기 탐지
   (파이프라인 오류 후 1시간 내 탐지)
 

@@ -69,7 +69,7 @@ CTR 모드의 핵심 발상의 전환은 "평문을 암호화 기계([AES](/know
 
 ## Ⅲ. 비교 및 연결
 
-CTR 모드를 이해하기 위해서는 기존 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 방식과 [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/) 방식의 경계를 비교해야 한다. 
+CTR 모드를 이해하기 위해서는 기존 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 방식과 [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/) 방식의 경계를 비교해야 한다.
 
 | 항목 | [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드 ([직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)형 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)) | CTR 모드 ([스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)형 변환) |
 | :--- | :--- | :--- |

@@ -88,7 +88,7 @@ CMOS는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/2
 
 ## Ⅴ. 기대효과 및 결론
 
-CMOS 아키텍처는 발열과 대기 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/)를 물리적으로 0으로 깎아내며 21세기 디지털 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)의 100% 지배자가 되었다. 
+CMOS 아키텍처는 발열과 대기 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/)를 물리적으로 0으로 깎아내며 21세기 디지털 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)의 100% 지배자가 되었다.
 
 하지만 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)를 수백억 개 쑤셔 넣어도 한 번에 다 켤 수 없어 70% 구역의 전원을 강제로 끊어 죽여 놔야 하는 '[다크 실리콘](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/) ([Dark Silicon](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/))'의 비극이 도래했다. 미래에는 실리콘의 족쇄 자체를 벗어던지고 원자 1개 두께의 초박막 2D 그래핀 물질이나 전자의 회전(Spin) 방향으로 0과 1을 전송하는 양자 스핀트로닉스(Spintronics) 등 "Beyond CMOS" 시대로 퀀텀 점프하게 될 것이다.
 

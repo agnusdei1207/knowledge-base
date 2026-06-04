@@ -83,7 +83,7 @@ CUBIC을 압살한 최고의 업적입니다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 켜자마자 구글 B4 백본망 속도가 130배 오르고, 유튜브 버퍼링이 반토막 났습니다. 
+- 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 켜자마자 구글 B4 백본망 속도가 130배 오르고, 유튜브 버퍼링이 반토막 났습니다.
 - 1065번 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3)의 기본 혼잡 제어 탑재뿐만 아니라, 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 4.9 버전에 공식 탑재되어 `sysctl` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 한 줄만 치면 모든 리눅스 서버의 심장을 CUBIC에서 BBR로 1초 만에 튜닝할 수 있습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

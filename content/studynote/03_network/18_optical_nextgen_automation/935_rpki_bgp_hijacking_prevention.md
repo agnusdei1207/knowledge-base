@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 인터넷은 거대한 국가/기업 단위의 네트워크([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/), Autonomous System)들의 뭉치다. 이들은 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a></strong>라는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 "유튜브 IP(예: 8.8.0.0/16)는 나(구글 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/))한테 보내!"라고 온 동네에 소문을 내며 트래픽을 모은다.
 
 * <strong>BGP의 치명적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a></strong>: BGP에는 "그 IP가 진짜 네 거 맞아?"라고 신분증을 검사하는 기능이 아예 없다!
-* <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a> 하이재킹 (대참사)</strong>: 
+* <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a> 하이재킹 (대참사)</strong>:
   - 2008년, 파키스탄 정부가 유튜브를 막으려고 자기네 라우터에 "유튜브 IP는 내 거야!"라고 뻥을 쳤다.
   - 이 거짓말이 실수로 전 세계 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 망으로 퍼져나갔고, 전 세계 통신사 라우터들이 속아 넘어가 유튜브 트래픽을 파키스탄으로 쏟아부었다. 결국 파키스탄 통신망이 터져버리고, 전 세계 유튜브가 몇 시간 동안 마비되었다.
   - 최근에는 해커들이 이 짓을 몰래 해서, 암호화폐 거래소의 트래픽을 가로채 해킹하는 짓을 벌이고 있다.

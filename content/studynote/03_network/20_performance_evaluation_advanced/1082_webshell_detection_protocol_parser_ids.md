@@ -59,8 +59,8 @@ tags = ["studynote-network"]
 
 ### 1단계: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) L7 구조 완벽 분해 (디코딩)
 - [웹 방화벽](/knowledge-base/studynote/03_network/19_frequent_topics_terms/993_waf_web_application_firewall/)([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/))이나 고급 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 안에 내장된 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 파서</strong>가 작동합니다.
-- 패킷을 무지성으로 보지 않고, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 문법에 맞게 칼로 해체합니다. "여기서부터 여기까지는 헤더(Header)고, 여기서부터는 바디(Body/Payload)네!" 
-- 해커가 게시판에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 첨부할 때 쓰는 `multipart/form-data` 구간을 핀셋으로 정확히 발라냅니다. 
+- 패킷을 무지성으로 보지 않고, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 문법에 맞게 칼로 해체합니다. "여기서부터 여기까지는 헤더(Header)고, 여기서부터는 바디(Body/Payload)네!"
+- 해커가 게시판에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 첨부할 때 쓰는 `multipart/form-data` 구간을 핀셋으로 정확히 발라냅니다.
 
 ### 2단계: 다중 인코딩/[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 해제 (Normalizing) 🌟
 해커의 위장을 모두 벗겨내는 핵심 기술입니다.

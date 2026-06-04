@@ -21,16 +21,16 @@ tags = ["studynote-data-engineering"]
 ```
 전통 모듈러 해싱:
   서버 3대: node_id = hash(key) % 3
-  
+
   key "user_123" → hash = 1000 → 1000 % 3 = 1 → 노드 1
   key "order_456" → hash = 2001 → 2001 % 3 = 0 → 노드 0
 
 서버 추가 (4대로):
   node_id = hash(key) % 4 (기준이 3→4로 변경!)
-  
+
   "user_123" → 1000 % 4 = 0 → 노드 0 (기존 노드 1 ≠)
   "order_456" → 2001 % 4 = 1 → 노드 1 (기존 노드 0 ≠)
-  
+
   거의 모든 키의 위치가 변함!
   → 대규모 캐시 미스 (Cache Storm)
   → 데이터베이스에 갑작스러운 부하 폭증
@@ -38,7 +38,7 @@ tags = ["studynote-data-engineering"]
 문제 규모:
   노드 N → N+1 추가:
   재배치 비율 = N/(N+1) ≈ 100% (대부분 재배치)
-  
+
   10만 키 분산 시스템에 노드 추가:
   → ~9만 키가 새 노드로 이동
   → 네트워크 + I/O + 다운타임 위험
@@ -46,7 +46,7 @@ tags = ["studynote-data-engineering"]
 일관 해싱의 목표:
   노드 추가/제거 시 최소 이동 = K/N
   (K: 전체 키 수, N: 노드 수)
-  
+
   예: 10만 키, 10노드 → 1만 키만 이동
 ```
 
@@ -68,7 +68,7 @@ tags = ["studynote-data-engineering"]
   hash("node_A") = 10 → 링의 10 위치
   hash("node_B") = 25 → 링의 25 위치
   hash("node_C") = 40 → 링의 40 위치
-  
+
   링:  0..10[A]..25[B]..40[C]..2^32
 
 3. 키를 시계 방향으로 첫 노드에 배치:
@@ -78,19 +78,19 @@ tags = ["studynote-data-engineering"]
 
 4. 노드 D 추가 (링의 20 위치):
   hash("node_D") = 20 → 링의 20 위치
-  
+
   A(10)..D(20)..B(25)..C(40)
-  
+
   재배치:
   A~D(10~20) 사이 키만 A→D로 이동
   나머지 키: 그대로!
-  
+
   이동량: 전체 키의 약 1/노드수 (K/N)
 
 5. 노드 B 제거 (링의 25 위치):
   B(25) 제거
   A(10)..D(20)..C(40)
-  
+
   재배치:
   D~B(20~25) 사이 키만 B→C로 이동
   나머지: 그대로!
@@ -113,32 +113,32 @@ tags = ["studynote-data-engineering"]
 
 문제: 균등 분산 실패
   3개 노드: A(10), B(25), C(40)
-  
+
   A 담당: 0~10 (구간 10)
   B 담당: 11~25 (구간 15)
   C 담당: 26~40 + 41~max + 0~... (구간 나머지)
-  
+
   → 불균등! C가 훨씬 많은 키 담당
 
 가상 노드 해결:
   각 물리 노드 → K개 가상 노드
-  
+
   노드 A → A_1(3), A_2(20), A_3(45), A_4(70), ...
   노드 B → B_1(8), B_2(27), B_3(55), B_4(80), ...
   노드 C → C_1(15), C_2(35), C_3(60), C_4(90), ...
-  
+
   링: 0..A_1(3)..B_1(8)..A_2(20)..B_2(27)..A_3(45)..B_3(55)...
-  
+
   → 각 물리 노드가 링 전체에 고르게 분산
   → 균등 분산 달성
 
 적정 가상 노드 수:
   Cassandra: 각 노드 기본 256개 VNode
-  
+
   장점:
   균등 분산 (통계적)
   노드 추가/제거 시 더 고른 부하 분산
-  
+
   단점:
   메타데이터 증가 (링 정보가 커짐)
   토큰 관리 복잡
@@ -155,14 +155,14 @@ Cassandra 일관 해싱:
   각 노드: Murmur3 해시 토큰 공간 (2^64)
   VNode: 각 노드 256개 토큰 (기본값)
   복제: RF=3 → 시계 방향 3개 노드에 복제
-  
+
   설정:
   num_tokens: 256  # cassandra.yaml
 
 DynamoDB:
   파티션 키 → 내부 일관 해싱
   파티션 수 자동 관리
-  
+
   핫 파티션 문제:
   파티션 키 = 날짜(2024-01-01) → 당일 모든 쓰기 집중
   해결: 파티션 키 = 날짜 + UUID suffix (분산)
@@ -170,10 +170,10 @@ DynamoDB:
 Redis Cluster:
   16384개 슬롯 (0~16383)
   일관 해싱으로 슬롯을 노드에 배분
-  
+
   CRC16(key) % 16384 → 슬롯
   슬롯 → 노드 매핑 (클러스터 설정)
-  
+
   노드 추가:
   다른 노드에서 일부 슬롯만 이동
   온라인 리샤딩 (무중단)
@@ -181,32 +181,32 @@ Redis Cluster:
 구현 (Python 예시):
   import hashlib
   import bisect
-  
+
   class ConsistentHash:
       def __init__(self, vnodes=256):
           self.ring = {}
           self.sorted_keys = []
           self.vnodes = vnodes
-      
+
       def add_node(self, node):
           for i in range(self.vnodes):
               key = self._hash(f"{node}:{i}")
               self.ring[key] = node
               bisect.insort(self.sorted_keys, key)
-      
+
       def remove_node(self, node):
           for i in range(self.vnodes):
               key = self._hash(f"{node}:{i}")
               del self.ring[key]
               self.sorted_keys.remove(key)
-      
+
       def get_node(self, obj_key):
           h = self._hash(obj_key)
           idx = bisect.bisect_right(self.sorted_keys, h)
           if idx == len(self.sorted_keys):
               idx = 0
           return self.ring[self.sorted_keys[idx]]
-      
+
       def _hash(self, key):
           return int(hashlib.md5(key.encode()).hexdigest(), 16)
 ```
@@ -224,7 +224,7 @@ Redis Cluster:
   Redis Cluster 6노드 (master×3 + replica×3)
   일 평균 캐시 히트율: 94%
   블랙프라이데이 예상 트래픽: 평소 × 5배
-  
+
   현재 노드로 감당 불가 판단
 
 확장 계획:
@@ -234,25 +234,25 @@ Redis Cluster:
 
 실행:
   1. 새 노드 6개 Redis 프로세스 시작
-  
+
   2. CLUSTER MEET 명령으로 클러스터 합류
-  
+
   3. 슬롯 리밸런싱 (온라인):
   기존 3 마스터가 각 16384/3 = 5461 슬롯 보유
   새 6 마스터에게 각 2730 슬롯씩 이전
-  
+
   이전 방식:
   CLUSTER SETSLOT 0 MIGRATING [대상 노드]
   CLUSTER SETSLOT 0 IMPORTING [원본 노드]
   MIGRATE [키 이전]
-  
+
   4. 클라이언트는 MOVED 에러 → 자동 재요청 (투명 마이그레이션)
 
 결과:
   전체 키 이전: 슬롯 이전 키만 (약 50%)
   서비스 중단: 0 (무중단 리샤딩)
   이전 소요: 약 2시간 (데이터 100GB)
-  
+
 블랙프라이데이 결과:
   피크 트래픽: 평소 4.8배 (예상 5배)
   캐시 히트율: 94% → 96% (용량 여유)

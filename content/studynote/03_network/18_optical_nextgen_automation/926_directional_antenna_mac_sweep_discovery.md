@@ -63,7 +63,7 @@ tags = ["studynote-network"]
 
 ### 2. D-[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) (Directional [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)) 통신 제어
 상대방 위치를 알았으니 이제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받습니다. (RTS/CTS 구조의 진화)
-- **지향성 RTS / 지향성 CTS**: 
+- **지향성 RTS / 지향성 CTS**:
   - 과거엔 "나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보낸다!"라고 온 동네에 360도로 소리쳤습니다(Omni RTS).
   - 이제는 송신자가 45도 방향(수신자 쪽)으로만 레이저를 쏴서 "너한테 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보낼게(Directional-RTS)!"라고 찌릅니다.
   - 수신자도 송신자 쪽으로만 레이저를 쏴서 "오케이 보내라(Directional-CTS)!"라고 응답합니다.
@@ -83,7 +83,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **난청(Deafness) 현상**: A와 B가 서로 마주 보며 레이저(지향성) 빔으로 떠들고 있습니다. 이때 C가 A에게 말을 걸려고 빔을 쐈는데, A의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 B 쪽만 바라보고 있어서 C의 빔을 아예 듣지 못하는 무시 현상이 발생합니다. 
+- **난청(Deafness) 현상**: A와 B가 서로 마주 보며 레이저(지향성) 빔으로 떠들고 있습니다. 이때 C가 A에게 말을 걸려고 빔을 쐈는데, A의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 B 쪽만 바라보고 있어서 C의 빔을 아예 듣지 못하는 무시 현상이 발생합니다.
 - **해결책**: 스마트폰 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 2개 달아서, 하나는 360도로 항상 열어두고 듣기만(Omni) 하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏠 때만 레이저 빔(Directional)으로 쏘는 하이브리드 다이버시티 방식이 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 무선망 탐색 체계로 굳어지고 있습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

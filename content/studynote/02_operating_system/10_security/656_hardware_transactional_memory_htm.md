@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/">트랜잭셔널 메모리</a> (TM)</strong>: 메모리 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업 묶음을 하나의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(원자적 연산)으로 묶어, 도중에 남이 끼어들면 취소하고 다시 시작하는 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 모델.
   - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/">HTM</a> (Hardware Transactional Memory)</strong>: 이 TM 기능을 소프트웨어가 아닌 CPU 칩 내부의 L1/L2 캐시 컨트롤러가 직접 하드웨어 속도로 수행하는 기술. (대표적으로 Intel의 TSX - Transactional [Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) Extensions)
 
-- <strong>필요성 (Lock과 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>-Free의 딜레마 극복)</strong>: 
+- <strong>필요성 (Lock과 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>-Free의 딜레마 극복)</strong>:
   - 멀티코어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이려면 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/">Lock-Free</a> 자료구조</strong>를 써야 한다. 하지만 포인터가 3~4개씩 얽혀 있는 복잡한 트리(Tree)나 해시맵을 소프트웨어 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/)([Compare-and-Swap](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/415_compare_and_swap/))만으로 [Lock-Free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 하게 짜는 것은 박사급 엔지니어도 수개월이 걸리는 극악의 난이도다. (ABA 문제, 메모리 해제 문제 등)
   - 반대로 <strong>락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)</strong>을 쓰면 코딩은 쉽지만 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 박살 나고 캐시 핑퐁이 발생한다.
   - **해결책**: "코딩은 락처럼 쉽게 하고, 실행은 락 프리처럼 빠르게 할 수 없을까?"라는 꿈을 이루기 위해, CPU가 "일단 락을 안 잡고 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 막 실행해 보다가, 진짜 충돌이 나면 그때만 취소시켜 줄게"라고 지원하는 HTM이 등장했다.

@@ -54,7 +54,7 @@ tags = ["studynote-computer-architecture"]
 | **드레인 (Drain)** | 채널을 통과한 전자가 빠져나가는 출구 | 물이 쏟아져 나가는 하수구 |
 | **산화막 (Oxide)** | 게이트 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 새지 않게 막는 절연 방어벽 | 수도꼭지 손잡이 밑의 방수 고무 패킹 |
 
-평소 N형 소스와 드레인 사이에는 P형 기판이 막고 있어 전기가 통하지 않는다. 하지만 게이트에 문턱 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)(Threshold [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), Vth)을 인가하면, 산화막 너머로 작용하는 전기장이 기판 깊숙한 곳의 전자를 표면으로 끌어올린다. 이렇게 모인 전자들이 튼튼한 징검다리(반전층 채널)를 만들며 소스와 드레인을 이어버린다. 
+평소 N형 소스와 드레인 사이에는 P형 기판이 막고 있어 전기가 통하지 않는다. 하지만 게이트에 문턱 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)(Threshold [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), Vth)을 인가하면, 산화막 너머로 작용하는 전기장이 기판 깊숙한 곳의 전자를 표면으로 끌어올린다. 이렇게 모인 전자들이 튼튼한 징검다리(반전층 채널)를 만들며 소스와 드레인을 이어버린다.
 
 - **📢 섹션 요약 비유**: 양쪽 절벽(소스와 드레인) 사이의 거친 강을 건너기 위해 관제탑(게이트)이 레이저(전기장)를 쏘면, 물속에 있던 돌멩이(전자)들이 떠올라 순식간에 징검다리(채널)를 만들어 통과시켜 주는 기적과 같다.
 

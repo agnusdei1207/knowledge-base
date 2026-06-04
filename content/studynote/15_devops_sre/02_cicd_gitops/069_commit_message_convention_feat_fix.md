@@ -130,8 +130,8 @@ Automation
 
 ## 어린이를 위한 3줄 비유 설명
 
-상자에 이름을 써야 해요.  
-그래야 나중에 찾기 쉬워요.  
+상자에 이름을 써야 해요.
+그래야 나중에 찾기 쉬워요.
 커밋 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지도 그런 이름표예요.
 
 ---

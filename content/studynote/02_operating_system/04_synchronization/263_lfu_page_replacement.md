@@ -28,7 +28,7 @@ tags = ["studynote-operating-system"]
   [LRU의 맹점(Cache Pollution)과 LFU의 철벽 방어 시뮬레이션]
 
   [ 상황: 램 프레임 3칸. 현재 'A(100번 불림)', 'B(50번)', 'C(30번)' 꽉 차 있음 ]
-  
+
   ▶ 갑자기 쓰레기 데이터 X, Y, Z 가 딱 1번씩만 참조되며 들어옴!
 
   [ ❌ LRU (최근 사용 우선) 의 멍청한 판단 ]
@@ -104,10 +104,10 @@ LFU를 소프트웨어로 짜려면 [페이지](/knowledge-base/studynote/01_com
 ### 실무 시나리오
 1. <strong>Redis의 <code>allkeys-lfu</code> <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a> 4.0 이후 도입)</strong>:
    - 과거 Redis는 LRU만 지원했다. 하지만 사용자들이 "가끔 도는 배치 작업 때문에 메인 배너 캐시가 날아간다!"라고 아우성쳤다.
-   - **아키텍처 혁신**: [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 제작자는 LFU의 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 정렬 오버헤드를 없애기 위해, 객체 헤더의 24비트 공간에 `8비트는 빈도수(Logarithmic 카운터)`, `16비트는 최근 접근 시간(Aging용)`을 때려 박았다. 
+   - **아키텍처 혁신**: [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 제작자는 LFU의 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 정렬 오버헤드를 없애기 위해, 객체 헤더의 24비트 공간에 `8비트는 빈도수(Logarithmic 카운터)`, `16비트는 최근 접근 시간(Aging용)`을 때려 박았다.
    - **실무 효과**: 완벽한 LFU가 아니라 "대충 빈도를 세면서, 시간 지나면 알아서 값이 깎이는(Decay)" 확률적 LFU를 구현했다. 덕분에 메모리나 CPU 오버헤드 0%로 스캔 공격을 완벽히 방어하는 `allkeys-lfu` 모드가 탄생하여 현대 캐시 아키텍처의 표준이 되었다.
 2. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/">CDN</a>(Content Delivery Network)의 엣지 서버 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/">캐싱</a></strong>: 전 세계로 동영상을 쏘는 AWS CloudFront나 Cloudflare의 엣지 노드는 용량이 꽉 차면 누굴 지울까?
-   - **실무 판단**: 동영상은 크기가 GB 단위다. 한 번 잘못 지우면 오리진(Origin) 서버에서 다시 가져오는 네트워크 비용이 수천만 원이다. 
+   - **실무 판단**: 동영상은 크기가 GB 단위다. 한 번 잘못 지우면 오리진(Origin) 서버에서 다시 가져오는 네트워크 비용이 수천만 원이다.
    - **아키텍트 결단**: 이때는 무조건 <strong>LFU 기반의 변형 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>(LFU-DA 등)</strong>을 쓴다. 한 번 조회된 듣보잡 영상은 바로 디스크에서 날리고, 하루에 1만 번 조회되는 방탄소년단 뮤직비디오(High Frequency)는 램 최상단에 영구 박제시켜 글로벌 트래픽 비용을 극한으로 후려친다.
 
 ```text
@@ -144,7 +144,7 @@ LFU를 소프트웨어로 짜려면 [페이지](/knowledge-base/studynote/01_com
 LFU 철학을 캐시 시스템에 적용하면, 악의적인 크롤링 봇이나 백그라운드 전체 스캔 작업이 유발하는 캐시 오염(Cache Pollution)을 원천 차단하여, 실제 유저들이 가장 많이 찾는 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Hot Data](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/))의 램 상주율을 100% 방어해 낼 수 있다.
 
 ### 결론 및 미래 전망
-LFU는 "[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 횟수를 센다"는 가장 직관적이고 강력한 무기를 가졌음에도, O(log N)이라는 힙 정렬의 무거움과 고인물 박제라는 한계 때문에 한동안 LRU의 그늘에 가려져 있었다. 
+LFU는 "[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 횟수를 센다"는 가장 직관적이고 강력한 무기를 가졌음에도, O(log N)이라는 힙 정렬의 무거움과 고인물 박제라는 한계 때문에 한동안 LRU의 그늘에 가려져 있었다.
 하지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 돈이 되는 빅데이터 시대가 오며 "누가 진성 단골(Hot [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)?"를 가려내는 기술의 가치가 급상승했다. 현대의 컴퓨터 과학은 LFU의 무거운 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 정렬을 버리고, 빅데이터 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)인 **스케치(Sketch, 확률적 자료구조)** 기법을 도입하여 단 몇 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))만으로 1억 개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 빈도수를 오차율 1% 미만으로 추적해 내는 기적을 이뤄냈다. LFU는 죽은 것이 아니라, 빅데이터 통계학의 옷을 입고 현대 클라우드 캐시의 심장으로 화려하게 부활했다.
 
 - **📢 섹션 요약 비유**: 과거의 LFU는 매장 입구에 서서 손님 1만 명의 이름을 장부에 정자로 꾹꾹 눌러쓰다(오버헤드 폭발) 쓰러진 바보였습니다. 현대의 LFU(Caffeine 등)는 그냥 손님이 지나갈 때마다 지문 인식기(Sketch [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))로 0.01초 만에 틱틱 찍고 통계만 내는 최첨단 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 매니저로 환골탈태했습니다.
@@ -176,7 +176,7 @@ LFU는 "[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_news
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 장난감 상자에 자리가 없어서 하나를 버려야 해요. LRU는 "어제 산 팽이 냅두고, 작년부터 매일 만지던 로봇을 버리자(오래전에 만졌으니)"라고 해요. 
+1. 장난감 상자에 자리가 없어서 하나를 버려야 해요. LRU는 "어제 산 팽이 냅두고, 작년부터 매일 만지던 로봇을 버리자(오래전에 만졌으니)"라고 해요.
 2. 하지만 <strong>LFU</strong>는 "안돼! 팽이는 어제 한 번 만진 게 다지만, 로봇은 1년 동안 1,000번이나 갖고 놀았어! 팽이를 버려!"라고 똑똑하게 따져요.
 3. 이렇게 단순히 언제 만졌는지가 아니라, <strong>지금까지 몇 번이나 사랑해 줬는지(빈도수)</strong>를 세어서 가장 인기 없는 장난감을 버리는 방법이랍니다!
 

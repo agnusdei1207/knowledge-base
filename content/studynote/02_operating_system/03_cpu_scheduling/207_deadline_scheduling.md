@@ -62,7 +62,7 @@ tags = ["studynote-operating-system"]
 
 - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 각 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)마다 `예산 잔고(Budget)`를 만들어 둔다.
 - [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 CPU를 쓸 때마다 잔고가 줄어든다.
-- **잔고가 0이 되면 (Overrun)**: 
+- **잔고가 0이 되면 (Overrun)**:
   - 이 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 아직 연산을 덜 끝냈더라도 스케줄러는 즉시 CPU를 뺏는다.
   - 그리고 이 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 **다음 데드라인을 다음 주기(Period)까지 강제로 미뤄버린다(Postpone)**.
   - 데드라인이 미래로 밀렸으므로, EDF 큐(RB-Tree)에서 이 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)는 저 멀리 뒤로 쫓겨나 당분간 절대 실행되지 않는다.
@@ -118,7 +118,7 @@ POSIX 표준이 정의한 리눅스 [커널](/knowledge-base/studynote/02_operat
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. <strong>에지 컴퓨팅(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">Edge Computing</a>)에서의 비디오 스트리밍 튜닝</strong>: 라즈베리 파이 같은 소형 칩에서 60FPS(16ms)로 4개의 카메라 영상을 인코딩해서 보내야 한다. 일반 CFS 스케줄러에 던지면 네트워크 인터럽트가 뜰 때마다 프레임이 밀려서 화면이 깨진다(Jitter). 
+1. <strong>에지 컴퓨팅(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">Edge Computing</a>)에서의 비디오 스트리밍 튜닝</strong>: 라즈베리 파이 같은 소형 칩에서 60FPS(16ms)로 4개의 카메라 영상을 인코딩해서 보내야 한다. 일반 CFS 스케줄러에 던지면 네트워크 인터럽트가 뜰 때마다 프레임이 밀려서 화면이 깨진다(Jitter).
    - **실무 조치**: 엔지니어는 4개의 인코딩 스레드를 `chrt` 명령어가 아닌 `sched_setattr()` 시스템 콜을 써서 `SCHED_DEADLINE`으로 넘긴다. `Runtime=3ms`, `Deadline=16ms`, `Period=16ms`로 설정한다. (4개 합쳐서 12ms/16ms 이므로 CPU 75% 사용). 이제 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 다른 백그라운드 앱이 무슨 짓을 하든 이 4개의 스레드가 16ms마다 무조건 3ms씩 렌더링하도록 쇠사슬로 묶어(Guarantee) 완벽한 60프레임을 뽑아낸다.
 2. **Admission Control (승인 제어)의 벽**: 개발자가 욕심을 내서 5번째 카메라 스레드를 동일하게 `Runtime=3ms, Period=16ms`로 `SCHED_DEADLINE`에 쑤셔 넣으려 했다 치자.
    - **결과**: `sched_setattr()` 시스템 콜이 에러코드 `-EBUSY`를 뱉으며 실행을 거부(Reject)한다.

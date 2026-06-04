@@ -44,7 +44,7 @@ K-Means 알고리즘 단계:
   = 군집 내 거리 제곱합 (WCSS: Within-Cluster Sum of Squares)
 
 시각화 예시:
-  
+
   초기:  × × × ○ ○ × ○ ○
   반복1: [× × ×] [○ ○ ○ ○]  ← 군집 배정
   반복2: 중심점 이동 → 재배정
@@ -67,26 +67,26 @@ K-Means 알고리즘 단계:
 1. Elbow Method (엘보우 방법):
    K 증가에 따른 WCSS 감소 곡선
    "꺾임점(Elbow)" = 최적 K
-   
+
    K:   1    2    3    4    5    6
    WCSS: 100  50   25   20   18   17
                    ^
                   Elbow → K=3 선택
-   
+
    한계: 명확한 꺾임점 없을 수 있음
 
 2. Silhouette Score:
    군집 품질 지표: -1 ~ 1
-   
+
    s(i) = (b(i) - a(i)) / max(a(i), b(i))
-   
+
    a(i): 같은 군집 내 평균 거리 (작을수록 좋음)
    b(i): 가장 가까운 다른 군집까지 평균 거리 (클수록 좋음)
-   
+
    s → 1: 올바른 군집
    s → 0: 경계에 있음
    s → -1: 잘못된 군집
-   
+
    최적 K = 평균 Silhouette Score 최대
 
 3. Gap Statistics:
@@ -96,7 +96,7 @@ K-Means 알고리즘 단계:
 4. 도메인 지식:
    "고객 세그먼트 3개" → K=3
    비즈니스 요구 반영이 중요
-   
+
 실무 권장:
   Elbow + Silhouette 이중 확인
   최종 K는 도메인 전문가 검토
@@ -113,10 +113,10 @@ K-Means 초기화 문제:
 
 기본 무작위 초기화 문제:
   나쁜 초기 중심점 → 나쁜 수렴 결과
-  
+
   예: 3개 군집 데이터
   두 초기 중심점이 같은 군집에 → 잘못된 결과
-  
+
   해결: 여러 번 실행 후 최적 선택 (n_init)
   → 계산 비용 증가
 
@@ -125,15 +125,15 @@ K-Means++ 초기화:
   2. 나머지 중심점: 거리 비례 확률로 선택
      (기존 중심점에서 멀수록 선택 확률 높음)
   3. K개 중심점 선택 완료 후 일반 K-Means 실행
-  
+
   효과:
   - 초기 중심점이 잘 분산됨
   - 수렴 속도 빠름
   - 결과 안정성 향상
-  
+
   시간 복잡도: O(n × K × d) 추가
   (일반 K-Means와 크게 차이 없음)
-  
+
   sklearn 기본값:
   from sklearn.cluster import KMeans
   km = KMeans(n_clusters=3, init='k-means++')
@@ -157,9 +157,9 @@ K-Means 한계:
 1. 원형 군집만 잘 됨:
    볼록(Convex) 형태 가정
    초승달, 링, 나선형 → 실패
-   
+
    데이터:  ○○●●○○
-           ●●○○●●  
+           ●●○○●●
    K-Means: 좌우 2개 군집으로 잘못 나눔
    → 고리(Ring) 형태 군집 실패
 
@@ -178,11 +178,11 @@ DBSCAN:
   밀도 기반 → 임의 형태 군집
   이상치 자동 탐지
   K 불필요 (epsilon, minPts 파라미터)
-  
+
 계층적 군집화 (Hierarchical):
   덴드로그램으로 군집 구조 시각화
   K 사전 지정 불필요
-  
+
 GMM (Gaussian Mixture Model):
   연속 확률 분포 기반
   타원형 군집 가능
@@ -244,10 +244,10 @@ K-Means++ 실행:
 코드 스니펫:
   from sklearn.cluster import KMeans
   from sklearn.preprocessing import StandardScaler
-  
+
   scaler = StandardScaler()
   X_scaled = scaler.fit_transform(X_rfm)
-  
+
   km = KMeans(n_clusters=4, init='k-means++',
               n_init=10, random_state=42)
   labels = km.fit_predict(X_scaled)

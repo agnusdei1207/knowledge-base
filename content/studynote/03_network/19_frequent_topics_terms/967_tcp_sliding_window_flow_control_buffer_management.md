@@ -37,7 +37,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- 949번 문서에서 배웠듯, 택배 박스 1개를 쏘고 수신자가 "잘 받았어(ACK)!" 할 때까지 멍때리며 기다립니다. 
+- 949번 문서에서 배웠듯, 택배 박스 1개를 쏘고 수신자가 "잘 받았어(ACK)!" 할 때까지 멍때리며 기다립니다.
 - 오버헤드나 손실은 전혀 없지만, 1초면 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개를 보낼 수 있는 1Gbps 광케이블 고속도로에서 1개씩 찔끔찔끔 보내고 있으니 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 효율(속도)이 지옥 수준으로 떨어집니다.
 
 ```text
@@ -71,7 +71,7 @@ tags = ["studynote-network"]
 5. 창문이 오른쪽으로 밀리면서, 뒤에 갇혀있던 새로운 6, 7번 패킷이 창문 안으로 쏙 들어옵니다. 철수는 신나서 6, 7번을 또 기관총처럼 연사로 쏴버립니다.
 
 ### 3. 영희의 목 조르기 (동적 조절, [Zero Window](/knowledge-base/studynote/03_network/08_transport_layer/445_zero_window_probe_persist_timer/))
-- 영희 컴퓨터가 CPU 과부하가 걸려 뱃속 소화가 아예 멈췄습니다. 
+- 영희 컴퓨터가 CPU 과부하가 걸려 뱃속 소화가 아예 멈췄습니다.
 - 영희는 긴급하게 철수에게 <strong><code>Window Size = 0</code></strong> 이라는 끔찍한 패킷을 날립니다.
 - 철수의 네모난 창문이 완전히 찌그러져 닫혀버립니다. 철수는 전송을 즉각 멈추고 숨죽이며 엎드립니다. 나중에 영희가 뱃속이 비어서 윈도우를 다시 늘려줄 때까지 절대 쏘지 않아 패킷 드랍을 완벽하게 0%로 통제해 냅니다.
 

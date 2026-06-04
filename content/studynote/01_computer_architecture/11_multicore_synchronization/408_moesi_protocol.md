@@ -126,13 +126,13 @@ MOESI는 스누핑 기반 시스템에서도 쓰일 수 있지만, 멀티소켓�
 
 ### 설계·운영 판단 포인트
 
-1. <strong>읽기 공유가 많은가, <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 경쟁이 많은가?</strong>  
+1. <strong>읽기 공유가 많은가, <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 경쟁이 많은가?</strong>
    읽기 공유가 많으면 MOESI의 cache-to-cache 전달 이점이 살아난다. [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경쟁이 많으면 coherence [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분할([sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/))과 thread-local 설계가 더 중요하다.
 
-2. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a> 거리와 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a> 경계를 넘는가?</strong>  
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a> 거리와 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a> 경계를 넘는가?</strong>
    멀티소켓 서버에서는 원격 메모리 접근보다 원격 캐시 전달이 더 유리할 수 있다. 이때 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 배치와 메모리 배치가 어긋나면 MOESI의 장점도 줄어든다.
 
-3. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 도구에서 무엇을 볼 것인가?</strong>  
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 도구에서 무엇을 볼 것인가?</strong>
    Linux `perf c2c` 같은 도구의 HITM ([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Modified) 계열 지표는 캐시 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동이 잦다는 신호다. 이 수치가 높다면 하드웨어가 열심히 coherence를 지키고 있다는 뜻이지, 애플리케이션 구조가 좋다는 뜻은 아니다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)

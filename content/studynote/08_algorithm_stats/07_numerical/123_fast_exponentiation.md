@@ -25,21 +25,21 @@ tags = ["studynote-algorithm-stats"]
 
 반복 제곱법 원리:
   a^8 = (a^4)^2 = ((a^2)^2)^2
-  
+
   a^1 → a^2(제곱) → a^4(제곱) → a^8(제곱)
   → 3번 곱셈 (log₂ 8 = 3)
 
 일반화 (이진 지수):
   b = 13 = 1101₂ = 8 + 4 + 1
-  
+
   a^13 = a^8 × a^4 × a^1
-  
+
   계산:
   a^1 (초기값)
   a^2 = (a^1)^2
   a^4 = (a^2)^2
   a^8 = (a^4)^2
-  
+
   b의 이진수 표현의 각 비트가 1인 위치의 값 곱하기
   → 곱셈 횟수 = log₂(b) + popcount(b) - 1 ≈ O(log b)
 
@@ -80,7 +80,7 @@ tags = ["studynote-algorithm-stats"]
 ```
 모듈러 거듭제곱 (Modular Exponentiation):
   a^b mod m 계산
-  
+
   나이브 문제:
   a = 2, b = 1000, m = 10^9 + 7
   a^b = 2^1000 = 10^301 자리 수!
@@ -88,7 +88,7 @@ tags = ["studynote-algorithm-stats"]
 
 핵심 성질:
   (a × b) mod m = ((a mod m) × (b mod m)) mod m
-  
+
   → 각 단계에서 mod 취하면 수의 크기를 m 이하로 유지
 
 모듈러 거듭제곱 구현:
@@ -101,7 +101,7 @@ tags = ["studynote-algorithm-stats"]
           a = (a * a) % m
           b >>= 1
       return result
-  
+
   # Python 내장 함수 (더 빠름)
   pow(a, b, m)  # C 구현, 최적화됨
 
@@ -110,7 +110,7 @@ tags = ["studynote-algorithm-stats"]
 RSA 암호화:
   C = M^e mod n  (공개키 암호화)
   M = C^d mod n  (개인키 복호화)
-  
+
   e, d, n: 수백~수천 비트
   pow(M, e, n) 호출 한 번으로 처리
 
@@ -121,7 +121,7 @@ RSA 암호화:
 조합 수 mod p:
   C(n, k) mod p = n! / (k! × (n-k)!) mod p
   분모의 역원 = pow(k! × (n-k)!, p-2, p) (페르마 소정리)
-  
+
   nCr = (n! * pow(factorial(r) * factorial(n-r), p-2, p)) % p
 ```
 
@@ -143,10 +143,10 @@ RSA 암호화:
 행렬 표현:
   [F(n+1)]   [1 1]^n   [F(1)]
   [F(n)  ] = [1 0]   × [F(0)]
-  
+
   [1 1]^n = 행렬 A의 n제곱
   [1 0]
-  
+
   A^n을 빠른 거듭제곱으로 계산 → O(log n)
 
 구현:
@@ -159,7 +159,7 @@ RSA 암호화:
               for j in range(n):
                   C[i][j] = (C[i][j] + A[i][k] * B[k][j]) % mod
       return C
-  
+
   def mat_pow(A, p, mod):
       n = len(A)
       result = [[1 if i==j else 0 for j in range(n)] for i in range(n)]
@@ -169,20 +169,20 @@ RSA 암호화:
           A = mat_mul(A, A, mod)
           p >>= 1
       return result
-  
+
   def fib(n, mod=10**9+7):
       if n <= 1: return n
       A = [[1, 1], [1, 0]]
       M = mat_pow(A, n-1, mod)
       return M[0][0]
-  
+
   # F(10^18 mod 10^9+7) 계산 가능!
 
 응용:
   선형 점화식 일반 풀이:
   a[n] = c1*a[n-1] + c2*a[n-2] + ... + ck*a[n-k]
   → k×k 행렬 거듭제곱으로 O(k³ log n) 해결
-  
+
   타일링 문제, 계단 오르기, 경로 수 계산...
 ```
 
@@ -206,7 +206,7 @@ RSA 암호화:
   MOD = 10**9 + 7
   fact = [1] * (n+1)
   for i in range(1, n+1): fact[i] = fact[i-1] * i % MOD
-  
+
   def nCr(n, k):
       return fact[n] * pow(fact[k], MOD-2, MOD) % MOD * pow(fact[n-k], MOD-2, MOD) % MOD
 
@@ -220,7 +220,7 @@ RSA 암호화:
 주의사항:
   Python pow(a, b, m)은 C 최적화됨 → 빠름
   직접 구현보다 pow() 내장 우선 사용
-  
+
   mod 연산: 각 단계에서 취하지 않으면 수 폭발
   a = 2, b = 10^18, mod 없으면:
   → 10^(3×10^17) 자리 수 → 불가능
@@ -242,10 +242,10 @@ ECDSA 서명 검증에서의 모듈러 거듭제곱:
 내부 연산:
   타원 곡선 스칼라 곱셈: k × G
   (G: 생성 점, k: 개인키)
-  
+
   구현: 이중-덧셈 알고리즘 (Double-and-Add)
   빠른 거듭제곱과 동일한 원리!
-  
+
   k의 이진수 표현에서:
   각 비트: 0이면 2배(Double), 1이면 2배 후 덧셈(Add)
   → O(log k) 번 연산

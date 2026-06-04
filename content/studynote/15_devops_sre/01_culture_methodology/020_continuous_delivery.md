@@ -82,7 +82,7 @@ CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/1
                                  └──────────────────────────────────────┘
 ```
 
-이 구조의 핵심은 단일 진실 공급원([Single Source of Truth](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/))을 오직 Git으로 한정하는 것이다. 전통적인 푸시(Push) 방식에서는 해커가 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버를 탈취하면 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)에 저장된 클러스터 접속 키(Kubeconfig)를 이용해 전체 운영망을 날려버릴 수 있었다. 반면 풀(Pull) 기반 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 방식에서는 클러스터 내부의 에이전트만 Git을 읽기 모드로 당겨오므로(Pull), 크리덴셜([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 정보)이 클러스터 밖으로 절대 유출되지 않아 [제로 트러스트 보안](/knowledge-base/studynote/03_network/14_network_security_threats/738_zero_trust_architecture_least_privilege/) 원칙을 완벽히 준수한다. 
+이 구조의 핵심은 단일 진실 공급원([Single Source of Truth](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/))을 오직 Git으로 한정하는 것이다. 전통적인 푸시(Push) 방식에서는 해커가 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버를 탈취하면 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)에 저장된 클러스터 접속 키(Kubeconfig)를 이용해 전체 운영망을 날려버릴 수 있었다. 반면 풀(Pull) 기반 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 방식에서는 클러스터 내부의 에이전트만 Git을 읽기 모드로 당겨오므로(Pull), 크리덴셜([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 정보)이 클러스터 밖으로 절대 유출되지 않아 [제로 트러스트 보안](/knowledge-base/studynote/03_network/14_network_security_threats/738_zero_trust_architecture_least_privilege/) 원칙을 완벽히 준수한다.
 
 코드 수준(YAML)에서 살펴보면 배포의 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)이 어떻게 보장되는지 알 수 있다.
 ```yaml
@@ -125,7 +125,7 @@ CD 영역에서는 딜리버리(Delivery)와 [디플로이먼트](/knowledge-bas
 | **주요 적용 기업** | 90% 이상의 일반적인 엔터프라이즈, 금융권 | 넷플릭스, 아마존 등 극단적 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 빅테크 |
 | **안전망 요구사항** | [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 테스트 및 배포 전 승인 워크플로우 | [카나리 분석기](/knowledge-base/studynote/15_devops_sre/05_devsecops/268_canary_analysis_cpu_spinnaker_kayenta/)(통계 기반 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)), A/B 테스팅 고도화 |
 
-대다수의 기업은 지속적 '전달'을 사용한다. 아무리 테스트를 꼼꼼히 해도, 크리스마스 이벤트 쿠폰 기능을 일주일 전에 미리 병합(Merge)해두었다면 당일 00시에 사람의 통제 하에 오픈해야 하기 때문이다. 
+대다수의 기업은 지속적 '전달'을 사용한다. 아무리 테스트를 꼼꼼히 해도, 크리스마스 이벤트 쿠폰 기능을 일주일 전에 미리 병합(Merge)해두었다면 당일 00시에 사람의 통제 하에 오픈해야 하기 때문이다.
 
 아래 다이어그램은 [무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/)([Zero-Downtime](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/110_zero_downtime_db_schema_rollout/) [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/))를 위한 세 가지 핵심 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 트레이드오프를 비교한다.
 

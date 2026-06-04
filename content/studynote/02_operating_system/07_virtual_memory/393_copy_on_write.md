@@ -115,7 +115,7 @@ COW는 소프트웨어(OS) 혼자서는 절대 구현할 수 없다. MMU의 권�
 COW의 파괴력이 가장 잘 드러나는 백엔드 실무 아키텍처다.
 - 100GB 메모리를 쓰는 In-memory DB인 Redis가 있다. 새벽 2시에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 디스크로 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)(BGSAVE)해야 한다.
 - 만약 Redis가 100GB를 복사해서 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)한다면? 100GB 램이 더 필요해서 램이 터져 죽거나([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)), [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)하는 10분 동안 사용자 요청을 1건도 못 받고 멈춰버린다.
-- **COW의 구원**: Redis는 단순히 `fork()` 명령 한 줄만 날려 자식 프로세스를 만든다. 100GB 램을 복사하지 않고 0.1초 만에 자식이 생긴다! 자식 프로세스는 조용히 디스크로 100GB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 써 내려간다([백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)). 
+- **COW의 구원**: Redis는 단순히 `fork()` 명령 한 줄만 날려 자식 프로세스를 만든다. 100GB 램을 복사하지 않고 0.1초 만에 자식이 생긴다! 자식 프로세스는 조용히 디스크로 100GB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 써 내려간다([백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)).
 - [부모 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/)(메인 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/))는 유저 요청이 들어와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정(Write)할 때만, 딱 그 4KB 조각들만 램에 하나씩 찢어져 복사([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))된다.
 - **결과**: 서버 멈춤 0초. 추가 메모리 소모는 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)하는 동안 변경된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 몇 MB 수준으로 방어. COW가 없었다면 현대의 인메모리 DB 생태계는 애초에 불가능했다.
 
@@ -144,10 +144,10 @@ COW의 파괴력이 가장 잘 드러나는 백엔드 실무 아키텍처다.
    - 훗날 누군가 값을 바꾸면 어차피 COW로 다시 찢어주면 그만이다. 이 미친 "선 공유 후 복사" 기술 덕분에 [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 클라우드 호스팅 업체들은 64GB 램 서버에 100GB어치의 손님을 받아 과금하는 창조 경제(Memory Overcommit)를 달성했다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): JVM과 Transparent Huge Pages의 결합
-- COW는 4KB 조각 단위로 복사될 때 가장 가성비가 좋다. 
+- COW는 4KB 조각 단위로 복사될 때 가장 가성비가 좋다.
 - 만약 리눅스의 [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)(THP, 2MB 단위)가 켜져 있는데 Redis가 `fork()` [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)을 쳐서 COW가 걸렸다고 치자.
 - 유저 1명이 들어와서 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 변수 1바이트를 고쳤다(Write).
-- OS는 이 1바이트 락을 풀기 위해 자그마치 <strong>2MB 전체 덩어리(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/">Huge Page</a>)를 통째로 복사</strong>해서 찢어줘야 한다 ([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 증폭). 1바이트 쓰려다 2MB 복사 렉이 터지는 것이다. 
+- OS는 이 1바이트 락을 풀기 위해 자그마치 <strong>2MB 전체 덩어리(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/">Huge Page</a>)를 통째로 복사</strong>해서 찢어줘야 한다 ([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 증폭). 1바이트 쓰려다 2MB 복사 렉이 터지는 것이다.
 - 이것이 인메모리 DB에서 THP([거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/))를 절대 켜면 안 되는 두 번째 핵심 이유다. [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 폭풍이 터지면 램이 빛의 속도로 갈려 나간다.
 
 - **📢 섹션 요약 비유**: 4KB짜리 A4 용지(일반 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))를 공유하다가 글씨 하나 틀리면 A4 한 장만 복사해주면 됩니다. 하지만 전지 크기의 2MB짜리 대형 캔버스([Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/))를 공유하다가 점 하나 찍겠다고 대형 캔버스를 통째로 복사해서 새로 사 오려면 돈(램)과 시간(CPU)이 거덜 나는 재앙입니다.

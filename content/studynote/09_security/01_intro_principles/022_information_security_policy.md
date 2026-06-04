@@ -27,7 +27,7 @@ tags = ["studynote-security"]
 - **필요성**: 보안 시스템이 제대로 작동하려면 조직원들이 룰을 지키도록 강제하는 <strong>최고 경영자(CEO/이사회)의 강력한 의지 표명</strong>이 필요합니다. "우리 회사는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 이렇게 다루며, 위반 시 해고될 수 있다"고 선언하는 거버넌스의 헌법(Constitution)이 바로 <strong>정보보안 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>(Information <a href="/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/">Security Policy</a>)</strong>입니다.
 
 ### 2. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))의 철학: 기술 중립성 (Technology Agnostic)
-[보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)은 "비밀번호는 12자리로 해라"라든가 "A사 백신을 써라"라고 적지 않습니다. 이는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 아니라 '표준'이나 '지침'의 영역입니다. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 <strong>"조직의 모든 사용자는 안전하게 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>되어야 한다"</strong>와 같이 시대나 기술이 바뀌어도 변하지 않는 거시적이고 추상적인 선언이어야 합니다. 
+[보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)은 "비밀번호는 12자리로 해라"라든가 "A사 백신을 써라"라고 적지 않습니다. 이는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 아니라 '표준'이나 '지침'의 영역입니다. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 <strong>"조직의 모든 사용자는 안전하게 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>되어야 한다"</strong>와 같이 시대나 기술이 바뀌어도 변하지 않는 거시적이고 추상적인 선언이어야 합니다.
 
 - **📢 섹션 요약 비유**: 정보보안 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 국가의 "헌법"과 같습니다. 헌법에는 "교통사고 벌금은 얼마다"라고 적혀있지 않고 "국민의 생명과 재산을 보호한다"는 숭고한 원칙만 적혀있습니다. 벌금 액수는 하위 법령(표준/절차)에서 정하듯이, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 회사의 보안 철학을 세우는 뼈대입니다.
 
@@ -54,7 +54,7 @@ tags = ["studynote-security"]
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 
+**[다이어그램 해설]**
 1. <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>)</strong>: "모든 패스워드는 강력하게 보호되어야 한다." (최고 의사결정)
 2. **표준(Standard)**: "사내 모든 PC는 AES-256 암호화를 적용하고, 비밀번호는 영문/숫자 혼합 10자리 이상이어야 한다." (의무 준수 규격)
 3. **지침(Guideline)**: "비밀번호를 만들 때 본인 생일이나 전화번호는 피하는 것이 좋다." (권고, 강제성 약함)
@@ -95,7 +95,7 @@ tags = ["studynote-security"]
 | **보안/위험** | 컴플라이언스 준수 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/) | [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 기반 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)/[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 체계 연계 |
 
 *(추가 실무 적용 가이드 - [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)/ISO 27001 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 심사)*
-- 한국인터넷진흥원(KISA)의 [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P나 글로벌 ISO 27001 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 심사 시, 심사원이 가장 먼저 보는 서류가 '정보보안 기본 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)'입니다. 
+- 한국인터넷진흥원(KISA)의 [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P나 글로벌 ISO 27001 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 심사 시, 심사원이 가장 먼저 보는 서류가 '정보보안 기본 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)'입니다.
 - <strong>실무 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 실무자가 어디서 복사해 온 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 문서에 최신 클라우드 보안 기술 용어(AWS [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/) 등)를 잔뜩 적어놓으면 심사에서 100% 불합격합니다. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에 기술명이 박혀 있으면 그 기술이 레거시가 되었을 때 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 위반이 되기 때문입니다. 실무 아키텍트는 철저히 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 '기술 중립적인 비즈니스 랭귀지'로 작성하도록 거버넌스를 분리 설계해야 합니다.
 
 - **📢 섹션 요약 비유**: 실무 적용은 "집을 지을 때 터를 다지고 자재를 고르는 과정"과 같이, 환경과 예산에 맞춘 최적의 선택이 필요합니다. 완벽한 철근과 시멘트([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)과 암호화)를 사왔더라도, "이 집은 주거용인가, 상업용인가?"를 결정하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))이 흔들리면 결국 불법 건축물이 됩니다.

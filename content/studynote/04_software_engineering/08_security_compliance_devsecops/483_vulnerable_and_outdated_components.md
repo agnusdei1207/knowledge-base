@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 내가 만든 앱 안에는 나 혼자 짠 코드가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%고, 남이 만들어놓은 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)([Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))가 90%를 차지한다. 
+- **개념**: 내가 만든 앱 안에는 나 혼자 짠 코드가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%고, 남이 만들어놓은 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)([Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))가 90%를 차지한다.
   - **Vulnerable (취약한)**: 최신 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 썼더라도, 어제 그 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 커뮤니티에서 "우리 코드에 심각한 버그([CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/)) 발견됨!"이라며 경고가 뜬 상태.
   - **Outdated (낡은/만료된)**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)를 3년 전에 다운받고 한 번도 업데이트를 안 해서, 해커들에게 이미 해킹 매뉴얼이 다 퍼진 구닥다리 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 상태.
 

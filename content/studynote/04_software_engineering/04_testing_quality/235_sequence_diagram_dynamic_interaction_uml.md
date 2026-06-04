@@ -20,7 +20,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - 233번 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/233_class_diagram_static_structure_uml/">클래스 다이어그램</a>(정적)</strong>은 병원의 조직도(원장 밑에 과장, 과장 밑에 의사)를 보여줍니다.
-- 하지만 응급 환자가 들어왔을 때 10초 만에 접수처 ➜ 의사 ➜ 수술실로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(환자)가 흘러가는 <strong>'시간에 따른 업무 프로세스'</strong>를 보여주려면 뼈대 도면으로는 불가능합니다. 
+- 하지만 응급 환자가 들어왔을 때 10초 만에 접수처 ➜ 의사 ➜ 수술실로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(환자)가 흘러가는 <strong>'시간에 따른 업무 프로세스'</strong>를 보여주려면 뼈대 도면으로는 불가능합니다.
 - 여기서 시간(Time)이라는 4차원 개념을 투입한 **상호작용(Interaction) 동적 다이어그램** 4대장(시퀀스, 커뮤니케이션, 상호작용 개요, 타이밍)이 등판합니다. 그중 압도적 1위가 시퀀스입니다.
 
 - **📢 섹션 요약 비유**: 시퀀스 다이어그램 (Sequence Diagram)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.

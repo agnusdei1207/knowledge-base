@@ -96,7 +96,7 @@ HMAC은 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/00
 
 HMAC은 공개키 기반의 [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 등)에 비해 연산 속도가 압도적으로 빨라, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기나 초당 수만 건을 처리하는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버의 부하를 극적으로 줄이면서도 강력한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 제공한다. 부인 방지(Non-repudiation) 기능이 없다는 것이 유일한 약점이지만, 통신 당사자끼리 서로를 전적으로 신뢰하는 폐쇄망이나 1:1 세션에서는 전혀 문제가 되지 않는다.
 
-결론적으로 HMAC은 암호학의 가장 성공적인 융합 사례 중 하나다. 빠르고 가벼운 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)의 특성을 그대로 살리면서도, 수학적 약점을 구조적 이중 샌드위치 기법으로 보완하여 현대 네트워크 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)의 척추 역할을 훌륭히 수행하고 있다. 
+결론적으로 HMAC은 암호학의 가장 성공적인 융합 사례 중 하나다. 빠르고 가벼운 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)의 특성을 그대로 살리면서도, 수학적 약점을 구조적 이중 샌드위치 기법으로 보완하여 현대 네트워크 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)의 척추 역할을 훌륭히 수행하고 있다.
 
 - **📢 섹션 요약 비유**: 튼튼하지만 손잡이가 없어 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 불편했던 방패([해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/))에, 나와 내 편만 잡을 수 있는 특수 손잡이(비밀키 구조)를 완벽하게 용접하여 세상에서 가장 가볍고 단단한 방어구를 만들어낸 것이다.
 

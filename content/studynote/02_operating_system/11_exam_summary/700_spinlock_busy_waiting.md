@@ -19,14 +19,14 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/">스핀락</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/">Spinlock</a>)</strong>: 자물쇠가 열렸는지 확인하는 행위를 1초에 수백만 번 반복하며(Spinning) 빙글빙글 도는 형태의 락.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/">바쁜 대기</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/">Busy Waiting</a>)</strong>: CPU가 유효한 연산은 하나도 하지 않으면서, 오직 조건을 만족할 때까지 루프만 도는 낭비적인 상태.
 
-- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a> 오버헤드의 회피)</strong>: 
+- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a> 오버헤드의 회피)</strong>:
   - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 뮤텍스([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)) 락을 얻으려다 실패하면, OS는 그 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 `Wait Queue`로 보내 재운다(Sleep).
   - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 재우고([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Save), 나중에 다시 깨우는([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Restore) 과정은 수천 CPU 클럭을 소모하는 아주 무거운 작업이다.
-  - 그런데 만약 화장실([임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) 안에 들어간 사람이 "1나노초([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 2~3줄)" 만에 나온다면? 
+  - 그런데 만약 화장실([임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) 안에 들어간 사람이 "1나노초([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 2~3줄)" 만에 나온다면?
   - **해결책**: 1나노초를 기다리기 위해 수천 나노초가 걸리는 잠을 자는 것은 바보짓이다. 차라리 문 앞에서 숨을 헐떡이며(Busy Wait) 계속 문고리를 돌려보는 것이 결과적으로 훨씬 빨리 들어가는 길이다.
 
   - **뮤텍스 (Sleep Wait)**: 식당 대기 시간이 2시간일 때, 대기자 명단에 이름을 적어두고 근처 피시방에 가서 놀다가 전화를 받고 오는 것. (대기 시간을 유용하게 씀)
@@ -76,7 +76,7 @@ void unlock() {
 
 1. **싱글 코어 (Single Core) 환경**:
    - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 락을 쥐고 연산하던 중 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)가 끝나서, CPU가 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A로 넘어왔다(선점).
-   - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)을 돌기 시작한다. `while(lock == 1)`. 
+   - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)을 돌기 시작한다. `while(lock == 1)`.
    - A가 계속 CPU를 100% 점유하고 뱅글뱅글 돌기 때문에, B가 다시 CPU를 잡고 `lock = 0`으로 풀어줄 기회가 **영원히 오지 않는다**.
    - A의 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)(예: 10ms)가 다 끝날 때까지 컴퓨터는 먹통이 되며 배터리만 날아간다.
 2. **멀티 코어 (Multi Core) 환경**:
@@ -118,7 +118,7 @@ void unlock() {
 
 2. <strong>시나리오 — C++ 백엔드 서버의 과도한 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/">스핀락</a> 발열과 CPU 100% 버그</strong>: 고성능 트레이딩 서버(HFT) 개발자가 "뮤텍스는 느려!"라며 모든 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 `std::atomic_flag` 기반 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)으로 짰다. 접속자가 없을 때도 서버 CPU가 100%를 치고 온도가 90도까지 올라갔다.
    - **원인 분석**: [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)은 락을 기다리는 동안 CPU가 쉬지 않고 `while` 루프를 돌기 때문에 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/)([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Draw)가 극심하다. 접속자가 없어서 락을 풀 일이 없는데, 백그라운드 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들이 아무 의미 없이 루프를 돌며 발열을 일으킨 것이다.
-   - **대응 (기술사적 가이드)**: 
+   - **대응 (기술사적 가이드)**:
      - 1) 락이 오래 걸리는 구간은 즉시 뮤텍스(`std::mutex`)나 [조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/)(`Condition Variable`)로 교체하여 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 재운다.
      - 2) [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/) 루프 내부에 `_mm_pause()` (x86의 `PAUSE` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))나 `std::this_thread::yield()`를 삽입하여, 하드웨어 파이프라인의 과부하를 막고 전력을 아끼며 OS 스케줄러에게 최소한의 숨통을 열어주는 "Back-off(백오프)" 전략을 추가해야 한다.
 

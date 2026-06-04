@@ -50,7 +50,7 @@ tags = ["studynote-network"]
 - **폭발**: 순진한 피해자가 이 카톡 링크를 무심코 클릭합니다. 서버는 검색어인 악성 코드를 보고 "어? 이게 네가 검색한 단어구나!"라며 그 악성 코드를 그대로 사용자 화면에 <strong>반사(Reflect)</strong>시켜 띄워줍니다. 그 순간 사용자 브라우저에서 코드가 실행되어 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)가 털립니다. DB에 남지 않고 1회성으로 끝납니다.
 
 ### 3. DOM 기반 XSS ([DOM-based XSS](/knowledge-base/studynote/09_security/05_web_app_security/473_dom_xss/))
-- **수법**: 서버와는 전혀 상관없이, 철저히 <strong>사용자 브라우저 내부의 자바스크립트(DOM 환경) <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a></strong>만을 파고드는 고도의 공격입니다. 
+- **수법**: 서버와는 전혀 상관없이, 철저히 <strong>사용자 브라우저 내부의 자바스크립트(DOM 환경) <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a></strong>만을 파고드는 고도의 공격입니다.
 - **동작**: 해커가 던진 악성 URL을 클릭하면, 이 악성 코드는 서버로 전송되지도 않고 브라우저 안에서만 빙글빙글 돌다가, 브라우저가 화면을 렌더링(DOM 조작)할 때 몰래 발동되어 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 털어갑니다. 서버 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)) 입장에선 패킷에 악성 코드가 안 보이므로 탐지하기가 극도로 어렵습니다.
 
 ```text

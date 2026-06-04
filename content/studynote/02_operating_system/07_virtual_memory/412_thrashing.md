@@ -25,7 +25,7 @@ tags = ["studynote-operating-system"]
 - <strong>등장 배경 및 OS <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a>의 치명적 오판</strong>:
   1. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/">요구 페이징</a>의 무한 신뢰</strong>: "램 없어도 스왑으로 막으면 됨!" -> 과도한 프로세스 띄움.
   2. <strong>바보 같은 CPU <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a></strong>: 디스크 긁느라 CPU가 할 일이 없어지자([CPU Utilization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/171_cpu_utilization_throughput/) 하락), 멍청한 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 "어? CPU가 노네? 앱을 하나 더 띄워!(Degree 증가)"라는 최악의 오판을 내림.
-  3. **재앙의 나비효과**: 새로 들어온 앱이 기존 앱의 얼마 안 남은 램마저 빼앗으면서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트가 지수함수적으로 대폭발. 
+  3. **재앙의 나비효과**: 새로 들어온 앱이 기존 앱의 얼마 안 남은 램마저 빼앗으면서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트가 지수함수적으로 대폭발.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -64,7 +64,7 @@ tags = ["studynote-operating-system"]
 
 - 어셈블리 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1줄이 `LOAD [배열 A], [배열 B]` 라면, 이 1클럭을 넘기기 위해 최소 3장의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)장, A데이터장, B데이터장)가 무조건 램에 있어야 한다.
 - 만약 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)([Global Replacement](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/))로 인해 OS가 이 앱의 램을 2장으로 깎아버리면?
-- 1, 2장을 올렸다가 3장째를 부를 때 1장을 디스크로 내쫓는다. 다시 1장을 부르려 2장을 쫓아낸다. 영원히 이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1줄을 통과하지 못하는 <strong>무한 폴트 지옥(Infinite <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a> Loop)</strong>에 빠진다. 
+- 1, 2장을 올렸다가 3장째를 부를 때 1장을 디스크로 내쫓는다. 다시 1장을 부르려 2장을 쫓아낸다. 영원히 이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1줄을 통과하지 못하는 <strong>무한 폴트 지옥(Infinite <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a> Loop)</strong>에 빠진다.
 - 이것이 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)의 가장 기계적이고 밑바닥에 깔린 물리적 원인이다.
 
 ---
@@ -109,7 +109,7 @@ OS가 이 끔찍한 뇌사를 막기 위해 도입한 방어 전략들이다.
 │ 3단계(스래싱)│ 완전 바닥   │ ☠️ OOM 킬러 발동 │ 앱 하나 강제 종료   │
 └──────────┴────────────┴────────────┴────────────────────────────────┘
 ```
-**[매트릭스 해설]** 초보자들은 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러가 앱을 죽이는 걸 보고 OS를 원망하지만, 사실 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러는 <strong>서버 전체가 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a>에 빠져 모든 서비스가 영원히 멈추는 동반 자살을 막기 위해 자신의 팔을 자르는(Fail-fast) 위대한 구원자</strong>다. 
+**[매트릭스 해설]** 초보자들은 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러가 앱을 죽이는 걸 보고 OS를 원망하지만, 사실 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러는 <strong>서버 전체가 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a>에 빠져 모든 서비스가 영원히 멈추는 동반 자살을 막기 위해 자신의 팔을 자르는(Fail-fast) 위대한 구원자</strong>다.
 
 - **📢 섹션 요약 비유**: 구명보트(램)에 사람이 너무 많이 타서 보트가 물에 가라앉으려 합니다([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)). 다 같이 물귀신이 되어 죽느니, 가장 무거운 짐을 든 뚱뚱한 사람 한 명([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 타겟)을 매정하게 바다로 밀어버려서 남은 사람들을 살려내는 타이타닉의 냉혹한 생존 법칙입니다.
 
@@ -130,7 +130,7 @@ OS가 이 끔찍한 뇌사를 막기 위해 도입한 방어 전략들이다.
 4. **실무적 결론**: "램이 모자라면 스왑(Swap)이 막아주겠지"라는 건 1990년대 생각이다. 클라우드 시대에서 스왑에 기댄다는 것은 곧 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)에 빠져 클라우드 자원을 탕진하고 서버가 타버리는 결과를 낳으므로, 애초에 <strong>스왑을 끄고(Swapoff), 무조건 램을 증설(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/">Scale-up</a>)하는 것만이 유일한 정답</strong>이다.
 
 ### 프론트엔드/모바일 개발자의 시선 (Memory Warning)
-iOS나 Android는 PC처럼 든든한 스왑 디스크가 없다. [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/) 수명을 지키기 위해 스와핑을 최소화한다. 
+iOS나 Android는 PC처럼 든든한 스왑 디스크가 없다. [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/) 수명을 지키기 위해 스와핑을 최소화한다.
 대신 램이 꽉 차 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 조짐이 보이면, OS가 켜져 있는 앱들에게 `didReceiveMemoryWarning` (아이폰) 같은 경고 방송을 다급하게 때린다. "야! 너희들 들고 있는 캐시 이미지 당장 램에서 다 지워! 안 지우면 내가 다 쏴 죽인다!" 이 경고를 듣고 개발자가 메모리를 비워주면 살고, 무시하면 0.1초 뒤 앱이 크래시(Crash)나며 튕긴다. 이것이 모바일 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)을 막아내는 눈물겨운 소프트웨어적 협박 통제 시스템이다.
 
 - **📢 섹션 요약 비유**: 배가 터질 것 같은데 억지로 밥을 더 우겨 넣어서 식체([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))로 쓰러지기 직전에, OS가 강력한 구토 유발제(Memory Warning)를 먹여 위장(램)을 비우게 만들거나 강제로 위세척([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Kill)을 해서 환자를 살려내는 응급실 아키텍처입니다.

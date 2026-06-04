@@ -88,7 +88,7 @@ tags = ["studynote-network"]
 
 **기술사 판단 포인트 (Trade-off):**
 [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) 위성망 도입을 검토할 때는 <strong>'전파 대역의 한계'와 '하늘의 혼잡도'</strong>를 판단해야 한다.
-1. [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) 위성은 매우 높은 고주파수(Ku/Ka 대역, 12~30GHz)를 사용하므로 폭우나 폭설이 내리면 전파가 빗방울에 흡수되어 통신이 끊어지는 '강우 감쇠(Rain Fade)' 현상이 치명적이다. 
+1. [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) 위성은 매우 높은 고주파수(Ku/Ka 대역, 12~30GHz)를 사용하므로 폭우나 폭설이 내리면 전파가 빗방울에 흡수되어 통신이 끊어지는 '강우 감쇠(Rain Fade)' 현상이 치명적이다.
 2. 따라서 임무 수행 크리티컬(Mission Critical) 환경에서는 [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)만 믿어선 안 되며, 기존 지상 4G/LTE나 다른 저주파수(L/S 대역) 위성망과의 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)(Multi-path) 설계로 가용성을 확보해야 한다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

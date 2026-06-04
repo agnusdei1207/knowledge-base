@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **Subject (관찰 대상/주제/유튜버)**: 상태를 쥐고 있는 주인공 객체. "나 밥 먹었어 ㅋ 상태 변함!" 이벤트를 쏘는 놈.
   - <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/">Observer</a> (관찰자/구독자)</strong>: 주인공을 쳐다보며(구독) 기다리는 놈. "어 쟤 밥 먹었네? 그럼 난 후식 준비해야지!" 하고 자기 할 일(행동)을 시작하는 놈.
 

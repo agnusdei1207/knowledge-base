@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [Insecure Design](/knowledge-base/studynote/09_security/05_web_app_security/440_insecure_design/)(안전하지 않은 설계)은 코드의 오타나 문법 에러(Bug)가 아니다. 설계 자체의 멍청함(Flaw)이다. 
+- **개념**: [Insecure Design](/knowledge-base/studynote/09_security/05_web_app_security/440_insecure_design/)(안전하지 않은 설계)은 코드의 오타나 문법 에러(Bug)가 아니다. 설계 자체의 멍청함(Flaw)이다.
   - <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a>(Flaw)</strong>: "비밀번호 찾기 질문" 기능에서, 질문이 "어머니의 결혼 전 성(姓)은?" 이다. 해커가 피해자의 페이스북이나 가족관계증명서를 털어 답을 알아낸 뒤 비밀번호를 100% 합법적(?)으로 바꿔버린다. 코드는 100% 정상 작동했다. 기획(설계)이 미친 짓이었을 뿐이다.
 
 - **필요성**: 수백억 원의 보안 예산을 들여 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/))을 세우고, 정적 분석기([SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/))를 달아 코드를 쥐어짰다. 해커가 들어올 기술적 구멍([버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/), [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/))은 0([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))이 되었다. 그런데 영화 예매 사이트에서 "어린이표 2장, 어른표 -1장"을 결제하니까 총액이 0원이 되어 공짜로 예매가 되는 사고가 터졌다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)도 기계도 이 논리적 미친 짓(마이너스 수량 꼼수)을 에러라고 잡지 못했다. 왜? 문법적으론 완벽한 숫자 계산이었으니까. **코딩의 완벽함이 비즈니스 로직의 허술함을 지켜주지 못한다는 한계를 깨닫고, 아키텍처 설계도(Blueprint) 자체의 논리를 뜯어고쳐야 생존할 수 있다.**

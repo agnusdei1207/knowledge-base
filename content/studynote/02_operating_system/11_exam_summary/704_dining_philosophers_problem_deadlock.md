@@ -19,13 +19,13 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
-  - 5명의 철학자가 원탁에 앉아 스파게티를 먹는다. 
+- **개념**:
+  - 5명의 철학자가 원탁에 앉아 스파게티를 먹는다.
   - 철학자들 사이에는 각각 1개씩, 총 5개의 포크가 놓여있다.
   - 철학자는 스파게티를 먹으려면 **반드시 양쪽 포크 2개를 모두 쥐어야 한다**.
   - 철학자의 행동 패턴은 "생각하기 $\rightarrow$ 왼쪽 포크 집기 $\rightarrow$ 오른쪽 포크 집기 $\rightarrow$ 식사하기 $\rightarrow$ 두 포크 다 내려놓기"의 무한 반복이다.
 
-- <strong>필요성 (단순한 락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)의 파멸성 증명)</strong>: 
+- <strong>필요성 (단순한 락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)의 파멸성 증명)</strong>:
   - 각 포크를 뮤텍스([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))로 생각하고, 개발자가 "왼쪽 자원 [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) $\rightarrow$ 오른쪽 자원 [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)"이라는 아주 정상적이고 상식적인 코드를 짰다고 가정해 보자.
   - 이 상식적인 코드가 멀티스레드 환경에서 얼마나 어처구니없이 무너지는지([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))를 시각적으로 증명하기 위해 고안된 것이 이 문제다.
   - **해결책**: [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 프로그래밍에서는 개별 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 코드가 아무리 무결점이어도, 전체 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 얽혔을 때(Global [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 데드락이 발생할 수 있음을 인지하고, 이를 방지하기 위한 OS 레벨의 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Resource Allocation Graph](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/))이 필요해졌다.
@@ -98,10 +98,10 @@ State[] state = new State[5]; // 철학자들의 현재 상태 배열
 // 식사를 시도하는 메서드 (모니터로 보호됨, 한 번에 한 명만 실행)
 synchronized void test(int i) {
     // 내가 배가 고프고 && 내 왼쪽 사람이 안 먹고 && 내 오른쪽 사람도 안 먹을 때만!
-    if (state[i] == HUNGRY && 
-        state[(i+4) % 5] != EATING && 
+    if (state[i] == HUNGRY &&
+        state[(i+4) % 5] != EATING &&
         state[(i+1) % 5] != EATING) {
-        
+
         state[i] = EATING; // 밥 먹기 시작!
         notifyAll();       // 자고 있던 나를 깨워라!
     }

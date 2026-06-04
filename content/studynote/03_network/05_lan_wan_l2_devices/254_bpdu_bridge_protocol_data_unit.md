@@ -42,7 +42,7 @@ tags = ["studynote-network"]
 ### 1. 두 가지 형태의 BPDU
 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 세계에서는 평시와 비상시를 나누어 두 가지의 명함을 쓴다.
 
-1. <strong>Configuration BPDU (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> BPDU)</strong>: 
+1. <strong>Configuration BPDU (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> BPDU)</strong>:
    - 대장([Root Bridge](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/255_root_bridge_rp_dp_bp/)) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 "내가 대장이야, 다들 잘 지내고 있지?"라며 **2초(Hello Time)에 한 번씩** 주기적으로 뿜어내는 엽서다.
    - 쫄따구 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들은 이 엽서를 받아보고 "아 대장님 살아계시네" 안심하며 자신의 다른 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 이 엽서를 전달(Relay)해 준다.
 2. **TCN BPDU (Topology Change Notification)**:

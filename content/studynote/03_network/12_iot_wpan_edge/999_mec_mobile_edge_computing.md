@@ -45,7 +45,7 @@ tags = ["studynote-network"]
 │                   [ Central Cloud ]                    │
 │   빅데이터 분석, 머신러닝 모델 학습 (Training)         │
 └────────────▲──────────────────────────────▲────────────┘
-             │ (요약된 메타데이터)           │ 
+             │ (요약된 메타데이터)           │
              │                            │
 ┌────────────▼──────────┐      ┌────────────▼──────────┐
 │     [ MEC Node 1 ]    │      │     [ MEC Node 2 ]    │
@@ -110,7 +110,7 @@ tags = ["studynote-network"]
 
 ## Ⅴ. 기대효과 및 결론
 
-MEC는 단순한 통신망을 넘어 5G를 진정한 '지능형 인프라'로 탈바꿈시키는 핵심 촉매제다. 통신망의 과부하를 막아주고, B2B 엔터프라이즈 고객에게는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 밖으로 유출되지 않는 강력한 보안 샌드박스를 제공한다. 
+MEC는 단순한 통신망을 넘어 5G를 진정한 '지능형 인프라'로 탈바꿈시키는 핵심 촉매제다. 통신망의 과부하를 막아주고, B2B 엔터프라이즈 고객에게는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 밖으로 유출되지 않는 강력한 보안 샌드박스를 제공한다.
 
 결론적으로 MEC는 클라우드 컴퓨팅이 팽창의 극한에 달해 다시 사용자 쪽으로 회귀하는 '클라우드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)화([Decentralization](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/))'의 정점이다. 클라우드 사업자(AWS Wavelength 등)와 통신사가 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 주도권을 잡기 위해 치열하게 경쟁하고 있으며, 향후 6G와 결합하면 네트워크 자체에 AI가 내재화되는 '[AI-Native](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/792_ai_native_6g_neural_network_radio/) Network'의 물리적 심장이 될 것이다.
 

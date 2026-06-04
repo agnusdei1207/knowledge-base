@@ -29,7 +29,7 @@ tags = ["studynote-security"]
   외부 주체(공급사, 파트너, 오픈소스)에서
   우리 조직으로 이전되어 온 위험
   "남이 만든 위험이 우리 것이 됨"
-  
+
 잔존 위험 (Residual Risk):
   통제 적용 후 남은 위험
   허용 가능 위험 수준(Risk Appetite) 이하여야 함

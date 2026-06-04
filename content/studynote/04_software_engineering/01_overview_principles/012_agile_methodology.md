@@ -21,7 +21,7 @@ tags = ["software_engineering"]
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-소프트웨어 개발 초창기에는 건설이나 토목 공학을 본뜬 [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/)(계획 주도 방식)이 지배적이었다. 그러나 2000년대 들어 인터넷과 모바일의 발달로 비즈니스 환경이 급변하면서, 수개월에 걸쳐 완벽한 요구사항 명세서를 작성하더라도 막상 제품이 출시될 즈음에는 시장의 요구가 완전히 달라져 있는 '[소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)'가 빈번하게 발생했다. 
+소프트웨어 개발 초창기에는 건설이나 토목 공학을 본뜬 [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/)(계획 주도 방식)이 지배적이었다. 그러나 2000년대 들어 인터넷과 모바일의 발달로 비즈니스 환경이 급변하면서, 수개월에 걸쳐 완벽한 요구사항 명세서를 작성하더라도 막상 제품이 출시될 즈음에는 시장의 요구가 완전히 달라져 있는 '[소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)'가 빈번하게 발생했다.
 
 <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> 방법론(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a> Methodology)</strong>은 이러한 문제를 해결하기 위해 등장했다. 2001년 제정된 '[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 소프트웨어 개발 선언문([Agile Manifesto](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/061_agile_manifesto/))'을 기점으로, 프로세스와 도구보다 <strong>개인과 상호작용</strong>을, 포괄적인 문서보다 <strong>작동하는 소프트웨어</strong>를, 계약 협상보다 <strong>고객과의 협력</strong>을, 계획을 따르기보다 <strong>변화에 대응</strong>하는 것을 더 가치 있게 여기는 새로운 패러다임이 확립되었다. 이는 개발 프로세스를 경량화(Lightweight)하고 고객에게 가치 있는 기능을 최우선으로 빠르게 인도(Delivery)하기 위함이다.
 

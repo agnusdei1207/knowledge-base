@@ -28,7 +28,7 @@ tags = ["database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-1NF를 달성하는 핵심 원리는 "다중값 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(Multivalued [Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)) 분리"다. 콤마로 묶여 있는 값들을 쪼개어, 각 값마다 새로운 행(Tuple)을 생성하여 매핑한다. 
+1NF를 달성하는 핵심 원리는 "다중값 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(Multivalued [Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)) 분리"다. 콤마로 묶여 있는 값들을 쪼개어, 각 값마다 새로운 행(Tuple)을 생성하여 매핑한다.
 
 | 학번 | 이름 | 취미 (1NF 위반) |
 | :--- | :--- | :--- |

@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: 전송 계층(Transport Layer)에서 연결 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(Handshake), [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/), 오류 제어를 모두 생략하고 최소한의 헤더(8바이트)만으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빠르게 전송하는 비연결 지향형(Connectionless), 비신뢰성(Unreliable) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/).
 - **필요성**: 스나이퍼 게임을 하고 있다. 내가 총을 쐈는데 네트워크 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 그 패킷이 0.5초 뒤에 도착하면 이미 적은 도망가고 없다. 만약 TCP를 썼다면? 0.5초 뒤에 라우터가 "어? 총 쏘는 패킷 유실됐네? 서버야 다시 보내줘!(재전송)"라며 1초 뒤에 총알 패킷을 복구해서 화면에 띄워준다. 이미 난 죽어있다. <strong>"야! 실시간 게임이나 음성 통화는 과거의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 재전송받아봤자 아무 쓰레기 같은 의미가 없어! 유실되면 쿨하게 포기하고 버려버리고, 무조건 지금 현재의 최신 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>만 가장 빠르게 꽂아 넣어줄 가벼운 놈이 필요해!!"</strong>
 
-- **💡 비유**: 
+- **💡 비유**:
   - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a></strong>: 받는 사람이 사인(ACK)을 할 때까지 문 앞에서 기다렸다가, 사인을 안 하면 우체국에 돌아가 똑같은 물건을 다시 가져와서 끝끝내 배달을 마치는 <strong>"우체국 등기 소포"</strong>입니다.
   - **UDP**: 받는 사람이 집에 있든 없든, 이사 갔든 말든 신경 안 쓰고 대문 안으로 신문을 휙 던지고 0.1초 만에 지나가 버리는 <strong>"오토바이 신문 배달부"</strong>입니다. 어제 신문이 배달 안 됐다고 오늘 어제 신문을 갖다 달라고(재전송) 요구하는 사람은 아무도 없습니다.
 

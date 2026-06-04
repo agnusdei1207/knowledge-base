@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>POSIX (Portable <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">Operating System</a> Interface)</strong>: "서로 다른 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)라도 이 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 모양만큼은 똑같이 맞추자"라고 정한 IEEE의 유닉스 표준.
   - **pthreads (POSIX Threads)**: 그 POSIX 표준 중에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(`pthread_create`), 종료(`pthread_join`), [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(`pthread_mutex_lock`)에 관한 규칙만을 모아놓은 서브 스펙이다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 1990년대, CPU 코어가 여러 개 달린 썬 마이크로시스템즈(Sun) 컴퓨터와 HP 컴퓨터, IBM 컴퓨터가 쏟아져 나왔다.
   - 개발자가 멀티스레드 코드를 짤 때 Sun OS에서는 `thr_create()`를, HP-UX에서는 `cma_thread_create()`를 썼다. OS가 바뀔 때마다 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 코드를 수천 줄씩 완전히 새로 짜야 하는 지옥([Vendor Lock-in](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/))이 펼쳐졌다.
   - **해결책**: "[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 회사들아, 니들 내부적으로 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 어떻게 만들든 상관 안 할 테니까, 밖으로 보여주는 함수 이름이랑 매개변수 모양만 `pthread_`로 똑같이 통일해라!"
@@ -31,7 +31,7 @@ tags = ["studynote-operating-system"]
   - **표준화 이전**: 한국 전기 콘센트는 220V 둥근 돼지코고, 미국은 110V 납작한 모양, 영국은 세 갈래 모양이라 여행 갈 때마다 어댑터를 수십 개씩 사야 했다.
   - <strong>pthreads (표준 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>)</strong>: 전 세계 모든 가전제품 회사가 "앞으로는 무조건 USB-C 타입(pthreads) 하나로만 꼽게 만들자!"라고 대동단결한 것. 개발자는 USB-C 케이블만 있으면 어느 나라(OS) 콘센트에 꼽아도 전기가 들어온다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 1995년 IEEE에서 POSIX.1c 표준을 제정. 이후 리눅스 진영이 LinuxThreads라는 엉성한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구현체를 거쳐 2003년 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 2.6부터 IBM/Red Hat이 주도한 NPTL(Native POSIX [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))을 도입하며 pthreads의 완벽한 르네상스가 시작되었다.
 
 ```text
@@ -135,7 +135,7 @@ pthreads는 '규칙'일 뿐이다. 과거 리눅스는 이 규칙을 지키기 �
 ### 실무 시나리오 및 운영 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 1. <strong>시나리오 — pthreads <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 후 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/136_zombie_thread/">좀비 스레드</a>(메모리 릭) 폭발 사태</strong>: 주니어 C 개발자가 수천 개의 네트워크 소켓을 받기 위해 `while` 루프 안에서 `pthread_create`로 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 무한히 만들었다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 안에서 자기 일을 다 끝내고 `return`으로 정상 종료했는데도, 서버의 램(RAM)이 1분 만에 꽉 차서 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))으로 서버가 뻗었다.
-   - **원인 분석**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)도 프로세스와 똑같이 종료 후 <strong>좀비(Zombie) 상태</strong>가 된다! 부모 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 `pthread_join()`을 호출해 자식의 종료 결과값을 읽어주지 않으면, 자식이 쓰던 수 메가바이트의 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 메모리 찌꺼기가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 영원히 남아있는다. 
+   - **원인 분석**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)도 프로세스와 똑같이 종료 후 <strong>좀비(Zombie) 상태</strong>가 된다! 부모 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 `pthread_join()`을 호출해 자식의 종료 결과값을 읽어주지 않으면, 자식이 쓰던 수 메가바이트의 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 메모리 찌꺼기가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 영원히 남아있는다.
    - **아키텍트 판단 (Detach 옵션 강제)**: 만약 자식이 끝나는 걸 기다려줄([join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 필요가 없는 독립적인 워커(Worker) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)라면, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 때부터 "너는 죽으면 나한테 보고하지 말고 니 몸뚱이는 알아서 소각해라"라고 <strong><code>pthread_detach()</code></strong> 함수를 호출하거나, 아예 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)에 `PTHREAD_CREATE_DETACHED`를 걸고 스폰(Spawn)시켜야 좀비 메모리 릭(Leak)을 완벽히 차단할 수 있다.
 
 2. <strong>시나리오 — <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/">우선순위 역전</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/">Priority Inversion</a>) 방지를 위한 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/">Mutex</a> 튜닝</strong>: 라즈베리파이(리눅스)로 드론 제어 코드를 pthreads로 짰다. 카메라 영상 처리(Low 순위)가 쥐고 있는 뮤텍스 락을, 자세 제어 모터 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(High 순위)가 기다리다가 드론이 뒤집혀 추락했다.

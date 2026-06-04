@@ -35,7 +35,7 @@ TF-IDF는 두 가지 지표의 곱으로 계산되며, 생성된 [가중치](/kn
 2. <strong>IDF (Inverse <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/">Document</a> Frequency, 역문서 빈도)</strong>: 전체 문서 수 $N$을 단어 $t$가 등장한 문서 수 $df(t)$로 나눈 값에 로그를 취한 값. (전체 문서군에서 얼마나 희귀한가?)
    - 수식: $[TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/)(t, d, D) = TF(t, d) \times \log\left(\frac{N}{1 + df(t)}\right)$
 
-이렇게 TF-IDF를 통해 문서가 벡터 공간의 좌표로 변환되면, 문서 A와 문서 B의 유사도는 두 벡터가 이루는 <strong>각도(Angle)</strong>를 측정하는 `코사인 유사도 (Cosine Similarity)`로 구한다. 
+이렇게 TF-IDF를 통해 문서가 벡터 공간의 좌표로 변환되면, 문서 A와 문서 B의 유사도는 두 벡터가 이루는 <strong>각도(Angle)</strong>를 측정하는 `코사인 유사도 (Cosine Similarity)`로 구한다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────┐

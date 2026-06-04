@@ -125,8 +125,8 @@ Probability Output
 
 ## 어린이를 위한 3줄 비유 설명
 
-점수를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 바꿔요.  
-합치면 1이 돼요.  
+점수를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 바꿔요.
+합치면 1이 돼요.
 [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)는 그런 함수예요.
 
 ---

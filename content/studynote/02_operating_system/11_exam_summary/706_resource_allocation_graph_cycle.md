@@ -19,20 +19,20 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **정점(Vertex)**: 프로세스 $P$ (보통 원으로 표시)와 자원 $R$ (보통 사각형으로 표시).
-  - **간선(Edge)**: 
+  - **간선(Edge)**:
     - **요구 간선 (Request Edge, $P \rightarrow R$)**: 프로세스가 자원을 요청하고 기다리는 중.
     - **할당 간선 (Assignment Edge, $R \rightarrow P$)**: 자원이 프로세스에게 이미 할당되어 점유된 상태.
   - **사이클 (Cycle)**: [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 화살표 방향을 따라갔을 때 처음 출발했던 정점으로 다시 돌아올 수 있는 폐쇄된 경로.
 
-- <strong>필요성 (눈에 보이지 않는 꼬임의 <a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a>)</strong>: 
-  - 서버에서 프로세스 50개가 DB 커넥션, 프린터, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 락 등 수백 개의 자원을 놓고 싸우고 있다. 
+- <strong>필요성 (눈에 보이지 않는 꼬임의 <a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a>)</strong>:
+  - 서버에서 프로세스 50개가 DB 커넥션, 프린터, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 락 등 수백 개의 자원을 놓고 싸우고 있다.
   - 시스템이 멈췄을 때 "도대체 누구 때문에 꼬인 거야?"를 소스 코드만 보고 파악하는 것은 불가능하다.
   - **해결책**: OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 현재 자원을 "누가 가졌고(할당), 누가 기다리는지(요구)"를 실시간 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 그려서 추적하면, 사이클 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 등)을 통해 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)의 근원지(범인)를 정확히 짚어내고 강제 종료(Kill)시킬 수 있다.
 
   - **상황**: 교차로에서 자동차 4대가 서로 엉켜서 빵빵거리고 있다.
-  - <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/">자원 할당 그래프</a></strong>: 경찰 헬기가 하늘에서 교차로를 내려다보며 도면을 그린다. "1번 차는 앞길(자원)을 원하는데 2번 차가 막고 있고, 2번 차는 3번 차가... 4번 차는 1번 차가 막고 있네!" 
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/">자원 할당 그래프</a></strong>: 경찰 헬기가 하늘에서 교차로를 내려다보며 도면을 그린다. "1번 차는 앞길(자원)을 원하는데 2번 차가 막고 있고, 2번 차는 3번 차가... 4번 차는 1번 차가 막고 있네!"
   - **사이클**: 헬기에서 보니 4대의 차가 완벽한 '네모(Cycle)' 모양으로 꼬리를 물고 있다. 경찰은 이 도면([그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))을 보고 "아, 이건 절대 안 풀리는 데드락이구나"라고 판단하고 견인차를 부른다.
 
 - **발전 과정**:
@@ -80,7 +80,7 @@ tags = ["studynote-operating-system"]
 <strong>Case 2: 다중 인스턴스 자원 (DB 커넥션 풀 3개, <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">스레드 풀</a> 5개)</strong>
 - 상황: `P1 -> R1 -> P2 -> R2 -> P1` 로 P1과 P2가 사이클을 만들었다.
 - 그런데 R1 자원 안에는 점(인스턴스)이 2개 있다! 하나는 P2가 쥐고 있지만, **나머지 하나는 P3가 쥐고 있다.** (P3는 사이클 밖의 제3자다)
-- **판단**: 현재는 사이클이 있지만 데드락이 아닐 수도 있다! 만약 사이클 밖에 있는 착한 P3가 일을 다 끝내고 R1 자원을 반납하면? P1이 그 반납된 R1을 낼름 가져가서 사이클을 부수고 시스템이 정상으로 돌아간다. 
+- **판단**: 현재는 사이클이 있지만 데드락이 아닐 수도 있다! 만약 사이클 밖에 있는 착한 P3가 일을 다 끝내고 R1 자원을 반납하면? P1이 그 반납된 R1을 낼름 가져가서 사이클을 부수고 시스템이 정상으로 돌아간다.
 - **결론: 다중 인스턴스 환경에서 '사이클'은 데드락의 "필요조건"일 뿐, "충분조건"은 아니다.**
 
 - **📢 섹션 요약 비유**: 좁은 골목길(단일 자원)에서 차가 꼬리를 물면 100% 데드락입니다. 하지만 왕복 4차선(다중 자원)에서 차가 꼬리를 물었더라도, 옆 차선에서 쌩 지나가던 차(제3의 프로세스)가 빠져나가며 빈 공간을 만들어주면 꼬인 차들이 거기로 빠져나와 엉킴이 풀릴 수 있습니다.
@@ -119,7 +119,7 @@ tags = ["studynote-operating-system"]
    - **대응 (기술사적 가이드)**: DB는 데드락을 풀기 위해 사이클 내의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 중 <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/">Undo</a> Log(롤백해야 할 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>) 양이 가장 적은 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>(만만한 놈)을 희생자(Victim)</strong>로 골라 강제로 죽여(Kill) 버리고 에러를 던진다. 따라서 애플리케이션 개발자는 이 에러를 받았을 때 당황하지 말고, `try-catch`로 잡아서 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 0.1초 뒤에 다시 시도(Retry)하는 로직을 반드시 짜두어야 한다.
 
 2. **시나리오 — K8s 클러스터의 자원(CPU/Mem) 데드락 회피**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 환경에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) A는 서버 1의 CPU를 100% 점유하고 서버 2의 램을 원하며, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) B는 서버 2의 램을 100% 점유하고 서버 1의 CPU를 원한다.
-   - **아키텍처 적용**: 클라우드 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)(K8s) 레벨에서는 다중 인스턴스 자원을 다룬다. 여기서 사이클이 생겼다고 바로 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))를 죽이면 엄청난 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애가 온다(사이클이 데드락의 절대 조건이 아니므로). 
+   - **아키텍처 적용**: 클라우드 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)(K8s) 레벨에서는 다중 인스턴스 자원을 다룬다. 여기서 사이클이 생겼다고 바로 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))를 죽이면 엄청난 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애가 온다(사이클이 데드락의 절대 조건이 아니므로).
    - 따라서 현대 클라우드는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 사이클 탐지([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) 방식 대신, [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 띄우기 전 남은 자원을 계산하여 <strong>은행원 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>(Avoidance)</strong>처럼 애초에 데드락이 날 것 같은 스케줄링 자체를 거부하거나, [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer처럼 여유 임계치에 도달하면 무자비하게 큰 놈을 밀어내는 <strong>Preemption(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/295_deny_no_preemption/">비선점 부정</a>)</strong> 방식으로 아키텍처를 해결한다.
 
 ### 의사결정 및 튜닝 플로우

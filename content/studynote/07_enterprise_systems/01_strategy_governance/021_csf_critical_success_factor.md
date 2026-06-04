@@ -63,7 +63,7 @@ tags = ["enterprise_systems"]
 
 [Level 1: Strategy]   비즈니스 목표 : "온라인 시장 점유율 1위 달성"
                              │
-[Level 2: Control]    CSF 도출 : 1. 빠른 배송 처리 
+[Level 2: Control]    CSF 도출 : 1. 빠른 배송 처리
                              │    2. 고객 이탈률 방어
                              │
 [Level 3: Measure]    KPI 맵핑 : 1-1. 당일 출고율 (%),  1-2. 평균 배송 시간 (시간)
@@ -146,7 +146,7 @@ CSF는 단독으로 쓰이기보다 성과 평가 도구인 [KPI](/knowledge-bas
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-[CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 프레임워크를 성공적으로 IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에 내재화하면 재무적으로 불필요한 시스템 예산을 삭감하여 총소유비용([TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/))을 낮출 수 있고, 운영적으로는 부서 간 장벽을 허물어 전사적 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 정렬을 가져온다. 시스템적으로는 비즈니스와 IT의 간극을 메우는 EA의 정합성이 향상된다. 
+[CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 프레임워크를 성공적으로 IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에 내재화하면 재무적으로 불필요한 시스템 예산을 삭감하여 총소유비용([TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/))을 낮출 수 있고, 운영적으로는 부서 간 장벽을 허물어 전사적 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 정렬을 가져온다. 시스템적으로는 비즈니스와 IT의 간극을 메우는 EA의 정합성이 향상된다.
 
 미래의 [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 관리는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [비즈니스 인텔리전스](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/282_business_intelligence_bi_technology_framework/)(BI)와 결합하여 정적인 문서가 아닌 동적인 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 체계로 진화하고 있다. [데이터 마이닝](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/)과 [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/) 기술을 통해 숨겨진 성공 패턴을 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 역으로 제안하는 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주도적 [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 도출'이 가능해지고 있으며, 이는 [디지털 트랜스포메이션](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/071_digital_transformation_dx/) 시대에 기업이 불확실성에 대응하는 가장 강력한 무기가 될 것이다.
 

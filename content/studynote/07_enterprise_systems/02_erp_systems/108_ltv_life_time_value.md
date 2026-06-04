@@ -20,7 +20,7 @@ tags = ["studynote-enterprise-systems"]
 
 과거 전통적인 오프라인 쇼핑몰이나 일회성 판매 위주의 기업들은 매출을 "오늘 홍길동이 와서 만 원짜리 물건을 하나 샀네. 만 원 벌었다!"라는 단기적 공식으로만 계산했다. 그러나 넷플릭스, 쿠팡, 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))와 같은 현대의 [구독 경제](/knowledge-base/studynote/12_it_management/01_governance_strategy/057_subscription_economy_xaas/) 기업들의 뇌 구조는 완전히 다르다.
 
-이들은 "방금 첫 달 5천 원을 결제한 홍길동은 평균 36개월 동안 우리 구독을 유지할 것이고, 매달 쇼핑으로 2만 원의 추가 마진을 남겨줄 것이므로, 이 사람은 5천 원짜리가 아니라 <strong>평생 90만 원을 벌어다 줄 VIP</strong>다"라고 셈을 한다. 
+이들은 "방금 첫 달 5천 원을 결제한 홍길동은 평균 36개월 동안 우리 구독을 유지할 것이고, 매달 쇼핑으로 2만 원의 추가 마진을 남겨줄 것이므로, 이 사람은 5천 원짜리가 아니라 <strong>평생 90만 원을 벌어다 줄 VIP</strong>다"라고 셈을 한다.
 고객이 이탈하지 않고 오래 머물수록([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/)), 그리고 자주 결제할수록 누적되는 총가치가 기하급수적으로 커지는 구조에서, 고객 1명의 '진짜 몸값'을 미래 가치까지 끌어와 정량화한 수치가 바로 LTV다. 이것이 없다면 회사는 마케팅 광고비를 얼마나 써야 적자인지 흑자인지 판별할 수 없어 장님처럼 경영을 하게 된다.
 
 - **📢 섹션 요약 비유**: LTV는 나무 농장에 심은 <strong>'묘목 한 그루의 평생 가치표'</strong>입니다. 바보 같은 농장주는 묘목 1개를 오늘 천 원에 팔았다며 기뻐하지만, 똑똑한 농장주(LTV 기반)는 이 묘목이 30년 동안 맺을 사과 수천 개의 가치를 전부 계산하여 "이 묘목은 평생 1,000만 원어치 황금 나무다!"라고 투자의 스케일을 근본적으로 바꿔버립니다.

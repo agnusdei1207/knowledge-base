@@ -60,13 +60,13 @@ tags = ["studynote-network"]
 - RSU는 반경 1km 안의 모든 자율주행차에 "전방 500m 교차로 보행자 난입! 전원 브레이크 밟아!"라는 비상 방송([WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/), [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 통신)을 0.01초 만에 때립니다. 자동차는 자기 눈(센서)에 보이지도 않는데 알아서 브레이크를 밟습니다.
 
 ### 2. [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) ([모바일 엣지 컴퓨팅](/knowledge-base/studynote/03_network/12_iot_wpan_edge/999_mec_mobile_edge_computing/))와의 융합 결합 🌟 핵심 🌟
-- RSU가 이런 정보를 처리하려면 뇌(컴퓨터)가 필요합니다. 
+- RSU가 이런 정보를 처리하려면 뇌(컴퓨터)가 필요합니다.
 - 그런데 1,000km 떨어진 네이버 클라우드 중앙 서버까지 이 영상을 보내서 "이거 사람입니까?" 물어보면 왕복 100ms(0.1초)의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay)이 발생해 이미 차에 사람이 치인 후입니다.
-- <strong>오프맵 다운 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 극복</strong>: 그래서 통신사는 <strong>RSU 기둥 바로 밑바닥 맨홀에 '작은 미니 서버 컴퓨터(<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/">MEC</a>, <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/999_mec_mobile_edge_computing/">모바일 엣지 컴퓨팅</a>)'를 파묻어 둡니다.</strong> 
+- <strong>오프맵 다운 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 극복</strong>: 그래서 통신사는 <strong>RSU 기둥 바로 밑바닥 맨홀에 '작은 미니 서버 컴퓨터(<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/">MEC</a>, <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/999_mec_mobile_edge_computing/">모바일 엣지 컴퓨팅</a>)'를 파묻어 둡니다.</strong>
 - 데이터가 중앙 서버로 가지 않고([오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)), 신호등 밑의 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 컴퓨터가 0.01초 만에 "이건 사람이다!"라고 자체 결단(로컬 컴퓨팅)을 내려 바로 차에 통보합니다. (초저지연 통신망 패러다임)
 
 ### 3. 고정밀 지도(HD Map) 실시간 다운로드
-- 자율주행차는 주행을 위해 차선 굵기까지 표시된 기가바이트급 3D 고정밀 지도를 받아야 합니다. 
+- 자율주행차는 주행을 위해 차선 굵기까지 표시된 기가바이트급 3D 고정밀 지도를 받아야 합니다.
 - 차가 RSU 밑을 쌩~ 지나가는 2초 남짓한 찰나의 순간에, RSU가 이 거대한 지도를 차량으로 순식간에 때려 넣어 줍니다.
 
 V2I 노변 기지국을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. IPFS가 기반 조건을 만든다면, V2I 노변 기지국은 그 위에서 핵심 메커니즘을 구현하고, [철도 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/914_lte_r_railway_communication_qpp_ps_lte/) LTE-R는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -83,7 +83,7 @@ V2I 노변 기지국을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 전국 교차로 100만 개에 이 RSU 기계와 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 서버를 다 파묻으려면 돈이 천문학적으로 깨집니다. 
+- 전국 교차로 100만 개에 이 RSU 기계와 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 서버를 다 파묻으려면 돈이 천문학적으로 깨집니다.
 - 또한, RSU가 자동차에 말을 걸 때 옛날 방식인 <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/">WAVE</a>(Wi-Fi 기반)</strong>를 쓸 것인가, 아니면 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 폰과 같은 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/">C-V2X</a>(이동통신 기반)</strong>를 쓸 것인가를 두고 국가 간, 통신사 간 밥그릇 표준 전쟁이 치열하게 벌어지고 있습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

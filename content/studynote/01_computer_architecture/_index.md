@@ -25,7 +25,7 @@ tags = ["studynote-computer-architecture"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-컴퓨터 구조는 명령어 세트(ISA)라는 헌법을 바탕으로 제어 유닛(Control Unit)과 데이터 패스(Datapath)가 상호작용하는 정교한 시계태엽과 같다. 
+컴퓨터 구조는 명령어 세트(ISA)라는 헌법을 바탕으로 제어 유닛(Control Unit)과 데이터 패스(Datapath)가 상호작용하는 정교한 시계태엽과 같다.
 
 #### 1. 핵심 구성 요소
 | 요소명 | 상세 역할 | 내부 동작 메커니즘 | 관련 프로토콜/기술 | 비유 |
@@ -40,7 +40,7 @@ tags = ["studynote-computer-architecture"]
 ```text
     [ 비순차 슈퍼스칼라 실행 아키텍처 및 메모리 계층 구조 ]
     [ Superscalar Out-of-Order Execution Architecture & Memory Hierarchy ]
-    
+
     (명령어 인출 및 분기 예측 / Instruction Fetch & Predict)
     +-------------------------------------------+
     | Branch Predictor (BHT/BTB)  <---------+   |

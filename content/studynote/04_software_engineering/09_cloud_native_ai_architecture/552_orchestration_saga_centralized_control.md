@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 550장의 [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)([Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)) 패턴을 구현하는 2가지 뇌 구조 중 하나다. 
+- **개념**: 550장의 [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)([Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)) 패턴을 구현하는 2가지 뇌 구조 중 하나다.
   - **코레오그래피(Choreography, 무정부 자율 춤)**: 중앙 대빵 없이 허공([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))에 이벤트 던지고 지들끼리 눈치껏 주워 먹는 릴레이 핑퐁 구조. (553장에서 다룸)
   - <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">오케스트레이션</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">Orchestration</a>, 지휘자 통제)</strong>: 교향악단(Orchestra) 지휘자처럼 중앙에 통제기 1대를 세운다. "1번 결제팀 찔러! ➡ 완료? ➡ 오케이 2번 배송팀 찔러!" 지휘자가 큐시트(도면)를 들고 직접 트래픽의 모가지를 잡아끌며 지휘한다.
 

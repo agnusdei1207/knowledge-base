@@ -116,7 +116,7 @@ trusted_df = raw_df.dropna(subset=["sensor_value"]) \
         ↓
 [품질 SLA 검증] ──(NULL 비율 5% 초과?)──> [Yes] ─> Dead Letter Queue(DLQ) 격리 및 알림
         ↓ [No]
-[스키마 진단] ──(기존 구조와 불일치?)──> [Yes] ─> 데이터 컨트랙트(Data Contract) 위반 경고 
+[스키마 진단] ──(기존 구조와 불일치?)──> [Yes] ─> 데이터 컨트랙트(Data Contract) 위반 경고
         ↓ [No]
 [신뢰 데이터 마트 적재] => [BI / AI 파이프라인 연동을 통한 Value 도출]
 ```

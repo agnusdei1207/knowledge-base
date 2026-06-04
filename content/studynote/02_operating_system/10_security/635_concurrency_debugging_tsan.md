@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 레이스 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Race)</strong>: 멀티스레드 환경에서, 두 개 이상의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 <strong>동시에 같은 메모리 위치</strong>에 접근하고, 그중 하나 이상이 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>(Write)</strong>를 수행하며, 이들 사이에 적절한 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">Synchronization</a>, 예: <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)</strong>가 없는 상태.
   - **ThreadSanitizer (TSan)**: 컴파일러(GCC, Clang)에 내장된 플러그인으로, 이러한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이스를 런타임에 탐지하는 [동적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/)([Dynamic Analysis](/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/)) 도구다.
 
-- **필요성 (하이젠버그의 공포)**: 
+- **필요성 (하이젠버그의 공포)**:
   - 일반적인 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 버그(예: 널 포인터 역참조)는 프로그램을 실행하면 항상 똑같이 죽기 때문에 디버거(GDB)로 쉽게 찾을 수 있다.
   - 하지만 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 버그는 OS 스케줄러가 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A와 B를 아주 우연한 타이밍에 겹치게 실행했을 때만 발생한다. 디버거를 붙이거나 `printf`를 넣는 순간, 실행 속도와 타이밍이 미세하게 바뀌어 버그가 마법처럼 사라져버린다(관찰자 효과, Heisenbug).
   - 개발자가 눈으로 코드를 보며 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 결함을 찾는 것은 인간의 뇌 구조상 불가능에 가깝다. 기계적으로 모든 메모리 접근 순서를 감시하고 기록하는 시스템이 필요했다.
@@ -108,7 +108,7 @@ TSan의 가장 핵심적인 설계는 <strong>"섀도우 메모리(Shadow Memory
 
 ### 과목 융합 관점
 
-- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> (OS)</strong>: TSan의 Happens-before [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 다루는 램포트의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 시계(Lamport's Logical Clocks) 개념을 멀티스레드 메모리 추적에 그대로 적용한 것이다. 
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> (OS)</strong>: TSan의 Happens-before [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 다루는 램포트의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 시계(Lamport's Logical Clocks) 개념을 멀티스레드 메모리 추적에 그대로 적용한 것이다.
 - **소프트웨어공학 (SE)**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인에서 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)([Unit Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/))를 돌릴 때 일반 바이너리뿐만 아니라 `-fsanitize=thread` 옵션으로 빌드된 바이너리를 병렬로 테스트하는 것이 현대 구글이나 메타(Meta)의 필수 [소프트웨어 품질 보증](/knowledge-base/studynote/04_software_engineering/06_software_architecture/365_sqa/)(QA) 파이프라인이다.
 
 - **📢 섹션 요약 비유**: 죽은 사람을 부검([코어 덤프](/knowledge-base/studynote/02_operating_system/01_overview_architecture/035_core_dump/))하거나, 관상([정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/))만 보고 병을 예측하는 시대에서, 온몸에 센서(TSan)를 달고 런닝머신(Fuzzer)을 뛰게 하여 심장병의 전조 증상을 완벽히 잡아내는 현대 의학으로의 진보입니다.
@@ -120,7 +120,7 @@ TSan의 가장 핵심적인 설계는 <strong>"섀도우 메모리(Shadow Memory
 ### 실무 시나리오
 
 1. **시나리오 — Go 언어(Golang) 고성능 백엔드 서버의 간헐적 패닉**: Go로 작성된 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 큐 서버가 며칠에 한 번씩 `concurrent map iteration and map write` 에러를 뿜으며 죽는다. 맵(Map) 접근 곳곳에 뮤텍스([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))를 떡칠했지만 여전히 잡히지 않음.
-   - **대응 (TSan 적용)**: Go 언어는 구글이 만들었기 때문에 언어 자체에 TSan이 기본 내장되어 있다. `go test -race` 또는 `go build -race` 옵션을 주고 서버를 띄운 뒤, 외부에서 JMeter나 퍼저(Fuzzer)로 부하를 가한다. 
+   - **대응 (TSan 적용)**: Go 언어는 구글이 만들었기 때문에 언어 자체에 TSan이 기본 내장되어 있다. `go test -race` 또는 `go build -race` 옵션을 주고 서버를 띄운 뒤, 외부에서 JMeter나 퍼저(Fuzzer)로 부하를 가한다.
    - **결과**: 서버가 죽기도 전에 콘솔에 `WARNING: DATA RACE` 로그가 출력되며, 개발자가 깜빡 잊고 락을 걸지 않고 구조체를 복사하던 단 한 줄의 코드를 정확히 지목해 준다.
 
 2. <strong>시나리오 — C++ 레거시 금융 거래 엔진 <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">리팩토링</a> 시 TSan 도입 한계</strong>: 수십 년 된 C++ HFT(고빈도 거래) 엔진에 TSan을 붙여 빌드하려 하니 메모리 사용량이 10GB에서 50GB로 폭증하고, 속도가 10배 느려져 아예 부팅조차 실패함.

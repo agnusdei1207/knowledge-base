@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>Design Pattern (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/">디자인 패턴</a>)</strong>: 소프트웨어 설계에서 자주 발생하는 문제(Problem)들에 대해, 예전 천재 선배들이 피눈물 흘리며 검증해 둔 "재사용 가능한 정답 해결책 도면(Solution Blueprint)".
   - 100% 완성된 코드가 아니다! (Ctrl+V 복붙 불가). 개념적인 '설계도(템플릿)'일 뿐이라서, 내 프로젝트의 자바(Java), 파이썬 언어 입맛에 맞게 빈칸을 채워 내 손으로 직접 깎아내야 하는 논리적 아키텍처다.
 

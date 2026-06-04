@@ -125,7 +125,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 1. **상황**: 아마존 정글 한가운데 댐을 건설하는 캠프나, 태평양 한가운데 떠 있는 원양어선에는 광케이블이나 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 철탑이 없다. 이 오지의 직원들은 가족과 카톡을 하고 싶어 하고, 회사는 본사와 공정 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)해야 한다.
-2. **원인 (지상망의 절대적 공간 제약)**: 지구 표면의 70%는 바다고, 육지의 상당수도 사막과 정글이다. [이동통신망](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/551_cellular_network_concept_reuse_handover/)(셀룰러) 커버리지는 인류가 사는 도심지 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%에만 쏠려있어, 지구 면적의 90%는 완벽한 통신 암흑기둥(Dead Zone)이다. 
+2. **원인 (지상망의 절대적 공간 제약)**: 지구 표면의 70%는 바다고, 육지의 상당수도 사막과 정글이다. [이동통신망](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/551_cellular_network_concept_reuse_handover/)(셀룰러) 커버리지는 인류가 사는 도심지 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%에만 쏠려있어, 지구 면적의 90%는 완벽한 통신 암흑기둥(Dead Zone)이다.
 3. **의사결정 및 아키텍처 조치 (VSAT 융합망 도입)**:
    - 인프라 아키텍트는 원양어선 지붕에 지름 1미터짜리 작은 접시 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)인 <strong>VSAT 장비</strong>를 달아버린다.
    - VSAT은 흔들리는 배 위에서도 하늘에 떠 있는 정지궤도([GEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/)) 위성의 위치를 자이로센서로 추적하여 레이저 빔을 계속 고정(Tracking)한다.

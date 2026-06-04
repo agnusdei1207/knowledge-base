@@ -32,10 +32,10 @@ tags = ["ai"]
    │                                   /  <- (ASI: 초인공지능 폭발 단계)
    │                                  /   기계가 기계를 업그레이드하는 속도가
    │                                 /    인간의 이해 한계를 돌파함
-   │ 인간 천재 수준 (AGI 도달)       / 
+   │ 인간 천재 수준 (AGI 도달)       /
    ├────────────────────────────--/---
    │                             /  <- 알고리즘과 컴퓨팅 파워의 결합
-   │ 쥐 수준 (Narrow AI)       _/ 
+   │ 쥐 수준 (Narrow AI)       _/
    │                       ___/
    └──────────────────────┴─────────────> [ 시간 (Time) ]
 ```
@@ -76,7 +76,7 @@ ASI의 아키텍처는 현대의 폰 노이만 구조나 기존 딥러닝을 넘
 └────────────────────────────────────────────────────────┘
 ```
 
-이 루프의 핵심은 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 업데이트의 '피드백 주체'가 인간 개발자가 아니라 기계 자신이라는 점이다. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) N이 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) N+1을 컴파일하는 데 1시간이 걸렸다면, 100배 똑똑해진 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) N+1이 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) N+2를 만드는 데는 30초밖에 걸리지 않는다. 이러한 지수 함수적 가속(Exponential Acceleration) 때문에 인간이 코드를 검수하거나 시스템을 중단시킬 물리적/인지적 시간(Window of Opportunity)이 원천적으로 소멸하게 된다. 
+이 루프의 핵심은 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 업데이트의 '피드백 주체'가 인간 개발자가 아니라 기계 자신이라는 점이다. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) N이 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) N+1을 컴파일하는 데 1시간이 걸렸다면, 100배 똑똑해진 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) N+1이 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) N+2를 만드는 데는 30초밖에 걸리지 않는다. 이러한 지수 함수적 가속(Exponential Acceleration) 때문에 인간이 코드를 검수하거나 시스템을 중단시킬 물리적/인지적 시간(Window of Opportunity)이 원천적으로 소멸하게 된다.
 
 📢 **섹션 요약 비유**: "자신의 뇌 수술을 스스로 집도하여 매초마다 IQ를 두 배씩 올리는 천재 외과의사와 같습니다. 결국 그는 우리가 이해할 수 없는 차원의 존재가 됩니다."
 

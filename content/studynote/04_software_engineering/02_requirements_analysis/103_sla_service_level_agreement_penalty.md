@@ -116,7 +116,7 @@ SLA (Service Level Agreement) 명문화
     │ 가용성 지표(Uptime) 및 위약금(Penalty) 계약
     ▼
 ITIL 및 ITSM 프레임워크 기반 관리
-    │ 
+    │
     ▼
 SRE (Site Reliability Engineering) 체계 도입
     │ SLI(측정) → SLO(목표) → SLA(계약) 트리오 완성

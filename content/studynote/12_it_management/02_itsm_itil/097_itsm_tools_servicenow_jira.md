@@ -29,7 +29,7 @@ tags = ["studynote-it-management"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-현대 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 도구는 단순히 게시판 역할을 넘어, [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) v3/v4 교과서의 프로세스를 코드와 워크플로우 엔진으로 구현해 둔 것이다. 
+현대 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 도구는 단순히 게시판 역할을 넘어, [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) v3/v4 교과서의 프로세스를 코드와 워크플로우 엔진으로 구현해 둔 것이다.
 
 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/">ITSM</a> 플랫폼의 3대 핵심 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">컴포넌트</a>:</strong>
 

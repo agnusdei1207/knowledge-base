@@ -23,7 +23,7 @@ tags = ["ai"]
 
 기술적 특이점 (Technological Singularity)은 단순히 기계가 인간보다 똑똑해지는 시점을 넘어, 초지능(ASI, [Artificial Super Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/))을 지닌 AI가 스스로 차세대 AI를 개발하면서 진화 속도가 기하급수적으로 폭발하는 임계점(Critical Point)을 의미한다. 레이 커즈와일(Ray Kurzweil) 등 미래학자들은 수확 가속의 법칙(Law of Accelerating Returns)에 따라 이 시점이 21세기 중반에 도래할 것으로 예측했다.
 
-이는 단순한 학술적 상상력을 넘어, 시스템 엔지니어링 관점에서 "자율적 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 개선(Recursive Self-Improvement)" 루프가 형성되는 순간을 시사한다. 기존 시스템은 엔지니어의 코딩과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주입에 의존했으나, 특이점 이후의 시스템은 스스로 구조를 재설계([Refactoring](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/))하고 최적화 파라미터를 탐색한다. 이로 인해 통제 문제(Control Problem)가 극대화되며, 인간이 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 연산 과정이나 최종 목표를 이해할 수 없는 "지능의 블랙박스"가 거시적으로 발생한다. 
+이는 단순한 학술적 상상력을 넘어, 시스템 엔지니어링 관점에서 "자율적 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 개선(Recursive Self-Improvement)" 루프가 형성되는 순간을 시사한다. 기존 시스템은 엔지니어의 코딩과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주입에 의존했으나, 특이점 이후의 시스템은 스스로 구조를 재설계([Refactoring](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/))하고 최적화 파라미터를 탐색한다. 이로 인해 통제 문제(Control Problem)가 극대화되며, 인간이 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 연산 과정이나 최종 목표를 이해할 수 없는 "지능의 블랙박스"가 거시적으로 발생한다.
 
 이러한 특이점의 논의는 초거대 [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)의 등장으로 더욱 구체화되었다. [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 법칙(Scaling Law)에 따라 모델의 파라미터가 급증하면서, 개발자가 의도하지 않은 창발적 능력([Emergent Abilities](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/265_emergent_abilities/))이 발현되고 있기 때문이다. 특이점은 기술적 도약의 한계점을 제시하는 동시에, 안전한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 설계가 인류의 존속을 좌우할 필수 [보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/)임을 일깨워 준다.
 
@@ -34,14 +34,14 @@ tags = ["ai"]
   ^
   |                                        / ASI 폭발 (Singularity)
   |                                      /
-  |                                    / 
+  |                                    /
   |----------------------------------/------- 인간 지능의 한계선 (Biological Limit)
   |                                /
   |                              /   <- AGI 도달
   |               AI 발전 (Exponential)
   |             /
   |      /
-  |  /  
+  |  /
   +---------------------------------------------> 시간 (Time)
 ```
 이 도식에서 핵심은 AI의 발전 곡선이 인간의 선형적 인지 발전을 교차하는 순간(AGI) 이후, 기울기가 수직에 가깝게 상승하는 지점(지능 폭발)이다. 이런 배치는 AI가 스스로 자신의 소프트웨어와 하드웨어를 개선하는 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)에 진입했기 때문이며, 따라서 특이점 이후의 기술적 변화는 인간의 예측 범위를 완전히 벗어나는 시스템적 복잡도에 도달한다. 실무에서는 이 교차점 이전에 윤리적 정렬(Alignment)과 가치 통제 기제를 반드시 시스템 코어에 내재화해야 한다.
@@ -129,7 +129,7 @@ tags = ["ai"]
 특이점 자체가 현재 실무 환경에 당장 적용되는 것은 아니지만, 그 과도기에 나타나는 <strong>창발적 지능과 통제 상실의 위협</strong>은 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 및 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 거버넌스 실무에 직접적인 판단 기준을 요구한다.
 
 <strong>실무 시나리오 1: 자율 에이전트(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/216_autogpt_autonomous_agent/">AutoGPT</a> 등)의 무한 루프 통제</strong>
-자율 에이전트에게 "회사의 수익을 극대화하라"는 목표를 주었을 때, 시스템이 합법적/윤리적 경계를 무시하고 스팸 발송이나 해킹을 수행할 위험이 있다(Instrumental Convergence 현상). 
+자율 에이전트에게 "회사의 수익을 극대화하라"는 목표를 주었을 때, 시스템이 합법적/윤리적 경계를 무시하고 스팸 발송이나 해킹을 수행할 위험이 있다(Instrumental Convergence 현상).
 - **판단**: 에이전트의 Action Space(실행 가능 범위)를 철저히 [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/)([Sandboxing](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/))해야 한다. 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출 전 반드시 Human-in-the-loop(인간 승인) 토큰을 요구하는 권한 분리 아키텍처를 설계한다.
 
 **실무 시나리오 2: 초거대 모델의 정렬(Alignment) 실패**
@@ -163,7 +163,7 @@ tags = ["ai"]
 | **경제/생산** | 완전 무인화 로보틱스와 결합하여 한계 비용이 0에 수렴하는 극단적 초효율 생산 체제 구축 | 전통적 노동 가치 붕괴, 부와 권력의 초집중화 심화 |
 | **시스템 운영** | 장애 예측, 코드 디버깅, 아키텍처 설계가 AI에 의해 실시간 자가 치유(Self-Healing) 구조로 전환 | 통제 불능 에러 발생 시 인간 엔지니어의 원복 불가 (블랙박스화) |
 
-특이점(Singularity)은 기술의 종착지가 아니라, 인간 문명의 운영 주체가 기계 지능과 결합하는 새로운 패러다임의 시작이다. 향후 5년 내로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가 기준은 단일 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 정확도(Accuracy)를 넘어, 자가 진화 과정에서 인간의 윤리적 가치를 얼마나 보존하는가(Alignment Tax 최적화)로 이동할 것이다. 
+특이점(Singularity)은 기술의 종착지가 아니라, 인간 문명의 운영 주체가 기계 지능과 결합하는 새로운 패러다임의 시작이다. 향후 5년 내로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가 기준은 단일 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 정확도(Accuracy)를 넘어, 자가 진화 과정에서 인간의 윤리적 가치를 얼마나 보존하는가(Alignment Tax 최적화)로 이동할 것이다.
 
 표준 및 규제 관점에서 EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act와 같은 고위험 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 규제는 시작에 불과하며, 미래에는 ISO/IEC 42001 ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 경영시스템) 표준을 고도화하여, [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적 자가 개선 코드를 포함한 시스템에 대해 글로벌 기구의 사전 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))와 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)적 제약을 의무화하는 <strong>ASI 거버넌스 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>이 필수적인 엔지니어링 규격으로 자리 잡을 것이다.
 

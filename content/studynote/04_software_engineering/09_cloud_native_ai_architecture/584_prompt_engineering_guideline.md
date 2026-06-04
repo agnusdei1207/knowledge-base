@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **Prompt (프롬프트)**: 원래 연극 무대 밑에서 배우가 대사를 까먹었을 때 귓속말로 살짝 알려주는 대본 쪼가리. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시대엔 "내가 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 채팅창에 치는 텍스트 입력값(질문/명령)"을 뜻한다.
   - **엔진ering (엔지니어링)**: 단순히 말을 예쁘게 하는 국어 시간이 아니다! AI가 가장 잘 알아먹는 수학적 텍스트 구조([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) ➡ [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) ➡ Format)를 뼈 깎듯 튜닝하여, 1,000번 물어봐도 1,000번 다 오차 없이 똑같은 100% 무결점 정답(Determinism)을 뱉어내게 깎아내는 공학적 통제술이다.
 

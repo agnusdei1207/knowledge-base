@@ -58,7 +58,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- **개념**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어망에서 <strong>모든 가입자 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(User <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>) 패킷의 라우팅과 포워딩(전달)을 100% 전담하는 유일한 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 평면(User Plane) 장비</strong>입니다. 
+- **개념**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어망에서 <strong>모든 가입자 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(User <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>) 패킷의 라우팅과 포워딩(전달)을 100% 전담하는 유일한 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 평면(User Plane) 장비</strong>입니다.
 - 4G 시절의 S-GW와 P-GW의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 나르는 기능만 쏙 빼와서 하나로 뭉쳐놓은 장비입니다.
 - **핵심 역할 (MEC와의 연동 🌟)**:
   - 5G의 꽃인 1ms 초저지연([URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/))을 달성하려면 서버가 동네에 있어야 합니다([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/)).

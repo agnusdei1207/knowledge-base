@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - 2005년 Sun Microsystems가 Solaris OS용으로 개발한 128비트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템.
   - 이름처럼 제타바이트(ZB)를 넘어선 우주적 스케일의 용량을 지원하며, 볼륨 매니저, [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/), [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/), [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 중복 제거 기능을 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 엔진 내부에서 한 번에 싹 다 처리한다.
 
-- **필요성(문제의식)**: 
-  - <strong>레거시 스토리지 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>의 층간 단절</strong>: 리눅스의 스토리지는 [하드웨어 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 카드] $\rightarrow$ [LVM ([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 볼륨)] $\rightarrow$ [ext4 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템] 이라는 3개의 겹겹이 쌓인 장벽으로 나뉘어 있었다. 
+- **필요성(문제의식)**:
+  - <strong>레거시 스토리지 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>의 층간 단절</strong>: 리눅스의 스토리지는 [하드웨어 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 카드] $\rightarrow$ [LVM ([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 볼륨)] $\rightarrow$ [ext4 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템] 이라는 3개의 겹겹이 쌓인 장벽으로 나뉘어 있었다.
   - ext4 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 밑단 디스크가 몇 개로 묶여 있는지 모르고, 하드웨어 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 카드는 자기가 복사하는 블록이 빈 공간인지 꽉 찬 유효한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)인지 모른다. 이 멍청한 단절 때문에 디스크 하나를 추가해 용량을 늘리려면 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 LVM을 일일이 조작해야 하는 생지옥이 펼쳐졌다.
   - <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 조용한 부패 (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a> Rot)</strong>: 자기장 약화로 디스크의 '0'이 '1'로 몰래 바뀌었을 때, 기존 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 이를 알아챌 능력이 없어 썩은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 그대로 사용자에게 전달했다.
   - **해결책**: "RAID와 볼륨, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 하나의 천재적인 뇌(ZFS)로 합치자! 그리고 절대 덮어쓰지 말고([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)), 모든 블록에 지문(해시)을 남겨라!"
@@ -32,7 +32,7 @@ tags = ["studynote-operating-system"]
   - <strong>기존 방식 (ext4 + LVM + <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a>)</strong>: 인테리어 업자([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템), 벽돌공(LVM), 철근공([RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/))이 서로 대화하지 않고 설계도도 따로 보는 공사판. 서로의 실수를 덮어주지 못하고 건물을 넓히기도 끔찍하게 힘들다.
   - **ZFS 통합 구조**: 설계부터 벽돌, 인테리어, 입주 관리까지 혼자서 완벽하게 꿰뚫고 지휘하는 '초천재 마스터 건축가'. 한쪽 기둥에 금이 가면 1초 만에 발견하고 자기가 가진 여분 벽돌로 알아서 메워버린다(Self-Healing).
 
-- **등장 배경**: 
+- **등장 배경**:
   - 대규모 엔터프라이즈 서버와 스토리지 장비에서 기가바이트(GB)를 넘어 테라, 페타바이트(PB) 시대가 열리자, 기존의 낡은 MBR과 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 한계(용량, [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))를 뚫기 위해 백지상태에서 새롭게 설계된 차세대 규격이다.
 
 ```text

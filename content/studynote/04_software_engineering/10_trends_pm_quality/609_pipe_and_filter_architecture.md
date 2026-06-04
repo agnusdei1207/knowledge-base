@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **Filter (필터/깔때기)**: 데이터가 들어오면, 지지고 볶고(Transform, Filter, Enrich) 결과물을 뱉어내는 100% 독립된 작은 공장. (상태를 저장하지 않음).
   - <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">Pipe</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>/호스)</strong>: 필터와 필터 사이를 이어주는 통로. 데이터를 임시로 담는 버퍼(Buffer) 역할이나 단순히 전달하는 튜브 역할을 한다.
 

@@ -35,7 +35,7 @@ Docker 이미지의 핵심 혁신은 "레이어드 아키텍처(Layered Architec
 
 ### 문제의식: 컨테이너 운영의 복잡성
 
-그러나 컨테이너가 수개일 때는 수동으로관리가능하지만, 수십 개, 수백 개로 증가하면 이야기가 달라진다. 한 개의 서버에서 동작하는 10개의 컨테이너도 어느 것이 어느 로그를 남기는지, 어느 것이 문제의 원인인지 추적하기 어렵다.경하황 여러 서버에분산된수백개의 컨테이너의 경우, 타문지간적망락련접, 존저권관리, 건강검사, 업데이트 순서관리등, オペレーション의복잡성이폭발적에증가하는. 
+그러나 컨테이너가 수개일 때는 수동으로관리가능하지만, 수십 개, 수백 개로 증가하면 이야기가 달라진다. 한 개의 서버에서 동작하는 10개의 컨테이너도 어느 것이 어느 로그를 남기는지, 어느 것이 문제의 원인인지 추적하기 어렵다.경하황 여러 서버에분산된수백개의 컨테이너의 경우, 타문지간적망락련접, 존저권관리, 건강검사, 업데이트 순서관리등, オペレーション의복잡성이폭발적에증가하는.
 
 이 복잡성에 대응하기 위해 등장한 것이 "컨테이너 오케스트레이션(Container Orchestration)"이다. 초기에는 Docker Swarm, Apache Mesos, Kubernetes 등 다양한 오케스트레이션 도구가 경쟁했으나, 현재는 Kubernetes가 사실상 표준(De facto Standard)으로 굳어졌다. CNCF (Cloud Native Computing Foundation)의 통계에 따르면, 2024년 기준 전구 대기업의 90% 이상이 프로덕션 환경에서 Kubernetes를채용하고 있다.
 
@@ -597,7 +597,7 @@ Kubernetes 운영에서 핵심은"문제를 격리하고 체계적으로 대응�
 
 ### 미래 전망: Kubernetes의 진화 방향
 
-Kubernetes는 세 가지 방향으로 진화하고 있다. 첫째, "포터블 하이브리드 클라우드"의 실현이다. Kubernetes의 핵심 강점 중 하나는벤더 중립적인 API이다. AWS EKS, GCP GKE, Azure AKS, 그리고 온프레미스의 kubeadm 클러스터가 모두 동일한 kubectl 명령어로관리 가능하다. Anthos (Google), Red Hat OpenShift, Rancher 같은 멀티 클러스터관리 도구가 이를 통합하여, 단일 콘솔에서 여러 클라우드의 Kubernetes 클러스터를, 일원관리에서きる미래가근づい있는. 
+Kubernetes는 세 가지 방향으로 진화하고 있다. 첫째, "포터블 하이브리드 클라우드"의 실현이다. Kubernetes의 핵심 강점 중 하나는벤더 중립적인 API이다. AWS EKS, GCP GKE, Azure AKS, 그리고 온프레미스의 kubeadm 클러스터가 모두 동일한 kubectl 명령어로관리 가능하다. Anthos (Google), Red Hat OpenShift, Rancher 같은 멀티 클러스터관리 도구가 이를 통합하여, 단일 콘솔에서 여러 클라우드의 Kubernetes 클러스터를, 일원관리에서きる미래가근づい있는.
 
 둘째, "GitOps와 Progressive Delivery"의 보편화이다. ArgoCD, Flux와 같은 GitOps 도구를활용하여, Git 리포지토리를"single source of truth"로 삼고, 클러스터 상태를 Git에 선언된desired state와 자동으로 동기화한다. 여기에 Istio나 Argo Rollouts와 결합하면, 카나리 배포 ( Canary Deployment)나 블루-그린 배포 (Blue-Green Deployment)를자동화하여, 새 버전의 위험을 최소화하면서도 빠른 배포가 가능해진다.
 

@@ -28,11 +28,11 @@ A* ([A-Star](/knowledge-base/studynote/10_ai/01_ai_basics/017_a_star_algorithm/)
 ```text
 [과대평가(Overestimation)에 의한 최적해 누락 구조]
 
-               (Start) S 
+               (Start) S
              /          \
   실제비용:10 /            \ 실제비용:100
            /              \
-         (A)              (B) 
+         (A)              (B)
           |                |
   실제비용:5|                | 실제비용:5
           |                |
@@ -86,7 +86,7 @@ A* ([A-Star](/knowledge-base/studynote/10_ai/01_ai_basics/017_a_star_algorithm/)
            │
            ▼
   ④ 최종 비교 판단 : f(N) <= f* < f(G_sub)
-    => 결과: 알고리즘은 언제나 가짜 목표 G_sub를 선택하기 전에, 
+    => 결과: 알고리즘은 언제나 가짜 목표 G_sub를 선택하기 전에,
        반드시 노드 N을 먼저 확장(Expand)하게 된다. (최적해 우회 원천 차단)
 ```
 

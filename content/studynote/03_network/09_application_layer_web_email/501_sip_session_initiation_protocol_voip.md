@@ -79,7 +79,7 @@ SIP는 그냥 1:1로 찌르는 게 아니다. 거대한 인터넷망에서 서�
 
 [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) 메시지 껍데기만 쏜다고 통화가 열리지 않는다. 그 안에 <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/048_sdp/">SDP</a></strong>라는 텍스트 덩어리를 반드시 쑤셔 넣어야 한다.
 - **역할**: "내 폰 오디오는 G.711 코덱 쓸 거고, 비디오는 H.264로 쏠 거야. 나한테 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보낼 땐 IP 1.2.3.4의 4000번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 쏴줘!"라는 하드웨어 협상(Negotiation) 명세서.
-- **협상 로직**: 앨리스가 `INVITE`를 보낼 때 자기 폰의 빵빵한 스펙(오디오+비디오 다 됨)을 SDP에 실어 보낸다. 그런데 밥의 폰은 똥폰이라 영상 통화가 안 된다. 밥은 `200 OK`를 돌려보낼 때 자신의 SDP에 "미안, 영상은 빼고 오디오만 코덱 G.711로 통신하자"고 타협안(Answer)을 보낸다. 
+- **협상 로직**: 앨리스가 `INVITE`를 보낼 때 자기 폰의 빵빵한 스펙(오디오+비디오 다 됨)을 SDP에 실어 보낸다. 그런데 밥의 폰은 똥폰이라 영상 통화가 안 된다. 밥은 `200 OK`를 돌려보낼 때 자신의 SDP에 "미안, 영상은 빼고 오디오만 코덱 G.711로 통신하자"고 타협안(Answer)을 보낸다.
 - 둘의 합의가 0.1초 만에 끝나야만, 비로소 비디오 구멍은 닫히고 오디오 전용 파이프라인([RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/))이 개방된다.
 
 ```text

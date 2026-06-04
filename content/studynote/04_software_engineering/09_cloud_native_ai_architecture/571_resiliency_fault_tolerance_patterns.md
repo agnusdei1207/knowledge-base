@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/">결함 허용</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/">Fault Tolerance</a>)</strong>: 하드웨어 디스크가 1개 터지거나([결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)), 서버 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 죽어도, 시스템 밖에서 쳐다보는 고객은 단 1개의 500에러도 보지 못하고 평화롭게 200 OK 화면을 보며 결제를 진행하게 버텨내는(허용) 능력.
   - <strong>탄력성/<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a> 탄력성 (Resiliency)</strong>: 고무줄이 튕겼다 제자리로 돌아오듯, 디도스(DDoS) 트래픽이 터지거나 DB가 뻗어서 시스템이 일시적으로 휘청거리며 에러율이 치솟다가도, 트래픽을 차단하고 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 치며 1분 뒤에 오뚝이처럼 100% 정상 컨디션([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))으로 튕겨 돌아오는 치유력(Self-Healing).
 

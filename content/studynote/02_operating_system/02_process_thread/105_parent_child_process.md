@@ -18,7 +18,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-유닉스 (Unix) 및 리눅스 (Linux) 환경에서 프로그램이 실행되는 기본 단위인 프로세스는 스스로를 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하여 새로운 흐름을 만들어낸다. `fork()` 시스템 콜이 호출되면, 호출한 원본 프로세스는 '부모'가 되고 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 복사본은 '자식'이 된다. 자식 프로세스는 자신의 독립적인 PID ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) ID)를 발급받으면서도 PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block) 안에 부모의 PID를 PPID로 저장함으로써 명확한 혈통 관계를 맺는다. 
+유닉스 (Unix) 및 리눅스 (Linux) 환경에서 프로그램이 실행되는 기본 단위인 프로세스는 스스로를 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하여 새로운 흐름을 만들어낸다. `fork()` 시스템 콜이 호출되면, 호출한 원본 프로세스는 '부모'가 되고 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 복사본은 '자식'이 된다. 자식 프로세스는 자신의 독립적인 PID ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) ID)를 발급받으면서도 PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block) 안에 부모의 PID를 PPID로 저장함으로써 명확한 혈통 관계를 맺는다.
 
 이러한 부모-자식 관계가 필요한 이유는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 작업 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성과 [격리성](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) 때문이다. 사용자가 셸([Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/))에서 명령어를 입력할 때마다 셸 자체가 새로운 프로그램으로 변해버리면 셸은 영영 사라진다. 따라서 셸은 자신의 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본(자식)을 만들어 명령어를 대신 실행(`exec()`)하게 하고, 자신은 자식이 작업을 끝낼 때까지 대기(`wait()`)하는 위임 체계를 갖춰야만 연속적인 시스템 운영이 가능해진다.
 
@@ -97,7 +97,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 부모-자식 프로세스 모델은 복잡한 다중 작업을 안전하게 격리하고 위임하는 가장 검증된 뼈대다. 
+[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 부모-자식 프로세스 모델은 복잡한 다중 작업을 안전하게 격리하고 위임하는 가장 검증된 뼈대다.
 
 자원의 상속을 통해 무거운 초기화 비용을 극복하고, 독립된 주소 공간을 통해 하나의 작업 실패가 전체 시스템의 붕괴로 이어지는 것을 원천 차단한다. 현대의 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서는 이 프로세스 트리 계층 위에 cgroup과 PID [Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) ([네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)) 기술을 융합하여, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)라는 완벽히 독립된 가상의 부모-자식 왕국을 무한히 찍어내는 아키텍처로 진화했다. 프로세스 관계의 핵심은 단순히 낳는 것(`fork`)이 아니라, 책임지고 끝을 맺어주는 것(`wait`)에 있음을 기억해야 한다.
 

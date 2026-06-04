@@ -132,8 +132,8 @@ Deep Learning
 
 ## 어린이를 위한 3줄 비유 설명
 
-그냥 더하기만 하면 단순해요.  
-중간에 꺾어 주는 함수가 필요해요.  
+그냥 더하기만 하면 단순해요.
+중간에 꺾어 주는 함수가 필요해요.
 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)는 그런 꺾임이에요.
 
 ---

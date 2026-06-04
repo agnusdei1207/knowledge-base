@@ -20,7 +20,7 @@ tags = ["studynote-ict-convergence"]
 ## Ⅰ. 개요 및 필요성
 
 쇼핑몰에서 추천 AI를 만드는 A팀이 있다. A팀은 "고객의 최근 7일 장바구니 담은 횟수"라는 변수([피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/))를 파이썬으로 힘들게 계산해서 모델을 만들었다.
-다음 주, 사기 결제 탐지 AI를 만드는 B팀이 꾸려졌다. B팀도 똑같이 "고객의 최근 7일 장바구니 담은 횟수"가 필요한데, A팀이 짜놓은 코드를 몰라서 자기들이 또 밤을 새워 똑같은 계산 코드를 짜고 있다. 
+다음 주, 사기 결제 탐지 AI를 만드는 B팀이 꾸려졌다. B팀도 똑같이 "고객의 최근 7일 장바구니 담은 횟수"가 필요한데, A팀이 짜놓은 코드를 몰라서 자기들이 또 밤을 새워 똑같은 계산 코드를 짜고 있다.
 
 "이거 완전 인력 낭비 아니야? <strong>한 팀이 잘 깎아놓은 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a>(반찬)를 회사 중앙에 진열해 두고, 다른 팀들이 그냥 가져다 쓰게(재사용) 만들 순 없을까?</strong>"
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자들이 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 노가다)에 들이는 80%의 시간을 0으로 만들기 위해 우버(Uber)와 에어비앤비(Airbnb)가 고안해 낸 현대 MLOps의 척추가 바로 <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/">피처 스토어</a>(<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/">Feature Store</a>)</strong>다.

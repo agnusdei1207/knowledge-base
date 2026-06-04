@@ -20,7 +20,7 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 혼잡(Congestion) 발생 시 패킷 유실을 동반하지 않고, IP 계층(라우터)과 전송 계층([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))이 협력하여 송신자의 전송률을 명시적으로 감소시키도록 지시하는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더의 2비트 제어 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) (RFC 3168).
-- **필요성**: 오리지널 TCP는 심각한 길치다. 인터넷망이 꽉 막혔는지 뚫렸는지 알 방법이 없었다. 그래서 무조건 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 10개를 쐈다가 대답(ACK)이 1개라도 안 오면(패킷이 톨게이트에서 짤려 죽으면) "헉! 막혔구나!" 하고 그제서야 속도를 확 줄였다. (이것을 패킷 유실 기반 혼잡 제어라 한다). 
+- **필요성**: 오리지널 TCP는 심각한 길치다. 인터넷망이 꽉 막혔는지 뚫렸는지 알 방법이 없었다. 그래서 무조건 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 10개를 쐈다가 대답(ACK)이 1개라도 안 오면(패킷이 톨게이트에서 짤려 죽으면) "헉! 막혔구나!" 하고 그제서야 속도를 확 줄였다. (이것을 패킷 유실 기반 혼잡 제어라 한다).
   **"아니, 차들이 연쇄 추돌로 다 부서지고 나서야 브레이크를 밟는 게 말이 돼? 라우터 톨게이트가 차기 직전에, 지나가는 패킷 이마에 '나 막히기 직전임'이라고 펜으로 글씨를 써주면, TCP가 그걸 읽고 부딪히기 전에 브레이크를 밟게 하자!"**
 
 - **💡 비유**: ECN [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)는 고속도로 톨게이트의 <strong>"하이패스 전광판과 네비 연동"</strong>과 같습니다.
@@ -56,7 +56,7 @@ tags = ["studynote-network"]
 - 수신자는 송신자가 알아들을 때까지 보내는 모든 영수증에 `ECE` 불을 켜서 보낸다.
 
 ### 3단계: 송신자의 굴복과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) (CWR - [Congestion Window](/knowledge-base/studynote/03_network/19_frequent_topics_terms/969_congestion_window_cwnd_tcp_network_overload/) Reduced [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))
-- 송신자 PC가 `ECE` 불이 켜진 영수증을 받았다. 
+- 송신자 PC가 `ECE` 불이 켜진 영수증을 받았다.
 - "헐! 라우터 터지기 직전이네. 오케이 나 쫄았음. 100개씩 쏘던 거 50개로 확 줄일게!" (전송 속도 반토막).
 - 속도를 줄인 송신자는 다음번 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 때 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더의 <strong><code>CWR</code> 전등 스위치를 탁! 켜서(1로 세팅)</strong> 보낸다.
 - "수신자야!! 나 경고등 잘 봤고, 방금 속도 줄였어(CWR). 그러니까 이제 제발 그 미친 ECE 경고등 좀 그만 켜!"

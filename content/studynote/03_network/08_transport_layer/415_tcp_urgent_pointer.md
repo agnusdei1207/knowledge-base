@@ -50,7 +50,7 @@ tags = ["studynote-network"]
 2. 그중에 <strong>앞에서부터 50바이트</strong>가 긴급하게 멈춰야 하는 명령(`Ctrl + C` 등)이라고 치자.
 3. 송신자는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더의 `URG` 불을 번쩍 켠다.
 4. 그리고 `Urgent Pointer` 칸에 십진수로 <strong><code>50</code></strong> 이라고 적는다.
-5. 수신자 OS([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))는 패킷을 받자마자 URG 불빛을 보고 헉! 놀란다. 
+5. 수신자 OS([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))는 패킷을 받자마자 URG 불빛을 보고 헉! 놀란다.
 6. 그리고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 1번째 바이트부터 포인터가 가리키는 **50번째 바이트까지만 칼로 싹 도려내서**, 앱(응용 프로그램)을 당장 깨워 "야! 이거 긴급 명령 떨어졌어! 하던 거 멈추고 이거부터 읽어!"라고 강제로 대령한다. 나머지 51번~1000번 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 다시 원래 큐에 줄을 세워 천천히 처리한다.
 
 ```text

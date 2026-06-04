@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-메모리 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) (Memory Mirroring)은 주 메모리 경로와 동일한 사본을 실시간으로 하나 더 유지하는 서버급 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) 방식이다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 애플리케이션은 하나의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 메모리 공간처럼 사용하지만, 실제 하드웨어 내부에서는 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 두 채널에 동시에 적재된다. 목적은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상이 아니라, 메모리 장애가 시스템 정지로 번지는 것을 막는 데 있다.
+메모리 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) (Memory Mirroring)은 주 메모리 경로와 동일한 사본을 실시간으로 하나 더 유지하는 서버급 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) 방식이다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 애플리케이션은 하나의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 메모리 공간처럼 사용하지만, 실제 하드웨어 내부에서는 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 두 채널에 동시에 적재된다. 목적은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상이 아니라, 메모리 장애가 시스템 정지로 번지는 것을 막는 데 있다.
 
 이 기술이 필요한 이유는 ECC만으로는 막지 못하는 장애가 분명히 존재하기 때문이다. 단일 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 반전이나 일부 다중 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류는 ECC나 칩킬 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) (Chipkill [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/))가 대응할 수 있지만, DIMM 자체 전원 이상, 슬롯 접촉 불량, 메모리 채널 고장처럼 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 단위로 무너지는 사고는 정정 코드만으로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 수 없다. 특히 금융 거래, 병원 정보 시스템, 통신 제어 장비처럼 재부팅조차 큰 손실이 되는 환경에서는 “조금 틀린 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)”보다 “메모리 경로 자체의 상실”이 더 치명적이다.
 
@@ -173,7 +173,7 @@ Online Sparing
 시스템 전계층 RAS · Failover 중심 아키텍처
 ```
 
-이 흐름은 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/)가 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 정정에서 출발해, 더 큰 고장 단위를 견디는 방향으로 확장되는 과정을 보여준다.
+이 흐름은 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/)가 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 정정에서 출발해, 더 큰 고장 단위를 견디는 방향으로 확장되는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

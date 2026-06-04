@@ -18,7 +18,7 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 만들 때 무턱대고 컴퓨터 앞에 앉아 `CREATE TABLE` 명령어부터 치는 것은, 설계도 없이 갯벌에 시멘트부터 들이붓는 미친 짓이다. 
+[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 만들 때 무턱대고 컴퓨터 앞에 앉아 `CREATE TABLE` 명령어부터 치는 것은, 설계도 없이 갯벌에 시멘트부터 들이붓는 미친 짓이다.
 
 학교 시스템을 만든다고 치자. '학생'이 있고 '교수'가 있고, 학생은 여러 '과목'을 듣고, 교수는 여러 과목을 가르친다. 이 현실 세계의 얽히고설킨 덩어리들을 컴퓨터의 뇌(디스크)에 우겨 넣으려면, 현실을 극단적으로 단순화시킨 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)된 지도가 필요하다. 1976년, 피터 첸은 "세상의 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 존재하는 실체(개체)와 그들이 맺고 있는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(마름모)로 전부 설명할 수 있다"고 선언하며 E-R 모델을 발표했다. 이 세 가지 단순한 기호의 결합은 현대 정보공학의 시작을 알린 빅뱅이 되었으며, 모든 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(RDBMS) 설계의 절대적인 나침반이 되었다.
 

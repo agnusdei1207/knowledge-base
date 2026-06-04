@@ -25,7 +25,7 @@ tags = ["it_management"]
 
 ```text
  누적 현금 흐름 (억 원)
-   ▲ 
+   ▲
  10│                       ● (Year 4: 최종 +10억 수익)
    │                   ↗
   0├────(Year 1)───(Year 2)──★(Year 3)──────────► 시간 (Year)
@@ -140,7 +140,7 @@ PP는 극도의 직관성과 보수성으로 인해 IT 거버넌스 체계에서
 | **유동성 맵 제공** | 자금이 묶여 있는([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/)) 기간을 시각화하여 다음 IT 후속 투자를 위한 재원 마련 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 연계 가능 |
 | **경영진의 심리적 안정** | 복잡한 수식을 거부하는 최고경영진에게 "2년 반이면 본전 뺍니다"라는 가장 강력한 설득 무기 제공 |
 
-오늘날 극도로 불확실한 VUKA(Volatility, Uncertainty, Complexity, Ambiguity) 시대에는 미래를 예측하기 어렵다. 따라서 화려한 10년 치 시나리오를 바탕으로 한 NPV보다, 1~2년 안에 빠르게 원금을 회수하고 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))할 수 있는 '빠른 회수(Fast Payback)' 모델이 [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/)([Lean Startup](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/))이나 [애자일 경영](/knowledge-base/studynote/12_it_management/01_governance_strategy/034_agile_management/) 철학과 맞아떨어지며 그 중요성이 다시 부각되고 있다. 
+오늘날 극도로 불확실한 VUKA(Volatility, Uncertainty, Complexity, Ambiguity) 시대에는 미래를 예측하기 어렵다. 따라서 화려한 10년 치 시나리오를 바탕으로 한 NPV보다, 1~2년 안에 빠르게 원금을 회수하고 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))할 수 있는 '빠른 회수(Fast Payback)' 모델이 [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/)([Lean Startup](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/))이나 [애자일 경영](/knowledge-base/studynote/12_it_management/01_governance_strategy/034_agile_management/) 철학과 맞아떨어지며 그 중요성이 다시 부각되고 있다.
 
 📢 **섹션 요약 비유**: 투자회수기간은 깊은 동굴에 들어갈 때 들고 가는 산소통과 같다. 아무리 동굴 끝에 금은보화([NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/))가 많더라도, 내 산소통(자본 유동성)이 버틸 수 있는 시간(PP) 내에 돌아오지 못하면 아무 소용이 없음을 알려주는 생명줄이다.
 

@@ -40,7 +40,7 @@ tags = ["studynote-network"]
 무전원 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서가 통신하는 가장 기가 막힌 핵심 원리입니다.
 
 - **문제점**: 폰처럼 자기가 직접 전파를 빵빵하게 쏘려면 전기가 엄청나게 듭니다. 전기가 0인 센서는 전파를 만들 힘이 없습니다.
-- **꼼수 해결책 (반사 통신)**: 
+- **꼼수 해결책 (반사 통신)**:
   - 기지국이나 스마트폰이 엄청 강력한 와이파이나 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 전파 빔을 허공에 마구 쏩니다.
   - 무전원 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 스티커는 이 전파 파동에 부딪힐 때, <strong>자기 몸(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>)을 열었다 닫았다(온/오프) 하면서 기지국의 전파를 마치 거울로 태양 빛을 반사시켜 깜빡이듯이 튕겨냅니다(Backscatter).</strong>
   - 기지국은 자기가 쏜 전파가 저 멀리 쓰레기통 스티커에 맞고 '깜빡깜빡(0 1 0 1)' 반사되어 돌아오는 미세한 파동 변화를 읽어들여 센서의 온도 데이터를 0.001초 만에 해독해 냅니다. 센서는 스스로 전기를 쓰지 않고 남의 힘을 빌려 말을 하는 완벽한 기적입니다.

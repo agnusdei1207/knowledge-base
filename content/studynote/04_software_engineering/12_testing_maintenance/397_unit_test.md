@@ -22,7 +22,7 @@ tags = ["studynote-software-engineering"]
 수십만 줄의 코드로 이루어진 웹 서버에서 회원가입 버튼을 눌렀는데 서버가 죽어버렸다. 원인이 뭘까?
 네트워크 문제인지, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 연결 문제인지, 아니면 비밀번호를 암호화하는 10줄짜리 작은 함수 하나가 에러를 뿜었는지 알 길이 없다. 이것이 거대한 시스템을 한꺼번에 테스트할 때 겪는 '버그의 은닉(Bug Hiding)' 현상이다.
 
-이를 막기 위해 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 <strong>상향식(<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/">Bottom-Up</a>) 품질 보증</strong>을 채택했다. 
+이를 막기 위해 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 <strong>상향식(<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/">Bottom-Up</a>) 품질 보증</strong>을 채택했다.
 "전체를 엮어서 돌려보기 전에, 회원가입 함수, 비밀번호 암호화 함수, DB 접속 함수를 **전부 다 쪼개서 하나하나 따로따로** 100% 통과시켜 놓고 조립하자!"
 이 가장 밑바닥, 가장 좁은 범위를 커버하는 치밀한 테스트가 바로 <strong>단위 테스트(Unit Test)</strong>이다.
 

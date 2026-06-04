@@ -58,7 +58,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - **개념**: 체크포인트(Check Point) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) 발명한 기술로, 1세대의 기억상실증을 치료하기 위해 <strong>방화벽 내부에 '상태 테이블(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">Session</a> Table/메모리)'을 만든 똑똑한 방화벽</strong>입니다. (현재 우리가 쓰는 대부분의 일반 방화벽 원리)
-- **원리 (문맥 이해)**: 
+- **원리 (문맥 이해)**:
   - 내부 직원이 네이버로 `[SYN]` 패킷을 보냅니다. 방화벽은 이를 상태 테이블 장부에 "내부 IP A가 네이버 IP B로 연결을 요청했음"이라고 적어둡니다.
   - 잠시 후 네이버 IP에서 `[SYN+ACK]` 패킷이 돌아옵니다. 방화벽은 장부를 뒤져보고 "아, 아까 우리 직원이 요청했던 그 정상적인 대화의 연장선([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))이구나!" 하고 바로 통과시켜 줍니다.
   - 반대로, 내가 요청한 적도 없는데 해커가 갑자기 뜬금없이 `[ACK]`나 `[FIN]` 패킷을 던지면? "내 장부에 없는 놈인데 어디서 사기야?"라며 문맥이 맞지 않는 공격(DDoS, 스캔)을 완벽하게 차단해 냅니다.
@@ -79,7 +79,7 @@ tags = ["studynote-network"]
 
 - **작동 계층**: OSI 7계층 (응용 계층)
 - **원리**: 겉면 송장(IP, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))만 보는 게 아니라, <strong>택배 상자를 칼로 완전히 뜯어서 내용물(Payload)까지 샅샅이 뒤져보는(Deep Packet Inspection) 집요한 검열관</strong>입니다.
-- **특징**: 내부 직원과 외부 해커가 직접 연결([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))되도록 두지 않습니다. 
+- **특징**: 내부 직원과 외부 해커가 직접 연결([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))되도록 두지 않습니다.
   - 방화벽([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))이 중간에서 대리인 역할을 하여 외부에서 온 패킷을 대신 받고, 7계층 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 페이로드를 뜯어서 그 안에 '악성 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 코딩'이나 '[바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 첨부파일'이 있는지 내용물을 100% 엑스레이 검사한 뒤, 깨끗하면 다시 포장해서 내부로 전달합니다. (보안은 최강이지만 속도가 너무 느려지는 병목이 심했습니다.)
 
 > 1. <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/691_packet_filter_application_proxy/">패킷 필터</a>링</strong>: 우편물 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 알바생입니다. 편지 봉투에 '수취인: 사장님'이라고 적혀있으면 묻지도 따지지도 않고 무조건 사장님 책상으로 보냅니다. (안에 폭탄이 들어있든 말든 관심 없음)

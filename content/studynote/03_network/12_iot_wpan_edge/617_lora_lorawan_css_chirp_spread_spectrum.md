@@ -42,7 +42,7 @@ tags = ["studynote-network"]
 - **위력**: 신호가 넓게 흩뿌려져 전송되므로, 주변의 와이파이나 다른 공장 기기에서 강력한 방해 전파(협대역 노이즈)가 내 신호를 때려도, 수신기에 도착한 뒤 흩어진 짹짹(Chirp) 소리 조각들을 쫙 모아보면 원래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 기적처럼 완벽하게 복원됩니다. 주변 잡음(Noise)보다 내 전파 힘이 약해도 통신이 되는 <strong>극강의 간섭 저항력</strong>을 가집니다.
 
 [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)([ZigBee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)) 같은 릴레이(메시망) 구조를 쓰지 않습니다. (릴레이를 하면 중간 노드의 배터리가 너무 빨리 닳기 때문입니다.)
-1. **End Node (종단 센서)**: 배터리를 장착한 말단 센서입니다. 센서값이 나오면 무조건 한 번의 점프(Single-hop)로 바로 허공에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 냅다 던져버립니다. 
+1. **End Node (종단 센서)**: 배터리를 장착한 말단 센서입니다. 센서값이 나오면 무조건 한 번의 점프(Single-hop)로 바로 허공에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 냅다 던져버립니다.
 2. **Gateway (게이트웨이)**: 산 꼭대기에 달린 듬직한 수집 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))입니다. 주변 수십 km 안에서 센서들이 쏘아 올린 신호를 싹 다 빨아들여, 인터넷([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/유선)을 타고 중앙 서버로 넘겨줍니다. (별 모양의 Star 토폴로지)
 3. **Network Server**: 게이트웨이들이 던져준 중복 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 걸러내고 패킷을 해석하는 중앙 두뇌입니다.
 

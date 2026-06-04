@@ -54,7 +54,7 @@ tags = ["studynote-network"]
 ### 2. 알맹이의 번호: [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) Offset ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조립용)
 겉면 껍데기가 11번으로 바뀌어 도착하면 수신자 앱은 조립을 어떻게 할까? 걱정할 필요 없다.
 - 11번 껍데기 박스를 까보면, 그 안에 <strong><code>Stream Offset = 500</code></strong> 이라고 알맹이의 원래 고유 위치(TCP의 시퀀스 넘버 역할)가 얌전하게 적혀 있다.
-- 브라우저의 뇌구조: "아~ 박스는 11번으로 왔는데, 뜯어보니 아까 못 받았던 500번째 위치에 들어갈 사진 조각이구나! 쏙 끼워 넣자!" 
+- 브라우저의 뇌구조: "아~ 박스는 11번으로 왔는데, 뜯어보니 아까 못 받았던 500번째 위치에 들어갈 사진 조각이구나! 쏙 끼워 넣자!"
 - 즉, <strong>배송 시스템(Packet Number)과 조립 시스템(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">Stream</a> Offset)의 역할을 100% 디커플링(분리)</strong> 시킨 위대한 설계다.
 
 ```text

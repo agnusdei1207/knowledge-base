@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">DevOps</a> (<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">데브옵스</a>)</strong>: "개발팀이 짠 코드 ➡ [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)) 빌드 ➡ 실서버 배포 쾅!" (코드만 다루는 1차원 배포술).
   - <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/">MLOps</a> (엠엘옵스)</strong>: "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 ➡ 10만 장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전처리([CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)) ➡ 1주일간 GPU로 모델 뇌 훈련 ➡ 모델 엑기스 추출([Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)) ➡ 실서버 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)(Serving) 띄워서 배포 쾅! ➡ 버그 나면 처음으로 무한 루프!" (코드 + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) + 모델 3차원 짬뽕 배포술).
 

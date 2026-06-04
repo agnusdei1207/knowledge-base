@@ -54,7 +54,7 @@ tags = ["studynote-database"]
    R ⋈_(조건) S = σ_(조건)(R × S)
    카티션 곱 후 조건으로 필터링
    SQL: JOIN ... ON 조건
-   
+
    자연 조인: 공통 속성 자동 매칭
    세타 조인: 임의 조건 (=, <, > 등)
 
@@ -100,7 +100,7 @@ SQL -> 관계 대수 표현식 -> 최적화 -> 실행 계획
   π_(name)(
     σ_(gpa>3.5)(Student) ⋈ σ_(grade='A')(Enrollment)
   )
-  
+
   -> 조인 전에 각 테이블 크기 줄이기
   -> 인덱스 활용 가능성 증가
 ```
@@ -151,7 +151,7 @@ SQL 논리적 실행 순서 (관계 대수 관점):
   2. Orders와 조인 (줄어든 Customers와)
   3. Products 필터: σ_(category='Electronics')(Products)
   4. 위 결과와 조인
-  
+
   인덱스:
   idx_customers_country (country)
   idx_products_category (category)

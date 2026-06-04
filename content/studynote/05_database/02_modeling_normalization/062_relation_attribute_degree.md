@@ -136,8 +136,8 @@ Relational Design
 
 ## 어린이를 위한 3줄 비유 설명
 
-[속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 표의 열 이름이에요.  
-열 이름이 정확해야 무엇을 적는지 알 수 있어요.  
+[속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 표의 열 이름이에요.
+열 이름이 정확해야 무엇을 적는지 알 수 있어요.
 그래야 표가 깔끔해져요.
 
 ---

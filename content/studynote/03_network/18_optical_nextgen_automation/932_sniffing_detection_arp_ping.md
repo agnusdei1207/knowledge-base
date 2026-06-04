@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-정상적인 컴퓨터의 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))는 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)나 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에서 날아오는 수많은 패킷 중, <strong>"목적지가 내 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소인 것"</strong>만 받아들이고 나머지는 쓰레기통에 버린다(Drop). 
+정상적인 컴퓨터의 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))는 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)나 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에서 날아오는 수많은 패킷 중, <strong>"목적지가 내 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소인 것"</strong>만 받아들이고 나머지는 쓰레기통에 버린다(Drop).
 
 하지만 해커가 와이어샤크(Wireshark) 같은 스니핑 도구를 켜면, 랜카드의 설정을 <strong>'Promiscuous Mode(난잡 모드 / 무차별 수신 모드)'</strong>로 바꿔버린다. 이제 랜카드는 목적지가 내가 아니어도 네트워크에 떠돌아다니는 모든 패킷을 CPU로 올려보내서 남의 카톡 내용이나 비밀번호를 훔쳐본다.
 

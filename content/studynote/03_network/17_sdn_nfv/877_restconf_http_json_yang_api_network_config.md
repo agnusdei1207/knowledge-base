@@ -51,7 +51,7 @@ tags = ["studynote-network"]
 
 ### 3. URL 기반의 직관적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 트리 접근
 - YANG 모델이 잡아둔 계층 구조를, 그냥 인터넷 주소(URL)처럼 접근합니다.
-- 예: `GET https://스위치IP/restconf/data/interfaces/interface=eth1` 
+- 예: `GET https://스위치IP/restconf/data/interfaces/interface=eth1`
 - 주소창에 저렇게만 치고 엔터를 누르면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 1번 랜선 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값이 JSON으로 주르륵 쏟아져 나옵니다. 미치도록 직관적입니다.
 
 ```text
@@ -71,7 +71,7 @@ tags = ["studynote-network"]
 
 RESTCONF가 다 좋은데 왜 아직도 핵심 코어망에서는 NETCONF를 쓸까요?
 
-- <strong>치명적 단점 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 부재)</strong>: RESTCONF는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 기반의 가벼운 [Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)(무상태) 통신이라, NETCONF의 최고 존엄 기능인 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Candidate 예비 저장소 ➜ 완벽할 때 한 번에 Commit ➜ 에러 시 [Rollback</a>]</strong> 이라는 거대한 국가망 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 동시 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 덮어쓰기([원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)) 기능이 없습니다. 
+- <strong>치명적 단점 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 부재)</strong>: RESTCONF는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 기반의 가벼운 [Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)(무상태) 통신이라, NETCONF의 최고 존엄 기능인 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Candidate 예비 저장소 ➜ 완벽할 때 한 번에 Commit ➜ 에러 시 [Rollback</a>]</strong> 이라는 거대한 국가망 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 동시 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 덮어쓰기([원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)) 기능이 없습니다.
 - 한 줄 치면 한 줄이 바로 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 바로 꽂히기 때문에(실시간 덮어쓰기), 1,000대를 튜닝하다가 500대째에서 인터넷이 끊기면 망 전체가 짝짝이가 되는 대재앙([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 불가)이 터질 위험이 있습니다.
 
 RESTCONF [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. YANG (Yet Another Next G…가 기반 조건을 만든다면, RESTCONF [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 그 위에서 핵심 메커니즘을 구현하고, [오픈컨피그](/knowledge-base/studynote/03_network/17_sdn_nfv/878_openconfig_vendor_neutral_yang_model/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.

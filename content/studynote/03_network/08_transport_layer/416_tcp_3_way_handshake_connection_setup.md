@@ -48,7 +48,7 @@ tags = ["studynote-network"]
 - 클라이언트가 네이버 웹서버(80번)에 접속하려 한다.
 - 클라이언트는 임의의 난수(예: 1000)를 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 시퀀스 번호([ISN](/knowledge-base/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/))로 뽑는다.
 - 패킷의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더에 <strong><code>SYN</code> 불을 켜고</strong>, `Seq = 1000`을 적어서 쏜다.
-- **상태 변화**: 
+- **상태 변화**:
   - 서버는 켜지자마자 계속 손님을 기다리는 <strong><code>LISTEN</code></strong> 상태다.
   - 클라이언트는 쏘고 나서 대답을 기다리는 <strong><code>SYN_SENT</code></strong> 상태가 된다.
 

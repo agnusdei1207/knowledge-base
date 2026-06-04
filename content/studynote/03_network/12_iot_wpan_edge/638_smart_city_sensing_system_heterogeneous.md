@@ -39,14 +39,14 @@ tags = ["studynote-network"]
 
 [스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/)는 단 하나의 통신 기술(예: 5G만 쓴다)로 만들어지지 않습니다. 목적에 따라 가장 적합한 망을 골라 섞어 쓰는 <strong>'다중 망 융합 네트워크(<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/">Heterogeneous</a> Network)'</strong> 생태계입니다.
 
-1. <strong>대용량 초저지연망 (<a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a>, 광랜 백본)</strong>: 
+1. <strong>대용량 초저지연망 (<a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a>, 광랜 백본)</strong>:
    - **대상**: 자율주행 자동차([V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/)), 수만 대의 4K 고화질 방범용 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상 스트리밍.
    - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 엄청나게 크고 1초만 지연되어도 사람이 죽는 인프라에는 막대한 요금(또는 자가망 구축비)을 감수하고 5G나 유선 광케이블을 씁니다.
-2. <strong>저전력 장거리망 (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/">LPWAN</a> - <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">LoRa</a>, <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/">NB-IoT</a>)</strong>: 
+2. <strong>저전력 장거리망 (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/">LPWAN</a> - <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">LoRa</a>, <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/">NB-IoT</a>)</strong>:
    - **대상**: 도로 밑 수도관 누수 감지 센서, 지하 주차장 빈자리 센서, 산불 감지기.
    - 땅 밑에 파묻혀 배터리를 교체할 수 없고, 하루에 숫자 한두 개만 쏘면 되는 기기들입니다. [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 대신 10년간 배터리가 유지되는 로라망([LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)) 등으로 도시 전역을 덮습니다.
 3. <strong>근거리 메시망 (Wi-Fi, <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/">ZigBee</a>, <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a>)</strong>:
-   - **대상**: 스마트 홈 가전, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 정류장의 무료 와이파이, 가로등 간의 연속 점등 제어. 
+   - **대상**: 스마트 홈 가전, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 정류장의 무료 와이파이, 가로등 간의 연속 점등 제어.
    - 가로등끼리 서로 징검다리([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)) 통신을 하여 고장 난 가로등이 있어도 우회해서 본부로 신고하도록 만듭니다.
 
 ```text
@@ -65,7 +65,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 수만 개의 서로 다른 망에서 쏟아지는 언어가 다르면 의미가 없습니다.
-- 앞서 625번 문서에서 배운 <strong>oneM2M 표준 미들웨어 플랫폼</strong>을 도시 중앙 시청 클라우드에 둡니다. 
+- 앞서 625번 문서에서 배운 <strong>oneM2M 표준 미들웨어 플랫폼</strong>을 도시 중앙 시청 클라우드에 둡니다.
 - 온도 센서의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))와 자동차 블랙박스 영상([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))이 이 통합 [데이터 허브](/knowledge-base/studynote/16_bigdata/09_platform/180_data_hub/)([Data Hub](/knowledge-base/studynote/16_bigdata/09_platform/180_data_hub/))에 쏟아지면, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))이 분석해 "온도가 영하로 떨어졌고 차들이 미끄러지고 있다"고 판단, 즉각 제설차를 출동시키고 신호등을 통제하는 마법을 부립니다.
 
 [스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/) 센싱 시스템을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [IIoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/) 트래픽 관리 한계/[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 이슈가 기반 조건을 만든다면, [스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/) 센싱 시스템은 그 위에서 핵심 메커니즘을 구현하고, 드론 통신 지연시간 관리 및 보안 [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 링크는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전력 효율과 현장 반응성에 어떤 차이를 만드는지 비교하는 것이 중요하다.

@@ -48,7 +48,7 @@ tags = ["studynote-algorithm-stats"]
 ```text
 슬라이딩 윈도우 최댓값 (k=3):
   배열: [1, 3, -1, -3, 5, 3, 6, 7]
-  
+
   창 [1,3,-1]: 덱=[3,-1], 최대=3
   창 [3,-1,-3]: 덱=[3,-1,-3], 최대=3
   창 [-1,-3,5]: 덱=[5], 최대=5
@@ -95,7 +95,7 @@ from collections import deque
 def maxSlidingWindow(nums, k):
     dq = deque()  # 인덱스 저장
     result = []
-    
+
     for i, num in enumerate(nums):
         # 창 밖 인덱스 제거
         while dq and dq[0] < i - k + 1:

@@ -43,7 +43,7 @@ tags = ["studynote-network"]
 - 즉시 3번 서버의 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)([KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/))에게 명령을 때려 <strong>CPU 4코어짜리 텅 빈 깡통 가상머신(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>)을 1초 만에 뚝딱 파내어 VNFM에게 상납</strong>합니다.
 
 ### 2. 가상 네트워크 핏줄 뚫어주기 (Network Connectivity)
-- VM만 달랑 만들어주면 인터넷이 안 됩니다. 
+- VM만 달랑 만들어주면 인터넷이 안 됩니다.
 - VIM(오픈스택 Neutron)은 [OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/)([가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/), 860번)를 조작해서 새로 파낸 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 엉덩이에 가상 랜선(VIF)을 푹 꽂아주고, 사설 IP `10.0.0.5`를 딱 세팅해서 위로 보고합니다.
 
 ### 3. 자원 감시 및 하자 보고 (Inventory & Telemetry) 🌟

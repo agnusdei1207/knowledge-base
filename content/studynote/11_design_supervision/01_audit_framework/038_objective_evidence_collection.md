@@ -28,10 +28,10 @@ tags = ["studynote-design-supervision"]
 
 검증 가능성 (Verifiable):
   제3자가 동일한 방법으로 재현/확인 가능
-  
+
 완전성 (Complete):
   관련된 모든 사실 포함 (불리한 증거도)
-  
+
 적시성 (Timely):
   증거 수집 시점이 감리 범위 내
 
@@ -52,7 +52,7 @@ tags = ["studynote-design-supervision"]
 구조화 인터뷰 (Structured):
   사전에 정해진 질문 목록
   일관성 높음, 유연성 낮음
-  
+
 반구조화 인터뷰 (Semi-structured):
   핵심 질문 + 상황에 따른 추가 질문
   가장 많이 사용
@@ -118,7 +118,7 @@ tags = ["studynote-design-supervision"]
   서버실 물리 보안 상태
   출입 통제 실제 작동 여부
   Clean Desk 준수 여부
-  
+
 프로세스 관찰:
   실제 업무 처리 과정 직접 관찰
   "시스템에서 변경 요청 어떻게 등록하나요?
@@ -128,10 +128,10 @@ tags = ["studynote-design-supervision"]
   시스템 설정 직접 확인
   취약점 스캐닝 결과 검토
   코드 리뷰
-  
+
 워크스루 (Walkthrough):
   프로세스 처음부터 끝까지 함께 따라가기
-  
+
 관찰 한계:
   관찰자 효과(Hawthorne Effect):
   관찰받는다는 것을 알면 평소와 다르게 행동
@@ -150,7 +150,7 @@ tags = ["studynote-design-supervision"]
 1단계 문서 검토:
   패치 관리 정책서 수집
   -> 기준: 30일 내 패치 적용 의무화
-  
+
 2단계 인터뷰:
   IT 운영팀장: "매월 패치 일정 회의 진행"
   질문: 지난 6개월 회의록 제공 가능?
@@ -158,12 +158,12 @@ tags = ["studynote-design-supervision"]
 3단계 기술 점검:
   Nessus 취약점 스캐너로 주요 서버 스캔
   결과: 30일 초과 미패치 서버 15대 발견
-  
+
 교차 검증 (Triangulation):
   인터뷰: "패치 잘 되고 있음" (주장)
   문서: 회의록 6건 중 3건 누락 (불일치)
   관찰: 서버 패치 이력 조회 직접 확인
-  
+
 발견 사항 (Finding):
   "패치 관리 프로세스가 정책과 불일치.
    30일 초과 미패치 서버 15대 식별.

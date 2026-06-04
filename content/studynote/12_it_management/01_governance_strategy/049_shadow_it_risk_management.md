@@ -30,7 +30,7 @@ tags = ["studynote-it-management"]
 발생 원인:
   IT 승인 프로세스 지연 (평균 3~6주)
   → 직원이 즉시 사용 가능한 대안 선택
-  
+
   비즈니스 요구 vs IT 표준의 갭:
   "마케팅팀에 어제까지 데이터 보내야 하는데
    IT가 2주 후에나 승인해준다 → 개인 Dropbox 사용"
@@ -61,7 +61,7 @@ tags = ["studynote-it-management"]
 
 1. 데이터 보안 리스크:
   기밀 데이터 미승인 클라우드 업로드
-  
+
   사례:
   직원이 고객 DB → 개인 Google Sheets
   → 고객 정보 유출 가능성
@@ -69,21 +69,21 @@ tags = ["studynote-it-management"]
 
 2. 접근 통제 리스크:
   퇴직 직원 계정 회수 불가
-  
+
   사례:
   팀원 5명이 공유 Slack 사용
   퇴직 직원: IT 모름 → 계정 유지 → 내부 채팅 접근
 
 3. 컴플라이언스 리스크:
   법적 요건 미충족 서비스 사용
-  
+
   의료(HIPAA): 환자 데이터를 미국 외 서버에 저장 금지
   금융(PCI-DSS): 카드 데이터 특정 보안 기준 필요
   공공(ISMS): 중요 정보 자산 목록 관리 필수
 
 4. 운영 연속성 리스크:
   핵심 업무가 개인 계정 서비스에 의존
-  
+
   사례:
   프로젝트 전체 문서를 개인 Notion에 저장
   담당자 퇴직 → 문서 접근 불가
@@ -110,11 +110,11 @@ CASB (Cloud Access Security Broker):
 
 1. Cloud App Discovery (가시성):
   모든 클라우드 앱 사용 현황 파악
-  
+
   방법:
   네트워크 트래픽 로그 분석
   에이전트 기반 앱 사용 모니터링
-  
+
   결과: 앱 목록 + 리스크 점수
   (업체 보안 등급, 컴플라이언스 인증 등)
 
@@ -122,14 +122,14 @@ CASB (Cloud Access Security Broker):
   고위험 앱: 차단
   중위험 앱: 사용 허용 + 경고
   저위험 앱: 허용
-  
+
   사례:
   Google Drive(개인): 허용이지만 기밀 파일 업로드 차단
   Tor Browser: 완전 차단
 
 3. DLP (Data Loss Prevention):
   민감 데이터 클라우드 업로드 차단
-  
+
   키워드 기반: "기밀", "고객 정보" 포함 파일
   정규식: 주민번호, 카드번호 패턴
   파일 유형: 특정 DB 덤프 파일
@@ -155,14 +155,14 @@ CASB (Cloud Access Security Broker):
 1. 차단보다 빠른 승인:
   문제: IT 승인이 느려서 섀도 IT 발생
   해결: 신속 승인 프로세스 (72시간 이내)
-  
+
   서비스 카탈로그 확장:
   자주 요청되는 SaaS 사전 검토 목록 운영
   "즉시 사용 가능 앱" 목록 제공
 
 2. BYOA (Bring Your Own App) 정책:
   직원이 앱 추천 → IT가 검토 → 빠른 승인
-  
+
   기준:
   SOC 2 Type II 인증 여부
   SSO(Single Sign-On) 연동 가능 여부
@@ -202,7 +202,7 @@ IT 기업 CASB 도입 사례:
   총 클라우드 앱 사용: 847개
   IT 공식 승인: 47개
   섀도 앱: 800개 (94.4%)
-  
+
   고위험 발견:
   개인 ChatGPT: 320명 사용, 일 평균 15회 코드 입력
   개인 Google Drive: 450명 사용
@@ -213,7 +213,7 @@ IT 기업 CASB 도입 사례:
 1. 즉시 차단 (고위험):
   개인 ChatGPT 차단
   (대신 기업 Azure OpenAI 배포)
-  
+
   개인 Google Drive → 기업 Google Workspace로 이전
 
 2. 신속 승인 프로세스:

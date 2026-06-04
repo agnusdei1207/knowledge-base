@@ -76,7 +76,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅲ. 비교 및 연결
 
 화이트박스 테스팅을 해야만 하는 가장 절대적인 이유 중 하나는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)) 증명입니다.
-예를 들어 `if (age < 0)` 이라는 로직을 짰다면, 블랙박스 테스터는 나이 입력 창에 음수 입력이 안 막혀있으니 당연히 음수를 넣어보고 에러를 발견할 수 있습니다. 
+예를 들어 `if (age < 0)` 이라는 로직을 짰다면, 블랙박스 테스터는 나이 입력 창에 음수 입력이 안 막혀있으니 당연히 음수를 넣어보고 에러를 발견할 수 있습니다.
 
 그러나, 소스코드 어딘가에 `if (user_id == "hacker123") { DB_DROP(); }` 같은 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)([Backdoor](/knowledge-base/studynote/09_security/15_malware_attack_vectors/727_backdoor/))나, `while(true)`로 쓰레기 메모리를 갉아먹고 있는 구간, অথবা 아예 어떤 외부 클릭으로도 영원히 닿을 수 없는 미스터리 구역인 <strong>데드 코드(Dead <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong>가 있다면?
 이것들은 겉에서 버튼을 눌러보는 테스트로는 1만 년이 지나도 발견되지 않습니다. 오직 화이트박스 커버리지 도구(Coverage Analyzer)를 돌려봤을 때 "어라? 이 30줄짜리 코드 뭉치는 전체 테스트 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중 단 1번도 불이 안 들어왔네?"라고 탐지(Unreachable [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 탐지)해 주어야만 시스템 내부의 잠재 폭탄을 해체할 수 있습니다.
@@ -94,7 +94,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 실무에서는 [화이트박스 테스트](/knowledge-base/studynote/04_software_engineering/07_object_oriented/420_whitebox_testing/)를 별도의 QA 부서에 던지지 않습니다. 코드를 해독하려면 작성자 본인이거나 동료 개발자여야 하기 때문입니다.
-현대 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 패러다임에서 화이트박스는 <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/">단위 테스트</a>(Unit Testing)</strong>의 피와 살이 되며, [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)([Test-Driven Development](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/)) 철학과 완전히 한 몸이 됩니다. 
+현대 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 패러다임에서 화이트박스는 <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/">단위 테스트</a>(Unit Testing)</strong>의 피와 살이 되며, [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)([Test-Driven Development](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/)) 철학과 완전히 한 몸이 됩니다.
 
 개발자는 코드를 짜면서 동시에 JUnit, NUnit, pytest 같은 도구로 자기 함수 내부를 찢어발기는 [화이트박스 테스트](/knowledge-base/studynote/04_software_engineering/07_object_oriented/420_whitebox_testing/) 스크립트를 작성합니다. 코드를 커밋(Commit)하면 [소나큐브](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/)([SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/))나 자코코(JaCoCo) 같은 정적/동적 커버리지 측정 서버가 코드를 물어갑니다. 그리고 "당신의 커밋이 화이트박스 커버리지 80% 미만입니다. 이 쓰레기 코드는 머지(Merge)될 수 없습니다." 라며 매섭게 롤백시켜버립니다. 이것이 바로 선진 IT 기업의 "테스트 강제화 통제(Test Gate)"입니다.
 

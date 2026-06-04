@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/">Timeout</a> (타임아웃)</strong>: 남의 서버([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 찌르고 무한정 기다리다 내 스레드까지 말라 죽는 걸 막기 위해, "딱 3초만 대답 없으면 통신 선 잘라버려!(Fail-fast)"라고 선언하는 최소한의 멱살잡이.
   - **Retry (재시도)**: 3초 타임아웃으로 에러가 났을 때, 유저한테 시뻘건 500 에러를 던지기 전에 "아마 네트워크 잠깐 튄 걸 거야 ㅋ 몰래 한 번 더 찔러보자"며 1~3회 정도 기회를 더 주는 회복술.
 

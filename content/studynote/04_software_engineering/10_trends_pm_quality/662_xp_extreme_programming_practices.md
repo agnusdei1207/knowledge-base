@@ -21,9 +21,9 @@ tags = ["studynote-software-engineering"]
 
 과거의 개발자들은 문서를 잔뜩 쓰고, 한 달 동안 각자 골방에서 코드를 짠 뒤, 마지막 날에 코드를 합치며 밤을 새웠다. 버그가 터지면 "이거 누가 짠 코드야!"라며 서로를 탓했다(Blame).
 
-켄트 벡(Kent Beck)은 이 지옥을 끝내고 싶었다. 그는 개발 과정에서 효과적이라고 검증된 방법들을 모아 보았다. '테스트', '[코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)', '고객과의 대화'. 
+켄트 벡(Kent Beck)은 이 지옥을 끝내고 싶었다. 그는 개발 과정에서 효과적이라고 검증된 방법들을 모아 보았다. '테스트', '[코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)', '고객과의 대화'.
 
-그는 생각했다. **"이 좋은 것들을 왜 한 달에 한 번만 하지? 매일, 매 분, 매 초마다 극한(Extreme)으로 하면 어떨까?"** 
+그는 생각했다. **"이 좋은 것들을 왜 한 달에 한 번만 하지? 매일, 매 분, 매 초마다 극한(Extreme)으로 하면 어떨까?"**
 - [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)가 좋으면 $\rightarrow$ <strong>아예 두 명이 같이 코드를 짜자 (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/074_pair_programming_driver_navigator/">Pair Programming</a>)</strong>
 - 테스트가 좋으면 $\rightarrow$ <strong>아예 테스트 코드부터 먼저 짜자 (<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/">TDD</a>)</strong>
 - 코드 합치는 게 좋으면 $\rightarrow$ <strong>하루에 10번씩 합치자 (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/">Continuous Integration</a>)</strong>

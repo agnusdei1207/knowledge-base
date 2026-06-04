@@ -29,12 +29,12 @@ tags = ["studynote-operating-system"]
 
   [ ❌ 과거: 연속 할당 (외부 단편화 발생) ]
   물리 RAM: [ P1 10M ] [ 빈 10M ] [ P2 20M ] [ 빈 20M ]
-  ▶ 25MB짜리 P3 실행 요청 ─▶ 🚨 거절! 빈 공간 합치면 30M인데, 연속된 25M가 없음! 
+  ▶ 25MB짜리 P3 실행 요청 ─▶ 🚨 거절! 빈 공간 합치면 30M인데, 연속된 25M가 없음!
 
   [ ✅ 현대: 페이징 (불연속 할당) ]
   - P3 (25MB) 를 4KB 단위로 잘게 썬다. (약 6,400개의 페이지 생성)
   - RAM의 빈 공간 여기저기(떨어져 있어도 상관없음)에 6,400개를 막 쑤셔 넣는다.
-  - CPU가 P3를 실행할 때, "페이지 테이블"이라는 내비게이션을 보고 
+  - CPU가 P3를 실행할 때, "페이지 테이블"이라는 내비게이션을 보고
     이리저리 흩어진 조각들을 순서대로 찾아가며 완벽하게 실행해 낸다.
 ```
 **[다이어그램 해설]** 페이징은 인간의 직관(연속성)을 철저히 파괴하고 기계의 효율성(파편화 허용)을 극대화한 시스템이다. 메모리가 물리적으로 찢어져 있어도, CPU 입장에서는 <strong>"<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a>이 가리키는 주소로 가면 무조건 다음 코드가 있다"</strong>는 논리적 연속성(Logical Contiguity)만 보장되면 그만이기 때문이다.
@@ -104,7 +104,7 @@ CPU는 프로그램 코드에 적힌 <strong>가상 주소(Logical Address)</str
 ### [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) ([Internal Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/))의 현실
 페이징을 쓰면 프로세스의 마지막 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 항상 4KB를 다 채우지 못하고 빈 공간이 남는다.
 만약 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 크기가 4KB인데 프로세스 크기가 10KB라면?
-- 10KB = 4KB + 4KB + 2KB. 
+- 10KB = 4KB + 4KB + 2KB.
 - 총 3개의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(12KB)를 받아야 하고, 마지막 3번째 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에서 2KB가 낭비된다.
 - **현실**: 요즘 서버 램이 64GB, 128GB 시대다. 프로세스 100개 띄워봤자 프로세스당 최대 4KB씩 낭비되니 총 400KB 버리는 셈이다. 이 정도 세금은 현대 하드웨어 인프라에서 완벽히 무시할 수 있다.
 

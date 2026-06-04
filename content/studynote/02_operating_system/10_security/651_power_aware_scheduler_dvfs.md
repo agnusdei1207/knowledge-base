@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/">DVFS</a> (Dynamic <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">Voltage</a> and Frequency Scaling)</strong>: 칩의 온도가 오르거나 부하가 변할 때, CPU의 [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/)(Hz)와 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)(V)을 동적으로 조절하여 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/)를 줄이는 하드웨어 기술. (예: Intel [SpeedStep](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/728_speedstep/), [AMD Cool](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/729_cool_n_quiet/)'n'Quiet)
   - <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a>-aware Scheduler</strong>: OS의 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 작업을 할당할 때, "이 코어를 깨우면 전기가 얼마나 들까?"를 미리 계산(Energy Model)하여, [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/)가 최소화되는 방향으로 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 배치하는 소프트웨어 로직.
 
-- <strong>필요성 (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a>와 주파수 조절기의 분리된 한계)</strong>: 
+- <strong>필요성 (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a>와 주파수 조절기의 분리된 한계)</strong>:
   - 과거 리눅스는 CPU [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(CFS)와 주파수 조절기(CPUFreq Governor)가 분리되어 있었다.
   - [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 무조건 "가장 한가한 코어"를 찾아 프로세스를 밀어 넣었다. 그 코어가 막 잠에서 깬(Sleep [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 코어라면 전기를 엄청 먹었다. 반대로 주파수 조절기는 CPU 로드가 높아진 뒤에야 뒤늦게 주파수를 끌어올렸다([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 발생).
   - **해결책 (EAS 도입)**: [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 미래 부하를 미리 예측하고, "이 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 LITTLE 코어에 넣고 주파수를 올리는 게 나을까, 아니면 big 코어에 넣고 주파수를 낮추는 게 나을까?"를 수학적으로 계산(Cost Function)하여 통합 제어하는 아키텍처가 등장했다.
@@ -91,7 +91,7 @@ EAS(Energy Aware Scheduling)는 스마트폰(ARM)처럼 이종 코어([Heterogen
 
 ### CPU Sleep States ([C-States](/knowledge-base/studynote/02_operating_system/01_overview_architecture/077_c_states/)) 제어
 
-전력 인식 스케줄링의 또 다른 한 축은 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/077_c_states/">C-States</a>(유휴 상태)</strong> 관리다. 
+전력 인식 스케줄링의 또 다른 한 축은 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/077_c_states/">C-States</a>(유휴 상태)</strong> 관리다.
 - `C0`: 실행 중 (전력 소비 최대)
 - `C1`: [Halt](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/759_halt/) (CPU 클럭 멈춤, 복귀 1마이크로초)
 - `C6`: Deep Sleep (캐시 전원 차단, 복귀 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 큼, [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 거의 0)
@@ -126,9 +126,9 @@ EAS(Energy Aware Scheduling)는 스마트폰(ARM)처럼 이종 코어([Heterogen
 
 ### 실무 시나리오
 
-1. <strong>시나리오 — 고성능 DB(<a href="/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a>, <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a>) 서버의 치명적 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a> <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/">Spike</a></strong>: 새로 도입한 최신 인텔/AMD 64코어 서버에 Redis를 올렸는데, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 응답 시간이 가끔씩 10배 이상 튀어 오름(Lag) 현상 발생. 
+1. <strong>시나리오 — 고성능 DB(<a href="/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a>, <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a>) 서버의 치명적 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a> <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/">Spike</a></strong>: 새로 도입한 최신 인텔/AMD 64코어 서버에 Redis를 올렸는데, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 응답 시간이 가끔씩 10배 이상 튀어 오름(Lag) 현상 발생.
    - **원인 분석**: 최신 서버 OS의 기본 주파수 조절기(Governor)가 `powersave`나 `ondemand`로 맞춰져 있어, Redis처럼 짧은 순간(Microsecond)에 빡치고 빠지는 I/O 바운드 워크로드에서 CPU가 깊은 수면(C-[state](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) C6)에 빠졌다가 깨어나는 시간(Wakeup [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 때문에 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 발생한 것이다.
-   - **대응 (기술사적 가이드)**: 
+   - **대응 (기술사적 가이드)**:
      1. CPU Governor를 강제로 `performance`로 고정(`cpupower frequency-set -g performance`).
      2. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 부팅 파라미터에 `intel_idle.max_cstate=1` 또는 `processor.max_cstate=1`을 추가하여 CPU가 깊은 잠(C6)에 빠지지 않도록 하드웨어 절전 기능을 강제 비활성화한다. (전기세는 많이 나오지만 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 스파이크는 완전히 사라진다.)
 

@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **Metaverse (초월 우주)**: 단순한 RPG 게임이 아니다. 수백만 명의 아바타가 동시에 접속해 콘서트 보고 쇼핑(결제)하며 경제 활동을 굴리는 거대한 영속적 3D 가상 세계.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> (Sync) &amp; <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">오프로딩</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">Offloading</a>)</strong>: 1만 명이 점프하면 1만 명 화면에 다 점프하는 게 보여야 한다([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)). 근데 폰 성능이 딸리니까, 그래픽 굽는 노가다는 폰 대신 클라우드 짱센 컴퓨터가 대신 짊어져([오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)) 주는 극한의 클라이언트-서버 융합 기술이다.
 

@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **블록 (Block)**: C/C++, Objective-C, Swift에서 함수와 그 함수가 실행될 때 필요한 주변 상태([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))를 통째로 캡처하여 객체처럼 다룰 수 있게 한 구조 (타 언어의 [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)/클로저와 동일).
   - <strong>디스패치 큐 (Dispatch <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)</strong>: 개발자가 던진 블록들을 순서대로([Serial](/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/)) 혹은 동시에(Concurrent) 실행하기 위해 담아두는 대기열. GCD의 핵심 인터페이스다.
 
-- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 관리의 악몽 탈피)</strong>: 
+- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 관리의 악몽 탈피)</strong>:
   - 과거에는 앱이 조금만 무거워져도 화면(UI [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))이 멈췄다. 이를 피하려면 개발자가 `pthread_create()`를 호출해 백그라운드 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 만들고 작업이 끝나면 `join`을 통해 메인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에 결과를 알려야 했다.
   - 앱 수십 개가 저마다 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 10개씩 만들면, 기기 전체에 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 수백 개가 되어 메모리가 낭비되고 CPU는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 교체([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))하느라 정작 앱은 실행하지 못하는 끔찍한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 일어났다.
   - **해결책**: "개발자들아, 제발 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))를 직접 만들지 마라! 네가 할 일([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))만 큐에 던져놓고 가라. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 몇 개 띄워서 어떻게 분배할지는 가장 똑똑한 XNU [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(OS)이 알아서 결정하겠다"는 철학으로 GCD가 탄생했다.
@@ -118,7 +118,7 @@ GCD가 다른 언어의 단순한 [스레드 풀](/knowledge-base/studynote/02_o
 | <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 방식</strong> | [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/), [Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) | <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/">Serial</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a> (락 대체)</strong> | 체인 연산 | Suspend / Resume |
 | <strong>코드 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/">가독성</a></strong> | 매우 낮음 | 낮음 (콜백 지옥 발생 가능) | 높음 (단, 러닝커브 극악) | 최상 (동기 코드처럼 보임) |
 
-<strong><a href="/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/">Serial</a> Queue를 이용한 락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)의 대체</strong>: 
+<strong><a href="/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/">Serial</a> Queue를 이용한 락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)의 대체</strong>:
 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 배열에 동시에 접근하면 크래시가 난다. 뮤텍스(`NSLock`)를 쓰면 되지만 데드락의 위험이 있다. GCD에서는 나만의 `Serial Queue`를 하나 만들고, 배열을 건드리는 모든 코드를 `dispatch_sync`로 그 큐에 던지면 된다. 큐는 무조건 한 번에 하나씩만 실행하므로, <strong>뮤텍스를 전혀 쓰지 않고도 완벽한 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/">Thread-Safe</a> 구조(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/">Lock-Free</a> 개념의 응용)</strong>를 만들어낸다.
 
 ### 과목 융합 관점

@@ -126,8 +126,8 @@ Connector / Coordinator / Worker
 
 ## 어린이를 위한 3줄 비유 설명
 
-[연방 쿼리](/knowledge-base/studynote/14_data_engineering/04_mlops/195_federated_query_data_fabric_distributed_join/)는 여러 도서관에 있는 책을 다 옮기지 않고, 필요한 질문만 보내는 거예요.  
-각 도서관이 답을 보내 주면, 가운데 컴퓨터가 한 번에 정리해 줘요.  
+[연방 쿼리](/knowledge-base/studynote/14_data_engineering/04_mlops/195_federated_query_data_fabric_distributed_join/)는 여러 도서관에 있는 책을 다 옮기지 않고, 필요한 질문만 보내는 거예요.
+각 도서관이 답을 보내 주면, 가운데 컴퓨터가 한 번에 정리해 줘요.
 그래서 책은 그대로 있는데도 한 번에 찾을 수 있어요.
 
 ---

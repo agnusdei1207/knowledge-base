@@ -65,8 +65,8 @@ tags = ["studynote-network"]
 - "어! 찰나에 폰 앞에 트럭 지나가서 내 A [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 막혔다! B [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 네가 당장 지금 1밀리초 동안 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏴!" 기지국들이 번갈아 가며 장애물이 없는 가장 뻥 뚫린 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 하나를 순식간에 선택해 쏘는 기동 타격 모드입니다.
 
 ### 3. 스케줄링 협력 (CS/CB, Coordinated Scheduling) - "서로 차선 양보하기"
-- A 기지국이 경계선에 있는 철수에게 1번 주파수 차선을 쓰고 싶어 합니다. 
-- 그럼 옆에 있는 B 기지국에게 0.001초 만에 연락합니다. "야 나 1번 주파수 쓴다! 너 1번 비워두고, 영희한테 쏠 때는 2번 주파수로 피해 쏴줘!" 
+- A 기지국이 경계선에 있는 철수에게 1번 주파수 차선을 쓰고 싶어 합니다.
+- 그럼 옆에 있는 B 기지국에게 0.001초 만에 연락합니다. "야 나 1번 주파수 쓴다! 너 1번 비워두고, 영희한테 쏠 때는 2번 주파수로 피해 쏴줘!"
 - 서로 동시에 통신하더라도, 주파수 자원(차선)이 부딪히지 않게 조율하여 노이즈 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 원천 차단하는 교통경찰 체계입니다.
 
 주파수 집성 기술 고급 모델 연대 전방위 고…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 동적 스펙트럼 공유 기술이 기반 조건을 만든다면, 주파수 집성 기술 고급 모델 연대 전방위 고…는 그 위에서 핵심 메커니즘을 구현하고, [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 3-Tier 아키텍처는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.

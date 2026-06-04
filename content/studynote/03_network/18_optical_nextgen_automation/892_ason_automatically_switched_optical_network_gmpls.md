@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- <strong>지옥 같은 수동 할당(Manual <a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">Provisioning</a>)</strong>: 과거의 WDM(파장 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 광통신 장비들은 멍청한 거울에 불과했습니다. 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 길(회선)을 하나 뚫어주려면, 엔지니어가 중간 기착지 전화국마다 일일이 로그인하여 '1번 파장(빨간빛)은 3번 구멍으로 나가라'고 수동으로 스위칭 룰을 세팅(Cross-connect)해야 했습니다. 
+- <strong>지옥 같은 수동 할당(Manual <a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">Provisioning</a>)</strong>: 과거의 WDM(파장 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 광통신 장비들은 멍청한 거울에 불과했습니다. 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 길(회선)을 하나 뚫어주려면, 엔지니어가 중간 기착지 전화국마다 일일이 로그인하여 '1번 파장(빨간빛)은 3번 구멍으로 나가라'고 수동으로 스위칭 룰을 세팅(Cross-connect)해야 했습니다.
 - 망을 하나 개통하는 데 짧게는 며칠, 길게는 한 달이 걸렸고 트래픽 변화에 유연한 대응이 불가능했습니다.
 
 ```text
@@ -79,7 +79,7 @@ ASON를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 1. [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 동적 할당 (BoD, [Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) on Demand) 
+### 1. [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 동적 할당 (BoD, [Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) on Demand)
 - 월드컵 결승전 때 방송국이 100Gbps [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 갑자기 필요합니다.
 - ASON 망에서는 며칠 안 기다려도 됩니다. 그냥 시스템에 요청을 쏘면, ASON 제어 평면이 알아서 1초 만에 비어있는 광 파장(빛)들을 조합해 100G짜리 임시 고속도로를 새로 찍어내어 열어줍니다. 끝나면 1초 만에 회수합니다.
 

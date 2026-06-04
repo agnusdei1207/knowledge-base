@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **생산자 (Producer)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 생성하여 버퍼에 집어넣는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) (예: 네트워크 패킷 수신 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/), 크롤러).
   - **소비자 (Consumer)**: 버퍼에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꺼내어 처리하는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) (예: 패킷 분석 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/), [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 저장 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)).
   - **유한 버퍼 (Bounded Buffer)**: 크기가 제한된 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 공간 (주로 원형 큐 Circular [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) 로 구현됨).
 
-- **필요성 (생산과 소비의 속도 차이 극복)**: 
+- **필요성 (생산과 소비의 속도 차이 극복)**:
   - 생산자가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1초에 100개씩 만드는데, 소비자가 1초에 10개밖에 못 먹는다면? [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 그냥 던지면 90개는 허공에 날아간다.
   - 이를 막으려면 중간에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담아둘 '바구니(버퍼)'가 필요하다.
   - 그런데 바구니의 크기는 무한할 수 없다(메모리 한계). 바구니가 꽉 차면 생산자가 멈춰야 하고, 바구니가 비면 소비자가 멈춰야 하는데, 멀티스레드 환경에서 이 타이밍을 잘못 맞추면 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))이나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덮어쓰기(Overwrite)가 발생한다.
@@ -61,9 +61,9 @@ while (true) {
 
     wait(empty);     // 1. 빈칸이 없으면(empty==0) 대기. 빈칸이 있으면 1 줄이고 통과!
     wait(mutex);     // 2. 락을 쥔다 (버퍼 접근 독점)
-    
+
     insert_item(item); // 3. 버퍼에 빵을 넣는다
-    
+
     signal(mutex);   // 4. 락을 푼다
     signal(full);    // 5. "빵 하나 나왔어!" 하고 full을 1 늘린다. (자고 있던 소비자를 깨움)
 }
@@ -72,17 +72,17 @@ while (true) {
 while (true) {
     wait(full);      // 1. 빵이 없으면(full==0) 대기. 빵이 있으면 1 줄이고 통과!
     wait(mutex);     // 2. 락을 쥔다
-    
+
     item = remove_item(); // 3. 버퍼에서 빵을 꺼낸다
-    
+
     signal(mutex);   // 4. 락을 푼다
     signal(empty);   // 5. "빈칸 하나 생겼어!" 하고 empty를 1 늘린다. (자고 있던 생산자를 깨움)
-    
+
     consume_item(item);
 }
 ```
 
-**[다이어그램 해설]** 이 코드의 천재성은 <strong>"순서(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/">Ordering</a>)"</strong>와 <strong>"<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/">Mutex</a>)"</strong>를 분리했다는 데 있다. 생산자는 `empty`라는 입장권을 내야만 버퍼 텐트에 들어갈 수 있고, 소비자는 `full`이라는 입장권을 내야만 들어갈 수 있다. 
+**[다이어그램 해설]** 이 코드의 천재성은 <strong>"순서(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/">Ordering</a>)"</strong>와 <strong>"<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/">Mutex</a>)"</strong>를 분리했다는 데 있다. 생산자는 `empty`라는 입장권을 내야만 버퍼 텐트에 들어갈 수 있고, 소비자는 `full`이라는 입장권을 내야만 들어갈 수 있다.
 **주의할 점**: `wait(empty)`와 `wait(mutex)`의 순서를 바꾸면 치명적인 데드락에 빠진다. 생산자가 락(`mutex`)을 먼저 쥐고 텐트에 들어갔는데 빈칸(`empty`)이 없어서 텐트 안에서 자버리면, 소비자는 빵을 먹고 싶어도 생산자가 텐트 문을 잠그고 안에서 자고 있기 때문에 들어갈 수가 없다!
 
 ---
@@ -94,7 +94,7 @@ while (true) {
 ```java
 // 버퍼 공유 객체 내부
 public synchronized void put(int item) {
-    while (count == MAX) { 
+    while (count == MAX) {
         wait(); // 버퍼가 꽉 찼으면 락을 풀고 잠든다 (조건 변수)
     }
     buffer[in] = item;
@@ -103,7 +103,7 @@ public synchronized void put(int item) {
 }
 
 public synchronized int get() {
-    while (count == 0) { 
+    while (count == 0) {
         wait(); // 버퍼가 비었으면 락을 풀고 잠든다
     }
     int item = buffer[out];
@@ -144,7 +144,7 @@ public synchronized int get() {
 ### 실무 시나리오
 
 1. <strong>시나리오 — <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a> 간 비동기 메시지 큐 (<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a>, RabbitMQ)</strong>: 주문 서버(생산자)에서 초당 1만 건의 주문이 떨어지는데, 결제 서버(소비자)는 초당 1,000건밖에 처리를 못 한다.
-   - **아키텍처 적용**: 두 서버를 동기식([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))으로 직접 연결하면 결제 서버가 죽으면서 주문 서버까지 타임아웃으로 같이 죽어버린다(장애 전파). 
+   - **아키텍처 적용**: 두 서버를 동기식([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))으로 직접 연결하면 결제 서버가 죽으면서 주문 서버까지 타임아웃으로 같이 죽어버린다(장애 전파).
    - 이 둘 사이에 <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a> (거대한 유한 버퍼)</strong>를 둔다. 주문 서버는 Kafka에 주문을 밀어 넣고 즉시 "주문 접수 완료"를 띄운다(빠른 응답). 결제 서버는 자기 페이스에 맞춰 Kafka에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏙쏙 빼간다. 만약 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 버퍼마저 꽉 차면(생산 속도 > 소비 속도), Kafka는 주문 서버에 Backpressure(배압) 신호를 보내 잠시 생산을 멈추게(Wait) 하여 전체 시스템의 붕괴를 막는다.
 
 2. <strong>시나리오 — <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">스레드 풀</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">Thread Pool</a>)의 작업 큐 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/">오버플로우</a> 방어</strong>: Java Spring Boot 웹 서버에 트래픽이 몰려서 톰캣의 MaxThreads(200개)가 다 차버렸다. 이후 들어오는 요청들은 내부의 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 쌓이기 시작한다.

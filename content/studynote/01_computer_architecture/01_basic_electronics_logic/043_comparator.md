@@ -38,7 +38,7 @@ A  B | A>B  A=B  A<B
 A─┤     ├─── A>B (A AND ¬B)
 B─┤ NOT ├─┐
   └─────┘ └─ ...
-  
+
   A──┬────────────── AND ─── A>B
      │      NOT─B ─┘
      │
@@ -69,16 +69,16 @@ B─┤ NOT ├─┐
       result = GT; BREAK
     ELIF A[i] < B[i] AND result == EQ:
       result = LT; BREAK
-  
+
   최종 result = GT/EQ/LT
 
 회로 구조:
   각 비트에 1비트 비교기 4개 직렬 연결
   이전 단계의 결과를 다음 단계로 전달
-  
+
 비교 우선순위 (캐스케이드):
   Bit3 (MSB) → Bit2 → Bit1 → Bit0 (LSB)
-  
+
   [Bit3 비교기]──(GT3,EQ3,LT3)──>[Bit2 비교기]──>...──>[최종 출력]
 
 시간 복잡도: O(n) 직렬 처리
@@ -115,7 +115,7 @@ B─┤ NOT ├─┐
 74HC85 (4비트 비교기 IC):
   입력: A3-A0, B3-B0, IAGB, IAEB, IALB (캐스케이드 입력)
   출력: OAGB (A>B), OAEB (A=B), OALB (A<B)
-  
+
   캐스케이드 연결:
   낮은 비트 비교기의 출력 → 높은 비트 비교기의 캐스케이드 입력
   → 8비트, 16비트 비교기 확장 가능
@@ -137,7 +137,7 @@ CPU 비교 연산 구현 (x86):
 
 CMP 명령어:
   CMP A, B → A - B 수행 (결과 버림), 플래그 설정
-  
+
 플래그 레지스터:
   ZF (Zero Flag): 결과 = 0 (A = B)
   CF (Carry Flag): 언사인드 빌림 발생 (A < B, 부호 없음)
@@ -178,7 +178,7 @@ ARM Cond:
 
 버블 정렬 하드웨어 구현:
   n=4 정렬 네트워크:
-  
+
   [A0,A1] 비교기 → 교환
   [A1,A2] 비교기 → 교환
   [A0,A1] 비교기 → 교환
@@ -188,7 +188,7 @@ ARM Cond:
 Bitonic Sort Network:
   n=8: O(log²n) 단계 = 6단계
   병렬 처리: O(log²n) 지연
-  
+
   장점: 완전 병렬 (GPU 정렬에 활용)
   단점: 2^k 개 원소만 처리 가능
 

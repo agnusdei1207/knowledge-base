@@ -20,7 +20,7 @@ tags = ["studynote-operating-system"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: <strong>DMA (<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/">Direct Memory Access</a>)</strong>는 이름 그대로 I/O 장치가 시스템의 메인 메모리에 '직접([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/))' 접근(Access)하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고 쓰는 하드웨어 메커니즘이다. 이를 위해 메인보드나 장치 컨트롤러 내부에 <strong>DMAC (DMA Controller)</strong>라는 특수 목적 칩이 존재한다.
-- **필요성 (CPU 폴링의 비극 극복)**: 
+- **필요성 (CPU 폴링의 비극 극복)**:
   - PIO (Programmed I/O) 방식 시절에는, 하드 디스크에서 1MB짜리 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽으려면 CPU가 디스크 버퍼에서 1바이트씩 꺼내어 메모리로 옮기는 명령어를 100만 번 실행해야 했다.
   - 디스크는 CPU보다 수백만 배 느리다. 천재 수학자(CPU)가 택배 박스([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 직접 등에 지고 100만 번 계단을 오르내리는 엄청난 재능 낭비와 병목 현상이 발생했다.
   - **해결책**: "단순 무식하게 짐만 나르는 '택배 전담 직원(DMAC)'을 따로 고용하자. CPU는 전담 직원에게 'A 창고에서 B 창고로 박스 100개 옮겨놔!'라고 지시만 하고, 자기는 딴 일을 하다가 직원이 다 옮겼다고 보고([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))하면 그때 확인만 하자."
@@ -28,7 +28,7 @@ tags = ["studynote-operating-system"]
   - **DMA가 없을 때 (PIO)**: 사장님(CPU)이 직접 트럭 운전대를 잡고 창고에서 매장으로 물건 100박스를 하나씩 나른다. 그동안 회사의 중요 결재 서류는 전부 멈춰있다.
   - **DMA가 있을 때**: 사장님은 물류 직원(DMAC)에게 "물건 100박스 매장으로 옮겨!"라고 카톡(지시)만 보낸다. 직원이 열심히 물건을 나르는 동안 사장님은 결재(연산)를 계속하고, 직원이 "다 옮겼습니다!"라고 보고([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))하면 다음 지시를 내린다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기가 작아 CPU 개입이 문제 되지 않았으나, 디스크 용량이 커지고 네트워크 속도가 폭발하면서 CPU가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송을 감당할 수 없게 되어 필수 하드웨어 아키텍처로 자리 잡았다.
 
 ```text
@@ -123,7 +123,7 @@ DMA가 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus
 
 ### 산란-수집 DMA ([Scatter-Gather](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/452_dma_scatter_gather/) DMA)의 등장 ([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)와의 융합)
 
-운영체제의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) 환경에서는 거대한 물리적 충돌이 발생한다. OS 관점에서 4MB짜리 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 버퍼는 가상 주소로는 '연속적'이지만, 실제 RAM의 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)로는 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위로 수백 개가 '파편화(Scatter)'되어 있다. 초창기 단순 DMA는 "물리적으로 연속된 공간"만 복사할 수 있어 4KB마다 한 번씩 CPU를 깨워 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 걸어야 했다. 
+운영체제의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) 환경에서는 거대한 물리적 충돌이 발생한다. OS 관점에서 4MB짜리 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 버퍼는 가상 주소로는 '연속적'이지만, 실제 RAM의 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)로는 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위로 수백 개가 '파편화(Scatter)'되어 있다. 초창기 단순 DMA는 "물리적으로 연속된 공간"만 복사할 수 있어 4KB마다 한 번씩 CPU를 깨워 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 걸어야 했다.
 
 이 문제를 해결한 것이 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/452_dma_scatter_gather/">Scatter-Gather</a> DMA</strong> 아키텍처다.
 

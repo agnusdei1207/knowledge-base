@@ -28,17 +28,17 @@ tags = ["studynote-operating-system"]
   [복권 스케줄링의 비례 할당 추첨 메커니즘]
 
   [전체 시스템 복권 발행량: 100장 (0~99번)]
-  
+
    ▶ P1 (중요도 높음) : 티켓 60장 (00 ~ 59번 보유)  --> 당첨 확률 60%
    ▶ P2 (중요도 보통) : 티켓 30장 (60 ~ 89번 보유)  --> 당첨 확률 30%
    ▶ P3 (중요도 낮음) : 티켓 10장 (90 ~ 99번 보유)  --> 당첨 확률 10%
-   
+
   [스케줄러 (추첨기) 구동]
    1. 난수(Random) 발생기 동작! ──▶ 당첨 번호: 73번!
    2. 73번 복권은 누가 가졌는가? ──▶ P2 보유 확인.
    3. P2에게 CPU 타임 퀀텀 10ms 할당 및 실행! (종료 후 다시 추첨)
 ```
-**[다이어그램 해설]** [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 P1이 60%라는 걸 기억하거나 지난번에 누가 덜 썼는지 계산할 필요가 1도 없다. 그저 무식하게 1부터 100까지 룰렛을 돌리고 당첨자에게 CPU를 주면 끝이다. 시행 횟수([문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))가 수백, 수만 번을 넘어가면 통계학의 대수의 법칙에 의해 P1은 정확히 전체 시간의 60%를, P3는 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%의 CPU를 보장받게 된다. 
+**[다이어그램 해설]** [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 P1이 60%라는 걸 기억하거나 지난번에 누가 덜 썼는지 계산할 필요가 1도 없다. 그저 무식하게 1부터 100까지 룰렛을 돌리고 당첨자에게 CPU를 주면 끝이다. 시행 횟수([문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))가 수백, 수만 번을 넘어가면 통계학의 대수의 법칙에 의해 P1은 정확히 전체 시간의 60%를, P3는 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%의 CPU를 보장받게 된다.
 
 - **📢 섹션 요약 비유**: 주식 회사의 의결권 행사와 같습니다. 지분이 60%인 대주주(P1)는 주총에서 60표를 던지고, 소액주주(P3)는 10표를 던집니다. 매번 투표(추첨)를 할 때마다 대주주의 의견이 통과될 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 60%이므로, 장기적으로 회사는 대주주의 뜻(60% CPU 점유)대로 굴러가게 됩니다.
 
@@ -55,7 +55,7 @@ tags = ["studynote-operating-system"]
 이 아키텍처는 유연성을 극대화하기 위해 복권이라는 화폐에 3가지 엄청난 권한을 부여했다.
 
 1. **복권 양도 (Ticket Transfer)**
-   - 클라이언트 프로세스가 서버 프로세스(DB)에 작업을 요청하고 기다릴 때, 멍청하게 기다리는 대신 자신의 티켓을 임시로 DB 서버 프로세스에 몰아준다(양도). 
+   - 클라이언트 프로세스가 서버 프로세스(DB)에 작업을 요청하고 기다릴 때, 멍청하게 기다리는 대신 자신의 티켓을 임시로 DB 서버 프로세스에 몰아준다(양도).
    - DB 서버는 티켓 부자가 되어 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 치솟으므로 순식간에 내 작업을 끝내주고 다시 티켓을 반환한다. ([우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/) 문제의 가장 우아하고 즉각적인 해결책)
 2. **복권 인플레이션 (Ticket Inflation)**
    - 서로 신뢰하는 [협력적 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/116_cooperating_independent_process/) 집단 내에서는, 내가 지금 CPU가 미친 듯이 급하면 내 스스로 복권 발행량을 1,000장으로 인쇄(인플레이션)하여 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 셀프 부스트 시킨 뒤, 작업이 끝나면 복권을 소각할 수 있다.

@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - `Single(단 하나) + ton(덩어리)`. [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자(Constructor)를 `private`으로 꽁꽁 숨겨서 밖에서 절대로 `new` 키워드를 못 치게 막아버리고, 오직 클래스 자기가 스스로 만든 자기 자신의 객체 딱 1개만 `public static getInstance()` 대문으로 나눠주는 독재적 객체 [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/).
 
 - **필요성 (메모리 폭파와 공유 자원의 딜레마)**: 게시판을 만들었다. 유저 1만 명이 접속할 때마다 "DB랑 연결하는 객체(`DbConnection`)"를 1만 번 `new` 해서 만들었다. 객체 1개당 10MB인데 1만 개면 100GB다. 1초 만에 서버 램(RAM)이 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))을 토하며 폭파됐다. <strong>"아 ㅆㅂ!! DB 연결 객체는 안에 들어있는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)도 없는데 왜 유저 올 때마다 계속 새로 찍어내?! 걍 서버 켜질 때 딱 1개만 만들어두고 1만 명이 그 1개를 돌려 쓰게(공유) 만들면 램 10MB로 평생 서버 안 죽잖아!!"</strong> 이 자본주의적 가성비와 자원 최적화의 열망이 [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/)을 세상에 낳았다.

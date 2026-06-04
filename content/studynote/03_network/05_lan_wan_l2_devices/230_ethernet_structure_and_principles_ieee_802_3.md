@@ -40,7 +40,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-이더넷은 OSI 7계층 중 2계층([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층)의 하위 계층인 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)([Media](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) 프레임 구조를 정의한다. 
+이더넷은 OSI 7계층 중 2계층([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층)의 하위 계층인 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)([Media](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) 프레임 구조를 정의한다.
 
 ### 1. [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 ([Media](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/) Address)
 모든 이더넷 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))는 제조 단계에서 48비트(6바이트)의 고유한 하드웨어 주소를 부여받는다. 앞 24비트는 제조사 번호(OUI), 뒤 24비트는 기기 일련번호다. (예: `00:1A:2B:3C:4D:5E`)
@@ -85,7 +85,7 @@ IP 패킷은 이더넷 프레임이라는 택배 상자 안에 포장되어 케�
 - **Backoff (대기)**: 난수(랜덤 시간)만큼 각자 대기한 후 눈치 보며 다시 전송을 시도한다.
 
 ### 2. 현대의 이더넷: 스위칭([Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))과 전이중(Full-Duplex)
-오늘날의 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 랜선(CAT.6 등) 환경에서는 수신 선(Rx)과 송신 선(Tx)이 물리적으로 나뉘어 있고, 중간에 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a>)</strong>가 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 보고 각 포트로 길을 정확히 열어주기 때문에 **충돌이 물리적으로 발생하지 않는다**. 
+오늘날의 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 랜선(CAT.6 등) 환경에서는 수신 선(Rx)과 송신 선(Tx)이 물리적으로 나뉘어 있고, 중간에 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a>)</strong>가 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 보고 각 포트로 길을 정확히 열어주기 때문에 **충돌이 물리적으로 발생하지 않는다**.
 따라서 현대의 1Gbps, 10Gbps 이더넷은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 동시에 주고받는 <strong>전이중(Full-Duplex) 방식</strong>으로 작동하며, 과거의 유산인 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD 알고리즘은 사실상 작동을 멈추고 은퇴한 상태다.
 
 이더넷 구조 및 원리를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. EAP가 기반 조건을 만든다면, 이더넷 구조 및 원리는 그 위에서 핵심 메커니즘을 구현하고, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스위칭 효율과 브로드캐스트 범위에 어떤 차이를 만드는지 비교하는 것이 중요하다.

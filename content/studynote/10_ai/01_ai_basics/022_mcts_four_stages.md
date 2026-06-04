@@ -23,7 +23,7 @@ tags = ["studynote-ai"]
 ## Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
 ### 1. 바둑과 같은 거대 상태 공간의 절망 (Intractability)
-틱택토(Tic-Tac-[Toe](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/))나 체스는 컴퓨터가 모든 경우의 수를 트리로 그려서 이기는 수를 찾아낼 수 있습니다(결정론적 탐색). 그러나 바둑은 분기 계수(한 수당 선택지)가 250이 넘어 전체 경우의 수가 $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{170}$에 달합니다. 
+틱택토(Tic-Tac-[Toe](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/))나 체스는 컴퓨터가 모든 경우의 수를 트리로 그려서 이기는 수를 찾아낼 수 있습니다(결정론적 탐색). 그러나 바둑은 분기 계수(한 수당 선택지)가 250이 넘어 전체 경우의 수가 $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{170}$에 달합니다.
 - 이 거대한 트리를 메모리에 올리고 탐색하는 것은 전 우주의 컴퓨터를 다 동원해도 불가능합니다.
 
 ### 2. [MCTS](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/) 4단계 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 탄생 (해결책)
@@ -67,7 +67,7 @@ tags = ["studynote-ai"]
 1. **선택 (Selection)**: 루트에서 시작해 자식 노드들을 거쳐 내려갑니다. 이때 단순히 승률만 보는 것이 아니라, <strong>UCT (Upper <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">Confidence</a> Bound for Trees)</strong> 공식을 사용하여 '승률이 높은 곳(활용)'과 '아직 덜 가본 곳([탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/))' 사이의 점수가 가장 높은 노드를 선택해 나갑니다. (트리의 끝, 리프 노드에 도달할 때까지)
 2. **확장 (Expansion)**: 도달한 리프 노드에서 게임이 종료되지 않았다면, 가능한 다음 수 중 하나 이상을 트리에 새로운 노드로 '확장([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))'합니다.
 3. **시뮬레이션 (Simulation, Rollout)**: 방금 확장된 노드에서 출발하여 게임이 끝날 때까지 <strong>완전히 무작위(Random)</strong>로 수를 둡니다. (마치 취객 두 명이 바둑을 두듯 미친 듯이 끝까지 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)해 승/무/패의 결과를 도출합니다.)
-4. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">Backpropagation</a>)</strong>: 시뮬레이션에서 얻은 승패 결과(예: Win)를 바탕으로, 방금 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 노드부터 루트 노드까지 거슬러 올라가며 방문 횟수(Visit Count)와 승리 횟수(Win Count)를 갱신합니다. 
+4. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">Backpropagation</a>)</strong>: 시뮬레이션에서 얻은 승패 결과(예: Win)를 바탕으로, 방금 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 노드부터 루트 노드까지 거슬러 올라가며 방문 횟수(Visit Count)와 승리 횟수(Win Count)를 갱신합니다.
 
 ### 2. UCT 공식: 1단계 Selection의 심장
 단순 무작위가 아니라 MCTS가 천재가 되는 이유는 1단계에서 사용하는 UCT 공식 때문입니다.

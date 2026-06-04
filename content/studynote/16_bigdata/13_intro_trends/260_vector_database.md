@@ -21,11 +21,11 @@ tags = ["studynote-bigdata"]
 ```
 벡터 임베딩 (Vector Embedding):
   텍스트, 이미지, 오디오를 고차원 벡터로 표현
-  
+
   예:
   "고양이" → [0.2, -0.5, 0.8, 0.1, ..., 0.3] (1536차원)
   "강아지" → [0.3, -0.4, 0.7, 0.2, ..., 0.4]
-  
+
   유사한 의미 = 가까운 벡터 위치
 
 임베딩 생성 모델:
@@ -38,18 +38,18 @@ tags = ["studynote-bigdata"]
 
 코사인 유사도 (Cosine Similarity):
   cos(θ) = (A · B) / (|A| × |B|)
-  
+
   범위: -1 ~ 1 (1: 완전 동일, 0: 직교, -1: 반대)
   텍스트 검색에서 가장 많이 사용
 
 유클리드 거리 (L2 Distance):
   d = √Σ(ai - bi)²
-  
+
   낮을수록 유사 (0: 동일)
 
 내적 (Inner Product/Dot Product):
   A · B = Σ ai × bi
-  
+
   정규화된 벡터에서 코사인 유사도와 동일
 
 차원의 저주 (Curse of Dimensionality):
@@ -71,47 +71,47 @@ ANN (Approximate Nearest Neighbor):
 
 1. HNSW (Hierarchical Navigable Small World):
   계층적 그래프 탐색 알고리즘
-  
+
   구조:
   레이어 0 (가장 조밀): 모든 노드
   레이어 1: 일부 노드 (점프 포인트)
   레이어 2+: 더 적은 노드 (고속 탐색)
-  
+
   검색:
   최상위 레이어에서 시작 → 대략적 근처
   레이어 내려가며 정밀화 → O(log N)
-  
+
   장점:
   최고 성능/리콜 균형
   동적 삽입 지원
-  
+
   단점:
   메모리 사용 높음 (그래프 저장)
-  
+
   사용: Pinecone, Weaviate, ChromaDB 기본
 
 2. IVF (Inverted File Index):
   k-means 클러스터링으로 인덱스
-  
+
   구조:
   n개 클러스터 → 각 클러스터 센트로이드
   벡터를 가장 가까운 클러스터에 할당
-  
+
   검색:
   쿼리 → 가장 가까운 k개 클러스터 찾기
   해당 클러스터 내에서만 탐색
-  
+
   장점: 메모리 효율적
   단점: 경계 클러스터 누락 가능
 
 3. PQ (Product Quantization):
   벡터를 부분 공간으로 분할 후 각각 압축
-  
+
   목적: 메모리 절감 (50~100배)
-  
+
   768차원 float32 (3072바이트)
   → PQ 후 96바이트 (32배 압축)
-  
+
   일반적으로 HNSW 또는 IVF와 결합
 
 4. FAISS (Facebook AI Similarity Search):
@@ -132,56 +132,56 @@ ANN (Approximate Nearest Neighbor):
 Pinecone (상용 서비스):
   Fully Managed SaaS
   API만으로 사용, 인프라 관리 불필요
-  
+
   특징:
   서버리스 + Pod 기반 2가지 옵션
   메타데이터 필터링 + 벡터 검색
   멀티 테넌시, 엔터프라이즈 기능
-  
+
   적합: 빠른 프로토타이핑, 관리 부담 없이
 
 Weaviate (오픈소스 + 클라우드):
   GraphQL API + REST API
   자체 임베딩 생성 가능 (모듈 시스템)
-  
+
   특징:
   멀티 벡터 (텍스트+이미지 혼합)
   자동 ML 파이프라인 통합
   K8s 배포 지원
-  
+
   적합: 엔터프라이즈 자체 배포
 
 Milvus (오픈소스, Zilliz):
   규모에 최적화 (10억+ 벡터)
   HNSW, IVF, DiskANN 지원
-  
+
   특징:
   클라우드 네이티브 (K8s)
   스트리밍 데이터 지원 (Pulsar 통합)
   GPU 가속
-  
+
   적합: 대규모 프로덕션
 
 ChromaDB (오픈소스):
   경량, Python 네이티브
   인메모리 또는 영구 저장
-  
+
   특징:
   LangChain, LlamaIndex 기본 통합
   로컬 개발에 최적
-  
+
   적합: 개발/프로토타이핑, RAG 실험
 
 Qdrant (오픈소스, Rust):
   Rust 구현 → 높은 성능, 낮은 메모리
   필터링 성능 우수
-  
+
   적합: 고성능 프로덕션
 
 pgvector (PostgreSQL 확장):
   기존 PostgreSQL에 벡터 검색 추가
   SQL + 벡터 검색 통합
-  
+
   적합: 기존 Postgres 환경
 ```
 
@@ -194,7 +194,7 @@ pgvector (PostgreSQL 확장):
 ```
 RAG (Retrieval-Augmented Generation):
   LLM의 지식 한계 극복 아키텍처
-  
+
   LLM 한계:
   학습 데이터 이후 지식 없음 (Knowledge Cutoff)
   특정 도메인 문서(사내 문서) 모름
@@ -220,16 +220,16 @@ RAG 동작 흐름:
   from langchain.embeddings import OpenAIEmbeddings
   from langchain.chains import RetrievalQA
   from langchain.llms import OpenAI
-  
+
   # 인덱싱
   db = Chroma.from_documents(docs, OpenAIEmbeddings())
-  
+
   # RAG 체인
   qa = RetrievalQA.from_chain_type(
       llm=OpenAI(),
       retriever=db.as_retriever(search_kwargs={"k": 5})
   )
-  
+
   answer = qa.run("2024년 신규 기능은?")
 
 고급 RAG 기법:
@@ -259,7 +259,7 @@ HyDE (Hypothetical Document Embeddings):
 배경:
   사내 문서 50만 건 (정책, 기술 문서, FAQ)
   직원이 정보 찾는 시간: 하루 평균 2.5시간
-  
+
   목표: 자연어 질의로 즉시 답변
 
 아키텍처:
@@ -269,7 +269,7 @@ HyDE (Hypothetical Document Embeddings):
   청킹: RecursiveCharacterTextSplitter (512 tokens, overlap 50)
   임베딩: text-embedding-3-large (3072차원)
   저장: Weaviate (자체 배포, 50만 × 3072차원)
-  
+
   총 저장량: 50만 × 3072 × 4바이트 = 6GB
   인덱스(HNSW): 추가 ~3GB
 
@@ -291,7 +291,7 @@ HyDE (Hypothetical Document Embeddings):
   질의 응답 시간: P99 2.3초 (LLM 포함)
   정확도 (관련성): 89% (HR팀 평가)
   직원 정보 탐색 시간: 2.5시간 → 15분 (83% 감소)
-  
+
   도입 6개월:
   일 평균 질의: 3,000건
   긍정 피드백: 92%

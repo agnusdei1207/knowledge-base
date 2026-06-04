@@ -69,7 +69,7 @@ tags = ["studynote-network"]
 - 내 PC가 서버의 응답을 최종 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 사살합니다.
 - 깃발([Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)): <strong>ACK <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>만 1로 켜서 쏩니다.</strong>
 - 상태 전달: "네가 말한 300번 잘 알겠어!(ACK 301) 이제 양쪽 다 뚫렸다!"
-- 양쪽 컴퓨터 상태: <strong><code>ESTABLISHED (연결 확립 완벽 완료)</code></strong> 🌟 
+- 양쪽 컴퓨터 상태: <strong><code>ESTABLISHED (연결 확립 완벽 완료)</code></strong> 🌟
 - 이 순간부터 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/), 웹페이지 등)가 쏟아져 나오기 시작합니다.
 
 이 완벽하고 꼼꼼한 인사가 해커들에게 최악의 무기로 둔갑합니다.

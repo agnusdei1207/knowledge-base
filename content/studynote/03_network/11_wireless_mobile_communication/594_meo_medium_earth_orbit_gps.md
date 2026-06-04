@@ -58,7 +58,7 @@ tags = ["studynote-network"]
 
 1. **위성 1번의 방송**: "나는 1번 위성이고, 내 위치 좌표는 (X1, Y1, Z1)이며, 지금 시간은 12시 00분 00.000초야!" (빛의 속도로 지구에 떨어짐).
 2. **스마트폰의 귀(수신)**: "어? 1번 위성 전파가 12시 00분 00.100초에 도착했네! 그럼 0.1초 동안 전파가 날아왔으니 (0.1초 * 30만km/s) = 위성 1번과 나의 거리는 30,000km구나!"
-3. **교집합(구) 찾기**: 
+3. **교집합(구) 찾기**:
    - 위성 1개: 위성 1을 중심으로 30,000km 반지름을 가진 우주만 한 거대한 구(Sphere) 표면 어딘가에 내가 있다. (의미 없음)
    - 위성 2개: 두 번째 구가 겹치며 원(원반)이 그려진다.
    - 위성 3개: 세 번째 구가 겹치며 딱 '두 개의 점'으로 내 위치가 압축된다. (하나는 우주 공간, 하나는 지구 표면).
@@ -68,7 +68,7 @@ tags = ["studynote-network"]
 
 GPS 위성 24대가 허공에서 똑같은 주파수(L1 대역, 1.57GHz)로 냅다 소리를 치면 전파가 부딪혀 엉망이 되지 않을까? GPS 시스템의 위대한 엔진은 바로 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/">CDMA</a> (코드 분할 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/">다중 접속</a>)</strong> 융합 설계다. (군사/통신 580번 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)).
 
-*   <strong>의사 잡음 코드 (PRN <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong>: 24대의 위성은 똑같은 L 밴드 주파수를 쓰지만, 각자 자기만의 '고유한 암호 패턴(PRN 1번~24번)'을 실어서 전파를 쏜다. 
+*   <strong>의사 잡음 코드 (PRN <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong>: 24대의 위성은 똑같은 L 밴드 주파수를 쓰지만, 각자 자기만의 '고유한 암호 패턴(PRN 1번~24번)'을 실어서 전파를 쏜다.
 *   **스마트폰 칩셋의 마법**: 하늘에는 24개의 빔이 다 섞여 쓰레기 잡음(White Noise)처럼 웅웅거린다. 하지만 스마트폰 칩셋이 "PRN 7번 코드 나와라!" 하고 역계산 필터(Correlation)를 돌리면, 그 미친듯한 잡음 속에서 기적처럼 7번 위성의 목소리만 맑게 툭 튀어나온다. 군사 망답게 해커가 방해 전파(Jamming)를 쏴도 씹어먹어 버리는 극강의 보안과 강인함(Robustness)의 결정체다.
 
 ```text

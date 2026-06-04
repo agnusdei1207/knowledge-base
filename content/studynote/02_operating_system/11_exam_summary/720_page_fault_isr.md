@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/">인터럽트 서비스 루틴</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/">ISR</a>)</strong>: 하드웨어나 소프트웨어가 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)/예외를 쏘았을 때 OS가 이를 처리하기 위해 지정해 둔 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수.
   - <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 폴트 (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a>)</strong>: [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 기법에서, 유효하지 않거나(권한 에러) 메모리에 안 올라와 있는(Swap-out) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 건드릴 때 발생하는 예외. x86 아키텍처에서는 [인터럽트 벡터](/knowledge-base/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/) `14번(0x0E)`이다.
 
-- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>의 눈속임 유지)</strong>: 
+- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>의 눈속임 유지)</strong>:
   - [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)) 시스템은 8GB 램에서 10GB짜리 앱을 돌리기 위해, 안 쓰는 코드를 디스크(Swap)로 몰래 숨겨놓는다.
   - 앱이 자기가 디스크로 쫓겨난 줄도 모르고 그 변수를 읽으려고 할 때, OS가 개입하지 않으면 CPU는 쓰레기값을 읽고 앱이 붕괴될 것이다.
   - **해결책**: MMU가 "어! 그거 램에 없어!"라고 CPU에 총([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))을 쏘면, OS가 빛의 속도로 끼어들어 디스크에서 데이터를 가져다 놓고, 앱에게는 "아무 일 없었어. 계속해"라고 속이는 <strong>구조적 예외 처리 메커니즘</strong>이 필요했다.

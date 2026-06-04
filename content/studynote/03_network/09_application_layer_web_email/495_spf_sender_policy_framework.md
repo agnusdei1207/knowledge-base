@@ -82,7 +82,7 @@ SPF를 세팅하려면 회사의 인프라 담당자가 사내 [DNS](/knowledge-
 ### 2. SPF 10회 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 조회 횟수 제한 (The 10-Lookup Limit)
 
 클라우드 시대에 가장 많이 터지는 SPF 장애의 원인이다.
-- SPF 명단에 `include`를 쓰면, 수신 서버는 그 `include` [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)으로 꼬리를 물고 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 조회를 계속 타고 들어가야 한다. 
+- SPF 명단에 `include`를 쓰면, 수신 서버는 그 `include` [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)으로 꼬리를 물고 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 조회를 계속 타고 들어가야 한다.
 - 해커가 이걸 악용해서 `include`를 무한 루프로 엮어 수신 서버를 디도스(DDoS) 공격으로 뻗게 만드는 것을 막기 위해, 표준 규격 상 <strong>SPF는 <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> 조회를 최대 10번까지만 허용</strong>한다.
 - 회사가 이메일 마케팅 툴(Mailchimp), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)(Salesforce), Zendesk 등을 잔뜩 사서 쓰면서 이들 전부를 SPF에 `include` 시키다가 10번 제한(Limit)을 뚫어버리는 순간, "SPF PermError"가 나며 회사의 공식 메일이 하루아침에 구글/네이버 스팸함으로 다 처박히는 대재앙이 터진다. (이를 해결하기 위한 매크로 `Flattening` 기법이 아키텍트의 튜닝 영역이다.)
 

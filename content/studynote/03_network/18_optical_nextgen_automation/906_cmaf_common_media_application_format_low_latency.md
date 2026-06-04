@@ -57,7 +57,7 @@ tags = ["studynote-network"]
 
 ### 1. 단일 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 원본 저장 (Storage 파괴적 절감)
 - 넷플릭스는 이제 영화를 오직 **fMP4 (CMAF 포맷)** 딱 1가지 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로만 10초씩 썰어서 서버에 저장해 둡니다. (저장 공간 반토막)
-- **어떻게 다 재생시킬까? (매니페스트의 분리)**: 
+- **어떻게 다 재생시킬까? (매니페스트의 분리)**:
   - 알맹이(영상 조각)는 똑같습니다. 다만, **메뉴판(목차 장부)만 두 종류로 찍어냅니다.**
   - 아이폰(HLS)이 오면 HLS용 `.m3u8` 메뉴판을 던져주고, 안드로이드([DASH](/knowledge-base/studynote/03_network/09_application_layer_web_email/510_dash_dynamic_adaptive_streaming_over_http/))가 오면 DASH용 `.mpd` 메뉴판을 던져줍니다.
   - 두 메뉴판에 적힌 '고화질 1번 고기 조각이 있는 주소(URL)'는 **똑같은 하나의 CMAF 영상 조각(fMP4)을 가리키고 있습니다.** 양쪽 진영이 평화롭게 하나의 원본 반찬을 공유해 먹게 된 대통합입니다.
@@ -66,7 +66,7 @@ tags = ["studynote-network"]
 사실 스토리지 비용 절감보다 이게 훨씬 더 중요한 무기입니다. 라이브 방송의 10초 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 렉을 박살 냅니다.
 - **과거의 10초 렉**: 월드컵 라이브 중계 시, 서버는 무조건 10초짜리 영상 조각(세그먼트) 하나가 완전히 다 구워질(인코딩 완료) 때까지 기다렸다가 통째로 폰으로 보냈습니다. 그래서 옆집 아저씨(TV)가 "골!!!" 소리치고 10초 뒤에 내 스마트폰 화면에 골이 들어갔습니다(스트리밍 극악의 딜레이).
 - **CMAF Chunk(청크) 마법**: CMAF는 10초짜리 조각 박스([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/)) 안에, 더 작은 1초짜리 **미니 초콜릿 박스(Chunk, 청크)** 여러 개를 욱여넣을 수 있는 구조로 설계되었습니다.
-- **동작**: 서버가 10초짜리 영상을 굽다가, 1초어치 분량(청크 1번)이 구워지자마자 <strong>전체 10초 박스가 완성되는 걸 기다리지 않고 곧바로 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 통로를 통해 청크 1번만 냅다 스마트폰 입으로 던져버립니다(Chunked Transfer Encoding).</strong> 
+- **동작**: 서버가 10초짜리 영상을 굽다가, 1초어치 분량(청크 1번)이 구워지자마자 <strong>전체 10초 박스가 완성되는 걸 기다리지 않고 곧바로 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 통로를 통해 청크 1번만 냅다 스마트폰 입으로 던져버립니다(Chunked Transfer Encoding).</strong>
 - 폰은 1초어치 영상을 받자마자 바로 모니터에 띄웁니다. 라이브 스트리밍 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간이 10초에서 <strong>1~2초(Ultra Low <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong>로 극단적으로 짧아져 TV 중계 속도와 완벽히 똑같아집니다.
 
 CMAF를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 오디오/비디오 스트리밍 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 기반 조건을 만든다면, CMAF는 그 위에서 핵심 메커니즘을 구현하고, 화상 회의 지터 버퍼는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.

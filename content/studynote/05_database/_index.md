@@ -18,7 +18,7 @@ tags = ["studynote-database"]
 데이터베이스 시스템의 핵심은 빠른 검색을 위한 인덱싱 구조(B-Tree)와, 장애 및 동시성 속에서도 데이터의 안전을 보장하는 트랜잭션 매니저에 있다.
 
 #### 1. RDBMS 트랜잭션과 ACID 특성
-| 특성 | 설명 (의미) | 내부 제어/보장 메커니즘 | 
+| 특성 | 설명 (의미) | 내부 제어/보장 메커니즘 |
 | :--- | :--- | :--- |
 | **Atomicity (원자성)** | 트랜잭션 내의 연산은 모두 반영되거나(Commit) 모두 취소되어야 함(Rollback). | Undo Log, 회복(Recovery) 관리자 |
 | **Consistency (일관성)**| 트랜잭션 전후에 데이터베이스의 제약조건(무결성)이 항상 만족되어야 함. | 무결성 제약조건, 트리거 |
@@ -28,7 +28,7 @@ tags = ["studynote-database"]
 #### 2. 데이터베이스 아키텍처 및 쿼리 처리 흐름 (ASCII)
 ```text
     [ Database Architecture & Query Processing / 데이터베이스 아키텍처 및 쿼리 처리 ]
-    
+
     [ Client / 클라이언트 (SQL Query) ]
              |
              v

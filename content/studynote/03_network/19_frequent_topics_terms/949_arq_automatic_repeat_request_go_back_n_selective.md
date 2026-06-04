@@ -45,7 +45,7 @@ tags = ["studynote-network"]
 
 ### 2. [Go-Back-N ARQ](/knowledge-base/studynote/03_network/04_data_link_layer_error/209_go_back_n_arq_gbn/) (N번부터 몽땅 다시) - "효율적이지만 욱하는 놈" 🌟
 답답함을 해결하기 위해 '슬라이딩 윈도우(Sliding Window)'라는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 마법을 가져왔습니다.
-- **동작**: 송신자는 수신자 답장(ACK)을 안 기다리고 1번, 2번, 3번, 4번, 5번 패킷을 기관총처럼 연달아 쏴버립니다. 
+- **동작**: 송신자는 수신자 답장(ACK)을 안 기다리고 1번, 2번, 3번, 4번, 5번 패킷을 기관총처럼 연달아 쏴버립니다.
 - **에러 발생 시**: 수신자가 받다가 "어? 3번이 깨졌네!" 하고 3번 에러([NAK](/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/) 3)를 날립니다. 송신자는 이 알람을 받고 이성을 잃습니다. **"아씨! 3번 깨졌어? 그럼 내가 방금 보냈던 4번, 5번도 다 무효야! 3번부터 5번까지 싹 다 다시 받아!!"** 라며 에러 난 N번부터 그 이후의 모든 패킷을 무식하게 통째로 재전송해 버립니다.
 - **장단점**: 구현이 적당히 쉽고(수신자 뇌가 가벼움), 송신 속도도 빨라서 실무(TCP의 기본)에서 엄청 씁니다. 하지만 4, 5번은 멀쩡히 도착했는데도 다시 보내야 하니 트래픽 낭비가 큽니다.
 

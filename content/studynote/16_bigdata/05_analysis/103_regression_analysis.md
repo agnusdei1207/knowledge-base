@@ -41,7 +41,7 @@ tags = ["studynote-bigdata"]
 3. Homoscedasticity (등분산성): 잔차의 분산이 일정
 4. Normality (정규성): 잔차 항은 정규 분포를 따름
 ```
-- **주요 유형:** 
+- **주요 유형:**
   - **단순 회귀:** 독립변수 1개.
   - **다중 회귀:** 독립변수 2개 이상 ([다중 공선성](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/) 주의).
   - **다항 회귀:** 변수 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 곡선일 때 차수를 높임.

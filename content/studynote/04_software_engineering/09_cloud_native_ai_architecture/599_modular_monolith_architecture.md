@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **Monolith (모놀리스)**: 배포([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/)) 단위. 웹서버, DB 연결, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 모든 기능 1,000만 줄을 거대한 `.jar` [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 깡통 딱 1개로 말아서 AWS 서버 1대에 통째로 던져 올리는 구식의 위대한 가성비.
   - <strong>Modular (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>러)</strong>: 소스코드([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 단위. 비록 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개 안에 쑤셔 넣어지지만, 소스 코드 패키지(`order`, `payment`) 간에는 콘크리트 벽(Interface/Event)을 세워 서로 남의 살림살이(DB, 변수)를 함부로 훔쳐보거나 만지지 못하게 완벽히 분업 격리 쳐두는 우아한 객체 지향 상태.
 

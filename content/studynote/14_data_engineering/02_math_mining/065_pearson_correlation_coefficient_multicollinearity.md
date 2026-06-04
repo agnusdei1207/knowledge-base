@@ -134,8 +134,8 @@ Feature Selection
 
 ## 어린이를 위한 3줄 비유 설명
 
-두 장난감이 같이 움직이는지 보는 숫자예요.  
-너무 비슷하면 하나만 남겨도 돼요.  
+두 장난감이 같이 움직이는지 보는 숫자예요.
+너무 비슷하면 하나만 남겨도 돼요.
 [피어슨 상관](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/226_pearson_correlation_regression_r2_vif_multicollinearity/)은 그런 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 보는 도구예요.
 
 ---

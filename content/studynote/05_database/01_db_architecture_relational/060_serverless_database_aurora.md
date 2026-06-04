@@ -128,8 +128,8 @@ Aurora Serverless
 
 ## 어린이를 위한 3줄 비유 설명
 
-[서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) DB는 손님이 올 때만 계산대를 늘리는 가게예요.  
-손님이 없으면 계산대를 줄여서 돈을 아껴요.  
+[서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) DB는 손님이 올 때만 계산대를 늘리는 가게예요.
+손님이 없으면 계산대를 줄여서 돈을 아껴요.
 그래서 왔다 갔다 하는 손님이 많은 곳에 잘 맞아요.
 
 ---

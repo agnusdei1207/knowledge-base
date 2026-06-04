@@ -12,7 +12,7 @@ tags = ["studynote-computer-architecture"]
 
 # 컴퓨터구조 심화 키워드 목록 (기술사 최적화 1000제)
 
-정보관리기술사, 컴퓨터응용시스템기술사 시험에 가장 적합한 범위로 엄선한 1,000여 개의 컴퓨터구조 핵심 및 심화 키워드입니다. 
+정보관리기술사, 컴퓨터응용시스템기술사 시험에 가장 적합한 범위로 엄선한 1,000여 개의 컴퓨터구조 핵심 및 심화 키워드입니다.
 
 너무 지엽적인 물리·전자공학적 레벨은 지양하고, <strong>IT 시스템 엔지니어링, 아키텍처, <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 평가, 메모리 및 스토리지 시스템, <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 컴퓨팅, 최신 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 가속기(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/">NPU</a>/<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/">TPU</a>), 그리고 클라우드 및 보안 하드웨어</strong>에 초점을 맞추어 재구성하였습니다.
 
@@ -337,7 +337,7 @@ tags = ["studynote-computer-architecture"]
 304. [스래싱](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/304_thrashing/) ([Thrashing](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/304_thrashing/))
 305. [워킹 셋](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/305_working_set_model/) ([Working Set](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/305_working_set_model/)) 모델
 306. [PFF](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/) ([Page Fault Frequency](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/))
-307. [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) ([Memory Protection](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/))
+307. [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) ([Memory Protection](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/))
 308. [메모리 맵 파일](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/308_memory_mapped_file/) ([Memory-Mapped File](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/308_memory_mapped_file/))
 
 ## 8. 입출력 및 스토리지 시스템 (I/O & Storage Systems)
@@ -672,7 +672,7 @@ tags = ["studynote-computer-architecture"]
 623. [데이터센터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/623_datacenter_pue/) [PUE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/623_datacenter_pue/) ([Power Usage Effectiveness](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/623_datacenter_pue/))
 624. [BMT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/624_bmt_procedure/) ([Bench Mark Test](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/624_bmt_procedure/)) 절차 및 평가 항목
 625. [SLA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/625_sla_hardware_availability/) ([Service Level Agreement](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/625_sla_hardware_availability/)) 하드웨어 [가용성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/625_sla_hardware_availability/)
-626. [재해 복구 시스템](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/626_drs_storage_mirroring/) ([DRS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/626_drs_storage_mirroring/)) 스토리지 [미러링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/626_drs_storage_mirroring/)
+626. [재해 복구 시스템](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/804_drs_storage_mirroring/) ([DRS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/804_drs_storage_mirroring/)) 스토리지 [미러링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/804_drs_storage_mirroring/)
 627. [RPO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/627_rpo/) ([Recovery Point Objective](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/627_rpo/))
 628. [RTO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/628_rto/) ([Recovery Time Objective](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/628_rto/))
 629. [베어메탈 클라우드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/629_bare_metal_cloud/) ([Bare Metal Cloud](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/629_bare_metal_cloud/))

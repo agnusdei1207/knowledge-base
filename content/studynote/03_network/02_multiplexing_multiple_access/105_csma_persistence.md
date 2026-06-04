@@ -65,7 +65,7 @@ tags = ["network"]
 
 ## Ⅲ. 비교 및 연결
 
-네트워크 트래픽의 부하(Load) 상태에 따라 각 방식의 효율성은 극단적으로 역전된다. 
+네트워크 트래픽의 부하(Load) 상태에 따라 각 방식의 효율성은 극단적으로 역전된다.
 
 | 지속 방식 | 충돌 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | 채널 낭비([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 낭비) | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay) | 트래픽 고부하 시 효율 | 대표 적용 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
 |:---|:---|:---|:---|:---|:---|

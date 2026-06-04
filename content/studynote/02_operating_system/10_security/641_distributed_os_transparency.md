@@ -21,7 +21,7 @@ tags = ["studynote-operating-system"]
 
 - **개념**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템은 여러 대의 독립적인 컴퓨터가 네트워크로 연결되어 하나의 통합된 시스템처럼 동작하는 환경이다. 여기서 '투명성'은 <strong>"존재하지만 보이지 않는다(Invisible)"</strong>는 의미로, 시스템의 물리적 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 특성([네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/), 노드 장애, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 등)을 사용자나 애플리케이션으로부터 완벽하게 숨기는 성질을 뜻한다.
 
-- **필요성 (복잡성 통제)**: 
+- **필요성 (복잡성 통제)**:
   - 만약 투명성이 보장되지 않는다면, 프로그래머는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽을 때마다 "이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 한국 서버에 있나, 미국 서버에 있나?"를 확인하고 해당 IP로 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 통신 코드를 직접 짜야 한다(위치 종속적).
   - 서버가 고장 나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 다른 서버로 이동하면, 프로그램 소스 코드의 IP 주소를 일일이 수정해야 한다(마이그레이션 종속적).
   - **해결책**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)나 미들웨어(Middleware) 계층이 이 모든 더러운 네트워크 매니지먼트를 가로채어, 사용자가 로컬 함수를 호출하듯 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 자원에 접근하게 해주는 '환상(Illusion)'을 제공해야 했다.

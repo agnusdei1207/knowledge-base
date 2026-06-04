@@ -19,8 +19,8 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어 테스트의 7가지 원칙 중 하나는 "완벽한(모든 조합의) 테스트는 불가능하다"는 것입니다. 
-만약 "0원부터 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000원까지 입력 가능한 결제 창"이 있다면, 테스터가 1원, 2원, 3원... 10000원까지 만 번을 손으로 치고결과를 확인해야 할까요? 만약 1원이 정상 결제되었다면, 코드를 만든 사람의 입장에선 `if (price >= 0 && price <= 10000)`이라는 <strong>동일한 제어 흐름(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/">Control Flow</a>) 지붕 폭</strong> 안에 2원도 있고 5,000원도 같이 버무려져 묶여 있다는 걸 유추할 수 있습니다. 
+소프트웨어 테스트의 7가지 원칙 중 하나는 "완벽한(모든 조합의) 테스트는 불가능하다"는 것입니다.
+만약 "0원부터 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000원까지 입력 가능한 결제 창"이 있다면, 테스터가 1원, 2원, 3원... 10000원까지 만 번을 손으로 치고결과를 확인해야 할까요? 만약 1원이 정상 결제되었다면, 코드를 만든 사람의 입장에선 `if (price >= 0 && price <= 10000)`이라는 <strong>동일한 제어 흐름(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/">Control Flow</a>) 지붕 폭</strong> 안에 2원도 있고 5,000원도 같이 버무려져 묶여 있다는 걸 유추할 수 있습니다.
 
 따라서 이 드넓은 땅덩어리를 "어차피 똑같이 대접받는 무리(동등 클래스, Equivalence Class)"로 칼 자르듯 잘라버립니다. 그리고 각 무리 구역의 아무 놈이나 등판시켜 1번만 쏘아보고 끝내는 초가성비 블랙박스 축지법이 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/">동등 분할</a>(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/">Equivalence Partitioning</a>)</strong> 기법입니다.
 
@@ -92,7 +92,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/)은 QA로 입문하는 모든 테스터가 1일 차에 배우는 뿌리 깊은 근본 모델입니다. 
+[동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/)은 QA로 입문하는 모든 테스터가 1일 차에 배우는 뿌리 깊은 근본 모델입니다.
 인간의 뇌가 감당해야 하는 무한 가지의 콤비네이션 노가다를 "서로 의미론적으로 겹치는 중복(Redundancy)"이라는 속성으로 날려버리고, 테스트 통과 증명(Test Coverage)의 범위 밀도 효율성을 극한으로 쥐어짜 내는 위대한 최적화 수식입니다.
 이 압축의 철학을 깨우친 테스터만이 1억 개의 경우의 수를 50개의 TC([Test Case](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)) 엑셀 시트로 가볍게 접어서, 오늘 오후 6시 정각에 우아하게 퇴근할 자격을 갖게 됩니다.
 

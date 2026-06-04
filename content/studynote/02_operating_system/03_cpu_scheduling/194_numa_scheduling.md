@@ -31,7 +31,7 @@ tags = ["studynote-operating-system"]
   [코어0][코어1][코어2][코어3]
       │   │   │                                                      │
       ▼   ▼   ▼   ▼ ──▶ 단일 버스(Bus) 교통 체증 💥
-   [ 거대 단일 공유 메모리 (RAM) ] 
+   [ 거대 단일 공유 메모리 (RAM) ]
 
   (2) 현대 NUMA (불균일 접근): 지역성(Locality) 기반의 초고속망
   ┌────── NUMA 노드 0 ──────┐          ┌────── NUMA 노드 1 ──────────┐
@@ -40,8 +40,8 @@ tags = ["studynote-operating-system"]
   │   ▼                     │ (교각) │   ▼                           │
   │ [ 로컬 메모리 RAM 0 ]     │          │ [ 로컬 메모리 RAM 1 ]     │
   └─────────────────────────┘          └─────────────────────────────┘
-  
-  * 🚨 문제: 코어0이 옆 동네 'RAM 1'에 접근(Remote Access)하려면 
+
+  * 🚨 문제: 코어0이 옆 동네 'RAM 1'에 접근(Remote Access)하려면
              느린 QPI 교각을 건너야 하므로 성능이 30% 폭락한다.
 ```
 **[다이어그램 해설]** NUMA의 철학은 '로컬(내 구역)은 미친 듯이 빠르고, 리모트(남의 구역)는 더럽게 느리다'는 불평등의 인정이다. 따라서 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 목표는 명확해진다. **"제발 프로세스를 딴 동네(노드)로 이사시키지 마라!"** 과거엔 코어끼리 일감(프로세스)을 뺏어오는 로드 밸런싱이 미덕이었지만, [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 시대에서는 섣부른 이사가 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 코어의 생이별"을 낳아 서버 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 마비시키는 최악의 안티패턴이 되었다.
@@ -84,7 +84,7 @@ tags = ["studynote-operating-system"]
   │          오가며 트래픽을 폭파시키는 '버스 핑퐁'을 쳐서 서버 전체 멈춤!    │
   └───────────────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** 멀티코어 환경에서 멍청한 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 부하의 균형(Load Balance)만 맞추려다 벌어지는 대참사다. [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 환경에서는 <strong>"균형이 좀 안 맞더라도, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 있는 곳에 코어를 뼈 묻게 놔두는 것"</strong>이 전체 스루풋([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 관점에서는 수백 배 더 이득이다. 
+**[다이어그램 해설]** 멀티코어 환경에서 멍청한 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 부하의 균형(Load Balance)만 맞추려다 벌어지는 대참사다. [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 환경에서는 <strong>"균형이 좀 안 맞더라도, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 있는 곳에 코어를 뼈 묻게 놔두는 것"</strong>이 전체 스루풋([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 관점에서는 수백 배 더 이득이다.
 
 - **📢 섹션 요약 비유**: 아이들 방(노드) 균형을 맞춘다고 매일 밤 장난감([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 큰방에 둔 채 잠자리(코어)만 작은방으로 강제 이사시키면, 아이들은 놀 때마다 거실([버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))을 횡단하며 집안 전체를 난장판으로 만듭니다.
 

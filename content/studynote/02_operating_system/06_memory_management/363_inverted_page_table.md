@@ -20,7 +20,7 @@ tags = ["studynote-operating-system"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 기존의 '정방향' [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 `가상 페이지 번호(p) -> 물리 프레임 번호(f)`를 담은, 프로세스 개수만큼 존재하는 장부다. '역(Inverted)' [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 거꾸로 **`물리 프레임 번호(f) -> [프로세스 ID(PID), 가상 페이지 번호(p)]`**를 담은 시스템 전체의 단일(Single) 통합 장부다.
-- **필요성**: 64비트 시스템에 접어들며 가상 주소 공간이 터무니없이 넓어졌다. 수백 개의 프로세스가 각자 4~5단계의 다단계 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 RAM에 펼쳐두자, 운영체제가 장부([Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))를 유지하는 데만 수십 기가바이트의 소중한 램을 허비하는 배보다 배꼽이 큰 사태가 벌어졌다. 공학자들은 분노했다. "가상 주소는 가짜고, 진짜 존재하는 물리 램 방(Frame) 개수는 한정되어 있잖아! 차라리 램 방 번호 순서대로 장부를 딱 1개만 만들자!" 
+- **필요성**: 64비트 시스템에 접어들며 가상 주소 공간이 터무니없이 넓어졌다. 수백 개의 프로세스가 각자 4~5단계의 다단계 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 RAM에 펼쳐두자, 운영체제가 장부([Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))를 유지하는 데만 수십 기가바이트의 소중한 램을 허비하는 배보다 배꼽이 큰 사태가 벌어졌다. 공학자들은 분노했다. "가상 주소는 가짜고, 진짜 존재하는 물리 램 방(Frame) 개수는 한정되어 있잖아! 차라리 램 방 번호 순서대로 장부를 딱 1개만 만들자!"
 
 - **등장 배경 및 아키텍처의 패러다임 시프트**:
   1. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a> 용량 폭발</strong>: 프로세스가 늘어날수록 장부 크기도 N배로 폭발함.
@@ -68,7 +68,7 @@ tags = ["studynote-operating-system"]
 
 ### 구원 투수: [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)(Hash)의 투입
 
-이 미친 탐색 오버헤드를 막기 위해 하드웨어 설계자들은 앞서 배운 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/362_hashed_page_table/">해시 페이지 테이블</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/362_hashed_page_table/">Hashed Page Table</a>)</strong> 논리를 긴급 투입했다. 
+이 미친 탐색 오버헤드를 막기 위해 하드웨어 설계자들은 앞서 배운 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/362_hashed_page_table/">해시 페이지 테이블</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/362_hashed_page_table/">Hashed Page Table</a>)</strong> 논리를 긴급 투입했다.
 
 ```text
 ┌───────────────────────────────────────────────────────────────────────┐
@@ -135,8 +135,8 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: Itanium (IA-64)과 IBM PowerPC의 고독한 선택
-1. **상황**: 2000년대 초, 인텔과 HP는 기존 x86을 버리고 완벽한 64비트 서버 전용 칩인 Itanium(아이태니엄) 아키텍처를 설계했다. 
-2. <strong>역 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a>의 채택</strong>: 
+1. **상황**: 2000년대 초, 인텔과 HP는 기존 x86을 버리고 완벽한 64비트 서버 전용 칩인 Itanium(아이태니엄) 아키텍처를 설계했다.
+2. <strong>역 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a>의 채택</strong>:
    - 거대한 엔터프라이즈 급 램(RAM)을 탑재한 이 슈퍼컴퓨터들에서는 [다단계 페이징](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/)으로 날아가는 수 기가바이트의 장부 낭비를 용납할 수 없었다.
    - IBM PowerPC와 Itanium은 하드웨어 레벨에서 이 <strong>역 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a>(Inverted <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">Page Table</a>)</strong>을 메인 메모리 아키텍처로 전격 채택했다.
 3. **TLB로 속도 멱살 캐리**:

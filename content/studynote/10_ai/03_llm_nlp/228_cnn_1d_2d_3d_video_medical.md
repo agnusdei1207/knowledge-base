@@ -19,10 +19,10 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-2012년 알렉스넷(AlexNet)이 평면 사진(가로 x 세로)에서 고양이를 완벽하게 찾아낸 이후, CNN의 2D 픽셀 훑기 기술(2D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/))은 이미지를 지배하는 신이 되었다. 
+2012년 알렉스넷(AlexNet)이 평면 사진(가로 x 세로)에서 고양이를 완벽하게 찾아낸 이후, CNN의 2D 픽셀 훑기 기술(2D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/))은 이미지를 지배하는 신이 되었다.
 
-하지만 인간의 현실 세계는 평면 사진첩이 아니다. 
-병원 중환자실의 심박수 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 삐-삐- 소리는 가로로만 쭉 이어지는 '선(1D)'의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)다. 유튜브 동영상은 수만 장의 평면 사진들이 시간 순서대로 겹겹이 쌓인 '큐브(3D)' [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)다. 병원 MRI 단층 촬영 사진들도 인간의 몸을 100장으로 썰어서 쌓아둔 '공간 큐브(3D)'다. 
+하지만 인간의 현실 세계는 평면 사진첩이 아니다.
+병원 중환자실의 심박수 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 삐-삐- 소리는 가로로만 쭉 이어지는 '선(1D)'의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)다. 유튜브 동영상은 수만 장의 평면 사진들이 시간 순서대로 겹겹이 쌓인 '큐브(3D)' [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)다. 병원 MRI 단층 촬영 사진들도 인간의 몸을 100장으로 썰어서 쌓아둔 '공간 큐브(3D)'다.
 
 공학자들은 2D 사진에만 갇혀있는 위대한 CNN의 눈알(필터)을 뽑아내 차원을 개조하기 시작했다. "필터가 위아래로만 움직이지 말고, <strong>좌우 선을 따라 일직선으로만 미끄러지게 해 봐(1D-<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a>)!</strong> 아니, 아예 필터에 깊이(Depth)를 줘서 <strong>동영상 뭉텅이를 한 번에 관통하며 뚫고 지나가게 해 봐(3D-<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a>)!</strong>"
 이렇게 필터의 슬라이딩 방향과 차원을 뒤틀어버림으로써, CNN은 심전도(1D), 사진(2D), 비디오 및 MRI(3D)라는 인류의 모든 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 체계를 씹어먹는 전능한 파서(Parser)로 각성하게 되었다.
@@ -70,7 +70,7 @@ tags = ["studynote-ai"]
 ```
 
 **핵심 원리 (공간적 차원과 시간/깊이 축의 융합)**:
-3D-CNN의 압도적인 무기는 차원 축의 융합이다. 비디오에서 사람이 춤을 추는 걸 파악하려면, 2D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 백날 돌려봐야 "이 사진엔 사람이 서 있네, 다음 사진엔 손을 들었네"라고 정지 화면만 분석한다. 동적인 '움직임(Motion)' 자체를 이해하지 못한다. 
+3D-CNN의 압도적인 무기는 차원 축의 융합이다. 비디오에서 사람이 춤을 추는 걸 파악하려면, 2D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 백날 돌려봐야 "이 사진엔 사람이 서 있네, 다음 사진엔 손을 들었네"라고 정지 화면만 분석한다. 동적인 '움직임(Motion)' 자체를 이해하지 못한다.
 3D 필터(`[시간 T x 가로 H x 세로 W]`)를 쓰면 도장이 여러 장의 프레임(시간)을 한 번에 덮어버린다. 프레임 1번의 픽셀과 3번의 픽셀 차이를 도장 하나 안에서 수학적으로 섞어버리므로, 네트워크가 숨 쉬듯 자연스럽게 <strong>"동작(Action Recognition)"이나 "MRI 암 종양의 구형 부피(Volumetric <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">Segmentation</a>)"를 뇌에 각인</strong>시킬 수 있다.
 
 | 요소 | 역할 |

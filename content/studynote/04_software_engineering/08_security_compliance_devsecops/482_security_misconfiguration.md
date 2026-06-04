@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: Misconfiguration([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류)은 코딩 버그가 아니다. 제품 매뉴얼을 안 읽어서 생기는 사고다. 
+- **개념**: Misconfiguration([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류)은 코딩 버그가 아니다. 제품 매뉴얼을 안 읽어서 생기는 사고다.
   - **톰캣(Tomcat)** 웹 서버를 처음 깔면 관리자 계정이 `admin` / `admin` 이다. 안 바꾸고 라이브 서버에 올렸다.
   - <strong>AWS S3 버킷</strong>에 고객 사진을 올렸는데, 권한([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 대충 누르다 `Public Read/Write(전 우주인 공개)`로 열어버렸다.
   - <strong>에러 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a></strong>가 떴는데, 고객 화면에 친절하게 `java.sql.SQLException: SELECT * FROM user_db ...` 라며 서버의 속살(코드 구조)과 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 트레이스([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Trace)를 적나라하게 다 까발려준다.

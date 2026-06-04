@@ -68,8 +68,8 @@ tags = ["studynote-network"]
 HLS가 세상을 지배한 이유입니다.
 - 스마트폰(클라이언트)이 장부를 보고 **자신의 현재 인터넷 속도에 맞춰 화질을 지 스스로 골라먹습니다.**
 - 처음엔 와이파이가 빵빵해서 [고화질 1번, 2번, 3번 조각]을 다운받아 선명하게 봅니다.
-- 갑자기 지하철을 타서 인터넷이 1/10로 느려졌습니다! 폰이 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)이 걸릴 위기를 감지합니다. 
-- 폰은 똑똑하게 목차 장부(M3U8)를 보고, <strong>다음 4번 조각부터는 용량이 작은 [저화질 4번, 5번 조각] URL로 바꿔서 다운로드</strong>를 요청합니다. 
+- 갑자기 지하철을 타서 인터넷이 1/10로 느려졌습니다! 폰이 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)이 걸릴 위기를 감지합니다.
+- 폰은 똑똑하게 목차 장부(M3U8)를 보고, <strong>다음 4번 조각부터는 용량이 작은 [저화질 4번, 5번 조각] URL로 바꿔서 다운로드</strong>를 요청합니다.
 - 화면은 갑자기 깍두기 화질로 확 구려지지만, <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/">버퍼링</a>(멈춤)이라는 최악의 사태는 100% 방어</strong>해 내며 재생을 이어갑니다.
 
 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 오디오/비디오 스트리밍 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [퍼시스턴트 토폴로지](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/904_persistent_topology_graph_db_cloud_mapping/) 관리가 기반 조건을 만든다면, [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 오디오/비디오 스트리밍 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 그 위에서 핵심 메커니즘을 구현하고, CMAF는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.

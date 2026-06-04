@@ -19,10 +19,10 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-두루마리 휴지 하나와 비누 하나가 있어야만 씻고 나올 수 있는 두 사람이 있다. 
-A는 비누를, B는 휴지를 끝끝내 손에 꼭 쥐고 놔주질 않으니 하염없는 데드락([교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠졌다. 
+두루마리 휴지 하나와 비누 하나가 있어야만 씻고 나올 수 있는 두 사람이 있다.
+A는 비누를, B는 휴지를 끝끝내 손에 꼭 쥐고 놔주질 않으니 하염없는 데드락([교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠졌다.
 
-데드락 예방을 위한 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/">점유 대기</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/284_hold_and_wait/">Hold-and-Wait</a>) 부정 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>은 아주 시원하게 이 꼬라지를 박살 낸다. 
+데드락 예방을 위한 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/">점유 대기</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/284_hold_and_wait/">Hold-and-Wait</a>) 부정 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>은 아주 시원하게 이 꼬라지를 박살 낸다.
 1. **사전 일괄 획득 (Pre-allocation)**: "샤워실 들어가기 전 바깥 거실에서 휴지와 비누 두 개 세트가 다 모일 때까지 절대 네 몸 하나 까딱하지 말고 기다려라."
 2. **점유 자원 완전 방출 (Release and Request)**: "비누 쥐고 있다가 10초 내로 휴지 못 찾으면? 손에 든 비누 바닥에 내던져버리고(반납), 빈손으로 나갔다가 처음부터 두 개 다 주우러 다시 도전해!"
 
@@ -55,7 +55,7 @@ A는 비누를, B는 휴지를 끝끝내 손에 꼭 쥐고 놔주질 않으니 �
 
 ### 기아 현상 ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) & 낭비 딜레마
 
-`점유 대기 부정`은 운영체제에서 <strong>자원 활용률(Utilization)을 땅바닥으로 처박는 가장 주된 원흉</strong>으로 혹평받는다. 
+`점유 대기 부정`은 운영체제에서 <strong>자원 활용률(Utilization)을 땅바닥으로 처박는 가장 주된 원흉</strong>으로 혹평받는다.
 
 1. **치명적인 자원 낭비율**: DVD 쓰기를 위해 프로세스는 메모리, CPU, 디스크, DVD 레코더를 동시에 선점한다. 그런데 데이터를 굽기 위해 1시간 연산을 돌릴 때, DVD 레코더는 1시간 내내 유휴([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/)) 상태로 전세가 나간 채 썩고 있다. 다른 사람의 1분 컷 인쇄/굽기도 막아버린다.
 2. <strong>기아 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">Starvation</a>) 가능성 폭증</strong>: 인기 만점인 자원 3개를 동시에 잡아야 하는 스레드는, 자원 1.2개를 잡고 3번 기다리다 뺏기고, 다시 1번 다시 잡다 뺏기고 핑퐁 릴레이를 무한 반복하며 언제 작업을 마칠지 모르는 '기아'의 나락([Livelock](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/) 성향)으로 떨어진다.
@@ -83,7 +83,7 @@ A는 비누를, B는 휴지를 끝끝내 손에 꼭 쥐고 놔주질 않으니 �
 2. <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/511_two_phase_locking/">Two-Phase Locking</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/320_two_phase_locking_deadlock/">2PL</a>)의 극복</strong>: DB 트랜잭션의 교과서는 오직 점유([Growing phase](/knowledge-base/studynote/05_database/04_transactions_concurrency/217_growing_phase_2pl/))만 하다가 약속된 분기점에 도달해야만 반납([Shrinking phase](/knowledge-base/studynote/05_database/04_transactions_concurrency/218_shrinking_phase_2pl_cascading_rollback/))하게 만들어, 일체의 `점유 대기 부정`을 극혐하고 오히려 [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)를 보장하는 철학 아래 만들어졌다(직렬성 보장).
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
-- **정적 자원 리스트업의 붕괴**: OS에 다짜고짜 "나 이 함수 시작할 건데 `Thread_Pool` 30개랑 `DB_Conn` 50개 지금 한 번에 몰아줘"라고 선언(일괄 요청). 트래픽이 부족할 땐 낭비뿐이고 몰려올 땐 시작부터 저 많은 패키지가 조립되지 않아 아예 함수 진입이 봉쇄(초장기 무한 홀딩)된다. 
+- **정적 자원 리스트업의 붕괴**: OS에 다짜고짜 "나 이 함수 시작할 건데 `Thread_Pool` 30개랑 `DB_Conn` 50개 지금 한 번에 몰아줘"라고 선언(일괄 요청). 트래픽이 부족할 땐 낭비뿐이고 몰려올 땐 시작부터 저 많은 패키지가 조립되지 않아 아예 함수 진입이 봉쇄(초장기 무한 홀딩)된다.
 
 **📢 섹션 요약 비유**: 모든 재료가 완벽히 오기 전까지 요리 시작조차 안 하는 결벽증 셰프(예방)보다, 일단 야채 썰면서 소고기 오길 기다리다 너무 늦으면 다른 찌개 끓이는 셰프([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/))가 매출이 훨씬 나옵니다.
 

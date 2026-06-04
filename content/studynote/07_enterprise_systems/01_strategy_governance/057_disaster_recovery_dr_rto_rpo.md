@@ -123,8 +123,8 @@ Mirror / Hot / Warm / Cold site
 
 ## 어린이를 위한 3줄 비유 설명
 
-[재해 복구](/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/)는 가게가 무너지면 어디서 다시 열지 정하는 거예요.  
-언제까지 다시 열어야 하는지, 얼마나 잃어도 되는지도 미리 정해요.  
+[재해 복구](/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/)는 가게가 무너지면 어디서 다시 열지 정하는 거예요.
+언제까지 다시 열어야 하는지, 얼마나 잃어도 되는지도 미리 정해요.
 그래야 진짜 위기 때 덜 당황해요.
 
 ---

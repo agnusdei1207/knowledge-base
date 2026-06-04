@@ -15,7 +15,7 @@ tags = ["studynote-it-management"]
 - **판단 포인트**: 정적 코드 분석 도구([SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) 등)를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인의 퀄리티 게이트(Quality Gate)와 연동하고, 에러 버짓([Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/))이 소진되면 즉시 신규 배포를 중단하고 부채 상환([리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/))에 집중하도록 강제해야 한다.
 
 ### Ⅰ. 개요 및 필요성
-기술 부채(Technical Debt)는 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 커닝햄(Ward Cunningham)이 창안한 개념으로, 단기적인 개발 속도를 위해 코드 품질이나 설계를 희생했을 때 발생하는 장기적인 유지보수 부담을 금융의 '부채'에 빗댄 것이다. 
+기술 부채(Technical Debt)는 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 커닝햄(Ward Cunningham)이 창안한 개념으로, 단기적인 개발 속도를 위해 코드 품질이나 설계를 희생했을 때 발생하는 장기적인 유지보수 부담을 금융의 '부채'에 빗댄 것이다.
 일정 단축을 위해 의도적으로 낸 부채이든 팀의 역량 부족으로 생긴 무모한 부채이든, 이를 적절히 상환([리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/))하지 않으면 이자가 복리로 눈덩이처럼 불어나 결국 시스템 변경이 불가능해지는 파산 상태(소프트웨어 부패)에 이른다. 따라서 눈에 보이지 않는 빚을 가시적인 숫자로 모니터링하고, 부채가 일정 수준을 넘으면 배포를 막는 강력한 통제 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 필수적이다.
 
 - **📢 섹션 요약 비유**: 빚을 내서 식당 인테리어를 빨리 끝내고 오픈하는 건 훌륭한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이지만, 번 돈으로 이자([리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 시간)는 안 갚고 계속 신메뉴(신규 기능)만 찍어내면 결국 빚더미에 눌려 주방 전체가 무너지는 경제학적 원리와 같다.

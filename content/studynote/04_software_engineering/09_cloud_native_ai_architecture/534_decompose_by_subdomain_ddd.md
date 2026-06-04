@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 세상의 거대한 비즈니스(쇼핑몰)를 '[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))'이라고 부른다. 이걸 쪼갠 조각을 '서브도메인(Subdomain)'이라 한다. 
+- **개념**: 세상의 거대한 비즈니스(쇼핑몰)를 '[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))'이라고 부른다. 이걸 쪼갠 조각을 '서브도메인(Subdomain)'이라 한다.
   - **핵심(Core) 서브도메인**: 우리 회사가 돈을 버는 1등 공신 (예: 쿠팡의 '로켓배송 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)'). 무조건 최고 에이스 개발자를 투입해 인하우스(자체 개발)로 짠다.
   - **지원(Supporting) 서브도메인**: 보조 역할. '상품 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 전시'.
   - **일반(Generic) 서브도메인**: 남들도 다 하는 거. '결제(PG)', '로그인'. 이건 짜지 않고 외부 솔루션([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/), Keycloak 등)을 사다 쓴다.

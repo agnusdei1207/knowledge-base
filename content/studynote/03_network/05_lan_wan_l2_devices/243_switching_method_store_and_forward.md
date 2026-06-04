@@ -41,7 +41,7 @@ tags = ["studynote-network"]
 
 ### 1. 에러 검출과 불량품 폐기 ([CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) Check)
 프레임 전체가 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 메모리(버퍼)에 완전히 로드되면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ASIC은 맨 뒤 4바이트의 FCS(Frame Check Sequence) 값을 읽어 스스로 계산한 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 값과 비교한다.
-- 만약 값이 다르면(전송 중 노이즈로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 깨짐), [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 즉각 해당 프레임을 **버린다(Drop)**. 
+- 만약 값이 다르면(전송 중 노이즈로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 깨짐), [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 즉각 해당 프레임을 **버린다(Drop)**.
 - 최소 크기인 64바이트가 안 되는 충돌 찌꺼기(Runt Frame)나 1518바이트를 넘는 비정상 프레임(Giant Frame)도 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 선에서 여과(Filtering)되어, 목적지 PC는 항상 "100% 정상적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"만 받을 수 있게 보호받는다.
 
 ```text

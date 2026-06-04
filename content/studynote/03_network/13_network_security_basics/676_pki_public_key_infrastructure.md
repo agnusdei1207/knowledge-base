@@ -39,13 +39,13 @@ tags = ["studynote-network"]
 
 이 거대한 신뢰의 생태계는 4개의 기관/요소로 철저히 분업화되어 돌아갑니다. (상세 내용은 677, 678번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 
-1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a> (Certificate Authority, <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 기관)</strong>: 
+1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a> (Certificate Authority, <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 기관)</strong>:
    - PKI의 최상위 대장이자 신의 직장입니다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 최종적으로 발급해주고 자신의 빨간색 마스터 도장(개인키 서명)을 쾅 찍어주는 곳입니다. (예: DigiCert, Let's Encrypt, 한국의 금융결제원)
-2. <strong><a href="/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/">RA</a> (<a href="/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/">Registration Authority</a>, 등록 기관)</strong>: 
+2. <strong><a href="/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/">RA</a> (<a href="/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/">Registration Authority</a>, 등록 기관)</strong>:
    - CA가 바빠서 고객을 다 못 만나니, 동네 은행이나 우체국 창구에 세워둔 대리점입니다. 진짜 홍길동이 맞는지 신분증을 대면으로 깐깐하게 심사한 뒤 통과 서류를 CA로 올려보냅니다.
-3. <strong>Repository (저장소 / <a href="/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">디렉터리</a>)</strong>: 
+3. <strong>Repository (저장소 / <a href="/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">디렉터리</a>)</strong>:
    - 발급된 모든 사용자의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서와 공개키 목록, 그리고 <strong>"해킹당해서 폐기된 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서 블랙리스트(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/">CRL</a>)"</strong>를 누구나 24시간 조회할 수 있게 열어둔 거대한 공개 DB 서버(주로 [LDAP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 사용)입니다.
-4. **사용자 (Entity / Subscriber)**: 
+4. **사용자 (Entity / Subscriber)**:
    - [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 돈 주고 발급받는 웹 서버(네이버 등)나 우리 같은 일반 인터넷 이용자입니다.
 
 ```text

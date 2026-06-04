@@ -19,7 +19,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-K8s [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 타입 중 LoadBalancer는 클러스터 외부의 사용자 트래픽을 내부 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) ([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))로 연결하기 위해 클라우드 사업자의 실제 로드밸런서를 동적으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 기술이다. 
+K8s [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 타입 중 LoadBalancer는 클러스터 외부의 사용자 트래픽을 내부 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) ([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))로 연결하기 위해 클라우드 사업자의 실제 로드밸런서를 동적으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 기술이다.
 
 기존의 NodePort (노드포트) 방식은 모든 노드의 특정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(30000~32767)를 열어야 했고, 사용자가 직접 특정 노드의 IP를 알고 접속해야 하는 한계가 있었다. 상용 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서는 고객에게 고정된 단일 공인 IP와 표준 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(80, 443)를 제공해야 하며, 특정 노드가 다운되더라도 트래픽이 우회될 수 있는 진정한 의미의 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 필수적이다. LoadBalancer는 K8s의 CCM (Cloud Controller Manager)이 AWS, GCP 등의 API를 호출하여 이 모든 구성을 코드로 자동화 ([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/))한다.
 
@@ -77,7 +77,7 @@ LoadBalancer는 외부 L4 장비와의 단순 연결을 담당하지만, URL 패
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 LoadBalancer를 사용할 때는 "트래픽 최적화"와 "비용 통제"가 핵심 판단 기준이다. 
+실무에서 LoadBalancer를 사용할 때는 "트래픽 최적화"와 "비용 통제"가 핵심 판단 기준이다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. **SNAT 및 레이턴시 문제**: `externalTrafficPolicy: Cluster` (기본값)는 트래픽이 무작위 노드로 가면서 홉 (Hop)이 추가된다. 클라이언트의 원본 IP를 보존하고 네트워크 지연을 줄이려면 `Local`로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해야 한다. 단, 이 경우 트래픽 불균형이 발생할 수 있어 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치 (Anti-Affinity) 설계가 수반되어야 한다.
@@ -114,7 +114,7 @@ LoadBalancer는 복잡한 인프라 [생성](/knowledge-base/studynote/02_operat
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-서비스 노출의 기초 
+서비스 노출의 기초
     │
     ▼
 NodePort (노드포트) · 단일 노드 IP 의존

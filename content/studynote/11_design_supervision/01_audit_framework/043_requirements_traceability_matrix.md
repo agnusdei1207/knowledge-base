@@ -22,16 +22,16 @@ tags = ["studynote-design-supervision"]
 RTM (Requirements Traceability Matrix):
   요구사항 추적성: 요구사항이 설계·구현·테스트에서
                     어떻게 반영됐는지 추적하는 능력
-  
+
   RTM 형식:
-  
+
   요구사항ID | 요구사항 설명      | 설계문서  | 구현모듈  | 테스트케이스
   -----------+-------------------+-----------+-----------+-------------
   REQ-001    | 사용자 로그인     | DS-02     | auth.py   | TC-001, 002
   REQ-002    | 비밀번호 암호화   | DS-05     | crypto.py | TC-010
   REQ-003    | 세션 타임아웃     | DS-08     | session.py| TC-015
   REQ-004    | 동시 로그인 제한  | DS-08     | session.py| TC-016, 017
-  
+
   추적 방향:
     순방향: 요구사항 → 설계 → 코드 → 테스트
     역방향: 테스트 → 코드 → 설계 → 요구사항
@@ -54,32 +54,32 @@ RTM의 목적:
 
 1. 순방향 추적성 (Forward Traceability):
    요구사항 → 설계 → 구현 → 테스트
-   
+
    "REQ-001 로그인 요구사항이 어디에 구현됐나?"
    REQ-001 → DS-02(설계) → auth.py(구현) → TC-001(테스트)
-   
+
    용도:
      요구사항 누락 탐지 (구현 안 된 요구사항)
      구현 완성도 확인
 
 2. 역방향 추적성 (Backward Traceability):
    테스트 → 구현 → 설계 → 요구사항
-   
+
    "TC-001 테스트 케이스는 어떤 요구사항을 위한 것인가?"
    TC-001 → auth.py → DS-02 → REQ-001
-   
+
    용도:
      불필요한 기능 탐지 (요구사항 없는 구현)
      테스트 케이스 정당성 확인
 
 3. 양방향 추적성 (Bidirectional):
    = 순방향 + 역방향 모두 완비
-   
+
    고품질 RTM의 기준
 
 4. 부모-자식 추적성 (Vertical):
    고수준 요구사항(Business) → 시스템 요구사항 → 소프트웨어 요구사항
-   
+
    적용: 항공, 방산, 의료 분야 계층적 요구사항
 
 5. 피어 추적성 (Horizontal):
@@ -160,7 +160,7 @@ Azure DevOps (Microsoft):
   특징: 코드 커밋 ↔ 요구사항 링크
   Epic → Feature → User Story → Task → PR ← Test Case
   CI/CD 파이프라인과 통합
-  
+
   실무: Work Item ID 참조로 자동 추적
   PR 설명: "Fixes #123" → 요구사항 자동 링크
 

@@ -45,13 +45,13 @@ tags = ["studynote-network"]
 
 ### 2. Aggregation / Distribution Layer (집선/분배 계층) - "중간 관리자" 🌟
 - **위치**: 수백 개의 Access [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들에서 올라오는 선들을 중간에서 거대하게 묶어주는(Aggregation) 중간 층의 고성능 L3 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)/라우터입니다.
-- **역할 (통제의 핵심)**: 
+- **역할 (통제의 핵심)**:
   - 여기가 바로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터 내부망의 <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a>(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/">가상 랜</a>) 경계선이 끝나고 IP <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>이 시작되는 핵심 경계(L2/L3 Boundary)</strong>입니다.
   - 외부 인터넷으로 나갈 패킷인지, 옆 부서 서버로 갈 패킷인지 길을 찾아주고([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)), [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/))과 로드밸런싱을 걸어 트래픽을 통제하는 실질적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터의 지휘소입니다.
 
 ### 3. Core Layer (코어 계층) - "고속도로 톨게이트"
 - **위치**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터 전체 네트워크의 맨 꼭대기에 위치하는 최상위 초대형 백본(Backbone) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 라우터입니다.
-- **역할**: 밑에서 올라온 수천만 개의 패킷들을 아무런 통제나 검열 없이 오직 빛의 속도로 <strong>"외부 인터넷(<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/">ISP</a>)이나 다른 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>센터로 가장 빠르게 쏴버리는(High-speed Switching)" 단순 무식한 괴력의 톨게이트 역할</strong>만 전담합니다. 
+- **역할**: 밑에서 올라온 수천만 개의 패킷들을 아무런 통제나 검열 없이 오직 빛의 속도로 <strong>"외부 인터넷(<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/">ISP</a>)이나 다른 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>센터로 가장 빠르게 쏴버리는(High-speed Switching)" 단순 무식한 괴력의 톨게이트 역할</strong>만 전담합니다.
 
 - 이 구조는 20년을 지배했지만, 클라우드 시대가 오며 붕괴하기 시작했습니다.
 - **East-West 트래픽 폭주**: 요즘은 넷플릭스 영화 1편을 띄우기 위해, 내부 서버 10대가 서로 DB를 조회하고 인증하느라 지들끼리 핑퐁 통신(East-West 트래픽)을 100번씩 합니다.

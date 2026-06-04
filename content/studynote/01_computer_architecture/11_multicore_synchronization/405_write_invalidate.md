@@ -112,16 +112,16 @@ tags = ["studynote-computer-architecture"]
 
 ### 설계 판단 포인트
 
-1. <strong>공유 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a> 대신 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/">샤딩</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/">Sharding</a>)된 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a>를 우선 검토한다.</strong>  
+1. <strong>공유 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a> 대신 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/">샤딩</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/">Sharding</a>)된 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a>를 우선 검토한다.</strong>
    전역 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 하나를 모든 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 `count++` 하면 캐시 라인 쟁탈전이 벌어진다. 코어별 로컬 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)를 두고 주기적으로 합산하면 무효화 빈도를 크게 줄일 수 있다.
 
-2. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a>(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a>)과 정렬(Alignment)로 <a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/">거짓 공유</a>를 차단한다.</strong>  
+2. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a>(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a>)과 정렬(Alignment)로 <a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/">거짓 공유</a>를 차단한다.</strong>
    `alignas(64)` 같은 기법으로 서로 다른 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 변수를 다른 캐시 라인에 배치하면, 논리적 독립성이 물리적 독립성으로 이어진다.
 
-3. <strong>락 경합이 심한 구조에서는 락 자체보다 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 소유권 이동 빈도를 본다.</strong>  
+3. <strong>락 경합이 심한 구조에서는 락 자체보다 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 소유권 이동 빈도를 본다.</strong>
    단순히 락 구현을 바꾸는 것보다, 공유 자료구조를 분할해 캐시 라인 이동을 줄이는 편이 더 큰 효과를 내는 경우가 많다.
 
-4. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a> (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">Non-Uniform Memory Access</a>) 환경에서는 코어 간 이동뿐 아니라 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a> 간 이동도 고려한다.</strong>  
+4. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a> (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">Non-Uniform Memory Access</a>) 환경에서는 코어 간 이동뿐 아니라 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a> 간 이동도 고려한다.</strong>
    무효화된 라인이 [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) (Last Level Cache)와 원격 메모리까지 오가면 비용이 더 커지므로, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 핀닝과 [데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/) 설계가 중요해진다.
 
 ### 기술사형 답안 포인트

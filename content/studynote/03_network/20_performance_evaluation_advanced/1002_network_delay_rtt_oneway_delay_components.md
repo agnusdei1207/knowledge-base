@@ -21,9 +21,9 @@ tags = ["studynote-network"]
 
 네트워크 속도를 잴 때 쓰는 2가지 절대 잣대입니다.
 
-1. <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a> <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (One-way Delay)</strong>: 
+1. <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a> <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (One-way Delay)</strong>:
    - 서울 내 컴퓨터에서 쏜 패킷이 미국 서버에 **'도착하기까지'** 걸린 순수 편도 시간입니다. 비디오 스트리밍([단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 방송)을 볼 때 중요합니다.
-2. <strong>왕복 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (<a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a>, <a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">Round Trip Time</a>)</strong>: 
+2. <strong>왕복 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (<a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a>, <a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">Round Trip Time</a>)</strong>:
    - 패킷이 미국 서버에 도착했다가, 서버가 "잘 받았어!" 하고 답장(ACK)을 쏴서 <strong>내 컴퓨터로 다시 돌아오기까지 걸린 총 왕복 시간</strong>입니다. ([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) `Ping`을 때렸을 때 나오는 시간이 바로 이 RTT입니다.) 웹서핑, 게임 등 양방향 통신에서 사람의 빡침을 결정하는 핵심 수치입니다.
 
 ```text
@@ -51,7 +51,7 @@ tags = ["studynote-network"]
 - 라우터가 계산을 끝내고 3번 구멍으로 패킷을 던지려는데, 3번 구멍에 이미 앞서 도착한 남의 패킷 1,000개가 줄을 서([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 있습니다. 내 패킷이 이 줄 맨 뒤에 서서 자기 차례가 올 때까지 하염없이 기다리는 대기 시간입니다. 새벽엔 0초지만, 저녁 9시엔 무한대로 솟구칩니다.
 
 ### 3. [전송 지연](/knowledge-base/studynote/03_network/01_data_communication/017_전송_지연/) ([Transmission Delay](/knowledge-base/studynote/03_network/01_data_communication/017_전송_지연/), $D_{trans}$) - "트럭에 짐 싣기"
-- 라우터가 내 패킷(100MB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))을 구리선(랜선)이라는 도로 위에 0과 1의 전기 신호로 쭈욱 <strong>'밀어 넣는(싣는)' 데 걸리는 물리적 시간</strong>입니다. 
+- 라우터가 내 패킷(100MB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))을 구리선(랜선)이라는 도로 위에 0과 1의 전기 신호로 쭈욱 <strong>'밀어 넣는(싣는)' 데 걸리는 물리적 시간</strong>입니다.
 - (계산법: 패킷 크기 / [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)). 예를 들어 1Gbps 랜카드보다 100Mbps 랜카드에서 짐 싣는 데 10배의 시간이 더 걸립니다.
 
 ### 4. [전파 지연](/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/) ([Propagation Delay](/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/), $D_{prop}$) - "트럭이 도로를 달리기"

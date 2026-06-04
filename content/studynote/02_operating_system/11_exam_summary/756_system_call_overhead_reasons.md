@@ -19,20 +19,20 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - 응용 프로그램은 하드웨어 자원(디스크, 랜카드)에 직접 접근할 권한이 없다.
   - 따라서 프로그램 내에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 글씨를 쓰거나(`write`), 다른 프로그램과 통신(`send`)을 하려면 반드시 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 내장된 약속된 함수([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 호출하여 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 진입해야 한다.
   - 이 진입과 탈출 과정에서 소비되는 부가적인 CPU 사이클 낭비를 <strong>시스템 콜 오버헤드</strong>라 부른다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 과거 MS-DOS 같은 구형 OS는 이런 장벽이 없어서 게임 프로그램이 비디오 카드 메모리에 직접 값을 썼다. 그러다 게임 코딩 실수 하나로 컴퓨터 전원이 나가거나 파란 화면(블루스크린)이 떴다.
   - **해결책**: "어떤 프로그램도 하드웨어에 손대지 마라! 오직 전지전능한 '[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)'만이 하드웨어를 만질 수 있는 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/011_dual_mode/">듀얼 모드</a>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/011_dual_mode/">Dual Mode</a>)</strong>를 하드웨어(CPU) 수준에서 강제하자!"
 
   - 일반인(User Mode)이 구청에서 주민등록등본 원본(하드웨어 자원)을 직접 캐비닛에서 꺼내게 놔두면 원본이 찢어지거나 털릴 수 있다.
-  - 그래서 반드시 두꺼운 유리벽 뒤에 있는 공무원([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Mode)에게 신청서 양식(시스템 콜 번호)을 적어 창구(소프트웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))로 제출해야 한다. 
+  - 그래서 반드시 두꺼운 유리벽 뒤에 있는 공무원([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Mode)에게 신청서 양식(시스템 콜 번호)을 적어 창구(소프트웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))로 제출해야 한다.
   - 이 과정에서 공무원이 신분증을 확인하고(권한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)), 원본을 찾아서 복사본을 내어주기까지 <strong>'기다리는 시간(오버헤드)'</strong>이 발생한다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - CPU 제조사(인텔)가 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 링(Ring 0 = [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/), Ring 3 = 유저)이라는 권한 분리 아키텍처를 도입하면서, 이 두 세계를 오가는 무거운 징검다리로서 `int 0x80` 또는 현대의 `syscall` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 탄생했다.
 
 ```text

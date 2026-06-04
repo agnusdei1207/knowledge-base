@@ -44,12 +44,12 @@ tags = ["studynote-network"]
 - **특징**: 구멍이 넓으니까 레이저를 그냥 대충 여러 각도로 마구잡이로 쏴도(여러 개의 Mode) 잘 들어갑니다. 빛을 쏘는 기계([LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 등)가 싸구려여도 돼서 쌈마이로 구축하기 좋습니다.
 - <strong>치명적 단점 (모드 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>, Modal <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/133_dispersion_mode_chromatic/">Dispersion</a>) 🌟</strong>:
   - 빛이 넓은 구멍 안에서 이리저리 지그재그로 벽에 튕기며 날아갑니다.
-  - 정중앙으로 일직선으로 쏜 빛(A)은 1초 만에 도착하는데, 각도를 틀어서 벽에 백 번 튕긴 빛(B)은 2초 뒤에 늦게 도착합니다! 
+  - 정중앙으로 일직선으로 쏜 빛(A)은 1초 만에 도착하는데, 각도를 틀어서 벽에 백 번 튕긴 빛(B)은 2초 뒤에 늦게 도착합니다!
   - 빛들이 도착하는 시간이 제각각이라 목적지에선 데이터가 찌그러져 알아볼 수 없는 똥([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))이 됩니다. 그래서 10Gbps 속도로는 <strong>수백 미터 (건물 내부, 층간)</strong>밖에 전송하지 못합니다.
 
 ### 2. 싱글 모드 ([SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/), Single-Mode Fiber) - "바늘구멍 스나이퍼"
 - **두께**: 코어 직경이 고작 **8 ~ [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) $\mu m$**로 미치도록 좁습니다. (겉피복은 보통 노란색)
-- **특징**: 구멍이 레이저 두께만 해서 빛이 오직 일직선으로 딱 1개의 경로(Single Mode)로만 통과할 수 있습니다. 
+- **특징**: 구멍이 레이저 두께만 해서 빛이 오직 일직선으로 딱 1개의 경로(Single Mode)로만 통과할 수 있습니다.
 - **장점**: 벽에 튕기며 지그재그로 가는 빛이 원천 차단되므로, <strong>도착 시간이 늦어지는 '모드 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>'이 0%로 사라집니다.</strong> 빛의 순수한 속도 그대로 수십~수백 km를 단 1의 찌그러짐 없이 날아갑니다. 전 세계 해저 케이블과 통신사 전국망의 100% 절대 표준입니다.
 - **단점**: 구멍이 너무 좁아서 쏠 때 최고급 고가의 레이저(LD) 장비로 나노 단위의 조준을 해야 하므로 구축 비용이 엄청나게 비쌉니다.
 

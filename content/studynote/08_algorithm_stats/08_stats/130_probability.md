@@ -27,14 +27,14 @@ tags = ["studynote-algorithm"]
 - **정의**: 사건 (Event) A 의 확률 `P(A) = |A| / |Ω|`
 - **예시**: 주사위 한 번 던질 때 짝수가 나올 확률 = 3/6 = 0.5
 
-**장점**: 직관적, 계산 단순  
+**장점**: 직관적, 계산 단순
 **한계**: 동등 가능성을 가정할 수 없을 때 적용 불가 (편향된 동전 등)
 
 ### 1-2. 상대도수 확률 (Frequency Probability, Frequentist)
 
 19~20세기 폰 미제스 (von Mises) 가 발전시킨 경험주의적 정의다.
 
-- **정의**: 동일 실험을 n번 반복했을 때, 사건 A 가 n(A) 번 발생하면  
+- **정의**: 동일 실험을 n번 반복했을 때, 사건 A 가 n(A) 번 발생하면
   `P(A) = lim_{n→∞} n(A) / n`
 - **예시**: 불량률 측정 — [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개 중 35개 불량 → P(불량) ≈ 0.0035
 - **장점**: 물리적 실재에 기반, 실험 반복 가능한 경우 강력

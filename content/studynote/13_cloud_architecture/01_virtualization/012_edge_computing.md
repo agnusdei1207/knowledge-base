@@ -21,7 +21,7 @@ tags = ["cloud_architecture"]
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-과거의 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 중앙 클라우드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)로 전송되어 처리되는 '클라우드 집중형(Cloud-Centric)' 패러다임은 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기의 폭발적인 증가와 함께 심각한 물리적 한계에 부딪혔다. 공장의 고해상도 검수 카메라, 자율주행 센서 등에서 초당 기가바이트(GB) 단위로 쏟아지는 원시([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/)) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전부 중앙 서버로 쏘아 올리면 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))이 발생하고 막대한 회선 요금이 부과된다. 
+과거의 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 중앙 클라우드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)로 전송되어 처리되는 '클라우드 집중형(Cloud-Centric)' 패러다임은 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기의 폭발적인 증가와 함께 심각한 물리적 한계에 부딪혔다. 공장의 고해상도 검수 카메라, 자율주행 센서 등에서 초당 기가바이트(GB) 단위로 쏟아지는 원시([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/)) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전부 중앙 서버로 쏘아 올리면 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))이 발생하고 막대한 회선 요금이 부과된다.
 
 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 이러한 트래픽 쓰나미로부터 코어망을 보호하기 위한 필연적 대안이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 생성되는 가장 가까운 현장에 마이크로 서버나 지능형 게이트웨이를 두고, 불필요한 노이즈 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 그 자리에서 폐기(Drop)한 뒤 의미 있는 인사이트나 요약된 메타데이터만 중앙 클라우드로 전송한다. 또한, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 국경 밖으로 내보내지 않음으로써 민감 정보 보안 규정을 원천적으로 준수할 수 있다.
 
@@ -85,7 +85,7 @@ tags = ["cloud_architecture"]
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-클라우드 중심 아키텍처와 엣지 중심 아키텍처는 제로섬 관계가 아니라 상호 보완을 통한 시너지 융합 관계를 이룬다. 
+클라우드 중심 아키텍처와 엣지 중심 아키텍처는 제로섬 관계가 아니라 상호 보완을 통한 시너지 융합 관계를 이룬다.
 
 #### Cloud vs Edge 핵심 트레이드오프 비교 매트릭스
 

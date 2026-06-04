@@ -20,7 +20,7 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 기지국은 말단 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(RU), 연산 뇌(DU), 중앙 통제실(CU) 세 덩어리로 나뉩니다.
-- 과거 이 세 덩어리를 잇는 핏줄([프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/), [미드홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/))은 노키아, 에릭슨 등 제조사가 지들 맘대로 짠 '독자 블랙박스 언어'를 썼습니다. 
+- 과거 이 세 덩어리를 잇는 핏줄([프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/), [미드홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/))은 노키아, 에릭슨 등 제조사가 지들 맘대로 짠 '독자 블랙박스 언어'를 썼습니다.
 - **독과점의 눈물**: SKT는 서울 강남에 에릭슨 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 1개를 세우려면, 강남 지하에 깔리는 DU 서버도 무조건 에릭슨 장비를 울며 겨자 먹기로 100억 주고 사야 했습니다(벤더 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)). 중소기업이 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 아무리 잘 만들어도 시장에 명함도 못 내밀었습니다.
 
 ```text
@@ -56,7 +56,7 @@ tags = ["studynote-network"]
 ### 3. RIC (RAN Intelligent Controller) - 기지국의 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 뇌
 - 기지국을 조립식으로 만들었으니 이걸 똑똑하게 조종할 중앙 통제탑이 필요합니다.
 - **RIC**: O-RAN의 뇌입니다. 기지국들의 전파 상태, 부하량을 수집하고 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/머신러닝을 돌립니다.
-  - "어? 홍대 1번 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 뻗을 거 같네? 2번 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 전파 방향 10도 꺾어서 커버 쳐줘!" 
+  - "어? 홍대 1번 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 뻗을 거 같네? 2번 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 전파 방향 10도 꺾어서 커버 쳐줘!"
   - 이 명령을 내리는 앱을 'rApp', 'xApp'이라고 부르며, 구글 플레이스토어에서 앱 다운받듯 통신사가 입맛대로 골라 깔 수 있습니다.
 
 ```text

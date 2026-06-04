@@ -19,7 +19,7 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-우리가 챗GPT에게 긴 질문을 던지면, 챗GPT는 단어를 하나씩 뱉어낸다([Auto-regressive](/knowledge-base/studynote/10_ai/05_data_science_ml/383_llm_autoregressive_math/)). "안녕 -> 하 -> 세 -> 요". 
+우리가 챗GPT에게 긴 질문을 던지면, 챗GPT는 단어를 하나씩 뱉어낸다([Auto-regressive](/knowledge-base/studynote/10_ai/05_data_science_ml/383_llm_autoregressive_math/)). "안녕 -> 하 -> 세 -> 요".
 이때 '요'라는 글자를 뱉으려면 그전에 자기가 뱉었던 '안녕', '하', '세'라는 단어들이 어떤 문맥을 갖는지 수학적 행렬(Key와 Value)로 전부 연산해야 한다. 다음 글자를 뱉을 때마다 앞글자들을 처음부터 싹 다 다시 계산하면 서버가 터지니까, 앞글자들의 행렬을 버리지 않고 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리에 킵해두는 꼼수가 바로 <strong>KV 캐시 (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/291_kv_cache/">Key-Value Cache</a>)</strong>다.
 
 그런데 대형 참사가 터졌다. 유저 A가 질문을 던지면 서버는 "얘가 몇 글자나 뱉을지 모르니까 일단 메모리 2,000칸을 통째로 예약해 둬야지!"라고 커다란 방(연속 메모리)을 잡아버린다. 유저 A가 100글자만 뱉고 대화를 끝내버리면 나머지 1,900칸은 아무도 못 쓰는 쓰레기 공간이 되어버린다([내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)). 유저 B가 오면 또 새로운 2,000칸을 잡는다. 결국 <strong>최고급 80GB짜리 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 메모리 중 60% 이상이 그냥 '예약만 해두고 텅텅 빈 공기'로 낭비</strong>되어 버렸다. [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 연산력은 펑펑 노는데 "메모리 꽉 찼어!"라며 유저들을 다 튕겨내는 어처구니없는 상황이 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 기업들의 목을 조였다.
@@ -67,7 +67,7 @@ PagedAttention은 연속된 물리적 메모리를 요구하던 [트랜스포머
 ```
 
 <strong>핵심 원리 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/">공유 메모리</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">Copy-On-Write</a>)</strong>:
-이 '블록 쪼개기([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))'의 진짜 미친 마법은 <strong>메모리 공유(Memory Sharing)</strong>에서 터진다. 만약 10명의 유저가 "해리포터 1권 내용 요약해 줘!"라고 똑같은 프롬프트를 날렸다고 치자. 
+이 '블록 쪼개기([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))'의 진짜 미친 마법은 <strong>메모리 공유(Memory Sharing)</strong>에서 터진다. 만약 10명의 유저가 "해리포터 1권 내용 요약해 줘!"라고 똑같은 프롬프트를 날렸다고 치자.
 기존 방식은 10명에게 똑같이 해리포터 1권 분량의 KV [캐시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/)(엄청난 용량)를 10번 복사해서 줬다. PagedAttention은 "어? 너희 10명 프롬프트 앞부분이 똑같네?"라며 물리적 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리의 <strong>단 1개 블록(해리포터 문맥)</strong>을 10명의 Block Table이 가상 포인터로 같이 쳐다보게 만들어 버린다(공유). 그러다 유저 1명이 다른 문장을 뱉기 시작하면, 그때서야 자기만의 새 블록을 복사해서 떨어져 나가는 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">Copy-On-Write</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">COW</a>)</strong> OS 기법을 발동시킨다. 메모리 소모가 극단적으로 박살 난다.
 
 | 요소 | 역할 |

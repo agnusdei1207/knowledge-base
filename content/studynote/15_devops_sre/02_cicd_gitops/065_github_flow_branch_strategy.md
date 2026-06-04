@@ -127,8 +127,8 @@ CI/CD
 
 ## 어린이를 위한 3줄 비유 설명
 
-작은 가지에서 만들고 바로 큰 줄기에 붙여요.  
-붙이기 전에 꼭 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해요.  
+작은 가지에서 만들고 바로 큰 줄기에 붙여요.
+붙이기 전에 꼭 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해요.
 GitHub Flow는 그런 단순한 브랜치 방법이에요.
 
 ---

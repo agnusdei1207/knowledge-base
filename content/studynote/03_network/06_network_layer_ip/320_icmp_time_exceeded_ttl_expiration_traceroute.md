@@ -58,7 +58,7 @@ tags = ["studynote-network"]
 
 ### 3. 목적지 도달까지 무한 반복
 - 이 짓을 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 3, 4, 5... 1씩 늘려가며 목적지(`8.8.8.8`)에서 "나 살아있어(Type 0 Echo Reply)"라는 찐 응답이 올 때까지 계속 쏜다.
-- 결과적으로 목적지까지 가는 길목에 있는 15개의 라우터 IP 리스트가 내 화면에 쭉 텍스트로 찍히게 된다. 
+- 결과적으로 목적지까지 가는 길목에 있는 15개의 라우터 IP 리스트가 내 화면에 쭉 텍스트로 찍히게 된다.
 - 만약 8번째 라우터 IP까지 잘 찍히다가 9번째부터 `* * * Request timed out`이 뜬다면? <strong>8번째 라우터와 9번째 라우터 사이의 해저 광케이블이 끊어졌거나, 9번째 라우터가 죽어버렸다는 완벽한 심증</strong>을 잡아낼 수 있다.
 
 ```text

@@ -48,7 +48,7 @@ IBM 연구 (1970s, 여전히 통용):
   시프트 레프트:
   [테스트·보안]→[테스트·보안]→[테스트·보안] → 운영
   요구          설계          구현
-  
+
   각 단계에서 테스트·보안 활동 수행
 
 세 가지 시프트 레프트:
@@ -78,12 +78,12 @@ IBM 연구 (1970s, 여전히 통용):
   Mock/Stub으로 의존성 격리
   실행: 밀리초 단위 (빠름)
   피드백: 즉시
-  
+
 통합 테스트 (Integration Test):
   컴포넌트 간 상호작용 검증
   실제 DB, 외부 서비스 연동
   실행: 초~분 단위
-  
+
 E2E 테스트 (End-to-End):
   사용자 시나리오 전체 검증
   브라우저 자동화 (Selenium, Cypress)
@@ -92,7 +92,7 @@ E2E 테스트 (End-to-End):
 
 TDD (Test-Driven Development):
   Red-Green-Refactor 사이클:
-  
+
   Red: 실패하는 테스트 먼저 작성
   ↓
   Green: 테스트 통과하는 최소 코드 작성
@@ -120,43 +120,43 @@ DevSecOps 파이프라인:
 
 1. SAST (Static Application Security Testing):
    코드를 실행 없이 정적 분석
-   
+
    탐지: 인젝션, 버퍼 오버플로우, 하드코딩 비밀
-   
+
    도구:
    SonarQube: 멀티 언어, 코드 품질+보안
    Semgrep: 커스텀 규칙, 빠름
    Checkmarx, Veracode: 엔터프라이즈
-   
+
    실행 위치: 커밋 또는 PR 단계
 
 2. SCA (Software Composition Analysis):
    오픈소스 의존성 취약점 스캔
-   
+
    탐지: CVE(Common Vulnerabilities and Exposures)
-   
+
    도구:
    Snyk: 개발자 친화적
    OWASP Dependency-Check
    Dependabot (GitHub 내장)
-   
+
    예: Log4j 취약점 (2021) → SCA로 즉시 탐지
 
 3. DAST (Dynamic Application Security Testing):
    실행 중인 앱을 외부에서 공격 시뮬레이션
-   
+
    탐지: XSS, SQL 인젝션, CSRF
-   
+
    도구:
    OWASP ZAP: 오픈소스 표준
    Burp Suite: 전문가용
-   
+
    실행 위치: 테스트/스테이징 환경 배포 후
 
 4. 컨테이너 보안:
    Trivy: 컨테이너 이미지 취약점 스캔
    Grype
-   
+
    CI 통합:
    docker build → trivy image scan
    High/Critical CVE → 배포 차단
@@ -181,7 +181,7 @@ Stage 1 (Pre-commit, <1분):
   - 코드 포맷터 (Black, Prettier)
   - 린터 (ESLint, Pylint)
   - 비밀 스캔 (GitLeaks)
-  
+
   실패 시: 커밋 차단
 
 Stage 2 (CI - 단위 테스트, <10분):
@@ -189,7 +189,7 @@ Stage 2 (CI - 단위 테스트, <10분):
   - 단위 테스트 실행
   - SAST (SonarQube, Semgrep)
   - SCA (Snyk)
-  
+
   실패 시: 브랜치 머지 차단
 
 Stage 3 (CI - 통합 테스트, <30분):
@@ -240,11 +240,11 @@ DevSecOps 도입:
 
 1. 파이프라인 보안 자동화:
   GitHub Actions:
-  
+
   - pr_check.yml:
     Semgrep SAST, Snyk SCA, Trivy
     Critical → PR 머지 차단
-    
+
   - staging_deploy.yml:
     OWASP ZAP DAST (API 엔드포인트)
     고위험 발견 → 알림 + 수동 검토
@@ -252,7 +252,7 @@ DevSecOps 도입:
 2. 개발자 보안 교육:
   시큐어 코딩 가이드라인 내부 위키
   "왜 이 취약점이 위험한지" 컨텍스트 제공
-  
+
 3. 보안 챔피언 제도:
   각 스쿼드(팀)에 보안 담당자 1명 지정
   → 보안 주도 (보안팀 병목 제거)

@@ -214,7 +214,7 @@ tags = ["data_engineering"]
 📢 **섹션 요약 비유**: 반정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 진화는수사록의 형식이 해마다 조금씩 변하는 것과 같다.，거년은"오늘의 목표"만 적었는데, 금년는"오늘의 목표"와"정서 상태"를 함께 적는 식이다. [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Registry는 이런 변화가 과거 기록을 감당할 수 있도록 해주는동시, 새 형식으로도 기록할 수 있게 해주는 문서 관리 정책과 같다.
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
-반정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), 그리고 실시간 분석 분야에서 그 활용이 계속 확대되고 있으며, 특히REST API와JSON 기반의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환이 표준이 된금, 그중요성은さら에고まっ있는. 
+반정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), 그리고 실시간 분석 분야에서 그 활용이 계속 확대되고 있으며, 특히REST API와JSON 기반의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환이 표준이 된금, 그중요성은さら에고まっ있는.
 
 | 관점 | 기대 효과 (Before & After) | 정량 지표 |
 |:---|:---|:---|

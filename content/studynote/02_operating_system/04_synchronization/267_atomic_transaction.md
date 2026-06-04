@@ -25,7 +25,7 @@ tags = ["studynote-operating-system"]
 1. `A 계좌에서 10,000원 차감` (성공)
 2. `B 계좌에 10,000원 입금` **(이때 서버 전원 차단됨!)**
 
-시스템이 재부팅된 후, A의 돈 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000원은 공중으로 증발해 버렸다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)나 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 입장에서 이렇게 '연산의 중간 상태'가 디스크나 메모리에 영구적으로 기록되는 것은 시스템의 신뢰성을 완전히 파괴하는 재앙이다. 
+시스템이 재부팅된 후, A의 돈 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000원은 공중으로 증발해 버렸다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)나 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 입장에서 이렇게 '연산의 중간 상태'가 디스크나 메모리에 영구적으로 기록되는 것은 시스템의 신뢰성을 완전히 파괴하는 재앙이다.
 학자들은 "여러 개의 코드로 이루어진 작업이지만, 바깥에서 볼 때는 **완벽하게 한방에 실행된 것처럼 보이거나 아예 시작도 안 한 것처럼 보여야 한다**"는 철학을 고안했다. 이것이 물리학의 쪼갤 수 없는 입자인 '원자(Atom)'의 이름을 딴 <strong>원자적 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>(Atomic <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">Transaction</a>)</strong>이다.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
@@ -86,7 +86,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-"완벽하게 해내지 못할 바엔, 차라리 흔적조차 남기지 마라." 
+"완벽하게 해내지 못할 바엔, 차라리 흔적조차 남기지 마라."
 원자적 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 단순히 데이터를 다루는 기법을 넘어, 복잡계 시스템(Complex System)이 치명적인 오류 앞에서도 스스로 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 지켜내기 위한 가장 우아하고 강력한 디자인 패턴이다. [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어([Concurrency Control](/knowledge-base/studynote/05_database/04_transactions_concurrency/508_concurrency_control/))의 뮤텍스나 세마포어가 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간의 '교통정리'를 담당한다면, 원자적 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 그 교통정리 도중 발생하는 사고 자체를 없었던 일로 되돌리는 시간의 마법사다.
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.

@@ -18,7 +18,7 @@ tags = ["enterprise_systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-컴포저블 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) (Composable [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))는 가트너(Gartner)가 제시한 미래 엔터프라이즈 시스템의 표준으로, 정적인(Static) 관리 도구였던 과거 ERP의 한계를 극복하기 위해 등장한 패러다임이다. 
+컴포저블 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) (Composable [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))는 가트너(Gartner)가 제시한 미래 엔터프라이즈 시스템의 표준으로, 정적인(Static) 관리 도구였던 과거 ERP의 한계를 극복하기 위해 등장한 패러다임이다.
 
 과거의 전통적 ERP는 재무, 인사, 생산, 물류 등 모든 기능이 하나의 거대한 코드 덩어리(Monolithic)로 단단히 결합되어 있었다. 이런 구조는 안정성은 높지만, 급변하는 현대 비즈니스 환경에서는 치명적이었다. 코로나19 팬데믹처럼 갑작스러운 비즈니스 피보팅이 필요할 때, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 하나를 수정하면 시스템 전체에 연쇄 오류가 발생해 수개월의 빅뱅(Big Bang)식 대공사와 막대한 SI(System Integration) 비용이 발생했다. 컴포저블 ERP는 이 '둔감하고 거대한 코끼리'를 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 철학으로 쪼개어, 상황에 맞게 진화하는 유기체로 만든 것이다.
 

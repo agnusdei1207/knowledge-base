@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>DAC (임의 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/">접근 통제</a>)</strong>: 리눅스의 기본 권한 체계(`rwxr-xr-x`). [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 '소유자(Owner)'가 마음대로 권한을 바꿀 수 있다. Root는 무적이다.
   - <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> (강제 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/">접근 통제</a>)</strong>: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 소유자든 Root든 상관없이, 오직 <strong>'시스템의 중앙 <a href="/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/">보안 정책</a>(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>)'</strong>만이 누가 무엇을 할 수 있는지 결정한다. SELinux는 이 MAC을 구현한 리눅스의 보안 엔진이다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 전통적인 리눅스(DAC)에서는 Nginx 웹 서버가 `www-data` 권한으로 돈다. 만약 Nginx 코드에 취약점이 있어서 해커가 침투하면, 해커는 `www-data` 권한을 얻는다. 문제는 이 권한만으로도 `/tmp`에 악성코드를 다운받거나 리버스 쉘을 열 수 있다는 점이다.
   - 만약 해커가 어떻게든 `Root` 계정마저 탈취하면([권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/)), 서버는 끝장난다.
   - **해결책**: "Root 권한이고 뭐고 다 뺏어라! 웹 서버 프로세스는 오직 '/var/www/html' 폴더만 읽을 수 있고, 네트워크 80번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)만 열 수 있도록 강제로 족쇄([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))를 채워버리자!"
@@ -31,7 +31,7 @@ tags = ["studynote-operating-system"]
   - **DAC (기존 리눅스)**: 아파트(서버)에서 집주인(소유자)이 자기 집 열쇠를 친구에게 맘대로 복사해 줄 수 있다. 건물주(Root)는 마스터 키로 모든 집에 다 들어갈 수 있다. (건물주가 미치면 아파트 전체가 털림)
   - <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/583_selinux/">SELinux</a>)</strong>: 아파트의 모든 문이 지문 인식기([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))로 바뀌었다. 집주인이라도 관리사무소 시스템([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))에 미리 등록되지 않은 행동은 할 수 없으며, 건물주(Root)조차 시스템이 허락한 '관리용 방' 외에는 절대 들어갈 수 없다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 2000년대 초반, 미국 정부([NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/))가 국가 기밀 시스템을 리눅스로 구축하려다 "Root가 너무 위험하다"며 직접 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 강력한 통제 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 붙여서 오픈소스로 기증한 것이 SELinux다. (이후 Red Hat/CentOS 진영의 표준이 됨).
 
 ```text

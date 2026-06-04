@@ -41,7 +41,7 @@ tags = ["studynote-operating-system"]
       │             │             │             │
       ▼             ▼             ▼             ▼
    [ 공통의 메인 메모리 (Shared Memory / Ready Queue) ]
-   
+
    >> 모든 코어가 "스스로" 큐에 접근하여 프로세스를 꺼내가고 시스템 콜을 처리한다.
 ```
 **[다이어그램 해설]** SMP의 핵심은 '운영체제의 동시 진입(Reentrancy)'이다. 4개의 코어가 동시에 시스템 콜을 호출하여 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드를 4군데서 동시에 실행하더라도 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 터지지 않게끔 정교한 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 처리가 되어 있다는 뜻이다. 특정 코어가 죽어도 나머지 3개의 코어가 완벽하게 똑같은 권한으로 시스템을 유지하므로 장애 내성([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))이 엄청나게 높다.
@@ -57,7 +57,7 @@ tags = ["studynote-operating-system"]
 모든 코어에 자유를 주자, OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 역사상 겪어보지 못한 거대한 혼돈(Chaos) 두 가지를 맞이하게 되었다.
 
 #### 1. 스케줄링 자료구조의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/))
-단일 코어 시절에는 Ready Queue를 아무리 지지고 볶아도 누가 끼어들 일이 없었다. [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 환경에서는 코어 0번이 큐에서 프로세스 P1을 꺼내 가려는 찰나에, 코어 1번도 동시에 P1을 꺼내 가려 덤벼든다. 
+단일 코어 시절에는 Ready Queue를 아무리 지지고 볶아도 누가 끼어들 일이 없었다. [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 환경에서는 코어 0번이 큐에서 프로세스 P1을 꺼내 가려는 찰나에, 코어 1번도 동시에 P1을 꺼내 가려 덤벼든다.
 - <strong>해결의 흑역사 (BKL, Big <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)</strong>: 초창기 리눅스는 이 충돌을 막으려고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 전체에 거대한 자물쇠(Global [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 하나를 달았다. 코어 0이 큐를 뒤질 때 코어 1, 2, 3은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 바깥에서 바보처럼 멈춰 서서(Spinning) 기다려야만 했다. 결국 코어가 8개, 16개 늘어나도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 안 오르는 재앙이 터졌다.
 - <strong>현대적 해결 (<a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/">Fine-grained</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> &amp; MQA)</strong>: 거대한 자물쇠 하나를 부수고, 큐 자체를 코어별로 잘게 쪼개어(Multi-[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 각자 자기 큐만 보게 만들거나, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조별로 아주 미세한 락([Fine-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 사용하여 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)을 극대화했다.
 

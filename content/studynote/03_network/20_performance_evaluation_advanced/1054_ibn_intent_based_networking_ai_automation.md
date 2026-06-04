@@ -59,7 +59,7 @@ tags = ["studynote-network"]
 
 ### 1. 의도 변환 (Translation & [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) - "인간의 말을 기계어로"
 - 인간이 대시보드에 적습니다. `[의도: 인사팀 직원들은 유튜브 접속 금지]`
-- [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 뇌(번역기)가 이 문장을 읽고, "인사팀 서브넷 IP는 뭐지? [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)(접속 제어) 명령어는 어떻게 짜야 하지?"를 고민하여 수천 줄의 기계어 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 스크립트로 자동 번역합니다. 
+- [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 뇌(번역기)가 이 문장을 읽고, "인사팀 서브넷 IP는 뭐지? [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)(접속 제어) 명령어는 어떻게 짜야 하지?"를 고민하여 수천 줄의 기계어 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 스크립트로 자동 번역합니다.
 - 쏘기 전에 샌드박스에서 시뮬레이션([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))을 돌려 "이거 치면 회사망 뻗나 안 뻗나?"를 수학적으로 검증까지 마칩니다.
 
 ### 2. 자동 배포 (Automated Implementation) - "[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 폭격"

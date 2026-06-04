@@ -28,7 +28,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[KISS](/knowledge-base/studynote/04_software_engineering/04_testing_quality/249_kiss_keep_it_simple_stupid/) 원칙의 실천은 '문제의 복잡도'와 '해결책의 복잡도'의 높이를 정확하게 일치시키는 작업이다. 
+[KISS](/knowledge-base/studynote/04_software_engineering/04_testing_quality/249_kiss_keep_it_simple_stupid/) 원칙의 실천은 '문제의 복잡도'와 '해결책의 복잡도'의 높이를 정확하게 일치시키는 작업이다.
 
 | 실천 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 상세 내용 및 기준 | [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (경계 대상) |
 | :--- | :--- | :--- |

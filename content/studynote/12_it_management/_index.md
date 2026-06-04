@@ -18,7 +18,7 @@ tags = ["studynote-it-management"]
 ---
 
 ### Ⅰ. 개요 (Context & Background)
-과거의 기업 경영진에게 IT 부서는 단순히 PC를 고쳐주고 네트워크 선을 연결하는 <strong>'비용 먹는 하마(Cost Center)'</strong>에 불과했다. 하지만 디지털 트랜스포메이션(DX) 시대가 도래하면서, IT 인프라의 장애(예: 카카오톡 데이터센터 화재)가 곧바로 국가적 비즈니스 마비와 기업의 주가 폭락을 초래하는 시대로 바뀌었다. 
+과거의 기업 경영진에게 IT 부서는 단순히 PC를 고쳐주고 네트워크 선을 연결하는 <strong>'비용 먹는 하마(Cost Center)'</strong>에 불과했다. 하지만 디지털 트랜스포메이션(DX) 시대가 도래하면서, IT 인프라의 장애(예: 카카오톡 데이터센터 화재)가 곧바로 국가적 비즈니스 마비와 기업의 주가 폭락을 초래하는 시대로 바뀌었다.
 <strong>IT 경영 및 관리(IT Management)</strong>는 기술(Technology)과 비즈니스(Business) 사이의 거대한 간극을 메우는 통역사다. 최고정보책임자(CIO)는 단순히 최신 AI나 클라우드 기술을 맹목적으로 도입하는 것이 아니라, "이 기술이 회사의 영업 이익을 얼마나 늘리고, 비용을 어떻게 절감하며, 해킹 리스크를 어떻게 통제할 것인가?"를 COBIT이나 ITIL과 같은 정교한 프레임워크를 통해 이사회에 증명하고 통제(Control)해야만 한다.
 
 ---
@@ -39,7 +39,7 @@ IT 경영은 크게 방향성을 제시하는 '거버넌스(Governance)'와 일�
 #### 2. ITIL v4 서비스 가치 체계 (SVS) 및 COBIT 거버넌스 연계 (ASCII)
 ```text
     [ Enterprise IT Governance & Service Value Architecture / 기업 IT 거버넌스 및 서비스 가치 아키텍처 ]
-    
+
     [ Board of Directors / 이사회 ] --- (Direct / Evaluate / Monitor) ---> [ COBIT Governance / 통제 체계 ]
              |
           (Alignment / 정렬)

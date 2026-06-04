@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-앞선 문서에서 배운 일반적인 [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 통신은 클라이언트(내 폰)가 직접 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관) 서버에 질의를 날렸습니다. 
+앞선 문서에서 배운 일반적인 [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 통신은 클라이언트(내 폰)가 직접 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관) 서버에 질의를 날렸습니다.
 이로 인해 <strong>1) 클라이언트의 접속 대기 시간(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>) 급증</strong>, <strong>2) <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a> 서버의 어마어마한 트래픽 과부하(DDoS급 병목)</strong>, <strong>3) 클라이언트의 웹서핑 접속 기록(프라이버시)이 CA에 고스란히 노출</strong>되는 세 가지 치명타를 입었습니다.
 
 ```text

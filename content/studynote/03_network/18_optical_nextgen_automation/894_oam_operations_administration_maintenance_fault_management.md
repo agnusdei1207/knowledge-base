@@ -23,7 +23,7 @@ tags = ["studynote-network"]
 - (Operations=운영 활성화, Administration=[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/과금 관리, Maintenance=장애 및 유지보수 수리)
 
 890번 문서에서 배운 '[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(랜선)'은 속도는 엄청 빠르지만, 원래 **"패킷 버려져도 난 몰라~" 하는 무책임한 쿨가이(Best-Effort)** 였습니다.
-- 이 무책임한 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)을 서울-부산 국가 백본망에 깔려니, 선이 끊어져도 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 아무도 모르게 멍을 때립니다. 
+- 이 무책임한 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)을 서울-부산 국가 백본망에 깔려니, 선이 끊어져도 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 아무도 모르게 멍을 때립니다.
 - 통신사(Carrier) 급 망으로 진화시키기 위해서는 구형 장비([SONET](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/))가 가지고 있던 미치도록 <strong>깐깐한 에러 감시 기능(장애 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 50ms 보장)</strong>을 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)에 강제로 이식해야만 했습니다. 그래서 탄생한 것이 '[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) OAM ([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) OAM)'입니다.
 
 ```text

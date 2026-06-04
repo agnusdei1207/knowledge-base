@@ -48,7 +48,7 @@ ARP는 목적이 "IP(3계층)를 이용해 [MAC](/knowledge-base/studynote/03_ne
 - **Hardware Type (2B)**: [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 환경이면 `1`.
 - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a> Type (2B)</strong>: 찾고자 하는 주소가 IPv4면 `0x0800`.
 - **H/W Length (1B)** & **Proto Length (1B)**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 길이는 6바이트, IP 길이는 4바이트.
-- <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/">Opcode</a> (2B) ★핵심</strong>: 
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/">Opcode</a> (2B) ★핵심</strong>:
   - `1` = [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Request (물어볼 때)
   - `2` = [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Reply (대답할 때)
 - <strong>Sender <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> (6B)</strong>: 질문하는 내 PC의 진짜 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/).

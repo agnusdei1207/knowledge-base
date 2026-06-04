@@ -67,7 +67,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 반도체 시스템 설계 시 가장 경계해야 할 문제는 <strong>열 폭주 (Thermal Runaway)</strong>다. 반도체는 도체와 달리 온도가 오를수록 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)이 떨어지고 전도도가 폭증하는 특성(NTC)을 가진다. 
+실무에서 반도체 시스템 설계 시 가장 경계해야 할 문제는 <strong>열 폭주 (Thermal Runaway)</strong>다. 반도체는 도체와 달리 온도가 오를수록 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)이 떨어지고 전도도가 폭증하는 특성(NTC)을 가진다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 판단 기준
 1. **열 설계 전력 (TDP)** 한계 내에서 쿨링 솔루션이 접합 온도(Tj)를 방어할 수 있는가?

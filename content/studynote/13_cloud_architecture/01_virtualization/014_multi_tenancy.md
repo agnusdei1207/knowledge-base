@@ -112,7 +112,7 @@ tags = ["cloud_architecture"]
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
-실무에서 멀티 테넌시를 도입할 때 가장 큰 도전 과제는 '완전한 공유'와 '프리미엄 고객을 위한 전용 환경'을 어떻게 섞어 쓸 것인가를 설계하는 것이다. 
+실무에서 멀티 테넌시를 도입할 때 가장 큰 도전 과제는 '완전한 공유'와 '프리미엄 고객을 위한 전용 환경'을 어떻게 섞어 쓸 것인가를 설계하는 것이다.
 
 <strong>실무 의사결정 시나리오 및 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
 1. **Tiered Tenancy (계층형 멀티 테넌시)**: 스타트업 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 기업의 경우 무료(Free) 티어 사용자 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000명은 1대의 거대한 공유 DB(Pool 모델)에 몰아넣어 인프라 비용을 극도로 낮춘다. 반면 매월 1억 원을 내는 엔터프라이즈 고객에게는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 혼재 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 없애기 위해 물리적으로 완전히 분리된 전용 인스턴스와 DB([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 모델)를 할당한다. 이를 하나의 제어 평면에서 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)하는 하이브리드 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 가장 현명하다.

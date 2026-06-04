@@ -37,7 +37,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- 진짜 라우터가 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블을 업데이트하면, 가상 공간의 쌍둥이 라우터도 0.01초 만에 텔레메트리(879번) 기술을 통해 그 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 테이블을 고스란히 내려받아 자신의 배 속 구조를 똑같이 바꿉니다. 
+- 진짜 라우터가 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블을 업데이트하면, 가상 공간의 쌍둥이 라우터도 0.01초 만에 텔레메트리(879번) 기술을 통해 그 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 테이블을 고스란히 내려받아 자신의 배 속 구조를 똑같이 바꿉니다.
 - 현실의 선이 뽑히면 가상 공간의 선도 똑같이 끊어집니다. (이 완벽한 동기화가 깨지면 시뮬레이션 결과가 쓰레기가 됩니다.)
 
 ```text
@@ -57,7 +57,7 @@ tags = ["studynote-network"]
 
 - 관리자가 가상 공간에 묻습니다. "만약(What-If) 내일 밤 10시에 유튜브 트래픽이 500Gbps로 쏟아진다면 어떻게 될까?"
 - 가상 네트워크 엔진이 수만 개의 가짜 패킷([더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 수식 계산을 1분 만에 끝냅니다.
-- **결과 출력**: "강남역 3번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)부터 잠실 1번 라우터 구간에서 버퍼 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))가 꽉 차서 30%의 패킷 드랍(병목 현상)이 발생합니다!" 
+- **결과 출력**: "강남역 3번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)부터 잠실 1번 라우터 구간에서 버퍼 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))가 꽉 차서 30%의 패킷 드랍(병목 현상)이 발생합니다!"
 
 ### 2. 장애 파급 효과(Impact) 시뮬레이션
 - "만약 포크레인이 부산행 메인 광케이블을 썰어 먹는다면?"
@@ -78,7 +78,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 개발자가 "새로운 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 룰"을 코딩했습니다. 이걸 현실망에 바로 적용하면 짤립니다.
-- <strong>사전 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 개발자가 짠 코드를 1차로 가상의 쌍둥이 망에 주입해 돌려봅니다(샌드박스 테스트). 
+- <strong>사전 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 개발자가 짠 코드를 1차로 가상의 쌍둥이 망에 주입해 돌려봅니다(샌드박스 테스트).
 - 테스트 결과, 루핑(뺑뺑이) 에러가 없고 목적지까지 정상 도달하는 것을 완벽히 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Verified)한 뒤에야, [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러를 통해 진짜 현실 장비에 100% 안전하게 배포(Commit)를 허락합니다. (네트워크 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD의 완성)
 
 - 수만 대의 장비와 수백만 가닥의 경로, 그리고 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 알고리즘의 동작을 가상 공간에서 완벽히 똑같이 흉내(수학적 에뮬레이션) 내려면 엄청난 양의 슈퍼컴퓨터 연산 능력(CPU/[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))이 필요합니다. 그래서 현재 통신사들은 가장 굵직한 코어망 백본 위주로만 제한적으로 트윈 시뮬레이션을 돌리고 있습니다.

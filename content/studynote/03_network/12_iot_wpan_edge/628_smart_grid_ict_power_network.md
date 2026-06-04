@@ -55,7 +55,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/">AMI</a> (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/">Advanced Metering Infrastructure</a>, 원격검침인프라)</strong> 
+1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/">AMI</a> (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/">Advanced Metering Infrastructure</a>, 원격검침인프라)</strong>
    - [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/)의 말단 신경망입니다. (상세 내용은 629번 문서 참고)
    - 가정집 담벼락에 붙은 똑똑한 계량기(스마트 미터)가 집안의 전기 사용량을 실시간으로 측정해 통신망([PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/), [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 등)으로 발전소로 쏴줍니다.
 

@@ -65,9 +65,9 @@ tags = ["studynote-network"]
 패킷을 단순히 1번 길, 2번 길, 3번 길로 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)(번갈아 가며)으로 막 던지면 대참사가 일어납니다.
 
 - **문제점**: 1번 길로 간 1번 패킷보다, 3번 길로 간 2번 패킷이 더 빨리 도착해버리면(순서 역전, Jitter), 도착지 컴퓨터가 파일을 조립하다가 에러([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 재전송)를 냅니다.
-- <strong>ECMP의 해시(Hash) <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 해결책</strong>: 라우터는 패킷 껍데기에서 `출발지 IP + 도착지 IP + 포트 번호` 이 5가지를 뽑아내 수식(해시)을 돌립니다. 
-  - 철수가 쏘는 카톡 패킷은 해시값이 1번이 나오므로 **죽을 때까지 1번 길로만** 밀어 넣습니다. 
-  - 영희가 쏘는 유튜브 패킷은 해시값이 2번이 나오므로 **죽을 때까지 2번 길로만** 밉니다. 
+- <strong>ECMP의 해시(Hash) <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 해결책</strong>: 라우터는 패킷 껍데기에서 `출발지 IP + 도착지 IP + 포트 번호` 이 5가지를 뽑아내 수식(해시)을 돌립니다.
+  - 철수가 쏘는 카톡 패킷은 해시값이 1번이 나오므로 **죽을 때까지 1번 길로만** 밀어 넣습니다.
+  - 영희가 쏘는 유튜브 패킷은 해시값이 2번이 나오므로 **죽을 때까지 2번 길로만** 밉니다.
 - 이렇게 특정 '흐름(Flow, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))'별로 가는 길을 고정해 주기 때문에, 패킷 순서가 뒤집어지는 재앙을 완벽하게 막아내면서도 전체 트래픽은 골고루 4갈래 길로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되는 예술적인 균형을 맞춥니다.
 
 ECMP 스파인-리프 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 경로 활성…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [오버서브스크립션 비율](/knowledge-base/studynote/03_network/16_data_center_cloud/803_oversubscription_ratio_data_center_bandwidth/) 설계 개념 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)망 대역이 기반 조건을 만든다면, ECMP 스파인-리프 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 경로 활성…는 그 위에서 핵심 메커니즘을 구현하고, Clos 네트워크는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.

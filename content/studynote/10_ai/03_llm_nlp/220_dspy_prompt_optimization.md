@@ -23,7 +23,7 @@ tags = ["studynote-ai"]
 
 더 최악인 건 <strong>'프롬프트의 취약성(Brittleness)'</strong>이었다. [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4에 딱 맞게 1주일을 밤새워 튜닝한 1,000자짜리 완벽한 프롬프트가, 어느 날 회사 방침으로 싼 모델(Llama 3)로 교체되자마자 완전히 망가져 바보 같은 대답을 뱉기 시작했다. 모델마다 뇌 구조가 달라서 먹히는 글자(주문)가 다 달랐기 때문이다. 모델이 바뀔 때마다 인간이 프롬프트를 처음부터 다시 써야 하는 지옥이 반복됐다.
 
-스탠퍼드 대학교(Stanford NLP)의 연구진들은 이 미개한 짓거리에 분노했다. "왜 사람이 프롬프트를 손으로 치고 있지? 파이토치(PyTorch)가 신경망의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))를 자동으로 튜닝하는 것처럼, **프롬프트(텍스트)도 기계가 알아서 최적화(Tuning)하게 만들면 안 되나?**" 
+스탠퍼드 대학교(Stanford NLP)의 연구진들은 이 미개한 짓거리에 분노했다. "왜 사람이 프롬프트를 손으로 치고 있지? 파이토치(PyTorch)가 신경망의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))를 자동으로 튜닝하는 것처럼, **프롬프트(텍스트)도 기계가 알아서 최적화(Tuning)하게 만들면 안 되나?**"
 이 위대한 발상에서 탄생한 것이 파이썬 코드로 프롬프트를 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 컴파일해 버리는 프레임워크, <strong>DSPy</strong>다.
 
 ```text
@@ -68,7 +68,7 @@ DSPy는 프롬프트 텍스트를 하드코딩하지 않고, 파이토치(PyTorc
 ```
 
 **핵심 원리 (Signature와 Teleprompter)**:
-DSPy의 심장은 <strong>시그니처(Signature)</strong>다. 프롬프트를 길게 쓰는 대신 `"question -> answer"` 또는 `"document, question -> summary"`처럼 입력과 출력의 자료형(Type) 구조만 짧게 정의한다. 
+DSPy의 심장은 <strong>시그니처(Signature)</strong>다. 프롬프트를 길게 쓰는 대신 `"question -> answer"` 또는 `"document, question -> summary"`처럼 입력과 출력의 자료형(Type) 구조만 짧게 정의한다.
 그다음 이 뼈대를 완성하는 것이 <strong>텔레프롬프터(Teleprompter, <a href="/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/">옵티마이저</a>)</strong>다. 개발자가 20개 정도의 정답 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Trainset)를 주면, 텔레프롬프터는 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)처럼 루프를 돌면서 "어떤 예시(Few-shot)를 프롬프트에 끼워 넣었을 때 LLM이 정답을 가장 잘 맞추는지"를 수학적으로 평가하여 <strong>가장 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>이 높은 프롬프트 세트를 스스로 찾아내어 확정(Compile)</strong> 짓는다. 파이토치가 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))를 깎는다면, DSPy는 프롬프트(Text)를 깎는다.
 
 | 요소 | 역할 |

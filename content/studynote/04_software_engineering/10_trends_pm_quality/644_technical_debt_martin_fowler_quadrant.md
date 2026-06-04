@@ -83,7 +83,7 @@ tags = ["studynote-software-engineering"]
 | **지식 이전에 의한 해소**| [페어 프로그래밍](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/074_pair_programming_driver_navigator/)([Pair Programming](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/074_pair_programming_driver_navigator/)), [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) | "무모하고 무의도적인 부채"를 방지하기 위해 시니어-주니어 지식 격차 해소 유도 |
 | **품질 게이트** | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/) 단계) | [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)([Pull Request](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)) 시 코드 퀄리티 벤치마크 통과 못하면 Merge 불가능하도록 시스템 락 |
 
-**이자(Interest)의 복리 효과**: [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)가 상환되지 않고 방치되면 코드 한 줄을 수정할 때 사이드 이펙트로 주변 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 10개가 깨지는 사태가 발생한다. 즉, 이자가 눈덩이처럼 불어나 결국 시스템에 아무런 가치도 덧붙이지 못하고 버그 트래블슈팅만 하는 "신용 파산" 상태에 도달한다. 
+**이자(Interest)의 복리 효과**: [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)가 상환되지 않고 방치되면 코드 한 줄을 수정할 때 사이드 이펙트로 주변 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 10개가 깨지는 사태가 발생한다. 즉, 이자가 눈덩이처럼 불어나 결국 시스템에 아무런 가치도 덧붙이지 못하고 버그 트래블슈팅만 하는 "신용 파산" 상태에 도달한다.
 
 ---
 

@@ -25,7 +25,7 @@ tags = ["studynote-computer-architecture"]
   조합 논리: 출력 = f(현재 입력)
     AND, OR, NAND, NOR, XOR
     메모리 없음, 즉각 반응
-    
+
   순서 논리: 출력 = f(현재 입력, 현재 상태)
     상태(State) = 과거 입력의 기억
     피드백 루프 포함
@@ -45,7 +45,7 @@ tags = ["studynote-computer-architecture"]
   동기식 (Synchronous): CLK 엣지에서 상태 전환
     → 설계 단순, 분석 명확
     → 현대 디지털 시스템 표준
-    
+
   비동기식 (Asynchronous): 클록 없이 이벤트 기반
     → 빠른 반응, 설계 복잡
     → Ripple Counter 등 특수 용도
@@ -68,7 +68,7 @@ tags = ["studynote-computer-architecture"]
 래치 (Latch) vs 플립플롭:
   래치: 레벨(Level) 트리거 — CLK HIGH 동안 입력 반영
   플립플롭: 에지(Edge) 트리거 — CLK 상승/하강 엣지만 반영
-  
+
   현대: 플립플롭이 표준 (타이밍 제어 정확)
 
 1. SR 플립플롭 (Set-Reset):
@@ -81,7 +81,7 @@ tags = ["studynote-computer-architecture"]
    가장 단순하고 널리 사용
    CLK 엣지에서 D 입력을 Q에 저장
    Q(t+1) = D
-   
+
    용도: 레지스터, 시프트 레지스터
 
 3. JK 플립플롭:
@@ -90,14 +90,14 @@ tags = ["studynote-computer-architecture"]
    J=1, K=0 → Set
    J=0, K=1 → Reset
    J=0, K=0 → Hold
-   
+
    Q(t+1) = J·Q̄ + K̄·Q
 
 4. T 플립플롭 (Toggle):
    T=1 → Toggle
    T=0 → Hold
    Q(t+1) = T⊕Q
-   
+
    용도: 카운터 (T=1이면 매 CLK마다 반전)
 
 셋업/홀드 타임:
@@ -120,13 +120,13 @@ Mealy vs Moore 머신:
   Moore 머신:
     출력 = f(현재 상태만)
     상태에만 의존
-    
+
     장점: 출력 안정적 (클록 동기)
-    
+
   Mealy 머신:
     출력 = f(현재 상태, 현재 입력)
     입력 변화에 즉각 반응
-    
+
     장점: 상태 수 적을 수 있음
 
 FSM 설계 절차:
@@ -140,9 +140,9 @@ FSM 설계 절차:
 신호등 FSM 예시 (Moore):
   상태: S0(RED), S1(GREEN), S2(YELLOW)
   입력: timer
-  
+
   S0 →[timer=1]→ S1 →[timer=1]→ S2 →[timer=1]→ S0
-  
+
   출력:
   S0 → RED=1, GREEN=0, YELLOW=0
   S1 → RED=0, GREEN=1, YELLOW=0
@@ -167,11 +167,11 @@ FSM 설계 절차:
 비동기 카운터 (Ripple Counter):
   T 플립플롭 직렬 연결
   각 FF의 Q 출력 → 다음 FF의 CLK
-  
+
   장점: 구조 단순
   단점: 전파 지연 (Ripple Delay) 누적
         n비트 → n × tFF 지연
-  
+
 동기 카운터 (Synchronous Counter):
   모든 FF가 공통 CLK 사용
   장점: 빠름 (병렬 전환)
@@ -180,28 +180,28 @@ FSM 설계 절차:
 2비트 업 카운터 (D FF, 동기):
   현재 상태 Q1Q0 → 다음 상태
   00 → 01 → 10 → 11 → 00 (반복)
-  
+
   D0 = Q0̄
   D1 = Q1⊕Q0
 
 분주기 (Frequency Divider):
   T FF T=1: 매 CLK마다 토글
   → 출력 주파수 = CLK / 2
-  
+
   n개 직렬: CLK / 2^n
 
 레지스터 (Register):
 
   병렬 레지스터: n개 D FF 공통 CLK
     n비트 데이터를 동시에 저장/출력
-    
+
   시프트 레지스터 (Shift Register):
     직렬 연결: Q → 다음 D
     매 CLK마다 데이터가 한 칸씩 이동
-    
+
     용도: 직렬↔병렬 변환, UART 송수신
           CRC 계산, 난수 생성 (LFSR)
-    
+
   LFSR (Linear Feedback Shift Register):
     XOR 피드백 = 의사 난수 생성
     암호화, 테스트 패턴 생성
@@ -218,9 +218,9 @@ CPU 파이프라인 레지스터 (순서 논리 응용):
 
 5단계 파이프라인:
   IF → ID → EX → MEM → WB
-  
+
   각 단계 사이: 파이프라인 레지스터 (D FF 묶음)
-  
+
   IF/ID 레지스터: 명령어 저장
   ID/EX 레지스터: 피연산자, 제어 신호
   EX/MEM 레지스터: ALU 결과
@@ -229,19 +229,19 @@ CPU 파이프라인 레지스터 (순서 논리 응용):
 타이밍 문제 — 셋업 타임:
 
   CLK 주기 = 단계 최대 지연 + 셋업 타임 + 클록 스큐
-  
+
   예:
   EX 단계 (ALU): 3ns
   셋업 타임: 0.5ns
   클록 스큐: 0.1ns
-  
+
   최소 CLK 주기 = 3 + 0.5 + 0.1 = 3.6ns
   최대 주파수 = 1 / 3.6ns ≈ 278MHz
 
 데이터 해저드와 스톨:
   1. 데이터 의존성 → 파이프라인 스톨
      NOP 삽입 (버블) = 낭비 사이클
-     
+
   2. 전달(Forwarding)로 해결:
      EX/MEM 레지스터 값 → EX 단계 입력으로 직접 전달
      스톨 없이 의존성 해결

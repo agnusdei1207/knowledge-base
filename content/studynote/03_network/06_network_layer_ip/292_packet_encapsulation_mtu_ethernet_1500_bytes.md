@@ -19,12 +19,12 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **캡슐화**: OSI 7계층에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 내려올 때마다 헤더(Header)가 덧붙여지는 과정. (반대로 수신자가 껍질을 벗기는 과정은 역캡슐화, Decapsulation이라 함).
   - **MTU**: 특정 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층(L2) 프로토콜이 한 번에 운반할 수 있는 3계층(L3) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷의 최대 크기.
 - **필요성**: 우체국에서 편지를 보낼 때 편지 내용물([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 덜렁 주면 배달을 못 한다. 편지봉투([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더)에 넣고, 그걸 다시 택배 상자(IP 헤더)에 넣고, 마지막으로 화물 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임)에 실어야 배달 체계가 돌아간다. 이때, 마지막 화물 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 실을 수 있는 최대 무게 제한(MTU)이 없으면, 너무 큰 짐 하나 때문에 컨베이어 벨트가 고장 나거나 다른 짐들이 배송 지연을 겪으므로 반드시 크기 제한을 두어야 한다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - **캡슐화**: 러시아 전통 인형 <strong>'마트료시카'</strong>입니다. 가장 작은 인형([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 중간 인형([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))에 넣고, 그걸 다시 큰 인형(IP)에 넣는 식입니다.
   - **MTU**: 마트료시카를 담아 나르는 <strong>'택배 박스의 규격 제한(1500g)'</strong>입니다. 마트료시카 전체 무게가 1500g을 넘어가면 택배 회사에서 접수를 거부합니다.
 
@@ -50,7 +50,7 @@ tags = ["studynote-network"]
 3. <strong>2계층 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Link)</strong>: [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)이 목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 적은 <strong>14바이트 헤더</strong>와 <strong>4바이트 FCS(꼬리표)</strong>를 앞뒤로 붙인다. (최종 1518바이트짜리 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임이 완성되어 랜선을 타고 전송됨).
 
 ### 2. [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) MTU 1500바이트의 의미
-위 과정에서 2계층인 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 입장에서 볼 때, 14바이트 헤더와 4바이트 FCS 사이에 끼워 넣는 <strong>알맹이(IP 패킷 전체)</strong>의 크기가 바로 MTU다. 
+위 과정에서 2계층인 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 입장에서 볼 때, 14바이트 헤더와 4바이트 FCS 사이에 끼워 넣는 <strong>알맹이(IP 패킷 전체)</strong>의 크기가 바로 MTU다.
 - 1980년대 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 표준을 만들 때, "프레임이 너무 크면 한 놈이 회선을 독점해서 남들이 통신을 못 하니까, 알맹이(MTU) 크기를 1500바이트로 엄격히 제한하자"라고 약속했다.
 - 만약 3계층에서 2000바이트짜리 IP 패킷이 내려오면, [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 랜카드는 "내 뱃속(MTU 1500)에 안 들어가! 도로 가져가!"라며 뱉어낸다. 결국 IP 계층이 자기가 만든 패킷을 1500 크기에 맞게 여러 개로 칼질([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))해야만 한다.
 

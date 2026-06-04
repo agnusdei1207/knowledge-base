@@ -28,14 +28,14 @@ tags = ["studynote-operating-system"]
   [보장 스케줄링의 공정성 수렴(Convergence) 매커니즘]
 
    (시스템에 4개의 프로세스가 존재한다고 가정 -> 목표 할당량 = 25% 씩)
-   
+
    [프로세스별 실제 쓴 CPU 비율 측정 (모니터링)]
    P1 (30%) : 약속(25%)보다 많이 씀 (이득 봄)   ─▶ CPU 할당 정지! 강제 대기
    P2 (26%) : 약속(25%)보다 조금 많이 씀        ─▶ 우선순위 대폭 하락
    P3 (25%) : 딱 정량만큼 씀                   ─▶ 정상 유지
    P4 (19%) : 🚨 약속(25%)보다 적게 씀 (손해 봄) ─▶ 최우선 VIP 배정! 집중 할당!
-   
-   >> 스케줄러는 이 격차를 0으로 만들기 위해, 항상 '가장 손해 본(비율이 낮은)' 
+
+   >> 스케줄러는 이 격차를 0으로 만들기 위해, 항상 '가장 손해 본(비율이 낮은)'
       P4에게 CPU를 밀어주어 모든 프로세스가 25% 선으로 수렴하도록 강제한다.
 ```
 **[다이어그램 해설]** 보장 스케줄링은 미래를 예측([SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/))하거나 자의적으로 신분(Priority)을 부여하지 않는다. 오직 "과거에 네가 약속된 지분보다 얼마나 덜 먹었는가(비율)"라는 회계 장부만을 보고 차갑게 기회를 박탈하거나 몰아준다. 이 메커니즘 덕분에 누구 하나 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))에 빠지지 않고 수학적으로 완벽한 공평함을 보장받는다.
@@ -86,7 +86,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅲ. 비교 및 연결
 
-### 보장 스케줄링 vs [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) ([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/)) 
+### 보장 스케줄링 vs [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) ([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))
 
 언뜻 보면 "공평하게 나눈다"는 철학이 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))과 똑같아 보이지만, 타겟팅하는 지점이 완전히 다르다.
 
@@ -144,7 +144,7 @@ tags = ["studynote-operating-system"]
 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)에 완벽한 회계(Accounting)와 보장(Guarantee) 개념이 결합되면서, 사용자는 다른 사용자가 서버에서 무슨 짓(루프 폭주 등)을 하든 말든 내가 약속받은 연산 속도가 절대 떨어지지 않는다는 강력한 <strong>자원 격리(Resource <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">Isolation</a>)와 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 수준 협약)</strong>의 혜택을 온전히 누릴 수 있게 되었다.
 
 ### 결론 및 미래 전망
-보장 스케줄링 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체는 나눗셈 오버헤드와 비현실적인 1/N 평등주의로 인해 교과서의 유물로 남는 듯했다. 그러나 "과거의 소비 내역을 장부에 기록하고, 부족분만큼 우선순위를 높여준다"는 뼈대 철학은 공정 주식 배분(Fair Share) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 흡수되었으며, 마침내 현대의 클라우드 인프라(K8s)와 리눅스 CFS에서 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)를 원천 차단하는 가장 위대한 스케줄링 코어 로직으로 부활해 현대 서버 아키텍처를 호령하고 있다. 
+보장 스케줄링 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체는 나눗셈 오버헤드와 비현실적인 1/N 평등주의로 인해 교과서의 유물로 남는 듯했다. 그러나 "과거의 소비 내역을 장부에 기록하고, 부족분만큼 우선순위를 높여준다"는 뼈대 철학은 공정 주식 배분(Fair Share) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 흡수되었으며, 마침내 현대의 클라우드 인프라(K8s)와 리눅스 CFS에서 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)를 원천 차단하는 가장 위대한 스케줄링 코어 로직으로 부활해 현대 서버 아키텍처를 호령하고 있다.
 
 - **📢 섹션 요약 비유**: 순수하게 $1/N$로 쪼개는 공산주의적 나눗셈 계산기(보장 스케줄링) 자체는 버려졌지만, "누구도 자신이 일한 몫과 권리를 억울하게 빼앗겨선 안 된다"는 그 위대한 헌법(공정성 철학)은 현대 민주주의 시스템(리눅스 CFS)의 가장 든든한 주춧돌로 승화되었습니다.
 

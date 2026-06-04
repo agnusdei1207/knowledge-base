@@ -106,9 +106,9 @@ I/O 서브시스템이 유저 앱에게 통신을 허락하는 4가지 패러다
 | **비동기 (Asynchronous)**| (이론적으로 거의 안 씀. 논리적 모순 구조) | `aio_read` 던져놓고 딴일 함. <strong>나중에 다 가져오면 OS가 콜백(Callback)/<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 날려줌</strong> (Node.js의 심장) |
 
 ### 디바이스 오류 처리 (Error Handling)의 끈질김
-디스크나 네트워크는 본질적으로 불안정하다. 
+디스크나 네트워크는 본질적으로 불안정하다.
 - 디스크 배드 섹터(Bad Sector)를 만났을 때, 앱에 바로 `Error`를 뱉으면 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)프로세서가 뻗어버리고 유저가 폭동을 일으킨다.
-- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 수호</strong>: I/O 서브시스템 내의 SCSI/[NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 드라이버는 에러가 나면 유저 모르게 <strong>하드웨어적으로 3번~5번 재시도(Retry)</strong>를 때린다. 그래도 안 되면 아예 그 배드 섹터를 예비용 섹터(Spare Sector)로 하드웨어 리매핑(Remapping) 처리해서 살려내 버린다. 
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 수호</strong>: I/O 서브시스템 내의 SCSI/[NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 드라이버는 에러가 나면 유저 모르게 <strong>하드웨어적으로 3번~5번 재시도(Retry)</strong>를 때린다. 그래도 안 되면 아예 그 배드 섹터를 예비용 섹터(Spare Sector)로 하드웨어 리매핑(Remapping) 처리해서 살려내 버린다.
 - 이 지독한 재시도 늪 덕분에 윈도우 블루스크린 빈도가 99% 줄어들었지만, 반대로 "디스크가 맛이 가면 앱이 에러도 안 뱉고 수 분간 무한 대기(Uninterruptible Sleep, `D` [state](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))에 빠져버리는" 좀비 서버 현상을 낳는 양날의 검이 되었다.
 
 ```text
@@ -129,7 +129,7 @@ I/O 서브시스템이 유저 앱에게 통신을 허락하는 4가지 패러다
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: Nginx의 `sendfile`과 Zero-Copy의 축복
-1. **과거의 무식한 I/O**: 
+1. **과거의 무식한 I/O**:
    - 웹 서버가 하드디스크의 영화(1GB)를 유저에게 쏜다.
    - 디스크 -> [커널 버퍼] -> [유저 앱 버퍼] -> [소켓 버퍼] -> 랜카드.
    - I/O 서브시스템이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사(Memcpy)하느라 시스템 콜을 4번 부르고 CPU 코어가 100% 타버렸다.

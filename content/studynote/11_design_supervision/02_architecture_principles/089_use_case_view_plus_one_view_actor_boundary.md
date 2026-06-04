@@ -97,7 +97,7 @@ tags = ["studynote-design"]
 
 유스케이스 뷰를 통해 개발자와 고객 간의 소통 장벽이 무너지며, 개발 초기부터 프로젝트의 비즈니스 목적이 명확하게 조준된다. 또한 향후 시스템 변경 시나 [테스트 시나리오](/knowledge-base/studynote/04_software_engineering/11_testing_validation/442_test_scenario/) 도출 시 가장 훌륭한 길잡이 역할을 수행한다.
 
-결론적으로, 4+1 [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 모델에서 유스케이스 뷰가 정중앙(+1)에 위치하는 이유는 분명하다. 아무리 화려한 기술 스택과 서버 아키텍처를 자랑하더라도, 결국 "고객이 원하는 그 기능이 정상 작동하는가?"라는 단 하나의 질문에 답하지 못하면 그 시스템은 실패작이기 때문이다. 
+결론적으로, 4+1 [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 모델에서 유스케이스 뷰가 정중앙(+1)에 위치하는 이유는 분명하다. 아무리 화려한 기술 스택과 서버 아키텍처를 자랑하더라도, 결국 "고객이 원하는 그 기능이 정상 작동하는가?"라는 단 하나의 질문에 답하지 못하면 그 시스템은 실패작이기 때문이다.
 
 - **📢 섹션 요약 비유**: 나침반과 같습니다. 배의 모터가 아무리 좋고 선원들의 기술이 뛰어나도, 나침반(유스케이스 뷰)이 가리키는 목적지를 향하지 않으면 바다 한가운데서 표류하는 고철 덩어리가 될 뿐입니다.
 

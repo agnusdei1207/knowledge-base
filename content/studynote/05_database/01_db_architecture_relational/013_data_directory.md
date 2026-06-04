@@ -143,13 +143,13 @@ tags = ["database"]
    [접근 불가 영역 판단]
       ├─ 데이터 사전(딕셔너리) 뷰 훼손 ──> [논리적 손상] 딕셔너리 뷰 재컴파일 스크립트 실행 (복구 용이)
       │
-      └─ 데이터 디렉터리 블록 손상/Lost ──> [물리적 치명상] 
+      └─ 데이터 디렉터리 블록 손상/Lost ──> [물리적 치명상]
             │                                  ▼
             │                         (시스템 인스턴스 Down 발생)
             │                         (Full System Recovery 또는 Block Media Recovery 요망)
 ```
 
-이 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)는 장애의 양상에 따라 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 손상 부위를 진단하는 과정을 보여준다. [데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/)의 뷰([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))가 깨진 것은 껍데기가 벗겨진 것에 불과하여 스크립트로 재생성이 가능하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)(물리적 포인터 블록)의 손상은 뼈대가 부러진 것이라 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 동원한 복잡한 미디어 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 필수적임을 시사한다. 
+이 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)는 장애의 양상에 따라 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 손상 부위를 진단하는 과정을 보여준다. [데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/)의 뷰([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))가 깨진 것은 껍데기가 벗겨진 것에 불과하여 스크립트로 재생성이 가능하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)(물리적 포인터 블록)의 손상은 뼈대가 부러진 것이라 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 동원한 복잡한 미디어 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 필수적임을 시사한다.
 
 📢 **섹션 요약 비유**: 내비게이션 앱의 화면([데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/))이 깨지면 앱을 다시 깔면 되지만, 내비게이션 안의 GPS 센서 자체([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/))가 고장나면 기기를 뜯어서 수리해야 하는 치명적인 상태인 것과 같습니다.
 

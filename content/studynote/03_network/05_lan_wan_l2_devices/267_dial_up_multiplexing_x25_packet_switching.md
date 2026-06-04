@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: ITU-T(국제 전기 통신 연합)가 1976년에 제정한 WAN(광역 통신망) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다. 단말기(DTE)와 통신사 망(DCE) 사이의 인터페이스 규격을 정의한다.
 - **필요성**: T1 같은 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)은 24시간 혼자 써서 빠르고 좋지만, 요금이 살인적이었다. 통신을 안 하고 쉴 때도 돈을 냈다. "통신사가 거대한 구름(망)을 하나 만들어 놓고, 사용자들이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잘게 쪼갠 '패킷' 형태로 보내서 망을 공유하게 하자! 그러면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보낸 만큼만 요금을 내면 되니까 훨씬 싸잖아!"라는 아이디어에서 공용 패킷 교환망이 탄생했다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/">전용선</a></strong>: 나 혼자 타고 다니는 "전용 택시" (비쌈, 빠름).
   - **X.25**: 수많은 사람의 소화물(패킷)을 한꺼번에 싣고 달리는 "공용 우체국 트럭" (저렴함, 조금 느림).
 

@@ -19,13 +19,13 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">VFS</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">Virtual File System</a> / Virtual <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a>)</strong>: 서로 다른 다양한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템들이 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 위에서 동일하게 작동하는 것처럼 보이게 만들어주는 가상의 소프트웨어 계층.
   - 리눅스의 철학인 "Everything is a [file](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(모든 것은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이다)"을 기술적으로 완성시키는 핵심 뼈대.
 
-- <strong>필요성 (파편화된 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템의 통일)</strong>: 
+- <strong>필요성 (파편화된 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템의 통일)</strong>:
   - 리눅스에는 ext4가 있고, USB를 꽂으면 FAT32가 들어오고, 윈도우 하드를 꽂으면 NTFS가 들어온다.
-  - 만약 VFS가 없다면? C언어로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽으려면 개발자가 `ext4_read()`, `fat32_read()`, `ntfs_read()` 함수를 각각 따로 짜야 한다. 
+  - 만약 VFS가 없다면? C언어로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽으려면 개발자가 `ext4_read()`, `fat32_read()`, `ntfs_read()` 함수를 각각 따로 짜야 한다.
   - 게다가 `cp` 명령어로 ext4에 있는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 FAT32 USB로 복사할 때, 두 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이 서로 데이터를 어떻게 주고받을지 아키텍처가 전무했다.
   - **해결책**: "OS 안에 가짜 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템([VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/))을 하나 크게 만들자! 앱은 VFS에게만 명령을 내리고, VFS가 뒤에서 각 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 전용 드라이버를 호출해 주는 다형성(Polymorphism)을 구현하자!"
 

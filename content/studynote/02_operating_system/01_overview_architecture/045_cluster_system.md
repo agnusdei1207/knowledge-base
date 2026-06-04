@@ -31,7 +31,7 @@ tags = ["studynote-operating-system"]
    └──────────────┼──────────────┘
                   │
         고속 네트워크 (InfiniBand, 10/100G Ethernet)
-        
+
 공유 스토리지:
   SAN (Storage Area Network) 또는 NAS/분산 파일시스템
 
@@ -59,11 +59,11 @@ HA 클러스터 (High Availability Cluster):
 Active-Standby (능동-대기):
   Active Node: 실제 서비스 처리
   Standby Node: 대기 (Heartbeat 모니터링)
-  
+
   장애 감지:
   Active → Heartbeat 중단
   Standby → 장애 감지 → Failover
-  
+
   Failover 절차:
   1. VIP (Virtual IP) Standby로 이전
   2. 공유 스토리지 마운트
@@ -73,19 +73,19 @@ Active-Standby (능동-대기):
 Active-Active (능동-능동):
   모든 노드가 서비스 처리
   부하 분산 + 고가용성 동시 달성
-  
+
   한 노드 장애 → 나머지 노드가 부하 흡수
-  
+
   조건: 각 노드가 독립적으로 서비스 가능해야 함
   (무상태 서비스, DB의 경우 공유 스토리지 필요)
 
 Split-Brain 문제:
   네트워크 단절 → 두 노드 모두 Active 주장
   → 데이터 충돌
-  
+
   해결: Quorum (쿼럼) 디스크/노드
   과반수 투표 방식으로 Active 결정
-  
+
 HA 소프트웨어:
   Linux: Pacemaker + Corosync
   Windows: WSFC (Windows Server Failover Clustering)
@@ -105,15 +105,15 @@ HPC 클러스터 (High-Performance Computing):
   헤드 노드 (Head/Login Node): 작업 제출, 관리
   컴퓨트 노드 (Compute Node): 실제 계산 수행
   스토리지 노드: 공유 데이터 저장
-  
+
   고속 인터커넥트:
   InfiniBand: 200 Gbps, 초저지연 (< 1 μs)
   OmniPath: Intel 고속 패브릭
-  
+
 작업 스케줄러:
   SLURM (Simple Linux Utility for Resource Management):
   - 노드 할당, 작업 큐 관리
-  
+
   sbatch job.sh        # 작업 제출
   squeue               # 큐 상태 확인
   scontrol show node   # 노드 상태
@@ -122,7 +122,7 @@ HPC 클러스터 (High-Performance Computing):
   MPI (Message Passing Interface): 노드 간 통신
   OpenMP: 노드 내 스레드 병렬화
   Hybrid: MPI + OpenMP
-  
+
   MPI 예시 (개념):
   Rank 0 (Master): 데이터 분할 → 전송
   Rank 1~N: 계산 → 결과 반환 (MPI_Reduce)
@@ -130,7 +130,7 @@ HPC 클러스터 (High-Performance Computing):
 활용 분야:
   기상 예보, 분자 동역학, 유체 역학
   핵 시뮬레이션, 딥러닝 학습 (GPU 클러스터)
-  
+
   Top500 슈퍼컴퓨터 = 초대형 HPC 클러스터
 ```
 
@@ -188,7 +188,7 @@ DB 계층 (HA 클러스터):
   MySQL InnoDB Cluster (3노드):
     Primary: RW
     Secondary × 2: RO + 자동 Failover
-  
+
   Redis Sentinel (3노드):
     Master: 쓰기
     Replica × 2: 읽기 + Sentinel 모니터링

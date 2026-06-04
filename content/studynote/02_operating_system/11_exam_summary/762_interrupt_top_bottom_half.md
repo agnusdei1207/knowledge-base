@@ -19,13 +19,13 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 발생했을 때 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 실행하는 코드([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/))를 둘로 쪼갠다.
   - **상반부 (Top-Half)**: [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)가 걸리자마자 즉시 실행. 가장 치명적으로 급한 일(장치 큐에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 빼서 메모리에 복사, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 상태 초기화)만 딱 끝내고 재빨리 "[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 허용(Enable)" 상태로 복귀한다.
   - **하반부 (Bottom-Half)**: 상반부가 메모리에 던져놓고 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 지지고 볶고 파싱하는(예: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 분석, 에러 교정) 무거운 작업. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 알아서 나중에 CPU가 한가할 때(혹은 타이머에 맞춰) 백그라운드로 몰아서 처리한다.
 
-- **필요성(문제의식)**: 
-  - 랜카드에서 1Gbps 속도로 패킷이 폭우처럼 쏟아진다고 치자. 
+- **필요성(문제의식)**:
+  - 랜카드에서 1Gbps 속도로 패킷이 폭우처럼 쏟아진다고 치자.
   - [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 하나가 걸리면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 패킷을 잃어버리지 않으려고 다른 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 모두 막아버린다([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Disable/Masking). 이 상태에서 패킷의 암호를 풀고 웹 서버 프로그램까지 올려보내는 수십 밀리초의 짓을 다 하고 있으면?
   - 그동안 도착하는 마우스 클릭, 키보드 입력, 다음 랜카드 패킷은 전부 CPU에 도달하지 못하고 버려진다(Drop / 렉 발생).
   - **해결책**: "택배가 오면 일단 현관문 열고 박스만 집 안으로 휙 던진 다음(상반부), 바로 문 닫고 다음 택배를 받아라! 박스 뜯고 내용물 조립하는 건(하반부) 밤에 소파에 앉아서 천천히 하자!"
@@ -33,7 +33,7 @@ tags = ["studynote-operating-system"]
   - <strong>단일 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/">ISR</a> (구형)</strong>: 응급실 의사가 교통사고 환자가 오면 접수, 응급 지혈, X-ray 촬영, 골절 수술, 입원 수속, 밥 먹여주기까지 혼자 다 끝낼 때까지 다음 환자를 아예 안 받음. 병원 밖 환자들은 다 죽음.
   - **상반/하반부 쪼개기**: 의사는 <strong>급한 지혈과 기도 확보(상반부)</strong>만 1분 만에 딱 끝내놓고 환자를 대기실에 밀어 넣은 뒤, 즉시 다음 피 흘리는 환자를 받음. 지혈된 환자들의 깁스나 꿰매는 작업은 나중에 간호사나 일반 병동(하반부)에서 순차적으로 느긋하게 처리함.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 리눅스 2.4 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)부터 네트워크와 디스크 속도가 비약적으로 상승함에 따라, 무거운 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 뒤로 미루기(Deferred Work) 위한 Tasklet, SoftIRQ 아키텍처가 전면 도입되었다.
 
 ```text
@@ -103,7 +103,7 @@ tags = ["studynote-operating-system"]
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 상반부와 Tasklet은 '[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)'라는 공중에 떠 있는 얇은 얼음판 위에서 춤을 춘다. 여기서는 `kmalloc(GFP_KERNEL)` 같이 메모리가 없으면 잠시 자면서 기다리는 함수를 쓰면 얼음이 깨지며 시스템이 폭파된다. 반드시 즉시 리턴되는 코딩만 해야 한다. 만약 네트워크 패킷을 까봤는데 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위해 디스크 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸고 한참 기다려야 하는 작업이라면? 절대 Tasklet에서 하면 안 되고, 안전한 땅바닥인 'Workqueue(프로세스 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))'라는 지게차에 짐을 옮겨 싣고 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 아래에서 느긋하게 자면서 처리해야 한다. 
+**[다이어그램 해설]** 상반부와 Tasklet은 '[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)'라는 공중에 떠 있는 얇은 얼음판 위에서 춤을 춘다. 여기서는 `kmalloc(GFP_KERNEL)` 같이 메모리가 없으면 잠시 자면서 기다리는 함수를 쓰면 얼음이 깨지며 시스템이 폭파된다. 반드시 즉시 리턴되는 코딩만 해야 한다. 만약 네트워크 패킷을 까봤는데 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위해 디스크 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸고 한참 기다려야 하는 작업이라면? 절대 Tasklet에서 하면 안 되고, 안전한 땅바닥인 'Workqueue(프로세스 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))'라는 지게차에 짐을 옮겨 싣고 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 아래에서 느긋하게 자면서 처리해야 한다.
 
 - **📢 섹션 요약 비유**: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)는 숨을 꾹 참고 잠수해서 바다 밑 진주를 주워 오는 시간입니다. 잠수 중에 숨을 쉬려고(Sleep) 입을 벌리면 익사합니다. 워크큐는 스쿠버 장비(프로세스 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))를 차고 들어가서 여유롭게 숨을 쉬며(Sleep 허용) 진주를 캐는 방식입니다.
 

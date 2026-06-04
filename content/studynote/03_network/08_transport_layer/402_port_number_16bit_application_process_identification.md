@@ -53,7 +53,7 @@ tags = ["studynote-network"]
   - <strong>목적지 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>: `80` (네이버 웹서버가 80번 간판을 달고 기다리니까).
   - <strong>출발지 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>: `54321` (내 윈도우 OS가 지금 놀고 있는 5만 번대 번호를 쓱 뽑아서 크롬 브라우저 탭에 임시로 붙여준 번호표).
 - 네이버가 나에게 웹페이지 사진을 돌려줄 때:
-  - 목적지와 출발지가 서로 뒤집힌다(Swap). 
+  - 목적지와 출발지가 서로 뒤집힌다(Swap).
   - 출발지는 `80`, 목적지는 내 PC의 `54321`이 되어 패킷이 날아오고, 내 윈도우는 "아! 54321번? 이거 아까 크롬 첫 번째 탭이 요청한 거네!"라며 정확히 그 탭에 사진을 띄워준다.
 
 ```text

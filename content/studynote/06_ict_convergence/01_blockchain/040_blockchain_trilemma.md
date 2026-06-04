@@ -30,7 +30,7 @@ tags = ["studynote-ict-convergence"]
         |               | <- Solana, BSC
         v
      보안성(Security)
-     
+
 세 가지 동시 달성 불가:
 
 분산화: 노드 수가 많을수록 더 탈중앙화
@@ -90,7 +90,7 @@ Layer 1 해결책:
     블록체인을 여러 조각(Shard)으로 분할
     각 샤드가 독립적 트랜잭션 처리
     이더리움 2.0 샤딩 계획 (64개 샤드)
-    
+
   PoS (Proof of Stake, 지분 증명):
     채굴(PoW) 대신 지분(Stake)으로 검증
     에너지 소비 99% 감소 + 처리 속도 향상
@@ -100,11 +100,11 @@ Layer 2 해결책:
   Optimistic Rollup:
     트랜잭션 묶음 처리 + 이의 제기 기간
     Arbitrum, Optimism 사용
-    
+
   ZK-Rollup (Zero-Knowledge Rollup):
     영지식 증명으로 즉시 검증
     zkSync, StarkNet 사용
-    
+
   State Channel:
     Off-chain 트랜잭션 + On-chain 정산
     비트코인 Lightning Network

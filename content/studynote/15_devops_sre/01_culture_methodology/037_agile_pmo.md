@@ -24,7 +24,7 @@ tags = ["studynote-devops-sre"]
   성공 기준: 계획 준수, 예산 달성
   작업 단위: 프로젝트
   속도: 분기별/반기별 계획 수립
-  
+
 애자일 PMO (Agile PMO):
   역할: 코칭, 장애물 제거, 전략 정렬
   성공 기준: 비즈니스 가치 전달, 고객 만족
@@ -50,11 +50,11 @@ tags = ["studynote-devops-sre"]
 1. 전략 정렬 (Strategic Alignment):
    팀 스프린트 목표 ↔ 비즈니스 목표 연결
    OKR/KPI 기반 포트폴리오 우선순위 조정
-   
+
 2. 장애물 제거 (Impediment Removal):
    팀 간 의존성 관리
    조직 수준 장애물 (레거시 시스템, 승인 프로세스) 해결
-   
+
 3. 실천 커뮤니티 운영 (CoP - Community of Practice):
    스크럼 마스터 길드
    개발자 CoP (코딩 표준, 아키텍처 원칙 공유)

@@ -27,19 +27,19 @@ TOGAF (The Open Group Architecture Framework):
 엔터프라이즈 아키텍처 (EA):
   조직의 비전·전략을 IT 시스템으로 구현하는
   구조적·통합적 청사진
-  
+
   "조직이 어떻게 작동하고, IT가 어떻게 지원하는가"
 
 4개 아키텍처 도메인 (BDAT):
   B — Business Architecture (비즈니스):
     비즈니스 전략, 거버넌스, 조직, 프로세스
-    
+
   D — Data Architecture (데이터):
     데이터 자산 구조, 데이터 흐름, 데이터 관리
-    
+
   A — Application Architecture (애플리케이션):
     애플리케이션 구성, 인터페이스, 시스템 간 관계
-    
+
   T — Technology Architecture (기술):
     HW/SW 인프라, 네트워크, 플랫폼
 
@@ -47,7 +47,7 @@ TOGAF (The Open Group Architecture Framework):
   현행 아키텍처 (Baseline/As-Is)
   목표 아키텍처 (Target/To-Be)
   격차 분석 (Gap Analysis)
-  
+
   TOGAF ADM: 격차를 체계적으로 메우는 사이클
 ```
 
@@ -114,7 +114,7 @@ H. 아키텍처 변경 관리:
     아키텍처 명세서의 구성 요소 (논리적)
     "무엇이 필요한가?"
     예: "인증 서비스 필요"
-    
+
   SBB (Solution Building Block):
     ABB를 구현하는 실제 제품/컴포넌트 (물리적)
     "어떻게 구현하는가?"
@@ -129,7 +129,7 @@ H. 아키텍처 변경 관리:
 
 아키텍처 원칙 (Architecture Principles):
   비즈니스·데이터·애플리케이션·기술 각각의 원칙
-  
+
   예시:
   - "데이터는 한 번만 수집된다 (Single Source of Truth)"
   - "모든 시스템은 표준 인터페이스를 통해 연동"
@@ -137,12 +137,12 @@ H. 아키텍처 변경 관리:
 
 이해관계자 관리 (Stakeholder Management):
   아키텍처 비전: 관심사 → 뷰포인트 → 뷰
-  
+
   CEO: 비즈니스 영향 뷰
   CTO: 기술 스택 뷰
   개발팀: 컴포넌트 다이어그램
   감사: 보안·컴플라이언스 뷰
-  
+
   각 이해관계자에게 필요한 뷰만 제공
 ```
 
@@ -164,7 +164,7 @@ TOGAF와 보안 아키텍처 통합:
 SABSA와 TOGAF 매핑:
   SABSA (Sherwood Applied Business Security Architecture):
   비즈니스 주도 보안 아키텍처 프레임워크
-  
+
   TOGAF 계층 → SABSA 계층:
   비즈니스  → Contextual (Why)
   데이터    → Conceptual (What)
@@ -182,7 +182,7 @@ Zero Trust 통합:
   - 네트워크 세그먼트 대신 ID 기반 접근
   - 마이크로세그멘테이션
   - 지속적 검증 (Never Trust, Always Verify)
-  
+
   TOGAF 로드맵에 ZT 마이그레이션 계획 포함
 ```
 
@@ -205,11 +205,11 @@ TOGAF ADM 적용:
 예비 단계:
   EA 팀 구성 (3인: 비즈니스/데이터/기술 아키텍트)
   아키텍처 원칙 15개 승인
-  
+
 A단계 — 비전:
   이해관계자: 국세청장, CIO, 납세자, 세무사
   비전: "납세자 편의 3배, 시스템 비용 40% 절감"
-  
+
 B단계 — 비즈니스:
   현행: 종이 신고 → 담당자 입력 → 심사 → 결정
   목표: 자동 신고 → AI 검증 → 즉시 처리

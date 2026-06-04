@@ -69,9 +69,9 @@ tags = ["studynote-operating-system"]
 
 익명 메모리는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 기반 메모리와 완전히 다른 생명 주기를 갖는다.
 
-1. <strong>탄생 (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/429_minor_vs_major_page_fault/">Minor Page Fault</a>)</strong>: 
+1. <strong>탄생 (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/429_minor_vs_major_page_fault/">Minor Page Fault</a>)</strong>:
    앱이 `malloc`을 하고 값을 처음 쓴다. OS가 빈 램을 찾아 0으로 세탁(ZFOD)해서 준다. 디스크 I/O가 없으므로 아주 빠르다.
-2. <strong>사망 위기 (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/">Swap Out</a>)</strong>: 
+2. <strong>사망 위기 (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/">Swap Out</a>)</strong>:
    시스템 램이 모자란다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(kswapd)이 이 익명 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 찾아내어 <strong>디스크의 스왑 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>에 기록(Write)</strong>하고 램에서 내쫓는다. 디스크 I/O가 터지며 서버가 무거워진다.
 3. <strong>부활 (Major <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a> / Swap In)</strong>:
    앱이 쫓겨난 그 변수를 다시 찾는다. OS는 스왑 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 묻어둔 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 램으로 **다시 읽어온다(Read)**. 8ms의 지옥 같은 I/O 지연이 발생한다.
@@ -96,7 +96,7 @@ tags = ["studynote-operating-system"]
 
 ### [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))의 진짜 주범
 
-시스템이 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)(디스크만 긁다가 멈춤)에 빠지는 이유는 [파일 지원 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/392_file_backed_memory/) 때문이 아니다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 메모리는 그냥 램에서 찢어버리면(Drop) 1초 만에 램이 수십 기가씩 확보된다. 
+시스템이 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)(디스크만 긁다가 멈춤)에 빠지는 이유는 [파일 지원 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/392_file_backed_memory/) 때문이 아니다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 메모리는 그냥 램에서 찢어버리면(Drop) 1초 만에 램이 수십 기가씩 확보된다.
 하지만 **익명 메모리가 램에 꽉 차면 지옥이 시작된다.** 익명 메모리는 무조건 스왑 디스크에 'Write([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))'를 한 번 하고 쫓아내야 하므로, 램을 비우는 과정 자체가 끔찍한 디스크 I/O 병목을 유발한다. "[OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)(메모리 고갈)이 발생했다"는 것은 곧 이 "익명 메모리가 램과 스왑을 100% 점령했다"는 뜻과 완벽히 동의어다.
 
 ```text

@@ -19,21 +19,21 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **물리 코어 (Physical Core)**: 메인보드 칩셋 위에 실제로 납땜 되어있는 독립적인 연산 유닛 덩어리. (진짜 공장 1개)
   - <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 코어 (Logical Core / vCPU)</strong>: OS 작업 관리자에 `CPU 0, CPU 1`로 표시되는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 칩 개수. [하이퍼스레딩](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/199_interrupt_scheduling/)이 켜지면 물리 코어 1개가 2개의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 코어로 뻥튀기된다. (공장 1개에 출입문만 2개 뚫어놓음).
   - 학술적 용어로는 [SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) (Simultaneous Multi-Threading, 동시 다중 스레딩)라고 부르며, [하이퍼스레딩](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/199_interrupt_scheduling/)(HT)은 인텔의 상표명이다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 3GHz로 도는 초강력 물리 코어가 있다고 치자. 이 코어는 1초에 30억 번의 연산을 할 수 있는 괴물이다.
-  - 그런데 프로세스가 디스크나 램(RAM)에서 데이터를 읽어오는 동안, 연산 엔진([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))은 아무 할 일이 없어 수백 클럭 동안 멍하게 서서 기다린다([Pipeline Stall](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/229_pipeline_stall/)). 
+  - 그런데 프로세스가 디스크나 램(RAM)에서 데이터를 읽어오는 동안, 연산 엔진([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))은 아무 할 일이 없어 수백 클럭 동안 멍하게 서서 기다린다([Pipeline Stall](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/229_pipeline_stall/)).
   - OS가 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 교체해 주려 해도([문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)), 기존 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 짐을 싸서 램에 올리고 남의 짐을 가져오는 데 또 엄청난 시간이 버려진다.
   - **해결책**: "아예 칩 내부에 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 보관함을 2개 만들어 놓고, OS한테 코어가 2개인 척 뻥을 치자. 1번 놈이 램 대기하느라 멈추면, 짐 쌀 필요 없이 스위치만 '딸깍' 돌려서 2번 보관함의 놈을 연산기에 밀어 넣자!"
 
   - **일반 물리 코어**: 계산대 직원이 1명인데 창구(손님 서는 줄)도 1개다. 앞 손님이 지갑에서 돈 찾는다고 5분간 버벅거리면, 점원도 놀고 뒤에 있는 100명의 손님도 다 같이 5분을 멍하니 기다려야 한다 (엄청난 낭비).
   - <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/199_interrupt_scheduling/">하이퍼스레딩</a></strong>: 계산대 직원(연산 엔진)은 여전히 1명이지만, <strong>창구(<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>)를 양쪽에 2개</strong> 뚫었다. 왼쪽 창구 손님이 지갑을 뒤지는(메모리 대기) 찰나에, 직원은 즉시 오른쪽 창구로 몸을 돌려 다음 손님의 바코드를 띡! 찍는다. 직원(CPU)은 단 1초도 쉴 틈 없이 100% 노동을 뽑아낸다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 2002년 인텔 펜티엄 4 HT 모델에서 처음 세상에 등장했다. CPU 클럭(GHz)을 무한정 올리다 발열에 막혀 한계에 부딪힌 하드웨어 엔지니어들이, 한 번의 클럭 사이클 안에 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 쑤셔 넣는 파이프라인 최적화(ILP)의 한계를 깨기 위해 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수준 병렬성([TLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/385_tlp/))으로 눈을 돌린 결과물이다.
 
 ```text

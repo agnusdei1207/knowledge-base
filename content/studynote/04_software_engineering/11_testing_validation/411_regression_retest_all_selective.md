@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어 수명이 늘어나고 기능이 덕지덕지 붙을수록, 새로운 버전을 낼 때마다 망가진 곳이 없는지 처음부터 끝까지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)([Regression Test](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)) 보따리는 무거워집니다. 
+소프트웨어 수명이 늘어나고 기능이 덕지덕지 붙을수록, 새로운 버전을 낼 때마다 망가진 곳이 없는지 처음부터 끝까지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)([Regression Test](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)) 보따리는 무거워집니다.
 구글이나 페이스북은 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) 코드가 수백만 개에 이릅니다. 만약 개발자가 엔터키 하나를 고쳤는데, 수백만 개의 테스트를 다 돌려보느라(컴파일하고 브라우저를 띄워서 클릭하는 과정 포함) 3박 4일이 걸린다면 개발 생산성은 파멸합니다.
 
 이를 해결하기 위한 엔지니어링 딜레마가 바로 **"다 돌릴 것인가(Retest-All), 찝어서 돌릴 것인가(Selective Regression)"** 입니다. 이것은 단순한 게으름의 문제가 아닙니다. 한정된 컴퓨팅 자원(Server Farm 빌드 노드 시간)과 '개발 피드백 사이클 속도'를 지키기 위한 고도의 수학적 알고리즘과 아키텍처적 결단입니다.
@@ -82,8 +82,8 @@ tags = ["studynote-software-engineering"]
 ## Ⅲ. 비교 및 연결
 
 옛날 100만 줄짜리 통짜 모놀리스(Monolithic) 시스템 시대에는 스파게티처럼 꼬여서 Selective 탐색이 너무 위험하여 Retest-All을 하는 경우가 많았습니다.
-하지만 지금은 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/">마이크로서비스 아키텍처</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)</strong> 시대입니다. 수박을 잘게 썰어놓듯 시스템이 50개의 독립 컨테이너로 찢어졌고, 3번 결제 서비스가 수정되어 커밋이 올라왔다면, 다른 장바구니 서비스나 배달 서비스는 눈 감고도 영향을 받지 않음을 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 컨트랙트(계약)로 증명할 수 있습니다. 
-따라서 MSA의 본질은 "해당 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 내부 Retest-all과 최소한의 연동만 Selective로 돌리는 완벽한 분할 최적화"입니다. 
+하지만 지금은 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/">마이크로서비스 아키텍처</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)</strong> 시대입니다. 수박을 잘게 썰어놓듯 시스템이 50개의 독립 컨테이너로 찢어졌고, 3번 결제 서비스가 수정되어 커밋이 올라왔다면, 다른 장바구니 서비스나 배달 서비스는 눈 감고도 영향을 받지 않음을 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 컨트랙트(계약)로 증명할 수 있습니다.
+따라서 MSA의 본질은 "해당 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 내부 Retest-all과 최소한의 연동만 Selective로 돌리는 완벽한 분할 최적화"입니다.
 
 - **📢 섹션 요약 비유**: 아파트 전체(통짜 시스템)가 같이 물을 공유할 때는 101호 배관을 고쳐도 304호 물이 썩을까 봐 건물 전체를 검사해야 했지만, 이제는 세대별 독립 급수([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))가 되어서 101호 공사하면 101호 화장실만 테스트하면 되는 세상이 왔습니다.
 
@@ -114,7 +114,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) 자동화와 최적화의 목표는 단 하나, <strong>"엔지니어의 퇴근 시간 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 방지(빠른 피드백)"</strong>입니다. 
+[회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) 자동화와 최적화의 목표는 단 하나, <strong>"엔지니어의 퇴근 시간 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 방지(빠른 피드백)"</strong>입니다.
 아무리 [테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/)([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/))을 잘해놔도 실행 런타임이 무한대로 발산하면 짐짝일 뿐입니다. Selective 방식과 자동화 로봇 서버의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리가 구축된 회사는 개발자가 코드를 서버에 올리고 화장실에 다녀오면 합불 여부가 슬랙 메시지로 날아옵니다. 이것이 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 경쟁력의 가장 거대하고 둔탁한 아킬레스건을 치료하는 최강의 최적화 기술입니다.
 
 - **📢 섹션 요약 비유**: 너무나도 충성스럽지만 멍청하게 무거운 갑옷 100개를 다 들고뛰려는 기사([회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/))에게, 적군이 활 쏘는 부대면 방패만 들리고 늪지대면 가벼운 칼만 쥐여줘서 가장 효율적인 전사로 튜닝시켜주는 마법입니다.

@@ -52,7 +52,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-회귀 테스트가 왜 필수적인지 이해하기 위해서는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 어떻게 전파(Propagation)되는지 그 내부 메커니즘을 분석해야 한다. 
+회귀 테스트가 왜 필수적인지 이해하기 위해서는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 어떻게 전파(Propagation)되는지 그 내부 메커니즘을 분석해야 한다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐

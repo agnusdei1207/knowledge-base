@@ -146,7 +146,7 @@ OPA와 유사해 보이지만 성격이 전혀 다른 자산이 '기업 환경 �
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-조직 표준 프로세스(OSP)와 프로세스 자산([OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/))의 성공적인 내재화는 조직의 성숙도를 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) Level 3(정의 단계)로 격상시키는 핵심 원동력이다. 
+조직 표준 프로세스(OSP)와 프로세스 자산([OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/))의 성공적인 내재화는 조직의 성숙도를 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) Level 3(정의 단계)로 격상시키는 핵심 원동력이다.
 
 | 기대효과 구분 | 도입 전 (Ad-hoc) | 도입 후 (OSP/[OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/) 적용) |
 |:---|:---|:---|

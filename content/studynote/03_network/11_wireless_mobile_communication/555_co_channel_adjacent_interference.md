@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **CCI (동일 채널 간섭)**: [주파수 재사용](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/554_frequency_reuse_cluster_capacity/)([Frequency Reuse](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/554_frequency_reuse_cluster_capacity/)) 설계에 의해, 멀리 떨어진 다른 셀(Cell)에서 완벽히 동일한 주파수 `f1`을 사용할 때, 그 전파가 너무 멀리 날아와 내 셀의 `f1` 통신을 파괴하는 현상이다.
   - **ACI (인접 채널 간섭)**: 같은 기지국 내에서 혹은 바로 옆 사람이 `f2` 주파수로 강하게 쏠 때, 필터가 완벽하지 못해 전파의 꼬리가 옆 차선인 `f1` 대역으로 누설(Leakage)되어 내 통신을 찢어버리는 현상이다.
 - **필요성**: 무선 전파는 빛이나 소리와 같아서 벽을 부수고 넘어가며, 주파수를 칼로 무 썰듯 완벽히 자를 수도 없다. 스마트폰 화면에 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 칸이 5개(만땅)가 떠도 인터넷이 지독하게 느린 이유는, 내 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)도 강하지만 밖에서 날아온 잡음(CCI/ACI 간섭)이 더 강해서 폰이 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 해독하지 못하고 폐기해 버리기 때문이다.

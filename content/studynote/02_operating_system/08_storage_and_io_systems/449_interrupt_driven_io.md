@@ -124,8 +124,8 @@ CPU가 전기를 맞고 깜짝 놀라면, 뇌를 포맷하고 어디론가 점�
 초보자는 "아 CPU 50% 남았네요 널널하네~"라고 하지만 고수는 식은땀을 흘린다.
 1. <strong><code>hi</code> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/">Hardware Interrupt</a>)</strong>: 랜카드나 디스크가 전기 충격을 쏴서 CPU가 멱살 잡혀 끌려간 비율이 30%다!
 2. <strong><code>si</code> (Software <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a>)</strong>: 전기를 맞은 CPU가 뻗지 않으려고 "아 이건 이따 백그라운드(SoftIRQ)로 치울게" 하고 넘긴 일처리에 13%가 탄다.
-3. **분석 및 튜닝**: 
-   - 총 43%의 CPU 코어가 유저의 앱(5.0 us)을 돌리는 게 아니라 '[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 비명 소리'를 수습하느라 박살 나고 있다. 
+3. **분석 및 튜닝**:
+   - 총 43%의 CPU 코어가 유저의 앱(5.0 us)을 돌리는 게 아니라 '[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 비명 소리'를 수습하느라 박살 나고 있다.
    - 1번 코어에만 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 전선이 몰려 박혀있을 확률이 99%다(IRQ [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/) 쏠림).
    - 엔지니어는 <strong><code>irqbalance</code> 데몬을 켜거나 <code>/proc/irq/</code> 값을 조작해 이 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 벼락을 64개 코어 전체에 공평하게 N빵으로 찢어 꽂아주는 하드코어 튜닝(IRQ Pinning)</strong>을 수행하여 1번 코어의 질식사를 막아낸다.
 

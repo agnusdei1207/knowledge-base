@@ -128,8 +128,8 @@ Leaky ReLU
 
 ## 어린이를 위한 3줄 비유 설명
 
-양수는 통과해요.  
-음수는 0이 돼요.  
+양수는 통과해요.
+음수는 0이 돼요.
 ReLU는 그런 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)예요.
 
 ---

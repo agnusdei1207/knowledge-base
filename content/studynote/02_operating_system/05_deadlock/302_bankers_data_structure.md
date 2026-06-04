@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-[자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))의 선 긋기 장난은 단일 인스턴스(프린터 1대)에서는 직관적이었지만, 프린터가 3대, 스캐너가 2대, CPU가 4코어인 '다중 환경'에서는 선이 엉켜 아예 시각적 증명이 불가능해진다. 
+[자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))의 선 긋기 장난은 단일 인스턴스(프린터 1대)에서는 직관적이었지만, 프린터가 3대, 스캐너가 2대, CPU가 4코어인 '다중 환경'에서는 선이 엉켜 아예 시각적 증명이 불가능해진다.
 
 이를 타파하기 위해 은행원(OS)은 복잡도를 가라앉힐 '정리된 회계 장부 4종 세트'를 만들었다. 이 장부만 있으면 지금 은행 금고에 돈이 얼마나 남았는지, 저 고객은 앞으로 얼마나 더 내놓으라 진상 부릴지(Max), 그 둘을 빼본 뒤에 지금 승인을 내릴지 기각할지를 아주 차가운 숫자로 결단할 수 있다.
 
@@ -102,7 +102,7 @@ tags = ["studynote-operating-system"]
 | 자원 얽힘 파악 | 그냥 터지면 패닉 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) (오리무중) | 숫자 놀음으로 수학적 예측 명확성 확보 |
 | 메모리 비용 | 없음 (속도 극대화) | n×m [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 유지 및 안전 루틴 부하 극대 |
 
-[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 전담 부서에 회계사 4명을 고용해 `Available, Max, Allocation, Need` 라는 치밀한 수학적 행렬 감시 장부를 도입한 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)의 시도는, 다중 자원 생태계를 수학적으로 증명할 수 있는 완벽한 판을 짰다는 의의를 가진다. 
+[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 전담 부서에 회계사 4명을 고용해 `Available, Max, Allocation, Need` 라는 치밀한 수학적 행렬 감시 장부를 도입한 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)의 시도는, 다중 자원 생태계를 수학적으로 증명할 수 있는 완벽한 판을 짰다는 의의를 가진다.
 
 비록 이 행렬의 유지 보수 코스트(`O(MN^2)`)가 범용 컴퓨터에 감당되지 않아 폐기되었으나, <strong>"현재 용량과 최대 한도를 비교하여 미래 할당을 미리 심판한다"</strong>는 자료구조적 철학은 현대의 트래픽 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 클라우드 빈 패킹 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 아키텍처에 불멸의 유산으로 자리 잡았다.
 

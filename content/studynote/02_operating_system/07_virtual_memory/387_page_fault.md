@@ -64,7 +64,7 @@ tags = ["studynote-operating-system"]
 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)를 돌아가게 하는 마법이지만, 그 대가로 치러야 하는 <strong>'시간 페널티'</strong>는 우주적 규모다.
 - 램(RAM)에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 하나 읽어오기: 약 **100 나노초 (0.0001 밀리초)**
 - 하드디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))에서 4KB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 읽어오기 ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault 발생 시): 약 **8 밀리초 (8,000,000 나노초)**
-- **결론**: [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 한 번이 터지면, 램을 읽을 때보다 무려 **8만 배(80,000배)** 느려진다! 
+- **결론**: [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 한 번이 터지면, 램을 읽을 때보다 무려 **8만 배(80,000배)** 느려진다!
 
 CPU가 이 8만 배의 시간을 멍때리고 기다리면 컴퓨터는 완전히 멈춰버린다. 그래서 OS는 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 터지는 그 즉시 <strong>해당 프로세스를 수면(Wait/Sleep) 상태로 뻗게 만들고, CPU 제어권을 다른 프로세스(예: 멜론 플레이어)로 넘겨버리는 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">Context Switch</a>)</strong>을 빛의 속도로 단행한다.
 
@@ -130,11 +130,11 @@ CPU가 이 8만 배의 시간을 멍때리고 기다리면 컴퓨터는 완전�
    - `majflt/s (초당 메이저 폴트 횟수)`가 평소엔 0인데, 무려 <strong>5,000</strong>을 찍고 있다!
    - 즉, 초당 5천 번씩 디스크를 긁어오며 서버가 램 부족으로 인한 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 늪에 빠져 허우적대고 있는 것이다.
 3. **실무적 결단**:
-   - 이 상태로 두면 스크립트는 3년이 지나도 안 끝난다 (EAT [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 폭발). 
+   - 이 상태로 두면 스크립트는 3년이 지나도 안 끝난다 (EAT [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 폭발).
    - 엔지니어는 즉각 `kill -9`로 파이썬 스크립트를 쏴 죽이고, 개발자에게 "램 32GB 이상 되는 서버로 이사 가든지, 코드를 짤 때 덩어리로 잘라서(Batch) 올리게 최적화해라!"라고 빠꾸를 먹인다. 시스템 관리에 있어 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault 수치는 서버의 건강을 진단하는 가장 정직한 체온계다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): JVM 웜업(Warm-up) 없는 트래픽 투입
-Java Spring 서버를 띄우자마자 무지성으로 유저 트래픽 1만 명을 부어버리면 서버가 펑 터진다. 
+Java Spring 서버를 띄우자마자 무지성으로 유저 트래픽 1만 명을 부어버리면 서버가 펑 터진다.
 이유는 자바 클래스와 객체들이 아직 램에 안 올라와 있고 디스크(혹은 미사용 상태)에 있어서, 트래픽이 닿는 순간 수만 번의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> Fault (<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/">콜드 스타트</a> 렉)</strong>가 융단폭격처럼 터지기 때문이다.
 그래서 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(k8s) 실무에서는 컨테이너를 띄운 뒤 바로 트래픽을 주지 않고, 10초 정도 가짜 트래픽(Health Check/Warm-up)을 흘려보내어 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault 소나기를 미리 다 맞게 한 뒤, 램에 코드가 꽉 찬 쾌적한 상태가 되면 비로소 진짜 유저를 받는다.
 

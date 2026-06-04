@@ -55,7 +55,7 @@ tags = ["studynote-operating-system"]
 - **조건**: $P_i$ 가 요구할 수 있는 최대 남은 자원(Need)이 $\le$ 현재 시스템에 남아있는 가용 자원(Available) + 앞서 끝난 프로세스들이 반납할 자원의 합 ($\sum P_{j<i} \text{의 Allocation}$)
 - **해석**: "내가 지금 가진 돈으로 P1을 살리고, P1이 끝난 뒤 뱉어낸 돈으로 P2를 살리고..." 이 징검다리를 끝까지 건널 수 있는 순서 쌍이 하나라도 있으면 그건 [안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/)다.
 
-### 시뮬레이션: 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 동작 
+### 시뮬레이션: 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 동작
 
 시스템 자원: 총 12개의 테이프 드라이브. (현재 2개 남음 / Available = 2)
 
@@ -69,7 +69,7 @@ tags = ["studynote-operating-system"]
 1. 현재 남은 자원 = **2개**. 이 2개로 만족시킬 수 있는 놈은 누구인가? P2(Need=2) 뿐이다.
 2. P2에게 2개를 준다. P2는 무사히 작업을 마치고 자기가 갖고 있던 것까지 합쳐 총 4개를 뱉어낸다. (Available = **4개**)
 3. 이제 남은 자원은 4개다. 이 4개로 만족시킬 수 있는 놈이 있는가? P1(Need=5)도 안 되고, P3(Need=6)도 안 된다!
-4. **🚨 시뮬레이션 붕괴**: 아무도 구출할 수 없다. 
+4. **🚨 시뮬레이션 붕괴**: 아무도 구출할 수 없다.
 5. **결론**: 현재 상태는 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">불안전 상태</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">Unsafe State</a>)</strong>다! 만약 P2가 끝나고 뱉어낸 4개를 P1이나 P3가 "다 내놔!"라고 외치는 순간 시스템은 데드락으로 즉사한다.
 
 ```text
@@ -114,8 +114,8 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. <strong>은행원 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 실무 폐기 처분 (현실성 부재)</strong>: 이론적으로는 너무 아름다워서 모든 대학 전공 서적에 나오지만, 2026년 리눅스/윈도우 실무에서는 완전히 사장되었다. 
-   - **아키텍트의 비판**: 
+1. <strong>은행원 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 실무 폐기 처분 (현실성 부재)</strong>: 이론적으로는 너무 아름다워서 모든 대학 전공 서적에 나오지만, 2026년 리눅스/윈도우 실무에서는 완전히 사장되었다.
+   - **아키텍트의 비판**:
      1) 프로세스가 태어날 때 <strong>자신의 최대 자원 요구량(Max)을 정확히 알아야 한다</strong>는 전제가 미친 소리다. 크롬 브라우저가 메모리를 몇 GB 쓸지 어떻게 미리 아는가?
      2) 멀티코어 환경에서 1만 개의 스레드가 락을 요청할 때마다 $O(N^2)$ 행렬 시뮬레이션을 돌리면 락 획득 지연이 수십 밀리초(ms) 단위로 폭증하여 서버 스루풋이 박살 난다.
    - **결단**: "데드락 날 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 0.01% 막자고 전체 서버 성능을 50% 깎는 건 바보짓이다. 그냥 데드락 나게 냅두고 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))으로 스레드를 죽여서([타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/)) 재시도(Retry)시키는 게 낫다"는 실용주의가 승리했다.

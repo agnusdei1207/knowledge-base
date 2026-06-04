@@ -132,8 +132,8 @@ Kubernetes NetworkPolicy
 
 ## 어린이를 위한 3줄 비유 설명
 
-[마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)은 큰 집 안에도 작은 자물쇠를 다는 거예요.  
-그래서 나쁜 사람이 한 방에 들어와도 다른 방으로 못 가요.  
+[마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)은 큰 집 안에도 작은 자물쇠를 다는 거예요.
+그래서 나쁜 사람이 한 방에 들어와도 다른 방으로 못 가요.
 결국 피해를 아주 작게 막을 수 있어요.
 
 ---

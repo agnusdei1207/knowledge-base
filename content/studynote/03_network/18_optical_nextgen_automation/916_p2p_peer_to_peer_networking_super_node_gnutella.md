@@ -41,7 +41,7 @@ P2P는 중앙 서버를 없애는 과정 속에서 3단계로 진화했습니다
 
 ### 1. 하이브리드 P2P (1세대, 냅스터 Napster)
 - **방식**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 주고받는 건 개인 컴퓨터([Peer](/knowledge-base/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/))끼리 1:1로 직거래합니다. 하지만, <strong>"누가 어떤 MP3 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>을 갖고 있는지(목차 장부)"는 무조건 중앙 서버(디렉토리 서버)에 접속해서 검색</strong>해야 합니다.
-- **최후**: 음원 [저작권](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/) 협회가 소송을 걸어 중앙 장부 서버 1대만 경찰이 압수수색해 전원을 뽑아버리자, 전 세계 P2P 통신망이 그날로 아예 멸망해 버렸습니다(단일 고장점의 저주). 
+- **최후**: 음원 [저작권](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/) 협회가 소송을 걸어 중앙 장부 서버 1대만 경찰이 압수수색해 전원을 뽑아버리자, 전 세계 P2P 통신망이 그날로 아예 멸망해 버렸습니다(단일 고장점의 저주).
 
 ### 2. 순수 P2P (2세대, Gnutella) - "진정한 바퀴벌레망"
 - **방식**: 경찰한테 털릴 '중앙 서버'라는 존재 자체를 시스템에서 100% 삭제해 버렸습니다.
@@ -69,7 +69,7 @@ P2P는 중앙 서버를 없애는 과정 속에서 3단계로 진화했습니다
 
 ## Ⅲ. 비교 및 연결
 
-- P2P망에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 조각이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개로 쪼개져 있을 때, "너 1번 조각 있어? 넌 2번 있어?"를 엮어주는 중매쟁이가 바로 <strong>트래커(Tracker)</strong>입니다. 
+- P2P망에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 조각이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개로 쪼개져 있을 때, "너 1번 조각 있어? 넌 2번 있어?"를 엮어주는 중매쟁이가 바로 <strong>트래커(Tracker)</strong>입니다.
 - 트래커는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 가지고 있지 않습니다. 오직 "이 해시(Hash)값 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 IP 1.1.1.1 놈이랑 IP 2.2.2.2 놈이 들고 있으니 걔네 둘한테 가서 뜯어내렴" 하고 짝짓기(매칭)만 시켜줍니다. (917번 [비트토렌트](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/) 문서에서 완성됩니다.)
 
 P2P를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [해상 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/) [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) / e-Navigat…가 기반 조건을 만든다면, P2P는 그 위에서 핵심 메커니즘을 구현하고, [비트토렌트](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/) 초크/언초크 리치 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 인…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.

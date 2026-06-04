@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: IETF에서 표준화한 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)) 전용 초경량 애플리케이션 계층 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)입니다. 
+- **개념**: IETF에서 표준화한 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)) 전용 초경량 애플리케이션 계층 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)입니다.
 - **목적**: CPU 성능과 메모리, 배터리가 극도로 제한된(Constrained) 스마트홈 센서나 소형 노드들이, <strong>기존 인터넷 웹 표준(RESTful, <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>)의 문법을 거의 그대로 쓰면서도 전력을 아끼며 통신할 수 있도록 HTTP를 극도로 다이어트</strong>시킨 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)입니다.
 
 ```text
@@ -38,7 +38,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 대신 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 사용
-- HTTP는 연결을 맺기 위해 무겁게 3-way 핸드셰이크를 하는 TCP를 씁니다. 
+- HTTP는 연결을 맺기 위해 무겁게 3-way 핸드셰이크를 하는 TCP를 씁니다.
 - **CoAP는 가볍고 연결 절차가 없는 UDP를 사용합니다.** 덕분에 패킷 낭비와 배터리 소모가 급감합니다. (단, UDP는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 날아갈 수 있으므로, 중요 메시지는 CoAP가 자체적으로 수신 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(Confirmable Message)을 해주는 안전장치를 둠)
 
 ### 2. 텍스트 대신 이진(Binary) 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)
@@ -50,7 +50,7 @@ tags = ["studynote-network"]
 - CoAP는 기존 웹([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))처럼 <strong>클라이언트(센서)와 서버가 브로커 없이 1:1로 직접(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/206_client_server_architecture_model/">Client-Server</a>) 붙어서 통신</strong>합니다.
 
 다이어트를 했음에도 불구하고 놀랍게도 HTTP의 영혼([REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/))을 그대로 유지합니다.
-- 스마트폰이 CoAP를 지원하는 전구에게 `GET /light`를 날리면 전구 상태가 오고, `PUT /light (value=on)`을 날리면 전구가 켜집니다. URI 주소를 쓰고 GET, POST, PUT, DELETE 메서드를 100% 동일하게 씁니다. 
+- 스마트폰이 CoAP를 지원하는 전구에게 `GET /light`를 날리면 전구 상태가 오고, `PUT /light (value=on)`을 날리면 전구가 켜집니다. URI 주소를 쓰고 GET, POST, PUT, DELETE 메서드를 100% 동일하게 씁니다.
 - 덕분에 중간에 간단한 변환기([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)-[CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)) 하나만 두면, 일반 인터넷 웹 브라우저([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))로도 우리 집 [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) 센서들을 마치 웹페이지 보듯 부드럽게 조회하고 제어할 수 있습니다.
 
 ```text

@@ -46,7 +46,7 @@ tags = ["studynote-network"]
 
 ### 1. [RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/) ([Routing Information Protocol](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))의 잣대: Hop Count
 - **기준**: 출발지부터 목적지까지 거쳐야 하는 **"라우터(Hop)의 개수"** 딱 하나만 본다.
-- **계산법**: 내 앞의 라우터 1개를 넘어가면 1점, 2개 넘어가면 2점이다. 
+- **계산법**: 내 앞의 라우터 1개를 넘어가면 1점, 2개 넘어가면 2점이다.
 - **치명적 약점**: 100Mbps 선로로 라우터 5개를 거치는 길(5점)과, 10Mbps 구식 선로로 라우터 2개만 거치는 길(2점)이 있다면, RIP는 멍청하게 2점짜리 구식 선로가 1등이라고 판단하고 그쪽으로 패킷을 몰아넣어 인터넷을 거북이로 만든다.
 
 ### 2. [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) (Open [Shortest Path](/knowledge-base/studynote/05_database/07_exam_summary/547_graph_shortest_path_db_mapping/) First)의 잣대: Cost ([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))

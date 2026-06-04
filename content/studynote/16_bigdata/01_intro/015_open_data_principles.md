@@ -58,7 +58,7 @@ FAIR는 단순 선언이 아니라 아키텍처상에 <strong>영구 <a href="/k
 
 [Data Provider]
    │
-  ① 원천 데이터 + 메타데이터 작성 
+  ① 원천 데이터 + 메타데이터 작성
    │
   ② PID 발급 기관 연동 ──────────> [PID(DOI) 할당: "10.xxxx/data.123"] (Findable 보장)
    │
@@ -162,10 +162,10 @@ FAIR 원칙의 정착은 [데이터](/knowledge-base/studynote/05_database/01_db
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/">상호운용성</a></strong> | 시스템 간 1:1 수동 하드코딩 인터페이스 | 온톨로지 기반의 N:N 자동 지식 연결 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)) |
 | **자산 생명주기** | 프로젝트 종료 시 방치 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사멸 | PID와 출처 관리를 통해 영구적인 파생 가치(재사용) 창출 |
 
-**미래 전망**: 
+**미래 전망**:
 현재 FAIR 원칙은 주로 연구 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(유전체, 천문학 등)와 공공 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 강조되고 있으나, 향후 기업 내부의 <strong><a href="/knowledge-base/studynote/16_bigdata/09_platform/178_modern_data_stack/">모던 데이터 스택</a>(<a href="/knowledge-base/studynote/16_bigdata/09_platform/178_modern_data_stack/">Modern Data Stack</a>)</strong> 설계 기준으로 완전히 자리 잡을 것이다. 특히 차세대 웹인 **웹 3.0(Web 3.0)** 생태계에서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형 스토리지([IPFS](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/))와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 증명하는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기반 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 시스템([DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/))과 결합하여, FAIR 원칙 자체가 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 안에서 기계적으로 강제되는 자율적 [데이터 경제](/knowledge-base/studynote/16_bigdata/01_intro/011_data_economy/) 시스템으로 발전할 것이다.
 
-**참고 표준**: 
+**참고 표준**:
 - **GO FAIR Initiative**: FAIR 원칙의 세부 구현을 가이드하는 글로벌 협의체
 - <strong>W3C DCAT (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/">Data Catalog</a> Vocabulary)</strong>: [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)의 [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/)을 위한 FAIR [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 표현 표준 규격
 - **ISO 27040 / ISO/TS 8000**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 및 거버넌스 국제 표준체계

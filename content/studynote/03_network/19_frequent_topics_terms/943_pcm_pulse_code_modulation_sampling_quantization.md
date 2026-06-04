@@ -67,8 +67,8 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-반올림 오차(잡음)를 줄이려고 무작정 16비트, 24비트로 용량을 늘리면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 터집니다. 
-- <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/061_컴팬딩_압신_mu_law_A_law/">컴팬딩</a> (<a href="/knowledge-base/studynote/03_network/01_data_communication/061_컴팬딩_압신_mu_law_A_law/">Companding</a> / 압신)</strong>: 사람의 귀는 '큰 소리의 오차'는 둔감하고, '작은 속삭임의 오차'에는 엄청 예민합니다. 
+반올림 오차(잡음)를 줄이려고 무작정 16비트, 24비트로 용량을 늘리면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 터집니다.
+- <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/061_컴팬딩_압신_mu_law_A_law/">컴팬딩</a> (<a href="/knowledge-base/studynote/03_network/01_data_communication/061_컴팬딩_압신_mu_law_A_law/">Companding</a> / 압신)</strong>: 사람의 귀는 '큰 소리의 오차'는 둔감하고, '작은 속삭임의 오차'에는 엄청 예민합니다.
 - 그래서 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 칸막이를 자를 때 일정한 간격(선형)으로 자르지 않고, <strong>작은 소리 구간은 칸막이를 엄청 촘촘하게(세밀하게 반올림) 자르고, 큰 폭발음 소리 구간은 칸막이를 듬성듬성(대충 반올림) 잘라서(비선형 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">양자화</a>)</strong> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 용량은 아끼면서 귀에 들리는 잡음은 기가 막히게 날려버리는 마법을 씁니다. ($\mu$-law, A-law 등)
 
 펄스부호변조를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [에일리어싱](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)이 기반 조건을 만든다면, 펄스부호변조는 그 위에서 핵심 메커니즘을 구현하고, [다중화기](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/) / 역다중화기는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.

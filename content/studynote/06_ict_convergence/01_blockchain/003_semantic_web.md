@@ -126,7 +126,7 @@ RDF [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relatio
 
 ### 📢 비유 요약
 
-시맨틱 웹의 품질 관리는 대규모 제조공장의품질관리와사있는.すべ고의부품([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 표준화된 사양(온톨로지)에 맞게제조되어야 하며, 완성된 제품(추론 결과)은 다양한 테스트(검사)를 통해규격 적합성을험정받는다. 하나의불량부품([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 전체 제품의신뢰성을손なう. 
+시맨틱 웹의 품질 관리는 대규모 제조공장의품질관리와사있는.すべ고의부품([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 표준화된 사양(온톨로지)에 맞게제조되어야 하며, 완성된 제품(추론 결과)은 다양한 테스트(검사)를 통해규격 적합성을험정받는다. 하나의불량부품([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 전체 제품의신뢰성을손なう.
 
 ---
 

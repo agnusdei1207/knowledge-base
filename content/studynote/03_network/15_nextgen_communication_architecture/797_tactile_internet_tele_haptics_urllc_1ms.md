@@ -39,7 +39,7 @@ tags = ["studynote-network"]
 
 인간의 감각 기관이 사기를 당하지 않고 "진짜 만지는 것 같다"라고 느끼기 위한 생물학적 마지노선입니다.
 - **시각/청각**: 화면과 소리의 입모양이 어긋나는 것은 100ms(0.1초) 정도 지연이 생겨도 인간의 뇌가 대충 보정해 줍니다.
-- **촉각 (Haptic Feedback)**: 손가락으로 로봇팔을 움직여 단단한 쇳덩어리를 쳤을 때, 그 딱딱한 충격량 패킷이 뇌로 되돌아와 햅틱 장갑을 때려주는 시간이 <strong>최대 1~5ms (0.001~0.005초)</strong>를 넘어가면 뇌는 심각한 불일치(멀미, 조작 오류)를 느낍니다. 
+- **촉각 (Haptic Feedback)**: 손가락으로 로봇팔을 움직여 단단한 쇳덩어리를 쳤을 때, 그 딱딱한 충격량 패킷이 뇌로 되돌아와 햅틱 장갑을 때려주는 시간이 <strong>최대 1~5ms (0.001~0.005초)</strong>를 넘어가면 뇌는 심각한 불일치(멀미, 조작 오류)를 느낍니다.
 - 이 5ms 벽을 뚫어내는 것이 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [uRLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/)(761번 문서)와 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 통신망의 최대 기술 과제입니다.
 
 ```text

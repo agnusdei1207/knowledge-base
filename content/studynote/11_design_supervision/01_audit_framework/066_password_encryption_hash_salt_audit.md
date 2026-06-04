@@ -134,8 +134,8 @@ Password Security
 
 ## 어린이를 위한 3줄 비유 설명
 
-비밀번호는 다시 꺼내 읽으면 안 돼요.  
-대신 특별한 표식을 붙여서 확인만 해요.  
+비밀번호는 다시 꺼내 읽으면 안 돼요.
+대신 특별한 표식을 붙여서 확인만 해요.
 이게 해시와 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)예요.
 
 ---

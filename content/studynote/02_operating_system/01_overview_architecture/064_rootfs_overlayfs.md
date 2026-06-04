@@ -129,8 +129,8 @@ container layers
 
 ## 어린이를 위한 3줄 비유 설명
 
-바닥판이 있어야 집을 시작할 수 있어요.  
-위에 얇은 칸막이를 얹으면 새 방처럼 보일 수 있어요.  
+바닥판이 있어야 집을 시작할 수 있어요.
+위에 얇은 칸막이를 얹으면 새 방처럼 보일 수 있어요.
 오버레이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 그런 겹치기 방법이에요.
 
 ---

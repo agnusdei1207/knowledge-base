@@ -40,7 +40,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 64바이트의 마법 (충돌 윈도우)
-[CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD 환경에서 두 컴퓨터가 동시에 데이터를 보내 충돌이 나면, 이 충돌 찌꺼기는 물리적 규칙(Slot Time)에 의해 <strong>반드시 64바이트보다 작은 크기(Runt Frame)</strong>를 갖게 된다. 
+[CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD 환경에서 두 컴퓨터가 동시에 데이터를 보내 충돌이 나면, 이 충돌 찌꺼기는 물리적 규칙(Slot Time)에 의해 <strong>반드시 64바이트보다 작은 크기(Runt Frame)</strong>를 갖게 된다.
 - 프래그먼트 프리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 데이터가 들어오면 64바이트(512비트)를 카운트하며 버퍼에 담는다.
 - 64바이트를 넘어가면 "아, 이 프레임은 최소한 충돌로 인해 박살 난 프레임 조각(Fragment)은 아니구나!"라고 확신한다.
 - 64바이트 검증이 끝난 직후, 프레임의 나머지 꼬리 부분이 들어오고 있음에도 불구하고 앞머리를 목적지 포트로 전송하기 시작한다.

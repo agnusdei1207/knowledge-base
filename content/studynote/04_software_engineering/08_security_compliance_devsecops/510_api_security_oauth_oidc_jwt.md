@@ -19,16 +19,16 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **OAuth 2.0**: 권한 위임([인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/), [Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/). "야 구글아, 나 대신 저 배달 앱한테 내 캘린더 읽을 권한(Access Token)만 좀 줘!"
   - <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/">OIDC</a> (<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/548_openid_connect/">OpenID Connect</a>)</strong>: OAuth 2.0 뼈대 위에 올라탄 '신분증([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))' 규격. "야 구글아, 얘 진짜 철수 맞아? ID 카드([ID Token](/knowledge-base/studynote/09_security/05_web_app_security/515_id_token_jwt/)) 발급 좀 해줘!"
   - <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/">JWT</a> (<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/">JSON Web Token</a>)</strong>: 위에서 발급한 그 '티켓(Token)'의 생김새(포맷)다. 위조를 막기 위해 도장(Signature)이 콱 찍혀있어 서버가 DB를 안 뒤져봐도 "이거 진품이네!" 1초 만에 알게 해주는 텍스트 쪼가리다.
 
 - **필요성**: 옛날 2000년대(모놀리식 시대)에는 게임 사이트에 가입할 때 내 네이버 아이디와 비밀번호를 쌩으로 갖다 바쳤다. 게임 사이트가 해킹당하면 내 네이버 메일까지 다 털리는 대참사가 일어났다. 뿐만 아니라, 클라우드 서버 100대([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))가 도는데, API를 쏠 때마다 100대 서버가 일일이 "이놈 누군지 DB가서 조회해봐!"라며 트래픽을 때리니 DB가 뻗어버렸다. <strong>"비밀번호 공유라는 미친 짓을 멈추고(OAuth), 무거운 DB 조회 없이 100대 서버가 토큰 껍데기만 보고 광속으로 통과시켜 줄(<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/">JWT</a>) 궁극의 <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/">탈중앙화</a> 신분증 체계"</strong>가 목마르게 필요했다.
 
-- **💡 비유**: 이 삼형제는 <strong>'호텔의 만능 카드키 시스템'</strong>과 똑같습니다. 
-  - 내가 호텔 프론트(구글/카카오)에 가서 신분증을 보여주면([OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)), 
-  - 프론트 직원이 "3층 헬스장과 수영장만 1박 2일 동안 쓸 수 있는" 제한된 카드키(Access Token / OAuth 2.0 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))를 만들어 줍니다. 
+- **💡 비유**: 이 삼형제는 <strong>'호텔의 만능 카드키 시스템'</strong>과 똑같습니다.
+  - 내가 호텔 프론트(구글/카카오)에 가서 신분증을 보여주면([OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)),
+  - 프론트 직원이 "3층 헬스장과 수영장만 1박 2일 동안 쓸 수 있는" 제한된 카드키(Access Token / OAuth 2.0 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))를 만들어 줍니다.
   - 이 카드키는 홀로그램 도장([JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) 서명)이 찍혀있어서, 내가 헬스장 문([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버)에 카드를 대면, 헬스장 문은 프론트에 전화 걸어 물어볼(DB 조회) 필요 없이 "아! 도장 찍힌 진품 카드가 맞네, 유효기간 안 지났네! 열려라 참깨!"라며 1초 만에 스스로 락을 푸는([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 미친 자동화 마법입니다.
 
 - **등장 배경 및 발전 과정**:

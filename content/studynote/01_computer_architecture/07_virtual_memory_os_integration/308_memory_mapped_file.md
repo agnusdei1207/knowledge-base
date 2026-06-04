@@ -130,13 +130,13 @@ tags = ["studynote-computer-architecture"]
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **접근 패턴이 무작위적인가, 순차적인가?**  
+1. **접근 패턴이 무작위적인가, 순차적인가?**
    무작위 탐색이 많을수록 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)의 주소 기반 접근 이점이 커진다.
-2. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">페이지 부재</a> <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>을 허용할 수 있는가?</strong>  
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">페이지 부재</a> <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>을 허용할 수 있는가?</strong>
    초저지연 시스템이면 사전 적재, `mlock`, 일반 I/O, 전용 캐시 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 함께 검토해야 한다.
-3. **여러 프로세스가 공유 수정하는가?**  
+3. **여러 프로세스가 공유 수정하는가?**
    그렇다면 락, [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/), flush [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 장애 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 일관성을 먼저 설계해야 한다.
-4. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 크기가 <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/">가상 주소 공간</a>에 비해 충분히 큰가?</strong>  
+4. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 크기가 <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/">가상 주소 공간</a>에 비해 충분히 큰가?</strong>
    64비트 환경에서는 유리하지만, 주소 공간 압박이 있는 환경에서는 매핑 단위를 쪼개야 한다.
 
 ### 대표 적용 사례

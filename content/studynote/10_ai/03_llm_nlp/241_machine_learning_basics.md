@@ -19,14 +19,14 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-1980년대 컴퓨터 공학자들은 거만한 '[전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)([Expert System](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/))'에 빠져 있었다. 
-"이메일이 왔을 때 제목에 '공짜'나 '비아그라'가 있으면 스팸(Spam) 메일로 튕겨내라!"라고 개발자가 `if` 문을 수천 줄씩 코딩했다. 
+1980년대 컴퓨터 공학자들은 거만한 '[전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)([Expert System](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/))'에 빠져 있었다.
+"이메일이 왔을 때 제목에 '공짜'나 '비아그라'가 있으면 스팸(Spam) 메일로 튕겨내라!"라고 개발자가 `if` 문을 수천 줄씩 코딩했다.
 그러자 스팸 업자들은 '공.짜', '비아9라'로 글자를 꼬아서 필터를 뚫고 들어왔다. 개발자는 밤을 새워 또 수만 줄의 예외 코드를 추가해야 했고, 결국 스파게티처럼 꼬인 코드는 펑 하고 폭발해 버렸다. 인간이 세상의 모든 룰을 수동으로 입력한다는 건 불가능했다.
 
 이때 스탠퍼드 대학교의 아서 사무엘(Arthur Samuel)이 1959년에 남긴 미친 철학이 부활했다.
 <strong>"컴퓨터에게 일일이 규칙을 코딩해 주지 말고, 스스로 경험(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)을 통해 배우게 할 순 없을까?"</strong>
 
-이것이 <strong>머신러닝(Machine <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a>)</strong>의 강림이다. 개발자는 더 이상 '공짜'라는 글자를 스팸이라고 코딩하지 않는다. 그냥 과거의 진짜 스팸 메일 10만 통과 정상 메일 10만 통([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 무더기로 컴퓨터에게 먹인다. 
+이것이 <strong>머신러닝(Machine <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a>)</strong>의 강림이다. 개발자는 더 이상 '공짜'라는 글자를 스팸이라고 코딩하지 않는다. 그냥 과거의 진짜 스팸 메일 10만 통과 정상 메일 10만 통([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 무더기로 컴퓨터에게 먹인다.
 컴퓨터는 밤새도록 단어들의 통계를 내고 수학 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 돌리더니, <strong>"아항! '당첨'이라는 단어가 '계좌'라는 단어와 같이 쓰일 때 스팸일 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>이 98%구나!"라는 거대한 수학 방정식(모델)을 자기 스스로 뱉어냈다.</strong> 코딩의 시대가 저물고, 학습([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))의 시대가 열린 것이다.
 
 ```text
@@ -120,7 +120,7 @@ tags = ["studynote-ai"]
 
 머신러닝(Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) 패러다임은 인류가 컴퓨터와 대화하는 문법을 "명령([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/))의 시대"에서 <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 통한 귀납적 추론(Inductive Reasoning)의 시대"</strong>로 진화시킨 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 위대한 특이점이다.
 
-인간의 뇌는 찰나의 순간 고양이와 강아지를 완벽히 구별하지만, 정작 자신의 뇌세포가 어떤 수학적 연산을 거쳐 그 결론에 도달했는지 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적인 글(Rule)로 적어내지 못하는 '자기 모순'을 안고 있다. 폴라니의 역설(Polanyi’s Paradox), 즉 "우리는 우리가 말할 수 있는 것보다 더 많이 안다"는 인간 지능의 한계 때문에 전통적인 코딩(If-Then)은 망할 수밖에 없었다. 
+인간의 뇌는 찰나의 순간 고양이와 강아지를 완벽히 구별하지만, 정작 자신의 뇌세포가 어떤 수학적 연산을 거쳐 그 결론에 도달했는지 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적인 글(Rule)로 적어내지 못하는 '자기 모순'을 안고 있다. 폴라니의 역설(Polanyi’s Paradox), 즉 "우리는 우리가 말할 수 있는 것보다 더 많이 안다"는 인간 지능의 한계 때문에 전통적인 코딩(If-Then)은 망할 수밖에 없었다.
 머신러닝은 이 모순을 박살 냈다. 인간이 설명하지 못하는 그 오묘하고 끈적한 직감의 영역(패턴)을, 컴퓨터가 미친듯한 반복 계산과 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 미적분([경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/))을 통해 기계 스스로 깨우치고 수학 모델로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 버린 것이다.
 
 오늘날 당신의 스마트폰에 깔린 유튜브 추천 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), 구글 번역기, 스팸 차단기 뒤에는 모두 수억 개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 먹고 진화한 거대한 방정식(ML 모델)들이 조용히 숨을 쉬고 있다. 앞으로의 IT 비즈니스는 천재 코더를 얼마나 보유했느냐가 아니라, 기계에게 먹일 '얼마나 순도 높고 방대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(경험)'를 독점하고 있느냐는 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 자본주의(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Capitalism)</strong> 전쟁으로 완전히 궤도를 바꾸었으며, 이 전쟁의 포문을 연 위대한 선구자가 바로 기계학습이다.

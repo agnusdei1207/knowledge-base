@@ -18,9 +18,9 @@ tags = ["it_management"]
 
 ## Ⅰ. 개요 및 필요성
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석이나 게임 서버 등에서는 수십만 개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 실시간으로 쌓이거나 변경될 때, 특정 구간(예: 100번부터 50,000번까지)의 합을 빠르게 구해야 하는 상황이 빈번하다. 
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석이나 게임 서버 등에서는 수십만 개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 실시간으로 쌓이거나 변경될 때, 특정 구간(예: 100번부터 50,000번까지)의 합을 빠르게 구해야 하는 상황이 빈번하다.
 
-[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 요소 값을 변경하는 데는 $O(1)$이 걸리지만 구간 합을 구하려면 매번 전체를 더해야 해서 $O(N)$이 걸린다. 반대로 미리 계산해 둔 단순 누적 합(Prefix Sum) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 쓰면 구간 합은 $O(1)$에 알 수 있지만, 중간에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 하나라도 바뀌면 뒤쪽의 모든 누적 합을 다시 계산해야 하므로 업데이트에 $O(N)$이 소요되는 모순이 발생한다. 
+[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 요소 값을 변경하는 데는 $O(1)$이 걸리지만 구간 합을 구하려면 매번 전체를 더해야 해서 $O(N)$이 걸린다. 반대로 미리 계산해 둔 단순 누적 합(Prefix Sum) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 쓰면 구간 합은 $O(1)$에 알 수 있지만, 중간에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 하나라도 바뀌면 뒤쪽의 모든 누적 합을 다시 계산해야 하므로 업데이트에 $O(N)$이 소요되는 모순이 발생한다.
 
 이러한 모순을 해결하기 위해 피터 펜윅(Peter Fenwick)이 고안한 [펜윅 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)는, 1차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 하나만 사용하여 값 변경과 구간 합 구하기를 모두 $O(\log N)$의 놀라운 속도로 처리해 내는 해결책을 제시했다.
 
@@ -75,7 +75,7 @@ tags = ["it_management"]
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 합계만 필요한 통계 상황에서는 [펜윅 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)가 무조건적으로 유리하다. 반면, "특정 구간에서 가장 큰 값은?" 같은 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)(역연산이 불가능한 연산)가 필요하다면 메모리 손해를 감수하고라도 [세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)를 써야 한다.
 
-- **📢 섹션 요약 비유**: [펜윅 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)가 빠르고 연비 좋은 가벼운 스포츠카라면, [세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)는 다목적으로 활용 가능한 무거운 SUV 오프로드 차량이다. 
+- **📢 섹션 요약 비유**: [펜윅 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)가 빠르고 연비 좋은 가벼운 스포츠카라면, [세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)는 다목적으로 활용 가능한 무거운 SUV 오프로드 차량이다.
 
 ---
 

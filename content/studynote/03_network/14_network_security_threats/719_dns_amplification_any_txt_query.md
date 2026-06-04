@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-[NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/), Memcached와 함께 전 세계 3대 반사 증폭(DRDoS) 무기로 꼽히는 공격입니다. 
+[NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/), Memcached와 함께 전 세계 3대 반사 증폭(DRDoS) 무기로 꼽히는 공격입니다.
 마찬가지로 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 53번)</strong>의 허술한 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 가능)과, 질문 크기 대비 답변 크기가 큰 인터넷 구조를 악용합니다.
 
 ```text
@@ -45,7 +45,7 @@ tags = ["studynote-network"]
 - 정상적인 IP(A 레코드)만 대답하면 패킷이 수십 바이트로 작지만, `ANY` 명령을 받은 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버는 네이버에 등록된 <strong>이메일 주소(MX), 네임서버 목록(NS), <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> 주소(AAAA), 그리고 길고 긴 문자열인 텍스트 정보(TXT 레코드)</strong>까지 자기가 알고 있는 모든 TMI(Too Much Information)를 다 긁어모아서 대답해 줍니다.
 
 ### 2. [DNSSEC](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/) 확장 정보에 의한 뻥튀기
-- 앞서 705번 문서에서 배운 보안 서명 체계인 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/">DNSSEC</a></strong>이 아이러니하게도 증폭 공격에 날개를 달아주었습니다. 
+- 앞서 705번 문서에서 배운 보안 서명 체계인 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/">DNSSEC</a></strong>이 아이러니하게도 증폭 공격에 날개를 달아주었습니다.
 - DNSSEC가 켜진 DNS는 해킹을 막기 위해 수백 바이트짜리 무거운 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/">전자 서명</a> 키 뭉치</strong>를 패킷에 덕지덕지 붙여서 답장합니다.
 - **증폭률**: 결국 60바이트짜리 해커의 쪼맨한 `ANY` [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 이 모든 정보가 더해져 무려 <strong>4,000~5,000바이트(약 50~100배 증폭)</strong>짜리 초대형 벽돌 패킷으로 뻥튀기되어 피해자에게 반사 타격으로 꽂히게 됩니다.
 
@@ -66,10 +66,10 @@ tags = ["studynote-network"]
 
 통신사 백본망이나 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버 자체를 패치하여 방어합니다.
 
-1. <strong>Open Resolver 폐쇄 (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 변경)</strong>: 
-   - 공격의 숙주가 되는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버는 누구나 접속해서 질문할 수 있는 'Open Resolver'입니다. 
+1. <strong>Open Resolver 폐쇄 (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 변경)</strong>:
+   - 공격의 숙주가 되는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버는 누구나 접속해서 질문할 수 있는 'Open Resolver'입니다.
    - 서버 관리자는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(BIND 등)을 뜯어고쳐, <strong>"우리 회사 내부 직원의 IP가 아닌 외부 인터넷의 낯선 놈이 물어보는 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a>는 아예 대답해 주지 마라(<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/">Recursion</a> 제한)"</strong>라고 철저히 차단해야 합니다.
-2. <strong><code>ANY</code> <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 필터링 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> 제한</strong>: 
+2. <strong><code>ANY</code> <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 필터링 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> 제한</strong>:
    - [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 단에서 일반적인 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 통과시키되, 비정상적으로 거대한 응답을 유발하는 `ANY` [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 들어오거나, 동일 IP에서 `TXT` 레코드만 무친 듯이 반복 요청하면 차단([Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/))하는 룰을 심어둡니다.
 
 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 증폭을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 증폭이 기반 조건을 만든다면, [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 증폭은 그 위에서 핵심 메커니즘을 구현하고, Memcached 증폭 서버 공격 방어 미흡은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.

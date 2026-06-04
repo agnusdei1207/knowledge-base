@@ -122,7 +122,7 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오: [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer와 [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) `memory.limit_in_bytes`
 1. **문제 상황**: 현대 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 인프라. 리눅스 서버 1대에 Node.js, Spring, Python [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 30개가 올라가 있다. 리눅스는 태생이 '[전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)(Global)'다.
-2. **사고의 발생**: 
+2. **사고의 발생**:
    - 파이썬 앱에 무한 루프 메모리 릭 버그가 터졌다.
    - 리눅스 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/) 로직이 파이썬을 돕기 위해 29개 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 램을 싹 다 뺏어 파이썬에 부어줬다.
    - 29개 앱의 서비스가 올스톱되는 서버 전체 블랙아웃이 발생했다.
@@ -134,7 +134,7 @@ tags = ["studynote-operating-system"]
    - **결과**: 나머지 29개의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 옆방 파이썬이 미쳐 날뛰다 죽는 동안 0.001초의 렉도 없이 평온하게 서비스를 이어간다. <strong>고전적인 지역 교체 이론이 현대 클라우드 오케스트레이션의 가장 강력한 방어막으로 부활한 눈부신 실무 현장</strong>이다.
 
 ### JVM 메모리 사이즈 고정의 비밀 (`-Xms`, `-Xmx`)
-자바 백엔드 서버를 띄울 때 `java -Xms4G -Xmx4G` 처럼 시작 램과 최대 램을 4GB로 똑같이 묶어버리는 세팅이 국룰이다. 
+자바 백엔드 서버를 띄울 때 `java -Xms4G -Xmx4G` 처럼 시작 램과 최대 램을 4GB로 똑같이 묶어버리는 세팅이 국룰이다.
 이는 OS가 램을 줬다 뺏었다 하는 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)의 변동성(Jitter)을 거부하고, 아예 부팅할 때 OS로부터 4GB의 프레임을 통짜로 뜯어내 내 뱃속에 박아둔 뒤, 그 안에서 내가 자체적으로 [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC)을 돌리며 <strong>순수 지역 교체 100% 샌드박스</strong>로 서버를 굴리겠다는 백엔드 개발자들의 거만한(?) 최적화 선언이다. 이 덕분에 자바 서버는 OS의 스왑 렉에 휘둘리지 않고 극강의 안정성을 유지한다.
 
 - **📢 섹션 요약 비유**: 수영장에 애들 30명을 다 풀어놓고 튜브(메모리) 쟁탈전을 벌이게([전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)) 두었다가 한 명이 다 뺏어서 사고가 나니, 아예 수영장에 30개의 레인을 치고 "너는 1번 레인에서 네 튜브 하나만 가지고 놀아!"라며 물리적으로 찢어버린([cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) 지역 할당) 극강의 안전 조치입니다.

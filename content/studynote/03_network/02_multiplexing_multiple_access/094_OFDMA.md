@@ -21,7 +21,7 @@ tags = ["network"]
 
 OFDMA는 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 및 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 모바일 네트워크에서 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다루기 위해 채택된 직교 주파수 분할 기반의 다중 사용자 접속 기술이다.
 
-스마트폰 도입 이후 무선 인터넷 요구량이 폭증하면서, 기존 3G의 대세였던 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)) 기술은 거대한 한계에 부딪혔다. 모든 사용자가 같은 주파수 대역을 쓰면서 코드로만 구별하다 보니 사용자가 늘어날수록 서로가 서로에게 심각한 잡음(간섭)으로 작용했고, 속도 향상을 위한 시스템 복잡도가 감당 불가 수준으로 치솟았다. 
+스마트폰 도입 이후 무선 인터넷 요구량이 폭증하면서, 기존 3G의 대세였던 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)) 기술은 거대한 한계에 부딪혔다. 모든 사용자가 같은 주파수 대역을 쓰면서 코드로만 구별하다 보니 사용자가 늘어날수록 서로가 서로에게 심각한 잡음(간섭)으로 작용했고, 속도 향상을 위한 시스템 복잡도가 감당 불가 수준으로 치솟았다.
 
 이를 해결하기 위해 등장한 OFDMA는 넓은 주파수 대역을 아주 좁은 '[부반송파](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/)' 수백 개로 잘게 쪼개어, 각 단말기가 서로 겹치지 않는 별도의 공간을 배타적으로 사용하도록 통제한다. 이 잘게 쪼개진 자원 격자(Grid)를 기지국이 1ms 단위로 최적의 주파수를 찾아 할당하면서 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 브로드밴드 시대가 열리게 되었다.
 
@@ -92,7 +92,7 @@ OFDMA는 탁월하지만 CDMA나 파생 기술과 극명한 트레이드오프�
 
 ## Ⅴ. 기대효과 및 결론
 
-OFDMA는 [보호 대역](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/074_보호_대역_Guard_Band/)의 낭비를 없애고 시간/주파수 자원을 파편화하여 1ms 단위 스케줄링을 구현함으로써 모바일 통신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리량을 수십 배 폭증시킨 1등 공신이다. 
+OFDMA는 [보호 대역](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/074_보호_대역_Guard_Band/)의 낭비를 없애고 시간/주파수 자원을 파편화하여 1ms 단위 스케줄링을 구현함으로써 모바일 통신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리량을 수십 배 폭증시킨 1등 공신이다.
 
 앞으로 6G를 향한 진화에서는 [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) 격자 공간의 한계를 넘기 위해 물리적 공간(Space) 축을 결합한 Massive MIMO와 시너지를 내거나, "[직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)"이라는 규칙을 의도적으로 깨고 남는 전력 마진에 다른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중첩시켜 하나의 격자에 여러 명을 구겨 넣는 [NOMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/095_NOMA_비직교_다중_접속/) ([Non-Orthogonal Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/095_NOMA_비직교_다중_접속/)) 기술과의 융합으로 발전할 것이다. OFDMA는 통신망의 가장 단단한 아파트 뼈대와 같다.
 

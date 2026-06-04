@@ -61,8 +61,8 @@ tags = ["studynote-network"]
 - 서울과 대전(중계기 1) 사이에 쌍둥이 구슬 한 세트를 깔고, 대전과 대구(중계기 2) 사이에 한 세트, 대구와 부산 사이에 한 세트를 미리 깔아둡니다.
 
 ### 2. 얽힘 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) ([Entanglement](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/220_quantum_entanglement/) [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)) - "징검다리 엮기" 🌟
-- 대전(중계기 1) 안에는 서울과 연결된 구슬, 대구와 연결된 구슬 2개가 들어있습니다. 
-- 대전 중계기가 이 두 구슬을 강제로 쾅 부딪혀 측정(Bell [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Measurement)해 버립니다. 
+- 대전(중계기 1) 안에는 서울과 연결된 구슬, 대구와 연결된 구슬 2개가 들어있습니다.
+- 대전 중계기가 이 두 구슬을 강제로 쾅 부딪혀 측정(Bell [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Measurement)해 버립니다.
 - **기적 발생**: 대전에 있던 두 구슬은 파괴되지만, **그 순간 서울에 있던 구슬과 대구에 있던 구슬이 다이렉트로 '텔레파시 쌍둥이(얽힘)' 상태로 묶여버립니다!** 대구 중계기도 똑같은 짓을 반복하면, 중간 중계기들은 다 파괴되고 최종적으로 **서울과 부산이 다이렉트로 연결된 쌍둥이 구슬(마법진)** 하나만 남게 됩니다.
 
 ### 3. 양자 텔레포테이션 ([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Teleportation) 전송

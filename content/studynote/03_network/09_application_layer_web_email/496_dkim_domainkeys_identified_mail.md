@@ -88,7 +88,7 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 
 회사의 IT 담당자는 사내 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버에 다음과 같이 `셀렉터._domainkey` 모양의 TXT 레코드를 박아야 한다.
 
-<strong><code>20230601._domainkey.google.com</code></strong> 
+<strong><code>20230601._domainkey.google.com</code></strong>
 ➔ `v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBA... (거대한 공개키 알파벳 덩어리)`
 
 수신 서버는 이 주소로 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 쿼리를 때려서 `p=` 뒤에 있는 저 거대한 공개키를 낚아채어 메일의 도장을 깨부수는 데(복호화) 쓴다.

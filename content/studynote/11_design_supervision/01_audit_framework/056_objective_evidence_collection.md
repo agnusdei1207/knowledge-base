@@ -119,8 +119,8 @@ tags = ["studynote-design-supervision"]
 
 ## 어린이를 위한 3줄 비유 설명
 
-객관적 증거는 "내가 봤어"를 "모두가 다시 봐도 같아"로 바꾸는 거예요.  
-그림책 한 장보다, 직접 해 본 결과가 더 믿을 만해요.  
+객관적 증거는 "내가 봤어"를 "모두가 다시 봐도 같아"로 바꾸는 거예요.
+그림책 한 장보다, 직접 해 본 결과가 더 믿을 만해요.
 그래서 감리에서는 말보다 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 흔적이 더 중요해요.
 
 ---

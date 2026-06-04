@@ -99,7 +99,7 @@ PromQL 예시:
 LogQL 예시:
   # 에러 로그만 필터
   {app="api-server"} |= "ERROR"
-  
+
   # 분당 오류 발생 건수
   count_over_time({app="api-server"} |= "ERROR" [1m])
 ```
@@ -154,7 +154,7 @@ export default function() {
   - Node Exporter Full: 노드별 상세 메트릭
   - Pod/Deployment: 워크로드별 CPU/메모리
   - Kubernetes Events: 이벤트 로그 연동
-  
+
   커뮤니티 대시보드: grafana.com/grafana/dashboards/
   (ID 번호로 바로 가져오기 가능)
 ```

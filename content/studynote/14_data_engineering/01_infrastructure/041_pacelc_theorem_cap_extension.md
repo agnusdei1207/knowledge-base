@@ -51,7 +51,7 @@ PACELC 정리:
 
 P (Partition 발생 시):
   A (Availability) vs C (Consistency)
-  
+
 E (Else, 정상 상태):
   L (Latency) vs C (Consistency)
 
@@ -70,7 +70,7 @@ PC/EC (일관성 우선):
 PA/EC (혼합):
   파티션: 가용성, 정상: 일관성
   예: MongoDB (기본값: 가용성 우선)
-  
+
 PC/EL (혼합):
   드문 조합, 일부 NewSQL 시도
 ```
@@ -89,21 +89,21 @@ PA/EL (가용성 + 저지연):
   Cassandra: AP 설계, Tunable Consistency
   Riak: 최종 일관성 중심
   Voldemort (LinkedIn): 가용성 극대화
-  
+
 PC/EC (일관성 우선):
   HBase: HDFS 기반, 강한 일관성
   VoltDB: ACID, 분산 트랜잭션
   Zookeeper: 메타데이터 일관성 보장
-  
+
 PA/EC (가용성 우선, 정상 일관성):
   MongoDB: replica set, 기본 primary 읽기
-  
+
 PC/EL:
   드문 조합
 
 RDBMS (분산 상황):
   MySQL Cluster: PC/EC 시도
-  
+
 NewSQL:
   CockroachDB: PC/EC + 분산 트랜잭션
   Google Spanner: PC/EC (TrueTime 활용)
@@ -146,7 +146,7 @@ Eventual Consistency vs Strong Consistency:
   최종 일관성(PA/EL):
     모든 노드가 결국(eventually) 동기화
     "언제 동기화될지" 보장 없음
-    
+
   강한 일관성(PC/EC):
     모든 읽기가 최신 쓰기 반영
     Raft, Paxos 합의 알고리즘 필요
@@ -180,7 +180,7 @@ PACELC 기반 DB 선택:
 상품 카탈로그 (PA/EL):
   DynamoDB Global Tables
   이유: 저지연(~5ms), 최종 일관성 허용
-  
+
 장바구니 (PA/EL):
   Cassandra (DC별 복제)
   이유: 고가용성, 로컬 저지연

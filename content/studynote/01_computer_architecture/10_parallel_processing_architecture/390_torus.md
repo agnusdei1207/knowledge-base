@@ -127,24 +127,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 채택이 유리한 경우
 
-1. 노드 간 통신 패턴이 규칙적이고 근접성이 뚜렷할 때  
-2. 평균 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간보다 최악 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 균일성이 중요할 때  
-3. 중앙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 병목 없이 스케일아웃하려 할 때  
-4. 시스템 소프트웨어가 토폴로지 인지형 매핑을 지원할 때  
+1. 노드 간 통신 패턴이 규칙적이고 근접성이 뚜렷할 때
+2. 평균 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간보다 최악 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 균일성이 중요할 때
+3. 중앙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 병목 없이 스케일아웃하려 할 때
+4. 시스템 소프트웨어가 토폴로지 인지형 매핑을 지원할 때
 
 ### 회피가 유리한 경우
 
-1. 물리 배선 길이와 패키징 비용이 매우 민감할 때  
-2. 트래픽이 랜덤하고 비국소적인 올투올(All-to-All) 패턴이 지배적일 때  
-3. 장애 시 복잡한 우회 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 감당할 운영 체계가 없을 때  
-4. 범용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터처럼 케이블 재배치 유연성이 더 중요할 때  
+1. 물리 배선 길이와 패키징 비용이 매우 민감할 때
+2. 트래픽이 랜덤하고 비국소적인 올투올(All-to-All) 패턴이 지배적일 때
+3. 장애 시 복잡한 우회 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 감당할 운영 체계가 없을 때
+4. 범용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터처럼 케이블 재배치 유연성이 더 중요할 때
 
 ### 기술사형 체크포인트
 
-- 토러스 차원 수와 노드 배치가 응용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분할 방식과 맞는가?  
-- 랩어라운드 링크의 물리 길이를 줄이기 위한 폴딩 또는 패키징 전략이 있는가?  
-- 차원 우선 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)만으로 충분한가, 아니면 가상 채널과 적응형 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 필요한가?  
-- 장애 노드가 발생했을 때 우회 경로와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 폭을 정량적으로 설명할 수 있는가?  
+- 토러스 차원 수와 노드 배치가 응용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분할 방식과 맞는가?
+- 랩어라운드 링크의 물리 길이를 줄이기 위한 폴딩 또는 패키징 전략이 있는가?
+- 차원 우선 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)만으로 충분한가, 아니면 가상 채널과 적응형 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 필요한가?
+- 장애 노드가 발생했을 때 우회 경로와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 폭을 정량적으로 설명할 수 있는가?
 
 실무에서 자주 나오는 안티패턴은 토러스 하드웨어를 도입해 놓고 소프트웨어 작업 배치를 임의로 흩어 놓는 것이다. [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 토폴로지가 좋아도, 서로 자주 통신하는 프로세스를 멀리 배치하면 홉 수 절감 효과를 잃는다. 토러스는 하드웨어만으로 완성되지 않고, 작업 스케줄링과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치가 함께 맞아야 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나온다.
 

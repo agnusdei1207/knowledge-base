@@ -20,7 +20,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - 과거(CRUD 아키텍처)에는 `회원` DB 테이블 하나에다가 새로운 회원을 추가(Insert/Write)하는 일과, 회원의 목록을 검색([Select](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/)/Read)하는 일을 다 같이 했습니다.
-- **딜레마**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>'쓸 때'</strong>는 엄격한 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)(자물쇠)이 중요해서 구조가 복잡해야 하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>'읽을 때'</strong>는 여러 테이블을 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))해서 한눈에 봐야 하니 구조가 넓적해야 빠릅니다. 
+- **딜레마**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>'쓸 때'</strong>는 엄격한 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)(자물쇠)이 중요해서 구조가 복잡해야 하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>'읽을 때'</strong>는 여러 테이블을 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))해서 한눈에 봐야 하니 구조가 넓적해야 빠릅니다.
 - 하나의 DB 구조로 이 상충하는 두 마리 토끼를 다 잡으려다 보니 속도도 느려지고 병목([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 대기)이 터져버립니다.
 
 - **📢 섹션 요약 비유**: [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) ([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Query Responsibility Segregation)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
@@ -50,7 +50,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 버트란드 마이어(Bertrand Meyer)의 CQS 원칙에 기원하여 그렉 영(Greg Young)이 명명한 패턴. 
+- **개념**: 버트란드 마이어(Bertrand Meyer)의 CQS 원칙에 기원하여 그렉 영(Greg Young)이 명명한 패턴.
 - 시스템을 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 상태를 변경하는 명령(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/">Command</a> = Write/Update/Delete) 모델</strong>과, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 상태를 화면에 보여주기만 하는 조회(Query = Read) 모델</strong>로 철저하게 두 동강 내어, <strong>로직과 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>(DB) 자체를 아예 물리적으로 분리해 버리는 극단적 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 최적화 아키텍처</strong>입니다.
 
 - **📢 섹션 요약 비유**: [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) ([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Query Responsibility Segregation)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.

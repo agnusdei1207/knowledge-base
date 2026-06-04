@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: "너 일 다 했냐? 다 했냐? 지금은 다 했냐?" CPU가 1마이크로초마다 기계의 멱살을 잡고 상태(Status) 비트가 `Busy(1)`에서 `Ready(0)`로 바뀔 때까지 죽어라 감시하는 행위다. 
+- **개념**: "너 일 다 했냐? 다 했냐? 지금은 다 했냐?" CPU가 1마이크로초마다 기계의 멱살을 잡고 상태(Status) 비트가 `Busy(1)`에서 `Ready(0)`로 바뀔 때까지 죽어라 감시하는 행위다.
 - **필요성**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터에는 '[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))'라는 고급 하드웨어 회로 자체가 없었다. CPU가 프린터에게 문자를 보낸 뒤, 프린터 기계 모터가 잉크를 다 찍을 때까지 기다려야 다음 문자를 보낼 수 있다. 안 기다리고 냅다 다음 글자를 보내면 프린터 버퍼가 터져 글자가 다 씹힌다. CPU는 "기계가 일을 마쳤다"는 신호를 어떻게든 알아내야만 했고, 가장 무식하고 확실한 방법은 기계의 신호등([상태 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/))을 눈알이 빠지게 쳐다보고 있는 것뿐이었다.
 
 - **등장 배경 및 PIO의 한계 노출**:
@@ -50,7 +50,7 @@ tags = ["studynote-operating-system"]
 │    의미 없는 헛돌기(Spinning)로 전력과 시간을 100% 탕진해 버림.        │
 └────────────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** 이 `while` 루프가 바로 모든 디바이스 드라이버 초보자들이 겪는 '[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 프리즈([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Freeze)'의 주범이다. 폴링 루프에 갇힌 CPU 코어는 다른 애플리케이션으로 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))조차 하지 못하고 기계가 0을 뱉어낼 때까지 포로로 잡힌다. 만약 프린터 전원이 훅 나가서 0을 영원히 뱉지 않는다면? 컴퓨터 자체가 영원히 멈추는 완벽한 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠진다. 
+**[다이어그램 해설]** 이 `while` 루프가 바로 모든 디바이스 드라이버 초보자들이 겪는 '[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 프리즈([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Freeze)'의 주범이다. 폴링 루프에 갇힌 CPU 코어는 다른 애플리케이션으로 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))조차 하지 못하고 기계가 0을 뱉어낼 때까지 포로로 잡힌다. 만약 프린터 전원이 훅 나가서 0을 영원히 뱉지 않는다면? 컴퓨터 자체가 영원히 멈추는 완벽한 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠진다.
 
 - **📢 섹션 요약 비유**: 엘리베이터(디바이스)를 불렀는데, 층수 표시기가 없어서 문에 귀를 대고 "도착했나? 도착했나?" 1초에 10번씩 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 짓입니다. 엘리베이터가 오면 0.1초 만에 타겠지만, 기다리는 3분 동안 나는 꼼짝도 못 하고 문만 쳐다봐야 하는 바보 같은 기다림([Busy Wait](/knowledge-base/studynote/02_operating_system/11_exam_summary/700_spinlock_busy_waiting/))입니다.
 
@@ -69,7 +69,7 @@ tags = ["studynote-operating-system"]
 
 ### 폴링의 유일한 구원: [Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/) ([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)) 방어선
 
-"기계가 영원히 고장 나서 `Ready`가 안 뜨면 컴퓨터가 영원히 뻗나요?" 
+"기계가 영원히 고장 나서 `Ready`가 안 뜨면 컴퓨터가 영원히 뻗나요?"
 맞다. 그래서 쌩으로 폴링을 짤 땐 반드시 빠져나올 비상구를 달아야 한다.
 ```c
 int timeout = 1000000; // 100만 번만 물어보자
@@ -120,13 +120,13 @@ I/O [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: 100Gbps 랜카드와 리눅스 NAPI (폴링의 화려한 부활)
-1. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>의 몰락</strong>: 
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>의 몰락</strong>:
    - 옛날 1Gbps 랜카드는 패킷이 올 때마다 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 때려도 서버가 버텼다.
    - 시대가 미쳐서 100Gbps 랜카드가 나왔다. 1초에 천만 개의 패킷이 쏟아진다. 랜카드가 1초에 천만 번 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 때리니, CPU가 1초에 천만 번 하던 일을 멈추고 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위치를 하느라 서버가 그 자리에서 질식사해 버렸다. (<strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a> Storm 폭발</strong>).
 2. <strong>NAPI (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">New</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>) 꼼수의 등장</strong>:
    - 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해커들이 내린 처방은 놀랍게도 "구석기시대의 폴링([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))으로 돌아가자!"였다.
    - 첫 패킷이 들어올 때 딱 1번만 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 킨다.
-   - 그 뒤로는 랜카드의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 아예 `Disable(꺼버림)` 시켜버린다. 
+   - 그 뒤로는 랜카드의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 아예 `Disable(꺼버림)` 시켜버린다.
    - CPU 코어 하나를 아예 랜카드 전담 알바로 배정해서, 무한 `while` 루프([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))를 돌며 랜카드 버퍼에 패킷이 찰 때마다 뭉텅이로 100개씩 푹푹 퍼오게 만든다.
 3. **폴링의 재평가**:
    - [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)로 인한 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 렉 1000만 번을 0번으로 지워버리자 서버 대역폭이 우주를 뚫고 나갔다. 무식하게 쳐다만 보는 폴링이 극한의 트래픽 환경에서는 최고의 무기가 된 아이러니다. [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/)([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass) 역시 100% 이 폴링 기반으로 패킷을 퍼먹는다.

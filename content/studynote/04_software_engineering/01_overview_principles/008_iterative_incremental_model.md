@@ -90,11 +90,11 @@ Time ─────────────────────────
 
 [가치 인도 및 위험도 누적 곡선 비교]
 
-가치(Value) 
+가치(Value)
  ▲                      / (폭포수 가치: 마지막에 수직 상승)
  │                    /
  │    __--‾‾--__--‾‾ (점진적 가치: 단계적으로 우상향)
- │ __- 
+ │ __-
  └────────────────────────────▶ 시간
 
 위험(Risk)
@@ -102,7 +102,7 @@ Time ─────────────────────────
  │       ＼
  │ ＼      ＼
  │   ＼_--_  ＼  (점진적 위험: 배포마다 급격히 하락)
- │         ‾‾--__ 
+ │         ‾‾--__
  └────────────────────────────▶ 시간
 ```
 이 도식의 핵심은 반복/점진적 모델이 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 리스크를 떨어뜨리고 비즈니스 가치를 조기 확보하는 교차점(Cross Point)을 만들어낸다는 점입니다. [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/)은 아무리 훌륭한 시스템이라도 오픈 전날까지는 고객 가치가 '0'이며, 위험도는 'Max' 상태를 유지합니다. 반면, 점진적 모델은 핵심 기능 20%만 배포해도 즉시 수익이 창출되므로 재무적 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 관점에서 절대적으로 유리합니다. 다만, 이 방식은 아키텍처가 불안정할 경우 "잘못 설계된 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 덕지덕지 이어 붙인 프랑켄슈타인 시스템"을 만들 수 있는 트레이드오프를 가집니다.

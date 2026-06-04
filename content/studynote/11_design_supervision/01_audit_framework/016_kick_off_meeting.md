@@ -19,9 +19,9 @@ tags = ["design_supervision"]
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-착수 회의(Kick-off Meeting)는 [정보시스템 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/) 계획이 수립된 후, 본격적인 현장 감리(실지 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/))를 시작하기 직전에 모든 주요 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)가 참여하여 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하는 공식적인 첫 모임입니다. 이는 단순히 일정을 공유하는 자리를 넘어, 감리의 방향성과 초점을 선언하는 자리입니다. 
+착수 회의(Kick-off Meeting)는 [정보시스템 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/) 계획이 수립된 후, 본격적인 현장 감리(실지 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/))를 시작하기 직전에 모든 주요 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)가 참여하여 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하는 공식적인 첫 모임입니다. 이는 단순히 일정을 공유하는 자리를 넘어, 감리의 방향성과 초점을 선언하는 자리입니다.
 
-기존의 감리는 종종 통제와 지적 위주의 활동으로 인식되어 피감리인(사업자)의 반발을 사는 경우가 많았습니다. 이러한 한계를 극복하고, 감리가 프로젝트 품질 향상을 위한 '지원' 활동으로 자리매김하기 위해서는 감리의 목적을 명확히 하고 상호 협력 체계를 구축해야 하는 비즈니스적 요구가 대두되었습니다. 
+기존의 감리는 종종 통제와 지적 위주의 활동으로 인식되어 피감리인(사업자)의 반발을 사는 경우가 많았습니다. 이러한 한계를 극복하고, 감리가 프로젝트 품질 향상을 위한 '지원' 활동으로 자리매김하기 위해서는 감리의 목적을 명확히 하고 상호 협력 체계를 구축해야 하는 비즈니스적 요구가 대두되었습니다.
 
 따라서 착수 회의에서는 감리 대상(범위), 감리 중점 사항, 일정, 피감리인 측의 준비 사항(문서, 인터뷰 대상자 등)을 투명하게 공개하여, 감리로 인한 업무 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이나 마찰을 최소화합니다.
 
@@ -67,7 +67,7 @@ tags = ["design_supervision"]
                      (수검 환경, 인터뷰 일정 조율 피드백)
 ```
 
-이 도식에서 핵심은 감리법인과 피감리인 간의 수평적 상호작용(`<======>`)입니다. 이런 배치는 감리가 일방적인 사찰이 아니라 상호 합의된 품질 보증 활동임을 보장하기 때문입니다. 따라서 착수 회의에서 피감리인의 의견(일정 제약, 시스템 환경 등)이 반영되지 않으면, 실지 감리 시 [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/) 수집에 심각한 병목을 초래하게 됩니다. 
+이 도식에서 핵심은 감리법인과 피감리인 간의 수평적 상호작용(`<======>`)입니다. 이런 배치는 감리가 일방적인 사찰이 아니라 상호 합의된 품질 보증 활동임을 보장하기 때문입니다. 따라서 착수 회의에서 피감리인의 의견(일정 제약, 시스템 환경 등)이 반영되지 않으면, 실지 감리 시 [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/) 수집에 심각한 병목을 초래하게 됩니다.
 
 착수 회의의 세부 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 절차는 다음과 같습니다:
 1. **개회 및 참석자 소개**: 프로젝트 관련 주요 인력 상호 인사

@@ -51,7 +51,7 @@ Auto-MDIX 기능이 켜진 장비(최신 스위치나 [PC](/knowledge-base/study
   3,6번 핀 (수신 Rx 로 자동변환) ◀──(다이렉트)── 3,6번 핀 (송신 Tx)
 ```
 
-이처럼 물리적인 케이블의 결선을 바꾸는 대신, <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/">반도체</a> 칩 내부에서 논리적으로 회로를 교차</strong>시켜버립니다. 
+이처럼 물리적인 케이블의 결선을 바꾸는 대신, <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/">반도체</a> 칩 내부에서 논리적으로 회로를 교차</strong>시켜버립니다.
 단, 이 기능이 작동하려면 일반적으로 포트의 속도와 이중 방식(Duplex) 설정이 <strong>'자동 협상(Auto-Negotiation)' 모드</strong>로 켜져 있어야 합니다.
 
 - **📢 섹션 요약 비유**: Auto-MDIX의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -60,7 +60,7 @@ Auto-MDIX 기능이 켜진 장비(최신 스위치나 [PC](/knowledge-base/study
 
 ## Ⅲ. 비교 및 연결
 
-[1000BASE-T](/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/)(기가비트 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)) 표준부터는 4쌍(8가닥)의 선을 모두 양방향 송수신으로 사용합니다. 즉, 애초에 Tx 전용 핀이나 Rx 전용 핀의 구분이 사라졌습니다. 
+[1000BASE-T](/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/)(기가비트 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)) 표준부터는 4쌍(8가닥)의 선을 모두 양방향 송수신으로 사용합니다. 즉, 애초에 Tx 전용 핀이나 Rx 전용 핀의 구분이 사라졌습니다.
 
 따라서 <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/">1000BASE-T</a> 규격에는 Auto-MDIX 기능이 표준의 일부로 기본 탑재</strong>되어 있습니다. 기가비트를 지원하는 랜카드나 스위치라면 다이렉트 케이블이든 크로스 케이블이든, 상대 장비가 무엇이든 아무렇게나 꽂아도 100% 정상 작동합니다.
 

@@ -18,7 +18,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-체크섬(Checksum)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리에 대한 일종의 '영수증 총합'이다. 
+체크섬(Checksum)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리에 대한 일종의 '영수증 총합'이다.
 
 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)(Parity)가 글자 하나하나 단위로 에러를 잡는 현미경이라면, 체크섬은 거대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록 단위로 묶어서 검사하는 도매상 방식이다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 인터넷 아키텍트들은 수백 바이트짜리 패킷이 날아다닐 때마다 무거운 나눗셈 하드웨어를 돌리기엔 장비 성능이 너무 열악했다. 그들은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리를 16비트 단위로 뚝뚝 잘라서 다 더한 값 하나만 영수증처럼 꼬리에 붙여 보내자. 받는 쪽에서 똑같이 더해서 영수증과 맞는지 보면 되잖아?"라는 극도로 저렴한 아이디어를 냈고, 이것이 인터넷을 지탱하는 표준 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계인 체크섬이 되었다.
 
@@ -86,7 +86,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-체크섬은 연산의 정밀도를 일부 타협하는 대가로, 네트워크 장비들이 초당 수백만 개의 패킷을 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 라우팅할 수 있게 날개를 달아준 소프트웨어 친화적 방어 아키텍처다. 
+체크섬은 연산의 정밀도를 일부 타협하는 대가로, 네트워크 장비들이 초당 수백만 개의 패킷을 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 라우팅할 수 있게 날개를 달아준 소프트웨어 친화적 방어 아키텍처다.
 
 아키텍처 설계에서 완벽함이 항상 최선은 아니다. [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 카드 하드웨어가 강력한 CRC로 물리적 패킷이 깨지지 않았음을 이미 1차로 보증해주기 때문에, 상위 계층인 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP는 비싼 연산을 버리고 가벼운 덧셈 기반의 체크섬만으로 2차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 수행하는 환상적인 계층적 방어망 분업 체계가 완성되었다. 체크섬은 '가벼움' 그 자체가 무기가 된 가장 실용적인 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 모델이다.
 

@@ -19,7 +19,7 @@ tags = ["studynote-algorithm"]
 
 ## Ⅰ. 가설 검정의 기본 구조
 
-**귀무 가설(Null Hypothesis, H₀)**: 기본 가정, 효과 없음, 차이 없음  
+**귀무 가설(Null Hypothesis, H₀)**: 기본 가정, 효과 없음, 차이 없음
 **대립 가설(Alternative Hypothesis, H₁)**: 입증하고자 하는 주장
 
 예시:

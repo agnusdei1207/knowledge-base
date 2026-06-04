@@ -27,26 +27,26 @@ tags = ["studynote-design-supervision"]
   구현 단계: 10배
   테스트 단계: 20배
   인도 후/운영: 100배
-  
+
   → 조기 검사가 ROI 최대화
 
 산출물 유형별 검사:
   요구사항 단계:
     요구사항 명세서 (SRS)
     유스케이스 다이어그램
-    
+
   설계 단계:
     소프트웨어 아키텍처 문서 (SAD)
     DB 설계서, 인터페이스 정의서
-    
+
   구현 단계:
     소스 코드 (Code Review)
     단위 테스트 케이스
-    
+
   테스트 단계:
     테스트 계획서, 테스트 케이스
     테스트 결과 보고서
-    
+
   인도 단계:
     사용자 매뉴얼, 운영 매뉴얼
     설치 가이드
@@ -77,24 +77,24 @@ Fagan 인스펙션 (Fagan Inspection):
   1. 계획 (Planning):
      검사 범위, 참가자, 일정 결정
      검사 체크리스트 준비
-     
+
   2. 개요 (Overview):
      작성자가 검사자에게 문서 배경 설명 (선택적)
-     
+
   3. 준비 (Preparation):
      각 검사자가 문서 개별 검토
      결함, 의문점 사전 기록
-     
+
   4. 검사 회의 (Inspection Meeting):
      1~2시간 집중 검사
      검사자별 발견 결함 발표
      진행자가 기록자에게 결함 정리 지시
-     
+
      규칙: 수정 방법 논의 금지 (결함 발견만)
-     
+
   5. 수정 (Rework):
      작성자가 발견된 결함 수정
-     
+
   6. 추적 (Follow-up):
      진행자가 수정 완료 여부 확인
      재검사 여부 결정
@@ -123,13 +123,13 @@ Fagan 인스펙션 (Fagan Inspection):
 1. 동료 검토 (Peer Review):
    1명 작성자 + 1~3명 검토자
    GitHub Pull Request 기반
-   
+
    GitHub PR 워크플로우:
    작성자: 기능 브랜치 → PR 생성
    검토자: 라인별 코멘트
    작성자: 수정 → 리뷰 재요청
    승인 후 머지
-   
+
 2. Gerrit (Google 내부 → 오픈소스):
    코드 변경 단위로 검토
    +2 (승인), +1 (동의), -1 (반대), -2 (거부)
@@ -140,21 +140,21 @@ Fagan 인스펙션 (Fagan Inspection):
   - 요구사항 충족 여부
   - 엣지 케이스 처리
   - 에러 처리 완전성
-  
+
   코드 품질:
   - 가독성 (변수명, 함수명)
   - 단일 책임 원칙 준수
   - 중복 코드 없음 (DRY)
-  
+
   보안:
   - SQL 인젝션, XSS 취약점
   - 인증/인가 처리
   - 민감 정보 하드코딩 없음
-  
+
   성능:
   - N+1 쿼리 문제
   - 불필요한 반복 연산
-  
+
   테스트:
   - 단위 테스트 포함 여부
   - 테스트 커버리지
@@ -164,7 +164,7 @@ Fagan 인스펙션 (Fagan Inspection):
   ESLint/Pylint: 린트 (코딩 스타일, 잠재 오류)
   Snyk: 의존성 보안 취약점
   Codacy: 자동 코드 검토
-  
+
   CI/CD 통합:
   PR 생성 시 자동 품질 게이트
   문제 있으면 머지 차단
@@ -182,10 +182,10 @@ Fagan 인스펙션 (Fagan Inspection):
 소프트웨어 감사 유형:
   프로세스 감사 (Process Audit):
     개발 프로세스가 표준(CMM, ISO) 준수하는가?
-    
+
   제품 감사 (Product Audit):
     산출물이 기준을 충족하는가?
-    
+
   형상 감사 (Configuration Audit):
     형상 관리가 올바른가?
     소프트웨어 베이스라인 무결성 확인
@@ -194,7 +194,7 @@ FCA vs PCA (형상 감사):
   FCA (Functional Configuration Audit):
     소프트웨어가 기능 요건을 충족하는가?
     테스트 결과 검토
-    
+
   PCA (Physical Configuration Audit):
     산출물이 승인된 문서와 일치하는가?
     소스코드 vs 설계서 일치 확인
@@ -236,21 +236,21 @@ CI/CD 통합 산출물 품질 게이트:
      취약점: 0개 (Critical)
      코드 스멜: 10개 이하 (경고)
      커버리지: 80% 이상
-     
+
   2. 보안 스캔 (Snyk):
      Critical 취약점 0개
      의존성 라이선스 검사
-     
+
   3. 성능 테스트 (JMeter):
      API 응답 P99 < 500ms
-     
+
   4. 코드 검토 승인:
      시니어 개발자 1명 이상 Approve
 
 Quality Gate 구성 예:
   sonar-project.properties:
   sonar.qualitygate.wait=true
-  
+
   조건:
   - Coverage < 80% → FAILED
   - New Bugs > 0 → FAILED
@@ -259,7 +259,7 @@ Quality Gate 구성 예:
 자동 검사 + 수동 검토 조합:
   자동화 (도구): 형식, 취약점, 커버리지
   수동 검토 (인간): 비즈니스 로직, 아키텍처 결정
-  
+
   80/20 법칙: 자동화 80% + 수동 20%로
   최대 효과 달성
 

@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))에 패킷이 들어옵니다. 이걸 바이러스인지 검사([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))하려면, 패킷이 리더기 ➜ [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간 ➜ 복사 ➜ 사용자 공간(백신 앱)까지 깊숙하게 올라와야 합니다. 
+- 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))에 패킷이 들어옵니다. 이걸 바이러스인지 검사([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))하려면, 패킷이 리더기 ➜ [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간 ➜ 복사 ➜ 사용자 공간(백신 앱)까지 깊숙하게 올라와야 합니다.
 - 복사하고 올라오는 <strong>경로(<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>/IP <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> 통과)가 너무 길어서</strong> 1초에 1억 개의 패킷을 때려붓는 디도스(DDoS) 공격이 오면 검사하기도 전에 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) CPU가 100%를 치고 서버가 기절합니다. ([컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 오버헤드 폭발)
 
 ```text

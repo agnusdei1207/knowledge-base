@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **하트비트 (Heartbeat)**: 노드끼리 1초에 한 번씩 "나 살아있다"라는 신호를 네트워크를 통해 주고받는 메커니즘.
   - <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/">스플릿 브레인</a> (Split-Brain)</strong>: 클러스터 노드 간의 하트비트 통신망(Private Network)이 끊어졌을 때, 양쪽 모두 "상대방이 죽었구나! 이제 내가 마스터([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/))로서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 인계받아야겠다"라고 오판하는 상황.
   - **STONITH / Fencing**: "머리에 총을 쏴라"라는 뜻의 STONITH는 [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) 의심 상황 시, 한 노드가 다른 노드의 전원(PDU/[IPMI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/709_ipmi/))을 아예 내려버리거나([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Fencing), 스토리지 케이블([SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 차단하는(Fabric Fencing) 행위다.
 
-- <strong>필요성 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 오염의 공포)</strong>: 
+- <strong>필요성 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 오염의 공포)</strong>:
   - A서버([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/))와 B서버(Standby)가 공유 스토리지([SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/))의 한 디스크를 보고 있다.
   - A서버가 멀쩡히 글을 쓰고 있는데, A와 B를 잇는 랜선(Heartbeat망)만 딱 끊어졌다. B는 A가 죽은 줄 알고 자기가 Active가 되어 스토리지에 글을 쓴다.
   - 결과적으로 A와 B가 동시에 동일한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)/디스크 블록에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰게 되어(Concurrent Write), [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 산산조각 난다([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Corruption). 한 번 깨진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 외에는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 방법이 없다.
@@ -133,7 +133,7 @@ A ([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/
 
 2. **시나리오 — 2-Node 핑퐁(Ping-Pong) 장애 (펜싱 무한 루프)**: A와 B로 이루어진 클러스터에서 네트워크 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 비정상 동작하여 패킷이 10초 끊겼다 이어지길 반복한다.
    - **원인 분석**: 10초 끊기자 B가 A에게 STONITH를 쏴서 A를 재부팅시켰다. A가 살아서 부팅되었는데 다시 패킷이 끊겼다. 이번엔 A가 "어 B가 죽었네?" 하고 B에게 STONITH를 쐈다. 두 서버가 서로를 번갈아 가며 계속 죽이는 'Fencing Deathmatch'가 터졌다.
-   - **대응 (기술사적 가이드)**: 
+   - **대응 (기술사적 가이드)**:
      1. <strong>펜싱 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(Fencing Delay)</strong>: A 노드는 즉시 총을 쏘고, B 노드는 총을 쏘기 전에 15초를 기다리게(Delay) 비대칭 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 부여하여 동시 사격을 막는다.
      2. **Quorum Device (QDevice) 도입**: 2-Node는 태생적으로 위험하다. 제3의 가벼운 서버(또는 클라우드 인스턴스)에 QDevice 데몬을 올려 투표권(+1표)만 준다. 총 3표가 되어 네트워크 단절 시 제3의 서버와 통신이 되는 노드(2표 획득)만 살아남게 구조를 바꾼다.
 

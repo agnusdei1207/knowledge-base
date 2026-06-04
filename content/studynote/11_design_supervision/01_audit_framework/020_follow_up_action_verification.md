@@ -30,7 +30,7 @@ tags = ["design_supervision"]
 ```text
 [실지 감사]        [사업자 조치]              [조치 결과 확인 (Follow-up)]      [최종 결과]
 지적 사항 발급 ──> 코드/DB 수정 ──> (제출) ──> ① 조치 결과서 검토 ──(Pass)──> [적합] (인수)
-(보고서 확정)      재테스트 수행               ② 실제 시스템 교차 검증     
+(보고서 확정)      재테스트 수행               ② 실제 시스템 교차 검증
                                                ③ 회귀 결함 여부 확인 ──(Fail)──> [부적합] (재조치)
                                                         ▲
                                               형식적 조치 필터링 (병목 지점)
@@ -89,7 +89,7 @@ tags = ["design_supervision"]
 | **테스트 방식** | 블랙박스, [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 툴 등 전수 진단 위주 | 식별된 모듈에 대한 핀포인트(Pin-point) [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) | **테스트의 성격** |
 | **실패 시 파급** | 보고서에 지적 사항으로 등재 (조치 기회 부여) | 최종 '부적합' 판정 -> 인수/오픈 불가, 지체상금 발생 | **의사결정의 무게** |
 
-[소프트웨어 품질 보증](/knowledge-base/studynote/04_software_engineering/06_software_architecture/365_sqa/)(QA)의 관점에서, 조치 결과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)은 '[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([Defect](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) Fix [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))' 및 '[회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)([Regression Test](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/))'와 완벽한 시너지를 내야 합니다. 특정 버그를 고치기 위해 코드를 수정하다가 다른 정상 모듈을 망가뜨리는 사이드 이펙트(Side Effect)가 빈번히 발생하기 때문입니다. 
+[소프트웨어 품질 보증](/knowledge-base/studynote/04_software_engineering/06_software_architecture/365_sqa/)(QA)의 관점에서, 조치 결과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)은 '[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([Defect](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) Fix [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))' 및 '[회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)([Regression Test](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/))'와 완벽한 시너지를 내야 합니다. 특정 버그를 고치기 위해 코드를 수정하다가 다른 정상 모듈을 망가뜨리는 사이드 이펙트(Side Effect)가 빈번히 발생하기 때문입니다.
 
 따라서 감리인은 단순히 지적된 부분만 보는 것이 아니라, "수정된 코드가 배포된 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)" 전체가 기존의 정상 테스트 시나리오를 무사히 통과했는지 [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)([Integration Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)) 결과를 융합하여 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 합니다.
 

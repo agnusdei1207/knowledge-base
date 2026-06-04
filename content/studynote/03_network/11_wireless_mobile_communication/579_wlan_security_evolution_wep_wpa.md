@@ -51,7 +51,7 @@ tags = ["studynote-network"]
 
 ### 4. 4세대: [WPA3](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/583_wpa3_sae_owe_enhanced_open/) - "2018년"
 - **개념**: [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 시대에 맞춰 WPA2의 오프라인 사전 공격 취약점을 보완한 최신 무선 보안 표준입니다.
-- **방식**: 
+- **방식**:
   - <strong>SAE (Simultaneous <a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a> of Equals)</strong> 기술을 도입하여, 비밀번호 추측용 무차별 대입 공격(Brute-force)을 막아냅니다. 비밀번호를 몇 번 틀리면 락이 걸려버립니다.
   - 오픈 와이파이(스타벅스 무료 와이파이 등)에 접속할 때 비밀번호를 치지 않아도, OWE 기술을 통해 허공의 전파를 개별적으로 암호화하여 옆 사람이 스니핑할 수 없게 만들어줍니다 (Enhanced Open).
 

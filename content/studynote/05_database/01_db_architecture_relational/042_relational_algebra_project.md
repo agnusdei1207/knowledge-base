@@ -65,7 +65,7 @@ tags = ["studynote-database"]
   조건에 맞는 튜플(행) 선택
   수평적 부분집합
   결과 속성 수 = 원본과 동일
-  
+
   σ_{Salary > 4800}(Employee):
     EmpID | Name   | Dept | Salary
     ------+--------+------+-------
@@ -85,7 +85,7 @@ tags = ["studynote-database"]
 SQL 대응:
   σ = WHERE 절
   π = SELECT 컬럼 목록
-  
+
   SELECT Name, Salary
   FROM Employee
   WHERE Dept = '개발'
@@ -107,10 +107,10 @@ SQL 대응:
 
 SQL과의 차이:
   SQL 기본: 중복 허용 (multiset/bag)
-  
+
   SELECT Name, Dept FROM Employee
   → 중복 포함 반환 가능
-  
+
   SELECT DISTINCT Name, Dept FROM Employee
   → 중복 제거 (관계 대수 π와 동등)
 
@@ -167,17 +167,17 @@ SQL 대응:
 
 비효율적 쿼리 (프로젝트 나중 적용):
   π_{Name}(σ_{Dept='개발'}(Employee × Department))
-  
+
   처리 순서:
   1. Employee × Department (카티전 곱, 대용량)
   2. σ_{Dept='개발'} 필터 (대부분 제거)
   3. π_{Name} (이름만 추출)
-  
+
   비용: 카티전 곱이 대용량 중간 결과 생성
 
 효율적 쿼리 (선택 먼저, 프로젝트 최대화):
   π_{Name}(σ_{Dept='개발'}(Employee))
-  
+
   처리 순서:
   1. σ_{Dept='개발'} 먼저 (행 수 대폭 감소)
   2. π_{Name} 적용 (열 수 감소)

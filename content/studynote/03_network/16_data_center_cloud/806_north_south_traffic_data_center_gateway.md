@@ -40,7 +40,7 @@ tags = ["studynote-network"]
 이 트래픽은 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 '정문 통과소'를 지나가므로, 성능보다는 깐깐한 <strong>보안과 검열</strong>이 1순위 타겟입니다.
 
 ### 1. 관문 장비 (Gateway & [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))
-- 밖에서 들어오는 좀비나 도둑을 막아야 합니다. 
+- 밖에서 들어오는 좀비나 도둑을 막아야 합니다.
 - 트래픽이 쏟아져 들어오면 가장 먼저 <strong>DDoS 방어 장비, 거대한 메인 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">Firewall</a>), <a href="/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/">IPS</a>/<a href="/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/">IDS</a>(침입 방지 시스템)</strong>의 엑스레이 검색대를 수직으로 통과해야만 합니다. (740번 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 등과도 연계됨)
 
 ### 2. [로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/) ([Load Balancing](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/), L4/L7 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))

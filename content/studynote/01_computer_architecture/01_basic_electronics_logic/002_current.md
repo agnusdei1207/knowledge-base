@@ -112,11 +112,11 @@ tags = ["studynote-computer-architecture"]
 
 ### 기술사 답안에서 잡아야 할 판단 포인트
 
-1. **전류 밀도 한계를 확인했는가**  
+1. **전류 밀도 한계를 확인했는가**
    좁은 금속 배선에 전류가 몰리면 전선 열화와 수명 저하가 발생한다.
-2. **피크 전류와 평균 전류를 구분했는가**  
+2. **피크 전류와 평균 전류를 구분했는가**
    평균값만 보면 멀쩡해 보여도, 스위칭 순간 피크 전류 때문에 [IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) Drop이 발생할 수 있다.
-3. **유휴 전류 절감 전략이 있는가**  
+3. **유휴 전류 절감 전략이 있는가**
    모바일, 임베디드, 대규모 서버팜에서는 누설 전류 관리가 총 전력 비용에 직접 반영된다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)

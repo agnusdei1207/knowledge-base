@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: 통신국사(CO)의 OLT 장비에서 출발한 1가닥의 광케이블 신호를 32가구, 64가구의 집(ONU/ONT)으로 분기(Split) 시켜주는 기술 방식의 차이다.
 - **필요성**: 전화국에서 아파트 100가구에 광케이블을 깔아준다고 치자. 전화국에서부터 광케이블 100가닥을 일일이 땅을 파서 아파트까지 끌고 오면(Home-Run 방식) 공사비가 수백억 원이 든다. 그래서 굵은 선 1가닥만 아파트 지하 주차장까지 가져온 뒤, 아파트 내부에서 100가닥으로 쪼개주는 장치가 필요했다. 이 장치를 <strong>전기를 먹는 비싼 기계(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>)로 할 거냐(AON), 쇳덩어리 거울(스플리터)로 할 거냐(PON)</strong>의 싸움이었다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - <strong>AON(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">액티브</a>)</strong>: 아파트 지하에 <strong>"똑똑한 경비 아저씨(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>)"</strong>를 고용해 월급(전기세)을 주고, 택배([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 각 세대별로 정확히 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 배달시키는 방식입니다.
   - **PON(패시브)**: 아파트 지하에 커다란 **"유리 프리즘(광 분배기)"** 하나만 딱 세워둡니다. 통신사가 레이저를 쏘면 프리즘이 빛을 64갈래로 쪼개어 모든 세대 방바닥에 뿌립니다. 전기세 0원, 고장 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 0%입니다.
 

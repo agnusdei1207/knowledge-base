@@ -138,8 +138,8 @@ Cloud Governance
 
 ## 어린이를 위한 3줄 비유 설명
 
-중요한 서류를 여기저기 숨겨 두면 안 돼요.  
-어디 있는지 찾아내고, 잠그고, 목록을 적어야 해요.  
+중요한 서류를 여기저기 숨겨 두면 안 돼요.
+어디 있는지 찾아내고, 잠그고, 목록을 적어야 해요.
 섀도우 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 그런 숨은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 말해요.
 
 ---

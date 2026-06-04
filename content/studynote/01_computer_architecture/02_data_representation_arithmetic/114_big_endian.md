@@ -18,7 +18,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 머리(Big End)를 앞쪽(낮은 주소)에 둘 것인가, 꼬리(Little End)를 앞쪽에 둘 것인가? 
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 머리(Big End)를 앞쪽(낮은 주소)에 둘 것인가, 꼬리(Little End)를 앞쪽에 둘 것인가?
 
 조나단 스위프트의 소설 '걸리버 여행기'에서 계란의 넓은 쪽을 먼저 깰지 뾰족한 쪽을 먼저 깰지 싸우던 일화에서 유래한 이 '엔디안(Endianness) 전쟁'은 컴퓨터 역사상 가장 오래된 종교 전쟁이다. IBM 메인프레임과 모토로라 아키텍트는 "기계의 구조보다 인간의 직관이 우선되어야 한다"고 판단했다. 그들은 사람이 숫자 `1234`를 읽을 때 가장 큰 단위인 `1000(머리)`부터 읽는 것처럼, 메모리에도 머리부터 순서대로 쑤셔 넣는 **빅 엔디안** 방식을 채택했다.
 

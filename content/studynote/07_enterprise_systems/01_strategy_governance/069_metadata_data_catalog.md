@@ -133,8 +133,8 @@ Data Governance
 
 ## 어린이를 위한 3줄 비유 설명
 
-책 정보가 있어야 찾을 수 있어요.  
-그 정보를 모아 놓은 곳이 있어요.  
+책 정보가 있어야 찾을 수 있어요.
+그 정보를 모아 놓은 곳이 있어요.
 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)와 [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)예요.
 
 ---

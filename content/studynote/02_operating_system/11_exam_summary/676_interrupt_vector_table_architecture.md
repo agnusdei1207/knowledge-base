@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a>)</strong>: CPU가 현재 하던 일을 멈추고 우선적으로 처리해야 할 긴급한 사건이 발생했음을 알리는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/).
   - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/">인터럽트 벡터</a> (Vector)</strong>: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)의 종류를 식별하는 고유 번호 (예: 0번은 0으로 나누기 에러, 14번은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)).
   - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/">인터럽트 벡터</a> 테이블 (IVT / IDT)</strong>: 이 벡터 번호를 인덱스로 하여, 처리할 함수의 메모리 주소가 순서대로 적혀 있는 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/).
 
-- **필요성 (하드웨어와 소프트웨어의 통신 병목 해결)**: 
+- **필요성 (하드웨어와 소프트웨어의 통신 병목 해결)**:
   - 컴퓨터에 마우스, 키보드, 랜카드, 디스크 등 수십 개의 하드웨어가 달렸다.
   - CPU가 "마우스 눌렸니? 키보드 눌렸니?"를 계속 묻고 다니는 것([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))은 심각한 CPU 낭비다.
   - 그래서 장치가 CPU를 찌르는([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 방식을 택했는데, CPU가 찔렸을 때 "누가 날 찔렀지? 마우스인가? 키보드인가?"를 소프트웨어적으로 하나하나 검사하면 응답이 너무 늦다.
@@ -97,7 +97,7 @@ tags = ["studynote-operating-system"]
 
 단순히 주소만 있는 것이 아니다. 해커가 유저 모드에서 임의의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 발생시켜 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 터뜨리는 것을 막기 위해 권한 제어가 들어간다.
 
-- **DPL (Descriptor Privilege Level)**: 이 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 소프트웨어적(`INT` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))으로 부를 수 있는 최소 권한. 
+- **DPL (Descriptor Privilege Level)**: 이 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 소프트웨어적(`INT` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))으로 부를 수 있는 최소 권한.
 - 예를 들어, 14번 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault의 DPL은 0([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이다. 유저 앱(Ring 3)이 `INT 14`를 쳐서 억지로 부르려 하면 DPL 위반으로 거부된다.
 - 단, 0x80번(시스템 콜)의 DPL은 3(유저)으로 열어두어, 유저 앱이 합법적으로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 넘어갈 수 있는 유일한 '개구멍'을 만들어 준다.
 
@@ -122,7 +122,7 @@ IVT를 타는 세 가지 사건의 미묘한 차이다.
 ### 과목 융합 관점
 
 - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> (OS)</strong>: 디바이스 드라이버를 개발할 때 `request_irq()` 함수를 호출한다. 이 함수가 하는 일이 바로, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 미리 잡아놓은 IDT 테이블의 특정 벡터(예: 44번) 뒤에 존재하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 링크드 리스트에 <strong>내가 짠 C 함수(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/">ISR</a>)</strong>를 등록해 주는 과정이다.
-- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> (Cloud)</strong>: 가상머신([KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/))은 이 IDT를 어떻게 훔쳐볼까? 인텔의 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 하드웨어(VT-x)는 VM이 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 받을 때 진짜 CPU의 IDT를 타지 않고, VM만을 위한 가짜 IDT([VMCS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/) 내부에 세팅)를 타도록 하드웨어 레벨에서 완벽히 속인다(IDT Shadowing). 
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> (Cloud)</strong>: 가상머신([KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/))은 이 IDT를 어떻게 훔쳐볼까? 인텔의 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 하드웨어(VT-x)는 VM이 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 받을 때 진짜 CPU의 IDT를 타지 않고, VM만을 위한 가짜 IDT([VMCS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/) 내부에 세팅)를 타도록 하드웨어 레벨에서 완벽히 속인다(IDT Shadowing).
 
 - **📢 섹션 요약 비유**: 외부에서 던진 돌([하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)), 내 스스로 낸 상처(예외), 내가 의도적으로 누른 비상벨([트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)) 모두 종류는 다르지만 결국 응급실(IDT)이라는 하나의 문을 통해 수술실([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))로 향하게 됩니다.
 

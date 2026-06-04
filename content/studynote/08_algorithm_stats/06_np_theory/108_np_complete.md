@@ -23,7 +23,7 @@ NP-완전 (NP-Complete):
 
 조건 1: 문제 X는 NP에 속함
   (비결정론적 다항시간에 해 존재 검증 가능)
-  
+
 조건 2: NP의 모든 문제 Y를 X로
   다항시간 환산(Polynomial Reduction) 가능
   Y ≤_p X
@@ -55,7 +55,7 @@ NP-완전 (NP-Complete):
 Cook-Levin 정리 (1971):
   SAT (Boolean Satisfiability) 문제가
   NP-완전임을 최초 증명
-  
+
   Stephen Cook (1971, NP-완전성 개념 정립)
   Leonid Levin (독립적 발견)
   Cook: 1982년 튜링상 수상
@@ -63,7 +63,7 @@ Cook-Levin 정리 (1971):
 SAT 문제:
   입력: Boolean 공식 (AND, OR, NOT)
   질문: 참으로 만드는 변수 값 조합이 있는가?
-  
+
   예: (x1 OR x2) AND (NOT x1 OR x3)
   → x1=F, x2=T, x3=T: (T) AND (T) = T ✓
 
@@ -75,7 +75,7 @@ SAT 문제:
   문제 A ≤_p 문제 B:
   A의 인스턴스 → 다항시간 변환 → B의 인스턴스
   B를 풀면 A도 풀림
-  
+
 Karp의 21개 NP-완전 문제 (1972):
   SAT, 3-SAT, 클리크, 정점 커버
   해밀턴 경로, TSP, 부분집합 합, 그래프 채색 등
@@ -92,19 +92,19 @@ NP-완전 문제 목록:
 
 1. SAT / 3-SAT:
    Boolean 공식 만족가능성
-   
+
 2. 클리크 문제 (Clique):
    그래프에서 완전 부분 그래프 크기 k 존재?
 
 3. 정점 커버 (Vertex Cover):
    크기 k 이하 정점 집합으로 모든 간선 커버?
-   
+
 4. 독립 집합 (Independent Set):
    서로 인접하지 않는 정점 k개 이상 존재?
 
 5. 해밀턴 경로 (Hamiltonian Path):
    모든 정점을 정확히 1번씩 방문하는 경로?
-   
+
 6. 해밀턴 사이클 (Hamiltonian Cycle):
    해밀턴 경로가 시작점으로 돌아오는 순환?
 
@@ -140,7 +140,7 @@ NP-완전 문제 실용적 해법:
    SA (Simulated Annealing): 확률적 탐색
    GA (Genetic Algorithm): 진화 기반 탐색
    TS (Tabu Search): 금기 목록 탐색
-   
+
 3. FPT (Fixed Parameter Tractable):
    특정 파라미터 고정 시 다항시간 가능
    예: 정점 커버 (k=파라미터) → O(2^k * n)
@@ -149,7 +149,7 @@ NP-완전 문제 실용적 해법:
 4. 특수 구조 활용:
    평면 그래프 → 채색 4색 (상수시간)
    트리 구조 → 많은 NP-완전 문제 다항시간 해결
-   
+
 5. 확률적 알고리즘:
    Monte Carlo: 높은 확률로 정답 보장
    Las Vegas: 항상 정답, 랜덤 실행시간
@@ -172,7 +172,7 @@ NP-완전 문제 실용적 해법:
   배송 기사 50명, 거점 500개
   하루 최소 비용 배송 경로 최적화
   = NP-완전 (TSP 변형)
-  
+
 단순 완전 탐색:
   500! 경우의 수 → 우주 나이로도 불가
 

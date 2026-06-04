@@ -61,7 +61,7 @@ tags = ["studynote-network"]
 내 컴퓨터가 중간 라우터의 상태를 어떻게 알까요? 라우터가 카톡을 안 주는데?
 
 - **대원칙**: <strong>TCP의 창시자들은 "인터넷 세상에서 패킷이 증발해 에러(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a>)가 터졌다는 건, 랜선이 끊어져서가 아니라 무조건 중간 라우터 큐(톨게이트)가 꽉 차서 터졌기(혼잡) 때문이다!" 라고 가정해버렸습니다.</strong>
-- **눈치채기**: 내가 10개를 쐈는데 친구한테서 1개가 안 왔다는 답장(3 중복 ACK)이 오거나 답장 기한을 넘겨버렸습니다([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)). 
+- **눈치채기**: 내가 10개를 쐈는데 친구한테서 1개가 안 왔다는 답장(3 중복 ACK)이 오거나 답장 기한을 넘겨버렸습니다([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)).
 - **동작**: 송신자 컴퓨터는 찰나의 순간에 "아뿔싸! 중간 도로(라우터) 터졌구나!" 직감하고, <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/">혼잡 윈도우</a>(CWND) 크기를 미친 듯이 확 쪼그라뜨려 전송량을 바닥으로 떨어뜨립니다.</strong> 고속도로에 차를 안 보내어 중간 라우터가 숨을 쉬고 체증을 풀 수 있게 기회를 주는 위대한 이타주의(백오프) 알고리즘입니다.
 
 [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/)를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 쓰리웨이 핸드셰이크가 기반 조건을 만든다면, [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/)는 그 위에서 핵심 메커니즘을 구현하고, [슬로우 스타트](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.

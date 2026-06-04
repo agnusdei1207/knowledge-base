@@ -114,8 +114,8 @@ tags = ["studynote-it-management"]
 
 ## 어린이를 위한 3줄 비유 설명
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 리터러시는 숫자 뒤의 뜻을 읽는 힘이에요.  
-표를 볼 줄 아는 것만이 아니라, 왜 그런지도 아는 거예요.  
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 리터러시는 숫자 뒤의 뜻을 읽는 힘이에요.
+표를 볼 줄 아는 것만이 아니라, 왜 그런지도 아는 거예요.
 그래서 모두가 같은 숫자를 보고 같은 뜻을 이해해야 해요.
 
 ---

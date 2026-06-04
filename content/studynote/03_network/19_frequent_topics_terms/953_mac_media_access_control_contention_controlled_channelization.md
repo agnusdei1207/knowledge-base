@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **OSI 7계층의 위치**: L2 계층인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Link Layer)은 두 개의 하위 층으로 쪼개집니다. 
+- **OSI 7계층의 위치**: L2 계층인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Link Layer)은 두 개의 하위 층으로 쪼개집니다.
   - 위쪽의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/">LLC</a> (<a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 링크 제어)</strong>: 에러 검출, [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) 담당.
   - 아래쪽의 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> (<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/">매체 접근 제어</a>)</strong>: 1차선 도로(랜선, Wi-Fi 전파)에 누가 먼저 차를 올릴지 순서를 정하는 실질적인 교통경찰.
 - <strong>공유 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">매체</a>(Shared <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">Media</a>)</strong>의 숙명: [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))에 꽂힌 유선 랜선이나, 허공에 흩뿌리는 무선 와이파이는 근본적으로 "누가 쏘면 남들도 다 들리는" 구조라 충돌 제어가 무조건 필요합니다.
@@ -44,20 +44,20 @@ tags = ["studynote-network"]
 ### 1. 경쟁 방식 (Contention-based / Random Access) 🌟
 가장 자유롭지만 피 터지는 눈치 게임 방식입니다.
 - **원리**: 중앙 통제탑 없이, 각 단말기가 지 알아서 선이 비어있는지 눈치를 보다가 막 들이밀어 쏘는 방식입니다. 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))이 필연적으로 발생하므로 뼈아픈 수습 과정이 필요합니다.
-- **종류**: 
+- **종류**:
   - 951번의 <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/">CSMA</a>/CD</strong> (유선 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/), 부딪히면 멈추고 랜덤으로 쉬기)
   - 952번의 <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/">CSMA</a>/<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a></strong> (무선 와이파이, 쏘기 전에 RTS/CTS 예약증 던지고 눈치 보기)
 
 ### 2. 예약/스케줄링 방식 (Controlled Access)
 중앙 선생님이 순서표를 정해주는 평화로운 공산주의 방식입니다.
-- **원리**: 단말기들이 쏘기 전에 중앙 제어기([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))에게 "저 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 있어요!" 하고 예약을 겁니다. 중앙 제어기가 "1번 쏴, 2번 쏴" 하고 차례차례 기회를 줍니다. 
+- **원리**: 단말기들이 쏘기 전에 중앙 제어기([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))에게 "저 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 있어요!" 하고 예약을 겁니다. 중앙 제어기가 "1번 쏴, 2번 쏴" 하고 차례차례 기회를 줍니다.
 - **종류**:
   - <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/115_token_passing/">토큰 패싱</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/115_token_passing/">Token Passing</a>)</strong>: 빙글빙글 도는 링(Ring) 모양 랜선에서 '토큰(마패)'이라는 바통을 쥐고 있는 딱 1명만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏠 수 있는 기술 (IBM 토큰링, [FDDI](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/282_fddi_fiber_distributed_data_interface_dual_ring/)). 절대 충돌이 안 납니다.
-  - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a>)</strong>: 중앙 대장이 학생 100명에게 "1번 쏠 거 있어? 2번 쏠 거 있어?" 일일이 물어보고 허락해 주는 방식. 
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a>)</strong>: 중앙 대장이 학생 100명에게 "1번 쏠 거 있어? 2번 쏠 거 있어?" 일일이 물어보고 허락해 주는 방식.
 
 ### 3. 채널 분할 방식 (Channelization)
 도로 자체를 물리적/수학적으로 확 쪼개서 각자 개인 차선을 줘버리는 돈지랄 방식입니다.
-- **종류**: 
+- **종류**:
   - 944번, 945번 문서에서 배운 <strong>FDM(주파수 쪼개기), TDM(시간 쪼개기), <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/">CDMA</a>(코드/암호 쪼개기)</strong>가 여기에 해당합니다. 아예 길이 달라서 충돌 자체가 안 납니다. (주로 4G, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 같은 통신사 셀룰러 무선망에서 씁니다.)
 
 ```text
@@ -75,7 +75,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- 이 교통경찰이 차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 단속하려면 번호판이 필요합니다. 
+- 이 교통경찰이 차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 단속하려면 번호판이 필요합니다.
 - 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 공장에서 칩셋을 구울 때 영구적으로 각인시키는 <strong>48비트짜리 하드웨어 고유 번호(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/">물리 주소</a>)</strong>입니다. (예: `00:1A:2B:3C:4D:5E`)
 - 앞 24비트는 제조사(삼성, 인텔) 고유 번호(OUI), 뒤 24비트는 공장 시리얼 번호입니다. L2 스위치는 IP를 보지 않고 오직 이 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 번호판만 보고 0.001초 만에 길을 찾아 던져줍니다.
 

@@ -19,18 +19,18 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - I/O 장치(예: 프린터)로 향하는 출력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 곧바로 장치로 쏘지 않고, 임시로 하드 디스크의 특정 영역(Spool [Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/))에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 형태로 모아둔(큐잉) 다음, 별도의 OS 시스템 데몬이 이를 가져다 장치에 순차적으로 넘겨주는 방식이다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 과거 시스템에서 워드프로세서가 문서를 인쇄할 때, 프린터는 한 페이지를 찍는 데 수십 초가 걸렸다. 프린터가 종이를 토해낼 때까지 워드프로세서는 다른 작업을 전혀 하지 못하고 멈춰서 기다려야 했다.
   - 게다가 프린터는 '독점 장치(Dedicated Device)'라서 여러 명이 동시에 인쇄 버튼을 누르면 인쇄물이 섞여버리는(Interleaved) 대참사가 났다.
   - **해결책**: "사용자 프로그램은 디스크(빠른 장치)에 인쇄물을 그냥 던져놓고([Spooling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)) 퇴근하라 해라! 나중에 프린터가 한가해지면 OS가 디스크에서 하나씩 꺼내 깔끔하게 뽑아줄게."
 
-  - 식당에서 요리사(CPU)가 느린 서빙 카트(프린터)에 요리([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 직접 올릴 때까지 기다리면 다음 요리를 못 만든다. 
+  - 식당에서 요리사(CPU)가 느린 서빙 카트(프린터)에 요리([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 직접 올릴 때까지 기다리면 다음 요리를 못 만든다.
   - 대신 거대한 주방 테이블(디스크 스풀)에 완성된 요리를 차곡차곡 쌓아놓고 곧바로 다음 요리에 들어가면, 홀 서빙 직원(스풀러 데몬)이 테이블에서 1번 요리, 2번 요리를 차례대로 카트에 실어 손님에게 천천히 내어주는 것과 완벽히 일치한다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 1950~60년대 천공 카드 리더기나 마그네틱 테이프 같은 끔찍하게 느린 입출력 기기 때문에 고가의 메인프레임 CPU가 멍때리는 시간을 줄이기 위해 개발되었다. 'On-Line'이라는 말은 천공 카드를 오프라인 장비로 따로 빼서 읽던 시절, 본체(On-Line) 디스크를 활용해 이 갭을 메웠다는 역사적 의미를 담고 있다.
 
 ```text

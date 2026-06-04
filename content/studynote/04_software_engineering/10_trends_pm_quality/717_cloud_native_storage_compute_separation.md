@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-과거의 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(예: [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), MySQL)나 빅데이터 시스템(예: [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/))은 **'Shared-Nothing(컴퓨팅과 스토리지의 결합)'** 아키텍처였다. 하나의 서버 장비 안에 CPU와 하드디스크가 같이 들어있었다. 
+과거의 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(예: [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), MySQL)나 빅데이터 시스템(예: [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/))은 **'Shared-Nothing(컴퓨팅과 스토리지의 결합)'** 아키텍처였다. 하나의 서버 장비 안에 CPU와 하드디스크가 같이 들어있었다.
 
 이 방식은 치명적인 단점이 있었다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 100TB로 늘어나서 하드디스크를 늘려야 하는데, 어쩔 수 없이 필요하지도 않은 CPU와 메모리가 달린 비싼 통짜 서버를 통째로 사서 이어 붙여야 했다. 반대로 연말 정산 기간에 복잡한 연산(CPU)이 필요할 때도 빈 껍데기 하드디스크가 달린 서버를 사야만 했다. 확장(Scaling)의 비율이 맞지 않아 엄청난 돈 낭비가 발생했다.
 

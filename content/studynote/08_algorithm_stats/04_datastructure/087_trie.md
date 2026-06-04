@@ -50,7 +50,7 @@ class TrieNode:
 class Trie:
     def __init__(self):
         self.root = TrieNode()
-    
+
     def insert(self, word):       # O(L)
         node = self.root
         for ch in word:
@@ -58,7 +58,7 @@ class Trie:
                 node.children[ch] = TrieNode()
             node = node.children[ch]
         node.is_end = True
-    
+
     def search(self, word):       # O(L)
         node = self.root
         for ch in word:
@@ -66,7 +66,7 @@ class Trie:
                 return False
             node = node.children[ch]
         return node.is_end
-    
+
     def starts_with(self, prefix): # O(L) - 자동완성!
         node = self.root
         for ch in prefix:
@@ -101,14 +101,14 @@ class Trie:
 def autocomplete(trie, prefix, max_results=5):
     """접두사로 시작하는 단어 모두 반환"""
     results = []
-    
+
     # 접두사까지 이동
     node = trie.root
     for ch in prefix:
         if ch not in node.children:
             return []
         node = node.children[ch]
-    
+
     # DFS로 모든 완성 단어 수집
     def dfs(node, current):
         if len(results) >= max_results:
@@ -117,7 +117,7 @@ def autocomplete(trie, prefix, max_results=5):
             results.append(current)
         for ch, child in node.children.items():
             dfs(child, current + ch)
-    
+
     dfs(node, prefix)
     return results
 ```

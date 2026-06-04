@@ -67,8 +67,8 @@ LAA가 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_archi
 ## Ⅲ. 비교 및 연결
 
 - <strong>치명적 단점 (<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>의 발생)</strong>: LTE의 생명은 스케줄러가 통제하는 칼 같은 0.01초의 칼군무(저지연)입니다. 그런데 LBT 룰 때문에 "어? 와이파이가 떠드네? 나 10초 대기!" 하고 눈치 게임을 하느라 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)과 지터(Jitter)가 들쭉날쭉 폭발</strong>해버립니다.
-- **실무 해법 (다운로드 전용 보조망)**: 
-  - 그래서 LAA 기술은 타이밍이 중요한 목소리 통화([VoLTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/758_volte_voice_over_lte_sip_qos/))나 업로드 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(제어 채널)에는 절대 쓰지 못합니다. 
+- **실무 해법 (다운로드 전용 보조망)**:
+  - 그래서 LAA 기술은 타이밍이 중요한 목소리 통화([VoLTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/758_volte_voice_over_lte_sip_qos/))나 업로드 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(제어 채널)에는 절대 쓰지 못합니다.
   - 목숨줄(업로드, 제어)은 깨끗한 유료 도로(면허 대역)로만 쏘고, 넷플릭스 영상처럼 잠깐 1초 끊겨도 상관없는 <strong>'무식한 용량의 순수 다운로드 찌꺼기 트래픽'을 쏟아붓는 보조 용도</strong>로만 LAA 공터 대역폭을 200% 혹사시키는 것이 통신사의 꼼수 설계입니다.
 
 LAA를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [언면허 대역망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1015_unlicensed_band_lte_u_nr_u_wifi_coexistence/)이 기반 조건을 만든다면, LAA는 그 위에서 핵심 메커니즘을 구현하고, [와이파이 오프로딩](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1017_wifi_offloading_cellular_traffic_congestion/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.

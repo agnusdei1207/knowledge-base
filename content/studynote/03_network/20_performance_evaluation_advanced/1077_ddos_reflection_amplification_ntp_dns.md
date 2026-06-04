@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 기존 디도스는 해커가 좀비 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 1만 대를 감염시켜서 일제히 청와대를 때렸습니다. 
+- 기존 디도스는 해커가 좀비 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 1만 대를 감염시켜서 일제히 청와대를 때렸습니다.
 - 단점: 좀비 1만 대를 감염시키려면 시간이 엄청 오래 걸리고(비용 발생), 백신 회사에 들통나면 좀비들이 치료되어 화력이 떨어집니다. 게다가 공격 패킷을 까보면 좀비 PC의 진짜 IP가 찍혀있어 역추적 당해 경찰에 잡히기 쉽습니다.
 
 ```text

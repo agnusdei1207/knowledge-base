@@ -19,21 +19,21 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **오버로딩 (Overloading)**: 중복 정의. "같은 클래스 내에서" 메서드 이름은 똑같이 하되, 매개변수(파라미터)의 개수나 타입을 다르게 하여 여러 개를 정의하는 것.
   - **오버라이딩 (Overriding)**: 재정의. "부모-자식 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 관계에서" 부모가 물려준 메서드와 이름, 리턴 타입, 파라미터까지 100% 똑같이 쓰면서, 그 안의 '내용물(로직)'만 내 맘대로 통째로 갈아치우는 것.
 
-- **필요성**: 
+- **필요성**:
   - **오버로딩의 필요성**: `print()` 함수를 만들었는데, 정수를 찍으려면 `printInt()`, 실수는 `printDouble()`, 문자열은 `printString()`으로 이름을 다르게 지어야 했다. 개발자는 이름 외우다 날이 샜다. 그냥 무조건 `print()`라고 쓰면 컴파일러가 알아서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입을 보고 똑똑하게 맞는 함수를 찾아가게 할 방법이 필요했다.
   - **오버라이딩의 필요성**: `Animal` 부모 클래스에 `cry()` 함수를 만들었다. 자식인 `Dog`와 `Cat`이 이걸 물려받았다. 그런데 둘 다 똑같이 "우는 소리"를 낼 수는 없다. `Dog`는 "멍멍", `Cat`은 "야옹"이라고 자신만의 방식으로 울어야 한다. 부모의 틀(이름)은 그대로 쓰되, 자식의 사정에 맞게 알맹이만 뜯어고칠 권리가 필요했다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - <strong>오버로딩(Overloading)</strong>은 <strong>'만능 스위스 아미 나이프'</strong>입니다. 칼 하나에 일자 드라이버, 십자 드라이버, 병따개가 겹겹이 쌓여(Load) 있습니다. 내가 십자나사를 들이대면 십자 드라이버를, 병뚜껑을 들이대면 병따개를 꺼내 씁니다. 도구 이름은 그냥 '칼' 하나입니다.
   - <strong>오버라이딩(Overriding)</strong>은 <strong>'후계자의 식당 리모델링'</strong>입니다. 아버지가 물려준 '원조 국밥집(부모 메서드)'이라는 간판(이름)은 100% 똑같이 유지하면서, 주방에 들어가서 끓이는 레시피(내부 로직)만 아들이 요즘 입맛에 맞게 통째로 엎어 치는(Ride) 것입니다.
 
 - **등장 배경 및 발전 과정**:
   1. C언어 시절에는 오버로딩이 안 되어서 수학 함수들이 `abs()`, `fabs()`, `labs()` 등으로 타입마다 이름이 전부 다르게 존재했다(극악의 [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)).
-  2. C++와 Java가 등장하며 객체지향의 다형성 개념을 문법 스펙으로 도입했고, 
+  2. C++와 Java가 등장하며 객체지향의 다형성 개념을 문법 스펙으로 도입했고,
   3. 현대의 모든 아키텍처(Spring 프레임워크 등)는 이 오버라이딩(추상 메서드 구현) 없이는 아예 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/)([의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)) 자체가 작동하지 않는 구조로 진화했다.
 
 - **📢 섹션 요약 비유**: 오버로딩은 짐을 위로 높이 쌓아 올리는(Load) 것이라 이름만 같고 내용물이 여러 개 존재하는 것이며, 오버라이딩은 기존 짐 위에 올라타서(Ride) 짓밟아버리고 완전히 내 것으로 덮어씌우는 것입니다.

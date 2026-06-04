@@ -44,14 +44,14 @@ tags = ["database"]
 └────────────────────────────────────┘
 ```
 
-이 그림의 핵심은 애플리케이션 계층과 스토리지 계층 간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패러다임이 완전히 어긋나 있다는 점이다. 객체지향 모델은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))와 행위(메서드)를 하나로 캡슐화하고, 리스트나 중첩 객체 등 풍부한 자료구조를 허용한다. 반면 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 모델은 행위의 개념이 없고, 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 단순 스칼라 값으로 평탄화(Flattening)해야 한다. 이러한 불일치로 인해 개발자는 비즈니스 로직보다 객체를 테이블 구조로 분해(Insert)하고 조립([Select](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/))하는 매핑 코드(Boilerplate) 작성에 막대한 시간을 낭비하게 된다. 실무에서는 이를 완화하기 위해 Hibernate/JPA와 같은 ORM 프레임워크를 도입하지만, 결국 ORM의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 누수(N+1 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 문제 등)로 인한 심각한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 겪는 원인이 된다. 
+이 그림의 핵심은 애플리케이션 계층과 스토리지 계층 간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패러다임이 완전히 어긋나 있다는 점이다. 객체지향 모델은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))와 행위(메서드)를 하나로 캡슐화하고, 리스트나 중첩 객체 등 풍부한 자료구조를 허용한다. 반면 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 모델은 행위의 개념이 없고, 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 단순 스칼라 값으로 평탄화(Flattening)해야 한다. 이러한 불일치로 인해 개발자는 비즈니스 로직보다 객체를 테이블 구조로 분해(Insert)하고 조립([Select](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/))하는 매핑 코드(Boilerplate) 작성에 막대한 시간을 낭비하게 된다. 실무에서는 이를 완화하기 위해 Hibernate/JPA와 같은 ORM 프레임워크를 도입하지만, 결국 ORM의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 누수(N+1 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 문제 등)로 인한 심각한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 겪는 원인이 된다.
 
 📢 **섹션 요약 비유**: 마치 입체적인 레고 완성품(객체)을 보관함(RDB)에 넣을 때마다 전부 분해해서 부품별로 따로 보관해야 하고, 꺼낼 때마다 다시 조립해야 하는 번거로운 상황과 같습니다.
 
 ---
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
-객체 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 내부에 OID(Object [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/)), 캡슐화(Encapsulation), [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(Inheritance), 다형성(Polymorphism)이라는 OOP의 핵심 기둥을 그대로 내재화한다. 
+객체 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 내부에 OID(Object [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/)), 캡슐화(Encapsulation), [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(Inheritance), 다형성(Polymorphism)이라는 OOP의 핵심 기둥을 그대로 내재화한다.
 
 | 구성 요소 | 역할 | 내부 동작/특성 | RDBMS와의 차이 | 비유 |
 |:---|:---|:---|:---|:---|
@@ -68,13 +68,13 @@ ORDBMS는 RDBMS의 엔진 코어 위에 이 UDT와 컬렉션 엔진을 래핑(Wr
 ```text
 [ORDBMS 논리적 구조: Type 상속과 컬렉션]
 
-(Super Type) 
+(Super Type)
 ┌─ Person_Type ─────────────────────────┐
 │ OID | Name(String) | Address(Object)  │  ← Address 자체도 또 다른 객체
 └─▲─────────────────────────────────────┘
   │ (Inheritance / IS-A)
   │
-(Sub Type) 
+(Sub Type)
 ┌─ Employee_Type ────────────────────────────────────────┐
 │ OID | Person_Type_속성_상속 | Salary | Skills(Array)   │ ← 다치 속성(Array) 지원
 ├────────────────────────────────────────────────────────┤
@@ -110,7 +110,7 @@ ORDBMS는 RDBMS의 엔진 코어 위에 이 UDT와 컬렉션 엔진을 래핑(Wr
   │                           [ ORDBMS ] (PostgreSQL, Oracle)
   │                           멀티미디어, GIS, 복합 트랜잭션
   │
-  │       [ NoSQL / Document ] 
+  │       [ NoSQL / Document ]
   │       (빠른 쓰기, 스키마리스)
   │
   │ [ RDBMS ] (금융, 회계)
@@ -141,7 +141,7 @@ ORDBMS는 RDBMS의 엔진 코어 위에 이 UDT와 컬렉션 엔진을 래핑(Wr
    ↓
 (Q1. 데이터가 독립적인 쿼리나 업데이트의 대상인가?) ── 예 ──> [정규화된 RDB 테이블 생성 (ORM 활용)]
    ↓ 아니오 (항상 전체 문서로만 다뤄짐)
-(Q2. 강력한 ACID 트랜잭션 보장이 필요한가?) 
+(Q2. 강력한 ACID 트랜잭션 보장이 필요한가?)
    ├─ 아니오 ──> [MongoDB 등 Document NoSQL 도입]
    └─ 예 ─────> [PostgreSQL/Oracle JSONB, Array 컬럼 적용 (ORDBMS 기능)]
 ```
@@ -153,7 +153,7 @@ ORDBMS는 RDBMS의 엔진 코어 위에 이 UDT와 컬렉션 엔진을 래핑(Wr
 ---
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
-객체 [관계형 데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/017_relational_data_model/)(ORDBMS)의 등장은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 단순한 '수동적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장고'에서 '능동적인 비즈니스 로직 처리 엔진'으로 진화했음을 의미한다. 
+객체 [관계형 데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/017_relational_data_model/)(ORDBMS)의 등장은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 단순한 '수동적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장고'에서 '능동적인 비즈니스 로직 처리 엔진'으로 진화했음을 의미한다.
 
 | 기대효과 구분 | 세부 내용 및 지표 |
 |:---|:---|

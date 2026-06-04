@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 메모리의 물리 프레임들을 둥그런 시계([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)) 모양의 원형 큐(Circular [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))로 묶어둔다. OS의 교체 포인터(시곗바늘)가 째깍째깍 돌아간다. 바늘이 가리킨 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 '[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))'가 `0`이면 바로 쫓아낸다. 만약 `1`이면? 쫓아내지 않고 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 `0`으로 바꾼 뒤(2차 기회 부여) 다음 칸으로 바늘을 이동시킨다. 
+- **개념**: 메모리의 물리 프레임들을 둥그런 시계([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)) 모양의 원형 큐(Circular [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))로 묶어둔다. OS의 교체 포인터(시곗바늘)가 째깍째깍 돌아간다. 바늘이 가리킨 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 '[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))'가 `0`이면 바로 쫓아낸다. 만약 `1`이면? 쫓아내지 않고 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 `0`으로 바꾼 뒤(2차 기회 부여) 다음 칸으로 바늘을 이동시킨다.
 - **필요성**: [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 구현이 O(1)로 미친 듯이 빠르지만 오래됐다는 이유만으로 핵심 변수를 버리는 자해 공갈(벨라디의 모순)을 쳤다. 반대로 LRU는 핵심 변수를 귀신같이 살려내지만, 리스트를 매번 뜯어고치느라 CPU를 다 파먹어 실전 도입이 불가능했다. "FIFO처럼 가볍게 빙글빙글 돌면서, LRU처럼 최근에 쓴 놈은 안 쫓아내는 꼼수가 없을까?" 이 지독한 딜레마를 '1비트의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)'와 '시곗바늘'이라는 천재적인 아이디어로 뚫어낸 것이 [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
 - **등장 배경 및 OS의 최종 결단**:
@@ -67,7 +67,7 @@ tags = ["studynote-operating-system"]
 - 1번 방(R=1 -> 0으로 깎음) -> 2번 방(R=1 -> 0으로 깎음) -> ... 400만 번 방(1 -> 0)
 - **한 바퀴를 다 돌았는데 쫓아낼 놈을 한 명도 못 찾았다! (전부 2차 기회를 받아버림)**
 - 결국 바늘은 두 바퀴째를 돌게 되고, 방금 0으로 깎였던 1번 방이 첫 번째 희생양으로 무참히 쫓겨난다.
-- **결론**: 모든 R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 1일 때, [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 <strong>100% 멍청한 순수 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/">FIFO</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>으로 퇴화(Degradation)</strong>하여 벨라디의 모순을 터뜨릴 수 있는 약점을 노출한다. 
+- **결론**: 모든 R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 1일 때, [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 <strong>100% 멍청한 순수 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/">FIFO</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>으로 퇴화(Degradation)</strong>하여 벨라디의 모순을 터뜨릴 수 있는 약점을 노출한다.
 
 ---
 
@@ -97,7 +97,7 @@ tags = ["studynote-operating-system"]
 
 ### 개선된 2차 기회 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Enhanced Second-Chance)
 
-[Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 여기서 한 발 더 진화한다. 
+[Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 여기서 한 발 더 진화한다.
 쫓아낼 때 "디스크에 써야 하는가(Dirty)?"가 속도에 치명적이므로, <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>(R)</strong>뿐만 아니라 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/">변경 비트</a>(M, Dirty)</strong>까지 묶어서 2비트짜리 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 룰렛을 돌린다.
 
 - `(0, 0)`: 최근 안 씀 + 수정 안 됨 (Clean). -> **[1순위 즉각 사살]** 램에서 그냥 지우면 됨. 개꿀.
@@ -130,7 +130,7 @@ tags = ["studynote-operating-system"]
    - **앞바늘 (Front Hand)**: 램을 미친 듯이 돌며 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들의 R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 0으로 깎아내리기만 하는 '사신'이다.
    - **뒷바늘 (Back Hand)**: 앞바늘이 지나간 자리를 일정 간격(예: 몇 초 뒤)을 두고 졸졸 따라가며, "아까 0으로 깎였는데 그사이에 또 1로 부활했어? 넌 살려줌. 여전히 0이야? 넌 진짜 안 쓰는 놈이네 처형!" 하고 쓸어 담는 '망나니'다.
 3. **실무적 위력**:
-   - 바늘 두 개의 간격(Angle)이 좁으면 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에게 주어지는 수명(유예 시간)이 짧아져 가혹해지고, 간격이 넓으면 자비로워진다. 
+   - 바늘 두 개의 간격(Angle)이 좁으면 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에게 주어지는 수명(유예 시간)이 짧아져 가혹해지고, 간격이 넓으면 자비로워진다.
    - 리눅스는 램이 널널할 땐 바늘을 천천히 돌리다, 램이 모자라 OOM이 터지기 직전이 되면 이 **두 바늘을 미친 듯이 팽팽 돌려대며(High Scan Rate)** 무자비한 램 학살극을 펼친다.
    - 서버 모니터링(`sar`나 `vmstat`)에서 `pgscand(초당 스캔된 페이지 수)`가 폭증한다면 이 시곗바늘 모터가 불타고 있다는 뜻이며, 엔지니어는 즉시 램 증설을 준비해야 한다.
 

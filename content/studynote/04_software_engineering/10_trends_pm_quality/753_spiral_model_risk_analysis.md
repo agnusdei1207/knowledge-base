@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어 개발은 항상 실패의 공포와 싸우는 과정이다. 
+소프트웨어 개발은 항상 실패의 공포와 싸우는 과정이다.
 1970년대에 유행한 <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/">폭포수 모델</a></strong>은 요구사항을 100% 완벽하게 적어놓고 1년 동안 코딩만 했다. 막상 오픈해 보니 고객이 "이거 안 쓸래"라고 하면 수백억 원이 날아갔다 (비즈니스 위험).
 이를 막기 위해 <strong>프로토타이핑 모델</strong>이 나왔다. 대충 화면만 만들어서 보여주니 고객은 좋아했지만, 뼈대 없이 계속 기능만 갖다 붙이다 보니 시스템이 무거워져서 폭발했다 (기술적 위험).
 

@@ -63,7 +63,7 @@ tags = ["studynote-operating-system"]
 
 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 네트워크 패킷 1개를 처리하기 위해 쓰는 거대한 박스(구조체)다.
 - 랜카드에 1,500바이트(MTU)짜리 패킷 하나가 들어온다.
-- 리눅스는 이 1,500바이트를 담기 위해 램(kmalloc)에 <strong><code>sk_buff</code>라는 거대한 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 구조체</strong>를 즉시 할당한다. 
+- 리눅스는 이 1,500바이트를 담기 위해 램(kmalloc)에 <strong><code>sk_buff</code>라는 거대한 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 구조체</strong>를 즉시 할당한다.
 - 패킷이 1계층부터 4계층으로 올라갈 때마다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 이리저리 복사하면 서버가 뻗는다.
 - 그래서 리눅스 형님들은 <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 원본은 가만히 냅두고, <code>sk_buff</code> 안에 있는 포인터 화살표만 헤더 크기만큼 앞으로 밀었다 당겼다 하면서 껍질을 깐 것처럼 사기 치자!"</strong>라는 [Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/)(계층 간 제로카피) 매커니즘을 이 구조체 안에 예술적으로 박아넣었다.
 - 하지만 10Gbps 랜카드 시대가 열리며 1초에 수천만 개의 패킷이 쏟아지자, 아무리 잘 짰어도 이 `sk_buff`를 램에 수천만 번 `malloc`하고 `free`하는 것 자체로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 램([Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/))이 폭발해 버리는 병목이 터졌다.
@@ -74,7 +74,7 @@ tags = ["studynote-operating-system"]
 
 10Gbps 네트워크 환경에서 고전적 OS가 어떻게 질식사하는지 보여주는 눈물겨운 역사다.
 
-1. <strong>과거 (순수 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 방식)</strong>: 
+1. <strong>과거 (순수 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 방식)</strong>:
    - 랜카드에 패킷 1개가 들어올 때마다 랜카드는 CPU에게 `하드웨어 인터럽트(IRQ)` 벼락을 쏜다.
    - 1초에 천만 개 패킷이 들어오면 CPU는 초당 천만 번 벼락을 맞고 비명을 지르며([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 하던 일(유저 앱 연산)을 다 멈추고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 튕겨 들어간다. 서버가 100% 멈춘다. (이게 유명한 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a> Storm</strong>).
 2. <strong>리눅스의 NAPI (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a> + <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a> 융합)</strong>:
@@ -97,9 +97,9 @@ tags = ["studynote-operating-system"]
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 순서</strong> | 항상 순서대로 잘 읽힘 | 1번 패킷보다 2번 패킷이 먼저 도착하는 미친 일상 다반사 (Out-of-Order) |
 
 ### Non-[blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)(논블로킹) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)과 [Event Loop](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) (epoll)의 혁명
-디스크 I/O는 어차피 금방 끝나니까 앱이 `read` 치고 잠깐 멈춰([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 있어도 된다. 
+디스크 I/O는 어차피 금방 끝나니까 앱이 `read` 치고 잠깐 멈춰([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 있어도 된다.
 하지만 네트워크는 클라이언트가 폰을 꺼버리면 영원히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 안 온다. 아파치(Apache) 서버처럼 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 하나당 1스레드를 붙여서 멍하니 기다리게([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 만들면, 악성 유저 1만 명이 접속만 하고 아무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 안 보내는 공격([Slowloris](/knowledge-base/studynote/09_security/03_network_security/258_slowloris/))에 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1만 개가 꽉 차서 서버가 뻗어버린다.
-- **해결책**: Nginx와 Node.js는 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 <strong><code>Non-blocking(논블로킹)</code></strong> 모드로 바꿨다. 
+- **해결책**: Nginx와 Node.js는 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 <strong><code>Non-blocking(논블로킹)</code></strong> 모드로 바꿨다.
 - "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 왔어? 안 왔어? 그럼 난 안 기다리고 딴 놈 주문받으러 갈게!(EAGAIN 에러 뱉음)"
 - 그리고 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 궁극의 네트워크 튜닝 기술인 <strong><code>epoll / kqueue</code></strong>를 써서, 1만 개의 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 중 "진짜로 패킷이 도착한 3개 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 번호"만 OS가 1개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에게 쪽지로 쏙 넘겨주게 만들었다 (Event-driven).
 - 1개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 1만 명의 유저를 렉 0초로 감당해 내는 현대 고성능 웹서버의 핵심 척추다.
@@ -121,19 +121,19 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: DPDK를 통한 [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 우회) 흑마술
-1. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 몰락</strong>: 
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 몰락</strong>:
    - 증권사 HFT(초고빈도 매매)나 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 통신사 라우터는 1초에 1억 개의 패킷을 처리해야 한다.
    - 랜카드가 패킷을 1억 개 쏘면 -> OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 1억 번 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 받고 -> `sk_buff` 1억 번 malloc 하고 -> [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 까고 -> 유저 램으로 1억 번 복사(Memcpy)한다.
    - 아무리 비싼 CPU를 꽂아도 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 뻘짓하는 오버헤드 때문에 대역폭의 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%도 못 쓰고 불타버린다.
 2. <strong>DPDK의 구원 (Intel <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Plane Development Kit)</strong>:
    - "OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)아, 너 네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 너무 느리고 쓰레기야. 넌 빠져!"
    - 랜카드 칩셋을 아예 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 분리시켜버리고, <strong>유저 앱(C/C++ 코드)이 다이렉트로 랜카드 하드웨어 큐(Ring Buffer)와 메모리 맵(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/">mmap</a>)으로 직통 연결</strong>을 뚫어버린다.
-   - 유저 앱은 무한 `while` 문을 돌며(100% CPU 점유) 랜카드 버퍼를 그냥 포인터로 푹푹 퍼먹는다. 
+   - 유저 앱은 무한 `while` 문을 돌며(100% CPU 점유) 랜카드 버퍼를 그냥 포인터로 푹푹 퍼먹는다.
    - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 복사 0번, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 0번, 시스템 콜 0번! 패킷 하나 처리하는 데 수십 마이크로초 걸리던 게 **1나노초(ns)** 급으로 분쇄된다. 현대 100G, 400G 엔터프라이즈 네트워크 장비는 전부 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 버리고 이 [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/)([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass)로 갈아탔다.
 
 ### [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/)/XDP의 반격 ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 콧대 세우기)
 DPDK는 너무 코딩이 어렵고 보안이 개나발이다. 그래서 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 팀은 "야, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안 우회하고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에서 젤 빨리 패킷 쳐내게 해줄게!" 라며 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/">XDP</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/661_ebpf_xdp_express_data_path/">eXpress Data Path</a>)</strong>를 도입했다.
-랜카드에 패킷이 들어오자마자([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP로 올라가기도 전 0.001초 찰나에), 유저가 찔러넣은 `eBPF` 샌드박스 코드가 튀어나와 패킷을 보고 "아 이거 디도스(DDoS) 쓰레기 패킷이네. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 올리지 말고 지금 당장 랜카드 단에서 Drop 해서 버려버려!" 하고 찢어버린다. 
+랜카드에 패킷이 들어오자마자([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP로 올라가기도 전 0.001초 찰나에), 유저가 찔러넣은 `eBPF` 샌드박스 코드가 튀어나와 패킷을 보고 "아 이거 디도스(DDoS) 쓰레기 패킷이네. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 올리지 말고 지금 당장 랜카드 단에서 Drop 해서 버려버려!" 하고 찢어버린다.
 이 흑마술 덕분에 클라우드 서버들은 디도스 10기가를 맞아도 CPU 1%도 안 쓰고 모조리 튕겨내는 무적 방패를 얻게 되었다.
 
 - **📢 섹션 요약 비유**: 택배(패킷)를 매번 회사 수발실([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))을 거쳐 보안 검사하고 부서로 갖다 주려니 며칠이 걸려서([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 오버헤드), 아예 내 사무실 창문(유저 앱) 밖으로 택배 드론([DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/))을 다이렉트로 날아오게 해서 1초 만에 짐을 받아버리는 미친 배송 최적화의 세계입니다.

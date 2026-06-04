@@ -11,160 +11,185 @@ tags = ["studynote-it-management"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 접근 제어 모델 MAC DAC RBAC ABAC은(는) 보안 컴플라이언스 및 IT 경영 관리 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 접근 제어 모델은 `Subject(사용자/주체)`, `Object(자원)`, `Action(동작)`의 3축과 **신원(Identity)**, **역할(Role)**, **속성(Attribute)**, **분류 등급(Classification)**이라는 결정 변수를 통해 인가(Authorization) 정책을 결정하는 **신원-권한 매핑(Identity-to-Permission Mapping)** 메커니즘으로, DAC(소유자 재량) → MAC(중앙 정책) → RBAC(역할 추상화) → ABAC(속성 기반 동적 평가)로 발전하며 **결정론적 매핑**에서 **확률적·상황적 정책 평가**로 패러다임이 전환되었다.
+> 2. **가치**: NIST SP 800-162(ABAC 가이드) 및 RBAC0~RBAC3 표준(NIST INCITS 359)에 따르면, RBAC 도입 시 권한 관리 오버헤드를 약 70% 절감(역할 템플릿화), ABAC 도입 시 세분화된 접근(Per-Record) 정책으로 데이터 유출 표면(Attack Surface)을 80% 이상 축소 가능하며, Zero Trust Architecture(NIST SP 800-207) 및 BeyondCorp 프레임워크의 핵심 인가 엔진으로 작동한다.
+> 3. **판단 포인트**: **"정책 표현력(Expressiveness) vs. 관리 복잡성(Administrative Cost) vs. 평가 지연(Evaluation Latency)"** 의 트레이드오프를 정량적으로 비교해야 하며, **규제 환경(DoD 8500, 의료 HIPAA, 금융 PCI-DSS 4.0)**, **조직 규모(Few-Dozen Users vs. 10K+ SaaS Tenant)**, **결정론이 필요한 감사(Deterministic Audit)** vs **맥락 기반 동적 판단(Adaptive Authorization)**의 요건에 따라 모델을 선택하거나 하이브리드(예: RBAC + ABAC PEP/PDP) 구성 여부를 결정한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-접근 제어 모델 MAC DAC RBAC ABAC은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+현대 엔터프라이즈 환경에서 권한은 더 이상 `사용자 → 권한`의 단순 1:1 매핑으로 표현되지 못한다. 마이크로서비스가 수백 개로 분할되고, 사용자 신원이 SSO/페더레이션(SAML 2.0, OIDC)으로 가상화되며, 자원이 S3 버킷·DocumentDB·Lambda·Kubernetes Namespace 등 폴리글롯 저장소에 흩어지면서 **"누가(Subject), 무엇을(Object), 어떤 맥락에서(Context), 무엇을 할 수 있는가(Action)"** 라는 4-tuple 인가 질의가 **초당 수만~수십만 건** 단위로 발생한다. 1970년대 Lampson의 **Access Matrix(보호 행렬)** 이론에서 출발한 접근 제어는, 시분할 시스템(CTSS, Multics)의 **DAC** → 미 국방부 BLP(Bell-LaPadula) 모델 기반 **MAC** → 1992년 Ferraiolo-Kuhn의 **RBAC** → 2000년대 OASIS XACML/XACML 3.0 기반 **ABAC** 으로 진화해왔으며, 최근에는 **ReBAC(Relationship-Based)**, **PBAC(Policy-Based)**, **RiskBAC** 까지 확장되고 있다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Access Control Model MAC DAC RBAC ABAC 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+핵심 기술적 과제는 (1) **정책 평가의 결정성(Determinism)** — 동일 입력에 항상 동일 출력(감사/컴플라이언스 요건), (2) **평가 지연(Evaluation Latency)** — 게이트웨이에서 μs~ms 단위 응답(보통 p99 < 50ms 요건), (3) **정책 결합(Policy Composition)** — 여러 PDP(Policy Decision Point)의 결론을 **deny-overrides / permit-overrides / first-applicable** 알고리즘으로 통합, (4) **상태 폭발(State Explosion)** — ABAC에서 속성 조합이 기하급수적으로 증가(Combinatorial Explosion)하는 문제의 4가지로 요약된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                    접근 제어 모델 MAC DAC RBAC ABAC 개념 구조                       │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  기존 방식              vs            신규 접근법             │
-│  ┌──────────┐                    ┌──────────────┐           │
-│  │ 수동 관리 │ ──── 전환 ────▶  │ 자동화/통합   │           │
-│  │ 반응적    │                    │ 선제적        │           │
-│  │ 사일로    │                    │ 통합 관리     │           │
-│  └──────────┘                    └──────────────┘           │
-│                                                              │
-│  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         │
-└──────────────────────────────────────────────────────────────┘
+[ End-to-End Access Control Architecture (Zero Trust Reference Model) ]
+
+   ┌──────────────────────────────────────────────────────────────────┐
+   │                       User / Service Account                     │
+   │   (IdP Token : SAML/OIDC + Claims + Device Posture + Geo/Risk)  │
+   └────────────────────────────┬─────────────────────────────────────┘
+                                │  1. Request
+                                ▼
+   ┌──────────────────────────────────────────────────────────────────┐
+   │   PEP (Policy Enforcement Point)                                │
+   │   - API Gateway / Sidecar Proxy (Envoy/Istio) / WAF / DB Proxy │
+   │   - TLS 종단, mTLS 상호인증, JWT 검증                          │
+   └────────────────────────────┬─────────────────────────────────────┘
+                                │  2. Req + Context (XACML Request)
+                                ▼
+   ┌──────────────────────────────────────────────────────────────────┐
+   │   PDP (Policy Decision Point) / Policy Engine                   │
+   │   - OPA (Rego) / Cedar (AWS) / OpenFGA / Cerbos                │
+   │   - 정책 캐시, 병렬 평가, 결정 캐싱(Decision Cache)            │
+   └────────────────┬───────────────────────┬────────────────────────┘
+                    │ 3a. PIP Query          │ 3b. Attribute Pull
+                    ▼                       ▼
+   ┌──────────────────────┐    ┌──────────────────────────────────┐
+   │ PIP (Policy Info Pt) │    │   PAP (Policy Admin Point)        │
+   │  - User/Role Store   │    │  - GitOps 정책 레포 (OPA Bundle) │
+   │  - Resource Metadata │    │  - RBAC Role Catalog             │
+   │  - Risk/Threat Intel │    │  - ABAC Policy as Code (Rego)    │
+   └──────────────────────┘    └──────────────────────────────────┘
+                                │  4. Decision: Permit / Deny / NotApplicable
+                                ▼
+   ┌──────────────────────────────────────────────────────────────────┐
+   │   Object Layer (S3, RDS, K8s API, SFTP, SaaS)                  │
+   │   - 서버 측 재검증(Server-side AuthZ), KMS 봉인, ACL            │
+   └──────────────────────────────────────────────────────────────────┘
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+| 패러다임 | 시대 | 등장 배경 | 한계 |
+| :--- | :--- | :--- | :--- |
+| **DAC** | 1970s | UNIX `rwx` 권한, NFSv3 ACL, SMB Share | 트로이 목마, 권한 누적(Privilege Creep), Root 권한 남용 |
+| **MAC** | 1970s~80s | Multics·SELinux·Trusted Solaris, BLP·Biba | 유연성 부족(Tightly Coupled), 관리 비용 폭증,商用 환경 부적합 |
+| **RBAC** | 1990s~2000s | NIST INCITS 359, ERP/CRM 도입 급증, 역할-기반 업무 분리(SoD) | 역할 폭발(Role Explosion), 정적 정책, 동적 컨텍스트 반영 불가 |
+| **ABAC** | 2010s~ | XACML 3.0(OASIS), Zero Trust, 클라우드 네이티브, GDPR/CCPA | 정책 평가 비용, 디버깅 난이도, 결정론 보장 어려움 |
+| **ReBAC** | 2020s~ | Google Zanzibar, Auth0 FGA, Authzed, 공유·소셜 그래프 | 관계 그래프의 인덱싱/일관성, Cypher-like Query 비용 |
 
-- **📢 섹션 요약 비유**: 접근 제어 모델 MAC DAC RBAC ABAC은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 접근 제어 모델의 진화는 **아파트 출입 시스템**의 변화와 같다. ① DAC = 집주인이 열쇠를 만들어 친구에게 주는 방식(친절하지만 도난 위험), ② MAC = 군부대처럼 본부와 경비실이 모든 출입을 통제(철저하지만 불편), ③ RBAC = 우편배달부·경비원·관리인 등 **직급 카드**로 출입区分(효율적), ④ ABAC = "평일 낮, 본사 건물, 노트북 등록, MFA 통과, 평판 점수 70 이상" 등 **상황 조건**을 종합한 스마트 게이트(가장 정밀).
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-접근 제어 모델 MAC DAC RBAC ABAC의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+### 1. DAC (Discretionary Access Control) — 소유자 재량형
+
+**핵심 원리**: 자원의 **소유자(Owner)**가 임의로 ACL(Access Control List)을 수정할 수 있다. UNIX 파일 시스템(`/etc/passwd`, `chmod 750`), NFSv4 ACL, Windows NTFS DACL, PostgreSQL `GRANT SELECT ON table TO user`, SMB Share Permission이 대표적이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│              Access Control Model MAC DAC RBAC ABAC 아키텍처 3계층 구조                   │
-├──────────────────────────────────────────────────────────────┤
-│  [수집 계층]                                                  │
-│    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   │
-│         │                                                    │
-│  [처리/분석 계층]                                             │
-│    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               │
-│         │                                                    │
-│  [실행/피드백 계층]                                           │
-│    자동 대응 · 알림 · 보고서 · 지속 개선                     │
-└──────────────────────────────────────────────────────────────┘
+[ DAC: UNIX-style Permission Bits ]
+
+   $ ls -la /var/data/finance.db
+   -rwxr-x---  1 root   finance   2.1G  finance.db
+
+   Owner(u)   Group(g)   Others(o)
+     rwx         r-x        ---
+   (7=4+2+1)  (5=4+0+1)  (0)
+
+   Process(pid=1001, uid=alice, gid=finance)
+     ├── effective uid = alice
+     ├── supplementary groups = {finance, audit}
+     └── Access Check:
+         1) uid == owner?       → use Owner bits (rwx)
+         2) gid in groups?      → use Group bits (r-x)
+         3) else               → use Other bits (---)
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
-| :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+**핵심 메커니즘**: 9-bit Mode Bits 또는 POSIX ACL(`setfacl -m u:alice:rw- file`). SMB/CIFS는 **Share Permission(서버 측)** + **NTFS DACL(파일 시스템 측)** 의 이중 검사를 수행하며, NFSv4는 RFC 3530 기반으로 `OWNER@`, `GROUP@`, `EVERYONE@` ACE를 가진 POSIX-style ACL을 사용한다.
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+### 2. MAC (Mandatory Access Control) — 강제 접근 통제
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
-
----
-
-## Ⅲ. 비교 및 연결
-
-접근 제어 모델 MAC DAC RBAC ABAC을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 접근 제어 모델 MAC DAC RBAC ABAC |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 접근 제어 모델 MAC DAC RBAC ABAC은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 접근 제어 모델 MAC DAC RBAC ABAC은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 접근 제어 모델 MAC DAC RBAC ABAC을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-접근 제어 모델 MAC DAC RBAC ABAC을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 접근 제어 모델 MAC DAC RBAC ABAC 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 접근 제어 모델 MAC DAC RBAC ABAC은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 접근 제어 모델 MAC DAC RBAC ABAC의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 접근 제어 모델 MAC DAC RBAC ABAC의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
+**핵심 원리**: **신분(Identity)**이 아니라 **라벨(Label)**에 기반해, 운영자가 변경 불가능한 시스템 전역 정책(TCSEC/Common Criteria)에 따라 강제 결정한다. DoD Orange Book(TCSEC, 1983) B1등급 이상 필수.
 
 ```text
-전통적 수동 관리
-        │
-        ▼
-스크립트 기반 자동화
-        │
-        ▼
-접근 제어 모델 MAC DAC RBAC ABAC 도입
-        │
-        ▼
-AI/ML 기반 지능화
-        │
-        ▼
-자율 운영 (Autonomous Operations)
+[ MAC: Bell-LaPadula (BLP) Confidentiality Model ]
+
+   Subjects  :   TS  S  C  U    (Clearance)
+   Objects   :   TS  S  C  U    (Classification)
+
+   ── Security Lattice (격자) ───────────────────────────
+           TS  (Top Secret)        ▲ higher
+            │                          │
+            S   (Secret)              │  No Read Up (NRU)
+            │                          │  ★ Property
+            C   (Confidential)        │  No Write Down (NWD)
+            │                          │  (BLP: Biba는 역방향)
+            U   (Unclassified)     ▼ lower
+
+   Example:
+   Subject  (S, Clearance = SECRET)
+   Object   (C, Classification = CONFIDENTIAL)
+   Decision:
+       Read?  Clearance(SECRET) >= Classification(CONF) → PERMIT
+       Write? (NWD) SECRET subject cannot write to CONF obj → DENY
+       (이유: SECRET 사용자가 CONFIDENTIAL 문서를 만들어
+        CONF 사용자가 SECRET 정보를 흘려받지 못하게 차단)
 ```
 
-### 👶 어린이를 위한 3줄 비유 설명
+| MAC 변형 | 보호 목표 | 핵심 규칙 | 적용 사례 |
+| :--- | :--- | :--- | :--- |
+| **BLP (Bell-LaPadula)** | 기밀성(Confidentiality) | No Read Up, No Write Down (★-property, tranquility) | 군 통신망, NSS(SIPRNet) |
+| **Biba** | 무결성(Integrity) | No Read Down, No Write Up | 금융 결제 시스템, SW Supply Chain |
+| **Clark-Wilson** | 무결성+상호감사 | Well-formed Tx, Separation of Duty | ERP/회계, 의료 EHR |
+| **Chinese Wall (Brewer-Nash)** | 이해상충 방지 | 동일 COI(Conflict of Interest) 클래스 접근 후, 경쟁사 데이터 차단 | 컨설팅, 투자은행 |
+| **DTE (Domain-Type Enforcement)** | 격리 | Domain(프로세스)×Type(파일) 매트릭스 | SELinux, Android SE Linux |
+| **MLS (Multi-Level Security)** | 등급 혼재 운영 | Single-system with multiple sensitivity levels | Trusted Solaris, Red Hat RHEL MLS |
 
-1. 접근 제어 모델 MAC DAC RBAC ABAC은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
+**구현체**: SELinux( NSA, Flask 아키텍처), AppArmor(프로파일 기반), Trusted Solaris(Sun), TrustedBSD, Red Hat Enterprise Linux with MLS mode. **FLASK(Flux Advanced Security Kernel)** 아키텍처가 Linux Security Module(LSM) 훅의 이론적 토대.
 
----
+### 3. RBAC (Role-Based Access Control) — 역할 기반
 
+**핵심 원리**: `User → Role → Permission` 의 **간접 매핑(Indirection)**으로, NIST INCITS 359(2004)는 **RBAC0(Base) → RBAC1(Hierarchy) → RBAC2(Constraints) → RBAC3(Combined)** 4단阶梯 모델을 정의한다.
+
+```text
+[ RBAC Hierarchy & Constraints Diagram ]
+
+              ┌────────────────┐
+              │  CFO (Role)    │
+              └───────┬────────┘
+                      │ inherits (Senior-Junior)
+        ┌─────────────┼──────────────┐
+        ▼             ▼              ▼
+  ┌──────────┐  ┌──────────┐  ┌──────────────┐
+  │ Senior   │  │ Junior   │  │ Auditor      │
+  │Accountant│  │Accountant│  │(Read-only)   │
+  └──────────┘  └──────────┘  └──────────────┘
+        ▲             ▲              ▲
+        │ User-Role Assignment (URA)
+        │             │              │
+   ┌────┴───┐   ┌────┴───┐     ┌────┴───┐
+   │ Alice  │   │  Bob   │     │ Carol  │
+   └────────┘   └────────┘     └────────┘
+
+   Permission-Role Assignment (PRA):
+     JuniorAccountant → { journal:create, ledger:read }
+     SeniorAccountant → { + journal:approve, ledger:write }
+     CFO             → { + consolidation:run, close:execute }
+     Auditor         → { ledger:read, audit:export }  (SoD!)
+
+   Constraints (RBAC2):
+     - SSD (Static Separation of Duty): {CFO, Auditor}  (한 사용자가 둘 다 못 가짐)
+     - DSD (Dynamic SoD): 트랜잭션 시작자 ≠ 승인자 (4-eyes principle)
+     - Cardinality:  시스템 내 CFO ≤ 1명
+```
+
+**상용/오픈소스 구현**: AWS IAM Role + Policy, Azure RBAC(Kusto, Storage built-in roles), Kubernetes RBAC(`Role`, `ClusterRole`, `RoleBinding`), PostgreSQL roles, Keycloak Realm Role/Group, Oracle Database Vault. **Role Mining**(역할 마이닝) 기법으로 기존 `User-Permission` 행렬에서 **역할 후보군**을 클러스터링(예: `RoleMiner`, FastMiner)하여 **Role Explosion** 문제를 완화한다.
+
+### 4. ABAC (Attribute-Based Access Control) — 속성 기반
+
+**핵심 원리**: **XACML 3.0(OASIS Standard, 2013)** 또는 **NGAC(Next Generation Access Control, NIST SP 800-178)** 명세를 따르며, 정책은 부울 함수 형태로 표현된다.
+
+```text
+[ ABAC: XACML Reference Architecture ]
+
+   ┌─────────────────┐      ┌──────────────────────────┐
+   │  PEP (Proxy)    │─────▶│ PDP (engine: OPA, Axiomatics, │
+   │  Sidecar/Filter │ Req  │  AuthzForce, WSO2 Balana)  │
+   └─────────────────┘      └────────────┬──────────────┘
+                                          │
+                            ┌────────────
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 375 / 800

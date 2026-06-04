@@ -19,20 +19,20 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - UNIX 계열 시스템에서 모든 프로세스는 부모가 `fork()`를 호출하여 자식을 낳는 트리(Tree) 구조로 생성된다.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/">좀비 프로세스</a> (Zombie)</strong>: 실행이 끝났지만(Terminated), 부모가 아직 자식의 종료 상태(Exit Status)를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하지 않아 프로세스 테이블(PCB)에 항목이 남아있는 상태.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/110_orphan_process/">고아 프로세스</a> (Orphan)</strong>: 자식이 한창 실행 중인데, [부모 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/)가 먼저 종료(Exit/Crash)되어 부모를 잃어버린 상태.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - "프로세스가 자발적으로 `exit()`를 호출해 종료됐는데, 왜 OS는 즉시 메모리에서 싹 지워버리지 않고 찌꺼기를 남겨둘까?"
-  - [부모 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/) 입장에서는 "내가 시킨 일을 자식이 성공적으로 끝냈는지(Exit [code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 0), 에러가 났는지(Exit [code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 1)" 결과 보고서를 받아야 다음 동작을 결정할 수 있기 때문이다. 
+  - [부모 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/) 입장에서는 "내가 시킨 일을 자식이 성공적으로 끝냈는지(Exit [code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 0), 에러가 났는지(Exit [code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 1)" 결과 보고서를 받아야 다음 동작을 결정할 수 있기 때문이다.
   - 그래서 OS는 자식이 죽더라도 '결과 보고서(Exit Status)'를 담은 아주 작은 껍데기(PCB)만은 남겨두어 부모가 찾아갈 때까지 보관한다. 이 껍데기가 바로 '좀비'다.
 
   - <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/">좀비 프로세스</a></strong>: 직원이 퇴사(exit)하면서 자기 짐은 다 비웠는데, 인사팀장(부모)이 결재(wait)를 안 해줘서 여전히 회사 조직도(프로세스 테이블)에 이름만 남아있는 상태. 조직도 칸만 차지함.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/110_orphan_process/">고아 프로세스</a></strong>: 부하 직원(자식)이 열심히 외근(실행) 중인데, 팀장(부모)이 갑자기 퇴사해 버린 상황. 부하 직원은 누구에게 보고해야 할지 몰라 낙동강 오리알이 됨.
 
-- **등장 배경**: 
+- **등장 배경**:
   - UNIX 설계자들은 부모-자식 간의 엄격한 동기화와 상태 전달을 위해 `wait()` 시스템 콜을 강제했다. 이 철학 때문에 좀비와 고아라는 기형적인 상태가 탄생했다.
 
 ```text
@@ -225,7 +225,7 @@ tags = ["studynote-operating-system"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/">좀비 프로세스</a></strong>: 심부름 간 동생(자식)이 집에 와서 "다 했어!" 하고 쉬고 있는데, 엄마(부모)가 "[확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)" 도장을 안 찍어줘서 동생 이름이 아직 심부름꾼 명단에 지워지지 않고 남아있는 상태예요. 
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/">좀비 프로세스</a></strong>: 심부름 간 동생(자식)이 집에 와서 "다 했어!" 하고 쉬고 있는데, 엄마(부모)가 "[확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)" 도장을 안 찍어줘서 동생 이름이 아직 심부름꾼 명단에 지워지지 않고 남아있는 상태예요.
 2. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/110_orphan_process/">고아 프로세스</a></strong>: 반대로 동생이 밖에서 열심히 심부름을 하고 있는데, 갑자기 엄마가 멀리 이사를 가버린 상황이에요. 동생은 갈 곳이 없어져 버렸죠.
 3. 이럴 때는 동네 이장님(init 프로세스)이 딱 나타나서 버려진 동생을 데려다가 심부름 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 도장도 찍어주고 안전하게 쉴 수 있게 도와준답니다!
 

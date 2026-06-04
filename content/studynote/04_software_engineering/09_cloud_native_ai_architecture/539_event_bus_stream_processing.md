@@ -19,13 +19,13 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>이벤트 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> (Event <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a>)</strong>: 컴퓨터 안에서 부품([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))들이 대화할 때 쓰는 공용 중앙 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/). A가 "나 이거 했다!" 이벤트를 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)에 던지면, 관심 있는 B와 C가 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)에서 뽑아간다. (예: AWS EventBridge, Guava EventBus)
   - <strong>스트림 프로세싱 (<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/">Stream Processing</a>)</strong>: [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)나 큐([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))를 타고 1초에 10만 개씩 미친 듯이 쏟아져 들어오는 물줄기([Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)) 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를, 컵(DB)에 담아서 기다리지 않고! 허공에서 휙휙 낚아채서 실시간으로 덧셈, 뺄셈, [그룹화](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/)(Aggregation)를 때려버리는 초능력.
 
 - **필요성**: 쿠팡에 1,000만 명이 접속해서 장바구니 버튼을 1초에 10만 번씩 누른다. 옛날에는 이 클릭 로그를 몽땅 하드디스크(DB)에 예쁘게 쌓아놨다가, 밤 12시 정각에 배치(Batch) 프로그램을 윙 돌렸다. "오늘 제일 많이 팔린 물건은 사과입니다!"라고 다음 날 아침에 사장님께 보고했다. 그런데 넷플릭스와 유튜브의 시대가 왔다. <strong>고객이 지금 1초 전에 액션 영화를 클릭했다면, 0.1초 뒤 화면 하단에는 무조건 악당 영화 추천이 떠야 돈(매출)을 번다. 내일 아침 통계는 썩은 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>다.</strong> 쌓아두고 돌려보는 무거운 DB의 족쇄를 찢어버리고, 날아다니는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) in Motion)를 공중에서 씹어 먹는 스트리밍 엔진이 필수 생존 요건이 되었다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - **배치(Batch) 처리**: 강물을 <strong>'물탱크(DB)'</strong>에 밤새도록 10만 리터를 꽉꽉 모아둔 다음, 다음 날 아침 정수기 필터를 한 번에 쾅! 씌워서 깨끗한 물을 뽑아내는 방식입니다. 물을 마시려면 하루를 꼬박 기다려야 합니다.
   - <strong>스트림 프로세싱(<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/">Stream Processing</a>)</strong>: 콸콸콸 쏟아지는 강물 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 중간에 <strong>'<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 회전하는 터빈 믹서기'</strong>를 그대로 냅다 꽂아버리는 겁니다. 물이 물탱크에 고일 틈도 없이, [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 스쳐 지나가는 0.001초의 찰나에 믹서기가 실시간으로 이물질을 갈아버리고 소독 약(비즈니스 로직)을 타서 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 반대편으로 100% 무균수(실시간 통계)를 뿜어냅니다. 1초도 안 기다리고 즉각 마실 수 있습니다.
 

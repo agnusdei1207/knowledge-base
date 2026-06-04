@@ -46,7 +46,7 @@ EPCglobal 기구는 이 미친 [EPC](/knowledge-base/studynote/03_network/15_nex
 
 ### 2. [ONS](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1037_ons_object_name_service_rfid_dns/) ([Object Name Service](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1037_ons_object_name_service_rfid_dns/)) - 사물 인터넷의 내비게이터 (1037번 상세)
 - **가장 중요한 심장입니다.** 인터넷의 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 네임 서버)를 그대로 모방했습니다.
-- 점원의 단말기가 `1234.5678.9999`라는 번호를 들고 전 세계 공용 중앙 서버인 <strong><a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1037_ons_object_name_service_rfid_dns/">ONS</a></strong>에 접속하여 묻습니다. 
+- 점원의 단말기가 `1234.5678.9999`라는 번호를 들고 전 세계 공용 중앙 서버인 <strong><a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1037_ons_object_name_service_rfid_dns/">ONS</a></strong>에 접속하여 묻습니다.
 - [ONS](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1037_ons_object_name_service_rfid_dns/): "아! 그 번호 대역은 나이키 회사 번호구나! 이 나이키 신발에 대한 진짜 정보를 알고 싶으면 `www.nike-database.com/epc` 서버(EPCIS)로 가봐!" 라며 목적지 서버의 IP 주소를 찍어줍니다.
 
 ### 3. EPCIS ([EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/) Information Services) - 사물의 블랙박스 저장소

@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 보안은 전통적인 서버 털기(SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/))가 아니다. [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 세상을 인식하는 '수학적 픽셀'이나 '언어 벡터'의 약점을 찌르는 신종 사기극이다. 
+- **개념**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 보안은 전통적인 서버 털기(SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/))가 아니다. [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 세상을 인식하는 '수학적 픽셀'이나 '언어 벡터'의 약점을 찌르는 신종 사기극이다.
   - <strong><a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/942_adversarial_example/">적대적 예제</a> (<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/942_adversarial_example/">Adversarial Example</a>)</strong>: '판다' 사진에 인간 눈에는 안 보이는 미세한 노이즈 픽셀을 수학적으로 교묘하게 뿌린다. 인간이 보기엔 100% 판다인데, AI는 "99% 확률로 긴팔원숭이입니다!"라고 헛소리를 하게 만드는 시각적 꼼수다. (추론 시점 공격)
   - <strong><a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/947_data_poisoning/">데이터 포이즈닝</a> (<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/947_data_poisoning/">Data Poisoning</a>)</strong>: AI를 훈련(학습)시킬 때, 해커가 교과서에 몰래 "고양이는 날아다닌다"라는 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 살짝 섞어둔다. 1년 뒤 AI가 완성되면 "고양이는 새입니다"라고 미친 소리를 뱉게 세뇌시키는 장기 프로젝트다. (학습 시점 공격)
 

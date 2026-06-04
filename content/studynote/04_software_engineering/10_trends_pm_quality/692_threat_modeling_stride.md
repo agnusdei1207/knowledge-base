@@ -52,7 +52,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/)은 일반적으로 4단계(What are we building? $\rightarrow$ What can go wrong? $\rightarrow$ What are we going to do? $\rightarrow$ [Did](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) we do a good job?)로 진행된다. 
+[위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/)은 일반적으로 4단계(What are we building? $\rightarrow$ What can go wrong? $\rightarrow$ What are we going to do? $\rightarrow$ [Did](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) we do a good job?)로 진행된다.
 
 이 중 "무엇이 잘못될 수 있는가?"를 찾기 위해 가장 널리 쓰이는 기법이 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/">STRIDE</a> 모델</strong>이다. STRIDE는 해커가 저지를 수 있는 6가지 대표적인 나쁜 짓의 앞 글자를 딴 것이다.
 

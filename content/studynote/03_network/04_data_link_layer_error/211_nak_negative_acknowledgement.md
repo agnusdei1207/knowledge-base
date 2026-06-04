@@ -21,7 +21,7 @@ tags = ["studynote-network"]
 
 수신기가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받았을 때 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 검사를 해보고 에러가 났습니다. 이때 수신기의 행동 패턴은 두 가지입니다.
 1. **소극적 무시 (암묵적 거절)**: 에러가 났으니 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 휴지통에 버리고 <strong>아무 말도 안 하고 가만히 있는 방식</strong>입니다. (송신기는 답장(ACK)이 안 오면 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)이 될 때까지 한참을 기다렸다가 재전송합니다. 시간이 매우 오래 걸림).
-2. **적극적 항의 (NAK 방식)**: 에러를 발견한 즉시([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)을 기다리지 않고), 송신기를 향해 <strong>"방금 온 3번 프레임 에러 났어! NAK 3!"</strong>이라는 비상벨을 날립니다. 송신기는 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 시계가 다 돌아가기 전에 NAK를 맞고 즉각 3번 프레임을 재전송합니다. 
+2. **적극적 항의 (NAK 방식)**: 에러를 발견한 즉시([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)을 기다리지 않고), 송신기를 향해 <strong>"방금 온 3번 프레임 에러 났어! NAK 3!"</strong>이라는 비상벨을 날립니다. 송신기는 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 시계가 다 돌아가기 전에 NAK를 맞고 즉각 3번 프레임을 재전송합니다.
 
 이처럼 NAK는 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)이라는 긴 대기 시간을 획기적으로 줄여주어 재전송의 민첩성을 극대화하는 촉매제 역할을 합니다.
 

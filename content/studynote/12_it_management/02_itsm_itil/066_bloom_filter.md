@@ -133,8 +133,8 @@ Approximate Query
 
 ## 어린이를 위한 3줄 비유 설명
 
-먼저 없다고 빨리 걸러 줘요.  
-있다고 하면 가끔 틀릴 수 있어요.  
+먼저 없다고 빨리 걸러 줘요.
+있다고 하면 가끔 틀릴 수 있어요.
 [블룸 필터](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)는 그런 빠른 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 도구예요.
 
 ---

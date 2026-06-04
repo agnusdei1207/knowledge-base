@@ -62,7 +62,7 @@ tags = ["studynote-ai"]
 
 2단계 - 저차원 임베딩 최적화:
    w_low(yᵢ,yⱼ) = (1 + a·||yᵢ-yⱼ||^(2b))⁻¹
-   
+
    교차 엔트로피:
    L = Σw·log(w/w_low) + (1-w)·log((1-w)/(1-w_low))
 ```

@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/">원자성</a> (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/">Atomicity</a>)</strong>: 더 이상 쪼갤 수 없는 성질. 실행 도중 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)에 의해 중단되지 않으며, 완전히 실행되거나 아예 실행되지 않거나 둘 중 하나만 존재하는 특성.
   - **Test-and-Set (TAS)**: 메모리 주소를 읽어 원래 있던 값을 반환함과 동시에, 그 자리에 1(또는 참)을 덮어쓰는 하드웨어 원자적 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/).
 
-- <strong>필요성 (소프트웨어 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>의 한계와 붕괴)</strong>: 
+- <strong>필요성 (소프트웨어 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>의 한계와 붕괴)</strong>:
   - 초창기 학자들은 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 위해 데커(Dekker)의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이나 피터슨(Peterson)의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 같은 소프트웨어 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 짰다.
   - 하지만 멀티코어가 등장하고, 컴파일러와 CPU가 성능을 높이려고 코드 실행 순서를 마음대로 섞어버리자([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Reordering), 이 완벽해 보이던 소프트웨어 락들이 다 깨져버렸다.
   - 게다가 `if (lock == 0)`을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 `lock = 1`을 쓰려는 찰나에 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)이 터지면 무조건 레이스 컨디션이 났다.
@@ -91,7 +91,7 @@ boolean TestAndSet(boolean *target) {
 
 멀티코어 환경에서 코어 1과 코어 2가 동시에 TAS 명령을 내리면 CPU는 이를 어떻게 원자적으로 처리할까?
 
-- <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> (<code>LOCK</code> prefix)</strong>: 구형 CPU는 TAS [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 실행되는 순간 메인보드의 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([FSB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/365_fsb/))에 전기적 잠금([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 신호를 쏴서 다른 코어들이 아예 RAM에 접근하지 못하게 전파를 차단했다. 
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> (<code>LOCK</code> prefix)</strong>: 구형 CPU는 TAS [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 실행되는 순간 메인보드의 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([FSB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/365_fsb/))에 전기적 잠금([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 신호를 쏴서 다른 코어들이 아예 RAM에 접근하지 못하게 전파를 차단했다.
 - <strong>Cache <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> (현대 CPU)</strong>: 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 통째로 잠그면 시스템 전체가 마비되므로, 현대 CPU(MESI [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))는 그 락 변수가 들어있는 <strong>L1 캐시 라인(64바이트) 하나만 독점</strong>하여 초고속으로 TAS 연산을 수행한다.
 
 - **📢 섹션 요약 비유**: TAS는 총알입니다. 방아쇠를 당기면([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 실행) 공이가 화약을 때리고 총알이 날아가는 과정이 중간에 멈출 수 없이 한 번에 일어납니다. 소프트웨어 락이 장전부터 격발까지 일일이 수동으로 하느라 오발 사고가 난다면, TAS는 완벽한 일체형 권총입니다.

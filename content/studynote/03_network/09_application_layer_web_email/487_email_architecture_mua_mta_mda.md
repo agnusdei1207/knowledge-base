@@ -55,9 +55,9 @@ tags = ["studynote-network"]
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** Alice가 Bob에게 메일을 쏠 때의 여정이다. 
+**[다이어그램 해설]** Alice가 Bob에게 메일을 쏠 때의 여정이다.
 1. Alice의 Outlook(MUA)은 자기가 직접 Bob의 서버를 찾지 않는다. 그냥 자기가 가입된 Naver의 MTA(우체국)에 SMTP로 편지를 냅다 던져버리고 역할을 끝낸다.
-2. Naver의 MTA는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 쿼리를 통해 Bob의 서버(예: google.com)의 주소(MX 레코드)를 찾는다. 
+2. Naver의 MTA는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 쿼리를 통해 Bob의 서버(예: google.com)의 주소(MX 레코드)를 찾는다.
 3. Naver MTA는 Google MTA로 인터넷망을 가로질러 [SMTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/488_smtp_simple_mail_transfer_protocol/) 통신으로 편지를 던진다.
 4. Google MTA가 편지를 받으면, 이를 Google MDA(집배원)에게 넘긴다. MDA는 이 편지가 스팸이 아닌지 검사하고, 수많은 구글 가입자 중 정확히 Bob의 하드디스크 폴더(사서함)에 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 툭 떨어뜨린다.
 5. 나중에 Bob이 퇴근하고 집에 와서 폰을 켜고 MUA 앱을 실행하면, IMAP [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 MDA의 사서함을 열어보고 편지를 화면에 렌더링한다.
@@ -70,7 +70,7 @@ tags = ["studynote-network"]
 
 ### 1. MUA (Mail User Agent)
 - **역할**: 사용자와 직접 대면하는 인터페이스다. 이메일을 작성, 편집, 읽기, 삭제하는 기능을 제공한다.
-- **특징**: MUA는 메일을 직접 전송할 능력이 없다. 반드시 자기가 설정해 둔 `보내는 메일 서버(MTA)`의 주소를 알고 있어야 한다. 
+- **특징**: MUA는 메일을 직접 전송할 능력이 없다. 반드시 자기가 설정해 둔 `보내는 메일 서버(MTA)`의 주소를 알고 있어야 한다.
 - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>: 보낼 때는 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/488_smtp_simple_mail_transfer_protocol/">SMTP</a></strong>, 받을 때는 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/489_pop3_post_office_protocol_v3/">POP3</a> / <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/490_imap4_internet_message_access_protocol/">IMAP4</a></strong>를 사용한다.
 - **실무 예시**: Microsoft Outlook, Apple Mail, Mozilla Thunderbird, 스마트폰의 기본 메일 앱. (웹 브라우저로 접속하는 Gmail.com 웹 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 자체도 MUA의 역할을 하는 Webmail 인터페이스다).
 

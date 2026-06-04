@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/">Information Hiding</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/">정보 은닉</a>)</strong>: 내가 가진 복잡한 설계도나 변수 구조를 남이 절대 못 보게 숨기는 '목적/철학'.
   - **Encapsulation (캡슐화)**: 알약(캡슐) 안에 쓴 가루약 10개를 뭉쳐놓고 겉을 예쁜 젤라틴으로 덮어버리듯, 변수와 그 변수를 다루는 함수(메서드)를 하나의 통짜 클래스(Class) 덩어리로 묶고 `private/public` 뚜껑을 덮는 '실현 수단/기법'.
 

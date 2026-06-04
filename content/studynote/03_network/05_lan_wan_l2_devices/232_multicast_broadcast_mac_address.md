@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소는 1:1 통신(Unicast)뿐만 아니라, 동일 네트워크 대역 내에 있는 1:N(Multicast) 또는 1:All(Broadcast) 통신을 지원하기 위해 특수한 목적지 주소 체계를 예약해 두고 있다.
 - **필요성**: 내가 통신하고 싶은 PC의 IP 주소는 알지만 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 모를 때([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)), "이 IP 가진 사람 누구야?"라고 동네 전체에 방송을 해야 한다. 반면 사내 방송국에서 동영상 스트리밍을 할 때 동네 전체에 뿌리면 네트워크가 마비되므로, '보고 싶은 사람([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 그룹)'에게만 데이터를 보내야 한다. 이러한 다중 통신 제어를 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 하드웨어 수준에서 빠르게 걸러내기 위해 특수 주소가 필요하다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - **유니캐스트**: 교실에서 "15번 홍길동 학생!" 하고 한 명만 지목해서 부르는 것.
   - **브로드캐스트**: "반장, 문 닫아라! 반 전체 학생 집중!" 하고 확성기로 방송하는 것 (모두가 듣고 행동해야 함).
   - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a></strong>: "방송부원들만 잠깐 교무실로 와라!" 하는 것 (방송부원들만 반응하고, 나머지는 하던 공부를 계속함).

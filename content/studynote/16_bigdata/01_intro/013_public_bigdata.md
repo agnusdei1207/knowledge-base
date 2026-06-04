@@ -33,7 +33,7 @@ tags = ["bigdata"]
 [A 부처]  [B 지자체]  [C 기관]
    │          │          │ (메타데이터 표준화)
    └────> [공공데이터포털(Data.go.kr)] <────> [민간 클라우드 / 기업 서비스 앱]
-                                       API 연동 
+                                       API 연동
 ```
 이 도식의 핵심은 수많은 공공 기관이 개별적으로 시민을 상대하지 않고 '공공데이터포털'이라는 단일 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))를 거친다는 점이다. 이런 배치는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 표준화와 품질 거버넌스를 일관되게 적용하기 때문이며, 따라서 포털의 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 명세의 통일성이 국가 전체의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 인프라 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 지대한 영향을 준다. 실무에서는 이러한 통합을 위해 기관 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷(CSV, [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/))과 좌표계 등을 통일하는 사전 정제 작업이 필수적으로 선행되어야 한다.
 
@@ -141,10 +141,10 @@ User 앱 => 민간 WAS => (빠른 조회) => [민간 Cache DB] (공공 장애와
 | **민간/기업** | 인프라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 비용 Zero화, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습 셋 확보 | 오픈 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 및 LOD 기반의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 확장성 확보 |
 | **국민 (시민)** | 재난(감염병, 미세먼지) 신속 대응, 알 권리 증진 | 투명하고 개인화된 디지털 행정 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 향유 |
 
-**미래 전망**: 
+**미래 전망**:
 향후 공공데이터는 일방적인 '제공'을 넘어 민간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 상호 교환되는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">디지털 트윈</a>(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">Digital Twin</a>) 기반 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 스페이스</strong>로 진화할 것이다. 또한 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(대형 언어 모델) 등과 결합하여, 시민이 복잡한 엑셀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 다운받지 않고도 자연어로 "우리 동네 10년간 강수량과 교통사고 상관관계를 알려줘"라고 물으면 공공 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 자동 분석(Text-to-SQL)해주는 지능형 챗봇 형태로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 고도화될 것이다.
 
-**참고 표준**: 
+**참고 표준**:
 - <strong>DCAT (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/">Data Catalog</a> Vocabulary)</strong>: 공공데이터 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 교환을 위한 W3C 표준 규격
 - **공공데이터 제공 및 이용 활성화에 관한 법률**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 개방의 근거 규정
 - <strong>W3C Linked <a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/060_open_data_public_api_standards/">Open Data</a></strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상호 연결성에 관한 글로벌 표준 가이드

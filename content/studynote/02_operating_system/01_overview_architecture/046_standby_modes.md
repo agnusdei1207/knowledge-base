@@ -31,25 +31,25 @@ ACPI (Advanced Configuration and Power Interface):
 
 슬리핑 상태 (S-States):
   S0: 완전 활성 (Full Working)
-  
+
   S1 (Power on Suspend):
     CPU 캐시 플러시, CLK 정지
     RAM 유지, 빠른 복귀
     소비전력: 약간 감소
-    
+
   S2: CPU 전원 OFF, 메모리 유지
-  
+
   S3 (Suspend to RAM, STR):
     RAM 유지, 나머지 OFF
     복귀 시간: 수초
     대부분 노트북의 "슬립" 모드
     소비전력: 1~2W
-    
+
   S4 (Suspend to Disk, STD, Hibernation):
     RAM → 디스크 저장 → 전원 OFF
     복귀 시간: 수십초 (디스크에서 로드)
     소비전력: 0W (전원 OFF)
-    
+
   S5 (Soft Off):
     시스템 종료 (WOL 대기 가능)
     소비전력: < 1W
@@ -78,18 +78,18 @@ C-State 계층:
   C6: Deep Power Down (코어 전원 OFF 일부)
   C7: Enhanced Deep Power Down
   C10: 가장 깊은 절전 (최신 CPU)
-  
+
   진입: OS 스케줄러 유휴 감지 → Halt 명령
-  
+
   복귀 지연:
   C1: <1 μs, C3: <100 μs, C6: <1 ms, C10: <10ms
 
 CPU P-State (성능 상태):
   DVFS: 전압+주파수 동적 조절
-  
+
   P0: 최고 주파수/전압 (최대 성능)
   P1, P2, ...: 낮은 주파수/전압
-  
+
   전력: P ≈ α × C × V² × f
   V 20% 감소 → 전력 36% 감소 (V² 효과)
 
@@ -99,7 +99,7 @@ Linux cpufreq 드라이버:
   - powersave: 항상 최저 주파수
   - ondemand: 부하에 따라 동적 (기본)
   - schedutil: CFS 스케줄러 연계 (현대적)
-  
+
   확인: cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
   변경: echo schedutil > .../scaling_governor
 
@@ -128,16 +128,16 @@ S0ix 동작:
   → CPU C10 절전
   → Wi-Fi 저전력 수신 유지 (Wi-Fi DTIM)
   → 이메일 도착 → CPU 웨이크업 → 처리 → 다시 C10
-  
+
   목표 전력: < 5~10 mW (화면 꺼진 상태)
 
 S0ix 문제:
   배경 프로세스 미관리 → 전력 소모
-  
+
   배터리 드레인 원인:
   - 전력 비효율 드라이버 깨어남
   - 백그라운드 앱 웨이크락 남용
-  
+
   진단 도구:
   powercfg /sleepstudy → 수면 품질 리포트
   powercfg /energy → 전력 이슈 진단
@@ -164,7 +164,7 @@ Android Doze 모드:
 OS 전력 관리 소프트웨어 스택:
 
 Linux 전력 관리:
-  
+
   사용자공간: powertop, tlp, laptop-mode-tools
   ↓
   커널 전력 관리 서브시스템:
@@ -179,10 +179,10 @@ Linux 전력 관리:
 
 Linux Runtime PM:
   장치 사용 없을 때 자동 절전
-  
+
   USB 마우스: 움직임 없으면 USB 포트 절전
   SATA 드라이브: 활동 없으면 스핀다운
-  
+
   커널 코드 패턴:
   pm_runtime_put_autosuspend(dev) → 절전
   pm_runtime_get_sync(dev) → 깨우기
@@ -191,7 +191,7 @@ Windows 전력 계획:
   균형 (Balanced): 성능-전력 균형
   고성능 (High Performance): 절전 없음
   절전 (Power Saver): 최대 절전
-  
+
   Modern Standby 정책:
   PowerCfg /setactive <GUID>
   Connected Standby vs Disconnected
@@ -220,14 +220,14 @@ macOS:
 
 1. powercfg /sleepstudy 실행:
    수면 보고서 생성 (HTML)
-   
+
    의심 항목:
    - 총 드레인: 8시간 × 480mA = 과다
    - 배터리 드레인 상위 드라이버 표시
 
 2. powercfg /energy 실행:
    에너지 효율 보고서
-   
+
    발견:
    - Bluetooth 드라이버: 과도한 활동
    - Intel Display Driver: S0ix 진입 방해
@@ -239,11 +239,11 @@ macOS:
 수정:
   블루투스 드라이버 업데이트
   디스플레이 드라이버 업데이트
-  
+
   레지스트리:
   HKLM\SYSTEM\CurrentControlSet\Control\Power
   DisconnectedStandbyEnabled = 1
-  
+
   결과:
   슬립 중 8시간 드레인: 40% → 4% (정상화)
 
@@ -252,7 +252,7 @@ macOS:
   IPMI/BMC: C-State 조정
   BIOS: C-State 깊이 설정
   OS: cpufreq governor 최적화
-  
+
   효과: 서버 1대 절전 상태 10~20W 절감
   1000대 × 20W = 20kW = 연 1,750만원 절감
 ```

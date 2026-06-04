@@ -37,7 +37,7 @@ RAD(Rapid Application Development) 모델은 전통적인 폭포수 모델이 �
 팀 B (회원): [JAD 요구분석] ─▶ [CASE 도구 기반 컴포넌트 조립/생성] ─▶ 통합/테스트
 (시간 압축: 병렬 개발 + 코드 자동 생성 도구 활용 + 타임박싱 제어)
 ```
-이 도식에서 핵심은 RAD가 단순히 개발자들을 야근시켜 속도를 내는 것이 아니라, 시스템 범위를 독립적인 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)로 나누어 여러 팀이 '병렬적'으로 작업하며, 인간의 코딩 타이핑 시간을 'CASE 도구'로 대체한다는 점입니다. 이런 배치는 물리적인 개발 리드 타임을 극적으로 축소시키기 때문이며, 따라서 프로젝트의 규모가 너무 커서 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화가 불가능하거나, 복잡한 커스텀 알고리즘을 짜야 하는 환경에서는 RAD 방식을 사용할 수 없습니다. 
+이 도식에서 핵심은 RAD가 단순히 개발자들을 야근시켜 속도를 내는 것이 아니라, 시스템 범위를 독립적인 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)로 나누어 여러 팀이 '병렬적'으로 작업하며, 인간의 코딩 타이핑 시간을 'CASE 도구'로 대체한다는 점입니다. 이런 배치는 물리적인 개발 리드 타임을 극적으로 축소시키기 때문이며, 따라서 프로젝트의 규모가 너무 커서 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화가 불가능하거나, 복잡한 커스텀 알고리즘을 짜야 하는 환경에서는 RAD 방식을 사용할 수 없습니다.
 
 📢 **섹션 요약 비유**: 직접 밀가루를 반죽하고 발효시켜 빵을 굽는 것이 아니라, 마트에서 파는 반조리된 생지를 사서 오븐(자동화 도구)에 넣고 10분 만에 갓 구운 빵을 내놓는 패스트푸드 조리법과 같습니다.
 
@@ -117,7 +117,7 @@ RAD는 훌륭한 고속 개발 방법론이지만 만능은 아닙니다. 요구
 ```
 <strong>실무 판단 및 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 방지</strong>
 1. **타임박싱(Timeboxing)의 엄수**: RAD의 생명은 시간입니다. 60일로 정해진 기한 내에 기능을 다 구현하지 못할 것 같으면 기한을 늘리는 것이 아니라 '우선순위가 낮은 기능을 빼버려야(Drop)' 합니다. 일정 지연을 허용하는 순간 RAD는 무너집니다.
-2. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 간 의존성 최소화</strong>: 여러 팀이 병렬로 찍어내기 때문에, 인터페이스 설계가 잘못되면 막판 통합(Cutover) 단계에서 모든 코드가 어긋나는 '통합 지옥'을 겪습니다. 
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 간 의존성 최소화</strong>: 여러 팀이 병렬로 찍어내기 때문에, 인터페이스 설계가 잘못되면 막판 통합(Cutover) 단계에서 모든 코드가 어긋나는 '통합 지옥'을 겪습니다.
 3. <strong>🚨 치명적 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (은통알의 환상)</strong>: 경영진이 RAD 도구(최근의 로우코드 도구)를 사주면 "이제 개발자 없이도 뚝딱 시스템이 나오겠지"라고 착각하는 현상입니다. 도구는 반복을 줄여줄 뿐, 도메인의 복잡한 비즈니스 로직과 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 정규화까지 대신 해결해주지 않습니다.
 
 📢 **섹션 요약 비유**: 아무리 비싸고 좋은 전자레인지(RAD 도구)를 사다 놓아도, 안에 넣을 맛있는 레시피(기획)와 재료 비율(아키텍처)을 정하는 요리사가 없으면 쓰레기 같은 음식만 빠르게 튀어나올 뿐입니다.
@@ -135,7 +135,7 @@ RAD 모델은 소프트웨어 공학에서 '도구에 의한 자동화'와 '인�
 | **재사용 자산 축적** | 향후 다른 RAD 프로젝트에 쓸 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 생태계 구축 | 개발 표준화 기여 |
 
 **미래 전망 및 결론**
-전통적인 의미의 90년대식 RAD CASE 도구는 사라졌지만, 그 사상은 현대의 <strong>로우코드/노코드(Low-Code/No-Code, <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/238_lowcode_nocode_citizen_developer/">LCNC</a>)</strong> 플랫폼(예: OutSystems, PowerApps)과 프론트엔드 UI 프레임워크 설계에 그대로 살아 숨쉬고 있습니다. 앞으로의 엔터프라이즈 시스템 구축은 핵심 차별화 로직만 직접 하드코딩하고, 나머지 수많은 주변 기능과 관리자 화면은 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)([대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/)) 기반의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기와 [LCNC](/knowledge-base/studynote/12_it_management/05_security_compliance/238_lowcode_nocode_citizen_developer/) 플랫폼을 결합한 '초현대적 RAD' 방식으로 통합될 것입니다. 
+전통적인 의미의 90년대식 RAD CASE 도구는 사라졌지만, 그 사상은 현대의 <strong>로우코드/노코드(Low-Code/No-Code, <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/238_lowcode_nocode_citizen_developer/">LCNC</a>)</strong> 플랫폼(예: OutSystems, PowerApps)과 프론트엔드 UI 프레임워크 설계에 그대로 살아 숨쉬고 있습니다. 앞으로의 엔터프라이즈 시스템 구축은 핵심 차별화 로직만 직접 하드코딩하고, 나머지 수많은 주변 기능과 관리자 화면은 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)([대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/)) 기반의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기와 [LCNC](/knowledge-base/studynote/12_it_management/05_security_compliance/238_lowcode_nocode_citizen_developer/) 플랫폼을 결합한 '초현대적 RAD' 방식으로 통합될 것입니다.
 
 📢 **섹션 요약 비유**: 90년대의 RAD가 기계식 타자기를 쓰다가 워드프로세서를 도입한 혁명이었다면, 미래의 RAD는 아예 "이런 내용 써줘"라고 말하면 인공지능이 글을 완성해주는 마법 지팡이로 진화하고 있습니다.
 

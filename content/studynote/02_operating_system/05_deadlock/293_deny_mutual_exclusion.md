@@ -22,7 +22,7 @@ tags = ["studynote-operating-system"]
 데드락 4원칙 중 1번. 네가 쓰면 나는 영원히 기다려야 하는 "[상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))".
 이걸 깨버릴 가장 직관적인 생각. **"야, 그냥 같이 써! 줄 서지 마!"**
 
-이것이 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 부정함으로써 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 예방하려는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 만약 모두가 문학 책을 읽기만 한다면(Read-Only), 수만 명이 동시에 책을 펼쳐도 글자가 훼손되지 않는다(완전 공유). 여기서 대기열은 0이 되고 교착의 불씨는 소멸한다. 
+이것이 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 부정함으로써 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 예방하려는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 만약 모두가 문학 책을 읽기만 한다면(Read-Only), 수만 명이 동시에 책을 펼쳐도 글자가 훼손되지 않는다(완전 공유). 여기서 대기열은 0이 되고 교착의 불씨는 소멸한다.
 
 **💡 비유**: 데드락 예방을 위해 마을 화장실의 칸막이 1인용 룰([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))을 부정하는 것. "줄 서지 말고, 10명이 동시에 한 칸에 들어가서 알아서 섞여서 볼일 봐!" 데드락은 없어지겠지만, 그 결과물([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 상상할 수 없을 정도로 파괴적인 위상 오염이 발생한다.
 
@@ -56,10 +56,10 @@ tags = ["studynote-operating-system"]
 
 ### 공유 불가(Non-sharable) 태생적 한계
 
-컴퓨팅 세계의 자원은 물리적 한계가 존재한다. 
+컴퓨팅 세계의 자원은 물리적 한계가 존재한다.
 프린터 모터, CD 버너 빔, 하드디스크의 자기 헤드 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업 등은 원자 단위(Atomic)에서 오직 한 놈의 신호만 받아야 한다.
 
-"[상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 부정"을 구현하려면 이 물리적 장벽을 박살 내야 하는데, 이는 불가능하다. 그래서 OS 설계자들은 [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)([Spooling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)) 같은 <strong>눈속임 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 기법</strong>으로 우회로를 팠다. 
+"[상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 부정"을 구현하려면 이 물리적 장벽을 박살 내야 하는데, 이는 불가능하다. 그래서 OS 설계자들은 [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)([Spooling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)) 같은 <strong>눈속임 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 기법</strong>으로 우회로를 팠다.
 
 - **스풀 (Spool)**: "너네 다 프린터에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 던져(상호배제 가짜 파괴)! 내가 일단 디스크 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 다 쌓아두고 나중에 혼자 천천히 실물 프린터(진짜 상호배제)에 전송할게."
 - 즉, 프로세스들 입장에선 락 대기 없이 다 끝난 줄 아는 완전 공유 환상을 선사한다.

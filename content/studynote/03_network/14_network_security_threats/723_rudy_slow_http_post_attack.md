@@ -47,7 +47,7 @@ tags = ["studynote-network"]
 2. 이때 헤더에 <strong><code>Content-Length: 99999999</code> (나 1기가바이트짜리 보낼 거야!)</strong>라고 엄청나게 큰 뻥을 쳐서 던집니다.
 3. 멍청한 서버는 해커의 말을 찰떡같이 믿고, 1기가바이트가 다 올 때까지 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 활짝 열어둔 채 무작정 대기합니다.
 4. <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 전송 (Slow Rate)</strong>: 해커는 1기가바이트를 보내주지 않습니다. 대신 **1바이트(글자 한 개)짜리 쓰레기 데이터를 1분마다 하나씩 아주 천천히 찔끔찔끔 보냅니다.**
-5. 서버는 "아직 1기가 다 안 왔어. 조금만 더 기다리자..."라며 바보같이 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 절대 끊지 않고 물고 있습니다. 
+5. 서버는 "아직 1기가 다 안 왔어. 조금만 더 기다리자..."라며 바보같이 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 절대 끊지 않고 물고 있습니다.
 6. 해커가 이 짓을 수천 개 띄워놓으면 서버의 연결 풀(Connection Pool)이 모조리 바닥나 정상 고객이 접속할 수 없게 뻗어버립니다.
 
 ```text

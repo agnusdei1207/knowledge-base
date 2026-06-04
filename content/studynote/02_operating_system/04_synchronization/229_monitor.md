@@ -64,11 +64,11 @@ tags = ["studynote-operating-system"]
 모니터를 구현하려면 보이지 않는 곳(언어 런타임)에서 두 가지 도구가 완벽히 융합되어야 한다.
 
 1. <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a> 락 (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/">Mutex Lock</a>)</strong>
-   - 모니터에 진입하는 모든 메서드(Procedure)는 시작할 때 이 락을 잡아야 하고, 끝날 때 무조건 풀어야 한다. 
+   - 모니터에 진입하는 모든 메서드(Procedure)는 시작할 때 이 락을 잡아야 하고, 끝날 때 무조건 풀어야 한다.
    - 개발자 눈에는 안 보이지만 컴파일러가 앞뒤로 락 코드를 욱여넣는다.
 2. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/">조건 변수</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/">Condition Variable</a>)</strong>
    - 모니터 안에 들어왔는데, 출금하려니 잔고가 0원이다. 여기서 멍때리면 모니터 락을 쥔 채로 굳어버리니 데드락이 터진다.
-   - 이때 `wait()`를 호출하면, 모니터는 스레드를 <strong>'<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/">조건 변수</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/">대기 큐</a>'에 잠재움과 동시에 모니터 락을 툭 열어준다</strong>. 
+   - 이때 `wait()`를 호출하면, 모니터는 스레드를 <strong>'<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/">조건 변수</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/">대기 큐</a>'에 잠재움과 동시에 모니터 락을 툭 열어준다</strong>.
    - 나중에 입금 스레드가 들어와서 돈을 채우고 `signal()`을 부르면, 자던 스레드가 깨어나서 다시 모니터 락을 잡고 일을 계속한다.
 
 ### Java에서의 모니터 완벽 구현 (`synchronized`)
@@ -135,7 +135,7 @@ tags = ["studynote-operating-system"]
 1. **Java에서의 Monitor 락 병목 (Synchronized의 배신)**: 10년 차 이하 자바 개발자들이 많이 하는 실수다. 여러 개의 API가 공통 `CacheManager` 객체를 쓴다. 이때 `CacheManager`의 모든 조회/수정 메서드에 `synchronized`를 박아버렸다.
    - **사건**: 조회만 하는 10만 명의 트래픽이 모니터 락에 막혀 1차선으로 줄을 서며 서버가 멈췄다([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)).
    - **실무 조치**: 모니터(synchronized)는 너무 거대한 락([Coarse-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/))이다. 읽기 성능이 중요할 때는 모니터의 우아함을 과감히 버리고, `java.util.concurrent.locks.ReentrantReadWriteLock` 같은 세밀한 OS 락 래퍼를 수동으로 짜거나, `ConcurrentHashMap`(분절 락)을 써서 모니터의 범위를 최소화해야 한다.
-2. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/">조건 변수</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/">Condition Variable</a>)의 한계와 고수준 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong>: C#이나 Java에서 모니터 락과 `wait()`, `notifyAll()`을 직접 쳐서 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)을 제어하는 코드는 레거시 취급을 받는다. 
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/">조건 변수</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/">Condition Variable</a>)의 한계와 고수준 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong>: C#이나 Java에서 모니터 락과 `wait()`, `notifyAll()`을 직접 쳐서 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)을 제어하는 코드는 레거시 취급을 받는다.
    - **아키텍처 결단**: 모니터의 훌륭한 철학은 가져오되, 구현은 프레임워크에 넘긴다. `CountDownLatch`, `CyclicBarrier`, `Semaphore` 클래스 등 이미 100% 검증된 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 유틸리티 클래스(Concurrent Utilities)를 레고 블록 조립하듯 끼워 맞추는 것이 실무에서 데드락을 내지 않는 아키텍트의 정석이다.
 
 ```text

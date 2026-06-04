@@ -45,7 +45,7 @@ tags = ["studynote-network"]
 - "1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(인터넷 나가는 길)로 지나가는 <strong>모든 패킷을 똑같이 쌍둥이로 복사(Mirroring)</strong>해서 2번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(감시자 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))로도 던져줘라!" (TAP 장비라는 물리적 Y자 구리선 분배기를 꽂아서 하드웨어적으로 100% 무손실 복사하기도 합니다.)
 
 ### 2. 패킷 덤프 (Packet Dump)와 PCAP 포맷
-- [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)으로 쏟아지는 초당 1GB의 어마어마한 패킷 쓰레기들을, 감시자 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(Wireshark, tcpdump 등)가 차곡차곡 받아 하드디스크에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 저장합니다. 
+- [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)으로 쏟아지는 초당 1GB의 어마어마한 패킷 쓰레기들을, 감시자 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(Wireshark, tcpdump 등)가 차곡차곡 받아 하드디스크에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 저장합니다.
 - 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 전 세계 공통 확장자 표준이 바로 <strong><code>.pcap</code> (Packet Capture)</strong>입니다. 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안에는 범죄자가 친 엔터키(Enter) 1바이트 헥사(Hex) 코드까지 원본 그대로 냉동 보관되어 있습니다.
 
 ```text

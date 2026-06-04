@@ -120,10 +120,10 @@ def insert(root, key):
     if key < root.key:    root.left = insert(root.left, key)
     elif key > root.key:  root.right = insert(root.right, key)
     else:                 return root
-    
+
     root.height = 1 + max(get_height(root.left), get_height(root.right))
     bf = get_bf(root)
-    
+
     if bf > 1 and key < root.left.key:   return right_rotate(root)  # LL
     if bf < -1 and key > root.right.key: return left_rotate(root)   # RR
     if bf > 1 and key > root.left.key:   # LR

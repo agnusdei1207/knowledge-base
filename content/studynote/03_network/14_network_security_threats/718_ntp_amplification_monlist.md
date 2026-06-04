@@ -39,7 +39,7 @@ tags = ["studynote-network"]
 단순히 "지금 몇 시예요?" 묻고 시간만 답장해주면 증폭률이 1:1이라 의미가 없습니다. 해커는 엄청난 답장을 끌어내기 위해 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 서버에 숨겨진 관리자용 디버깅 명령어인 <strong><code>monlist</code> (또는 <code>req_mon_getlist</code>)</strong> 명령어를 악용합니다.
 
 - <strong><code>monlist</code>의 본래 기능</strong>: 관리자가 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 서버에게 "최근에 너한테 시간 물어보고 접속했던 애들 명단 좀 줘봐"라고 상태를 점검하는 명령어입니다.
-- **증폭의 폭발성**: 해커가 고작 **40바이트** 남짓한 아주 짧은 텍스트로 `monlist` 패킷을 만들어 던지면, 멍청한 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 서버는 자신의 메모리에서 최근 접속했던 <strong>최대 600개의 IP 주소 목록 전체를 끌어모아 4,000바이트가 넘는 거대한 텍스트 보따리 100개 묶음으로 쪼개서 대답</strong>해 줍니다. 
+- **증폭의 폭발성**: 해커가 고작 **40바이트** 남짓한 아주 짧은 텍스트로 `monlist` 패킷을 만들어 던지면, 멍청한 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 서버는 자신의 메모리에서 최근 접속했던 <strong>최대 600개의 IP 주소 목록 전체를 끌어모아 4,000바이트가 넘는 거대한 텍스트 보따리 100개 묶음으로 쪼개서 대답</strong>해 줍니다.
 - **결과**: 들어간 패킷의 크기에 비해 나오는 응답 패킷의 크기가 무려 <strong>200배 ~ 500배 이상 폭발적으로 증폭(Amplification)</strong>됩니다.
 
 ```text

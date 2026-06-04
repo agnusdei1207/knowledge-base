@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>Round Robin (<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/">RR</a>)</strong>: 도착한 순서대로 프로세스를 큐에 넣고, 각자에게 정해진 시간(Time Quantum)만 CPU를 허락한 뒤 시간이 지나면 강제로 뺏어 큐의 맨 뒤로 쫓아내는(선점) 방식.
   - **[시간 할당량](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/179_time_quantum_context_switch/) (Time Quantum, $q$)**: 프로세스 1개가 한 번에 CPU를 독점할 수 있는 최대 제한 시간 (주로 10ms ~ 100ms).
 
-- **필요성 (FCFS의 절망 극복)**: 
+- **필요성 (FCFS의 절망 극복)**:
   - [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) 방식에서는 10시간짜리 배치 작업 뒤에 카카오톡(1ms짜리 작업)이 줄을 서면, 사용자는 카카오톡이 켜질 때까지 10시간을 멍하니 기다려야 했다.
   - 이 지독한 [호위 효과](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/)([Convoy Effect](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/))를 부수기 위해, "아무리 긴 작업이라도 절대 한 번에 다 끝내게 두지 말고, 조금씩 끊어서 먹여라!"라는 강제 분할 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 필요해졌다.
   - **해결책**: 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 통해 물리적으로 10ms마다 알람을 울리고, 알람이 울리면 무조건 하던 일을 멈추고 다음 사람에게 CPU를 넘겨주는 RR이 대화형 시스템(UI)을 구원했다.
@@ -88,7 +88,7 @@ RR이 공평하고 [응답 시간](/knowledge-base/studynote/01_computer_archite
 
 예를 들어 10ms짜리 프로세스 10개가 있고 $q=1ms$ 라고 치자.
 - <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/">FCFS</a></strong>: 1번이 10ms에 끝나고, 2번이 20ms에 끝난다. 평균 [반환 시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/172_turnaround_waiting_response_time/)은 약 55ms.
-- <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/">RR</a></strong>: 1번부터 10번까지 1ms씩 번갈아 가며 한 입씩 베어 먹는다. 10개가 모두 99ms ~ 100ms 부근에서 우르르 끝난다! 평균 [반환 시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/172_turnaround_waiting_response_time/)은 약 **99.5ms**. 
+- <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/">RR</a></strong>: 1번부터 10번까지 1ms씩 번갈아 가며 한 입씩 베어 먹는다. 10개가 모두 99ms ~ 100ms 부근에서 우르르 끝난다! 평균 [반환 시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/172_turnaround_waiting_response_time/)은 약 **99.5ms**.
 - 이처럼 모든 작업의 크기가 같을 때 RR을 돌리면, 아무도 제때 안 끝나고 다 같이 고통받다가 다 같이 끝나는 극강의 비효율([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))이 발생한다.
 
 ### 과목 융합 관점

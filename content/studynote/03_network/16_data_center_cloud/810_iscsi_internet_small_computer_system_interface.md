@@ -58,7 +58,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 ### 1. 0원에 수렴하는 네트워크 구축 비용
-- 비싼 광케이블 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)([FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/))도 필요 없고, 809번에서 배운 비싼 무결손 전용 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(DCB [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))도 필요 없습니다. 
+- 비싼 광케이블 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)([FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/))도 필요 없고, 809번에서 배운 비싼 무결손 전용 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(DCB [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))도 필요 없습니다.
 - 그냥 이마트에서 파는 <strong>싸구려 일반 아이피타임(IPTIME) 기가비트 공유기와 싸구려 랜선(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/">UTP</a>)만 있으면 그 위에 바로 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/">iSCSI</a> 스토리지망을 거대하게 뚝딱 구축</strong>할 수 있습니다. 중소기업이나 가난한 벤처기업 전산실의 영원한 빛과 소금입니다.
 
 ### 2. AWS / 클라우드 인프라의 표준 디스크
@@ -78,8 +78,8 @@ iSCSI를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 가장 큰 단점은 <strong>'CPU 과부하(오버헤드)'</strong>입니다. 
-- 무거운 하드디스크 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(SCSI)를 복잡한 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 껍데기에 구겨 넣고 포장하는 작업(캡슐화)을 순수하게 '컴퓨터의 중앙 뇌(CPU 소프트웨어)'가 다 해야 합니다. 
+- 가장 큰 단점은 <strong>'CPU 과부하(오버헤드)'</strong>입니다.
+- 무거운 하드디스크 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(SCSI)를 복잡한 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 껍데기에 구겨 넣고 포장하는 작업(캡슐화)을 순수하게 '컴퓨터의 중앙 뇌(CPU 소프트웨어)'가 다 해야 합니다.
 - 네트워크 속도가 10기가, 100기가로 폭증하면 서버 CPU는 내 프로그램은 안 돌리고 이 [iSCSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/) 택배 포장만 하다가 과로사(병목 현상 폭발)해버립니다. (이를 해결하기 위해 랜카드 자체 칩셋에 하드웨어적으로 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 포장 기능을 심어 CPU의 짐을 덜어주는 비싼 [TOE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/) 랜카드가 등장했습니다.)
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

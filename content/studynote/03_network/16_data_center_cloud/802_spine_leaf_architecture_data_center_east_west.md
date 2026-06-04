@@ -58,7 +58,7 @@ tags = ["studynote-network"]
 - **특징**: Leaf [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들끼리는 서로 랜선을 절대 연결하지 않습니다. 대신 <strong>모든 Leaf <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>는 저 위에 있는 '모든 Spine <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>'와 각각 1:1로 빠짐없이 풀-메쉬(Full-Mesh)로 광케이블을 냅다 꽂아 연결</strong>합니다.
 
 ### 2. Spine [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) (척추) - "핵심 고속도로"
-- **위치 및 연결**: Leaf [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들의 모든 선을 다 받아주는 상위 백본 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)입니다. 
+- **위치 및 연결**: Leaf [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들의 모든 선을 다 받아주는 상위 백본 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)입니다.
 - **특징**: Spine [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들끼리도 서로 연결하지 않고, 서버를 직접 꽂지도 않습니다. 오직 밑에서 올라온 Leaf의 트래픽을 다른 Leaf로 쏴주는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 십자로 교차로 역할</strong>만 합니다.
 
 ### 1. 완벽한 1-Hop 거리 (일관된 초저지연 보장)

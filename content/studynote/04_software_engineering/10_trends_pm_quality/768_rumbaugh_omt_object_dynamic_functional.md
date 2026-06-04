@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 1980년대까지 소프트웨어는 함수가 데이터를 씹어 먹는 형태의 '구조적 프로그래밍(C언어 등)'이 지배했다. 그러나 시스템이 거대해지자 함수와 데이터가 뒤엉켜 관리가 불가능해졌다.
 
-1990년대, "세상을 데이터와 함수가 하나로 뭉친 '객체(Object)'의 조립으로 보자!"는 객체지향([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/)) 패러다임이 등장했다. 수많은 학자가 "객체를 어떻게 찾고 어떻게 설계할 것인가?"에 대한 방법론을 쏟아냈다 (부치, 야콥슨 등). 
+1990년대, "세상을 데이터와 함수가 하나로 뭉친 '객체(Object)'의 조립으로 보자!"는 객체지향([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/)) 패러다임이 등장했다. 수많은 학자가 "객체를 어떻게 찾고 어떻게 설계할 것인가?"에 대한 방법론을 쏟아냈다 (부치, 야콥슨 등).
 
 그중 <strong>제임스 럼바우(James Rumbaugh)</strong>가 제안한 <strong>OMT (Object Modeling Technique)</strong>는 가장 직관적이고 강력했다. 그는 "시스템을 제대로 만들려면 세 번의 청사진을 그려야 한다. 첫째는 뼈대(객체), 둘째는 움직임(동적), 셋째는 하는 일(기능)이다!"라고 외쳤다. 이 세 가지 모델은 훗날 부치, 야콥슨의 방법론과 통합되어 오늘날 우리가 쓰는 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/">UML</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/">Unified Modeling Language</a>)</strong>의 표준이 되었다.
 

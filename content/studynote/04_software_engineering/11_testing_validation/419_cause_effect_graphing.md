@@ -19,11 +19,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어 개발 프로젝트에서 불행의 첫 단추는 언제나 "모호하게 쓰인 한국어 기획 명세서"에서 출발합니다. 
+소프트웨어 개발 프로젝트에서 불행의 첫 단추는 언제나 "모호하게 쓰인 한국어 기획 명세서"에서 출발합니다.
 
 > *"고객이 만약 골드 회원이거나(OR) 이번 달 구매액이 10만 원 이상인데(AND), 연체 이력이 없고(NOT) 장기 미접속자가 아니라면(NOT) 쿠폰을 발행한다."*
 
-고작 한 문장이지만 `OR`, `AND`, `NOT`이 폭풍처럼 몰아칩니다. 이런 긴 글을 테스터가 눈으로 대충 읽고 테스트 엑셀([Decision Table](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/))을 대뜸 짜려고 하면 100% [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 누락이나 중복이 생깁니다.  
+고작 한 문장이지만 `OR`, `AND`, `NOT`이 폭풍처럼 몰아칩니다. 이런 긴 글을 테스터가 눈으로 대충 읽고 테스트 엑셀([Decision Table](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/))을 대뜸 짜려고 하면 100% [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 누락이나 중복이 생깁니다.
 그래서 1970년대 베테랑 엔지니어들은 전자공학의 진리인 <strong>'디지털 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/">논리 게이트</a>(Logic Gate)'</strong>를 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 테스팅에 차용합니다. 문장 속에 있는 조건(원인, Cause)들을 네모 상자로 두고, 최종 작동 결과(결과, Effect)를 동그라미 상자로 둔 다음, 그 사이를 `AND(∧)`, `OR(∨)` [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/) 선으로 연결해 시각적인 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)도면으로 도식화해 버렸습니다. 이것이 바로 <strong>원인-결과 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>(Cause-Effect Graphing)</strong>입니다.
 
 ```text
@@ -112,7 +112,7 @@ tags = ["studynote-software-engineering"]
 솔직히 말해 너무나도 완벽하고 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 훌륭한 블랙박스 기법이지만, 아이러니하게도 현대 실무 QA 부서 현장에서는 아주 드물게 씁니다. 왜일까요?
 가장 큰 이유는 시스템의 복잡도가 현대에 이르러 너무 거대해졌기 때문입니다.
 
-입력 조건(원인)이 20~30개가 넘어가는 거대한 온라인 쇼핑이나 금융권 대출 코어를 원인-결과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 손으로 그리려다 보면, 칠판은 무슨 아인슈타인의 칠판처럼 수백 개의 거미줄 게이트로 뒤덮이고 테스터는 유지보수 마비에 빠져 쓰러집니다. [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) 자체의 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)([Cognitive Load](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)) 폭발 때문입니다. 
+입력 조건(원인)이 20~30개가 넘어가는 거대한 온라인 쇼핑이나 금융권 대출 코어를 원인-결과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 손으로 그리려다 보면, 칠판은 무슨 아인슈타인의 칠판처럼 수백 개의 거미줄 게이트로 뒤덮이고 테스터는 유지보수 마비에 빠져 쓰러집니다. [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) 자체의 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)([Cognitive Load](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)) 폭발 때문입니다.
 그래서 최근에는 복잡한 이 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 사람이 종이에 그리지 않고, 요구 조건을 집어넣으면 내부적으로 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 태워 자동으로 엑셀 의사결정 테이블만 뽑아주는 <strong>소프트웨어 테스팅 도구(자동화 툴)</strong>들이 이 역할을 백그라운드 계산기처럼 묵묵히 대신하고 있습니다.
 
 - **📢 섹션 요약 비유**: 100층짜리 빌딩 설계도면 전체를 종이 한 장에 그리려고 하니 선이 수백만 개가 되어 도저히 사람이 돋보기로 못 보게 되니, 어쩔 수 없이 캐드(CAD) 같은 전산 컴퓨터한테 던져주고 "네가 내부 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)만 맞춰서 결과값(표) 뽑아내!" 하는 최신 한계점 돌파와 같습니다.

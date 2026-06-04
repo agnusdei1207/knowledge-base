@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 954번 문서에서 배운 협대역(Narrowband) 통신은 하나의 주파수 차선만 씁니다. 
+- 954번 문서에서 배운 협대역(Narrowband) 통신은 하나의 주파수 차선만 씁니다.
 - 옆에서 드론 조종기나 전자레인지가 똑같은 주파수(예: 2.4GHz)의 굉음을 쏘면, 내 통신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 간섭에 부딪혀 100% 파괴됩니다.
 
 ```text

@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>Fault (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a>/고장)</strong>: 디스크가 타버리거나, 랜선이 뽑히거나, 프로세스가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패닉으로 죽는 하위 레벨의 물리적/논리적 파괴.
   - **Tolerance (허용/관용)**: 이런 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 터졌을 때 시스템이 에러를 뿜으며 자폭(Failure)하지 않고, 뒷단에서 조용히 예비 부품(Standby)으로 스위칭하여 사용자 눈에는 아무 일도 없었던 것처럼 부드럽게 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 지속하는 능력.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 서버를 1대만 두고 100% 완벽한 최고급 부품만 써서 만들었다 치자 (고신뢰성 설계). 그런데 어느 날 청소부가 실수로 전원 선을 뽑아버렸다. 서버가 죽고, 결제 시스템이 마비되어 회사 주식이 폭락했다.
   - 이처럼 하나의 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 고장이 시스템 전체의 붕괴로 이어지는 목줄을 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">단일 장애점</a> (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a>, Single Point Of Failure)</strong>이라고 부른다.
   - **해결책**: "아무리 비싼 장비도 언젠간 죽는다. 100점짜리 장비 1대보다, 언제든 고장 날 수 있는 70점짜리 싸구려 장비 2대를 묶어서(Redundancy) 1대가 죽으면 즉시 남은 1대가 대신 총을 쏘게([Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/)) 만들어라!"
@@ -31,7 +31,7 @@ tags = ["studynote-operating-system"]
   - <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/">결함 허용</a> X (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a>)</strong>: 엔진이 1개 달린 헬리콥터. 엔진에 새가 빨려 들어가 고장 나면 헬기는 즉시 바닥으로 추락하고 모두가 죽는다. ([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)).
   - <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/">결함 허용</a> O (듀얼 구성)</strong>: 엔진이 4개 달린 보잉 747 여객기. 비행 중 엔진 1개가 불타서 꺼져도([결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발생), 조종사는 꺼진 엔진의 연료를 차단하고 남은 3개의 엔진 출력(Redundancy)만으로 수백 명의 승객을 목적지까지 아무 일 없이 안전하게 모셔다 준다(허용).
 
-- **등장 배경**: 
+- **등장 배경**:
   - 1950년대 아폴로 우주 계획과 ICBM 미사일 유도 컴퓨터에서 "우주에서 부품이 타버려도 로켓이 날아가게 만들라"는 군사적 요구로 탄생했으며, 현재는 인터넷 뱅킹과 클라우드 아키텍처의 필수 생존 헌법이 되었다.
 
 ```text
@@ -121,7 +121,7 @@ Fault Tolerance는 부품이 죽지 않게 기도하는 메타가 아니다. 무
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** "Shoot The Other Node In The Head (상대방 노드의 머리에 총을 쏴라, STONITH)". 이것이 HA(High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 아키텍처의 가장 잔혹하고도 위대한 원칙이다. 두 대의 장비가 돌아가다 심장박동(Ping)이 끊기면, 대기 장비는 상대방이 죽었는지 아니면 랜선만 살짝 빠졌는지 알 도리가 없다. 이 모호한 상태에서 대기 장비가 성급하게 마스터 자리를 꿰차고 디스크에 글을 쓰면 두 개의 마스터가 하나의 스토리지를 찢어버리는 [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) 참사가 난다. 그래서 대기 노드는 자신이 깨어나기 직전에 반드시 특수 하드웨어([IPMI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/709_ipmi/) 관리 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 타고 들어가 기존 마스터 서버의 전원 릴레이를 쇼트시켜 완전한 물리적 죽음(Fencing)을 강제한 뒤에야 왕좌에 앉는다. 
+**[다이어그램 해설]** "Shoot The Other Node In The Head (상대방 노드의 머리에 총을 쏴라, STONITH)". 이것이 HA(High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 아키텍처의 가장 잔혹하고도 위대한 원칙이다. 두 대의 장비가 돌아가다 심장박동(Ping)이 끊기면, 대기 장비는 상대방이 죽었는지 아니면 랜선만 살짝 빠졌는지 알 도리가 없다. 이 모호한 상태에서 대기 장비가 성급하게 마스터 자리를 꿰차고 디스크에 글을 쓰면 두 개의 마스터가 하나의 스토리지를 찢어버리는 [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) 참사가 난다. 그래서 대기 노드는 자신이 깨어나기 직전에 반드시 특수 하드웨어([IPMI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/709_ipmi/) 관리 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 타고 들어가 기존 마스터 서버의 전원 릴레이를 쇼트시켜 완전한 물리적 죽음(Fencing)을 강제한 뒤에야 왕좌에 앉는다.
 
 ### 과목 융합 관점
 

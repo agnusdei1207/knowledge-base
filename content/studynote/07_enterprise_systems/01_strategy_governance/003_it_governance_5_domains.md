@@ -20,9 +20,9 @@ tags = ["enterprise_systems"]
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-<strong>IT 거버넌스 5대 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>(Domains)</strong>은 이사회와 최고경영진이 IT에 대해 책임을 지고 통제하기 위해 집중해야 할 핵심 관리 영역을 체계화한 것이다. IT 거버넌스를 도입하려는 기업은 "어디서부터 무엇을 통제해야 하는가?"라는 막막함에 직면한다. 단순히 "IT를 잘 관리하라"는 지시만으로는 수천억 원의 예산과 수천 명의 인력이 움직이는 IT 조직을 제어할 수 없다. 
+<strong>IT 거버넌스 5대 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>(Domains)</strong>은 이사회와 최고경영진이 IT에 대해 책임을 지고 통제하기 위해 집중해야 할 핵심 관리 영역을 체계화한 것이다. IT 거버넌스를 도입하려는 기업은 "어디서부터 무엇을 통제해야 하는가?"라는 막막함에 직면한다. 단순히 "IT를 잘 관리하라"는 지시만으로는 수천억 원의 예산과 수천 명의 인력이 움직이는 IT 조직을 제어할 수 없다.
 
-이러한 문제를 해결하기 위해 IT 거버넌스 협회(ITGI)는 통제의 초점을 5개의 영역으로 분할하여 제시했다. 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 IT의 방향을 맞추는 것(<strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>적 연계</strong>), 그 연계를 통해 실제 수익을 창출하는 것(**가치 전달**), 그 과정에서 발생하는 사고를 막는 것(**위험 관리**), 이를 수행하기 위해 사람과 인프라를 배분하는 것(**자원 관리**), 그리고 이 모든 과정이 잘 되고 있는지 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하는 것(**성과 측정**)이다. 
+이러한 문제를 해결하기 위해 IT 거버넌스 협회(ITGI)는 통제의 초점을 5개의 영역으로 분할하여 제시했다. 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 IT의 방향을 맞추는 것(<strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>적 연계</strong>), 그 연계를 통해 실제 수익을 창출하는 것(**가치 전달**), 그 과정에서 발생하는 사고를 막는 것(**위험 관리**), 이를 수행하기 위해 사람과 인프라를 배분하는 것(**자원 관리**), 그리고 이 모든 과정이 잘 되고 있는지 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하는 것(**성과 측정**)이다.
 
 만약 이 중 하나라도 무너지면, 예를 들어 가치 전달은 잘 되지만 위험 관리가 안 된다면 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 한 번에 기업이 파산할 수 있으며, 자원 관리는 잘 되지만 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 연계가 안 된다면 시장에서 아무도 원하지 않는 고품질의 시스템을 만들게 된다.
 
@@ -74,12 +74,12 @@ tags = ["enterprise_systems"]
 ```text
 [IT 투자 프로젝트의 5대 도메인 통제 파이프라인]
 
-[기획] 전략적 연계 ──► 비즈니스 목표 "온라인 매출 30% 증대" 
+[기획] 전략적 연계 ──► 비즈니스 목표 "온라인 매출 30% 증대"
                    ──► IT 목표 "모바일 커머스 플랫폼 고도화" (정렬 완료)
        ↓
 [심사] 가치 전달   ──► 개발비 100억 대비 예상 수익 300억 (NPV > 0 확인)
        ↓           ──► [프로젝트 승인]
-[할당] 자원 관리   ──► 내부 인력 50명 투입, 클라우드 인프라 프로비저닝, 
+[할당] 자원 관리   ──► 내부 인력 50명 투입, 클라우드 인프라 프로비저닝,
                    ──► 데이터베이스 구조 최적화 (가용 자원 확인 및 배치)
        ↓
 [운영] 위험 관리   ──► 개인정보 유출 방지 아키텍처 적용, SPOF 제거,

@@ -112,7 +112,7 @@ RLHF의 복잡성(별도 [RM](/knowledge-base/studynote/02_operating_system/03_c
 
 ```
 DPO 목적 함수:
-L = -log σ[β·log(πθ(yw|x)/πref(yw|x)) 
+L = -log σ[β·log(πθ(yw|x)/πref(yw|x))
          - β·log(πθ(yl|x)/πref(yl|x))]
 
 yw: 선호 응답, yl: 비선호 응답
@@ -130,7 +130,7 @@ RLHF와 함께 추론 능력 향상에 쓰이는 핵심 기법:
 
 CoT 프롬프팅:
 "24 × 17 = ? 단계별로 생각해보자."
-→ LLM: "24 × 17 = 24 × 10 + 24 × 7 
+→ LLM: "24 × 17 = 24 × 10 + 24 × 7
               = 240 + 168 = 408"
 ```
 

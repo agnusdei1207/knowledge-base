@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 일반적인 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)은 양심상 프로그램이 처음 켜질 때 `main()` 함수가 있는 시작 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 1장 정도는 램에 깔아주고 CPU를 돌린다. 하지만 '순수(Pure)' [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)은 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블을 <strong>100% 모조리 무효(Invalid, <code>I</code>) <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>로 떡칠</strong>해 놓고 무조건 실행(Run) 버튼을 눌러버리는 극강의 미니멀리즘 로딩 기법이다. 
+- **개념**: 일반적인 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)은 양심상 프로그램이 처음 켜질 때 `main()` 함수가 있는 시작 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 1장 정도는 램에 깔아주고 CPU를 돌린다. 하지만 '순수(Pure)' [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)은 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블을 <strong>100% 모조리 무효(Invalid, <code>I</code>) <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>로 떡칠</strong>해 놓고 무조건 실행(Run) 버튼을 눌러버리는 극강의 미니멀리즘 로딩 기법이다.
 - **필요성**: 수백 개의 백그라운드 앱이 켜져 있는 서버나 스마트폰 환경을 생각해 보자. 앱을 켤 때마다 "이건 무조건 쓸 거야"라며 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 몇 장씩 선인심 써서 올려주다 보면([Prepaging](/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/)), 결국 그 앱이 바로 꺼지거나 대기(Sleep) 모드로 갈 때 귀중한 램만 오염시키고 디스크 I/O를 낭비하게 된다. "인간(프로그래머)의 예측은 무조건 틀린다. 기계가 부딪혀서 증명하게 둬라!"는 철학 아래, 가장 순수하고 오류 없는 메모리 점유 곡선을 그리기 위해 고안되었다.
 
 - <strong>등장 배경 및 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/">콜드 스타트</a>의 공포</strong>:
@@ -121,7 +121,7 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오: 최신 OS의 하이브리드(Hybrid) 꼼수
 - 순수 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)은 이론적으론 아름답지만, 스티브 잡스도 빌 게이츠도 "앱 아이콘을 눌렀는데 2초 동안 렉 걸리다 켜지는 OS"는 결재해 주지 않았다.
-- **현대의 타협**: 
+- **현대의 타협**:
   1. 윈도우나 리눅스는 100% 순수 버전을 쓰지 않는다.
   2. 프로그램을 더블클릭하면 0.1초라도 빨리 화면을 띄워주기 위해(UX 극대화), `readahead`나 `Prefetch(슈퍼패치)` 기능을 동원해 옆에 있는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 수십 장을 <strong>미리 램에 뭉텅이로 던져준다(<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/">Prepaging</a> 융합)</strong>.
   3. 그렇게 부팅 렉을 넘기고 나면, 그 뒤로는 무조건 <strong>'<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/">요구 페이징</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/">Demand Paging</a>)' 모드로 싹 전환</strong>하여 램을 깐깐하게 아낀다.

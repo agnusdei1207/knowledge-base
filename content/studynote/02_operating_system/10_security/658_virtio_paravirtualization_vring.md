@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/">반가상화</a>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/">Paravirtualization</a>)</strong>: Guest OS가 자기가 가상 환경에서 도는 것을 알고(Aware), I/O 명령을 하드웨어에 직접 쏘는 대신 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 이해하기 쉬운 특수 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)(Hypercall)로 우회해서 전달하는 방식.
   - **Virtio**: 이 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) I/O를 [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/) 없이 모든 리눅스(그리고 Windows)에서 공통으로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위해 만들어진 표준 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 및 드라이버 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/).
 
-- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/">전가상화</a>의 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">트랩</a> 앤 에뮬레이션 지옥)</strong>: 
+- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/">전가상화</a>의 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">트랩</a> 앤 에뮬레이션 지옥)</strong>:
   - 과거의 가상머신은 'Realtek 8139' 같은 구형 물리 랜카드와 똑같이 생긴 가짜 하드웨어(에뮬레이션)를 띄워주었다.
   - Guest OS가 이 가짜 랜카드에 패킷 1개를 보내려면, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 쓸 때마다 CPU 하드웨어 예외([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit)가 발생하여 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)(QEMU)로 제어권이 넘어갔다가 돌아오기를 수십 번 반복했다. 10Gbps 네트워크는 꿈도 꿀 수 없는 끔찍한 병목이었다.
   - **해결책**: "어차피 가짜 장비인 거 아니까, 우리 서로 연기하지 말고 그냥 메모리에 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 하나 파서 거기다 패킷 던져놓고 깃발만 흔들자!"라는 발상의 전환이 필요했다.

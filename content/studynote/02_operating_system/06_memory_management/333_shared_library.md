@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 스터브([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)) 코드는 [동적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/) 환경에서 외부 공유 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(Shared [Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))의 함수를 호출할 때, 그 함수의 실제 구현체 대신 자리하고 있는 '임시 대역' 또는 '포인터 테이블'이다. 
+- **개념**: 스터브([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)) 코드는 [동적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/) 환경에서 외부 공유 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(Shared [Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))의 함수를 호출할 때, 그 함수의 실제 구현체 대신 자리하고 있는 '임시 대역' 또는 '포인터 테이블'이다.
 - **필요성**: 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 컴파일할 때 링커(Linker)는 `printf` 같은 함수가 어디 있는지 모르면 에러를 낸다. 하지만 `printf` 코드를 통째로 복사해서 넣으면 공유 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 의미가 퇴색된다. 따라서 링커에게 "실제 코드는 없지만, 나중에 실행될 때 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 주소를 채워줄 테니 일단 이 작은 명함([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))만 넣어둬라"라고 타협할 매개체가 필수적이었다.
 
 - **등장 배경 및 동작 방식의 변화**:
@@ -96,7 +96,7 @@ tags = ["studynote-operating-system"]
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 메커니즘은 해커들이 가장 좋아하는 시스템 해킹 기법(GOT Overwrite)의 무대이기도 하다. 프로그램이 실행될 때 수천 개의 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 함수 주소를 미리 다 찾아놓으면 부팅이 너무 느려진다. 따라서 최초로 함수가 호출될 때만 동적 링커가 개입하여(느림) 주소를 찾고, 그 결과를 변수(GOT)에 저장해 둔다. 두 번째부터는 스터브(PLT)가 바로 GOT 값을 읽어 실제 메모리로 점프하므로 일반 함수 호출과 속도 차이가 거의 없어진다. 
+**[다이어그램 해설]** 이 메커니즘은 해커들이 가장 좋아하는 시스템 해킹 기법(GOT Overwrite)의 무대이기도 하다. 프로그램이 실행될 때 수천 개의 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 함수 주소를 미리 다 찾아놓으면 부팅이 너무 느려진다. 따라서 최초로 함수가 호출될 때만 동적 링커가 개입하여(느림) 주소를 찾고, 그 결과를 변수(GOT)에 저장해 둔다. 두 번째부터는 스터브(PLT)가 바로 GOT 값을 읽어 실제 메모리로 점프하므로 일반 함수 호출과 속도 차이가 거의 없어진다.
 
 ---
 
@@ -140,7 +140,7 @@ tags = ["studynote-operating-system"]
 │ GOT        │ 주소 데이터 │ 계속 변경됨 (RW-)│ 매우 높음 (조작 타겟)│
 └──────────┴────────────┴────────────┴───────────────────────────────┘
 ```
-**[매트릭스 해설]** PLT는 "저기로 점프해"라는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 자체이므로 프로그램이 실행되는 동안 변하지 않는다. 반면 GOT는 "저기가 어디냐면..."이라는 주소값이 적힌 장부이므로, 최초 호출 시 동적 링커에 의해 값이 덮어써져야(Write) 한다. 이 '[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 권한(Write)' 때문에 해커들이 GOT의 값을 악성 코드 주소로 변조하는 공격(GOT Overwrite)이 성행했고, 이를 막기 위해 현대 OS는 [RELRO](/knowledge-base/studynote/09_security/04_endpoint_security/341_relro/)([Relocation Read-Only](/knowledge-base/studynote/09_security/04_endpoint_security/341_relro/)) 같은 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) 기법을 강제하고 있다.
+**[매트릭스 해설]** PLT는 "저기로 점프해"라는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 자체이므로 프로그램이 실행되는 동안 변하지 않는다. 반면 GOT는 "저기가 어디냐면..."이라는 주소값이 적힌 장부이므로, 최초 호출 시 동적 링커에 의해 값이 덮어써져야(Write) 한다. 이 '[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 권한(Write)' 때문에 해커들이 GOT의 값을 악성 코드 주소로 변조하는 공격(GOT Overwrite)이 성행했고, 이를 막기 위해 현대 OS는 [RELRO](/knowledge-base/studynote/09_security/04_endpoint_security/341_relro/)([Relocation Read-Only](/knowledge-base/studynote/09_security/04_endpoint_security/341_relro/)) 같은 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) 기법을 강제하고 있다.
 
 - **📢 섹션 요약 비유**: PLT가 "비상연락망에 적힌 번호로 전화 걸어"라는 행동 지침(코드)이라면, GOT는 진짜 전화번호가 연필로 적혀 있어서 지우고 새로 쓸 수 있는 화이트보드([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))입니다.
 

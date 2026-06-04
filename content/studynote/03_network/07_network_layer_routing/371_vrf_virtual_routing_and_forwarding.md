@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: 단일 라우터 내에서 다수의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 인스턴스를 동시에 유지하고 동작시키는 기능. VLAN이 2계층([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))을 쪼개는 기술이라면, VRF는 3계층(라우터)을 쪼개는 기술이다.
 - **필요성**: KT 통신사 라우터 1대에 A회사와 B회사가 랜선을 꽂아 임대망을 쓰고 있다. 그런데 A회사도 사설 IP `192.168.1.0/24`를 쓰고, B회사도 우연히 사설 IP `192.168.1.0/24`를 쓴다. KT 라우터의 글로벌 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블은 하나뿐인데, 똑같은 목적지 IP가 두 개 들어오면 라우터는 미쳐버린다. 과거엔 이걸 막으려면 라우터 기계를 회사별로 따로 사서 놔줘야 했다(돈 낭비). "야! 라우터 뇌(메모리)를 쪼개서 <strong>A회사 전용 수첩(VRF A)</strong>과 <strong>B회사 전용 수첩(VRF B)</strong>을 따로따로 만들면 IP가 똑같아도 안 겹치잖아!"
 
-- **💡 비유**: VRF는 하나의 물리적 스마트폰 안에서 구동되는 **"듀얼 메신저 (또는 보안 폴더)"** 기능과 같습니다. 
+- **💡 비유**: VRF는 하나의 물리적 스마트폰 안에서 구동되는 **"듀얼 메신저 (또는 보안 폴더)"** 기능과 같습니다.
   - 원래 카카오톡은 폰 1대당 1개만 깔립니다. (글로벌 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블).
   - 하지만 보안 폴더(VRF)를 만들면, 폰은 1대지만 업무용 카카오톡과 개인용 카카오톡이 완전히 분리된 메모리 공간에서 돌아가므로, **연락처(IP 주소)가 겹쳐도 절대 서로 섞이거나 간섭하지 않습니다.**
 

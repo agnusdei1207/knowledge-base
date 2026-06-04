@@ -143,8 +143,8 @@ Container Platform
 
 ## 어린이를 위한 3줄 비유 설명
 
-도커는 요리법을 상자에 담아 어디서나 똑같이 꺼내 먹게 해 줘요.  
-상자는 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)에 보관하고, 꺼낼 때는 실행 엔진이 도와줘요.  
+도커는 요리법을 상자에 담아 어디서나 똑같이 꺼내 먹게 해 줘요.
+상자는 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)에 보관하고, 꺼낼 때는 실행 엔진이 도와줘요.
 그래서 컴퓨터가 달라도 같은 방식으로 프로그램을 돌릴 수 있어요.
 
 ---

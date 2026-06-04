@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>CMS (Content <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a> System)</strong>: 개발자 없이 글을 쓰고, 이미지를 올리고, 발행(Publish) 버튼을 누르게 해주는 사내 블로그/쇼핑몰 관리자 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) (ex. 워드프레스).
   - **Headless (머리가 없음)**: 여기서 `Head`는 사용자가 보는 앞단 화면(뷰, [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))이다. CMS 뱃속에 내장되어 있던 HTML/[CSS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/) 템플릿(머리)을 박살 내고 삭제해버림. 남은 건 오직 관리자가 글을 쓰는 에디터와 DB, 그리고 API뿐이다.
 

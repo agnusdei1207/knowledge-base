@@ -37,7 +37,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 질병([바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/))이 전염되거나 사람들 사이에 소문이 퍼지는 방식을 수학적으로 모델링한 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 네트워크의 핵심 메시지 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 통신 메커니즘입니다. 
+- **개념**: 질병([바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/))이 전염되거나 사람들 사이에 소문이 퍼지는 방식을 수학적으로 모델링한 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 네트워크의 핵심 메시지 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 통신 메커니즘입니다.
 - 노드(컴퓨터)가 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받으면, 전체 망에 방송하지 않고 오직 <strong>자신과 연결된 무작위(Random)의 이웃 노드 딱 몇 명(예: 3~8명)에게만 속삭이듯 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 전달(Push/Pull)하여 망 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 병목을 100% 회피하면서도 기하급수적(Exponential) 속도로 전체 망의 상태(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)를 100% 일치시키는 마법</strong>입니다.
 
 ```text
@@ -60,9 +60,9 @@ tags = ["studynote-network"]
 - 내가 송금을 하면, 나는 A, B, C에게만 1:1 통신(Unicast)으로 딱 3번만 "철수한테 1코인 줬음" 하고 귓속말을 날립니다. 내 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 거의 소모되지 않습니다.
 
 ### 2. 기하급수적 전파 (Exponential Spread)
-- 소문을 들은 A도 자기 이웃 D, E, F 세 명에게 귓속말을 날립니다. 
-- B도 G, H, I에게 날립니다. 
-- 한 단계(1 홉)를 거칠 때마다 소문을 아는 컴퓨터의 수는 `1 ➜ 3 ➜ 9 ➜ 27 ➜ 81 ➜ 243` 으로 <strong>수학적 지수 함수를 그리며 미친 듯이 폭발</strong>합니다. 
+- 소문을 들은 A도 자기 이웃 D, E, F 세 명에게 귓속말을 날립니다.
+- B도 G, H, I에게 날립니다.
+- 한 단계(1 홉)를 거칠 때마다 소문을 아는 컴퓨터의 수는 `1 ➜ 3 ➜ 9 ➜ 27 ➜ 81 ➜ 243` 으로 <strong>수학적 지수 함수를 그리며 미친 듯이 폭발</strong>합니다.
 - 불과 몇 번의 단계(수 초 이내)만 거치면, 단 1대의 중앙 서버 개입 없이도 전 세계 10만 대의 쇳덩어리 컴퓨터가 동시에 100% 동일한 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 장부를 들고 있게 됩니다.
 
 ### 3. 상태 머신 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) (중복 귓속말 커트)

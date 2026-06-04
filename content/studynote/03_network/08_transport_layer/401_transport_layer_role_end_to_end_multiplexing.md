@@ -24,7 +24,7 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 전송 계층은 거대한 아파트([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))의 <strong>"1층 우편물 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 직원"</strong>과 같습니다.
   - **3계층 (IP)**: 우체국 트럭이 "서울시 강남구 래미안 아파트(IP 주소)" 앞마당에 택배 100상자를 훅 던져놓고 갑니다.
-  - **4계층 (전송 계층)**: 1층 직원이 택배 상자를 까보고, 겉면에 적힌 <strong>"101호(크롬), 102호(카카오톡)"라는 호수(<a href="/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/">포트 번호</a>)</strong>를 보고 정확한 집 앞까지 배달을 완료해 줍니다. 
+  - **4계층 (전송 계층)**: 1층 직원이 택배 상자를 까보고, 겉면에 적힌 <strong>"101호(크롬), 102호(카카오톡)"라는 호수(<a href="/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/">포트 번호</a>)</strong>를 보고 정확한 집 앞까지 배달을 완료해 줍니다.
   - 만약 중간에 택배가 파손되었으면, 직원이 우체국에 전화를 걸어 "택배 부서졌으니 다시 보내라([오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/))!"라고 따져줍니다.
 
 ```text

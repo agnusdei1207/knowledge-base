@@ -66,7 +66,7 @@ tags = ["studynote-operating-system"]
 - <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a> (<a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a>)</strong>: 수많은 캐시 방(Set) 중 몇 번째 방에 들어갈지. (이게 핵심!)
 - **Tag (태그)**: 그 방 안에 들어온 진짜 주인의 이름표.
 
-**색깔(Color)의 정체**: 
+**색깔(Color)의 정체**:
 - `페이지 크기 (4KB)` 안에 들어있는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수는 12비트다.
 - 하드웨어의 `Index 비트`가 12비트보다 길어서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 경계선을 넘어가면, 바로 그 넘어간 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 구간이 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 진짜 '주소 위치'에 의해 결정된다.
 - 즉, <strong><code>캐시 Index 비트</code>와 <code>물리 프레임 번호 비트</code>가 겹치는 교집합 영역</strong>, 이 몇 개의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 바로 OS가 조작할 수 있는 <strong>색깔(Color)</strong>이다. 이 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 값이 000이면 빨강, 001이면 파랑으로 부르는 것이다.
@@ -78,7 +78,7 @@ tags = ["studynote-operating-system"]
 리눅스의 물리 메모리 할당기인 [버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)은 이 컬러링을 지원하기 위해 리스트를 재조정한다.
 - 텅 빈 프레임들을 하나의 장부에 쑤셔 넣지 않는다.
 - `빨간색 빈방 리스트`, `파란색 빈방 리스트` 등 색깔별로 프리 리스트(Free List)를 수십 개 따로 찢어둔다.
-- 프로세스가 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))를 내서 램을 요구하면, OS는 가상 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호(Virtual [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Number)를 계산하여 "이 가상 주소는 파란색 캐시에 매핑되는 게 가장 연속적이겠군!" 판단한 뒤, 콕 집어서 **파란색 프리 리스트에서 프레임을 하나 빼내어 던져준다**. 
+- 프로세스가 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))를 내서 램을 요구하면, OS는 가상 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호(Virtual [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Number)를 계산하여 "이 가상 주소는 파란색 캐시에 매핑되는 게 가장 연속적이겠군!" 판단한 뒤, 콕 집어서 **파란색 프리 리스트에서 프레임을 하나 빼내어 던져준다**.
 - 하드웨어의 약점을 OS의 자료구조 검색으로 덮어버린 완벽한 소프트웨어 패치다.
 
 - **📢 섹션 요약 비유**: 서빙 알바생(OS)이 손님(프로세스)에게 임의로 빈 컵(램)을 줄 때, 주방(하드웨어 캐시) 설거지통에 몰리지 않게 빨간 컵, 파란 컵, 노란 컵을 순서대로 골고루 돌려주는 고도로 훈련된 배식 스킬입니다.

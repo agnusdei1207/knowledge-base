@@ -21,22 +21,22 @@ tags = ["ai"]
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-과거 시스템에서 목적지까지의 최단 경로를 찾기 위해 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이나 [너비 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)([BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/))을 사용했다. 그러나 이들은 목표의 방향을 전혀 모른 채 물결치듯 모든 방향으로 탐색을 확장([Uninformed Search](/knowledge-base/studynote/10_ai/01_ai_basics/014_uninformed_search/))하므로, 공간과 연산 리소스를 기하급수적으로 낭비했다. 이를 해결하기 위해 목표까지 남은 거리에 대한 '직관([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/))'을 도입하여 탐색에 뚜렷한 방향성을 제시한 것이 A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. 
+과거 시스템에서 목적지까지의 최단 경로를 찾기 위해 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이나 [너비 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)([BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/))을 사용했다. 그러나 이들은 목표의 방향을 전혀 모른 채 물결치듯 모든 방향으로 탐색을 확장([Uninformed Search](/knowledge-base/studynote/10_ai/01_ai_basics/014_uninformed_search/))하므로, 공간과 연산 리소스를 기하급수적으로 낭비했다. 이를 해결하기 위해 목표까지 남은 거리에 대한 '직관([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/))'을 도입하여 탐색에 뚜렷한 방향성을 제시한 것이 A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
 이 도식은 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)(맹목적)와 A*([휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 적용)의 탐색 공간 차이를 보여주는 비교 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)이다. S는 출발지, G는 목적지를 뜻한다.
 
 ```text
 [Dijkstra 다익스트라의 탐색 범위]      [A* 알고리즘의 탐색 범위]
        (동심원 형태 확장)                (타원형 지향성 확장)
-        ___-------___                     
+        ___-------___
     _---             ---_                  __---_
   _-         (G)         -_              _-      _ (G)
  -             |           -            /     __-
 |       ___----|----___     |          |  _--
-|   _---       |       ---_ |          | /  
+|   _---       |       ---_ |          | /
  -_-          (S)          -_-          (S)
-   -                     -                 
-    ---___         ___---               
+   -                     -
+    ---___         ___---
           ---------
 ```
 
@@ -57,7 +57,7 @@ A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_alg
 | **\(g(n)\)** | 실제 비용 (Path Cost) | 시작점(Start)에서 현재 노드 n까지 도달하는 데 실제로 지불한 누적 확정 비용. |
 | **\(h(n)\)** | [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) ([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/) Cost) | 현재 노드 n에서 목표(Goal)까지 남은 '예상' 비용. ([유클리디안 거리](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/), 맨해튼 거리 등) |
 
-[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 내부적으로 **Open List(탐색 대기열)** 와 **Closed List(방문 완료열)** 라는 두 개의 큐 구조를 운영하여 상태를 전이시킨다. 
+[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 내부적으로 **Open List(탐색 대기열)** 와 **Closed List(방문 완료열)** 라는 두 개의 큐 구조를 운영하여 상태를 전이시킨다.
 
 ```text
 [A* 상태 전이 메커니즘]

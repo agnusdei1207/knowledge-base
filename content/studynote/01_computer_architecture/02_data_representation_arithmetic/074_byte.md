@@ -125,8 +125,8 @@ Data Size
 
 ## 어린이를 위한 3줄 비유 설명
 
-[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 8개가 모여요.  
-그러면 바이트가 돼요.  
+[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 8개가 모여요.
+그러면 바이트가 돼요.
 바이트는 그런 단위예요.
 
 ---

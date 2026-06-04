@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **Echo Request/Reply**: 통신 대상 노드와 내가 네트워크 계층(IP)까지 논리적으로 길이 제대로 뚫려 있고 살아서 응답할 수 있는 상태인지 검증하는 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 메시지 (Type 8 / Type 0).
   - **Source Quench**: 라우터의 큐(버퍼)가 넘치려 할 때 송신자의 전송 속도를 억제하기 위해 보내던 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 혼잡 알림 메시지 (Type 4).
 - **필요성**: 웹 브라우저를 켰는데 네이버가 안 열린다. 내 PC가 문제인지, 공유기가 문제인지, 네이버가 터진 건지 알 수가 없다. "[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 3-Way Handshake처럼 무겁게 통신을 시도하지 말고, 그냥 가벼운 공 하나를 탁 튕겨서 벽(목적지)에 맞고 다시 튕겨 돌아오는지(Echo, 메아리)만 테스트해 보자!"라는 직관적인 헬스 체크(Health Check) 툴이 바로 Ping이다.
@@ -43,7 +43,7 @@ tags = ["studynote-network"]
 
 ### 1. Ping 툴의 내부 동작 시퀀스
 명령 프롬프트에서 `ping 8.8.8.8`을 치면, OS는 다음과 같은 일을 벌인다.
-1. **Echo Request (Type 8) 4발 발사**: 윈도우는 보통 32바이트짜리 알파벳 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(`abcd...`)를 꽉꽉 채워 넣은 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Type 8 패킷 4개를 연속으로 구글 서버(8.8.8.8)를 향해 쏜다. 
+1. **Echo Request (Type 8) 4발 발사**: 윈도우는 보통 32바이트짜리 알파벳 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(`abcd...`)를 꽉꽉 채워 넣은 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Type 8 패킷 4개를 연속으로 구글 서버(8.8.8.8)를 향해 쏜다.
 2. **구글의 응답 (Type 0)**: 이 패킷을 받은 구글 서버의 OS는, 내가 보낸 알맹이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(`abcd...`)를 단 1바이트도 수정하지 않고 그대로 복사해서 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Type 0 봉투에 담아 내 PC로 돌려보내 준다.
 3. **결과 계산**: 내 PC는 쏜 시간과 받은 시간의 차이([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/), [Round Trip Time](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))를 밀리초(ms) 단위로 화면에 출력한다. (예: `time=30ms`)
 

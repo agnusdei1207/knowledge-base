@@ -116,7 +116,7 @@ tags = ["studynote-network"]
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터나 통신사 국사에서 광 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(SFP+, QSFP28 등)을 다룰 때 내장된 소자의 특성을 모르면 장애를 유발할 수 있다.
 
-- **실무 시나리오**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 포트에 장거리용 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(ZR 타입, 80km 전송용 LD+APD 조합)을 꽂고 현장 테스트를 위해 불과 3미터짜리 패치코드로 두 장비를 직결(Loop-back)했다. 
+- **실무 시나리오**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 포트에 장거리용 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(ZR 타입, 80km 전송용 LD+APD 조합)을 꽂고 현장 테스트를 위해 불과 3미터짜리 패치코드로 두 장비를 직결(Loop-back)했다.
 - <strong>결과 (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a>)</strong>: APD 소자는 미약한 빛을 수백 배 증폭하도록 설계되었는데, 코앞에서 쏜 강력한 레이저(LD) 출력이 그대로 꽂히면 눈사태 증배 현상이 폭주하여 APD 소자가 영구적으로 타버린다(Burn-out).
 - **기술사적 판단**: 장거리용 고출력(LD)과 고감도(APD) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 근거리에서 테스트하거나 임시 연결할 때는 반드시 물리적 <strong>광 감쇠기(Optical Attenuator)</strong>를 중간에 삽입하여 빛의 세기를 -10dBm 이하 안전 범위로 인위적으로 깎아주어야 장비 소손을 막을 수 있다.
 

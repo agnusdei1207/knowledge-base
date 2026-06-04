@@ -12,18 +12,18 @@ tags = ["studynote-operating-system"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [교착 상태 복구](/knowledge-base/studynote/02_operating_system/05_deadlock/307_recovery_from_deadlock/)([Deadlock Recovery](/knowledge-base/studynote/02_operating_system/04_synchronization/243_deadlock_recovery/))는 시스템이 데드락 예방이나 회피를 포기하고 일단 데드락이 발생하도록 내버려 둔 뒤, <strong>주기적인 탐지(<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>)를 통해 꼬인 매듭을 사후에 강제로 끊어내는(<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a>) 비관적 대처법</strong>이다.
-> 2. <strong>해결책 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a> Kill)</strong>: 가장 확실하고 잔인한 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 방법은 데드락 사이클(원형 대기)에 얽혀있는 프로세스 중 <strong>만만한 놈(Victim) 하나를 골라 강제로 죽여버려(Kill) 쥐고 있던 자원을 뺏는 것</strong>이다. 
+> 2. <strong>해결책 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a> Kill)</strong>: 가장 확실하고 잔인한 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 방법은 데드락 사이클(원형 대기)에 얽혀있는 프로세스 중 <strong>만만한 놈(Victim) 하나를 골라 강제로 죽여버려(Kill) 쥐고 있던 자원을 뺏는 것</strong>이다.
 > 3. <strong>희생자 선정 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/310_victim_selection/">Victim Selection</a>)</strong>: 아무나 죽이면 시스템 피해가 크므로, 연산 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)도가 가장 낮거나, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))해야 할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 가장 적거나, 우선순위가 가장 낮은 프로세스를 희생자로 고르는 경제적이고 전략적인 판단이 요구된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/304_deadlock_detection/">교착 상태 탐지</a> (<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>)</strong>: 주기적으로 [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))를 순회하며 사이클(데드락)이 발생했는지 찾는 과정.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/307_recovery_from_deadlock/">교착 상태 복구</a> (<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a>)</strong>: 탐지된 데드락을 풀기 위해, 얽힌 프로세스를 죽이거나 자원을 강제로 뺏어 시스템을 정상화하는 과정.
 
-- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/">타조 알고리즘</a>의 한계와 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>의 책임)</strong>: 
+- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/">타조 알고리즘</a>의 한계와 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>의 책임)</strong>:
   - 범용 OS(리눅스, 윈도우)는 데드락이 나도 책임지지 않고 그냥 타조처럼 무시한다.
   - 하지만 수천억 원이 오가는 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>(<a href="/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a>, MySQL)</strong>마저 타조 흉내를 내면? 결제 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 멈춘 상태로 DB가 뻗어버리면 회사가 망한다.
   - **해결책**: "데드락이 나는 건 어쩔 수 없다. 하지만 났을 때 그대로 멈춰서 다 같이 죽는 것보단, <strong>차라리 제일 덜 중요한 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 하나를 쏴 죽여서(Kill) 나머지라도 살려내자!</strong>"는 사후 약방문(하지만 확실한) 처방이 도입되었다.
@@ -52,7 +52,7 @@ tags = ["studynote-operating-system"]
    - 사이클에 엮인 5개의 프로세스를 동시에 다 죽여버린다.
    - **장점**: 확실하고 빠르다. 단 1초 만에 데드락이 붕괴된다.
    - **단점**: 5명이 지금까지 연산했던 수시간 분량의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 모조리 증발한다. 시스템 피해가 막심하다.
-   
+
 2. **Abort One by One (희생자 하나씩 찌르기)**:
    - 5명 중 제일 만만한 <strong>'희생자(Victim)'</strong>를 1명 고른다.
    - 그 1명을 죽여서 자원을 회수한 뒤, 다시 탐지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 돌려 데드락이 풀렸는지 본다.

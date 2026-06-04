@@ -126,8 +126,8 @@ Backward Propagation
 
 ## 어린이를 위한 3줄 비유 설명
 
-앞으로 차례차례 가요.  
-중간에서 계산해요.  
+앞으로 차례차례 가요.
+중간에서 계산해요.
 [순전파](/knowledge-base/studynote/10_ai/03_llm_nlp/271_forward_propagation/)는 그런 과정이에요.
 
 ---

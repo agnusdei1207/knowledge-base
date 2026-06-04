@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/187_hrn_scheduling/">HRN</a> (Highest Response-ratio Next)</strong>: 큐에 대기 중인 프로세스들 중에서 '응답 비율(Response Ratio)'이 가장 높은 프로세스에게 먼저 CPU를 할당하는 [비선점형 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/167_non_preemptive_scheduling/) 방식.
   - **응답 비율**: 프로세스가 시스템에 들어와서 지금까지 기다린 시간 대비, 요구하는 CPU 시간의 비율.
 
-- **필요성 (SJF의 잔인함 극복)**: 
-  - SJF는 "CPU 요구 시간이 짧은 놈이 무조건 1등"이라는 가혹한 룰을 썼다. 
+- **필요성 (SJF의 잔인함 극복)**:
+  - SJF는 "CPU 요구 시간이 짧은 놈이 무조건 1등"이라는 가혹한 룰을 썼다.
   - 그 결과, 10시간짜리 무거운 작업을 돌리는 사용자는 1분짜리 작업이 계속 들어오면 영원히 CPU를 받지 못하는 <strong>기아 현상(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">Starvation</a>)</strong>에 빠졌다.
   - **해결책**: "아무리 무거운 작업이라도 오래 기다렸으면([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) 점수를 높여서 불쌍하니까 먼저 처리해주자!"라는 인문학적 배려를 수학 공식으로 치환한 것이 HRN이다.
 
@@ -70,7 +70,7 @@ $$ \text{응답 비율 (Response Ratio)} = \frac{\text{대기 시간 (Waiting Ti
 - P2 (도착: 2초, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/): 4초)
 - P3 (도착: 4초, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/): 2초)
 
-1. **0초**: 큐에 P1밖에 없으므로 **P1 실행 (0 ~ 10초)**. 
+1. **0초**: 큐에 P1밖에 없으므로 **P1 실행 (0 ~ 10초)**.
    - (실행 중 2초에 P2 도착, 4초에 P3 도착)
 2. **10초 (P1 종료, 다음 타자 결정)**:
    - P2 대기 시간 = $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) - 2 = 8초$. 응답 비율 = $(8 + 4) / 4 = 3.0$

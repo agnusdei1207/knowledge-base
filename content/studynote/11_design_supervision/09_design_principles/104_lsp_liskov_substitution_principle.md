@@ -18,7 +18,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 개요 및 필요성
 
-[리스코프 치환 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/357_process/) ([LSP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/), [Liskov Substitution Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/))은 바바라 리스코프(Barbara Liskov)가 1987년에 제안한 개념으로, 객체지향 프로그래밍의 5대 원칙인 SOLID의 'L'을 담당한다. 이 원칙은 "상위 타입의 객체를 하위 타입의 객체로 치환해도 소프트웨어의 실행에는 아무런 문제가 없어야 한다"고 정의한다. 
+[리스코프 치환 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/357_process/) ([LSP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/), [Liskov Substitution Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/))은 바바라 리스코프(Barbara Liskov)가 1987년에 제안한 개념으로, 객체지향 프로그래밍의 5대 원칙인 SOLID의 'L'을 담당한다. 이 원칙은 "상위 타입의 객체를 하위 타입의 객체로 치환해도 소프트웨어의 실행에는 아무런 문제가 없어야 한다"고 정의한다.
 
 LSP가 없다면 다형성을 활용한 코드 확장이 불가능해진다. 클라이언트 코드는 부모 클래스의 메서드를 믿고 호출하는데, 자식 클래스에서 이 메서드의 동작을 멋대로 바꾸거나 예외를 던진다면 시스템은 예측 불가능한 상태에 빠진다. 이는 코드 곳곳에 객체의 타입을 확인하는 지저분한 조건문(if-else, instanceof)을 양산하게 만들고, 결국 유지보수성을 크게 떨어뜨리는 원인이 된다.
 

@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 통신 이론의 아버지 클로드 샤논은 1948년에 절대 법칙을 증명했습니다.
 "채널에 노이즈가 아무리 많아도, 송신 속도만 특정 한계선(샤논 한계) 이하로 낮추고 에러 제어 코드를 잘만 짜면 <strong>통신 에러율을 수학적으로 '0(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>)'으로 만들 수 있다.</strong>"
 
-학자들은 50년 동안 이 샤논 한계 근처에 가기 위해 무수히 노력했지만([해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/), RS 코드, [길쌈 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/201_convolutional_code_viterbi/) 등) 항상 한계치에서 멈췄습니다. 
+학자들은 50년 동안 이 샤논 한계 근처에 가기 위해 무수히 노력했지만([해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/), RS 코드, [길쌈 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/201_convolutional_code_viterbi/) 등) 항상 한계치에서 멈췄습니다.
 그러다 프랑스의 두 교수가 고안한 <strong>터보 코드</strong>가 등장하면서 단숨에 샤논 한계의 코앞(소수점 아래 차이)까지 도달하는 기적을 씁니다.
 
 ```text
@@ -50,7 +50,7 @@ tags = ["studynote-network"]
 자동차의 터보 엔진이 배기가스를 다시 엔진으로 집어넣어 힘을 폭발시키듯, 수신기의 해독 과정이 백미입니다.
 - 1번 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 에러를 고쳐봅니다. "야, 내가 풀어보니까 3번 비트는 1일 확률이 80%야."
 - 이 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)([신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 정보, Soft Decision)를 2번 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)에게 넘겨줍니다.
-- 2번 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)는 그 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 받고 자기가 풀던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 조합합니다. "네 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 덕에 풀었어! 3번은 1이 확실하고, 4번은 0일 확률이 90%야." 
+- 2번 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)는 그 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 받고 자기가 풀던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 조합합니다. "네 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 덕에 풀었어! 3번은 1이 확실하고, 4번은 0일 확률이 90%야."
 - <strong>이 <a href="/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/">힌트</a>를 다시 1번 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">디코더</a>에게 던져줍니다(피드백).</strong>
 - 이렇게 두 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 핑퐁 게임을 하며 <strong>수차례 반복(Iteration) 토론을 거치면, 불확실했던 에러들이 마법처럼 100% 확실한 정답으로 수렴(Convergence)</strong>하게 됩니다.
 

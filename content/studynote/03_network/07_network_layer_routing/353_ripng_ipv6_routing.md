@@ -39,7 +39,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-RIPng를 공부할 땐 "무엇이 바뀌었나?" 보다 <strong>"무엇을 그대로 썼나?"</strong>를 아는 게 더 빠르다. 
+RIPng를 공부할 땐 "무엇이 바뀌었나?" 보다 <strong>"무엇을 그대로 썼나?"</strong>를 아는 게 더 빠르다.
 수렴 속도가 느린 거, [벨만-포드](/knowledge-base/studynote/08_algorithm_stats/11_graph_algorithms/170_bellman_ford/) 공식 쓰는 거, 스플릿 호라이즌과 포이즌 리버스로 루프 막는 거 전부 100% 동일하다.
 
 ### 1. 바뀐 것 3대장 ([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))

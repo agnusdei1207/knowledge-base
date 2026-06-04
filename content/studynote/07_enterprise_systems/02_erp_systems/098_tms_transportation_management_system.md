@@ -88,7 +88,7 @@ TMS는 계획, 실행, 정산의 3단계 [파이프](/knowledge-base/studynote/0
 - <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 통합의 중요성</strong>: TMS 단독으로는 힘을 쓰지 못한다. ERP의 주문(Order) 정보, WMS의 부피/무게(CBM) 정보, 외부의 실시간 교통 API가 실시간으로 연동되는 [EAI](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/) ([Enterprise Application Integration](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/)) 아키텍처가 필수다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- 가장 싼 화물차 기사만 무작정 배정하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/). 운송 품질(파손, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))을 고려하지 않고 요금만 최적화하면 결국 고객 이탈로 이어지는 맹점에 빠진다. 
+- 가장 싼 화물차 기사만 무작정 배정하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/). 운송 품질(파손, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))을 고려하지 않고 요금만 최적화하면 결국 고객 이탈로 이어지는 맹점에 빠진다.
 
 - **📢 섹션 요약 비유**: 좋은 TMS 도입은 단순히 '빠른 길'을 찾는 것이 아니라, 빈 트럭으로 돌아오는 낭비(공차)를 없애고 기름값 정산 영수증을 엑셀로 맞추느라 밤새는 직원들의 야근을 없애는 기업 체질 개선 수술이다.
 

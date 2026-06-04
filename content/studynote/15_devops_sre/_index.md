@@ -40,7 +40,7 @@ DevOps와 SRE는 사람의 수작업을 시스템 코드로 대체하는 추상�
 가장 진보한 클라우드 네이티브 배포 아키텍처인 'Pull-based GitOps' 모델.
 ```text
     [ End-to-End DevSecOps & GitOps Pipeline Architecture / 엔드투엔드 DevSecOps & GitOps 파이프라인 아키텍처 ]
-    
+
     (Developer / 개발자)
         | 1. 코드 커밋 & PR
         v

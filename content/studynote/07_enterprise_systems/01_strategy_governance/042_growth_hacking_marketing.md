@@ -30,7 +30,7 @@ tags = ["studynote-enterprise-systems"]
   전통 마케팅:
     브랜드 인지도, 대규모 예산, 장기 계획
     정성적 목표 (인지도, 이미지)
-    
+
   그로스 해킹:
     성장 지표 직접 연결 (DAU, MRR, LTV)
     실험 기반, 소규모 빠른 테스트
@@ -121,7 +121,7 @@ Product-Led Growth (PLG):
 
 코호트 분석 (Cohort Analysis):
   같은 기간 가입자를 시간 경과로 추적
-  
+
   Week 0 (가입 주): 100% 사용
   Week 1:          30%
   Week 4:          15%

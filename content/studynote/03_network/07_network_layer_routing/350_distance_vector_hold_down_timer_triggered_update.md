@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: [Distance Vector](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) 환경에서 네트워크의 토폴로지 변경 시, 잘못된 정보의 확산을 막고 신속하게 상태를 전파하기 위해 구동되는 보조 타이머 및 업데이트 강제 발동 메커니즘.
 - **필요성**: [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) 라우터([RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))는 근본적으로 30초마다 수첩(테이블)을 복사해서 넘기는 지독하게 굼뜬 놈이다. 이 30초 텀 사이에 어떤 놈은 길이 끊겼다고 하고, 어떤 놈은 아직 옛날 수첩을 보고 길이 뚫렸다고 소문을 내는 <strong>"정보의 불일치(Inconsistency) 현상"</strong>이 극에 달한다. 이때 사기당해서 썩은 길을 다시 살려버리면 무한 루프 지옥에 빠진다. "야! 선이 끊기면 30초 기다리지 말고 즉각 외치고([트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)), 한 번 죽은 길은 누가 뭐라 해도 당분간 부활시키지 마(홀드다운)!"라는 안전벨트가 필요했다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a>드 업데이트</strong>: 아파트에 불이 났을 때, 매달 1일 열리는 반상회(30초 주기 업데이트)까지 기다렸다가 "불났어요"라고 말하는 바보는 없습니다. 불이 난 즉시 <strong>"비상벨(방아쇠)"</strong>을 깨부수고 온 동네에 소리쳐야 합니다.
   - **홀드다운 타이머**: 내가 주식에 물려서 상장폐지(선로 단절) 당했다는 뉴스를 들었습니다. 그때 사기꾼 친구가 와서 "야! 그거 작전주라서 다시 부활한대! 내 말 믿어(가짜 소문)!"라고 꼬드길 때, 흔들리는 멘탈을 부여잡고 <strong>"180일 동안은 주식 앱을 아예 삭제하고 어떤 소문도 믿지 않겠다(귀 막기)"</strong>고 다짐하며 계좌를 동결시키는 방어막입니다.
 

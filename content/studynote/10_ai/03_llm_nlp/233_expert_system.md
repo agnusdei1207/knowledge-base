@@ -19,11 +19,11 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-1950년대 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학자들은 무조건 번역, 체스, 수학 증명 등 세상의 모든 문제를 다 푸는 만능 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(범용 지능)를 만들려다 장렬하게 실패하고 빙하기([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Winter)를 맞았다. 
+1950년대 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학자들은 무조건 번역, 체스, 수학 증명 등 세상의 모든 문제를 다 푸는 만능 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(범용 지능)를 만들려다 장렬하게 실패하고 빙하기([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Winter)를 맞았다.
 이때 스탠퍼드 대학교의 학자들이 꼼수를 냈다. "야, 인간처럼 다 잘하는 거 포기해. 대신 **딱 하나, '혈액 질환 진단' 하나만 미치도록 잘하는 기계를 만들자. 진짜 의사 선생님의 뇌 구조(진단 규칙)를 훔쳐서 코드로 옮기면 되잖아!**"
 
 그렇게 1970년대에 전설의 **MYCIN(마이신)** 시스템이 탄생했다. 혈액에 세균이 감염되었는지 맞추는 이 시스템은 진짜 레지던트 의사보다 더 정확한 진단율을 뿜어내며 세상을 충격에 빠뜨렸다. 원리는 너무나 단순했다.
-의사가 환자를 진단할 때 쓰는 수천 개의 "If (열이 나고) AND (기침을 하면) Then (감기다)"라는 규칙들을 몽땅 텍스트로 적어 지식 창고에 넣고, 프로그램이 이 규칙의 꼬리를 물고 내려가 결론을 도출하는 것이다. 
+의사가 환자를 진단할 때 쓰는 수천 개의 "If (열이 나고) AND (기침을 하면) Then (감기다)"라는 규칙들을 몽땅 텍스트로 적어 지식 창고에 넣고, 프로그램이 이 규칙의 꼬리를 물고 내려가 결론을 도출하는 것이다.
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 스스로 공부하며 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 맞추는 요즘의 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)(Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))과는 완전히 다르다. 지식을 사람이 직접 손으로 떠먹여 줘야 하는 <strong>규칙 기반(Rule-based) <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a></strong>, 이것이 1980년대 전 세계 기업들의 돈줄을 빨아들였던 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 두 번째 황금기를 연 <strong>전문가 시스템 (Expert System)</strong>의 정체다.
 

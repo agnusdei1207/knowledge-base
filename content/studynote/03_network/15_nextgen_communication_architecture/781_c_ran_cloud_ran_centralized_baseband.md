@@ -19,10 +19,10 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 4G 초기까지 기지국은 **D-RAN(Distributed RAN)** 구조였습니다. 
+- 4G 초기까지 기지국은 **D-RAN(Distributed RAN)** 구조였습니다.
 - [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 철탑(RU)이 있는 바로 그 건물 옥상이나 지상 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 반드시 두뇌 역할을 하는 디지털 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 장비([BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/), [Baseband](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/) Unit)를 1:1로 세팅해 두어야 했습니다.
-- **문제점**: 
-  - 서울 강남에 기지국 1만 개를 세우면, 1만 개의 에어컨과 1만 명의 건물주에게 월세(상면 비용)를 내야 했습니다. 
+- **문제점**:
+  - 서울 강남에 기지국 1만 개를 세우면, 1만 개의 에어컨과 1만 명의 건물주에게 월세(상면 비용)를 내야 했습니다.
   - 옆 동네 기지국은 새벽에 노는데 우리 동네 기지국이 뻗어버릴 때, 두 기지국의 남는 컴퓨터 자원(CPU)을 서로 빌려주거나 합칠 방법이 없었습니다(비효율의 극치).
 
 ```text
@@ -70,7 +70,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 대한민국은 땅이 좁고 광케이블이 촘촘하게 깔려있어, 전 세계에서 [C-RAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/156_c_ran_cloud_ran/) 아키텍처를 가장 먼저, 가장 완벽하게 100% 도입한 나라입니다.
-- <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/">TCO</a>(총소유비용) 극적 절감</strong>: 임대료 폭락, 옥상 에어컨 유지비(전기세) 70% 감소. 
+- <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/">TCO</a>(총소유비용) 극적 절감</strong>: 임대료 폭락, 옥상 에어컨 유지비(전기세) 70% 감소.
 - <strong>간섭 제어(<a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/">CoMP</a>) 최적화</strong>: 수만 개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 전화국의 한 컴퓨터([BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) Pool)가 동시에 총괄 지휘하므로, A [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)와 B [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 서로 전파를 방해하지 않게 기가 막힌 타이밍으로 간섭을 완벽히 조율해 냅니다.
 
 C-RAN를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. CP-OFDM가 기반 조건을 만든다면, C-RAN는 그 위에서 핵심 메커니즘을 구현하고, O-RAN는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.

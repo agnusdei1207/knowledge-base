@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/003_time_sharing_system/">시분할 시스템</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/003_time_sharing_system/">Time-sharing System</a>)</strong>: 하나의 CPU를 여러 사용자가 시간을 쪼개어 공유함으로써, 각 사용자는 자신이 컴퓨터를 독점하고 있는 것처럼 느끼게 만드는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 방식 (대화형 시스템의 대표적 형태).
   - <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">응답 시간</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">Response Time</a>)</strong>: 시스템에 입력을 준 시점부터 첫 번째 반응(출력)이 나오기까지 걸린 시간.
 
-- **필요성 (인간의 인내심과 1초의 벽)**: 
+- **필요성 (인간의 인내심과 1초의 벽)**:
   - 1960년대 [일괄 처리 시스템](/knowledge-base/studynote/02_operating_system/11_exam_summary/672_batch_processing_system_metrics/)(Batch) 시절, 프로그래머는 코드를 고치고 결과를 보려면 다음 날 아침까지 기다려야 했다.
   - 모니터와 키보드가 등장(대화형 인터페이스)하면서, "명령을 치면 즉각 화면에 결과가 뜨는" 컴퓨터가 필요해졌다.
   - **해결책**: 아무리 큰 작업(1시간짜리)이 돌고 있더라도, 키보드 입력 같은 작은 작업이 들어오면 무조건 0.01초씩 번갈아 가며 실행해 주자. 그러면 사람은 1시간짜리 작업이 도는 줄도 모르고 내 키보드 입력이 즉각 처리된다고 착각하게 된다!
@@ -81,12 +81,12 @@ tags = ["studynote-operating-system"]
 
 단순히 시간을 동일하게 쪼개는 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)(Round Robin) 방식은 똑똑하지 않다. 프로세스의 성격에 따라 시간을 차등 분배해야 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 최적화된다.
 
-1. **CPU Bound 프로세스 (예: 동영상 인코딩)**: 
+1. **CPU Bound 프로세스 (예: 동영상 인코딩)**:
    - 특징: 한 번 CPU를 잡으면 끝까지 계산만 한다.
    - 대책: 사용자 상호작용이 없으므로, 타임 퀀텀을 길게 주어 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 오버헤드를 줄이고 백그라운드에서 돌린다. ([응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 안 중요함)
 2. **I/O Bound 프로세스 (예: 터미널, 웹 브라우저 렌더링)**:
    - 특징: 키보드 입력을 기다리며 대부분 잠들어 있다(Sleep). 깨어나면 아주 잠깐 계산하고 다시 잔다.
-   - 대책: 깨어나는 순간 **우선순위를 급격히 높여(Priority Boost)** 즉시 CPU를 빼앗게(Preempt) 만들어야 한다. 
+   - 대책: 깨어나는 순간 **우선순위를 급격히 높여(Priority Boost)** 즉시 CPU를 빼앗게(Preempt) 만들어야 한다.
 
 **최적화 결론**: 최신 시분할 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(CFS 등)는 프로세스가 I/O 대기를 많이 할수록 "착한 놈([응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 중요한 놈)"으로 간주하여 우선순위를 보상해 주고, CPU를 꽉 채워 쓰는 놈은 "욕심쟁이"로 간주해 우선순위를 깎아버리는 동적(Dynamic) 조절 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 사용한다.
 
@@ -121,7 +121,7 @@ tags = ["studynote-operating-system"]
 
 1. **시나리오 — 데스크탑 Linux에서 게임/영상 재생 중 화면 버벅임 (Stuttering)**: 평소에 잘 돌아가던 리눅스 데스크탑에서 백그라운드로 소스 코드 컴파일(`make -j16`)을 돌리자, 마우스가 뚝뚝 끊기고 영상이 버벅거리는 끔찍한 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생.
    - **원인 분석**: 컴파일러(gcc) 16개가 CPU를 100% 점유(CPU Bound)하면서, 마우스 입력을 처리하는 X11/Wayland 프로세스(I/O Bound)가 큐에서 너무 오래 대기하게 되어 렌더링 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)을 놓친 것이다.
-   - **대응 (기술사적 가이드)**: 
+   - **대응 (기술사적 가이드)**:
      - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 튜닝</strong>: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 컴파일 시 `Preemption Model`을 고를 수 있다. 서버용인 `No Forced Preemption (Voluntary)` 대신, 데스크탑용인 `Preemptible Kernel (Low-Latency Desktop)`로 변경하여, 백그라운드 작업 도중에도 즉시 UI [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 CPU를 선점할 수 있게 튜닝한다.
      - **Nice 값 조절**: 백그라운드 컴파일러의 우선순위를 `nice -n 19 make` 처럼 최하로 낮춰서 UI 프로세스에게 무조건 양보하게 만든다.
 

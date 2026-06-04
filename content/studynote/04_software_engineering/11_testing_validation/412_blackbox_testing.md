@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어를 테스트할 때 크게 두 개의 파벌이 존재합니다. 하나는 코드를 현미경으로 보면서 1줄 1줄 피가 흐르듯 테스트하는 화이트박스, 또 다른 하나는 아예 코드는 안 보고 겉껍질을 감싸고 작동시켜 보는 <strong>블랙박스(Black-box) 파벌</strong>입니다. 
+소프트웨어를 테스트할 때 크게 두 개의 파벌이 존재합니다. 하나는 코드를 현미경으로 보면서 1줄 1줄 피가 흐르듯 테스트하는 화이트박스, 또 다른 하나는 아예 코드는 안 보고 겉껍질을 감싸고 작동시켜 보는 <strong>블랙박스(Black-box) 파벌</strong>입니다.
 
 개발자가 화이트박스를 주장하며 "제 코드는 수학적으로 오류 확률이 제로입니다."라고 말해도, 고객이 "네 수학은 맞는데, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 버튼을 누르니까 메인 화면으로 안 가고 회원가입 창이 뜨잖아요!"라고 화를 내는 상황이 바로 <strong>명세(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/">Specification</a>)의 불일치</strong>입니다.
 [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/)는 이 껍데기 박스(소프트웨어) 속 안에 기어가 들어있든 외계인이 들어있든 관심 없습니다. 오로지 <strong>"명세서에 <code>a</code>라는 지폐를 넣으면 <code>콜라</code>가 나온다"</strong>라고 쓰여 있으니, 정말 `a`를 넣어서 `콜라`가 나오는지 100번 눌러보고, 일부러 `수표`를 넣어보고, `돌멩이`를 넣어봐서 뱉어내는가 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 작업입니다.
@@ -50,7 +50,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-블랙박스는 입력값을 넣어서 테스트를 해야 하는데, "비밀번호는 1~10자리 숫자"라고 할 때, 1부터 9999999999까지 수백억 번을 입력해 볼 수는 없습니다(무한 테스트의 딜레마). 
+블랙박스는 입력값을 넣어서 테스트를 해야 하는데, "비밀번호는 1~10자리 숫자"라고 할 때, 1부터 9999999999까지 수백억 번을 입력해 볼 수는 없습니다(무한 테스트의 딜레마).
 따라서 블랙박스 전문가(QA)들은 이 무한한 우주의 입력값을 똑똑한 공식으로 <strong>압축해서 대표선수만 뽑아 넣는 '기법(Techniques)'</strong>을 발명해 냈습니다.
 
 1. <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/">동등 분할</a> (<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/">Equivalence Partitioning</a>)</strong>
@@ -81,7 +81,7 @@ tags = ["studynote-software-engineering"]
 [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/)가 위대하기 위해서는 전제 조건이 하나 있습니다. 박스 안에 도면이 없으니, **명세서(요구사항) 자체가 완벽하게 쓰여 있어야** 합니다.
 "게시판에 글이 적당히 예쁘게 올라갈 것"이란 명세서로는 블랙박스 테스터가 결코 테스트를 설계할 수 없습니다. "게시판 제목은 [UTF-8](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/105_utf8/) 100바이트 이하일 때 저장성공, 초과 시 오류 메시지 팝업"처럼 깐깐한 수학적 조건이 있어야 하죠.
 
-그래서 블랙박스 TC([테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)) 명세표의 맨 우측에는 항상 <strong>명세서 추적 ID (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/">Traceability</a>)</strong>칸이 쌍으로 묶여 있습니다. "제가 이 테스트를 실패시킨 이유는, 요구사항 번호 REQ-023번의 3조 2항을 위배했기 때문입니다."라며 법정 증거처럼 들이밀 수 있게 만드는 것입니다. 
+그래서 블랙박스 TC([테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)) 명세표의 맨 우측에는 항상 <strong>명세서 추적 ID (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/">Traceability</a>)</strong>칸이 쌍으로 묶여 있습니다. "제가 이 테스트를 실패시킨 이유는, 요구사항 번호 REQ-023번의 3조 2항을 위배했기 때문입니다."라며 법정 증거처럼 들이밀 수 있게 만드는 것입니다.
 
 - **📢 섹션 요약 비유**: 경찰이 범인을 체포(버그 보고)하려면 단순히 기분이 나빠서가 아니라 막무가내 건달(코드)에게 "여기 법전(명세서) 4조 1항에 침 뱉으면 벌금이라 적혀있다!"라고 확실한 문서 근거를 들이밀어 항복시키는 원동력입니다.
 
@@ -111,7 +111,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-코드 내부 로직에 눈감아버리는 블랙박스(명세 기반) 테스트의 철학은, 숲을 보지 못하고 나무의 잔가지(코드 최적화)에 집착하던 개발자들에게 "고객이 원했던 원래 모습이라는 게 무엇인가"를 강력하게 환기해 줍니다. 
+코드 내부 로직에 눈감아버리는 블랙박스(명세 기반) 테스트의 철학은, 숲을 보지 못하고 나무의 잔가지(코드 최적화)에 집착하던 개발자들에게 "고객이 원했던 원래 모습이라는 게 무엇인가"를 강력하게 환기해 줍니다.
 내부 로직이 아무리 현란해도 출력물이 틀리면 쓰레기다라는 진리를 바탕으로, 사용자 관점의 가치를 사수하고 기획 의도와 구현물 간의 간극을 좁히는 테스트 공학의 굳건한 우뇌(사용자 감성, 결과 지향)로 자리 잡고 있습니다.
 
 - **📢 섹션 요약 비유**: 시계 속 톱니바퀴 1만 개가 기름칠 쫙쫙 되어 완벽하게 돌고 있다고 시계 장인이 아무리 우겨도, 겉면 바늘이 아침 9시인데 밤 9시를 가리키면 손님에겐 그냥 고장 난 시계(버그)라는 잔인하고 명쾌한 팩트 체크 폭행입니다.

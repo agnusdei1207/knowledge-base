@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 환경에서 같은 링크(서브넷) 상에 있는 호스트나 라우터의 존재, 주소, 상태를 탐색하고 유지하는 핵심 제어 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (RFC 4861). ICMPv6를 기반으로 동작한다.
 - **필요성**: IPv4는 낡은 아파트였다. [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 찾으려면 ARP라는 독립된 방송 시스템을 써야 했고, 핑을 치려면 ICMP를 썼으며, 공유기에서 IP를 받으려면 DHCP라는 외부 용역을 불러야 했다. 게다가 이들은 틈만 나면 동네방네 브로드캐스트(방송)를 때려대서 아파트가 항상 시끄러웠다. [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 설계자들은 "차세대 인터넷은 우아해야 한다! <strong>잡다한 기능들을 다 부수고 '이웃 탐색(NDP)'이라는 하나의 우아한 카카오톡 단톡방(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a>) 시스템으로 통합해 버리자!</strong>"라고 결심했다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/">IPv4</a> (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a>)</strong>: 아파트 복도에서 **"105호 사는 사람 나와봐라!!"** 하고 소리치는 동네 방송. (모든 집이 문을 열어보고 아니면 닫아야 함).
   - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> (NDP)</strong>: 아파트 게시판에 <strong>"끝자리가 5호인 사람들만 모이는 단톡방(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a>)"</strong>을 만들어 두고, 그 방에 들어가 "105호 분 계시나요?"라고 조용히 묻는 스마트폰 알림. (나머지 101, 102호 사람들은 알람조차 울리지 않아 편안히 잠을 잠).
 

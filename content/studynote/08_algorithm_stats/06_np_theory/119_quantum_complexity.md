@@ -37,15 +37,15 @@ BQP ⊄ NP (양자 ≠ NP)
 BQP (Bounded-error Quantum Polynomial):
   양자 회로가 다항 시간에 결정
   오류 확률 ≤ 1/3 (반복으로 줄일 수 있음)
-  
+
   "양자 컴퓨터의 P"
 
 QMA (Quantum Merlin-Arthur):
   증명자(Merlin)가 양자 증명 제공
   검증자(Arthur)가 양자 다항 시간에 검증
-  
+
   "양자 컴퓨터의 NP"
-  
+
   클래스:
   BQPTIME(poly) = BQP
   QMATIME(poly) = QMA
@@ -64,14 +64,14 @@ Shor's Algorithm (쇼어 알고리즘, 1994):
   문제: 정수 N 인수분해
   고전: 최적 O(exp(n^(1/3))) (일반수 체 체)
   양자: O(n³) (다항 시간!)
-  
+
   핵심: 양자 푸리에 변환 (QFT)
   주기 탐색 → 공약수 발견
-  
+
   의미: RSA 암호 위협
   2048비트 RSA → 현재 양자 컴퓨터로 N/A
   (오류 수정 포함 수백만 큐비트 필요, 현재 수천 큐비트)
-  
+
   BQP에 속함: 다항 시간 양자 알고리즘 존재
   고전 P에 속하는지: 미지수 (아마 아님)
 
@@ -79,12 +79,12 @@ Grover's Algorithm (그로버 알고리즘, 1996):
   문제: N개 비정렬 원소 중 탐색
   고전: O(N) (선형 탐색)
   양자: O(√N) (제곱근 가속)
-  
+
   핵심: 진폭 증폭 (Amplitude Amplification)
-  
+
   가속 수준: 이차 가속 (Quadratic Speedup)
   (Shor처럼 지수 가속은 아님)
-  
+
   BQP에 속함: O(√N) 양자 알고리즘
   NP에 대한 함의: Grover로 NP 문제 빠르게 못 풀음
   (2^n → 2^(n/2): 여전히 지수)
@@ -93,7 +93,7 @@ HHL Algorithm (하로우-하시딤-로이드, 2009):
   문제: 선형 방정식 계 Ax = b 풀기
   고전: O(n³) (n: 변수 수)
   양자: O(log n × kappa^2 × epsilon^-2) (조건부)
-  
+
   지수 가속 (조건 충족 시)
   제한: 해를 양자 상태로만 얻음 (측정 = 정보 손실)
 ```
@@ -116,28 +116,28 @@ QMA-완전 문제: Local Hamiltonian
 Local Hamiltonian Problem:
   물리학 배경:
   해밀토니안 H = 입자 시스템의 에너지 연산자
-  
+
   문제:
   k-Local Hamiltonian H 주어짐
   (H는 k개 이하 큐비트에만 작용하는 항의 합)
-  
+
   H의 최소 에너지 (바닥 상태 에너지)가
   a 이하인지 또는 b 이상인지 판단
-  
+
   QMA-완전: 가장 어려운 QMA 문제
 
 왜 중요한가:
   실제 물리 시스템의 에너지 계산 문제
   신약 설계: 분자 해밀토니안의 바닥 에너지
   재료 과학: 새로운 재료의 전자 구조
-  
+
   양자 컴퓨터의 핵심 응용 분야!
 
 NP와 QMA 관계:
   NP ⊆ QMA (고전 증명 = 양자 증명의 특수 경우)
   QMA ⊆ PSPACE
   NP = QMA? 미지수 (아마 아님)
-  
+
   QMA의 의미:
   양자 컴퓨터도 QMA 문제를 빠르게 풀지 못함
   (BQP ⊄ QMA 추정, 즉 BQP ≠ QMA)
@@ -156,7 +156,7 @@ NP와 QMA 관계:
   문제: 랜덤 서킷 샘플링
   고전 (Summit 슈퍼컴): 약 10,000년
   양자 (53큐비트): 200초
-  
+
   논쟁: IBM "고전도 2.5일에 가능"
   의미: 특수 목적 양자 우위 증명
 
@@ -165,7 +165,7 @@ NP와 QMA 관계:
   오류율: 0.1~1% (고오류율)
   코히런스 시간: 마이크로초~밀리초
   오류 수정: 아직 미성숙
-  
+
   Fault-Tolerant Quantum Computing (FTQC):
   실용적 Shor 알고리즘에 필요한 큐비트: 수백만
   현재 수준과 격차 큼
@@ -175,7 +175,7 @@ BQP의 실용적 의미:
 인수분해 (BQP):
   현재: 1,000비트 = 시뮬레이션 불가
   미래 FTQC: 실용적 위협
-  
+
   대응: PQC (Post-Quantum Cryptography)
   격자 기반, 해시 기반 암호
   NIST PQC 표준화 (2024 완료)
@@ -203,19 +203,19 @@ BQP의 실용적 의미:
   Shor 알고리즘 → RSA/ECC 취약 (BQP 내 문제)
   "Store Now, Decrypt Later": 현재 암호화 데이터 수집
   → FTQC 완성 시 복호화
-  
+
   위협 시점: 10~20년 (추정)
 
 NIST PQC 표준화 (2024):
   CRYSTALS-Kyber (ML-KEM): 키 교환
   → 격자(Lattice) 기반
-  
+
   CRYSTALS-Dilithium (ML-DSA): 전자서명
   → 격자 기반
-  
+
   SPHINCS+ (SLH-DSA): 전자서명
   → 해시 기반
-  
+
   FALCON (FN-DSA): 전자서명
   → 격자 기반
 
@@ -224,15 +224,15 @@ NIST PQC 표준화 (2024):
 현황 파악:
   어디에 RSA/ECC 사용 중인가?
   TLS, 코드서명, PKI, VPN
-  
+
 1단계 (1~2년): 혼합 모드
   TLS 1.3 + ML-KEM 하이브리드
   기존 RSA + PQC 병행
-  
+
 2단계 (2~4년): PQC 전환
   인증서 갱신: ML-DSA로
   VPN, SSH: PQC 키 교환
-  
+
 3단계 (4~5년): 레거시 정리
   RSA/ECC 완전 제거
   모든 암호 자산 PQC 전환

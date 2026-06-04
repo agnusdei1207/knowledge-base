@@ -42,7 +42,7 @@ tags = ["studynote-network"]
 ### 1. PSM ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Saving Mode, 초절전 수면 모드)
 스마트폰이 비행기 모드에 들어가면 기지국에서 폰을 찾지 못합니다(연결 끊김). [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/) 센서는 다릅니다.
 - **동작**: 수도 미터기 센서가 기지국에 수돗세 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1초 만에 쏩니다. 그리고 기지국에 선언합니다. "나 지금부터 딱 1달 동안 전원 끈다. 찾지 마라!"
-- **마법의 효과**: 기지국([MME](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/) 서버)은 이 센서의 전원이 꺼진 것을 알면서도 **'네트워크 접속(IP) 상태'를 해지하지 않고 논리적으로 살려둡니다.** 
+- **마법의 효과**: 기지국([MME](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/) 서버)은 이 센서의 전원이 꺼진 것을 알면서도 **'네트워크 접속(IP) 상태'를 해지하지 않고 논리적으로 살려둡니다.**
 - 1달 뒤 센서가 잠에서 깨어나면, 기지국과 귀찮은 통신 암호 연결(Attach Handshake, 전기 많이 먹음)을 다시 맺을 필요 없이, 그냥 눈 뜨자마자 곧바로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘고 다시 전원을 꺼버릴 수 있습니다. (연결 유지형 강제 수면)
 
 ### 2. eDRX (extended Discontinuous Reception, 확장된 불연속 수신)

@@ -119,18 +119,18 @@ tags = ["studynote-operating-system"]
 1. **상황**: 노트북에서 줌(Zoom)으로 화상 회의를 하고 있다. 갑자기 구글 미트(Google Meet)를 켜서 동시에 카메라를 쓰려고 했다.
 2. **단독 장치의 튕겨냄**:
    - 구글 미트 화면이 까맣게 나오며 팝업이 뜬다. **"Camera is currently used by another application (Device or resource busy)"**
-   - 왜 그럴까? 카메라(웹캠) 디바이스 드라이버(`/dev/video0`)는 완벽한 <strong>단독 장치(Exclusive Device)</strong>로 코딩되어 있기 때문이다. 
+   - 왜 그럴까? 카메라(웹캠) 디바이스 드라이버(`/dev/video0`)는 완벽한 <strong>단독 장치(Exclusive Device)</strong>로 코딩되어 있기 때문이다.
    - 줌(Zoom)이 `open()`으로 카메라의 락을 쥐고 영상을 빨아먹는 동안, OS 하드웨어 레벨에서 다른 앱의 접근(구글 미트의 `open` 요청)을 얄짤없이 `EBUSY` 에러로 쳐내버린 것이다.
 3. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 소프트웨어(OBS Virtual Cam)의 꼼수</strong>:
    - 스트리머들은 줌, 유튜브, 트위치 3곳에 동시에 카메라를 띄운다. 어떻게 한 걸까?
    - 하드웨어 락을 깰 수는 없으니, <strong>가짜 소프트웨어 가상 카메라(OBS Virtual Camera)</strong>를 중간 미들웨어로 하나 띄웠다.
    - OBS 앱 하나만 독점적으로 진짜 하드웨어 카메라(`/dev/video0`)를 점유([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))한다.
-   - 그리고 OBS가 그 영상을 소프트웨어 램 버퍼([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/))로 수십 장 복사해서 줌, 유튜브, 트위치에 뿌려준다. 
+   - 그리고 OBS가 그 영상을 소프트웨어 램 버퍼([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/))로 수십 장 복사해서 줌, 유튜브, 트위치에 뿌려준다.
    - 즉, 하드웨어의 무식한 '단독 락'을 소프트웨어 계층의 '브로드캐스트(Broadcasting)'로 우회해 버린 실무 최적화의 교과서적 사례다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): 안드로이드 오디오 포커스(Audio Focus) 꼬임 버그
-모바일에서 음악을 듣다가 전화가 오면 음악이 꺼진다. 스피커/마이크(사운드 장치)를 전화 앱이 독점(Reserve)해서 빼앗아 갔기 때문이다. 
-전화가 끊기면 락이 풀리며 음악이 다시 재생되어야(Release) 한다. 그런데 전화 앱 개발자가 코딩을 멍청하게 해서 오디오 포커스를 반환하지 않고 앱을 죽여버렸다. 
+모바일에서 음악을 듣다가 전화가 오면 음악이 꺼진다. 스피커/마이크(사운드 장치)를 전화 앱이 독점(Reserve)해서 빼앗아 갔기 때문이다.
+전화가 끊기면 락이 풀리며 음악이 다시 재생되어야(Release) 한다. 그런데 전화 앱 개발자가 코딩을 멍청하게 해서 오디오 포커스를 반환하지 않고 앱을 죽여버렸다.
 결과? 스마트폰의 사운드 디바이스가 영원히 독점 상태([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠져서, 유튜브를 틀든 멜론을 틀든 소리가 아예 안 나는 <strong>"안드 폰 소리 먹통 버그"</strong>가 터진다. 사용자는 폰을 재부팅(하드웨어 락 초기화)해야만 소리를 다시 들을 수 있다. 시스템 콜 해제의 중요성을 뼛속까지 느끼게 해주는 재앙이다.
 
 - **📢 섹션 요약 비유**: 마이크(단독 장치)가 딱 1개 있는 노래방입니다. 노래를 부르려면 마이크를 쥐어야 합니다. 줌(Zoom)이 마이크를 쥐고 노래 부르는 동안, 다른 애가 마이크를 뺏으려 하면 쥐어 터집니다(에러). 그래서 똑똑한 친구(OBS)가 마이크를 쥐고 혼자 노래 부른 다음, 그 소리를 거대한 스피커(가상 카메라)로 빵빵하게 틀어서 모든 방에 다 들리게 꼼수를 부리는 방송국 시스템입니다.

@@ -98,10 +98,10 @@ tags = ["studynote-computer-architecture"]
 
 ### 방어 우선순위
 
-1. **소프트웨어**: secret-dependent branch와 table lookup 제거, bitslicing, constant-time [library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 사용  
-2. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a></strong>: [SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) (Simultaneous [Multithreading](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/)) 분리, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 컬러링, 고해상도 타이머 제한  
-3. **하드웨어**: CAT (Cache Allocation Technology) 같은 캐시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/), 보안 코어 분리  
-4. <strong>플랫폼 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 메모리 중복 제거(KSM) 비활성화, 민감 워크로드의 코어 고정  
+1. **소프트웨어**: secret-dependent branch와 table lookup 제거, bitslicing, constant-time [library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 사용
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a></strong>: [SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) (Simultaneous [Multithreading](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/)) 분리, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 컬러링, 고해상도 타이머 제한
+3. **하드웨어**: CAT (Cache Allocation Technology) 같은 캐시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/), 보안 코어 분리
+4. <strong>플랫폼 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 메모리 중복 제거(KSM) 비활성화, 민감 워크로드의 코어 고정
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 

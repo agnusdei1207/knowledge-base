@@ -38,7 +38,7 @@ P (Partition Tolerance, 파티션 내성):
 핵심 결론:
   P는 분산 시스템에서 포기 불가 (현실적으로 발생)
   따라서 CP or AP 선택
-  
+
   CA 시스템 = 실질적으로 단일 노드 (분산 아님)
 ```
 
@@ -61,11 +61,11 @@ CP (Consistency + Partition Tolerance):
     HDFS 기반 컬럼 스토어
     강한 일관성 (단일 리전)
     Zookeeper로 분산 코디네이션
-    
+
   MongoDB (기본 설정):
     Primary-Secondary 복제
     Primary 장애 시 쓰기 차단 (일시적)
-    
+
   ZooKeeper:
     분산 코디네이션 서비스
     리더 선출, 설정 관리
@@ -97,12 +97,12 @@ AP (Availability + Partition Tolerance):
     멀티 마스터, 모든 노드 동등
     일관성 수준 조정 가능 (ONE, QUORUM, ALL)
     파티션 시에도 계속 쓰기 허용
-    
+
   DynamoDB:
     AWS 관리형 NoSQL
     기본 Eventually Consistent
     옵션으로 Strong Consistent 선택 가능
-    
+
   CouchDB:
     멀티 마스터 복제
     충돌 감지 + 자동 해결 정책
@@ -125,12 +125,12 @@ CAP의 한계를 보완한 확장 모델
 
 CAP 한계:
   파티션 없을 때의 트레이드오프 설명 불가
-  
+
 PACELC:
   Partition 발생 시:
     A (Availability) vs C (Consistency)
     (= CAP와 동일)
-  
+
   Else (파티션 없을 때):
     L (Latency) vs C (Consistency)
 
@@ -173,7 +173,7 @@ PACELC:
 Black Friday 트래픽 시나리오:
   상품 조회 트래픽 100배 급증
   -> AP 카탈로그 DB: 문제 없이 확장
-  
+
   재고 차감 동시 요청 급증
   -> CP 재고 DB: 락 경합 증가 -> 일부 지연
   -> 해결: 재고 사전 예약 + 배치 차감

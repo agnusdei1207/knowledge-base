@@ -19,9 +19,9 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>분리된 I/O (Isolated I/O / <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>-Mapped I/O, PMIO)</strong>: 메모리 주소 지도와 I/O 주소 지도가 완전히 2장으로 분리되어 있다. CPU 핀(Pin) 하나가 "나 지금 메모리 부르는 거 아님. I/O 장비 부르는 거임!" 하고 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 켜준다. 이를 위해 `IN`, `OUT` 이라는 특수 어셈블리 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 별도로 존재한다.
-  - **메모리 맵 I/O (Memory-Mapped I/O, MMIO)**: 램 주소 지도가 4GB라면, 그중 끝부분 500MB 정도를 램에서 뺏어버리고 "여기는 이제부터 그래픽 카드(VRAM) 영토다!"라고 선언한다. CPU는 그 주소가 램인지 그래픽카드인지 모르고 그냥 `MOV` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 램 다루듯 덮어쓴다. 
+  - **메모리 맵 I/O (Memory-Mapped I/O, MMIO)**: 램 주소 지도가 4GB라면, 그중 끝부분 500MB 정도를 램에서 뺏어버리고 "여기는 이제부터 그래픽 카드(VRAM) 영토다!"라고 선언한다. CPU는 그 주소가 램인지 그래픽카드인지 모르고 그냥 `MOV` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 램 다루듯 덮어쓴다.
 - **필요성**: CPU는 바보다. 자기가 전기를 쏠 때 그 전기가 램 칩으로 가는지 사운드 카드 칩으로 가는지 알 길이 없다. 이 전기의 물길([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))을 어떻게 터줄 것인가? 초기엔 "램이랑 하드웨어는 성격이 다르니까 주소 체계를 완전히 찢어버리자(PMIO)"고 생각했다. 하지만 하드웨어에 보낼 데이터가 100MB로 커지자, `OUT` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 1바이트씩 1억 번을 쏘느라 CPU가 뻗어버렸다. "아니 씨, 그냥 하드웨어 주소를 램 주소인 척 속이고 포인터로 쫙 복사(`memcpy`)해 버리면 안 돼?"라는 지극히 개발자 친화적인 꼼수가 발동하며 MMIO가 대세가 되었다.
 
 - **등장 배경 및 아키텍처의 항복**:
@@ -95,7 +95,7 @@ CPU가 0x1000번지를 찔렀을 때, 이게 램 칩으로 갈지 그래픽카�
 | <strong>보안 및 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong> | `IN/OUT`은 특권 명령이라 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)만 쓸 수 있음 | MMIO는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 테이블 권한(R/W/U)으로 유저에게도 쉽게 떼어줄 수 있음 |
 
 ### PMIO의 마지막 낭만: [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 충돌([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Conflict)의 향수
-1990년대 사운드카드나 랜카드를 샀을 때, 우리는 메인보드 딥스위치(Jumper)를 이빨 쑤시개로 똑딱거리며 `IRQ 5`, `I/O Port 220` 같은 값을 수동으로 맞춰야 했다. 두 하드웨어가 똑같은 PMIO 주소(0x220)를 쓰겠다고 싸우면(충돌), 컴퓨터에서 소리가 안 났다. 
+1990년대 사운드카드나 랜카드를 샀을 때, 우리는 메인보드 딥스위치(Jumper)를 이빨 쑤시개로 똑딱거리며 `IRQ 5`, `I/O Port 220` 같은 값을 수동으로 맞춰야 했다. 두 하드웨어가 똑같은 PMIO 주소(0x220)를 쓰겠다고 싸우면(충돌), 컴퓨터에서 소리가 안 났다.
 현대 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 기반의 MMIO 시대가 오면서, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)(BIOS)가 부팅될 때 알아서 수십 기가바이트의 널널한 램 주소 공간을 자동으로 찢어서 장비들에 안 겹치게 나눠주게 되었다. 우리가 '플러그 앤 플레이(꽂으면 바로 켜짐)'를 누리게 된 배경에는 이 광활한 MMIO 주소 공간의 여유로움이 있다.
 
 ```text

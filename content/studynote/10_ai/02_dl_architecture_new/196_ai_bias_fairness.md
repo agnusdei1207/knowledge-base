@@ -19,10 +19,10 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-"[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)은 감정이 없으니 판사나 면접관보다 공정할 것이다." 이 완벽한 착각이 2010년대 중반 연이어 무참히 박살 났다. 
+"[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)은 감정이 없으니 판사나 면접관보다 공정할 것이다." 이 완벽한 착각이 2010년대 중반 연이어 무참히 박살 났다.
 미국 법원의 범죄자 재범 예측 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 'COMPAS'는, 똑같은 경범죄를 저질러도 백인에게는 저위험(Low [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)), 흑인에게는 고위험(High [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) 점수를 무자비하게 매겼다. 아마존(Amazon)의 이력서 심사 AI는 10년간의 사내 합격자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 맹신한 나머지, 지원서에 '여성(Women)'이라는 단어만 들어가면 가차 없이 감점 테러를 날려 결국 프로젝트가 전면 폐기되었다.
 
-기계는 거짓말을 하지 않는다. 그저 밥통(학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에 10년 동안 백인과 남성이 성공한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 가득 들어있었으니, [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 통계 기계인 딥러닝은 "아, 여성이나 흑인은 뽑아봤자 실패할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 높네!"라고 가장 빠르고 잔인한 수학적 지름길(Short-cut)을 찾아 편견을 진리로 굳혀버린 것이다. 
+기계는 거짓말을 하지 않는다. 그저 밥통(학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에 10년 동안 백인과 남성이 성공한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 가득 들어있었으니, [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 통계 기계인 딥러닝은 "아, 여성이나 흑인은 뽑아봤자 실패할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 높네!"라고 가장 빠르고 잔인한 수학적 지름길(Short-cut)을 찾아 편견을 진리로 굳혀버린 것이다.
 
 문제는 이 편향된 AI가 면접, 대출, 범죄 예측 같은 인간의 '운명'을 결정짓는 시스템에 복사되어 들어가는 순간, 이 기계의 차별은 무한한 속도로 퍼져나가 사회적 약자를 영원히 나락으로 밟아버리는 <strong>'불평등의 자동화 공장'</strong>으로 전락한다는 점이다. 이 지옥을 막기 위해 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 단계에서 모델의 공정성(Fairness)을 강제로 쪼개어 검사하는 탐지망 설계가 생존의 핵심이 되었다.
 
@@ -68,7 +68,7 @@ tags = ["studynote-ai"]
 ```
 
 **핵심 원리 (공정성의 수학적 정의 충돌)**:
-가장 환장할 노릇은 "무엇이 공정한 것인가?"라는 정의 자체가 철학적으로 미친 듯이 충돌한다는 것이다. 
+가장 환장할 노릇은 "무엇이 공정한 것인가?"라는 정의 자체가 철학적으로 미친 듯이 충돌한다는 것이다.
 수학자들은 공정성을 두 가지로 쪼갰다. <strong>인구통계학적 패리티 (Demographic Parity)</strong>는 "실력이 어찌 됐든 남자와 여자의 최종 합격자 비율을 무조건 똑같이 50:50으로 뽑아라(결과의 평등)"는 룰이다. 반면 <strong>균등 배당 (Equalized Odds)</strong>은 "아니, 진짜 실력이 있는 정답자 중에서, 남자를 맞추는 정확도(TPR)와 여자를 맞추는 정확도를 똑같이 일치시켜라(기회의 평등)"는 룰이다. 두 수학 공식을 동시에 100% 만족시키는 모델을 짜는 것은 수학적으로 불가능하다(Impossibility Theorem). 아키텍트는 비즈니스의 성격에 맞춰 하나의 공정성 십자가를 짊어져야 한다.
 
 | 요소 | 역할 |

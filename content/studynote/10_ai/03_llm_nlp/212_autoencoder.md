@@ -19,10 +19,10 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-고양이 사진을 주고 "이건 고양이야"라고 사람이 하나하나 정답표(Label)를 달아주는 [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)(Supervised)은 완벽하지만, 사람의 인건비가 너무 비싸서 파산하기 딱 좋은 방법이다. 세상에 굴러다니는 99%의 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상과 텍스트는 정답표가 없는 그냥 '날것의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Unlabeled)'다. 
+고양이 사진을 주고 "이건 고양이야"라고 사람이 하나하나 정답표(Label)를 달아주는 [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)(Supervised)은 완벽하지만, 사람의 인건비가 너무 비싸서 파산하기 딱 좋은 방법이다. 세상에 굴러다니는 99%의 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상과 텍스트는 정답표가 없는 그냥 '날것의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Unlabeled)'다.
 
-학자들은 고민했다. <strong>"정답을 안 가르쳐주고도, 딥러닝이 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 스스로의 생김새(특징)를 독학하게 만들 수는 없을까?"</strong> 
-이 천재적인 역발상에서 튀어나온 것이 <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/">오토인코더</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/">Autoencoder</a>)</strong>다. 모델에게 고양이 사진을 10만 장 던져주고 이렇게 명령한다. "내가 정답은 안 알려줄 건데, 네가 이 100만 픽셀짜리 고양이 사진을 겨우 100개의 숫자([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 벡터)로 엄청나게 찌그러뜨렸다가, 다시 100만 픽셀짜리 똑같은 고양이 사진으로 완벽하게 그려서(복원해서) 나한테 제출해 봐!" 
+학자들은 고민했다. <strong>"정답을 안 가르쳐주고도, 딥러닝이 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 스스로의 생김새(특징)를 독학하게 만들 수는 없을까?"</strong>
+이 천재적인 역발상에서 튀어나온 것이 <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/">오토인코더</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/">Autoencoder</a>)</strong>다. 모델에게 고양이 사진을 10만 장 던져주고 이렇게 명령한다. "내가 정답은 안 알려줄 건데, 네가 이 100만 픽셀짜리 고양이 사진을 겨우 100개의 숫자([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 벡터)로 엄청나게 찌그러뜨렸다가, 다시 100만 픽셀짜리 똑같은 고양이 사진으로 완벽하게 그려서(복원해서) 나한테 제출해 봐!"
 
 이 미친 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)과 복원의 고문을 견디기 위해, 인공신경망 뇌는 고양이의 배경(하늘, 풀밭) 같은 쓸데없는 정보는 눈물을 머금고 다 쳐내버리고, 오직 고양이의 뾰족한 귀, 둥근 눈동자 같은 <strong>'절대 까먹으면 안 되는 가장 중요한 핵심 알맹이(Feature)'</strong>만 병목 구간에 필사적으로 살아남게 보존하는 생존 본능을 발휘한다. 이것이 정답 없이 세상을 스스로 깨우치는 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))의 기적이다.
 

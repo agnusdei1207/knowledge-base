@@ -19,7 +19,7 @@ tags = ["studynote-design"]
 
 ## Ⅰ. 개요 및 필요성
 
-[품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/)는 시스템이 달성해야 하는 비기능적 요구사항([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 등)을 정량적이고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 형태로 정의하는 아키텍처 명세 도구다. 
+[품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/)는 시스템이 달성해야 하는 비기능적 요구사항([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 등)을 정량적이고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 형태로 정의하는 아키텍처 명세 도구다.
 
 시스템 구축 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/), 고객은 대개 "서버가 절대 죽지 않고 미친 듯이 빨라야 한다"는 식의 형용사 위주의 주관적이고 모호한 요구사항을 던진다. 이러한 문과식 표현은 아키텍트에게 독이 된다. '빠르다'의 기준이 1초인지 0.1초인지, '죽지 않는다'의 기준이 다운타임 5분 허용인지 단 1초도 안 되는지에 따라 필요한 서버의 대수와 아키텍처의 복잡도가 천양지차로 달라지기 때문이다. 이를 방치하면 프로젝트 후반부에 반드시 책임 소재를 둔 분쟁이 발생한다. 따라서 모든 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 객관적인 테스트가 가능하도록 철저하게 정량적인 시나리오로 치환되어야 메모리를 소모한다.
 

@@ -57,10 +57,10 @@ tags = ["studynote-network"]
 
 빛이 공기 중을 날아가다 보니 대자연의 변덕 앞에 무력해집니다.
 
-1. <strong>안개와 비의 학살 (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/">Scattering</a> &amp; Attenuation)</strong>: 
+1. <strong>안개와 비의 학살 (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/">Scattering</a> &amp; Attenuation)</strong>:
    - 안개 입자(수증기)의 크기가 FSO 레이저 빛의 파장(1550nm) 크기와 비슷합니다.
    - 레이저가 안개 속을 통과하려다 물방울에 부딪히며 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)(미에 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/), Mie [Scattering](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/))되어 사방으로 흩어져 버립니다(감쇠). 비바람이나 폭설이 치는 날엔 1km 거리의 옥상 수신기 통신이 완전히 끊어집니다.
-2. **건물의 흔들림과 아지랑이 (신틸레이션 현상)**: 
+2. **건물의 흔들림과 아지랑이 (신틸레이션 현상)**:
    - 여름철 옥상 아스팔트에서 올라오는 뜨거운 아지랑이는 공기의 밀도를 바꿔 레이저 빛을 굴절시켜 과녁을 빗나가게 만듭니다([페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)). 바람 불어 빌딩이 살짝만 흔들려도 레이저 타점이 벗어납니다.
 
 무선 광통신을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [다크 파이버](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/899_dark_fiber_unlit_infrastructure_lease/)가 기반 조건을 만든다면, 무선 광통신은 그 위에서 핵심 메커니즘을 구현하고, AIOps는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.

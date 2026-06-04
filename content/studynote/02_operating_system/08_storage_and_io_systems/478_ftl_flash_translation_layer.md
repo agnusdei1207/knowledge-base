@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: FTL은 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부에 장착된 작은 컴퓨터(ARM 컨트롤러 칩셋) 안에 깔린 소프트웨어 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)다. OS가 `LBA 100번지에 데이터 4KB 써라!`고 명령하면, FTL은 그 명령을 낚아채서 자기가 미리 찜해둔 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/) 칩의 `PBA(Physical Block Address) 500번지`에 슬쩍 쓴 뒤, 머릿속 장부([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/) Table)에 `LBA 100 = PBA 500`이라고 화살표를 그어버리는 주소 변환 브로커다. 
+- **개념**: FTL은 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부에 장착된 작은 컴퓨터(ARM 컨트롤러 칩셋) 안에 깔린 소프트웨어 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)다. OS가 `LBA 100번지에 데이터 4KB 써라!`고 명령하면, FTL은 그 명령을 낚아채서 자기가 미리 찜해둔 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/) 칩의 `PBA(Physical Block Address) 500번지`에 슬쩍 쓴 뒤, 머릿속 장부([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/) Table)에 `LBA 100 = PBA 500`이라고 화살표를 그어버리는 주소 변환 브로커다.
 - **필요성**: 낸드 플래시는 원래 멍청하다. 셀에 전자가 한 번 차면(0), 그걸 비우기 위해선(1) 2MB짜리 블록 전체에 번개(20V 고전압)를 쳐서 통째로 다 태워버려야(Erase) 한다. 만약 FTL 없이 OS가 이 생태를 쌩으로 마주했다면? 리눅스 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템은 `100번지 1바이트 덮어써!` 명령을 칠 때마다 블록을 지우느라 5ms씩 멈춰 서서 서버가 타버렸을 것이다. "OS 코드(EXT4, NTFS)를 한 줄도 안 고치고 기존 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 쓰듯이 그대로 SSD를 쓸 방법이 없을까?"라는 상술과 기술적 딜레마가 이 거대한 <strong>'하드웨어 에뮬레이터(FTL)'</strong>를 잉태했다.
 
 - **등장 배경 및 구세주의 강림**:
@@ -123,7 +123,7 @@ FTL이 저 3가지 엔진을 돌리면 끔찍한 부작용이 터진다.
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: TRIM 명령어와 FTL의 텔레파시
-1. **OS와 FTL의 뼈아픈 불통**: 
+1. **OS와 FTL의 뼈아픈 불통**:
    - 윈도우에서 10GB 야동을 `Shift+Delete`로 지웠다. 윈도우 장부(MFT)엔 삭제 처리 끝.
    - 하지만 멍청한 FTL은 그 10GB가 OS에서 지워졌는지 알 길이 없다. (주소 변환만 할 뿐 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 의미를 모르니까).
    - FTL 왈: "어? LBA 100~500번지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 10GB는 손님이 아직 아끼는 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Valid)구나!"
@@ -135,9 +135,9 @@ FTL이 저 3가지 엔진을 돌리면 끔찍한 부작용이 터진다.
    - FTL은 깨달음을 얻고 이삿짐(Copy) 10GB를 파격적으로 아끼게 되어 [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)(WA)이 기적처럼 0에 수렴한다. 리눅스의 `fstrim` 데몬은 인프라 생존의 1원칙이다.
 
 ### [ZNS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/703_zns_ssd/) ([Zoned Namespace](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/703_zns_ssd/)) SSD의 역반란 (FTL 폐지론)
-클라우드 벤더(AWS, Meta)들은 이 잘난 FTL조차 맘에 안 들었다. 
+클라우드 벤더(AWS, Meta)들은 이 잘난 FTL조차 맘에 안 들었다.
 "[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 컨트롤러가 아무리 똑똑해 봤자, 우리 오라클 DB나 RocksDB가 메모리 관리하는 짬바에 비하면 하수잖아? 차라리 FTL의 더러운 주소 뻥카 치우고, SSD의 쌩얼(순수 물리 블록)을 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 냅다 공개해버려!"
-이것이 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/703_zns_ssd/">ZNS</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/703_zns_ssd/">Zoned Namespace</a>) <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a></strong>의 철학이다. 
+이것이 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/703_zns_ssd/">ZNS</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/703_zns_ssd/">Zoned Namespace</a>) <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a></strong>의 철학이다.
 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부의 블랙박스(FTL의 GC, [Wear Leveling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/))를 모조리 꺼버리고, OS(또는 호스트 DB)가 100% 수동으로 낸드의 블록을 지우고 순차 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Append)를 통제하게 만들었다. [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)을 1.0([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/))으로 통제하는 클라우드 거인들의 궁극적 하드코어 튜닝이다.
 
 - **📢 섹션 요약 비유**: TRIM이 집주인(OS)이 청소부(FTL)에게 "저 박스 버리는 거니까 손대지 마!"라고 친절하게 포스트잇을 붙여주는 소통이라면, ZNS는 집주인이 아예 청소부(FTL)를 해고해버리고 "내가 내 맘대로 박스 다 뜯고 직접 쓰레기장(Erase)에 버릴 테니까 넌 그냥 문(인터페이스)만 열어둬!"라며 완벽한 통제권을 탈환한 극강의 미니멀리즘 아키텍처입니다.

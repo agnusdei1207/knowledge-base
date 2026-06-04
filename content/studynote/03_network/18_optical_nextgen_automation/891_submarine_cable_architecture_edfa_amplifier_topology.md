@@ -40,7 +40,7 @@ tags = ["studynote-network"]
 빛(전광 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))은 100km 정도 가면 산란되어 죽습니다. 태평양([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000km)을 건너기 위해 바다 밑에 엄청난 쇳덩어리들이 줄줄이 깔려 있습니다.
 
 ### 1. EDFA (어븀 첨가 광섬유 증폭기) - "바닷속 빛의 심폐소생기" 🌟
-가장 핵심적인 마법의 통신 부품입니다. 
+가장 핵심적인 마법의 통신 부품입니다.
 - **과거의 재앙 (전기 변환 중계기)**: 옛날엔 빛이 약해지면, 바닷속 중계기가 빛 ➜ 전기로 바꿨다가 다시 전기 ➜ 빛으로 바꿔 쐈습니다. 속도가 미치도록 느리고 전기를 다 잡아먹어 불가능했습니다.
 - **EDFA의 혁명**: 바다 밑에 50km ~ 100km 간격마다 **광 증폭기(Optical Amplifier)** 쇳덩어리 통을 달아둡니다. 희토류인 '어븀(Erbium)' 원소를 바른 특수 렌즈입니다.
 - **빛 ➜ 빛 무변환 증폭**: 약해진 빛이 이 증폭기에 닿는 순간, 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 바꾸는 과정 단 하나 없이 **약해진 빨주노초파남보 모든 100가닥 파장의 빛(DWDM)을 거울처럼 100배로 번쩍! 하고 동시에 증폭시켜 다시 100km 앞으로 집어던집니다.** 빛의 속도(광속)를 단 1밀리초도 늦추지 않는 궁극의 릴레이 시스템입니다.

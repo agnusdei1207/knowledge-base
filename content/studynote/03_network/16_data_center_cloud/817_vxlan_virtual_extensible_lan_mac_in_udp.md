@@ -41,10 +41,10 @@ tags = ["studynote-network"]
 
 ### VXLAN의 압도적 2대 스펙 혁신 🌟
 1. <strong>1,600만 개의 무한한 VNI (가상망 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/">식별자</a>)</strong>:
-   - 4,096개밖에 없던 12비트 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) ID 대신, 캡슐화 박스 겉면에 24비트짜리 <strong>VNI(VXLAN Network <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/">Identifier</a>)</strong>라는 무지막지한 이름표를 새로 붙였습니다. 
+   - 4,096개밖에 없던 12비트 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) ID 대신, 캡슐화 박스 겉면에 24비트짜리 <strong>VNI(VXLAN Network <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/">Identifier</a>)</strong>라는 무지막지한 이름표를 새로 붙였습니다.
    - 이제 $2^{24}$, 즉 <strong>약 1,677만 개</strong>의 완벽히 독립된 논리적 가상 네트워크 조각을 만들어낼 수 있어 클라우드 회사가 무한대로 테넌트(세입자)를 받을 수 있습니다.
 2. <strong>IP <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>을 타는 L2 (마이그레이션의 자유)</strong>:
-   - 옛날 L2 패킷은 라우터를 만나면 버려졌습니다. VXLAN은 겉면에 진짜 물리 IP([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)/IP)가 적혀 있으므로, 패킷이 언더레이망 라우터들을 자유자재로 타고 넘어 부산 데이터센터까지 광속으로 날아갑니다. 
+   - 옛날 L2 패킷은 라우터를 만나면 버려졌습니다. VXLAN은 겉면에 진짜 물리 IP([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)/IP)가 적혀 있으므로, 패킷이 언더레이망 라우터들을 자유자재로 타고 넘어 부산 데이터센터까지 광속으로 날아갑니다.
    - 부산에 도착해 박스를 뜯으면 안에는 감쪽같이 옛날 192.168.0.x(L2) 패킷이 그대로 살아있습니다. 서울에서 부산으로 IP 변경 없이 VM이 살아 움직이는 'L2 확장 마법'이 완성됩니다.
 
 ```text

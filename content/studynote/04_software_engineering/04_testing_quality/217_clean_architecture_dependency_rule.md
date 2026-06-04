@@ -63,7 +63,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-- **의존성 규칙 (The Dependency Rule)**: 
+- **의존성 규칙 (The Dependency Rule)**:
   - <strong>"모든 소스 코드의 의존성(화살표, Import 문)은 반드시 밖에서 안으로, 오직 고수준의 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>(중심부)을 향해서만 가리켜야 한다!"</strong>
   - 바깥쪽 원(프레임워크)에 있는 클래스, 함수, 변수의 이름을 안쪽 원(엔티티, 유스케이스)에 있는 코드에서 단 한 번이라도 언급(Import)하거나 호출하면 그 즉시 <strong>사형</strong>입니다.
 

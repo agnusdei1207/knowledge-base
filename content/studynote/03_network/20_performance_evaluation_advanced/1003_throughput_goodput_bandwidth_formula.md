@@ -21,10 +21,10 @@ tags = ["studynote-network"]
 
 면접과 시험에서 헷갈리기 가장 쉬운 2대 지표입니다.
 
-- <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)</strong>: 
-  - 랜선이나 광케이블이 물리적으로 낼 수 있는 <strong>'이론적인 최대 속도(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>의 크기)'</strong>입니다. 
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)</strong>:
+  - 랜선이나 광케이블이 물리적으로 낼 수 있는 <strong>'이론적인 최대 속도(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>의 크기)'</strong>입니다.
   - 자동차로 치면 속도계에 적힌 '최대 시속 300km'입니다. (고정된 스펙)
-- <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)</strong>: 
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)</strong>:
   - 에러, 패킷 손실, 병목 현상 등을 다 거치고 난 뒤, 수신자 컴퓨터에 <strong>'실제로 살아서 도착한 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 양'</strong>을 1초 단위로 측정한 현실 수치입니다. (보통 bps, [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) per Second를 씁니다.)
   - 자동차로 치면 퇴근길 강남대로에서 찍힌 '실제 평균 시속 15km'입니다. (변동하는 현실)
   - **법칙**: $[Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) \le [Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)$ ([처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 죽었다 깨어나도 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 넘을 수 없습니다.)
@@ -47,7 +47,7 @@ tags = ["studynote-network"]
 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))에서 한 단계 더 까다롭게 따지는 극한의 체감 지표입니다.
 
 - **문제의식**: 내가 친구에게 1,000바이트의 패킷을 보냈고 이게 살아서 도착했습니다([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 1,000바이트). 그런데 패킷을 까보니 앞에 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더, IP 헤더, [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 껍데기(오버헤드)가 무려 100바이트를 쳐먹고, 진짜 내가 보낸 사진([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 900바이트뿐입니다.
-- **굿풋 (Goodput)**: 
+- **굿풋 (Goodput)**:
   - 통신망을 통과한 총 패킷 양([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))에서, 쓸데없는 포장지 껍데기(헤더, 오버헤드)와 에러 나서 버려진 재전송 패킷을 싹 다 빼버리고, <strong>"오직 앱(Application) 계층에서 쓸 수 있는 100% 순수한 알맹이(페이로드) <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>만 1초에 몇 개 도착했는가?"</strong>를 잰 궁극의 순살 수치입니다.
   - 사용자가 체감하는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드 속도는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)도, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)도 아닌 이 <strong>굿풋(Goodput)</strong>과 100% 일치합니다.
 
@@ -84,8 +84,8 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 껍데기(오버헤드) 비율을 줄이려면 어떻게 할까요? 
-- 1,500바이트짜리 상자(기본 MTU) 6개를 보내면 헤더(껍데기)도 6번 붙여야 합니다. 
+- 껍데기(오버헤드) 비율을 줄이려면 어떻게 할까요?
+- 1,500바이트짜리 상자(기본 MTU) 6개를 보내면 헤더(껍데기)도 6번 붙여야 합니다.
 - "야! 상자를 9,000바이트짜리 초대형 냉장고 박스(Jumbo Frame)로 하나 튼튼하게 만들어! 그럼 헤더를 딱 1번만 붙이면 되니까 순살(Goodput) 비율이 미친 듯이 올라가잖아!" 서버 전산실([SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/))에서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 한계치까지 쥐어 짜낼 때 쓰는 스킬입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

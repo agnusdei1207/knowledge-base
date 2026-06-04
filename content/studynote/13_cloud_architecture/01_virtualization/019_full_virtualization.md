@@ -76,7 +76,7 @@ tags = ["cloud_architecture"]
 │ 3. 실시간 번역 (Translation & Caching)           │
 │  [ 변환 ]  CALL VMM_Virtual_CLI (하이퍼바이저 호출) │
 └────────────────────────┬─────────────────────────┘
-                         │ 
+                         │
                    변환된 코드만 물리 CPU로 전송 (안전 실행 보장)
 ```
 
@@ -100,14 +100,14 @@ tags = ["cloud_architecture"]
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> (과거 기준)</strong> | 소프트웨어 번역으로 인해 **매우 느림** | 통역 없이 다이렉트 호출하므로 **매우 빠름** | 속도 vs [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)의 저울질 |
 
 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/">하드웨어 보조 가상화</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/021_hardware_assisted_virtualization/">Hardware-assisted Virtualization</a>)의 융합 구원</strong>
-소프트웨어 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)의 이진 변환(Binary Translation) 오버헤드는 클라우드 대중화의 가장 큰 걸림돌이었다. 이를 해결하기 위해 Intel과 AMD가 직접 나서서 CPU 칩셋 안에 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 전용 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 박아버린 것이 바로 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/">Intel VT-x</a></strong>와 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/659_amd_v/">AMD-V</a></strong> 기술이다. 
+소프트웨어 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)의 이진 변환(Binary Translation) 오버헤드는 클라우드 대중화의 가장 큰 걸림돌이었다. 이를 해결하기 위해 Intel과 AMD가 직접 나서서 CPU 칩셋 안에 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 전용 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 박아버린 것이 바로 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/">Intel VT-x</a></strong>와 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/659_amd_v/">AMD-V</a></strong> 기술이다.
 
 ```text
 [하드웨어 보조 전가상화 (Intel VT-x) 혁명]
 
 ┌──────────────────┐
 │ Ring 3: App      │ ◀ VMX Non-Root Mode (Guest의 천국)
-├──────────────────┤   (여기서 Guest OS는 자신이 Ring 0 권한을 다 가졌다고 믿고 
+├──────────────────┤   (여기서 Guest OS는 자신이 Ring 0 권한을 다 가졌다고 믿고
 │ Ring 0: Guest OS │    모든 특권 명령을 마음껏 실행함. 억지로 권한 강등 안 시킴!)
 └────────┬─────────┘
          │
@@ -151,7 +151,7 @@ tags = ["cloud_architecture"]
             │
             ├─ (No) ───▶ 대용량 DB나 고속 트래픽 처리가 필요한 운영(Prod) 환경인가?
                             │
-                            └─▶ [선택] 하드웨어 가속(VT-x) 전가상화 코어 
+                            └─▶ [선택] 하드웨어 가속(VT-x) 전가상화 코어
                                          + VirtIO(반가상화) 디스크/네트워크 드라이버 설치
                                 (현대 클라우드 IaaS 인스턴스의 100% 필수 표준 설정)
 ```
@@ -172,7 +172,7 @@ tags = ["cloud_architecture"]
 | <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a></strong> | 리눅스([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)) 계열만 제한적 클라우드 이관 | Windows 포함 세상의 모든 레거시 OS 100% 포용 | 엔터프라이즈(금융/공공) 시장 장악 |
 | **아키텍처 진화** | S/W 방식(이진 변환)의 끔찍한 오버헤드 | CPU 제조사(Intel/AMD)의 하드웨어 스위칭 지원 | 베어메탈에 근접한 속도 달성 |
 
-[전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)의 미래는 CPU를 넘어 메모리(EPT/NPT)와 I/O 디바이스(VT-d, [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/))까지 하드웨어 칩셋 단위로 완벽하게 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기능을 떠넘기는 방향으로 표준이 완성되었다. 과거 소프트웨어 개발자들이 뼈를 깎아 만들던 Binary Translation 로직은 이제 역사 속으로 사라졌고, 하드웨어 칩 자체가 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 한 몸이 되어 움직이는 <strong>'실리콘 기반의 100% <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/">전가상화</a>'</strong> 시대가 현재의 스탠다드이다. 
+[전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)의 미래는 CPU를 넘어 메모리(EPT/NPT)와 I/O 디바이스(VT-d, [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/))까지 하드웨어 칩셋 단위로 완벽하게 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기능을 떠넘기는 방향으로 표준이 완성되었다. 과거 소프트웨어 개발자들이 뼈를 깎아 만들던 Binary Translation 로직은 이제 역사 속으로 사라졌고, 하드웨어 칩 자체가 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 한 몸이 되어 움직이는 <strong>'실리콘 기반의 100% <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/">전가상화</a>'</strong> 시대가 현재의 스탠다드이다.
 
 📢 **섹션 요약 비유**: 처음에는 사람이 일일이 손으로 위조지폐를 그려내느라 너무 느리고 힘들었지만([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) S/W [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)), 아예 국가 조폐공사(Intel/AMD 칩셋)가 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)폐를 완벽하게 찍어내는 전용 기계를 만들어주면서 부작용 없이 시장이 대통합을 이룬 것과 같습니다.
 

@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 모드 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> Mode)</strong>: CPU가 모든 하드웨어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(I/O, 메모리 매핑 등)를 무제한으로 실행할 수 있는 절대 권력 상태 (x86의 Ring 0).
   - **유저 모드 (User Mode)**: 제한된 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)만 실행할 수 있으며, 자신에게 할당된 메모리 영역 외에는 접근이 불가능한 갇힌 상태 (x86의 Ring 3).
   - **진입 메커니즘**: 유저 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로 전환되기 위해 하드웨어(CPU)가 수행하는 일련의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 전환 및 주소 점프 절차.
 
-- **필요성 (시스템의 붕괴 방지)**: 
+- **필요성 (시스템의 붕괴 방지)**:
   - 만약 유저/[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드의 구분이 없고 누구나 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로 진입할 수 있다면? 초보 개발자가 짠 `while(1)` 무한 루프 프로그램 하나가 CPU를 영원히 독점하여 마우스조차 안 움직이게 되거나, 실수로 하드디스크의 부트 섹터를 덮어써 버릴 것이다 (실제로 MS-[DOS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) 시절의 일이다).
   - **해결책**: 평소에는 유저 모드로 가두어놓고(방어), 진짜 하드웨어 조작이 필요할 때만 CPU가 강제로 **"가장 안전하게 짜인 OS의 특정 함수(Entry Point)로만"** 점프하게 만드는 하드웨어적 강제 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) 구조가 필요했다.
 
@@ -110,7 +110,7 @@ CPU가 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_
 
 | 비교 항목 | User Space (Ring 3) | [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Space (Ring 0) |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/">메모리 보호</a></strong> | 자신의 가상 주소만 접근 가능 | 시스템 전체 물리/[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 모두 접근 가능 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/">메모리 보호</a></strong> | 자신의 가상 주소만 접근 가능 | 시스템 전체 물리/[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 모두 접근 가능 |
 | **죽음의 대가** | 앱 하나만 죽음 ([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Fault) | <strong>시스템 전체 정지 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/">Kernel Panic</a>, BSOD)</strong> |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 제한</strong> | `cli`, `hlt`, `in/out` 등 특권 명령 실행 불가 | 모든 하드웨어 제어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 실행 가능 |
 | <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> 크기</strong> | 무한대에 가까움 (동적 확장 가능, 8MB 이상) | **매우 작고 고정됨 (보통 8KB ~ 16KB)** |

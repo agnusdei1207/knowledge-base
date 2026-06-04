@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **Feature (기능)**: 장바구니 UI 변경, 신규 결제 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 추가 등 내가 개발한 새로운 코드 조각.
   - <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">Flag</a> (깃발/<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>)</strong>: 그 신규 코드 조각을 if문으로 딱 묶어놓고, 밖에서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 켜면 `true`, 끄면 `false`가 되게 만드는 인프라 통제기.
   - 결국 앱 안에는 낡은 V1 코드와 삐까뻔쩍한 V2 코드가 같이 존재하는데, 대시보드에서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 뭘 올렸냐에 따라 한 놈만 골라서 실행되는 [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/) 꼼수다.

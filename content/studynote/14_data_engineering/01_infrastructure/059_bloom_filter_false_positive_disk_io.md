@@ -133,8 +133,8 @@ LSM 기반 읽기 최적화
 
 ## 어린이를 위한 3줄 비유 설명
 
-[블룸 필터](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)는 친구가 왔는지 빠르게 확인하는 명부예요.  
-없다고 나오면 진짜 없다고 믿어도 돼요.  
+[블룸 필터](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)는 친구가 왔는지 빠르게 확인하는 명부예요.
+없다고 나오면 진짜 없다고 믿어도 돼요.
 하지만 있다고 나와도 한 번 더 확인해야 할 때가 있어요.
 
 ---

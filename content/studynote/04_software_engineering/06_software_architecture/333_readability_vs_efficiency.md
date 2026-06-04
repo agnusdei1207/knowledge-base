@@ -19,13 +19,13 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **효율성 (Efficiency)**: [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 연산(`>> 1`), 하드코딩, 거대한 이중 `for`문, 어셈블리어 사용 등 코드가 차지하는 메모리 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 수와 CPU 사이클을 최소화하여 빛의 속도로 실행되게 짜는 것.
   - **가독성 (Readability)**: 긴 변수명, 클래스와 함수의 분리([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)), 빈 줄 삽입, 팩토리 패턴 사용 등 컴퓨터는 이리저리 점프하느라 느려지지만 인간이 책 읽듯이 직관적으로 이해할 수 있게 짜는 것.
 
 - **필요성**: 1970년대 아폴로 우주선 코드를 짤 때 램(RAM)은 고작 4KB였다. 변수명 길이를 한 글자라도 줄이고, 함수 분리([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))조차 사치라 하나로 길게 뭉쳐 짜는 '극한의 효율성'만이 살길이었다. 그러나 2020년대 클라우드 시대에는 램 16GB가 기본이다. 그런데도 어떤 개발자는 0.01초를 아끼겠다며 삼항 연산자를 3개씩 겹쳐 쓴 외계어 암호문(효율성)을 짰다. 본인은 뿌듯해했지만, 6개월 뒤 치명적 버그가 터졌을 때 그 암호를 해독하느라 다른 개발자가 밤을 새워야 했고, 회사는 수천만 원의 손해를 봤다. **"하드웨어(기계)는 싸졌지만, 프로그래머(인간)의 인건비는 금값이 되었다."** 패러다임의 극적인 전환이 필요했다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - <strong>효율성 몰빵 코드</strong>는 짐을 테트리스처럼 꽉꽉 빈틈없이 눌러 담아 테이프로 둘둘 말아버린 <strong>'이사 박스'</strong>입니다. 트럭(메모리) 하나에 완벽하게 다 들어가지만(고효율), 나중에 거기서 칫솔 하나만 찾아 꺼내려면 박스를 다 찢고 난장판(유지보수 지옥)을 만들어야 합니다.
   - <strong>가독성 몰빵 코드</strong>는 칸막이가 다 쳐진 투명한 <strong>'서랍장'</strong>입니다. 빈 공간(낭비)이 많아서 트럭을 2대 부르느라 돈(컴퓨터 자원)은 더 들지만, 나중에 눈 감고도 1초 만에 칫솔(특정 로직)을 꺼내고 교체(유지보수)할 수 있습니다.
 

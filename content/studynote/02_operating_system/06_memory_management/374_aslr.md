@@ -66,9 +66,9 @@ tags = ["studynote-operating-system"]
 ### [PIE](/knowledge-base/studynote/09_security/04_endpoint_security/338_pie/) (위치 독립 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))와의 찰떡 융합 아키텍처
 
 ASLR이 완벽하게 동작하려면 OS의 노력만으로는 안 된다. <strong>컴파일러(Compiler)가 짜놓은 기계어 코드의 협조</strong>가 절대적이다.
-- 만약 컴파일러가 기계어를 짤 때 `JUMP 0x400500` 처럼 주소를 <strong>절대 주소(하드코딩)</strong>로 박아버리면? 
+- 만약 컴파일러가 기계어를 짤 때 `JUMP 0x400500` 처럼 주소를 <strong>절대 주소(하드코딩)</strong>로 박아버리면?
   OS가 ASLR로 이 코드 덩어리를 `0x800000`으로 통째로 이사시켰을 때, `JUMP 0x400500`을 실행하는 순간 텅 빈 허공으로 날아가 프로그램이 죽어버린다.
-- <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/338_pie/">PIE</a> / PIC 의 마법</strong>: 
+- <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/338_pie/">PIE</a> / PIC 의 마법</strong>:
   그래서 현대 컴파일러(GCC 등)는 코드를 짤 때 절대 주소 대신 <strong><code>JUMP 현재위치 + 500보</code> 처럼 상대 주소(Relative Address)</strong>로만 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 작성한다.
   이걸 [PIE](/knowledge-base/studynote/09_security/04_endpoint_security/338_pie/)([Position Independent Executable](/knowledge-base/studynote/09_security/04_endpoint_security/338_pie/))라고 부른다. 이렇게 만들어진 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 OS가 메모리의 1번지든 10억 번지든 어디에 던져놔도, 톱니바퀴 물리듯 완벽하게 굴러간다.
 
@@ -78,7 +78,7 @@ ASLR이 완벽하게 동작하려면 OS의 노력만으로는 안 된다. <stron
 
 ## Ⅲ. 비교 및 연결
 
-### 비교 1: ASLR vs [DEP](/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/)/[NX Bit](/knowledge-base/studynote/09_security/04_endpoint_security/335_nx_bit/) ([메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/)의 양대 산맥)
+### 비교 1: ASLR vs [DEP](/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/)/[NX Bit](/knowledge-base/studynote/09_security/04_endpoint_security/335_nx_bit/) ([메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/)의 양대 산맥)
 
 현대 컴퓨터 보안을 지탱하는 쌍두마차다. 해커는 이 두 가지를 모두 뚫어야만 해킹에 성공한다.
 
@@ -112,7 +112,7 @@ ASLR이 완벽하게 동작하려면 OS의 노력만으로는 안 된다. <stron
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: 메모리 릭(Leak)과 ASLR의 붕괴
-1. **ASLR의 유일한 약점**: 
+1. **ASLR의 유일한 약점**:
    - ASLR은 완벽해 보이지만, 치명적인 단점이 하나 있다. <strong>'상대적인 오프셋(거리)은 항상 고정되어 있다'</strong>는 점이다.
    - 예를 들어 섞인 주소 위에서 `printf` 함수와 `system` 함수 사이의 거리는 1000바이트로 항상 고정이다. 베이스 주소(시작점) 1개만 무작위로 흔들렸을 뿐이기 때문이다.
 2. **해커의 Info Leak 공격**:
@@ -124,7 +124,7 @@ ASLR이 완벽하게 동작하려면 OS의 노력만으로는 안 된다. <stron
 4. **실무적 결론**: 개발자가 `printf`나 예외 처리 로그에 메모리 주소(`%p` 등)를 클라이언트(웹 브라우저)로 함부로 뱉어내게 코딩하면, 이는 단순한 에러 노출이 아니라 해커에게 ASLR의 자물쇠 비밀번호를 갖다 바치는 사형 선고나 다름없다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): 32비트 아키텍처의 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)([Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)) 한계
-32비트 시스템에서 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)는 4GB밖에 안 된다. 여기서 시스템 코드 영역과 여러 고정 영역을 빼고 나면, ASLR이 주소를 섞을 수 있는 경우의 수([엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/))가 고작 256가지(8비트)밖에 안 남는 상황이 벌어진다. 해커가 악성 코드를 만들고 `for` 루프를 돌려 256번만 아무 데나 쾅쾅 찔러대면([Brute Force](/knowledge-base/studynote/09_security/05_web_app_security/456_brute_force/)) 1초 안에 뚫려버린다. 
+32비트 시스템에서 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)는 4GB밖에 안 된다. 여기서 시스템 코드 영역과 여러 고정 영역을 빼고 나면, ASLR이 주소를 섞을 수 있는 경우의 수([엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/))가 고작 256가지(8비트)밖에 안 남는 상황이 벌어진다. 해커가 악성 코드를 만들고 `for` 루프를 돌려 256번만 아무 데나 쾅쾅 찔러대면([Brute Force](/knowledge-base/studynote/09_security/05_web_app_security/456_brute_force/)) 1초 안에 뚫려버린다.
 즉, ASLR이 제대로 된 철벽 방어의 위력을 내려면, 주소 경우의 수가 수조 개(수백 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/))가 넘는 <strong>64비트 아키텍처</strong>와 완벽하게 결합되어야만 한다.
 
 - **📢 섹션 요약 비유**: 해커가 숨겨진 텐트(ASLR)의 위치를 몰라 헤매고 있었는데, 멍청한 병사 하나가 "우리 텐트는 화장실에서 동쪽으로 100보 거리에 있어!"라는 쪽지(Info Leak)를 땅에 흘려버린 탓에, 화장실을 발견한 해커가 완벽한 좌표를 계산해 내어 텐트를 폭격하는 정보전의 패배입니다.

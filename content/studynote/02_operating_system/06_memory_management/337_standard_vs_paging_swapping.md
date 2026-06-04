@@ -85,7 +85,7 @@ tags = ["studynote-operating-system"]
 └───────────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 두 번째 구조([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))가 현대의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 관리(Virtual [Memory Management](/knowledge-base/studynote/09_security/uncategorized/610_memory_management/))의 척추다. [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기반 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)은 프로세스 간의 불공평을 해소한다. 덩치가 큰 프로세스라고 무조건 쫓겨나는 것이 아니라, 어떤 프로세스 소속이든 관계없이 '오래 안 쓴 게으른 조각([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))'들만 선별적으로 추출([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-out)되어 공간을 확보한다. 
+**[다이어그램 해설]** 두 번째 구조([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))가 현대의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 관리(Virtual [Memory Management](/knowledge-base/studynote/09_security/uncategorized/610_memory_management/))의 척추다. [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기반 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)은 프로세스 간의 불공평을 해소한다. 덩치가 큰 프로세스라고 무조건 쫓겨나는 것이 아니라, 어떤 프로세스 소속이든 관계없이 '오래 안 쓴 게으른 조각([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))'들만 선별적으로 추출([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-out)되어 공간을 확보한다.
 
 ---
 
@@ -112,7 +112,7 @@ tags = ["studynote-operating-system"]
 
 ### 비교 2: I/O 디바이스 대기 상태(Waiting for I/O)에서의 안정성
 
-표준 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)에서는 하드웨어가 DMA로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송 중일 때 프로세스를 통째로 날려버리면 끔찍한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파괴가 일어난다고 앞서 배웠다. 
+표준 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)에서는 하드웨어가 DMA로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송 중일 때 프로세스를 통째로 날려버리면 끔찍한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파괴가 일어난다고 앞서 배웠다.
 - 하지만 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a> <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">스와핑</a></strong>에서는 I/O 전송이 걸려있는 특정 4KB 메모리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)만 핀(Pinning / 락)을 걸어두고 절대 [스왑 아웃](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/) 되지 않도록 잠근다.
 - 그리고 나머지 수만 개의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들은 자유롭게 [스왑 아웃](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/) 시킨다. 훨씬 더 세밀하고 유연한 방어벽 구축이 가능하다.
 

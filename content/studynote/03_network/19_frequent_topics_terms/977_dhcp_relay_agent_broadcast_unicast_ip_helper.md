@@ -60,7 +60,7 @@ tags = ["studynote-network"]
 이 심부름꾼이 어떻게 벽을 뚫는지 4단계로 봅니다.
 
 1. **Discover (외침)**: 영업부의 PC가 켜지면서 "IP 좀 줘!!" 하고 브로드캐스트로 소리칩니다.
-2. **심부름꾼의 가로채기 (Relay)**: 영업부 라우터(릴레이 에이전트 장착)가 그 소리를 찰떡같이 낚아챕니다. "아, 이 녀석 IP 필요하군!" 라우터는 이 방송 패킷 겉껍데기를 벗기고, 목적지에 <strong>서울 본사 중앙 <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/">DHCP</a> 서버 IP(예: <code>10.0.0.10</code>)</strong>를 쾅 적어 넣습니다. 
+2. **심부름꾼의 가로채기 (Relay)**: 영업부 라우터(릴레이 에이전트 장착)가 그 소리를 찰떡같이 낚아챕니다. "아, 이 녀석 IP 필요하군!" 라우터는 이 방송 패킷 겉껍데기를 벗기고, 목적지에 <strong>서울 본사 중앙 <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/">DHCP</a> 서버 IP(예: <code>10.0.0.10</code>)</strong>를 쾅 적어 넣습니다.
    - **중요**: 이때 "얘는 영업부([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)) 소속 컴퓨터야!"라는 출신 성분표(giaddr 필드)도 슬쩍 적어 넣습니다.
 3. **서버의 IP 할당**: 서울 본사 서버는 라우터가 유니캐스트(1:1)로 보낸 편지를 받습니다. "오, 영업부에서 왔네? 그럼 영업부용 IP(`192.168.10.X`) 대역에서 하나 골라서 라우터한테 다시 던져줘야지."
 4. **Offer (배달 완료)**: 심부름꾼 라우터가 서버에서 받아온 IP를 영업부 PC에게 무사히 토스(브로드캐스트/유니캐스트)해 줍니다. 세팅 끝!

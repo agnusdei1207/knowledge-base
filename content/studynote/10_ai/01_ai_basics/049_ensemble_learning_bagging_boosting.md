@@ -37,10 +37,10 @@ tags = ["studynote-ai"]
 편향-분산 트레이드오프:
   편향(Bias): 모델이 실제 패턴에서 벗어난 정도
   분산(Variance): 데이터 변화에 민감한 정도
-  
+
   복잡한 모델: 편향↓, 분산↑ (과적합)
   단순한 모델: 편향↑, 분산↓ (과소적합)
-  
+
   앙상블 목표:
   배깅 → 분산 감소
   부스팅 → 편향 감소
@@ -64,7 +64,7 @@ Bagging (Bootstrap Aggregating):
 
 부트스트랩 샘플링:
   원본 데이터 N개 → 복원 추출로 N개 샘플
-  
+
   특성:
   약 63.2%의 원본 데이터 포함 (중복 허용)
   약 36.8%: Out-of-Bag (OOB) 샘플 (검증용)
@@ -79,25 +79,25 @@ Bagging (Bootstrap Aggregating):
 분산 감소 원리:
   독립적 모델 T개의 평균:
   Var(평균) = Var(개별) / T
-  
+
   → 모델 수가 많을수록 분산 감소
 
 Random Forest (랜덤 포레스트):
   배깅 + 특성 무작위 선택
-  
+
   개선:
   각 분기점: 전체 특성 중 √m개만 무작위 선택
   → 트리 간 상관관계 감소 → 추가 분산 감소
-  
+
   OOB 평가:
   각 트리의 OOB 샘플로 교차 검증 대체
-  
+
   특성 중요도:
   OOB 오류 증가율로 특성 기여도 측정
 
 배깅 구현:
   from sklearn.ensemble import BaggingClassifier, RandomForestClassifier
-  
+
   bag = BaggingClassifier(n_estimators=100, bootstrap=True)
   rf = RandomForestClassifier(n_estimators=100, max_features='sqrt')
 ```
@@ -114,7 +114,7 @@ Boosting:
 
 AdaBoost:
   틀린 샘플의 가중치 증가 → 다음 모델이 집중
-  
+
   1. 균등 가중치로 모델 1 훈련
   2. 오분류 샘플 가중치 증가
   3. 증가된 가중치로 모델 2 훈련
@@ -123,9 +123,9 @@ AdaBoost:
 
 Gradient Boosting:
   잔차(Residual)를 목표로 훈련
-  
+
   F(x) = F_0(x) + F_1(x) + F_2(x) + ...
-  
+
   각 단계:
   r = y - F_prev(x)  # 잔차(음의 그래디언트)
   새 모델 h = 잔차 r을 예측하도록 훈련
@@ -133,20 +133,20 @@ Gradient Boosting:
 
 XGBoost (Extreme Gradient Boosting):
   그래디언트 부스팅 최적화
-  
+
   특징:
   정규화 (L1/L2): 과적합 방지
   병렬 처리: 트리 내 분기점 탐색 병렬화
   가지치기: 음수 이득 분기 제거
   결측값 처리 내장
-  
+
   실용성:
   Kaggle 2015~2022: 우승 모델 다수 XGBoost
 
 LightGBM:
   Leaf-wise 트리 성장 (XGBoost: Level-wise)
   → 더 빠른 학습, 더 낮은 메모리
-  
+
   GOSS (Gradient-based One-Side Sampling):
   큰 그래디언트 샘플 유지, 작은 것 일부만
   → 정확도 유지하며 속도 향상
@@ -170,18 +170,18 @@ CatBoost:
   1. N개 기본 모델 (SVM, RF, LGBM 등) 훈련
   2. 각 모델의 예측값 → 새로운 특성
   3. 메타 모델(보통 선형 회귀/로지스틱): 예측값 결합
-  
+
   예:
   기본 모델 3개: [0.8, 0.3, 0.7] 예측
   메타 모델: 이 3개 예측으로 최종 예측
-  
+
   K-Fold 스태킹:
   데이터 누설 방지 위해 교차 검증으로 기본 예측 생성
 
 보팅 (Voting):
   하드 보팅: 다수결 (클래스 직접)
   소프트 보팅: 확률 평균 (더 정확)
-  
+
   from sklearn.ensemble import VotingClassifier
   vc = VotingClassifier([('rf', rf), ('lgbm', lgbm)], voting='soft')
 

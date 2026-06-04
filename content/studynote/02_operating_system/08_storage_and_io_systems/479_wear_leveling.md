@@ -62,10 +62,10 @@ tags = ["studynote-operating-system"]
 
 ### 동적(Dynamic) 웨어 레벨링의 한계 (알박기의 등장)
 
-[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) FTL이 도입한 방법은 아주 단순했다. 
+[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) FTL이 도입한 방법은 아주 단순했다.
 - 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어올 때, 텅 빈 방(Free Block)들의 Erase Count(지워진 횟수) 장부를 쓱 본다.
-- 그중 카운트가 가장 낮은 '싱싱한 빈방'을 찾아서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꽂아준다. 
-- **문제점 (Cold Data의 얌체 짓)**: 
+- 그중 카운트가 가장 낮은 '싱싱한 빈방'을 찾아서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꽂아준다.
+- **문제점 (Cold Data의 얌체 짓)**:
   - 내가 윈도우 OS나 평생 안 보는 가족사진([Cold Data](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/))을 깔았다. 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들은 한 번 쓰이고 나면 몇 년 동안 지워지거나 덮어써 지질 않는다.
   - 이 얌체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들은 카운트 1(거의 새 방)인 상태로 제일 쾌적한 블록에 <strong>영원히 알박기</strong>를 시전한다.
   - 결국 이 알박기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 점유한 50%의 방은 영원히 안 늙는데, 매일 생겼다 지워지는 카카오톡 임시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([Hot Data](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/)) 50%만 미친 듯이 지워지며 데미지를 독박 쓰게 된다.
@@ -88,7 +88,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅲ. 비교 및 연결
 
-### 비교 1: 동적(Dynamic) vs 정적(Static) 웨어 레벨링 
+### 비교 1: 동적(Dynamic) vs 정적(Static) 웨어 레벨링
 
 | 척도 | 동적 웨어 레벨링 (Dynamic WL) | 정적 웨어 레벨링 (Static WL) |
 |:---|:---|:---|
@@ -124,7 +124,7 @@ tags = ["studynote-operating-system"]
 ### 실무 시나리오: 블랙박스 24시간 녹화와 SD 카드의 돌연사
 1. **차량용 블랙박스의 비명**: 마트에서 파는 싼 TLC 마이크로 SD카드를 블랙박스에 꽂으면 6개월도 안 돼서 "메모리 카드를 포맷하세요"라며 뻑이 난다. 왜일까?
 2. **동적 마모 평준화의 한계**:
-   - 싼 SD카드의 컨트롤러는 정적(Static) 마모 평준화 지능이 없다. 
+   - 싼 SD카드의 컨트롤러는 정적(Static) 마모 평준화 지능이 없다.
    - 64GB 카드에 50GB어치 평생 안 지우는 음악 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 넣어두고 블랙박스에 꽂았다 치자.
    - 블랙박스는 1초도 안 쉬고 풀 HD 영상을 계속 덮어쓰기(Loop Recording) 한다.
    - 50GB는 알박기를 시전해 멀쩡한데, **나머지 14GB의 빈 공간만 하루에 수십 번씩 미친 듯이 덮어써 진다(Hotspot 몰빵).**
@@ -133,9 +133,9 @@ tags = ["studynote-operating-system"]
    - 이래서 블랙박스용 메모리는 절대 일반 TLC를 쓰면 안 되고, 'High Endurance' 딱지가 붙은 고가형 라인을 사야 한다. 이들은 수명이 10배 긴 MLC를 쓰거나, 내부 컨트롤러에 <strong>강력한 정적(Static) 마모 평준화 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>을 달아 50GB의 알박기 공간을 억지로 갈아엎어 가며 수명을 방어해 주기 때문이다.
 
 ### 포렌식(Forensics) 해킹과 Wear Leveling의 유출
-범죄자가 하드디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))를 `0`으로 한 번 덮어쓰면(Wipe) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 완전히 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불능이 된다(In-place 덮어쓰기). 
+범죄자가 하드디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))를 `0`으로 한 번 덮어쓰면(Wipe) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 완전히 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불능이 된다(In-place 덮어쓰기).
 하지만 **SSD에서 완전 범죄는 100배 더 어렵다.**
-범죄자가 10번 주소에 있는 비자금 장부 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 삭제하고 '0'으로 덮어썼다고 치자. 
+범죄자가 10번 주소에 있는 비자금 장부 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 삭제하고 '0'으로 덮어썼다고 치자.
 마모 평준화 로직([FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/))은 "오 덮어쓰기네? 10번 지우기 귀찮으니 999번 새 방에 '0' 쓰고 화살표 돌려야지~" 하고 속여 넘긴다.
 경찰이 이 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 칩셋을 보드에서 강제로 떼어내어 로우 레벨 리더기로 물리적 낸드 셀 10번 방을 들여다보면? <strong>범죄자가 지웠다고 확신했던 비자금 장부 원본 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 1글자도 안 부서지고 생생하게 100% 살아있다!</strong> FTL의 꼼수가 사이버 수사대에게는 최고의 보물창고가 된 셈이다. 이래서 국가 기밀 SSD는 폐기할 때 디가우징도 안 먹히니 무조건 물리적으로 믹서기에 갈아버리는(Shredding) 것만이 유일한 파기법이다.
 

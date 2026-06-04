@@ -26,7 +26,7 @@ tags = ["studynote-it-management"]
   2. IT 팀에 이메일로 전달
   3. 구성 변경 후 수동 검토
   4. 분기/연간 감사
-  
+
   문제:
   감사 준비 = 2~4주 수작업
   감사 주기 사이 위반 지속
@@ -36,7 +36,7 @@ tags = ["studynote-it-management"]
 Compliance as Code:
   정책 → 코드화 → CI/CD 파이프라인 통합
   인프라 변경 → 자동 정책 검사 → 위반 즉시 차단/알림
-  
+
   도구:
   OPA (Open Policy Agent): 범용 정책 엔진
   AWS Config Rules: AWS 자원 규정 준수
@@ -48,7 +48,7 @@ Compliance as Code:
   Policy as Code:
   정책 → Git 저장소 관리 (버전 관리, 변경 추적)
   검토/승인 → PR 프로세스
-  
+
   Continuous Compliance:
   매 커밋/배포 시 정책 자동 검사
   "컴플라이언스 = 코드 빌드 테스트와 동일 레벨"
@@ -64,7 +64,7 @@ Compliance as Code:
 OPA (Open Policy Agent):
   CNCF 프로젝트 (Cloud Native Computing Foundation)
   범용 정책 엔진
-  
+
   언어: Rego (OPA 전용 정책 언어)
   용도: Kubernetes, API, IaC 정책
 
@@ -72,31 +72,31 @@ Rego 정책 예시:
 
 1. Kubernetes Pod 보안 정책:
   package kubernetes.admission
-  
+
   deny[msg] {
     input.request.kind.kind == "Pod"
     container := input.request.object.spec.containers[_]
     container.securityContext.privileged == true
     msg := sprintf("특권 컨테이너 허용 안 됨: %v", [container.name])
   }
-  
+
   → 특권 컨테이너 배포 시 자동 거부
 
 2. Terraform IaC 정책 (S3 퍼블릭 차단):
   package terraform
-  
+
   deny[msg] {
     resource := input.resource_changes[_]
     resource.type == "aws_s3_bucket"
     resource.change.after.acl == "public-read"
     msg := "S3 버킷 공개 읽기 허용 금지"
   }
-  
+
   → terraform plan 시 정책 검사 → 위반 차단
 
 3. API 접근 정책:
   package authz
-  
+
   allow {
     input.method == "GET"
     input.user.role == "admin"
@@ -105,7 +105,7 @@ Rego 정책 예시:
     input.method == "GET"
     input.path == ["public", "api"]
   }
-  
+
   → API 게이트웨이에서 OPA로 권한 검사
 
 OPA 통합 포인트:
@@ -123,7 +123,7 @@ OPA 통합 포인트:
 ```
 AWS Config:
   AWS 자원 구성 변경 추적 + 정책 준수 검사
-  
+
   동작:
   1. 자원 변경 발생 (EC2, S3, IAM...)
   2. AWS Config가 변경 기록 (Configuration Item)
@@ -134,24 +134,24 @@ AWS Config Rules 예시:
 
   s3-bucket-public-read-prohibited:
   S3 버킷 퍼블릭 읽기 → NON_COMPLIANT
-  
+
   ec2-instance-no-public-ip:
   EC2에 퍼블릭 IP → NON_COMPLIANT
-  
+
   iam-password-policy:
   IAM 비밀번호 정책 최소 길이 14자 미만 → NON_COMPLIANT
-  
+
   root-account-mfa-enabled:
   루트 계정 MFA 비활성화 → NON_COMPLIANT
 
 AWS Security Hub:
   여러 AWS 서비스 보안 결과 통합
   표준 준수 점수 자동 계산:
-  
+
   CIS AWS Foundations Benchmark
   AWS Foundational Security Best Practices
   PCI DSS v3.2.1
-  
+
   점수 예:
   CIS Level 1: 67% 준수
   → 무엇을 고쳐야 100%?
@@ -159,7 +159,7 @@ AWS Security Hub:
 
 자동 교정 (Auto Remediation):
   Config Rule 위반 → Lambda 자동 실행 → 수정
-  
+
   예:
   S3 퍼블릭 → Lambda가 ACL을 private으로 변경
   IAM 비밀번호 정책 위반 → 자동 정책 업데이트
@@ -178,18 +178,18 @@ Terraform Sentinel:
 
 정책 적용 단계:
   terraform plan → Sentinel 정책 검사 → terraform apply
-  
+
   정책 위반 시: apply 차단 (Advisory / Soft-Mandatory / Mandatory)
 
 Sentinel 정책 예시:
 
 1. 태그 필수 정책:
   import "tfplan/v2" as tfplan
-  
+
   required_tags = ["environment", "owner", "cost-center"]
-  
+
   resources = tfplan.find_resources("aws_instance")
-  
+
   check_tags = rule {
     all resources as _, rc {
       all required_tags as tag {
@@ -197,20 +197,20 @@ Sentinel 정책 예시:
       }
     }
   }
-  
+
   main = rule { check_tags }
-  
+
   → 태그 없는 EC2 배포 차단
 
 2. 인스턴스 유형 제한:
   allowed_types = ["t3.micro", "t3.small", "t3.medium"]
-  
+
   check_type = rule {
     all resources as _, rc {
       rc.change.after.instance_type in allowed_types
     }
   }
-  
+
   → 프로덕션 제외 환경에서 큰 인스턴스 배포 차단
 
 정책 단계:
@@ -235,7 +235,7 @@ Conftest (오픈소스 대안):
 배경:
   AWS 기반 서비스
   규제: 전자금융감독규정, 클라우드 이용 기준
-  
+
   감사 준비: 분기마다 2주 수작업
   개발팀 위반 반복: S3 퍼블릭, IAM 과잉 권한
 
@@ -243,7 +243,7 @@ CaC 구축:
 
 1. 정책 코드화 (OPA + AWS Config):
   전자금융감독규정 주요 항목 → Rego + Config Rules
-  
+
   정책 목록 (50개):
   - S3 암호화 필수 (AES-256)
   - RDS 암호화 필수
@@ -256,7 +256,7 @@ CaC 구축:
 2. CI/CD 통합:
   Terraform 변경 → Sentinel 정책 자동 검사
   Kubernetes 배포 → OPA Gatekeeper 검사
-  
+
   PR 단계에서 정책 위반 즉시 피드백:
   "🚫 S3 버킷에 암호화 누락 (규정 제28조)"
   "✅ 8개 정책 통과"
@@ -270,7 +270,7 @@ CaC 구축:
   감사 준비 시간: 2주 → 1일 (대시보드 리포트 출력)
   반복 위반: 월 25건 → 2건 (자동 차단)
   개발팀 체감: "배포할 때 미리 알려줘서 좋음"
-  
+
   규제 감사 결과:
   "컴플라이언스 자동화 우수 사례" 인정
   지적 사항: 3건 → 0건

@@ -36,8 +36,8 @@ tags = ["studynote-algorithm"]
 
 ### [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 3단계
 
-1. **Count 단계**: 입력 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 순회하며 count[v]++ (값 v의 등장 횟수 기록)  
-2. **Prefix Sum 단계**: count[i] += count[i-1] (누적합 → 각 값의 마지막 위치)  
+1. **Count 단계**: 입력 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 순회하며 count[v]++ (값 v의 등장 횟수 기록)
+2. **Prefix Sum 단계**: count[i] += count[i-1] (누적합 → 각 값의 마지막 위치)
 3. **Place 단계**: 입력 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 역순으로 순회하며 output[count[v]-1] = v, count[v]-- (안정 정렬 보장)
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 계수 정렬 동작 과정
@@ -110,8 +110,8 @@ count: [ 0,  2,  4,  6,  7,  8 ]
 
 ### 적합한 사용 사례
 
-**시나리오 1 — 학생 성적 정렬**: 0~100점, n=10만 명  
-→ k=101, n=100,000 → O(100,101) ≈ O(n) ✅  
+**시나리오 1 — 학생 성적 정렬**: 0~100점, n=10만 명
+→ k=101, n=100,000 → O(100,101) ≈ O(n) ✅
 → 병합 정렬 O(n log n) ≈ 1,700,000 연산 대비 약 17배 빠름
 
 <strong>시나리오 2 — <a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/">기수 정렬</a>의 서브루틴</strong>: [기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)은 각 자릿수(digit)마다 계수 정렬을 적용하므로, 계수 정렬의 안정성이 전체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 정확성의 핵심
@@ -185,8 +185,8 @@ count: [ 0,  2,  4,  6,  7,  8 ]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-🎫 **번호표 받기**: 마트 번호표처럼 각 숫자를 몇 번 봤는지 적어두면, 나중에 순서대로 꺼내기만 하면 돼요.  
-🗳️ **투표 집계**: 후보를 하나씩 비교하지 않고, 각 후보마다 몇 표인지 세면 바로 순위를 알 수 있어요.  
+🎫 **번호표 받기**: 마트 번호표처럼 각 숫자를 몇 번 봤는지 적어두면, 나중에 순서대로 꺼내기만 하면 돼요.
+🗳️ **투표 집계**: 후보를 하나씩 비교하지 않고, 각 후보마다 몇 표인지 세면 바로 순위를 알 수 있어요.
 📊 **칸막이 서랍**: 0번부터 k번까지 서랍이 있고, 각 물건을 해당 번호 서랍에 넣으면 순서대로 꺼내기만 하면 정렬 완료!
 
 ---

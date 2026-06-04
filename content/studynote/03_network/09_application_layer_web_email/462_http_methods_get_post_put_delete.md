@@ -41,8 +41,8 @@ tags = ["studynote-network"]
 *   URI(Uniform Resource [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))가 "어떤 자원"을 가리키는 명사(Noun)라면, 메서드는 "그 자원으로 무엇을 할 것인지"를 나타내는 **동사(Verb)** 역할을 수행합니다.
 
 ### 2. 해결하고자 하는 문제 (Pain Point)
-[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 웹은 단순히 문서를 읽어오는 역할(`GET`)에 국한되었으나, 웹 폼(Form)을 통한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제출, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 업로드, 시스템 제어 등 복잡한 상호작용이 요구되었습니다. 
-모든 요청을 단일한 방식(예: URI에 행위까지 포함하는 `GET /deleteUser?id=1`)으로 처리할 경우, 
+[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 웹은 단순히 문서를 읽어오는 역할(`GET`)에 국한되었으나, 웹 폼(Form)을 통한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제출, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 업로드, 시스템 제어 등 복잡한 상호작용이 요구되었습니다.
+모든 요청을 단일한 방식(예: URI에 행위까지 포함하는 `GET /deleteUser?id=1`)으로 처리할 경우,
 - 캐시 서버([CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/))가 이 요청을 단순 조회로 오인하여 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)해버리는 심각한 캐시 오염.
 - 크롤러 봇이 링크를 따라다니다가 무심코 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 삭제해 버리는 파괴적 오류.
 - 네트워크 단절 시 클라이언트가 이 요청을 안전하게 재시도해도 될지 판단할 수 없는 아키텍처적 마비 상태를 초래합니다.

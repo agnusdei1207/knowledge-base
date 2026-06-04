@@ -132,8 +132,8 @@ Audit Evidence
 
 ## 어린이를 위한 3줄 비유 설명
 
-고친 기록을 남겨요.  
-잘 되는지도 자동으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해요.  
+고친 기록을 남겨요.
+잘 되는지도 자동으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해요.
 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)와 CI는 그런 약속이에요.
 
 ---

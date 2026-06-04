@@ -202,7 +202,7 @@ Level 4:フル-stack Product Team (목표)
 
 조직은 "우리 애자일일태용다" 또는 "우리 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)도입제み다"라는 편리적인식을 버리고, 고객에게 가치을 전달하는 전체 흐름(기획→개발→배포→운영→[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링→개선)을 하나의집성된システム와/과し고설계해야 한다. 이것이 애자일과 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)의정しい관계이다.
 
-> 📢 **섹션 요약 비유**: 애자일과 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)는 건강관리에おける운동과식사의ようなも의에서ある.  운동(애자일)만 하고 식단([데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))을 관리하지 않으면 건강을취득할 수 없고, 식단([데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))만 관리하고 운동(애자일)을 하지 않으면 건강은개선되지 않는다. 량방공에계속적에실천し고초め고지속적な 건강개선이실현하는. 
+> 📢 **섹션 요약 비유**: 애자일과 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)는 건강관리에おける운동과식사의ようなも의에서ある.  운동(애자일)만 하고 식단([데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))을 관리하지 않으면 건강을취득할 수 없고, 식단([데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))만 관리하고 운동(애자일)을 하지 않으면 건강은개선되지 않는다. 량방공에계속적에실천し고초め고지속적な 건강개선이실현하는.
 
 ---
 

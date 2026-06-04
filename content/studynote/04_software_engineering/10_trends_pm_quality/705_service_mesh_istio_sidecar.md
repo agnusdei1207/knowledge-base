@@ -109,7 +109,7 @@ tags = ["studynote-software-engineering"]
 
 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)를 도입하면, 개발자는 "통신 중에 타임아웃이 나면 3번 재시도하고, 3번 다 실패하면 서킷 브레이커를 열어라"라는 복잡한 코드를 더 이상 비즈니스 로직에 섞어 짜지 않아도 된다. 인프라 운영팀([SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))이 중앙에서 YAML [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나로 전사의 통신 규칙을 제어하는 마법이 실현된다.
 
-결론적으로 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))이 필연적으로 겪어야 하는 '네트워크의 불안정성'이라는 복잡도를 애플리케이션 계층에서 인프라 계층으로 완전히 밀어내 버린 패러다임 시프트다. 
+결론적으로 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))이 필연적으로 겪어야 하는 '네트워크의 불안정성'이라는 복잡도를 애플리케이션 계층에서 인프라 계층으로 완전히 밀어내 버린 패러다임 시프트다.
 
 - **📢 섹션 요약 비유**: 수돗물을 먹을 때, 집집마다 정수 필터(통신 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))를 달아 쓰던 시절에서 벗어나, 아예 상수도 사업소([서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/))가 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 자체에 완벽한 필터와 수압 조절기를 달아서 깨끗한 물을 집 안방까지 쏴주는 세상이 온 것이다.
 

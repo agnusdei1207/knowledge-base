@@ -46,14 +46,14 @@ tags = ["studynote-network"]
 
 ### 1. Phase 1 (메인 모드 / 어그레시브 모드) - 텐트 치기
 - **목표**: 앞으로 진행할 Phase 2 협상 내용(진짜 열쇠 교환)을 해커가 훔쳐보지 못하도록, <strong>양쪽 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>끼리 안전한 보안 텐트(ISAKMP <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/">SA</a>)를 하나 치는 것</strong>이다.
-- **협상 항목**: 
+- **협상 항목**:
   - 서로 내가 진짜 서울 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 맞다는 신분증 검사 (Pre-Shared [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) 방식이나 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 방식).
   - 텐트를 칠 때 쓸 암호화([DES](/knowledge-base/studynote/09_security/02_crypto/086_des_data_encryption_standard/), [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)), 해시([MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/), SHA) 방식 합의.
 - **결과물**: 해커가 절대 도청할 수 없는 튼튼한 1차 보안 채널(ISAKMP [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/))이 하나 뚫린다. (이 터널 뚫는 데 쓰는 게 디피-헬만(Diffie-Hellman) 키 교환 마법이다).
 
 ### 2. Phase 2 (퀵 모드) - 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)용 룰 정하기
 - **목표**: Phase 1에서 쳐둔 안전한 텐트 안에서, <strong>실제 직원들의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPsec</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/">ESP</a>)를 어떻게 암호화해서 날려 보낼지 진짜 룰(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPsec</a> <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/">SA</a>)을 합의하는 것</strong>이다.
-- **협상 항목**: 
+- **협상 항목**:
   - "직원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-256으로 암호화하자."
   - "보호해야 할 사내망 대역은 192.168.[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).x 대역이다. ([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) ID)"
 - **결과물**: 실제로 패킷이 날아다닐 2개의 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 터널(가는 터널 1개, 오는 터널 1개)이 완성된다. 드디어 핑(Ping)이 나간다!

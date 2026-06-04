@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/">Cold Start</a> (차갑게 시작)</strong>: 식어빠진 엔진에 시동 걸기. 함수가 꺼져있는데 호출이 오면, AWS가 [1. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) ➡ 2. 내 코드(zip) 다운로드 ➡ 3. Node.js 런타임 부팅 ➡ 4. 내 함수 실행] 4단계를 풀코스로 밟느라 <strong>수 초(1~5초)</strong>가 낭비되는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 현상이다.
   - **Warm Start (따뜻하게 시작)**: 엔진이 열려있는 상태. 방금 전 1번째 놈이 콜드 스타트로 고생하며 띄워둔 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 아직 살아있는(약 10분간 대기) 상태에서, 2번째 트래픽이 들어오면 기존 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 그대로 재활용(Reuse)하여 1,2,3단계 다 점프하고 [4. 내 함수 실행]만 <strong>0.01초 컷</strong>으로 튕겨내는 초광속 상태다.
 

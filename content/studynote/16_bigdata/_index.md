@@ -40,7 +40,7 @@ tags = ["studynote-bigdata"]
 배치(과거)와 스트리밍(현재)을 어떻게 아우를 것인가에 대한 아키텍처적 결단.
 ```text
     [ Evolution of Big Data Architecture: Lambda to Kappa / 빅데이터 아키텍처 진화: 람다에서 카파로 ]
-    
+
     (1) Lambda Architecture / 람다 아키텍처 (배치와 스트리밍 분리)
                                     +----------------------------------+
                                 +-> | Batch Layer (Hadoop/Spark)       | -> [ Batch View ]
@@ -49,7 +49,7 @@ tags = ["studynote-bigdata"]
                                 |   +----------------------------------+          |
                                 +-> | Speed Layer (Spark/Storm)        | -> [ RT View ]
                                     +----------------------------------+
-    
+
     (2) Kappa Architecture / 카파 아키텍처 (스트림 통합 모델)
     [ Data Source (Kafka) ] ------> | Stream Processing Layer (Flink)  | -------------> [ Serving DB ] -> BI/AI
                                     +----------------------------------+

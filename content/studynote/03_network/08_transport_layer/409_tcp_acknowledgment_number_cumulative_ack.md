@@ -24,7 +24,7 @@ tags = ["studynote-network"]
 
 - **💡 비유**: ACK 번호는 택배 배달의 <strong>"이어 받기 쿠폰"</strong>과 같습니다.
   - 전집 100권 중 오늘 1권부터 10권까지 무사히 배송을 받았습니다.
-  - 나는 우체부 아저씨 패드에 사인을 하면서 <strong>"자, 10권까지 잘 받았고 파본 없으니, 내일은 11권부터 가져오쇼! (ACK Number = <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/">11</a>)"</strong>라고 다음번 배송 시작점을 딱 찍어서 영수증을 써줍니다. 
+  - 나는 우체부 아저씨 패드에 사인을 하면서 <strong>"자, 10권까지 잘 받았고 파본 없으니, 내일은 11권부터 가져오쇼! (ACK Number = <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/">11</a>)"</strong>라고 다음번 배송 시작점을 딱 찍어서 영수증을 써줍니다.
   - 내일 우체부 아저씨는 내 영수증을 보고 고민 없이 창고에서 11권부터 싣고 출발합니다.
 
 ```text
@@ -55,7 +55,7 @@ tags = ["studynote-network"]
 
 - 1, 2번 상자 수신 완료 ──▶ <strong><code>ACK = 300</code></strong> (오케이 300번 상자 줘!)
 - 3번 상자(Seq 300) 증발함.
-- 4번 상자(Seq 400) 도착! 
+- 4번 상자(Seq 400) 도착!
   - 수신자 뇌구조: "야 4번 상자 먼저 왔네? 근데 난 아직 3번 못 받았다고!! 난 3번 안 주면 뒤에 거 인정 안 해!!"
   - 수신자는 4번을 받았지만 억지로 무시하고, 또다시 <strong><code>ACK = 300</code></strong> (300번 내놓으라고!!)을 쏜다.
 - 5번 상자(Seq 500) 도착!
@@ -84,7 +84,7 @@ tags = ["studynote-network"]
 ### 3. 현대적 보완: SACK (Selective ACK)
 누적 ACK의 멍청한 점은, 위 상황에서 3번만 유실됐는데 송신자가 빡쳐서 3번부터 6번까지 <strong>멀쩡히 잘 간 것들까지 싹 다 몽땅 다시 재전송해 버린다</strong>는 거다. 엄청난 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비다.
 - 그래서 윈도우/리눅스는 `SACK(선택적 확인 응답)` 옵션을 기본으로 켠다.
-- 수신자 왈: "야! 메인 영수증은 `ACK=300` 인데, 나 뒤에 `400~600번`은 잘 받았으니까 **진짜 잃어버린 300번 딱 한 놈만 핀셋으로 집어서 다시 보내라!**" 
+- 수신자 왈: "야! 메인 영수증은 `ACK=300` 인데, 나 뒤에 `400~600번`은 잘 받았으니까 **진짜 잃어버린 300번 딱 한 놈만 핀셋으로 집어서 다시 보내라!**"
 - 이 SACK 마법 덕분에 현대 기가비트 인터넷은 재전송 폭풍에 휘말리지 않고 극강의 쾌적함을 유지한다.
 
 - **📢 섹션 요약 비유**: ** 중복 ACK 발송과 빠른 재전송은 택배 회사 **"진상 고객의 연속 [클레임](/knowledge-base/studynote/09_security/11_iam_access_control/539_claims/)"**과 같습니다. 배송이 누락된 순간 고객이 고객센터에 전화를 걸어 3번 연속으로 "내 물건 어디 갔냐!"고 진상을 부리면(Dup-ACK), 본사가 배송 마감 시간([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))까지 기다리지 않고 즉각 VIP 퀵 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([Fast Retransmit](/knowledge-base/studynote/03_network/08_transport_layer/433_fast_retransmit_3_dup_ack/))로 누락된 물건을 당장 꽂아주는 위기 탈출 매뉴얼입니다.

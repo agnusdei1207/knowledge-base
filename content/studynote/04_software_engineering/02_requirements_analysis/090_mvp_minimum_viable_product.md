@@ -18,7 +18,7 @@ tags = ["software_engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-최소 존립 제품 ([MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/), [Minimum Viable Product](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/))은 [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/) ([Lean Startup](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/)) 방법론의 핵심 도구로, 최소한의 노력과 개발 시간으로 고객의 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)(만들기-측정-학습)를 완성할 수 있는 버전을 의미한다. 
+최소 존립 제품 ([MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/), [Minimum Viable Product](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/))은 [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/) ([Lean Startup](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/)) 방법론의 핵심 도구로, 최소한의 노력과 개발 시간으로 고객의 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)(만들기-측정-학습)를 완성할 수 있는 버전을 의미한다.
 
 전통적인 소프트웨어 공학은 모든 요구사항을 완벽히 수집하고 1년에 걸쳐 거대한 시스템([폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/))을 만든 뒤 런칭했다. 그러나 출시 후 "아무도 이 제품을 원하지 않는다"는 치명적인 사실을 깨닫는 경우가 부지기수였다. 이 거대한 낭비를 막기 위해, 핵심 가설만을 담은 아주 뼈대뿐인 제품을 시장에 먼저 던져서 "사람들이 진짜 이걸 원하는가?"를 데이터로 증명하는 생존 테스트 도구가 필요해졌다.
 

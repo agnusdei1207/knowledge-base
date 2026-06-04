@@ -108,7 +108,7 @@ LFU의 '고인물 알박기' 문제를 해결하기 위해, 소프트웨어 공�
 │ 에이징 LFU│ 즉시 쓰레기통 │ 천천히 깎여서 버림│ 완벽한 중용의 달성     │
 └──────────┴────────────┴────────────┴───────────────────────────────────┘
 ```
-**[매트릭스 해설]** 순수 LFU는 단점이 명확해서 실무에서 절대 쓰이지 않는다. 우리가 면접이나 아키텍처 문서에서 "LFU를 씁니다"라고 말할 때는, 100% 무조건 이 'Aging이 가미된 쇠퇴형 [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)'를 의미하는 것이다. 
+**[매트릭스 해설]** 순수 LFU는 단점이 명확해서 실무에서 절대 쓰이지 않는다. 우리가 면접이나 아키텍처 문서에서 "LFU를 씁니다"라고 말할 때는, 100% 무조건 이 'Aging이 가미된 쇠퇴형 [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)'를 의미하는 것이다.
 
 - **📢 섹션 요약 비유**: 평생 모은 재산(카운트)을 영원히 인정해 주면 부자들은 일 안 하고(알박기) 놀고먹습니다(순수 [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)). 그래서 정부(OS)가 매년 재산의 절반을 세금([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))으로 뜯어가 버립니다. 그러면 왕년의 부자도 돈이 깎여 쫓겨나지 않기 위해 다시 뼈 빠지게 일(현재의 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))을 해야만 살아남는 완벽한 자본주의 세금 제도의 완성입니다.
 

@@ -34,7 +34,7 @@ HDFS는 이 거대한 [파일](/knowledge-base/studynote/02_operating_system/09_
                                    ┌───────────────────────┐ (128MB 단위 분할)
  파일 크기: 500GB                      │     파일 (500GB)       │
  ┌─────────────────┐               └─┬──────┬──────┬───────┘
- │   OS Disk       │                 ↓      ↓      ↓  ...  
+ │   OS Disk       │                 ↓      ↓      ↓  ...
  │  (최대 100GB)   │          ┌─────┐┌─────┐┌─────┐   (Network)
  │ ❌ 공간 부족!    │          │Blk 1││Blk 2││Blk 3│... ┌─────┐
  └─────────────────┘          └──┬──┘└──┬──┘└──┬──┘   │Blk N│
@@ -69,7 +69,7 @@ HDFS 아키텍처는 마스터-슬레이브(Master-Slave) 구조의 극단을 �
 └──────────────────────┼────────────────────────────────────────┘
                        ▼
              ┌──────────────────┐
-             │    NameNode      │ 2. 메타데이터 기록 및 
+             │    NameNode      │ 2. 메타데이터 기록 및
              │ (장부/디렉토리)  │ 블록을 저장할 DataNode 목록 반환
              └───────┬──────────┘
                      │ 3. 할당된 노드 리스트 (예: D1, D3, D5) 반환
@@ -133,7 +133,7 @@ A 방식(로컬/[NAS](/knowledge-base/studynote/02_operating_system/08_storage_a
 실무에서 HDFS 클러스터를 구축하고 관리할 때 직면하는 가장 치명적인 재앙은 <strong>"Small Files Problem (소규모 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 병목)"</strong>이다.
 
 1. <strong>소규모 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 안티패턴의 붕괴 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a></strong>: HDFS의 [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)는 빠른 속도를 위해 모든 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 블록의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 위치(장부)를 오직 주 메모리(RAM)에 전부 올려둔다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개당 약 150바이트의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 메모리를 먹는다. 1TB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 128MB 블록으로 쪼개면 장부 기록은 몇 줄 안 되지만, 10KB짜리 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1억 개를 HDFS에 넣으면 총 용량은 1TB 남짓인데도 [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)의 램(RAM) 15GB가 순식간에 증발한다. 결국 [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 크래시가 발생하며 클러스터 전체가 뻗어버린다.
-2. <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/017_rack_awareness/">랙 인지</a> (<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/017_rack_awareness/">Rack Awareness</a>) 설계</strong>: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 전원이 나가는 물리적 대장애를 막기 위해, HDFS는 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본 3개를 같은 랙(Rack) 서버에 전부 몰아넣지 않고, 1개는 같은 랙, 나머지 2개는 물리적으로 다른 랙에 배치하도록 클러스터 토폴로지를 스크립트로 구성해야 한다. 
+2. <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/017_rack_awareness/">랙 인지</a> (<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/017_rack_awareness/">Rack Awareness</a>) 설계</strong>: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 전원이 나가는 물리적 대장애를 막기 위해, HDFS는 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본 3개를 같은 랙(Rack) 서버에 전부 몰아넣지 않고, 1개는 같은 랙, 나머지 2개는 물리적으로 다른 랙에 배치하도록 클러스터 토폴로지를 스크립트로 구성해야 한다.
 3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> 보장 (<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/">NameNode</a> HA)</strong>: [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) 자체가 죽으면 전체 클러스터 장부가 사라져 아무것도 못하는 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))이 된다. 실무 환경에서는 반드시 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) NameNode와 Standby NameNode를 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)(High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 구성)하고, 그 사이에 저널노드(JournalNode)를 두어 실시간으로 장부 기록을 동기화해야 한다.
 
 ```text

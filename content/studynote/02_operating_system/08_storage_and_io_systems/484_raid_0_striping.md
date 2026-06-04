@@ -30,7 +30,7 @@ tags = ["studynote-operating-system"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **êë**: RAIDì ììê êëìì êì êêìì ííì ëë 0ì ìì "ìëì ìëì(Redundant)"ìëë [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) ëëì êëíìë ìëëë. ëì ëìí(Redundancy)ê "0"ìëë ìëìì [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 0ìë ëëëìë. ìì ìë([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))ì ìë(Capacity)ì ìë íììëë í ìëë íë ëììë.
-- **íìì**: êíìë ëëì ëëë, 3D ëë ììê íìì ìíëë, ëêë êí ììì ìì ìì ìì ë ëìíì 'ìê ëì'ëëë ëì <strong>ëëí ëìí(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)ì íí ìì ìê ëì ìëíëë ìë</strong>ì ìëììë íìí íì íêì ììíë. êì ëì ëì êêì ëìíë ìììë I/O ìëê CPUì ìì ìëë ëìí ëëêì ëí ë, ììëìë ìëí ëìí 4êë ìì ìêì êìëë 4ììì ëìëëë êë([RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 0)ì ëëê ëë. 
+- **íìì**: êíìë ëëì ëëë, 3D ëë ììê íìì ìíëë, ëêë êí ììì ìì ìì ìì ë ëìíì 'ìê ëì'ëëë ëì <strong>ëëí ëìí(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)ì íí ìì ìê ëì ìëíëë ìë</strong>ì ìëììë íìí íì íêì ììíë. êì ëì ëì êêì ëìíë ìììë I/O ìëê CPUì ìì ìëë ëìí ëëêì ëí ë, ììëìë ìëí ëìí 4êë ìì ìêì êìëë 4ììì ëìëëë êë([RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 0)ì ëëê ëë.
 
 - **ð ëì**: [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 0ì "1ìêìë êì ëìë"ì 1ëì íììê ìë 1ìêì êëìë, ëì íìì 5ë ëìë 12ë(ëìí êì N)ì íìììê ììì ëìì ìëê ììíë(ìíëìí), ìì ëìë 5ë ëì ììíëëë(ìë Në ìì) êêì íì ëììëë. íìë 12ë ì 1ëìëë íììì êì íìíì ì ìë(ëìí H/W ìë), ìì ëìê ìê ëì ìë ìë ìë ìëêê ëìëëë ëìí(ìëì ìë)ì ëêìëë.
 
@@ -38,28 +38,28 @@ tags = ["studynote-operating-system"]
 ëë ëìì ëìíê ììììë ìë ìíë(ëìí)ì ìëê ìêìì ëëìëìë [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) ëììêëìë ìêííë ëìê êë.
 
 ```text
-  
-                   RAID 0 (Striping) ìëìì ëìí ëì ëí             
-  
-                                                                           
-     ììììê ëëëë ëì êë êì ëë (ì: 1TB x 4ê = 4TB ëë)    
-     [ ëë A | ëë B | ëë C | ëë D | ëë E | ëë F | G... ]        
-                                                                           
-                  (ëìí ìíëìí ìê ëëì íë ì)                 
-                     ëìì ëë(Parallel)ë êë í!                    
-                                                                           
-                                   
-      ëìí 1     ëìí 2     ëìí 3     ëìí 4   ëìí 2   
-                                                  ð íê ì!      
-      [ A ]       [ B ]       [ C ]       [ D ]                   
-      [ E ]       [ F ]       [ G ]       [ H ]                   
-      [ I ]       [ J ]       [ K ]       [ L ]     ìì ëì      
-       ...         ...         ...         ...     100% ëê!      
-                                   
-                                                                           
-     * ìí(Chunk Size/Stripe Size): A, B, C ë íëì ìê íê           
-       (ìëììë 64KB, 128KB, 256KB ëìë ìíëëìì íë)            
-  
+
+                   RAID 0 (Striping) ìëìì ëìí ëì ëí
+
+
+     ììììê ëëëë ëì êë êì ëë (ì: 1TB x 4ê = 4TB ëë)
+     [ ëë A | ëë B | ëë C | ëë D | ëë E | ëë F | G... ]
+
+                  (ëìí ìíëìí ìê ëëì íë ì)
+                     ëìì ëë(Parallel)ë êë í!
+
+
+      ëìí 1     ëìí 2     ëìí 3     ëìí 4   ëìí 2
+                                                  ð íê ì!
+      [ A ]       [ B ]       [ C ]       [ D ]
+      [ E ]       [ F ]       [ G ]       [ H ]
+      [ I ]       [ J ]       [ K ]       [ L ]     ìì ëì
+       ...         ...         ...         ...     100% ëê!
+
+
+     * ìí(Chunk Size/Stripe Size): A, B, C ë íëì ìê íê
+       (ìëììë 64KB, 128KB, 256KB ëìë ìíëëìì íë)
+
 ```
 
 **[ëììêë íì]** [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 0 ìíëëë íìíëëí ëììë ììë ìëì ëìíë ëë ììë ìí íê(ì: 64KB)ë êëìê(Strip)íë. êëê ì 64KB(A)ë ëìí 1ì, ëì 64KB(B)ë ëìí 2ì, êëì 64KB(C)ë ëìí 3ì, Dë ëìí 4ì ìë ììë ëìë ëë(Round-Robin) ëììë ëìì ëëëëë. 4êì ëëë íë(Head)ì ìë(Channel)ì ëìì êëì ìííëë ìëììë ìê ë ìê ìëëì ëì ëìí ëë ì 4ë íìíë (ëì ìëê 4êë ëì íëì íìíë ëë êê êë). ëì ëìíê 100êëë ëìíë ììììë 100ë(ìëíë ìì)ì ëëí ì ìë. ìì ìë íìì ëíëì ììí ëìí êìë.
@@ -90,29 +90,29 @@ tags = ["studynote-operating-system"]
 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 0 ëììì ëìí ììê ëìëìë, ììí ììê ëìë êìì ìí íëì ëìì ìëë ìì ë ìíëë. (ìë ëë ìíë íë). ëìí 1êì ìì íë([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))ì $R$ (ì: 95% = 0.95)ìë êìí ë, [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 0 ìëì(Nê)ì ìì íëì $R^N$ ì ëë.
 
 ```text
-  
-                   RAID 0 ëëì ìíë(ëìí íì ëêì íê) ìì êì      
-  
-                                                                                
-    ìì ìê: ëìí 1ê ë, 5ë ë êì(Fail)ì ë íë 5% (R = 0.95)         
-                                                                                
-    [ ëì ëìí 1ë ]                                                         
-       êë íë: 0.95 (95.0%)  êì ë íë 5.0%                             
-                                                                                
-    [ RAID 0 (2 ëìí) êì ì ] (ìë 2ë, ìë 2ë!)                         
-       êë íë: 0.95  0.95 = 0.902 (90.2%)                                   
-        ìì êì ë íë 9.8% (ìíë êì 2ë ìê)                         
-                                                                                
-    [ RAID 0 (4 ëìí) êì ì ] (ìë 4ë ìì!)                              
-       êë íë: (0.95)^4 = 0.814 (81.4%)                                      
-        ìì êì ë íë 18.6% (ìíë 3.7ë íë ìê)                      
-                                                                                
-    [ RAID 0 (10 ëìí) í íë êì ì ]                                      
-       êë íë: (0.95)^10 = 0.598 (59.8%)                                     
-        ìì ììí ëìì/ëìí ìëí íë ëë 40.2% ëí!!!              
-                                                                                
+
+                   RAID 0 ëëì ìíë(ëìí íì ëêì íê) ìì êì
+
+
+    ìì ìê: ëìí 1ê ë, 5ë ë êì(Fail)ì ë íë 5% (R = 0.95)
+
+    [ ëì ëìí 1ë ]
+       êë íë: 0.95 (95.0%)  êì ë íë 5.0%
+
+    [ RAID 0 (2 ëìí) êì ì ] (ìë 2ë, ìë 2ë!)
+       êë íë: 0.95  0.95 = 0.902 (90.2%)
+        ìì êì ë íë 9.8% (ìíë êì 2ë ìê)
+
+    [ RAID 0 (4 ëìí) êì ì ] (ìë 4ë ìì!)
+       êë íë: (0.95)^4 = 0.814 (81.4%)
+        ìì êì ë íë 18.6% (ìíë 3.7ë íë ìê)
+
+    [ RAID 0 (10 ëìí) í íë êì ì ]
+       êë íë: (0.95)^10 = 0.598 (59.8%)
+        ìì ììí ëìì/ëìí ìëí íë ëë 40.2% ëí!!!
+
      ìì êë: ìëë ìí Nììì ëëìë, êíìê ëì ëìíë êíêìì!
-  
+
 ```
 
 **[ëììêë íì]** [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 0ì ìëì ìê íêë ìëì ìì ëìíë í ìë ìì ëíëë ìì ìë (êì íëí ìì). ë íëì 64KB ëë ëìë(C)ë ëê ìë ëìí 3ê êê êíìë ììëëë, ëì ëìí 1, 2, 4ì ìììë ìì êì íì íí ìê (A, B, D, E...) ìì 'ìêì ë(ëêì)'ì ììí ììíì íì ìê(Corrupted [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))ì ëìëëë. ëìí íëì(Carving)ìëë ììì ëìì êì ëêëí ìììë íííë ì íêëë. ëìíì êì(N)ë ëë ìë Gbpsë ëìíìë, êì ëë ëìíê ëìí ìê íëì $1-(R)^N$ êëíë ëë íëììë ììíë. ëìê ëì ììíì êììì ììëë ìíííì ìê ìë/ìëìë ììíë êê êë.
@@ -156,30 +156,30 @@ tags = ["studynote-operating-system"]
 ì ëêì 0ì ìííí íê ìììë êì ëìíìë íë ìë ííí [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 0 ìí ìëì íë íëë ëìê êë.
 
 ```text
-  
-           RAID 0 ìí ìë íëì ìí ìííì ëìí íí íëì              
-  
-                                                                                 
-     [ ëìí ììì (Durability) ë ëê íìëì íì ]                        
-                                                                                
-                                                                                
-        ìíëì(ëë)ê ìê ëì íê(Crash)ëë ìêë ëìëì ìííë?     
-             [ìëì: ìë íì, êê DB, ëê ëê ìê ëì ê]              
-                 ð ìëë RAID 0 ëì êì! (ìì íê ììê ìì)         
-                                                                                
-             [êëëí: ëì/ìëì ëë ìì (ëì ìì ìì/ììì)]         
-                                                                                
-                                                                                
-        íë ëëìì I/O ëìí(ìë/Performance) ëëì ëì ììê?           
-             [ìëì: CPU ìì ìììë ëìí ëì/ìë ìëí]               
-                 êì ìí ìê ê ìì ìì (ëì ìíëì ìì)            
-                                                                                
-             [ì: ëëë, ìì êì ìê íìë ììí ìëì ëëë!!]        
-                                                                                
-                                                                                
-      ìêì ìíëì/ìì íë ëììë S/W RAID 0 êë ìë êì ìì!       
-        ( ë, ëëì 'ì ëëìë ììí ìë ìì íëí êì' ìë ìì íë) 
-  
+
+           RAID 0 ìí ìë íëì ìí ìííì ëìí íí íëì
+
+
+     [ ëìí ììì (Durability) ë ëê íìëì íì ]
+
+
+        ìíëì(ëë)ê ìê ëì íê(Crash)ëë ìêë ëìëì ìííë?
+             [ìëì: ìë íì, êê DB, ëê ëê ìê ëì ê]
+                 ð ìëë RAID 0 ëì êì! (ìì íê ììê ìì)
+
+             [êëëí: ëì/ìëì ëë ìì (ëì ìì ìì/ììì)]
+
+
+        íë ëëìì I/O ëìí(ìë/Performance) ëëì ëì ììê?
+             [ìëì: CPU ìì ìììë ëìí ëì/ìë ìëí]
+                 êì ìí ìê ê ìì ìì (ëì ìíëì ìì)
+
+             [ì: ëëë, ìì êì ìê íìë ììí ìëì ëëë!!]
+
+
+      ìêì ìíëì/ìì íë ëììë S/W RAID 0 êë ìë êì ìì!
+        ( ë, ëëì 'ì ëëìë ììí ìë ìì íëí êì' ìë ìì íë)
+
 ```
 
 **[ëììêë íì]** [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 0ì ëì êìì ìì í ëììë ììëë. **"ìê ìê ììëì ìë ëìí ìëêíì 1ì ëì ì ííëìë ìì ëììë ëì êìë ìêìë ìëìëìê?"** ìë. êì ìëìì [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 0 ëì êììë OSë DB ììì êëíë ëì ì(?)ì ìë ììë ì ììë, ìê ìì ìì, ìì ë ìì íëììë ìì íë ë, ëëìë ìí I/O ëë ëìì ëëìë êì íë êì ëìì ìëíë ìêìë ìëë êìê ìë ëë ìì 100% ìëì êìíë ìëí ìíìë ìë. ëêìì íêíë ìë íêë íêí 'ëìì ëë'ì íëìë.
@@ -214,7 +214,7 @@ tags = ["studynote-operating-system"]
 
 ---
 
-1. 100ìê íìì ìëë ìê ë íìì ë ëìë 1ìêì êë êëìì? ëë ìëíì ìì ìë ìêë 3ëì ë ëëì êê 25ìêì ëëì í ëì í ëëëì ëìëëì! 
+1. 100ìê íìì ìëë ìê ë íìì ë ëìë 1ìêì êë êëìì? ëë ìëíì ìì ìë ìêë 3ëì ë ëëì êê 25ìêì ëëì í ëì í ëëëì ëìëëì!
 2. ìì, êëëë 15ë ëì ëêìë ììë ìë([RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 0 ìíëìí)ë êë ìììëë ììë íì íììì ìêì. ìëì ëëìì.
 3. êëë ìëì! ìê ì í ëì êìê ëê ìíì 25ìêì ëê ìì ëëêëëë? êìë êë ìëì íìë ëìëëì ìì ììê ëêìê 100% ëì(ìëì ìë, ëì ìì) ìëê ëë ììí ëë ííëìì.
 

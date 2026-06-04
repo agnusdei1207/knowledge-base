@@ -67,9 +67,9 @@ tags = ["studynote-operating-system"]
 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Miss가 나면 정확히 어느 정도의 물리적 시간이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)될까?
 - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> <a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/">Hit</a> 시간</strong>: 보통 **0.5 ~ 1 사이클** (약 1 나노초). 하드웨어 회로가 빛의 속도로 답을 낸다.
 - **메인 메모리(RAM) 접근 시간**: 보통 **100 사이클** (약 100 나노초).
-- <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> Miss 시간</strong>: 
+- <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> Miss 시간</strong>:
   장부를 찾으러 램에 1번 감(100) + 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찾으러 램에 1번 감(100) = **200 사이클**.
-- 즉, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스가 나면 히트 났을 때보다 메모리 접근 속도가 <strong>200배 느려지는 절망적인 상황</strong>이 펼쳐진다. 
+- 즉, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스가 나면 히트 났을 때보다 메모리 접근 속도가 <strong>200배 느려지는 절망적인 상황</strong>이 펼쳐진다.
 
 ---
 
@@ -87,7 +87,7 @@ tags = ["studynote-operating-system"]
    - [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스가 나면 하드웨어는 즉시 <strong>예외(Exception / <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">Trap</a>)</strong>를 터뜨려버린다. "나 미스 났어! OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 네가 알아서 채워놔!"
    - OS가 인터럽트를 걸고 뛰어들어와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드에서 장부를 검색한 뒤 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 값을 직접 꽂아 넣는다.
    - **장점**: 칩셋 설계가 극도로 단순해지며, OS가 장부의 모양(자료구조)을 트리로 하든 해시로 하든 마음대로 튜닝할 수 있다.
-   - **단점**: 미스 날 때마다 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드가 실행([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))되어야 하므로 오버헤드가 크다. 
+   - **단점**: 미스 날 때마다 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드가 실행([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))되어야 하므로 오버헤드가 크다.
 
 ```text
 ┌──────────┬────────────┬────────────┬────────────────────────┐
@@ -118,7 +118,7 @@ tags = ["studynote-operating-system"]
 ### [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 플러시(Flush)와 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)([Hit Ratio](/knowledge-base/studynote/02_operating_system/06_memory_management/359_effective_access_time/)) 붕괴
 
 - [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)의 가장 큰 적은 '[컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/)([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching)'이다.
-- [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 띄우다가 엑셀로 넘어가면 가상 주소 공간이 통째로 바뀌므로, 기존에 쌓아뒀던 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)(단기 기억 수첩)를 모조리 백지화(Flush) 시켜야 한다. 
+- [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 띄우다가 엑셀로 넘어가면 가상 주소 공간이 통째로 바뀌므로, 기존에 쌓아뒀던 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)(단기 기억 수첩)를 모조리 백지화(Flush) 시켜야 한다.
 - 스위칭 직후 엑셀이 처음 코드를 읽을 때는 TLB가 텅 비어있으므로 무조건 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Miss가 100% 터진다. 이를 <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/">콜드 스타트</a>(<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/">Cold Start</a>)</strong> 혹은 <strong>강제 미스(Compulsory Miss)</strong>라고 부른다.
 - 즉, 스케줄러가 너무 자주 앱을 교체(Time Quantum을 짧게 줌)하면, 기껏해야 TLB에 주소가 찰 만하면(Warm-up) 또 엎어버리는 상황이 반복되어, CPU는 연산보다 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Miss 페널티를 막아내느라 램만 죽어라 퍼먹게 된다.
 
@@ -129,7 +129,7 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) [Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))과 빅데이터 튜닝
-1. **상황**: 256GB 램을 가진 괴물 같은 오라클 DB 서버를 운영 중이다. 
+1. **상황**: 256GB 램을 가진 괴물 같은 오라클 DB 서버를 운영 중이다.
 2. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> 미스 폭풍 (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>)</strong>:
    - 오라클은 거대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 통째로 훑어(Full Scan) 집계(SUM, AVG)하는 작업이 많다.
    - 이때 4KB 단위의 기본 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쓰면, 1GB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽을 때 무려 25만 개의 서로 다른 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 밟고 지나가야 한다.
@@ -141,7 +141,7 @@ tags = ["studynote-operating-system"]
    - 1024개짜리 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 방 하나로 1GB 전체의 매핑 주소를 전부 기억(커버)할 수 있게 되어, 25만 번 나던 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스가 단 500번으로 줄어들고 DB 스캔 속도는 폭발적으로 빨라진다. 서버 엔지니어의 핵심 튜닝 1순위다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): 객체 지향의 무분별한 포인터 점프 ([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/))
-C++이나 Java에서 거대한 `Linked List` 나 무분별한 `new Object()` 할당을 썼다고 치자. 
+C++이나 Java에서 거대한 `Linked List` 나 무분별한 `new Object()` 할당을 썼다고 치자.
 이 객체들은 램의 10번 프레임, 900번 프레임, 4000번 프레임 여기저기에 흩뿌려진다. (가변 분할의 힙 특성).
 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)([Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))을 쓰면 하나의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 안에서 돌기 때문에 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Hit가 펑펑 터지지만, 링크드 리스트를 타고 포인터를 점프할 때마다 매번 완전히 다른 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(다른 프레임)로 날아가므로 엄청난 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Miss를 유발한다. 현대 아키텍처에서 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 중심의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 지향 설계(Data-Oriented Design)가 링크드 리스트보다 수십 배 빠른 진짜 하드웨어적 이유가 바로 이 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) 때문이다.
 
@@ -161,7 +161,7 @@ C++이나 Java에서 거대한 `Linked List` 나 무분별한 `new Object()` 할
 
 ### 결론 및 미래 전망
 
-[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 적중 ([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/))과 미스 (Miss)의 싸움은 인간의 기억력(캐시 크기)과 도서관 크기(RAM 용량) 간의 끝없는 술래잡기다. 소프트웨어 공학의 '[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))'가 만들어낸 비싼 청구서를, 하드웨어 공학이 '[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)'라는 눈부신 캐시 기술로 대신 내주고 있는 셈이다. 앞으로 클라우드 서버의 램 용량이 테라바이트 급으로 팽창할수록 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로는 도저히 이 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스의 늪을 벗어날 수 없기에, 향후 하드웨어 아키텍처는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 크기를 동적으로 섞어 쓰는(Mixed Pages) 지능형 MMU와 다단계(L1, L2, L3) [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 계층 구조로 더욱 복잡하고 정밀하게 진화해 나갈 것이다. 
+[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 적중 ([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/))과 미스 (Miss)의 싸움은 인간의 기억력(캐시 크기)과 도서관 크기(RAM 용량) 간의 끝없는 술래잡기다. 소프트웨어 공학의 '[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))'가 만들어낸 비싼 청구서를, 하드웨어 공학이 '[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)'라는 눈부신 캐시 기술로 대신 내주고 있는 셈이다. 앞으로 클라우드 서버의 램 용량이 테라바이트 급으로 팽창할수록 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로는 도저히 이 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스의 늪을 벗어날 수 없기에, 향후 하드웨어 아키텍처는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 크기를 동적으로 섞어 쓰는(Mixed Pages) 지능형 MMU와 다단계(L1, L2, L3) [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 계층 구조로 더욱 복잡하고 정밀하게 진화해 나갈 것이다.
 
 - **📢 섹션 요약 비유**: 가짜 세상([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))에서 진짜 세상(물리 램)으로 넘어가는 관문에 세워진 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 하이패스 차로([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) [Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/))와 느려 터진 톨게이트 요금소([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Miss)의 이야기입니다. 하이패스 단말기에 내 차 번호가 인식되는 단 1%의 차이가 출퇴근 시간 전체를 좌우합니다.
 

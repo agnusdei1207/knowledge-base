@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/))가 개발하여 현재 전 세계 인터넷 백본 라우터 스위칭의 사실상 표준(De facto standard)이 된 하드웨어 기반의 토폴로지 중심 포워딩 메커니즘.
 - **필요성**: 앞서 배웠듯 '패스트 스위칭(Fast Switching)' 기술은 첫 번째 패킷이 올 때 CPU가 고생해서 캐시를 만들면 두 번째 패킷부터 캐시를 타는 방식이었다. 그런데 인터넷에 트래픽이 폭증하고 목적지 IP가 워낙 다양해지다 보니, 첫 패킷이 너무 많이 쏟아져 들어와서 캐시가 무용지물이 되고 CPU가 폭발하는 현상이 발생했다. <strong>"아예 패킷이 단 한 개도 들어오지 않은 부팅 상태에서, 모든 목적지에 대한 정답지(캐시)를 100% 미리 싹 다 만들어두면 안 될까?"</strong>라는 광기 어린 최적화 아이디어가 CEF를 탄생시켰다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - **과거 (패스트 스위칭)**: 손님이 처음 "부산 가는 햄버거 세트"를 주문하면 그때 주방장(CPU)이 레시피를 뒤져서 세트를 구성해 줍니다. 두 번째 손님부터는 만들어둔 세트를 바로 내줍니다. 하지만 손님이 수만 명이고 메뉴가 다 다르면 주방장은 과로사합니다.
   - **현대 (CEF)**: 주방장(CPU)은 아침에 출근하자마자 메뉴판(RIB)에 있는 <strong>"모든 햄버거 세트를 수만 개 미리 다 만들어서 쇼케이스(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/">FIB</a> 하드웨어)에 진열"</strong>해 둡니다. 손님(패킷)이 주문하면 알바생([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 칩)이 쇼케이스에서 1초 만에 꺼내줍니다. 주방장은 낮잠을 잡니다.
 
@@ -45,7 +45,7 @@ CEF의 놀라운 속도는 CPU가 만들어 낸 RIB([라우팅](/knowledge-base/
 
 ### 1. [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) (Forwarding Information Base) - 경로 최적화의 끝판왕
 - OSPF나 BGP가 만든 원본 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블(RIB)을 복사해서 만든 고속 검색 전용 지도다.
-- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/">재귀</a> 탐색(Recursive Lookup) 제거</strong>: RIB에서는 "A로 가려면 B를 거쳐라, B로 가려면 C를 거쳐라, C는 3번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)다"라고 되어 있어 CPU가 3번을 점프해서 읽어야 했다. 
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/">재귀</a> 탐색(Recursive Lookup) 제거</strong>: RIB에서는 "A로 가려면 B를 거쳐라, B로 가려면 C를 거쳐라, C는 3번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)다"라고 되어 있어 CPU가 3번을 점프해서 읽어야 했다.
 - FIB는 이 뻘짓을 혐오한다. 미리 계산을 끝내놓고 <strong>"A로 가려면 걍 3번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>!"</strong>라고 딱 한 줄로 직관적인 결론을 박아버린다.
 - 이 FIB는 TCAM이라는 고가의 특수 메모리에 올라가서 O(1)의 속도로 한 방에 검색된다.
 

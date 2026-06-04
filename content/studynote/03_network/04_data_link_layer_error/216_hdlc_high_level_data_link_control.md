@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-과거 IBM이 쓰던 BISYNC 같은 통신 규약은 문장 앞뒤에 `STX`, `ETX` 같은 아스키코드 '문자'를 달아 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보냈습니다. 
+과거 IBM이 쓰던 BISYNC 같은 통신 규약은 문장 앞뒤에 `STX`, `ETX` 같은 아스키코드 '문자'를 달아 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보냈습니다.
 - **문제점**: 영어 알파벳을 보낼 땐 상관없지만, 엑셀 파일이나 동영상 같은 순수 이진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Binary)를 보낼 때는 에러가 터졌고 속도도 느렸습니다.
 
 이를 타파하기 위해 등장한 HDLC는 <strong>'<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 지향형(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>-oriented)'</strong> 프로토콜입니다.
@@ -43,7 +43,7 @@ tags = ["studynote-network"]
 당시 시대의 최첨단 기술을 모두 갈아 넣은 마스터피스였습니다.
 
 1. **에러 제어 (ARQ의 완성)**
-   - 프레임 끝에 16비트나 32비트짜리 강력한 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) [연산 코드](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/)(FCS)를 달았습니다. 
+   - 프레임 끝에 16비트나 32비트짜리 강력한 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) [연산 코드](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/)(FCS)를 달았습니다.
    - 수신기가 에러를 검출하면 가차 없이 버리고 재전송을 요청하는 **Go-Back-N** 또는 **Selective Repeat** ARQ를 완벽히 탑재했습니다.
 2. <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a> (슬라이딩 윈도우)</strong>
    - 1개 보내고 대기하는 바보 같은 정지-대기(Stop-and-Wait)를 버렸습니다.

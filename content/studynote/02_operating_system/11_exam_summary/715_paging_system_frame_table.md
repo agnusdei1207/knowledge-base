@@ -19,18 +19,18 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> (<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a>)</strong>: [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)를 자르는 고정된 블록 단위 (보통 4KB).
   - **프레임 (Frame)**: 물리 메모리(RAM)를 자르는 고정된 블록 단위 ([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)와 크기가 무조건 100% 같다).
   - **프레임 테이블 (Frame Table)**: 시스템 전체의 물리 프레임 상태(Free, Allocated)를 추적하는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 메인 장부.
 
-- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/">연속 할당</a>의 한계 돌파)</strong>: 
+- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/">연속 할당</a>의 한계 돌파)</strong>:
   - 가변 분할([연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)) 방식은 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 때문에 수기가바이트의 메모리가 낭비되었다.
   - "왜 꼭 연속으로 줘야 하지? 프로그램 코드를 잘게 찢어서 빈 공간 아무 데나 흩뿌려 놓고, 실행할 때만 순서대로 조립해주면 안 될까?"
   - **해결책**: 메모리를 잘게 찢는 '[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)' 기법이 도입되었다. 찢어진 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들이 물리 램의 어느 프레임(빈칸)에 들어갔는지 기록하는 거대한 룩업 테이블(Look-up Table)이 필수적으로 요구되었다.
 
   - <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/">연속 할당</a></strong>: 50페이지짜리 소설책 1권을 통째로 꽂을 수 있는 빈 책장을 찾는다. 책장이 조금씩 비어있어도 연속된 빈칸이 없으면 책을 꽂을 수 없다.
-  - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a></strong>: 소설책을 1장([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))씩 뜯어버린다. 그리고 도서관 책장의 빈 곳(Frame) 아무 데나 마구잡이로 한 장씩 꽂아 넣는다. 
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a></strong>: 소설책을 1장([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))씩 뜯어버린다. 그리고 도서관 책장의 빈 곳(Frame) 아무 데나 마구잡이로 한 장씩 꽂아 넣는다.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a></strong>: "이 소설의 1페이지는 도서관 30번 칸에 있고, 2페이지는 80번 칸에 있다"고 적어놓은 개인용 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/).
   - **프레임 테이블**: 도서관 사서가 들고 있는 장부. "현재 도서관의 30번 칸은 사용 중, 31번 칸은 빔"이라고 전체 빈자리를 관리하는 지도.
 

@@ -37,7 +37,7 @@ Step 1: pivot = A[0,0] = 2
   [ 2   1   -1  |  8  ]
   [ 0   0.5  0.5 |  1  ]
   [-2   1    2  | -3  ]
-  
+
   R3 = R3 - (-2/2)×R1 → R3 = R3 + 1×R1
   [ 2   1   -1 |  8 ]
   [ 0   0.5  0.5 | 1 ]
@@ -53,7 +53,7 @@ Step 2: pivot = A[1,1] = 0.5
   R3: -z = 1 → z = -1
   R2: 0.5y + 0.5(-1) = 1 → y = 3
   R1: 2x + 3 - (-1) = 8 → x = 2
-  
+
   해: x = 2, y = 3, z = -1
 
 복잡도:
@@ -75,13 +75,13 @@ Step 2: pivot = A[1,1] = 0.5
 문제 1 - 피벗이 0:
   [0   2   1 | 5]
   [1   3   2 | 8]
-  
+
   0으로 나누기 → 오류!
 
 문제 2 - 피벗이 0에 가까운 작은 수:
   [0.0001  2   1 | 5]
   [1       3   2 | 8]
-  
+
   배율 계수 = 1 / 0.0001 = 10000
   부동소수점 연산 → 정밀도 손실 급증
 
@@ -94,7 +94,7 @@ Step 2: pivot = A[1,1] = 0.5
   [ 2   1  -1 |  8 ]  ← |2| = 2
   [-3  -1   2 | -11]  ← |-3| = 3  ← 가장 큰 절댓값
   [-2   1   2 | -3 ]  ← |-2| = 2
-  
+
   R1 ↔ R2:
   [-3  -1   2 | -11]
   [ 2   1  -1 |  8 ]
@@ -108,21 +108,21 @@ Step 2: pivot = A[1,1] = 0.5
 
 Python 구현:
   import numpy as np
-  
+
   def gauss_partial_pivot(A, b):
       n = len(A)
       Ab = np.column_stack([A.astype(float), b.astype(float)])
-      
+
       for col in range(n):
           # 부분 피벗팅
           max_row = col + np.argmax(np.abs(Ab[col:, col]))
           Ab[[col, max_row]] = Ab[[max_row, col]]
-          
+
           # 소거
           for row in range(col+1, n):
               factor = Ab[row, col] / Ab[col, col]
               Ab[row, col:] -= factor * Ab[col, col:]
-      
+
       # 후방 대입
       x = np.zeros(n)
       for i in range(n-1, -1, -1):
@@ -151,30 +151,30 @@ LU 분해 (LU Decomposition):
   A = [2   1  -1]
       [-3  -1   2]
       [-2   1   2]
-  
+
   L = [1      0    0  ]    U = [ 2    1   -1 ]
       [-1.5   1    0  ]        [ 0   0.5  0.5]
       [-1    -6    1  ]        [ 0    0   -1 ]
-  
+
   L × U = A (검증)
 
 LU 분해의 장점:
   같은 A로 여러 b 풀기:
-  
+
   Ax = b → LUx = b
-  
+
   1. Ly = b: 전방 대입 O(n²)
   2. Ux = y: 후방 대입 O(n²)
-  
+
   n개의 다른 b에 대해:
   - 직접 소거: O(n³) × n번 = O(n⁴)
   - LU 분해 1번 + n번 대입: O(n³) + n × O(n²) = O(n³)
-  
+
   → 행렬 역행렬 계산 실제 구현
 
 scipy.linalg 사용:
   from scipy.linalg import lu, solve
-  
+
   P, L, U = lu(A)   # PA = LU (피벗팅 포함)
   x = solve(A, b)   # LU 분해 내부 사용
 ```
@@ -188,23 +188,23 @@ scipy.linalg 사용:
 ```
 가우스 소거법 → 행렬식 계산:
   U의 대각 원소 곱 = 행렬식 (피벗 교환 부호 고려)
-  
+
   det(A) = (-1)^s × U[0,0] × U[1,1] × ... × U[n-1,n-1]
   (s: 행 교환 횟수)
 
 역행렬 계산:
   A × A^(-1) = I
-  
+
   방법:
   [A|I] → 가우스-조던 소거 → [I|A^(-1)]
-  
+
   가우스-조던 소거:
   상삼각뿐 아니라 완전한 단위 행렬로 변환
   (상방 소거도 수행)
 
 행렬 랭크 (Rank):
   가우스 소거 후 비영 행 수 = 랭크
-  
+
   의미:
   rank(A) = n: 유일 해 존재
   rank(A) < n: 해 없음 또는 무한 해
@@ -214,7 +214,7 @@ scipy.linalg 사용:
   numpy.linalg.inv(A): 역행렬 (가우스-조던)
   numpy.linalg.det(A): 행렬식
   numpy.linalg.matrix_rank(A): 랭크
-  
+
   scipy.linalg.lu(A): LU 분해 (P, L, U 반환)
   scipy.sparse.linalg: 희소 행렬 최적화
 
@@ -239,7 +239,7 @@ scipy.linalg 사용:
   3D 게임: 화면 좌표 → 월드 좌표 역변환
   카메라 행렬 M (4×4)이 주어질 때
   M^(-1) 계산 필요
-  
+
   방법: 가우스-조던 소거 (4×4 소규모)
 
 카메라 행렬 예 (4×4):
@@ -250,7 +250,7 @@ scipy.linalg 사용:
 
 역행렬 계산 (가우스-조던):
   [A|I] → 소거 → [I|A^(-1)]
-  
+
   역행렬:
   [1  0  0   3]   (역이동: +3)
   [0  1  0   4]
@@ -260,7 +260,7 @@ scipy.linalg 사용:
 OpenGL/DirectX:
   glm::mat4 view = camera.GetViewMatrix();
   glm::mat4 invView = glm::inverse(view);
-  
+
   // 내부: LU 분해 또는 가우스-조던
   // 4×4 행렬: 극히 빠름 (고정 크기 최적화)
 
@@ -271,10 +271,10 @@ OpenGL/DirectX:
 
 대규모 연립 방정식:
   물리 시뮬레이션: 수천~수만 연립 방정식
-  
+
   직접법: 가우스 소거 O(n³) → n=10,000: 10^12 연산
   반복법: 켤레 기울기법 O(n√κ) → 희소 행렬에 효율적
-  
+
   선택 기준:
   n < 1,000: 가우스 소거 충분
   n > 1,000, 희소 행렬: 반복법

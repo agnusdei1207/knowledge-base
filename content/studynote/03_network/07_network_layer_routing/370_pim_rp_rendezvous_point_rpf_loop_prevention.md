@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: PIM-SM 네트워크의 구심점 역할을 하는 RP(Rendezvous Point)와, [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 트래픽의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 루프 방지 및 최적 분배 트리 구성을 위한 RPF(Reverse Path Forwarding) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/).
 - **필요성**: [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)는 "1개를 받아서 2개로 복사(Flooding)해 던지는" 아주 위험한 기술이다. 라우터 3대가 삼각형으로 묶여있는데 1개가 2개로, 2개가 4개로, 4개가 16개로 복사되며 루프가 돌면 1초 만에 기가비트 백본이 터져버린다(Broadcast Storm). <strong>"어디서 들어온 패킷인지 깐깐하게 검사해서, 정문(최단 경로)으로 들어온 패킷만 통과시키고 뒷문으로 몰래 굴러들어온 중복 패킷은 다 버리자!"</strong>라는 생존 본능이 RPF라는 마법의 검문소를 만들어냈다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - **RP**: 소개팅 앱의 <strong>"마담뚜(중매인)"</strong>입니다. 남자(방송국)는 마담뚜에게 프로필을 보내고, 여자(시청자)는 마담뚜에게 소개를 요청합니다. 마담뚜가 없으면 둘은 평생 만나지 못합니다.
   - **RPF**: 궁궐 문지기의 <strong>"신분증 거꾸로 검사법"</strong>입니다. 문지기(라우터)는 택배가 오면 목적지(누구한테 갈래?)를 보지 않습니다. 택배에 적힌 발송인(부산)을 봅니다. "어? 부산에서 출발한 택배면 KTX(정문 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 타고 왔어야지, 왜 배(뒷문 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 타고 엉뚱한 데서 들어와? 너 가짜 복제품이지! 버려!"라며 짝퉁 중복 택배를 완벽히 걸러냅니다.
 
@@ -42,7 +42,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. RP (Rendezvous Point)를 구하는 3가지 방법
-전국의 라우터들이 "누가 RP(중앙 우체국)인지" 똑같이 알고 있어야 한다. 
+전국의 라우터들이 "누가 RP(중앙 우체국)인지" 똑같이 알고 있어야 한다.
 - **Static RP**: 관리자가 수백 대의 라우터에 일일이 `ip pim rp-address 1.1.1.1`이라고 손으로 쳐서 하드코딩한다. 가장 무식하지만 완벽하다. (RP가 죽으면 수동으로 딴 놈으로 다 고쳐야 함).
 - **Auto-RP**: 시스코 꼼수. 후보자(Candidate-RP)들이 "나 반장 할래!"라고 떠들면, 매니저([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/) Agent)가 그걸 듣고 가장 똘똘한 놈을 골라 동네방네 "올해의 RP는 1.1.1.1 이다!"라고 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)로 쏴준다. (설정이 자동이라 편함).
 - **BSR (Bootstrap Router)**: Auto-RP의 벤더 독립적인(Open) 업계 표준 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 원리는 거의 똑같이 후보를 받고 매니저가 쏴주는 방식이다.
@@ -96,7 +96,7 @@ RP, RPF [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 RPF는 "돌아가는 길이 같아야 한다"는 대원칙을 쓴다. 그런데 실무에서 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 두 대를 놓고 들어오는 길(Inbound)과 나가는 길(Outbound)을 일부러 다르게 세팅해 놓은 <strong>비대칭 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>(Asymmetric <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a>)</strong> 환경이라면?
-- 영상 패킷은 정상적으로 들어왔는데, 라우터가 "어? 나가는 길은 2번 포튼데 넌 1번으로 왔네?"라며 정상 패킷을 RPF Fail로 몽땅 다 쏴 죽여버린다! 
+- 영상 패킷은 정상적으로 들어왔는데, 라우터가 "어? 나가는 길은 2번 포튼데 넌 1번으로 왔네?"라며 정상 패킷을 RPF Fail로 몽땅 다 쏴 죽여버린다!
 - **해결책**: 관리자가 억지로 `ip mroute` ([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전용 Static [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))을 한 줄 쳐서 "야, 1번으로 들어오는 거 RPF 합격시켜줘!"라고 RPF 검사기를 강제로 속여(수정해) 줘야만 영상이 뚫린다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

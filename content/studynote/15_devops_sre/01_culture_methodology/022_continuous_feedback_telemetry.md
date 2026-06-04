@@ -21,7 +21,7 @@ tags = ["studynote-devops-sre"]
 ## Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
 ### 1. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD의 함정: "배포가 끝이 아니다"
-조직이 [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/), [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s), ArgoCD를 도입하여 하루에 100번씩 코드를 배포하는 완벽한 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 구축했다고 가정해 봅시다. 
+조직이 [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/), [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s), ArgoCD를 도입하여 하루에 100번씩 코드를 배포하는 완벽한 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 구축했다고 가정해 봅시다.
 - 개발자들은 환호하지만, CEO는 묻습니다. "그래서 배포한 새 장바구니 기능 때문에 매출이 올랐습니까? 오히려 결제 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 늘어나진 않았나요?"
 - **문제점**: 배포(CD)만 잘하는 것은 "눈을 감고 시속 200km로 달리는 스포츠카"와 같습니다. 앞이 벼랑인지 제대로 된 목적지로 가고 있는지 알려주는 '계기판'과 '센서'가 없으면 폭주하는 릴리스 열차일 뿐입니다.
 
@@ -77,7 +77,7 @@ tags = ["studynote-devops-sre"]
 | **Push 방식 (Agent/SDK)** | 애플리케이션에 심어진 에이전트(Agent)가 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 발생 시 수집 서버로 직접 쏘아 보냄 (예: Datadog) | 단기적인 이벤트와 상세한 [분산 트레이싱](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/112_distributed_tracing_microservices/)([Tracing](/knowledge-base/studynote/04_software_engineering/uncategorized/657_observability/)) 즉시 포착 가능 | <strong>수집 서버 장애 시 앱 내부 버퍼가 터져 연쇄 장애 유발 위험 (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">Coupling</a>)</strong>, 오버헤드 증가 |
 
 ### 정보 과부하(Alert Fatigue)의 트레이드오프
-모든 것을 측정(Feedback)하겠다는 과도한 욕심은 <strong>최악의 트레이드오프인 '경보 피로(Alert Fatigue)'</strong>를 유발합니다. 
+모든 것을 측정(Feedback)하겠다는 과도한 욕심은 <strong>최악의 트레이드오프인 '경보 피로(Alert Fatigue)'</strong>를 유발합니다.
 - CPU 70% 초과, 1초 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 등 별로 중요하지 않은 일에도 슬랙 알람이 하루 수천 통씩 쏟아지면, 개발자는 결국 알람 채널을 무음(Mute)으로 돌려버리게 됩니다.
 - **해결책**: 측정은 많이 하되, 피드백(알람)은 인간의 개입이 즉시 필요한 '고객 가치 훼손(예: 결제 실패율 1% 상승)'에만 선별적으로 집중시키는 SRE의 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 수준 목표) 기반 알람 설계</strong>가 필수입니다.
 

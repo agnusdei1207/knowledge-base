@@ -129,8 +129,8 @@ CI/CD Deployment
 
 ## 어린이를 위한 3줄 비유 설명
 
-상자를 모아 두는 창고예요.  
-필요할 때 꺼내서 써요.  
+상자를 모아 두는 창고예요.
+필요할 때 꺼내서 써요.
 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)는 그런 곳이에요.
 
 ---

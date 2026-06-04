@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 한 개발자가 10년째 급여 시스템을 혼자 만들고 관리하고 배포까지 다 했다. 어느 날 그가 빚쟁이가 되자, 자기 급여 계좌의 0을 하나 더 붙인 코드를 몰래 짜서 아무런 제지 없이 라이브 서버에 배포했다. 회사 돈 수십억이 털렸다. <strong>"시스템의 맹점을 가장 잘 아는 건 그 시스템을 만든 사람"</strong>이다. 아무리 [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))가 튼튼해도 정문을 여는 마스터키를 혼자 들고 있는 내부자는 1초 만에 회사를 멸망시킬 수 있다. 인간의 양심을 묻고, 기계적인 감시와 견제의 족쇄(Checks and Balances)를 코드에 박아넣는 것이 모든 대기업 보안의 출발점이다.
 
-- **💡 비유**: [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)(SoD)는 핵잠수함의 <strong>'핵미사일 동시 발사 키'</strong>와 똑같습니다. 핵미사일을 쏘는 버튼이 1개라면, 함장이 갑자기 미쳐서 혼자 버튼을 누르고 세계 대전을 일으킬 수 있습니다. 그래서 발사 키를 함장 1개, 부함장 1개로 쪼개어 목에 걸어줍니다. 미사일을 쏘려면 두 사람이 방의 양 끝에 서서 동시에 자기 열쇠를 꽂고 돌려야만 발사됩니다. 둘 중 한 명이 "이건 미친 짓이야!"라고 거부하면 미사일은 절대 나가지 않습니다. 
+- **💡 비유**: [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)(SoD)는 핵잠수함의 <strong>'핵미사일 동시 발사 키'</strong>와 똑같습니다. 핵미사일을 쏘는 버튼이 1개라면, 함장이 갑자기 미쳐서 혼자 버튼을 누르고 세계 대전을 일으킬 수 있습니다. 그래서 발사 키를 함장 1개, 부함장 1개로 쪼개어 목에 걸어줍니다. 미사일을 쏘려면 두 사람이 방의 양 끝에 서서 동시에 자기 열쇠를 꽂고 돌려야만 발사됩니다. 둘 중 한 명이 "이건 미친 짓이야!"라고 거부하면 미사일은 절대 나가지 않습니다.
 
 - **등장 배경 및 발전 과정**:
   1. **회계 장부의 시대**: 원래 IT 용어가 아니라 회계/재무에서 왔다. "돈 통 만지는 놈이랑 장부 적는 놈을 분리해라"는 고전적인 은행의 횡령 방지 룰이었다.

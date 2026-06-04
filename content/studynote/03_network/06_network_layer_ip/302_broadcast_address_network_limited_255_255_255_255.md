@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 주소 체계에서 1:All 통신을 위해 예약된 주소. L2 계층의 `FF:FF:FF:FF:FF:FF` [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소와 함께 움직이며 네트워크의 모든 장비에 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 건다.
 - **필요성**: 내가 속한 네트워크에 "이 IP 가진 사람 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 좀 알려줘([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/))"라든가, "IP 하나 남는 거 빌려줄 사람?([DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/))"이라며 목적지를 명확히 모를 때, 1번 컴퓨터, 2번 컴퓨터 일일이 다 찔러보는 것(유니캐스트 254번 발송)은 네트워크 자원 낭비다. 한 번만 쏘면 254명이 다 듣게 만드는 마법의 채널(주파수)이 필요했다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - 유니캐스트: "홍길동 학생, 교무실로 와라." (1:1)
   - **네트워크 브로드캐스트**: 타 지역 경찰이 02-112를 누르고 <strong>"지금 서울(192.168.1)에 있는 모든 경찰관(255)은 비상 대기하라!"</strong>고 방송하는 것.
   - **리미티드 브로드캐스트**: 기억을 잃은 사람이 길거리 한가운데 서서 <strong>"여기 계신 모든 분(255.255.255.255), 저 좀 도와주세요!"</strong>라고 소리치는 것 (내 목소리가 닿는 반경 안의 사람들만 들음).

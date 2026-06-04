@@ -56,7 +56,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 ### 1. 전파 방해(Jamming)와 간섭에 대한 완벽한 내성 🌟
-- [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 수백 MHz의 거대한 도화지 전체에 연하게 색칠되어 날아갑니다. 
+- [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 수백 MHz의 거대한 도화지 전체에 연하게 색칠되어 날아갑니다.
 - 적군이 100MHz 대역에 강력한 재밍(방해 전파) 폭탄을 떨어뜨려도, 전체 그림 중 코딱지만 한 1%만 찢어질 뿐입니다. 수신 측에서 돋보기로 모아서 보면 원래 그림([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 99% 완벽히 살아있어 복원이 무조건 가능합니다.
 
 ### 2. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 은닉 및 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 불가 (LPI, Low [Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) of Intercept)

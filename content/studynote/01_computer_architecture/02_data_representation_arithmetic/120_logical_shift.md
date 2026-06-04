@@ -18,7 +18,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[시프트 연산](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/119_shift_operations/) 중에서도 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 시프트(Logical Shift)는 가장 멍청하지만 가장 확실한 연산이다. 
+[시프트 연산](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/119_shift_operations/) 중에서도 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 시프트(Logical Shift)는 가장 멍청하지만 가장 확실한 연산이다.
 
 컴퓨터가 메모리 주소나 파일의 크기처럼 태생적으로 마이너스(-)가 존재할 수 없는 부호 없는(Unsigned) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다룰 때, 부호 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 지켜주느라 복잡한 게이트를 거칠 필요가 전혀 없다. 아키텍트들은 "[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 옆으로 밀어내고 남은 빈 공간에 그냥 0을 쏟아부어 버리면 [논리 게이트](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/) 하나 없이 전선(Wire)만 연결해도 끝난다"는 사실을 깨달았다. 이 극단적인 하드웨어 단순함 덕분에 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 시프트는 가장 빠르고 전력 소모가 적은 [마이크로프로세서](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/129_microprocessor/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 근간으로 융합되었다.
 

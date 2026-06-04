@@ -113,7 +113,7 @@ tags = ["studynote-operating-system"]
 ### 뮤텍스 ([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)) 와의 하이브리드: Adaptive [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)
 현대 OS는 "스핀락과 뮤텍스 중 뭘 쓸까?" 고민하는 개발자를 위해 둘을 섞어버렸다(Adaptive [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)).
 - 락이 잠겨있으면 일단 **스핀락으로 짧게(예: 100클럭) 뺑뺑이를 돌아본다**.
-- 그래도 락이 안 풀리면 "아, 이건 오래 걸리는 거구나" 하고 **포기한 뒤 진짜 Sleep(뮤텍스) 상태로 빠져든다**. 
+- 그래도 락이 안 풀리면 "아, 이건 오래 걸리는 거구나" 하고 **포기한 뒤 진짜 Sleep(뮤텍스) 상태로 빠져든다**.
 - [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 오버헤드와 CPU 낭비 사이의 황금비율을 동적으로 찾아내는 현대적인 락이다.
 
 - **📢 섹션 요약 비유**: TAS 스핀락이 화장실 문을 64명이 동시에 두드리는 야만적인 행위라면, MCS 스핀락은 64명이 줄을 서서 앞사람 어깨만 쳐다보고 조용히 기다리다 톡 쳐주면 들어가는 젠틀한 방법입니다. 어댑티브 뮤텍스는 일단 문을 3초간 두드려보고 안 나오면 소파로 가서 자는 현실적인 타협안입니다.
@@ -158,7 +158,7 @@ tags = ["studynote-operating-system"]
 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)의 길이가 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 오버헤드보다 짧다는 것이 확정된 환경에서 스핀락(Spinlock)을 도입하면, 스레드가 블로킹([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))되지 않고 1마이크로초 이내에 락을 쟁취하여 시스템의 디스패치 속도와 극한의 런타임 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(HFT 등)을 달성할 수 있다.
 
 ### 결론 및 미래 전망
-스핀락은 멀티코어 운영체제가 태동할 때 글로벌 락(Big [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 구현하기 위해 쓰였던 가장 원초적인 하드웨어 밀착형 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 기법이다. 현재는 단순 스핀락의 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마비 단점을 극복하기 위해 `Ticket Spinlock`을 거쳐 `MCS Spinlock`과 `qspinlock`(큐드 스핀락)으로 진화하여, 수백 개의 코어가 돌아가는 리눅스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터의 최하단 심장부에서 1초에 수십억 번씩 뺑뺑이를 돌며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무결성을 수호하고 있다. 
+스핀락은 멀티코어 운영체제가 태동할 때 글로벌 락(Big [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 구현하기 위해 쓰였던 가장 원초적인 하드웨어 밀착형 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 기법이다. 현재는 단순 스핀락의 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마비 단점을 극복하기 위해 `Ticket Spinlock`을 거쳐 `MCS Spinlock`과 `qspinlock`(큐드 스핀락)으로 진화하여, 수백 개의 코어가 돌아가는 리눅스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터의 최하단 심장부에서 1초에 수십억 번씩 뺑뺑이를 돌며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무결성을 수호하고 있다.
 미래의 유저 공간(User Space) 애플리케이션에서는 개발자가 직접 스핀락을 짤 일은 거의 사라지며, 하드웨어가 지원하는 [트랜잭셔널 메모리](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/)(TSX)나 언어 자체의 `Atomic` 연산([CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/))으로 완전히 추상화되어 대체될 것이다.
 
 - **📢 섹션 요약 비유**: 스핀락은 자동차 엔진 속에서 미친 듯이 상하 운동을 반복하는 피스톤입니다. 피스톤이 돌면서 엄청난 열(CPU 낭비)을 내지만, 그 회전(Spin)이 없으면 자동차(OS)는 한 발짝도 나아갈 수 없습니다. 우리는 피스톤을 더 기름지게(MCS 락) 만들며 진화시켜 왔습니다.

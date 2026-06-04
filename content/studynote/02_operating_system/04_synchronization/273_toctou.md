@@ -29,7 +29,7 @@ tags = ["studynote-operating-system"]
 3.     delete(파일);                      // [ 사용 (Use) ]
 4. }
 ```
-혼자 쓰는 컴퓨터라면 이 코드는 완벽하다. 하지만 서버는 수천 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 돌아가는 전쟁터다. 
+혼자 쓰는 컴퓨터라면 이 코드는 완벽하다. 하지만 서버는 수천 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 돌아가는 전쟁터다.
 해커는 악성 스크립트를 짜서 1번(검사)과 3번(사용) 사이의 찰나의 순간에, `profile.png` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 지우고 그 자리에 서버의 핵심 비밀번호 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)인 `/etc/shadow`로 연결되는 지름길([심볼릭 링크](/knowledge-base/studynote/02_operating_system/09_file_system/512_symbolic_link/))을 몰래 생성해 버린다.
 3번 줄이 실행될 때, 삭제 함수는 해커의 사진이 아니라 서버의 심장(비밀번호 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))을 무참히 삭제해 버린다. (권한 우회 대참사)
 
@@ -90,9 +90,9 @@ TOCTOU는 주로 [파일](/knowledge-base/studynote/02_operating_system/09_file_
 ```java
 // [ 안전한 코드 ]
 synchronized(lock) {
-    if (잔액 >= 100) { 
+    if (잔액 >= 100) {
         // 이제 틈새로 해커가 못 들어옴!
-        출금(100); 
+        출금(100);
     }
 }
 ```

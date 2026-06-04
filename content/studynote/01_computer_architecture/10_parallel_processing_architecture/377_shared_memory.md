@@ -118,13 +118,13 @@ tags = ["studynote-computer-architecture"]
 
 ### 실무 판단 기준
 
-1. **자주 공유하는 상태가 있는가**  
+1. **자주 공유하는 상태가 있는가**
    [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 테이블, 작업 큐, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 자료구조처럼 짧은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 상태를 즉시 반영해야 하면 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)가 유리하다.
-2. **락 경합이 성능을 잠식하는가**  
+2. **락 경합이 성능을 잠식하는가**
    전역 락 하나에 수십 개 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 몰리면 코어를 늘려도 처리량이 거의 오르지 않는다.
-3. **캐시 친화적으로 배치했는가**  
+3. **캐시 친화적으로 배치했는가**
    [거짓 공유](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/) ([False Sharing](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/)) 가 발생하면 논리적으로 다른 변수도 같은 캐시 라인 때문에 서로 방해한다.
-4. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a> 지역성을 고려했는가</strong>  
+4. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a> 지역성을 고려했는가</strong>
    큰 서버에서는 메모리가 공유되어도 "가까운 메모리"와 "먼 메모리"의 차이가 커서, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 핀닝과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치가 중요하다.
 
 ### 대표 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)

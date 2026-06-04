@@ -129,8 +129,8 @@ Timing Control
 
 ## 어린이를 위한 3줄 비유 설명
 
-카드를 뒤집어서 다시 돌리면 다른 순서가 생겨요.  
-존슨 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)는 그런 식으로 순서를 더 많이 만들어요.  
+카드를 뒤집어서 다시 돌리면 다른 순서가 생겨요.
+존슨 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)는 그런 식으로 순서를 더 많이 만들어요.
 그래서 작은 회로로 여러 단계를 만들 수 있어요.
 
 ---

@@ -122,7 +122,7 @@ tags = ["studynote-enterprise-systems"]
 - [ ] [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/): [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 [Trace ID](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/) 전파 (`traceparent` [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더)
 - [ ] 샘플링 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/): 개발=100%, 스테이징=[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%, 프로덕션=1% + Tail [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)
 - [ ] PII [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹: Collector Processor에서 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 필드 제거
-- [ ] Cardinality 관리: 레이블 조합 수 제한 ([Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/))
+- [ ] Cardinality 관리: 레이블 조합 수 제한 ([Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/))
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 

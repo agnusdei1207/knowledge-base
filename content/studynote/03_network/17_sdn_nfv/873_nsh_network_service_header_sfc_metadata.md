@@ -37,7 +37,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/)(국제 인터넷 표준화 기구)에서 제정한 공식 [SFC](/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 기능 체이닝) 전용 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 규약입니다. 
+- **개념**: [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/)(국제 인터넷 표준화 기구)에서 제정한 공식 [SFC](/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 기능 체이닝) 전용 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 규약입니다.
 - 원래 패킷 겉면에 <strong>'이 패킷이 어떤 징검다리 코스(체인)를 밟아야 하며, 지금 현재 몇 번째 징검다리를 밟았는지(경로와 상태)'를 적어놓은 꼬리표(헤더 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)를 추가로 씌워서(인캡슐레이션) 전송하는 기술</strong>입니다.
 
 ```text
@@ -59,7 +59,7 @@ tags = ["studynote-network"]
 
 ### 1. [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Path [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/)) - "너 무슨 코스 타니?"
 - 클라우드에 수만 개의 징검다리 코스(체인)가 있습니다.
-- SPI는 <strong>패킷이 배정받은 전체 코스의 고유 ID 번호</strong>입니다. 
+- SPI는 <strong>패킷이 배정받은 전체 코스의 고유 ID 번호</strong>입니다.
 - (예: `SPI=100번`은 `방화벽 ➜ IPS ➜ 로드밸런서` 코스, `SPI=200번`은 `방화벽 ➜ 필터링` 코스) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들은 [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) 100번을 보면 묻지도 따지지도 않고 그 코스 설계도대로 쳐냅니다.
 
 ### 2. SI ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) - "지금 몇 번째 징검다리 밟았니?" 🌟
@@ -67,11 +67,11 @@ tags = ["studynote-network"]
 - **동작 예시**:
   - 처음에 출발할 때 `SI=255` (가득 찬 상태) 도장이 찍혀있습니다.
   - 1번 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/))을 통과하고 나올 때, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 노란색 포스트잇의 숫자를 하나 깎아서 `SI=254`로 고쳐 적습니다.
-  - 다음 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 이 패킷을 받으면 패킷 이마를 봅니다. "어? `SI=254`네? 1단계 끝났다는 뜻이군! 엑셀 장부를 보니 254번 상태일 땐 2번 IPS로 던지라네!" 하고 정확하게 2단계로 패스해 줍니다. 
+  - 다음 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 이 패킷을 받으면 패킷 이마를 봅니다. "어? `SI=254`네? 1단계 끝났다는 뜻이군! 엑셀 장부를 보니 254번 상태일 땐 2번 IPS로 던지라네!" 하고 정확하게 2단계로 패스해 줍니다.
   - 앱을 거칠 때마다 SI가 -1씩 깎이면서(Decrement), 징검다리의 무한 루핑(뺑뺑이)을 막고 완벽한 순서를 보장해 냅니다.
 
 ### 3. [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) ([Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)) - "앞사람이 남긴 메모"
-- 1번 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 패킷을 검사해 보니 "이거 살짝 해킹 의심되는데?" 싶으면, 패킷 본문은 안 건드리고 이 NSH 포스트잇 공간에 "해킹 의심도 80%"라고 몰래 텍스트([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))를 끄적여서([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)) 2번 IPS에게 넘겨줍니다. 
+- 1번 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 패킷을 검사해 보니 "이거 살짝 해킹 의심되는데?" 싶으면, 패킷 본문은 안 건드리고 이 NSH 포스트잇 공간에 "해킹 의심도 80%"라고 몰래 텍스트([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))를 끄적여서([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)) 2번 IPS에게 넘겨줍니다.
 - 2번 IPS는 포스트잇 메모를 읽고 더 빡세게 패킷을 찢어서 정밀 검사합니다. 가상 앱들끼리 패킷의 뒷담화(정보)를 실시간으로 공유하는 텔레파시 채널이 됩니다.
 
 네트워크 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 헤더를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [서비스 체이닝](/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/) ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Chainin…가 기반 조건을 만든다면, 네트워크 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 헤더는 그 위에서 핵심 메커니즘을 구현하고, [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) (Programming [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.

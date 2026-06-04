@@ -25,7 +25,7 @@ tags = ["studynote-operating-system"]
 운영체제를 배우는 학생들이 가장 먼저 외우는 공식이다. 그런데 교수님이 이런 질문을 던진다.
 <strong>"그럼 카운터를 1로 설정한 '<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/225_binary_semaphore/">이진 세마포어</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/225_binary_semaphore/">Binary Semaphore</a>)'와 '뮤텍스'는 완전히 똑같은 거 아니냐?"</strong>
 
-상태가 0(잠김)과 1(열림)만 존재한다는 동작 원리 자체는 완전히 똑같다. 둘 다 1명이 들어가면 문이 잠기고, 나오면 문이 열린다. 
+상태가 0(잠김)과 1(열림)만 존재한다는 동작 원리 자체는 완전히 똑같다. 둘 다 1명이 들어가면 문이 잠기고, 나오면 문이 열린다.
 하지만 이 둘을 실무 코드에서 섞어 쓰는 순간 시스템은 끔찍한 버그에 시달리게 된다. 왜냐하면 뮤텍스는 화장실의 <strong>'자물쇠'</strong>이고, [이진 세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/225_binary_semaphore/)는 기차역의 <strong>'<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>등'</strong>이라는 전혀 다른 철학으로 만들어진 도구이기 때문이다. 이 차이를 가르는 단어는 바로 <strong>소유권(Ownership)</strong>이다.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
@@ -36,7 +36,7 @@ tags = ["studynote-operating-system"]
 
 #### 1. 뮤텍스 ([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/): [Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))
 * **핵심 철학**: "내가 잠갔으니, 푸는 것도 나만 풀 수 있다."
-* **작동 원리**: 
+* **작동 원리**:
   - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 공유 변수에 접근하기 위해 `lock()`을 건다.
   - 이 순간 OS는 이 뮤텍스의 <strong>'소유자(Owner)'가 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> A</strong>임을 명부(TCB)에 기록해 버린다.
   - 만약 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 미쳐서 `unlock()`을 호출하며 강제로 자물쇠를 풀려고 시도하면? OS는 "넌 주인이 아니잖아!" 라며 가차 없이 에러(IllegalMonitorStateException 등)를 뱉고 튕겨낸다.
@@ -46,7 +46,7 @@ tags = ["studynote-operating-system"]
 * **핵심 철학**: "누가 잠그든 누가 열든 상관없어. 0과 1 상태만 바뀌면 돼."
 * **작동 원리**:
   - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 `P()` 연산을 호출하여 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)를 0으로 만들고(잠금) 잠에 빠진다. (예: A는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드를 기다리는 중)
-  - 저 멀리서 다운로드를 끝낸 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> B가 <code>V()</code> 연산을 호출</strong>하여 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)를 1로 풀어버린다! 
+  - 저 멀리서 다운로드를 끝낸 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> B가 <code>V()</code> 연산을 호출</strong>하여 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)를 1로 풀어버린다!
   - A가 깨어나서 다음 작업을 진행한다.
 * 즉, [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 자물쇠가 아니라 "나 끝났어! 너 시작해!"를 알려주는 <strong>알람 벨(Signaling) 도구</strong>다. 소유자가 누군지 OS는 관심도 없으므로, 버그가 난 코드([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) C)가 맘대로 `V()`를 계속 호출해 버리면 시스템의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 완벽히 무너진다.
 

@@ -36,7 +36,7 @@ tags = ["studynote-network"]
 - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) (MDI-X ↔ MDI-X)
 - 라우터와 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (MDI ↔ MDI)
 
-이런 동종 장비 간에 다이렉트 케이블을 쓰면 송신은 송신끼리, 수신은 수신끼리 맞물려 먹통이 됩니다. 
+이런 동종 장비 간에 다이렉트 케이블을 쓰면 송신은 송신끼리, 수신은 수신끼리 맞물려 먹통이 됩니다.
 따라서 이런 경우에는 케이블의 한쪽 끝을 인위적으로 꼬아서 만든 <strong>크로스오버 케이블 (Crossover Cable)</strong>을 사용하여 외부에서 물리적으로 Tx와 Rx를 엇갈리게 만들어 주어야 합니다.
 
 ```text
@@ -56,7 +56,7 @@ tags = ["studynote-network"]
 
 만약 세상의 모든 장비가 MDI [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(1,2번 송신)만 가지고 있다면, PC와 PC를 다이렉트 케이블(양쪽 핀 배열이 똑같은 선)로 연결하면 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> A의 송신(1,2번)이 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> B의 송신(1,2번)과 정면충돌</strong>하게 되어 통신이 불가능해집니다.
 
-이를 해결하기 위해 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 같은 중계 장비는 제조할 때부터 아예 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 내부 선을 꼬아놓은 <strong>MDI-X</strong>로 만듭니다. 
+이를 해결하기 위해 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 같은 중계 장비는 제조할 때부터 아예 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 내부 선을 꼬아놓은 <strong>MDI-X</strong>로 만듭니다.
 이렇게 하면 일반적인 <strong>다이렉트 케이블</strong>로 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(MDI)와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(MDI-X)를 연결했을 때, PC의 송신(1,2번)이 자연스럽게 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 수신(1,2번)으로 쏙 들어가게 되어 완벽한 통로가 형성됩니다.
 
 ```text

@@ -25,7 +25,7 @@ tags = ["studynote-network"]
 - TCP는 인사(Handshake)를 해야 문을 열어주지만, <strong>UDP는 인사를 안 하고 그냥 목적지로 패킷을 일방적으로 휙 집어 던지는 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>입니다.
 - 해커는 타겟 서버의 임의의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(예: 5000번)로 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 패킷을 초당 수만 개씩 마구잡이로 쏟아붓습니다.
 - 패킷을 맞은 타겟 서버는 "어? 5000번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 뭐가 왔네? 이거 받을 프로그램이 켜져 있나?" 하고 CPU와 메모리를 써서 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 장부를 뒤져봅니다.
-- 프로그램이 없다는 걸 깨달은 서버는 친절하게도 <strong>"<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 안 열려있어!"라는 <code>ICMP Destination Unreachable</code> 에러 메시지를 만들어 해커에게 반송</strong>해 줍니다. 
+- 프로그램이 없다는 걸 깨달은 서버는 친절하게도 <strong>"<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 안 열려있어!"라는 <code>ICMP Destination Unreachable</code> 에러 메시지를 만들어 해커에게 반송</strong>해 줍니다.
 - 해커가 10만 개를 쏘면, 서버는 장부를 10만 번 뒤지고 거절 편지를 10만 번 써서 우체국에 보내야 합니다. 결국 **서버의 CPU 자원과 네트워크 업로드 대역폭이 바닥나서 뻗어버립니다.**
 
 ### 2. 방어법
@@ -53,8 +53,8 @@ tags = ["studynote-network"]
 - **결과**: 규칙을 중시하는 구형 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이나 라우터는 "인사(SYN)도 아니고, 응답(ACK)도 아니고, 끝인사(FIN)도 아니네? 뭐 이런 패킷이 다 있어?" 하면서 규정집에 없는 예외 처리를 하려다 CPU를 쓸데없이 소모하게 됩니다. 스캐닝 우회 공격으로도 쓰입니다.
 
 ### 2. 크리스마스 트리 (Christmas Tree) 공격
-- **원리**: 반대로, 6개의 깃발 중 <strong>절대 동시에 들 수 없는 깃발들(FIN, PSH, URG 등)을 일제히 전부 다 들고(모든 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a>를 1로 셋팅)</strong> 돌진합니다. 
-- **결과**: 마치 크리스마스트리에 전구가 빤짝거리는 것 같다고 해서 붙여진 이름입니다. 컴퓨터 운영체제는 "정상 통신도 하면서 동시에 긴급 처리도 하고 당장 연결도 끊으라고?!" 라며 모순된 명령 묶음을 처리하기 위해 무거운 에러 검출 로직을 돌리다 서버의 힘이 쏙 빠져버립니다. 
+- **원리**: 반대로, 6개의 깃발 중 <strong>절대 동시에 들 수 없는 깃발들(FIN, PSH, URG 등)을 일제히 전부 다 들고(모든 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a>를 1로 셋팅)</strong> 돌진합니다.
+- **결과**: 마치 크리스마스트리에 전구가 빤짝거리는 것 같다고 해서 붙여진 이름입니다. 컴퓨터 운영체제는 "정상 통신도 하면서 동시에 긴급 처리도 하고 당장 연결도 끊으라고?!" 라며 모순된 명령 묶음을 처리하기 위해 무거운 에러 검출 로직을 돌리다 서버의 힘이 쏙 빠져버립니다.
 
 ### 방어법
 - 현대의 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([상태 기반 감시](/knowledge-base/studynote/03_network/13_network_security_basics/692_stateful_inspection_firewall_principle/), 692번)과 IPS는 패킷이 들어올 때 이 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)들의 조합이 정상적인 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 규격(RFC 표준)에 맞지 않는 헛소리 조합이면 아예 CPU 연산조차 안 하고 입구에서 쓰레기통으로 차단(Drop)해 버립니다.

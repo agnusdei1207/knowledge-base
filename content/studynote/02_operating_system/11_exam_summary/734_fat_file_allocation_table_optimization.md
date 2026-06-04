@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/">FAT</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/">File Allocation Table</a>)</strong>: 디스크 내의 모든 클러스터(블록)들의 연결 상태(다음 블록 번호, 빈 블록 여부, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 끝 표시 등)를 기록해 둔 1차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 형태의 테이블.
   - **클러스터 (Cluster)**: [FAT](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이 디스크를 관리하는 기본 단위 (보통 4KB ~ 32KB).
 
-- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/524_linked_allocation/">연결 할당</a>의 디스크 I/O 병목 극복)</strong>: 
+- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/524_linked_allocation/">연결 할당</a>의 디스크 I/O 병목 극복)</strong>:
   - 구형 [연결 할당](/knowledge-base/studynote/02_operating_system/09_file_system/524_linked_allocation/) 방식은 1번 블록을 읽어야 그 끝에 적힌 2번 블록의 주소를 알 수 있었고, 2번을 읽어야 3번을 알 수 있었다.
   - 만약 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 1,000번째 블록부터 보고 싶으면? 하드디스크를 무려 999번이나 읽고 버려야 했다. 탐색에만 수 초가 걸렸다.
   - **해결책**: "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 포인터를 분리하자! 포인터들만 싹 다 모아서 표([FAT](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/))를 만든 다음, 컴퓨터가 켜질 때 이 표를 램(RAM)에 올려버리면 1,000번째 블록 주소도 램 안에서 0.001초 만에 찾을 수 있잖아!"

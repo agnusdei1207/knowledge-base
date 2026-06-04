@@ -19,10 +19,10 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-데드락 4조건을 파괴하는 "예방(Prevention)"은 너무 가혹했다. 
-"아예 프린터를 같이 쓰라고? (상호배제 파괴 불가)", "작업 도중에 자원을 죄다 뺏어? ([비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) 파괴 불가)" 
+데드락 4조건을 파괴하는 "예방(Prevention)"은 너무 가혹했다.
+"아예 프린터를 같이 쓰라고? (상호배제 파괴 불가)", "작업 도중에 자원을 죄다 뺏어? ([비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) 파괴 불가)"
 
-그래서 천재 에츠허르 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/))는 발상을 바꿨다. 
+그래서 천재 에츠허르 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/))는 발상을 바꿨다.
 **"4가지는 그냥 다 하게 냅둬! 대신, 은행 대출 심사관처럼 네가 자원을 요청할 때 이 자원을 내주면 나중에 우리가 망할지 안 망할지 딱 1만 번 계산(시뮬레이션)해보고 확신이 서면 그제야 빌려줄게."**
 
 이것이 <strong>회피(Avoidance)</strong>다. 자원을 요구한다고 족족 퍼주다 교차로가 막히는 대신, OS가 매 순간 매의 눈으로 "수용 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)"를 감시하다 낭떠러지 위험(Unsafe)이 뜨면 요청을 기각해버리는 우회 전략이다.

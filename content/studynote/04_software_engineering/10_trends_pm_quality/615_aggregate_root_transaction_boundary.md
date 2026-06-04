@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/">Aggregate</a> (응집 덩어리)</strong>: 서로 강하게 묶여서 같이 놀고 같이 죽어야 하는 객체들의 그룹. (`주문` 본체 + `주문 항목들` + `배송 주소`).
   - **Root (루트/대빵)**: 그 덩어리 그룹을 대표하는 딱 1개의 대문 객체. 밖에서는 무조건 이 놈하고만 대화가 가능하다.
   - <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 경계 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">Transaction</a> Boundary)</strong>: 이 덩어리를 DB에 쑤셔 넣거나 수정할 때, 중간에 뻑나면 덩어리 10개 부품이 동시에 다 같이 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))되어 증발해야 하는 한 운명 공동체 묶음망.

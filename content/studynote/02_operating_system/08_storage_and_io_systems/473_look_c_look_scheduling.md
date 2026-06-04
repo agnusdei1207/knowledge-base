@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **LOOK**: SCAN(엘리베이터)처럼 양방향으로 움직이되, 디스크 바늘이 가는 길 앞에 더 이상 요청([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 없으면 벽(0이나 199) 끝까지 가지 않고 그 자리에서 즉시 `Turn(반대 방향 턴)`을 해버린다.
   - **C-LOOK (Circular LOOK)**: C-SCAN처럼 한 방향으로만 훑고 돌아오되, 마지막 요청만 처리하면 벽을 안 찍고 즉시 첫 번째 요청이 있는 곳으로 `Rollback(점프 복귀)` 해버린다.
 - **필요성**: 디스크 트랙이 0부터 199번까지 있다. 현재 바늘은 50번이고 상행 중이다. 제일 멀리 들어온 요청이 120번이다. 멍청한 SCAN [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 120번 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 줍고 나서도, 121번부터 199번까지 아무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없는데 허공을 가르며 기계 모터를 징징 돌려 199번 벽을 쾅 찍고 나서야 하행선으로 방향을 돌렸다. 이 '아무 의미 없는 허공 스윙 거리(79 트랙 이동)' 동안 CPU와 프로세스들은 넋을 잃고 렉이 걸린다. "아니, 가는 길에 짐이 없으면 눈(LOOK)으로 좀 쓱 보고 걍 쿨하게 바로 턴(Turn)하면 안 돼? 왜 융통성 없이 끝을 찍냐고!"라는 엔지니어들의 딥빡침이 이 스마트한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 탄생시켰다.
@@ -78,7 +78,7 @@ tags = ["studynote-operating-system"]
 
 C-SCAN과 C-LOOK은 한쪽 방향으로만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 긁고 반대쪽으로 올 때는 <strong>'읽지 않고 빈 차로 돌아온다(Return Sweep)'</strong>는 공통점이 있다.
 - 왜 안 읽고 올까? 내려올 때 읽어버리면 가운데 트랙만 2번 연속으로 읽혀서 양 끝단 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 기아([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 직전까지 굶는 '대기 시간 불평등'이 터지기 때문이다.
-- 그래서 183번(끝)을 찍고 14번(처음)으로 돌아올 때, 14번으로 내려가는 그 구간에 100번, 50번 요청이 있어도 쿨하게 씹고 지나간다. 14번 바닥을 찍고 다시 '상행선'이 될 때 비로소 그놈들을 주워 담는다. 
+- 그래서 183번(끝)을 찍고 14번(처음)으로 돌아올 때, 14번으로 내려가는 그 구간에 100번, 50번 요청이 있어도 쿨하게 씹고 지나간다. 14번 바닥을 찍고 다시 '상행선'이 될 때 비로소 그놈들을 주워 담는다.
 - 이 <strong>무자비한 빈 차 점프(No I/O <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a>)</strong>가 역설적으로 디스크 전체 요청의 대기 시간([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))을 한 치의 오차도 없이 평등하게 만들어준다.
 
 - **📢 섹션 요약 비유**: 밭에 씨앗을 뿌릴 때(I/O), 밭고랑 끝까지 갔다가 뒤돌아서 내려오며 씨앗을 뿌리면(SCAN) 가운데 밭만 두 번 뿌려져 썩습니다. 농부(C-LOOK)는 한 줄을 다 뿌렸으면 밭 끝에서 헛걸음하지 않고 곧바로 다음 줄 시작점(첫 요청지)으로 전력 질주해 돌아온 뒤(빈 차 점프), 다시 앞만 보고 씨앗을 뿌립니다. 헛걸음(점프)은 힘들지만 모든 밭에 똑같은 시간에 씨앗이 뿌려지는 완벽한 농사법입니다.
@@ -101,7 +101,7 @@ C-SCAN과 C-LOOK은 한쪽 방향으로만 [데이터](/knowledge-base/studynote
 ### SCAN 계열의 공통점: "새치기(Arm Stickiness) 방어"
 [SSTF](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/470_sstf_disk_scheduling/)(가장 가까운 거리 우선)의 치명적 단점은 '새치기'였다. 내가 50번 트랙인데 51번, 49번에서 계속 콜이 들어오면 바늘이 그 자리에 갇혀버린다.
 하지만 LOOK이나 C-LOOK은 <strong>"내 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> 방향(예: 상행) 뒤쪽에서 아무리 가까운 요청이 들어와도 절대 뒤돌아보지 않는다"</strong>는 강철 같은 룰을 지킨다.
-- 바늘이 50 -> 60 으로 상행 중이다. 
+- 바늘이 50 -> 60 으로 상행 중이다.
 - 갑자기 방금 쓱 지나온 59번 트랙에서 I/O 요청이 터졌다! 고작 1칸 차이다.
 - SSTF였다면 침을 흘리며 뒤돌아 59번을 먹었겠지만, LOOK은 가차 없이 무시하고 61번을 향해 전진한다. 이 59번 놈은 바늘이 끝까지 1바퀴를 뺑 돌고 다시 상행선으로 올라올 때까지 혹독하게 굶어야 한다.
 - 이 철통같은 "[진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 방향 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))" 덕분에 어떤 구석에 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라도 1바퀴 안에는 무조건 구제받는 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 박멸이 성립된다.

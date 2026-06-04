@@ -19,13 +19,13 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-기업들이 챗GPT에 사내 문서를 얹어 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)([검색 증강 생성](/knowledge-base/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/)) 챗봇을 만들었다. 테스트할 때는 완벽해 보였다. 그러나 고객에게 배포하자마자 콜센터에 불이 났다. 
+기업들이 챗GPT에 사내 문서를 얹어 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)([검색 증강 생성](/knowledge-base/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/)) 챗봇을 만들었다. 테스트할 때는 완벽해 보였다. 그러나 고객에게 배포하자마자 콜센터에 불이 났다.
 "야! 챗봇이 올해 환불 규정이 30일이 아니라 100일이라고 거짓말([Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/))을 치잖아!"
 
-개발자들은 멘붕에 빠졌다. 환불 규정이 왜 틀렸을까? 벡터 DB가 검색을 잘못했나? 아니면 검색은 잘해왔는데 LLM이 요약하다가 소설을 썼나? 
+개발자들은 멘붕에 빠졌다. 환불 규정이 왜 틀렸을까? 벡터 DB가 검색을 잘못했나? 아니면 검색은 잘해왔는데 LLM이 요약하다가 소설을 썼나?
 더 끔찍한 것은, 버그를 고치려고 프롬프트를 조금 바꾼 뒤 **"이제 진짜 거짓말 안 하는지 1,000개의 질문을 다 넣고 다시 읽어보며 테스트해 볼 사람?"** 하면 아무도 손을 들지 않는다는 것이다. 사람이 1,000개의 답변을 팩트 체크하는 데는 1주일이 걸린다.
 
-이 "평가의 불가능성"이라는 절망을 깨부수기 위해 등장한 것이 <strong>RAGAS (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a> Assessment)</strong> 프레임워크다. "사람이 채점하지 마! 아주 똑똑하고 냉정한 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4를 '판사(Judge)'로 임명해서, 챗봇이 뱉은 답변과 원본 문서를 대조해 보고 0점에서 1점 사이의 소수로 점수를 매기게 하자!" 
+이 "평가의 불가능성"이라는 절망을 깨부수기 위해 등장한 것이 <strong>RAGAS (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a> Assessment)</strong> 프레임워크다. "사람이 채점하지 마! 아주 똑똑하고 냉정한 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4를 '판사(Judge)'로 임명해서, 챗봇이 뱉은 답변과 원본 문서를 대조해 보고 0점에서 1점 사이의 소수로 점수를 매기게 하자!"
 RAGAS는 인간의 감과 막연한 공포에 의존하던 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 품질 관리를, 숫자로 증명되는 <strong>'정량적 소프트웨어 테스트(Quantitative Evaluation)'</strong>의 영역으로 끌어올린 혁명이다.
 
 ```text
@@ -70,7 +70,7 @@ RAGAS는 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_t
 ```
 
 **핵심 원리 (Faithfulness 수학적 추출)**:
-가장 중요한 '사실 부합도(Faithfulness)'를 RAGAS가 계산하는 흑마술은 프롬프트 연쇄(Chain)에 있다. 
+가장 중요한 '사실 부합도(Faithfulness)'를 RAGAS가 계산하는 흑마술은 프롬프트 연쇄(Chain)에 있다.
 1. 챗봇이 뱉은 긴 답변(A)을 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4 판사가 읽고, 아주 짧은 "주장(Claim)" 5개로 쪼갠다. (예: 주장 1: 환불은 100일이다)
 2. 판사는 원본 검색 문서(C)를 쫙 읽어본다.
 3. 판사가 판단한다: "주장 1번은 원본 문서에 근거가 있나? 아니! 거짓말이야."

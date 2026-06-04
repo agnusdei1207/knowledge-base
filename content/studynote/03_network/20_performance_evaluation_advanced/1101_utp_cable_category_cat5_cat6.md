@@ -72,7 +72,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블(구리선)의 100% 한계 거리는 <strong>100 미터</strong>입니다. 
+- [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블(구리선)의 100% 한계 거리는 <strong>100 미터</strong>입니다.
 - 100미터가 넘어가면 구리의 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 때문에 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 에너지가 다 깎여먹어서(감쇠) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 아예 증발해 버립니다. 중간에 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 다시 살려주는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 리피터를 꽂지 않는 이상, 100m 이상의 장거리는 다음 장의 광케이블(빛)에 자리를 내어줘야 합니다.
 
 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 배선 카테고리를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [스위치 포트 미러링](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1100_port_mirroring_span_tap_network_monitoring/)이 기반 조건을 만든다면, [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 배선 카테고리는 그 위에서 핵심 메커니즘을 구현하고, [광섬유 싱글모드 다중모드](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1102_optical_fiber_single_mode_multi_mode/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.

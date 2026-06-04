@@ -19,14 +19,14 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)의 70%는 복합 조건문으로 이루어져 있습니다. 
+소프트웨어 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)의 70%는 복합 조건문으로 이루어져 있습니다.
 `if ( 나이 >= 19 && 음주 측정 결과 < 0.03)` 같이 조건식 A와 조건식 B가 합쳐진(Compound) 녀석들 말입니다.
 
-결정(분기) 커버리지 테스터는 이 덩어리가 전체적으로 한 번 $True$가 나오고 한 번 $False$가 나오게 세팅하고 100% 테스트를 끝냈다고 자랑합니다. 
-> TC 1: 나이 25(T) AND 음주 0.01(T) ➔ 전체 결과: **True**  
+결정(분기) 커버리지 테스터는 이 덩어리가 전체적으로 한 번 $True$가 나오고 한 번 $False$가 나오게 세팅하고 100% 테스트를 끝냈다고 자랑합니다.
+> TC 1: 나이 25(T) AND 음주 0.01(T) ➔ 전체 결과: **True**
 > TC 2: 나이 15(F) AND 음주 0.05(F) ➔ 전체 결과: **False**
 
-위 두 개만 해봐도 분기가 $T/F$로 모두 갈렸으니 [결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/)는 만족합니다. 그런데 갑자기 프로그램이 사형 선고를 받습니다. "어? 성인인데 음주 수치가 0.05(F)가 나온 상황은 테스트 아예 안 했네?" 
+위 두 개만 해봐도 분기가 $T/F$로 모두 갈렸으니 [결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/)는 만족합니다. 그런데 갑자기 프로그램이 사형 선고를 받습니다. "어? 성인인데 음주 수치가 0.05(F)가 나온 상황은 테스트 아예 안 했네?"
 이 끔찍한 눈먼 구멍을 메우기 위해 돋보기를 들고 이빨을 들이미는 것이 바로 <strong>조건 커버리지(Condition Coverage)</strong>입니다! 조건 커버리지는 덩어리 결과는 버리고, **개별 부품인 나이 $>=19$가 T/F를 가졌나? 음주 수치 $<0.03$이 T/F를 독자적으로 모두 가졌나?**를 끝까지 캐묻는 현미경 검사입니다.
 
 ```text
@@ -65,7 +65,7 @@ tags = ["studynote-software-engineering"]
 TC1 (A=T, B=F) 의 전체 덩어리 결과 $\rightarrow$ `True OR False` = **결과 True** (장학금 지급)
 TC2 (A=F, B=T) 의 전체 덩어리 결과 $\rightarrow$ `False OR True` = **결과 True** (장학금 지급)
 
-어라? 내부 부품 A와 B는 억울함 없이 참, 거짓을 다 한 번씩 밟았음에도 불구하고, **정작 덩어리(분기문 전체)는 두 번 모두 결과가 참(True)으로만 흘러갑니다!** 즉, 장학금을 지급받지 못하는 `else` 구문으로는 단 1번도 내려가지 않습니다! 
+어라? 내부 부품 A와 B는 억울함 없이 참, 거짓을 다 한 번씩 밟았음에도 불구하고, **정작 덩어리(분기문 전체)는 두 번 모두 결과가 참(True)으로만 흘러갑니다!** 즉, 장학금을 지급받지 못하는 `else` 구문으로는 단 1번도 내려가지 않습니다!
 이게 바로 그 유명한 화이트박스 기출문제, <strong>"조건 커버리지 100%는 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/">결정 커버리지</a> 100%를 보장하지 못한다"</strong>는 학술적 진리입니다. 안쪽 부품들의 조화가 어긋나 엉뚱하게 겉 껍데기 문이 반쪽짜리로만 닫혀버리는 무서운 약점입니다.
 
 - **📢 섹션 요약 비유**: 체육대회에서 체육 교사(조건 커버리지)가 "모든 학생이 달리기(T)랑 휴식(F)을 다 한 번씩 반반 섞어서 했네!"라고 칭찬했지만, 막상 청백전 종합 점수판([결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/))을 보니 이상한 대진표 꼬임 때문에 청군(True)만 스코어가 100번 오르고 백군(False)으론 점수가 1점도 안 올라가서 행사가 망해버린 꼴입니다.
@@ -87,9 +87,9 @@ TC2 (A=F, B=T) 의 전체 덩어리 결과 $\rightarrow$ `False OR True` = **결
 ## Ⅲ. 비교 및 연결
 
 순수한 100% 조건 커버리지만을 쓰는 회사는 거의 없습니다. 왜냐하면 '전체 결정(분기) 경로'를 무시해버리는 너무 위험한 사상누각이기 때문입니다.
-실무의 테스트 엔지니어들은 이 조건 커버리지와 [결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/) 각각의 치명적 결점들을 꿰매어 완벽한 괴물을 창조해 냈습니다. 
+실무의 테스트 엔지니어들은 이 조건 커버리지와 [결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/) 각각의 치명적 결점들을 꿰매어 완벽한 괴물을 창조해 냈습니다.
 
-이것이 그 유명한 <strong>조건/<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/">결정 커버리지</a> (Condition/<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/">Decision Coverage</a>)</strong>이며 한 발 더 나아가 항공 우주 방위산업의 최강 군주라 불리는 <strong>변경 조건/<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/">결정 커버리지</a> (MC/DC)</strong>의 기둥이 됩니다. 
+이것이 그 유명한 <strong>조건/<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/">결정 커버리지</a> (Condition/<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/">Decision Coverage</a>)</strong>이며 한 발 더 나아가 항공 우주 방위산업의 최강 군주라 불리는 <strong>변경 조건/<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/">결정 커버리지</a> (MC/DC)</strong>의 기둥이 됩니다.
 이 기법들은 "야, A랑 B 각각 참/거짓 한 번씩 다 돌고(조건 달성), 동시에 전체 껍데기 나가는 문도 참/거짓 다 밟아!(결정 달성)"라고 테스터의 영혼을 갉아먹으며 소스코드를 불태워 무오류의 신전으로 만듭니다.
 
 - **📢 섹션 요약 비유**: 엔진 안에 있는 왼쪽 볼트도 조였다 풀고 오른쪽 너트도 조이고 풀었는데(조건 100%), 자동차 시동이 안방향으로만 걸리는(결정 실패) 한심한 짓을 막으려고, 퀄리티 제어관(MC/DC)이 나타나 두 개를 동시에 압박해서 완벽한 명품 엔진 라인을 구축하는 과정입니다.
@@ -121,7 +121,7 @@ TC2 (A=F, B=T) 의 전체 덩어리 결과 $\rightarrow$ `False OR True` = **결
 
 ## Ⅴ. 기대효과 및 결론
 
-조건 커버리지(Condition Coverage)는 하나의 통나무 상자처럼 보였던 복합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 분기문(`if문`)을 쪼개서 개별 세포들 단위의 건전성(Health)을 확보해 준 위대한 화이트박스 해단(解斷) 도구입니다. 
+조건 커버리지(Condition Coverage)는 하나의 통나무 상자처럼 보였던 복합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 분기문(`if문`)을 쪼개서 개별 세포들 단위의 건전성(Health)을 확보해 준 위대한 화이트박스 해단(解斷) 도구입니다.
 비록 그 자체만으로는 시스템의 전체 흐름을 이탈시키는 약점이 존재하지만, 이 현미경적 통찰력이 없었다면 우리는 영원히 `A || B || C || D`라는 수십 개의 지옥 폭탄 묶음 안에서 결함이 숨어 자라는 것을 방치했을 것입니다. 조건 커버리지는 더 완벽한 무결점 아키텍처(MC/DC)로 향하기 위해 테스터들이 반드시 깎고 다듬어야만 하는 코드의 투명한 수정체 역할을 수행하고 있습니다.
 
 - **📢 섹션 요약 비유**: 수박(결정문)을 통째로 쪼개보고 "오케이, 반 갈라지네 합격!"하는 게 아닙니다. 조건 커버리지는 수박 속에 박힌 까만 씨앗(개별 조건부품)들을 핀셋으로 하나하나 뽑아가며 안 썩고 건강한지 100% 점거하는 무광고급 미세 검열 테스트입니다.

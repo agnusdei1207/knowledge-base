@@ -20,8 +20,8 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **성곽형(Perimeter) 보안**: 외부(Untrusted)와 내부(Trusted)를 가르고, 그 경계선에 값비싼 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(FW)과 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 장비를 몰아넣어 막는 고전적 방식입니다.
-- **붕괴 원인**: 
-  1. 직원이 감염된 노트북을 들고 출근해 사내망에 꽂으면, <strong>신뢰 구역 안쪽에서부터 악성코드(<a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/">랜섬웨어</a>)가 퍼져</strong> 속수무책으로 털렸습니다. 
+- **붕괴 원인**:
+  1. 직원이 감염된 노트북을 들고 출근해 사내망에 꽂으면, <strong>신뢰 구역 안쪽에서부터 악성코드(<a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/">랜섬웨어</a>)가 퍼져</strong> 속수무책으로 털렸습니다.
   2. 클라우드(AWS, [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))가 도입되고 직원들이 카페나 집(재택근무)에서 일하게 되면서, "어디까지가 내부망이고 어디가 외부망인지" 경계선 자체가 완전히 증발해 버렸습니다.
 
 ```text
@@ -42,12 +42,12 @@ tags = ["studynote-network"]
 2010년 존 킨더바그(Forrester Research)가 창안하고, 구글이 BeyondCorp 프로젝트로 증명해 낸 현대 보안의 궁극적 철학이자 프레임워크입니다.
 
 ### 원칙 1: 절대 신뢰하지 말고 항상 검증하라 (Never Trust, Always Verify)
-- **핵심**: "이 IP는 사내망 192.168.0.x 대역이니까 안전해!"라는 <strong>네트워크 위치 기반의 맹신(Trust)을 완전히 폐기</strong>합니다. 
+- **핵심**: "이 IP는 사내망 192.168.0.x 대역이니까 안전해!"라는 <strong>네트워크 위치 기반의 맹신(Trust)을 완전히 폐기</strong>합니다.
 - 직원이 사내 본사 건물 책상에 앉아서 접속하든, 스타벅스에서 접속하든 똑같이 잠재적 해커로 취급합니다. 인사팀 서버에 접속하려면 매번 아이디/비밀번호를 치고, 스마트폰 생체인식([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) 다중인증)을 통과하고, 현재 폰이 최신 백신으로 무장된 건강한 상태인지([NAC](/knowledge-base/studynote/03_network/13_network_security_basics/700_nac_network_access_control/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 검사, 700번) 100% 검증을 마쳐야만 단 한 번의 접속을 허락합니다.
 
 ### 원칙 2: 최소 권한의 원칙 ([Least Privilege](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/) Access)
 - 무사히 신원 검증을 통과했더라도, 사내망 전체를 활보할 수 있는 만능 프리패스를 주지 않습니다.
-- 홍길동 대리가 '마케팅팀' 소속이면, <strong>오직 마케팅팀 폴더에만 딱 접속할 수 있는 암호화된 가상의 비밀 통로(<a href="/knowledge-base/studynote/09_security/01_intro_principles/048_sdp/">SDP</a> 터널 등)를 1:1로 뚫어주고</strong>, 회사의 재무팀이나 개발팀 서버는 홍길동 대리의 눈에 아예 존재하지 않는 투명한 블랙홀처럼 숨겨버립니다. 
+- 홍길동 대리가 '마케팅팀' 소속이면, <strong>오직 마케팅팀 폴더에만 딱 접속할 수 있는 암호화된 가상의 비밀 통로(<a href="/knowledge-base/studynote/09_security/01_intro_principles/048_sdp/">SDP</a> 터널 등)를 1:1로 뚫어주고</strong>, 회사의 재무팀이나 개발팀 서버는 홍길동 대리의 눈에 아예 존재하지 않는 투명한 블랙홀처럼 숨겨버립니다.
 
 ### 원칙 3: 지속적인 모니터링과 평가 (Continuous Inspection)
 - 한 번 로그인 통과했다고 끝이 아닙니다. 접속 중에도 직원이 평소와 달리 갑자기 기밀문서 100GB를 압축해서 다운받으려 하거나 새벽 3시에 접속하면, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/[SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/))이 이 '이상 행위([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))'를 포착하고 <strong>즉각 세션을 강제로 끊어버리고 재인증을 요구</strong>합니다.

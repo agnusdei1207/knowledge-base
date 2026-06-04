@@ -24,23 +24,23 @@ tags = ["studynote-cloud-architecture"]
 1. Retire (폐기):
    더 이상 필요 없는 애플리케이션 폐기
    예: 중복 CRM 시스템
-   
+
 2. Retain (유지):
    현재 온프레미스 유지 (규제, 레이턴시)
    예: 실시간 금융 거래 코어
-   
+
 3. Rehost (리호스팅, Lift & Shift):
    코드 변경 없이 클라우드로 이전
    빠르지만 클라우드 혜택 최소화
-   
+
 4. Replatform (리플랫폼):
    소규모 최적화 (RDS로 DB 이전 등)
    코드 변경 최소화
-   
+
 5. Re-factor / Re-purchase (재구성):
    클라우드 네이티브로 코드 재작성
    PaaS, 서버리스 활용
-   
+
 6. Re-architect (재설계):
    아키텍처 근본 변경 (MSA 전환)
    가장 많은 투자, 가장 큰 가치
@@ -49,7 +49,7 @@ Re-factor vs Re-architect:
   Re-factor:
     기존 기능 유지, 구현 방식 변경
     예: 모놀리스 → Lambda + DynamoDB
-    
+
   Re-architect:
     기능 분리, 서비스 경계 재정의
     예: 모놀리스 → 10개 마이크로서비스
@@ -72,26 +72,26 @@ MSA (Microservices Architecture) 원칙:
 핵심 원칙:
   1. 단일 책임 (Single Responsibility):
      하나의 서비스 = 하나의 비즈니스 기능
-     
+
   2. 독립 배포 (Independent Deployment):
      각 서비스 독립적 CI/CD
-     
+
   3. 기술 다양성 (Polyglot):
      서비스별 적합한 언어/DB 선택
-     
+
   4. 장애 격리 (Fault Isolation):
      서비스 A 장애 → 서비스 B 영향 최소화
-     
+
   5. 분산 데이터 (Decentralized Data):
      서비스별 독립적 DB
 
 DDD (Domain-Driven Design) 기반 서비스 분리:
   바운디드 컨텍스트 = 서비스 경계
-  
+
   이커머스 도메인 분리:
   모놀리스: 하나의 코드베이스
     └── 사용자, 주문, 상품, 결제, 배송...
-    
+
   MSA:
     사용자 서비스 (User Service)
     상품 서비스 (Product Service)
@@ -103,10 +103,10 @@ DDD (Domain-Driven Design) 기반 서비스 분리:
 서비스 통신:
   동기: REST API, gRPC
   비동기: 메시지 큐 (Kafka, RabbitMQ)
-  
+
   이벤트 소싱 (Event Sourcing):
   상태 대신 이벤트 로그로 상태 재현
-  
+
   CQRS (Command Query Responsibility Segregation):
   쓰기(Command)와 읽기(Query) 분리
 
@@ -134,29 +134,29 @@ Strangler Fig Pattern (교살 무화과 패턴):
   Stage 1: API Gateway 도입
     모든 트래픽 → API Gateway
     처음에는 모두 모놀리스로 라우팅
-    
+
   Stage 2: 기능 분리 시작
     가장 독립적인 기능부터 추출
     알림 서비스: 모놀리스에서 분리 (낮은 의존성)
     Gateway → 알림: 신규 서비스
     Gateway → 나머지: 모놀리스
-    
+
   Stage 3: 점진적 분리 계속
     배송 → 상품 → 결제 순서로 분리
     각 분리 후 검증 (A/B 트래픽)
-    
+
   Stage 4: 모놀리스 최소화
     핵심 기능만 남은 모놀리스
-    
+
   Stage 5: 완전 대체
     모놀리스 폐기
-    
+
 Anti-Pattern (Big Bang):
   전체를 한번에 재설계
   → 수개월~수년의 "개발 블랙홀"
   → 서비스 중단 리스크
   → 대부분 실패
-  
+
 Strangler 장점:
   비즈니스 연속성 유지
   점진적 위험 관리
@@ -174,34 +174,34 @@ Strangler 장점:
 
 1. Circuit Breaker (회로 차단기):
    연쇄 장애 방지
-   
+
    상태: Closed → Open → Half-Open
    실패 임계값 초과 시 Open → 빠른 실패 반환
    일정 시간 후 Half-Open → 재시도 허용
-   
+
    도구: Resilience4j, Hystrix
 
 2. Service Mesh:
    서비스 간 통신 인프라를 사이드카 프록시로 관리
-   
+
    기능: 로드밸런싱, 암호화, 트레이싱, 레이트 리미팅
-   
+
    Istio: 가장 많이 사용되는 Service Mesh
    Envoy 사이드카 프록시
 
 3. API Gateway:
    단일 진입점 (Single Entry Point)
    인증, 라우팅, 로드밸런싱, 로깅
-   
+
    AWS API Gateway, Kong, nginx
-   
+
 4. Sidecar Pattern:
    메인 컨테이너 옆에 보조 컨테이너
    로깅, 모니터링, 보안 에이전트
 
 5. Saga Pattern:
    분산 트랜잭션 처리
-   
+
    Choreography Saga: 이벤트 기반 자율 조율
    Orchestration Saga: 중앙 조율자(Orchestrator)
 
@@ -239,13 +239,13 @@ Phase 2 (Q2): 알림 서비스 분리
   모놀리스 코드 비활성화
   Gateway에서 알림 요청 → 신규 서비스 라우팅
   A/B 테스트로 안전 검증
-  
+
   기술: Python FastAPI + AWS SQS + Lambda
 
 Phase 3 (Q3~Q4): 상품/카탈로그 분리
   가장 높은 조회 트래픽 → 독립 확장 필요
   기술: Go + Redis + Elasticsearch
-  
+
   오토스케일링 효과:
   기존: 전체 모놀리스 스케일업 (비효율)
   신규: 상품 서비스만 스케일 (20→200 인스턴스)
@@ -257,7 +257,7 @@ Phase 4~6 (다음 해): 주문/결제/배송 분리
   장애 격리: 알림 장애 → 결제 영향 없음
   팀 자율성: 각 팀 독립 배포 주 3회 이상
   인프라 비용: 20% 절감 (세밀한 스케일링)
-  
+
 교훈:
   서비스 경계 결정이 가장 중요 (DDD 필수)
   공유 DB 문제: 서비스마다 DB 분리가 핵심 난제

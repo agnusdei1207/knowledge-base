@@ -40,7 +40,7 @@ tags = ["studynote-network"]
 Flannel은 백엔드 방식으로 여러 가지를 지원하지만, 99% 실무에서는 <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/">VXLAN</a> (817번 문서 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>)</strong> 방식을 씁니다.
 
 1. **IP 대역 쪼개주기**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터 전체에 `10.244.0.0/16` 이라는 거대한 가상 IP 덩어리를 줍니다. Flannel은 1번 서버(노드)에는 `10.244.1.0/24`를, 2번 서버에는 `10.244.2.0/24`를 사이좋게 떼어서 나눠줍니다.
-2. **포장지 씌우기 (Encapsulation)**: 
+2. **포장지 씌우기 (Encapsulation)**:
    - 1번 서버의 A [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 2번 서버의 B [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)로 데이터를 쏩니다.
    - 데이터가 서버 밖으로 나가기 직전, 1번 서버 바닥에 깔린 <strong>flanneld (데몬 에이전트)</strong>가 이 패킷을 낚아챕니다.
    - 그리고 이 패킷을 커다란 '일반 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 택배 박스([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 껍데기)' 안에 쏙 넣고, 겉면 주소에 <strong>"2번 서버의 진짜 물리적 IP 주소"</strong>를 적어서 던집니다.

@@ -46,7 +46,7 @@ tags = ["studynote-network"]
 
 ### 2. 멀티플렉싱 ([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) - "섞어 찌개 전송" 🌟 핵심 🌟
 - **개념**: 단 <strong>1개의 <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 커넥션(1차선 도로)</strong>만 뚫어놓고, 수백 개의 사진과 텍스트를 무작위로 섞어서([다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 한꺼번에 쏟아버리는 기술입니다.
-- **동작**: 
+- **동작**:
   - 서버는 1번 사진 조각, 2번 사진 조각, 3번 사진 조각을 뒤죽박죽 섞어서 막 던집니다.
   - 1번 사진을 렌더링하다 딜레이가 걸려도, 2번 3번 사진 조각은 1번을 기다리지 않고 옆으로 추월해서 쌩쌩 날아가 폰 화면에 먼저 뜹니다([HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹 완벽 타파).
   - 브라우저는 섞여 들어온 블록에 적힌 '스트림 번호표(ID)'를 보고 자기들끼리 퍼즐처럼 100% 깔끔하게 재조립합니다.

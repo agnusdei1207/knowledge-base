@@ -28,13 +28,13 @@ tags = ["security"]
 다음 도식은 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)([Identification](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)), [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)([Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))의 단계를 구분하여 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)성의 위치와 중요성을 보여준다.
 
 ```text
-[사용자/디바이스] 
+[사용자/디바이스]
        │
        ├─ (1) 식별(Identification) : "나는 Alice입니다" (ID 제시)
        │
        ▼
 [인증 모듈 (Authenticity 검증)]
-       │  ◀── (2) 인증(Authentication) : "Alice가 맞다는 것을 증명하시오" 
+       │  ◀── (2) 인증(Authentication) : "Alice가 맞다는 것을 증명하시오"
        │          (비밀번호 대조, OTP 검증, 전자서명 확인)
        ▼
 [접근 제어 모듈 (IAM)]

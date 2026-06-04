@@ -44,7 +44,7 @@ tags = ["studynote-network"]
 현업 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)/라우터 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(CLI) 시 무조건 외우고 있어야 하는 등급표다.
 
 ### 1. 패킷 이마에 붙이는 스티커: DSCP (Differentiated Services [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Point)
-[IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 헤더에 원래 있던 `TOS(Type of Service)` 8비트 구역을 가로채서 쓴다. 
+[IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 헤더에 원래 있던 `TOS(Type of Service)` 8비트 구역을 가로채서 쓴다.
 앞의 6비트는 <strong>DSCP 값</strong>으로 쓰고, 뒤의 2비트는 혼잡 알림(ECN)으로 쓴다.
 $2^6 = 64$ 가지의 신분(등급)을 부여할 수 있다.
 

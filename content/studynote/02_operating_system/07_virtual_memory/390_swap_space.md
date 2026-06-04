@@ -137,7 +137,7 @@ OS는 이 거대한 창고를 하드디스크의 어디에 어떻게 지을지 �
 ### 스마트폰의 zRAM [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 혁명
 안드로이드나 iOS는 스와핑을 하면 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)(eMMC, UFS)의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 수명이 닳아서 폰이 고장 나버린다.
 그래서 폰에서는 스왑 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 안 쓴다. 대신 **zRAM** 이라는 흑마술을 부린다.
-램 공간 중 일부를 떼어서 가짜 스왑 공간(zRAM)으로 만든 뒤, 쫓겨나는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 디스크로 안 보내고 <strong>CPU 연산으로 극도로 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>(Zip)해서 램의 한구석에 쑤셔 넣는다.</strong> 
+램 공간 중 일부를 떼어서 가짜 스왑 공간(zRAM)으로 만든 뒤, 쫓겨나는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 디스크로 안 보내고 <strong>CPU 연산으로 극도로 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>(Zip)해서 램의 한구석에 쑤셔 넣는다.</strong>
 배터리와 CPU를 갈아 넣어 디스크 수명과 속도를 방어하는 모바일 메모리 관리의 극의다.
 
 - **📢 섹션 요약 비유**: 옛날엔 산소호흡기(스왑)를 달아서라도 환자(서버)를 식물인간 상태로 살려두는 게 병원의 미덕이었지만, 최신 복제인간(클라우드 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)) 기술이 나온 지금은 호흡기를 달자마자 미련 없이 코드를 뽑고 즉시 건강한 복제인간을 새로 깨우는 게 더 낫다고 판단한 냉혹한 시스템 공학입니다.

@@ -21,11 +21,11 @@ tags = ["studynote-data-engineering"]
 ```
 카파 아키텍처 (Kappa Architecture):
   Jay Kreps (LinkedIn/Confluent) 제안, 2014년
-  
+
   람다의 문제:
   배치 레이어 + 스피드 레이어 = 동일 로직 2회 구현
   → 코드 불일치 위험, 유지보수 비용 2배
-  
+
   카파의 해결:
   스트리밍 레이어만 사용 (배치 레이어 제거)
   재처리 = 스트리밍을 처음부터 재실행
@@ -43,7 +43,7 @@ tags = ["studynote-data-engineering"]
       └── 재처리 필요 시: 스트리밍 v2 (새 버전)
               │ (Kafka 처음부터 재실행)
               ↓ 새 서빙 레이어
-              
+
   v2 안정화 후 v1 폐기 → v2가 메인
 
 핵심 원칙:
@@ -69,14 +69,14 @@ Kafka 이벤트 로그 (Event Log):
 카파의 Kafka 활용:
   일반적 Kafka: 수일~수주 보관 (소비 후 삭제)
   카파의 Kafka: 장기 보관 (수개월~무한)
-  
+
   이유: 재처리 시 과거 이벤트 모두 필요
 
 Kafka 보관 설정:
   retention.bytes = -1  (무제한 크기)
   retention.ms = -1     (무제한 기간)
   cleanup.policy = compact (키 기반 중복 제거)
-  
+
   또는:
   S3 티어링 (Kafka + S3):
   실시간: Kafka 보관 (7일)
@@ -85,23 +85,23 @@ Kafka 보관 설정:
 
 소비자 그룹 초기화 (재처리):
   # v1 (현재)
-  kafka-consumer-groups.sh --bootstrap-server ... 
+  kafka-consumer-groups.sh --bootstrap-server ...
     --group v1-processor --describe
-    
+
   # v2 재처리 시작 (오프셋을 처음으로)
   kafka-consumer-groups.sh --bootstrap-server ...
-    --group v2-processor --reset-offsets 
+    --group v2-processor --reset-offsets
     --to-earliest --execute
 
 이벤트 설계:
   이벤트 소싱 (Event Sourcing):
   현재 상태 대신 이벤트 로그로 상태 재현
-  
+
   orders 이벤트:
   {"event": "OrderCreated", "order_id": "A1", "amount": 100}
   {"event": "OrderPaid", "order_id": "A1"}
   {"event": "OrderShipped", "order_id": "A1", "tracking": "T1"}
-  
+
   재처리: 처음부터 재생하면 현재 상태 재현 가능
 ```
 
@@ -118,12 +118,12 @@ Apache Flink:
   진정한 스트리밍 처리 (마이크로 배치 아님)
   이벤트 타임 처리 (Event Time Processing)
   정확히 한 번 (Exactly-Once) 시맨틱
-  
+
   강점:
   - 지연 없는 실시간 처리
   - 윈도우 연산 정확성
   - 상태 관리 (State Backend: RocksDB)
-  
+
   카파 재처리:
   Flink Job v2 시작 → Kafka 처음부터 소비
   → 병렬 처리로 히스토리 빠르게 재처리
@@ -131,14 +131,14 @@ Apache Flink:
 Apache Kafka Streams:
   Kafka 내장 스트리밍 라이브러리
   별도 클러스터 불필요 (경량)
-  
+
   장점: 운영 단순, 마이크로서비스 내장 가능
   단점: Kafka 생태계 종속, 복잡 집계 제약
 
 Apache Spark Structured Streaming:
   마이크로 배치 기반 (수초 단위)
   Spark 기존 코드 재활용 가능
-  
+
   장점: 데이터 엔지니어 학습 곡선 낮음
   단점: 진정한 실시간 아님 (마이크로 배치)
 
@@ -189,7 +189,7 @@ Apache Spark Structured Streaming:
     실시간 처리 우선
     재처리 빈도 낮음
     팀 규모 작음 (운영 인력 제약)
-    
+
   람다 적합:
     대규모 히스토리 데이터 (TB 단위)
     복잡한 배치 집계 (ML 피처 등)
@@ -224,13 +224,13 @@ Apache Spark Structured Streaming:
 
 모델 업데이트 시나리오:
   사기 패턴 변경 → 모델 v2 학습
-  
+
   재처리 과정:
   1. Flink Job v2 시작 (새 모델 적용)
   2. Kafka Consumer Group 오프셋: 처음부터
   3. 병렬 처리: v2가 Kafka 히스토리 소비
   4. 새 Redis/Cassandra에 결과 저장
-  
+
   v2 재처리 완료 후:
   5. 결제 API: v1 Redis → v2 Redis로 전환
   6. v1 Flink Job 종료
@@ -244,7 +244,7 @@ Apache Spark Structured Streaming:
   이 시나리오: 카파 적합
     이유: ms 단위 응답 필요 + 스트리밍 중심
     재처리 4시간은 허용 범위 내
-    
+
   람다 필요 사례:
     월간 집계 정산 (TB 단위 배치 처리 필요)
     → 카파의 재처리로는 비효율적

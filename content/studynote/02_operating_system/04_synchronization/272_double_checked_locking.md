@@ -63,7 +63,7 @@ public static Singleton getInstance() {
 **[ 대형 사고의 시나리오 ]**
 1. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> A</strong>가 락 안으로 들어와서 객체를 만든다. CPU가 순서를 섞어서 (1)빈 공간을 만들고, (3)`instance` 이름표를 딱 붙였다! (아직 (2)[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 실행을 안 해서 속이 텅 빈 껍데기 객체다.)
 2. 이 찰나의 순간, <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> B</strong>가 1차 체크 `if (instance == null)` 구문에 도달한다.
-3. B의 눈에 `instance`는 `null`이 아니다! (A가 방금 껍데기에 이름표를 붙였으니까). 
+3. B의 눈에 `instance`는 `null`이 아니다! (A가 방금 껍데기에 이름표를 붙였으니까).
 4. B는 신나서 락을 패스하고 그 **미완성된 껍데기 객체를 그대로 리턴받아** 사용하려고 메서드를 호출한다. $\rightarrow$ <strong><code>NullPointerException</code> 쾅! 시스템 붕괴.</strong>
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
@@ -81,9 +81,9 @@ private static volatile Singleton instance; // 핵심: volatile 선언!
 ```
 
 #### `volatile` 의 위대한 2가지 마법
-1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/">메모리 배리어</a> (<a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/">Memory Barrier</a> / Fence) 발동</strong>: 
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/">메모리 배리어</a> (<a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/">Memory Barrier</a> / Fence) 발동</strong>:
    컴파일러와 CPU에게 **"이 변수를 읽고 쓰는 작업 앞뒤로는 절대 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 섞지(Reordering) 마라! 무조건 (1)->(2)->(3) 정석대로 실행해라!"**라고 채찍질을 가한다. 이제 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B는 완벽히 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(2)이 끝난 객체만 볼 수 있게 된다.
-2. **캐시 무효화 (가시성 보장)**: 
+2. **캐시 무효화 (가시성 보장)**:
    각 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 자기 CPU 캐시에 값을 숨겨두지 못하게 하고, 변수를 변경하는 즉시 메인 메모리에 쏴버려서 모든 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 항상 가장 최신의 똑같은 값을 보게(Visibility) 만든다.
 
 *(※ 팁: 자바에서는 이보다 더 완벽하고 안전한 <strong>"Initialization-on-demand holder idiom (내부 정적 클래스 활용)"</strong>이나 <strong>"Enum <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/">싱글톤</a>"</strong>을 쓰는 것이 현대적 표준이다. DCL은 면접 단골 질문이자 과거의 흑역사로 기억된다.)*

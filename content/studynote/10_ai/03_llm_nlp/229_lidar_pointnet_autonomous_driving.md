@@ -19,13 +19,13 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-자율주행 자동차의 눈은 크게 두 가지다. 색깔을 보는 '카메라(Camera)'와, 레이저를 쏴서 돌아오는 시간을 재어 거리를 파악하는 '라이다([LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/))'다. 
-카메라 이미지는 픽셀이 바둑판처럼 예쁘게 차곡차곡 정렬되어 있어서 2D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)([합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/))을 돌리기가 아주 좋다. 하지만 LiDAR가 뿜어내는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인 <strong>'포인트 클라우드(Point Cloud)'</strong>는 완전히 다른 괴물이다. 
+자율주행 자동차의 눈은 크게 두 가지다. 색깔을 보는 '카메라(Camera)'와, 레이저를 쏴서 돌아오는 시간을 재어 거리를 파악하는 '라이다([LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/))'다.
+카메라 이미지는 픽셀이 바둑판처럼 예쁘게 차곡차곡 정렬되어 있어서 2D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)([합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/))을 돌리기가 아주 좋다. 하지만 LiDAR가 뿜어내는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인 <strong>'포인트 클라우드(Point Cloud)'</strong>는 완전히 다른 괴물이다.
 
-라이다는 허공에 점을 무작위로 찍는다. 자동차 본체에는 점이 수만 개 찍히지만, 하늘이나 허공에는 점이 1개도 없다. 밀도도 제멋대로고, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 순서도 없는 <strong>순수한 (x, y, z) 수학적 좌표들의 난장판(Unordered set of points)</strong>이다. 
+라이다는 허공에 점을 무작위로 찍는다. 자동차 본체에는 점이 수만 개 찍히지만, 하늘이나 허공에는 점이 1개도 없다. 밀도도 제멋대로고, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 순서도 없는 <strong>순수한 (x, y, z) 수학적 좌표들의 난장판(Unordered set of points)</strong>이다.
 초창기 공학자들은 이 난장판을 딥러닝에 넣기 위해 무식한 짓을 했다. 공간을 마인크래프트 블록(Voxel)처럼 잘게 쪼개어, 점이 들어있으면 1, 없으면 0을 채우고 3D-CNN을 돌린 것이다(Voxelization). 하지만 세상 공간의 99%는 허공이다. GPU는 쓸데없는 공기를 계산하느라 메모리(VRAM)가 폭발해 버렸다.
 
-"이봐, 점을 억지로 블록에 구겨 넣지 말고, <strong>있는 그대로의 점 좌표 (x, y, z) 숫자 3개를 그냥 신경망에 때려 박아서 학습</strong>할 순 없을까?" 
+"이봐, 점을 억지로 블록에 구겨 넣지 말고, <strong>있는 그대로의 점 좌표 (x, y, z) 숫자 3개를 그냥 신경망에 때려 박아서 학습</strong>할 순 없을까?"
 이 미친 발상을 스탠퍼드 대학교 연구진이 2017년에 수학적으로 완벽하게 증명해 낸 모델이 바로 <strong>PointNet(포인트넷)</strong>이다. 3D 딥러닝 역사는 PointNet 이전과 이후로 나뉜다.
 
 ```text
@@ -71,7 +71,7 @@ PointNet은 순서가 없는 점(Point) 덩어리를 딥러닝에 우겨넣기 �
 ```
 
 **핵심 원리 (순서 불변성 극복, Permutation Invariance)**:
-이미지 픽셀은 1번 픽셀과 2번 픽셀의 자리가 바뀌면 사진이 망가진다. 하지만 포인트 클라우드는 점 A, B, C를 입력하든 C, A, B를 입력하든 똑같은 컵 모양이다. 신경망이 이 '순서 없음'을 이해하게 만드는 것이 최대 난제였다. 
+이미지 픽셀은 1번 픽셀과 2번 픽셀의 자리가 바뀌면 사진이 망가진다. 하지만 포인트 클라우드는 점 A, B, C를 입력하든 C, A, B를 입력하든 똑같은 컵 모양이다. 신경망이 이 '순서 없음'을 이해하게 만드는 것이 최대 난제였다.
 PointNet은 <strong>'대칭 함수(Symmetric Function)'인 맥스 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/">풀링</a>(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/">Max Pooling</a>)</strong>을 해결책으로 썼다. 100개의 점 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 순서대로 들어오든 역순으로 들어오든, 가장 강한 특징(Max) 하나만 찍어 누르면 결과값은 언제나 동일하기 때문이다. 점들을 섞어도 결과가 똑같아지는 이 수학적 성질이 PointNet을 3D 비전의 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터피스로 만들었다.
 
 | 요소 | 역할 |

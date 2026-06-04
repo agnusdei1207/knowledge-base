@@ -42,15 +42,15 @@ tags = ["studynote-database"]
 
 쿼리 비교:
   SELECT AVG(Salary) FROM employees;
-  
+
   행 기반: 모든 행의 모든 컬럼 읽기
   → ID, Name, Age 불필요하지만 읽음
   → I/O: 전체 테이블
-  
+
   컬럼 기반: Salary 컬럼만 읽기
   → ID, Name, Age 완전 건너뜀
   → I/O: Salary 컬럼만 (예: 1/4 I/O)
-  
+
   1억 행, 100개 컬럼, 3개 컬럼 집계:
   행 기반: 100개 컬럼 I/O
   컬럼 기반: 3개 컬럼 I/O (33배 절감)
@@ -67,40 +67,40 @@ tags = ["studynote-database"]
 
 1. RLE (Run-Length Encoding):
   연속 동일 값을 (값, 횟수)로 압축
-  
+
   원본: [부산, 부산, 부산, 서울, 서울]
   압축: [(부산, 3), (서울, 2)]
-  
+
   적합: 정렬된 컬럼, 낮은 카디널리티
   예: 날짜 정렬 후 지역 코드
 
 2. 사전 인코딩 (Dictionary Encoding):
   고유 값 → 정수 매핑
-  
+
   원본: [iPhone, Samsung, iPhone, LG, Samsung]
   사전: {iPhone:0, Samsung:1, LG:2}
   압축: [0, 1, 0, 2, 1]
-  
+
   적합: 문자열, 낮은~중간 카디널리티
   예: 상품명, 지역, 카테고리
 
 3. 비트 패킹 (Bit Packing):
   작은 정수를 최소 비트로 저장
-  
+
   최댓값 < 16 → 4비트로 충분
   (기본 int = 32비트) → 8× 압축
 
 4. 델타 인코딩 (Delta Encoding):
   연속 값의 차이를 저장
-  
+
   원본: [100, 102, 105, 108, 110]
   델타: [100, +2, +3, +3, +2]
-  
+
   적합: 단조 증가 시계열 (타임스탬프, ID)
 
 5. ZSTD/LZ4 (범용 압축):
   위의 방법 이후 추가 범용 압축
-  
+
 압축 효율 예 (Parquet):
   원본: 10GB CSV
   Parquet + Snappy: 2GB (5× 압축)
@@ -171,19 +171,19 @@ HTAP (Hybrid Transactional/Analytical Processing):
 배경:
   OLTP: 행 기반 (MySQL, PostgreSQL)
   OLAP: 컬럼 기반 (Redshift, BigQuery)
-  
+
   이중 구조:
   OLTP → ETL(수 시간) → OLAP
-  
+
   문제: 분석 데이터 신선도 낮음 (수 시간 지연)
-  
+
 HTAP 솔루션:
 
 TiDB (PingCAP):
   TiKV (행 기반): OLTP
   TiFlash (컬럼 기반): 실시간 OLAP
   동일 쿼리 → 최적 스토리지 자동 선택
-  
+
   Raft 복제: TiKV → TiFlash 실시간 동기
   ETL 없이 HTAP 가능
 
@@ -202,7 +202,7 @@ MySQL HeatWave (Oracle):
 한계:
   행+컬럼 동시 저장 → 스토리지 2배 비용
   쓰기 증폭 (두 저장 방식 모두 업데이트)
-  
+
   → 순수 OLAP 워크로드엔 컬럼 전용 DB 유리
 ```
 
@@ -247,7 +247,7 @@ Redshift 적용:
   FROM orders
   WHERE order_date >= '2024-01-01'
   GROUP BY 1, 2;
-  
+
   Before (MySQL): 45분 (전체 테이블 스캔)
   After (Redshift): 8초
   → 337× 가속 (Sort Key + 컬럼 저장)

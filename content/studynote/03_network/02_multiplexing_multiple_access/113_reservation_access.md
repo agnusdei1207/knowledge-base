@@ -68,7 +68,7 @@ tags = ["studynote-network"]
 [단계2]├─ 중앙 기지국: "A노드는 데이터 슬롯 1번, D노드는 2번 써라!" (스케줄 발표)
        │                                                    │
 [단계3]├─ [Data Slot 1 (A 독점)] ────────── [Data Slot 2 (D 독점)] ───>
-       │  (충돌 제로, 100% 무결성 보장)         (충돌 제로 보장)        
+       │  (충돌 제로, 100% 무결성 보장)         (충돌 제로 보장)
 └──────┴────────────────────────────────────────────────────┘
 ```
 *해설*: 이 도식의 핵심은 시간 자원이 경쟁 구간(Contention)과 비경쟁 보장 구간(Contention-Free)으로 엄격히 분리되어 동작한다는 점이다. A와 D는 예약 슬롯에서 성공했기 때문에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 슬롯에서는 안심하고 고속 전송이 가능하다. 반면 B와 C는 예약 미니 슬롯 구간에서 충돌했으므로 예약에 실패했고, 다음 슈퍼 프레임 주기가 올 때까지 백오프하며 기다려야 한다. 이런 구조적 배치는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 슬롯 구간에서 대기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없는 완벽한 채널 활용을 가능하게 하므로 망 전체의 안정성 지표를 비약적으로 상승시킨다.
@@ -120,7 +120,7 @@ tags = ["studynote-network"]
 [요구사항: 다수 노드의 매체 공유 및 대용량 데이터 병합 환경]
          │
          ├─> 1회 전송 시 데이터(페이로드) 크기가 매우 작은가? (ex. 10바이트 센서)
-         │    ├─ (Yes) ─> 예약하지 말고 그냥 Random Access (ALOHA 등) 전송! 
+         │    ├─ (Yes) ─> 예약하지 말고 그냥 Random Access (ALOHA 등) 전송!
          │    │           (이유: 예약 패킷 오버헤드가 배보다 배꼽이 됨)
          │    │
          │    └─ (No)  ─> 대용량 파일 전송, 영상 스트리밍인가?

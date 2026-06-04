@@ -67,7 +67,7 @@ tags = ["studynote-computer-architecture"]
 | **장단점** | 저렴하고 회로가 단순함 | 회로가 복잡하고 비싸지만 발열이 거의 없음 |
 | **적용처** | 저가형 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/), 일반 파워 | 80 PLUS 고효율 하이엔드 파워, 초소형 충전기 |
 
-에너지 효율 규제가 강화되면서 일반 [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)는 퇴출되고 있다. 전류가 흐를 때마다 생기는 0.7V의 톨게이트 비용(열 손실)을 없애기 위해, [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)([MOSFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/))가 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 방향을 감지해 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 직접 열고 닫는 능동적인 정류 방식이 프리미엄 시장을 지배하고 있다. 
+에너지 효율 규제가 강화되면서 일반 [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)는 퇴출되고 있다. 전류가 흐를 때마다 생기는 0.7V의 톨게이트 비용(열 손실)을 없애기 위해, [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)([MOSFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/))가 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 방향을 감지해 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 직접 열고 닫는 능동적인 정류 방식이 프리미엄 시장을 지배하고 있다.
 
 - **📢 섹션 요약 비유**: 요금을 낼 때마다 차를 멈춰야 하는 낡은 톨게이트(일반 [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/))를 다 부수고, 멈출 필요 없이 쌩쌩 지나가도 알아서 처리되는 하이패스(동기식 정류)를 깐 것과 같다.
 
@@ -90,9 +90,9 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-완벽한 정류 회로의 설계는 노이즈(Ripple) 없는 직류를 생성하여, 과부하 상태에서도 시스템 프리징이 없는 무결점 컴퓨팅의 토대를 제공한다. 
+완벽한 정류 회로의 설계는 노이즈(Ripple) 없는 직류를 생성하여, 과부하 상태에서도 시스템 프리징이 없는 무결점 컴퓨팅의 토대를 제공한다.
 
-미래에는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 발열 문제를 해결하기 위해 발전소에서부터 초고압 직류(HVDC)로 송전하여 서버에 바로 꽂는 랙 스케일 아키텍처가 도입될 것이다. 이렇게 되면 개별 서버 내부의 [AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)-DC 정류 회로 자체가 역사 속으로 사라질 수 있다. 
+미래에는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 발열 문제를 해결하기 위해 발전소에서부터 초고압 직류(HVDC)로 송전하여 서버에 바로 꽂는 랙 스케일 아키텍처가 도입될 것이다. 이렇게 되면 개별 서버 내부의 [AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)-DC 정류 회로 자체가 역사 속으로 사라질 수 있다.
 
 - **📢 섹션 요약 비유**: 집집마다 얼음(교류)을 사서 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 불로 녹여 물(직류)을 마시던 비효율을 끝내고, 아예 도시 전체에 깨끗한 수돗물(직류 전용망)을 직접 콸콸 공급하는 스마트 시티의 미래와 같다.
 

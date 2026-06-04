@@ -127,8 +127,8 @@ Team Improvement
 
 ## 어린이를 위한 3줄 비유 설명
 
-팀이 뛰려면 길이 막히면 안 돼요.  
-[스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 마스터는 막힌 길을 치워 주는 사람이에요.  
+팀이 뛰려면 길이 막히면 안 돼요.
+[스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 마스터는 막힌 길을 치워 주는 사람이에요.
 그래서 팀이 스스로 잘 움직일 수 있어요.
 
 ---

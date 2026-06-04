@@ -53,7 +53,7 @@ tags = ["studynote-enterprise-systems"]
 └────────────────────────────────────────────────────────┘
 ```
 
-이 구조에서 [SPOC](/knowledge-base/studynote/12_it_management/02_itsm_itil/073_spoc/)([서비스 데스크](/knowledge-base/studynote/12_it_management/02_itsm_itil/072_service_desk/))는 티켓의 생로병사를 끝까지 책임지는 오너(Owner)다. 전문가(Tier 2)가 문제를 고쳤더라도, 티켓을 닫고 사용자에게 "다 고쳐졌습니다"라고 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)받는 최종 역할은 오직 [서비스 데스크](/knowledge-base/studynote/12_it_management/02_itsm_itil/072_service_desk/)만이 수행한다. 
+이 구조에서 [SPOC](/knowledge-base/studynote/12_it_management/02_itsm_itil/073_spoc/)([서비스 데스크](/knowledge-base/studynote/12_it_management/02_itsm_itil/072_service_desk/))는 티켓의 생로병사를 끝까지 책임지는 오너(Owner)다. 전문가(Tier 2)가 문제를 고쳤더라도, 티켓을 닫고 사용자에게 "다 고쳐졌습니다"라고 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)받는 최종 역할은 오직 [서비스 데스크](/knowledge-base/studynote/12_it_management/02_itsm_itil/072_service_desk/)만이 수행한다.
 
 - **📢 섹션 요약 비유**: [서비스 데스크](/knowledge-base/studynote/12_it_management/02_itsm_itil/072_service_desk/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 '배달앱의 주문 추적 시스템'이다. 손님(사용자)은 식당 주방장(개발자)에게 직접 전화하지 않고 앱([SPOC](/knowledge-base/studynote/12_it_management/02_itsm_itil/073_spoc/))으로 주문(티켓)을 넣는다. 앱은 요리 시작, 배달 출발 상태를 관리하며 피자가 식기 전([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))에 도착하도록 주방장을 압박하고 통제한다.
 

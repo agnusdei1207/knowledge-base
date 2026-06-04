@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 웹 브라우저를 만들었다고 가정해 보자. 어떤 사용자는 광고 차단 기능이 필요하고, 어떤 사용자는 번역 기능이 필요하다. 모든 사용자의 요구사항을 100% 반영해서 브라우저 하나에 다 때려 넣으면, 브라우저 크기가 10GB가 넘어가고 툭하면 버그가 나서 멈춰버릴 것이다 (모놀리식의 한계).
 
-해결책은 간단하다. 브라우저 개발팀은 딱 '웹페이지를 화면에 그리는 기능(Core)'만 완벽하게 만든다. 그리고 "우리 브라우저에 기능을 추가하고 싶으면 이 규칙([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))에 맞춰서 코드를 짜와!"라고 선언한다. 그러면 전 세계의 개발자들이 광고 차단기, 번역기 등을 **플러그인(Plug-in)** 형태로 만들어 브라우저에 꽂는다. 
+해결책은 간단하다. 브라우저 개발팀은 딱 '웹페이지를 화면에 그리는 기능(Core)'만 완벽하게 만든다. 그리고 "우리 브라우저에 기능을 추가하고 싶으면 이 규칙([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))에 맞춰서 코드를 짜와!"라고 선언한다. 그러면 전 세계의 개발자들이 광고 차단기, 번역기 등을 **플러그인(Plug-in)** 형태로 만들어 브라우저에 꽂는다.
 
 이것이 구글 크롬(Chrome), 이클립스(Eclipse), 워드프레스(WordPress)를 세계 1위로 만든 힘이자, <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/598_microkernel_plugin_architecture/">마이크로 커널</a> 아키텍처(<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/431_architecture/">Microkernel Architecture</a>)</strong>의 위력이다.
 

@@ -119,11 +119,11 @@ Cloud Native 패턴:
   Auto-scaling:
     HPA (Horizontal Pod Autoscaler)
     CPU 사용률 80% -> 자동 Pod 수 증가
-    
+
   Self-healing:
     Pod 죽으면 -> K8s가 자동 재시작
     노드 장애 -> 다른 노드로 Pod 재배치
-    
+
   Rolling Update:
     v1 -> v2 교체 시 트래픽 무중단 유지
     문제 시 자동 롤백
@@ -148,11 +148,11 @@ Cloud Native 패턴:
   1단계 (6개월): 컨테이너화
      Docker 이미지 변환, K8s 도입
      -> 배포 주기 주 1회로 단축
-     
+
   2단계 (1년): 마이크로서비스 분리
      결제, 계좌, 알림 서비스 분리
      각 서비스 독립 배포 가능
-     
+
   3단계 (6개월): 완전 Cloud Native
      CI/CD 파이프라인 자동화
      HPA 자동 확장 설정

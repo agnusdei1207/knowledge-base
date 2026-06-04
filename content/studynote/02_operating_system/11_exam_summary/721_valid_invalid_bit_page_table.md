@@ -13,17 +13,17 @@ tags = ["studynote-operating-system"]
 
 > 1. **본질**: [유효-무효 비트](/knowledge-base/studynote/02_operating_system/07_virtual_memory/386_valid_invalid_bit/)([Valid-Invalid Bit](/knowledge-base/studynote/02_operating_system/06_memory_management/355_paging_memory_protection/))는 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))의 각 엔트리마다 붙어있는 1비트짜리 깃발([Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))로, 프로세스가 요구한 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 <strong>현재 진짜 물리 메모리(RAM)에 올라와 있는지(Valid) 아니면 디스크에 있거나 없는지(Invalid)</strong>를 하드웨어([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))에게 알려주는 핵심 지표다.
 > 2. **메커니즘**: CPU가 어떤 메모리 주소를 찔렀을 때 MMU가 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 열어보고 이 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 <strong>Invalid(i)</strong>로 세팅되어 있다면, MMU는 즉시 주소 변환을 중단하고 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/">페이지 폴트</a>(<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a>)</strong>라는 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 터뜨려 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)를 호출한다.
-> 3. **가치**: 이 1비트의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 덕분에, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 수 기가바이트의 프로그램을 단 1MB만 램에 올려놓고 뻔뻔하게 실행([요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))시킬 수 있으며, 해커가 허락받지 않은 메모리 구역을 건드리는 것을 원천 차단([메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/))하는 완벽한 샌드박스를 구축할 수 있다.
+> 3. **가치**: 이 1비트의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 덕분에, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 수 기가바이트의 프로그램을 단 1MB만 램에 올려놓고 뻔뻔하게 실행([요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))시킬 수 있으며, 해커가 허락받지 않은 메모리 구역을 건드리는 것을 원천 차단([메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/))하는 완벽한 샌드박스를 구축할 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **Valid (v, 유효)**: 해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 현재 물리 메모리(RAM)의 어떤 프레임에 합법적으로 적재되어 있어, 즉시 읽고 쓸 수 있는 상태.
   - **Invalid (i, 무효)**: 해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 디스크(Swap 영역)에 쫓겨나 있거나, 아예 프로세스에게 할당된 적이 없는 불법적인(빈) 가상 주소 공간임을 의미.
 
-- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>의 거짓말 탐지기)</strong>: 
+- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>의 거짓말 탐지기)</strong>:
   - 32비트 프로세스는 자신이 4GB의 광활한 메모리를 독점하고 있다고 착각한다([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)).
   - 하지만 실제로는 OS가 4GB 중 단 10MB만 진짜 램에 올려주고, 나머지는 디스크에 짱박아두거나 아예 주지 않았다([요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)).
   - 프로세스가 램에 없는 주소를 읽어달라고 CPU에 명령하면, CPU는 엉뚱한 램을 읽어 시스템을 망치게 될 것이다.
@@ -192,7 +192,7 @@ MMU는 이 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_r
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 철수는 보물찾기 지도([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))를 가지고 있어요. 지도에는 보물이 숨겨진 100곳의 주소가 적혀 있죠.
-2. 하지만 이 지도는 조금 특별해요. 각 주소 옆에 O, X(Valid/Invalid) 표시가 쳐져 있어요. 
+2. 하지만 이 지도는 조금 특별해요. 각 주소 옆에 O, X(Valid/Invalid) 표시가 쳐져 있어요.
 3. O 표시(Valid)는 "여기 가면 당장 보물([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 캘 수 있어!"라는 뜻이고, X 표시(Invalid)는 "여긴 함정이야! 진짜 보물은 땅속 깊은 창고(디스크)에 있으니까 아빠([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))한테 꺼내달라고 해!"라는 뜻이랍니다!
 
 ---

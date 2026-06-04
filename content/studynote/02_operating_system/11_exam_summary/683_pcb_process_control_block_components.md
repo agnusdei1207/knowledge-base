@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>PCB (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a> Control Block)</strong>: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 프로세스의 생성부터 소멸까지의 전 주기를 관리하기 위해 유지하는 C 언어 구조체(Struct).
   - 프로세스가 1개 생성될 때마다 PCB도 반드시 1개씩 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 영역에 생성된다.
 
-- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a>의 필수품)</strong>: 
+- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a>의 필수품)</strong>:
   - CPU는 건망증이 심하다. A 프로세스를 0.1초 실행하다가 B 프로세스로 넘어가면, A가 방금까지 몇 번째 코드를 읽고 있었는지, 덧셈 결과가 뭐였는지 전부 까먹는다.
   - 나중에 다시 A의 차례가 왔을 때 원래 하던 일부터 이어서 하려면, 쫓겨나기 직전의 CPU 머릿속([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)) 상태를 어딘가에 적어두어야 한다.
   - **해결책**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리에 프로세스마다 고유한 금고(PCB)를 하나씩 만들어서, CPU를 뺏길 때마다 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)를 몽땅 PCB에 때려 넣고(Save), 다시 차례가 오면 PCB에서 꺼내서 CPU에 복원(Restore)하는 메커니즘이 필요했다.

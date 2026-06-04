@@ -110,7 +110,7 @@ LLM과 SLM은 크기에 따라 완전히 다른 서버 아키텍처 생태계([D
 
 ## Ⅴ. 기대효과 및 결론
 
-슬림 언어 모델([SLM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/))의 폭발적인 대중화는 빅테크 클라우드에 종속될 뻔했던 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 생태계를, 전 세계 개발자와 스타트업의 방구석으로 탈환해 온 위대한 '[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 민주화(Democratization)' 사건이다. 
+슬림 언어 모델([SLM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/))의 폭발적인 대중화는 빅테크 클라우드에 종속될 뻔했던 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 생태계를, 전 세계 개발자와 스타트업의 방구석으로 탈환해 온 위대한 '[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 민주화(Democratization)' 사건이다.
 
 파라미터 사이즈의 과시욕에서 벗어나 "모델 크기보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 질(Quality)이 100배 중요하다"는 인프라의 본질을 깨닫게 해 주었으며, 이제 기업들은 보안 유출 걱정 없이 구글이나 OpenAI에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내지 않고도 자사의 완벽한 폐쇄망([Air-gapped](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/102_air_gapped_cicd_tarball_delivery/)) 안에서 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) SLM을 무료로 무한 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하여 마음껏 파인튜닝하고 사내 챗봇을 양산하는 황금기를 맞이했다.
 

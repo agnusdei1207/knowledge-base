@@ -116,21 +116,21 @@ tags = ["studynote-database"]
 모든 것을 캡슐화시켜주는 뷰는 시니어 DB 튜너들이 가장 극혐하는 '퍼포먼스(속도) 블랙홀' 폭탄이 되기도 한다.
 
 ### 실무 판단 시나리오
-1. <strong>스파게티 뷰(View on View) 중첩 떡칠로 인한 <a href="/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/">옵티마이저</a> 항복 선언 💥</strong>: 
-   마이페이지에서 회원 1명 적립금 띄우는데 로딩이 30초 걸려 타 죽었다. [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 까보니 `SELECT * FROM 고객통계_VIEW WHERE ID='홍길동'` 딱 한 줄로 캡슐화 쩔게 깔끔했다. 
+1. <strong>스파게티 뷰(View on View) 중첩 떡칠로 인한 <a href="/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/">옵티마이저</a> 항복 선언 💥</strong>:
+   마이페이지에서 회원 1명 적립금 띄우는데 로딩이 30초 걸려 타 죽었다. [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 까보니 `SELECT * FROM 고객통계_VIEW WHERE ID='홍길동'` 딱 한 줄로 캡슐화 쩔게 깔끔했다.
    DBA가 빡쳐서 뷰 뱃속을 까봤더니, 그 안에는 `주문_VIEW`와 `포인트_VIEW`가 섞여 있고, 그걸 또 까보니 1억 건짜리 `주문상세_VIEW` 3개가 엮여있는 끔찍한 러시아 인형(마트료시카 마트료시카) 구조 5겹 떡칠이었다!!
-   - **판단 (아키텍트 메스 🪓)**: "야 이 좆소 객체지향 뽕 맞은 타자기들아!! 자바 클래스 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(재사용) 치는 버릇을 SQL 뷰(View)에 그대로 끌고 오지 마 CPU 터져 쾅!!! 
-   뷰 껍데기를 5단계 겹쳐 씌우면, 내가 밖에서 쏜 `WHERE ID='홍길동'(1건 솎아내기)` 핀셋 락킹 조건이 ➔ 밑바닥 1억 건 테이블까지 관통 뚫고 내려가지(Predicate Push-down) 못하고 중간 뷰의 `GROUP BY` 벽에 부딪혀 튕겨버려 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 뇌가 정지 뻗음 💀!! 
-   결국 1억 건 테이블 전체를 쌩으로 다 퍼 올려 통째 조인 치고 난 뒤 ➔ 맨 마지막에 홍길동 1명을 버리듯 솎아내는 극악의 풀스캔(Full Scan) 병목 랙 지옥이 터진다고 미친아!! 
+   - **판단 (아키텍트 메스 🪓)**: "야 이 좆소 객체지향 뽕 맞은 타자기들아!! 자바 클래스 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(재사용) 치는 버릇을 SQL 뷰(View)에 그대로 끌고 오지 마 CPU 터져 쾅!!!
+   뷰 껍데기를 5단계 겹쳐 씌우면, 내가 밖에서 쏜 `WHERE ID='홍길동'(1건 솎아내기)` 핀셋 락킹 조건이 ➔ 밑바닥 1억 건 테이블까지 관통 뚫고 내려가지(Predicate Push-down) 못하고 중간 뷰의 `GROUP BY` 벽에 부딪혀 튕겨버려 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 뇌가 정지 뻗음 💀!!
+   결국 1억 건 테이블 전체를 쌩으로 다 퍼 올려 통째 조인 치고 난 뒤 ➔ 맨 마지막에 홍길동 1명을 버리듯 솎아내는 극악의 풀스캔(Full Scan) 병목 랙 지옥이 터진다고 미친아!!
    <strong>하늘이 두 쪽 나도 [View on View 중첩 떡칠] 영구 금지 폐기 소각 컷 쳐버리고!! 귀찮더라도 뷰 다 허물고 쌩 테이블 5개를 평평하게(Flattening) 조인 치는 1장의 날것 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a>로 튜닝해야 <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a>(<a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a>)가 빛의 속도로 길 찾아 쾌속 0.1초 컷 스키 탄다 쾅 🚀!!</strong>" 뷰는 튜닝 툴이 아니라 보안 툴일 뿐이다.
 
-2. <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/">DML</a> 튕겨내기 방패 (WITH CHECK OPTION 락킹 🛡️)</strong>: 
-   서울 지사 알바생용으로 `WHERE 지역 = '서울'` 로 잘라낸 뷰(`서울직원_뷰`)를 줬다. 알바생이 미쳐서 `UPDATE 서울직원_뷰 SET 지역 = '부산' WHERE 사번 = 100;` 업데이트를 때렸다. 
+2. <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/">DML</a> 튕겨내기 방패 (WITH CHECK OPTION 락킹 🛡️)</strong>:
+   서울 지사 알바생용으로 `WHERE 지역 = '서울'` 로 잘라낸 뷰(`서울직원_뷰`)를 줬다. 알바생이 미쳐서 `UPDATE 서울직원_뷰 SET 지역 = '부산' WHERE 사번 = 100;` 업데이트를 때렸다.
    - **대재앙**: 뷰의 관통성 때문에 뒷단 진짜 테이블 값이 '부산'으로 바뀌어버림. 그 순간 사번 100번 놈은 '서울직원_뷰' 필터 조건에서 탈락하여 화면에서 영구 증발 사라짐([Lost Update](/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 붕괴 💥).
    - **아키텍트 방폭문 🔒**: "야!! 뷰 만들 때 꼬리말에 무.조.건. <strong><code>WITH CHECK OPTION</code></strong> 족쇄 쇠사슬 채워 쾅!!! 이 락킹을 걸어두면, 알바생이 뷰 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 조건(`지역='서울'`)에 위배되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(부산)를 밀어 넣으려는 찰나의 순간!! DB 엔진이 멱살 잡고 철퇴를 내려 에러 빠꾸 튕겨내 컷 쳐버린다!! [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 100% 무결점 방어 쉴드의 기본이다 🚀."
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- <strong>조회 전용 통계 뷰에 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/">DML</a> 무방비 방치 (<code>WITH READ ONLY</code> 누락 파국 💀)</strong>: 
+- <strong>조회 전용 통계 뷰에 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/">DML</a> 무방비 방치 (<code>WITH READ ONLY</code> 누락 파국 💀)</strong>:
   외주 직원한테 "오늘 매출 통계만 눈으로 봐라 ㅋ" 하고 뷰를 깎아줬는데, 뷰 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)문 끝에 `WITH READ ONLY` 방폭문을 빼먹고 엔터 쳤다. 권한 받은 직원이 빡쳐서 그 뷰를 향해 `DELETE FROM 통계뷰;` 를 치는 순간!! ➔ 뷰는 껍데기지만 그 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 뷰 유리창을 쑥 관통하여 지하 창고 진짜 원본 테이블의 매출 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수십만 건을 모조리 날려 삭제 척살해버리는 대형 보안 뚫림 파산 참사가 터진다 💥. 보여주기만 할 거면 어떠한 업데이트 칼날도 안 통하게 철갑옷(`READ ONLY`)을 반드시 입혀 봉인 락킹 쳐야 한다.
 
 - **📢 섹션 요약 비유**: 이 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)은, 구경 전용 투어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 창문에 <strong>'일반 방충망'</strong>을 달아둔 꼴입니다. 밖에서 안을 볼 수는 있지만 꼬챙이(DELETE [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))로 확 찌르면 방충망 쑥 뚫고 들어와 안의 승객(원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 다 죽습니다. `WITH READ ONLY` 옵션은 그 방충망을 <strong>'두꺼운 방탄유리'</strong>로 덮어버리는 겁니다 쾅!! 밖에서 안을 구경([SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/))할 순 있지만 밖에서 기관총([DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/))을 쏴도 절대 유리가 안 뚫리고 튕겨내는 완벽한 무결점 캡슐화 투어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 생명줄입니다.
@@ -141,7 +141,7 @@ tags = ["studynote-database"]
 
 뷰(View) 객체는 투박한 행(Row)과 열(Column)로 짜인 쇳덩이 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가, 인간 개발자 어플리케이션(App)을 위해 베푸는 가장 세련되고 우아한 속임수(Illusion)이자 인터페이스 친절이다.
 
-"가장 완벽한 감춤은, 가짜 껍데기를 보여주어 진짜의 존재조차 잊게 만드는 것이다." 
+"가장 완벽한 감춤은, 가짜 껍데기를 보여주어 진짜의 존재조차 잊게 만드는 것이다."
 1억 건의 지저분한 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 수십 개의 테이블이 실타래처럼 엉킨 거친 쇳덩이 창고 바닥을 ➔ 은빛 대리석 껍데기(뷰)로 매끈하게 덮어주어, 초보 프론트 개발자도 단 1줄짜리 `SELECT` 가벼운 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 장사를 할 수 있게 짬처리 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)(Off-loading) 시켜버리는 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))의 거룩한 예술.
 비록 물리적 하드디스크 육체를 가지지 못한 유령(Virtual) 가상 객체이지만, 밑바닥 쇳덩이 뼈대가 산산조각이 나 갈라엎어지는 공사판 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 폭풍 속에서도 흔들림 없이 어플리케이션(App) 소스 코드의 심장을 타격 없이 지켜내는(Logical [Data Independence](/knowledge-base/studynote/05_database/04_transactions_concurrency/504_data_independence/)) 이 투명한 방패벽이 없었다면 ➔ [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 시대의 그 미친듯한 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경 속도를 버텨낼 시스템은 지구상에 존재하지 않았을 것이다.
 
@@ -173,7 +173,7 @@ tags = ["studynote-database"]
 컬럼 단위 (Column-level) 보안 은닉 쉴드 🔒 / 민감한 '월급, 주민번호' 가위로 오려내고 하청 알바생용 뷰 따로 파서 던져줌 ➔ 권한 통제 보안 제로 트러스트 록온 완료
     │
     ▼
-스파게티 뷰(View on View) 퍼포먼스 랙 붕괴 💥 / 뷰를 5겹 감싸다 조건문 푸시다운(Push-down) 막혀 옵티마이저 뇌정지 ➔ 1억 건 풀스캔 뻗음 대참사 발동 
+스파게티 뷰(View on View) 퍼포먼스 랙 붕괴 💥 / 뷰를 5겹 감싸다 조건문 푸시다운(Push-down) 막혀 옵티마이저 뇌정지 ➔ 1억 건 풀스캔 뻗음 대참사 발동
     │
     ▼
 Materialized View (MView) 데이터 웨어하우스 구원 ✨ / "껍데기 뷰 찢어버려! 걍 1억 건 조인 결과 엑기스 1,000줄을 진짜 하드디스크 돌덩이(Table)로 굳혀 캐싱 박제 쳐 쾅!!" ➔ OLAP 대시보드 1초 컷 쾌속 렌더링 펌핑의 빅데이터 제국 완성 🚀

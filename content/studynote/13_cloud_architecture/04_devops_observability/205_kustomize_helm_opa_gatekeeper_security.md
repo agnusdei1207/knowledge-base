@@ -150,7 +150,7 @@ jobs:
       with:
         files: kubernetes/
         policy: policy/
-    
+
     # conftest는 OPA/Rego 정책을 CI에서 실행하는 도구
     # 클러스터 없이 로컬/CI에서 YAML 정책 검증 가능
 ```

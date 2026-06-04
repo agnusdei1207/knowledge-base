@@ -137,8 +137,8 @@ Polynomial / RBF 커널
 
 ## 어린이를 위한 3줄 비유 설명
 
-[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 트릭은 못 가르던 모양을 다른 층으로 살짝 옮겨서 자르는 방법이에요.  
-그냥 옮기는 대신, 옮긴 것과 똑같은 결과만 계산해요.  
+[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 트릭은 못 가르던 모양을 다른 층으로 살짝 옮겨서 자르는 방법이에요.
+그냥 옮기는 대신, 옮긴 것과 똑같은 결과만 계산해요.
 그래서 복잡한 그림도 훨씬 쉽게 나눌 수 있어요.
 
 ---

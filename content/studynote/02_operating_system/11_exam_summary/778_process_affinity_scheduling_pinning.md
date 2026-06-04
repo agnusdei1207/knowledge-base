@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **친화성(Affinity)**: "특정 프로세스가 특정 CPU 코어를 얼마나 사랑하고 찰싹 달라붙고 싶어 하는가"를 나타내는 척도.
   - **소프트 친화성 (Soft Affinity)**: OS의 기본 방식. "웬만하면 네가 방금 놀던 코어에서 계속 놀게 해줄게, 근데 그 코어가 너무 바쁘면 다른 빈 코어로 이사(Migration)가야 해!" (최선의 노력, Best-effort).
   - **하드 친화성 (Hard Affinity / Pinning)**: 강제 방식. "넌 무슨 일이 있어도 무조건 3번 코어에서만 실행돼! 3번 코어가 꽉 막혀도 다른 빈 코어로 절대 도망갈 수 없어!" (명시적 강제, CPU Pinning).
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - CPU [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(예: 리눅스 CFS)의 최우선 목적은 "모든 코어가 쉬지 않게 일을 골고루 나누는 것([Load Balancing](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/))"이다. 그래서 0번 코어가 바쁘면 거기 있던 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A를 한가한 1번 코어로 몰래 옮겨버린다(Migration).
   - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A 입장에서는 0번 코어의 L1 캐시에 방금 다운받은 뜨끈뜨끈한 캐시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수 메가바이트를 예쁘게 다 세팅해 놨는데, 갑자기 1번 코어로 쫓겨나면서 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 다 쓰레기가 된다. 1번 코어에서 처음부터 다시 메인 메모리를 뒤져가며 캐시를 쌓아야 하는 엄청난 속도 저하(Cache Cold Miss)가 발생한다.
   - **해결책**: "[스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)야, 제발 눈치 없이 공평하게 나눈답시고 내 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 자리 좀 옮기지 마라! 난 줄 서서 오래 기다려도 좋으니 캐시가 따뜻한 내 자리(Hard Affinity)에 짱박혀 있을 테다!"
@@ -32,7 +32,7 @@ tags = ["studynote-operating-system"]
   - **소프트 친화성 (기본 OS)**: 은행에서 1번 창구 직원이랑 한참 대출 서류를 맞춰놨는데, 갑자기 지점장이 "1번 창구 너무 바쁘니까 고객님은 텅 빈 2번 창구로 가세요"라며 강제로 옮김. 2번 창구 직원에게 처음부터 서류 설명을 다 다시 해야 함(Cache Miss).
   - **하드 친화성 (Pinning)**: "전 무조건 1번 창구 김대리님한테만 상담받을 겁니다!" 번호표를 뽑고 하루 종일 기다리는 한이 있어도(Load 쏠림) 절대 딴 창구로 가지 않아 설명의 연속성(Cache [Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/))을 유지하는 단골 고객.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 코어가 2~4개이던 시절에는 공평한 분배가 더 중요했다. 그러나 64코어, 128코어 시대로 오며 코어 간 캐시 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(MESI 핑퐁) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 비용이 어마어마해지자, 차라리 한 우물만 파는 것이 압도적으로 빠르다는 것을 깨닫고 HFT(초고빈도 매매) 및 DB 아키텍트들의 필수 교양으로 자리 잡았다.
 
 ```text
@@ -200,7 +200,7 @@ tags = ["studynote-operating-system"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | [클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) OS [자원 풀링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/638_resource_pooling_cxl/) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
 | [부하 균등화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/) ([Load Balancing](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/)) 큐 이주 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
 | [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 동적 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 트레이싱 프레임워크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 

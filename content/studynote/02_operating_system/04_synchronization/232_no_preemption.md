@@ -35,8 +35,8 @@ tags = ["studynote-operating-system"]
   - 커널: "얘들아, 이러다 다 죽어! A야, 네가 쥐고 있는 Mutex_1 잠깐만 뺏을게!"
   - A: "안돼! 나 아직 계산 중이야. 중간에 뺏기면 데이터 박살나!" (비선점 권리 행사)
   - B: "나도 Mutex_2 절대 안 놔줘!"
-  
-  🚨 결과: 누구도 강제로 뺏을 수 없고(No Preemption), 
+
+  🚨 결과: 누구도 강제로 뺏을 수 없고(No Preemption),
           누구도 스스로 놓지 않으므로(Hold) 시스템은 무한 정지(Deadlock) 상태로 굳어짐.
 ```
 **[다이어그램 해설]** "[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))의 선점"과 헷갈리면 안 된다. CPU는 선점당해서 다른 놈이 연산할 수 있다. 하지만 <strong>"자원(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)"</strong>은 선점당하지 않는다. A가 CPU를 뺏겨 대기실로 쫓겨날 때도 Mutex_1이라는 자물쇠는 A의 주머니 속에 그대로 들어있다. 이것이 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)의 핵심이다.
@@ -53,7 +53,7 @@ tags = ["studynote-operating-system"]
 
 #### 1. 자발적 반납 (Voluntary Preemption)
 - **로직**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 자원 1을 쥐고 있는 상태에서 자원 2를 달라고 요청했는데 거절당했다(누가 쓰고 있다).
-- **파괴 동작**: A는 멍청하게 기다리지 않는다. 자원 2를 못 얻으면, **"내가 쥐고 있던 자원 1마저도 스스로 토해내고(반납)"** 빈손으로 대기 큐의 맨 뒤로 굴러 떨어진다. 
+- **파괴 동작**: A는 멍청하게 기다리지 않는다. 자원 2를 못 얻으면, **"내가 쥐고 있던 자원 1마저도 스스로 토해내고(반납)"** 빈손으로 대기 큐의 맨 뒤로 굴러 떨어진다.
 - **효과**: A가 1을 토해냈으므로, 1을 기다리던 B가 1을 먹고 살아서 데드락이 스르륵 풀린다. (사실상 선점을 허용한 것과 같은 효과).
 - **치명적 문제점**: CPU 레지스터나 단순 DB 커넥션 같은 건 토해내도 다시 잡으면 그만이지만, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이나 테이프 드라이브에 절반쯤 쓰다가 뺏기면(반납하면) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처음부터 다시 써야 하거나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 쓰레기가 된다. 따라서 쉽게 쓸 수 있는 기법이 아니다.
 
@@ -92,8 +92,8 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. <strong>RDBMS의 데드락 탐지기 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a> Detector)</strong>: MySQL(InnoDB) 같은 DB 엔진은 OS와 달리 데드락을 가만히 두지 않는다. 
-   - DB는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 꼬여 데드락이 터지면, '[비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)([No Preemption](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/))' 조건을 강제로 부숴버린다. 
+1. <strong>RDBMS의 데드락 탐지기 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a> Detector)</strong>: MySQL(InnoDB) 같은 DB 엔진은 OS와 달리 데드락을 가만히 두지 않는다.
+   - DB는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 꼬여 데드락이 터지면, '[비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)([No Preemption](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/))' 조건을 강제로 부숴버린다.
    - **실무 동작**: 두 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 중 더 가벼운 놈([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 적은 놈)을 <strong>Victim(희생자)</strong>으로 선정하고, 그 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 강제로 `KILL` 시켜버린다(강제 선점). 희생자가 쥐고 있던 락은 해제되고, 살아남은 놈은 락을 얻어 커밋된다. DB는 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 기술이 완벽하기에 가능한 극단적 아키텍처다.
 2. <strong>Java / C#의 <code>tryLock()</code> 을 통한 <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/">비선점</a> 룰의 자발적 파기</strong>: 애플리케이션 레벨에서는 남의 락을 뺏을(Kill) 권한이 없다. 따라서 "내가 가진 걸 스스로 놓는" 기법을 쓴다.
    - **아키텍트 결단**: 개발자는 `lock.lock()` 대신 `lock.tryLock(3 seconds)`를 쓴다. 3초간 기다려보고 남의 락을 못 얻으면? `finally` 구문을 태워서 **"내가 쥐고 있던 락마저 스스로 언락(Unlock)"** 해버린다. (자발적 선점 허용). 이를 통해 시스템은 데드락의 늪에 빠지지 않고 자연스럽게 호흡(Retry)하게 된다.

@@ -62,7 +62,7 @@ tags = ["studynote-network"]
 [Pure ALOHA의 취약시간: 2T_f]
      t-T_f          t          t+T_f
 -------|------------|------------|-----> Time
-    (충돌위험)   (전송시작)   (전송종료) 
+    (충돌위험)   (전송시작)   (전송종료)
 
 [Slotted ALOHA의 취약시간: 1T_f]
      t-T_f          t          t+T_f
@@ -126,7 +126,7 @@ tags = ["studynote-network"]
          │    │
          └─> 3단계: 할당받은 전용 자원(TDMA/OFDMA)으로 안전하게 대용량 데이터 전송
 ```
-*해설*: 이 흐름의 핵심은 고성능 통신망에서도 사용자가 언제 망에 진입할지 알 수 없는 '[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 접속 구간'에서는 슬롯 알로하가 가장 가볍고 효율적인 솔루션이라는 점이다. 실무 통신망 설계 시, 전체 주파수 대역 중 아주 좁은 일부 채널(RACH)만 슬롯 알로하경쟁 구역으로 열어두고, 여기서 경합에 승리한 단말에게만 절대 충돌이 나지 않는 전용 차선([OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/))을 할당하는 투트랙(Two-track) 방식을 사용한다. 
+*해설*: 이 흐름의 핵심은 고성능 통신망에서도 사용자가 언제 망에 진입할지 알 수 없는 '[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 접속 구간'에서는 슬롯 알로하가 가장 가볍고 효율적인 솔루션이라는 점이다. 실무 통신망 설계 시, 전체 주파수 대역 중 아주 좁은 일부 채널(RACH)만 슬롯 알로하경쟁 구역으로 열어두고, 여기서 경합에 승리한 단말에게만 절대 충돌이 나지 않는 전용 차선([OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/))을 할당하는 투트랙(Two-track) 방식을 사용한다.
 
 <strong>실무 도입 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a> 및 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
 1. <strong>타임 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 유실 (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/">Clock</a> Drift)</strong>: 넓은 커버리지의 위성망이나 해상 통신망에서 GPS 오류나 [전파 지연](/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/)으로 인해 엣지 노드의 슬롯 경계가 어긋나는 현상([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) Drift)을 방어하지 못하면, 슬롯 알로하는 순식간에 [순수 알로하](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/)급 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(18% 효율)으로 곤두박질친다. 가드 타임(Guard Time) 설정이 필수적이다.

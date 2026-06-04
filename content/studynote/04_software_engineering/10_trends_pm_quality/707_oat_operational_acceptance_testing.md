@@ -104,7 +104,7 @@ OAT는 흔히 UAT나 [성능](/knowledge-base/studynote/04_software_engineering/
 
 ## Ⅴ. 기대효과 및 결론
 
-OAT를 철저하게 수행하면 실운영 환경에서의 치명적 다운타임(Downtime)을 극적으로 줄일 수 있다. 개발자가 짠 비즈니스 로직에 버그가 있으면 해당 기능만 안 되지만, 인프라의 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)이나 페일오버(Fail-over)가 작동하지 않으면 회사 전체의 비즈니스가 멈춘다. 
+OAT를 철저하게 수행하면 실운영 환경에서의 치명적 다운타임(Downtime)을 극적으로 줄일 수 있다. 개발자가 짠 비즈니스 로직에 버그가 있으면 해당 기능만 안 되지만, 인프라의 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)이나 페일오버(Fail-over)가 작동하지 않으면 회사 전체의 비즈니스가 멈춘다.
 
 결론적으로 OAT는 IT 거버넌스와 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리([Risk Management](/knowledge-base/studynote/09_security/17_framework_compliance/841_iso_27005_risk_management/))의 핵심이다. 기술사는 아무리 기능 개발(Dev)이 완벽해도, 시스템을 살려내고 유지하는 운영(Ops)의 관점이 누락된 아키텍처는 절대로 승인해서는 안 된다. "[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 수 없는 시스템은 시작조차 하지 마라."
 

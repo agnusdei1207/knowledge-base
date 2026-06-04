@@ -45,7 +45,7 @@ tags = ["studynote-network"]
 
 ### 2. [Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/) (논스, Number Used Once, 비표) 🌟
 - 시간에 의존하면 서버 간의 시계가 1초만 안 맞아도 정상 패킷이 버려지는 문제가 생깁니다. 이를 막기 위해 쓰는 '일회용 랜덤 숫자표'입니다.
-- **방어 원리**: 
+- **방어 원리**:
   - 앨리스가 접속하려 할 때, 서버가 앨리스에게 "자, 이번 거래에는 `7A9F3` 이라는 난수([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/))를 꼭 끼워 넣어!"라고 일회용 미션을 줍니다.
   - 앨리스는 패킷 안에 `7A9F3`를 넣고 암호화해서 쏩니다. 서버는 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 문을 열어주고, 방금 쓴 `7A9F3` 번호를 영원히 폐기합니다.
   - 해커가 패킷을 복사해서 내일 쏘면? 서버는 "지금 우리 거래 번호는 `B82X1`인데 왜 옛날 번호표를 들이밀어? 가짜 놈!" 하고 막아버립니다.

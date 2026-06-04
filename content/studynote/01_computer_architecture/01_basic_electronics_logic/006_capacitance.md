@@ -28,11 +28,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 내에서 정전용량을 다루는 방식은 '의도된 저장'과 '의도치 않은 기생'의 두 가지 메커니즘으로 나뉜다. 
+[반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 내에서 정전용량을 다루는 방식은 '의도된 저장'과 '의도치 않은 기생'의 두 가지 메커니즘으로 나뉜다.
 
 DRAM이나 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/) 설계자들은 좁은 면적에서 정전용량을 잃지 않기 위해 필사적이다. 평면(2D) 스케일링이 한계에 부딪히자, 실린더 모양으로 밑바닥에 깊은 우물을 파거나 아예 아파트처럼 수직으로 쌓아 올리는 3D NAND <strong>CTF (Charge <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">Trap</a> Flash)</strong> 아키텍처를 도입하여 전극판의 면적($A$)을 강제로 확보했다.
 
-반대로 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로 배선에서는 기생 정전용량을 박살 내야 한다. 
+반대로 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로 배선에서는 기생 정전용량을 박살 내야 한다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -91,7 +91,7 @@ DRAM이나 [플래시 메모리](/knowledge-base/studynote/01_computer_architect
 
 ## Ⅴ. 기대효과 및 결론
 
-정전용량의 역학을 칩 구조에 완벽히 길들이면, 낸드 플래시의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보존력과 프로세서의 수 GHz [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 클럭 스위칭이라는 상반된 목표를 동시에 달성할 수 있다. 
+정전용량의 역학을 칩 구조에 완벽히 길들이면, 낸드 플래시의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보존력과 프로세서의 수 GHz [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 클럭 스위칭이라는 상반된 목표를 동시에 달성할 수 있다.
 
 극미세 노드로 갈수록 구리 배선 사이에 공기(유전율 1)를 집어넣는 [에어 갭](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/102_air_gapped_cicd_tarball_delivery/)(Air-Gap) 공정까지 동원하여 기생 커패시턴스를 쥐어짜고 있다. 미래 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 설계는 양자 상태에서 발생하는 양자 정전용량([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Capacitance)까지 제어해야 하는 극한의 물리적 줄타기가 될 것이다. 정전용량은 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)가 정보를 저장하는 축복인 동시에 속도를 늦추는 가장 무서운 저주다.
 

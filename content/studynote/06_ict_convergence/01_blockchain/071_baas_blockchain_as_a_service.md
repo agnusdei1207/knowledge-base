@@ -132,8 +132,8 @@ PoC
 
 ## 어린이를 위한 3줄 비유 설명
 
-[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)을 빌려 쓰는 거예요.  
-직접 만들지 않아도 돼요.  
+[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)을 빌려 쓰는 거예요.
+직접 만들지 않아도 돼요.
 BaaS는 그런 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)예요.
 
 ---

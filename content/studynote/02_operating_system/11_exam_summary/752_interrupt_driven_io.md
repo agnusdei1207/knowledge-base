@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - I/O 전송이 필요할 때 CPU는 장치에게 "시작해!"라고 명령만 내리고 곧바로 자신은 다른 유용한 작업(다른 프로세스 스케줄링)으로 돌아간다.
   - 장치가 I/O 준비나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송을 다 끝마치면, 메인보드의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 선(IRQ, [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Request Line)에 전기를 쏴서 CPU를 찌른다.
   - 찔린 CPU는 하던 일을 잠시 멈추고 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리 루틴([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/))으로 점프하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수거한 뒤, 다시 원래 하던 일로 돌아간다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터는 CPU가 프린터나 테이프 드라이브 옆에 서서 "다 찍었니? 다 찍었니?" 하고 1초마다 물어보는 '[폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))' 방식을 썼다.
   - 프린터가 종이 1장을 찍는 수십 초 동안 억대 가격의 슈퍼컴퓨터 CPU가 아무 계산도 못 하고 멈춰 있는 것은 극단적인 경제적 낭비였다.
   - **해결책**: "CPU는 딴일 해라. 장치가 다 되면 '벨(Bell)'을 눌러서 CPU를 부르게 만들자!"
@@ -32,7 +32,7 @@ tags = ["studynote-operating-system"]
   - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a></strong>: 식당에서 진동벨이 없어서, 손님이 주문한 음식이 나왔는지 주방 앞 카운터에 계속 서서 쳐다보며 기다리는 상황 (스마트폰도 못 보고 시간 낭비).
   - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 구동 I/O</strong>: 식당에서 주문 후 <strong>진동벨</strong>을 받아 자리로 돌아와서 신나게 스마트폰 게임(다른 연산)을 하다가, "징~" 하고 진동([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))이 울리는 순간에만 잠깐 일어나서 음식을 가져오는 스마트한 방식.
 
-- **등장 배경**: 
+- **등장 배경**:
   - CPU와 I/O 기기 간의 속도 격차(수십만 배 이상)가 심각해진 메인프레임 시절 등장했다. 이후 키보드, 마우스, 디스크 등 불규칙하고 느린 장치들의 제어 표준으로 정착했다.
 
 ```text
@@ -204,7 +204,7 @@ CPU가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruc
 - <strong>APIC (Advanced Programmable <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a> Controller)</strong>: x86 아키텍처에서 멀티코어 간의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 로드 밸런싱을 담당하는 인텔의 하드웨어 스펙.
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/">PCIe</a> <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/">MSI</a>/<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/">MSI</a>-X</strong>: 하드웨어 핀 대신 메모리 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 트랜잭션으로 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 발생시키는 PCI-SIG의 표준 메시지 기반 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 규격.
 
-[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 구동 입출력은 "컴퓨터가 여러 가지 일을 동시에 하는 것처럼 보이게 만드는" 가장 위대한 마술 장치다. 세상의 속도(사용자의 클릭, 네트워크 패킷의 도착)와 CPU의 어마어마한 연산 속도 사이의 아득한 간극을 훌륭하게 메워주었다. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 없었다면 우리의 컴퓨터는 마우스가 움직일 때까지 화면의 시계를 멈춰야만 했을 것이다. 
+[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 구동 입출력은 "컴퓨터가 여러 가지 일을 동시에 하는 것처럼 보이게 만드는" 가장 위대한 마술 장치다. 세상의 속도(사용자의 클릭, 네트워크 패킷의 도착)와 CPU의 어마어마한 연산 속도 사이의 아득한 간극을 훌륭하게 메워주었다. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 없었다면 우리의 컴퓨터는 마우스가 움직일 때까지 화면의 시계를 멈춰야만 했을 것이다.
 
 - **📢 섹션 요약 비유**: 세상의 모든 소식을 직접 찾으러 신문사를 돌아다니지 않고([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)), 내 집 우편함에 세상의 이벤트가 도착할 때마다 알람을 울려주는 뉴스 푸시 알림([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 시스템이 구글과 현대 IT를 비동기의 세계로 이끌었습니다.
 

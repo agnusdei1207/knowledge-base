@@ -19,16 +19,16 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **다단계 큐 (MLQ)**: 프로세스의 신분(시스템 앱 vs 유저 앱)에 따라 큐를 여러 개로 나누고 절대 신분을 바꿀 수 없는 계급 사회.
   - **다단계 피드백 큐 (MLFQ)**: 여러 개의 큐를 두되, 프로세스의 실행 패턴(피드백)에 따라 큐와 큐 사이를 오르내릴 수 있는(천이, Migration) 능력주의 사회.
 
-- <strong>필요성 (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a>의 무지(Ignorance) 극복)</strong>: 
+- <strong>필요성 (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a>의 무지(Ignorance) 극복)</strong>:
   - 완벽한 스케줄링을 하려면 이 프로그램이 끝나는 데 얼마나 걸릴지([SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/)) 알아야 한다. 하지만 OS는 미래를 알 수 없다(Halting Problem).
   - 그냥 [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/)([라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/))을 쓰자니, 응답이 빨라야 할 타이핑 앱(I/O 바운드)과 며칠 내내 돌아갈 인코딩 앱(CPU 바운드)이 똑같이 10ms씩 받는 게 비효율적이다.
   - **해결책**: "일단 제일 좋은 대우(최상위 큐)를 해줘 봐. 그런데 주어진 10ms를 꽉 채워 쓰는 욕심쟁이라면? 다음번엔 더 낮은 큐로 쫓아내자. 이렇게 계속 관찰(Feedback)하며 자리를 찾아주자!"라는 아이디어가 탄생했다.
 
-  - **MLFQ의 병원 응급실 운영**: 
+  - **MLFQ의 병원 응급실 운영**:
     1. 환자가 오면 일단 무조건 '초응급실(최상위 큐)'로 넣고 의사가 1분만 진료한다.
     2. 1분 만에 치료가 끝나면 바로 퇴원시킨다 (I/O Bound 우대).
     3. 1분이 지났는데도 뼈를 맞춰야 하는 등 수술이 길어지면? "너는 1분 만에 끝날 애가 아니구나!" 하고 '일반 수술실(하위 큐)'로 내쫓는다. 일반 수술실은 순서는 늦게 오지만 대신 한 번 들어가면 10분 동안 길게 치료받을 수 있다.
@@ -95,13 +95,13 @@ MLFQ 아키텍처는 다음 5가지의 엄격한 수학적 룰(Rules)로 동작�
 
 ### MLFQ의 약점 극복 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (Rule 4와 Rule 5의 진화)
 
-1. **초창기 Rule 4의 맹점 (Gaming the System)**: 
+1. **초창기 Rule 4의 맹점 (Gaming the System)**:
    - 과거에는 "타임 퀀텀을 채우기 전에 놓으면 무조건 강등을 면해준다"고 설계했다.
    - 영악한 해커나 앱 개발자가 타임 퀀텀이 10ms일 때, `9.9ms` 동안 CPU를 미친 듯이 쓰고 `0.1ms` 동안 아주 짧은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O를 요청하는 코드를 짰다.
    - 결과: OS는 "I/O 했으니 착한 애네" 하고 Q0에 계속 남겨두어 CPU를 99% 독점하게 만드는 어뷰징(Gaming)이 발생했다.
    - **현대의 Rule 4 변경**: 한 번 CPU를 잡았을 때의 시간이 아니라, <strong>"해당 큐에서 머물며 쓴 CPU 시간의 총합"</strong>이 퀀텀을 넘으면 얄짤없이 강등시켜 버려 꼼수를 차단했다.
 
-2. **기아 현상과 Rule 5 (Priority Boost)**: 
+2. **기아 현상과 Rule 5 (Priority Boost)**:
    - CPU 바운드가 Q2로 떨어졌는데, 위에서 I/O 바운드 앱들이 계속 쏟아져 들어오면 Q2의 애들은 굶어 죽는다([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)).
    - 또한, 어제까지 CPU 바운드였던 앱이 오늘은 사용자의 입력을 받는 I/O 바운드로 행동 패턴이 바뀔 수도 있다.
    - 이를 위해 주기적(예: 1초마다)으로 모든 프로세스를 Q0로 끌어올리는 Rule 5를 도입해 기아를 막고, 과거의 죄를 사면해 주는 유연성을 갖추었다.

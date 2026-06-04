@@ -20,7 +20,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - 객체지향의 3대 특징(캡슐화, [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/), 다형성)은 그저 도구일 뿐입니다.
-- 이 도구를 칼처럼 휘둘러 강도질(스파게티 코드)을 할지, 메스처럼 휘둘러 수술([클린 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/))을 할지 결정하는 것은 결국 개발자의 <strong>'설계 철학(Principle)'</strong>입니다. 
+- 이 도구를 칼처럼 휘둘러 강도질(스파게티 코드)을 할지, 메스처럼 휘둘러 수술([클린 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/))을 할지 결정하는 것은 결국 개발자의 <strong>'설계 철학(Principle)'</strong>입니다.
 - 코드가 썩지 않게([유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)), 기능 추가가 쉽도록(확장성), 그리고 남이 봐도 이해하기 쉽게([가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)) 만들기 위해 전 세계 천재들이 5가지 룰을 집대성했습니다.
 
 - **📢 섹션 요약 비유**: 객체지향 설계 원칙 (SOLID)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.

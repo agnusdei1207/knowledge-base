@@ -19,7 +19,7 @@ tags = ["algorithm_stats"]
 
 ## Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-알고리즘(Algorithm)이라는 용어는 9세기 페르시아의 수학자 알콰리즈미(Muḥammad [ibn](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) Mūsā al-Khwārizmī)의 이름에서 유래했다. 그는 대수학(Algebra)의 기법과 함께 산술 연산을 체계화한 저작을 남겼으며, 이러한 체계적 계산 절차라는 개념이 오늘날의 알고리즘 정의로 발전했다. 알고리즘은 단순히 "컴퓨터가 수행하는 계산 절차"를 넘어, 문제를 해결하기 위한 논리적 사고의 흐름그も의에서ある. 
+알고리즘(Algorithm)이라는 용어는 9세기 페르시아의 수학자 알콰리즈미(Muḥammad [ibn](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) Mūsā al-Khwārizmī)의 이름에서 유래했다. 그는 대수학(Algebra)의 기법과 함께 산술 연산을 체계화한 저작을 남겼으며, 이러한 체계적 계산 절차라는 개념이 오늘날의 알고리즘 정의로 발전했다. 알고리즘은 단순히 "컴퓨터가 수행하는 계산 절차"를 넘어, 문제를 해결하기 위한 논리적 사고의 흐름그も의에서ある.
 
 컴퓨터 프로그램이 현실에서 유용하려면, 반드시 5가지 핵심 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 충족해야 한다. 첫째, **유한성(Finiteness)**: 알고리즘은 유한 개의 단계 후 반드시 종료되어야 한다. 무한 루프에 빠지는 절차는 알고리즘으로 인정되지 않는다. 둘째, **확정성(Definiteness)**: 각 단계는 명확하고 모호하지 않은 명령이어야 한다. "약간 크게", "적당히가열" 같은 모호한 표현은 허용되지 않는다. 셋째, **입력(Input)**:-zero 개 이상의 입력을 받을 수 있어야 한다. 넷째, **출력(Output)**: 하나 이상의 출력을 생성해야 한다. 다섯째, **효율성(Effectiveness)**: 각 단계는 기본 연산으로 구성되어 실제 컴퓨터에서 실행 가능해야 한다.
 

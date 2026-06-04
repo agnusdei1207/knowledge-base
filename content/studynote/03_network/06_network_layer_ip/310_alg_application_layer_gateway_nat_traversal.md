@@ -75,7 +75,7 @@ tags = ["studynote-network"]
 ### 3. ALG의 부하와 수동 모드(Passive Mode)의 등장
 ALG는 라우터가 3계층 헤더만 만지는 게 아니라, 엄청나게 무거운 7계층 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 일일이 까서 정규식(문자열 검색)으로 IP 주소를 찾아 고쳐야 하므로 라우터의 CPU를 폭발시킨다 (Deep Packet Inspection 오버헤드).
 또한 암호화된 트래픽([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)/[FTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/486_ftps_ftp_over_ssl_tls/))일 경우 ALG는 암호를 풀지 못해 내용물을 고칠 수가 없다.
-- **해결책**: "아잇 귀찮게 공유기가 고치게 하지 말고, 클라이언트가 서버한테 <strong>'네가 열어둔 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>로 내가 알아서 찾아갈게(Passive Mode)'</strong>라고 하면 되잖아!" 
+- **해결책**: "아잇 귀찮게 공유기가 고치게 하지 말고, 클라이언트가 서버한테 <strong>'네가 열어둔 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>로 내가 알아서 찾아갈게(Passive Mode)'</strong>라고 하면 되잖아!"
 - 이것이 바로 클라이언트가 서버로 길을 먼저 치고 들어가는 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/">FTP</a> 수동 모드(Passive Mode)</strong>의 탄생 배경이며, 이 방식은 NAT나 방화벽의 제약을 전혀 받지 않아 현대 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 통신의 99%를 장악했다.
 
 - **📢 섹션 요약 비유**: <strong> ALG는 공유기가 택배 상자 안에 든 편지 내용을 몰래 읽어보고 </strong>오타를 고쳐주는 무거운 스팸 검사기**입니다. 라우터가 너무 힘들어서 쓰러지기 때문에, 현대 네트워크는 라우터가 이런 오지랖을 부릴 필요가 없게 애초에 편지를 잘 쓰는 방식(Passive 모드)으로 완전히 진화했습니다.

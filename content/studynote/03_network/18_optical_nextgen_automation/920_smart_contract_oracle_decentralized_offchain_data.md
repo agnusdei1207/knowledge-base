@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **온체인(On-Chain)의 한계**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 네트워크 안에서 일어나는 비트코인 송금(A가 B에게 1코인 줌)은 수학적으로 완벽히 검증합니다. 
+- **온체인(On-Chain)의 한계**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 네트워크 안에서 일어나는 비트코인 송금(A가 B에게 1코인 줌)은 수학적으로 완벽히 검증합니다.
 - 하지만 보안을 위해 일반 인터넷(Off-Chain)의 웹서버([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 등)와는 완벽히 단절된 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 속에 갇혀 있습니다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 어제 환율, 주식 가격, 축구 경기 결과를 절대 자가 검색(Fetch)할 수 없는 눈먼 바보입니다.
 
 ```text
@@ -56,8 +56,8 @@ tags = ["studynote-network"]
 
 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 1만 대의 컴퓨터가 투표([DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/))해서 조작이 0%로 완벽합니다. 그런데 밖에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져다주는 '오라클' 놈이 사기를 치면 어떻게 될까요?
 
-- **중앙화 오라클의 참사**: 오라클 서버 1대가 네이버 날씨에 접속해 "오늘 맑음" [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 밀어 넣습니다. 
-- <strong>단일 고장점(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a>) 해킹</strong>: 해커가 이 오라클 서버 1대만 딱 해킹해서 "오늘 폭우 내림!"으로 값을 변조해 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 쏴버립니다. 
+- **중앙화 오라클의 참사**: 오라클 서버 1대가 네이버 날씨에 접속해 "오늘 맑음" [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 밀어 넣습니다.
+- <strong>단일 고장점(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a>) 해킹</strong>: 해커가 이 오라클 서버 1대만 딱 해킹해서 "오늘 폭우 내림!"으로 값을 변조해 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 쏴버립니다.
 - [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)는 멍청하게 "오! 비 왔네! A에게 1억 원 입금 쾅!" 하고 1초 만에 실행시켜 버립니다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 시스템 자체는 100% 무결점이었지만, 밖에서 들어온 '가짜 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)' 한 방에 1억 원이 털리는 재앙이 터집니다. (Garbage In, Garbage Out)
 
 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 오라클을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. DLT가 기반 조건을 만든다면, [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 오라클은 그 위에서 핵심 메커니즘을 구현하고, [양자 중계기](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/921_quantum_repeater_entanglement_swapping_no_cloning/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -76,7 +76,7 @@ tags = ["studynote-network"]
 
 해커의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조작을 막기 위해 천재들은 오라클에도 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 민주주의를 씌워버렸습니다. (체인링크의 핵심 원리)
 
-1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 소스 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a> (Source 다이버시티)</strong>: 
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 소스 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a> (Source 다이버시티)</strong>:
    - 기상청 1곳만 보지 않습니다. 기상청, 네이버 날씨, 구글 날씨 등 50개의 다른 인터넷 API에서 동시에 날씨 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 긁어옵니다.
 2. <strong>오라클 노드 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 오라클)</strong>:
    - 밖에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 긁어오는 심부름꾼(오라클 노드)을 1명이 아니라 1,000명의 낯선 사람으로 찢어버립니다.

@@ -65,7 +65,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- 슬로우로리스는 유독 과거의 <strong>Apache 웹 서버</strong>에 치명적이었습니다. 
+- 슬로우로리스는 유독 과거의 <strong>Apache 웹 서버</strong>에 치명적이었습니다.
 - 아파치는 클라이언트 1명이 접속할 때마다 무거운 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)/[Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)) 1개를 통째로 할당하는 구조(Prefork 방식)였기 때문에, 해커 몇 백 명만 달라붙어도 금방 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 말라죽었습니다.
 - 반면 최신 Nginx나 Node.js처럼 '이벤트 기반(Event-driven)' 방식의 비동기 서버들은 수만 명이 동시에 말을 더듬어도 CPU를 낭비하지 않고 가볍게 무시할 수 있어 이 공격에 내성이 강합니다.
 

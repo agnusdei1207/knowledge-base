@@ -80,7 +80,7 @@ MIME은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
   - `base64`: 용량을 33% 뻥튀기하더라도 가장 안전하게 알파벳으로 갈아버림 (첨부파일의 표준).
   - `quoted-printable (QP)`: 알파벳은 그대로 두고 한글 같은 특수 문자만 `=B0=A1` 처럼 16진수로 변환함 (용량 절약용).
 
-이메일 한 통에 '안부 인사(텍스트)'도 쓰고, '강아지 사진(JPEG)'도 첨부하고, '이력서(PDF)'도 같이 넣으려면 어떻게 할까? 
+이메일 한 통에 '안부 인사(텍스트)'도 쓰고, '강아지 사진(JPEG)'도 첨부하고, '이력서(PDF)'도 같이 넣으려면 어떻게 할까?
 - MIME은 <strong><code>Content-Type: multipart/mixed</code></strong> 라는 규격을 쓴다.
 - 거대한 이메일 본문을 `----Boundary_1234` 같은 가상의 구분선(경계선)으로 떡썰듯 여러 칸으로 쪼갠다.
 - 첫 번째 칸에는 `text/plain`으로 안부 인사를, 두 번째 칸에는 `image/jpeg`로 사진을 쑤셔 넣는 식이다. 이 경계선(Boundary) 파싱 아키텍처는 오늘날 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 웹에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 업로드할 때 쓰는 폼 전송(`multipart/form-data`)의 100% 완벽한 조상이다.
@@ -104,7 +104,7 @@ MIME은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 
 MIME의 핵심인 Base64 인코딩은 통신 안전성을 담보하지만, 네트워크 인프라 관점에서는 최악의 비효율을 낳는다.
 - **원리**: 컴퓨터의 8비트(1바이트) 3개를 모으면 총 24비트다. Base64는 이 24비트를 6비트씩 4조각으로 잘게 쪼갠 뒤, 알파벳 4글자로 매핑한다. 즉, <strong>원본 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 3바이트를 무조건 4바이트 텍스트로 부풀려버린다.</strong>
-- **결과**: 3MB짜리 사진을 이메일로 보내면, 네트워크 선로를 탈 때는 4MB로 덩치가 33% 불어나서 날아간다. 
+- **결과**: 3MB짜리 사진을 이메일로 보내면, 네트워크 선로를 탈 때는 4MB로 덩치가 33% 불어나서 날아간다.
 - 이 때문에 대용량 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송 시 이메일은 가장 쓰레기 같은 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다. 1GB짜리 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 메일로 보내면 1.3GB 트래픽이 터지기 때문이다. (최근 메일 서비스들이 첨부파일이 커지면 구글 드라이브나 대용량 클라우드 '링크(URL)'로 대체해서 보내도록 융합 우회하는 이유가 바로 이 아키텍처적 한계 때문이다.)
 
 ### 과목 융합 관점

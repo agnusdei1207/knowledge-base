@@ -37,7 +37,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 결정성(Determinism) 부족과 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))
-- 일반 인터넷([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP, [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))은 트래픽이 몰리면 차가 막히듯 패킷이 큐(대기열)에 쌓여 도착 시간이 고무줄처럼 변합니다. 
+- 일반 인터넷([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP, [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))은 트래픽이 몰리면 차가 막히듯 패킷이 큐(대기열)에 쌓여 도착 시간이 고무줄처럼 변합니다.
 - IIoT 환경의 로봇 팔은 나노초 단위로 동기화되어 움직이는데, 명령 데이터가 늦게 오면 로봇끼리 충돌합니다. 일반 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)의 '비결정적(가 봐야 안다)' 특성이 가장 치명적인 한계입니다.
 
 ### 2. 가혹한 물리적 환경 (노이즈와 진동)

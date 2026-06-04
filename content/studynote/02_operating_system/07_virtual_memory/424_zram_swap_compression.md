@@ -63,7 +63,7 @@ tags = ["studynote-operating-system"]
 ZRAM은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 램에서 램으로 옮기며 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)/해제를 하기 때문에 '[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 푸는 속도'가 곧 메모리 접근 속도([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) EAT)가 된다. 따라서 무조건 속도가 생명이다.
 
 1. **LZO**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) ZRAM에 쓰였다. 빠르지만 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률이 좀 아쉬웠다.
-2. **LZ4**: **현재 안드로이드 및 수많은 리눅스 기기의 абсолют(절대) 표준이다.** [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률은 중간(약 50~60%)이지만, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)을 푸는 속도(Decompression)가 단일 코어에서 무려 초당 3GB~4GB에 달하는 미친 칩셋 최적화를 보여준다. 
+2. **LZ4**: **현재 안드로이드 및 수많은 리눅스 기기의 абсолют(절대) 표준이다.** [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률은 중간(약 50~60%)이지만, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)을 푸는 속도(Decompression)가 단일 코어에서 무려 초당 3GB~4GB에 달하는 미친 칩셋 최적화를 보여준다.
 3. **Zstd**: 페이스북이 만든 최신 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/). LZ4보다 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률은 더 높은데 푸는 속도도 빨라서 최신 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 ZRAM에서 적극 채용되고 있다.
 
 ---
@@ -71,7 +71,7 @@ ZRAM은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 ### 하드웨어 MMU와의 은밀한 결탁 ([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))
 
 ZRAM은 별도의 복잡한 메모리 장부를 만들지 않고, 기존 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템(PTE)에 완전히 기생하여 투명하게 동작한다.
-- 10번 가상 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 램이 모자라 쫓겨난다. 
+- 10번 가상 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 램이 모자라 쫓겨난다.
 - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 CPU(LZ4)를 시켜 4KB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1KB로 찌그러뜨리고 ZRAM 구역(블록 번호 5번)에 던져 넣는다.
 - 그리고 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리(PTE)의 <strong><code>Invalid(I)</code> 비트를 켜고, 빈자리에 "얘 디스크 말고 ZRAM 5번 블록에 있어"라고 주소를 적어놓는다.</strong> (기가 막힌 속임수다).
 - 나중에 앱이 10번 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 터치하면 [Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 트랩이 뜬다.
@@ -119,8 +119,8 @@ ZRAM은 별도의 복잡한 메모리 장부를 만들지 않고, 기존 [가상
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: 애플 macOS의 Memory Compression과 8GB 램의 환상
-1. **맥북 사용자의 미스터리**: 
-   - 윈도우 노트북은 8GB 램으로 크롬 탭 20개만 띄워도 버벅대며 죽으려 한다. 
+1. **맥북 사용자의 미스터리**:
+   - 윈도우 노트북은 8GB 램으로 크롬 탭 20개만 띄워도 버벅대며 죽으려 한다.
    - 하지만 애플 실리콘(M1, M2)을 단 기본형 맥북 8GB는 크롬 탭 50개, 카톡, 엑셀을 다 띄워도 마우스가 미끄러지듯 부드럽게 돌아간다. 애플 유저들은 "애플의 램 8GB는 윈도우 16GB와 같다"며 램크루지 쉴드를 친다.
 2. <strong>환상의 정체 (Memory <a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/">Compression</a>)</strong>:
    - 이것이 마법이 아니라 바로 macOS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 극단적으로 깊게 박혀있는 <strong>'메모리 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>(ZRAM의 애플 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a>)'</strong> 아키텍처의 힘이다.

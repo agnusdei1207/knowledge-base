@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: 3개의 중복 ACK(Dup-ACK) 수신으로 '[빠른 재전송](/knowledge-base/studynote/03_network/08_transport_layer/433_fast_retransmit_3_dup_ack/)'이 발동되었을 때, 네트워크가 심각한 혼잡 상태가 아니라고 판단하여 [Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/)(CWND=1) 과정을 생략하고, 즉시 CWND를 절반으로만 줄인 뒤 [혼잡 회피](/knowledge-base/studynote/03_network/08_transport_layer/432_congestion_avoidance_aimd_algorithm/)(Congestion Avoidance) 단계로 진입하는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Reno의 핵심 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/).
 - **필요성**: 100Mbps로 신나게 달리다가 패킷 딱 1개가 유실됐다. 구형 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)(Tahoe)는 벌벌 떨면서 속도를 1Mbps(CWND=1)로 확 낮춰버렸다. 다시 100Mbps까지 올라가는데 5초나 걸렸다. 영화 다운로드가 뚝뚝 끊겼다. **"아니, 지금 3번이나 똑같은 대답(3 Dup-ACK)이 날아온다는 건, 내가 쏜 패킷 3개가 무사히 목적지에 도착했다는 뜻이잖아! 길이 막힌 게 아니라 뻥 뚫려있는 거라고!! 왜 속도를 1로 박살 내? 쫄지 말고 딱 반만 깎고 계속 달려!!"** 이것이 패스트 리커버리의 위대한 철학이다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - **구형 (Tahoe)**: 고속도로 1차선을 시속 100km로 달리다가, 1차선에 작은 싱크홀(패킷 1개 유실)이 생겨 차가 덜컹했습니다. 운전자는 멘붕에 빠져 차를 **아예 갓길에 세운 뒤 시속 1km(CWND=1)부터 다시 액셀을 천천히 밟습니다**.
   - <strong>빠른 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a> (Reno)</strong>: 똑같이 덜컹했습니다. 하지만 옆에 2, 3, 4차선으로 차들이 쌩쌩 달리는 걸 눈으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(3 Dup-ACK)했습니다. 운전자는 멈추지 않고 **브레이크만 살짝 밟아 시속 50km(절반)로 속도만 줄인 뒤, 멈춤 없이 계속 주행을 이어갑니다**.
 
@@ -45,7 +45,7 @@ tags = ["studynote-network"]
 - **상황**: `CWND = 32` 로 달리는 중에 `3 Dup-ACK` (가벼운 유실) 발생.
 - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/435_tcp_tahoe_timeout_dup_ack_drop_to_1/">TCP Tahoe</a> (옛날 방식)</strong>:
   - `ssthresh` = 16 (현재의 절반) 으로 저장.
-  - <strong><code>CWND = 1</code></strong> 로 곤두박질! 
+  - <strong><code>CWND = 1</code></strong> 로 곤두박질!
   - `1 -> 2 -> 4 -> 8 -> 16` (Slow Start의 지루한 워밍업 다시 반복).
 - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/436_tcp_reno_fast_retransmit_recovery/">TCP Reno</a> (빠른 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a> 탑재) ★현대 표준</strong>:
   - `ssthresh` = 16 으로 저장.
@@ -53,7 +53,7 @@ tags = ["studynote-network"]
   - `17 -> 18 -> 19` ([Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/) 아예 건너뛰고 곧바로 선형 증가 모드 돌입).
 
 ### 2. 인플레이션(Inflation) 꼼수 (수학의 마술)
-사실 `CWND=16`으로 세팅하는 것과 동시에, 이면에서는 기가 막힌 꼼수가 하나 더 돌아간다. 
+사실 `CWND=16`으로 세팅하는 것과 동시에, 이면에서는 기가 막힌 꼼수가 하나 더 돌아간다.
 내가 3 Dup-ACK를 받았다는 건, 수신자가 3개의 패킷을 받았다는 뜻이다.
 1. "어? 수신자가 3개를 받았으니까 인터넷 길거리에 3개의 빈 공간이 났겠네?"
 2. 내 컴퓨터는 억지로 <strong><code>CWND = ssthresh(16) + 3(중복 횟수) = 19</code></strong> 로 창문을 3개 더 뻥튀기(Inflate) 시킨다.

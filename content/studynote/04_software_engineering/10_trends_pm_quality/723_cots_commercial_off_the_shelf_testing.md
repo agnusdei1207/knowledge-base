@@ -19,9 +19,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어를 구축하는 방법은 크게 두 가지다. '직접 만들기(Make)'와 '돈 주고 사 오기(Buy)'. 과거 IT 시스템 초창기에는 쓸만한 상용 솔루션이 없었으므로 기업들은 회계 시스템, 인사 시스템을 모두 자체 개발(In-house)했다. 
+소프트웨어를 구축하는 방법은 크게 두 가지다. '직접 만들기(Make)'와 '돈 주고 사 오기(Buy)'. 과거 IT 시스템 초창기에는 쓸만한 상용 솔루션이 없었으므로 기업들은 회계 시스템, 인사 시스템을 모두 자체 개발(In-house)했다.
 
-하지만 소프트웨어 산업이 발전하면서 SAP, MS Office, Salesforce처럼 수천 명의 천재들이 수십 년간 갈고닦은 괴물 같은 상용 소프트웨어들이 등장했다. 이것이 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/372_cots/">COTS</a>(Commercial Off-The-Shelf)</strong>다. 
+하지만 소프트웨어 산업이 발전하면서 SAP, MS Office, Salesforce처럼 수천 명의 천재들이 수십 년간 갈고닦은 괴물 같은 상용 소프트웨어들이 등장했다. 이것이 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/372_cots/">COTS</a>(Commercial Off-The-Shelf)</strong>다.
 
 우리 회사의 개발자 5명이 1년을 꼬박 코딩해도 SAP의 회계 모듈보다 뛰어난 시스템을 만들 수는 없다. 따라서 현대 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 <strong>"차별화가 필요 없는 공통 업무는 COTS를 사다 쓰고(Buy), 우리 회사만의 핵심 경쟁력(코어 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>)만 직접 개발한다(Make)"</strong>로 완전히 바뀌었다.
 

@@ -64,7 +64,7 @@ Istio가 1위가 된 결정적 이유는 이 기가 막힌 [데이터](/knowledg
 
 ## Ⅲ. 비교 및 연결
 
-1. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">카나리 배포</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">Canary Deployment</a>)의 예술</strong>: 
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">카나리 배포</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">Canary Deployment</a>)의 예술</strong>:
    - 쿠팡이 새로운 결제 서버 v2를 만들었습니다. 한 번에 바꿨다간 뻑나면 회사가 망합니다.
    - [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)(Envoy)에게 지시합니다. <strong>"지금부터 결제 트래픽의 딱 5%만 새 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> v2로 조용히 보내고, 나머지 95%는 원래 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> v1으로 보내라!"</strong> (트래픽 분할 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)). 앱 코드 수정 단 1줄 없이, 트래픽을 마음대로 고무줄처럼 조절해 안전하게 신버전을 테스트할 수 있습니다. (832번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 2. **Kiali (키알리)와 텔레메트리**:

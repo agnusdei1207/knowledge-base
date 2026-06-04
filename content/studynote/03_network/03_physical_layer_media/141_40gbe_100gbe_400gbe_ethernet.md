@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-스마트폰의 보급, 넷플릭스 등 고화질 스트리밍, 그리고 최근의 거대한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)) 모델 학습을 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터 내부의 트래픽은 기하급수적으로 증가했습니다. 
+스마트폰의 보급, 넷플릭스 등 고화질 스트리밍, 그리고 최근의 거대한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)) 모델 학습을 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터 내부의 트래픽은 기하급수적으로 증가했습니다.
 이를 감당하기 위해 IEEE 802.3 위원회는 10GbE를 넘어 <strong>40GbE, 100GbE (IEEE 802.3ba, 2010년)</strong>를 거쳐, 현재는 <strong>400GbE (IEEE 802.3bs, 2017년)</strong>와 <strong>800GbE (2024년 발표 예정/<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> 중)</strong>까지 표준을 확장하고 있습니다.
 
 ```text

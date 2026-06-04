@@ -22,14 +22,14 @@ tags = ["studynote-network"]
 NRZ-L (Non-Return to Zero Level):
   데이터: 1  0  1  1  0  0  1
   신호:   +V -V +V +V -V -V +V
-  
+
   규칙: 1 = 높은 전압(+V), 0 = 낮은 전압(-V)
-  
+
 NRZ-I (Non-Return to Zero Inverted):
   데이터: 1  0  1  1  0  0  1
   신호:   V+ V+ V- V+ V+ V+ V-
            (1이 나올 때마다 전압 반전)
-  
+
   규칙: 1 = 이전 신호에서 반전, 0 = 변화 없음
 ```
 
@@ -74,7 +74,7 @@ NRZ-I 개선:
 문제 상황:
   NRZ-L 송신: 1 1 1 1 1 1 1 1 (8개의 1)
   신호: +V +V +V +V +V +V +V +V (변화 없음)
-  
+
   수신측: "한 개의 긴 +V인가? 여러 개의 1인가?"
   -> 비트 경계(Bit Boundary)를 알 수 없음
   -> 클락 복원 불가

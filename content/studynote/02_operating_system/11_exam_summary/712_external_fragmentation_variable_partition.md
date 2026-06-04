@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>가변 분할 (Dynamic / Variable <a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">Partitioning</a>)</strong>: 메모리를 미리 나눠두지 않고, 프로그램이 실행될 때 그 크기(예: 12MB, 5MB)만큼 정확히 잘라서 할당해 주는 방식.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a> (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">External Fragmentation</a>)</strong>: 메모리 할당과 해제가 반복되면서, 사용 중인 메모리 사이사이에 작은 빈 공간(Hole)들이 조각조각 남는 현상. 전체 남은 용량은 충분하지만 조각나 있어서 큰 프로그램을 올릴 수 없는 상태.
 
-- **필요성 (고정 분할의 메모리 낭비 극복 시도)**: 
+- **필요성 (고정 분할의 메모리 낭비 극복 시도)**:
   - 초창기에는 램(RAM)을 10MB씩 똑같이 썰어두는 고정 분할(Fixed [Partitioning](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/))을 썼다. 하지만 1MB짜리 프로그램이 10MB 방에 들어가면 9MB가 고스란히 버려지는 '[내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)' 문제가 심각했다.
   - **해결책**: "프로그램 크기에 딱 맞춰서 방을 만들어 주자(가변 분할)!" 이렇게 하면 남는 공간 없이 알뜰하게 쓸 수 있을 줄 알았다.
   - 하지만, 방이 생겼다 없어지기를 반복하다 보니 결국 이빨 빠진 것처럼 중간중간에 1MB, 2MB짜리 쓸모없는 자투리 공간([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))이 생겨나 시스템이 멈추는 부작용이 터졌다.
@@ -103,7 +103,7 @@ tags = ["studynote-operating-system"]
 ### 과목 융합 관점
 
 - <strong>자료구조 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Structure)</strong>: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 메모리는 아니지만, 개발자가 C/C++에서 쓰는 힙 메모리(`malloc`) 동작 원리가 바로 이 <strong>가변 분할</strong>과 100% 똑같다. 개발자가 `malloc(10)`과 `free()`를 수없이 반복하면, 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 공간에 엄청난 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a></strong>가 발생한다. C언어 서버가 1달쯤 켜놓으면 메모리가 충분한데도 `malloc`이 실패하며 죽는 이유가 바로 힙의 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 때문이다.
-- **저장 장치 (Storage)**: 과거 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 시절, 파일을 지웠다 썼다 하면 디스크 표면에 파일들이 조각조각 나뉘어 저장되는 '디스크 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)'가 발생해 I/O 속도가 수십 배 느려졌다. 이를 물리적으로 뭉쳐주는 유틸리티가 바로 윈도우의 '디스크 조각 모음(Defragmentation = [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))'이었다. 
+- **저장 장치 (Storage)**: 과거 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 시절, 파일을 지웠다 썼다 하면 디스크 표면에 파일들이 조각조각 나뉘어 저장되는 '디스크 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)'가 발생해 I/O 속도가 수십 배 느려졌다. 이를 물리적으로 뭉쳐주는 유틸리티가 바로 윈도우의 '디스크 조각 모음(Defragmentation = [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))'이었다.
 
 - **📢 섹션 요약 비유**: 피자를 시킬 때, "내가 먹을 만큼만 잘라줘(가변 분할)"라고 하면 피자 판에 모양이 이상한 자투리 조각([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))들이 남아 버리기 애매해집니다. "무조건 8등분 해놔(고정 분할)"라고 하면 조각 크기는 깔끔하지만, 조금만 먹고 남긴 피자 테두리([내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/))가 버려지게 됩니다.
 

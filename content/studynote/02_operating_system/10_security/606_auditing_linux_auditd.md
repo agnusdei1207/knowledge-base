@@ -163,7 +163,7 @@ Auditd는 시스템 [보안 감사](/knowledge-base/studynote/04_software_engine
 ### 실무 시나리오: 내부자 권한 남용 포렌식 및 횡적 이동(Lateral Movement) 추적
 
 1. **상황 (침해 의심)**: 기업의 웹 서버에서 정체불명의 네트워크 외부 통신이 간헐적으로 발생하고 있다. 일반 웹 서버 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Access log)에는 아무런 이상 징후가 없다.
-2. <strong>방어자의 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> (Auditd Rule 주입)</strong>: 
+2. <strong>방어자의 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> (Auditd Rule 주입)</strong>:
    - 보안 관리자는 해커나 내부자가 `curl`, `wget`, `nc` 같은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 터미널에서 몰래 실행하는지 잡기 위해 `execve` (프로세스 실행) 시스템 콜을 감시하는 [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) 룰을 적용한다.
    - `auditctl -a always,exit -F arch=b64 -S execve -k suspicious_exec`
 3. **포렌식 결과 분석 (ausearch 활용)**:

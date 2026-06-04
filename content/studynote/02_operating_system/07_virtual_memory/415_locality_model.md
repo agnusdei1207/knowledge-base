@@ -139,7 +139,7 @@ for (int j = 0; j < 1024; j++) {
 ### 실무 시나리오: CDN과 웹 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)(Web [Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)) 서버의 파레토 법칙
 지역성 모델은 CPU 칩셋을 넘어 클라우드 서버와 전 세계 인터넷 트래픽 통제([CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/))에도 100% 동일하게 작용한다.
 1. **문제 상황**: 넷플릭스 본사 서버(디스크)에 영화가 1만 개(100PB) 있다. 한국 유저들이 영화를 볼 때마다 미국 본사 서버에서 퍼오면 해저 케이블 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 때문에 로딩이 10초씩 걸린다.
-2. **지역성(Locality)의 발견**: 
+2. **지역성(Locality)의 발견**:
    - 넷플릭스 엔지니어들이 통계를 내보니, 한국 유저들이 보는 영화의 80%는 상위 20개의 '최신 유행 한국 드라마(오징어 게임 등)'에 집중되어 있었다. (<strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/">시간적 지역성</a>의 확장인 파레토 법칙</strong>).
 3. **엣지 캐시(Edge Cache) 램 증설**:
    - 넷플릭스는 한국 통신사(SK, KT) 기지국에 아주 작은 서버 램(Cache)을 박아두고, 오직 저 '가장 핫한 20개 드라마([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))'만 미국에서 미리 퍼와서 저장([Prepaging](/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/))해 둔다.
@@ -148,7 +148,7 @@ for (int j = 0; j < 1024; j++) {
 4. **결론**: 캐시(Cache)와 지역성(Locality)의 법칙은 1나노미터짜리 CPU 트랜지스터부터 1만 킬로미터짜리 글로벌 인터넷망까지 우주 어디서나 똑같이 적용되는 프랙탈(Fractal) 구조의 절대 진리다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): 해시 맵(Hash Map)의 맹신과 캐시 파괴
-파이썬이나 JS에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 10만 개 검색할 때 O(1)이라는 마법의 단어만 믿고 몽땅 Hash Map 딕셔너리로 박아두는 짓을 한다. 
+파이썬이나 JS에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 10만 개 검색할 때 O(1)이라는 마법의 단어만 믿고 몽땅 Hash Map 딕셔너리로 박아두는 짓을 한다.
 해시 함수는 입력값을 메모리 전역에 무작위(Random)로 확확 흩뿌리는([Scattering](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)) 악마의 기술이다. 즉, 공간 지역성이 0%다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 100만 개를 넘어가 L3 캐시 범위를 벗어나는 순간, 해시맵을 훑을 때마다 CPU 캐시 미스와 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스가 핵폭발을 일으켜 $O(1)$이 $O(N)$의 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 풀스캔보다 속도가 10배 느려지는 '캐시 무효화의 늪'에 빠진다. 극한의 실무에서는 해시맵을 버리고 캐시 라인에 쫙 정렬된 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 구조를 타는 것이 압도적으로 빠르다.
 
 - **📢 섹션 요약 비유**: 해시맵은 100만 개의 보물을 100만 개의 방에 아무렇게나 랜덤하게 숨겨놓고 지도(O(1))만 보는 방식(공간 지역성 파괴)이라, 지도만 보면 빨리 찾지만 방과 방 사이를 뛰어다니다(캐시 미스) 다리가 부러집니다. 차라리 큰 방 하나에 보물을 일렬로 쫙 세워놓고(공간 지역성 최상) 눈으로 쓱 훑는 게 육체적으로(하드웨어적으로) 훨씬 빠른 지름길입니다.

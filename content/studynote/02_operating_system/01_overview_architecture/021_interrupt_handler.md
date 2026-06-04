@@ -106,7 +106,7 @@ tags = ["studynote-operating-system"]
 
 ```c
 /* 디바이스 드라이버의 핸들러 등록 예시 */
-int request_irq(unsigned int irq, irq_handler_t handler, 
+int request_irq(unsigned int irq, irq_handler_t handler,
                 unsigned long flags, const char *name, void *dev);
 
 /* 실제 핸들러 내부 구조 */
@@ -114,12 +114,12 @@ static irqreturn_t my_interrupt_handler(int irq, void *dev_id) {
     // [Top Half Area]
     status = read_device_status();
     if (status & ERROR) return IRQ_NONE;
-    
+
     ack_interrupt_to_hardware(); // 하드웨어에게 응답
-    
+
     // [Bottom Half Scheduling]
     tasklet_schedule(&my_tasklet); // 지연 처리 예약
-    
+
     return IRQ_HANDLED;
 }
 ```

@@ -71,7 +71,7 @@ SMOTE는 다수 클래스는 건드리지 않고, 소수 클래스의 [데이터
 | **주요 장점** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 줄어 학습 속도 향상 | 정보 유실 방지 | 일반화 [성능 우수](/knowledge-base/studynote/05_database/07_exam_summary/484_elt_extract_load_transform/), 과적합 위험 낮음 |
 | **치명적 단점** | **정보 유실** (중요한 패턴이 지워짐) | **과적합** (같은 값만 맹목적 암기) | <strong>노이즈 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong> (경계선 침범 가능성) |
 
-SMOTE는 다수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클래스의 정보 유실이 없고 과적합을 막는다는 점에서 뛰어나지만, 다수 클래스와 소수 클래스가 겹치는 경계선(Borderline) 지역에서 합성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 만들 경우 오히려 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델을 헷갈리게 만드는 노이즈를 유발할 수 있다. 
+SMOTE는 다수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클래스의 정보 유실이 없고 과적합을 막는다는 점에서 뛰어나지만, 다수 클래스와 소수 클래스가 겹치는 경계선(Borderline) 지역에서 합성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 만들 경우 오히려 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델을 헷갈리게 만드는 노이즈를 유발할 수 있다.
 
 - **📢 섹션 요약 비유**: 언더샘플링이 시끄러운 사람들을 내쫓아 조용히 만드는 것이고, 오버샘플링이 목소리 작은 사람에게 확성기를 주는 것이라면, SMOTE는 목소리 작은 사람들과 성향이 비슷한 지지자를 새로 모셔 오는 것이다.
 

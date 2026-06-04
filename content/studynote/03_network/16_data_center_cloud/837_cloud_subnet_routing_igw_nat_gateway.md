@@ -37,8 +37,8 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: VPC와 외부 인터넷을 물리적으로 연결해 주는 크고 튼튼한 양방향 대문 장비입니다. 
-- **Public Subnet의 탄생 조건**: 
+- **개념**: VPC와 외부 인터넷을 물리적으로 연결해 주는 크고 튼튼한 양방향 대문 장비입니다.
+- **Public Subnet의 탄생 조건**:
   - 서브넷 A의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블에 `목적지: 0.0.0.0/0 ➜ 타겟: IGW`라고 적어주면, 그 방은 그 즉시 <strong>Public Subnet(공개 방)</strong>으로 변신합니다.
   - 여기에 있는 웹서버(EC2)는 공인 IP(Public IP)를 부여받아, 손님(인터넷 사용자)이 밖에서 내 서버로 직접 치고 들어올 수 있습니다. (웹서버, 로드밸런서 배치 구역)
 

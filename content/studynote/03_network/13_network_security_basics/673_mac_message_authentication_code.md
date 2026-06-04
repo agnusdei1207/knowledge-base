@@ -81,7 +81,7 @@ MAC 변수 및 기능을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - MAC은 대칭키(비밀키)를 씁니다. 즉, 열쇠 하나를 앨리스와 밥 <strong>두 명이 똑같이 공유</strong>하고 있습니다.
-- 만약 앨리스가 "나 그런 송금 메시지 보낸 적 없는데? 밥 네가 나랑 똑같은 열쇠 가지고 있으니까, 네가 스스로 조작해서 MAC 만든 거 아냐?"라고 우기면(부인), 제3자인 판사는 이 MAC 도장을 앨리스가 찍은 건지 밥이 찍은 건지 구별할 방법이 없습니다. 
+- 만약 앨리스가 "나 그런 송금 메시지 보낸 적 없는데? 밥 네가 나랑 똑같은 열쇠 가지고 있으니까, 네가 스스로 조작해서 MAC 만든 거 아냐?"라고 우기면(부인), 제3자인 판사는 이 MAC 도장을 앨리스가 찍은 건지 밥이 찍은 건지 구별할 방법이 없습니다.
 - 따라서 MAC은 고속 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 검증엔 좋지만, <strong>법적인 부인 방지(Non-repudiation) 기능은 제공하지 못하며, 이를 원하면 비대칭키 기반의 '<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/">전자 서명</a>(<a href="/knowledge-base/studynote/09_security/03_network_security/110_rsa/">RSA</a>)'을 써야 합니다.</strong>
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

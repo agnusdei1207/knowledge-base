@@ -109,7 +109,7 @@ tags = ["studynote-algorithm"]
 
 결론적으로 이 자료구조는 생물정보학(Bioinformatics)의 유전자 염기서열 매칭, 정보 검색([IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/))의 전문 검색 엔진, 그리고 현대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술이라는 IT의 핵심 근간을 묵묵히 떠받치고 있다. 기술사로서 아키텍트를 설계할 때, 대규모 정적 문자열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 패턴 매칭이 병목으로 작용한다면 가장 먼저 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)과 LCP의 도입을 타당성 검토의 최우선 순위로 올려야 한다.
 
-- **📢 섹션 요약 비유**: 모래사장에서 바늘 하나를 찾는 가장 좋은 방법은 모래를 한 줌씩 뒤지는 것(단순 비교)이 아니라, 처음부터 모래사장 전체를 크기별로 채에 밭쳐 완벽하게 분류해 두는 것(서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 구축)입니다. 
+- **📢 섹션 요약 비유**: 모래사장에서 바늘 하나를 찾는 가장 좋은 방법은 모래를 한 줌씩 뒤지는 것(단순 비교)이 아니라, 처음부터 모래사장 전체를 크기별로 채에 밭쳐 완벽하게 분류해 두는 것(서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 구축)입니다.
 
 ---
 

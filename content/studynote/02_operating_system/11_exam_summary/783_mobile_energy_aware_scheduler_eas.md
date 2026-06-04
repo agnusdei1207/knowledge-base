@@ -19,20 +19,20 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - 리눅스의 기본 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(CFS) 위에 올라간 전력 최적화 계층.
   - OS가 CPU 칩셋의 물리적인 전력 소비 모델(이 코어는 1GHz일 때 전기를 몇 와트 먹는지에 대한 테이블)을 미리 읽어 들이고, [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))가 요구하는 연산량(Load)을 예측하여 가장 배터리를 적게 먹는 코어와 클럭(MHz) 조합을 찾아 배치한다.
 
-- **필요성(문제의식)**: 
-  - 과거 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 서버 시대의 잣대로 만든 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(CFS)는 "모든 CPU 코어는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 똑같다([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/))"는 환상에 빠져있었다. 
-  - 그런데 스마트폰 칩셋([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))에 고성능 빅 코어 2개, 저전력 리틀 코어 4개가 달린 big.LITTLE 구조가 도입되었다. 
+- **필요성(문제의식)**:
+  - 과거 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 서버 시대의 잣대로 만든 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(CFS)는 "모든 CPU 코어는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 똑같다([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/))"는 환상에 빠져있었다.
+  - 그런데 스마트폰 칩셋([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))에 고성능 빅 코어 2개, 저전력 리틀 코어 4개가 달린 big.LITTLE 구조가 도입되었다.
   - CFS는 멍청하게도 백그라운드에서 이메일 동기화를 하는 가벼운 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 텅텅 비어있다는 이유로 냅다 고성능 '빅 코어'에 던져버렸다. 빅 코어가 1초만 깨어나도 스마트폰 배터리가 줄줄 샜다.
   - **해결책**: "[스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)에게 전기 요금표(Energy Model)를 쥐여주자. 일을 던지기 전에 '이거 싼 코어(리틀)에 던져도 마감 시간 맞출 수 있나? 맞출 수 있으면 무조건 싼 코어에 던져!'라는 가성비 계산을 시키자!"
 
   - <strong>기존 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a> (무지성 할당)</strong>: 이삿짐센터 반장님(OS)이 무거운 피아노든 가벼운 볼펜 한 자루든, 놀고 있는 직원이 있으면 무조건 힘세고 밥(전기) 엄청 먹는 덩치 큰 삼촌(빅 코어)에게 시킴. 삼촌이 볼펜 옮기고 뷔페 10접시를 먹어 치워 식비가 거덜 남.
   - <strong>EAS 에너지 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a></strong>: 반장님이 견적(Energy Model)을 뽑음. "볼펜 1자루는 밥 한 공기만 먹는 어린 조카(리틀 코어)에게 시키고, 피아노가 나왔을 때만 삼촌을 부르자!" 밥값(배터리)을 기가 막히게 아끼는 효율적 인력 배치.
 
-- **등장 배경**: 
+- **등장 배경**:
   - ARM 홀딩스가 2011년 big.LITTLE 아키텍처를 발표한 이후, 하드웨어의 미친 잠재력을 리눅스 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 못 따라가자 ARM과 Linaro 진영이 주도하여 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 5.0 이후 메인라인으로 정식 편입시킨 모바일 생태계의 구원 투수다.
 
 ```text
@@ -166,7 +166,7 @@ EAS가 가장 빛을 발하는 순간은, 자고 있던 [스레드](/knowledge-b
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 스마트폰이라는 손바닥만 한 쇳덩이는 쿨링팬조차 없다. 배터리는 한 줌이고 칩셋 온도는 1초 만에 90도를 뚫는다. 이 극한의 환경에서 기기가 터지지 않으려면 최하단 하드웨어(칩셋)부터 최상단 자바 앱 프레임워크(Doze)까지 전 우주적인 '전력 쥐어짜기 공조'가 필요하다. EAS는 그 중간 허리에서 소프트웨어의 요구([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 부하)와 하드웨어의 한계(전력/온도)를 중재하는 가장 영리하고 복잡한 협상가(Negotiator) 역할을 담당한다. 
+**[다이어그램 해설]** 스마트폰이라는 손바닥만 한 쇳덩이는 쿨링팬조차 없다. 배터리는 한 줌이고 칩셋 온도는 1초 만에 90도를 뚫는다. 이 극한의 환경에서 기기가 터지지 않으려면 최하단 하드웨어(칩셋)부터 최상단 자바 앱 프레임워크(Doze)까지 전 우주적인 '전력 쥐어짜기 공조'가 필요하다. EAS는 그 중간 허리에서 소프트웨어의 요구([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 부하)와 하드웨어의 한계(전력/온도)를 중재하는 가장 영리하고 복잡한 협상가(Negotiator) 역할을 담당한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - <strong>모바일 환경에서 Spinlock의 무지성 남용 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/">바쁜 대기</a>)</strong>: 서버 환경([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/))에서는 코어 1개가 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)을 쥐고 `while` 루프를 돌며 대기하는 게 문맥 교환을 없애서 엄청 빠르다고 배웠다. 그걸 모바일 앱이나 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)에 그대로 적용하는 짓. 스마트폰에서 특정 코어가 의미 없이 `while(true)`를 돌고 있으면, EAS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 "와! 이 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 CPU 100%를 갈구하는 미친 놈(High Load)이구나!"라고 착각하고 즉시 빅 코어(사자)를 잠에서 깨워버린다. 헛바퀴 도는 데 스마트폰 배터리를 1분에 1%씩 증발시켜 폰을 핫팩으로 만드는 최악의 배터리 암살자가 된다. 모바일에선 무조건 Sleep([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)) 기반으로 CPU를 놔줘서 코어가 깊은 잠(C-state)에 빠지게 둬야 한다.

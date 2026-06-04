@@ -58,8 +58,8 @@ tags = ["studynote-network"]
 ### 1. 화물 다이어트: [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 버퍼 ([Protocol Buffers](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/535_sync_communication_rest_grpc/), protobuf) 🌟
 JSON을 무덤으로 보낸 1등 공신입니다. gRPC의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 직렬화(Serialization, 포장지) 포맷입니다.
 - **개념**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송할 때 인간이 읽는 텍스트(String)를 싹 다 버리고, 오직 기계만 알아먹는 <strong>초압축 이진수(Binary) 덩어리</strong>로 꽉꽉 뭉쳐서 팩킹해 버립니다.
-- **동작**: 
-  - `.proto` 파일에 설계도를 먼저 짭니다. "1번 칸은 문자열 이름, 2번 칸은 숫자 나이!" 
+- **동작**:
+  - `.proto` 파일에 설계도를 먼저 짭니다. "1번 칸은 문자열 이름, 2번 칸은 숫자 나이!"
   - 패킷을 쏠 때는 이름표 태그(`"name":`)를 아예 생략하고, 그냥 `[1번 칸 데이터][2번 칸 데이터]` 이진수 덩어리만 틱 쏩니다.
   - **효과**: JSON보다 용량이 <strong>3분의 1</strong>로 줄어들고, 텍스트를 해석할 필요가 없어 파싱 속도가 **최소 5배~10배** 미친 듯이 빨라집니다. 대규모 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 내부망 통신 트래픽을 극단적으로 쥐어짭니다.
 

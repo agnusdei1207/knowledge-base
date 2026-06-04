@@ -92,7 +92,7 @@ IT [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_b
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-IT BSC는 독립된 섬이 아니다. 이는 반드시 기업 전체를 관장하는 전사적(Corporate) BSC와 강력한 하향식 정렬(Cascading Down) 관계를 맺어야 의미가 있다. 
+IT BSC는 독립된 섬이 아니다. 이는 반드시 기업 전체를 관장하는 전사적(Corporate) BSC와 강력한 하향식 정렬(Cascading Down) 관계를 맺어야 의미가 있다.
 
 **전사 BSC와 IT BSC의 계층적 연계 (Cascading) 매트릭스**
 
@@ -147,7 +147,7 @@ IT BSC는 독립된 섬이 아니다. 이는 반드시 기업 전체를 관장�
       ↓
 3. [IT 전략 수립] : 글로벌 통합 인프라 구축 및 24시간(Follow-the-Sun) 무중단 지원
       ↓
-4. [IT 관점별 KPI 할당] 
+4. [IT 관점별 KPI 할당]
     - [공헌] 다국어 지원 시스템 구축 완료에 따른 해외 지사 매출 기여
     - [사용자] 해외 지사 현지어 헬프데스크 만족도 90점
     - [운영] 글로벌 CDN 엣지 노드 응답 지연율 50ms 이내 보장

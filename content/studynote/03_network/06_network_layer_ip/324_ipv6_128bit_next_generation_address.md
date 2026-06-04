@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: 국제 인터넷 표준화 기구([IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/))가 IPv4의 고갈 문제를 근본적으로 해결하기 위해 1998년에 제정한 128비트 길이의 차세대 인터넷 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 규격 (RFC 2460, 현재 8200).
 - **필요성**: IPv4는 43억 개의 주소밖에 없었다. 공유기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))를 써서 하나의 공인 IP에 100대의 스마트폰이 숨어 사는 꼼수로 수십 년을 버텼다. 하지만 NAT를 쓰면 밖에서 안으로 직접 치고 들어가는 통신([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/), 서버 호스팅, VoIP)이 방화벽에 막혀 너무나도 끔찍하게 복잡해진다(STUN, TURN 등 낭비 발생). "아 꼼수 그만 쓰고, 전 세계 모든 먼지 한 알에까지 진짜 IP를 줘서 어디서든 1:1로 뚫리게 만들자!"라는 원초적인 갈증이 IPv6를 탄생시켰다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/">IPv4</a></strong>: 번호판 자릿수가 4자리밖에 없어서 온 동네가 "강남 1234", "강동 1234"처럼 <strong>'지역+번호(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a>)' 꼼수</strong>를 써서 억지로 차를 굴리는 구형 번호판 체계.
   - **IPv6**: 번호판 자릿수를 아예 30자리로 늘려버려서, **우주 전체에 똑같은 번호판이 단 1개도 존재하지 않게 만든 궁극의 바코드 시스템**.
 
@@ -58,7 +58,7 @@ IPv6는 IPv4의 쓰레기 같은 점들을 치워버렸다. 가장 중요한 것
 ### 3. 무상태 자동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) ([SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/))의 마법
 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 환경에서 IP를 자동으로 받으려면 무조건 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버(공유기)가 있어야 했다.
 IPv6는 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/">SLAAC</a> (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/">Stateless Address Autoconfiguration</a>)</strong> 기능을 내장하고 있다.
-- PC에 랜선을 꽂으면 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 스스로 자기 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 반으로 쪼개서 `FF:FE`를 중간에 쑤셔 넣는 마법([EUI-64](/knowledge-base/studynote/03_network/06_network_layer_ip/330_eui_64_mac_to_ipv6_interface_id/) 방식)을 부려 <strong>혼자서 완벽하게 고유한 IPv6 주소를 자동 창조</strong>해 낸다. 
+- PC에 랜선을 꽂으면 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 스스로 자기 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 반으로 쪼개서 `FF:FE`를 중간에 쑤셔 넣는 마법([EUI-64](/knowledge-base/studynote/03_network/06_network_layer_ip/330_eui_64_mac_to_ipv6_interface_id/) 방식)을 부려 <strong>혼자서 완벽하게 고유한 IPv6 주소를 자동 창조</strong>해 낸다.
 - 그런 다음 라우터에게 "이 동네 앞자리 번호(Prefix)가 뭐죠?"라고 물어보고(RS/[RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/)), 라우터가 "응, 여기 앞자리는 `2001:db8::` 이야"라고 대답하면 그걸 합쳐서 0.1초 만에 풀 공인 IP 세팅을 스스로 마친다. 공유기([DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/))가 할 일이 아예 사라진다.
 
 ```text

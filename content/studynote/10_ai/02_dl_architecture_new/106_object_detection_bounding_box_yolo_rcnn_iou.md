@@ -19,7 +19,7 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-[객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) ([Object Detection](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/))는 입력된 이미지에서 여러 개의 객체 종류를 판별하고, 각 객체를 감싸는 바운딩 박스 (Bounding Box)의 좌표를 출력하는 딥러닝 기술이다. 기존의 이미지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(Image [Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/)) 모델은 사진 1장당 1개의 라벨만 반환하므로, 사진 안에 여러 물체가 혼재하는 실제 환경에서는 무용지물이 된다. 
+[객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) ([Object Detection](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/))는 입력된 이미지에서 여러 개의 객체 종류를 판별하고, 각 객체를 감싸는 바운딩 박스 (Bounding Box)의 좌표를 출력하는 딥러닝 기술이다. 기존의 이미지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(Image [Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/)) 모델은 사진 1장당 1개의 라벨만 반환하므로, 사진 안에 여러 물체가 혼재하는 실제 환경에서는 무용지물이 된다.
 
 이러한 한계를 극복하기 위해, [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) 기술은 이미지를 분석하여 '어떤 객체(Class)가 있는지' [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 계산하는 동시에, '그 객체의 영역(X, Y, Width, Height)'을 수치로 예측하는 회귀(Regression) 연산을 결합했다. 이 기술이 없으면 자율주행차가 도로의 보행자와 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등 위치를 파악하지 못해 주행 자체가 불가능해진다.
 
@@ -29,7 +29,7 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) 모델의 신경망은 특징 추출기(Feature Extractor)를 통과한 후, 목적에 따라 두 갈래의 출력층(Head)으로 나뉜다. 하나는 클래스 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 구하고, 다른 하나는 바운딩 박스의 좌표 4개(x, y, w, h)를 예측한다. 
+[객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) 모델의 신경망은 특징 추출기(Feature Extractor)를 통과한 후, 목적에 따라 두 갈래의 출력층(Head)으로 나뉜다. 하나는 클래스 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 구하고, 다른 하나는 바운딩 박스의 좌표 4개(x, y, w, h)를 예측한다.
 
 가장 핵심적인 평가 지표는 예측한 박스가 정답과 얼마나 일치하는지를 따지는 `IoU (Intersection over Union)`다. 모델이 수많은 박스를 예측하면, `NMS (Non-Maximum Suppression)` [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 겹치는 박스 중 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 가장 높은 하나만 남기고 나머지를 지워버려 최종 결과를 확정한다.
 
@@ -61,7 +61,7 @@ tags = ["studynote-ai"]
 
 ## Ⅲ. 비교 및 연결
 
-[객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) 아키텍처는 영역을 먼저 찾고 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 <strong>2-Stage 방식</strong>과, 한 번에 위치와 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 끝내는 <strong>1-Stage 방식</strong>으로 나뉜다. 
+[객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) 아키텍처는 영역을 먼저 찾고 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 <strong>2-Stage 방식</strong>과, 한 번에 위치와 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 끝내는 <strong>1-Stage 방식</strong>으로 나뉜다.
 
 | 항목 | 2-Stage 구조 (예: Faster R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)) | 1-Stage 구조 (예: YOLO, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) |
 |:---|:---|:---|
@@ -116,7 +116,7 @@ CCTV나 드론 등 컴퓨팅 자원이 부족한 엣지 디바이스에서는 �
 이미지 분류 (Classification)
     │
     ▼
-2-Stage 탐지: R-CNN (Region-based CNN) 
+2-Stage 탐지: R-CNN (Region-based CNN)
     │
     ▼
 속도 개선: Faster R-CNN (RPN 도입)

@@ -102,7 +102,7 @@ tags = ["data_engineering"]
 
 [비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 안전한 활용을 위한 거버넌스 운영 플로우]
 ```text
-[비정형 원본 (이미지/텍스트)] 
+[비정형 원본 (이미지/텍스트)]
        ↓
 [PII 비식별화 파이프라인 (AI 검출기)] ──(실패/예외)──> [격리 큐 (보안팀 수동 검토)]
        ↓ (마스킹 완료)

@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/468_disk_scheduling_purpose/">디스크 스케줄링</a></strong>: 하드디스크의 플래터(원판) 위를 도는 헤드(Head)가, 수많은 프로세스가 쏟아내는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청(Cylinder 번호)을 어떤 순서로 처리할지 결정하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/).
   - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/">Seek Time</a> (<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/">탐색 시간</a>)</strong>: 헤드가 원하는 트랙(실린더)으로 징~ 하고 이동하는 데 걸리는 물리적 시간. 디스크 I/O에서 가장 긴 시간(수 밀리초)을 차지하므로 이를 줄이는 것이 핵심이다.
   - **SCAN**: 헤드가 디스크의 한쪽 끝(0번)에서 다른 쪽 끝(199번)까지 이동하며 요청을 다 쳐내고, 끝에 닿으면 다시 199번에서 0번 방향으로 역주행하며 요청을 쳐내는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/).
 
-- **필요성 (SSTF의 잔인성)**: 
+- **필요성 (SSTF의 잔인성)**:
   - 과거에는 [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/)(먼저 온 순서)를 썼더니 헤드가 디스크 양끝을 미친 듯이 왕복하느라 기계가 박살 날 뻔했다.
   - 그래서 "가장 가까운 곳부터 가자"는 SSTF를 도입했더니, 중간 번호(50번)에서 요청이 계속 쏟아지면, 199번(양 끝단)에서 기다리는 요청은 평생 헤드가 오지 않아 굶어 죽었다([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)).
   - **해결책**: "가장 가까운 곳이 아니라, 무조건 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하는 방향으로 쭉 밀어붙이자! 엘리베이터처럼 1층에서 10층까지 가면서 중간에 누른 사람들 다 태우고, 10층 찍으면 그때 내려오자!"는 아이디어가 나왔다.
@@ -46,7 +46,7 @@ tags = ["studynote-operating-system"]
 
 ### SCAN [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 시뮬레이션
 
-디스크 실린더가 0번부터 199번까지 있다. 
+디스크 실린더가 0번부터 199번까지 있다.
 현재 헤드 위치: **50번 ([진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 방향: 우측 $\rightarrow$ 199번 방향)**
 요청 큐: `[98, 183, 37, 122, 14, 124, 65, 67]`
 

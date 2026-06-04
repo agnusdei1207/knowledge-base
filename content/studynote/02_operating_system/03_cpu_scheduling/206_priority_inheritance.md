@@ -28,19 +28,19 @@ tags = ["studynote-operating-system"]
   [우선순위 상속(PI)이 역전 현상을 파괴하는 매커니즘 시각화]
 
   (상황: 락을 쥔 L(우선순위 10), 락을 대기하는 H(우선순위 1))
-  
+
   ▶ 1단계: H가 락을 요청하며 Block됨.
             커널 스케줄러 개입! "어? 1등이 10등을 기다리네?"
-  
+
   ▶ 2단계 (상속 발동): 커널이 L의 우선순위를 10에서 [ 1 ]로 강제 뻥튀기함.
             (L은 이제 H와 동급의 무적 방패를 얻음)
-            
+
   ▶ 3단계 (방어): 중간 순위 M(우선순위 5)이 도착하여 CPU를 뺏으려 시도함.
             하지만 L의 현재 순위가 1이므로 M은 L을 이길 수 없어 쫓겨남!
-            
+
   ▶ 4단계 (해결): M의 방해를 받지 않은 L이 초고속으로 연산을 마치고 락(Lock) 해제.
             락 해제 즉시 L은 원래의 찌질한 10으로 [강등]됨.
-            
+
   ▶ 5단계 (정상화): 기다리던 H가 즉시 락을 획득하고 연산 시작! (데드라인 세이브)
 ```
 **[다이어그램 해설]** [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)의 핵심은 "문제가 생겼을 때만(On-demand)" 권력을 융통해 준다는 점이다. H가 오기 전까지 L은 그냥 10등이었다. M이 와도 H가 없으면 L은 M에게 자리를 내주는 게 맞다. 오직 "H가 L을 기다릴 때"만 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)이 터지므로, 스케줄링의 본래 계급 체계를 최대한 덜 훼손하면서도 치명적 버그를 완벽하게 막아내는 극도의 효율성을 보여준다.
@@ -134,7 +134,7 @@ tags = ["studynote-operating-system"]
 우선순위 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)([PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/))을 시스템에 올바르게 체결하면, 고순위 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 겪을 수 있는 블로킹 시간이 "자신이 요청한 락을 쥔 저순위 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)들의 연산 시간의 합"으로 완벽히 수리적으로 제한(Bounded)된다. 무한 대기라는 블랙박스가 걷히고, 데드라인 100% 사수라는 RTOS의 본질이 완성된다.
 
 ### 결론 및 미래 전망
-우선순위 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)은 스케줄링(CPU 분배)과 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(자원 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))라는 운영체제의 두 거대한 기둥이 서로의 모순을 해결하기 위해 악수(합의)를 맺은 가장 극적인 결합 포인트다. 현재 안드로이드의 [Binder](/knowledge-base/studynote/02_operating_system/10_security/662_android_binder_ipc_thread_pool/) [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)([프로세스 간 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)) 메커니즘도 호출하는 클라이언트의 우선순위를 백그라운드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 프로세스에게 통째로 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)해 주는 등 범용 시스템 전반에 이 철학이 깊게 이식되었다. 
+우선순위 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)은 스케줄링(CPU 분배)과 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(자원 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))라는 운영체제의 두 거대한 기둥이 서로의 모순을 해결하기 위해 악수(합의)를 맺은 가장 극적인 결합 포인트다. 현재 안드로이드의 [Binder](/knowledge-base/studynote/02_operating_system/10_security/662_android_binder_ipc_thread_pool/) [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)([프로세스 간 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)) 메커니즘도 호출하는 클라이언트의 우선순위를 백그라운드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 프로세스에게 통째로 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)해 주는 등 범용 시스템 전반에 이 철학이 깊게 이식되었다.
 미래에는 소프트웨어가 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 잡고 우선순위를 조작하는 무거운 오버헤드를 아예 하드웨어 단으로 내리기 위해, CPU 코어 내부에 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/">HTM</a> (Hardware Transactional Memory)</strong>을 탑재하여 락 자체가 필요 없는 궁극의 하드웨어 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 시대로 넘어가고 있다.
 
 - **📢 섹션 요약 비유**: 우선순위 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)은 스케줄러와 자물쇠가 만든 위대한 조약이었습니다. 하지만 조약은 서류 작업(오버헤드)이 많아 귀찮습니다. 미래에는 아예 자물쇠를 없애고, 충돌 나면 시간을 되돌려버리는 마법의 문([하드웨어 트랜잭셔널 메모리](/knowledge-base/studynote/02_operating_system/04_synchronization/269_htm_intel_tsx/))으로 건물을 짓는 시대로 인류는 나아가고 있습니다.

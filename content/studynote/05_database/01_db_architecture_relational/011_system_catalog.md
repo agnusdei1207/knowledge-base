@@ -57,7 +57,7 @@ tags = ["database"]
         ↓
 2. [DBMS 엔진 수신] 문법 검증 및 물리적 스토리지 블록 할당 수행
         ↓
-3. [카탈로그 업데이트 (자동)] 
+3. [카탈로그 업데이트 (자동)]
    - SYSTABLES 에 'New_Emp' 레코드 1행 삽입
    - SYSCOLUMNS 에 'id', 'name' 레코드 2행 삽입
    - SYSAUTH 에 소유자 권한 부여 이력 삽입

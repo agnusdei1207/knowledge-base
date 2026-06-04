@@ -64,11 +64,11 @@ tags = ["studynote-network"]
 - 단순 반복 작업만 <strong>자동화 스크립트(파이썬, <a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/">Ansible</a>)</strong>나 구형 NMS 모니터링 시스템의 도움을 받습니다. 판단과 결재는 여전히 사람이 다 합니다.
 
 ### Level 2: 부분 자율 네트워크 (Partial Autonomous)
-- <strong>특정 분야(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>)</strong>에서만 자동화가 적용됩니다. 
+- <strong>특정 분야(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>)</strong>에서만 자동화가 적용됩니다.
 - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 꽂으면 알아서 기본 세팅이 깔리는 수준(Zero-Touch [Provisioning](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/))입니다. 하지만 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 룰은 인간이 사전에 하드코딩해 둔 룰(If-Then) 안에서만 작동합니다.
 
 ### Level 3: 조건부 자율 네트워크 (Conditional Autonomous) 🌟 (현재 기술 목표)
-- 1054번 IBN이 본격 도입됩니다. <strong>인간이 "유튜브 4K 보장해!"라고 의도(<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/">Intent</a>)만 입력</strong>하면, 시스템이 알아서 코드로 번역해 세팅합니다. 
+- 1054번 IBN이 본격 도입됩니다. <strong>인간이 "유튜브 4K 보장해!"라고 의도(<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/">Intent</a>)만 입력</strong>하면, 시스템이 알아서 코드로 번역해 세팅합니다.
 - 환경이 변하거나 알람이 터지면 AI가 분석하여 <strong>"사장님, 이거 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 죽을 거 같은데 우회 경로 짤까요?"라고 인간에게 물어보고 승인(결재)을 기다립니다.</strong>
 
 ### Level 4: 고도 자율 네트워크 (Highly Autonomous)

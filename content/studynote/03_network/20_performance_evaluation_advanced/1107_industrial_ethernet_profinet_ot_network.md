@@ -64,14 +64,14 @@ tags = ["studynote-network"]
 
 ### 2. RT (Real-Time) - "귀족: 소프트웨어 직통" 🌟
 - 공장 센서의 온도, 밸브 On/Off 같은 **소프트-리얼타임(Soft Real-time)** 데이터입니다.
-- **마법**: 이 패킷들은 아예 무거운 <strong>L3(IP)와 L4(<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>) 껍데기 자체를 벗어 던져버립니다!</strong> 
+- **마법**: 이 패킷들은 아예 무거운 <strong>L3(IP)와 L4(<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>) 껍데기 자체를 벗어 던져버립니다!</strong>
 - [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(L2 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)) 껍데기만 딱 쓰고 그 안에 데이터를 넣습니다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 패킷이 들어오면, 무거운 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(IP 검사) 연산을 1도 거치지 않고 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 바닥층에서 그 즉시 팅겨져 나가 목적지 기계로 1~10ms 안에 직통으로 꽂혀버립니다(소프트웨어 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 바이패스).
 
 ### 3. IRT (Isochronous Real-Time) - "왕족: 하드웨어 [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 등시성" 🌟 궁극기
 - 로봇 팔의 관절 모터 제어(Motion Control)처럼 0.001초 늦으면 기계가 부딪혀 박살 나는 **하드-리얼타임(Hard Real-time)** 생명줄입니다.
 - **등시성(Isochronous)의 기적**: 1047번 TSN의 뼈대 기술입니다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계 안에 박힌 칩셋([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 하드웨어)이 1 밀리초짜리 시간표를 칼같이 쪼갭니다.
   - "0~0.5ms 구간은 무조건 닥치고 IRT(로봇 제어) 패킷만 보내는 빨간불 시간이다!"
-  - 이 찰나의 순간엔 사무실 엑셀 패킷이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 들어오면 하드웨어 칩이 문을 쾅 닫고 다이렉트로 버퍼에 처박아 대기시킵니다(스케줄링 예약). 
+  - 이 찰나의 순간엔 사무실 엑셀 패킷이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 들어오면 하드웨어 칩이 문을 쾅 닫고 다이렉트로 버퍼에 처박아 대기시킵니다(스케줄링 예약).
 - 덕분에 로봇 제어 패킷은 교통체증이 우주 물리적으로 0%인 텅 빈 고속도로를 달려 **1µs (100만 분의 1초)** 이하의 지터(Jitter, 오차)로 목적지 모터에 완벽한 타이밍으로 박힙니다.
 
 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [PROFINET](/knowledge-base/studynote/09_security/18_iot_ot_physical/900_profinet/) 망을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [마이크로그리드 통신 규격](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1106_microgrid_communication_standards_iec61850/)이 기반 조건을 만든다면, 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [PROFINET](/knowledge-base/studynote/09_security/18_iot_ot_physical/900_profinet/) 망은 그 위에서 핵심 메커니즘을 구현하고, [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 망 분리 원단 통제는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.

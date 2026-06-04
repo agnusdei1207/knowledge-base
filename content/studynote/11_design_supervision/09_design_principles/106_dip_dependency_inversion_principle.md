@@ -62,7 +62,7 @@ DIP를 구현하는 핵심 메커니즘은 '[추상화](/knowledge-base/studynot
 
 ## Ⅲ. 비교 및 연결
 
-DIP는 독단적으로 쓰이지 않고, 제어의 역전(IoC)이나 [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/))과 함께 거대한 시너지를 만든다. 
+DIP는 독단적으로 쓰이지 않고, 제어의 역전(IoC)이나 [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/))과 함께 거대한 시너지를 만든다.
 
 | 비교 항목 | 전통적 강결합 (Tight [Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)) | [DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) 기반 결합 (Loose [Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)) |
 |:---|:---|:---|
@@ -72,7 +72,7 @@ DIP는 독단적으로 쓰이지 않고, 제어의 역전(IoC)이나 [의존성 
 
 이처럼 [DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/)(원칙)를 지키기 위해 인터페이스를 설계하고 나면, 런타임에 실제 구현체를 꽂아주는 역할은 `DI (Dependency Injection)` [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(예: Spring Framework)가 전담하여 시스템의 결합도를 극적으로 낮춘다.
 
-- **📢 섹션 요약 비유**: 전통적 방식이 스마트폰과 배터리가 일체형으로 용접된 상태라면, [DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) 방식은 배터리를 규격에 맞춰 교체할 수 있는 착탈식 슬롯 구조와 같다. 
+- **📢 섹션 요약 비유**: 전통적 방식이 스마트폰과 배터리가 일체형으로 용접된 상태라면, [DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) 방식은 배터리를 규격에 맞춰 교체할 수 있는 착탈식 슬롯 구조와 같다.
 
 ---
 

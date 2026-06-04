@@ -105,7 +105,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-소프트웨어 시스템을 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/)([양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)) 친화적인 아키텍처로 미리 전환해 두면, 다가올 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)의 암호 해독 위협으로부터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주권과 고객의 프라이버시를 영구적으로 보호할 수 있다. 
+소프트웨어 시스템을 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/)([양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)) 친화적인 아키텍처로 미리 전환해 두면, 다가올 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)의 암호 해독 위협으로부터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주권과 고객의 프라이버시를 영구적으로 보호할 수 있다.
 
 결론적으로 기술 리더는 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)를 '언젠가 올 미래의 SF 소설'로 치부해서는 안 된다. 지금 우리가 설계하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 암호화 필드 크기(Size)와 통신 프로토콜이 PQC의 거대한 페이로드를 담아낼 수 있는지 아키텍처 관점에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Crypto-Agility)하는 것이 10년 뒤 회사의 파산을 막는 유일한 길이다.
 

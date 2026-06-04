@@ -20,7 +20,7 @@ tags = ["database"]
 
 부분 함수적 종속은 관계형 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계에서 "[기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/) 연합(복합키)에 속한 일반 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)들이 얼마나 충성스러운가"를 따지는 개념이다. 두 개 이상의 컬럼이 묶여 [기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/)를 구성할 때, 정상적인 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이라면 모든 [기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/) 구성 요소가 있어야만 그 값을 특정할 수 있어야 한다.
 
-그러나 설계가 잘못된 테이블에서는, 일반 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 복합키 전체를 보지 않고 단 하나의 키 값만으로도 유일하게 결정되는 배신 행위가 발생한다. 이 기준을 명확히 식별하고 제거하지 않으면, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 동일한 정보를 무의미하게 반복 저장하게 되며, 추후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 갱신 시 불일치가 폭발적으로 증가하는 구조적 결함을 안게 된다. 
+그러나 설계가 잘못된 테이블에서는, 일반 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 복합키 전체를 보지 않고 단 하나의 키 값만으로도 유일하게 결정되는 배신 행위가 발생한다. 이 기준을 명확히 식별하고 제거하지 않으면, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 동일한 정보를 무의미하게 반복 저장하게 되며, 추후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 갱신 시 불일치가 폭발적으로 증가하는 구조적 결함을 안게 된다.
 
 - **📢 섹션 요약 비유**: 부분 종속은 합창단에서 '눈치 없는 단원'과 같다. 지휘자 두 명의 수신호가 모두 맞아야 노래를 시작해야 하는데, 지휘자 한 명의 손만 보고도 혼자 노래를 불러버려 전체 합창의 화음을 깨뜨리는 것과 같다.
 
@@ -28,7 +28,7 @@ tags = ["database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-부분 함수적 종속은 [함수적 종속성](/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/) (Functional Dependency) 수식으로 정의된다. 
+부분 함수적 종속은 [함수적 종속성](/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/) (Functional Dependency) 수식으로 정의된다.
 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) $R$에서 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 집합 $X$가 복합키이고, [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 집합 $Y$가 $X$에 종속($X \rightarrow Y$)일 때, $X$의 진부분집합 $X'$에 대해서도 $X' \rightarrow Y$가 성립하면 $Y$는 $X$에 부분 함수적 종속된다고 한다.
 
 | 종속 유형 | 조건 | 발생 환경 |
@@ -60,7 +60,7 @@ tags = ["database"]
 
 ## Ⅲ. 비교 및 연결
 
-부분 함수적 종속은 이후 등장하는 이행적 함수 종속 ([Transitive Functional Dependency](/knowledge-base/studynote/05_database/02_modeling_normalization/098_transitive_functional_dependency/))과 함께 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 파괴하는 양대 산맥이다. 
+부분 함수적 종속은 이후 등장하는 이행적 함수 종속 ([Transitive Functional Dependency](/knowledge-base/studynote/05_database/02_modeling_normalization/098_transitive_functional_dependency/))과 함께 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 파괴하는 양대 산맥이다.
 
 | 항목 | 부분 함수적 종속 (Partial FD) | 이행적 함수 종속 (Transitive FD) |
 | :--- | :--- | :--- |

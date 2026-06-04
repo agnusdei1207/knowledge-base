@@ -20,7 +20,7 @@ tags = ["network"]
 
 ## Ⅰ. 개요 및 필요성
 
-[CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))는 수많은 사용자가 동일한 주파수 대역을 동시에 이용하면서도 혼선 없이 통신할 수 있도록 각 사용자에게 수학적으로 완벽히 다른 확산 코드를 부여하는 패러다임이다. 
+[CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))는 수많은 사용자가 동일한 주파수 대역을 동시에 이용하면서도 혼선 없이 통신할 수 있도록 각 사용자에게 수학적으로 완벽히 다른 확산 코드를 부여하는 패러다임이다.
 
 과거의 통신망은 가입자가 늘어날 때 주파수를 쪼개는 [FDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/) (Frequency [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))나 시간을 쪼개는 [TDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/) (Time [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))를 사용했다. 하지만 한정된 자원을 쪼개는 방식은 채널이 꽉 차면 더 이상 가입자를 받을 수 없는 하드 커패시티 (Hard Capacity) 한계에 부딪혔다. 이를 극복하기 위해 군사용으로 쓰이던 대역 확산 기술을 도입하여, 모두가 큰 방 하나를 같이 쓰되 '각자의 암호어'로 통신하게 만듦으로써 남는 대역의 낭비를 없애고 용량을 비약적으로 늘려야 했다.
 
@@ -30,7 +30,7 @@ tags = ["network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-CDMA의 기적은 협대역 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 광대역으로 퍼뜨리는 [확산 스펙트럼](/knowledge-base/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/)([Spread Spectrum](/knowledge-base/studynote/03_network/01_data_communication/068_스펙트럼_확산_Spread_Spectrum/))과, 수신측에서 이를 정확히 복원해내는 직교 코드(Orthogonal [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))에 의해 완성된다. 
+CDMA의 기적은 협대역 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 광대역으로 퍼뜨리는 [확산 스펙트럼](/knowledge-base/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/)([Spread Spectrum](/knowledge-base/studynote/03_network/01_data_communication/068_스펙트럼_확산_Spread_Spectrum/))과, 수신측에서 이를 정확히 복원해내는 직교 코드(Orthogonal [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))에 의해 완성된다.
 
 | 핵심 요소 | 역할 및 동작 원리 |
 | :--- | :--- |
@@ -99,7 +99,7 @@ CDMA망의 실무 설계는 완벽한 이상과 척박한 물리 법칙 사이�
 
 ## Ⅴ. 기대효과 및 결론
 
-CDMA는 주파수라는 한정된 부동산을 물리적으로 쪼개야 한다는 오랜 고정관념을 부수고, 수학적 직교성을 통해 공간을 무한하게 쓰는 혁명을 일으켰다. 
+CDMA는 주파수라는 한정된 부동산을 물리적으로 쪼개야 한다는 오랜 고정관념을 부수고, 수학적 직교성을 통해 공간을 무한하게 쓰는 혁명을 일으켰다.
 
 [스펙트럼 확산](/knowledge-base/studynote/03_network/01_data_communication/068_스펙트럼_확산_Spread_Spectrum/)을 통한 강력한 보안성과 잡음 내성, 획기적인 [주파수 재사용](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/554_frequency_reuse_cluster_capacity/)률은 2G와 3G 시대를 완벽하게 지배했다. 그러나 고속의 멀티미디어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 시대가 도래하자, 모든 사용자에게 고유 코드를 할당해야 하는 제약(코드 자원 고갈)과 다중 경로를 모두 계산해야 하는 단말기의 연산량 한계에 부딪혔다. 결국 4G LTE부터는 다시 시간과 주파수 행렬을 정교하게 나누는 [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) (Orthogonal Frequency [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))로 왕좌를 넘겨주게 되었다.
 

@@ -112,7 +112,7 @@ tags = ["studynote-network"]
 
 광케이블 인프라는 한번 포설하면 교체가 극히 어려운 '[다크 파이버](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/899_dark_fiber_unlit_infrastructure_lease/)([Dark Fiber](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/899_dark_fiber_unlit_infrastructure_lease/))' 자산이 되므로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계적 판단이 치명적이다.
 
-- **실무 시나리오 1**: 신규 캠퍼스 네트워크 구축. 건물 간 거리는 800m. 
+- **실무 시나리오 1**: 신규 캠퍼스 네트워크 구축. 건물 간 거리는 800m.
   - **결정**: 건물 내 층간 연결은 OM4 MMF로 하되, 건물 간 백본은 무조건 OS2 SMF로 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 포설한다. 당장 10G만 필요하더라도 향후 100G/400G 업그레이드 시 거리가 300m를 넘으면 MMF로는 대응이 불가능하기 때문이다.
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 SMF용 10GBASE-LR [트랜시버](/knowledge-base/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/)를 꽂고, 패치코드는 MMF 주황색 선을 연결하는 실수. 코어 직경의 불일치(9µm 빔이 50µm 코어로 방사)와 모드 필드 직경 차이로 인해 극심한 감쇠(Attenuation)와 반사 손실이 발생해 링크가 즉각 다운된다.
 

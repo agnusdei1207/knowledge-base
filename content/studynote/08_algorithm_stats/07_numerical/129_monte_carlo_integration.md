@@ -179,8 +179,8 @@ tags = ["studynote-algorithm"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-동그란 과녁 그림 위에 눈 감고 점을 찍어서 원의 넓이를 추정하는 것이 몬테카를로예요.  
-점이 많을수록 정확해지지만, 100배 정확하려면 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000배 점이 필요해요 (√n 규칙).  
+동그란 과녁 그림 위에 눈 감고 점을 찍어서 원의 넓이를 추정하는 것이 몬테카를로예요.
+점이 많을수록 정확해지지만, 100배 정확하려면 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000배 점이 필요해요 (√n 규칙).
 100차원 복잡한 계산도 이 방법으로 할 수 있어서, 금융·물리·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시뮬레이션에 많이 써요!
 
 ---

@@ -61,9 +61,9 @@ tags = ["studynote-algorithm"]
 ```
 탐색 버퍼(Search Buffer)  미리보기 버퍼(Lookahead Buffer)
 [a b c a b c a b][c a b c d ...]
-          ↑                    
-     슬라이딩 윈도우           
-                              
+          ↑
+     슬라이딩 윈도우
+
 'cabcd' 인코딩:
   'c'  → (5, 3, 'd')   (5칸 앞에서 3글자 'cab' + 다음 문자 'd')
 ```

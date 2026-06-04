@@ -18,7 +18,7 @@ tags = ["studynote-security"]
 
 ## Ⅰ. 개요 및 필요성
 
-[스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)([Stream Cipher](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/))는 데이터를 흐르는 물처럼 1비트씩 암호화해서 빠르지만, 네트워크 패킷이 꼬이거나 구조가 복잡해지면 치명적인 보안 허점을 드러냈다. 
+[스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)([Stream Cipher](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/))는 데이터를 흐르는 물처럼 1비트씩 암호화해서 빠르지만, 네트워크 패킷이 꼬이거나 구조가 복잡해지면 치명적인 보안 허점을 드러냈다.
 
 암호학자 클로드 섀넌(Claude Shannon)은 "암호가 절대 안 풀리려면, 글자를 복잡하게 바꾸는 혼돈(Confusion)과, 한 글자가 변하면 전체가 쑥대밭이 되는 확산(Diffusion)을 동시에 써야 한다"고 증명했다. 1비트씩 다뤄서는 이 복잡성을 달성할 수 없었다. 그래서 아키텍트들은 데이터를 128비트짜리 거대한 '블록(Block)'이라는 도마 위에 올려놓고, 칼로 다지고(XOR 믹싱), 위치를 섞고(Shift/Permutation), 다른 값으로 치환(Substitution Box)하는 잔혹한 루틴을 10번 이상 미친 듯이 반복하는 공장을 지었다. 이것이 현대 통신을 철통방어하는 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)([Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)) 같은 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)의 탄생이다.
 

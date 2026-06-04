@@ -18,7 +18,7 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. 개요 및 필요성
 
-건물을 지을 때, 무턱대고 포크레인을 불러 땅부터 파는 사람은 없다. 설계사무소에 가서 "이 땅에 10층짜리 상가를 지을지, 50층짜리 아파트를 지을지, 예산은 100억인데 수익은 얼마나 날지"부터 몇 달 동안 치열하게 계획하고 설계도를 그린다. 
+건물을 지을 때, 무턱대고 포크레인을 불러 땅부터 파는 사람은 없다. 설계사무소에 가서 "이 땅에 10층짜리 상가를 지을지, 50층짜리 아파트를 지을지, 예산은 100억인데 수익은 얼마나 날지"부터 몇 달 동안 치열하게 계획하고 설계도를 그린다.
 
 수백억 원이 투입되는 기업의 IT 시스템 구축도 똑같다. 과거에는 현업 부서가 "우리 부서 홈페이지 만들어줘" 하면 IT 부서가 뚝딱 만들어줬다. 결과는 비극이었다. 회사 안에 고객 정보가 10군데로 흩어지고([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)), 똑같은 소프트웨어를 부서마다 중복으로 구매해 예산을 날렸다. 이 아수라장을 막기 위해 이사회(최고 경영진)가 칼을 빼들었다. "앞으로 우리 회사가 3년 뒤 글로벌 진출을 할 건데, 그 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에 맞는 IT 밑그림(마스터플랜)부터 짜와! 그 전엔 서버 한 대도 못 사!" 이것이 비즈니스와 IT를 하나의 폭포수처럼 정렬(Alignment)시키는 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)([정보화 전략 계획](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))의 위대한 탄생이다.
 

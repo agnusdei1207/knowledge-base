@@ -19,10 +19,10 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **블록 코드 (해밍, RS, BCH)**: 
+- **블록 코드 (해밍, RS, BCH)**:
   - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 고정된 크기(예: 8비트)의 도마 위에 올려놓고 무를 썰듯 텅텅 자릅니다. 그리고 그 8비트 덩어리 뒤에 3비트의 힌트를 붙입니다. 이전 덩어리와 다음 덩어리는 서로 아무런 연관이 없습니다.
-- <strong>길쌈 코드 (Convolutional <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong>: 
-  - 도마가 아니라, <strong>'과거의 기억을 간직한 미끄럼틀(<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/058_shift_register/">Shift Register</a>)'</strong>에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1비트씩 연속해서 집어넣습니다. 
+- <strong>길쌈 코드 (Convolutional <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong>:
+  - 도마가 아니라, <strong>'과거의 기억을 간직한 미끄럼틀(<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/058_shift_register/">Shift Register</a>)'</strong>에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1비트씩 연속해서 집어넣습니다.
   - 지금 들어간 1비트가 출력될 때, 그 1비트만 쓰이는 게 아니라 **방금 전, 2초 전, 3초 전에 미끄럼틀을 지나갔던 과거의 비트들과 서로 '길쌈(베 짜기, 얽힘)'되어서** 완전히 새로운 여러 개의 비트로 뻥튀기되어 출력됩니다.
 
 ```text

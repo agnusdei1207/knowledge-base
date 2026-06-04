@@ -128,8 +128,8 @@ ReLU
 
 ## 어린이를 위한 3줄 비유 설명
 
-값을 0과 1 사이로 눌러요.  
-부드럽지만 끝에서는 힘이 약해요.  
+값을 0과 1 사이로 눌러요.
+부드럽지만 끝에서는 힘이 약해요.
 [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)는 그런 함수예요.
 
 ---

@@ -138,7 +138,7 @@ patience = 10  # 허용 에폭 수
 for epoch in range(max_epochs):
     train(model)
     val_loss = evaluate(model)
-    
+
     if val_loss < best_val_loss:
         best_val_loss = val_loss
         save_checkpoint(model)       # 최적 모델 저장

@@ -69,32 +69,32 @@ IT 경영 관리 682번의 핵심은 **"Strategy→Governance→Service→Projec
 │         682번 시험의 핵심 인과 모델: Strategy-Service Chain         │
 └───────────────────────────────────────────────────────────────────┘
 
-  [비즈니스 전략]                                                    
-       │                                                            
-       │ ① 전략 정렬(Strategic Alignment) Henderson-Henderson 모델   
-       │   (Business Strategy ←→ IS Strategy ←→ IT Strategy)        
-       ▼                                                            
-  [IT 거버넌스] ──── COBIT 2019 EDM(평가/지시/모니터링) ──► 이사회     
-       │                                                            
-       │ ② 목표 계층화(Cascading Goals)                              
-       │   Enterprise Goals(13개) → Alignment Goals(13개) → Goals   
-       │   Cascading을 통해 BSC 4관점과 자동 매핑                     
-       ▼                                                            
-  [IT 서비스/프로젝트]                                                
-       │                                                            
-       │ ③ 가치 창출(Value Creation)                                  
-       │   - Service Value Chain(SVC): Plan→Engage→Design&Transition 
-       │     →Obtain/Build→Deliver&Support→Improve                    
+  [비즈니스 전략]
+       │
+       │ ① 전략 정렬(Strategic Alignment) Henderson-Henderson 모델
+       │   (Business Strategy ←→ IS Strategy ←→ IT Strategy)
+       ▼
+  [IT 거버넌스] ──── COBIT 2019 EDM(평가/지시/모니터링) ──► 이사회
+       │
+       │ ② 목표 계층화(Cascading Goals)
+       │   Enterprise Goals(13개) → Alignment Goals(13개) → Goals
+       │   Cascading을 통해 BSC 4관점과 자동 매핑
+       ▼
+  [IT 서비스/프로젝트]
+       │
+       │ ③ 가치 창출(Value Creation)
+       │   - Service Value Chain(SVC): Plan→Engage→Design&Transition
+       │     →Obtain/Build→Deliver&Support→Improve
        │   - 7 Guiding Principles: Focus on value, Start where you are,
-       │     Progress iteratively, Collaborate, Think holistically,   
-       │     Keep it simple, Optimize                                 
-       ▼                                                            
-  [성과 측정]                                                       
-       │                                                            
-       │ ④ KPI 계층화(BSC + GQM + OKR)                               
-       │   L1(전략) - L2(전술) - L3(운영) - L4(개인)                  
-       ▼                                                            
-  [피드백/학습] → 거버넌스로 환류 → Continuous Improvement            
+       │     Progress iteratively, Collaborate, Think holistically,
+       │     Keep it simple, Optimize
+       ▼
+  [성과 측정]
+       │
+       │ ④ KPI 계층화(BSC + GQM + OKR)
+       │   L1(전략) - L2(전술) - L3(운영) - L4(개인)
+       ▼
+  [피드백/학습] → 거버넌스로 환류 → Continuous Improvement
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |

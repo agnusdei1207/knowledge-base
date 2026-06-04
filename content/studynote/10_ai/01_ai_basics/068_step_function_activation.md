@@ -130,8 +130,8 @@ ReLU
 
 ## 어린이를 위한 3줄 비유 설명
 
-넘으면 1, 아니면 0이에요.  
-너무 딱딱해서 배우기는 어려워요.  
+넘으면 1, 아니면 0이에요.
+너무 딱딱해서 배우기는 어려워요.
 계단 함수는 그런 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)예요.
 
 ---

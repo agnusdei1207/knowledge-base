@@ -19,13 +19,13 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>접근 제어 목록 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/">ACL</a>)</strong>: 객체(Object, 예: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))에 부착된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조로, 어떤 주체(Subject, 예: 사용자/프로세스)가 해당 객체에 어떤 연산([Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/))을 수행할 수 있는지 정의한 목록.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/573_access_matrix/">접근 제어 행렬</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/">Access Control</a> Matrix)</strong>: 시스템 전체의 주체와 객체의 권한 관계를 2차원 표(행렬)로 나타낸 이론적 모델. (이를 객체 기준으로 잘라낸 것이 ACL이다.)
 
-- **필요성 (rwx의 낡은 족쇄 탈피)**: 
+- **필요성 (rwx의 낡은 족쇄 탈피)**:
   - 리눅스의 기본 권한 모델(UGO: User, Group, Others)은 너무 단순했다.
-  - 내가 만든 `보고서.txt`를 100명의 직원 중 딱 '김 대리(읽기)'와 '이 과장([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))'에게만 공유하고 싶다. 
+  - 내가 만든 `보고서.txt`를 100명의 직원 중 딱 '김 대리(읽기)'와 '이 과장([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))'에게만 공유하고 싶다.
   - UGO 방식에서는 이걸 구현하려면 '김대리_이과장_그룹'이라는 새 그룹을 OS에 만들어야 했다. 부서 간 협업 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 늘어날수록 OS에 쓰레기 그룹이 수만 개 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되는 재앙이 터졌다.
   - **해결책**: "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개에다가 무제한으로 사람 이름과 권한을 계속 추가할 수 있는 유연한 리스트([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))를 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 직접 달아주자!"
 

@@ -20,7 +20,7 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 회사의 보안 관리자나 IT 팀의 허락([인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))을 받지 않고, <strong>사내 네트워크 또는 공공장소에 몰래 불법으로 설치되어 작동하는 무선 공유기(<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/">Access Point</a>)</strong>입니다.
-- **발생 원인**: 
+- **발생 원인**:
   1. 직원이 자기 자리에서 편하게 와이파이를 쓰려고 집에서 가져온 싸구려 아이피타임(iPTIME) 공유기를 회사 랜선에 몰래 꽂는 경우. (보안 구멍 뻥 뚫림)
   2. 해커가 악의적인 목적을 가지고 가짜 와이파이를 띄워 사람들을 낚시하는 경우.
 

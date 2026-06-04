@@ -105,11 +105,11 @@ Chainlink 오라클 노드 (다수, 독립)
 ```
 Flash Loan 공격 대응:
   순간 가격 오라클 -> 조작 가능
-  
+
 TWAP (Time-Weighted Average Price):
   가격 = (P_t1 + P_t2 + ... + P_tn) / n
   n = 30분 또는 1시간 평균
-  
+
   순간 조작으로는 TWAP을 크게 바꿀 수 없음
   -> Flash Loan 공격 방어
 

@@ -24,17 +24,17 @@ IMDB vs 전통 디스크 DB:
 전통 DB (디스크 기반):
   데이터: 디스크 (HDD: ms, SSD: us)
   처리: 디스크 읽기 → 버퍼 풀 → CPU
-  
+
   병목: 디스크 I/O (랜덤 읽기 HDD: ~10ms)
-  
+
   예: MySQL SELECT → 100ms (캐시 미스)
 
 IMDB (메모리 기반):
   데이터: 완전히 RAM에 상주
   처리: RAM 직접 접근 → CPU
-  
+
   RAM 접근: ~100ns (HDD 대비 100,000×)
-  
+
   예: Redis GET → ~10-100μs
 
 성능 비교:
@@ -45,11 +45,11 @@ IMDB (메모리 기반):
 IMDB 유형:
   1. 전용 인메모리 (Pure IMDB):
      Redis, Memcached, VoltDB
-     
+
   2. 인메모리 옵션 (Hybrid):
      MySQL Memory Engine
      SAP HANA (주로 IMDB)
-     
+
   3. 클라우드 인메모리:
      Amazon ElastiCache (Redis/Memcached)
      Azure Cache for Redis
@@ -75,27 +75,27 @@ Redis 내구성 옵션:
 
 1. RDB (Redis Database Snapshot):
    주기적으로 디스크에 스냅샷 저장
-   
+
    예: 5분마다 또는 100개 변경마다
    파일: dump.rdb
-   
+
    장점: 파일 작음, 복구 빠름
    단점: 마지막 스냅샷 이후 데이터 손실 가능
-   
+
    RPO: 최대 5분 데이터 손실
 
 2. AOF (Append-Only File):
    모든 쓰기 명령을 로그 파일에 추가
-   
+
    파일: appendonly.aof
-   
+
    fsync 옵션:
    - always: 매 명령 → 가장 안전 (성능 ↓)
    - everysec: 1초마다 → 균형 (기본)
    - no: OS에 위임 → 가장 빠름
-   
+
    RPO: everysec = 최대 1초 데이터 손실
-   
+
    단점: 파일 크기 증가 (주기적 rewrite)
 
 3. RDB + AOF 혼합:
@@ -176,41 +176,41 @@ IMDB 캐싱 패턴:
 
 Cache-Aside (Look-Aside, Lazy Loading):
   가장 일반적
-  
+
   읽기:
   앱 → 캐시(Redis) 확인
   히트: 캐시에서 반환
   미스: DB 조회 → 캐시 저장 → 반환
-  
+
   쓰기:
   앱 → DB 갱신 → 캐시 삭제 (또는 무효화)
-  
+
   장점: 필요한 것만 캐싱 (필요 시 로드)
   단점: 첫 요청 느림 (Cache Miss)
 
 Write-Through:
   쓰기: DB + 캐시 동시 갱신
   읽기: 캐시에서만
-  
+
   장점: 캐시 항상 최신
   단점: 쓰기 지연 (2번 쓰기)
 
 Write-Behind (Write-Back):
   쓰기: 캐시만 갱신 (비동기 DB 반영)
-  
+
   장점: 쓰기 속도 빠름
   단점: DB 동기화 지연, 캐시 장애 시 손실
 
 TTL (Time-To-Live):
   캐시 만료 시간 설정
   SET session:xyz "data" EX 3600  # 1시간
-  
+
   너무 짧은 TTL: 캐시 효율 낮음
   너무 긴 TTL: 오래된 데이터 제공
 
 Thundering Herd (Cache Stampede):
   대량 캐시 동시 만료 → DB 과부하
-  
+
   해결:
   - TTL 지터(랜덤 분산)
   - 캐시 갱신 잠금 (단일 프로세스만)
@@ -243,7 +243,7 @@ Thundering Herd (Cache Stampede):
 상품 캐시:
   HSET product:12345 name "운동화" price "89000" stock "50"
   EXPIRE product:12345 3600
-  
+
   히트율 목표: 95% (캐시 미스 5%만 DB)
 
 세션 관리:

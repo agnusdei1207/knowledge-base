@@ -21,9 +21,9 @@ tags = ["ai"]
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-[미니맥스 알고리즘](/knowledge-base/studynote/10_ai/01_ai_basics/019_minimax_algorithm/)은 완벽한 판단을 제공하지만, 분기 계수가 $b$이고 깊이가 $d$일 때 탐색 노드의 수가 $b^d$로 기하급수적으로 폭발하는 치명적인 연산 한계를 지닌다. 이를 해결하기 위해 모든 노드를 다 방문하지 않아도 됨을 착안한 기법이 알파-베타 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)이다. 
+[미니맥스 알고리즘](/knowledge-base/studynote/10_ai/01_ai_basics/019_minimax_algorithm/)은 완벽한 판단을 제공하지만, 분기 계수가 $b$이고 깊이가 $d$일 때 탐색 노드의 수가 $b^d$로 기하급수적으로 폭발하는 치명적인 연산 한계를 지닌다. 이를 해결하기 위해 모든 노드를 다 방문하지 않아도 됨을 착안한 기법이 알파-베타 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)이다.
 
-만약 내가 100만 원을 벌 수 있는 안전한 수를 이미 찾아두었다면, 상대방이 나에게 10만 원밖에 안 주려고 함정을 파둔 경로를 발견한 즉시, 그 하위의 수만 가지 다른 경우의 수는 계산해 볼 필요도 없이 버리면([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) 된다. 
+만약 내가 100만 원을 벌 수 있는 안전한 수를 이미 찾아두었다면, 상대방이 나에게 10만 원밖에 안 주려고 함정을 파둔 경로를 발견한 즉시, 그 하위의 수만 가지 다른 경우의 수는 계산해 볼 필요도 없이 버리면([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) 된다.
 
 이 도식은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 탐색을 멈추고 트리의 가지를 자르는 직관적인 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 보여준다.
 
@@ -33,7 +33,7 @@ tags = ["ai"]
      [MAX 나] (현재까지 보장된 최고 수익: 5)
       /    \
      /      \
-[MIN 가]   [MIN 나] 
+[MIN 가]   [MIN 나]
 (수익 5)    /   \
            /     \
          (3)     (?) <--- 더 볼 필요가 있을까?
@@ -47,7 +47,7 @@ tags = ["ai"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-알파-베타 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 트리 깊숙이 내려갈 때 두 개의 변수, $\[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)$(알파)와 $\beta$(베타) 값을 인자로 넘기며 메모리 상태를 전이시킨다. 
+알파-베타 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 트리 깊숙이 내려갈 때 두 개의 변수, $\[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)$(알파)와 $\beta$(베타) 값을 인자로 넘기며 메모리 상태를 전이시킨다.
 
 | 파라미터 | 주체 | 의미와 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)값 | 업데이트 조건 | 프루닝([가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) 조건 |
 |:---|:---|:---|:---|:---|
@@ -60,7 +60,7 @@ tags = ["ai"]
 [상태 전이 흐름 및 Pruning 시퀀스]
 
 (1) DFS로 왼쪽 끝 단말 노드(3, 5)까지 직진
-        MAX [α=-∞, β=∞] 
+        MAX [α=-∞, β=∞]
            /
         MIN [α=-∞, β=∞]
         /  \
@@ -133,7 +133,7 @@ tags = ["ai"]
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-알파-베타 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)는 튜링 상까지 받은 이래 탐색 복잡도라는 정보공학의 절대적 벽을 뚫어낸 고전적이고 우아한 해법이다. 결과의 질은 한 치도 손상하지 않으면서 연산량만 제곱근 수준으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 효율성은 수많은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 엔지니어들에게 큰 영감을 주었다. 
+알파-베타 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)는 튜링 상까지 받은 이래 탐색 복잡도라는 정보공학의 절대적 벽을 뚫어낸 고전적이고 우아한 해법이다. 결과의 질은 한 치도 손상하지 않으면서 연산량만 제곱근 수준으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 효율성은 수많은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 엔지니어들에게 큰 영감을 주었다.
 
 최신 컴퓨팅에서는 단일 쓰레드의 알파-베타 연산을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화하기 위한 구조(Principal Variation Search, PVS) 및 YBWC [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 등 [다중 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/)/[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 아키텍처로 진화하고 있으며, 이러한 병목 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)망 제어가 차세대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 인프라의 표준이 되고 있다.
 

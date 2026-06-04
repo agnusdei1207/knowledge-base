@@ -28,7 +28,7 @@ tags = ["studynote-bigdata"]
 - <strong>Continuous Processing 모델 (예: <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/">Apache Flink</a>)</strong>: 레코드가 도착하는 순간 즉시 처리하는 방식입니다. 이론상 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 네트워크를 통해 한 레코드가 처리기에 도착하는 시간(ms 단위)에 근접합니다.아리파파やUber등의대규모분산처리インフラ에서주류와なっ고います.
 
 ### 2. Apache Flink의 탄생 배경
-Apache Flink는 2014년 TU Berlin의，연구プロジェクト「Stratosphere」부터파생し, 2014년에Apache Incubator에입り, 2015년에Apache Top-Level Project와なりま한. 
+Apache Flink는 2014년 TU Berlin의，연구プロジェクト「Stratosphere」부터파생し, 2014년에Apache Incubator에입り, 2015년에Apache Top-Level Project와なりま한.
 - **Stratosphere 시대**: 2010-2014년, 독일 TU Berlin의 연구팀이"Stratosphere"라는 이름으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스트리밍 및 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 엔진을 개발했습니다. 이 프로젝트는 개념적으로 현재의 Flink과 매우 유사했으며, 특히"상태 관리"와"이벤트 시간 처리"에 조기에서 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 주목했다는 점에서 혁신적이었습니다.
 - **선구적 설계 철학**: Flink는최초부터"Streaming-first" 아키텍처를지향했습니다. [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)는"무한한 스트림의 특별한 경우(모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 도착한 것으로 간주)"로건모하여, 하나의 엔진으로 배치와 스트리밍을통일적에처리할 수 있도록 설계되었습니다.
 

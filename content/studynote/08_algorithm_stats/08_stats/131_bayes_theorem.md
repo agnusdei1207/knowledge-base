@@ -57,7 +57,7 @@ P(B|A) = P(A∩B) / P(A)
 
 ## Ⅱ. 전확률 법칙 — P(B) 계산
 
-<strong>전확률 법칙 (Law of Total <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">Probability</a>)</strong>:  
+<strong>전확률 법칙 (Law of Total <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">Probability</a>)</strong>:
 사건 A₁, A₂, ..., Aₙ 이 Ω 를 분할 ([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)) 할 때:
 
 ```

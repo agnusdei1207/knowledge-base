@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어를 개발할 때 가장 두려운 상황 중 하나는 "이 코드는 김 대리만 아는데, 김 대리가 내일 퇴사하면 어떡하지?"라는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">단일 장애점</a>(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a>, Single Point of Failure)</strong> 상태다. 
+소프트웨어를 개발할 때 가장 두려운 상황 중 하나는 "이 코드는 김 대리만 아는데, 김 대리가 내일 퇴사하면 어떡하지?"라는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">단일 장애점</a>(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a>, Single Point of Failure)</strong> 상태다.
 
 이를 막으려면 김 대리가 짠 코드를 다른 팀원들도 알아야 한다. 하지만 남이 짠 수천 줄의 코드를 혼자 읽고 이해하는 것은 불가능에 가깝다. 그렇다고 공식적인 '[인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)' 회의를 열자니 준비 기간이 너무 길고 비용이 비싸다.
 

@@ -21,7 +21,7 @@ tags = ["data_engineering"]
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-빅데이터 플랫폼은 수십 대에서 수천 대의 서버로 구성됩니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터 내에서 서버들은 통상 세로로 긴 철제 캐비닛인 '랙(Rack)' 단위로묶여 적재됩니다. 하나의 랙 안에는 20~40대의 서버가 들어가며, 이들은 랙 상단에 달린 동일한 ToR [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(Top of Rack [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))를 통해 통신하고 하나의 PDU(전원 분배 장치)를 공유합니다. 
+빅데이터 플랫폼은 수십 대에서 수천 대의 서버로 구성됩니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터 내에서 서버들은 통상 세로로 긴 철제 캐비닛인 '랙(Rack)' 단위로묶여 적재됩니다. 하나의 랙 안에는 20~40대의 서버가 들어가며, 이들은 랙 상단에 달린 동일한 ToR [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(Top of Rack [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))를 통해 통신하고 하나의 PDU(전원 분배 장치)를 공유합니다.
 
 여기서 치명적인 문제가 발생합니다. 만약 HDFS가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록 3개를 복사할 때, 우연히 같은 랙(Rack 1)에 속한 서버 3대에 나란히 저장했다고 가정해 봅시다. 이때 Rack 1의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 타버리거나 전원이 내려가면 어떻게 될까요? 서버 3개가 동시에 죽으면서 3중 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본이 한순간에 증발하고, 파일은 영구히 손상됩니다. 즉, 노드 레벨의 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)만으로는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터의 물리적 재난을 막을 수 없는 한계가 노출된 것입니다.
 
@@ -46,7 +46,7 @@ tags = ["data_engineering"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-랙 인지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 네임노드가 클러스터 내부의 네트워크 거리를 계산하고 배치 정책을 강제하는 정교한 룰 엔진으로 동작합니다. 
+랙 인지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 네임노드가 클러스터 내부의 네트워크 거리를 계산하고 배치 정책을 강제하는 정교한 룰 엔진으로 동작합니다.
 
 | 구성 요소 | 역할 | 내부 동작 | [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 비유 |
 |:---|:---|:---|:---|:---|
@@ -88,7 +88,7 @@ tags = ["data_engineering"]
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-랙 인지는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비용(네트워크 홉)과 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 허용도([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/)) 사이의 완벽한 줄타기입니다. 
+랙 인지는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비용(네트워크 홉)과 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 허용도([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/)) 사이의 완벽한 줄타기입니다.
 
 | 배치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (Repl 3 기준) | 랙 배치 구성 | [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)(랙 고장 시) | 네트워크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 오버헤드 | 실무 채택 여부 |
 |:---|:---|:---|:---|:---|

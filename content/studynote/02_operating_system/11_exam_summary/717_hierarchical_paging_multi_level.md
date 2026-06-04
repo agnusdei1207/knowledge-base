@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>1단계 (단일) <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a></strong>: 가상 주소의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 개수만큼 무조건 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)([Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))의 칸을 다 만들어두는 1차원 구조.
   - <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/289_multilevel_page_table/">다단계 페이지 테이블</a> (Multi-level <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">Paging</a>)</strong>: [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 여러 계층([Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) $\rightarrow$ Middle $\rightarrow$ Table)으로 트리(Tree)처럼 나누어 관리하는 구조.
 
-- **필요성 (메모리 폭발의 공포)**: 
+- **필요성 (메모리 폭발의 공포)**:
   - 32비트 시스템에서 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 크기는 4GB다. [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 크기가 4KB면 총 100만 개의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 나온다.
   - [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호를 적어두는 엔트리 1개가 4바이트라고 하면, **프로세스 1개당 "순수 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 용량"만 딱 4MB(100만 * 4바이트)**가 필요하다.
   - 프로세스를 1,000개 띄우면? 지도(Table) 크기만 4GB가 되어 물리 램이 터져버린다.

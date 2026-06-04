@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-컴퓨터가 처리하는 2진수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 사람이 읽기 편한 10진수로 변환하는 것은 필수적인 작업이다. 언팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) (Unpacked [Binary Coded Decimal](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/))는 1바이트를 상위 존(Zone) 니블(Nibble, 4비트)과 하위 숫자(Digit) 니블로 나누어, 하나의 10진수 숫자를 1바이트 전체에 포장하여 저장하는 방식이다. 
+컴퓨터가 처리하는 2진수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 사람이 읽기 편한 10진수로 변환하는 것은 필수적인 작업이다. 언팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) (Unpacked [Binary Coded Decimal](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/))는 1바이트를 상위 존(Zone) 니블(Nibble, 4비트)과 하위 숫자(Digit) 니블로 나누어, 하나의 10진수 숫자를 1바이트 전체에 포장하여 저장하는 방식이다.
 
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터 환경(천공카드 시절)에서는 중앙처리장치가 복잡한 형 변환 연산을 수행할 여력이 부족했다. 따라서 숫자를 계산한 뒤 프린터나 화면으로 바로 전송하기 위해서는 숫자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 처음부터 문자열(String) 포맷을 띄고 있는 것이 유리했다. 언팩드 BCD는 하위 4비트에 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) 코드($0000 \sim 1001$)를 담고, 상위 4비트에 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 문자열 규격(`0011`)을 덧씌움으로써 화면 컨트롤러가 즉시 문자로 인식할 수 있도록 고안되었다.
 
@@ -86,7 +86,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-언팩드 BCD는 컴퓨팅 자원이 부족하고 I/O 장치와의 직관적 연결이 절실했던 초창기 컴퓨팅 환경에서 최적의 해답을 제시한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷이다. 
+언팩드 BCD는 컴퓨팅 자원이 부족하고 I/O 장치와의 직관적 연결이 절실했던 초창기 컴퓨팅 환경에서 최적의 해답을 제시한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷이다.
 
 현재는 메모리 공간을 50%나 낭비하는 극악의 효율과 연산 시의 오버헤드로 인해 시스템 내부 변수나 디스크 스토리지 포맷으로는 사용되지 않는다. 그러나 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 저장 형식과 사람을 위한 출력 형식을 일치시킨다'는 설계 사상은 문자열 기반 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 등)에 영향을 주었으며, 특히 금융권 백엔드의 레거시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파싱 과정에서 오버펀칭이라는 독특한 유산으로 살아 숨 쉬고 있다.
 

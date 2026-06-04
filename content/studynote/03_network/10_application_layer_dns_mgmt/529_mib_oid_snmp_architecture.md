@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-[SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 환경에서 관리 대상 장비(Agent)가 보유하고 있는 <strong>모든 관리 정보(예: CPU 점유율, 메모리 사용량, <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 상태 등)를 트리(Tree) 구조로 체계적으로 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>해 놓은 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a></strong>입니다. 
+[SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 환경에서 관리 대상 장비(Agent)가 보유하고 있는 <strong>모든 관리 정보(예: CPU 점유율, 메모리 사용량, <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 상태 등)를 트리(Tree) 구조로 체계적으로 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>해 놓은 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a></strong>입니다.
 제조사나 장비 종류와 무관하게 전 세계 모든 장비가 공통된 트리 구조(Standard MIB)를 따르며, 제조사별 특화 기능은 트리 밑바닥에 따로(Private MIB) 붙여서 확장합니다.
 
 ```text

@@ -39,14 +39,14 @@ tags = ["studynote-network"]
 
 ### 1. 글로벌 뷰 (Global Network [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)) 확보 🌟
 - 가장 무서운 권력입니다. 기존 라우터는 자기 옆에 있는 친구 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 상태만 볼 수 있었습니다. (부분 시야)
-- [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러는 헬기를 타고 하늘 위로 올라간 것과 같습니다. 전국에 깔린 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 수천 대가 현재 어떻게 연결되어 있는지, 어디가 막히고 어디가 고장 났는지를 <strong>거대한 하나의 지도(Topology 맵)</strong>로 완벽하게 다 내려다보고 있습니다. 
+- [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러는 헬기를 타고 하늘 위로 올라간 것과 같습니다. 전국에 깔린 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 수천 대가 현재 어떻게 연결되어 있는지, 어디가 막히고 어디가 고장 났는지를 <strong>거대한 하나의 지도(Topology 맵)</strong>로 완벽하게 다 내려다보고 있습니다.
 
 ### 2. 중앙 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 통제 (Centralized Control & [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))
 - 글로벌 뷰 지도를 보고 있으니, A에서 B로 가는 최단 거리나 우회 경로(차 안 막히는 길)를 컨트롤러의 슈퍼컴퓨터 CPU가 단 0.001초 만에 기가 막히게 계산해 냅니다.
 - **룰 하달**: 계산이 끝나면 밑바닥의 깡통 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들에게 1초 만에 <strong>"자, 길 찾았다! 다들 내 플로우 테이블(메뉴얼) 다운받아서 그대로 움직여라!"</strong>라고 명령을 쫙 뿌립니다([프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)). (Southbound [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 활용)
 
 ### 3. 하드웨어 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) (Hardware [Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))
-- 위층(응용 계층)의 앱 개발자가 "부산 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 1번 닫아!"라고 물리적인 명령을 내릴 필요가 없습니다. 
+- 위층(응용 계층)의 앱 개발자가 "부산 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 1번 닫아!"라고 물리적인 명령을 내릴 필요가 없습니다.
 - 컨트롤러는 복잡한 쇳덩어리 기계들의 차이를 감춰버립니다. 앱 개발자가 "비디오 트래픽 우선 처리해!"라고 추상적으로 명령(의도)만 내리면, 컨트롤러가 알아서 부산이든 서울이든 기계에 맞는 언어로 번역해서 지시를 내립니다. (네트워크의 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 역할)
 
 ```text

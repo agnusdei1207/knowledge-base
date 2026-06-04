@@ -22,11 +22,11 @@ tags = ["studynote-computer-architecture"]
 디멀티플렉서 (Demultiplexer, DEMUX):
   입력(D) 1개 → 출력(Y) 여러 개 중 1개로 분배
   선택 신호(S)로 출력 경로 결정
-  
+
 MUX vs DEMUX:
   MUX: 여러 입력 → 1개 출력 (선택)
   DEMUX: 1개 입력 → 여러 출력 중 1개 (분배)
-  
+
 1:4 DEMUX 진리표:
   S1 S0 | Y3 Y2 Y1 Y0
   ------+---------------
@@ -58,7 +58,7 @@ MUX vs DEMUX:
 1:4 DEMUX 게이트 회로:
 
   D ──┬─────────────────────────────────────────
-      │         AND                              
+      │         AND
       ├──→ S1' · S0' · D ──→ Y0
       │         AND
       ├──→ S1' · S0  · D ──→ Y1
@@ -66,7 +66,7 @@ MUX vs DEMUX:
       ├──→ S1  · S0' · D ──→ Y2
       │         AND
       └──→ S1  · S0  · D ──→ Y3
-  
+
   S0 ──┬── NOT(S0') ──┬
         │              │
         └──────────────┘
@@ -77,10 +77,10 @@ MUX vs DEMUX:
 디코더와 DEMUX 관계:
   디코더: n 입력 → 2^n 출력 (활성 출력 1개)
   DEMUX: 디코더 + Enable(D 입력) 결합
-  
+
   구현: 2-to-4 디코더 + D를 Enable로 연결
   = 1:4 DEMUX
-  
+
 DEMUX 확장:
   1:8 DEMUX = 두 개의 1:4 DEMUX + 선택 신호 1개
   계층적 구조로 대형 DEMUX 구현 가능
@@ -101,14 +101,14 @@ MUX-DEMUX 통신 시스템:
             I2 ─┤                              ├→ O1
             I3 ─┘                              ├→ O2
                                                └→ O3
-  
+
   MUX 선택 신호 = DEMUX 선택 신호 (동기화)
   동일한 클록으로 순서대로 전환
 
 메모리 주소 디코딩:
   CPU 주소 버스 → DEMUX → 각 메모리 칩 CS 신호
   주소 상위 비트로 메모리 블록 선택
-  
+
   예: A15-A14 = 00 → RAM 0 선택
               = 01 → RAM 1 선택
               = 10 → ROM 선택
@@ -134,9 +134,9 @@ DEMUX를 이용한 논리함수 구현:
 예: F(A, B) = A'B + AB' (XOR)
 
   1:4 DEMUX + OR 게이트:
-  
+
   A → S1, B → S0, D = 1
-  
+
   Y0 = m0(A=0,B=0) = A'B' → 0
   Y1 = m1(A=0,B=1) = A'B  → 1 ─┐
   Y2 = m2(A=1,B=0) = AB'  → 1 ─┤ OR → F = XOR

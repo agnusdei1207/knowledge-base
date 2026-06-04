@@ -60,7 +60,7 @@ tags = ["studynote-operating-system"]
 
 ### 하드웨어 주소 번역 아키텍처 (STBR & STLR)
 
-세그멘테이션도 비연속 할당이므로, CPU 주소를 물리 주소로 번역해 줄 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/">세그먼트 테이블</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/">Segment Table</a>)</strong> 장부가 필요하다. 
+세그멘테이션도 비연속 할당이므로, CPU 주소를 물리 주소로 번역해 줄 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/">세그먼트 테이블</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/">Segment Table</a>)</strong> 장부가 필요하다.
 CPU는 `<세그먼트 번호(s), 오프셋(d)>`을 내뿜는다.
 
 ```text
@@ -92,7 +92,7 @@ CPU는 `<세그먼트 번호(s), 오프셋(d)>`을 내뿜는다.
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 번역과 비슷해 보이지만 결정적인 차이가 두 군데 있다. 
+**[다이어그램 해설]** [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 번역과 비슷해 보이지만 결정적인 차이가 두 군데 있다.
 1. **Limit 검사의 부활**: [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 프레임 크기(4KB)가 고정이므로 오프셋이 무조건 4KB 이하라는 게 수학적으로 보장되지만, 세그먼트는 조각 크기가 600바이트일 수도 1MB일 수도 있다. 따라서 장부에 적힌 고유의 **Limit(크기)** 값을 반드시 비교하는 하드웨어 회로가 동반된다. (이게 어긋날 때 나는 에러가 프로그래머의 주적 **Segmentation Fault** 다.)
 2. **단순 덧셈(+ 오프셋)**: [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 조각 크기가 일정해 그냥 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 결합(Bypass)을 하면 되지만, 세그먼트는 램 빈 곳 아무 데나(Base 주소가 제각각) 박혀있으므로 반드시 거대한 **가산기(Adder)** 회로를 통해 Base와 Offset을 덧셈 연산해야 물리 주소가 나온다.
 
@@ -127,7 +127,7 @@ CPU는 `<세그먼트 번호(s), 오프셋(d)>`을 내뿜는다.
 
 ### [Paged Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/367_paged_segmentation/) ([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기반 세그멘테이션) 의 융합
 
-70년대 인텔(Intel x86) 엔지니어들은 고민했다. "[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 0% 마법과, 세그멘테이션의 완벽한 보안/공유 마법을 둘 다 훔칠 순 없을까?" 
+70년대 인텔(Intel x86) 엔지니어들은 고민했다. "[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 0% 마법과, 세그멘테이션의 완벽한 보안/공유 마법을 둘 다 훔칠 순 없을까?"
 이 탐욕이 낳은 [돌연변이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) 아키텍처가 <strong>세그먼트를 다시 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>로 찢어버리는 '<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a> 기반 세그멘테이션'</strong>이다.
 
 1. 개발자의 `Main 함수(7MB)`를 하나의 세그먼트로 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 잘라 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/">세그먼트 테이블</a></strong>에 등록하여 R/X 보안 락을 깐깐하게 건다. (세그멘테이션의 장점 흡수)

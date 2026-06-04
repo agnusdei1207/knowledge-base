@@ -129,7 +129,7 @@ OS의 메인 메모리 관리에서는 쫓겨났지만, 특수한 웹 인프라 
    - 이 단순한 룰 하나가 거대 서버의 CPU 부하를 수십 % 덜어주며, Varnish Cache 같은 특수 목적 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 서버에서 FIFO는 LRU를 씹어 먹는 최강의 캐시 교체 엔진으로 돌변한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 스래싱과 맹목적 [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/)
-만약 내가 짠 C++ 프로그램이 `for` 루프를 돌면서 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 `0~10000`번 인덱스를 뱅글뱅글 돈다고 치자. 
+만약 내가 짠 C++ 프로그램이 `for` 루프를 돌면서 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 `0~10000`번 인덱스를 뱅글뱅글 돈다고 치자.
 OS가 미쳐서 FIFO로 메모리를 교체한다면, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 0번지가 가장 먼저 들어왔으므로 루프가 한 바퀴 돌 때마다 0번지가 스왑으로 쫓겨난다. 0번지를 다시 부르면 1번지가 쫓겨난다. 최악의 자해 공갈([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 영원히 터지며 코드가 기어가게 된다. FIFO는 루프(Loop) 구조를 가진 거의 모든 현대 프로그래밍 언어의 앙숙이다.
 
 - **📢 섹션 요약 비유**: 한 번 읽고 버리는 신문지(동영상/스트리밍)는 어제 산 신문부터 순서대로 버리는 FIFO가 최고입니다. 하지만 수시로 뒤적거려야 하는 백과사전(변수/루프)을 어제 샀다고 해서 제일 먼저 쓰레기통에 버렸다가는 숙제할 때마다 서점에 다시 뛰어가야 하는 생고생을 치릅니다.

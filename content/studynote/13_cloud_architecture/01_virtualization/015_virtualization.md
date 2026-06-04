@@ -112,7 +112,7 @@ tags = ["cloud_architecture"]
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
-실무에서 가상화 환경을 운영할 때 가장 흔히 겪는 장애는 '오버프로비저닝(Over-provisioning)'의 남용과 스토리지 I/O 병목이다. 
+실무에서 가상화 환경을 운영할 때 가장 흔히 겪는 장애는 '오버프로비저닝(Over-provisioning)'의 남용과 스토리지 I/O 병목이다.
 
 <strong>실무 의사결정 시나리오 및 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
 1. **자원 오버커밋(Over-commit)의 양날의 검**: 물리 서버의 RAM이 100GB일 때, [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 4개에 각각 30GB씩 총 120GB를 할당하는 것이 가상화의 핵심 마법(메모리 오버커밋)이다. 평소엔 VM들이 메모리를 다 안 쓰므로 문제가 없으나, 블랙프라이데이 이벤트 시 4개의 VM이 동시에 메모리를 100% 요구하면 물리 서버 전체가 뻗어버리는 대형 장애([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))가 발생한다. 실무에서는 CPU는 3:1 비율로 오버커밋을 허용하되, 메모리(RAM)는 절대 오버커밋을 허용하지 않는 보수적 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 정책이 안전하다.

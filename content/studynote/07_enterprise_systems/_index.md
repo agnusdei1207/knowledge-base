@@ -30,13 +30,13 @@ tags = ["studynote-enterprise-systems"]
 수십 개의 시스템을 점대점(Point-to-Point)으로 연결하면 복잡도가 $O(N^2)$으로 폭발한다. 이를 ESB(Enterprise Service Bus) 기반의 SOA(Service Oriented Architecture)로 전환하여 결합도를 끊어낸다.
 ```text
     [ Legacy Spaghetti vs Modern ESB Architecture / 레거시 스파게티 vs 현대적 ESB 아키텍처 ]
-    
+
     (Anti-pattern: Point-to-Point / 점대점 연결)  (Best Practice: Enterprise Service Bus / 모범 사례)
-    
+
        ERP <-----> CRM                           ERP        CRM         SCM
         ^   \   /   ^                             |          |           |
         |    \ /    |                        +----v----------v-----------v----+
-        |     X     |                        |      Message Bus (ESB)         | 
+        |     X     |                        |      Message Bus (ESB)         |
         |    / \    |                        |    (라우팅, 데이터 변환)       |
         v   /   \   v                        +----^----------^-----------^----+
        SCM <-----> BPM                            |          |           |

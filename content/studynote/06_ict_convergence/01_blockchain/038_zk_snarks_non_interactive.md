@@ -21,19 +21,19 @@ tags = ["studynote-ict-convergence"]
 ```
 대화형 ZKP (Interactive):
   증명자와 검증자가 여러 라운드 메시지 교환
-  
+
   증명자: 커밋(commit)
   검증자: 챌린지(challenge)
   증명자: 응답(response)
   -> 반복 (보안 요구 수준만큼)
-  
+
   문제: 블록체인 스마트 컨트랙트는
         실시간 상호작용 불가!
 
 비대화형 ZKP (Non-Interactive, NIZK):
   단 하나의 증명 메시지만 전송
   누구든 언제든 검증 가능
-  
+
   핵심 기술: Fiat-Shamir 휴리스틱
     챌린지를 랜덤 오라클(해시 함수)로 대체
     -> 챌린지를 증명자가 스스로 생성
@@ -52,14 +52,14 @@ zk-SNARK 시스템 구성:
    비밀 파라미터 τ (독성 폐기물)로 CRS 생성
    CRS = (pk, vk)
    -> τ는 반드시 안전하게 폐기되어야 함!
-   
+
    의식 (Ceremony): 수천 명이 참여해
    각자 랜덤성 기여 -> 일부만 정직해도 안전
-   
+
 2. 증명 (Prove):
    input(공개값) + witness(비밀값) + pk
    -> 증명 π 생성 (수백 바이트)
-   
+
 3. 검증 (Verify):
    input(공개값) + π + vk
    -> True/False (밀리초 단위)
@@ -87,10 +87,10 @@ Groth16 (Jens Groth, 2016):
 구조:
   QAP (Quadratic Arithmetic Program)로
   계산 문제를 다항식 제약으로 변환
-  
+
   예: "나는 x를 알고 있고 f(x) = y이다"
   -> 다항식 P(z)가 특정 조건 만족하는지 증명
-  
+
 한계:
   회로별 신뢰 설정 필요 (회로 변경 시 재설정)
   -> PLONK/Halo2는 Universal Setup으로 개선
@@ -111,11 +111,11 @@ PLONK (Permutations over Lagrange-bases
   Universal Setup (범용 설정):
     한 번 설정으로 모든 회로 사용 가능
     Groth16: 회로마다 별도 설정 필요
-  
+
   Updateable Setup (업데이트 가능):
     기존 CRS에 랜덤성 추가 가능
     신뢰 의식 반복 가능
-  
+
   증명 크기: ~500 바이트 (Groth16 192보다 큼)
   검증 시간: 비슷한 수준
 

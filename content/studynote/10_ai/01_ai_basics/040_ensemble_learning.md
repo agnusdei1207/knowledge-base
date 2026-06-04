@@ -27,7 +27,7 @@ tags = ["studynote-ai"]
 
 앙상블 해결책:
   Bias-Variance Trade-off 균형
-  
+
 오류 분해:
   총 오류 = 편향² + 분산 + 노이즈
 
@@ -65,7 +65,7 @@ Random Forest (랜덤 포레스트):
 
   특성 중요도 (Feature Importance) 제공:
     어떤 특성이 예측에 중요한지 측정 가능
-    
+
 Bootstrap 샘플 특성:
   n개 데이터 복원 추출 -> 평균 63.2% 포함
   나머지 36.8% = OOB(Out-of-Bag) 검증 데이터
@@ -103,7 +103,7 @@ XGBoost (eXtreme Gradient Boosting):
 LightGBM:
   - 리프 기반 트리 성장 (vs 레벨 기반)
   - 대규모 데이터 고속 처리
-  
+
 CatBoost:
   - 범주형 변수 자동 처리
 ```
@@ -121,11 +121,11 @@ Stacking (Stacked Generalization):
   1. 레이어 0 (Base Models):
      이질적 알고리즘 복수 훈련
      (RF, XGBoost, SVM, Neural Net 등)
-     
+
   2. 레이어 1 (Meta Model):
      Base 모델의 예측값을 새로운 특성으로 사용
      메타 학습기(Logistic Regression 등) 훈련
-     
+
   3. 최종 예측: 메타 모델 출력
 
 구조:

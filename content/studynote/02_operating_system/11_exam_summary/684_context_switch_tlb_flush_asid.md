@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">Context Switch</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a>)</strong>: CPU가 프로세스 A를 멈추고 프로세스 B로 제어권을 넘기는 작업. 이때 프로세스들의 고유한 '[페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)(CR3)'이 교체된다.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> (<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/">Translation Lookaside Buffer</a>)</strong>: "가상 주소 100번지는 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) 800번지다"라는 매핑 결과를 기억해 두는 CPU 안의 고속 캐시.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> Flush (플러시)</strong>: [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 안에 들어있는 이 매핑 정보들을 싹 다 지워버리는(Invalidate) 행위.
 
-- **필요성 (엉뚱한 집 찾아가기 방지)**: 
+- **필요성 (엉뚱한 집 찾아가기 방지)**:
   - 프로세스 A의 `가상 100번지`는 `물리 800번지`고, 프로세스 B의 `가상 100번지`는 `물리 900번지`다.
   - CPU가 A에서 B로 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)을 했다. 그런데 TLB에는 여전히 "가상 100 = 물리 800"이라는 A의 찌꺼기가 남아있다.
   - B 프로세스가 자기 변수(`가상 100`)를 읽으려고 할 때, CPU가 멍청하게 TLB만 믿고 `물리 800`을 읽어버리면? B 프로세스가 A 프로세스의 메모리를 훔쳐보게 되는 치명적 보안 사고가 터진다!

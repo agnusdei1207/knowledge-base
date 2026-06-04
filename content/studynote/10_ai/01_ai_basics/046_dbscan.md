@@ -29,7 +29,7 @@ k-means 한계:
 DBSCAN 핵심 아이디어:
   "밀도가 높은 지역 = 군집"
   밀도 기준 이하 = 이상치(Noise)
-  
+
   직관: 별이 모여 있는 곳 = 별자리
         홀로 떨어진 별 = 이상치
 
@@ -40,21 +40,21 @@ DBSCAN 핵심 아이디어:
 핵심 점 (Core Point):
   ε 반경 내 minPts개 이상 이웃
   → 밀도 충족 = 군집의 중심
-  
+
 경계 점 (Border Point):
   ε 반경 내 minPts 미만 이웃
   BUT 핵심 점의 ε 반경 내에 있음
   → 군집에 속하지만 중심 아님
-  
+
 잡음 점 (Noise Point):
   핵심 점도 아니고 경계 점도 아님
   → 이상치 (Outlier)
-  
+
 예: ε=1, minPts=3
 
   A•  •B       D•
   •C      •E        •F (F = Noise)
-  
+
   A,B,C가 서로 ε 내에 있고 각각 3개 이웃
   → A,B,C = Core Points → 같은 군집
   D,E = Border Points (핵심 점의 ε 내, 하지만 minPts 미달)
@@ -75,20 +75,20 @@ DBSCAN 알고리즘:
 
 의사코드:
   1. 모든 점 미방문(unvisited)으로 초기화
-  
+
   2. 각 점 P에 대해:
      이미 방문 → 건너뜀
      P를 방문 표시
-     
+
      N = ε-이웃(P)   (P에서 ε 내 모든 점)
-     
+
      if |N| < minPts:
        P = Noise (-1 표시)  # 나중에 경계점이 될 수도 있음
      else:
        새 군집 C 생성
        P를 C에 추가
        씨앗 집합 S = N
-       
+
        while S 비어있지 않음:
          Q = S에서 점 하나 꺼냄
          Q 미방문이면: Q를 방문 표시
@@ -100,7 +100,7 @@ DBSCAN 알고리즘:
 시간 복잡도:
   이웃 탐색 O(n log n) (공간 인덱스)
   전체: O(n log n)
-  
+
   최악 (인덱스 없음): O(n²)
   → 큰 데이터셋: KD-Tree, Ball Tree 사용
 
@@ -122,7 +122,7 @@ DBSCAN 알고리즘:
   1. 각 점의 k번째 (= minPts-1번째) 이웃 거리 계산
   2. 오름차순 정렬 → 그래프 시각화
   3. 팔꿈치(Elbow) 지점 = 적절한 ε
-  
+
   팔꿈치 전: 밀도 높은 지역 (군집 내부)
   팔꿈치 후: 급격히 증가 (이상치)
   팔꿈치: 군집 경계
@@ -131,24 +131,24 @@ minPts 선택:
   일반 규칙: minPts ≥ 차원 수 + 1
   2D: minPts = 3~5
   고차원: minPts = 더 크게
-  
+
   minPts 작으면: 작은 군집도 군집으로 인식
   minPts 크면: 큰 핵심 군집만 인식
 
 ε 영향:
   ε 너무 작음:
   → 거의 모든 점 = Noise
-  
+
   ε 너무 큼:
   → 모든 점 = 하나의 군집
 
 예: 지리 데이터
   위도/경도 포인트
   ε = 0.5km, minPts = 5
-  
+
   상업 지역: 점 밀집 → 군집
   외딴 집: Noise
-  
+
   k-거리 그래프로 ε = 0.5km 확인
 ```
 
@@ -161,7 +161,7 @@ minPts 선택:
 ```
 DBSCAN 한계:
   가변 밀도 군집: 하나의 ε으로 못 잡음
-  
+
   예:
   군집 A: 매우 촘촘 (밀도 높음)
   군집 B: 느슨함 (밀도 낮음)
@@ -172,12 +172,12 @@ HDBSCAN (Hierarchical DBSCAN):
   ε을 여러 값으로 시도
   → 계층적 군집 트리 생성
   → 안정적인 군집 자동 선택
-  
+
   장점:
   가변 밀도 처리
   k만 조정 (ε 불필요)
   더 강건한 군집
-  
+
   단점:
   DBSCAN보다 느림
 
@@ -223,24 +223,24 @@ OPTICS (Ordering Points To Identify Clustering Structure):
   import sklearn
   from sklearn.cluster import DBSCAN
   from sklearn.preprocessing import StandardScaler
-  
+
   # 정규화 (단위 통일)
   scaler = StandardScaler()
   X_scaled = scaler.fit_transform(transactions)
-  
+
   # DBSCAN 적용
   db = DBSCAN(eps=0.5, min_samples=10)
   labels = db.fit_predict(X_scaled)
-  
+
   # Noise = 이상 거래
   anomalies = transactions[labels == -1]
-  
+
   # 결과: 약 2% 이상 거래 탐지
 
 성능:
   정밀도(Precision): 87% (이상 탐지의 87%가 실제 이상)
   재현율(Recall): 73% (실제 이상의 73% 탐지)
-  
+
   k-means 대비:
   이상치 탐지 정밀도 20%p 향상
   (k-means는 Noise 개념 없어 이상치 군집에 포함)

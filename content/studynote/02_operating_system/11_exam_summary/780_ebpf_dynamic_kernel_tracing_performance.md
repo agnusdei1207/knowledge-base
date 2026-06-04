@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - 원래 BPF는 1990년대 `tcpdump` 도구에서 "수만 개의 패킷 중 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 80번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 패킷만 잡아라"라는 명령을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에서 빨리 거르기 위해 만든 필터였다.
   - 이를 확장(Extended)한 eBPF는 네트워크를 넘어 디스크 I/O, CPU [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/), 시스템 콜 등 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 모든 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/">함수 호출</a> 지점(Hook)</strong>에 이 필터 프로그램을 붙일 수 있게 만든 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내장형 미니 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 서버가 갑자기 렉이 걸린다. 원인을 찾기 위해 개발자가 `strace`(시스템 콜 추적기)를 켰다.
   - 그런데 이 `strace` 자체가 너무 무거워서, 켜는 순간 시스템 전체가 50배 느려지고 서버가 뻗어버렸다. 추적 도구가 오히려 시스템을 암살하는 "관측자 효과([Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) Effect)"가 발생한 것이다.
   - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)([LKM](/knowledge-base/studynote/02_operating_system/01_overview_architecture/067_lkm/))로 직접 추적 코드를 짜서 넣자니, 실수로 `while(1)` 루프를 잘못 짜거나 포인터 에러를 내면 서버 전체가 [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)(블루스크린)으로 죽어버린다.
@@ -32,7 +32,7 @@ tags = ["studynote-operating-system"]
   - **기존 트레이싱**: 공장([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))에서 물건이 잘 만들어지는지 보려고, 외부 감사관(유저 프로세스)이 공장 문을 열고 들어가서 컨베이어 벨트를 멈춰 세우고 물건을 하나씩 밖으로 꺼내서 검사하는 방식 (공장이 멈춤).
   - <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> 방식</strong>: 공장장([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))에게 "이 센서([eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 코드)를 컨베이어 벨트 위에 살짝 붙여두세요"라고 건네준다. 센서는 공장이 돌아가는 속도를 1도 방해하지 않고, 안에서 불량품 개수만 조용히 세어서 하루에 한 번 감사관의 스마트폰으로 요약 문자만 틱 보내주는 혁명적 관측법이다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 2014년 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 3.18부터 본격적으로 편입되었다. 클라우드와 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경이 극도로 복잡해지면서, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 외부에서 내부를 들여다볼 수 있는 거의 유일무이한 엑스레이(X-ray) 기술로 급부상했다.
 
 ```text

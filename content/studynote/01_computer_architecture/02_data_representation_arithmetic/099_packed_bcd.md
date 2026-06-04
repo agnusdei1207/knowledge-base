@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) (Packed [Binary Coded Decimal](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/))는 10진수 연산의 정확성을 유지하면서도 메모리 낭비를 최소화하기 위해 고안된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 인코딩 규격이다. 기본적인 2진화 10진수인 언팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) ([Unpacked BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/100_unpacked_bcd/))는 1바이트 안에 10진수 숫자 1개(4비트)만을 저장하고 상위 4비트를 존(Zone) 비트라는 무의미한 메타데이터로 낭비하는 치명적인 결함이 있었다. 
+팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) (Packed [Binary Coded Decimal](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/))는 10진수 연산의 정확성을 유지하면서도 메모리 낭비를 최소화하기 위해 고안된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 인코딩 규격이다. 기본적인 2진화 10진수인 언팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) ([Unpacked BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/100_unpacked_bcd/))는 1바이트 안에 10진수 숫자 1개(4비트)만을 저장하고 상위 4비트를 존(Zone) 비트라는 무의미한 메타데이터로 낭비하는 치명적인 결함이 있었다.
 
 금융과 같이 소수점 오차가 발생하면 안 되는 시스템에서는 순수 2진수 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 대신 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) 사용이 강제된다. 그러나 메인프레임 시대의 제약된 메모리 환경에서, 수억 건의 거래 기록을 언팩드 BCD로 저장하는 것은 디스크 공간의 50%를 허공에 날리는 것과 같았다. 이를 해결하기 위해 1바이트 공간을 상위 4비트(High Nibble)와 하위 4비트(Low Nibble)로 쪼개어 각각 독립된 숫자를 꽉 채워 넣는 팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) 구조가 등장하게 되었다.
 
@@ -57,7 +57,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-팩드 BCD는 공간을 얻은 대신 연산의 복잡도를 지불하는 전형적인 트레이드오프(Trade-off)를 가진다. 
+팩드 BCD는 공간을 얻은 대신 연산의 복잡도를 지불하는 전형적인 트레이드오프(Trade-off)를 가진다.
 
 | 비교 항목 | 언팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) (Unpacked) | 팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) (Packed) | 2진수 (Binary) |
 | :--- | :--- | :--- | :--- |

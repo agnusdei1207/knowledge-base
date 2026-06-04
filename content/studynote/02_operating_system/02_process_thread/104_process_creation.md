@@ -28,7 +28,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-프로세스 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Mode)에서 PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block)를 할당하고 메모리 구조를 구성하는 복잡한 과정이다. 
+프로세스 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Mode)에서 PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block)를 할당하고 메모리 구조를 구성하는 복잡한 과정이다.
 
 | 시스템 콜 | 역할 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 동작 | 결과 |
 |:---|:---|:---|:---|
@@ -70,7 +70,7 @@ tags = ["studynote-operating-system"]
 | <strong>자원 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a></strong> | `fork()` 직후 쉘이 I/O 리다이렉션 개입 용이 | 함수 파라미터(STARTUPINFO 등)로 명시적 제어 |
 | **메모리 복사** | [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) ([Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)) 최적화 필수 | 독립 공간 할당으로 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 복사 오버헤드 불필요 |
 
-유닉스의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(`ls | grep`)는 두 프로세스를 `fork`한 뒤 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 입출력을 변경하고 각각 `exec`로 넘기는 방식을 쓴다. 통합형은 이런 조작을 함수 파라미터 구조체에 우겨넣어야 해서 복잡도가 높아진다. 
+유닉스의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(`ls | grep`)는 두 프로세스를 `fork`한 뒤 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 입출력을 변경하고 각각 `exec`로 넘기는 방식을 쓴다. 통합형은 이런 조작을 함수 파라미터 구조체에 우겨넣어야 해서 복잡도가 높아진다.
 최근 리눅스 생태계는 단순한 `fork()`를 넘어, 어떤 자원을 부모와 공유할지 세밀하게 비트마스크로 제어하는 <strong><code>clone()</code></strong> 시스템 콜을 발전시켰다. [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) 같은 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기술은 바로 이 `clone()`의 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)([Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)) 격리 기능을 활용하여 가상 머신처럼 격리된 독립 프로세스 트리를 만들어낸다.
 
 - **📢 섹션 요약 비유**: 유닉스의 방식은 밀가루 반죽(fork)을 떼어낸 뒤 원하는 틀(exec)에 넣어 빵을 굽는 방식이고, 윈도우 방식은 처음부터 별도의 공장 라인(CreateProcess)을 돌려 바로 완성된 빵을 뽑아내는 방식이다.

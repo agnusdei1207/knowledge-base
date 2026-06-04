@@ -67,7 +67,7 @@ tags = ["studynote-network"]
 ### 1. H.323 우산 밑의 다중 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 패밀리
 
 H.323은 스스로 무언가를 하지 않고 하위 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)들을 지휘하는 감독이다.
-- **제어(Signaling) 파트**: 
+- **제어(Signaling) 파트**:
   - `H.225.0 RAS`: 게이트키퍼(통제 센터)와 단말 간의 등록(Registration), 권한(Admission), 상태(Status) 통신. (SIP의 `REGISTER`와 비슷).
   - `H.225.0 Call Setup`: 실제 두 단말기 간 전화벨을 울리고 끊는 호 제어. 웃긴 건 옛날 ISDN 유선 전화망 룰(`Q.931`)을 그대로 IP 위에 복붙해 놨다.
   - `H.245`: 통화가 연결된 후, 미디어 채널을 뚫고 코덱(Codec)을 협상하는 규격. (SIP의 `SDP` 역할).
@@ -121,7 +121,7 @@ H.323의 숨통을 끊어버린 기술적 패착이다.
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 1. **시나리오 — 구형 H.323 인프라와 새로운 유형의 SIP망 간의 CVI (Cloud Video Interop) 융합 브릿징**: 대기업 본사. 임원 회의실엔 15년 된 5,000만 원짜리 폴리콤(Polycom) H.323 화상 장비가 벽에 박혀있다. 그런데 재택근무하는 직원들은 노트북에서 MS 팀즈(Teams - [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/)/[WebRTC](/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/) 기반)를 쓴다. 내일 당장 사장님이 임원 회의실에서 재택 직원 100명과 화상 회의를 하겠다고 통보했다. 장비끼리 언어가 달라 연결이 안 된다.
-   - **판단**: 전 세계 엔터프라이즈 화상 망 관리자가 겪는 가장 끔찍한 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파편화 장애다. H.323 장비는 절대 스스로 팀즈 클라우드로 붙지 못한다. 실무 아키텍트는 펙시프(Pexip)나 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/)) 같은 벤더가 파는 <strong>CVI(Cloud Video Interop) 게이트웨이 구독권(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/">SaaS</a>)</strong>을 긴급하게 뚫어야 한다. 
+   - **판단**: 전 세계 엔터프라이즈 화상 망 관리자가 겪는 가장 끔찍한 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파편화 장애다. H.323 장비는 절대 스스로 팀즈 클라우드로 붙지 못한다. 실무 아키텍트는 펙시프(Pexip)나 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/)) 같은 벤더가 파는 <strong>CVI(Cloud Video Interop) 게이트웨이 구독권(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/">SaaS</a>)</strong>을 긴급하게 뚫어야 한다.
    임원실 H.323 장비가 `12345@teams.b2b.com` 이라는 가상 IP로 전화를 걸면(Dial-in), 펙시프 게이트웨이가 중간에서 무거운 H.323 이진수 신호를 받아, 가벼운 [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/)/[WebRTC](/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/) 텍스트 껍데기로 0.1초 만에 통역(Transcoding)하여 MS 팀즈 서버로 패킷을 꽂아주는 '우아한 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 세탁(Translation)'이 가동되어야 사장님의 분노를 막을 수 있다.
 
 2. **시나리오 — ISDN 유선망 철거와 미디어 게이트웨이(Voice Gateway)의 존버**: 구형 공공기관. 아직도 외부에서 걸려 오는 민원 전화망이 E1/T1(ISDN 구리선) 규격의 H.323 기반 전화 교환기(PBX)에 물려 있다. 망을 100% 최신 All-IP [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) 망으로 갈아엎는 프로젝트를 수주했다.

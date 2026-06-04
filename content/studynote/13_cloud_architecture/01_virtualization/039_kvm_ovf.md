@@ -22,7 +22,7 @@ tags = ["studynote-cloud-architecture"]
 KVM (Kernel-based Virtual Machine, 2007):
   Linux 커널 모듈 (kvm.ko, kvm-intel.ko)
   Type 1 하이퍼바이저 (베어메탈 수준 성능)
-  
+
 구성 요소:
   ┌─────────────────────────────────────┐
   │           Guest OS (VM)             │
@@ -64,7 +64,7 @@ Intel VT-x (Virtualization Technology):
   메모리 가상화: EPT(Extended Page Table)
     게스트 물리 주소 -> 호스트 물리 주소
     하드웨어 MMU 지원으로 오버헤드 최소화
-    
+
   I/O 가상화:
     완전 에뮬레이션 (QEMU): 범용, 느림
     반가상화 (virtio): 게스트 드라이버 필요, 빠름
@@ -85,25 +85,25 @@ Intel VT-x (Virtualization Technology):
 OVF (Open Virtualization Format):
   DMTF 표준 (VMware, Red Hat, IBM, Oracle)
   하이퍼바이저 독립적 VM 패키징
-  
+
 OVF 패키지 구성:
   .ovf (설명자): XML 기반 VM 메타데이터
     CPU, 메모리, 디스크, 네트워크 사양
   .vmdk/.qcow2 (디스크 이미지)
   .mf (매니페스트): 무결성 체크섬
-  
+
 OVA (Open Virtual Appliance):
   OVF 패키지를 하나의 TAR 파일로 압축
   배포·전송이 편리
-  
+
 활용:
   VM 이미지를 VMware ESXi -> KVM으로 이전
   또는 VMware <-> Hyper-V 교차 배포
-  
+
 변환:
   virt-v2v: VMware/Hyper-V -> KVM 변환
   qemu-img convert: vmdk -> qcow2 변환
-  
+
 예:
   ovftool --targetType=OVA vm.ovf vm.ova
   virt-v2v -i ova vm.ova -o local -of qcow2
@@ -120,24 +120,24 @@ QEMU (Quick Emulator):
   KVM 없이도 동작하는 에뮬레이터
   KVM과 결합 시: QEMU = I/O 에뮬레이션
                   KVM = CPU/메모리 가속
-  
+
 virtio (반가상화 드라이버):
   virtio-net: 가상 NIC (네이티브 대비 ~95% 성능)
   virtio-blk: 가상 블록 장치
   virtio-scsi: SCSI 에뮬레이션
-  
+
 libvirt API:
   virsh vm 관리 CLI:
     virsh list --all
     virsh start myvm
     virsh snapshot-create-as myvm snap1
-    
+
   Python SDK:
     import libvirt
     conn = libvirt.open('qemu:///system')
     dom = conn.lookupByName('myvm')
     dom.create()  # VM 시작
-    
+
 XML 기반 VM 정의:
   <domain type='kvm'>
     <memory unit='KiB'>1048576</memory>
@@ -162,7 +162,7 @@ OpenStack + KVM 프라이빗 클라우드:
 인프라:
   물리 서버 10대 (KVM 하이퍼바이저)
   OpenStack: Nova(컴퓨팅) + Neutron(네트워크)
-  
+
 VM 프로비저닝 흐름:
   1. 사용자: API로 VM 생성 요청
   2. Nova: 스케줄러로 최적 호스트 선택

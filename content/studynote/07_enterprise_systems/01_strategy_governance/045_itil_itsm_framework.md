@@ -41,7 +41,7 @@ ITIL 4 구조:
 
 서비스 가치 시스템 (SVS):
   외부 기회/수요 → 가치 창출
-  
+
   구성 요소:
   - 거버넌스 (Governance)
   - 서비스 가치 체인 (SVC)
@@ -67,11 +67,11 @@ ITIL 4 주요 관리 관행:
 
 인시던트 관리 (Incident Management):
   목적: 비정상적 서비스 복구
-  
+
   흐름:
   인시던트 발생 → 분류/우선순위
   → 조사/진단 → 해결 → 종료
-  
+
   SLA 준수:
   P1 (Critical): 1시간 내 해결
   P2 (High): 4시간
@@ -79,21 +79,21 @@ ITIL 4 주요 관리 관행:
 
 문제 관리 (Problem Management):
   목적: 인시던트 근본 원인 제거
-  
+
   반응적: 반복 인시던트 → 근본 원인 분석
   예방적: 잠재 문제 사전 식별
-  
+
   RCA (Root Cause Analysis):
   5 Whys, 피시본(Ishikawa) 다이어그램
 
 변경 가능화 (Change Enablement):
   목적: 위험 최소화하며 변경 구현
-  
+
   변경 유형:
   - 표준 변경: 사전 승인 (낮은 위험)
   - 일반 변경: CAB 승인 필요
   - 긴급 변경: ECAB 긴급 승인
-  
+
   CAB: Change Advisory Board
 
 서비스 데스크 (Service Desk):
@@ -175,7 +175,7 @@ CMDB 활용:
   CI 관계 맵:
   서버A ──(호스팅)──> 애플리케이션X
   애플리케이션X ──(의존)──> 데이터베이스Y
-  
+
   변경 영향 분석:
   "서버A 패치 → 어떤 서비스 영향?"
   → CMDB 관계 조회 → 영향 범위 자동 계산
@@ -183,14 +183,14 @@ CMDB 활용:
 인시던트 자동화:
   모니터링 경보 → ServiceNow API → 인시던트 자동 생성
   AI 분류기 → 우선순위·담당자 자동 배정
-  
+
   MTTR 단축:
   수동 생성: 15분 → 자동 생성: 2분
 
 지식 관리:
   반복 인시던트 → 지식 베이스 문서화
   → 검색 → 1차 해결율 향상
-  
+
   KPI:
   FCR (First Contact Resolution): 70%+ 목표
   CSAT (Customer Satisfaction): 4.0/5.0 이상

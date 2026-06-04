@@ -127,8 +127,8 @@ Reconciliation Loop
 
 ## 어린이를 위한 3줄 비유 설명
 
-[오퍼레이터](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/)는 화분을 대신 돌보는 로봇이에요.  
-물이 부족하면 물을 주고, 잎이 시들면 다시 챙겨요.  
+[오퍼레이터](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/)는 화분을 대신 돌보는 로봇이에요.
+물이 부족하면 물을 주고, 잎이 시들면 다시 챙겨요.
 그래서 계속 같은 모습으로 유지할 수 있어요.
 
 ---

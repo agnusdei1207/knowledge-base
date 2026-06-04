@@ -28,17 +28,17 @@ tags = ["studynote-operating-system"]
   [우선순위 역전 현상의 발생 타임라인 (H, M, L 태스크)]
 
   [ 우선순위: H(높음) > M(중간) > L(낮음) ]
-  
+
   시간 1: L 실행 시작 ─▶ 공유 자원 'DB' 락(Lock) 획득
   시간 2: H 가 도착함 ─▶ H가 L을 쫓아내고(선점) CPU 차지
   시간 3: H 가 'DB'에 접근 시도 ─▶ L이 락을 쥐고 있으므로 H는 대기(Block) 상태로 빠짐
   시간 4: L 이 다시 CPU를 잡아 락을 풀려고 함
   시간 5: 🚨 이때 M 이 도착함! ─▶ M의 우선순위가 L보다 높으므로 L을 쫓아냄!
   시간 6: M 이 CPU를 독점하며 긴 연산을 시작함.
-  
+
   [결과적 재앙]
   ▶ M은 락과 아무 상관없는 놈인데, L이 락을 푸는 걸 막아버림.
-  ▶ 최고 권력자 H는 M의 연산이 다 끝나고 L이 락을 풀 때까지 영원히 멈춤. 
+  ▶ 최고 권력자 H는 M의 연산이 다 끝나고 L이 락을 풀 때까지 영원히 멈춤.
   ▶ "M이 H를 멈추게 한" 실질적인 신분 역전 발생!
 ```
 **[다이어그램 해설]** H가 L을 기다리는 것 자체는 역전이 아니다(락의 정상적인 동작이다). 진짜 문제는 중간에 낀 M이다. M은 H보다 계급이 낮으면서도, H가 볼일을 보지 못하게 간접적으로 방해(L을 묶어둠)하는 엄청난 권력을 행사하게 된다. 이 도미노 현상은 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 많아질수록 걷잡을 수 없이 길어지며 시스템을 완벽히 마비시킨다.
@@ -56,7 +56,7 @@ tags = ["studynote-operating-system"]
 #### 1. 우선순위 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (PIP, [Priority Inheritance](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))
 가장 대중적이고 현대 리눅스(`PREEMPT_RT`) 및 거의 모든 RTOS가 사용하는 기본 해결책이다.
 - **동작 원리**: H가 L이 쥔 락을 달라고 요청(Block)하는 그 찰나의 순간, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 L의 우선순위를 일시적으로 <strong>H의 우선순위와 똑같이 뻥튀기(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a>)</strong> 시켜준다.
-- **마법의 효과**: L이 갑자기 VIP(H급)가 되었으므로, 중간에 찌질한 M이 나타나도 L을 쫓아낼(선점할) 수 없게 된다. 
+- **마법의 효과**: L이 갑자기 VIP(H급)가 되었으므로, 중간에 찌질한 M이 나타나도 L을 쫓아낼(선점할) 수 없게 된다.
 - **결말**: L은 M의 방해를 받지 않고 무사히 CPU를 다 써서 락을 푼다. 락을 푸는 순간 L은 다시 원래의 천민 계급으로 돌아가고, 기다리던 H가 즉시 락을 쥐고 실행된다.
 
 #### 2. [우선순위 올림](/knowledge-base/studynote/02_operating_system/04_synchronization/244_priority_ceiling_protocol/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (PCP, [Priority Ceiling Protocol](/knowledge-base/studynote/02_operating_system/04_synchronization/244_priority_ceiling_protocol/))
@@ -115,8 +115,8 @@ PIP보다 더 엄격하고 강력한(그리고 무거운) 방식이다.
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. <strong>자바(Java) 백엔드 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>의 블로킹과 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/">PI</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/">Priority Inheritance</a>)</strong>: 일반 Java `synchronized` 블록이나 `ReentrantLock`도 내부적으로 OS의 [pthreads](/knowledge-base/studynote/02_operating_system/11_exam_summary/790_posix_threads_pthreads_standard_api/) 뮤텍스를 매핑하여 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에, 최신 OS(Linux/Windows) 위에서 돌면 자동으로 <strong>우선순위 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a></strong> 혜택을 받는다. 즉, 개발자가 멀티스레드 프로그래밍을 할 때 무심코 락을 걸어도 우선순위 역전으로 인해 서버가 완전히 행(Hang)이 걸리는 사태를 OS가 밑바닥에서 몰래 막아주고 있는 것이다. 
-2. **화성 탐사선 패스파인더 디버깅 (전설의 실무 해결)**: 패스파인더의 OS인 VxWorks는 '우선순위 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(PIP)' 기능을 가지고 있었으나, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(오버헤드)을 아끼겠다고 기본적으로 이 옵션을 `OFF` 해두었다. 
+1. <strong>자바(Java) 백엔드 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>의 블로킹과 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/">PI</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/">Priority Inheritance</a>)</strong>: 일반 Java `synchronized` 블록이나 `ReentrantLock`도 내부적으로 OS의 [pthreads](/knowledge-base/studynote/02_operating_system/11_exam_summary/790_posix_threads_pthreads_standard_api/) 뮤텍스를 매핑하여 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에, 최신 OS(Linux/Windows) 위에서 돌면 자동으로 <strong>우선순위 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a></strong> 혜택을 받는다. 즉, 개발자가 멀티스레드 프로그래밍을 할 때 무심코 락을 걸어도 우선순위 역전으로 인해 서버가 완전히 행(Hang)이 걸리는 사태를 OS가 밑바닥에서 몰래 막아주고 있는 것이다.
+2. **화성 탐사선 패스파인더 디버깅 (전설의 실무 해결)**: 패스파인더의 OS인 VxWorks는 '우선순위 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(PIP)' 기능을 가지고 있었으나, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(오버헤드)을 아끼겠다고 기본적으로 이 옵션을 `OFF` 해두었다.
    - 화성에서 리셋 버그가 터지자, 지구의 나사(NASA) 엔지니어들은 우주선에 원격으로 접속해 C 셸([Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/))을 띄우고, [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 뮤텍스의 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 변수를 찾아 메모리 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Memory Poke) 명령어로 PIP 옵션을 `ON`으로 토글(Toggle)시켰다.
    - 단 1비트를 바꾸자마자 기상 관측 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 통신 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 선점을 이겨내고 락을 반환했고, 화성 탐사선은 완벽하게 수리되어 임무를 완수했다. (아키텍트의 이론적 깊이가 2억 5천만 킬로미터 밖의 하드웨어를 살려낸 사례다.)
 

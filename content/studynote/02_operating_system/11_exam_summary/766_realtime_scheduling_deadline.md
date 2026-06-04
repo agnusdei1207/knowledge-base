@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - 일반적인 범용 OS(Windows, 일반 Linux)는 여러 프로그램에 공평하게(Fairness) 자원을 나누어주고 응답 시간을 '최대한' 줄이는 데(Best-effort) 집중한다.
   - 반면 실시간 OS (RTOS)는 특정 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 요청되었을 때, 무조건 약속된 **마감 시간(Deadline)** 이전에 실행을 보장(Guarantee)하는 데 모든 아키텍처를 희생(올인)한다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 자율 주행 자동차가 카메라로 100ms마다 보행자를 인식해야 한다(주기 100ms).
   - 일반 OS는 갑자기 백그라운드에서 백신 검사가 돌거나 디스크 조각 모음이 시작되면, 카메라 처리 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)를 잠깐 멈추고 다른 일을 한다. 결과적으로 보행자 인식이 150ms 만에 끝났다.
   - **결과**: 처리는 끝났지만 차는 이미 보행자를 쳤다. "늦은 정답은 오답보다 나쁘다."
@@ -32,7 +32,7 @@ tags = ["studynote-operating-system"]
   - **일반 스케줄링 (공평함)**: 우체국 창구에 사람들이 줄을 서면, 직원은 최대한 빨리 한 명씩 골고루 업무를 처리한다. (기다리면 언젠가는 처리됨).
   - **실시간 스케줄링 (데드라인)**: 심장 이식 수술을 위한 응급 헬기다. 10분 안에 병원에 도착하지 못할 거라면 차라리 출발을 안 하는 게 낫다. 길(CPU)에 아무리 차가 많아도 무조건 다 밀어버리고 10분 안에 도착하는 것만이 유일한 목적이다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 1970년대 Liu와 Layland가 발표한 논문에서 RM과 [EDF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 수학적으로 증명되었고, 항공우주, 군사, 통신 장비를 위한 VxWorks, QNX 같은 상용 RTOS의 뼈대가 되었다.
 
 ```text

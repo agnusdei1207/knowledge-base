@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/">가비지 컬렉션</a> (GC)</strong>: [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/)([Flash Translation Layer](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/)) 내부에서 수행되는 여유 공간 확보 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/).
   - <strong>Valid <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a></strong>: 현재 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)(LBA)와 정상적으로 맵핑되어 있는 실제 유효한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/).
   - <strong>Invalid <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> (Garbage)</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 수정되어 새로운 곳에 쓰이면서, 예전 자리에 버려진(연결이 끊긴) 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/).
 
-- **필요성 (쓰레기장과 빗자루의 한계)**: 
+- **필요성 (쓰레기장과 빗자루의 한계)**:
   - 낸드 플래시는 4KB 단위로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓸(Program) 수는 있지만, **지울 때(Erase)는 무조건 수 MB 크기의 블록(Block) 단위로만 지워야 한다.**
   - SSD를 쓰다 보면 1MB짜리 블록 안에 Valid [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)와 Invalid [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 바둑판처럼 섞이게 된다.
   - 빈 공간이 모자란다고 이 블록을 그냥 지워버리면, 그 안에 섞여 있던 Valid(살아있는) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)까지 몽땅 날아가는 대형 사고가 터진다.

@@ -19,7 +19,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-현대 소프트웨어 개발은 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))와 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))의 결합으로 하루에도 수십 번씩 코드가 배포된다. 코드가 커밋되면 자동으로 통합하고 빌드하는 `CI (Continuous Integration)` 과정에서 가장 큰 병목은 '[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지 빌드 시간'이다. 
+현대 소프트웨어 개발은 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))와 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))의 결합으로 하루에도 수십 번씩 코드가 배포된다. 코드가 커밋되면 자동으로 통합하고 빌드하는 `CI (Continuous Integration)` 과정에서 가장 큰 병목은 '[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지 빌드 시간'이다.
 
 만약 개발자가 오타 하나를 고쳐서 커밋했을 때, [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)가 베이스 OS부터 시작해 수천 개의 `npm` [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이나 `Maven` [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 처음부터 다시 다운로드받고 컴파일한다면 어떻게 될까? 개발자는 배포가 끝날 때까지 20분을 멍하니 기다려야 하며, 클라우드 빌드 서버의 요금은 폭발적으로 증가한다. 이러한 비효율을 타파하기 위해 "이미 만들어둔 조각은 다시 만들지 말고 재사용하자"는 철학에서 빌드 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 최적화 기법이 필수 아키텍처로 자리 잡았다.
 
@@ -79,7 +79,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 빌드 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 설계 시, '속도'와 '의존성 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)' 사이의 치밀한 판단이 필요하다. 
+실무에서 빌드 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 설계 시, '속도'와 '의존성 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)' 사이의 치밀한 판단이 필요하다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 의사결정
 

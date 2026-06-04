@@ -24,7 +24,7 @@ tags = ["studynote-it-management"]
     기존 비즈니스 최적화
     효율, 수익성 극대화
     안정적 프로세스
-    
+
   미래를 위한 탐색 (Exploration):
     신기술, 신시장 발굴
     실험과 학습 (실패 허용)
@@ -35,7 +35,7 @@ tags = ["studynote-it-management"]
   시장 변화에 뒤처짐
   탐색에 집중하면 혁신적이지만
   수익화 실패
-  
+
 해결:
   양손잡이 조직 = 두 역량 동시 보유
 ```
@@ -49,21 +49,21 @@ tags = ["studynote-it-management"]
 ```
 구조적 양손잡이성 (Structural Ambidexterity):
   탐색 조직과 활용 조직을 물리적으로 분리
-  
+
   예: Amazon
     AWS (클라우드 혁신 사업부)
     vs Amazon.com (기존 이커머스 운영)
-    
+
   예: Google/Alphabet
     X (문샷 프로젝트)
     vs Google Core (검색, 광고)
 
 맥락적 양손잡이성 (Contextual Ambidexterity):
   같은 개인이 상황에 따라 활용/탐색 전환
-  
+
   예: Netflix
     엔지니어가 현재 플랫폼 유지 + 신기술 실험
-  
+
   조건:
     높은 심리적 안전
     자율성과 책임 문화
@@ -87,7 +87,7 @@ tags = ["studynote-it-management"]
     기존 IT 시스템 운영
     안정성, 보안, 신뢰성 중심
     워터폴, ITIL 프로세스
-    
+
   Mode 2 (혁신형):
     신기술 탐색, 디지털 혁신
     속도, 실험, 민첩성 중심
@@ -141,11 +141,11 @@ Horizon 3 (H3): 미래 옵션 탐색
 구조적 양손잡이 구현:
   코어뱅킹 팀: ITIL, 변경관리, 안정성 최우선
     -> 99.99% 가용성, 1년에 2번 릴리스
-    
+
   디지털혁신 팀 (별도 자회사 또는 Lab):
     -> 애자일, 매주 릴리스
     -> 핀테크 스타트업 수준 스피드
-    
+
   통합 레이어:
     API 게이트웨이로 코어뱅킹과 디지털 채널 연결
     데이터 플랫폼 공유

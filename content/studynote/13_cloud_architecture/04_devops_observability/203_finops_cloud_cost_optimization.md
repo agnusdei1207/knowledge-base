@@ -122,7 +122,7 @@ import boto3
 
 def lambda_handler(event, context):
     ec2 = boto3.client('ec2')
-    
+
     # 태그 'AutoShutdown=true'인 인스턴스 조회
     instances = ec2.describe_instances(
         Filters=[
@@ -130,7 +130,7 @@ def lambda_handler(event, context):
             {'Name': 'instance-state-name', 'Values': ['running']}
         ]
     )
-    
+
     # 주말·야간 스케줄에 따라 종료
     for reservation in instances['Reservations']:
         for instance in reservation['Instances']:

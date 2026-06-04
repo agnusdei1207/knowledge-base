@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">Synchronization</a>)</strong>: 다수의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 협력하여 일할 때, 서로의 작업 순서를 맞추거나 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 파괴를 막기 위해 조율하는 모든 기법.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">Mutual Exclusion</a>, <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/">Mutex</a>)</strong>: [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)의 부분집합으로, "내가 화장실에 들어가 있으면([임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)), 다른 누구도 화장실 문을 열고 들어올 수 없다"는 독점적 접근 보장 원칙.
 
-- **필요성 (멀티스레딩의 치명적 부작용)**: 
-  - 멀티스레드의 장점은 메모리([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) 영역)를 공유한다는 점이다. 
+- **필요성 (멀티스레딩의 치명적 부작용)**:
+  - 멀티스레드의 장점은 메모리([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) 영역)를 공유한다는 점이다.
   - 하지만 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 통장 잔고(1만 원)를 읽어서 5,000원을 더하려는 찰나(연산 중), [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 동시에 잔고(1만 원)를 읽어서 3,000원을 빼버리고 저장했다 치자. A가 연산을 끝내고 15,000원을 덮어써 버리면 B가 출금한 기록은 영원히 허공으로 증발한다 ([Lost Update](/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/)).
   - **해결책**: "통장 잔고를 읽고 쓰는 그 찰나의 시간([임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))에는, OS가 보증하는 강철 자물쇠([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))를 채워 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 꼼짝없이 밖에서 기다리게 만들자!"
 
@@ -118,7 +118,7 @@ tags = ["studynote-operating-system"]
 
 1. **시나리오 — 티켓 예매 시스템의 초과 예매(Overbooking) 사태**: 아이돌 콘서트 티켓 100장을 오픈했다. 수만 명이 동시에 "예매" 버튼을 눌렀는데, DB에 남은 티켓이 0장인데도 105명에게 "예매 성공"이 떨어짐.
    - **원인 분석**: 전형적인 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 실패([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))다. 티켓이 1장 남았을 때, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 5개가 동시에 `if (ticket > 0)` 코드를 통과해버렸다. 그리고 5명 모두 `ticket--`를 실행해 버린 것이다.
-   - <strong>아키텍처 적용 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a> 강제)</strong>: 
+   - <strong>아키텍처 적용 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a> 강제)</strong>:
      - 1) 애플리케이션 레벨: Java의 `synchronized` 블록이나 `ReentrantLock`을 사용하여 티켓 차감 로직([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))을 단 1명의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)만 진입하도록 강제 직렬화시킨다.
      - 2) DB 레벨 (더 흔함): DB 쿼리를 쏠 때 `SELECT ... FOR UPDATE` 구문을 사용하여 DB의 레코드(Row) 자체에 배타적 락(X-[Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 달성한다. (티켓 초과 예매 완벽 차단)
 

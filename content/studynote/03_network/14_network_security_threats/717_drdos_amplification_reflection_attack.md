@@ -78,7 +78,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- DRDoS는 구조상 <strong>절대적으로 <a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 통신 프로토콜만 악용</strong>할 수 있습니다. 
+- DRDoS는 구조상 <strong>절대적으로 <a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 통신 프로토콜만 악용</strong>할 수 있습니다.
 - 만약 TCP였다면 서버가 "진짜 연결할 거야?"라고 3-way 핸드셰이크를 거치므로 IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 꼼수가 즉시 들통납니다. 하지만 UDP는 묻지도 따지지도 않고 답장(응답)을 휙 던져버리는 특성이 있어 반사 공격의 완벽한 먹잇감이 됩니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

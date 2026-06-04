@@ -73,7 +73,7 @@ CPU가 주소를 뱉었을 때, 이게 진짜 램으로 갈지 그래픽 카드�
 - **CPU 캐시의 배신**: 똑똑한 CPU 하드웨어는 메모리에 쓸 때 램이나 랜카드까지 매번 전기를 보내면 느리다고 생각한다. 그래서 L1 캐시에만 슬쩍 `1`이라고 적어놓고 나중에 천천히 보내야지 하고 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>(<a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/">Write-back</a>)</strong>를 해버린다.
 - **결과**: CPU 캐시에만 `1`이 찍혀 있고, 정작 진짜 랜카드의 전원 스위치로는 전기가 날아가지 않는다! 랜카드가 안 켜져서 인터넷이 끊긴 채 시스템이 무한 대기에 빠진다.
 - **해결책**:
-  MMIO를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)할 때, OS는 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리(PTE)에 반드시 <strong>"이 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>는 하드웨어랑 직통하는 곳이니, L1/L2 캐시를 절대 타지 말고 무조건 다이렉트로 전기를 꽂아라!(Uncacheable <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>)"</strong> 라는 특수 락을 걸어야만 한다. 
+  MMIO를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)할 때, OS는 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리(PTE)에 반드시 <strong>"이 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>는 하드웨어랑 직통하는 곳이니, L1/L2 캐시를 절대 타지 말고 무조건 다이렉트로 전기를 꽂아라!(Uncacheable <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>)"</strong> 라는 특수 락을 걸어야만 한다.
 
 - **📢 섹션 요약 비유**: 사장님(CPU)이 비서(캐시)에게 "공장 기계 멈춰!"라고 지시했는데, 똑똑한 비서가 "사장님, 지금 바쁘니까 이따 모아서 한꺼번에 전달할게요([Write-back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/) [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))" 하고 명령을 서랍에 넣어버렸습니다. 공장 기계는 계속 돌아가서 대형 사고가 터지죠. MMIO 지시는 봉투에 "비서 절대 거치지 말고 즉시 직접 전달!(Uncacheable)"이라는 빨간 딱지를 붙여야만 생명이 보장됩니다.
 
@@ -103,7 +103,7 @@ CPU가 주소를 뱉었을 때, 이게 진짜 램으로 갈지 그래픽 카드�
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: DPDK와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 우회([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass) 네트워크 튜닝
-1. **기존 리눅스 네트워크의 한계**: 
+1. **기존 리눅스 네트워크의 한계**:
    - 1초에 천만 개의 패킷이 쏟아지는 통신사 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 라우터나 증권사 트레이딩 서버를 켰다.
    - 랜카드로 패킷이 들어올 때마다 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 터지고, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼에 담긴 뒤, 다시 유저 램으로 복사된다. 이 과정에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 문맥 교환을 하느라 CPU 100%를 찍고 서버가 녹아내린다.
 2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/">DPDK</a> (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Plane Development Kit)의 MMIO 흑마술</strong>:
@@ -111,7 +111,7 @@ CPU가 주소를 뱉었을 때, 이게 진짜 램으로 갈지 그래픽 카드�
    - 랜카드의 수신 버퍼 링(Ring)을 <strong>MMIO와 <code>mmap</code></strong>을 융합하여, 아예 유저 스페이스(C언어 앱)의 힙 메모리로 다이렉트 웜홀을 뚫어버렸다.
 3. <strong>결과 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> Bypass)</strong>:
    - 랜카드 칩셋이 패킷을 잡으면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 아예 거치지도 않고 내 C언어 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) `packet_buf[0]`에 물리적 빛의 속도로 꽂혀버린다!
-   - [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 0회, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사 0회, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 0회. 
+   - [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 0회, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사 0회, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 0회.
    - 유저 프로그램은 무한 `while` 루프를 돌며 내 메모리 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)만 쳐다보고([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 있다가, 값이 바뀌는 순간 0.0001ms 만에 패킷을 낚아채서 처리한다. 오늘날 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 네트워크 장비를 지탱하는 극한의 MMIO 활용 실무다.
 
 ### [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) BAR (Base Address [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)

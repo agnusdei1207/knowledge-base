@@ -16,7 +16,7 @@ tags = ["ict_convergence"]
 
 #### 1-1. 클라우드 컴퓨팅의 탄생과 확산
 
-클라우드 컴퓨팅의 개념적 뿌리는 1960년대 존 맥카시 (John McCarthy)가 예언한 "컴퓨팅은지조 공공사업처럼 될 것이다"에소ります. 하지만Amazon이 2006년 Amazon Web Services (AWS)를 launched하고 EC2 (Elastic Compute Cloud)와 S3 (Simple Storage Service)를 본격적으로サービス개시하면서 현대적 의미의 클라우드 시대가 열렸다. 
+클라우드 컴퓨팅의 개념적 뿌리는 1960년대 존 맥카시 (John McCarthy)가 예언한 "컴퓨팅은지조 공공사업처럼 될 것이다"에소ります. 하지만Amazon이 2006년 Amazon Web Services (AWS)를 launched하고 EC2 (Elastic Compute Cloud)와 S3 (Simple Storage Service)를 본격적으로サービス개시하면서 현대적 의미의 클라우드 시대가 열렸다.
 
 이전까지 기업들은 서버를 구매하고 데이터센터에 설치하며 운영체제, 미들웨어, 애플리케이션까지 직접 관리해야 했다. 이러한 온프레미스 (On-premise) 방식은 몇 가지 구조적 한계를 가진다. 첫째, 예상 트래픽의 Peak 기준으로 인프라를 구매하므로 평소에는자원적랑비가 발생한다. 둘째, 신규 서비스 출시까지 서버 구매, 설치, 네트워크 구성에 수개월이 소요되어 비즈니스 민첩성이 떨어진다. 셋째,돌발적 트래픽 증가에 즉각 대응하기 어렵다.
 

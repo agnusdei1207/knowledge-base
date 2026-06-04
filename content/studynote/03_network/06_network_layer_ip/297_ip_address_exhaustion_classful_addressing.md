@@ -40,7 +40,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 클라스풀(Classful) 주소 체계의 설계
-IP 주소 32비트는 "동네 번호(Network ID)"와 "그 동네 안의 집 번호(Host ID)"로 나뉜다. 
+IP 주소 32비트는 "동네 번호(Network ID)"와 "그 동네 안의 집 번호(Host ID)"로 나뉜다.
 초창기 학자들은 이 경계선을 유연하게 옮길 생각을 못 하고, 칼같이 8비트(1바이트) 단위로만 경계를 쪼개어 A, B, C 클래스로 고정(Hardcoding)해 버렸다.
 
 - **A 클래스**: `[Net 8비트] . [Host 24비트]` ──▶ 1개 동네에 무려 <strong>16,777,214대</strong>의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 연결 가능. (초대기업용)
@@ -48,7 +48,7 @@ IP 주소 32비트는 "동네 번호(Network ID)"와 "그 동네 안의 집 번�
 - **C 클래스**: `[Net 24비트] . [Host 8비트]` ──▶ 1개 동네에 <strong>254대</strong>의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 연결 가능. (소규모 PC방, 소기업용)
 
 ### 2. 주소 낭비의 치명적 딜레마
-전 세계 대부분의 회사는 직원 수가 300명 ~ [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000명 사이다. 
+전 세계 대부분의 회사는 직원 수가 300명 ~ [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000명 사이다.
 - 직원이 300명인 회사는 C 클래스(254대)를 쓸 수가 없다. PC가 46대 모자라기 때문이다.
 - 그래서 IANA(주소 할당 기구)에 "저 B 클래스 하나만 주세요!"라고 해서 65,534개짜리 B 클래스를 받아갔다.
 - 이 회사는 300개의 IP만 쓰고 나머지 **65,234개의 금 같은 IP를 허공에 날려버렸다.** 아무도 이 주소를 쓸 수 없다.

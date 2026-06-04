@@ -45,7 +45,7 @@ ZK-Rollup 동작:
 
 대표 프로젝트:
   Polygon zkEVM, zkSync Era, StarkNet, Scroll
-  
+
 ZK-Rollup vs Optimistic Rollup:
   ZK: 즉시 최종성, 증명 생성 비용 높음
   Optimistic: 7일 대기 기간, 사기 증명 필요
@@ -64,9 +64,9 @@ ZK-Rollup vs Optimistic Rollup:
 개념:
   증명자(Prover): 비밀 정보 알고 있음
   검증자(Verifier): 비밀 모름
-  
+
   ZKP: 비밀을 공개하지 않고 "알고 있음"을 수학적 증명
-  
+
   3가지 속성:
   1. 완전성(Completeness): 진실이면 검증자 확신
   2. 건전성(Soundness): 거짓이면 속일 수 없음
@@ -75,10 +75,10 @@ ZK-Rollup vs Optimistic Rollup:
 직관적 예시 — 색깔 맹인과 공:
   Alice: 빨간 공, 초록 공 보유 (빨간 = 비밀)
   Bob (색맹): 두 공 구별 불가
-  
+
   ZKP: Bob이 등 뒤에서 공 교체 or 유지
   Alice: 교체 여부 맞춤 (색으로 판단)
-  
+
   100번 반복 → 모두 맞추면:
   Alice가 실제 색 구별한다는 것을 증명
   Bob은 Alice가 빨강/초록 어느 것인지 여전히 모름
@@ -86,7 +86,7 @@ ZK-Rollup vs Optimistic Rollup:
 블록체인 응용:
   계산: 1000건 트랜잭션 처리 정확성
   증명: "모든 트랜잭션이 유효하다" (수식으로)
-  
+
   메인넷: 수식만 검증 → 빠르고 저렴
   개별 트랜잭션 검증 불필요
 ```
@@ -105,17 +105,17 @@ zk-SNARK (Succinct Non-interactive ARgument of Knowledge):
   Non-interactive: 단방향 (증명자 → 검증자)
   ARgument: 계산 가정 하에 건전성
   Knowledge: 비밀 지식 증명
-  
+
 장점:
   증명 크기 작음 → 온체인 가스비 저렴
   검증 빠름
-  
+
 단점:
   Trusted Setup (신뢰된 셋업) 필요
   특수 파라미터 생성 행사 필요
   파라미터 생성 참여자가 결탁하면 보안 취약
   → "독성 폐기물 (Toxic Waste)" 문제
-  
+
   양자 컴퓨터 취약 (Elliptic Curve 기반)
 
 대표: Groth16 (Zcash), PLONK (zkSync)
@@ -126,11 +126,11 @@ zk-STARK (Scalable Transparent ARgument of Knowledge):
   Scalable: 증명 크기 O(log²n) 스케일
   Transparent: Trusted Setup 불필요
   ARgument of Knowledge: 같음
-  
+
 장점:
   Trusted Setup 없음 → 완전 투명
   양자 내성 (해시 함수 기반)
-  
+
 단점:
   증명 크기 큼 (수십~수백 KB)
   → 온체인 비용 높음
@@ -161,16 +161,16 @@ ZK-Rollup 프로젝트 현황:
    zkEVM 타입 3 (EVM 호환)
    zk-SNARK + PLONK 증명 시스템
    TVL: 수억 달러 규모
-   
+
 2. Polygon zkEVM:
    타입 2 zkEVM (완전 EVM 등가)
    기존 이더리움 도구 100% 호환
-   
+
 3. StarkNet (StarkWare):
    zk-STARK 기반
    Cairo 언어 (전용 회로 언어)
    dYdX DEX에서 StarkEx 사용
-   
+
 4. Scroll:
    오픈소스 zkEVM
    바이트코드 호환 (타입 2)
@@ -184,7 +184,7 @@ zkEVM 타입:
 ZK 증명 생성 비용:
   GPU 집중적 (ZK 증명 생성 = 행렬 연산 집약)
   NVIDIA A100 GPU 클러스터 필요
-  
+
   최적화 방향:
   - FPGA/ASIC 가속기 (ZK 증명 전용 하드웨어)
   - 재귀 증명 (Proof Aggregation)
@@ -221,7 +221,7 @@ StarkEx ZK-Rollup 해결:
   4. 증명 + 상태 루트만 이더리움 게시
   5. 검증 스마트 컨트랙트: 증명 확인
   6. 즉시 최종성
-  
+
 성능:
   처리량: ~10,000 TPS
   가스비: $0.001 이하/거래 (1000배 절약)

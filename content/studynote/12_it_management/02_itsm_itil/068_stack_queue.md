@@ -126,8 +126,8 @@ Scheduling / Traversal
 
 ## 어린이를 위한 3줄 비유 설명
 
-쌓아 두면 나중에 올린 게 먼저 나와요.  
-줄 서면 먼저 온 사람이 먼저 가요.  
+쌓아 두면 나중에 올린 게 먼저 나와요.
+줄 서면 먼저 온 사람이 먼저 가요.
 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 큐는 그런 순서예요.
 
 ---

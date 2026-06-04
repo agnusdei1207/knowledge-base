@@ -27,8 +27,8 @@ tags = ["ict_convergence"]
 
 ```text
 ┌────────────────────────────────────────────────────────┐
-│ [ A. Centralized ] [ B. Decentralized ] [ C. Distributed ] 
-│      중앙화               탈중앙화            완전 분산화      
+│ [ A. Centralized ] [ B. Decentralized ] [ C. Distributed ]
+│      중앙화               탈중앙화            완전 분산화
 │                                                        │
 │        (C)                  (N)   (N)      (N)-(N)-(N) │
 │       / | \                  | \ / |        | \ | / |  │

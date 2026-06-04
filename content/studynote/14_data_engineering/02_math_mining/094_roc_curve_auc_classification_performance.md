@@ -83,7 +83,7 @@ ROC 곡선은 모델의 예측 확률값에 따라 FPR(가짜를 진짜로 오�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 ROC-AUC는 모델을 개발하고 튜닝하는 사이클의 가장 중요한 의사결정 나침반으로 사용된다. 
+실무에서 ROC-AUC는 모델을 개발하고 튜닝하는 사이클의 가장 중요한 의사결정 나침반으로 사용된다.
 
 ### 실무 활용 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 1. **챔피언 모델 선별**: 수십 개의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/), XGBoost 등)을 돌렸을 때, "정확도 95% 모델"보다 "AUC 0.90 모델"을 다음 스테이지로 올리는 것이 안전하다. AUC가 높은 모델은 임계값 튜닝을 통해 비즈니스 요구에 맞게 조율할 여력이 크기 때문이다.

@@ -132,8 +132,8 @@ Container Image
 
 ## 어린이를 위한 3줄 비유 설명
 
-종이 여러 장을 겹쳐요.  
-바뀐 부분만 새로 그려요.  
+종이 여러 장을 겹쳐요.
+바뀐 부분만 새로 그려요.
 레이어드 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 그런 방식이에요.
 
 ---

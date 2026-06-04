@@ -21,10 +21,10 @@ tags = ["studynote-network"]
 
 고급 상업용/군사용 무인기(UAV, 드론)는 통신의 목적에 따라 2개의 완전히 다른 주파수 전파([파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))를 나누어서 사용합니다.
 
-1. **페이로드 링크 (Payload Link)**: 
+1. **페이로드 링크 (Payload Link)**:
    - 드론에 달린 카메라로 찍은 <strong>고화질 4K 영상이나 열화상 센서 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 지상으로 쏴 내려주는(Downlink) 넓은 고속도로</strong>입니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리가 매우 커 넓은 주파수 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(예: Wi-Fi, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 대역)이 필요하며, 영상이 1~2초쯤 늦게 화면에 뜨거나 화질이 깨져도 드론이 추락하진 않습니다.
 2. <strong><a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/">C2</a> 링크 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/">Command</a> &amp; Control Link, 지휘 통제 링크) 🌟</strong>:
-   - 지상 조종사나 자율비행 서버가 드론에게 <strong>"왼쪽으로 꺾어! 고도 높여!"라는 비행 명령(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/">Command</a>)을 쏘고, 드론은 자신의 현재 배터리, GPS 좌표, 고도 상태(Telemetry)를 1초마다 보고하는 '생명줄'</strong>입니다. 
+   - 지상 조종사나 자율비행 서버가 드론에게 <strong>"왼쪽으로 꺾어! 고도 높여!"라는 비행 명령(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/">Command</a>)을 쏘고, 드론은 자신의 현재 배터리, GPS 좌표, 고도 상태(Telemetry)를 1초마다 보고하는 '생명줄'</strong>입니다.
    - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기는 몇 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 안 되지만, 이 전파가 0.5초라도 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))되거나 외부 해커에게 끊기면 드론이 빌딩에 박아버리는 대참사가 일어납니다.
 
 ```text

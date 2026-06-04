@@ -29,7 +29,7 @@ ICT 융합 시스템은 데이터를 생성하는 끝단(Edge)부터 지능을 �
 #### 2. ICBM 기반 스마트 시티/팩토리 융합 아키텍처 (ASCII)
 ```text
     [ End-to-End ICT Convergence Ecosystem / 끝에서 끝까지 이어지는 ICT 융합 생태계 ]
-    
+
     (Physical Layer / 물리 계층)  (Edge & Network / 엣지망)      (Cloud & AI Core / 클라우드 코어)
     +-----------------+      +-----------------------+      +---------------------------------+
     | IoT Sensors     |      | Edge Computing Node   |      | Big Data Lake / Data Warehouse  |

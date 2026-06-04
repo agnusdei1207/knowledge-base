@@ -21,14 +21,14 @@ tags = ["ai"]
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-[언덕 오르기 탐색](/knowledge-base/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/) ([Hill Climbing](/knowledge-base/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/) Search)은 [맹목적 탐색](/knowledge-base/studynote/10_ai/01_ai_basics/014_uninformed_search/) 방식이 메모리와 연산 자원을 기하급수적으로 고갈시키는 한계를 극복하기 위해 등장했다. 전체 탐색 공간을 기억하지 않고, 현재 시점에서 가장 유리한 방향으로만 이동함으로써 메모리 사용량을 최소화한다. 이는 목적 함수(Objective Function)의 결과값을 최대화하거나 최소화하려는 최적화 문제에서, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 해(Initial Solution)를 빠르게 개선하고자 할 때 필수적이다. 
+[언덕 오르기 탐색](/knowledge-base/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/) ([Hill Climbing](/knowledge-base/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/) Search)은 [맹목적 탐색](/knowledge-base/studynote/10_ai/01_ai_basics/014_uninformed_search/) 방식이 메모리와 연산 자원을 기하급수적으로 고갈시키는 한계를 극복하기 위해 등장했다. 전체 탐색 공간을 기억하지 않고, 현재 시점에서 가장 유리한 방향으로만 이동함으로써 메모리 사용량을 최소화한다. 이는 목적 함수(Objective Function)의 결과값을 최대화하거나 최소화하려는 최적화 문제에서, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 해(Initial Solution)를 빠르게 개선하고자 할 때 필수적이다.
 
-이 도식은 [언덕 오르기 탐색](/knowledge-base/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/)이 맞닥뜨릴 수 있는 전형적인 지형 공간 구조와 주요 문제 발생 지점을 보여준다. 여기서 Y축은 목적 함수의 평가 점수([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))를 의미한다. 
+이 도식은 [언덕 오르기 탐색](/knowledge-base/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/)이 맞닥뜨릴 수 있는 전형적인 지형 공간 구조와 주요 문제 발생 지점을 보여준다. 여기서 Y축은 목적 함수의 평가 점수([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))를 의미한다.
 
 ```text
        평가 점수 (Objective Function Value)
           ▲
-          │                          [Global Maxima] 
+          │                          [Global Maxima]
           │                           전역 최적해 (진짜 목표)
           │                              /▼\
           │                             /   \
@@ -53,7 +53,7 @@ tags = ["ai"]
 
 [언덕 오르기 탐색](/knowledge-base/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/)의 내부 메커니즘은 매우 단순한 평가-선택 구조로 이루어진다.
 
-| 구성 요소 | 역할 | 내부 동작 | 
+| 구성 요소 | 역할 | 내부 동작 |
 |:---|:---|:---|
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/">Current</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a></strong> | 탐색의 기준점 | 오직 이 노드만 메모리에 유지 |
 | **Neighbor Generator** | 이웃 상태 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)에서 한 번의 조작으로 도달 가능한 모든 상태 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
@@ -111,7 +111,7 @@ tags = ["ai"]
 
 ```text
 [실무 의사결정 트리: 최적화 탐색 알고리즘 선택]
-[문제: 해 공간이 무한/연속적인가?] 
+[문제: 해 공간이 무한/연속적인가?]
  ├─ [No] ─► 완전 탐색(A*, BFS) 고려
  └─ [Yes] ─► [메모리 제한이 극심한가?]
               ├─ [No] ─► 유전 알고리즘 (Population 기반)
@@ -128,9 +128,9 @@ tags = ["ai"]
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-[언덕 오르기 탐색](/knowledge-base/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 최적화의 가장 기초적인 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)을 제공한다. 공간을 거의 소모하지 않는다는 막강한 장점 때문에, 강화학습(RL)이나 최신 딥러닝의 [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)([Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/))의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 모태가 되었다. ([경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)은 사실상 목적 함수의 최솟값을 향해 나아가는 "언덕 내리기" 탐색과 동일하다.) 
+[언덕 오르기 탐색](/knowledge-base/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 최적화의 가장 기초적인 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)을 제공한다. 공간을 거의 소모하지 않는다는 막강한 장점 때문에, 강화학습(RL)이나 최신 딥러닝의 [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)([Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/))의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 모태가 되었다. ([경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)은 사실상 목적 함수의 최솟값을 향해 나아가는 "언덕 내리기" 탐색과 동일하다.)
 
-미래에는 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 단독 사용보다는 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)의 양자 어닐링([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Annealing)과 결합하여 국소 최적해를 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)([Tunneling](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)) 효과로 단숨에 빠져나오는 형태의 하이브리드 탐색 기법으로 고도화되고 있다. 
+미래에는 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 단독 사용보다는 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)의 양자 어닐링([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Annealing)과 결합하여 국소 최적해를 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)([Tunneling](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)) 효과로 단숨에 빠져나오는 형태의 하이브리드 탐색 기법으로 고도화되고 있다.
 
 > 📢 **섹션 요약 비유**: 자전거의 보조 바퀴처럼, 모든 복잡한 최적화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 처음 중심을 잡고 방향을 찾아가게 해주는 가장 근본적인 길잡이 역할을 합니다.
 

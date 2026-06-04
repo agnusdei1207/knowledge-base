@@ -20,7 +20,7 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **Path Vector (패스 벡터)**: BGP는 단순히 거리가 아니라, 거쳐 가는 통신사([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/))들의 리스트 전체를 보고 판단합니다.
-- SKT 입장에서는 빠르지만 비싼 유료망 타(Transit)는 것보다, 조금 느려도 서로 요금을 안 내기로 합의한(Peering) 망으로 트래픽을 쏟아붓고 싶어 합니다. 
+- SKT 입장에서는 빠르지만 비싼 유료망 타(Transit)는 것보다, 조금 느려도 서로 요금을 안 내기로 합의한(Peering) 망으로 트래픽을 쏟아붓고 싶어 합니다.
 - 관리자가 이 "돈 아끼는 길"을 억지로 1등으로 만들게 해주는 <strong>권력의 지팡이</strong>가 바로 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))입니다.
 
 ```text
@@ -56,7 +56,7 @@ Local Pref가 똑같을 때 보는 2순위 대중적인 길 찾기 룰입니다.
 ### 3. MED (Multi-Exit Discriminator) - "우리 집에 올 땐 이 문으로 들어와"
 들어오는 길(Inbound)을 꼬실 때 쓰는 외부용 간판입니다.
 - **특징**: 인접한 다른 회사([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)) 라우터에게 던져주는 훈수입니다. Local-Pref의 정반대로, <strong>점수가 낮을수록 1등(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">Metric</a> 개념)</strong>입니다.
-- **상황**: KT([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 100)와 SKT([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 200) 사이에 뚫린 연결 다리가 서울(A)과 부산(B) 두 곳입니다. 
+- **상황**: KT([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 100)와 SKT([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 200) 사이에 뚫린 연결 다리가 서울(A)과 부산(B) 두 곳입니다.
 - **조작**: KT가 생각합니다. '서울 다리는 좁으니까, SKT 니네가 우리 쪽으로 패킷 쏠 때는 넓은 부산 다리(B)로 쏴라!' KT가 SKT에게 소문을 낼 때 부산 다리 경로에 <strong><code>MED 10</code></strong> (낮은 점수)을 적어 쏘고, 서울 다리엔 <strong><code>MED 100</code></strong>을 적어 쏩니다. SKT 라우터는 점수가 낮은 부산 다리를 1등으로 알고 트래픽을 쏟아붓습니다. (단, 이웃끼리만 통하고 멀리 퍼지진 않습니다.)
 
 ```text

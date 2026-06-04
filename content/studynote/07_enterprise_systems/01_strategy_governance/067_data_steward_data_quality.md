@@ -133,8 +133,8 @@ Trusted Data
 
 ## 어린이를 위한 3줄 비유 설명
 
-정리하는 사람이 따로 있어요.  
-그 사람이 물건을 바로잡아요.  
+정리하는 사람이 따로 있어요.
+그 사람이 물건을 바로잡아요.
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스튜어드는 그런 사람예요.
 
 ---

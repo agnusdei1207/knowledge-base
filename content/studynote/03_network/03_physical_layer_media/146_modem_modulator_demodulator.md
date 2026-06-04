@@ -62,7 +62,7 @@ tags = ["studynote-network"]
 
 전화선 모뎀의 56Kbps 속도로는 인터넷의 화려한 이미지와 영상을 감당할 수 없어, 사람의 음성 대역 밖의 넓은 주파수 대역(Broadband)을 활용하는 새로운 모뎀들이 등장했습니다.
 
-1. **ADSL 모뎀**: 똑같은 전화선을 쓰지만, 사람의 목소리가 사용하는 저주파(4kHz 이하) 영역은 건드리지 않고, <strong>비어있는 고주파 영역(수십 kHz ~ 수백 kHz)</strong>을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신 전용으로 사용하여 수 Mbps급의 속도를 냈습니다. 
+1. **ADSL 모뎀**: 똑같은 전화선을 쓰지만, 사람의 목소리가 사용하는 저주파(4kHz 이하) 영역은 건드리지 않고, <strong>비어있는 고주파 영역(수십 kHz ~ 수백 kHz)</strong>을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신 전용으로 사용하여 수 Mbps급의 속도를 냈습니다.
 2. <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/147_cable_modem_docsis/">케이블 모뎀</a> (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/147_cable_modem_docsis/">Cable Modem</a>)</strong>: [동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/) 기반의 유선 방송망(CATV)의 남는 채널을 이용해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 변조하여 송수신합니다.
 3. **광 모뎀 (ONT/ONU)**: 현대 FTTH(댁내 광랜) 환경에서, 밖에서 들어오는 '빛(광)' [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 집 안의 공유기가 이해할 수 있는 '전기([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))' [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 변환해 주는 장비입니다. (엄밀히 말해 아날로그 변환이 아니지만 편의상 광 모뎀이라 부릅니다.)
 

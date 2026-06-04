@@ -23,7 +23,7 @@ tags = ["studynote-operating-system"]
 - **필요성**: 한 사무실에 프린터가 딱 1대 있다. A 직원이 100페이지짜리 결산 보고서 인쇄를 눌렀다. 프린터가 징징대며 1장씩 찍어내는 데 10분이 걸린다. 이때 B 직원이 옆에서 1페이지짜리 문서를 인쇄하려 누른다. 만약 스풀링이 없다면? B 직원의 컴퓨터 화면은 하얗게 굳어버리며 '프린터 사용 중' 에러를 뿜거나 A의 인쇄가 다 끝날 때까지 10분 동안 컴퓨터 마우스도 못 움직이고 뻗어버릴 것이다. (독점 장치의 데드락 위기). "야! 프린터 기계 잡고 싸우지 말고, 각자 출력할 거 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 만들어서 디스크 창고(스풀)에 차곡차곡 던져놔! 프린터는 내가 알아서 줄 세워 뽑아줄 테니 니들은 컴퓨터로 딴 일 해!" 이 위대한 병렬화 선언이 스풀링의 탄생이다.
 
 - **등장 배경 및 펀치 카드 시대의 눈물**:
-  1. **천공 카드(Punch Card)의 렉**: 초창기 메인프레임은 카드 리더기가 카드를 다 읽을 때까지 CPU가 멈춰서 기다렸다. 
+  1. **천공 카드(Punch Card)의 렉**: 초창기 메인프레임은 카드 리더기가 카드를 다 읽을 때까지 CPU가 멈춰서 기다렸다.
   2. **디스크라는 거대 버퍼의 재발견**: 테이프 리더기가 읽은 걸 일단 디스크에 왕창 쏴버리고, CPU는 디스크에서 초고속으로 퍼가는 꼼수가 발명됨.
   3. **독점 장치(프린터)의 구원**: 이 개념이 출력 장치로 이어져, 프린터 렉을 없애는 'Print Spooler'로 현대 윈도우/리눅스에 완벽히 정착함.
 
@@ -91,7 +91,7 @@ tags = ["studynote-operating-system"]
 - 스풀러는 프린터 속도와 무관하게 이 100만 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 모조리 디스크의 `C:\Windows\System32\spool\PRINTERS` 폴더에 `.SPL` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 쏟아버린다.
 - 순식간에 C드라이브 용량이 100GB 꽉 차버린다 (Spooler 폭주).
 - 디스크 공간이 0바이트가 되는 순간, OS가 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 스왑(Swap)도 못 하고 다른 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장도 못 해서 서버(또는 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)) 전체가 블루스크린을 띄우고 즉사해 버린다.
-- **실무의 팁**: 프린터 에러로 인쇄가 계속 안 되는데 C드라이브 용량이 미친 듯이 깎인다면, 무조건 스풀러 서비스를 강제 종료하고 저 폴더 안의 찌꺼기 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 손으로 날려줘야 컴퓨터가 살아난다. 
+- **실무의 팁**: 프린터 에러로 인쇄가 계속 안 되는데 C드라이브 용량이 미친 듯이 깎인다면, 무조건 스풀러 서비스를 강제 종료하고 저 폴더 안의 찌꺼기 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 손으로 날려줘야 컴퓨터가 살아난다.
 
 ```text
 ┌──────────┬────────────┬────────────┬────────────────────────────────┐
@@ -119,7 +119,7 @@ tags = ["studynote-operating-system"]
    - 밤새 메일 전송 데몬([SMTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/488_smtp_simple_mail_transfer_protocol/) 스풀러)이 깨어나서 디스크의 편지를 1통씩 꺼내 네이버로 묵묵히 밀어 넣는다. 네이버 서버가 터지면 버리지 않고 내일 또 보낸다.
 2. <strong>현대적 진화 (<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a>, RabbitMQ, Celery)</strong>:
    - 이 디스크 스풀링 철학이 그대로 확장된 것이 오늘날의 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 큐나 백그라운드 Worker 시스템이다.
-   - "무거운 작업(영상 인코딩, 이메일 발송)은 유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 잡고 멈춰있지 마라. 무조건 디스크(DB/[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)) 큐에 스풀(Spool) 쳐놓고, 유저에겐 성공했다고 리턴 친 뒤, 백그라운드 워커가 멱살 잡고 천천히 빼내서 처리해라!" 
+   - "무거운 작업(영상 인코딩, 이메일 발송)은 유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 잡고 멈춰있지 마라. 무조건 디스크(DB/[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)) 큐에 스풀(Spool) 쳐놓고, 유저에겐 성공했다고 리턴 친 뒤, 백그라운드 워커가 멱살 잡고 천천히 빼내서 처리해라!"
    - 스풀링은 단순히 프린터 기술이 아니라, 현대 논블로킹(Non-[blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 아키텍처의 근본을 잉태한 철학의 원류다.
 
 - **📢 섹션 요약 비유**: 식당에서 삼겹살 100인분 포장 주문을 받았을 때, 손님을 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 앞에 2시간 동안 서 있게 하는 건 망하는 식당입니다. "결제부터 하시고 번호표 드릴 테니 내일 오세요(스풀 큐 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))" 하고 돌려보낸 뒤, 주방에서는 밤새 고기를 구워 포장 박스(디스크)에 100개를 쌓아두는 것이 대박집(현대 대용량 서버)의 비동기 주문 처리 비법입니다.
@@ -138,7 +138,7 @@ tags = ["studynote-operating-system"]
 
 ### 결론 및 미래 전망
 
-스풀링 (Spooling)은 컴퓨터 공학에서 "독점과 기다림의 고통"을 가장 넓고 싼 창고(디스크)를 제물로 바쳐 극복해 낸 천재적인 시간 마술이다. 프린터 1대를 두고 멱살 잡고 싸우던 프로세스들에게, 각자 완벽한 가짜 프린터(가상 스풀 디렉토리)를 1대씩 나누어주어 싸움을 종식시킨 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)([Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))의 훌륭한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 형태이기도 하다. 오늘날 종이로 문서를 뽑는 프린터의 시대가 저물어가며 원래 의미의 스풀링이라는 단어 자체는 윈도우 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 창 구석으로 밀려났지만, 그 속에 담긴 "직접 부딪히지 말고, 중간 큐에 짐을 던져놓고 백그라운드로 밀어낸다"는 철학은 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))와 메시지 브로커라는 이름으로 화려하게 부활하여 전 세계 클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터의 심장 혈관으로 펄떡이고 있다. 
+스풀링 (Spooling)은 컴퓨터 공학에서 "독점과 기다림의 고통"을 가장 넓고 싼 창고(디스크)를 제물로 바쳐 극복해 낸 천재적인 시간 마술이다. 프린터 1대를 두고 멱살 잡고 싸우던 프로세스들에게, 각자 완벽한 가짜 프린터(가상 스풀 디렉토리)를 1대씩 나누어주어 싸움을 종식시킨 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)([Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))의 훌륭한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 형태이기도 하다. 오늘날 종이로 문서를 뽑는 프린터의 시대가 저물어가며 원래 의미의 스풀링이라는 단어 자체는 윈도우 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 창 구석으로 밀려났지만, 그 속에 담긴 "직접 부딪히지 말고, 중간 큐에 짐을 던져놓고 백그라운드로 밀어낸다"는 철학은 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))와 메시지 브로커라는 이름으로 화려하게 부활하여 전 세계 클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터의 심장 혈관으로 펄떡이고 있다.
 
 - **📢 섹션 요약 비유**: 좁은 외나무다리(프린터)를 건너려다 양쪽에서 염소 두 마리(프로세스)가 박치기하며 굶어 죽던 시절을 끝내기 위해, 다리 앞에 커다란 대기실(스풀 디스크)과 번호표 기계를 지어놓고 평화롭게 1명씩 건너게 통제한 지혜의 상징입니다. 오늘날 그 외나무다리가 100차선 고속도로(클라우드)로 바뀌었어도, 톨게이트 대기실(메시지 큐)의 지혜만큼은 변함없이 쓰이고 있습니다.
 

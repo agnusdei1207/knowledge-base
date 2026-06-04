@@ -130,8 +130,8 @@ Cloud Native / MSA
 
 ## 어린이를 위한 3줄 비유 설명
 
-[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 한 집 안에서 방만 따로 쓰는 거예요.  
-문도 잠그고, 전기도 따로 계산해서 안전하게 지내요.  
+[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 한 집 안에서 방만 따로 쓰는 거예요.
+문도 잠그고, 전기도 따로 계산해서 안전하게 지내요.
 그래서 필요한 방을 아주 빨리 만들고 없앨 수 있어요.
 
 ---

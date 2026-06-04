@@ -81,7 +81,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 213번 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 챕터에서 1,000만 줄짜리 코드를 100개의 컨테이너로 갈기갈기 찢어야 한다고 했습니다. 
+- 213번 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 챕터에서 1,000만 줄짜리 코드를 100개의 컨테이너로 갈기갈기 찢어야 한다고 했습니다.
 - 근데 <strong>"어떤 기준으로 찢어야(경계를 그어야) 완벽하게 독립적인 캡슐이 나오지?"</strong>라는 질문에 수많은 회사가 대답을 못 하고 스파게티로 찢었다가 폭망했습니다.
 - 에릭 에반스의 [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)(전략적 설계)가 15년 전에 그 정답을 책에 써놨기 때문입니다. <strong>"현실 세계의 비즈니스 업무 경계(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/">Bounded Context</a>)를 기준으로 찢어라!"</strong> 이 위대한 진리가 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대의 복음이 되어 전 세계 개발자를 구원했습니다.
 

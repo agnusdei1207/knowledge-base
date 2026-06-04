@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - 물리 메모리(RAM)의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 CPU 캐시의 구조([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))에 따라 논리적인 색상(Color) 묶음으로 분류한다.
   - OS가 가상 주소에 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)를 매핑해 줄 때, 인접한 가상 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들이 CPU 캐시에 들어갈 때 똑같은 캐시 라인(Set)에 몰리지 않도록, 의도적으로 "서로 다른 색상의 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)"를 차례대로 던져주는 기법이다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - CPU 캐시(L1, L2)는 용량이 작아서(예: 32KB) 수 기가바이트 램 전체를 담지 못한다. 그래서 캐시는 메모리 주소의 뒷자리([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))를 보고 정해진 칸(Set)에만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쑤셔 넣는 N-way Set Associative 방식을 쓴다.
   - 램의 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) 0x1000 번지와 0x9000 번지는 캐시 입장에서는 끝자리가 같아서 무조건 '0번 방'에 들어가야 한다. 만약 프로그램이 두 주소를 번갈아 읽는다면? 0번 방에 있던 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쫓겨나고 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어오기를 반복하는 대재앙(캐시 경합, Cache Conflict)이 일어난다. (나머지 1~9번 방은 텅텅 비어있는데도!)
   - **해결책**: "OS가 램을 나눠줄 때, 0x1000 번지를 줬으면 그다음엔 0x9000(같은 0번 방)을 주지 말고, 끝자리가 달라서 '1번 방'에 들어갈 수 있는 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) 0x2000 번지를 일부러 찾아내서 주자!"
@@ -31,7 +31,7 @@ tags = ["studynote-operating-system"]
   - **기존 무지성 할당**: 주차장(캐시)에 자리가 100개 있는데, 주차 요원(하드웨어)이 무식해서 차 번호판 끝자리(메모리 주소)가 '1'인 차는 무조건 1번 기둥에만 대라고 강요한다. 끝자리 '1'인 차 5대가 들어오면 1번 기둥에서 서로 차를 빼라고 싸운다.
   - <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 컬러링 (OS의 개입)</strong>: 교통경찰(OS)이 아예 톨게이트에서 번호판을 나눠줄 때, 끝자리 번호(Color)가 1, 2, 3, 4로 골고루 섞이게 번호표를 위조해서 발급해 버린다. 주차장에 도착한 차들은 요원의 멍청한 규칙에도 불구하고 넓은 주차장에 띄엄띄엄 골고루 완벽하게 주차([캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/))된다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 캐시가 거대해진 [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/), SPARC 등의 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) 서버 프로세서 시절, VIPT (가상 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)-물리 태그) 캐시 구조에서 발생하는 치명적인 동의어([Aliasing](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)) 문제를 덮기 위해 소프트웨어(OS) 진영이 만들어낸 우아한 수학적 회피술이다.
 
 ```text
@@ -69,7 +69,7 @@ tags = ["studynote-operating-system"]
 
 ### 색상(Color)을 부여하는 수학적 메커니즘
 
-[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 물리 램(RAM)의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 CPU 캐시의 '방(Set) 개수'에 맞춰 N개의 색깔 통(Bin)으로 분류한다. 
+[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 물리 램(RAM)의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 CPU 캐시의 '방(Set) 개수'에 맞춰 N개의 색깔 통(Bin)으로 분류한다.
 
 1. **캐시 구조 분석**: L2 캐시가 256KB이고 4-way 집합 연관 캐시(Set Associative)라면, 캐시의 한 조각(Way) 크기는 $256 \div 4 = 64KB$ 이다.
 2. **색상 개수 계산**: OS [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)가 $4KB$ 라면, 하나의 Way에 들어갈 수 있는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 수는 $64KB \div 4KB = 16개$ 다.

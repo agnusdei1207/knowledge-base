@@ -57,7 +57,7 @@ tags = ["studynote-network"]
 이 오케스트레이터(창조주)는 혼자 손발을 움직이지 않습니다. 자기 밑에 있는 두 명의 천재 비서([SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/), [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/))를 찰지게 굴려서 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)를 창조합니다.
 
 ### 1. [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) ([가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 요정)를 통한 코어망 서버 찍어내기
-- 오케스트레이터가 [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) 통제기(MANO, 868번 문서)에게 지시합니다. 
+- 오케스트레이터가 [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) 통제기(MANO, 868번 문서)에게 지시합니다.
 - "자율주행 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)([URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/)) 만들 거니까, 서울 서버실 클라우드에 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어 서버(UPF) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 10개 당장 찍어내라!" NFV가 1초 만에 서버를 가상으로 복제해 세팅합니다.
 
 ### 2. [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) (길 뚫기 요정)을 통한 전송망(광케이블) 격리

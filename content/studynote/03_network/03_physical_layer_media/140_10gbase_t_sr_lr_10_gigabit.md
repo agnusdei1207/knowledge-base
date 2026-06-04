@@ -41,11 +41,11 @@ tags = ["studynote-network"]
 기존 RJ-45 커넥터와 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블 구조를 유지하면서 10Gbps를 구현한 표준입니다.
 
 ### 1. 기술적 도약과 PAM-16
-[1000BASE-T](/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/)(1Gbps)가 4쌍의 선을 쓰고 PAM-5 (5단계 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/))를 썼다면, 10GBASE-T는 동일한 4쌍의 선에 <strong>PAM-16 (16단계 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a>)</strong>이라는 극도로 세밀한 변조 방식을 사용합니다. 
+[1000BASE-T](/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/)(1Gbps)가 4쌍의 선을 쓰고 PAM-5 (5단계 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/))를 썼다면, 10GBASE-T는 동일한 4쌍의 선에 <strong>PAM-16 (16단계 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a>)</strong>이라는 극도로 세밀한 변조 방식을 사용합니다.
 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 차이를 16단계나 쪼개서 인식해야 하므로, 아주 미세한 노이즈에도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 깨질 수 있습니다.
 
 ### 2. 에일리언 [누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/) (Alien [Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/), AXT)
-10GBASE-T의 가장 큰 적은 케이블 내부 선들끼리의 간섭이 아니라, <strong>바로 옆에 다발로 묶여 있는 "다른 랜선"에서 뿜어져 나오는 전자기 간섭(Alien <a href="/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/">Crosstalk</a>)</strong>입니다. 
+10GBASE-T의 가장 큰 적은 케이블 내부 선들끼리의 간섭이 아니라, <strong>바로 옆에 다발로 묶여 있는 "다른 랜선"에서 뿜어져 나오는 전자기 간섭(Alien <a href="/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/">Crosstalk</a>)</strong>입니다.
 서버실 등에서 랜선을 다발로 타이로 묶어놓으면 옆 케이블의 고주파 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 내 케이블을 침범합니다. 이를 막기 위해 차폐가 강화된 **Cat 6a (Augmented Category 6)** 이상의 케이블 사용이 필수적이 되었습니다. (Cat 6로도 10Gbps가 가능하나, 거리가 55m 이내로 극히 제한됩니다.)
 
 ### 3. 높은 전력 소모와 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))

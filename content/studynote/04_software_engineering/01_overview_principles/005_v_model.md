@@ -65,7 +65,7 @@ V-모델의 핵심 메커니즘은 좌측의 개발 단계(수준)와 우측의 
 **[도식 설명]**
 이 알파벳 'V'자 다이어그램은 왼쪽의 하강 곡선(상세화 과정)과 오른쪽의 상승 곡선(통합 및 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 과정)이 만나는 대칭성을 시각화한다. 왼쪽 상단으로 갈수록 사용자 지향적(추상적)이며, 맨 아래 모서리(구현)는 기계 지향적(구체적)이다. 수평선(화살표)은 좌측 단계 완료 시 우측 단계의 테스트 '계획과 시나리오'가 도출된다는 강력한 연결 고리를 의미한다. 개발이 바닥을 찍고 올라갈 때, 미리 준비된 테스트 시나리오를 통해 각 레벨의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 증명한다.
 
-여기서 핵심 동작 원리는 <strong>V&amp;V (<a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a> and <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">Validation</a>)</strong>의 명확한 분리다. 
+여기서 핵심 동작 원리는 <strong>V&amp;V (<a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a> and <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">Validation</a>)</strong>의 명확한 분리다.
 1. <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> (<a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>, 하단부 집중)</strong>: "Are we building the product right?" (명세서대로 올바르게 코드를 만들었는가?)
 2. <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> (<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">Validation</a>, 상단부 집중)</strong>: "Are we building the right product?" (사용자가 정말로 원했던 올바른 제품을 만들었는가?)
 

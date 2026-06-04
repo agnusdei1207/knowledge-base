@@ -45,9 +45,9 @@ tags = ["studynote-network"]
 아래 5가지 발전 과정을 이해하면 QoS의 큰 그림이 그려진다.
 
 ### 1. 1세대: PQ와 CQ (극단적 선택)
-- **PQ (Priority Queuing)**: 
-  - 큐를 4개(High, Medium, Normal, Low) 만든다. 
-  - **잔인한 룰**: High 큐에 패킷이 단 1개라도 남아 있으면 나머지 큐는 절대 처리 안 한다! 
+- **PQ (Priority Queuing)**:
+  - 큐를 4개(High, Medium, Normal, Low) 만든다.
+  - **잔인한 룰**: High 큐에 패킷이 단 1개라도 남아 있으면 나머지 큐는 절대 처리 안 한다!
   - 단점: 해커가 High 큐로 쓰레기 데이터를 계속 밀어 넣으면, 나머지 평민 패킷들은 단 한 발자국도 못 나가고 굶어 죽는 <strong>기아(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">Starvation</a>) 현상</strong>이 발생한다.
 - **CQ (Custom Queuing)**:
   - 기아 현상을 막기 위해 16개의 큐를 판다.
@@ -56,7 +56,7 @@ tags = ["studynote-network"]
 
 ### 2. 2세대: WFQ (Weighted Fair Queuing)
 - 1990년대 후반의 디폴트(기본) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/). 관리자가 손대지 않아도 라우터가 알아서 큐를 수백 개 만든다.
-- **공평함의 룰**: 트래픽을 분류해서 대역폭을 N분의 1로 똑같이 나눠준다. 
+- **공평함의 룰**: 트래픽을 분류해서 대역폭을 N분의 1로 똑같이 나눠준다.
 - **작은 고추가 맵다**: 패킷 크기가 "작은 놈(주로 음성/텔넷)"을 덩치 "큰 놈([FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/))"보다 먼저 빼내어(새치기) 스케줄링해 준다.
 
 ### 3. 3세대: CBWFQ (Class-Based WFQ)

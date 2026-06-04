@@ -29,7 +29,7 @@ Pattern: T E S T
                  ^ (Start comparing from here)
                  Mismatch: 'A' is not in "TEST"
                  Action: Jump pattern past 'A'
-                 
+
 Result:  X X X X X A B C D X X X
                    T E S T
 ```

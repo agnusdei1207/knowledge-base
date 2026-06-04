@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - 문맥([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))이란 CPU가 특정 순간에 프로세스를 실행하기 위해 쥐고 있는 모든 하드웨어 환경값([프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/), [범용 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/), 메모리 맵 포인터 등)의 총합이다.
   - [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)나 스케줄러에 의해 현재 프로세스를 중단하고 $\rightarrow$ 이 문맥을 메모리의 <strong>PCB(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a> Control Block)</strong>에 안전하게 저장한 뒤 $\rightarrow$ 대기 중이던 다른 프로세스의 PCB에서 문맥을 꺼내 CPU에 주입하는 행위다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 카카오톡을 하면서 유튜브를 듣고 브라우저를 동시에 쓰려면, CPU가 1개뿐이어도 시간을 아주 잘게 쪼개서(Time Slicing) 번갈아 가며 실행해야 한다.
   - 하지만 CPU 안의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(저장 공간)는 한 세트뿐이다. A 프로그램이 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 연산 중간 결과를 저장해 뒀는데, B 프로그램이 훅 들어와 덮어써 버리면 A는 완전히 망가진다.
   - **해결책**: "선수(프로세스)를 교체할 때마다, 현재 선수가 쓰던 책상([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))의 상태를 사진 찍어 보관함(PCB)에 넣어두고, 새 선수의 옛날 사진을 꺼내서 책상을 그대로 세팅해주자!"
@@ -32,7 +32,7 @@ tags = ["studynote-operating-system"]
   - 1번 작가가 1시간 쓰고 비켜줄 때, 자기가 펴놓은 수십 권의 참고서와 펜의 위치를 가방(PCB)에 모조리 싸서 치워야 한다(Save). 그리고 2번 작가가 와서 자기 가방에서 책을 꺼내 다시 책상에 세팅한다(Restore).
   - 이 '가방을 싸고 푸는 짐 정리 시간' 동안은 원고를 단 한 글자도 쓰지 못하는 순수한 시간 낭비가 발생하는데, 이것이 바로 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 오버헤드다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 과거 일괄 처리(Batch) 시스템에서는 하나의 작업이 끝날 때까지 CPU를 독점했으므로 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)이 없었다. 시분할(Time-sharing) 시스템의 등장과 함께 탄생한 숙명적 그림자다.
 
 ```text
@@ -61,7 +61,7 @@ tags = ["studynote-operating-system"]
   └─────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 다이어그램 중앙의 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 작동하는 시간(박스 구간)은 사용자 애플리케이션 입장에서는 세상이 멈춘 '블랙아웃(Blackout)' 시간이다. 이 틈에 OS는 단순히 수십 개의 CPU [범용 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) 값을 RAM에 복사하는(Save) 작업뿐만 아니라, [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) 구역을 나누는 CR3 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 포인터)를 B의 것으로 갈아치우는 치명적으로 무거운 하드웨어 제어를 단행한다. 이 모든 준비가 끝나고 다시 유저 모드로 전환(iret [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))되어 프로세스 B가 깨어날 때까지 약 1~5 마이크로초(µs)의 클럭이 연기처럼 증발한다.
+**[다이어그램 해설]** 다이어그램 중앙의 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 작동하는 시간(박스 구간)은 사용자 애플리케이션 입장에서는 세상이 멈춘 '블랙아웃(Blackout)' 시간이다. 이 틈에 OS는 단순히 수십 개의 CPU [범용 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) 값을 RAM에 복사하는(Save) 작업뿐만 아니라, [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) 구역을 나누는 CR3 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 포인터)를 B의 것으로 갈아치우는 치명적으로 무거운 하드웨어 제어를 단행한다. 이 모든 준비가 끝나고 다시 유저 모드로 전환(iret [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))되어 프로세스 B가 깨어날 때까지 약 1~5 마이크로초(µs)의 클럭이 연기처럼 증발한다.
 
 - **📢 섹션 요약 비유**: 무대에서 배우를 교체할 때 막을 내리고 배경 세트장, 조명, 소품을 전부 다 갈아치우는 암전의 시간입니다. 막이 내려가 있는 동안 관객(사용자)은 아무런 연극([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리)도 볼 수 없는 필수 불가결한 낭비 시간입니다.
 
@@ -189,7 +189,7 @@ tags = ["studynote-operating-system"]
 - <strong>POSIX <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/790_posix_threads_pthreads_standard_api/">Pthreads</a></strong>: 유닉스 시스템의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 구현 표준으로 OS [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 매핑(1:1, M:N)을 통제.
 - **ucontext.h / setjmp.h**: C/C++에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 우회하여 유저 레벨에서 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 문맥을 직접 저장(`getcontext`)하고 교체(`setcontext`)할 수 있도록 지원하는 고전적 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) (현대 [코루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/)의 조상).
 
-[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)은 컴퓨터 공학의 필요악(Necessary Evil)이다. 세상의 모든 프로그램이 자신만 혼자 컴퓨터를 쓴다고 착각하게 만들어주는 눈물겨운 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 희생이다. 하지만 무거운 짐을 싸고 푸는 낭비는 물리적 법칙을 벗어날 수 없기에, 시스템 아키텍트의 진정한 실력은 "어떻게 하면 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)을 빠르고 효율적으로 할까?"가 아니라, <strong>"어떻게 하면 아키텍처 설계를 비틀어서 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a> 자체가 아예 발생하지 않게(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">Context Switch</a>) 억제할 수 있을까?"</strong>를 고민하는 데서 시작된다. 
+[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)은 컴퓨터 공학의 필요악(Necessary Evil)이다. 세상의 모든 프로그램이 자신만 혼자 컴퓨터를 쓴다고 착각하게 만들어주는 눈물겨운 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 희생이다. 하지만 무거운 짐을 싸고 푸는 낭비는 물리적 법칙을 벗어날 수 없기에, 시스템 아키텍트의 진정한 실력은 "어떻게 하면 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)을 빠르고 효율적으로 할까?"가 아니라, <strong>"어떻게 하면 아키텍처 설계를 비틀어서 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a> 자체가 아예 발생하지 않게(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">Context Switch</a>) 억제할 수 있을까?"</strong>를 고민하는 데서 시작된다.
 
 - **📢 섹션 요약 비유**: 이삿짐센터 직원([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 짐을 싸고 푸는 속도를 훈련시키는 것보다 훨씬 위대한 혁신은, 아예 몸만 휙휙 돌아다닐 수 있는 초경량 캠핑용 텐트([코루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/), [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/))를 발명해서 이사 자체를 없애버린 것입니다.
 

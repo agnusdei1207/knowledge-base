@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/">WBS</a> (<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/">Work Breakdown Structure</a>, 작업 분할 구조도)</strong>: 프로젝트의 전체 범위를 관리 가능하고 통제 가능한 가장 작은 하위 단위(Work Package)로 계층적으로 쪼개어 놓은 트리 구조다.
   - <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/">CPM</a> (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/037_cpm/">Critical Path Method</a>, 임계 경로 기법)</strong>: 확정적인 작업 시간을 바탕으로 작업 간의 선후행 네트워크를 그려, 프로젝트의 최장 소요 시간(가장 여유가 없는 경로)을 찾아내는 수학적 기법이다.
   - <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/151_pert_three_point_estimation/">PERT</a> (Program Evaluation and <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/">Review</a> Technique, 프로그램 평가 리뷰 기법)</strong>: 과거 데이터가 없어 작업 소요 시간 예측이 불확실할 때, 비관적/낙관적/최빈치를 혼합한 확률적 시간 추정(3점 추정)을 통해 일정 달성 가능성을 분석하는 기법이다.

@@ -26,7 +26,7 @@ tags = ["studynote-bigdata"]
 
    < Client Mode >                  < Cluster Mode >
    (대화형 분석/디버깅 유리)           (프로덕션 배포/안정성 유리)
-   
+
      Client Node                       Cluster Node (Master)
    +---------------+                 +--------------------+
    | [Driver]      |                 | Cluster Manager    |

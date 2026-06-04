@@ -19,7 +19,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자가 3개월 동안 철야를 해서 정확도 99%의 주가 예측 모델을 만들었다. 모델 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(pt)을 서버 팀에 넘겼다. 
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자가 3개월 동안 철야를 해서 정확도 99%의 주가 예측 모델을 만들었다. 모델 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(pt)을 서버 팀에 넘겼다.
 그런데 서버 팀이 이 모델을 배포하자마자 정확도가 50%로 떨어졌다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자가 내 컴퓨터에서는 잘 돌았는데 왜 그러냐고 싸운다. 원인은 서버의 파이썬 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 다르고, 전처리 코드가 안 맞고, 어제부터 주식 시장의 패턴([데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/))이 아예 바뀌었기 때문이다.
 
 "모델 하나 던져주고 끝나는 게 아니구나. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 계속 변하니까, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수집부터 모델 재학습, 그리고 서버에 안전하게 배포하는 것까지를 사람 손 안 거치고 하나의 거대한 공장 컨베이어 벨트처럼 엮을 순 없을까?</strong>"
@@ -87,7 +87,7 @@ MLOps는 기존 소프트웨어의 [CI](/knowledge-base/studynote/12_it_manageme
 **기술사 판단 포인트 (Trade-off):**
 엔터프라이즈 환경에서 기술사는 <strong>'배포 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a>'와 'A/B 테스트'</strong> 전략을 통제해야 한다.
 1. CT가 아무리 똑똑해서 지 혼자 99점을 맞았다고 해도, 그 모델을 내일 아침 1,000만 명의 고객에게 한 번에 100% 배포(Big Bang [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/))하는 것은 미친 짓이다.
-2. 기술사는 무조건 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">카나리 배포</a>(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">Canary Deployment</a>)</strong>나 **A/B 테스트** 라우팅을 파이프라인 끝단에 설계해야 한다. 
+2. 기술사는 무조건 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">카나리 배포</a>(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">Canary Deployment</a>)</strong>나 **A/B 테스트** 라우팅을 파이프라인 끝단에 설계해야 한다.
 3. 새 모델(B)에게는 전체 트래픽의 딱 5%만 흘려보내고, 기존 모델(A)이 95%를 처리하게 한다. 며칠 동안 5% 트래픽에서 서버가 안 뻗고 매출도 진짜 올랐다는 로그가 확인될 때만, 점진적으로 트래픽을 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%, 50%, 100%로 스위칭하는 안전망을 구축해야 한다.
 
 - **📢 섹션 요약 비유**: 아무리 훌륭한 신약(새 모델)을 개발했더라도, 내일 아침 전 국민 1,000만 명에게 다 주사할 수는 없다. 부작용이 있을 수 있으니, 아주 적은 수의 자원자(5% [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 트래픽)에게 먼저 투약해 보고 완벽히 안전할 때 전 국민에게 배포하는 것이 MLOps의 깐깐한 식약처 철학이다.

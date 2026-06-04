@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 주입 (Fault <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/">Injection</a>)</strong>: 시스템의 특정 구성 요소에 의도적으로 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 일으켜 시스템의 예외 처리 능력과 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 테스트하는 기법.
   - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">카오스 엔지니어링</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">Chaos 엔진ering</a>)</strong>: 프로덕션(운영) 환경에서도 무작위로 인스턴스를 끄거나 네트워크를 지연시켜 시스템이 견디는지 실험하는 학문.
 
-- **필요성 (잡을 수 없는 에러의 공포)**: 
+- **필요성 (잡을 수 없는 에러의 공포)**:
   - 개발자가 에러 처리 코드(Exception Handling)를 짰다. `if (malloc() == NULL) { 로깅하고 복구 }`.
   - 그런데 개발 서버에서는 메모리가 빵빵해서 `malloc`이 한 번도 실패하지 않는다. 이 에러 처리 코드는 운영에 배포된 후 3년 뒤에 처음으로 메모리가 부족해졌을 때 처음 실행된다. 그런데 그 에러 코드 안에 오타(버그)가 있어서 시스템이 통째로 뻗어버렸다.
   - 디스크 I/O 에러(`EIO`) 같은 하드웨어 장애는 평소에 재현하는 것이 물리적으로 불가능에 가깝다.

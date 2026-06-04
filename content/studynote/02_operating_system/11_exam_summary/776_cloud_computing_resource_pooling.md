@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - NIST(미국 국립표준기술연구소)가 정의한 [클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/)의 5대 필수 특성 중 하나.
   - 제공자(AWS, Azure)의 컴퓨팅 자원을 한데 모아(Pool), 다수의 소비자(Tenant)에게 동적으로 할당하고 회수하는 다중 임대([Multi-tenant](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)) 모델이다. 소비자는 자원의 정확한 물리적 위치(어느 국가, 어느 랙 서버인지)를 알지 못하고 알 필요도 없다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 과거 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)([On-premise](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)) 환경에서는 A회사의 DB 서버는 밤에 90%가 놀고 있었고, B회사의 게임 서버는 밤에 트래픽이 폭주해 뻗어버렸다.
   - A서버의 남는 CPU를 뜯어서 B서버에 빌려주는 것은 물리적으로 불가능했다 (자원의 파편화 및 고립).
   - **해결책**: "세상의 모든 서버를 하나의 거대한 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)로 묶어버리자. 그리고 소프트웨어([가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/))를 이용해 찰흙처럼 CPU와 메모리를 떼어내서 필요한 사람에게 1초 만에 빌려주자!"
@@ -31,7 +31,7 @@ tags = ["studynote-operating-system"]
   - <strong><a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/">온프레미스</a> (독립 자원)</strong>: 각자 자기 집에 작은 우물을 파놓고 물(CPU)을 쓴다. 비가 안 오면 내 우물이 말라 죽고(서버 다운), 비가 많이 오면 우물이 넘쳐흘러 버려진다(자원 낭비).
   - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/638_resource_pooling_cxl/">자원 풀링</a> (클라우드)</strong>: 수천 개의 우물을 파이프로 연결해 거대한 <strong>초대형 저수지(Pool)</strong>를 만들었다. 나는 파이프에 수도꼭지만 연결해서 필요한 만큼 물을 틀어 쓰고 쓴 만큼만 돈을 낸다. 내 물이 어디서 왔는지는 몰라도 된다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - VMware의 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 기술을 필두로, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅의 오버헤드를 극복하고 남는 자원을 통계적 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)(Statistical [Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))로 팔아먹기 위한 IT 대기업들의 비즈니스적 극한 최적화에서 탄생했다.
 
 ```text
@@ -207,7 +207,7 @@ tags = ["studynote-operating-system"]
 |:---|:---|
 | [네트워크 파일 시스템](/knowledge-base/studynote/02_operating_system/11_exam_summary/774_nfs_stateless_network_file_system/) ([NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/)) 무상태 ([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [MBR](/knowledge-base/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/) [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 크기 제한 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
 | [프로세스 친화성](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/) ([Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)) 스케줄링 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도

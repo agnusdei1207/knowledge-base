@@ -20,11 +20,11 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 테라바이트급 거대한 빅데이터를 작게 조각(보통 128MB 블록 단위) 내어 수천 대의 싸구려 서버([DataNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/))에 쫙 흩뿌려서 저장하는 구글 기반 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템입니다.
-- <strong>3중 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> (<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">Replication Factor</a> = 3)의 법칙</strong>: 싸구려 하드디스크가 터질 것을 대비해, 원본 블록 1개를 만들면 반드시 다른 서버에 복사본 2개를 더 만들어 <strong>총 3개의 쌍둥이 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 블록</strong>을 클러스터 어딘가에 숨겨둡니다. 
+- <strong>3중 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> (<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">Replication Factor</a> = 3)의 법칙</strong>: 싸구려 하드디스크가 터질 것을 대비해, 원본 블록 1개를 만들면 반드시 다른 서버에 복사본 2개를 더 만들어 <strong>총 3개의 쌍둥이 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 블록</strong>을 클러스터 어딘가에 숨겨둡니다.
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터의 컴퓨터들은 거대한 철제 선반인 <strong>랙(Rack)</strong>에 수십 대씩 꽂혀있고, 랙 맨 꼭대기에는 이들을 묶어주는 <strong>ToR (Top of Rack) <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>가 달려있습니다.
 
-- **만약 랙 인식 기능이 없다면 (재앙 시나리오)**: 
+- **만약 랙 인식 기능이 없다면 (재앙 시나리오)**:
   - 하둡 중앙 통제 서버([NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/))가 복사본 3개를 랜덤으로 뿌렸는데, 운 나쁘게 '1번 랙'에 꽂힌 서버 3대에 나란히 복사본이 들어갔습니다.
   - 다음 날, 1번 랙 꼭대기에 달린 랙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 고장 나거나 1번 랙 전체 전원 플러그가 뽑혔습니다.
   - 1번 랙이 통째로 죽으면서, 그 안에 있던 원본과 복사본 2개가 한날한시에 다 날아가 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 우주에서 완벽하게 영구 삭제(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Loss)</strong>되는 대재앙이 터집니다.
@@ -66,7 +66,7 @@ tags = ["studynote-network"]
 1. **첫 번째 블록 (원본)**: 글을 쓰고 있는 나 자신(클라이언트)이 속해 있는 랙의 아무 서버([DataNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/))에 저장합니다. (네트워크 이동 거리를 0으로 만들어 저장 속도를 극대화합니다.)
 2. **두 번째 블록 (복사본 1)**: **가장 중요한 규칙입니다. 반드시 첫 번째 블록이 있는 랙과 '완전히 다른 랙(예: 2번 랙)'에 있는 서버에 저장합니다.** (1번 랙 전원이 뽑히는 재앙을 100% 방어합니다.)
 3. **세 번째 블록 (복사본 2)**: <strong>두 번째 블록이 들어간 랙(2번 랙) 안의 '또 다른 서버'</strong>에 저장합니다.
-   - *왜 아예 3번 랙으로 안 보낼까요?* 서로 다른 3개의 랙으로 다 찢어버리면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터의 랙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들을 거치는 트래픽(East-West 트래픽)이 너무 많이 발생해 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(비용)이 터져버립니다. 
+   - *왜 아예 3번 랙으로 안 보낼까요?* 서로 다른 3개의 랙으로 다 찢어버리면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터의 랙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들을 거치는 트래픽(East-West 트래픽)이 너무 많이 발생해 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(비용)이 터져버립니다.
    - 랙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(전원)가 고장 나는 확률보다, 서버 1대의 하드디스크가 죽을 확률이 수백 배 높습니다. 따라서 "랙 2개에만 찢어 놔도 랙 전원 차단 방어는 성공적이고, 나머지 하나는 같은 랙에 둬서 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비를 막자!"라는 최적의 가성비 타협점(Trade-off)을 찾은 것입니다.
 
 하둡 랙 인식을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 마이크로 터스트 존 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 보안 적용 체계…가 기반 조건을 만든다면, 하둡 랙 인식은 그 위에서 핵심 메커니즘을 구현하고, 가상머신 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 구조 병목…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.

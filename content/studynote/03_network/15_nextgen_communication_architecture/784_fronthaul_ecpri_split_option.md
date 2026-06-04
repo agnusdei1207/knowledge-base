@@ -38,7 +38,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **원리**: 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 시절, 전 세계 장비 회사(에릭슨, 노키아 등)가 만든 옥상 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)와 1층 장비 사이의 광통신 연결 표준 규격입니다.
-- **치명적 문제 (오버헤드)**: 옥상 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 폰에서 받은 100Mbps짜리 아날로그 파동(IQ [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 CPRI 규격으로 변환하면, 그 크기가 16배인 1.6Gbps짜리 괴물 덩어리로 무식하게 뻥튀기됩니다. 
+- **치명적 문제 (오버헤드)**: 옥상 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 폰에서 받은 100Mbps짜리 아날로그 파동(IQ [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 CPRI 규격으로 변환하면, 그 크기가 16배인 1.6Gbps짜리 괴물 덩어리로 무식하게 뻥튀기됩니다.
 - [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대에 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 20Gbps([Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/)) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수신하면? CPRI를 태우는 순간 320Gbps가 되어, 중간 광케이블이 불타버리고 망 구축 비용이 천문학적으로 치솟는 끔찍한 한계에 부딪혔습니다.
 
 ```text

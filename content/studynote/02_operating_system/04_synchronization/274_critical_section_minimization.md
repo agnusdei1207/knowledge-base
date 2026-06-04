@@ -65,7 +65,7 @@ tags = ["studynote-operating-system"]
 3. <strong>락 분할 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> Striping / <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/">Sharding</a>)</strong>:
    - [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 전체에 하나의 락을 거는 대신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공간을 n개 파티션으로 나누고 락을 n개 두어 경합을 1/n로 줄힘. 선형적 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리.
 4. <strong>결과 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 반영 (<a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/">Batching</a> Updates)</strong>:
-   - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)별 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 로컬(Thread-Local) 저장소에 결과를 모았다가 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 내에서 한 번에 뭉칫돈(Batch)으로 합병(Merge). 
+   - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)별 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 로컬(Thread-Local) 저장소에 결과를 모았다가 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 내에서 한 번에 뭉칫돈(Batch)으로 합병(Merge).
 
 **📢 섹션 요약 비유**: 최소화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 은행 송금 요령 — 창구 직원 앞에서 송금액 세지 말고, 미리 봉투(지역 변수)에 딱 담아온 다음, 창구에 '이거 입금이요(포인터 교체)'하고 떠나는 거예요!
 

@@ -63,7 +63,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- 서버는 문을 두드리는 `[ACK]` 패킷을 받습니다. 
+- 서버는 문을 두드리는 `[ACK]` 패킷을 받습니다.
 - 패킷 겉면에 적힌 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)값을 보고, "어? 내가 만든 비밀 암호 공식에 맞아떨어지는 진짜 영수증([쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/))이네?"라고 1초 만에 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해 냅니다.
 - 그제야 서버는 비로소 이 고객을 진짜 손님으로 인정하고, 메모리에 정식으로 자리를 내어주며(Established) [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 연결을 완성합니다.
 

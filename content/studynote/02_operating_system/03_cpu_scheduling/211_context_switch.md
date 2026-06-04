@@ -50,7 +50,7 @@ tags = ["studynote-operating-system"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 문맥([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))의 실체: 무엇을 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)하는가?
-프로세스가 "살아 숨 쉰다"는 것은 메모리가 아니라 CPU <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/">Register</a>)</strong>의 상태로 정의된다. 
+프로세스가 "살아 숨 쉰다"는 것은 메모리가 아니라 CPU <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/">Register</a>)</strong>의 상태로 정의된다.
 
 1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> (Program <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">Counter</a>)</strong>: 다음에 실행할 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 메모리 주소
 2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/">SP</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a> Pointer) / BP (Base Pointer)</strong>: 현재 함수 호출의 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 위치
@@ -91,7 +91,7 @@ tags = ["studynote-operating-system"]
 
 ```text
   [ 프로세스 문맥 교환 이후 발생하는 '보이지 않는 지연(Invisible Latency)' ]
-  
+
   [ P1 완료 ] ─(문맥 교환 1μs)─▶ [ P2 시작 ]
                                   │ (여기서부터 진짜 지옥 시작)
                                   │ 1. P2가 명령어 호출 ─▶ TLB Miss 발생 (수십 ns 지연)
@@ -106,7 +106,7 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **Nginx vs Apache (문맥 교환의 나비효과)**: 과거 Apache 웹 서버는 1만 명의 유저가 들어오면 프로세스나 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 1만 개 띄웠다([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)-per-request). 결과는 처참했다. CPU는 1만 개의 문맥을 초당 수십만 번 교환하느라 로드율 100%를 찍고 장렬히 전사했다(C10K Problem). 
+1. **Nginx vs Apache (문맥 교환의 나비효과)**: 과거 Apache 웹 서버는 1만 명의 유저가 들어오면 프로세스나 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 1만 개 띄웠다([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)-per-request). 결과는 처참했다. CPU는 1만 개의 문맥을 초당 수십만 번 교환하느라 로드율 100%를 찍고 장렬히 전사했다(C10K Problem).
    - **아키텍처 혁명**: Nginx나 Node.js는 이 무식한 문맥 교환을 없애기 위해, 코어 수만큼(예: 8개) 워커 프로세스를 띄워놓고 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)([Event Loop](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/), `epoll` / `kqueue`)를 통해 1개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 1만 명의 소켓을 비동기(Non-blocking)로 빙빙 돌며 처리한다. OS가 개입하는 무거운 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위칭을 유저 스페이스의 가벼운 함수 호출로 대체하여 수백 배의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 달성했다.
 2. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/360_asid/">ASID</a> (Address Space ID) 하드웨어 지원 튜닝</strong>: 최신 ARM 코어나 Intel CPU는 프로세스가 바뀔 때마다 무식하게 TLB를 다 날려버리지 않는다. [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 엔트리에 PID와 같은 개념인 `ASID (주소 공간 ID)` 태그를 붙여둔다.
    - **실무 효과**: 문맥 교환 시 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 "이제부터 [ASID](/knowledge-base/studynote/02_operating_system/06_memory_management/360_asid/) 2번 쓴다!"라고 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 숫자 하나만 띡 바꾼다. 예전 P1([ASID](/knowledge-base/studynote/02_operating_system/06_memory_management/360_asid/) 1)이 쓰던 캐시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 삭제되지 않고 TLB에 안전하게 보존된다. 나중에 P1이 다시 돌아왔을 때 플러시 없이 기존 TLB를 그대로 쓸 수 있어 프로세스 문맥 교환 속도가 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 급으로 비약적으로 빨라지는 하드웨어의 기적이 일어났다.

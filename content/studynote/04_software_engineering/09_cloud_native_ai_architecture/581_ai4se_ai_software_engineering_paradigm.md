@@ -20,7 +20,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: AI를 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)에 접목하는 학문이자 트렌드.
-  - 10년 전엔 AI를 '만드는' 것([머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 엔지니어링)이 유행했다. 
+  - 10년 전엔 AI를 '만드는' 것([머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 엔지니어링)이 유행했다.
   - 지금은 만들어진 거대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))를 <strong>'소프트웨어 개발 과정 그 자체를 최적화하고 자동화하는 도구'</strong>로 역으로 써먹는(Dogfooding) 시대다. 코딩, 테스트, 디버깅, 배포 문서 작성까지 AI가 100% 개입한다.
 
 - **필요성 (인간 뇌의 한계와 보일러플레이트 노가다)**: 50개의 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))를 만들려면, K8s `Deployment.yaml` 50장, Spring Boot `Controller/Service/Repository` 뼈대 코드 1만 줄을 기계적으로 복사 붙여넣기(Boilerplate) 해야 한다. 10년 차 시니어도 이 짓을 하느라 일주일 내내 커피만 마시며 야근을 했다. **"아니, 이 뻔하고 반복적인 패턴(Pattern)의 똥 치우기 노가다를 왜 시급 10만 원짜리 인간이 하고 있어야 돼?! 창의적인 비즈니스 로직 고민할 시간도 모자라 죽겠는데!"** 이 피눈물 나는 생산성 병목을 깨부수기 위해, 패턴 인식의 신(God)인 AI를 코드 에디터(IDE) 뱃속에 이식하는 혁명이 시작됐다.

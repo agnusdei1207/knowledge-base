@@ -27,7 +27,7 @@ tags = ["studynote-security"]
         │
     내부 네트워크 (신뢰)
     PC ─ 서버 ─ DB
-    
+
 가정: 방화벽 안 = 신뢰
 문제: 방화벽 한 번 통과하면 내부 자유롭게 이동
 
@@ -35,19 +35,19 @@ tags = ["studynote-security"]
   1. 클라우드:
   데이터가 클라우드(경계 밖)에 있음
   "경계" 개념 붕괴
-  
+
   2. 원격 근무:
   직원이 집, 카페에서 접속
   "내부" 네트워크의 의미 사라짐
-  
+
   3. 내부자 위협 (Insider Threat):
   방화벽 안쪽 직원/계정 침해
   → 내부 = 신뢰 가정이 위험
-  
+
   4. 라테럴 무브먼트 (Lateral Movement):
   해커: 하나의 엔드포인트 침해
   → 내부망 자유 이동 → 중요 시스템 침해
-  
+
   SolarWinds 공급망 공격 (2020):
   정상 소프트웨어 업데이트로 내부 침투
   → 18,000개 조직 내부에서 자유 이동
@@ -65,38 +65,38 @@ tags = ["studynote-security"]
 
 1. 명시적 검증 (Verify Explicitly):
    모든 접근 요청: 항상 인증·인가
-   
+
    고려 요소:
    - 사용자 ID + MFA
    - 디바이스 상태 (패치, 암호화)
    - 위치 (IP, 국가)
    - 서비스/리소스
    - 이상 행위 (비정상 패턴)
-   
+
    예: 내부망에서도 매 리소스 접근 시 재검증
 
 2. 최소 권한 (Least Privileged Access):
    필요한 것만, 필요한 시간만
-   
+
    JIT (Just-In-Time) 접근:
    필요할 때만 권한 부여 → 완료 후 즉시 회수
-   
+
    JEA (Just Enough Access):
    특정 작업에만 필요한 권한
-   
+
    예: DB 관리자 → 항상 DB 접근 X
    필요 시 15분 JIT 권한 부여 → 자동 회수
 
 3. 침해 가정 (Assume Breach):
    이미 침해되었다고 가정하고 설계
-   
+
    마이크로세그멘테이션:
    네트워크를 작은 구역으로 분할
    구역 간 이동 = 항상 검증
-   
+
    End-to-End 암호화:
    내부 트래픽도 암호화 (도청 가정)
-   
+
    탐지·대응 강화:
    침해 전제 → 탐지와 대응이 핵심
 ```
@@ -112,24 +112,24 @@ tags = ["studynote-security"]
 
 1. IAM (Identity and Access Management):
    핵심: "ID가 새로운 경계"
-   
+
    MFA (Multi-Factor Authentication):
    비밀번호 + 생체인식/OTP/하드웨어 키
-   
+
    RBAC/ABAC:
    역할/속성 기반 접근 제어
-   
+
    PAM (Privileged Access Management):
    관리자 계정 JIT 접근
-   
+
    도구: Okta, Microsoft Entra ID (Azure AD)
 
 2. 마이크로세그멘테이션:
    가상 방화벽으로 내부 네트워크 분할
-   
+
    서버 A (웹) ← 검증 → 서버 B (앱)
    서버 B (앱) ← 검증 → 서버 C (DB)
-   
+
    도구: VMware NSX, Illumio, Guardicore
 
 3. 디바이스 신뢰 (Device Trust):
@@ -137,15 +137,15 @@ tags = ["studynote-security"]
    - OS 버전, 패치 수준
    - 암호화(BitLocker, FileVault)
    - EDR(Endpoint Detection & Response) 에이전트
-   
+
    도구: CrowdStrike, Microsoft Intune
 
 4. ZTNA (Zero Trust Network Access):
    VPN 대체
-   
+
    기존 VPN: 한 번 연결 → 내부망 전체 접근
    ZTNA: 앱별 개별 접근 제어
-   
+
    도구: Cloudflare Access, Zscaler ZPA
 
 5. 지속적 모니터링:
@@ -251,7 +251,7 @@ Phase 3 (18개월): 세그멘테이션
   전: 침투 후 3시간 내 핵심 DB 접근
   후: 침투 성공해도 다음 레이어에서 차단
   탐지 시간: 3일 → 2시간
-  
+
   비용: 2년 구현 8억원
   예방한 랜섬웨어 피해 추정: 50억원 이상
 ```

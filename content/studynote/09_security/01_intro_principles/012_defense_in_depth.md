@@ -21,7 +21,7 @@ tags = ["security"]
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-심층 방어 원칙(Defense in Depth, [DiD](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/))은 군사 전략에서 유래한 개념으로, 적의 진격을 늦추기 위해 여러 겹의 방어선을 구축하는 것을 정보보안에 적용한 것이다. 단일 보안 통제(예: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))에만 의존할 경우, 해당 통제가 우회되거나 [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/) 취약점으로 무력화되면 내부의 모든 자산이 무방비로 노출되는 치명적인 위험이 존재한다. 
+심층 방어 원칙(Defense in Depth, [DiD](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/))은 군사 전략에서 유래한 개념으로, 적의 진격을 늦추기 위해 여러 겹의 방어선을 구축하는 것을 정보보안에 적용한 것이다. 단일 보안 통제(예: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))에만 의존할 경우, 해당 통제가 우회되거나 [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/) 취약점으로 무력화되면 내부의 모든 자산이 무방비로 노출되는 치명적인 위험이 존재한다.
 
 과거에는 강력한 성벽([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))만 쌓으면 안전하다는 '경계망 보안([Perimeter Security](/knowledge-base/studynote/09_security/18_iot_ot_physical/936_perimeter_security/))'이 주류였으나, 모바일, 클라우드 환경의 도래와 [지능형 지속 위협](/knowledge-base/studynote/09_security/04_endpoint_security/374_apt/)([APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/))의 발전으로 인해 성벽 내부로 진입하는 것을 100% 막는 것은 불가능해졌다. 따라서 침투가 발생하더라도 다음 계층에서 공격을 차단하고 격리할 수 있는 다중 안전장치가 필수적이 되었다.
 
@@ -55,7 +55,7 @@ tags = ["security"]
 |:---|:---|:---|:---|
 | **물리적 보안** | 출입 통제, [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/), 생체 인식 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터나 서버실에 대한 물리적 접근 차단 | 성문 경비병 |
 | <strong><a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/">네트워크 보안</a></strong> | [NGFW](/knowledge-base/studynote/03_network/13_network_security_basics/698_ngfw_next_generation_firewall/), [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/)/[IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/), [네트워크 세그멘테이션](/knowledge-base/studynote/09_security/05_web_app_security/223_network_segmentation_vlan_vrf_isolation/) | [패킷 스니핑](/knowledge-base/studynote/09_security/03_network_security/272_packet_sniffing/) 방지, 악성 트래픽 필터링 및 횡적 이동 차단 | 성곽 및 해자 |
-| **호스트/엔드포인트** | [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/), 안티바이러스, [패치 관리](/knowledge-base/studynote/09_security/04_endpoint_security/406_patch_management/) | 악성코드 실행 방지, [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/), 프로세스 행위 분석 | 병사들의 갑옷 |
+| **호스트/엔드포인트** | [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/), 안티바이러스, [패치 관리](/knowledge-base/studynote/09_security/04_endpoint_security/406_patch_management/) | 악성코드 실행 방지, [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/), 프로세스 행위 분석 | 병사들의 갑옷 |
 | **애플리케이션 보안** | [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/), [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/), [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)/[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/) | SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 등 소프트웨어 취약점 악용 차단 | 독극물 검사기 |
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 보안</strong> | DB 암호화, [DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/), 접근 제어, 해싱 | 최종 목표 자산의 기밀성과 [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/) | 강철 금고 |
 
@@ -154,7 +154,7 @@ tags = ["security"]
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-심층 방어 원칙은 모든 정보보안 프레임워크(NIST [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/), ISO 27001 등)의 기저에 깔린 핵심 철학이다. 
+심층 방어 원칙은 모든 정보보안 프레임워크(NIST [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/), ISO 27001 등)의 기저에 깔린 핵심 철학이다.
 
 | 도입 전 | 도입 후 (기대 효과) |
 |:---|:---|

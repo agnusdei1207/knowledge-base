@@ -27,7 +27,7 @@ tags = ["studynote-software-engineering"]
   - 해상도 3종 (FHD, 2K, 4K)
   - 이걸 다 곱하면 $3 \times 4 \times 3 = 36$번의 테스트를 해야 한다. 만약 변수가 10개, 20개가 넘어가면 테스트 케이스는 수백만 개로 폭발한다. 시간이 생명인 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 환경에서 36번을 다 돌릴 수는 없다. 그렇다고 직관에 의존해 5개만 대충 뽑아서 테스트하면 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 버그가 운영(Production)에서 터진다. <strong>"놓치는 쌍(Pair)이 없으면서도 가장 적게 테스트하는 수학적 공식"</strong>이 절실하게 필요했다.
 
-- **💡 비유**: 반 친구 10명끼리 서로 모두 친해지게(상호작용) 하려면 어떻게 해야 할까요? 
+- **💡 비유**: 반 친구 10명끼리 서로 모두 친해지게(상호작용) 하려면 어떻게 해야 할까요?
   - **전체 조합 (비효율)**: 10명이 다 같이 모여서 피자를 1번씩 먹게 하는 수백 번의 파티를 엽니다. (돈과 시간이 너무 듭니다).
   - <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/">페어와이즈</a> (효율)</strong>: "어차피 두 명씩 대화(Pair)만 한 번씩 섞어주면 다 친해져!"라는 원리에 따라, 4명씩 앉는 테이블 자리를 똑똑하게 수학적으로 이리저리 바꿔주면 단 3~4번의 피자 파티만으로 10명이 서로 '최소 1번씩은 1:1로 짝꿍'이 되도록 완벽하게 섞을 수 있습니다.
 

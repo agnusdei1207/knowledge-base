@@ -56,7 +56,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내기 전 수신자와 "나 지금 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보낼 건데 길 좀 열어줘"라고 허락을 구하는 과정(호 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), Setup)이 아예 없다. 
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내기 전 수신자와 "나 지금 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보낼 건데 길 좀 열어줘"라고 허락을 구하는 과정(호 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), Setup)이 아예 없다.
 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 생기면 라우터는 그냥 당장 1번 포트로 냅다 쏴버린다. 덕분에 통신 시작 시 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Setup Delay)이 발생하지 않아 가벼운 통신에 유리하다.
 
 ### 2. 라우터의 홉-바이-홉(Hop-by-Hop) 독립적 계산
@@ -85,7 +85,7 @@ tags = ["studynote-network"]
 ```
 
 ### 3. 신뢰성의 결여와 상위 계층([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))의 역할
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 자체(IP 패킷)는 순서가 뒤바뀌거나(Out-of-order) 중간에 큐가 꽉 차서 버려져도(Drop) 절대 복구해주지 않는 무책임한 방식(Best-Effort)이다. 
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 자체(IP 패킷)는 순서가 뒤바뀌거나(Out-of-order) 중간에 큐가 꽉 차서 버려져도(Drop) 절대 복구해주지 않는 무책임한 방식(Best-Effort)이다.
 이를 보완하기 위해, 도착지에 있는 PC의 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>(전송 계층) 모듈이 패킷의 일련번호(Sequence Number)를 보고 뒤죽박죽된 순서를 예쁘게 재조립하고, 못 받은 패킷은 다시 보내라고 요청</strong>한다. 즉, 하위 망은 쿨하게 던지고, 상위 단말기가 머리를 쓰는 현대 인터넷의 사상이 바로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 전송에서 왔다.
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>그램 방식은 쿨한 배달 기사입니다. 물건을 목적지 문 앞에 냅다 던져놓고 가버립니다(Best-Effort). 순서가 섞였는지 물건이 깨졌는지는 </strong>"상자 속 물건을 꺼내보는 고객([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))"**이 직접 확인하고 퍼즐을 맞춰야 합니다.

@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: Jason A. Donenfeld가 기존 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 기술의 비대함과 느린 속도를 비판하며 개발한 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 기반의 최신 레이어 3 보안 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (2020년 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 5.6에 공식 병합됨).
 - **필요성**: IPsec이나 OpenVPN을 세팅해 본 엔지니어들은 안다. [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 코드가 100줄이 넘어간다. 게다가 C언어로 코드가 수십만 줄이라 보안 감사를 하다가 버그를 놓쳐 매년 [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/) 해킹이 터진다. 모바일 환경에선 폰을 쓰다가 와이파이에서 LTE로 바뀌면 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) VPN은 바로 툭 하고 끊어져서 다시 로그인해야 했다. <strong>"야, 복잡한 기능 싹 다 빼! 세팅은 딱 3줄로 끝내고, 모바일에서 망이 바뀌어도 절대 안 끊기고, 코드 길이는 4천 줄로 압축해서 해커가 틈입할 구멍을 없앤 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> VPN을 만들자!"</strong>
 
-- **💡 비유**: 
+- **💡 비유**:
   - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPsec</a> / <a href="/knowledge-base/studynote/09_security/03_network_security/284_openvpn/">OpenVPN</a></strong>: 수만 개의 부품과 센서로 이루어진 <strong>"초거대 우주왕복선"</strong>입니다. 뭐 하나 고장 나면 고치기도 힘들고 띄우는 데 시간(협상)도 오래 걸립니다.
   - **WireGuard**: 오직 모터, 배터리, 바퀴 딱 3개의 초경량 부품으로만 만든 <strong>"최고급 전기 자전거"</strong>입니다. 고장 날 부품 자체가 없고, 페달을 밟으면 0.1초 만에 최고 속도로 튀어 나갑니다.
 
@@ -49,7 +49,7 @@ WireGuard는 협상이라는 개념 자체가 아예 없다. (Crypto Agility의 
 
 ### 2. 크립토키 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) (Cryptokey [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))
 이것이 WireGuard [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)의 핵심 사상이다. "공개키(Public [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))" 자체가 곧 그 사람의 "신분증"이자 "IP [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 룰"이 된다.
-- 내 WireGuard 인터페이스(`wg0`) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 파일에 적어둔다. 
+- 내 WireGuard 인터페이스(`wg0`) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 파일에 적어둔다.
   `Peer(상대방): [상대방의 공개키 = abcde...], [허용된 IP = 10.1.1.2/32]`
 - **들어올 때 (Inbound)**: 어떤 놈이 나한테 패킷을 쐈는데, 암호 덩어리를 뜯어보니(복호화) 그 열쇠가 아까 적어둔 공개키 `abcde...`와 완벽히 맞아떨어졌고 그 안의 알맹이 출발지 IP가 `10.1.1.2`다? **"암호가 풀렸네? 넌 100% 믿을 수 있는 놈이야! 통과!"** (별도의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이나 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 검사 싹 다 생략).
 - **나갈 때 (Outbound)**: 목적지가 `10.1.1.2`인 패킷을 쏴야 한다면? <strong>"아까 그 공개키(<code>abcde...</code>)로 묻지도 따지지도 않고 바로 암호화해서 던진다!"</strong>

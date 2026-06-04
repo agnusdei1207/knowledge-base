@@ -29,29 +29,29 @@ tags = ["studynote-data-engineering"]
 
 행 기반 (Row-Oriented):
   저장: [1,Alice,30,5000][2,Bob,25,4000][3,Carol,35,6000]
-  
+
   장점: 행 단위 CRUD 빠름 (OLTP)
   단점: 전체 열 다 읽어야 함 (분석)
 
 컬럼 기반 (Column-Oriented):
   저장: [1,2,3][Alice,Bob,Carol][30,25,35][5000,4000,6000]
-  
+
   장점: 필요한 열만 읽음 (OLAP)
   압축률 높음 (같은 타입 데이터)
 
 쿼리 차이:
   SELECT AVG(salary) FROM employees
-  
+
   행 기반: id, name, age, salary 모두 읽음 (100%)
   컬럼형: salary 열만 읽음 (25%)
-  
+
   1억 행, 100열 테이블:
   행 기반: 5개 열 쿼리 → 100열 전부 읽음
   컬럼형: 5개 열 쿼리 → 5열만 읽음 (95% I/O 절감)
 
 압축 효율:
   컬럼 내 데이터 = 동일 타입 + 유사 값
-  
+
   salary열: 4000, 5000, 4500, 5200...
   → 델타 인코딩: +0, +1000, -500, +700
   → RLE: 같은 값 반복 (부서 코드 등)
@@ -68,7 +68,7 @@ tags = ["studynote-data-engineering"]
 Apache Parquet:
   Apache Foundation 오픈소스 (2013)
   Twitter + Cloudera 공동 개발
-  
+
 파일 구조:
   ┌─────────────────────────────┐
   │ Magic Number (PAR1)         │
@@ -109,7 +109,7 @@ Apache Parquet:
 술어 푸시다운:
   Row Group Footer 통계:
   min_value=1000, max_value=5000
-  
+
   WHERE salary > 6000:
   → 이 Row Group 건너뜀! (I/O 절감)
 ```
@@ -124,7 +124,7 @@ Apache Parquet:
 Apache ORC (Optimized Row Columnar):
   Hive 프로젝트에서 탄생 (2013)
   Hortonworks 개발
-  
+
 파일 구조:
   ┌───────────────────────────┐
   │ ORC Header (Magic: ORC)   │
@@ -200,10 +200,10 @@ Bloom Filter   | 없음     | 있음(선택)| 있음
 현재 트렌드:
   Parquet → Apache Iceberg, Delta Lake 표준
   ORC → Hive 기반 환경
-  
+
   Delta Lake: Parquet 기반 + ACID 보완
   Apache Iceberg: Parquet/ORC/Avro 지원
-  
+
 성능 벤치마크 (1억 행, 10열 중 3열 쿼리):
   CSV:     100s
   Parquet: 8s   (ZSTD 압축, 술어 푸시다운)
@@ -227,7 +227,7 @@ Bloom Filter   | 없음     | 있음(선택)| 있음
 문제 진단:
   Athena = Presto 기반 (S3 스캔)
   CSV: 스키마 없음, 압축 없음, 전체 스캔
-  
+
   일 주문 테이블: 5억 행, 50열
   주요 쿼리: 5열만 사용, 날짜 필터링
 
@@ -235,13 +235,13 @@ Bloom Filter   | 없음     | 있음(선택)| 있음
 
 1. CSV → Parquet 변환 (ZSTD 압축):
    Glue ETL로 일배치 변환
-   
+
    결과:
    CSV: 500GB/일 → Parquet: 80GB/일 (84% 압축)
 
 2. Hive 파티셔닝:
    S3 키: s3://bucket/orders/year=2024/month=01/day=15/
-   
+
    WHERE order_date = '2024-01-15'
    → 해당 파티션만 스캔
 
@@ -256,7 +256,7 @@ Bloom Filter   | 없음     | 있음(선택)| 있음
   쿼리 시간: 10~30분 → 30~90초
   스캔 비용: $50~200 → $2~8 (96% 절감)
   월 Athena 비용: 500만원 → 20만원
-  
+
   추가: Delta Lake 전환으로 ACID 지원
   (일 데이터 수정 필요 케이스 처리)
 ```

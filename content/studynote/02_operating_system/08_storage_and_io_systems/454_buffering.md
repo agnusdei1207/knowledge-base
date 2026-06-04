@@ -117,7 +117,7 @@ IT 면접에서 100만 번쯤 등장하는 가장 중요하고 헷갈리는 두 
 
 ### 실무 시나리오: C언어 `fflush()`와 `\n` 의 배신
 C언어 프로그래머들이 가장 환장하는 버그다.
-1. `printf("Hello World");` 를 쳤다. 
+1. `printf("Hello World");` 를 쳤다.
 2. 코드가 무한루프에 빠지며 죽었다.
 3. 터미널 화면을 봤는데 "Hello World"가 안 찍혀있다! "어? `printf` 전에서 죽었나?" 하고 밤새워 위쪽 코드만 100번 디버깅한다.
 4. **진실 (Line Buffering)**: `printf`는 유저 랩에 있는 '표준 입출력 버퍼(stdio buffer)'에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 밀어 넣고 끝난다. 이 버퍼는 꽉 차거나, 혹은 <strong>엔터키(<code>\n</code>)</strong>를 만나야만 비로소 OS 터미널 장치로 글자를 진짜로 쏘아내며(Flush) 화면에 뿌린다.

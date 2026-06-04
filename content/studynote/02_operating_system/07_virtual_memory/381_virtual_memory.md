@@ -56,7 +56,7 @@ tags = ["studynote-operating-system"]
 
 ### 1. [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) ([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)) 시스템
 가상 메모리를 구현하는 가장 보편적이고 압도적인 하부 기술이다. ([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)과 가상 메모리는 동의어가 아니다. 가상 메모리는 철학이고, [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 그 철학을 구현하는 도구다.)
-- 프로그램을 실행할 때 100GB 전체를 램에 올리지 않는다. 
+- 프로그램을 실행할 때 100GB 전체를 램에 올리지 않는다.
 - 오직 최초 실행에 필요한 딱 1개의 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(예: `main()` 함수가 있는 조각)만 물리 램에 올리고 나머지는 모두 디스크(Backing Store)에 둔다.
 - CPU가 실행하다가 램에 없는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 요구하면(Demand), 그때서야 디스크에서 램으로 가져온다. ([Lazy Loading](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/182_lazy_loading/))
 
@@ -105,7 +105,7 @@ tags = ["studynote-operating-system"]
 | 특성 | 순수 물리 메모리 환경 (과거) | 가상 메모리 환경 (현대) |
 |:---|:---|:---|
 | **프로그램 크기 한계** | 무조건 물리 램 용량보다 작아야 함 | 램 용량과 무관 (디스크 용량만큼 무한대) |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/">메모리 보호</a>/격리</strong> | 뚫리기 쉬움 (물리 주소가 노출됨) | 완벽함 (가상 주소가 다르면 서로 절대 볼 수 없음) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/">메모리 보호</a>/격리</strong> | 뚫리기 쉬움 (물리 주소가 노출됨) | 완벽함 (가상 주소가 다르면 서로 절대 볼 수 없음) |
 | **적재 단위** | 프로세스 통째로(연속) 적재 | 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(비연속) 단위로 쪼개어 적재 |
 | **하드웨어 지원** | Base/Limit [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 2개면 충분 | [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/), [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/), [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 등 복잡한 칩셋 필수 |
 | <strong>체감 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 무조건 램 속도로 작동 (일정함) | 캐시 미스([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 시 10만 배 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생 가능 |
@@ -115,7 +115,7 @@ tags = ["studynote-operating-system"]
 가상 메모리는 단순히 내 프로그램 크기를 키워준 것에서 끝나지 않았다. 남들과 메모리를 같이 쓰는 <strong>공유(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/">Shared Memory</a>)</strong>를 기하학적으로 우아하게 만들어주었다.
 - 10개의 워드프로세서를 띄웠다 치자.
 - 가상 메모리 시스템은 10개의 독립된 [가상 주소 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/)을 만들어 주지만, 이 10개의 장부(PTE)가 가리키는 <strong>물리적 램(RAM)의 실행 코드 프레임은 딱 1곳</strong>을 향하게 매핑한다.
-- [프로세스 간 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)([IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/))을 할 때도 마찬가지다. 두 앱의 가상 주소 장부가 하나의 램 공간을 공유하도록 묶어주기만 하면, 서로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사해서 넘겨줄 필요 없이 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)으로 메모리를 주고받는다([Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)). 
+- [프로세스 간 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)([IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/))을 할 때도 마찬가지다. 두 앱의 가상 주소 장부가 하나의 램 공간을 공유하도록 묶어주기만 하면, 서로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사해서 넘겨줄 필요 없이 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)으로 메모리를 주고받는다([Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)).
 
 - **📢 섹션 요약 비유**: 예전엔 10명이 영화를 보려면 10개의 방에 10개의 TV와 비디오테이프가 필요했지만(물리 메모리 낭비), 가상 메모리 덕분에 10명은 각자 방(가상 공간)에 있으면서도 벽에 뚫린 유리창을 통해 거실의 큰 TV 1대([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/))를 다 같이 볼 수 있게 된 것입니다.
 

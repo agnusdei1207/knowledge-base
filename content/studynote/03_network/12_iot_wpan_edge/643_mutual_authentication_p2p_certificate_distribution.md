@@ -76,10 +76,10 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 인터넷이 없는 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 환경에서 기기들 스스로 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 어떻게 관리할까요?
-1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">블록체인</a> (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">Blockchain</a>) 및 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/">DID</a> 기술 도입</strong>: 
+1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">블록체인</a> (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">Blockchain</a>) 및 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/">DID</a> 기술 도입</strong>:
    - 거대한 중앙 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 서버를 없애버립니다. 그 대신, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장에 기기들의 공인된 신분증([DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/))과 공개키를 기록하여 모든 노드가 장부 복사본을 나눠 가집니다.
    - A 차와 B 차가 마주치면 인터넷 연결 없이도 각자 차에 저장된 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 장부를 뒤져서 서로의 신분을 즉시 100% 확신하고 통신할 수 있습니다.
-2. <strong>사전 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서 교차 배포 (Pre-distribution)</strong>: 
+2. <strong>사전 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서 교차 배포 (Pre-distribution)</strong>:
    - 기기들이 인터넷이 연결되는 충전 기지나 차고지에 들를 때마다, 미리 향후 한 달 치의 임시 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 목록(동적 키) 뭉치를 한꺼번에 다운받아 들고 나갑니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

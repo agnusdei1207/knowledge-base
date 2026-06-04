@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/">SJF</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/">Shortest Job First</a>)</strong>: 큐에 대기 중인 프로세스들 중에서, 앞으로 CPU를 가장 짧게 쓸 것 같은 프로세스에게 먼저 CPU를 주는 스케줄링 방식.
   - <strong>기아 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">Starvation</a>)</strong>: 특정 프로세스가 스케줄링 정책에 의해 우선순위가 계속 밀려나, 시스템이 정상적으로 돌아가고 있음에도 불구하고 영원히 자원(CPU)을 할당받지 못하는 상태.
 
-- **필요성 (효율성의 무서운 그림자)**: 
+- **필요성 (효율성의 무서운 그림자)**:
   - FCFS의 [호위 효과](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/)([Convoy Effect](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/))를 겪은 공학자들은, "가장 짧은 작업부터 먼저 처리하면 전체 평균 대기 시간이 수학적으로 최소가 된다"는 완벽한 공식을 찾아내어 SJF를 만들었다.
   - 하지만 이 극단적인 효율성 추구는 '소수자(긴 프로세스)의 희생'을 낳았다. 1분짜리 작업이 1시간짜리 작업보다 무조건 먼저 실행되는데, 1분짜리 작업이 무한히 들어오면 1시간짜리 작업은 컴퓨터가 꺼질 때까지 실행되지 않았다.
   - **해결책**: "아무리 느리고 큰 작업이라도 언젠가는 실행되게 보장해야 한다"는 공정성(Fairness)의 원칙을 세우고, 이를 해결할 보완 장치([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))가 필요해졌다.
@@ -76,7 +76,7 @@ tags = ["studynote-operating-system"]
 
 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)은 나이를 먹는다는 뜻이다. 큐에서 1분을 기다릴 때마다, 긴 프로세스라도 그 '남은 요구 시간(또는 우선순위)'을 수학적으로 깎아주어, 언젠가는 가장 우선순위가 높게 만들어주는 마법이다.
 
-- **동작 원리**: 
+- **동작 원리**:
   - 기본 우선순위(P) = `CPU 요구 시간` (작을수록 높음)
   - [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) 적용 후 우선순위(P') = `CPU 요구 시간` - `(대기 시간 * 가중치)`
 - **결과**: 아무리 CPU를 100시간 써야 하는 괴물 프로세스라도, 큐에서 10일을 기다리면 나이([에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) 점수)를 엄청나게 먹어서, 방금 들어온 1분짜리 프로세스보다 우선순위 점수가 높아진다. 결국 CPU를 무조건 차지하게 된다.

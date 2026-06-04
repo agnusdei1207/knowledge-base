@@ -195,7 +195,7 @@ tags = ["algorithm_stats"]
 
 공간 복잡도 연구의 최신 동향은 <strong>메모리 제약 컴퓨팅(Memory-Constrained Computing)</strong>령역적심화이다. 스마트폰, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서, 엣지 디바이스에서는 RAM이 수십에서 수백 메가바이트에 불과하므로, 공간 복잡도 최적화가 필수적이다. 또한 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/">양자 컴퓨팅</a></strong>에서는 양자 bits([큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/))의 물리적 제약으로 공간 복잡도가 더욱 중요한 연구 주제로 부상하고 있다.
 
-공간 복잡도는 시간 복잡도와 함께 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 품질의 양축을 구성한다. 둘 사이의 트레이드오프를 명확히 이해하고, 시스템의 환경과 요구사항에 따라 적절한 균형점을 찾는 것이 시스템 설계자의 핵심 역량이다. 기술사 시험에서도 두 복잡도를 모두 정확히 분석하는능력이문われる. 
+공간 복잡도는 시간 복잡도와 함께 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 품질의 양축을 구성한다. 둘 사이의 트레이드오프를 명확히 이해하고, 시스템의 환경과 요구사항에 따라 적절한 균형점을 찾는 것이 시스템 설계자의 핵심 역량이다. 기술사 시험에서도 두 복잡도를 모두 정확히 분석하는능력이문われる.
 
 📢 **섹션 요약 비유**: 공간 복잡도는 строительстве적쌍방향성——시간은 시공속도, 공간은 부지 면적——과 같습니다.시공속도를 높이려면경다의 작업자(시간 최적화)를 배치해야 하고,작업 공간을 늘리려면더 많은 부지(공간 최적화)가 필요하며, 둘 다추구하면비용이 상승합니다.
 

@@ -161,7 +161,7 @@ CI for (p_B - p_A):
 (p̂_B - p̂_A) ± z_{α/2} · √[p̂_A(1-p̂_A)/n_A + p̂_B(1-p̂_B)/n_B]
 ```
 
-CI가 0을 포함하면 → 통계적으로 유의미한 차이 없음  
+CI가 0을 포함하면 → 통계적으로 유의미한 차이 없음
 CI가 0을 포함하지 않으면 → 유의미한 차이 있음
 
 **임상 시험 (Clinical Trial)**: 새 약품의 효과 크기 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)

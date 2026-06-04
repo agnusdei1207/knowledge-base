@@ -469,6 +469,8 @@ footer {
   padding: 0;
   color: var(--darkgray);
   display: block;
+  font-variant-ligatures: none;
+  letter-spacing: 0;
   min-width: max-content;
   font-size: 0.84rem;
   line-height: 1.42;

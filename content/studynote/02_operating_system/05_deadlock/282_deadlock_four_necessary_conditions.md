@@ -59,14 +59,14 @@ tags = ["studynote-operating-system"]
 
 ### 각 조건의 세부 성질
 
-1. <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a> (Mutual exclusiveness)</strong>: 
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a> (Mutual exclusiveness)</strong>:
    프린터, 뮤텍스 락처럼 공유 불가한(Non-sharable) 모드로만 접근 가능한 자원이 원인. (읽기 전용 파일처럼 다중 접근을 놔두면 데드락 0)
 2. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/">점유 대기</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/284_hold_and_wait/">Hold and wait</a>)</strong>:
    기본 자원 1개를 선점해 놓은 프로세스가 나머지 2번 자원을 확보하려고 OS 블록 큐에 잠들면서 기존 1번 자원을 안 뱉음.
 3. <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/">비선점</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/">No preemption</a>)</strong>:
    프로세스가 작업을 다 끝내고 `release()` 하기 전까지는 외부 힘으로 그 자원을 "강제 스위칭 탈취" 해올 아키텍처 지원이 없음. (CPU나 메모리는 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) 선점이 되서 데드락이 덜 나나, DB Lock은 강제 탈취시 오염)
 4. <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/">순환 대기</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/">Circular wait</a>)</strong>:
-   대기하는 노드들의 체인이 {P0 → P1 → P2 → ... → P0} 형태의 순환 위상수학적 사이클 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Cycle [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))를 그리는 상태. 
+   대기하는 노드들의 체인이 {P0 → P1 → P2 → ... → P0} 형태의 순환 위상수학적 사이클 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Cycle [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))를 그리는 상태.
 
 **📢 섹션 요약 비유**: 4가지 룰이 조합된 절대 반지 — "나만 써(1), 남의 것도 가질래(2), 강제 압수 안 됨(3), 원형으로 목조르기(4)". 단 하나라도 룰을 어기면 절대 반지는 산산조각 납니다.
 

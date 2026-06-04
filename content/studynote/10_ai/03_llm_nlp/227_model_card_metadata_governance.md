@@ -24,7 +24,7 @@ tags = ["studynote-ai"]
 
 그러다 대형 참사들이 터졌다. 흑인 여성을 고릴라로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하거나, 이력서에 '여성'이란 단어가 있으면 AI가 무조건 채용에서 탈락시켜 버리는 끔찍한 <strong>차별과 편향(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>)</strong> 사고가 뉴스를 도배했다. 알고 보니 그 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델들은 인터넷의 쓰레기 같은 남성/백인 우월주의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 잔뜩 먹고 자란 삐뚤어진 모델이었던 것이다.
 
-이 참상을 본 구글(Google)의 윤리 연구진들은 분노하며 논문을 발표했다. <strong>"<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 모델도 과자처럼 뒷면에 영양 성분표를 강제로 붙여라!"</strong> 
+이 참상을 본 구글(Google)의 윤리 연구진들은 분노하며 논문을 발표했다. <strong>"<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 모델도 과자처럼 뒷면에 영양 성분표를 강제로 붙여라!"</strong>
 이 모델이 무엇을 위해 태어났고, 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 훈련했으며, 어떤 치명적인 편향성(약점)을 가지고 있는지 개발자가 직접 양심 고백을 적어놓는 표준 문서화 양식, <strong>모델 스코어카드(Model Card)</strong>가 투명한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 거버넌스의 절대 규범으로 탄생한 순간이다.
 
 ```text
@@ -70,7 +70,7 @@ tags = ["studynote-ai"]
 ```
 
 **핵심 원리 (투명성과 윤리의 강제 체계화)**:
-모델 카드의 핵심 엔진은 자랑([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 99%)을 적는 데 있지 않고, <strong>약점(Limitation)과 한계(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>)를 적나라하게 고백(Disclosure)</strong>하는 데 있다. 글로벌 최대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 저장소인 <strong>Hugging Face(허깅페이스)</strong>는 개발자가 모델을 업로드할 때 이 `README.md` (모델 카드 포맷)를 작성하지 않으면 모델을 제대로 띄워주지 않거나 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 마크를 주지 않는다. 
+모델 카드의 핵심 엔진은 자랑([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 99%)을 적는 데 있지 않고, <strong>약점(Limitation)과 한계(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>)를 적나라하게 고백(Disclosure)</strong>하는 데 있다. 글로벌 최대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 저장소인 <strong>Hugging Face(허깅페이스)</strong>는 개발자가 모델을 업로드할 때 이 `README.md` (모델 카드 포맷)를 작성하지 않으면 모델을 제대로 띄워주지 않거나 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 마크를 주지 않는다.
 이는 나중에 사고가 터졌을 때 "우리는 이 모델을 의료용으로 쓰면 안 된다고 카드에 명시했다. 의사가 무시하고 쓴 거니 책임은 의사(기업)에게 있다"는 거대한 법적 면책(Liability 방어) 방패막이 되기도 한다.
 
 | 요소 | 역할 |

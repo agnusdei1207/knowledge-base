@@ -21,7 +21,7 @@ tags = ["data_engineering"]
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-<strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 온 리드 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/">Schema</a>-on-Read)</strong>는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 저장하고 해석할 것인가"에 대한 아키텍처적 패러다임입니다. 
+<strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 온 리드 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/">Schema</a>-on-Read)</strong>는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 저장하고 해석할 것인가"에 대한 아키텍처적 패러다임입니다.
 
 전통적인 관계형 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(RDBMS) 시대에는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하기 전에 반드시 테이블과 컬럼, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입(INT, VARCHAR 등)을 미리 정의해야 하는 [스키마 온 라이트](/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/)([Schema-on-Write](/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/)) 방식을 사용했습니다. 이는 규격에 맞지 않는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어오면 무자비하게 에러를 뱉어내고 폐기 처리했습니다. 그러나 빅데이터 시대에 접어들며 웹 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 소셜 미디어 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 등 형태가 시시각각 변하고 미리 구조를 예측할 수 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 폭포수처럼 쏟아졌습니다. 저장 전에 구조를 맞추려다가는 처리 병목 현상으로 시스템이 마비되었고, 당장 쓸모없어 보이는 필드를 삭제했다가 나중에 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 분석에서 핵심 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)(Feature)를 잃어버리는 일도 빈번했습니다.
 
@@ -71,7 +71,7 @@ tags = ["data_engineering"]
        │ [ Apache Spark DataFrame Reader ]                      │
        │ spark.read.option("inferSchema", "true").json(path)    │
        └──────────────────────┬─────────────────────────────────┘
-                              │ 
+                              │
               (1차 스캔: 샘플링을 통한 스키마 동적 추론)
               - id: Long
               - user_name: String

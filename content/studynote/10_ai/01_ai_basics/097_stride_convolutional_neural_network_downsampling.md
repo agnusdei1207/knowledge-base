@@ -92,7 +92,7 @@ $$ \text{Output Size} = \lfloor \frac{\text{Input} + 2 \times \text{[Padding](/k
 
 ## Ⅴ. 기대효과 및 결론
 
-스트라이드의 도입은 딥러닝 모델이 무거운 이미지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빠르고 효율적으로 소화하게 만든 일등 공신이다. 이를 통해 연산 병목을 제거하고, 전체 네트워크를 더 깊게 쌓을 수 있는(Deep Network) 토대를 마련했다. 
+스트라이드의 도입은 딥러닝 모델이 무거운 이미지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빠르고 효율적으로 소화하게 만든 일등 공신이다. 이를 통해 연산 병목을 제거하고, 전체 네트워크를 더 깊게 쌓을 수 있는(Deep Network) 토대를 마련했다.
 
 하지만 스트라이드를 과도하게 높이면 중요한 위치 정보(Spatial Information)가 영구적으로 유실될 한계가 존재한다. 따라서 현대의 CNN은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 층에서는 미세한 특징을 뽑고(Stride 1), 깊어질수록 공간을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하며 추상적인 특징을 잡는(Stride 2) 계층적 구조를 통해 속도와 정확도의 최적 타협점을 찾는다.
 

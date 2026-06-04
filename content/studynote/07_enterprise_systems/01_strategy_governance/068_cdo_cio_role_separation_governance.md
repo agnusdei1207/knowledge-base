@@ -128,8 +128,8 @@ Governance Model
 
 ## 어린이를 위한 3줄 비유 설명
 
-한 사람은 내용, 한 사람은 기계를 챙겨요.  
-둘 다 중요하지만 역할은 달라요.  
+한 사람은 내용, 한 사람은 기계를 챙겨요.
+둘 다 중요하지만 역할은 달라요.
 CDO와 CIO는 그런 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)예요.
 
 ---

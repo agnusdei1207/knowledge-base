@@ -72,7 +72,7 @@ tags = ["studynote-software-engineering"]
 어떻게 다른 개발자가 `new`를 못 치게 막을 수 있을까요?
 
 1. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>자의 모가지를 자른다 (<code>private</code> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>자)</strong>:
-   - 클래스 안의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 함수 앞에 무조건 `private`을 박아버립니다. 
+   - 클래스 안의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 함수 앞에 무조건 `private`을 박아버립니다.
    - 이제 바깥에서 다른 개발자가 `new Singleton()`을 치는 순간 자바 컴파일러가 쌍욕을 하며 빨간 줄(에러)을 긋습니다. "야! 밖에서 붕어빵 못 구워!"
 2. <strong>금고 안에서 자기가 스스로 1개 굽기 (<code>private static</code> 변수)</strong>:
    - 밖에서 못 구우니, 클래스 내부 안쪽에서 자기가 스스로 자기 자신을 딱 1개 구워놓고(`new`) 금고(Static 메모리) 안에 꽁꽁 숨겨둡니다.
@@ -92,7 +92,7 @@ tags = ["studynote-software-engineering"]
 
 면접관들이 제일 좋아하는 질문입니다. "싱글톤이 무조건 좋나요?" 절대 아닙니다!
 - **장점**: 메모리 낭비가 0%고, [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/)(전역 상태)가 미치도록 쉽습니다.
-- **치명적 단점 (객체지향의 적) 🌟**: 
+- **치명적 단점 (객체지향의 적) 🌟**:
   - 결국 싱글톤은 예쁘게 포장한 **'전역 변수(Global Variable)'** 쓰레기에 불과합니다. 1만 개의 클래스가 이 싱글톤 1개를 다 같이 바라보고 얽혀버리기 때문에([결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 대폭발), 나중에 싱글톤을 고치면 1만 개의 클래스가 도미노처럼 다 에러가 터집니다.
   - 게다가 219번 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 문제! 1만 명이 싱글톤 1개에 동시에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰려고(Write) 달려들면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모순이 터지므로, 안에 자물쇠([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)/Sync)를 달아야 하는데 이게 또 병목(속도 저하)의 원흉이 됩니다. 그래서 현대의 스프링(Spring) 프레임워크는 개발자가 직접 짜는 더러운 싱글톤을 버리고, 자기가 알아서 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 안에서 1개로 관리([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/))해 줍니다.
 

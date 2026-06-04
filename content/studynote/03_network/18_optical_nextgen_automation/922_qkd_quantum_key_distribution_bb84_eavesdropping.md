@@ -37,7 +37,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 정보를 암호화해서 풀 때 쓰는 <strong>'비밀 열쇠(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)'를 빛의 최소 단위인 광자(Photon) 하나하나에 실어서 보내는 무조건적 보안(Unconditional <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>) 기술</strong>입니다. 
+- **개념**: 정보를 암호화해서 풀 때 쓰는 <strong>'비밀 열쇠(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)'를 빛의 최소 단위인 광자(Photon) 하나하나에 실어서 보내는 무조건적 보안(Unconditional <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>) 기술</strong>입니다.
 - 해커가 중간에 열쇠를 훔쳐보면 양자역학의 법칙(관측자의 개입)에 의해 열쇠가 즉각 붕괴하여 썩어버리기 때문에, [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 사실을 수신자가 100% 알아채고 그 열쇠를 버려버리는 철통 보안 체계입니다.
 
 ```text
@@ -78,7 +78,7 @@ QKD를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 - 해커(이브)가 중간에 광케이블을 까서 광자를 몰래 가로챕니다.
 - 해커도 앨리스가 무슨 필터를 썼는지 모르니 자기 맘대로 ➕필터를 대고 광자를 들여다봅니다(관측).
 - **양자의 복수(파동 붕괴)**: 양자역학의 법칙상, 해커가 잘못된 필터로 광자를 쳐다보는 순간 광자의 원래 편광 상태가 파사삭 부서져 엉뚱한 모양으로 변해버립니다. 해커는 이걸 모르고 다시 밥에게 똑같이 쏴줍니다.
-- 밥이 나중에 앨리스와 답(필터)을 맞춰봤는데, 둘이 똑같은 ➕필터를 썼는데도 밥의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 앨리스와 다릅니다(에러율 25% 폭증). 
+- 밥이 나중에 앨리스와 답(필터)을 맞춰봤는데, 둘이 똑같은 ➕필터를 썼는데도 밥의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 앨리스와 다릅니다(에러율 25% 폭증).
 - **밥과 앨리스의 결단**: "야! 필터가 똑같은데 값이 다르다는 건, 중간에 어떤 새끼가 훔쳐보느라 광자가 붕괴됐다는 뜻이다! 이 암호키 다 폐기해버려!" 해커는 영원히 제대로 된 암호키를 훔칠 수 없습니다.
 
 - **거리 한계**: 광자가 너무 얇아서 100km만 가도 힘이 빠져 죽어버립니다(921번 중계기 문서).

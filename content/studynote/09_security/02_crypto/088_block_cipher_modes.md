@@ -19,7 +19,7 @@ tags = ["studynote-security"]
 
 ## Ⅰ. 개요 및 필요성
 
-`AES`나 `SEED` 같은 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 본질적으로 한 번에 1블록(예: 128비트)의 데이터만 암호화하는 정적인 수학 함수일 뿐이다. 그러나 실제 네트워크 통신이나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장에서 다루는 데이터는 이보다 훨씬 길다. 
+`AES`나 `SEED` 같은 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 본질적으로 한 번에 1블록(예: 128비트)의 데이터만 암호화하는 정적인 수학 함수일 뿐이다. 그러나 실제 네트워크 통신이나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장에서 다루는 데이터는 이보다 훨씬 길다.
 
 긴 평문을 여러 블록으로 쪼갠 뒤, 이를 단순히 독립적으로 암호화하면 심각한 문제가 생긴다. 평문의 패턴(예: 픽셀이 반복되는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)맵 이미지)이 암호문에서도 동일한 패턴으로 드러나기 때문이다. 이를 방지하기 위해 이전 블록의 암호화 결과를 다음 블록에 섞어주거나([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/)), 지속적으로 변하는 난수([Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))를 조합하여 "매번 다른 결과"를 만들어내는 운영 모드가 필수적으로 요구된다.
 
@@ -29,7 +29,7 @@ tags = ["studynote-security"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-운영 모드는 크게 <strong>'평문을 섞는 방식(<a href="/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/">CBC</a>, CFB)'</strong>과 <strong>'키 스트림을 먼저 만들어 평문과 XOR 하는 방식(OFB, <a href="/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/">CTR</a>)'</strong>으로 나뉜다. 
+운영 모드는 크게 <strong>'평문을 섞는 방식(<a href="/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/">CBC</a>, CFB)'</strong>과 <strong>'키 스트림을 먼저 만들어 평문과 XOR 하는 방식(OFB, <a href="/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/">CTR</a>)'</strong>으로 나뉜다.
 
 | 운영 모드 | 원리 (암호화 구조) | 핵심 특징 | [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) |
 | :--- | :--- | :--- | :--- |
@@ -73,7 +73,7 @@ tags = ["studynote-security"]
 
 ## Ⅲ. 비교 및 연결
 
-각 모드는 통신 중 발생하는 '[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Error)'에 대해 서로 다른 전파(Propagation) 특성을 보인다. 
+각 모드는 통신 중 발생하는 '[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Error)'에 대해 서로 다른 전파(Propagation) 특성을 보인다.
 
 | 비교 축 | [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) ([Cipher Block Chaining](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/)) | CFB (Cipher Feedback) | OFB (Output Feedback) | [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) ([Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)) |
 | :--- | :--- | :--- | :--- | :--- |

@@ -19,10 +19,10 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 라우터가 자신에게 바로 연결된 링크(서브넷) 내에 어떤 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 주소에 가입한 리스너(Listener, 수신자)가 존재하는지 파악하기 위해 사용하는 제어 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (RFC 2710). 
+- **개념**: [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 라우터가 자신에게 바로 연결된 링크(서브넷) 내에 어떤 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 주소에 가입한 리스너(Listener, 수신자)가 존재하는지 파악하기 위해 사용하는 제어 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (RFC 2710).
 - **필요성**: IPv4에서 IGMP가 했던 역할("나 11번 채널 볼래!")이 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 세계에서도 똑같이 필요했다. 하지만 IPv6는 헤더 크기가 커지고 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 구조가 바뀌었기 때문에 옛날 [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) 메시지 포맷을 그대로 갖다 쓸 수가 없었다. 그래서 <strong>"역할은 똑같이 하되, 껍데기 포장만 IPv6와 ICMPv6 규격에 맞게 싹 리모델링한 새로운 이름"</strong>이 MLD다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/">IGMP</a></strong>: 아날로그 TV 시절, 케이블 기사님에게 "저희 집 유선 방송 스포츠 채널 뚫어주세요!"라고 쓰던 <strong>"종이 신청서(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/">IPv4</a>)"</strong>.
   - **MLD**: 넷플릭스 스마트 TV 시대에, 리모컨으로 화면에서 "구독하기" 버튼을 누르면 서버로 날아가는 <strong>"디지털 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/">전자 서명</a> 신청서(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a>)"</strong>. 역할은 똑같은데 폼이 세련되게 바뀌었습니다.
 

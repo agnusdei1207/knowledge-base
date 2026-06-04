@@ -72,7 +72,7 @@ tags = ["studynote-network"]
 ```
 
 ### 2. ISL의 구조적 한계와 소멸
-- <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 낭비</strong>: ISL은 프레임 하나당 30바이트나 되는 엄청난 쓰레기 패딩을 달고 다니므로 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(효율성) 낭비가 너무 심했다. 
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 낭비</strong>: ISL은 프레임 하나당 30바이트나 되는 엄청난 쓰레기 패딩을 달고 다니므로 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(효율성) 낭비가 너무 심했다.
 - **비호환성**: 시스코 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 다른 브랜드(예: 주니퍼, 알카텔) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 트렁크로 연결하면, 타사 장비는 ISL 헤더를 이해하지 못해 통신이 완전히 박살 났다.
 - **최후**: 결국 시스코마저도 최신 넥서스(Nexus) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 카탈리스트 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 라인업에서 ISL 지원을 아예 삭제해버렸고, `switchport trunk encapsulation dot1q` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나만 남게 되며 완벽한 역사의 뒤안길로 사라졌다.
 

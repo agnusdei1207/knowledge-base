@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **선점(Preemption)**: 현재 CPU를 쓰고 있는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 강제로 내쫓고, 우선순위가 더 높은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에게 CPU를 넘겨주는 행위.
   - **PREEMPT_RT (Real-Time Linux)**: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 소스 코드를 전면 개조하여, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 거의 모든 구간(약 99%)에서 선점이 가능하도록(Fully Preemptible) 만들어주는 공식 패치셋.
 
-- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/">스핀락</a>의 독재와 레이턴시의 재앙)</strong>: 
+- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/">스핀락</a>의 독재와 레이턴시의 재앙)</strong>:
   - 공장 로봇 팔을 제어하는 프로그램은 1ms마다 정확히 모터 각도를 갱신해야 한다.
   - 일반 리눅스에서 어떤 하위 프로세스가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽느라 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에서 `Spinlock`을 잡고 있으면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 락을 쥔 상태에서는 <strong>절대 선점당하지 않도록(Preempt Disable) <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>를 막아버린다</strong>.
   - 이때 로봇 팔 제어 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 들어와도, 리눅스는 하위 프로세스가 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)을 다 쓰고 놓을 때까지 수십 ms 동안 모터 명령을 무시한다. 결국 로봇 팔은 제어 타이머를 놓치고 부서진다.

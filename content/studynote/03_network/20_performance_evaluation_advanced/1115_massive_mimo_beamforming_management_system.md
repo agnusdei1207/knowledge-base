@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 4G [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(2T2R 등)는 둥근 풍선 모양으로 전파를 넓게 퍼뜨렸습니다. 
+- 4G [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(2T2R 등)는 둥근 풍선 모양으로 전파를 넓게 퍼뜨렸습니다.
 - 철수가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓸 때 옆에 있는 영희도 불필요한 전파를 맞았습니다(간섭 노이즈). 허공으로 날아가는 낭비 전력이 99%라 효율이 처참했습니다.
 
 ```text

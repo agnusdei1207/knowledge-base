@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-하급 화이트박스 테스터는 [구문 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/)([Statement Coverage](/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/)) 100%를 달성하고 신나서 퇴근합니다. 
+하급 화이트박스 테스터는 [구문 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/)([Statement Coverage](/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/)) 100%를 달성하고 신나서 퇴근합니다.
 그러나 바로 다음 날 서버가 다운됩니다. 코드는 `if (user_age > 19) { alcohol_buy(); }`로 짜여 있어서 성인이 술을 사는 테스트는 했지만, <strong>미성년자가 술을 사려고 시도했을 때 프로그램이 어떻게 반응하는지에 대한 검사(False 분기 흐름)</strong>가 전혀 이루어지지 않았기 때문입니다. 즉, "안 한다"라는 선택지에 대한 방어(`else` 혹은 `return`)가 무너진 것입니다.
 
 이를 해결하기 위해 테스터 2단계 각성인 <strong>결정 커버리지(Decision Coverage, 또는 분기 커버리지 Branch Coverage)</strong>가 태어납니다. 이 계명은 "코드를 다 지나는 걸 넘어, 모든 선택지 문(Decision Point)에서 T/F 화살표의 양 갈래를 다 타고 놀아야 한다!"라고 규제합니다.
@@ -62,7 +62,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 결정 커버리지는 수학적으로 우월한 성질을 갖습니다. <strong>"결정 커버리지 100%를 달성하면, 무조건 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/">구문 커버리지</a> 100%는 자동으로 달성된다."</strong> (포용의 법칙, Subsumption [Relation](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)).
-참(True) 길과 거짓(False) 길을 구석구석 다 쑤시고 다니다 보면, 자연스럽게 그 길목에 놓인 모든 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(Statement)들도 저절로 모두 한 번씩은 밟히기 때문입니다. 
+참(True) 길과 거짓(False) 길을 구석구석 다 쑤시고 다니다 보면, 자연스럽게 그 길목에 놓인 모든 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(Statement)들도 저절로 모두 한 번씩은 밟히기 때문입니다.
 
 이 극강의 실용성 때문에, 세계 테스트 자격증 위원회(ISTQB)와 대다수 글로벌 IT 기업(구글, 금융권 보안 등)은 <strong>코드 리베이트(개발 승인)의 최소 품질 턱</strong>을 [구문 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/)가 아닌 <strong>수준 높은 '분기(결정) 커버리지'</strong>로 박아둡니다. (예: 분기 커버리지 70% 이상 달성 의무화).
 

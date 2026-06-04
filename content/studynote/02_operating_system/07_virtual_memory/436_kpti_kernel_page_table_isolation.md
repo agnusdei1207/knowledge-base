@@ -67,7 +67,7 @@ tags = ["studynote-operating-system"]
 KPTI가 켜진 상태에서 유저가 하드디스크를 읽어달라고 `read()`를 치면, 아주 기괴한 점프가 일어난다.
 1. 유저 앱이 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))를 날린다.
 2. 유저 테이블 상단에는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 통째로 없지만, 딱 하나 <strong>'<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 진입 코드(Entry <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)'</strong> 단 몇 줄만 들어있는 마이크로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(트램폴린)가 남겨져 있다.
-3. CPU가 이 트램폴린을 밟는다. 
+3. CPU가 이 트램폴린을 밟는다.
 4. 트램폴린 코드가 냅다 <strong>CR3 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a> 시작 포인터)</strong>의 값을 '유저 장부'에서 <strong>'<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 전용 장부'</strong> 주소로 덮어써 버린다.
 5. 장부가 바뀌는 순간 숨겨져 있던 거대한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 우주가 눈앞에 쫙 펼쳐진다! (그리고 동시에 기존의 유저 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시가 싹 다 날아간다 💣).
 6. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 `read` 작업을 마치면, 다시 트램폴린을 밟고 CR3를 '유저 장부'로 돌려놓고(또 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 날아감) 앱으로 복귀한다.
@@ -128,7 +128,7 @@ KPTI의 유일한, 하지만 치명적인 문제는 바로 <strong>'<a href="/kn
 
 ### 실무 시나리오: 부팅 옵션 `pti=off` 와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 유혹
 1. **문제 상황**: 회사 사내 인트라넷용 MySQL 서버를 오래된 제온(Xeon) 구형 CPU 머신에 올렸다. 초당 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)(TPS)가 평소의 60%밖에 안 나온다.
-2. **원인 분석**: 
+2. **원인 분석**:
    - 이 구형 CPU에는 PCID 캐시 보존 기술이 없다. [KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/)([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패치)가 켜져서 매 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)(시스템 콜)마다 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시가 100% 찢어지며 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 급 렉을 유발하고 있다.
 3. <strong>엔지니어의 도박 (<code>pti=off</code>)</strong>:
    - "이 서버는 외부 인터넷에 아예 안 물려있어! 사내 직원 10명만 쓰는 닫힌 네트워크고, 해커가 이 서버에 악성 코드를 심을 방법도 없잖아?"

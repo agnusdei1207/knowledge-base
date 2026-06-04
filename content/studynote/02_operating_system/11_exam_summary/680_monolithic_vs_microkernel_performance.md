@@ -19,13 +19,13 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/">Monolithic Kernel</a> (단일형 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>)</strong>: OS의 모든 서브시스템이 하나의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 주소 공간에서 실행되는 거대한 바이너리.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/">Microkernel</a> (미세 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>)</strong>: 핵심 기능(메모리 관리, [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/))만 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드에 두고, 나머지는 유저 모드의 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)처럼 작동시키는 분산형 아키텍처.
 
-- **필요성 (OS 비대화의 저주)**: 
-  - 리눅스나 윈도우 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 코드가 몇만 줄에 불과해 통째로 짜도(Monolithic) 문제가 없었다. 
-  - 하지만 드라이버가 수만 개로 늘어나고 코드가 수천만 줄이 되자, 누군가 새로 짠 오디오 드라이버 코드 한 줄의 버그(Null [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))가 전체 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 패닉([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))에 빠뜨리는 일이 일상화되었다. 
+- **필요성 (OS 비대화의 저주)**:
+  - 리눅스나 윈도우 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 코드가 몇만 줄에 불과해 통째로 짜도(Monolithic) 문제가 없었다.
+  - 하지만 드라이버가 수만 개로 늘어나고 코드가 수천만 줄이 되자, 누군가 새로 짠 오디오 드라이버 코드 한 줄의 버그(Null [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))가 전체 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 패닉([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))에 빠뜨리는 일이 일상화되었다.
   - **해결책**: "위험한 코드들(드라이버)을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 밖으로 쫓아내고, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 메시지([IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/))만 전달해 주는 우체국 역할만 하자"는 [마이크로 커널](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/598_microkernel_plugin_architecture/)의 아이디어가 대안으로 부상했다.
 
   - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/">모놀리식 커널</a></strong>: 하나의 거대한 공장 건물 안에 용광로, 조립 라인, 포장 팀이 칸막이 없이 옹기종기 모여 있다. 부품을 옆 사람에게 손으로 바로바로 건네주므로 속도는 최고다. 하지만 용광로 하나가 터지면 공장 전체가 잿더미가 된다.
@@ -117,7 +117,7 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오
 
-1. <strong>시나리오 — 구글 푸시아(Fuchsia) OS의 등장과 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 혁명</strong>: 구글이 안드로이드(Linux 모놀리식)를 대체하기 위해 개발 중인 Fuchsia OS는 Zircon이라는 [마이크로 커널](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/598_microkernel_plugin_architecture/)을 기반으로 한다. 스마트홈 기기(Nest)나 AR 글래스는 메모리가 작고, 해킹 시 사생활 침해가 치명적이다. 
+1. <strong>시나리오 — 구글 푸시아(Fuchsia) OS의 등장과 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 혁명</strong>: 구글이 안드로이드(Linux 모놀리식)를 대체하기 위해 개발 중인 Fuchsia OS는 Zircon이라는 [마이크로 커널](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/598_microkernel_plugin_architecture/)을 기반으로 한다. 스마트홈 기기(Nest)나 AR 글래스는 메모리가 작고, 해킹 시 사생활 침해가 치명적이다.
    - **아키텍처 적용**: Zircon은 드라이버를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간에 절대 넣지 않는다. 카메라 드라이버가 해킹당해도 해커는 유저 공간의 '카메라 서버 프로세스' 권한만 얻을 뿐, 다른 앱의 메모리를 훔쳐볼 수 있는 `Ring 0` 권한은 얻지 못한다. [마이크로 커널](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/598_microkernel_plugin_architecture/)은 완벽한 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/))의 기반이 된다.
 
 2. <strong>시나리오 — 리눅스(모놀리식)의 안정성 한계 극복 (<a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> 도입)</strong>: 리눅스 서버에서 네트워크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이려 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(`.ko`)을 C언어로 짜서 올렸다가, 포인터 실수 하나로 서버 전체가 [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)(Panic)이 나서 죽어버림.

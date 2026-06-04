@@ -132,13 +132,13 @@ ECC를 이해하려면 비ECC 메모리, 칩킬 [ECC](/knowledge-base/studynote/
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 1: ECC만 켜 두고 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>를 보지 않는 운영</strong>  
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 1: ECC만 켜 두고 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>를 보지 않는 운영</strong>
   정정 가능한 오류가 반복된다는 것은 하드웨어 열화의 전조일 수 있다. 무시하면 결국 정정 불가 오류로 확대된다.
 
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 2: ECC를 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하의 주범으로 오해하는 설계</strong>  
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 2: ECC를 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하의 주범으로 오해하는 설계</strong>
   대부분의 서버 병목은 CPU, 스토리지, 네트워크, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 구조에 있다. ECC를 빼서 얻는 이익보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손상 위험이 훨씬 클 때가 많다.
 
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 3: <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>/분석 워크로드에서 SDC를 가볍게 보는 태도</strong>  
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 3: <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>/분석 워크로드에서 SDC를 가볍게 보는 태도</strong>
   학습 결과가 조금씩 틀어지는 문제는 즉시 장애보다 더 늦고 비싸게 발견된다. 이 영역에서 ECC는 재현성 확보 도구이기도 하다.
 
 - **📢 섹션 요약 비유**: [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 운영은 자동차에 에어백을 달아 두는 것에서 끝나지 않는다. 경고등을 보고, 이상 진동이 생기면 정비소에 가고, 고속도로를 자주 달린다면 더 엄격하게 관리해야 진짜 안전이 된다.

@@ -130,8 +130,8 @@ Learning Team
 
 ## 어린이를 위한 3줄 비유 설명
 
-끝나고 나서 다시 생각해요.  
-다음엔 더 잘하려고요.  
+끝나고 나서 다시 생각해요.
+다음엔 더 잘하려고요.
 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 회고는 그런 시간이예요.
 
 ---

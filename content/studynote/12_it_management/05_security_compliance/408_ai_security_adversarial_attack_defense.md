@@ -11,160 +11,160 @@ tags = ["studynote-it-management"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: AI 보안 적대적 공격 방어 전략은(는) 보안 컴플라이언스 및 IT 경영 관리 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 적대적 공격(Adversarial Attack)은 모델 그래디언트·결정 경계를 교란하는 L∞/L2 노이즈 perturbation(ε-bound, FGSM·PGD·C&W), 데이터셋 백도어(Triggered Poisoning) 및 모델 추출(Model Stealing)·인버전(Inversion) 공격으로 구성되며, 방어 전략은 **Adversarial Training(AT)**, **Randomized Smoothing(Certified Defense)**, **Defensive Distillation**, **Input Preprocessing(Denoising/Sanitization)**, **Detection-based Defense(MagNet, Feature Squeeze)** 등 다층 방어(Defense-in-Depth) 체계를 통해 ε-perturbation 하에서의 Robust Accuracy를 최대화하는 것이 핵심이다.
+> 2. **가치**: Robust Accuracy 40%→82%(PGD-AT, ε=8/255 CIFAR-10 기준), Certified Radius r=1.5@95% 보장(Randomized Smoothing), 탐지 latency 12ms 이내로 실시간 차단 가능(MagNet), NIST AI RMF·EU AI Act·국내 AI기본법(2026.1 시행) 컴플라이언스 충족을 통한 비즈니스 리스크 60%↓, MLOps 파이프라인 통합 시 모델 신뢰성 SLA 99.9% 달성.
+> 3. **판단 포인트**: ① **방어 기법 선택 trade-off**(Adversarial Training: 정확도↓ 10~15% vs Robustness↑ vs 학습 비용 3~5×), ② **공격 표면 분류**(Evasion vs Poisoning vs Inference Threat Model), ③ **L∞/L2/L0 노름 기준 및 ε-budget** 결정, ④ **White-box vs Black-box 공격 가정**, ⑤ **인퍼런스 지연(latency) vs Robustness** 균형, ⑥ **설명가능성(XAI)·프라이버시(DP)·페어니스**와 Robustness의 통합 거버넌스 설계.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-AI 보안 적대적 공격 방어 전략은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+딥러닝 모델은 **입력 공간의 고차원 비선형성**과 **결정 경계의 국소적 취약성**으로 인해, 사람 눈에는 인지 불가능한 미세한 perturbation(ε ≤ 8/255, 픽셀당 0~1 정규화 기준)만으로 오분류를 유도할 수 있다. 2013년 Szegedy 등이 처음 보고한 Adversarial Example 현상은 이후 **자율주행(Tesla 차선 인식 오류, 2019)**, **의료 영상(악성/양성 오진, Nature Medicine 2021)**, **악성코드 분류기 우회(DeepLocker, IBM 2018)**, **얼굴인식 시스템 위장(Surveillance evasion)**, **LLM Prompt Injection(ChatGPT DAN, 2023)** 등 실 환경에서 다수 확인되며 AI 시스템의 신뢰성·안전성·보안 패러다임 자체를 재정의하고 있다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, AI Security Adversarial Attack Defense 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+특히 **생성형 AI(LLM) 시대**에 진입하면서, 적대적 공격은 단순 이미지 perturbation을 넘어 **① Jailbreak(시스템 프롬프트 우회)**, **② Indirect Prompt Injection(외부 문서/RAG 데이터 오독)**, **③ Training Data Extraction(개인정보/학습 데이터 유출)**, **④ Model Supply Chain Poisoning(HuggingFace 모델 백도어)** 등 **공격 표면(Attack Surface)**이 폭발적으로 확장되었다. MITRE ATLAS(2024 v4.0)에는 14개 Tactics, 66개 Techniques가 등재되어 전통 사이버 킬체인(MITRE ATT&CK)과 매핑되며, AI Red Teaming은 단순 모의 침투를 넘어 **모델 거버넌스의 필수 절차**로 자리잡았다.
+
+기존 ML 파이프라인(Scikit-learn 기반)에서는 robust optimization이 선택 사항이었으나, **MLSecOps·Secure AI Lifecycle**로 전환되면서 **데이터 수집→라벨링→학습→배포→모니터링** 전 단계에 adversarial validation이 의무화되고 있다. EU AI Act(2024.8 시행, 고위험 AI 분류 시 Robustness 인증 의무), NIST AI RMF 1.0(2023.1), 국내 「인공지능 기본법」(2026.1 시행, 신뢰성·투명성 의무화)이 모두 Robustness를 핵심 통제 항목으로 명시하고 있어, 기술사 관점에서 **AI Risk = f(Adversarial Robustness, Privacy, Fairness, Explainability, Safety)** 통합 프레임워크 설계 역량이 요구된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                    AI 보안 적대적 공격 방어 전략 개념 구조                       │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  기존 방식              vs            신규 접근법             │
-│  ┌──────────┐                    ┌──────────────┐           │
-│  │ 수동 관리 │ ──── 전환 ────▶  │ 자동화/통합   │           │
-│  │ 반응적    │                    │ 선제적        │           │
-│  │ 사일로    │                    │ 통합 관리     │           │
-│  └──────────┘                    └──────────────┘           │
-│                                                              │
-│  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         │
-└──────────────────────────────────────────────────────────────┘
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │          AI Security Threat Landscape (공격 표면 진화)                │
+  └──────────────────────────────────────────────────────────────────────┘
+
+   2013 ─────── 2017 ─────── 2020 ─────── 2023 ─────── 2025+ ───────▶
+   Szegedy      Madry         DeepLocker   LLM Jailbreak  Agentic AI
+   FGSM         PGD-AT        BadNets      Prompt Inje.    Tool-Use Exfil
+   L-BFGS       C&W           Trojaning    Model Steal     Multi-Modal
+   │            │             │            │               │
+   ▼            ▼             ▼            ▼               ▼
+   [단순        [강화학습형     [공급망       [생성형 AI      [자율 AI 에이전트
+    노이즈]      적대학습]      백도어]       신 위협]        오용·남용]
+
+  ┌─────────────────────────────────────────────────────────────────┐
+  │  공격 유형 매트릭스 (Threat Model Taxonomy)                       │
+  ├────────────┬─────────────┬──────────────┬──────────────────────┤
+  │ 분류       │ 공격 목표    │ 대표 기법     │ 영향 영역             │
+  ├────────────┼─────────────┼──────────────┼──────────────────────┤
+  │ Evasion    │ 오분류 유발  │ FGSM,PGD,C&W │ Inference-time       │
+  │ Poisoning  │ 백도어 삽입  │ BadNets,Blnd │ Training-time        │
+  │ Model Inv. │ 학습데이터복원│ MIA,DLG      │ Privacy 위반         │
+  │ Model Stl. │ API 지식추출 │ Knockoff,JS  │ IP 침해              │
+  │ Backdoor   │ 조건부오작동 │ Trojan,Sleep │ Supply Chain         │
+  │ Extraction │ 프롬프트탈취 │ Prefix Inj.  │ LLM Jailbreak        │
+  └────────────┴─────────────┴──────────────┴──────────────────────┘
+
+  ┌───────────────────────────────────────────────────────────────┐
+  │  전통 보안 vs AI 보안 패러다임 비교                            │
+  ├────────────────────┬──────────────────────────────────────────┤
+  │ 전통 사이버보안     │ AI·ML 보안                               │
+  ├────────────────────┼──────────────────────────────────────────┤
+  │ 시그니처/규칙 기반  │ 그래디언트/최적화 기반                     │
+  │ 정적 위협 모델      │ 적대적/능동적 위협 모델                    │
+  │ 경계 방어(Perimeter)│ 모델 중심 방어(Model-centric)             │
+  │ Patch·Signature Update│ 재학습·Robust Retraining (주기적)     │
+  │ 영향: 시스템 침해    │ 영향: 의사결정 오류·안전사고·사회적 편향  │
+  └────────────────────┴──────────────────────────────────────────┘
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**기존 vs 신규 패러다임**: 전통적 사이버보안이 **"알려진 악성코드 시그니처 차단"** 중심이었다면, AI 보안은 **"알 수 없는 입력에 대한 결정 경계의 수학적 보장"** 중심이다. 시그니처가 없는 0-day 적대적 입력(Adversarial Example)까지 방어해야 하므로 **확률적 인증 방어(Certified Defense)**, **게임이론 기반 min-max 최적화(Madry's Robust Optimization)**, **인퍼런스 시점 다중 분류기 앙상블** 등 새로운 보안 수학이 요구된다.
 
-- **📢 섹션 요약 비유**: AI 보안 적대적 공격 방어 전략은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 적대적 공격은 **"안경점에 뿌려진 보이지 않는 먼지"**와 같다. 일반인(사람)에게는 깨끗해 보이지만, AI 모델(고감도 광학센서)에게는 **결정 경계가 흔들려** 전혀 다른 물체로 인식하게 만드는 미세 교란이다. 방어 전략은 이 **"보이지 않는 먼지"**에 대해 **광학 코팅(전처리)**, **다중 렌즈 비교(앙상블)**, **센서 자체 보정(적대적 재학습)** 등 다층 필터를 적용하는 것과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-AI 보안 적대적 공격 방어 전략의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+### A. 적대적 공격의 수학적 정의
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│              AI Security Adversarial Attack Defense 아키텍처 3계층 구조                   │
-├──────────────────────────────────────────────────────────────┤
-│  [수집 계층]                                                  │
-│    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   │
-│         │                                                    │
-│  [처리/분석 계층]                                             │
-│    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               │
-│         │                                                    │
-│  [실행/피드백 계층]                                           │
-│    자동 대응 · 알림 · 보고서 · 지속 개선                     │
-└──────────────────────────────────────────────────────────────┘
+주어진 분류 모델 f_θ: X → Y, 입력 x ∈ X, 정답 y ∈ Y에 대해 **적대적 예제** x' = x + δ는 다음 조건을 만족한다:
+
+```
+         ‖δ‖_p ≤ ε  (perturbation budget, p ∈ {0, 1, 2, ∞})
+         f_θ(x') ≠ y   (공격 성공)
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
-| :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+**대표 공격 알고리즘**:
+- **FGSM**(Fast Gradient Sign Method, Goodfellow'14): δ = ε · sign(∇_x L(θ, x, y))
+- **PGD**(Projected Gradient Descent, Madry'18): FGSM을 k-iteration 반복, x_t+1 = Π_{B(x,ε)} (x_t + α · sign(∇_x L))
+- **C&W**(Carlini & Wagner'17): min ‖δ‖_p + c · f(x+δ) (최적화 기반, 가장 강력)
+- **DeepFool**(Moosavi-Dezfooli'16): 결정 경계까지의 최소 거리
+- **AutoAttack**(Croce&Hein'20): APGD-CE + APGD-T + FAB-T + Square Attack 앙상블 (현재 SOTA 평가 벤치마크)
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
-
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
-
----
-
-## Ⅲ. 비교 및 연결
-
-AI 보안 적대적 공격 방어 전략을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | AI 보안 적대적 공격 방어 전략 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. AI 보안 적대적 공격 방어 전략은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 AI 보안 적대적 공격 방어 전략은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 AI 보안 적대적 공격 방어 전략을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-AI 보안 적대적 공격 방어 전략을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, AI 보안 적대적 공격 방어 전략 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: AI 보안 적대적 공격 방어 전략은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | AI 보안 적대적 공격 방어 전략의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | AI 보안 적대적 공격 방어 전략의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
+### B. 방어 전략 아키텍처 (Layered Defense)
 
 ```text
-전통적 수동 관리
-        │
-        ▼
-스크립트 기반 자동화
-        │
-        ▼
-AI 보안 적대적 공격 방어 전략 도입
-        │
-        ▼
-AI/ML 기반 지능화
-        │
-        ▼
-자율 운영 (Autonomous Operations)
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │      AI Adversarial Defense-in-Depth Architecture                    │
+  └─────────────────────────────────────────────────────────────────────┘
+
+   입력 x (정상/적대적) ──▶ ┌─────────────────────────────┐
+                            │  Layer 1: 입력 검증·전처리    │
+                            │  (Input Sanitization)        │
+                            │  • JPEG 압축 / Feature Sq.   │
+                            │  • Denoising Autoencoder     │
+                            │  • Spatial Smoothing (Gaussian)
+                            │  • Pixel Deflection / TVM    │
+                            └──────────┬──────────────────┘
+                                       │ x_clean
+                                       ▼
+                            ┌─────────────────────────────┐
+                            │  Layer 2: 탐지 (Detection)   │
+                            │  • MagNet (Detector)         │
+                            │  • NIC (Neural Invariant)    │
+                            │  • Feature Squeeze (Binary)  │
+                            │  • Activation Clustering     │
+                            │  • LID (Local Intrinsic Dim) │
+                            └──────────┬──────────────────┘
+                                       │ 정상 분류 입력
+                                       ▼
+                            ┌─────────────────────────────┐
+                            │  Layer 3: Robust Model       │
+                            │  • PGD-AT / TRADES / MART   │
+                            │  • Defensive Distillation    │
+                            │  • Randomized Smoothing      │
+                            │  • Deep Ensembles            │
+                            │  • Lipschitz-bounded Net     │
+                            └──────────┬──────────────────┘
+                                       │ ŷ (예측)
+                                       ▼
+                            ┌─────────────────────────────┐
+                            │  Layer 4: 인증 방어·모니터링  │
+                            │  • Certified Radius Check    │
+                            │  • Prediction Consistency    │
+                            │  • Model Watermarking        │
+                            │  • Drift & Outlier Alerting  │
+                            │  • MLOps Audit Trail         │
+                            └─────────────────────────────┘
+
+  ┌───────────────────────────────────────────────────────────────┐
+  │  Robust Optimization (Madry's Framework)                      │
+  │                                                               │
+  │       min_θ  E_(x,y)~D  [ max_{‖δ‖_p ≤ ε}  L(θ, x+δ, y) ]   │
+  │        └─ 학습       └─ 입력 분포         └─내부: 적대자       │
+  │                                                               │
+  │  • 외부 min: 모델 파라미터 θ 최적화 (방어자)                    │
+  │  • 내부 max: perturbation δ 탐색 (공격자)                       │
+  │  • 동시 Nash Equilibrium 수렴 (안정 시)                          │
+  └───────────────────────────────────────────────────────────────┘
 ```
 
-### 👶 어린이를 위한 3줄 비유 설명
+### C. 핵심 방어 메커니즘 비교
 
-1. AI 보안 적대적 공격 방어 전략은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
+| :--- | :--- | :--- |
+| **Adversarial Training (AT)** | 모델 파라미터 직접 robust화 | min-max 게임: 내부 PGD로 최강 perturbation 생성 → 외부는 L(θ, x+δ, y) 최소화. ε=8/255 CIFAR-10에서 Clean 87%→83%, Robust 0%→48% 달성 (PGD-AT, ResNet-50). TRADES는 β·L_clean + L_robust 분해로 정확도-강건성 trade-off 명시적 제어 |
+| **Randomized Smoothing (RS)** | 확률적 인증 방어 (Certified Defense) | 가우시안 노이즈 σ 추가 후 다수결: ĝ(x) = argmax_c P(f(x+σ·N(0,I))=c). Cohen et al.(NeurIPS'19): certified radius R = σ/2 · (Φ⁻¹(p_A) - Φ⁻¹(p_B)) (CIFAR-10, σ=0.25, R=0.5@76%). **첫 L2 certified defense**, pero-샘플 100회 추론 필요 → latency 50~100× 증가 |
+| **Defensive Distillation** | 그래디언트 마스킹으로 공격 난이도 ↑ | Soft label(T=20~40)로 Knowledge Distillation 시 작은 ‖∇L‖ → FGSM/C&W 효과 감소. Papernot et al.(2016). 단, **C&W 공격에는 무력** (gradient masking 한계, Athalye'18) |
+| **Input Preprocessing** | perturbation 차감·왜곡 | ① Feature Squeeze(비트 깊이↓, Spatial Smoothing), ② Pixel Deflection, ③ JPEG/JPEG2000 압축, ④ Total Variation Minimization, ⑤ Super-resolution 기반 denoising. **공격 적응성 한계** (Adaptive Attack에 약함) |
+| **Detection (MagNet, NIC)** | 적대적 입력 조기 차단 | MagNet: Autoencoder Reconstructor + Noisy Detector. NIC: 입력 다양체 학습 → off-manifold 입력 reject. LID, Activation Clustering 등 통계 기반 지표 활용. FPR 5% 이하에서 TPR 90%+ 달성 (MagNet, MNIST 기준) |
+| **Defensive Ensemble & Lipschitz Control** | 결정 경계 평탄화 | ① Deep Ensemble(독립 AT 모델 N개), ② Parseval Networks(각 레이어 Lipschitz 상한 명시), ③ Spectral Normalization. robust accuracy +2~4% 향상 |
+| **Model Watermarking & Provenance** | IP 보호·공급망 인증 | DNN Watermarking(backdoor trigger, signature), Hugging Face Model Signing, **Sigstore**(Cosign)로 가중치 해시 서명, MLOps lineage tracking (MLflow, Weights & Biases) |
+| **Adversarial Robustness 검증 도구** | 자동 Red Teaming | IBM **ART**(Adversarial Robustness Toolbox, 100+ 공격·50+ 방어), Microsoft **Counterfit**, NVIDIA **Triton + MLPerf Security**, **Foolbox**, **CleverHans**, **TextAttack**(NLP), **PromptBench**(LLM) |
 
----
+### D. 학습 시 핵심 수식·파라미터
 
+**TRADES 손실함수** (Zhang et al., ICML'19):
+```
+L_TRADES = L_CE(f_θ(x), y) + β · KL( f_θ
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 408 / 800

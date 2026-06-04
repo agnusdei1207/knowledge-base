@@ -19,18 +19,18 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)</strong>: 두 개 이상의 프로세스가 각자 자원을 점유한 상태에서, 서로가 점유한 자원을 요구하며 무한정 기다리는 상태.
   - **코프만 조건 (Coffman Conditions)**: 1971년 에드워드 코프만(Edward G. Coffman)이 정리한, 데드락이 발생하기 위한 4가지 수학적/논리적 전제 조건.
 
-- **필요성 (에러 원인의 체계적 분석)**: 
-  - 멀티프로그래밍이 발달하면서 프린터, 디스크 등 한정된 자원을 두고 프로그램들이 자꾸 멈췄다. 
+- **필요성 (에러 원인의 체계적 분석)**:
+  - 멀티프로그래밍이 발달하면서 프린터, 디스크 등 한정된 자원을 두고 프로그램들이 자꾸 멈췄다.
   - 개발자들은 "왜 멈추는지" 감도 못 잡고 무작정 코드를 고쳤다. 데드락은 재현(Reproduce)하기도 매우 어려웠기 때문이다.
   - **해결책**: 데드락이라는 유령의 정체를 4가지 명확한 조건으로 해부함으로써, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 설계자와 개발자가 "어떤 코드를 짜면 데드락이 안 나는지"를 수학적으로 증명하고 예방(Prevention)할 수 있는 완벽한 가이드라인이 완성되었다.
 
   - **데드락 상황**: 외나무다리 양쪽 끝에서 차 두 대가 마주 보고 진입했다. 다리 중간에서 만났다. 둘 다 후진할 생각은 없고, 상대방이 비켜주기만을 영원히 기다리며 빵빵거린다.
-  - **4가지 조건의 적용**: 
-    1. 다리는 1차선이다 ([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)). 
+  - **4가지 조건의 적용**:
+    1. 다리는 1차선이다 ([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)).
     2. 나는 이미 내 땅을 밟고 있으면서 앞땅을 내놓으라고 한다 ([점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)).
     3. 내가 상대방 차를 강제로 들어서 치울 힘이 없다 ([비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)).
     4. 서로가 서로의 길을 막고 있다 (원형 대기).

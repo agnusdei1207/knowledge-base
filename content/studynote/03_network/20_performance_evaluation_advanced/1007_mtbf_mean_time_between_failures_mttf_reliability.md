@@ -43,7 +43,7 @@ tags = ["studynote-network"]
 ### 고장 사이의 타임라인 쪼개기 🌟 (무조건 암기)
 장비의 수명 주기는 '건강함 ➜ 아픔 ➜ 치료 ➜ 건강함'의 무한 반복입니다.
 
-1. <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/360_mttf/">MTTF</a> (Mean Time To Failure)</strong>: 수리(치료)를 딱 끝내고 전원을 켠 순간부터 ➜ <strong>다시 픽 하고 쓰러질(고장) 때까지의 순수하게 '건강하게 달린 시간'</strong>입니다. 
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/360_mttf/">MTTF</a> (Mean Time To Failure)</strong>: 수리(치료)를 딱 끝내고 전원을 켠 순간부터 ➜ <strong>다시 픽 하고 쓰러질(고장) 때까지의 순수하게 '건강하게 달린 시간'</strong>입니다.
 2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a> (Mean Time To Repair)</strong>: 1008번 문서에서 배울 <strong>순수 고장 나서 멈춰있는(수리하는) 아픈 시간</strong>입니다.
 3. **MTBF의 진짜 공식**:
    $$ [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) = [MTTF](/knowledge-base/studynote/04_software_engineering/06_software_architecture/360_mttf/) (건강한 시간) + [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) (아파서 수리받는 시간) $$

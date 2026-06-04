@@ -129,8 +129,8 @@ User-Kernel Boundary
 
 ## 어린이를 위한 3줄 비유 설명
 
-문을 직접 열지 않아도 대신 열어 주는 사람이 있어요.  
-시스템 콜 래퍼가 그런 역할을 해요.  
+문을 직접 열지 않아도 대신 열어 주는 사람이 있어요.
+시스템 콜 래퍼가 그런 역할을 해요.
 그래서 프로그램이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 쉽게 이야기할 수 있어요.
 
 ---

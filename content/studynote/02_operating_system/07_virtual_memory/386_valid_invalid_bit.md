@@ -128,12 +128,12 @@ C언어에서 `malloc(1GB)`을 호출했다고 치자.
    - 프로세스가 진짜로 16GB 넘게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰면서 I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 V [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 계속 갱신해 나가다가, 마침내 물리 램 16GB 잔고가 바닥났다.
    - OS는 더 이상 I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 V로 바꿔줄 물리 프레임(방)이 없다. 디스크 스왑도 꽉 찼다.
    - 이때 리눅스의 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/">OOM Killer</a></strong>가 몽둥이를 들고 출동해서 가장 메모리를 많이 쳐묵쳐묵 한 이 앱을 강제로 사살(`SIGKILL`)해버린다.
-4. **실무 튜닝**: 
+4. **실무 튜닝**:
    - 램 100% 안정성이 필수적인 Redis나 [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) 서버를 띄울 때는, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터 `vm.overcommit_memory = 2`로 세팅하여 "I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 믿고 뻥카 치지 말고, 진짜 물리 램 잔고가 없으면 malloc 자체를 거절해라!"라고 튜닝하는 것이 백엔드 엔지니어의 상식이다.
 
 ### [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 0번지 방어 (NULL Pointer Exception)
 C언어 프로그래머들이 제일 많이 보는 런타임 에러가 `NullPointerException`이다.
-왜 포인터에 `0(NULL)`을 넣고 찌르면 앱이 죽을까? 
+왜 포인터에 `0(NULL)`을 넣고 찌르면 앱이 죽을까?
 OS는 가상 주소 공간을 만들 때, 제일 첫 번째 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(0번지)의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리를 <strong>영구적으로 <code>I (Invalid)</code> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>로 하드코딩</strong>해 버린다. 아무도 매핑할 수 없는 저주받은 땅으로 만들어버린 것이다. 그래서 실수로 포인터 값이 0이 된 상태에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찌르면 MMU가 I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 밟고 벼락(SegFault)을 날려 앱의 치명적 오작동을 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 방어해 주는 것이다.
 
 - **📢 섹션 요약 비유**: 수표책([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))에 100억이라고 적어주며 떵떵거리는 OS는, 실제 통장(물리 램)에 1억밖에 없으면서도 일단 수표가 결제(Valid 갱신) 될 때까지 거짓말을 치는 사기꾼입니다. 나중에 수표 막을 돈이 없으면 그 회사를 부도 처리([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Kill)시켜버리는 게 현대 리눅스의 과감한 경제학입니다.

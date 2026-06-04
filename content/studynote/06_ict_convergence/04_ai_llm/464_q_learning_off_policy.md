@@ -19,8 +19,8 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-미로에 갇힌 쥐가 있다. 치즈(보상)가 어딨는지, 함정이 어딨는지(환경의 법칙) 전혀 모른다. 
-쥐는 일단 무작정 앞으로 가본다(행동 A). 함정에 빠져서 아팠다(-1점). 쥐는 수첩을 꺼내 적는다. "좌표 (2,3)에서 '앞'으로 갔더니 엄청 아프더라. 여기 점수는 -1점." 
+미로에 갇힌 쥐가 있다. 치즈(보상)가 어딨는지, 함정이 어딨는지(환경의 법칙) 전혀 모른다.
+쥐는 일단 무작정 앞으로 가본다(행동 A). 함정에 빠져서 아팠다(-1점). 쥐는 수첩을 꺼내 적는다. "좌표 (2,3)에서 '앞'으로 갔더니 엄청 아프더라. 여기 점수는 -1점."
 다음에 그 자리에 오면 수첩(Q-Table)을 보고 "앞으로 가면 -1점이니까, 이번엔 '오른쪽'으로 가봐야지"라고 행동을 수정한다.
 
 이처럼 <strong>"환경이 어떻게 굴러가는지 아무것도 모르는 상태(Model-free)에서, 일단 행동부터 해보고 그 결과(보상)를 수첩에 꼬박꼬박 적어가며 완벽한 정답 지도(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>)를 완성해 나가는 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>"</strong>이 바로 1989년에 발명된 강화학습의 마스터피스, <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/">Q-Learning</a></strong>이다.
@@ -72,7 +72,7 @@ Q-Learning은 텅 빈 수첩(Q-Table)을 들고, 새로운 경험을 할 때마�
 | **안전성 vs 대담성**| 낭떠러지 근처를 피해 안전하게 돌아감 (안전 빵) | **낭떠러지 바로 옆에 지름길이 있으면 무조건 거기로 감 (극단적)** |
 | **최적해 보장** | 적당히 좋은 길을 찾음 | **무한히 반복하면 무조건 세상에서 1등인 길(Optimal)을 찾음** |
 
-낭떠러지 바로 옆에 100만 원이 있는 길이 있다고 치자. 
+낭떠러지 바로 옆에 100만 원이 있는 길이 있다고 치자.
 <strong>SARSA(온 폴리시)</strong>는 "내가 가끔 실수([탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/))해서 낭떠러지에 떨어질지 몰라. 무서우니까 그냥 100만 원 포기하고 안전하게 돌아갈래"라고 점수를 적는다.
 <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/">Q-Learning</a>(오프 폴리시)</strong>은 "내가 실수로 낭떠러지에 떨어질 순 있겠지(실제 행동). 하지만 내 수첩에는 '나는 절대 실수 안 하는 완벽한 천재다(Max)'라고 뻥을 치고 100만 원짜리 지름길을 1등 코스로 적어놓을래!"라고 배짱을 부린다.
 

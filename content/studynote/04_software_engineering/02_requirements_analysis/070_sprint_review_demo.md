@@ -130,8 +130,8 @@ Product Learning
 
 ## 어린이를 위한 3줄 비유 설명
 
-만든 걸 직접 보여 줘요.  
-본 사람이 의견을 말해 줘요.  
+만든 걸 직접 보여 줘요.
+본 사람이 의견을 말해 줘요.
 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 리뷰는 그런 시간이예요.
 
 ---

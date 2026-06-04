@@ -67,7 +67,7 @@ tags = ["studynote-operating-system"]
 
 ### 심층 동작 원리 및 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) ([Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/))
 
-ASLR의 보안 강도는 주소가 얼마나 '무작위'인가를 나타내는 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) ([Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/))에 전적으로 의존한다. [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)가 낮으면 공격자가 무차별 대입 (Brute-Force) 공격으로 주소를 때려 맞출 수 있다. 
+ASLR의 보안 강도는 주소가 얼마나 '무작위'인가를 나타내는 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) ([Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/))에 전적으로 의존한다. [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)가 낮으면 공격자가 무차별 대입 (Brute-Force) 공격으로 주소를 때려 맞출 수 있다.
 
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위(주로 4KB = $2^{12}$ Bytes)로 메모리를 관리하므로, 시작 주소의 하위 12비트(0x000 ~ 0xFFF)는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 정렬([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Alignment)을 위해 무작위화할 수 없고 항상 고정된다. 따라서 32비트 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 64비트 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/) 방어력에는 극명한 차이가 존재한다.
 
@@ -96,7 +96,7 @@ ASLR의 보안 강도는 주소가 얼마나 '무작위'인가를 나타내는 [
 └───────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 구조도는 왜 32비트 시스템에서 ASLR이 "반쪽짜리 방어막"에 불과한지를 수치적으로 증명한다. 32비트 OS에서는 유저 공간이 보통 3GB로 제한되고, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 정렬 때문에 하위 12비트는 랜덤화할 수 없다. 결과적으로 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)나 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 가질 수 있는 시작 주소의 경우의 수([엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/))가 수천 개에 불과하다. 해커는 스크립트를 짜서 수천 번의 접속을 시도(Brute-forcing)하면 단 몇 분 만에 정확한 주소를 얻어낼 수 있다. 반면, 64비트 OS에서는 무작위화할 수 있는 여유 비트가 28비트 이상 확보되므로, 수십억 개의 경우의 수가 발생하여 무차별 대입 공격이 수학적·물리적으로 완전히 차단된다. 
+**[다이어그램 해설]** 이 구조도는 왜 32비트 시스템에서 ASLR이 "반쪽짜리 방어막"에 불과한지를 수치적으로 증명한다. 32비트 OS에서는 유저 공간이 보통 3GB로 제한되고, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 정렬 때문에 하위 12비트는 랜덤화할 수 없다. 결과적으로 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)나 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 가질 수 있는 시작 주소의 경우의 수([엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/))가 수천 개에 불과하다. 해커는 스크립트를 짜서 수천 번의 접속을 시도(Brute-forcing)하면 단 몇 분 만에 정확한 주소를 얻어낼 수 있다. 반면, 64비트 OS에서는 무작위화할 수 있는 여유 비트가 28비트 이상 확보되므로, 수십억 개의 경우의 수가 발생하여 무차별 대입 공격이 수학적·물리적으로 완전히 차단된다.
 
 - **📢 섹션 요약 비유**: 32비트 ASLR은 범인이 숨을 수 있는 방이 4천 개뿐이라 경찰이 금방 찾아내지만, 64비트 ASLR은 방이 40억 개나 되는 거대한 미로여서 우연히 마주칠 확률이 제로에 수렴하는 것과 같습니다.
 
@@ -185,7 +185,7 @@ ASLR을 완벽히 뚫기 위해 해커들이 사용하는 가장 우아한 기�
 
 ### 참고 표준
 - **CWE-120**: 버퍼 복사 시 입력 크기 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 부재
-- <strong><a href="/knowledge-base/studynote/09_security/17_framework_compliance/848_nist_sp_800_53/">NIST SP 800-53</a> (SC-18)</strong>: 악성 코드 방지 및 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) ([Memory Protection](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/))
+- <strong><a href="/knowledge-base/studynote/09_security/17_framework_compliance/848_nist_sp_800_53/">NIST SP 800-53</a> (SC-18)</strong>: 악성 코드 방지 및 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) ([Memory Protection](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/))
 - <strong>Linux <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Standard</strong>: `kernel.randomize_va_space=2` 권고안
 
 - **📢 섹션 요약 비유**: 책장의 위치만 바꾸는 것(기본 [ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/))을 넘어, 아예 책 속의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 순서까지 무작위로 섞어버리는([Fine-Grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) [ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/)) 궁극의 방어 체계로 진화하고 있습니다.

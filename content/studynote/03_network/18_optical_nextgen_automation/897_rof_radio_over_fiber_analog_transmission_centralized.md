@@ -60,7 +60,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 1. **수신**: 길거리 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 내 폰에서 나온 아날로그 전파([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 파동)를 잡습니다.
-2. **E/O 변환 (빛으로 복사)**: [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 안의 레이저 다이오드가 이 아날로그 전파의 '파도치는 꿀렁임' 모양과 100% 똑같은 세기로 빛을 깜빡이게 만듭니다(광 강도 변조). 
+2. **E/O 변환 (빛으로 복사)**: [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 안의 레이저 다이오드가 이 아날로그 전파의 '파도치는 꿀렁임' 모양과 100% 똑같은 세기로 빛을 깜빡이게 만듭니다(광 강도 변조).
 3. **유리 통과**: 이 깜빡이는 빛이 광케이블(Fiber)을 타고 10km 떨어진 동네 전화국으로 광속 질주합니다. 광케이블은 저항이 거의 0이라 아날로그 파동이 찌그러지지 않고 완벽히 보존됩니다.
 4. **O/E 변환 및 뇌로 진입**: 전화국의 거대 뇌 장비가 빛을 받아 다시 오리지널 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 아날로그 전파로 되살려낸(O/E 변환) 뒤, 그제야 0과 1 디지털로 해독(디코딩)하여 처리합니다.
 

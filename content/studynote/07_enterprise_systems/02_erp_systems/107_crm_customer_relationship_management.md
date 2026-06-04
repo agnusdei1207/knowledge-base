@@ -18,7 +18,7 @@ tags = ["enterprise_systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-CRM은 기업이 고객을 이해하고 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 강화하기 위해 마케팅, 영업, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 영역의 접점(Touchpoint) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통합 분석하여 선제적으로 대응하는 경영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 
+CRM은 기업이 고객을 이해하고 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 강화하기 위해 마케팅, 영업, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 영역의 접점(Touchpoint) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통합 분석하여 선제적으로 대응하는 경영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
 이 개념이 비즈니스의 핵심으로 부상한 이유는 '대량 마케팅(Mass Marketing)'의 한계 때문이다. 과거에는 TV 광고로 모두에게 똑같은 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 던지는 방식이 통했지만, 경쟁이 치열해지며 신규 [고객 획득 비용](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/109_cac_customer_acquisition_cost/)(CAC)이 급증했다. 기업들은 "상위 20%의 충성 고객이 이익의 80%를 가져다준다"는 사실을 깨달았고, 무작정 새로운 고객을 찾는 대신 이미 확보한 고객의 취향을 정밀 분석해 단골로 묶어두는([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/)) 방식을 선택했다. 이것이 CRM의 탄생 배경이다.
 
@@ -74,7 +74,7 @@ CRM은 기업 내부의 자원을 관리하는 ERP와 자주 비교되나, 그 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-CRM 프로젝트의 실패율이 높은 이유는 IT 솔루션 관점으로만 접근하기 때문이다. 
+CRM 프로젝트의 실패율이 높은 이유는 IT 솔루션 관점으로만 접근하기 때문이다.
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/"> CRM 구축 및 운영 [체크리스트</a> ]</strong>
 1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">사일로</a>(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">Silo</a>) 철폐</strong>: 영업팀의 엑셀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 CS팀의 콜센터 녹취록이 하나의 DB로 통합되었는가?

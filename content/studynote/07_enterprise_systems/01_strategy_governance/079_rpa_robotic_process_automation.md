@@ -29,7 +29,7 @@ tags = ["studynote-enterprise-systems"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 프레젠테이션 계층(UI) 침투와 3대 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 구조
-RPA는 백엔드 DB나 소스 코드에 손대지 않고(비침습적), 철저하게 화면 껍데기(UI/Presentation Layer) 위에서만 움직인다. 
+RPA는 백엔드 DB나 소스 코드에 손대지 않고(비침습적), 철저하게 화면 껍데기(UI/Presentation Layer) 위에서만 움직인다.
 
 ```text
 ┌────────────────────────────────────────────────────────┐

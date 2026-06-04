@@ -20,7 +20,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/)은 사람의 후각처럼 소스 코드의 특정 패턴이나 모양새를 통해 "이 코드는 뭔가 구조적으로 썩어가고 있다"는 것을 개발자에게 본능적으로 직관하게 해 주는 메타포다. [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/)의 발견은 곧바로 구체적 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 기법(함수 추출, 클래스 분할 등)의 입력값이 된다.
-- **필요성**: 프로젝트 일정에 쫓기다 보면 변수명 대충 짓기, 복사-붙여넣기 다작, 수백 줄짜리 만능 함수 생성이 비일비재하다. 이 스멜이 방치되면 새로운 기능을 하나 덧붙일 때 10곳 이상의 코드를 동시에 수정해야 하는 '산탄총 수술(Shotgun Surgery)' 현상을 맞아 프로젝트가 파산(중단)에 이른다. 
+- **필요성**: 프로젝트 일정에 쫓기다 보면 변수명 대충 짓기, 복사-붙여넣기 다작, 수백 줄짜리 만능 함수 생성이 비일비재하다. 이 스멜이 방치되면 새로운 기능을 하나 덧붙일 때 10곳 이상의 코드를 동시에 수정해야 하는 '산탄총 수술(Shotgun Surgery)' 현상을 맞아 프로젝트가 파산(중단)에 이른다.
 - **💡 비유**: [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/)은 '자동차 엔진오일 타는 냄새'와 같다. 지금 당장 차가 멈추진 않지만(기능은 동작), 냄새를 무시하고 1,000km를 더 달리면 결국 엔진 보닛 사이로 검은 연기가 피어오르며 차가 박살나는(유지보수 불가 상태) 경고등 역할을 한다.
 - **등장 배경**: 과거 폭포수(Waterfall) 모델에서는 설계서 중심이어서 코드를 방치하다 한 번에 갈아엎는 빅뱅 방식이 잦았다. 지속적인 통합 배포가 필수인 현대 객체 지향 프로그래밍([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/)) 시대에 돌입하며, 외과 수술처럼 잘게잘게 결함을 도려내는 예방의학적 조치의 일환으로 등장했다.
 

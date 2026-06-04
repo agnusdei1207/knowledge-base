@@ -77,21 +77,21 @@ SOX (Sarbanes-Oxley Act, 2002):
 
 Section 404: IT 통제 핵심
   내부 통제 평가 및 외부 감사 의무
-  
+
   ITGC (IT General Controls):
 
 1. 접근 통제 (Access Control):
   재무 시스템 접근 권한 최소화
   퇴사자 즉시 계정 비활성화
   특권 계정 관리 (PAM)
-  
+
   감사: 분기별 접근 권한 검토
 
 2. 변경 관리 (Change Management):
   재무 시스템 모든 변경 승인 필요
   변경 로그 보관 (2년 이상)
   개발/운영 환경 분리
-  
+
   감사: 무승인 변경 = SOX 위반
 
 3. 백업/복구 (Backup & Recovery):
@@ -130,13 +130,13 @@ COSO (Committee of Sponsoring Organizations):
   3. 통제 활동 (Control Activities)
   4. 정보 & 의사소통
   5. 모니터링
-  
+
   → SOX 준수의 기본 프레임워크
 
 COBIT (Control Objectives for IT):
   IT 거버넌스 + IT 관리 프레임워크
   5개 원칙 + 37개 프로세스 (COBIT 2019)
-  
+
   도메인:
   EDM (거버넌스): 5개 프로세스
   APO (조정·계획·조직): 14개
@@ -181,7 +181,7 @@ SOC 2 (System and Organization Controls 2):
 Type I vs Type II:
   Type I: 특정 시점 통제 설계 적절성
   Type II: 일정 기간(6~12개월) 운영 효과성
-  
+
   → SaaS B2B 계약 시 Type II 요구 일반화
 
 Trust Services Criteria (TSC):
@@ -230,7 +230,7 @@ B2B SaaS 스타트업 컴플라이언스 로드맵:
 배경:
   HR SaaS 스타트업 (직원 50명)
   EU + 미국 고객
-  
+
   의무 규정:
   - GDPR: EU 고객 HR 데이터
   - SOC 2: Enterprise 계약 요건
@@ -245,33 +245,33 @@ Phase 1 (즉시): GDPR 기본 준수
   4. DPA (Data Processing Agreement) 표준화
   5. 암호화 전면 적용 (저장+전송)
   6. 보안 사고 통지 절차 (72시간 내)
-  
+
   비용: 법무 $20,000 + 기술 구현 $15,000
 
 Phase 2 (6개월): SOC 2 Type II 준비
   접근 통제 강화:
   - 모든 시스템 MFA
   - 분기별 접근 권한 검토
-  
+
   변경 관리:
   - GitHub PR 승인 프로세스
   - 배포 로그 자동화
-  
+
   모니터링:
   - Datadog 로그 보안 이벤트
   - 이상 접근 알림
-  
+
   비용: 감사 법인 $60,000 + 구현 $25,000
 
 Phase 3 (12개월): 인증 획득 + 영업 활용
   SOC 2 Type II 인증서 획득
   GDPR 준수 선언 + DPA 표준화
   보안 신뢰 센터 웹페이지 공개
-  
+
 결과:
   Enterprise 계약 수: 5개 → 23개 (6개월 내)
   평균 계약 금액: 1.5×
-  
+
   고객 보안 질문서(SIG) 시간:
   2주 → 2일 (신뢰 센터로)
 ```

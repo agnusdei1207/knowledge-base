@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 고전적인 3계층(UI ➜ 비즈니스 ➜ DB)의 가장 큰 문제는, 시스템의 뇌(비즈니스)가 가장 바닥에 깔린 <strong>인프라(DB)에 의존</strong>한다는 것입니다. 
+- 고전적인 3계층(UI ➜ 비즈니스 ➜ DB)의 가장 큰 문제는, 시스템의 뇌(비즈니스)가 가장 바닥에 깔린 <strong>인프라(DB)에 의존</strong>한다는 것입니다.
 - 결국 뇌(비즈니스)는 엑셀 칸(테이블 구조)에 맞춰서 코드를 짜게 되는 수동적인 바보가 되어버립니다 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주도 설계의 폐해).
 
 - **📢 섹션 요약 비유**: 어니언 아키텍처 (Onion [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.

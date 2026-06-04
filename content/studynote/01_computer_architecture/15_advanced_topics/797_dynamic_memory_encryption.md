@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 동적 [메모리 암호화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/796_memory_encryption/)는 모든 메모리를 같은 방식으로 암호화하는 대신, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중요도·접근 빈도·위협 수준에 따라 키와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 바꾸는 적응형 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) 개념이다.
+> 1. **본질**: 동적 [메모리 암호화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/796_memory_encryption/)는 모든 메모리를 같은 방식으로 암호화하는 대신, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중요도·접근 빈도·위협 수준에 따라 키와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 바꾸는 적응형 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) 개념이다.
 > 2. **가치**: 핫 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 고가치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 구분해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 보안의 균형을 맞출 수 있어, 장기 실행 서버나 기밀 워크로드에서 더 효율적인 운영 가능성을 보여 준다.
 > 3. **판단 포인트**: 다만 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 변경이 잦을수록 복잡도와 지터가 커지므로, 재키잉 주기·태깅 기준·무중단 전환 메커니즘을 함께 설계하지 않으면 오히려 시스템 불안정성을 키울 수 있다.
 

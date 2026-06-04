@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-<strong>IEEE 802.3</strong>은 유선 LAN(Local Area Network)의 대표적인 기술인 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">Ethernet</a>)</strong>의 물리 계층(Physical Layer)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 서브계층을 정의하는 국제 표준입니다. 
+<strong>IEEE 802.3</strong>은 유선 LAN(Local Area Network)의 대표적인 기술인 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">Ethernet</a>)</strong>의 물리 계층(Physical Layer)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 서브계층을 정의하는 국제 표준입니다.
 
 네트워크에서 장비들이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받으려면 전기적 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), 케이블의 핀 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/), 빛의 파장 등이 정확히 일치해야 하는데, 이를 통일시켜 서로 다른 제조사의 장비(시스코 라우터와 인텔 랜카드 등)가 완벽히 호환되도록 만드는 것이 PHY 표준의 역할입니다.
 
@@ -38,7 +38,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 물리 계층의 표준 이름은 직관적인 규칙에 따라 작성됩니다.  
+[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 물리 계층의 표준 이름은 직관적인 규칙에 따라 작성됩니다.
 규칙: <strong><code>[속도] [전송 방식] - [매체 또는 거리]</code></strong>
 
 ```text

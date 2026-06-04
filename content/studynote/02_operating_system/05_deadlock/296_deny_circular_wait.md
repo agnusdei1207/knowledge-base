@@ -57,7 +57,7 @@ A가 앞(1번)을 보고, B도 앞(2번)을 보고, C도 앞(3번)만 보도록 
 
 ### 전역 순서 부여(Global [Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/))의 위력
 
-이는 하드웨어(CPU/메모리)를 뜯어고칠 필요가 없다. 
+이는 하드웨어(CPU/메모리)를 뜯어고칠 필요가 없다.
 
 1. **객체 메모리 주소(System.identityHashCode) 활용**: 자원 고유 ID 발급이 구조적으로 어렵다면, Java 등에서는 `System.identityHashCode` 같이 OS 메모리 바인딩 주소를 꺼내서 주소값이 작은 노드부터 락을 잠그게([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 짠다. 동적으로 생성된 수만 개 객체라도 해시값이 무조건 대소 비교가 되므로 순서화가 완성된다.
 2. **해시충돌(Tie) 발생 체인**: 해시코드가 우연히 같다면? 전역적으로 유일성을 보장하는 보조 `TieLock` 모니터를 우선적으로 잡고 들어가도록 예외 루트를 설치해 완벽히 틀어막는다.
@@ -82,7 +82,7 @@ A가 앞(1번)을 보고, B도 앞(2번)을 보고, C도 앞(3번)만 보도록 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **은행 계좌 이체(A→B)**: [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 트래픽이 쏟아지는 은행 코어. Account A가 B에게 송금(A 락 걸고 B 락 걸고 출입금) 시도 중, B가 A에게 동시 이체하면 바로 교착. 
+1. **은행 계좌 이체(A→B)**: [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 트래픽이 쏟아지는 은행 코어. Account A가 B에게 송금(A 락 걸고 B 락 걸고 출입금) 시도 중, B가 A에게 동시 이체하면 바로 교착.
    - *해결 코드*: `if (A.id < B.id) { lock(A); lock(B); } else { lock(B); lock(A); }` 단 4줄만으로 세계 멸망급 데드락을 수학적으로 증발시킴.
 2. <strong>리눅스 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/">Lock Hierarchy</a>)</strong>: VFS의 dentry 락 리스트, mm(메모리) 서브시스템의 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 체인 등은 문서 가이드라인 수준을 넘어 매크로 레벨로 "1. inode_lock(), 2. page_lock() 순서로 호출할 것. 어기면 [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)!" 을 박아넣어 거대한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스의 자체 데드락을 방어하고 있다.
 

@@ -156,7 +156,7 @@ FEC (Forward Error Correction):
   3. 수신 FCS와 비교
      일치: 프레임 수락, 상위 계층 전달
      불일치: 프레임 폐기 (자동)
-     
+
 성능:
   10Gbps NIC: CRC 검사 하드웨어 오프로딩
   CPU 개입 없음 -> 라인 속도 유지

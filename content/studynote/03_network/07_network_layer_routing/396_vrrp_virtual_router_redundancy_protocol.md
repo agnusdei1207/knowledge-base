@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))인 기본 게이트웨이의 가용성을 높이기 위해, 여러 대의 라우터를 논리적인 하나의 가상 라우터로 묶어 동작하게 하는 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (RFC 3768, IPv6용은 5798). [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) `224.0.0.18` ([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 112)을 사용한다.
 - **필요성**: 회사 네트워크를 이중화하려고 라우터를 두 대 샀다. 한 대는 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/)), 한 대는 주니퍼(Juniper) 장비다. HSRP를 켜려고 하니 주니퍼 장비가 "난 [HSRP](/knowledge-base/studynote/03_network/07_network_layer_routing/395_hsrp_fhrp_router_redundancy/) 뭔지 모르는데?"라며 파업을 선언했다. <strong>"아놔, 기계 제조사가 달라도 공통으로 알아먹고 이중화를 구성할 수 있는 범용 언어(표현 규약)가 필요하네!"</strong>라는 시장의 절실한 요구가 VRRP를 업계 1짱으로 만들었다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/395_hsrp_fhrp_router_redundancy/">HSRP</a></strong>: 삼성전자 직원들끼리만 사용하는 <strong>"사내 전용 결재 시스템"</strong>입니다. 외부 협력사는 접속도 못 하고 결재도 올릴 수 없습니다.
   - **VRRP**: 구글 닥스나 PDF처럼 전 세계 누구나 읽고 편집할 수 있는 <strong>"국제 표준 결재 양식"</strong>입니다. 삼성 직원이 올린 문서를 LG 직원이 승인([Backup](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 승계)할 수 있는 완벽한 호환성을 자랑합니다.
 
@@ -50,7 +50,7 @@ tags = ["studynote-network"]
 ### 2. 가상 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 규격
 Master가 죽고 Backup이 올라왔을 때, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 테이블)를 속이기 위해 G-ARP를 쏘며 덮어쓰는 그 가짜 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소의 규격이다.
 - [HSRP](/knowledge-base/studynote/03_network/07_network_layer_routing/395_hsrp_fhrp_router_redundancy/): `0000.0c07.acXX`
-- **VRRP**: <strong><code>0000.5e00.01XX</code></strong> (마지막 XX는 01부터 FF까지의 그룹 번호다). 
+- **VRRP**: <strong><code>0000.5e00.01XX</code></strong> (마지막 XX는 01부터 FF까지의 그룹 번호다).
 - 와이어샤크(Wireshark)에서 패킷을 떴을 때 저 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 보이면 1초 만에 "아, 이 망은 VRRP 돌고 있네!"라고 알 수 있어야 한다.
 
 ### 3. 진짜 IP를 가상 IP로 쓰는 마법 (Owner)

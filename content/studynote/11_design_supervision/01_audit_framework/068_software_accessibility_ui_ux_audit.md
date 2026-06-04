@@ -135,8 +135,8 @@ User Experience
 
 ## 어린이를 위한 3줄 비유 설명
 
-모두가 들어올 수 있어야 해요.  
-눈, 손이 조금 달라도 쓸 수 있어야 해요.  
+모두가 들어올 수 있어야 해요.
+눈, 손이 조금 달라도 쓸 수 있어야 해요.
 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)은 그런 친절함이에요.
 
 ---

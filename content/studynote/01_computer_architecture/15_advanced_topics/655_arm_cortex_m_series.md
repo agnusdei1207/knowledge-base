@@ -13,7 +13,7 @@ tags = ["studynote-computer-architecture"]
 
 > 1. **본질**: ARM Cortex-M 시리즈는 [마이크로컨트롤러](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) ([Microcontroller](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) Unit, MCU)용 코어 계열로, 전원이 들어오면 빠르게 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 실행하고 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 기반 제어를 낮은 전력으로 처리하도록 설계되었다.
 > 2. **가치**: 중첩 벡터 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 제어기 (Nested Vectored [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Controller, NVIC), 높은 코드 밀도, 간단한 메모리 맵, 세밀한 절전 모드를 통해 배터리 기기와 센서 노드에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·비용·전력 균형을 맞춘다.
-> 3. **판단 포인트**: 수 킬로바이트~수 메가바이트 규모 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/), 빠른 기동, 이벤트 기반 제어가 핵심이면 Cortex-M이 적합하고, 리치 OS나 대형 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/)가 필요하면 Cortex-A 또는 Cortex-R로 올라가야 한다.
+> 3. **판단 포인트**: 수 킬로바이트~수 메가바이트 규모 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/), 빠른 기동, 이벤트 기반 제어가 핵심이면 Cortex-M이 적합하고, 리치 OS나 대형 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/)가 필요하면 Cortex-A 또는 Cortex-R로 올라가야 한다.
 
 ---
 
@@ -132,7 +132,7 @@ Cortex-R과도 자주 비교된다. 둘 다 실시간성이 있지만, Cortex-M�
 
 Cortex-M을 적절히 선택하면 긴 배터리 수명, 빠른 기동, 안정적인 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 응답, 낮은 시스템 원가를 동시에 얻을 수 있다. 또한 제조사별 칩이 달라도 공통 개발 생태계가 잘 갖춰져 있어 대량 제품 개발 속도도 빠르다. 이는 사물인터넷과 산업용 엣지 시장에서 매우 큰 장점이다.
 
-반대로 대형 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/), 복수 사용자 프로세스, 무거운 UI는 Cortex-M의 주 무대가 아니다. 그래서 Cortex-M의 한계를 모르는 채 기능을 계속 얹으면, 결국 더 비싼 Cortex-A 급으로 재설계해야 하는 경우가 많다. 중요한 것은 작다고 무시하는 것이 아니라, 어디까지가 Cortex-M의 아름다운 영역인지 아는 것이다.
+반대로 대형 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/), 복수 사용자 프로세스, 무거운 UI는 Cortex-M의 주 무대가 아니다. 그래서 Cortex-M의 한계를 모르는 채 기능을 계속 얹으면, 결국 더 비싼 Cortex-A 급으로 재설계해야 하는 경우가 많다. 중요한 것은 작다고 무시하는 것이 아니라, 어디까지가 Cortex-M의 아름다운 영역인지 아는 것이다.
 
 미래에는 보안 강화형 Armv8-M, TinyML, 초저전력 무선 스택과 함께 Cortex-M의 역할이 더 넓어질 가능성이 크다. 기억해야 할 핵심은 간단하다. Cortex-M은 "작지만 오래 버티고, 필요할 때 즉시 반응하는" ARM의 현장형 코어다.
 

@@ -19,7 +19,7 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-수천억 개의 파라미터를 가진 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))을 훈련시킬 때 가장 먼저 터지는 지옥은 그래픽카드([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))의 메모리 부족 현상인 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">Out Of Memory</a>)</strong>이다. 
+수천억 개의 파라미터를 가진 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))을 훈련시킬 때 가장 먼저 터지는 지옥은 그래픽카드([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))의 메모리 부족 현상인 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">Out Of Memory</a>)</strong>이다.
 
 컴퓨터 공학의 오랜 전통에 따라, 과거 딥러닝 연구자들은 모델의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 숫자를 완벽하고 정밀하게 담기 위해 32비트 [단정밀도](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/089_single_precision/) [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)(**FP32**, Float32) 포맷을 썼다. 숫자 하나를 저장하는 데 4바이트의 공간을 잡아먹는 무거운 놈이다. 파라미터가 수십억 개가 넘어가니 이 뚱뚱한 숫자들을 VRAM(그래픽 메모리)에 욱여넣다 서버가 터져버렸다.
 

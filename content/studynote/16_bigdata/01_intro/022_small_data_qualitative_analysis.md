@@ -77,8 +77,8 @@ tags = ["studynote-bigdata"]
 | **IT 인프라 비용** | [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/), Spark 등 거대한 [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/)(투자) 요구 | 수집 비용은 저렴하나 **전문 분석가의 인건비/시간 소모** |
 
 ### 분석 방법론의 트레이드오프 (Trade-off) 심층 분석
-스몰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 직관적이고 날카롭지만, <strong>'샘플의 편향(Sample <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>)'</strong>이라는 치명적인 통계적 트레이드오프를 가집니다. 
-- 단 10명의 고객을 깊게 심층 인터뷰([FGI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/141_focus_group_interview_fgi/))하여 기발한 아이디어를 얻었다고 해도, "그 10명이 과연 우리 브랜드의 100만 명 고객 전체를 대표(Representative)할 수 있는가?"라는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 한계에 부딪힙니다. 
+스몰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 직관적이고 날카롭지만, <strong>'샘플의 편향(Sample <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>)'</strong>이라는 치명적인 통계적 트레이드오프를 가집니다.
+- 단 10명의 고객을 깊게 심층 인터뷰([FGI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/141_focus_group_interview_fgi/))하여 기발한 아이디어를 얻었다고 해도, "그 10명이 과연 우리 브랜드의 100만 명 고객 전체를 대표(Representative)할 수 있는가?"라는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 한계에 부딪힙니다.
 - 따라서 스몰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 기발한 가설을 세웠다면, 반드시 빅데이터의 A/B 테스트나 대규모 통계 분석을 통해 그 가설이 전체 모집단에서도 통용되는지 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)([Cross-validation](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/))해야 오류를 막을 수 있습니다.
 
 - **📢 섹션 요약 비유**: 빅데이터는 "선거에서 10만 명에게 전화 ARS를 돌려 누가 이길지 퍼센트로 예측하는 여론조사"이고, 스몰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 "동네 시장 국밥집 할머니와 1시간 동안 막걸리를 마시며 왜 이번 선거에서 저 후보를 뽑을 수밖에 없는지 깊은 속내를 듣는 과정"입니다. 국밥집 할머니의 마음이 10만 명의 퍼센트보다 선거 판세의 본질을 더 날카롭게 찌를 때가 많습니다.

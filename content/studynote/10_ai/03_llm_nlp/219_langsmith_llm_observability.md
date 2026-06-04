@@ -20,7 +20,7 @@ tags = ["studynote-ai"]
 ## Ⅰ. 개요 및 필요성
 
 일반 소프트웨어의 버그는 원인이 명확하다. 변수에 `null`이 들어갔거나, DB 연결이 끊어졌거나. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 뒤지면 10분 만에 잡는다.
-하지만 챗GPT([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) API를 가져다 쓴 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 애플리케이션(에이전트, [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))의 버그는 완전히 차원이 다르다. 유저가 "이번 달 우리 팀 실적 어때?"라고 물었을 때, AI가 "당신은 해고당했습니다"라고 미친 대답을 뱉었다고 치자. 도대체 왜 이런 대답이 나왔을까? 
+하지만 챗GPT([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) API를 가져다 쓴 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 애플리케이션(에이전트, [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))의 버그는 완전히 차원이 다르다. 유저가 "이번 달 우리 팀 실적 어때?"라고 물었을 때, AI가 "당신은 해고당했습니다"라고 미친 대답을 뱉었다고 치자. 도대체 왜 이런 대답이 나왔을까?
 1. 유저의 질문이 이상하게 번역되었나?
 2. 벡터 DB에서 엉뚱한 문서를 긁어왔나?
 3. 내가 짜둔 시스템 프롬프트(System Prompt)가 무시당했나?
@@ -121,7 +121,7 @@ LLM을 배포하고 [모니터](/knowledge-base/studynote/02_operating_system/04
 
 ## Ⅴ. 기대효과 및 결론
 
-LangSmith는 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))을 실험실의 장난감에서 '안전하고 예측 가능한 엔터프라이즈(기업용) 소프트웨어'로 격상시킨 [LLMOps](/knowledge-base/studynote/12_it_management/05_security_compliance/221_llmops_large_language_model_ops/) 생태계의 가장 위대한 공신이다. 
+LangSmith는 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))을 실험실의 장난감에서 '안전하고 예측 가능한 엔터프라이즈(기업용) 소프트웨어'로 격상시킨 [LLMOps](/knowledge-base/studynote/12_it_management/05_security_compliance/221_llmops_large_language_model_ops/) 생태계의 가장 위대한 공신이다.
 
 과거 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 개발자들은 프롬프트라는 텍스트 덩어리를 눈감고 코끼리 만지듯 주무르며, 왜 갑자기 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 망가졌는지 밤새 술을 마시며 한탄해야 했다. LangSmith가 등장하며 우리는 비로소 AI의 생각 과정(Chain of Thought)을 투명한 유리관 속에 올려놓고 해부할 수 있게 되었다. 어디서 돈(Token)이 줄줄 새는지, 어느 검색기(Retriever)가 쓰레기 문서를 던져주는지 1초 만에 시각적으로 파악하는 이 관측성([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))은 디버깅 시간을 1/100로 박살 냈다.
 

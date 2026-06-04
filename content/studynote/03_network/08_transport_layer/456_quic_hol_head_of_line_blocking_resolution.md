@@ -52,10 +52,10 @@ tags = ["studynote-network"]
 
 ### 2. [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 (멀티플렉싱 도입, 그러나 TCP의 한계)
 - 구글은 터널([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)) 1개만 뚫고, 그 안에서 A, B, C를 마구잡이로 섞어 보내는 멀티플렉싱([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))을 도입했다. 애플리케이션 레벨의 HOL 블로킹은 해결되었다!
-- <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 레벨의 HOL 블로킹 터짐</strong>: 그런데 TCP라는 터널 자체가 1차선이다. 
-  "A1, B1, C1, A2, B2, [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/)" 순서로 섞어 보냈는데, 맨 앞의 <strong>A1</strong>이 바다에 빠졌다. 
+- <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 레벨의 HOL 블로킹 터짐</strong>: 그런데 TCP라는 터널 자체가 1차선이다.
+  "A1, B1, C1, A2, B2, [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/)" 순서로 섞어 보냈는데, 맨 앞의 <strong>A1</strong>이 바다에 빠졌다.
   TCP의 뇌구조: "나는 강박증 환자다! 1번이 안 왔는데 2번을 올려보낼 순 없다!"
-  TCP는 A1이 재전송되어 올 때까지, **이미 멀쩡하게 도착한 B1, C1, B2, C2를 전부 자기 버퍼(램)에 가둬두고 브라우저에게 안 넘겨준다.** 
+  TCP는 A1이 재전송되어 올 때까지, **이미 멀쩡하게 도착한 B1, C1, B2, C2를 전부 자기 버퍼(램)에 가둬두고 브라우저에게 안 넘겨준다.**
   결국 사진 B와 C는 내 컴퓨터까지 다 와놓고 화면에 뜨지 못하는 지옥이 발생했다.
 
 ### 3. [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3)의 궁극적 해결 (Stream의 독립성)

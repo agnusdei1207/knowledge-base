@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지는 유니온 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(UnionFS)으로 만들어진다. 
+- **개념**: [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지는 유니온 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(UnionFS)으로 만들어진다.
   - `FROM ubuntu` (1번 레이어: 50MB 셀로판지 얹기)
   - `RUN apt-get update` (2번 레이어: 캐시 100MB 셀로판지 얹기)
   - `RUN rm -rf /var/cache` (3번 레이어: 지웠다고 '표시'만 하는 0MB 셀로판지 얹기 💥)
@@ -27,7 +27,7 @@ tags = ["studynote-software-engineering"]
 
 - **필요성 (2GB짜리 거대 똥 덩어리 이미지의 공포)**: 주니어 개발자가 `Dockerfile`을 짰다. 자바(Java) 코드를 빌드하겠다고 무거운 `JDK(500MB)` 베이스 이미지를 쓰고, Maven으로 빌드하며 `~/.m2` [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 캐시 1GB를 다운받았다. 이미지를 구우니 2GB 괴물이 나왔다! 2GB를 AWS [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)에 배포하려 치면, [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)) 10대가 20GB를 동시에 다운(Pull)받느라 네트워크 대역폭이 뻗어버리고 배포 타임이 3분씩 늘어진다. <strong>"배포 스피드(Agility)가 생명인 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a> 시대에, 뚱뚱한 이미지는 그 자체로 트래픽 병목이자 비용(네트워크 전송료) 폭발의 주범이다!"</strong> 이 똥 덩어리를 50MB짜리 깃털로 깎아내야만 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)의 진정한 미친 속도가 나온다.
 
-- **💡 비유**: [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 레이어 구조는 <strong>'투명한 셀로판지 여러 장을 겹쳐서 그림을 그리는 것'</strong>과 같습니다. 1번 셀로판지에 파란색 동그라미(캐시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))를 그렸습니다. 아차! 실수했네! 지우개로 못 지웁니다. 방법은 오직 위에 2번 셀로판지(새 레이어)를 덮고, 거기에 "밑에 있는 파란 동그라미는 없는 걸로 취급해!"(가림막)라고 하얀색을 덧칠하는 수밖에 없습니다. 눈으로 볼 땐 안 보이지만, 두 장을 겹친 전체 두께와 무게(전체 이미지 용량)는 그대로 무겁게 남아있는 잔혹한 덧셈 법칙입니다. 
+- **💡 비유**: [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 레이어 구조는 <strong>'투명한 셀로판지 여러 장을 겹쳐서 그림을 그리는 것'</strong>과 같습니다. 1번 셀로판지에 파란색 동그라미(캐시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))를 그렸습니다. 아차! 실수했네! 지우개로 못 지웁니다. 방법은 오직 위에 2번 셀로판지(새 레이어)를 덮고, 거기에 "밑에 있는 파란 동그라미는 없는 걸로 취급해!"(가림막)라고 하얀색을 덧칠하는 수밖에 없습니다. 눈으로 볼 땐 안 보이지만, 두 장을 겹친 전체 두께와 무게(전체 이미지 용량)는 그대로 무겁게 남아있는 잔혹한 덧셈 법칙입니다.
 
 - **등장 배경 및 발전 과정**:
   1. <strong>단일 스테이지 무지성 빌드 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>)</strong>: `FROM ubuntu` 때리고 `RUN` 10줄 치고 끝. 이미지 용량이 2~3GB씩 펑펑 터져 나감.

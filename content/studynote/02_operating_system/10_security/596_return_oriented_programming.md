@@ -196,7 +196,7 @@ tags = ["studynote-operating-system"]
 ### 참고 표준
 - **Intel SDM Vol 1. Chapter 18**: Control-flow Enforcement Technology (CET) 규격
 - **CWE-693**: [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 메커니즘의 우회 가능성 ([Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) Mechanism Failure)
-- <strong>NIST <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/">SP</a> 800-190</strong>: 애플리케이션 [컨테이너 보안](/knowledge-base/studynote/04_software_engineering/11_testing_validation/513_container_security/) 가이드 ([메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 권고)
+- <strong>NIST <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/">SP</a> 800-190</strong>: 애플리케이션 [컨테이너 보안](/knowledge-base/studynote/04_software_engineering/11_testing_validation/513_container_security/) 가이드 ([메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 권고)
 
 - **📢 섹션 요약 비유**: 해커가 조작한 위조 신분증(변조된 RET)으로 문을 열려 해도, 경비실에 보관된 진짜 명부(하드웨어 섀도우 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))와 이중으로 대조하여 불일치 시 즉각 사이렌을 울리는 궁극의 출입 통제 시스템이 구축되는 중입니다.
 

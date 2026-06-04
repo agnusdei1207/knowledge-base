@@ -76,7 +76,7 @@ tags = ["studynote-network"]
 
 하지만 해커도 만만치 않습니다. 사용자가 주소창에 귀찮아서 `naver.com`만 치면 브라우저는 일단 기본적으로 암호화가 안 된 평문 통신인 `http://naver.com`으로 먼저 접속을 시도한다는 허점을 노립니다.
 - <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/267_ssl_stripping/">SSL Stripping</a> 공격</strong>: 해커가 이 첫 번째 `http://` 접속 요청을 중간에서 낚아챈 뒤, 자신이 네이버와 대신 `https://` 보안 통신을 맺고, 사용자에게는 영원히 암호화되지 않은 낡은 `http://` 화면만 던져줍니다. 사용자는 자물쇠 마크가 없는지도 모르고 평문으로 비밀번호를 갖다 바칩니다.
-- <strong>궁극의 통제 조치 (<a href="/knowledge-base/studynote/09_security/05_web_app_security/268_hsts/">HSTS</a>, <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> Strict Transport <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong>: 
+- <strong>궁극의 통제 조치 (<a href="/knowledge-base/studynote/09_security/05_web_app_security/268_hsts/">HSTS</a>, <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> Strict Transport <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong>:
   - 웹서버가 응답 헤더에 `Strict-Transport-Security`라는 명령을 달아서 보냅니다.
   - 이 명령을 받은 내 크롬 브라우저는 기억해 둡니다. "아! 네이버는 앞으로 1년 동안 무조건 `https://`로만 접속해야 하는 사이트구나!"
   - 다음 날 내가 실수로 주소창에 평문 `http://naver.com`을 쳐도, <strong>브라우저 자체가 내부에서 강제로 <code>https://</code>로 주소를 뜯어고친 뒤 발송</strong>해 버립니다. 해커가 중간에서 평문 요청을 가로채려던 꼼수([SSL Stripping](/knowledge-base/studynote/09_security/05_web_app_security/267_ssl_stripping/))가 100% 무력화되는 완벽한 방어막입니다.

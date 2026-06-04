@@ -23,7 +23,7 @@ tags = ["studynote-algorithm"]
 
 ### Z [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 정의
 
-Z[i] = S[i..n-1]과 S[0..n-1]의 최장 공통 접두사 ([LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/)) 길이  
+Z[i] = S[i..n-1]과 S[0..n-1]의 최장 공통 접두사 ([LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/)) 길이
 Z[0] = |S| (관례적으로 문자열 전체 길이로 정의)
 
 📢 **섹션 요약 비유**: Z [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 문자열의 각 지점에서 "여기서 시작하는 부분이 문자열 맨 앞과 몇 글자 똑같은가?"를 기록한 이력표다.

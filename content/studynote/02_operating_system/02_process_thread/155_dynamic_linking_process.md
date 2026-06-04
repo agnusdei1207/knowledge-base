@@ -18,26 +18,26 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 왜 '동적 링킹' [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-1980년대 C언어 코더들의 하드디스크는 매일 디스크 공간 꽉 참 100% [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 뻗음 비명을 질렀다 💀. 
+1980년대 C언어 코더들의 하드디스크는 매일 디스크 공간 꽉 참 100% [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 뻗음 비명을 질렀다 💀.
 
-**대재앙 발동 💥 (정적 링킹 Static Linking의 강결합 쇳덩이 무덤)**: 
-개발자가 걍 화면에 `Hello` 딱 1줄 텍스트 찍는 10바이트짜리 장난감 앱을 만들었다. 근데 빌드 컴파일(Compile) 치고 `a.out` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 용량을 까보니 무려 5MB 뚱뚱이 폭탄이 튀어나왔다 미친 💀!! 
+**대재앙 발동 💥 (정적 링킹 Static Linking의 강결합 쇳덩이 무덤)**:
+개발자가 걍 화면에 `Hello` 딱 1줄 텍스트 찍는 10바이트짜리 장난감 앱을 만들었다. 근데 빌드 컴파일(Compile) 치고 `a.out` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 용량을 까보니 무려 5MB 뚱뚱이 폭탄이 튀어나왔다 미친 💀!!
 왜? `printf()` 함수 하나 쓰겠다고, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 컴파일러가 C 표준 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(`libc.a`) 쇳덩이 10만 줄 전체를 도끼로 퍼 와서 내 장난감 앱 뱃속에 100% 통째로 시멘트 복붙 용접 떡칠(Static 락킹) 해버렸기 때문이다 💥.
 이런 장난감 1,000개를 동시에 RAM에 띄우면? ➔ 똑.같.은 `printf` 쇳덩이 코드 1,000개가 메모리에 무지성 중복 복제되어 RAM 5GB 타죽음 용광로 증발 마비 셧다운 뻗음 연쇄 파국 멸망 터짐 쾅!!!
 
-**아키텍트 대장 극대노 도끼 척살 발동 🪓**: "야 이 미친 좆소 타자기 무식한 새끼들아!! 쇳덩이 코드를 왜 앱마다 일일이 뱃속에 다 쑤셔 박아 복사 떡칠을 해 타죽어 찢어 쾅!!!! 
-**하늘이 두 쪽 나도 내 앱 뱃속 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에는 [이빨 빠진 빈칸 구멍 껍데기 🪟] 만 파 놓고 걍 빌드 끝내버려!! 용량 10KB 깃털 다이어트 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 달성 록온 컷 🚀!!! 
-그리고 앱 더블클릭해서 RAM 메모리에 띄우는 (Run-time 런타임 찰나) 순간!! ➔ [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 심부름꾼 대장 봇 [동적 링커 `ld.so` ✨] 이 0.1초 컷 강림 출동해서 ➔ '어? 이 새끼 뱃속에 `printf` 빈칸 빵꾸 났네 ㅋ? 야 메모리 공터 공용 구역에 둥둥 떠 있는 [공유 도서관 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) `libc.so` (Shared Object)] 한 개 끄집어 와서 ➔ 그 빈칸 구멍이랑 RAM 메모리 포인터 주소로 찰칵! 무선 텔레파시 다리([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 핑퐁 용접 연결 결합 쳐버려 록온 쾅 🚀!!!'** 
+**아키텍트 대장 극대노 도끼 척살 발동 🪓**: "야 이 미친 좆소 타자기 무식한 새끼들아!! 쇳덩이 코드를 왜 앱마다 일일이 뱃속에 다 쑤셔 박아 복사 떡칠을 해 타죽어 찢어 쾅!!!!
+**하늘이 두 쪽 나도 내 앱 뱃속 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에는 [이빨 빠진 빈칸 구멍 껍데기 🪟] 만 파 놓고 걍 빌드 끝내버려!! 용량 10KB 깃털 다이어트 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 달성 록온 컷 🚀!!!
+그리고 앱 더블클릭해서 RAM 메모리에 띄우는 (Run-time 런타임 찰나) 순간!! ➔ [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 심부름꾼 대장 봇 [동적 링커 `ld.so` ✨] 이 0.1초 컷 강림 출동해서 ➔ '어? 이 새끼 뱃속에 `printf` 빈칸 빵꾸 났네 ㅋ? 야 메모리 공터 공용 구역에 둥둥 떠 있는 [공유 도서관 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) `libc.so` (Shared Object)] 한 개 끄집어 와서 ➔ 그 빈칸 구멍이랑 RAM 메모리 포인터 주소로 찰칵! 무선 텔레파시 다리([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 핑퐁 용접 연결 결합 쳐버려 록온 쾅 🚀!!!'**
 1만 개 앱이 뜨든 1억 개가 뜨든, 거대 도서관 코드는 RAM 공간에 딱 1개만 상주하며 무한 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 십자 쉐어링 공유 꿀빨기 생태계를 쳐버리는 인류 메모리 다이어트 공학의 위대한 마스터피스 대관식이다 ✨.
 
-- **📢 섹션 요약 비유**: 정적 링킹(Static)은 수학 공부할 때 <strong>'수학의 정석 1,000페이지짜리 두꺼운 책을 아예 무지성 통째로 베껴 써서 내 공책 뱃속에 다 붙여놓고 무겁게 들고 다니는 야만인 짓'</strong>입니다(용량 터짐 💥 가방 찢어짐). 
+- **📢 섹션 요약 비유**: 정적 링킹(Static)은 수학 공부할 때 <strong>'수학의 정석 1,000페이지짜리 두꺼운 책을 아예 무지성 통째로 베껴 써서 내 공책 뱃속에 다 붙여놓고 무겁게 들고 다니는 야만인 짓'</strong>입니다(용량 터짐 💥 가방 찢어짐).
 동적 링킹(Dynamic 🚀) 마법 텐트는 다릅니다!! 내 공책엔 가볍게 **'참고: 중앙 도서관 3층 A열 수학의 정석 50페이지에 답 있음 ㅋ'** 라는 **[주소 포인터 껍데기 쪽지(PLT/GOT)]** 딱 1줄만 가볍게 적어 깃털 다이어트를 칩니다 ✨! 내가 문제 풀 때 그 찰나의 순간에 도서관으로 1초 컷 점프(ld.so 핑퐁 록온) 뛰어가서 책 스윽 펼쳐 엑기스 정답만 쏙 빼먹고 돌아오는 완벽 무결점 쾌속 공간 창조 기만술입니다 🚀.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-"야 씨발 근데 램(RAM) 주소가 앱 켤 때마다 [ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/) 보안 땜에 100번씩 계속 딴 데로 랜덤(Random) 도망가 널뛰기 치는데 ➔ 도대체 공용 도서관(`libc.so`) 주소를 어떻게 오차 0% 로 찾아서 핀셋 록온 꽂음 미친아 ㅠ?" 
+"야 씨발 근데 램(RAM) 주소가 앱 켤 때마다 [ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/) 보안 땜에 100번씩 계속 딴 데로 랜덤(Random) 도망가 널뛰기 치는데 ➔ 도대체 공용 도서관(`libc.so`) 주소를 어떻게 오차 0% 로 찾아서 핀셋 록온 꽂음 미친아 ㅠ?"
 아키텍트 천재들의 뇌를 갈아 넣은 **[PLT - GOT 2단 마트료시카 십자 핑퐁 방폭문 ✨]** [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 바인딩 도해다.
 
 ```text
@@ -81,20 +81,20 @@ tags = ["studynote-operating-system"]
 
 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">아키텍트의 피 터지는 메스: [지연</a> 바인딩 (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a> Binding 꼼수 텐트 ✨)]</strong>
 "야 시발 앱 켤 때 `ld.so` 봇이 걍 1만 개 함수 주소 다 미리 찾아서 GOT 엑셀 장부 풀 빵빵하게 다 적어놓고 시작(Eager Binding 즉시 바인딩 💥) 하면 안 됨 ㅠ 랙 걸리게 왜 1번째 방문 때 찾음?"
-- **아키텍트 팩폭 🪓**: "야 이 미친 좆소 무지성 코더야!! `libc.so` 도서관 안에 함수가 10만 개가 우글거려 쳐 박혀있어 쾅!!! 
-니 허접한 앱 쇳덩이가 10만 개 함수 중에 실제로 실행하면서 런타임에 찌르는 함수는 고작 `printf` 랑 `malloc` 2개밖에 없잖아 빙신아 💀!! 
-하늘이 두 쪽 나도 앱 부팅 켜는 찰나에 10만 개 주소 싹 다 찾느라 CPU 5초 타 죽는 부팅 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 셧다운 뻗음 멸망 터지는 짓 절대 하지 마 찢어발겨 쾅!!! 
+- **아키텍트 팩폭 🪓**: "야 이 미친 좆소 무지성 코더야!! `libc.so` 도서관 안에 함수가 10만 개가 우글거려 쳐 박혀있어 쾅!!!
+니 허접한 앱 쇳덩이가 10만 개 함수 중에 실제로 실행하면서 런타임에 찌르는 함수는 고작 `printf` 랑 `malloc` 2개밖에 없잖아 빙신아 💀!!
+하늘이 두 쪽 나도 앱 부팅 켜는 찰나에 10만 개 주소 싹 다 찾느라 CPU 5초 타 죽는 부팅 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 셧다운 뻗음 멸망 터지는 짓 절대 하지 마 찢어발겨 쾅!!!
 <strong>무.조.건. 존나 게으르게 대충 누워서 퍼질러 꿀 빨다가(<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a> 록온 ✨) ➔ 유저가 진짜 함수 1방 툭! 찌르고 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/">호출([Call</a>) 치는 그 0.001초 찰나의 첫 순간 1번째 방문 타점] 에만!! ➔ 링커 봇이 게으르게 1초 컷 출동해서 딱 그 1개 함수 주소만 핀셋 도출 낚아채서 GOT 장부에 메모 적고 빠지는 <a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">초극강 [Lazy</a> Binding <a href="/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/182_lazy_loading/">지연 로딩</a> 다이어트 수술] 을 쳐야만 ➔ 앱 실행 부팅 속도가 0.01초 광속 쾌속 텔레포트 런칭 록온 방폭문을 뚫고 달성된다 미친아 🚀!!!"</strong>
 
-- **📢 섹션 요약 비유**: [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 바인딩([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Binding) 텐트는 <strong>'학교 앞 배달 떡볶이집 메뉴판 영업 꼼수'</strong>와 100% 똑같습니다. 
-즉시 바인딩(Eager 💥)은 식당 오픈 전에 사장님이 서울시 1만 개 분식집 메뉴 레시피(주소)를 밤새 달달 싹 다 100% 다 외우고 나서야 셔터 문 여는 병신 뻘짓입니다(오픈 5시간 랙 걸려 파산 망함 💀). 
+- **📢 섹션 요약 비유**: [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 바인딩([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Binding) 텐트는 <strong>'학교 앞 배달 떡볶이집 메뉴판 영업 꼼수'</strong>와 100% 똑같습니다.
+즉시 바인딩(Eager 💥)은 식당 오픈 전에 사장님이 서울시 1만 개 분식집 메뉴 레시피(주소)를 밤새 달달 싹 다 100% 다 외우고 나서야 셔터 문 여는 병신 뻘짓입니다(오픈 5시간 랙 걸려 파산 망함 💀).
 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 바인딩([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) 🚀)은? 사장님은 레시피 1도 안 외우고 일단 문 활짝 열고 빈 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 눕습니다 ㅋ. 손님이 1번째로 "야끼만두 줘 툭!" 시키는 그 찰나의 1초 순간!! ➔ 사장님(ld.so 링커 봇)이 헐레벌떡 네이버 검색 1방 쳐서 레시피 주소 딱 찾아서 만두 튀겨주고 ➔ **'수첩(GOT 금고 ✨)'에 야끼만두 레시피 주소 1개만 딱 적어놓고 록온(Cache) 박습니다!** ➔ 내일 2번째 딴 손님이 또 야끼만두 시키면? 네이버 검색 쌩까 100% 무시 패스 컷 치고!! ➔ 어제 적어둔 수첩(GOT) 1초 컷 스캔 쳐서 0.01초 쾌속 광속으로 만두 튀겨 던져 서빙 완료 치는 우주 최강 게으른 꿀빨기 캐시 텐트 스텔스 마법입니다 🚀.
 
 ---
 
 ## Ⅲ. 융합 비교 및 다각도 분석
 
-"야 그럼 보안 해커가 GOT 메모장 장부 위조 덮어쓰기 해킹 치면 우짬 ㅠ?" 
+"야 그럼 보안 해커가 GOT 메모장 장부 위조 덮어쓰기 해킹 치면 우짬 ㅠ?"
 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 바인딩의 꿀 빠는 쾌락이 낳은 끔찍한 보안 아킬레스건 파국과 아키텍트의 방폭문 십자 트레이드오프 타점이다.
 
 | 바인딩 스위칭 잣대 | 🐢 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 바인딩 ([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Binding 게으른 꿀빨기 ✨) | 🛡️ 즉시 바인딩 (Eager Binding / `RELRO` 보안 떡칠 방폭문 🚀) |
@@ -104,10 +104,10 @@ tags = ["studynote-operating-system"]
 | <strong>단점 파국 (<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">Risk</a> 💥)</strong>| 💀 **[GOT Overwrite 해킹 스나이퍼 1순위 먹잇감 털림 파산 💥]** GOT 장부가 런타임 중에 계속 덮어쓰기 `Write` 권한 열려있어야 작동함 ➔ 해커가 메모리 뚫고 들어와서 `printf` 주소표를 지 해킹 좀비 봇 주소로 화이트아웃 쓱 덮어씌워버림 ➔ 서버 100억 해킹 유출 셧다운 멸망 동반 타죽음 터짐 쾅!!! | 부팅 켜질 때 10만 개 함수 주소 다 찾느라 CPU 용광로 스로틀링 뻗음 ➔ <strong>부팅 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 랙 3초 뻗음 💀</strong> 덩어리 오버헤드 희생 출혈. |
 
 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/342_full_relro/">🚨 아키텍트의 결단 피 터지는 메스: [FULL RELRO</a> (<a href="/knowledge-base/studynote/09_security/04_endpoint_security/341_relro/">Relocation Read-Only</a> 록온 텐트 🪓)]</strong>
-금융권 1급 코어 백엔드 망. "야 해커한테 GOT 털려 해킹당하면 1조 원 징역 소송 터져 파산이야 쾅 💀!!" 
-- **아키텍트 보안 방폭문 록온 🚀**: "야 이 씨발아 부팅 속도 1초 랙 쿨하게 희생 깎아 포기 찢어발겨 버려 쾅!!! 
-하늘이 무너져도 100억 서버 빌드 컴파일(Compile) 칠 때 GCC 옵션에 <strong><code>-z now -z relro</code> (<a href="/knowledge-base/studynote/09_security/04_endpoint_security/342_full_relro/">FULL RELRO</a> 풀 렐로 무적 텐트 방패 ✨)</strong> 2단 콤보 쇳덩이 강제 텍스트 주사 꽂아 락킹 쳐 박아라 쾅!!! 
-이 옵션 켜면 ➔ [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Binding(게으른 꼼수) 100% 영구 사살 원천 폐기 차단 소각 쳐버리고 ➔ 부팅 찰나에 링커 봇이 피 터지게 1만 개 함수 주소 싹 다 100% 엑스레이 스캔 찾아내서 GOT 금고 장부에 다 기록 쳐 쑤셔 넣은 직후!!! ➔ **0.01초 컷 찰칵!! GOT 메모리 영역 쇳덩이 전체 권한을 [PROT_READ 읽기 전용 박제 콘크리트] 로 강제 영구 용접 굳혀버린다 쾅 🚀!!!** 
+금융권 1급 코어 백엔드 망. "야 해커한테 GOT 털려 해킹당하면 1조 원 징역 소송 터져 파산이야 쾅 💀!!"
+- **아키텍트 보안 방폭문 록온 🚀**: "야 이 씨발아 부팅 속도 1초 랙 쿨하게 희생 깎아 포기 찢어발겨 버려 쾅!!!
+하늘이 무너져도 100억 서버 빌드 컴파일(Compile) 칠 때 GCC 옵션에 <strong><code>-z now -z relro</code> (<a href="/knowledge-base/studynote/09_security/04_endpoint_security/342_full_relro/">FULL RELRO</a> 풀 렐로 무적 텐트 방패 ✨)</strong> 2단 콤보 쇳덩이 강제 텍스트 주사 꽂아 락킹 쳐 박아라 쾅!!!
+이 옵션 켜면 ➔ [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Binding(게으른 꼼수) 100% 영구 사살 원천 폐기 차단 소각 쳐버리고 ➔ 부팅 찰나에 링커 봇이 피 터지게 1만 개 함수 주소 싹 다 100% 엑스레이 스캔 찾아내서 GOT 금고 장부에 다 기록 쳐 쑤셔 넣은 직후!!! ➔ **0.01초 컷 찰칵!! GOT 메모리 영역 쇳덩이 전체 권한을 [PROT_READ 읽기 전용 박제 콘크리트] 로 강제 영구 용접 굳혀버린다 쾅 🚀!!!**
 이제 러시아 해커 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/) 봇이 램 메모리 뚫고 들어와 GOT 장부에 덮어쓰기 악성 코드 조작 변조 테러 공격 치려는 그 0.001초 순간!! ➔ CPU 하드웨어 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 뇌가 '어 씨발 읽기 전용 성역 쇳덩이에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시도? 해커 침입 적발 컷 💥!' <strong><code>SIGSEGV</code> (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">세그멘테이션</a> 샷건 사살 빔 🪓)</strong> 대가리 갈겨 즉결 처형시켜버림으로써 ➔ 해커의 GOT Overwrite 꼼수 자체를 1바이트 오차 0% 100% 무결점 스텔스 철벽 원천 차단 방어 생존해 내는 궁극의 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 리눅스 메모리 인프라 해킹 쉴드 헌법이다 ✨!!!"
 
 ---
@@ -117,14 +117,14 @@ tags = ["studynote-operating-system"]
 주니어 코더가 "우왕 빌드 끝 데헷 ㅋ" 서버에 바이너리 툭 던졌다 `error while loading shared libraries` [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 없다고 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 빨간불 뿜으며 뻗음 올스탑 셧다운 파국 터지는 3대 디버깅 엑스레이 스캐너 룰이다.
 
 ### 실무 판단 시나리오
-1. <strong>LD_LIBRARY_PATH 환경변수 떡칠 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">사일로</a> 붕괴의 늪 💀</strong>: 
+1. <strong>LD_LIBRARY_PATH 환경변수 떡칠 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">사일로</a> 붕괴의 늪 💀</strong>:
    좆소 코더가 외부 특수 `libcrypto.so` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 사 와서 자기 `home` 폴더에 대충 다운받고 ➔ `export LD_LIBRARY_PATH=/home/user/lib` 리눅스 [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)에 임시 텍스트 주소 떡칠 쑤셔 박아 놓고 앱 돌림 "우왕 잘 돔 ㅋ 런칭해 🚀".
-   **대재앙 발동 💥**: 내일 리눅스 서버 껐다 켜짐(Reboot 재부팅) ➔ [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/) `LD_LIBRARY_PATH` 텍스트 허공 증발 싹 다 날아가 100% 리셋 포맷 멸망 💀!! ➔ 톰캣 자바 앱 켜지려다 `ld.so` 링커 봇 왈 "어 시발 이 `libcrypto.so` 도서관 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 어디 감 ㅋ? 못 찾아 404 미아 고아 뻗음 컷 💥!" ➔ 전사 쇼핑몰 결제 1달간 올스탑 셧다운 파산 엔딩 쾅!!! 
-   - **아키텍트 영구 용접 RPATH 수술 🪓**: "야 이 미친 타자기 새끼야 임시 변수 텍스트에 목숨 의탁 구걸하지 마 다 찢어 쾅!!! 하늘이 찢어져도 빌드(gcc) 컴파일 치는 그 순간에 ➔ **`-Wl,-rpath,'$ORIGIN/lib'` (RPATH 런타임 쇳덩이 경로 강제 주입 록온 텐트 ✨)** 옵션 텍스트를 쇳물 바이너리 ELF 헤더 대가리 뱃속 깊숙이 물리적으로 영구 시멘트 각인 용접 쳐 박아 록온 락 쳐라 쾅 🚀!!! 
+   **대재앙 발동 💥**: 내일 리눅스 서버 껐다 켜짐(Reboot 재부팅) ➔ [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/) `LD_LIBRARY_PATH` 텍스트 허공 증발 싹 다 날아가 100% 리셋 포맷 멸망 💀!! ➔ 톰캣 자바 앱 켜지려다 `ld.so` 링커 봇 왈 "어 시발 이 `libcrypto.so` 도서관 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 어디 감 ㅋ? 못 찾아 404 미아 고아 뻗음 컷 💥!" ➔ 전사 쇼핑몰 결제 1달간 올스탑 셧다운 파산 엔딩 쾅!!!
+   - **아키텍트 영구 용접 RPATH 수술 🪓**: "야 이 미친 타자기 새끼야 임시 변수 텍스트에 목숨 의탁 구걸하지 마 다 찢어 쾅!!! 하늘이 찢어져도 빌드(gcc) 컴파일 치는 그 순간에 ➔ **`-Wl,-rpath,'$ORIGIN/lib'` (RPATH 런타임 쇳덩이 경로 강제 주입 록온 텐트 ✨)** 옵션 텍스트를 쇳물 바이너리 ELF 헤더 대가리 뱃속 깊숙이 물리적으로 영구 시멘트 각인 용접 쳐 박아 록온 락 쳐라 쾅 🚀!!!
    그럼 [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/) 다 날아가고 서버가 백만 번 널뛰기 재부팅 발광을 쳐도 ➔ 링커 봇이 1빠따 최우선 0순위로 이 뱃속에 문신 박힌 RPATH 주소를 엑스레이 까보고 1초 컷 다이렉트 핑 찾아가서 도서관 책 빼오니까 ➔ 100% 무결점 오토 힐링 영구 생존 로딩 방벽이 성립한다 미친아 ✨!"
-2. <strong><code>ldd</code> <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 엑스레이 (X-ray) 스캔 스나이퍼 타격 👁️</strong>: 
-   "아 씨발 런칭 전인데 이 `nginx` 앱 바이너리 쇳덩이가 대체 뒤에서 무슨 `libc.so`, `libssl.so` [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 핏줄 빨대 꼽고 기생하는지 모조리 싹 다 까발려 알고 싶어 쾅 ㅠ!" 
-   - <strong>판단 (아키텍트 <code>ldd</code> 투시 레이더 발동 🚀)</strong>: 걍 터미널 켜서 <strong><code>ldd /usr/sbin/nginx</code></strong> 딱 1줄 텍스트 치고 엔터 때려 쾅!! 
+2. <strong><code>ldd</code> <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 엑스레이 (X-ray) 스캔 스나이퍼 타격 👁️</strong>:
+   "아 씨발 런칭 전인데 이 `nginx` 앱 바이너리 쇳덩이가 대체 뒤에서 무슨 `libc.so`, `libssl.so` [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 핏줄 빨대 꼽고 기생하는지 모조리 싹 다 까발려 알고 싶어 쾅 ㅠ!"
+   - <strong>판단 (아키텍트 <code>ldd</code> 투시 레이더 발동 🚀)</strong>: 걍 터미널 켜서 <strong><code>ldd /usr/sbin/nginx</code></strong> 딱 1줄 텍스트 치고 엔터 때려 쾅!!
    ➔ 링커 봇이 가짜 실행 시뮬레이션 공회전 위이잉 돌리더니 ➔ 0.1초 컷으로 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 화면에 "이 새끼 뱃속에 구멍 난 빵꾸 `libssl.so` ➔ (실제 연결된 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) `/lib/x86_64.../libssl.so`) 팩트 록온 맵핑 리스트" 100개를 우수수 엑셀 텍스트 덤프로 발가벗겨 다 뱉어 토해낸다 ✨!! 만약 옆에 `=> not found` 라고 시뻘겋게 뜬 놈 딱 1줄 발견하는 0.001초 찰나 순간 ➔ "아 씨발 저 책 도서관에 없네 당장 `apt-get install` 로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 쇳덩이 다운 사 와서 서버 뻗음 폭파 대참사 런칭 직전에 100% 사전 조기 척살 메워 락킹 쳐 방어 쉴드 텐트 올려라 쾅 🚀!!!" [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) 의 0순위 트러블슈팅 불멸 마스터키 헌법이다.
 
 - **📢 섹션 요약 비유**: 이 RPATH 융합 텐트 록온은, 아이 미아 방지 <strong>'목걸이 강제 용접 착용'</strong>과 완벽히 100% 똑같습니다. `LD_LIBRARY_PATH`(환경변수)는 애기 손에 **'엄마 번호 적힌 포스트잇 종이 쪼가리'** 쥐여주고 놀이공원 보내는 바보 짓입니다. 롤러코스터 1번 타면(서버 재부팅 💥) 종이 바람에 날아가 증발하고 애기 100% 미아 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 뻗음 고아 멸망 💀 터집니다. 아키텍트 대장의 `RPATH` 옵션 텐트는? 애기 은목걸이(ELF 바이너리 대가리)에 엄마 번호 16자리를 아예 <strong>'티타늄 레이저 용접 문신(영구 박제)'</strong>으로 지져버려 록온 락 쳐버리는 겁니다 🚀!! 10년 뒤 파도 맞고 기절 쓰러져 발견돼도 경찰(링커 봇)이 0.1초 컷 목걸이 스캔 까보고 100% 무결점 오차 없이 정확한 집 주소 다이렉트 핑 찾아 쾌속 생존 복귀 배달시켜 주는 우주 최고 스텔스 방폭문 생명 연장술입니다 ✨.
@@ -135,11 +135,11 @@ tags = ["studynote-operating-system"]
 
 동적 링킹([Dynamic Linking](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/) / `ld.so`) 프로세스는 "내가 짠 코드 1만 줄이 무적 완벽 신성 쇳덩이다" 라며 무식하게 모든 외부 도서관 백과사전 코드를 내 뱃속에 통째 복붙 욱여넣어 용량 하마 비만 오버헤드로 서버 램(RAM)을 터뜨리던 정적 링킹(Static) 야만 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 시대 💀를 ➔ 날카로운 도끼 엑스칼리버 1방으로 찢어발겨 절단 도륙 낸 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 메모리 공학 역사상 가장 잔인하고도 아름다운 디커플링(Decoupling 결합 파괴) 연금술 대관식이다.
 
-과거 "보안 패치 1개 떴음 ㅋ `libc` 업뎃함" 공지 뜰 때마다 ➔ 좆소 코더 100명은 각자 자기 자바/C 앱 1,000만 줄 소스를 1시간 내내 일일이 눈알 빠지게 전부 다 처음부터 싹 다 새로 쌩 재빌드(Re-compile) 뺑뺑이 무지성 병목 컴파일을 쳐 돌려 런칭 다운타임 뻗어 피 토하고 뻗음 마비 철야 타죽음 멸망 폭사 대참사를 겪었다 💥. 
-하지만 아키텍트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 뇌는 이를 비웃는다. **"야 이 씨발 유인원들아 앱 소스 코드 단 1바이트 1줄도 새로 빌드 컴파일 손타지 마 건들지 마 락 걸어 쾅!!!! ➔ 하늘이 찢어져도 걍 허공 공용 메모리에 둥둥 뜬 낡은 [`libc.so` 공유 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 쇳덩이 책] 1개만 쓱 빼서 쓰레기통 휴지통 버려 소각 삭제 소멸 컷 쳐버리고!! ➔ 그 자리에 최신 보안 패치 무결점 발라진 새삥 `[libc.so v2.0 텐트 ✨]` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개만 딱 1초 컷으로 복사 붙여넣기 찰칵! 덮어 씌워 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 스위칭 교체 스왑 록온 쳐버려 쾅 🚀!!! 
-➔ 그럼 수만 개의 앱 봇([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)) 들이 런타임 0.01초 클릭 찰나 순간에 ➔ 지 혼자 링커 봇(`ld.so`)이 오토 스캔 핑퐁 쳐서 새삥 도서관 책 주소로 알아서 [자동 포인터 텔레포트 쾌속 바인딩 락킹 조립 ✨] 다 쳐 엮어 짬처리 해주니까 ➔ 수만 개 앱을 단 1초의 컴파일 재배포 빌드 랙 타임 멈춤 오버헤드 0% 없이 우주 무결점 100% 무정단([Zero-Downtime](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/110_zero_downtime_db_schema_rollout/)) 스텔스 보안 패치 평화 업그레이드 생존을 광속 달성 해버린다 미친아 🚀!!!"** 
+과거 "보안 패치 1개 떴음 ㅋ `libc` 업뎃함" 공지 뜰 때마다 ➔ 좆소 코더 100명은 각자 자기 자바/C 앱 1,000만 줄 소스를 1시간 내내 일일이 눈알 빠지게 전부 다 처음부터 싹 다 새로 쌩 재빌드(Re-compile) 뺑뺑이 무지성 병목 컴파일을 쳐 돌려 런칭 다운타임 뻗어 피 토하고 뻗음 마비 철야 타죽음 멸망 폭사 대참사를 겪었다 💥.
+하지만 아키텍트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 뇌는 이를 비웃는다. **"야 이 씨발 유인원들아 앱 소스 코드 단 1바이트 1줄도 새로 빌드 컴파일 손타지 마 건들지 마 락 걸어 쾅!!!! ➔ 하늘이 찢어져도 걍 허공 공용 메모리에 둥둥 뜬 낡은 [`libc.so` 공유 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 쇳덩이 책] 1개만 쓱 빼서 쓰레기통 휴지통 버려 소각 삭제 소멸 컷 쳐버리고!! ➔ 그 자리에 최신 보안 패치 무결점 발라진 새삥 `[libc.so v2.0 텐트 ✨]` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개만 딱 1초 컷으로 복사 붙여넣기 찰칵! 덮어 씌워 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 스위칭 교체 스왑 록온 쳐버려 쾅 🚀!!!
+➔ 그럼 수만 개의 앱 봇([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)) 들이 런타임 0.01초 클릭 찰나 순간에 ➔ 지 혼자 링커 봇(`ld.so`)이 오토 스캔 핑퐁 쳐서 새삥 도서관 책 주소로 알아서 [자동 포인터 텔레포트 쾌속 바인딩 락킹 조립 ✨] 다 쳐 엮어 짬처리 해주니까 ➔ 수만 개 앱을 단 1초의 컴파일 재배포 빌드 랙 타임 멈춤 오버헤드 0% 없이 우주 무결점 100% 무정단([Zero-Downtime](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/110_zero_downtime_db_schema_rollout/)) 스텔스 보안 패치 평화 업그레이드 생존을 광속 달성 해버린다 미친아 🚀!!!"**
 
-비록 매번 앱 실행 호출([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/)) 찰나마다 ➔ PLT-GOT 껍데기 대문을 거쳐 링커 봇을 핑퐁 찔러 주소를 찾는 미세한 런타임 간접 점프 랙(Indirection Overhead [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 병목 💥)의 세금 페널티 피를 이빨 꽉 깨물고 지불 감내해야 할지언정!! 
+비록 매번 앱 실행 호출([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/)) 찰나마다 ➔ PLT-GOT 껍데기 대문을 거쳐 링커 봇을 핑퐁 찔러 주소를 찾는 미세한 런타임 간접 점프 랙(Indirection Overhead [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 병목 💥)의 세금 페널티 피를 이빨 꽉 깨물고 지불 감내해야 할지언정!!
 이 얄짤없는 <strong>'실행 시점 찰나의 동적 쇳덩이 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 조립 결합 (Late Binding 텐트 쉴드)'</strong> 헌법 사상만큼은 ➔ 오늘날 1경 달러 트래픽 AWS K8s [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 뱃속에서 `node_modules`, `.so` 수만 개 파편 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 부품들이 ➔ 미친 듯이 죽고 스위칭 살아나는 그 혼돈의 매트릭스 카오스 스파게티 핑퐁 속에서도!! ➔ 단 1방울의 메모리 램 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 누수 빵꾸조차 100% 철통 완전 멸균 차단 튕겨내 방어 쳐내버리며 ➔ 21세기 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 백엔드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 생태계를 100% 무결점 오토 힐링 자가 부활 통치 지배하는 영구 불멸 우주 최강 0순위 베이스캠프 뼈대 DNA 로 영원 고동치며 팽창 타오를 것이다 🚀✨.
 
 ---
@@ -166,7 +166,7 @@ tags = ["studynote-operating-system"]
 PLT-GOT 지연 바인딩 (Lazy Binding 꿀빨기 스텔스) 도입 ✨ / "근데 부팅할 때 1만 개 함수 위치 주소표 일일이 다 찾다 CPU 랙 걸려 타죽어 뻗음 💥 ➔ 야 걍 1번째 부를 때만 딱 1번만 가서 주소 찾고 GOT 수첩 메모장에 1초 컷 적어 캐시 박제 치고 빠져!! 2번째부턴 100% 쌩까 스킵 우회 직통 다이렉트 스나이퍼 미사일 꽂아 패스 쳐 쾅 🚀!"
     │
     ▼
-GOT Overwrite 해킹 스나이퍼 멸망 💀 & FULL RELRO 방폭문 수술 🪓 / "어 씨발 GOT 수첩에 해커가 지 해킹 주소 덮어쓰기 치고 통제권 털어 먹네 서버 100억 뚫림 대재앙 파국 터짐 💥!! ➔ 하늘 두 쪽 나도 지연 바인딩 꿀빨기 포기 찢어 컷 치고!! 부팅 때 좀 랙 뻗더라도 무조건 100% 싹 다 찾고 [GOT 장부 엑셀 전체를 읽기 전용 (Read-Only 쇳덩이 시멘트) 강제 권한 잠금 락킹 쳐 박아 영구 철통 쉴드 방어 록온 쳐라 미친아 쾅 🚀!!!]" 
+GOT Overwrite 해킹 스나이퍼 멸망 💀 & FULL RELRO 방폭문 수술 🪓 / "어 씨발 GOT 수첩에 해커가 지 해킹 주소 덮어쓰기 치고 통제권 털어 먹네 서버 100억 뚫림 대재앙 파국 터짐 💥!! ➔ 하늘 두 쪽 나도 지연 바인딩 꿀빨기 포기 찢어 컷 치고!! 부팅 때 좀 랙 뻗더라도 무조건 100% 싹 다 찾고 [GOT 장부 엑셀 전체를 읽기 전용 (Read-Only 쇳덩이 시멘트) 강제 권한 잠금 락킹 쳐 박아 영구 철통 쉴드 방어 록온 쳐라 미친아 쾅 🚀!!!]"
     │
     ▼
 모던 리눅스 보안 ASLR / PIE 텔레포트 융합 대관식 (현재) ✨ / 해커가 메모리 주소 못 맞추게 도서관 RAM 올릴 때마다 좌표 위치 100% 랜덤 널뛰기 발광 회피 기동 쳐버림 ➔ 동적 링커 봇(`ld.so`)이 이 미친 매트릭스 혼돈 카오스 속에서도 0.001초 찰나에 위치 좌표 역산 도출 맵핑 조립 용접을 무결점 오토 힐링 오차 0% 척살 연결해 내는 21세기 SRE OS 커널 보안 방폭문 제국 인프라 최종 우주 마스터피스 완성 쾅 🚀!!

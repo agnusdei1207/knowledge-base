@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/">루트킷</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/">Rootkit</a>)</strong>: 시스템 최고 관리자 권한(Root)을 영구적으로 탈취한 뒤, 해커의 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 실행 중인 악성 프로세스, 열려있는 해킹 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 감춰주는(Cloaking) 특수 목적 악성코드 세트다.
   - <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 스캔 (<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">Integrity</a> Scan)</strong>: 시스템의 중요 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이나 메모리 구조가 '허가되지 않은 자에 의해 변조되지 않고 깨끗한 원본 상태를 유지하고 있음'을 암호학적으로 증명하고 대조하는 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 행위다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 해커가 서버를 뚫고 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 심었다. 관리자가 `ls` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 폴더를 뒤져본다.
   - 그런데 [루트킷](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/)이 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 목록 읽기 함수([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))를 조작해서, 해커 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름이 나오면 화면에 출력되지 않게 빼버린다. 관리자 눈에는 서버가 평온해 보인다.
   - **해결책**: "감염된 OS가 들려주는 정보는 모조리 사기다! 오염 불가능한 외부의 깨끗한 기준([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) Hash DB)을 만들어두고, 1바이트라도 변경되면 즉시 알람을 울리는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 감시자(Tripwire)를 배치하자!"
@@ -31,7 +31,7 @@ tags = ["studynote-operating-system"]
   - <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/">루트킷</a> 감염</strong>: 미술관 경비원(백신)이 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 화면을 열심히 보고 있는데, 해커([루트킷](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/))가 이미 카메라 렌즈 앞에 '아무 일 없는 텅 빈 복도' 사진을 붙여놓은 상태. 경비원은 화면만 보고 "안전하다"고 착각함.
   - <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 스캔</strong>: 화면을 믿지 못하는 관장이 매일 밤 12시에 직접 레이저 스캐너를 들고 복도로 걸어 나가, 어제 바닥에 찍어둔 지문 해시(Hash) 패턴과 오늘 바닥의 패턴이 단 1mm라도 달라진 게 없는지 암호학적으로 검사하는 치밀한 행위.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 1990년대 해커들이 유닉스 환경의 `login`, `ps` 같은 기본 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 바이너리 자체를 덮어쓰는 1세대 [루트킷](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/)([User-mode Rootkit](/knowledge-base/studynote/09_security/04_endpoint_security/361_user_mode_rootkit/))을 유행시켰고, 2000년대 [LKM](/knowledge-base/studynote/02_operating_system/01_overview_architecture/067_lkm/)([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))을 악용한 2세대 [커널 루트킷](/knowledge-base/studynote/09_security/04_endpoint_security/360_kernel_rootkit/)(Kernel-mode [Rootkit](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/))이 판을 치자, 이에 맞서 Tripwire, AIDE 같은 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 감시 도구들이 엔터프라이즈 보안의 표준으로 정착했다.
 
 ```text

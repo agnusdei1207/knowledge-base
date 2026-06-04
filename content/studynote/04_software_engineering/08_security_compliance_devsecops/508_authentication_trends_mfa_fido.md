@@ -19,10 +19,10 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))은 "너 누구야?"를 증명하는 절차다. 이 증명은 3가지로 진화했다. 
-  1. 알고 있는 것 (지식, Password) 
-  2. 가지고 있는 것 (소유, [OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/) 폰) 
-  3. 나 자신인 것 (생체, 지문/홍채). 
+- **개념**: [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))은 "너 누구야?"를 증명하는 절차다. 이 증명은 3가지로 진화했다.
+  1. 알고 있는 것 (지식, Password)
+  2. 가지고 있는 것 (소유, [OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/) 폰)
+  3. 나 자신인 것 (생체, 지문/홍채).
   현대 트렌드는 1번(비밀번호)을 완전히 삭제하고, 2번([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/))을 지나, 3번(생체)과 비대칭키 수학을 결합한 FIDO/WebAuthn 규격으로 '패스워드리스(Passwordless)'라는 새로운 신원 증명 왕국을 세우는 것이다.
 
 - **필요성**: 수백억을 들여 넷플릭스, 야놀자의 보안 서버를 튼튼하게 지어놨다. 무슨 소용인가? 유저들이 모든 사이트 비밀번호를 `Qwe1234!` 로 통일해서 쓰는데. 해커는 보안 허접한 동네 구멍가게 사이트를 턴 다음, 그 비번으로 넷플릭스 정문으로 걸어 들어와 돈을 다 빼간다. **개발자가 아무리 시큐어 코딩을 잘해도 '인간(유저)의 귀찮음과 멍청함'이라는 가장 큰 취약점을 코드 레벨에서 막을 방법이 없었다.** 그래서 유저에게 "비번 길게 외우고 바꿔라"라고 훈수 두는 것을 포기하고, 아예 유저의 뇌(기억)를 쓰지 않게 인프라가 모든 걸 대신해 주는 '패스워드 삭제 작전'이 지상 과제가 되었다.

@@ -56,7 +56,7 @@ tags = ["studynote-network"]
 
 어떻게 HTTP와 똑같이 움직이면서 무게는 1/100로 줄였을까요?
 
-- 무거운 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)([확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 전화 후 접속)를 쓰레기통에 처넣습니다. 
+- 무거운 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)([확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 전화 후 접속)를 쓰레기통에 처넣습니다.
 - 그냥 목적지 IP를 향해 인사 없이 패킷을 휙 던지고 도망가는 빠르고 가벼운 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a>(969번)</strong> 위에서 돌아갑니다. 통신 오버헤드와 배터리 소모가 폭발적으로 줄어듭니다.
 
 ### 2. 바이너리 헤더 다이어트

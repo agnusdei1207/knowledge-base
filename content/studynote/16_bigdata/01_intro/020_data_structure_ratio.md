@@ -34,7 +34,7 @@ tags = ["bigdata"]
      /  \        - RDBMS 저장, 관리 용이, 명확한 스키마
     /____\       - 재무, ERP, CRM 거래 데이터
  ￣￣￣￣￣￣￣￣  <==== (수면: 기존 IT 기술의 한계선)
-  /        \     
+  /        \
  /          \    [반정형/비정형 데이터 (Unstructured Data) - > 80%]
 /            \   - 텍스트, 이미지, 로그, SNS, IoT, 영상
 --------------   - 다크 데이터(Dark Data): 수집은 되나 방치됨
@@ -49,7 +49,7 @@ tags = ["bigdata"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-80%의 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)를 수용하고 분석하기 위해 빅데이터 아키텍처는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 구조를 강제하는 방식에서 벗어나, 유연성을 극대화하는 방향으로 진화했다. 
+80%의 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)를 수용하고 분석하기 위해 빅데이터 아키텍처는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 구조를 강제하는 방식에서 벗어나, 유연성을 극대화하는 방향으로 진화했다.
 
 #### 1. 정형 vs [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 처리 아키텍처 구성
 
@@ -74,7 +74,7 @@ tags = ["bigdata"]
         │
         ▼ (특징 추출 및 벡터화 / AI 모델 적용)
 [AI / ML Pipeline 계층]
- ├─ STT (Speech-to-Text)  : 음성 -> 텍스트 
+ ├─ STT (Speech-to-Text)  : 음성 -> 텍스트
  ├─ NLP (감성 분석)       : 텍스트 -> "불만(Negative)", "긍정(Positive)" 분류
  └─ CNN (이미지 인식)     : 이미지 -> "파손된 상품" 객체 검출
         │

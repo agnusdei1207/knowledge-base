@@ -101,7 +101,7 @@ Yocto Project (임베디드 Linux):
   2. 레이어(Layer) 구성 (기능 레이어 추가)
   3. 이미지 타입 선택 (core-image-minimal 등)
   4. bitbake 빌드 → 루트 파일시스템 이미지
-  
+
   결과:
   - 특정 ARM 보드 전용 Linux 이미지
   - 필요한 패키지만 포함 (수십~수백 MB)

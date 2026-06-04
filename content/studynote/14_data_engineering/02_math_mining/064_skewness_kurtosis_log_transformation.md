@@ -137,8 +137,8 @@ Stabilized Modeling
 
 ## 어린이를 위한 3줄 비유 설명
 
-사탕 봉지가 한쪽으로 쏠려 있으면 왜도가 큰 거예요.  
-끝이 너무 뾰족하면 첨도가 큰 거예요.  
+사탕 봉지가 한쪽으로 쏠려 있으면 왜도가 큰 거예요.
+끝이 너무 뾰족하면 첨도가 큰 거예요.
 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 변환은 그 모양을 좀 더 고르게 만드는 방법이에요.
 
 ---

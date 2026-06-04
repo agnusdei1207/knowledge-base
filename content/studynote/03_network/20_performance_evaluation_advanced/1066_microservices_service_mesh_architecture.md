@@ -62,7 +62,7 @@ tags = ["studynote-network"]
 
 ### 2. [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) (상호 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)) 눈먼 암호화
 - 1044번에서 말했듯 내부망(East-West)이라도 해커가 훔쳐볼 수 있어 암호화가 필수입니다.
-- 개발자가 자바 코드에 복잡하게 SSL 인증서를 세팅할 필요가 없습니다. 
+- 개발자가 자바 코드에 복잡하게 SSL 인증서를 세팅할 필요가 없습니다.
 - [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)가 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)들끼리 패킷을 주고받는 찰나에, 허공에서 지들이 알아서 양방향 암호화 인증서([mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/)) 교환을 끝내고 군사 기밀급 암호 터널을 뚫어버립니다. 개발자는 평문([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))으로 통신을 짠 줄 알지만 인프라가 알아서 암호화해 줍니다.
 
 ### 3. [분산 트레이싱](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/112_distributed_tracing_microservices/) ([Distributed Tracing](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/))과 관측성

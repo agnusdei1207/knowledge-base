@@ -19,13 +19,13 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
-  - **Memory Safety (메모리 안전성)**: "니가 쓰겠다고 신청한 메모리 박스 크기(10칸)를 넘어서 11번째 칸에 억지로 데이터를 쑤셔 넣지 마라([오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 방어)!", "이미 다 쓰고 반납한 메모리(휴지통)를 다시 열어서 쓰지 마라([Use-After-Free](/knowledge-base/studynote/09_security/04_endpoint_security/351_use_after_free/) 방어)!" 
+- **개념**:
+  - **Memory Safety (메모리 안전성)**: "니가 쓰겠다고 신청한 메모리 박스 크기(10칸)를 넘어서 11번째 칸에 억지로 데이터를 쑤셔 넣지 마라([오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 방어)!", "이미 다 쓰고 반납한 메모리(휴지통)를 다시 열어서 쓰지 마라([Use-After-Free](/knowledge-base/studynote/09_security/04_endpoint_security/351_use_after_free/) 방어)!"
   - 이 두 가지를 인간(C/C++ 개발자)이 일일이 신경 쓰지 않아도, <strong>언어(Language) 엔진 자체가 100% 깐깐하게 막아줘서 해커가 메모리를 조작할 틈을 0.001mm도 안 주는 성질</strong>이다.
 
 - **필요성**: 50년 동안 천재 해커들은 C와 C++로 짜인 리눅스(OS)와 아파치(웹 서버)를 터는 데 혈안이 되어 있었다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 백날 쳐봤자 소용없다. 해커가 입력창에 엄청나게 긴 10만 글자 쓰레기 문자열 폭탄(Payload)을 날리면, C언어는 멍청하게 그 10만 글자를 10칸짜리 램(RAM) 공간에 억지로 우겨 넣는다([버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/), CWE-119). 넘친 글자들은 옆방에 있던 '관리자 권한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(EIP)' 메모리를 덮어써서 1초 만에 서버 통제권(RCE)을 해커에게 바쳤다. <strong>"개발자한테 메모리 관리(포인터, malloc/free)를 직접 하라고 냅두니까 인간은 무조건 실수하고, 거기로 회사가 통째로 날아간다. 아예 언어 차원에서 이 짓거리를 금지시켜 버리자!"</strong>라는 피눈물 나는 반성이 Rust와 Go의 세계 제패를 불러왔다.
 
-- **💡 비유**: 메모리 안전성은 <strong>'위험한 화학 공장 폭발(해킹) 방지 시스템'</strong>과 똑같습니다. 
+- **💡 비유**: 메모리 안전성은 <strong>'위험한 화학 공장 폭발(해킹) 방지 시스템'</strong>과 똑같습니다.
   - **C/C++ (과거)**: 공장 직원(개발자)이 자기 손으로 위험한 폭발물(메모리) 용량을 눈대중으로 재서 붓고, 다 쓰면 자기 손으로 밸브를 잠가야(free) 합니다. 까먹으면 폭발(해킹)합니다. 직원의 꼼꼼함([시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/))에 목숨을 겁니다.
   - <strong>Go 언어 (<a href="/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/">가비지 컬렉터</a>)</strong>: 로봇 청소기(GC)가 공장을 돌아다니면서 직원이 다 쓰고 버린 쓰레기(메모리)를 알아서 다 치워줍니다. 편하고 안전하지만, 로봇이 돌아갈 때 공장이 살짝 느려집니다([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하).
   - <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/">Rust</a> 언어 (끝판왕)</strong>: 공장 직원이 폭발물을 만질 때, 아예 '초정밀 센서가 달린 강철 로봇팔(소유권 규칙)'을 통해서만 만질 수 있게 물리적으로 강제합니다. 직원이 조금이라도 위험하게 부으려 하면, 로봇팔이 윙! 하고 멈추고 뺨을 때리며 절대 안 움직입니다(컴파일 에러). 100% 폭발하지도 않고, 청소 로봇도 필요 없어 미친 듯이 빠릅니다.

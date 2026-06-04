@@ -26,7 +26,7 @@ tags = ["studynote-operating-system"]
 그리고 사용자가 아이콘을 딱 더블클릭해서 하드디스크의 프로그램(`exe`)을 램(RAM)으로 끌어올릴 때(**적재, Load 순간**)!
 OS가 램을 뒤져보니 "오, 7000번지부터 텅 비었네? 야 너 기준점 방금부터 7000번지 줘! 그럼 HP 물약은 7100번지! 공격 함수는 7500번지에 쓰여진다."
 
-이것이 <strong>적재 시간 바인딩 (Load Time Binding)</strong>이다. 
+이것이 <strong>적재 시간 바인딩 (Load Time Binding)</strong>이다.
 메모리 충돌 공포에서 인류를 구원한, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 적재 시점(Loader)의 일괄 치환(Patch) 계산 마법이다.
 
 **💡 비유**: 당신이 캠핑장에 전화했다. "나 텐트 + 의자 100cm 거리, 텐트 + 화로 500cm 거리에 세팅할 건데 설계도는 짜놨어(컴파일 완료-재배치 코드)." 캠핑장에 도착(메모리 적재)하니 사장님이 "어이쿠 A구역은 다 찼고 B구역 70번 구석 비었으니 거기 치쇼!" 라고 한다. 당신은 70번 자리(기준 주소)를 베이스로 아까 짠 설계도 거리만큼 정확히 짐을 푼다. 자리싸움이 전혀 벌어지지 않는다!
@@ -75,10 +75,10 @@ OS가 램을 뒤져보니 "오, 7000번지부터 텅 비었네? 야 너 기준�
 
 **실무 시나리오**:
 1. <strong>정적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> (Static <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">Library</a> 링킹)</strong>: C++에서 `.lib`나 `.a` 코드를 짰는데 이 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 내 프로그램(exe) 덩어리 안으로 몸을 비비고 들어와(Load/Link) 하나의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 돼야 할 때, 그 거대한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 속 빈 구석을 찾아 주소를 덧대어 주는 방식(Relocation Table)이 적재 시간 바인딩의 우수한 실전 메커니즘이다.
-2. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 윈도우(Windows 3.x) 리얼 모드 코딩</strong>: MMU라는 신기능 칩이 비싸서 개나 소나 못 사던 시절에는 소프트웨어 로더(Loader)가 이 덧셈 노가다를 적재할 때 다 짊어졌다. 덕분에 돈(하드웨어) 안 들이고 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) 흉내는 냈지만, 램이 조금이라도 조각난 틈새([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))가 생기면 통째로 이사를 못 해서 블루스크린 단골이 되었다. 
+2. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 윈도우(Windows 3.x) 리얼 모드 코딩</strong>: MMU라는 신기능 칩이 비싸서 개나 소나 못 사던 시절에는 소프트웨어 로더(Loader)가 이 덧셈 노가다를 적재할 때 다 짊어졌다. 덕분에 돈(하드웨어) 안 들이고 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) 흉내는 냈지만, 램이 조금이라도 조각난 틈새([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))가 생기면 통째로 이사를 못 해서 블루스크린 단골이 되었다.
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
-- **재적재(Re-load) 메모리 최적화 포기**: 서버 프로그래머가 24시간 도는 데몬을 짰는데, 사용량이 적을 땐 디스크 스왑방으로 이사 보내고 트래픽 몰릴 때 남는 가용 램에 재배치시키고 싶다(현대의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 기법). 그런데 Load Time Binding 체제로 빌드된 코드는 이게 불가능해서(옛날 고향 빈 땅 아니면 복귀 안 됨), 램 하나로 서버 증설 없이 트래픽 우겨 넣기를 아예 설계조차 시도할 수 없다. 
+- **재적재(Re-load) 메모리 최적화 포기**: 서버 프로그래머가 24시간 도는 데몬을 짰는데, 사용량이 적을 땐 디스크 스왑방으로 이사 보내고 트래픽 몰릴 때 남는 가용 램에 재배치시키고 싶다(현대의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 기법). 그런데 Load Time Binding 체제로 빌드된 코드는 이게 불가능해서(옛날 고향 빈 땅 아니면 복귀 안 됨), 램 하나로 서버 증설 없이 트래픽 우겨 넣기를 아예 설계조차 시도할 수 없다.
 
 **📢 섹션 요약 비유**: 세를 든 상인(프로그램)이 장사가 안돼서 보증금을 빼서 시골(가상 디스크)로 내려갔다가, 장사 잘 될 즈음 서울로 복귀하려는데 굳이 자기가 예전에 쓰던 "서초동 10-1번지 옛 호수(과거 적재 주소)" 아니면 장사 안 하겠다고 땡깡을 부리다 망해버리는 답답한 장사꾼의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)입니다.
 

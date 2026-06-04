@@ -22,9 +22,9 @@ tags = ["studynote-operating-system"]
 운영체제는 돈을 빌려주는 무자비하지만 똑똑한 은행장이다.
 현재 대출 가능 잔액이 2억 원 남았는데, 5명의 고객이 "나중에 더 빌려줄 거지?" 하며 수십억의 마이너스 통장 계약을 걸어둔 시스템(다중 인스턴스 환경)이라면 어떨까?
 
-은행장(OS)이 고객에게 돈을 빌려주고도 파산을 안 당하려면, **"내가 2억을 A한테 줘서 졸업시키면, A가 갚은 원금으로 다시 B를 살리고..."** 하며 전원 졸업이 가능한 최소한 하나의 줄서기 순서표, 즉 <strong>안전 순서(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/">Safe</a> Sequence)</strong>를 찾아내야 한다. 이 순서표가 1개라도 존재하는 맑은 날씨가 바로 `안전 상태(Safe State)`다. 
+은행장(OS)이 고객에게 돈을 빌려주고도 파산을 안 당하려면, **"내가 2억을 A한테 줘서 졸업시키면, A가 갚은 원금으로 다시 B를 살리고..."** 하며 전원 졸업이 가능한 최소한 하나의 줄서기 순서표, 즉 <strong>안전 순서(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/">Safe</a> Sequence)</strong>를 찾아내야 한다. 이 순서표가 1개라도 존재하는 맑은 날씨가 바로 `안전 상태(Safe State)`다.
 
-**💡 비유**: 총알이 10발 남은 지휘관. A, B, C 세 분대장이 적을 뚫으려면 각각 총알 5발, 8발, 15발 등 총 28발이 더 필요하다고 아우성이다. 
+**💡 비유**: 총알이 10발 남은 지휘관. A, B, C 세 분대장이 적을 뚫으려면 각각 총알 5발, 8발, 15발 등 총 28발이 더 필요하다고 아우성이다.
 지휘관이 머리를 굴려 "남은 10발을 A한테 다 몰아줘서 고지 뺏고 5발 수거해 오면, 그걸로 통통한 B지원해 주고 돌아오면 C를 준다!" 는 시나리오가 성립하면 작전 "안전 상태" ([Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/))다.
 
 ```text

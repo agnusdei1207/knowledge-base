@@ -113,8 +113,8 @@ Instance
 
 ## 어린이를 위한 3줄 비유 설명
 
-[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 책장에 꽂힌 책이에요.  
-인스턴스는 그 책을 읽고 정리하는 사서예요.  
+[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 책장에 꽂힌 책이에요.
+인스턴스는 그 책을 읽고 정리하는 사서예요.
 사서가 있어야 책이 실제로 쓰여요.
 
 ---

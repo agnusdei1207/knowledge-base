@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/332_raid_0/">스트라이핑</a> (Striping)</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 조각(Block)으로 쪼개서 여러 디스크에 흩뿌려 동시에 저장하는 기술. ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상)
   - <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/">미러링</a> (Mirroring)</strong>: 똑같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 두 개 이상의 디스크에 쌍둥이처럼 똑같이 복사해 두는 기술. ([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 향상)
   - **패리티 (Parity)**: 디스크가 고장 났을 때, 나머지 디스크에 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 패리티(XOR 연산 값)를 조합해 죽은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 살려내는([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 마법의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조각.
 
-- **필요성 (CPU 속도와 디스크 속도의 엄청난 갭)**: 
+- **필요성 (CPU 속도와 디스크 속도의 엄청난 갭)**:
   - 1980년대, CPU는 미친 듯이 빨라지는데 하드디스크의 물리적 회전 속도는 제자리걸음이었다(I/O [Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)).
   - 아무리 좋은 CPU를 달아도 하드디스크가 읽어올 때까지 기다리느라 컴퓨터가 느렸다.
   - "비싸고 거대한 디스크 1개를 쓰는 대신, 싸구려 디스크 10개를 달아서 <strong>10명이 동시에 읽고 쓰게(<a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리)</strong> 만들면 속도가 10배 빨라지지 않을까?" 하는 발상에서 RAID가 탄생했다 (1987년 캘리포니아 버클리 대학).

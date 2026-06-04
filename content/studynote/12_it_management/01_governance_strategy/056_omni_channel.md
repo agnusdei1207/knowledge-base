@@ -124,8 +124,8 @@ MDM / CRM / POS / LBS
 
 ## 어린이를 위한 3줄 비유 설명
 
-[옴니채널](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/073_omni_channel_o2o_evolution/)은 장난감 가게, 앱, 전화가 모두 같은 노트를 보는 거예요.  
-어디서 물어봐도 같은 답을 받으면 덜 헷갈려요.  
+[옴니채널](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/073_omni_channel_o2o_evolution/)은 장난감 가게, 앱, 전화가 모두 같은 노트를 보는 거예요.
+어디서 물어봐도 같은 답을 받으면 덜 헷갈려요.
 그래서 손님은 "이 가게는 나를 기억한다"라고 느껴요.
 
 ---

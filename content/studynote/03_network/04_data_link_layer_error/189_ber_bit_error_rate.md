@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 네트워크 엔지니어들이 장비를 깔고 가장 먼저 측정하는 지표입니다.
 
 - **공식**: <strong>BER = (수신 측에서 오류가 발생한 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 수) / (송신 측에서 보낸 총 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 수)</strong>
-- **예시**: 내가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(10Kb)를 보냈는데 그중 1개의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 0에서 1로 깨져서 도착했다면? 
+- **예시**: 내가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(10Kb)를 보냈는데 그중 1개의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 0에서 1로 깨져서 도착했다면?
   - $BER = 1 / [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000 = [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-4}$ 입니다.
   - 보통 통신에서는 "이 선로는 텐 투 더 마이너스 포($[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-4}$)짜리 품질이다"라고 말합니다.
 
@@ -48,7 +48,7 @@ tags = ["studynote-network"]
    - 광케이블의 BER은 보통 **$[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-9}$ ~ $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-12}$** 수준입니다. (1조 개를 보내면 1개 깨질까 말까 한 신의 영역입니다). 에러 제어가 거의 필요 없습니다.
 2. <strong>무선 통신 (Wi-Fi, <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a>)</strong>
    - 공기 중에는 비, 눈, [다중 경로 페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/) 등 전파를 찢어놓는 방해물이 수두룩합니다.
-   - 무선망의 BER은 심할 경우 **$[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-3}$ ~ $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-5}$**까지 뚝 떨어집니다. (천 개 보내면 한두 개가 박살 남). 
+   - 무선망의 BER은 심할 경우 **$[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-3}$ ~ $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-5}$**까지 뚝 떨어집니다. (천 개 보내면 한두 개가 박살 남).
    - 이렇게 에러가 폭주하기 때문에, 무선 랜카드 안에는 이 깨진 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들을 살려내기 위한 끔찍하게 복잡한 [오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)(FEC, [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/)) 칩셋이 필수적으로 빵빵하게 탑재되어야 합니다.
 
 ```text

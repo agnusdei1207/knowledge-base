@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: 단일 자율 시스템(Autonomous System, [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)) 내부의 라우터들끼리 네트워크 도달 가능성 및 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정보를 교환하기 위해 사용되는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 계열.
 - **필요성**: 수만 명의 직원이 일하는 거대 기업 망에는 라우터와 스위치가 수백 대 깔려 있다. 케이블은 쥐가 파먹어서 툭하면 끊어지고, 공장 증설로 매주 새로운 라우터가 추가된다. 관리자가 수동([Static Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/340_static_routing_default_route_0_0_0_0/))으로 모든 라우터에 들어가 `ip route...`를 쳐주다간 일주일도 못 가 사직서를 낼 것이다. "라우터 전원만 켜서 꽂아두면, 지들끼리 쑥덕쑥덕 대화를 나눠서 사내 모든 네트워크 지도를 완성하는 인공지능이 필요해!"
 
-- **💡 비유**: 
+- **💡 비유**:
   - **IGP**: 한 성곽([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)) 안에 사는 <strong>"마을 주민들끼리의 동네방네 카톡방"</strong>입니다. 뒷산에 나무가 쓰러져 길이 막히면 1초 만에 단톡방에 "뒷산 병목! 개울가 길로 우회하셈!"이라고 소문이 쫙 퍼집니다. 속도가 생명입니다.
   - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/346_egp_exterior_gateway_protocol_bgp/">EGP</a>(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a>)</strong>: 성곽 밖의 다른 나라 성주와 대화하는 <strong>"공식 외교관"</strong>입니다. 동네 뒷산 길이 막혔다는 자질구레한 소식은 알리지 않고, 오직 "우리 성곽에는 총 1만 명이 산다"라는 큰 덩어리의 정보만 엄숙하고 신중하게 전달합니다.
 

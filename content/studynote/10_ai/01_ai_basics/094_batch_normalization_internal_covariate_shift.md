@@ -64,7 +64,7 @@ tags = ["studynote-ai"]
 | 인스턴스 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (IN) | 단일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 단일 채널 | 각 샘플의 스타일을 보존하는 데 유리함 | [GAN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/), 이미지 스타일 변환 |
 | 그룹 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (GN) | 단일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 채널을 그룹 분할 | BN과 LN의 절충안으로 소규모 배치에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 유지 | [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) (배치 크기를 키우기 힘들 때) |
 
-시계열이나 자연어 처리에서 문장 길이가 들쭉날쭉한 경우, 배치 단위로 평균을 내기가 매우 어렵다. 그래서 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 모델에서는 [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/) 대신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 개별로 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하는 레이어 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)를 채택하여 문제를 회피한다. 
+시계열이나 자연어 처리에서 문장 길이가 들쭉날쭉한 경우, 배치 단위로 평균을 내기가 매우 어렵다. 그래서 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 모델에서는 [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/) 대신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 개별로 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하는 레이어 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)를 채택하여 문제를 회피한다.
 
 - **📢 섹션 요약 비유**: [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)가 '오늘 들어온 학생 전체'의 평균 키를 구해 각 학생의 상대적 키를 맞추는 것이라면, 레이어 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 '학생 한 명'의 국영수 성적 평균을 구해 그 학생 내부의 성적 편차만 정돈하는 방식이다.
 
@@ -105,7 +105,7 @@ tags = ["studynote-ai"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-기울기 소실 및 널뛰는 학습 
+기울기 소실 및 널뛰는 학습
     │
     ▼
 가중치 초기화 (He, Xavier) · 낮은 학습률 사용

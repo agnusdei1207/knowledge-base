@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **균등 할당 (Equal Allocation)**: 가용 물리 프레임 $m$개를 $n$개의 프로세스에게 정확히 $m/n$ 개씩 똑같이 나눠주는 획일적 정책이다. (나머지는 예비용 프리 풀로 남김).
   - **비례 할당 (Proportional Allocation)**: 전체 프로세스들의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 크기 총합 $S$ 대비, 특정 프로세스의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 크기 $s_i$가 차지하는 비율만큼 가용 프레임 $m$개를 곱해서 나눠주는 자본주의적(덩치주의적) 분배다. ($a_i = (s_i / S) \times m$)
 - **필요성**: 컴퓨터를 켜서 100개의 백그라운드 앱이 떠 있을 때, OS가 아무 기준 없이 남의 램을 뺏게 놔두면 덩치 큰 앱 하나가 램을 모조리 집어삼켜(독점) 다른 99개 앱이 폴트([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))를 맞고 멈춰버린다([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)). 최소한의 밥그릇은 보장해 주고 폭주를 막기 위해, OS 설계자들은 가장 단순한 수학적 공식으로 물리 램에 '기본 배급량'을 정해줄 수식 기반의 배분 기준이 필요했다.
@@ -76,7 +76,7 @@ tags = ["studynote-operating-system"]
 비례 할당은 "[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)가 크면, 물리 램도 많이 필요할 것이다"라는 대전제를 깐다. 이 전제는 거짓이다.
 - 10GB짜리 거대 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 프로세스를 켰다. 가상 주소는 10GB다.
 - 하지만 밤 12시라서 접속자가 없어, DB는 그냥 `while(1) { sleep(1); }` 같은 100바이트짜리 유휴 루프([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) loop)만 계속 돌고 있다.
-- 이 10GB짜리 거인은 <strong>지금 당장 필요한 물리 램(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">워킹 셋</a>)이 단 1장(4KB)</strong>에 불과하다. 
+- 이 10GB짜리 거인은 <strong>지금 당장 필요한 물리 램(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">워킹 셋</a>)이 단 1장(4KB)</strong>에 불과하다.
 - 그런데 비례 할당 OS는 "우와 10GB 덩치 형님 오셨네!" 하며 남의 램을 다 뺏어서 이 DB에게 프레임 10만 장을 강제로 바친다. 정작 램을 미친 듯이 쓰는 10MB짜리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 프로그램은 램을 못 받아 헐떡인다. ([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 크기 $\neq$ 실제 활성 램 요구량)
 
 - **📢 섹션 요약 비유**: 회사에서 100평짜리 저택에 사는 부장(가상메모리 거대)에게는 야근 식대를 10만 원 주고, 5평 고시원에 사는 신입사원(가상메모리 작음)에겐 식대를 1천 원만 주는 식입니다. 정작 야근하며 피 터지게 밥이 필요한 건 신입사원인데, 집이 크다는 이유만으로 부장에게 식대가 낭비되는 오류입니다.
@@ -126,7 +126,7 @@ OS가 알아서 비례 할당을 해주지 않기 때문에, 클라우드 환경
 1. **상황**: 한 서버에 DB [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수집기 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 같이 돈다. OS에 맡겨두면 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수집기가 디스크를 미친 듯이 긁으며 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐시(램)를 독식해 DB의 램을 다 뺏어버린다([전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)의 저주).
 2. **cgroups의 하드 리밋(Hard Limit)**:
    - 엔지니어는 도커를 띄울 때 `docker run -m 16g db_app` (DB는 16GB 한도), `docker run -m 1g log_app` ([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 앱은 1GB 한도)으로 강제 철창을 쳐버린다.
-   - 이것이 현대 백엔드 인프라가 구현한 <strong>'아키텍처 레벨의 강제 비례 할당'</strong>이다. 
+   - 이것이 현대 백엔드 인프라가 구현한 <strong>'아키텍처 레벨의 강제 비례 할당'</strong>이다.
 3. **결과**:
    - [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 앱이 1GB를 다 쓰면, DB의 램을 뺏지 못하고 자기 안에서만 헐떡이며 지지고 볶는다([Local Replacement](/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/)).
    - "중요한 앱에 파이를 미리 거대하게 잘라준다"는 비례 할당/우선순위 할당의 고전적 철학은 이렇게 쿠버네티스의 `Request / Limit` 설정이라는 모습으로 실무 서버의 가장 중요한 생명선으로 부활했다.

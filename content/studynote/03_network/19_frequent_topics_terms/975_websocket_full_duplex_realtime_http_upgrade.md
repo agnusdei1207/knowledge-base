@@ -21,7 +21,7 @@ tags = ["studynote-network"]
 
 - <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a> 통신 (Half-Duplex 느낌)</strong>: 무조건 클라이언트(웹 브라우저)가 먼저 "요청(Request)"을 해야만, 서버가 "응답(Response)"을 줄 수 있습니다. 서버가 나에게 먼저 "야 주식 올랐어!"라고 밀어줄(Push) 방법이 아예 없습니다.
 - <strong>눈물겨운 꼼수들 (AJAX, <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a>, Long <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a>)</strong>:
-  - 브라우저가 1초에 한 번씩 "새 카톡 왔어요?" 계속 새로고침을 해서 서버에 물어봅니다([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)). 
+  - 브라우저가 1초에 한 번씩 "새 카톡 왔어요?" 계속 새로고침을 해서 서버에 물어봅니다([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)).
   - 매번 무거운 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더(껍데기)를 1KB씩 싣고 물어보느라, 실제 대화(1바이트)보다 쓰레기 통신(오버헤드)이 100배 커서 서버 대역폭이 찢어집니다.
 
 ```text
@@ -68,7 +68,7 @@ tags = ["studynote-network"]
 - 이 순간, 두 컴퓨터를 잇고 있던 무겁고 답답한 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 영혼은 증발해 버리고, 그 자리에 <strong>가볍고 날쌘 '웹소켓' <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>의 피가 흐르는 고속 터널이 영원히 뚫리게 됩니다.</strong>
 
 ### 3단계: 양방향 무제한 폭격 (Full-Duplex)
-- 이제 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)가 뻥 뚫렸습니다. 더 이상 "새 카톡 있어?" 묻지 않아도 됩니다. 
+- 이제 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)가 뻥 뚫렸습니다. 더 이상 "새 카톡 있어?" 묻지 않아도 됩니다.
 - 친구가 카톡을 보내면, **서버가 알아서(Push) 열려있는 터널로 0.01초 만에 내 화면에 "ㅋㅋㅋ" 메시지를 쏴버립니다.**
 - HTTP의 거대한 1KB짜리 헤더(껍데기) 다 버리고, 고작 2~10바이트 수준의 초경량 프레임 단위로 데이터를 주고받기 때문에, 증권사 주식 호가창이 미친 듯이 깜빡여도 서버가 1도 부담을 안 느끼는 궁극의 효율이 달성됩니다.
 
@@ -87,7 +87,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - **적용**: 웹 브라우저 기반의 실시간 채팅, 주식 HTS, 캔디크러쉬 같은 멀티플레이어 웹 게임 등 지연시간 0.1초가 생명인 곳의 절대 군주입니다.
-- <strong>경쟁자 (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/">SSE</a>, <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/">Server-Sent Events</a>)</strong>: 
+- <strong>경쟁자 (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/">SSE</a>, <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/">Server-Sent Events</a>)</strong>:
   - 채팅처럼 양방향이 아니라, "주식 시세"처럼 오직 **'서버에서 브라우저로 한 방향으로만 쏟아내는(Push)'** 거라면 무거운 웹소켓 대신 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 규격에 내장된 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 푸시 기술인 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/">SSE</a>(965번 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>)</strong>를 쓰는 것이 배터리와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 면에서 유리합니다. (트레이드오프 선택)
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

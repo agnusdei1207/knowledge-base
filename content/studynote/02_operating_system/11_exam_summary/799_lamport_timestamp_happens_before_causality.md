@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - 1978년 레슬리 람포트(Leslie Lamport)가 논문으로 발표한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 시계(Logical [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)).
   - [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 노드들은 각자 자신만의 숫자 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)($L$)를 가진다.
   - 이벤트가 일어날 때마다 내 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)를 `+1` 한다. 다른 노드에게 메시지를 보낼 때 내 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 번호를 찍어서 보낸다. 메시지를 받은 노드는 <strong>"내 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a>와 남이 보낸 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a> 중 더 큰 값에 <code>+1</code>"</strong>을 하여 자신의 시계를 강제로 맞춰 끌어올린다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 한국의 A 서버(시계 12:00:00)가 글을 쓰고, 미국의 B 서버(시계가 조금 느려 [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/):59:58)가 그 글을 읽고 댓글을 달았다 치자.
   - 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들이 중앙 서버에 모였을 때 물리적 시간(Timestamp)으로 정렬하면, 댓글([11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/):59:58)이 원본 글(12:00:00)보다 "먼저 달린 것"처럼 타임라인이 박살 나는 기괴한 현상이 벌어진다.
   - [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))과 물리 시계의 오차([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) Drift) 때문에 <strong>"물리적 시간"은 절대 믿을 수 없는 쓰레기 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>가 된다.
@@ -33,7 +33,7 @@ tags = ["studynote-operating-system"]
   - **물리적 시계의 한계**: 100명의 학생이 각자 자기 손목시계를 보고 일기를 쓴다. 시계가 5분씩 빠르거나 느려서 나중에 일기를 모아보면, 밤에 자고 나서 저녁을 먹었다는 등 사건의 앞뒤가 엉망진창이 된다.
   - <strong>람포트 시계 (<a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 시계)</strong>: 시계를 다 부숴버린다. 대신 학생들에게 쪽지를 주고받을 때마다 번호를 1씩 올려 쓰라고 한다. 철수가 "1번" 쪽지를 영희에게 주면, 영희는 자기가 몇 번까지 썼든 상관없이 철수의 1번보다 큰 "2번"이라고 적고 답장을 쓴다. 쪽지의 번호만 보면 우주 끝에서 누가 썼든 완벽하게 앞뒤 순서(인과율)를 맞출 수 있다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 물리적 시계([NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/)) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 수 밀리초의 오차가 무조건 발생하므로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어에서는 쓸모가 없었다. 람포트의 이 논문은 아인슈타인의 특수 상대성 이론(서로 다른 관측자의 시간은 다르다)을 컴퓨터 공학으로 치환하여 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅이라는 학문 자체를 창시했다.
 
 ```text
@@ -80,11 +80,11 @@ tags = ["studynote-operating-system"]
 2. 만약 $a$ 가 메시지를 보내는 이벤트고, $b$ 가 그 메시지를 받는 이벤트면, $a \rightarrow b$ 이다.
 3. 만약 $a \rightarrow b$ 이고 $b \rightarrow c$ 이면 (추이성, Transitivity), $a \rightarrow c$ 이다.
 
-**절대 명제**: $a \rightarrow b$ (a가 원인이고 b가 결과다) 이면, 람포트 시계 값은 반드시 $L(a) < L(b)$ 이다. 
+**절대 명제**: $a \rightarrow b$ (a가 원인이고 b가 결과다) 이면, 람포트 시계 값은 반드시 $L(a) < L(b)$ 이다.
 
 ### 치명적 단점의 노출 (역의 성립 불가)
 
-람포트는 천재였지만, 이 단순한 숫자 1개짜리 시계에는 완벽한 한계가 존재했다. 
+람포트는 천재였지만, 이 단순한 숫자 1개짜리 시계에는 완벽한 한계가 존재했다.
 <strong>"번호가 작다고 해서, 무조건 먼저 일어난 원인(Cause)<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a>?"</strong> $\rightarrow$ **아니다!**
 
 ```text

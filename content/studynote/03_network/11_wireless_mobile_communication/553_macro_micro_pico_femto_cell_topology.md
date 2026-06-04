@@ -68,7 +68,7 @@ tags = ["studynote-network"]
 
 ### 스몰 셀 고밀도화 (Densification)와 이기종 네트워크 (HetNet) 원리
 
-스몰 셀을 수천 개 깔면 용량이 늘어나지만, 치명적인 문제 두 가지가 발생한다. 
+스몰 셀을 수천 개 깔면 용량이 늘어나지만, 치명적인 문제 두 가지가 발생한다.
 1. <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a> 폭풍</strong>: 차를 타고 가는데 기지국 반경이 50m밖에 안 되면, 폰이 1초마다 다른 스몰 셀로 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)를 시도하다가 CPU가 터져서 뻗어버린다.
 2. **간섭(Interference)**: 매크로 셀의 강한 전파가 스몰 셀의 약한 전파를 덮어버려, 스몰 셀 근처에 있는 스마트폰이 스몰 셀과 통신을 못하는 '고막 테러'가 일어난다.
 

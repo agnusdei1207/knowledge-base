@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 기본 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러는 메모리가 1바이트도 남지 않은 <strong>100% 고갈(파산) 상태</strong>가 되어야만 몽둥이를 빼든다. 이 과정에서 시스템은 수 초간 완전히 얼어붙는다(Hang).
   - 안드로이드 <strong>LMK (Low Memory Killer)</strong>는 파산하기 전에, 램 잔여량이 20%, 15%, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 단위의 "경계선(Threshold)" 밑으로 떨어질 때마다 단계적으로 개입하여 미리 정해둔 우선순위(ADJ 점수)가 높은 앱들을 부드럽게 죽여 나가는 스마트 예방 시스템이다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 안드로이드 스마트폰은 초창기에 램이 512MB, 1GB밖에 안 됐다. 게다가 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)(eMMC)의 수명과 속도 문제 때문에 하드디스크처럼 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)(Swap)를 쓸 수도 없었다.
   - 사용자는 카톡을 하다가, 유튜브를 보고, 다시 게임을 켠다. 앱들은 자기가 종료된 줄 알지만 안드로이드는 다음 실행 속도를 위해 이들을 뒤에 "캐시" 상태로 얼려둔 채 램을 갉아먹게 놔둔다.
   - 게임(무거운 앱)을 켜는 순간, 램 500MB가 한방에 필요하다. 스왑 공간도 없는데 일반 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러가 돌면 게임이 멈추거나 폰이 재부팅된다.
@@ -32,7 +32,7 @@ tags = ["studynote-operating-system"]
   - <strong>일반 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 킬러</strong>: 비행기 연료가 100% 바닥나서 엔진이 꺼지기 직전 1초에, 가장 무거운 짐 하나를 버리고 간신히 불시착을 면하는 무식한 생존법.
   - **안드로이드 LMK**: 비행기 연료 게이지가 30% 남았을 때 불필요한 의자를 버리고, 20% 남았을 때 승객 수하물을 버리고, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 남았을 때 기내식을 버리는 식으로 미리미리 무게를 줄여 추락의 공포 자체를 느끼지 못하게 하는 꼼꼼한 기장.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 안드로이드 프로젝트 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/), 구글 엔지니어들이 데스크톱용 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 모바일의 극악한 메모리 환경을 견디지 못하는 것을 보고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스를 뜯어고쳐 LMK 모듈을 쑤셔 넣었다. 이후 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 바깥(유저 스페이스) 데몬인 `lmkd`로 진화하며 현대 안드로이드 램 관리의 핵심이 되었다.
 
 ```text

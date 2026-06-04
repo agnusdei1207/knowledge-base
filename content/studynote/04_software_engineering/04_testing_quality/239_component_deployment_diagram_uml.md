@@ -50,7 +50,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **개념**: 자바 클래스 수백 개가 뭉쳐서 만들어진 거대한 배포 단위인 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">컴포넌트</a>(예: <code>.jar</code>, <code>.dll</code>, <code>.exe</code> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>)들 간의 관계와 의존성을 큼직하게 보여주는 다이어그램</strong>입니다.
-- **그림 모양**: 
+- **그림 모양**:
   - <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">컴포넌트</a></strong>: 직사각형 상자 안에 `<<component>>` 라고 꺾쇠를 달고 이름을 적습니다.
   - **제공 인터페이스(Provided Interface)**: 막대사탕처럼 생긴 **동그라미 핀(Lollipop)** 기호입니다. "내가 이 결제 기능을 남들에게 제공해 줄게!"
   - **요구 인터페이스(Required Interface)**: 반원 모양의 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">Socket</a>)</strong> 기호입니다. "난 외부의 결제 기능이 필요해!"

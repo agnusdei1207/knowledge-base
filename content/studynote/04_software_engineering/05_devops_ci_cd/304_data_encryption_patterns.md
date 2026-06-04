@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>전송 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 암호화 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> in Transit)</strong>: 클라이언트와 서버, 또는 서버와 서버 사이를 날아다니는(네트워크 케이블) 패킷을 암호화하여 스니핑(Sniffing, 엿보기)을 막는 패턴 (예: [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/), [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)).
   - <strong>저장 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 암호화 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> at <a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/">Rest</a>)</strong>: 하드 디스크, DB 테이블, S3 스토리지에 기록된 정적인 파일을 암호화하여 디스크 자체를 훔쳐 가도 못 열어보게 막는 패턴.
 

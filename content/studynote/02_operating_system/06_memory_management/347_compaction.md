@@ -137,7 +137,7 @@ tags = ["studynote-operating-system"]
 2. **Mark and Compact GC 발동**:
    - JVM의 [가비지 컬렉터](/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/)는 살아남은 유효한 객체들(Mark)을 힙 메모리의 한쪽 끝으로 차곡차곡 밀어버리는 <strong>'압축(Compact)'</strong>을 실행한다.
 3. **Stop The World (STW)**:
-   - 압축을 위해 객체들을 복사하는 동안, 자바 앱의 모든 스레드는 완전히 멈춰버린다. (Stop The World). 
+   - 압축을 위해 객체들을 복사하는 동안, 자바 앱의 모든 스레드는 완전히 멈춰버린다. (Stop The World).
    - 사용자가 클릭 버튼을 눌렀는데 서버가 이 압축을 하느라 1초 동안 응답하지 않는 렉([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) Spikes)이 발생한다.
 4. **실무적 튜닝 (G1GC / ZGC)**:
    - 자바 진영은 이 STW 시간을 줄이기 위해 힙 메모리 전체를 한 번에 압축하지 않고, 힙을 여러 개의 리전(Region)으로 잘게 쪼갠 뒤 작은 구역별로만 살짝살짝 압축하는 ZGC, Shenandoah GC 같은 최첨단 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 압축 기법으로 진화했다.

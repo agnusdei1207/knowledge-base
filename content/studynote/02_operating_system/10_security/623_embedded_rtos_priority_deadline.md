@@ -26,7 +26,7 @@ tags = ["studynote-operating-system"]
 - **발전 과정**:
   1. **베어메탈 루프 (Foreground/Background System)**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 임베디드. 무한 `while` 루프와 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)만으로 동작. 복잡도 증가 시 타이밍 보장 불가.
   2. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> RTOS</strong>: 고정 우선순위 기반 [선점형 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/166_preemptive_scheduling/) 도입. ([Rate Monotonic](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/) 방식)
-  3. **현대 RTOS (VxWorks, FreeRTOS 등)**: 멀티코어 지원, O(1) 스케줄링, [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/)(MPU/[MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 활용), [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/) 방지 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 완비.
+  3. **현대 RTOS (VxWorks, FreeRTOS 등)**: 멀티코어 지원, O(1) 스케줄링, [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/)(MPU/[MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 활용), [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/) 방지 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 완비.
 
 - **📢 섹션 요약 비유**: 시계 톱니바퀴처럼 한 치의 오차도 없이 맞물려 돌아가야 하는 기계 장치에, '정확한 타이밍'이라는 생명을 불어넣는 지휘자와 같습니다.
 
@@ -238,7 +238,7 @@ RTOS 설계에서 가장 유명하고 치명적인 버그 원인이 [우선순�
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 일반 컴퓨터(윈도우)는 뷔페 식당이라서, 아무리 배고픈 사람이 와도 순서대로 줄을 서서 밥을 먹어야 해요. 
+1. 일반 컴퓨터(윈도우)는 뷔페 식당이라서, 아무리 배고픈 사람이 와도 순서대로 줄을 서서 밥을 먹어야 해요.
 2. 하지만 자동차 에어백이나 우주선에 들어가는 컴퓨터(RTOS)는 응급실이에요. 진짜 위급한 환자(가장 중요한 작업)가 오면 다른 환자들을 다 밀어내고 무조건 1초 만에 수술을 시작한답니다.
 3. 그래서 일반 컴퓨터는 가끔 마우스가 버벅거려도 괜찮지만, RTOS 컴퓨터는 단 0.001초라도 약속 시간을 어기면 안 되게 아주 엄격하게 만들어져 있어요!
 

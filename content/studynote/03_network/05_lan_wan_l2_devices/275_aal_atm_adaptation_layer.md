@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: OSI 7계층 기준에서 2계층 상단과 3계층 하단 사이에 살짝 끼어 있는 변환(Adaptation) 계층. 상위 어플리케이션 데이터를 48바이트 페이로드 조각으로 쪼개어 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 계층에 넘겨준다.
 - **필요성**: 컴퓨터는 1500바이트 덩어리의 IP 패킷을 던진다. 전화기는 1바이트씩 연속해서 음성 파형을 던진다. 하지만 밑바닥의 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)라는 바보 같은 믹서기계는 오로지 "48바이트 고기 덩어리"만 삼킬 수 있다. 누군가는 위에서 던지는 다양한 재료(트래픽)의 성격을 파악해서, 48바이트씩 똑바른 크기로 썰어서 넘겨주는 정육점 사장님(AAL)이 반드시 필요했다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - 수박, 파인애플(IP 패킷), 쌀알(음성) 등 온갖 재료를 똑같은 크기의 <strong>"얼음 통(48바이트 큐브)"</strong>에 넣어서 얼려야 합니다.
   - AAL은 재료를 큐브 크기에 딱 맞게 칼질(분할, [Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/))해서 얼음 통에 넣고 뚜껑을 닫아주는 자동 포장 기계입니다.
 
@@ -56,7 +56,7 @@ AAL은 트래픽의 특성을 <strong>1) 타이밍(실시간성) 유지 필요�
 - **대상 트래픽**: 우리가 흔히 쓰는 <strong>인터넷 <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>/IP 패킷 (이메일, 웹서핑, <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 다운로드)</strong>. 타이밍이 생명은 아니지만(조금 늦게 도착해도 됨), 데이터가 절대 깨지면 안 된다.
 - **포장 방식 (SEAL - Simple and Efficient AAL)**:
   - 1500바이트 IP 패킷을 48바이트로 무식하게 쑹덩쑹덩 썰기만 한다.
-  - 조각조각마다 일일이 에러 검사 코드를 넣지 않고, IP 패킷 맨 마지막 조각에 딱 한 번만 8바이트짜리 꼬리표(Trailer, [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)+전체 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/))를 붙여서 심플함과 전송 효율을 극대화했다. 
+  - 조각조각마다 일일이 에러 검사 코드를 넣지 않고, IP 패킷 맨 마지막 조각에 딱 한 번만 8바이트짜리 꼬리표(Trailer, [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)+전체 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/))를 붙여서 심플함과 전송 효율을 극대화했다.
 
 ```text
  ┌─────────────────────────────────────────────────────────────┐

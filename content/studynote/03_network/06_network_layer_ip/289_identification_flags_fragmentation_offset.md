@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 패킷이 라우터를 지날 때, 라우터의 출력 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 허용 크기(MTU)보다 패킷이 더 크면 패킷은 여러 조각으로 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))된다. 이때 원본을 복원하기 위한 헤더의 3가지 핵심 필드.
 - **필요성**: 내가 4000바이트짜리 이메일을 보냈는데, 중간에 거쳐야 하는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 선로가 한 번에 1500바이트([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) MTU)밖에 통과하지 못하는 좁은 길이라면? 라우터는 이 4000바이트를 1500, 1500, 1000으로 세 번 찢어서 보낸다. 도착지 컴퓨터는 찢어진 조각 3개를 받아서 풀로 붙여야 하는데, 1) 이게 누구 조각인지, 2) 몇 번째 조각인지, 3) 마지막 조각인지 알 방법이 없으면 영영 복원할 수 없게 된다.
 
-- **💡 비유**: 이케아(IKEA) 가구를 샀을 때 상자가 너무 커서 택배 기사님이 박스를 3개로 찢어서 보냈습니다. 
+- **💡 비유**: 이케아(IKEA) 가구를 샀을 때 상자가 너무 커서 택배 기사님이 박스를 3개로 찢어서 보냈습니다.
   - **Identification**: 박스 3개 모두에 <strong>"주문번호 #999"</strong>라고 적어둬서 같은 가구 부품임을 증명.
   - **Flags**: 1, 2번 박스에는 **"뒤에 박스 더 옴(MF)"** 스티커를 붙이고, 3번 박스엔 스티커를 안 붙임.
   - **Fragment Offset**: 조립 설명서에 <strong>"이 부품은 1번, 이 부품은 2번"</strong>이라며 순서를 적어둠.

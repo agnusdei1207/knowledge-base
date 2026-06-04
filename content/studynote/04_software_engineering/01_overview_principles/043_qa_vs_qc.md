@@ -129,7 +129,7 @@ CMMI (Capability Maturity Model Integration):
 5. 품질 메트릭:
    결함 제거 효율(DRE) = 출시 전 발견 결함 / 전체 결함
    목표: DRE ≥ 85%
-   
+
    테스트 커버리지:
      구문 커버리지 (Statement Coverage)
      분기 커버리지 (Branch Coverage)
@@ -207,7 +207,7 @@ SQAP (Software Quality Assurance Plan) 필수 항목:
 공공 SW 품질 문제 사례:
   건강보험 시스템 오류 (데이터 이관 QC 부실)
   → 대규모 환불 처리 비용 발생
-  
+
   원인: QA(이관 프로세스 감사) 미흡
   교훈: 단순 기능 테스트(QC)만으로는 부족
          데이터 품질 검증 QA 프로세스 필요

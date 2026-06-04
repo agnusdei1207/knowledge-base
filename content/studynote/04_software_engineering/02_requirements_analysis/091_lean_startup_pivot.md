@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-[피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) ([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))은 [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/) 방법론의 창시자 에릭 리스(Eric Ries)가 정의한 개념으로, 실패한 비즈니스 가설을 버리고 새로운 가설로 근본적인 궤도를 수정하는 전략적 방향 전환을 의미한다. 
+[피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) ([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))은 [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/) 방법론의 창시자 에릭 리스(Eric Ries)가 정의한 개념으로, 실패한 비즈니스 가설을 버리고 새로운 가설로 근본적인 궤도를 수정하는 전략적 방향 전환을 의미한다.
 
 스타트업이 세운 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 가설이 시장에서 단번에 성공할 확률은 사실상 0에 가깝다. 고객이 제품을 외면할 때, 전통적인 기업들은 제품 개발 일정을 탓하며 불필요한 기능을 더 욱여넣거나(Feature Creep) 밑 빠진 독에 마케팅 비용을 쏟아붓다 파산한다. [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)이 필수적인 이유는, 실패를 "실행 부족"이 아니라 "학습 과정의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"로 받아들이고 회사 자금이 완전히 고갈되기 전에 유의미한 시장 수요가 있는 곳으로 체질을 재빨리 바꾸기 위함이다.
 
@@ -74,7 +74,7 @@ tags = ["studynote-software-engineering"]
 | <strong>고객 세분화 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">C고객</a> <a href="/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/">Segment</a>)</strong> | 제품 자체는 괜찮은데 타겟 고객이 틀려, 원래 의도와 전혀 다른 고객층으로 마케팅 방향을 틈 | B2C 모델 실패 후 기업용 B2B (Business to Business)로 전환 |
 | <strong>가치 획득 (Value Capture <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/">Pivot</a>)</strong> | 수익을 창출하는 모델을 변경함 | 유료 구독 모델 ➔ 무료 배포 후 광고 수익 모델로 전환 |
 
-전통적인 폭포수 (Waterfall) 개발론에서는 계획의 변경 자체가 비용이자 실패로 간주되지만, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))과 린([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/)) 환경에서는 계획의 변경([피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))이 제품의 시장 적합성을 찾아가는 가장 효율적인 고속도로가 된다. 
+전통적인 폭포수 (Waterfall) 개발론에서는 계획의 변경 자체가 비용이자 실패로 간주되지만, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))과 린([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/)) 환경에서는 계획의 변경([피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))이 제품의 시장 적합성을 찾아가는 가장 효율적인 고속도로가 된다.
 
 - **📢 섹션 요약 비유**: 줌인 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)은 종합 분식집을 차렸는데 손님들이 매일 '떡볶이'만 먹고 가자, 과감하게 다른 메뉴를 다 지워버리고 '전국구 떡볶이 전문점'으로 간판을 바꿔 달아 대박이 나는 현상이다.
 

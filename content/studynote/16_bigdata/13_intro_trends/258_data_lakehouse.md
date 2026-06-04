@@ -39,7 +39,7 @@ tags = ["studynote-bigdata"]
 
 현실: 이중 구조 비효율
   레이크 ← ETL → 웨어하우스
-  
+
   문제:
   데이터 중복 (2배 스토리지)
   동기화 지연 (레이크 → DW ETL 지연)
@@ -50,7 +50,7 @@ tags = ["studynote-bigdata"]
 3세대: 레이크하우스
   레이크 + 웨어하우스 통합
   오픈 포맷 위에 ACID + 거버넌스
-  
+
   장점:
   ML/AI + BI 단일 플랫폼
   벤더 독립 (오픈 포맷)
@@ -78,10 +78,10 @@ Delta Lake (Databricks, 2019):
   타임 트래블: O (버전 기반)
   스키마 진화: O
   통합: Spark, Delta Sharing
-  
+
   DELETE: 물리 삭제 대신 소프트 삭제 → Vacuum
   MERGE INTO: Upsert (중요 기능)
-  
+
   예:
   MERGE INTO target t
   USING source s ON t.id = s.id
@@ -94,7 +94,7 @@ Apache Iceberg (Netflix, 2018):
   Partition Evolution: 스키마 변경 없이 파티셔닝 변경
   Row-Level Delete: 효율적 개별 행 삭제
   통합: Trino, Spark, Flink, Hive
-  
+
   Trino + Iceberg = 고성능 오픈 레이크하우스
 
 Apache Hudi (Uber, 2016):
@@ -121,7 +121,7 @@ Apache Hudi (Uber, 2016):
 
 1. ACID 트랜잭션:
   동시 읽기/쓰기 안전
-  
+
   예: 두 작업 동시 실행
   - 파이프라인 A: 새 데이터 추가
   - BI 도구: 현재 데이터 쿼리
@@ -129,11 +129,11 @@ Apache Hudi (Uber, 2016):
 
 2. 타임 트래블 (Time Travel):
   이전 버전 데이터 조회
-  
+
   예 (Delta Lake):
   SELECT * FROM sales VERSION AS OF 5
   SELECT * FROM sales TIMESTAMP AS OF '2024-01-01'
-  
+
   활용:
   - 실수로 삭제된 데이터 복구
   - 데이터 감사 (언제 어떤 값이었나)
@@ -141,13 +141,13 @@ Apache Hudi (Uber, 2016):
 
 3. 스키마 진화 (Schema Evolution):
   기존 데이터 마이그레이션 없이 컬럼 추가/변경
-  
+
   레거시 레코드: 새 컬럼 = NULL 처리
   하위 호환 유지
 
 4. 스트리밍 + 배치 통합:
   동일 테이블에 실시간 + 배치 쓰기
-  
+
   예:
   - Kafka → Flink → Delta Lake (스트리밍)
   - Spark 배치 → 동일 Delta 테이블
@@ -214,7 +214,7 @@ Unity Catalog:
   Snowflake: 유사 통합 플랫폼 (독점 포맷)
   BigQuery: Google의 서버리스 분석
   Synapse Analytics: Azure 통합 플랫폼
-  
+
   차이: Databricks = 오픈 포맷 강조
   Snowflake = 성능·관리 편의성 강조
 ```
@@ -231,7 +231,7 @@ Unity Catalog:
 기존 구조 (이중 구조):
   S3 레이크: 원시 거래 데이터, ML 학습
   Redshift 웨어하우스: BI 분석
-  
+
   문제:
   ETL 파이프라인 유지 비용: 월 500만원
   레이크 → DW 지연: 3시간

@@ -87,7 +87,7 @@ tags = ["ai"]
 import numpy as np
 
 # 1. 상태 인지 (센서 데이터 백터화)
-state_vector = np.array([0.8, -0.2, 0.4]) 
+state_vector = np.array([0.8, -0.2, 0.4])
 
 # 2. 추론 엔진 (가중치 연산: Wx + b)
 W = np.random.randn(3, 1) # 사전 학습된 3차원 가중치 행렬
@@ -95,7 +95,7 @@ b = 0.1 # 편향(Bias)
 logits = np.dot(state_vector, W) + b
 
 # 3. 비선형 활성화 (Sigmoid 함수를 통한 확률 매핑)
-action_probability = 1 / (1 + np.exp(-logits)) 
+action_probability = 1 / (1 + np.exp(-logits))
 
 # 4. 행동 판단 (임계치 0.5 초과 시 액추에이터 구동)
 if action_probability > 0.5:

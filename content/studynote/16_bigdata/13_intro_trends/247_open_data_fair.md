@@ -101,10 +101,10 @@ A2. 데이터가 더 이상 없어도 메타데이터는 유지
 Interoperable:
   I1. 공식 공유·확장 가능한 지식 표현 언어 사용
       (RDF, OWL, JSON-LD)
-  
+
   I2. FAIR 원칙 준수 어휘/온톨로지 사용
       (Dublin Core, Schema.org, SNOMED CT)
-  
+
   I3. 데이터와 관련 데이터·어휘에 대한 링크 포함
 
 Reusable:

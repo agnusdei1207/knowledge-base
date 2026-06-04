@@ -82,11 +82,11 @@ tags = ["software_engineering"]
 [차 코딩    ] │        │  완료  │        │        │        │        │ => 레벨 1
 [원 테스트  ] │        │  완료  │  완료  │        │        │        │ => 레벨 2
               └────────┴────────┴────────┴────────┴────────┴────────┘
-  (What to do) 
+  (What to do)
   (ISO 12207)   결과: 각 프로세스마다 독립적인 능력 레벨(Profile) 산출 가능
 ```
 
-이 매트릭스의 핵심은 <strong>프로세스별로 성숙도가 다를 수 있다는 현실을 반영</strong>했다는 점이다. 어떤 회사는 '요구 분석'은 기가 막히게 잘해서 레벨 3이지만, '코딩' 절차는 개발자 개인기라 레벨 1일 수 있다. SPICE는 조직 전체에 하나의 레벨을 퉁쳐서 부여하는 대신, 이렇게 각 프로세스별 능력 프로파일(Capability Profile)을 그려준다. 이를 통해 조직은 "우리가 형상 관리는 잘하는데 코딩 프로세스 관리가 약하구나"를 핀포인트로 식별하고 예산을 집중 투자할 수 있다. 
+이 매트릭스의 핵심은 <strong>프로세스별로 성숙도가 다를 수 있다는 현실을 반영</strong>했다는 점이다. 어떤 회사는 '요구 분석'은 기가 막히게 잘해서 레벨 3이지만, '코딩' 절차는 개발자 개인기라 레벨 1일 수 있다. SPICE는 조직 전체에 하나의 레벨을 퉁쳐서 부여하는 대신, 이렇게 각 프로세스별 능력 프로파일(Capability Profile)을 그려준다. 이를 통해 조직은 "우리가 형상 관리는 잘하는데 코딩 프로세스 관리가 약하구나"를 핀포인트로 식별하고 예산을 집중 투자할 수 있다.
 
 심사 평가는 각 레벨에 도달하기 위한 <strong>프로세스 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a>(PA, <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">Attribute</a>)</strong>을 N, P, L, F (Not, Partially, Largely, Fully achieved) 4등급 척도로 세밀하게 채점하여 산출한다.
 

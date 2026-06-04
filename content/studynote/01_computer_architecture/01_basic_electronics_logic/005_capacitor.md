@@ -28,7 +28,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-커패시터의 용량($C$)은 극판의 면적($A$)에 비례하고 극판 사이의 거리($d$)에 반비례하며, [절연체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/010_insulator/)의 유전율($\epsilon$)에 의해 증폭된다. 
+커패시터의 용량($C$)은 극판의 면적($A$)에 비례하고 극판 사이의 거리($d$)에 반비례하며, [절연체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/010_insulator/)의 유전율($\epsilon$)에 의해 증폭된다.
 
 가장 대표적인 아키텍처 적용 사례는 <strong>1T-1C (1 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/">Transistor</a> - 1 Capacitor)</strong> 구조를 가진 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 셀이다.
 
@@ -74,7 +74,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-최신 고성능 마더보드 설계 시 커패시터의 배치는 시스템 안정성을 좌우하는 가장 중요한 요소다. CPU의 타겟 임피던스를 낮추기 위해서는 용량이 크지만 반응이 느린 벌크 커패시터(전해/탄탈)와, 용량은 작지만 고주파 응답이 빠른 MLCC(적층 세라믹 커패시터)를 크기별로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치해야 한다. 
+최신 고성능 마더보드 설계 시 커패시터의 배치는 시스템 안정성을 좌우하는 가장 중요한 요소다. CPU의 타겟 임피던스를 낮추기 위해서는 용량이 크지만 반응이 느린 벌크 커패시터(전해/탄탈)와, 용량은 작지만 고주파 응답이 빠른 MLCC(적층 세라믹 커패시터)를 크기별로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 실무 판단
 1. **단일 대용량 캡 올인**: 원가를 아끼겠다고 여러 개의 소형 MLCC 대신 칩에서 멀리 떨어진 곳에 거대 벌크 커패시터 하나만 다는 것은 치명적이다. 소자가 가진 기생 인덕턴스(ESL)가 커서 나노초 단위의 칩 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 요구에 응답하지 못해 블루스크린을 유발한다.

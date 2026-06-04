@@ -41,7 +41,7 @@ tags = ["studynote-network"]
 
 ### 1. 전역적(Global)이 아닌 국지적(Local) 의미
 DLCI의 가장 큰 헷갈림 포인트는 "출발지 번호와 도착지 번호가 다를 수 있다"는 점이다.
-IP 주소는 서울에서 부산까지 192.168.1.1이라는 값이 평생 변하지 않는다(Global). 
+IP 주소는 서울에서 부산까지 192.168.1.1이라는 값이 평생 변하지 않는다(Global).
 하지만 <strong>DLCI는 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>와 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 사이의 구간(Hop)을 지날 때마다 계속 바뀐다</strong>.
 
 - 서울 본사가 통신사 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 계약할 때 "DLCI 100번으로 넣으면 부산으로 가요"라고 세팅을 받았다.

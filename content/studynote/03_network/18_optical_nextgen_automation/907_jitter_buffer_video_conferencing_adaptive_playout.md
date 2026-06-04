@@ -21,7 +21,7 @@ tags = ["studynote-network"]
 
 - <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(Delay/<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong>: 내 목소리가 상대방에게 도착할 때까지 걸리는 절대적인 시간. (예: 모두 50ms씩 늦게 옴 ➜ 대화가 늦어질 뿐 소리가 깨지진 않음).
 - <strong>지터 (Jitter / <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 변이)</strong>: <strong>패킷들이 도착하는 '<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 시간의 차이(편차, Variation)'가 들쭉날쭉한 현상</strong>입니다. (808번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
-  - 1번 패킷은 50ms 만에 오고, 2번 패킷은 라우터에서 길이 막혀 150ms 만에 오고, 3번 패킷은 20ms 만에 쏟아져 들어옵니다(무작위성). 
+  - 1번 패킷은 50ms 만에 오고, 2번 패킷은 라우터에서 길이 막혀 150ms 만에 오고, 3번 패킷은 20ms 만에 쏟아져 들어옵니다(무작위성).
   - VoIP(인터넷 전화)나 화상 회의에서 이 간격의 널뛰기는 음성 왜곡, 기계음, 모자이크(깍두기) 화면 깨짐의 100% 근본 원인이 됩니다.
 
 ```text
@@ -82,7 +82,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 지터 버퍼를 아무리 200ms로 길게 열어두고 기다려도, 끝끝내 지각해서 못 들어온 3번 패킷이 있습니다. 이 놈은 버퍼 타임오버로 가차 없이 버려집니다(버퍼 드랍). 
+- 지터 버퍼를 아무리 200ms로 길게 열어두고 기다려도, 끝끝내 지각해서 못 들어온 3번 패킷이 있습니다. 이 놈은 버퍼 타임오버로 가차 없이 버려집니다(버퍼 드랍).
 - 이때 3번 패킷의 빈자리 때문에 스피커에서 "뚝!" 소리가 나는 걸 막기 위해, 2번 패킷과 4번 패킷의 소리 파장을 인공지능이 분석해 <strong>가짜 3번 목소리 파형을 마술처럼 그려서 빈 공간을 부드럽게 메꿔버리는 기술</strong>이 바로 다음 908번 문서의 <strong>손실 은닉(FEC/<a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/">PLC</a>)</strong> 기법입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

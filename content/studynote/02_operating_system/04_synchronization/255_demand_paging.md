@@ -29,7 +29,7 @@ tags = ["studynote-operating-system"]
 
   [ ❌ 과거: Pre-paging (무식한 전체 적재) ]
   - 카카오톡 1GB ─▶ 실행 버튼 클릭 ─▶ 디스크가 1GB를 미친 듯이 읽음 (10초 멈춤)
-  - RAM에 1GB 전체가 꽂힘. 
+  - RAM에 1GB 전체가 꽂힘.
   - 정작 유저는 로그인 화면 1MB만 쓰고 창을 꺼버림 ─▶ 999MB 램 낭비, 시간 낭비!
 
   [ ✅ 현대: Demand Paging (스마트한 지연 적재) ]
@@ -52,7 +52,7 @@ tags = ["studynote-operating-system"]
 요구 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)이 돌아가려면 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)(메모리 관리 장치)가 "이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 지금 램에 있는지, 디스크에 있는지"를 0.1 나노초 만에 구별해야 한다. 이를 위해 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))의 각 항목 옆에 <strong>Valid(유효) / Invalid(무효) <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a></strong>를 둔다.
 
 - <strong><code>v</code> (Valid)</strong>: 이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 현재 램(물리 메모리)에 잘 올라와 있다. 그냥 읽어라. (Cache [Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/))
-- <strong><code>i</code> (Invalid)</strong>: 이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 아직 디스크(Swap)에 자고 있거나, 아예 쓸 권한이 없는 쓰레기 주소다. 
+- <strong><code>i</code> (Invalid)</strong>: 이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 아직 디스크(Swap)에 자고 있거나, 아예 쓸 권한이 없는 쓰레기 주소다.
 
 ### [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) ([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))의 6단계 생명 주기
 

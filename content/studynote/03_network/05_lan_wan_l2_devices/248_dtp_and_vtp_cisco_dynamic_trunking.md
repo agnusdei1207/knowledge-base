@@ -19,12 +19,12 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>DTP (Dynamic Trunking <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 상대방 장비를 감지해 Access로 동작할지 Trunk로 동작할지 자동으로 결정하는 시스코 전용 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/).
   - <strong>VTP (<a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a> Trunking <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>: 한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/삭제/수정된 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)([vlan](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/).dat)를 트렁크 링크를 통해 네트워크 내 다른 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들과 자동 동기화하는 시스코 전용 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/).
 - **필요성**: 만약 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 50대 있는 대학교 네트워크에 '컴퓨터공학과([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 30)'를 새로 추가한다고 가정해 보자. VTP가 없다면 관리자는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 50대에 일일이 원격 접속해 `vlan 30` 명령어를 50번 쳐야 한다. 또한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들을 연결하는 수십 개의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 일일이 `switchport mode trunk`로 세팅해야 한다. 이 극악의 비효율성을 버튼 하나(자동화)로 끝내기 위해 발명되었다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - **DTP**: 소개팅 자리에서 "우리 오늘부터 1일 할까요?(Trunk)"라고 물어보고 상대가 "네!" 하면 자동으로 사귀는(자동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)) 기능입니다.
   - **VTP**: 본사 프랜차이즈(Server)에서 "내일부터 마라탕([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 30) 신메뉴 출시해!"라고 공지를 띄우면, 전국 모든 가맹점([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))의 메뉴판에 마라탕이 자동으로 똑같이 등록되는 시스템입니다.
 

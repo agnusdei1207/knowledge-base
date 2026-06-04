@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-[CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 앞에서는 패리티 검사의 2비트 에러 통과나, [검사합](/knowledge-base/studynote/03_network/04_data_link_layer_error/193_checksum_ones_complement/)의 상쇄 에러 꼼수가 통하지 않습니다. 
+[CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 앞에서는 패리티 검사의 2비트 에러 통과나, [검사합](/knowledge-base/studynote/03_network/04_data_link_layer_error/193_checksum_ones_complement/)의 상쇄 에러 꼼수가 통하지 않습니다.
 송신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 아무리 길어도 1비트는 물론 연속적으로 깨지는 [버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/)([Burst Error](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/))의 99.999%를 칼같이 잡아냅니다. 구현도 하드웨어([Shift Register](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/058_shift_register/))로 만들면 빛의 속도로 연산되어 2계층 랜카드 칩셋에 무조건 탑재됩니다.
 
 ```text
@@ -45,7 +45,7 @@ tags = ["studynote-network"]
 ### 2. 송신 측의 연산 (FCS 구하기)
 - <strong>원본 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>: `11010110`
 - 송신기는 이 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 아까 약속한 제수 `1011`로 나눕니다. (이때 우리가 아는 산수 나눗셈이 아니라 자리 올림이 없는 <strong>XOR 연산(배타적 논리합)</strong>을 사용해 기계적으로 미친 듯이 뺍니다).
-- 쫙 나누고 났더니 맨 끝에 <strong>나머지(Remainder)값인 <code>010</code></strong>이 남았습니다. 
+- 쫙 나누고 났더니 맨 끝에 <strong>나머지(Remainder)값인 <code>010</code></strong>이 남았습니다.
 - 이 나머지 `010`을 바로 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/">CRC</a> (또는 FCS, Frame Check Sequence)</strong>라고 부릅니다. 송신기는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 뒤에 이 CRC를 딱 붙여서 `11010110010`을 전송합니다.
 
 ### 3. 수신 측의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)

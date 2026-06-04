@@ -19,13 +19,13 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/">OCI</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/205_container_image_layer_oci_standard/">Open Container Initiative</a>)</strong>: 리눅스 재단 산하에서 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 이미지 포맷(Image Spec)과 런타임 실행 방식(Runtime Spec)을 정의한 산업 표준이다.
   - <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 런타임</strong>: [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) 규격에 맞춰 실제로 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 실행하는 소프트웨어. 역할에 따라 고수준(High-level)과 저수준(Low-level)으로 나뉜다.
   - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/">runc</a></strong>: [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) Runtime Spec을 구현한 가장 대표적인 저수준 런타임으로, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 직접 맞닿아 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 띄우는 핵심 CLI 도구다.
   - **containerd**: [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) Image Spec을 관리하고 `runc`를 제어하는 고수준 런타임 데몬이다.
 
-- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">도커</a> 독점의 폐해와 <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a>의 독립)</strong>: 
+- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">도커</a> 독점의 폐해와 <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a>의 독립)</strong>:
   - [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 시장은 Docker가 천하통일했다. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)도 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 띄우려면 무조건 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 데몬(dockerd)을 거쳐야 했다.
   - 그러나 K8s 입장에서 Docker는 볼륨 관리, 스웜(Swarm), 빌드 등 불필요한 기능이 너무 많은 '무거운 뚱보'였다. 게다가 Docker가 업데이트될 때마다 K8s 호환성이 깨지는 문제가 발생했다.
   - 이를 해결하기 위해 업계는 Docker의 핵심 부품([runc](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/), containerd)을 적출하여 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)로 기증하고, 누구든 이 규격([OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/))만 맞추면 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 엔진을 만들 수 있도록 표준화(Democratization)했다.
@@ -154,7 +154,7 @@ tags = ["studynote-operating-system"]
 ### 실무 시나리오
 
 1. <strong>시나리오 — K8s 클러스터의 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">도커</a> 퇴출(Dockershim Deprecation) 마이그레이션</strong>: 운영 중인 K8s 클러스터 노드가 구버전 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 엔진 기반으로 돌고 있어, K8s 버전을 1.24 이상으로 올릴 때 워커 노드가 먹통이 될 위기.
-   - **대응 (마이그레이션 플로우)**: 
+   - **대응 (마이그레이션 플로우)**:
      1. 워커 노드에서 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 데몬을 중지하고 삭제.
      2. `containerd` 패키지를 설치하고 `/etc/containerd/config.toml`을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (Systemd cgroup 드라이버 사용 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 필수).
      3. Kubelet의 시작 파라미터(`--container-runtime=remote`, `--container-runtime-endpoint=unix:///run/containerd/containerd.sock`)를 containerd 소켓으로 변경하여 재시작.

@@ -66,10 +66,10 @@ tags = ["studynote-network"]
 
 이 위대한 발명은 네트워크의 2가지 핵심 뼈대를 동시에 책임집니다.
 
-1. <strong>에러 제어 (<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/">ARQ</a>)</strong>: 
+1. <strong>에러 제어 (<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/">ARQ</a>)</strong>:
    - 앞서 배운 `Go-Back-N`과 `Selective Repeat`가 바로 이 슬라이딩 윈도우 위에서 노는 기법들입니다. (에러가 나면 윈도우를 뒤로 당기느냐, 특정 핀셋만 뽑느냐의 차이일 뿐입니다).
-2. <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a> (<a href="/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/">Flow Control</a>)</strong>: 
-   - 슬라이딩 윈도우의 크기(사각 틀의 칸 수)는 고정된 게 아니라 **수신기가 맘대로 늘였다 줄였다(동적 조절)** 할 수 있습니다. 
+2. <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a> (<a href="/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/">Flow Control</a>)</strong>:
+   - 슬라이딩 윈도우의 크기(사각 틀의 칸 수)는 고정된 게 아니라 **수신기가 맘대로 늘였다 줄였다(동적 조절)** 할 수 있습니다.
    - 수신기 버퍼가 꽉 차면 윈도우를 0칸으로 닫아버려 송신기를 강제 정지시키고, 버퍼가 비면 윈도우를 10칸으로 확 넓혀서 속도를 폭발시키는 '가변 윈도우(Variable Window)' 기술의 정수입니다.
 
 슬라이딩 윈도우 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 개념을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)가 기반 조건을 만든다면, 슬라이딩 윈도우 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 개념은 그 위에서 핵심 메커니즘을 구현하고, [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/), 송신/수신 윈도우는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.

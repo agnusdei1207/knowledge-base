@@ -47,7 +47,7 @@ SVM은 기하학적인 최적화 문제로 작동하며, 핵심 메커니즘은 
 
 이 그림은 결정 초평면(Hyperplane, 중앙선)과 가장 가까운 양쪽의 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트인 서포트 벡터([SV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/157_sv_schedule_variance/))를 보여준다. 마진은 이 두 서포트 벡터 사이의 폭을 의미하며, SVM은 수식 $\frac{2}{||w||}$ 를 최대화하는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 벡터 $w$를 [라그랑주 승수법](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/166_lagrange_multiplier/) (Lagrange Multipliers)을 통해 계산해 낸다.
 
-또한, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 선형으로 나뉘지 않을 때 SVM은 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/">커널 트릭</a> (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/">Kernel Trick</a>)</strong>을 쓴다. RBF (Radial Basis Function)나 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) ([Polynomial](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 사용해, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 무한 차원의 공간으로 변환하는 계산 비용 없이 내적 ([Dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/) Product)만으로 고차원 공간에서 평면으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 깔끔하게 갈라낸다. 
+또한, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 선형으로 나뉘지 않을 때 SVM은 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/">커널 트릭</a> (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/">Kernel Trick</a>)</strong>을 쓴다. RBF (Radial Basis Function)나 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) ([Polynomial](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 사용해, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 무한 차원의 공간으로 변환하는 계산 비용 없이 내적 ([Dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/) Product)만으로 고차원 공간에서 평면으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 깔끔하게 갈라낸다.
 
 - **📢 섹션 요약 비유**: 평면에 섞여 있는 빨간 구슬과 파란 구슬을 선 하나로 나눌 수 없다면, SVM은 판을 세게 내리쳐 구슬들을 공중으로 띄운 뒤(고차원 매핑), 공중에 뜬 구슬들 사이에 커다란 판자를 끼워 넣어(초평면) 완벽히 분리하는 마술을 부린다.
 
@@ -55,7 +55,7 @@ SVM은 기하학적인 최적화 문제로 작동하며, 핵심 메커니즘은 
 
 ## Ⅲ. 비교 및 연결
 
-SVM은 트리 기반의 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 기법이나 딥러닝과 확연히 다른 접근법을 취한다. 
+SVM은 트리 기반의 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 기법이나 딥러닝과 확연히 다른 접근법을 취한다.
 
 | 항목 | [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) ([Support Vector Machine](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)) | [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/) ([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)) | [심층 신경망](/knowledge-base/studynote/10_ai/01_ai_basics/065_dnn_deep_neural_network/) (Deep Neural Network) |
 | :--- | :--- | :--- | :--- |
@@ -89,7 +89,7 @@ SVM은 경계선에 위치한 소수의 서포트 벡터로만 결정되므로, 
 
 ## Ⅴ. 기대효과 및 결론
 
-SVM을 올바르게 활용하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 특성이 복잡하게 얽혀 있는 고차원 문제(예: 수천 개의 단어가 포함된 텍스트 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)나 바이오인포매틱스 유전자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에서 딥러닝 이상의 날카롭고 안정적인 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 성능을 달성할 수 있다. 
+SVM을 올바르게 활용하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 특성이 복잡하게 얽혀 있는 고차원 문제(예: 수천 개의 단어가 포함된 텍스트 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)나 바이오인포매틱스 유전자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에서 딥러닝 이상의 날카롭고 안정적인 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 성능을 달성할 수 있다.
 
 하지만 빅데이터 시대에 접어들며 초대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 세트 처리의 한계로 인해 딥러닝과 트리 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 계열에 다소 주도권을 내주었다. 그럼에도 불구하고, SVM이 증명한 '마진을 통한 일반화'와 '[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 통한 차원 확장'이라는 수학적 통찰은 여전히 기계학습의 근간을 이루고 있다. SVM은 "가장 중요한 소수의 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)(서포트 벡터)에만 집중하라"는 전략적 교훈을 남긴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공학의 위대한 클래식이다.
 

@@ -48,13 +48,13 @@ tags = ["studynote-network"]
 
 ### 1. 패킷의 3단 캡슐화 구조
 터널링이 작동 중일 때 와이어샤크(Wireshark)로 패킷을 까보면 봉투가 3겹으로 되어 있다.
-1. <strong>여객 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> (Passenger <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>: 
+1. <strong>여객 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> (Passenger <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>:
    - 캡슐화되어 "업혀 가는" 불쌍한 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)다.
    - 예: 사내망에서 돌고 있는 사설 IP(`10.x.x.x`) 패킷, 또는 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 패킷.
-2. <strong>캡슐화 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> (Encapsulating <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>: 
+2. <strong>캡슐화 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> (Encapsulating <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>:
    - 여객과 운송수단 사이를 이어주는 "접착제(빈 박스)" 역할이다.
    - 예: [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 헤더, [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 헤더, [L2TP](/knowledge-base/studynote/03_network/07_network_layer_routing/379_l2tp_layer_2_tunneling_protocol/) 헤더. "내 뱃속에 든 건 원래 이런 종류야~"라고 적혀 있다.
-3. <strong>운반 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> (Carrier/Delivery <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>: 
+3. <strong>운반 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> (Carrier/Delivery <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>:
    - 터널 바깥세상(공중 인터넷망)에서 실제로 패킷을 날라주는 "배달원"이다.
    - 예: 목적지가 공인 IP(`8.8.8.8`)로 적혀 있는 겉면의 새로운 IP 헤더.
 

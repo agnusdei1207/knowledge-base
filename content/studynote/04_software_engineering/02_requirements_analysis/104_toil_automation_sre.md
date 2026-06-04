@@ -94,7 +94,7 @@ tags = ["software_engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 관리는 무기력한 운영 조직을 능동적인 소프트웨어 개발 조직으로 탈바꿈시키는 구글 SRE의 가장 중요한 촉매제다. 
+[토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 관리는 무기력한 운영 조직을 능동적인 소프트웨어 개발 조직으로 탈바꿈시키는 구글 SRE의 가장 중요한 촉매제다.
 
 운영 업무의 50%를 고부가가치 엔지니어링 작업에 의무적으로 투자함으로써, 시스템은 지속적인 자가 치유(Self-healing)와 자동화 파이프라인을 구축하게 된다. 결국 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)을 코드로 척결한 조직은 트래픽이 100배 폭증하더라도 엔지니어 인력을 비례해서 늘릴 필요가 없는 무한한 확장성과 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 달성하게 된다. [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)은 단순한 귀찮음의 영역이 아니라 기업 기술 경쟁력의 생사를 가르는 측정 대상이다.
 

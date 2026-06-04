@@ -62,7 +62,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)은 최고지만, TCP는 태생적으로 너무 무겁고 복잡합니다. 
+- [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)은 최고지만, TCP는 태생적으로 너무 무겁고 복잡합니다.
 - iWARP 랜카드(하드웨어 칩셋)가 이 복잡한 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 패킷을 다 포장하고 에러 처리를 하려다 보니([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Offload 엔진, [TOE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/)), 칩셋의 설계가 미친 듯이 복잡해지고 단가가 비싸졌습니다.
 - 반면 [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) v2는 칩셋 만들기가 쉽고, 속도([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 면에서 iWARP보다 조금 더 빠릅니다. 결국 현재 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 클라우드 인프라의 거대한 대세 패권(엔비디아 주도)은 [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) v2가 가져갔고, iWARP는 일부 스토리지 망(마이크로소프트 진영) 등에서 제한적으로 쓰이고 있습니다.
 

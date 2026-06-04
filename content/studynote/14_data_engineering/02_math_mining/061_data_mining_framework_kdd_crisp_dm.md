@@ -154,8 +154,8 @@ CRISP-DM
 
 ## 어린이를 위한 3줄 비유 설명
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 마이닝은 그냥 기계에 숫자를 넣는 게 아니에요.  
-무엇을 찾을지 정하고, 자료를 깨끗이 하고, 결과를 확인해야 해요.  
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 마이닝은 그냥 기계에 숫자를 넣는 게 아니에요.
+무엇을 찾을지 정하고, 자료를 깨끗이 하고, 결과를 확인해야 해요.
 그래야 진짜 쓸모 있는 답을 얻을 수 있어요.
 
 ---

@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: OSI 7계층 중 3계층(Network Layer)에 속하며, 송신 호스트에서 목적지 호스트까지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램(패킷)을 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(경로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))하고 전달하는 인터넷 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다.
 - **필요성**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(2계층)만으로는 같은 방([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) 안에 있는 친구와는 통신할 수 있어도, 바다 건너 미국에 있는 서버와는 통신할 수 없다. MAC은 지리적 의미가 없는 단순한 하드웨어 일련번호기 때문이다. 우편물 배달을 위해 "어느 동네(네트워크 ID), 몇 번 집(호스트 ID)"인지 위치 정보를 완벽하게 담은 논리적인 <strong>'글로벌 주소 체계'</strong>가 필요했고, 그것이 바로 IP 주소다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소</strong>: 사람의 **"주민등록번호"**. 평생 변하지 않지만, 이 번호만 보고 사람이 부산에 사는지 서울에 사는지 우체부가 알 길은 없습니다.
   - **IP 주소**: 현재 내가 살고 있는 아파트의 **"우편번호와 도로명 주소"**. 우체부(라우터)는 오직 이 IP 주소만을 보고 동네방네 편지(패킷)를 정확히 넘겨줍니다.
 
@@ -64,7 +64,7 @@ IPv4는 주소 체계와 패킷 전달 경로를 정의하는 축라는 관점�
 
 ### 2. Best-Effort (최선 노력 전송)
 - [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)(4계층)가 수신 확인증(ACK)을 꼼꼼하게 챙기는 완벽주의자라면, IP(3계층)는 "난 배달만 할 뿐, 잘 도착했는지 관심 없어"라는 쿨한 성격이다.
-- 라우터 큐가 꽉 차서 패킷이 쓰레기통에 버려지든(Drop), 전송 중 비트가 깨지든 IP는 절대 재전송(Retransmission)을 해주지 않는다. 
+- 라우터 큐가 꽉 차서 패킷이 쓰레기통에 버려지든(Drop), 전송 중 비트가 깨지든 IP는 절대 재전송(Retransmission)을 해주지 않는다.
 - **이유**: 인터넷의 철학은 <strong>"멍청하고 빠른 통신망, 똑똑한 단말기(<a href="/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/">End-to-End</a>)"</strong>다. 통신사 라우터가 에러 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)까지 하려면 라우터가 터져버리므로, 에러 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 책임을 사용자 PC의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 모듈로 떠넘겨버린 극강의 생존 특화 설계다.
 
 ```text

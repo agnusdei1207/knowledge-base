@@ -28,7 +28,7 @@ Helm은 리눅스의 `apt`나 Node.js의 `npm`처럼 [쿠버네티스](/knowledg
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-Helm의 아키텍처는 정적 뼈대(Template)와 동적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Values)를 분리하여 결합하는 Go 템플릿(Go Template) 렌더링 엔진에 기반한다. 
+Helm의 아키텍처는 정적 뼈대(Template)와 동적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Values)를 분리하여 결합하는 Go 템플릿(Go Template) 렌더링 엔진에 기반한다.
 
 | 구성 요소 | 역할 | 상세 설명 |
 | :--- | :--- | :--- |

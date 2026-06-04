@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">Quality of Service</a>)</strong>: 라우터 기계가 측정하는 지터(Jitter), 딜레이(Delay), [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) 등 딱딱한 기계적 숫자의 나열입니다. 
+- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">Quality of Service</a>)</strong>: 라우터 기계가 측정하는 지터(Jitter), 딜레이(Delay), [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) 등 딱딱한 기계적 숫자의 나열입니다.
 - 기계적 수치가 아무리 좋아도, 폰 단말기의 코덱(오디오 압축기)이 구리거나 영상의 픽셀 보간(808번)이 어긋나면 사람의 뇌는 즉각 불쾌감(사이버 멀미, 기계음)을 느낍니다. 기계와 인간의 인지 부조화가 발생합니다.
 
 ```text

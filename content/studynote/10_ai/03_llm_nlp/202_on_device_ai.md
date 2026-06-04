@@ -19,7 +19,7 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-2020년 이전의 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)은 100% '클라우드 인공호흡기'에 의존하는 환자였다. 
+2020년 이전의 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)은 100% '클라우드 인공호흡기'에 의존하는 환자였다.
 사용자가 핸드폰에 대고 "이 꽃 이름이 뭐야?"라고 사진을 찍으면, 그 무거운 사진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 망을 타고 바다 건너 미국의 거대한 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)(클라우드 서버)로 날아간다. 수만 대의 H100 GPU가 돌아가며 "이건 장미야!"라고 정답을 계산한 뒤, 다시 바다를 건너 내 스마트폰 화면에 글씨를 뿌려주었다.
 
 이 방식은 세 가지 치명적인 재앙을 불렀다. 첫째, [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이다. 시속 100km로 달리는 자율주행차가 보행자를 보고 클라우드에 "브레이크 밟을까요?"라고 물어보고 답변을 기다리면 이미 보행자를 친 후다. 둘째, 보안(Privacy)이다. 내 침실의 홈 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상이나 회사의 기밀 회의 녹음 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 구글 서버로 넘어가는 것을 사람들은 견디지 못했다. 셋째, 서버비(Cost) 파산이다. 전 세계 10억 명이 매일 챗GPT에 물어볼 때마다 오픈AI는 천문학적인 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 전기세를 내야 했다.

@@ -32,7 +32,7 @@ tags = ["studynote-cloud-architecture"]
   개발자가 개인 카드로 AWS 계정 개설
   팀이 기업 계정 외부에 새 Azure 구독 생성
   GCP 프로젝트 무단 생성
-  
+
   예:
   스타트업 개발팀: "프로덕션 배포가 느려서
   개인 AWS로 POC 시작 → 그대로 프로덕션화"
@@ -44,7 +44,7 @@ tags = ["studynote-cloud-architecture"]
 발생 원인:
   클라우드 계정 생성: 신용카드 하나로 5분
   vs 기업 IT 승인: 수주 대기
-  
+
   비용:
   AWS 무료 티어: 12개월 무료
   → "일단 써보고 나중에 승인"
@@ -70,9 +70,9 @@ CSPM (Cloud Security Posture Management):
 
 1. 리소스 가시성:
   모든 클라우드 계정/구독의 리소스 자동 발견
-  
+
   지원: AWS, Azure, GCP, OCI 등 멀티클라우드
-  
+
   발견:
   기업 승인 외 계정 탐지 (CIS Benchmark 기반)
 
@@ -83,18 +83,18 @@ CSPM (Cloud Security Posture Management):
   - 루트 계정 MFA 미설정
   - 미암호화 EBS 볼륨 (민감 데이터)
   - CloudTrail 로깅 비활성화
-  
+
   자동 점검: 수백 개 규칙 매일 실행
 
 3. 컴플라이언스 모니터링:
   CIS AWS Foundations Benchmark
   PCI-DSS, HIPAA, GDPR, ISO 27001
-  
+
   대시보드: 각 규정별 준수율 (%) 실시간
 
 4. 자동 수정 (Auto-Remediation):
   고위험 오류: 자동 수정
-  
+
   예:
   S3 퍼블릭 접근 활성화 탐지 → 자동 차단
   (또는 알림 → 수동 승인 후 차단)
@@ -117,7 +117,7 @@ CSPM (Cloud Security Posture Management):
 
 1. 계정/구독 관리:
   AWS Organizations / Azure Management Group
-  
+
   구조:
   루트 계정
   ├── 프로덕션 OU (Organizational Unit)
@@ -127,10 +127,10 @@ CSPM (Cloud Security Posture Management):
   │   └── 개발 계정
   └── 보안 OU
       └── 로깅 계정
-  
+
   SCP (Service Control Policy):
   특정 서비스/리전 사용 제한 (전체 OU에 적용)
-  
+
   예:
   "ap-northeast-2(서울) 외 리전 사용 금지"
   "S3 퍼블릭 액세스 설정 변경 금지"
@@ -141,7 +141,7 @@ CSPM (Cloud Security Posture Management):
   CostCenter: CC-1234
   Environment: production
   Project: project-alpha
-  
+
   태그 없는 리소스: 자동 경보 + 정지 예고
 
 3. 비용 거버넌스 (FinOps):
@@ -171,7 +171,7 @@ CSPM (Cloud Security Posture Management):
 Wiz:
   에이전트리스 (에이전트 설치 불필요)
   AWS/Azure/GCP/K8s 통합 스캔
-  
+
   공격 경로 분석:
   "인터넷 → 공개 VM → 과도한 권한 역할 → DB 접근"
   최고 위험 경로 우선 시각화
@@ -183,7 +183,7 @@ Prisma Cloud:
 클라우드 에셋 목록 (Asset Inventory):
   전체 클라우드 리소스 목록 (계정별)
   미승인 계정/구독 탐지
-  
+
   AWS Config:
   모든 리소스 변경 이력 기록
   ConfigRule: 컴플라이언스 규칙 평가
@@ -210,13 +210,13 @@ Prisma Cloud:
 
 현황 조사 (CSPM 도입):
   Wiz로 전체 클라우드 스캔:
-  
+
   발견된 섀도 리소스:
   - 미승인 AWS 계정: 5개
   - 공개 S3 버킷: 12개 (데이터 유출 위험)
   - MFA 없는 루트 계정: 3개
   - 2년 이상 미사용 EC2: 67대 (월 $8,500 낭비)
-  
+
   고위험 발견:
   개발팀 AWS 계정 중 1개에
   테스트용 고객 데이터 5만 건 저장 (GDPR 위반!)
@@ -232,7 +232,7 @@ Prisma Cloud:
   SCP: 서울 리전 외 사용 금지
   태깅 정책 강제 적용
   월간 비용 리뷰 (FinOps)
-  
+
 결과 (3개월):
   월 클라우드 비용: -32% (미사용 리소스 제거)
   섀도 클라우드 리소스: 95% 감소

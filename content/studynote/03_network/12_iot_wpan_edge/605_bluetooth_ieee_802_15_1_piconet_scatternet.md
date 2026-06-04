@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-에릭슨, 노키아, 인텔 등이 연합하여 만든 근거리 무선 통신([WPAN](/knowledge-base/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/)) 산업 표준으로, IEEE 802.15.1 규격에 해당합니다. 
+에릭슨, 노키아, 인텔 등이 연합하여 만든 근거리 무선 통신([WPAN](/knowledge-base/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/)) 산업 표준으로, IEEE 802.15.1 규격에 해당합니다.
 - 와이파이, 전자레인지와 동일한 <strong>2.4GHz ISM 대역</strong>을 무료로 사용합니다. 간섭이 극심한 대역이므로, 1초에 1,600번씩 주파수 채널을 요리조리 피하며 갈아타는 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/">주파수 도약</a> 대역 확산(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/">FHSS</a>)</strong> 기술을 써서 혼선을 이겨냅니다.
 
 ```text

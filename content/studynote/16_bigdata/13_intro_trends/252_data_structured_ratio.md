@@ -85,17 +85,17 @@ tags = ["studynote-bigdata"]
   감성 분석 (Sentiment Analysis)
   개체명 인식 (NER)
   LLM (GPT, BERT): 문서 요약, Q&A
-  
+
 이미지 (Computer Vision):
   CNN 기반 분류, 탐지
   OCR (Optical Character Recognition)
   의료 영상 진단 AI (영상의학 보조)
-  
+
 음성 (Speech):
   ASR (Automatic Speech Recognition)
   화자 인식 (Speaker Identification)
   감정 인식
-  
+
 동영상:
   시계열 이미지 분석 + 음성 분석
   CCTV 이상 탐지
@@ -155,9 +155,9 @@ tags = ["studynote-bigdata"]
 
 현황:
   정형 데이터: 거래 내역, 고객 정보 (20%)
-  비정형 데이터: 상담 메모, 민원 이메일, 
+  비정형 데이터: 상담 메모, 민원 이메일,
                 계약서, 뉴스, SNS (80%)
-  
+
 활용 사례:
 
 1. 고객 상담 메모 분석:

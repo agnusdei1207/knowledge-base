@@ -25,10 +25,10 @@ tags = ["studynote-enterprise-systems"]
   팀 레벨 애자일:
     Scrum, Kanban, XP
     1~9인 팀 내 반복 개발
-    
+
   프로그램 레벨:
     여러 팀 조율 (ART — Agile Release Train)
-    
+
   포트폴리오 레벨:
     전략 투자 결정
     에픽(Epic) 우선순위화
@@ -36,7 +36,7 @@ tags = ["studynote-enterprise-systems"]
 필요 배경:
   대기업: 50~500개 개발팀
   문제: 팀 간 의존성, 릴리즈 불일치, 전략 단절
-  
+
   전통적 해결: PMO + 프로젝트 계획
   애자일 해결: 가치 흐름 정렬 + 지속 딜리버리
 
@@ -73,12 +73,12 @@ ART (Agile Release Train):
   50~125명의 팀 집합
   공통 PI (Program Increment) 주기 (10주 = 5 스프린트)
   모든 팀이 같은 릴리즈 목표 공유
-  
+
 PI Planning:
   ART 전체가 참여하는 2일간 계획 행사
   각 팀의 스프린트 목표 시각화
   팀 간 의존성 식별 및 해소
-  
+
   산출물:
   - PI Objectives (팀별)
   - Program Board (의존성 맵)
@@ -87,7 +87,7 @@ PI Planning:
 SAFe의 장단점:
   장점: 대규모 조직 정렬, 릴리즈 예측성
   단점: 복잡, 관료화 위험, 도입 비용 높음
-  
+
   Google 의견: "SAFe는 애자일이 아니라 폭포수의 애자일 코팅"
   → 조직 특성에 맞는 선택적 도입이 핵심
 ```
@@ -110,7 +110,7 @@ Spotify 모델:
 특징:
   Squad = 자율적 미니 스타트업
   Matrix 조직: Chapter(전문성) + Squad(제품)
-  
+
 실제:
   Spotify는 이 모델을 그대로 따르지 않음
   → 맥락 없이 복사하는 "Spotify 극장" 위험
@@ -120,7 +120,7 @@ OKR (Objectives and Key Results):
 정의:
   O (Objective): 야심찬 질적 목표
   KR (Key Result): 측정 가능한 결과 지표
-  
+
   O: "전 세계 최고의 검색 엔진이 된다"
   KR1: 검색 결과 CTR 15% 향상
   KR2: P99 레이턴시 200ms 이하
@@ -128,7 +128,7 @@ OKR (Objectives and Key Results):
 
 애자일 + OKR 통합:
   포트폴리오 OKR → 팀 스프린트 목표 정렬
-  
+
   예:
   회사 OKR: 결제 전환율 25% 향상
   → 팀 OKR: 결제 UX 개선 (페이지 이탈률 30% 감소)
@@ -158,7 +158,7 @@ OKR (Objectives and Key Results):
    - 스탠드업 미팅 하지만 상태 보고로 변질
    - 스프린트 있지만 모든 요구사항 처음부터 확정
    - "아직 2주 남았으니까 가능합니다" = 폭포수 + 스프린트 이름
-   
+
 2. 팀만 애자일, 조직은 폭포수:
    개발팀: 2주 스프린트
    결재 구조: 3~6개월 예산 승인
@@ -171,7 +171,7 @@ OKR (Objectives and Key Results):
 4. 변화 관리 실패:
    경영진 지원 없음
    매니저 역할 변화 없음 (마이크로매니지먼트 유지)
-   
+
 성공 패턴:
 
 1. 가치 흐름 매핑 (Value Stream Mapping):
@@ -206,7 +206,7 @@ OKR (Objectives and Key Results):
 Phase 1 — 가치 흐름 파악 (3개월):
   현재 상태: 고객 → 대출 승인 → 14일 소요
   이상 상태: 고객 → 대출 승인 → 1일 이내
-  
+
   낭비 식별:
   - 서류 수작업 검토: 5일
   - 결재 라인 대기: 4일
@@ -217,7 +217,7 @@ Phase 2 — 구조 재편 (6개월):
   새 구조: 가치 흐름별 팀
     "대출 팀": FE + BE + DBA + QA + 비즈니스 분석가
     "카드 팀", "투자 팀" 동일 구성
-  
+
   1 Squad = 8명, 2주 스프린트
 
 Phase 3 — OKR + 애자일 정렬:
@@ -232,7 +232,7 @@ Phase 3 — OKR + 애자일 정렬:
   대출 심사 시간: 14일 → 2.5일 (80% 감소)
   시간시장: 18개월 → 3개월
   고객 만족도: NPS +25점
-  
+
 남은 과제:
   규제 대응 (금융당국 승인 프로세스)
   레거시 시스템 통합 (COBOL 코어 뱅킹)

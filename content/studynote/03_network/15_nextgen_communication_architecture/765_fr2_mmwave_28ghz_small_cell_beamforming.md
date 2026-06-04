@@ -38,7 +38,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 빛을 발하는 장점: 무한한 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) ([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [eMBB](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/) 달성)
-- 이 높은 주파수 동네는 아무도 살지 않는 '광활한 텍사스 평야'입니다. 
+- 이 높은 주파수 동네는 아무도 살지 않는 '광활한 텍사스 평야'입니다.
 - 통신사들이 800MHz 폭이라는 어마어마하게 넓은 초대형 차선을 통째로 가져다 쓸 수 있습니다. 덕분에 5G의 3대 목표 중 하나인 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/">eMBB</a>(최대 20Gbps 속도)</strong>를 물리적으로 100% 뽑아내어, 수만 명이 모인 경기장에서 8K VR 홀로그램 영상을 끊김 없이 볼 수 있는 마법을 부립니다.
 
 ### 2. 최악의 단점: 끔찍한 투과력과 짧은 사거리

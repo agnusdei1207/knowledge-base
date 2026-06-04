@@ -93,7 +93,7 @@ tags = ["studynote-computer-architecture"]
 
 언더플로우 방어 기법들은 유한한 메모리로 무한히 작아지는 미시 세계를 표현하기 위한 불가피한 타협안이다. 이를 제대로 통제하면 딥러닝 모델의 학습 안정성이 확보되고, 리얼타임 애플리케이션의 치명적인 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Denormal [Spike](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/))을 예방할 수 있다.
 
-결론적으로, 아키텍트와 개발자는 언더플로우를 단순한 에러로 치부할 것이 아니라, "우리 시스템이 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)(Subnormal)와 스피드(FTZ) 중 어떤 희생을 감수할 것인가"를 선택하는 적극적인 설계 지표로 다루어야 한다. 
+결론적으로, 아키텍트와 개발자는 언더플로우를 단순한 에러로 치부할 것이 아니라, "우리 시스템이 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)(Subnormal)와 스피드(FTZ) 중 어떤 희생을 감수할 것인가"를 선택하는 적극적인 설계 지표로 다루어야 한다.
 
 - **📢 섹션 요약 비유**: 좋은 선장은 우주선이 블랙홀(0)로 서서히 빨려 들어가며 에너지를 모두 소진하게 두지 않는다. 필요할 땐 "이 부분은 과감히 버려라!"라고 결단하여 남은 항해를 정상적으로 이어가는 최적의 항해술을 발휘해야 한다.
 

@@ -19,7 +19,7 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-[합성곱 신경망](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/) ([CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/))은 [다층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/) (MLP, Multi-Layer [Perceptron](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/))이 가진 이미지 처리의 한계를 극복하기 위해 등장한 아키텍처다. 기존 MLP 방식은 2차원 이미지를 입력받기 위해 1차원 벡터로 평탄화(Flatten)해야 했으며, 이 과정에서 픽셀 간의 상하좌우 공간적 연관성이 완전히 소실되는 치명적인 문제가 발생했다. 
+[합성곱 신경망](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/) ([CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/))은 [다층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/) (MLP, Multi-Layer [Perceptron](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/))이 가진 이미지 처리의 한계를 극복하기 위해 등장한 아키텍처다. 기존 MLP 방식은 2차원 이미지를 입력받기 위해 1차원 벡터로 평탄화(Flatten)해야 했으며, 이 과정에서 픽셀 간의 상하좌우 공간적 연관성이 완전히 소실되는 치명적인 문제가 발생했다.
 
 또한 고해상도 이미지를 처리할 때 입력 노드가 기하급수적으로 증가하여 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))의 폭발을 초래하고 연산 불능 상태에 빠지게 만들었다. 이를 해결하기 위해 CNN은 생물학적 시각 피질의 수용장(Receptive Field) 개념을 모방하여, 작은 영역의 특징을 먼저 추출하고 점진적으로 넓은 영역을 인식하는 계층적 구조를 도입하였다.
 

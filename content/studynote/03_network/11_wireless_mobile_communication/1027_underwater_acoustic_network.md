@@ -60,7 +60,7 @@ tags = ["studynote-network"]
                └────────── (음파 통신) ───────────┘
 ```
 
-1. **음향 [[146_modem_modulator_demodulator|모뎀]] (Acoustic Modem)**: 지상의 [[146_modem_modulator_demodulator|모뎀]]이 전파를 변조하듯, 수중 [[146_modem_modulator_demodulator|모뎀]]은 디지털 [[001_dikw_pyramid|데이터]](0과 1)를 다양한 주파수의 '소리'로 변조하여 물속으로 쏘아 보낸다. 
+1. **음향 [[146_modem_modulator_demodulator|모뎀]] (Acoustic Modem)**: 지상의 [[146_modem_modulator_demodulator|모뎀]]이 전파를 변조하듯, 수중 [[146_modem_modulator_demodulator|모뎀]]은 디지털 [[001_dikw_pyramid|데이터]](0과 1)를 다양한 주파수의 '소리'로 변조하여 물속으로 쏘아 보낸다.
 2. **수온과 염분의 영향**: 소리는 물의 온도, 염분, 수압에 따라 굴절되거나 속도가 변한다. 여름철 표층 수온이 높으면 소리가 해저 쪽으로 꺾이는(음파 채널 현상) 등 물리적 변수가 극심하므로 이를 계산하는 적응형 라우팅이 필수적이다.
 3. **표면 게이트웨이**: 물속의 소리를 밖으로 꺼낼 수 없으므로, 바다 위에 둥둥 떠 있는 부표가 물 밑에서는 소리를 듣고, 물 밖에서는 전파로 바꿔 위성으로 쏴주는 역할을 한다.
 

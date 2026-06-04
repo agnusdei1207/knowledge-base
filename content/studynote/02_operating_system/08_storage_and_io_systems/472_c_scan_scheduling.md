@@ -69,9 +69,9 @@ tags = ["studynote-operating-system"]
 
 ### 리턴 스윕(Return Sweep)의 하드웨어적 진실
 
-"빈 차로 199번에서 0번까지 돌아오면, 그 거리를 이동하느라 8ms([탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/))가 똑같이 버려지는 거 아냐? 완전 손해네!"라고 생각할 수 있다. 
+"빈 차로 199번에서 0번까지 돌아오면, 그 거리를 이동하느라 8ms([탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/))가 똑같이 버려지는 거 아냐? 완전 손해네!"라고 생각할 수 있다.
 - 하지만 <strong>하드디스크의 물리적 스펙</strong>은 다르다.
-- 바늘이 1칸씩 10번을 이동하는 데 걸리는 시간(탐색 후 멈춤)보다, 바늘을 멈추지 않고 끝에서 끝으로 한 방에 풀스윙(Full-stroke Seek) 튕겨내는 속도가 기계적으로 압도적으로 더 빠르다. 
+- 바늘이 1칸씩 10번을 이동하는 데 걸리는 시간(탐색 후 멈춤)보다, 바늘을 멈추지 않고 끝에서 끝으로 한 방에 풀스윙(Full-stroke Seek) 튕겨내는 속도가 기계적으로 압도적으로 더 빠르다.
 - 즉, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽으며 멈칫멈칫 내려오는 SCAN의 하행선 시간보다, C-SCAN이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽지 않고 0번으로 번개처럼 점프(Return Sweep)하는 시간이 체감상 훨씬 짧기 때문에 이 1Way 싹쓸이 전략이 실무 하드웨어 위에서 수학적으로 성립하는 것이다.
 
 ---
@@ -103,7 +103,7 @@ OS 시험 문제에서 C-SCAN이 정답이 되는 핵심 키워드는 <strong>"<
 | <strong>실시간(RTOS) <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a></strong> | 예측 불가능하여 튕길 수 있음 | **최대 대기 시간(Max Delay) 보장으로 완벽 호환**|
 
 ### 멀티미디어 스트리밍 환경의 구세주
-유튜브 서버에서 하드디스크에 저장된 4K 영상을 수만 명에게 뿌려준다고 치자. 
+유튜브 서버에서 하드디스크에 저장된 4K 영상을 수만 명에게 뿌려준다고 치자.
 - 영상 스트리밍은 '평균 속도'가 100MB/s가 나오는 게 중요한 게 아니다. 단 1초라도 속도가 5MB/s로 떨어져 영상이 '[버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)(버벅댐)' 걸리면 유저는 쌍욕을 하며 끈다.
 - SCAN을 쓰면, 디스크 끝단에 저장된 영상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조각은 바늘이 왕복하는 긴 시간 동안 읽히지 않아 유저 폰에 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) 렉이 무조건 터진다.
 - C-SCAN을 쓰면, 디스크 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 약간 떨어지지만 <strong>"어떤 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>이든 최대 X 밀리초 안에는 무조건 1번씩 읽힌다"</strong>는 강력한 족쇄가 채워진다. 이 대기 시간 평탄화 덕분에, 모든 유저가 끊김 없이 안정적으로 스트리밍을 볼 수 있는 인프라가 완성된다.
@@ -127,7 +127,7 @@ OS 시험 문제에서 C-SCAN이 정답이 되는 핵심 키워드는 <strong>"<
 
 ### 실무 시나리오: 왜 C-LOOK으로 다시 진화했는가? (바보 같은 끝점 찍기)
 C-SCAN은 이론상 완벽한 평등을 이뤘지만, 융통성이 너무 없어서 실무진 뒷목을 잡게 했다.
-1. **끝점 성애자**: 
+1. **끝점 성애자**:
    - 큐에 가장 마지막으로 들어온 요청이 150번 트랙이다. 151번~199번 벽 끝까지는 텅텅 비어 있다.
    - 하지만 C-SCAN은 멍청한 기계라 150번을 처리하고도 **굳이 텅 빈 허공을 가르며 디스크 맨 끝 벽(199번)까지 쿵! 하고 찍은 다음에야** 0번으로 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)한다. (무의미한 49번 트랙 전진).
    - 0번으로 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)할 때도, 제일 앞의 요청이 20번 트랙이면 20번으로 바로 가면 되는데 굳이 0번 벽까지 쿵! 찍고 20번으로 올라온다.

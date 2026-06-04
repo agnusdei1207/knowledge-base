@@ -104,7 +104,7 @@ BaaS는 IaaS나 PaaS와 달리, 개발자가 작성하는 '서버 측(Server-sid
 
 [ Traditional IaaS/PaaS ]            [ BaaS (Serverless) ]
 ┌─────────────────────────┐          ┌─────────────────────────┐
-│     Frontend UI / App   │          │     Frontend UI / App   │ (UI 중심, 
+│     Frontend UI / App   │          │     Frontend UI / App   │ (UI 중심,
 │    (API 호출, 렌더링)   │          │    (DB 쿼리, 인증 직접) │  비대해진 클라이언트)
 ├─────────────────────────┤          ├─────────────────────────┤
 │    Backend App Server   │          │        ( 생  략 )       │

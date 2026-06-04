@@ -23,14 +23,14 @@ tags = ["studynote-data-engineering"]
   Row:  id | name   | email          | age
   Row1:  1 | Alice  | a@example.com  |  30
   Row2:  2 | Bob    | b@example.com  | NULL
-  
+
   -> 모든 행이 동일한 컬럼 구조
 
 와이드 컬럼 (Column Family):
   Row Key: user:001
     personal: {name: Alice, age: 30}
     contact:  {email: a@example.com, phone: 010-...}
-  
+
   Row Key: user:002
     personal: {name: Bob}
     social:   {twitter: @bob, github: bob-dev}
@@ -50,17 +50,17 @@ tags = ["studynote-data-engineering"]
 
 ```
 Cassandra (Facebook 개발, Apache 오픈소스):
-  
+
 데이터 모델:
   Keyspace -> Table -> Row -> Column
-  
+
 파티션 키 (Partition Key):
   데이터가 저장될 노드를 결정
   일관된 해싱(Consistent Hashing)으로 분산
-  
+
 클러스터링 컬럼 (Clustering Column):
   파티션 내 데이터 정렬 기준
-  
+
 예시 테이블:
   CREATE TABLE sensor_data (
     device_id TEXT,         -- 파티션 키
@@ -89,15 +89,15 @@ HBase (Google BigTable 아키텍처, Hadoop 기반):
 구조:
   HMaster (마스터) + RegionServer (워커)
   HDFS 위에서 실행 (영속성)
-  
+
 Row Key가 사전순 정렬:
   시계열 데이터: 타임스탬프를 reverse로
   user:20241201 -> user:20241130 정렬
-  
+
 컬럼 패밀리 (Column Family):
   물리적으로 같은 파일에 저장
   패밀리 내 컬럼은 동적으로 추가 가능
-  
+
 특성:
   CAP: CP (일관성 + 파티션 허용)
   HDFS 기반 -> Hadoop 생태계 통합
@@ -127,15 +127,15 @@ Cassandra vs HBase:
 관계형:
   "데이터를 어떻게 저장할까?" (정규화)
   -> 나중에 어떤 쿼리든 JOIN으로 해결
-  
+
 와이드 컬럼:
   "어떤 쿼리를 할 것인가?" (비정규화)
   -> 쿼리 패턴에 맞게 테이블을 설계
   -> JOIN 없음 (단일 테이블 조회 원칙)
-  
+
 예시: 사용자의 최근 주문 조회
   관계형: users JOIN orders WHERE user_id = ?
-  Cassandra: 
+  Cassandra:
     orders_by_user 테이블 별도 생성
     PRIMARY KEY (user_id, order_timestamp)
     -> 단일 테이블 조회로 해결
@@ -163,10 +163,10 @@ Cassandra 설계:
     예: ("sensor-001", "2025-03-03")
     이유: 하루치 데이터를 한 파티션에
     (device_id만 쓰면 파티션 무제한 성장)
-    
+
   클러스터링 컬럼: timestamp DESC
     최신 데이터 먼저 정렬
-    
+
   쿼리 패턴:
     최근 1시간 데이터 조회:
     SELECT * FROM sensor_data
@@ -174,7 +174,7 @@ Cassandra 설계:
     AND date = '2025-03-03'
     AND timestamp > 1h_ago
     -> 단일 파티션 조회 -> 빠름!
-    
+
 성능:
   쓰기: 초당 100만 건 (10노드 클러스터)
   읽기: 10ms 이내 (파티션 키 조회)

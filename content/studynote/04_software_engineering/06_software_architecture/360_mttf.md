@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: MTTF (Mean Time To Failure)는 시스템이나 구성요소가 고장 없이 동작하는 평균 시간을 의미한다. MTTF는 "평균 고장 시간" 또는 "[평균 무고장 시간](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/)"이라고도 한다. MTBF와의위い은/는, MTTF는주로유수 불가능하거나, 유수하지만 비용이 초래되는 구성요소(하드웨어 부품, промыш용전감기등)에 적용되고, MTBF는유수 가능한 시스템에 적용된다. MTTF는 시스템이나 부품이최초부터고장까지의평균시간을측정한다. 
+- **개념**: MTTF (Mean Time To Failure)는 시스템이나 구성요소가 고장 없이 동작하는 평균 시간을 의미한다. MTTF는 "평균 고장 시간" 또는 "[평균 무고장 시간](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/)"이라고도 한다. MTBF와의위い은/는, MTTF는주로유수 불가능하거나, 유수하지만 비용이 초래되는 구성요소(하드웨어 부품, промыш용전감기등)에 적용되고, MTBF는유수 가능한 시스템에 적용된다. MTTF는 시스템이나 부품이최초부터고장까지의평균시간을측정한다.
 
 - **필요성**: 시스템의 MTTF를 알면 부품이나 시스템의 내구성을 객관적으로 평가할 수 있다. MTTF가 낮은 부품은 자주 고장나므로 교체 또는유수 비용이 증가하고, 시스템 가용성에 영향을 미친다. 따라서 목표 MTTF를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하고 부품 선택 및 유지보수 전략을 수립해야 한다.
 

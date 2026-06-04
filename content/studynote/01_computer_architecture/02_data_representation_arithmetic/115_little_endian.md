@@ -91,7 +91,7 @@ x86과 인터넷은 영원히 섞이지 않는 평행선을 달린다.
 
 ## Ⅴ. 기대효과 및 결론
 
-리틀 엔디안은 철저하게 기계의 입장에서 하드웨어 연산기([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))의 복잡도를 낮추기 위해 설계된 [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/)의 승리다. 
+리틀 엔디안은 철저하게 기계의 입장에서 하드웨어 연산기([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))의 복잡도를 낮추기 위해 설계된 [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/)의 승리다.
 
 자리올림 연산과 캐스팅의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간을 소멸시킨 이 변태적인 설계 덕분에, 인텔 x86 프로세서는 데스크톱과 서버 시장에서 압도적인 가성비와 연산 속도를 뿜어내며 세계를 제패했다. 비록 디버깅 창을 띄울 때마다 인간의 눈을 고통스럽게 만들고, 네트워크 통신 시마다 `htonl()` 매크로로 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)을 해야 하는 업보를 남겼지만, 그 약간의 소프트웨어적 불편함은 하드웨어가 얻어낸 막대한 연산 효율 앞에 완벽히 무마되었다.
 

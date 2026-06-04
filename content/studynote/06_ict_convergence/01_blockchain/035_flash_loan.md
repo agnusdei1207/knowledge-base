@@ -138,7 +138,7 @@ contract FlashLoanExample is IFlashLoanReceiver {
     ) external returns (bool) {
         // 아비트라지 로직 실행
         // ...
-        
+
         // 원금 + 수수료 승인
         uint256 amountOwed = amounts[0] + premiums[0];
         IERC20(assets[0]).approve(address(POOL), amountOwed);

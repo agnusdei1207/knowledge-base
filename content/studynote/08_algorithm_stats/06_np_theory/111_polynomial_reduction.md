@@ -28,7 +28,7 @@ tags = ["studynote-algorithm-stats"]
   다항 시간 함수 f: {0,1}* → {0,1}*가 존재하여
   모든 입력 x에 대해:
     x ∈ A  ⟺  f(x) ∈ B
-  
+
   이때 f를 환산 함수 (Reduction Function)라 함
 
 의미:
@@ -39,11 +39,11 @@ tags = ["studynote-algorithm-stats"]
 A ≤_p B의 복잡도 의미:
   B가 P에 속하면 → A도 P에 속함
   A가 NP-hard이면 → B도 NP-hard임
-  
+
 방향 주의:
   A ≤_p B: B가 더 어렵거나 같음
   B ≤_p A: A가 더 어렵거나 같음
-  
+
   ≤_p는 "≤ (쉽다)" 방향 → A ≤_p B = "A는 B만큼 어렵지 않다"
   단, NP-완전 증명에서는 "B는 A만큼 어렵다 (NP-hard)"를 보이기 위해
   알려진 NP-hard A ≤_p B 방향으로 환산
@@ -62,17 +62,17 @@ Cook-Levin 정리 (1971/1973):
 SAT 정의:
   CNF (Conjunctive Normal Form) 수식이 주어졌을 때
   해당 수식을 참(True)으로 만드는 변수 할당이 존재하는가?
-  
+
   예: (x₁ ∨ ¬x₂ ∨ x₃) ∧ (¬x₁ ∨ x₂) ∧ (x₂ ∨ x₃)
       x₁=T, x₂=T, x₃=F → 모든 절 참 → 충족 가능
 
 Cook-Levin 증명 핵심:
   모든 NP 문제 A를 SAT로 환산 가능:
-  
+
   비결정론적 튜링 머신 M이 A를 다항 시간 해결
   → M의 계산 과정 전체를 CNF 수식으로 인코딩
   → 수식이 충족 가능 ⟺ M이 w를 수락
-  
+
   따라서 모든 NP 문제 A ≤_p SAT
   → SAT는 NP-hard
   → SAT는 NP에 속함 (검증이 다항 시간)
@@ -99,7 +99,7 @@ Cook-Levin 증명 핵심:
 2단계: X가 NP-hard 증명
   알려진 NP-완전 문제 Y에 대해
   Y ≤_p X를 보임 (Y를 X로 환산 가능)
-  
+
   → X가 Y만큼 어렵다 (NP-hard)
 
 NP-완전 증명 예시: 3-Color
@@ -114,7 +114,7 @@ NP-완전 증명 예시: 3-Color
     - 각 변수 xᵢ에 대해 xᵢ, ¬xᵢ 노드 + BASE 삼각형 추가
     - 각 절에 대해 OR-gadget 그래프 구성
     - 3-SAT가 충족 가능 ⟺ 그래프 3-색칠 가능
-  
+
   변환 시간: 다항 시간 O(n + m)
 
 결론: 3-Color는 NP-완전
@@ -190,16 +190,16 @@ NP-완전 증명:
 2단계: Partition ≤_p Scheduling
   Partition: 집합 S를 두 부분집합으로 나눠 합이 같게 가능한가?
   (Partition은 NP-완전으로 이미 알려짐)
-  
+
   환산 f:
     Partition 인스턴스 (a₁, ..., aₙ, W/2)
     → Scheduling 인스턴스:
       n개 작업, 처리시간 = aᵢ
       2개 기계, 각 기계의 마감 = W/2
-    
+
     Partition 해 존재 ⟺ Scheduling 해 존재
     변환 시간: O(n) 선형 시간
-    
+
 결론: Scheduling은 NP-완전
 
 실용적 의미:

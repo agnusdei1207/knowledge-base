@@ -23,7 +23,7 @@ tags = ["enterprise_systems"]
 
 <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/">TOGAF</a> (<a href="/knowledge-base/studynote/09_security/17_framework_compliance/875_togaf/">The Open Group Architecture Framework</a>)</strong>는 기업의 IT 인프라와 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 정렬하기 위한 실천적이고 종합적인 프레임워크이다. [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)가 아키텍처 산출물의 '[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)표(서랍장)'를 제시했다면, TOGAF는 실제로 그 산출물을 어떻게 기획하고, 어떤 순서로 설계하며, 운영 및 폐기까지 어떻게 관리할 것인지에 대한 상세한 '레시피(프로세스)'를 제공한다.
 
-[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)의 정보시스템 구축은 거대한 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터플랜([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))을 일회성으로 그리고 수년간 방치하는 폭포수(Waterfall) 모델의 한계에 갇혀 있었다. 비즈니스 환경이 급변함에 따라 아키텍처도 끊임없이 진화해야 했으나, 표준화된 절차와 산출물 가이드가 없었기에 담당자가 바뀔 때마다 아키텍처 철학이 무너지는 문제([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Erosion)가 발생했다. 
+[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)의 정보시스템 구축은 거대한 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터플랜([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))을 일회성으로 그리고 수년간 방치하는 폭포수(Waterfall) 모델의 한계에 갇혀 있었다. 비즈니스 환경이 급변함에 따라 아키텍처도 끊임없이 진화해야 했으나, 표준화된 절차와 산출물 가이드가 없었기에 담당자가 바뀔 때마다 아키텍처 철학이 무너지는 문제([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Erosion)가 발생했다.
 
 이를 해결하기 위해 The Open Group은 전 세계 IT 거인들의 모범 사례를 집대성하여 TOGAF를 제정했다. TOGAF의 핵심은 아키텍처를 한 번에 완벽히 그리는 것이 아니라, 예비 단계부터 변화 관리 단계까지 지속적으로 순환하며 성숙도를 높여가는 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/">ADM</a> (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/114_togaf_adm_architecture_development_method/">Architecture Development Method</a>)</strong> 사이클에 있다.
 
@@ -100,7 +100,7 @@ EA를 구현하는 양대 산맥인 TOGAF와 잭맨([Zachman](/knowledge-base/st
 | **강점** | 구체적 실행 지침, 반복적 개선([ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/)), 표준화 | 철저한 [MECE](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/) 원칙, 완벽한 추적성 | 정부 예산과 성과 측정 연계([PRM](/knowledge-base/studynote/12_it_management/03_ea_isp/121_prm_performance_reference_model_it_roi/)) |
 | **단점** | 문서화 및 산출물 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계가 상대적으로 약함 | 실행 프로세스와 우선순위 결정 방식 부재 | 관료적 통제, 신기술 수용 민첩성 부족 |
 
-<strong>융합적 활용 (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/">TOGAF</a> + <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/">Zachman</a>)</strong>: 
+<strong>융합적 활용 (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/">TOGAF</a> + <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/">Zachman</a>)</strong>:
 가장 이상적인 IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 컨설팅에서는 TOGAF의 ADM을 메인 프로세스로 차용하여 Phase B, C, D를 수행한다. 그리고 이 단계들에서 도출된 수많은 산출물(다이어그램, 명세서)을 보관하고 정합성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 빈칸(Template)으로 [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)의 36개 매트릭스를 사용한다. 이는 "동적 방법론으로 생산하고 정적 온톨로지로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다"는 완벽한 조화를 이끌어낸다.
 
 ```text
@@ -138,7 +138,7 @@ EA를 구현하는 양대 산맥인 TOGAF와 잭맨([Zachman](/knowledge-base/st
          ▼
 [배포 주기 검토] 주 단위/일 단위 배포를 수행하는 애자일(Agile/MSA) 조직인가?
    ├─ (Yes) ──▶ [경량화 도입] ADM 전면 적용 불가.
-   │              아키텍처 가드레일(최소 원칙)만 정의하고, Phase G(거버넌스)를 
+   │              아키텍처 가드레일(최소 원칙)만 정의하고, Phase G(거버넌스)를
    │              자동화된 테스트/코드 스캐닝 솔루션에 위임.
    │
    └─ (No) ───▶ [레거시/대규모 통합 여부] 차세대 시스템 구축이나 M&A 통합인가?

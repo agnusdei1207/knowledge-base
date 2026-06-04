@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 1960년대 후반, 컴퓨터 하드웨어는 눈부시게 발전하여 가격이 떨어지고 성능이 폭발적으로 좋아졌다. 기업들은 신나서 "이제 이 좋은 컴퓨터에 똑똑한 프로그램을 돌려서 모든 업무를 자동화하자!"라고 외쳤다.
 
-하지만 현실은 지옥이었다. 하드웨어는 공장에서 찍어내면 되지만, 소프트웨어는 사람의 머릿속에서 나오는 순수한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 덩어리다. 요구사항은 계속 바뀌고, 눈에 보이지 않으니 얼마나 만들었는지(진척도) 측정도 안 됐다. 
+하지만 현실은 지옥이었다. 하드웨어는 공장에서 찍어내면 되지만, 소프트웨어는 사람의 머릿속에서 나오는 순수한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 덩어리다. 요구사항은 계속 바뀌고, 눈에 보이지 않으니 얼마나 만들었는지(진척도) 측정도 안 됐다.
 
 결과적으로, 전 세계의 수많은 프로젝트가 예산을 2~3배씩 초과하고, 약속한 날짜를 1년 넘게 넘기며, 막상 오픈했더니 버그가 터져서 회사가 망하는 일이 속출했다. 1968년 나토(NATO)의 가르미슈 회의에서 학자들은 이 끔찍한 상황을 <strong>'<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/">소프트웨어 위기</a>(<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/">Software Crisis</a>)'</strong>라고 명명했다.
 

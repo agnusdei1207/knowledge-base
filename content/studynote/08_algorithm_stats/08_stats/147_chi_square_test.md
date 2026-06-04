@@ -47,7 +47,7 @@ E: 기대 빈도 (Expected Frequency)
 
 **귀무 가설 H₀**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 특정 이론 분포를 따른다.
 
-**자유도**: df = k - 1 - (추정된 파라미터 수)  
+**자유도**: df = k - 1 - (추정된 파라미터 수)
 (기본 경우: df = k - 1, k = 범주 수)
 
 **예시 — 주사위 공정성 검정**:
@@ -62,7 +62,7 @@ E: 기대 빈도 (Expected Frequency)
 | 6 | 106 | 100 | 0.36 |
 | **합계** | **600** | **600** | **χ²=4.14** |
 
-df = 6-1 = 5, 임계값 χ²(5, 0.05) = [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/).07  
+df = 6-1 = 5, 임계값 χ²(5, 0.05) = [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/).07
 4.14 < [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/).07 → H₀ 채택 (주사위는 공정하다)
 
 📢 **섹션 요약 비유**: 적합도 검정은 "예상 vs 실제 출석 점검"과 같다. 한 반에서 예상 성적 분포(기대)와 실제 성적 분포(관측)를 비교해 "수업이 제대로 이루어졌는가"를 판단한다.
@@ -89,7 +89,7 @@ E_ij = (i행 합계 × j열 합계) / 전체 합계
      = r_i × c_j / N
 ```
 
-**자유도**: df = (r-1) × (c-1)  
+**자유도**: df = (r-1) × (c-1)
 (r=행 수, c=열 수)
 
 **2×2 분할표 예시**:

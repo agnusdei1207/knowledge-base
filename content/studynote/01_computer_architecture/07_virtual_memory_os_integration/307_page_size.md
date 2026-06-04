@@ -48,9 +48,9 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)의 핵심은 세 가지 식으로 정리할 수 있다.  
-1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 수 = 전체 주소 공간 / <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/">페이지 크기</a></strong>  
-2. <strong>평균 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/">내부 단편화</a> ≈ <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/">페이지 크기</a> / 2</strong>  
+[페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)의 핵심은 세 가지 식으로 정리할 수 있다.
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 수 = 전체 주소 공간 / <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/">페이지 크기</a></strong>
+2. <strong>평균 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/">내부 단편화</a> ≈ <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/">페이지 크기</a> / 2</strong>
 3. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> Reach = <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> 엔트리 수 × <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/">페이지 크기</a></strong>
 
 즉 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)를 키우면 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 수는 줄고, 평균 낭비 공간은 커지며, <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> (<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/">Translation Lookaside Buffer</a>)</strong> 가 한 번에 덮을 수 있는 주소 범위는 넓어진다. 이 셋이 동시에 움직이기 때문에 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/) 선택은 항상 연쇄 효과를 만든다.
@@ -114,13 +114,13 @@ tags = ["studynote-computer-architecture"]
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. <strong>작업 집합(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">Working Set</a>)이 충분히 크고 연속적인가?</strong>  
+1. <strong>작업 집합(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">Working Set</a>)이 충분히 크고 연속적인가?</strong>
    [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) reach가 병목이라면 Huge Page의 효과가 크다.
-2. **메모리 낭비를 감당할 수 있는가?**  
+2. **메모리 낭비를 감당할 수 있는가?**
    2MB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 평균 1MB, 1GB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 평균 512MB 정도의 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)를 감수할 수 있어야 한다.
-3. <strong>복사-쓰기와 메모리 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>, 세밀한 회수가 중요한가?</strong>  
+3. <strong>복사-쓰기와 메모리 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>, 세밀한 회수가 중요한가?</strong>
    중요하다면 기본 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 유리하다.
-4. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>가 자동 승격(예: THP)할지, 명시적 Huge Page를 쓸지 정했는가?</strong>  
+4. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>가 자동 승격(예: THP)할지, 명시적 Huge Page를 쓸지 정했는가?</strong>
    지연시간 예측 가능성이 중요하면 명시적 관리가 더 낫다.
 
 ### 대표 적용 예시
@@ -199,7 +199,7 @@ THP (Transparent Huge Pages) · 혼합 페이지 크기 정책
 
 **진행 상황**: 308 / 803
 
-← **이전**: [307. 메모리 보호 (Memory Protection)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/)
+← **이전**: [307. 메모리 보호 (Memory Protection)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/)
 **다음**: [308. 메모리 맵 파일 (Memory-Mapped File)](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/308_memory_mapped_file/) →
 
 ---

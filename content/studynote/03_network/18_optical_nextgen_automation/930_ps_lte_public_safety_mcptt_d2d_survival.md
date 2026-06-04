@@ -56,7 +56,7 @@ tags = ["studynote-network"]
 
 ### 1. MCPTT (Mission Critical Push-To-Talk) - 0.3초의 귓속말 🌟
 일반 스마트폰(카톡 보이스)으로 무전기 앱을 만들면, 말을 할 때마다 중앙 서버를 거쳐 오느라 2초의 딜레이가 생깁니다. 불 속에선 2초면 죽습니다.
-- **MCPTT 혁명**: 국제 표준 3GPP가 만든 재난용 [PTT](/knowledge-base/studynote/09_security/12_identity_threat_advanced/591_ptt/)(무전기) 표준입니다. 
+- **MCPTT 혁명**: 국제 표준 3GPP가 만든 재난용 [PTT](/knowledge-base/studynote/09_security/12_identity_threat_advanced/591_ptt/)(무전기) 표준입니다.
 - 소방관 대장이 스마트폰 옆구리([PTT](/knowledge-base/studynote/09_security/12_identity_threat_advanced/591_ptt/)) 버튼을 꾹 누르고 소리를 치는 순간, <strong>서버 라우팅을 우회하고 0.3초 (300ms) 이내에 1만 명의 소방관 스마트폰 스피커로 음성이 다이렉트(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a>)로 일제히 꽂히게 만드는 초저지연 무전 통신 규격</strong>입니다.
 
 ### 2. D2D 단말 간 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/) (ProSe / 애드혹 생존망) 🌟

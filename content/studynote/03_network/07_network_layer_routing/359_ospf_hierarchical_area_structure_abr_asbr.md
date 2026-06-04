@@ -79,7 +79,7 @@ OSPF를 켤 때 단 1대의 라우터만 있더라도 무조건 <strong><code>Ar
 
 1. <strong>Internal Router (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/">IR</a>, 내부 라우터)</strong>: 라우터의 모든 팔다리(인터페이스)가 오직 Area 1 안쪽에만 꽂혀있는 놈. (자기 동네 일만 안다).
 2. **Backbone Router (BR, 백본 라우터)**: 라우터의 팔다리 중 하나라도 Area 0(백본)에 꽂혀있는 놈. (중앙 광장에 발을 담근 놈).
-3. **ABR (Area Border Router, 에어리어 경계 라우터) ★핵심**: 
+3. **ABR (Area Border Router, 에어리어 경계 라우터) ★핵심**:
    - 한쪽 팔은 Area 0에, 다른 쪽 팔은 Area 1에 걸치고 있는 양다리 라우터.
    - **가장 중요한 역할**: Area 1에서 일어난 잡다한 골목길 정보들(LSA)이 Area 0로 넘어가지 못하게 방화벽처럼 막아버리고, 싹 다 뭉뚱그려서 <strong>"야! Area 1로 오려면 나한테로 와!"라고 한 줄로 요약(경로 요약, Summarization)</strong>해서 던져주는 핵심 일꾼이다.
 4. <strong>ASBR (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">AS</a> Boundary Router, 자율 시스템 경계 라우터) ★핵심</strong>:

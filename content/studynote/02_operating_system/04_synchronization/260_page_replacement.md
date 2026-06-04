@@ -28,19 +28,19 @@ tags = ["studynote-operating-system"]
   [페이지 교체(Page Replacement)의 4단계 라이프사이클]
 
   [ 🚨 물리 메모리(RAM) 100% Full 상태에서 Page Fault 발생! ]
-  
+
   1. 희생자 선정 (Victim Selection)
      ▶ OS 스케줄러: "LRU 알고리즘 돌려봐! 제일 안 쓴 놈 누구야?"
      ▶ "Frame 3번에 있는 Page A가 1시간째 안 쓰였습니다!"
-     
+
   2. Swap-Out (디스크 쓰기)
      ▶ Page A가 램에 올라온 이후로 값이 수정(Dirty)되었다면, 디스크에 덮어쓴다.
      ▶ (수정 안 됐으면 덮어쓸 필요 없이 그냥 버림. 속도 개이득!)
      ▶ 페이지 테이블에서 Page A의 상태를 Invalid(i)로 바꾼다.
-     
+
   3. Swap-In (새 페이지 적재)
      ▶ 방금 비워진 Frame 3번 자리에, 지금 당장 필요한 Page B를 디스크에서 퍼 올린다.
-     
+
   4. 테이블 갱신 및 재시작
      ▶ 페이지 테이블에 "Page B는 Frame 3에 있음"을 적고 Valid(v)로 켠다.
      ▶ 멈췄던 CPU 명령어를 다시 실행한다.
@@ -62,13 +62,13 @@ OS가 소프트웨어로만 "누가 가장 오래됐나?"를 추적하면 CPU가
    - **동작**: CPU가 이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 건드리는 순간 하드웨어가 0에서 <strong>1</strong>로 바꾼다. OS는 가끔씩 이걸 0으로 초기화해 주며, 교체 시 1인 놈은 살려주고 0인 놈을 죽인다.
 2. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/">Dirty Bit</a> (수정 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> / Modify <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>)</strong>
    - **의미**: "이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 램에 올라온 이후로 내용이 변경되었는가?"
-   - **동작**: CPU가 이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 `Write` 명령을 때리는 순간 <strong>1</strong>로 바뀐다. 
+   - **동작**: CPU가 이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 `Write` 명령을 때리는 순간 <strong>1</strong>로 바뀐다.
    - **가치 (극강의 최적화)**: 만약 희생자로 선정된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 [Dirty Bit](/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/) = 0 이라면? 램과 디스크의 내용이 100% 똑같다는 뜻이므로, 굳이 디스크에 쓸(Swap-out) 필요 없이 그냥 램에서 지워버려도 무방하다. <strong>디스크 I/O 시간을 절반으로 줄여주는 최고의 치트키</strong>다.
 
 ### 교체의 2대 철학: Global vs [Local Replacement](/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/)
 램이 부족할 때 "누구의 것을 뺏을 것인가?"에 대한 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 철학적 선택이다.
 
-- <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/">전역 교체</a> (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/">Global Replacement</a>)</strong>: 
+- <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/">전역 교체</a> (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/">Global Replacement</a>)</strong>:
   - "시스템 전체의 모든 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 중 만만한 놈 뺏어!"
   - A가 메모리가 부족하면, 잘 돌고 있는 B나 C의 메모리도 뺏어버린다.
   - **장점**: 전체 램의 효율성이 극대화된다. **단점**: A 때문에 C가 렉이 걸리는 연대 책임([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 전염)이 발생한다. (현대 Windows, Linux의 기본 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)).
@@ -98,7 +98,7 @@ OS가 소프트웨어로만 "누가 가장 오래됐나?"를 추적하면 CPU가
 <strong>현대 OS의 타협 (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/">Clock</a> / <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/303_nur/">NUR</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>)</strong>:
 - OS는 1초에 수억 번 감시하는 걸 포기했다.
 - 대신 프레임들을 시계 모양(원형 큐)으로 배치하고, 바늘(Pointer)이 빙글빙글 돈다.
-- 바늘이 가리키는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 `Reference Bit`를 본다. 
+- 바늘이 가리키는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 `Reference Bit`를 본다.
   - 1이면? "최근에 썼구나, 기회를 한 번 더 줄게!" 하고 0으로 바꾼 뒤 다음 바늘로 넘어간다.
   - 0이면? "내가 한 바퀴 돌고 올 때까지 한 번도 안 썼네? 넌 아웃!" 하고 즉시 교체해 버린다.
 - 이 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/">Clock</a>(Second-Chance)</strong> 기법이 바로 <strong>현대 리눅스와 윈도우, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 버퍼 풀이 사용하는 실전용 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a> 근사치 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>이다.
@@ -112,11 +112,11 @@ OS가 소프트웨어로만 "누가 가장 오래됐나?"를 추적하면 CPU가
 ### 실무 시나리오
 1. **Linux 서버의 Swappiness 파라미터 튜닝**: 시스템 엔지니어가 리눅스 서버 커널을 튜닝할 때 가장 먼저 건드리는 값이다.
    - `vm.swappiness` (0 ~ 100): "OS야, 램이 부족할 때 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐시([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)를 먼저 버릴래, 아니면 유저 애플리케이션의 메모리를 [스왑 아웃](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/)(Swap-out) 시킬래?"를 결정하는 성향 값이다.
-   - **실무 튜닝**: 디폴트 60을 쓰면 DB 서버가 수시로 앱 메모리를 디스크로 내쫓아버려(Swap-out) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 지연이 1초씩 튄다. 
+   - **실무 튜닝**: 디폴트 60을 쓰면 DB 서버가 수시로 앱 메모리를 디스크로 내쫓아버려(Swap-out) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 지연이 1초씩 튄다.
    - **아키텍트 결단**: Hadoop이나 [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) 같은 메모리 깡패 서버에서는 무조건 `swappiness = 1` 또는 `0`으로 세팅한다. "애플리케이션 메모리는 절대 내쫓지 말고(Swap 금지), 차라리 OS가 쥐고 있는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐시를 먼저 쫓아내라!"라고 강제하여 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)을 막는다.
 2. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a> Cache (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a>, Memcached)의 만능화</strong>: OS의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 교체 이론은 백엔드 애플리케이션의 아키텍처로 100% 이식되었다.
    - [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/)(인메모리 캐시)를 쓸 때, 메모리가 `maxmemory`에 도달하면 데이터를 어떻게 버릴지 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 정해야 한다.
-   - `allkeys-lru`: Redis에 들어있는 모든 키 중 가장 오래 안 쓴 놈을 지운다. (LRU의 완벽한 실무적 현현). 
+   - `allkeys-lru`: Redis에 들어있는 모든 키 중 가장 오래 안 쓴 놈을 지운다. (LRU의 완벽한 실무적 현현).
    - 이 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 하나만 잘 맞춰도 DB로 쏟아지는 트래픽의 90%를 막아내고 "스스로 오래된 찌꺼기를 치우며 자가 생존하는" 무한 캐시 시스템이 완성된다.
 
 ```text
@@ -152,7 +152,7 @@ OS가 소프트웨어로만 "누가 가장 오래됐나?"를 추적하면 CPU가
 
 ### 결론 및 미래 전망
 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 교체 기술은 하드 디스크 시대의 1,000만 나노초에 달하는 지연을 덮기 위해 잉태된 방어막이었다.
-하지만 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD가 RAM의 속도를 맹추격하고, 클라우드의 노드(서버) 스펙이 RAM 1TB를 우습게 넘기면서, 이 무거운 스왑-아웃(교체) 시스템은 오히려 계륵이 되고 있다. K8s 중심의 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경은 "느리게 램을 비우며(Swap) 버티지 말고, 차라리 쿨하게 죽고([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Kill) 새 컨테이너를 다른 노드에 띄워라(Fail-fast)"라는 철학으로 선회했다. 
+하지만 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD가 RAM의 속도를 맹추격하고, 클라우드의 노드(서버) 스펙이 RAM 1TB를 우습게 넘기면서, 이 무거운 스왑-아웃(교체) 시스템은 오히려 계륵이 되고 있다. K8s 중심의 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경은 "느리게 램을 비우며(Swap) 버티지 말고, 차라리 쿨하게 죽고([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Kill) 새 컨테이너를 다른 노드에 띄워라(Fail-fast)"라는 철학으로 선회했다.
 미래에는 디스크와 램이 교체되는 것이 아니라, [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 기반의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/442_memory_pooling/">메모리 풀링</a>(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/442_memory_pooling/">Memory Pooling</a>)</strong>을 통해 여러 대의 서버가 하나의 거대한 RAM을 랙(Rack) 단위로 동적 공유하며, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 '디스크로 내쫓는' 대신 '옆 서버의 남는 램으로 빛의 속도로 이사 보내는' 진정한 초연결 메모리 시대로 진화할 것이다.
 
 - **📢 섹션 요약 비유**: 옛날엔 내 방(RAM)에 짐이 꽉 차면 무조건 지하 창고(디스크)에 버리고 왔습니다([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 교체). 미래의 시스템([CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/), 클라우드)은 내 방이 꽉 차면 벽이 스르륵 열리면서 옆집 빈방(다른 서버의 RAM)과 연결되어, 창고에 다녀올 필요 없이 1초 만에 짐을 옆방으로 밀어버리는 무한 확장의 공간 마법을 실현합니다.
@@ -185,7 +185,7 @@ OS가 소프트웨어로만 "누가 가장 오래됐나?"를 추적하면 CPU가
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 내 책상(RAM)에는 책을 3권만 놓을 수 있는데, 4번째 책을 보려면 어떻게 해야 할까요? 맞아요, 지금 책상에 있는 3권 중 1권을 서랍(디스크)에 넣어야 해요.
-2. 이때 <strong>"어떤 책을 서랍에 넣을까?"</strong>를 고민하는 게 바로 <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 교체</strong>예요. 
+2. 이때 <strong>"어떤 책을 서랍에 넣을까?"</strong>를 고민하는 게 바로 <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 교체</strong>예요.
 3. 가장 똑똑한 방법([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 "가장 오~~래동안 한 번도 안 들여다본 먼지 쌓인 책"을 고르는 거랍니다. 그래야 당장 또 찾을 일이 적으니까요!
 
 ---

@@ -97,7 +97,7 @@ CPU의 연산 속도(Core [Clock](/knowledge-base/studynote/01_computer_architec
 | 시스템 한계 | 비싸서 1GB짜리 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 컴퓨터 쓰거나 / 엄청 느린 10TB 컴퓨터 쓰거나 (극단적 선택) | 가격은 10TB 창고값 내면서, 체감 속도는 1GB [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 컴퓨터처럼 느낌! |
 | 아키텍처 결론 | 현대 컴퓨팅 불가능 | 폰 노이만 구조의 한계를 부순 최대 발명품 |
 
-`메모리 계층 구조 (Memory Hierarchy)`는 물리학과 경제학이 절묘하게 타협한 IT 역사상 가장 영리한 사기극이자 혁명이다. 
+`메모리 계층 구조 (Memory Hierarchy)`는 물리학과 경제학이 절묘하게 타협한 IT 역사상 가장 영리한 사기극이자 혁명이다.
 밑바닥 하드디스크에 있는 더러운 찌꺼기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 위로 끌어올리며 순화시키는 과정을 통해, CPU라는 까탈스러운 천재 요리사에게 "당신이 쓸 재료는 항상 눈앞(캐시)에 대기 중입니다" 라는 일루전(착각)을 완벽하게 선사한다. 프로그래머가 이 수직적 계층 모델의 '지역성(Locality)' 속성을 깨닫고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 다닥다닥 붙여 작성할 때, 평범했던 코드는 하드웨어의 미친듯한 에스컬레이터 버프를 받아 수십 배의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상을 이륙하게 된다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.

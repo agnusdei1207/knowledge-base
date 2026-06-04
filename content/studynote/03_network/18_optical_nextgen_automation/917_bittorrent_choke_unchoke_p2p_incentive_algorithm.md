@@ -60,12 +60,12 @@ tags = ["studynote-network"]
 - 내 컴퓨터(클라이언트)는 다른 50명의 사람들과 연결되어 있습니다.
 - 폰 노이만 게임 이론에 따라, 내 컴퓨터는 나에게 퍼즐 조각([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 <strong>가장 빨리, 많이 던져주는 상위 4명의 착한 놈들</strong>을 10초마다 줄 세워 평가합니다.
 - **언초크 (Unchoke, 숨통 열어주기)**: 상위 4명에게는 "오, 너 나한테 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 빵빵하게 쏘네? 고마워! 나도 내가 가진 조각 너한테 무제한으로 쏠게!" 하며 업로드 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 밸브를 활짝 열어줍니다. 서로 윈윈하며 속도가 100Mbps로 폭발합니다.
-- **초크 (Choke, 목 조르기)**: 나에게 다운로드만 받고 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 안 주는 얌체(먹튀) 놈들에게는 얄짤없습니다. 즉시 밸브를 잠가버리고(목 조르기) 단 1비트의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 던져주지 않습니다. 
+- **초크 (Choke, 목 조르기)**: 나에게 다운로드만 받고 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 안 주는 얌체(먹튀) 놈들에게는 얄짤없습니다. 즉시 밸브를 잠가버리고(목 조르기) 단 1비트의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 던져주지 않습니다.
 - **결과**: 결국 토렌트 망에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 빨리 다운받으려면, 내 업로드 속도를 최대로 열어서 남에게 많이 바쳐야만 나도 언초크 대우를 받아 다운로드 속도가 튀어 오르는 완벽한 자본주의 선순환(인센티브)이 완성됩니다.
 
 ### 2. 옵티미스틱 언초크 (Optimistic Unchoke) - 뉴비 구제 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)
 - 방금 토렌트에 처음 들어온 뉴비(신입)는 가진 조각이 0개라서 남에게 줄 게 없습니다. 영원히 얌체로 찍혀 영원히 초크(목 졸림) 당할까요?
-- 내 컴퓨터는 30초마다 무작위로 아무나 1명을 골라 묻지도 따지지도 않고 무료로 밸브를 열어줍니다(낙관적 언초크). 
+- 내 컴퓨터는 30초마다 무작위로 아무나 1명을 골라 묻지도 따지지도 않고 무료로 밸브를 열어줍니다(낙관적 언초크).
 - 뉴비는 이 은혜를 입고 첫 퍼즐 조각 1개를 얻게 되며, 그때부터 그 조각을 남에게 팔아먹으며 자본주의 생태계 경쟁에 뛰어들게 됩니다.
 
 비트토렌트 초크/언초크 리치 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 인…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. P2P가 기반 조건을 만든다면, 비트토렌트 초크/언초크 리치 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 인…는 그 위에서 핵심 메커니즘을 구현하고, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크 계층 가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.

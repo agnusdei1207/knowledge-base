@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - 1968년 피터 데닝(Peter Denning)이 제안한 혁명적 메모리 관리 이론.
   - **지역성(Locality)**: 프로세스는 메모리 1GB를 다 쓰지 않고 특정 루프(Loop)를 돌 땐 특정 10MB 구역만 미친 듯이 반복해서 읽는다. 이 10MB가 바로 '[워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)'이다.
   - **[워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 윈도우($\Delta$)**: "최근 몇 초, 혹은 최근 몇 번의 메모리 참조를 관찰할 것인가?"를 정하는 관측 창문의 크기.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 과거의 멍청한 OS는 100명이 접속하면 램을 그냥 100등분 해서 1/100씩 줬다. (고정 할당).
   - A 프로그램은 게임이라 램이 많이 필요한데 1/100만 주니까, 계속 램이 모자라서 디스크를 긁고([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)), B 프로그램은 메모장이라 램을 안 쓰는데 1/100을 들고 펑펑 놀았다.
   - 결국 A 프로그램이 램을 달라고 징징대다 못해 시스템 전체의 스왑(Swap) 공간을 폭파시키는 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>)</strong>이 발생해 컴퓨터가 멈춰버렸다.
@@ -33,7 +33,7 @@ tags = ["studynote-operating-system"]
   - **고정 할당 (구형)**: 도서관 책상에 무조건 책을 3권씩만 올려둘 수 있다. 법전을 찾아가며 레포트를 쓰는 학생은 책 3권으로 부족해서 매번 서고(디스크)를 뛰어갔다 오느라 땀범벅이 되고([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)), 만화책 한 권 보는 학생은 책상 자리가 텅텅 남는다(낭비).
   - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">워킹 셋</a> (동적 할당)</strong>: 사서(OS)가 관찰해 보니 레포트 쓰는 학생은 지난 10분(윈도우 $\Delta$) 동안 책 8권을 미친 듯이 번갈아 보고 있다. 사서는 이 학생에게 강제로 책 8권을 펼칠 수 있는 거대한 책상(프레임 추가 할당)을 배정해 주어 서고에 갈 일 없이 폭풍 타자를 치게 만들어준다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)([멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/))의 극대화로 시스템 램(RAM)의 고갈이 일상화되면서, CPU 이용률을 떨어뜨리는 가장 악질적인 질병인 '[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))' 현상의 원인을 규명하고 이를 치료하기 위한 가장 학술적이고 수학적인 대응책으로 등장했다.
 
 ```text

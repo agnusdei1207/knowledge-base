@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: CK [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스는 객체지향 프로그래밍의 특성을 반영한 품질 지표로, 전통적인 순환 복잡도나 코드 행 수(LOC)와 달리 <strong>클래스 간 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>, <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a> 깊이, 메서드 복잡도</strong>를 측정한다. 이는 객체지향 설계가 "객체"와 그들 간의 "[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)"를핵심으로 하기 때문이다.
 
-- **필요성**:オブジェクト지향설계가우れ고い고も, 수치화しなければ개선의여지가ある.  CK Metrics을적용하면 "이クラス은/는결합도가고すぎ고변경이난しい"와/과か "이계승계층은심すぎ고テスト이/가곤난"등의문제를객관적에지적에서きる. 
+- **필요성**:オブジェクト지향설계가우れ고い고も, 수치화しなければ개선의여지가ある.  CK Metrics을적용하면 "이クラス은/는결합도가고すぎ고변경이난しい"와/과か "이계승계층은심すぎ고テスト이/가곤난"등의문제를객관적에지적에서きる.
 
 - **💡 비유**: CK [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스는 <strong>'건물 구조 건강검진 결과지'</strong>와 같다. 건물도 구조적으로 문제가 없으면 층간 소음이 적고([결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 낮음), 공간 활용이 효율적이지만([응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 높음), 설계가 잘못되면 한 벽을 허물면 전체 건물이 흔들린다. CK Metrics는 객체지향 프로그램의 이러한 구조적 건강을 측정한다.
 

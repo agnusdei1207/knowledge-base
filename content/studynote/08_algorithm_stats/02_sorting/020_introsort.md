@@ -218,8 +218,8 @@ Introsort는 <strong>현실적 <a href="/knowledge-base/studynote/04_software_en
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-🚗 **자동 변속기 자동차**: 평지에서는 퀵 기어, 오르막에서는 힘 좋은 기어, 주차할 때는 저속 기어로 자동으로 바뀌는 것처럼 Introsort도 상황에 따라 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 바꿔요.  
-🛡️ **보험 장착 스포츠카**: [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)이 느려질 것 같으면([재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 깊이 초과), [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)로 즉시 전환해서 최악의 상황을 막아줘요.  
+🚗 **자동 변속기 자동차**: 평지에서는 퀵 기어, 오르막에서는 힘 좋은 기어, 주차할 때는 저속 기어로 자동으로 바뀌는 것처럼 Introsort도 상황에 따라 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 바꿔요.
+🛡️ **보험 장착 스포츠카**: [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)이 느려질 것 같으면([재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 깊이 초과), [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)로 즉시 전환해서 최악의 상황을 막아줘요.
 🔢 **16명 이하 팀**: 팀이 16명 이하가 되면 복잡한 방법 대신 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)처럼 간단하게 줄 세우는 게 오히려 더 빨라요!
 
 ---

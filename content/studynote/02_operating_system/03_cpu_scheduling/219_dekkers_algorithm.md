@@ -29,10 +29,10 @@ tags = ["studynote-operating-system"]
 
   [실패 1: 턴(Turn)만 사용 시] ─▶ 진행(Progress) 실패 (Strict Alternation)
   P0: "P1 차례네? 난 쉴게." (P1은 화장실 갈 생각도 없는데 P0은 영원히 기다림)
-  
-  [실패 2: 깃발(Flag)만 사용 시] ─▶ 상호 배제(Mutex) 실패 
+
+  [실패 2: 깃발(Flag)만 사용 시] ─▶ 상호 배제(Mutex) 실패
   P0: "깃발 든다!" / P1: "나도 깃발 든다!" ─▶ 둘이 동시에 문 열고 들어가서 충돌!
-  
+
   [성공: 데커의 알고리즘 (Flag + Turn 융합)]
   P0: "나 깃발 들었어(Flag). 어? P1 너도 들었네? 그럼 누구 차례(Turn)지?"
   P0: "아, P1 차례구나. 그럼 내 깃발 내리고 P1 끝날 때까지 기다려줄게."
@@ -53,36 +53,36 @@ tags = ["studynote-operating-system"]
 
 ```c
   [ 프로세스 0 (P0) 의 동작 코드 ]
-  
+
   while (true) {
       flag[0] = true;             // 1. 나(P0) 들어갈래! (의사 표시)
-      
+
       while (flag[1] == true) {   // 2. 어? P1도 들어간다고 깃발을 들었네? (충돌 발생!)
-          
+
           if (turn == 1) {        // 3. 그럼 지금 누구 차례지? 아, P1 차례구나.
               flag[0] = false;    // 4. 그럼 내가 양보할게. 내 깃발 내림.
-              
-              while (turn == 1) { 
+
+              while (turn == 1) {
                   // 5. P1이 다 쓰고 turn을 0으로 바꿔줄 때까지 여기서 대기 (Spin)
               }
-              
+
               flag[0] = true;     // 6. P1이 다 썼네! 다시 나 들어간다고 깃발 듦!
           }
       }
-      
+
       /* ===== 임계 구역 (Critical Section) ===== */
       // 안전하게 공유 자원 사용!
-      
+
       turn = 1;                   // 7. 나 다 썼어! 이제 P1 너의 차례야. (차례 넘김)
       flag[0] = false;            // 8. 나 이제 관심 없어. 깃발 내림.
-      
+
       /* ===== 나머지 구역 (Remainder Section) ===== */
   }
 ```
 
 ### 3대 필수 조건 증명 분석
 1. <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">Mutual Exclusion</a>)</strong>
-   - P0과 P1이 동시에 `flag`를 `true`로 바꿨다고 치자. 둘 다 `while(flag[상대방] == true)`에 걸려서 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 들어가지 못하고 멈칫한다. 
+   - P0과 P1이 동시에 `flag`를 `true`로 바꿨다고 치자. 둘 다 `while(flag[상대방] == true)`에 걸려서 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 들어가지 못하고 멈칫한다.
    - 이때 `turn` 변수는 무조건 0 아니면 1이다. 따라서 한 명은 `if (turn == 상대방)`에 걸려 자기 깃발을 내리게 되고, 깃발을 안내린 놈만 유유히 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 들어간다. **(완벽한 충돌 방어)**
 2. <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">Progress</a>)</strong>
    - P1이 아예 관심이 없어서 `flag[1] = false` 상태라면? P0은 첫 번째 `while` 문을 그냥 패스하고 바로 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)으로 직행한다. 남의 눈치를 볼 필요가 없다. **(관심 없는 놈이 남을 막지 않음)**
@@ -117,7 +117,7 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **아키텍처 설계 시 순수 소프트웨어 락 금지**: 2026년 현재, 실무 백엔드(C++, Java, Go)나 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스 코드 어디를 뒤져봐도 데커의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이나 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 단 1줄도 나오지 않는다. 
+1. **아키텍처 설계 시 순수 소프트웨어 락 금지**: 2026년 현재, 실무 백엔드(C++, Java, Go)나 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스 코드 어디를 뒤져봐도 데커의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이나 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 단 1줄도 나오지 않는다.
    - **이유**: 현대 CPU는 '[비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution)'을 한다. CPU가 볼 때 `flag[0] = true;` 와 `while(flag[1] == true)` 는 서로 상관없는 변수라, 속도를 높이기 위해 컴파일러나 CPU가 이 두 줄의 실행 순서를 마음대로 섞어버린다. 순서가 꼬이는 순간 데커 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 즉시 붕괴하여 두 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 충돌한다.
    - **아키텍트 교정**: 만약 실무에서 [락-프리](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/))하게 데커를 구현하려 든다면, 반드시 컴파일러 최적화를 막는 `volatile` 키워드와 함께 CPU [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 순서를 강제하는 <strong><code>Memory Barrier (FENCE)</code></strong> [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 변수 사이에 떡칠해야 한다. 이렇게 짤 바엔 그냥 하드웨어 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(`std::atomic`)를 쓰는 것이 100배 안전하고 빠르다.
 

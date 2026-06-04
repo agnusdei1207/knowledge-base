@@ -21,7 +21,7 @@ tags = ["studynote-network"]
 
 IBN을 이해하는 가장 완벽한 열쇠는 How(어떻게)와 What(무엇을)의 차이입니다.
 
-- <strong>기존 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a> (Imperative, 명령형 방식 = How)</strong>: 
+- <strong>기존 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a> (Imperative, 명령형 방식 = How)</strong>:
   - 관리자가 목적을 이루기 위해 절차를 다 지시합니다. "1번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 열고 ➜ 2번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 추가하고 ➜ 3번 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰 지워." (사람이 똑똑해야 합니다.)
 - <strong>IBN (<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/">Declarative</a>, 선언적 방식 = What) 🌟</strong>:
   - 관리자는 오직 내가 원하는 최종 목적(의도, [Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/))만 툭 던집니다. **"웹 서버랑 DB 서버 통신은 무조건 암호화(보안)해."**
@@ -45,7 +45,7 @@ IBN을 이해하는 가장 완벽한 열쇠는 How(어떻게)와 What(무엇을)
 가트너(Gartner)가 정의한 IBN이 작동하는 마법의 4단계 톱니바퀴입니다.
 
 ### 1. 의도 변환 및 수학적 번역 (Translation)
-- 관리자가 인간의 언어나 단순한 마우스 클릭(비즈니스 룰)으로 의도를 던집니다. 
+- 관리자가 인간의 언어나 단순한 마우스 클릭(비즈니스 룰)으로 의도를 던집니다.
 - IBN의 중앙 뇌(소프트웨어)가 이 문장을 해부하여, "이걸 이루려면 시스코 라우터 3대와 주니퍼 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 2대의 어떤 세팅을 건드려야 하는가?"라는 수천 줄의 기계어 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))으로 AI가 번역합니다.
 
 ```text

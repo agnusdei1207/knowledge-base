@@ -41,7 +41,7 @@ tags = ["studynote-bigdata"]
   2020: 59 ZB
   2025: 175 ZB (예측)
   2030: 612 ZB (예측)
-  
+
   5년마다 약 3~4배 증가 (데이터 지수 성장)
 ```
 
@@ -58,7 +58,7 @@ tags = ["studynote-bigdata"]
    연결 디바이스 수: 2025년 750억 개 이상
    스마트폰, 웨어러블, 산업 센서, 자율주행
    특징: 24시간 지속적 데이터 생성
-   
+
    예시:
    - 보잉 787: 비행당 TB 단위 엔진 데이터
    - 스마트 공장: 기계당 초당 수백 MB 센서 데이터
@@ -69,13 +69,13 @@ tags = ["studynote-bigdata"]
    Instagram: 일 1억 개 사진/영상
    Twitter/X: 초당 6,000 트윗
    특징: 비정형 텍스트/이미지/영상 급증
-   
+
 3. 영상 스트리밍:
    4K 영상: 기존 1080p 대비 4배 용량
    8K: 4K 대비 4배 (16×1080p)
    Netflix, YouTube: 전 세계 트래픽의 30% 이상
    특징: 저장 + 전송 모두 급증
-   
+
 추가 동인:
    클라우드 백업/복제 (복제 데이터 3~5배)
    AI/ML 학습 데이터 (레이블 데이터 생성)
@@ -96,11 +96,11 @@ tags = ["studynote-bigdata"]
   관계형 DB (MySQL, Oracle 등)
   엑셀 스프레드시트
   CSV, JSON (스키마 고정)
-  
+
 반정형 데이터 (Semi-structured): ~10%
   XML, JSON, YAML (스키마 유연)
   이메일, 로그 파일
-  
+
 비정형 데이터 (Unstructured): ~80%
   이미지, 영상, 오디오
   소셜 미디어 텍스트
@@ -132,7 +132,7 @@ tags = ["studynote-bigdata"]
   Hot:  SSD, NVMe (빠른 접근, 고비용)
   Warm: HDD (일반적 접근)
   Cold: Object Storage, 테이프 (드문 접근, 저비용)
-  
+
   자동 티어링 (Intelligent Tiering):
   접근 빈도에 따라 자동 이동
 
@@ -140,11 +140,11 @@ tags = ["studynote-bigdata"]
   Edge AI: 디바이스 단에서 사전 처리
   → 클라우드로 전송되는 데이터 99% 감소 가능
   예: 공장 카메라 → Edge AI → 불량만 전송
-  
+
 분산 스토리지:
   HDFS (Hadoop 분산 파일 시스템)
   Ceph, MinIO (오브젝트 스토리지)
-  
+
 클라우드 스케일:
   AWS S3: EB 규모 스토리지
   Azure Blob, Google Cloud Storage
@@ -172,7 +172,7 @@ tags = ["studynote-bigdata"]
 문제:
   전체 데이터 클라우드 전송 불가
   (네트워크 비용, 지연 시간 이슈)
-  
+
   전체 보관 비용 과다
   (클라우드 스토리지 연 수억 원)
 

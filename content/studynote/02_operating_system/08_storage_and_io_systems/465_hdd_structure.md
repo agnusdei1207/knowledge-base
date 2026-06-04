@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: HDD는 금속 재질의 둥근 원판 여러 장이 레코드판처럼 겹쳐 돌아가는 저장장치다. 
+- **개념**: HDD는 금속 재질의 둥근 원판 여러 장이 레코드판처럼 겹쳐 돌아가는 저장장치다.
   - **플래터(Platter)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 자성으로 발려있는 원판.
   - **트랙(Track)**: 원판 위에 나이테처럼 동심원 모양으로 그어진 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 선.
   - **실린더(Cylinder)**: 여러 장의 플래터에 있는 동일한 위치의 트랙들을 수직으로 뚫은 가상의 원통.
@@ -64,8 +64,8 @@ tags = ["studynote-operating-system"]
 
 ### 실린더(Cylinder)의 흑마술: 왜 바늘은 빗질하듯 읽을까?
 
-10TB짜리 HDD 안에는 원판(플래터) 1장이 아니라, 여러 장의 플래터가 햄버거 패티처럼 층층이 겹쳐져 있다. 
-- 기계 팔은 빗(Comb) 모양으로 생겨서, 모든 층의 원판 사이에 바늘이 동시에 끼워져 있다. 
+10TB짜리 HDD 안에는 원판(플래터) 1장이 아니라, 여러 장의 플래터가 햄버거 패티처럼 층층이 겹쳐져 있다.
+- 기계 팔은 빗(Comb) 모양으로 생겨서, 모든 층의 원판 사이에 바늘이 동시에 끼워져 있다.
 - 기계 팔이 한 번 안쪽으로 쓱 들어가서 50번 트랙에 멈추면, 1층, 2층, 3층 원판의 50번 트랙에 바늘이 동시에 닿게 된다.
 - 이 <strong>"위아래 층을 수직으로 뚫은 같은 번호의 트랙들의 묶음"</strong>을 <strong>실린더(Cylinder)</strong>라고 부른다.
 - **최적화의 진실**: OS가 대용량 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 디스크에 기록할 때, 1층 원판을 쫙 칠하고 다 차면 2층 원판으로 넘어가는 게 아니다. <strong>기계 팔을 안 움직이고(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/">Seek Time</a> 절약), 그 자리에 멈춰 서서 1층 50번 트랙, 2층 50번 트랙, 3층 50번 트랙(즉, 실린더 단위)으로 위에서 아래로 뚫고 내려가며 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 적어버린다!</strong> 가장 비싼 물리적 바늘 이동 비용을 0으로 만들어 스루풋을 극대화한 기계 공학의 천재적 트릭이다.
@@ -130,7 +130,7 @@ tags = ["studynote-operating-system"]
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): RDBMS [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 HDD에 올리기
 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(MySQL)의 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 무작위로 수천 번을 널뛰기하며(Random Access) 읽어야 하는 치명적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조다.
-가성비 챙긴답시고 이걸 쇳덩어리 HDD에 올려놓으면? 유저가 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 하나를 칠 때마다 바늘이 이리저리 춤을 추느라(디스크 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 8ms * 100번 = 0.8초의 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 터진다. HDD의 IOPS(초당 입출력 횟수)는 기껏해야 100~200회로 처참하다. ([NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD는 100만 회). 이런 Random I/O가 터지는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) DB 엔진의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영역을 HDD에 두는 것은 서버를 고문하는 범죄 행위다. 
+가성비 챙긴답시고 이걸 쇳덩어리 HDD에 올려놓으면? 유저가 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 하나를 칠 때마다 바늘이 이리저리 춤을 추느라(디스크 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 8ms * 100번 = 0.8초의 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 터진다. HDD의 IOPS(초당 입출력 횟수)는 기껏해야 100~200회로 처참하다. ([NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD는 100만 회). 이런 Random I/O가 터지는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) DB 엔진의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영역을 HDD에 두는 것은 서버를 고문하는 범죄 행위다.
 
 - **📢 섹션 요약 비유**: HDD는 기차와 같습니다. 중간에 서지 않고 서울에서 부산까지 짐을 10만 톤 나를 때(빅데이터 순차 읽기)는 비행기([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))보다 싸고 훌륭합니다. 하지만 퀵서비스 오토바이처럼 골목골목 100군데를 들리며 배달(DB 랜덤 I/O)을 하라고 기차를 몰아붙이면, 기차는 방향을 못 꺾어([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/)) 동네를 다 때려 부수고 파산하게 됩니다.
 

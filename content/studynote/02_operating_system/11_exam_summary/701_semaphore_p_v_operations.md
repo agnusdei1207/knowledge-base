@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/">세마포어</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/">Semaphore</a>)</strong>: 기차역의 '[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)기(수신호)'에서 유래한 단어. 자원의 개수를 세는 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)와 [대기 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/)로 이루어진 추상 자료형(ADT).
   - **P 연산 (Proberen, Wait / Acquire)**: 네덜란드어로 '검사하다'. 자원을 획득하는 행위 ($S = S - 1$).
   - <strong>V 연산 (Verhogen, <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">Signal</a> / Release)</strong>: 네덜란드어로 '증가하다'. 자원을 반납하는 행위 ($S = S + 1$).
 
-- **필요성 (다중 자원의 한계 극복)**: 
+- **필요성 (다중 자원의 한계 극복)**:
   - 화장실 칸이 1개일 때는 뮤텍스([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))나 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/) 하나면 충분했다.
   - 하지만 식당 주차장에 자리가 5개 있다면? 뮤텍스 5개를 만들어서 1번부터 5번까지 차례대로 돌려가며 `lock()`을 획득하게 짜려면 코드가 너무 길어지고 데드락이 발생하기 십상이다.
   - **해결책**: "자물쇠([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 대신 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)([Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))를 만들자. 빈자리가 5개면 5부터 시작해서, 차가 들어올 때마다(P 연산) 1씩 빼고, 나갈 때마다(V 연산) 1씩 더하자. 만약 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)가 0이면 새로 온 차는 게이트 앞에서 무조건 자게(Sleep) 만들자!"
@@ -33,7 +33,7 @@ tags = ["studynote-operating-system"]
   - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/">세마포어</a></strong>: 주차장 차단기와 빈자리 전광판.
     - 현재 전광판 숫자(S) = 5.
     - 차가 들어온다 (**P 연산**): 전광판 숫자가 4로 줄고 차단기가 열린다.
-    - 차가 계속 들어와 전광판이 0이 되었다. 
+    - 차가 계속 들어와 전광판이 0이 되었다.
     - 또 다른 차가 들어온다 (**P 연산**): 숫자가 0이므로 차단기는 안 열리고, 이 차는 차단기 앞에서 엔진을 끄고 잔다(Block).
     - 주차장 안에서 차 한 대가 밖으로 나간다 (**V 연산**): 숫자를 1로 늘리면서, 동시에 차단기 앞에서 자고 있던 차에게 클락션을 울려 깨워준다(Wake-up).
 

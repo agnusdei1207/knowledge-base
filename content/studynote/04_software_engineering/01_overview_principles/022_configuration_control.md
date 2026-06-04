@@ -36,7 +36,7 @@ tags = ["software_engineering"]
 이 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)도는 변경 요청(CR)이 발의되어 최종적으로 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)에 반영될 때까지의 엄격한 흐름을 보여준다. 각 전이 구간에는 승인 및 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계가 강제되어 있음을 이해해야 한다.
 
 ```text
-       [1. CR 발의] 
+       [1. CR 발의]
            ↓
     ┌─────────────┐
     │ 2. 영향 분석│ ──(비용/일정 초과)──> [반려 (Rejected)]
@@ -93,7 +93,7 @@ tags = ["software_engineering"]
 └──────────┴──────────────────────────┴──────────────────────────┴────────────────┘
 ```
 
-전통적 방식은 단일 승인 절차 레이턴시가 길지만, 컴플라이언스가 엄격한 국방, 금융 시스템에서는 치명적 장애를 격리하고 책임 소재를 명확히 하는 데 유리하다. 반면 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 방식은 단건 지연은 짧고 수평 확장성이 좋아, 트래픽 변동이 크고 잦은 배포가 필요한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 환경에서는 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 기준으로 더 유리하다. 
+전통적 방식은 단일 승인 절차 레이턴시가 길지만, 컴플라이언스가 엄격한 국방, 금융 시스템에서는 치명적 장애를 격리하고 책임 소재를 명확히 하는 데 유리하다. 반면 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 방식은 단건 지연은 짧고 수평 확장성이 좋아, 트래픽 변동이 크고 잦은 배포가 필요한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 환경에서는 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 기준으로 더 유리하다.
 
 **과목 융합 관점:**
 - <strong>보안 (<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/">DevSecOps</a>)</strong>: 통제 단계에 보안 스캐닝 도구([SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)/[SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/))를 통합하여, 보안 취약점이 있는 변경은 [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) 심의 이전에 파이프라인에서 자동으로 반려(Block) 처리되도록 구성한다.

@@ -135,8 +135,8 @@ Rootless Container
 
 ## 어린이를 위한 3줄 비유 설명
 
-같은 집에 살아도 방마다 다른 지도와 이름표를 붙여 주는 거예요.  
-그래서 한 방에서 하는 일이 다른 방에는 잘 안 보여요.  
+같은 집에 살아도 방마다 다른 지도와 이름표를 붙여 주는 거예요.
+그래서 한 방에서 하는 일이 다른 방에는 잘 안 보여요.
 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 이렇게 나눠서 쓰는 똑똑한 방이에요.
 
 ---

@@ -19,11 +19,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어 개발 프로젝트에서 경영진과 개발팀은 항상 싸운다. 
+소프트웨어 개발 프로젝트에서 경영진과 개발팀은 항상 싸운다.
 경영진: "테스트 적당히 하고 빨리 오픈합시다. 돈 없어요!"
 개발팀: "아직 버그가 100개나 남았어요. 지금 오픈하면 회사 망해요!"
 
-누구 말이 맞을까? 이를 감정적인 싸움이 아니라 '수학적 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)'로 보여주기 위해 탄생한 것이 <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/349_cost_of_quality/">품질 비용</a>(<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/349_cost_of_quality/">Cost of Quality</a>)</strong> 모델이다. 
+누구 말이 맞을까? 이를 감정적인 싸움이 아니라 '수학적 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)'로 보여주기 위해 탄생한 것이 <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/349_cost_of_quality/">품질 비용</a>(<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/349_cost_of_quality/">Cost of Quality</a>)</strong> 모델이다.
 
 필립 크로스비(Philip Crosby) 등 품질 공학자들은 "불량을 잡기 위해 쓰는 돈(통제 비용)"과 "불량이 터져서 손해 보는 돈(실패 비용)"을 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 그렸다. 두 비용은 완벽히 반비례한다. 아키텍트는 무결점의 예술 작품을 만드는 사람이 아니라, <strong>총비용(Total Cost)이 가장 낮아지는 최적점</strong>에서 테스트를 멈추고 오픈(Launch) 버튼을 누를 줄 아는 비즈니스맨이어야 한다.
 

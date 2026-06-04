@@ -20,7 +20,7 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 세션의 연결 해제([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Close)를 먼저 요청한 쪽이, 최종 ACK를 전송한 후 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 자원을 해제하기 전 2 MSL (Maximum [Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/) Lifetime, 보통 1~2분) 동안 유지하는 대기 상태.
-- **필요성**: 클라이언트가 "오케이 잘 가!(ACK)" 하고 1초 만에 창을 꺼버렸다 치자. 
+- **필요성**: 클라이언트가 "오케이 잘 가!(ACK)" 하고 1초 만에 창을 꺼버렸다 치자.
   문제 1. 그 마지막 ACK가 해저 케이블에서 유실됐다. 서버는 영원히 LAST_ACK 상태로 기다리며 램(RAM)을 갉아먹는 좀비가 된다.
   문제 2. 클라이언트가 0.1초 만에 방금 썼던 50000번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 새 접속을 열었다. 그런데 10초 전에 보냈다가 늦게 도착한 과거의 찌꺼기 패킷이 50000번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 밀려 들어온다. 데이터가 완전히 짬뽕되어 깨진다.
   **"야! 먼저 끊자고 한 놈이 끝까지 책임을 져라! 네가 마지막 인사 날렸다고 바로 퇴근하지 말고, 상대방이 확실히 셔터 내렸는지, 그리고 도로 위에 남아있는 찌꺼기 차들이 완전히 다 지나가서 사라질 때까지 문 앞에 서서 무조건 1분 이상 망봐!!!"**

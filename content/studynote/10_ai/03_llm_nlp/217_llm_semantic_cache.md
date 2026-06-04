@@ -23,7 +23,7 @@ tags = ["studynote-ai"]
 
 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(거대 언어 모델) 시대가 되며 이 '캐시'의 간절함이 100배로 커졌다. [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4 API는 한 번 호출할 때마다 돈이 술술 나가고, 답변이 나오는 데 5초가 걸린다. 100만 명의 유저가 "오늘 뉴스 요약해 줘"라고 똑같은 질문을 치는데, 이 100만 명의 질문을 매번 OpenAI 서버로 보내서 5초씩 기다리게 하며 수백만 원을 태우는 기업은 당장 파산한다.
 
-그래서 엔지니어들은 기존의 빠른 메모리([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/))를 도입하려 했다. 그런데 치명적인 문제가 터졌다. A 유저가 "서울 날씨 어때?"라고 묻고, B 유저가 "오늘 서울 비 옴?"이라고 물었다. <strong>기존 캐시는 두 문장의 글자가 완전히 다르다며 둘 다 캐시 미스(Cache Miss)를 띄우고 결국 무거운 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/">GPT</a>-4를 두 번 다 호출</strong>해 버린 것이다. 
+그래서 엔지니어들은 기존의 빠른 메모리([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/))를 도입하려 했다. 그런데 치명적인 문제가 터졌다. A 유저가 "서울 날씨 어때?"라고 묻고, B 유저가 "오늘 서울 비 옴?"이라고 물었다. <strong>기존 캐시는 두 문장의 글자가 완전히 다르다며 둘 다 캐시 미스(Cache Miss)를 띄우고 결국 무거운 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/">GPT</a>-4를 두 번 다 호출</strong>해 버린 것이다.
 이 멍청한 글자 매칭의 한계를 부수기 위해, 두 문장의 '의미(Semantic)'를 수학적 화살표(벡터)로 변환해, 화살표의 방향이 비슷하면 그냥 같은 질문으로 퉁쳐서 캐시 된 답변을 쏴주는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/">시맨틱 캐시</a> (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/">Semantic Cache</a>)</strong>가 LLMOps의 황제로 등극했다.
 
 ```text

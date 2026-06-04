@@ -77,7 +77,7 @@ TBD 코드 리뷰 원칙:
 PR 분할 전략:
   Stacked PR: PR A → PR B → PR C (순서)
   독립 PR: 기능별 독립 분할
-  
+
 코드 리뷰 Good Practices:
   X 재작성 요구 (아이디어 강요)
   O 개선 제안 + 근거
@@ -124,7 +124,7 @@ CD 파이프라인:
 TBD + GitOps:
   Trunk → ArgoCD/Flux → 쿠버네티스 클러스터
   코드 리포지토리 = 인프라 소스 오브 트루스
-  
+
 배포 전략 연계:
   카나리 배포 + 피처 플래그 조합
   블루/그린 배포 + TBD

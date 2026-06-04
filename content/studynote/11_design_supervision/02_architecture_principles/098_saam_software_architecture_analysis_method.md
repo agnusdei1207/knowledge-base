@@ -48,7 +48,7 @@ SAAM의 핵심 원리는 **'시나리오 (Scenario)'** 기반 평가다. 시스�
 └─────────────────────────────────────────────────────────────┘
 ```
 
-가장 중요한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계는 **시나리오 상호작용 (Scenario Interaction)** 분석이다. 만약 기능 추가(시나리오 1)와 보안 패치(시나리오 3)라는 전혀 다른 목적의 변경이 동일한 컴포넌트를 뜯어고치게 만든다면, 그 컴포넌트는 [단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/) ([SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/), [Single Responsibility Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/))을 위배하여 과도하게 얽혀 있는 설계(스파게티 코드)일 확률이 높다. 
+가장 중요한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계는 **시나리오 상호작용 (Scenario Interaction)** 분석이다. 만약 기능 추가(시나리오 1)와 보안 패치(시나리오 3)라는 전혀 다른 목적의 변경이 동일한 컴포넌트를 뜯어고치게 만든다면, 그 컴포넌트는 [단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/) ([SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/), [Single Responsibility Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/))을 위배하여 과도하게 얽혀 있는 설계(스파게티 코드)일 확률이 높다.
 
 - **📢 섹션 요약 비유**: [SAAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/228_saam_software_architecture_analysis_method/) 평가는 자동차 부품 테스트다. "라디오 채널 바꾸기"(직접 시나리오)는 버튼만 누르면 되지만, "에어컨 필터 교체"(간접 시나리오)를 위해 대시보드를 전부 뜯어야 한다면 설계가 잘못되었다고 잡아내는 과정이다.
 
@@ -88,7 +88,7 @@ SAAM이 "이거 고치기 편한가?"만 물었다면, ATAM은 "고치기 편하
 
 SAAM은 주관적이었던 아키텍처 설계를 '시나리오'라는 정량적 도구로 테스트할 수 있게 만든 최초의 이정표다. 변경의 파급 효과를 미리 계산함으로써 유지보수 비용을 획기적으로 절감하고, 설계 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 잠재적 구조 결함을 잡아낼 수 있게 되었다.
 
-비록 오늘날에는 ATAM이나 경제성까지 고려한 [CBAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/)(Cost Benefit Analysis Method) 등 더 복잡한 방법론에 표준의 자리를 넘겨주었지만, <strong>"시나리오를 통해 아키텍처의 약점을 미리 들춰낸다"</strong>는 철학은 모든 현대 소프트웨어 공학의 뿌리로 굳건히 남아있다. 
+비록 오늘날에는 ATAM이나 경제성까지 고려한 [CBAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/)(Cost Benefit Analysis Method) 등 더 복잡한 방법론에 표준의 자리를 넘겨주었지만, <strong>"시나리오를 통해 아키텍처의 약점을 미리 들춰낸다"</strong>는 철학은 모든 현대 소프트웨어 공학의 뿌리로 굳건히 남아있다.
 
 - **📢 섹션 요약 비유**: SAAM은 인류 최초의 나침반과 같다. 지금은 GPS([ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/), [CBAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/))가 그 자리를 대신하지만, 나침반이 세워둔 '방향을 미리 측정한다'는 원리가 없었다면 현대의 정밀한 항법 장치도 존재할 수 없었다.
 

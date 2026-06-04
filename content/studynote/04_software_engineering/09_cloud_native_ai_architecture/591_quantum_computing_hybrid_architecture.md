@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **클래식 컴퓨터 (Classical)**: [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)로 0 아니면 1([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))을 스위칭하는 멍청한 타자기. 동전을 던지면 앞면 또는 뒷면, 둘 중 하나만 볼 수 있다.
   - <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/">양자 컴퓨터</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/">Quantum</a>)</strong>: [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)([Qubit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/))라는 미친 단위를 쓴다. 동전이 공중에 빙글빙글 돌고 있는 상태(중첩)를 유지하여, 0과 1의 상태를 '동시에' 쥐고 있는다. [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 300개만 엮어도 우주 전체의 원자 수보다 많은 경우의 수를 <strong>단 한 번의 스텝(1 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/">Tick</a>)으로 모조리 다 계산</strong>해 낸다.
 

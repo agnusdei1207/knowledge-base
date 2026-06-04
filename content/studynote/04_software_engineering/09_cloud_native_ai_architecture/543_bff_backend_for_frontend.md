@@ -19,14 +19,14 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: BFF는 이름 그대로 "프론트엔드를 위해 헌신하는 꼬붕 백엔드 서버"다. 
+- **개념**: BFF는 이름 그대로 "프론트엔드를 위해 헌신하는 꼬붕 백엔드 서버"다.
   - 코어 백엔드 서버 50대([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))는 무뚝뚝하다. 그냥 범용적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 툭툭 뱉는다.
-  - <strong>모바일 앱</strong>이 코어 백엔드 10군데를 찌르려면 통신 10번 하느라 폰이 느려진다. 그래서 중간에 <strong>'모바일 전용 BFF 서버'</strong>를 둔다. 모바일 앱이 BFF한테 1번만 찌르면, BFF가 뒤돌아 10곳을 찔러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 뭉친 뒤 딱 모바일 화면에 예쁘게 맞는 얇은 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 1개로 포장해서 쏴준다. 
+  - <strong>모바일 앱</strong>이 코어 백엔드 10군데를 찌르려면 통신 10번 하느라 폰이 느려진다. 그래서 중간에 <strong>'모바일 전용 BFF 서버'</strong>를 둔다. 모바일 앱이 BFF한테 1번만 찌르면, BFF가 뒤돌아 10곳을 찔러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 뭉친 뒤 딱 모바일 화면에 예쁘게 맞는 얇은 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 1개로 포장해서 쏴준다.
   - <strong>웹 브라우저</strong>도 자기만의 넓은 화면용 <strong>'웹 전용 BFF 서버'</strong>를 따로 하나 파서 쓴다.
 
 - **필요성**: [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 뽕에 취해서 1개의 거대한 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/">API Gateway</a> (One-Size-Fits-All)</strong>를 세웠다. 그런데 모바일 프론트엔드 개발자가 와서 징징댄다. "[API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) 팀장님! 우리 모바일은 화면 좁아서 컬럼 3개만 필요해요. 코어 서버가 주는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 100개 너무 무거워요. Gateway 쪽에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 깎아내는 로직 3줄만 넣어주세요!" 웹 개발자도 온다. "우린 넓어서 100개 다 띄울 건데요? 저희 용으로 로직 또 짜주세요!" 1년 뒤, <strong>중앙 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/">API Gateway</a> 소스코드 안에 모바일 예외 로직, 웹 예외 로직이 100만 줄 스파게티처럼 섞여서 Gateway를 수정하려면 전사 개발팀 100명이 충돌 나는 끔찍한 제2의 모놀리식(Monolithic) 지옥</strong>이 열렸다. 이 중앙 통제의 멱살을 끊어내고 각자도생하기 위해 BFF로 잘게 찢은 것이다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/">API Gateway</a> (과거)</strong>는 마트의 <strong>'공용 대형 믹서기 1대'</strong>입니다. 아기(모바일) 엄마, 보디빌더(웹), 노인(워치) 모두가 1대뿐인 믹서기에 줄을 서서 자기 과일을 갈아 달라고 합니다. 믹서기가 막히고 과일 맛이 다 섞여버립니다(병목, 결합 지옥).
   - <strong>BFF (현재)</strong>는 손님마다 <strong>'개인 전용 맞춤형 휴대용 믹서기'</strong>를 하나씩 사주는 것입니다. 아기 엄마는 아기용 부드러운 믹서기(모바일 BFF)로 사과 1쪽만 갈고, 보디빌더는 대용량 믹서기(웹 BFF)로 닭가슴살 10조각을 팍팍 갑니다. 아무도 줄을 안 서고 자기가 원하는 입맛([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 규격)대로 가장 빠르고 완벽한 주스를 만들어 먹는 극강의 커스텀 서비스입니다.
 

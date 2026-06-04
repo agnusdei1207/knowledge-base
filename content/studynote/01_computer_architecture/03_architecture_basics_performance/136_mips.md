@@ -95,18 +95,18 @@ MIPS를 제대로 이해하려면, "[명령어](/knowledge-base/studynote/01_com
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. <strong>동일 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/">ISA</a> 내부 비교인가?</strong>  
+1. <strong>동일 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/">ISA</a> 내부 비교인가?</strong>
    같은 계열 코어끼리의 대략적 상대 비교라면 MIPS가 참고가 될 수 있다. 하지만 ISA가 다르면 직접 비교 지표로 쓰지 않는 편이 안전하다.
-2. **목표 워크로드가 무엇인가?**  
+2. **목표 워크로드가 무엇인가?**
    제어 연산 중심인지, 메모리 접근 중심인지, [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 계산 중심인지에 따라 MIPS의 설명력이 달라진다.
-3. **실행 시간 측정이 가능한가?**  
+3. **실행 시간 측정이 가능한가?**
    실제 코드, 대표 입력, 컴파일 옵션을 고정한 뒤 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이나 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 직접 측정하는 것이 가장 중요하다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **MIPS가 더 높으니 무조건 더 빠르다고 결론내리는 판단**  
+- **MIPS가 더 높으니 무조건 더 빠르다고 결론내리는 판단**
   네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), 캐시 미스, 메모리 병목이 큰 시스템에서는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 처리율보다 지연시간과 대역폭이 더 중요할 수 있다.
-- <strong>최적화 후 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/">MIPS</a> 하락을 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하로 오해하는 판단</strong>  
+- <strong>최적화 후 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/">MIPS</a> 하락을 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하로 오해하는 판단</strong>
   컴파일러 최적화가 불필요한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 줄이면 총 실행 시간은 짧아지는데, 초당 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수는 오히려 낮아질 수 있다. 이른바 [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) anomaly는 "덜 움직여도 더 빨리 끝나는" 상황을 보여 준다.
 
 기술사 관점에서의 답안 포인트는 명확하다. MIPS는 역사적 의미와 내부 효율 감각을 주는 지표이지만, 현대 시스템의 채택 판단은 SPEC (Standard [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Evaluation Corporation) 벤치마크, 실제 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 전력 대비 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 같은 더 직접적인 지표로 내려야 한다.

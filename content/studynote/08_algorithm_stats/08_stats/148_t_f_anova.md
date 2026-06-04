@@ -85,7 +85,7 @@ H₀: σ₁² = σ₂²   (두 집단의 모분산이 같다)
 
 <strong>일원 <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a>(One-Way <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a>, Analysis of <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>)</strong>: k개 집단(k ≥ 3)의 평균이 같은지 검정
 
-**H₀**: μ₁ = μ₂ = ... = μ_k (모든 집단 평균이 같다)  
+**H₀**: μ₁ = μ₂ = ... = μ_k (모든 집단 평균이 같다)
 **H₁**: 적어도 하나의 평균이 다르다
 
 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 분해 (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a> Decomposition)</strong>:
@@ -126,7 +126,7 @@ F = MS_Between / MS_Within
   60│ └───┘      └──┘      └
     └────────────────────────▶ 그룹
          A         B        C
-   
+
   F = 집단 간 차이 / 집단 내 흩어짐
       크면 → H₀ 기각 (집단 평균 다름)
 ```

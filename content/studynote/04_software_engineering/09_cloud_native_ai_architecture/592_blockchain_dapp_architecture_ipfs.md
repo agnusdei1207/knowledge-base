@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/">DApp</a> (Decentralized Application)</strong>: 뒤에 있는 빽(백엔드 서버)이 카카오나 네이버 같은 회사 1개의 컴퓨터가 아니라, 전 지구에 흩어진 1만 대의 컴퓨터 덩어리([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크)로 구동되는 웹/앱 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/).
   - <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">Smart Contract</a> (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">스마트 컨트랙트</a>)</strong>: 이더리움 뱃속에서 돌아가는 자바(Java) 백엔드 코드. `if(돈 주면) { 아이템 준다 }` 코드가 블록에 영구 박제되어, 판사가 없어도 기계적으로 계약이 강제 집행되는 백엔드 로직 덩어리.
 

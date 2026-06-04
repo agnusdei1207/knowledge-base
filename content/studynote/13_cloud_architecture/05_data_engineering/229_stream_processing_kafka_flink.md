@@ -166,7 +166,7 @@ DataStream<Alert> alerts = env
     .keyBy(Transaction::getCardId)
     .window(TumblingEventTimeWindows.of(Time.minutes(5)))
     .process(new FraudDetectionProcess());  // 합산 금액 > 100,000원
-    
+
 alerts.addSink(new FlinkKafkaProducer<>("fraud-alerts", ...));
 env.execute("Fraud Detection Pipeline");
 ```

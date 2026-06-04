@@ -19,7 +19,7 @@ tags = ["studynote-data-engineering"]
 ## Ⅰ. 개요 및 필요성
 혼동 행렬 (Confusion Matrix)은 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) (Binary [Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/)) 모델이 예측한 값과 실제 클래스의 참/거짓 교차표다. [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델을 평가할 때 가장 먼저 확인하는 뼈대 지표다.
 
-[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델에서 단순히 '얼마나 맞았나'를 나타내는 정확도 (Accuracy)는 치명적인 함정을 가진다. 예를 들어, 1,000명의 환자 중 실제 암 환자가 단 1명인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋에서, 모델이 "모두 정상(음성)"이라고 무지성 예측을 해도 정확도는 99.9%가 나온다. 하지만 이 모델은 가장 중요한 1명의 암 환자를 놓친 쓸모없는 모델이다. 이러한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불균형 상황에서 모델이 '어떻게 틀렸는지' 그 오류의 성격을 해부하기 위해 혼동 행렬이 필요하다. 
+[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델에서 단순히 '얼마나 맞았나'를 나타내는 정확도 (Accuracy)는 치명적인 함정을 가진다. 예를 들어, 1,000명의 환자 중 실제 암 환자가 단 1명인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋에서, 모델이 "모두 정상(음성)"이라고 무지성 예측을 해도 정확도는 99.9%가 나온다. 하지만 이 모델은 가장 중요한 1명의 암 환자를 놓친 쓸모없는 모델이다. 이러한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불균형 상황에서 모델이 '어떻게 틀렸는지' 그 오류의 성격을 해부하기 위해 혼동 행렬이 필요하다.
 
 - **📢 섹션 요약 비유**: 혼동 행렬은 시험의 '총점'만 보는 것이 아니라, 학생이 '계산 실수를 했는지', 아니면 '문제를 아예 잘못 읽었는지' 오답의 유형을 낱낱이 해부해 주는 성적 분석표와 같습니다.
 

@@ -33,7 +33,7 @@ tags = ["studynote-algorithm"]
   push 5 → 5 > 3: pop 3 → 3의 NGE=5
            5 > 4: pop 4 → 4의 NGE=5
            → [5]
-  
+
   결과 NGE: [4, 4, 5, 5, -1]
 ```
 

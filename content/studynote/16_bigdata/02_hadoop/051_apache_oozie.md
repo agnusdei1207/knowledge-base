@@ -94,19 +94,19 @@ Airflow:
 <!-- workflow.xml 구조 -->
 <workflow-app name="daily-etl">
   <start to="sqoop-import"/>
-  
+
   <action name="sqoop-import">
     <sqoop>...</sqoop>
     <ok to="hive-transform"/>
     <error to="fail"/>
   </action>
-  
+
   <action name="hive-transform">
     <hive>...</hive>
     <ok to="end"/>
     <error to="fail"/>
   </action>
-  
+
   <kill name="fail">
     <message>ETL 실패: ${wf:errorMessage(wf:lastErrorNode())}</message>
   </kill>

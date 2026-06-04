@@ -21,7 +21,7 @@ tags = ["studynote-ai"]
 
 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))인 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4가 세상을 박살 냈을 때, 사람들은 환호하면서도 금세 귀찮아졌다. 챗GPT는 미치도록 똑똑했지만 '키보드가 없는 뇌'에 불과했다. 내가 일일이 타자를 쳐서 물어보지 않으면 아무것도 하지 않는 수동적인 백과사전([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))이었다.
 
-2023년 3월, 깃허브(GitHub)에 Toran Bruce Richards라는 한 개발자가 올린 **AutoGPT** 코드가 전 세계를 경악시켰다. 그는 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4의 API에 파이썬 코드 몇 줄을 엮어 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)에게 <strong>'스스로 생각할 시간'과 '인터넷 브라우저'</strong>를 쥐여주었다. 
+2023년 3월, 깃허브(GitHub)에 Toran Bruce Richards라는 한 개발자가 올린 **AutoGPT** 코드가 전 세계를 경악시켰다. 그는 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4의 API에 파이썬 코드 몇 줄을 엮어 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)에게 <strong>'스스로 생각할 시간'과 '인터넷 브라우저'</strong>를 쥐여주었다.
 
 "나이키 경쟁사들의 최신 운동화 마케팅 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 요약해서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 바탕화면에 저장해 줘." 이 한마디 목표(Goal)를 던졌을 뿐인데, AutoGPT는 스스로 "1. 아디다스 마케팅 기사 구글 검색 $\rightarrow$ 2. 기사 클릭해서 읽고 메모리에 요약 저장 $\rightarrow$ 3. 퓨마 기사 검색 $\rightarrow$ 4. 정보가 부족하니 트위터 검색 추가 $\rightarrow$ 5. txt [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 후 저장 완료!"라는 행동을 <strong>아무도 시키지 않았는데 혼자 핑퐁 치며 끝날 때까지 수행(Autonomous Loop)</strong>한 것이다. 이것이 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 텍스트 창을 뚫고 나와 현실 세계의 도구(Tool)를 쥐고 비즈니스를 대행하는 **자율 에이전트(Autonomous Agent)** 혁명의 빅뱅이다.
 
@@ -114,7 +114,7 @@ AutoGPT 같은 자율 에이전트를 사내 망(B2B)에 풀어 "회사 DB를 �
 
 AutoGPT와 자율 에이전트의 충격은 단순히 코딩 몇 줄의 트릭이 아니다. [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 프롬프트라는 수동적 감옥을 부수고, 스스로 마우스를 움직이고 웹페이지를 넘기며 현실 세계의 <strong>'디지털 물리력(Action)'</strong>을 행사하기 시작한 역사적인 사이보그 진화의 특이점([Singularity](/knowledge-base/studynote/10_ai/01_ai_basics/006_singularity/))이다.
 
-지금 당장은 10번 중에 3번은 길을 잃고 헤매는 바보 짓을 하지만, [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-5 같은 추론(Reasoning) 능력이 괴물급으로 진화한 베이스 모델들이 쏟아지면 에이전트의 탈선 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 0%에 수렴하게 될 것이다. 마이크로소프트의 코파일럿(Copilot)이나 구글 워크스페이스는 이미 이 에이전트 사상을 엑셀과 파워포인트 뒤에 은밀하게 이식하고 있다. 
+지금 당장은 10번 중에 3번은 길을 잃고 헤매는 바보 짓을 하지만, [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-5 같은 추론(Reasoning) 능력이 괴물급으로 진화한 베이스 모델들이 쏟아지면 에이전트의 탈선 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 0%에 수렴하게 될 것이다. 마이크로소프트의 코파일럿(Copilot)이나 구글 워크스페이스는 이미 이 에이전트 사상을 엑셀과 파워포인트 뒤에 은밀하게 이식하고 있다.
 
 머지않은 미래, 기업의 조직도는 바뀌게 된다. 기획, 마케팅, 코딩을 담당하는 인간 3명이 앉아있던 부서에, 인간 1명과 20마리의 '[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트 스웜'이 앉아 24시간 쉬지 않고 웹을 크롤링하고 코드를 짜서 인간 사장에게 결재를 올리는 <strong>'에이전틱 엔터프라이즈(Agentic Enterprise)'</strong>의 시대가 도래했다. AutoGPT는 인간이 키보드에서 손을 떼고 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 스스로 춤추는 무한 동력 시대를 여는 위대한 불꽃이자, 진정한 범용 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)(AGI)을 향한 첫 번째 스파크다.
 

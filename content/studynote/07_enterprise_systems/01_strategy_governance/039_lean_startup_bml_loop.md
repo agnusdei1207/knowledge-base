@@ -21,24 +21,24 @@ tags = ["studynote-enterprise-systems"]
 ```
 Vanity Metric (허영 지표):
   좋아 보이지만 의사결정에 도움 안 됨
-  
+
   - 누적 가입자 수 (이탈자 포함)
   - 총 페이지뷰 (바운스율 무시)
   - SNS 팔로워 수
   - 언론 기사 수
-  
+
 문제: 한 번 높아지면 내려가지 않음
      -> 노력이 성과 없어도 지표는 올라감
 
 Actionable Metric (실행 가능 지표):
   행동 변화와 직접 연결 가능한 지표
-  
+
   - MAU/DAU 비율 (스티키니스)
   - D1/D7/D30 리텐션 코호트
   - 전환율 (가입->결제)
   - MRR(Monthly Recurring Revenue) 성장률
   - 고객 획득 비용 (CAC) vs LTV
-  
+
 원칙: "이 지표가 변하면 팀이 구체적으로 다음 행동을 알 수 있는가?"
 ```
 
@@ -52,7 +52,7 @@ Actionable Metric (실행 가능 지표):
 코호트 분석 (Cohort Analysis):
   같은 시기에 서비스를 시작한 사용자 그룹(코호트)
   의 행동을 시간에 따라 추적
-  
+
 코호트 리텐션 테이블 (Week n):
 
 가입 주    W0   W1   W2   W4   W8
@@ -63,7 +63,7 @@ Actionable Metric (실행 가능 지표):
 해석:
   1월 3주 코호트: W8 리텐션 18%
   -> 이 주에 도입한 온보딩 개선 효과
-  
+
 vs 전체 평균 리텐션:
   1월 평균 W8: 14.6%
   -> 개선 신호를 코호트 분석에서 먼저 발견
@@ -87,7 +87,7 @@ Sean Ellis Survey:
   a) 매우 실망 (Very Disappointed)
   b) 다소 실망
   c) 실망 안 함
-  
+
   "매우 실망" >= 40% -> PMF 달성 신호
 
 NPS (Net Promoter Score):
@@ -95,13 +95,13 @@ NPS (Net Promoter Score):
   Promoter (9~10): %P
   Detractor (0~6): %D
   NPS = %P - %D
-  
+
   NPS >= 50 -> 강한 PMF 신호
 
 리텐션 기반:
   앱: D30 리텐션 20~25%+
   SaaS: D90 리텐션 70%+
-  
+
 PMF 전후 차이:
   PMF 전: "더 열심히 마케팅하면 성장할 것 같다"
   PMF 후: "입소문으로 성장이 당기는 느낌"
@@ -119,28 +119,28 @@ Growth Engine (성장 엔진):
 
 1. 바이럴 성장 엔진 (Viral Engine):
    기존 사용자 -> 신규 사용자 전파
-   
+
    Viral Coefficient (k) = 초대 수 × 전환율
    k > 1: 지수 성장 (폭발적 확산)
    k < 1: 선형 성장
-   
+
    예: WhatsApp, Facebook 초기
    "연락처에 WhatsApp 사용자 있음" 알림
-   
+
 2. 스티키 성장 엔진 (Sticky Engine):
    이탈 없이 오래 유지
-   
+
    핵심: CAC << LTV
    구독 SaaS: 월정액 × 평균 사용 개월
-   
+
    Churn Rate < 2%/월 = 건강한 SaaS
-   
+
 3. 유료 성장 엔진 (Paid Engine):
    광고/세일즈로 사용자 구매
-   
+
    핵심: LTV > CAC (최소 3배)
    CAC 회수 기간 < 12개월
-   
+
 올바른 엔진 선택:
   바이럴: SNS, 메신저
   스티키: SaaS, 구독
@@ -162,21 +162,21 @@ Growth Engine (성장 엔진):
 MVP 빌드 (2주):
   - 매일 10분 독서 알림 기능
   - 연속 독서 스트릭 표시
-  
+
 측정 (4주):
   실험군 (알림 ON): D7 리텐션 45%
   대조군 (알림 OFF): D7 리텐션 28%
   -> 61% 리텐션 향상!
-  
+
 학습:
   알림 타이밍이 중요 (저녁 8시 > 오전 9시)
   스트릭 시각화 > 알림 단독 효과
-  
+
 다음 BML 사이클:
   가설: "스트릭 사회적 공유로 k=0.3 달성 가능"
   MVP: "n일 연속 달성" 카드 SNS 공유 기능
   측정: 공유 후 설치 전환율
-  
+
 6개월 결과:
   D30 리텐션: 18% -> 35%
   NPS: 22 -> 51 (PMF 달성!)

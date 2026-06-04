@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/">단기 스케줄러</a> (CPU <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a>)</strong>: Ready 상태의 프로세스들 중 다음에 실행할 프로세스를 선택하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/">디스패처</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/">Dispatcher</a>)</strong>: [단기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/)가 선택한 프로세스에게 CPU의 실질적인 제어권을 양도([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/).
 
-- <strong>필요성 (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/">결정자</a>(판사)와 집행자(경찰)의 분리)</strong>: 
+- <strong>필요성 (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/">결정자</a>(판사)와 집행자(경찰)의 분리)</strong>:
   - 병원에 환자 100명이 대기 중이다. "다음엔 누가 진료를 볼 것인가?"를 결정하는 것은 간호사([스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/))의 몫이다. (선착순인가, 응급환자 우선인가)
   - 하지만 간호사가 결정을 내렸다고 해서 진료가 시작되는 것은 아니다. 누군가는 이전 환자를 밖으로 내보내고, 새 환자를 진찰실로 부르고, 의사의 진료 차트를 새 환자의 것으로 바꿔 끼워야 한다. 이 육체노동을 담당하는 보안요원이 바로 [디스패처](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/)다.
   - **해결책**: "선택하는 로직"과 "하드웨어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 갈아 끼우는 로직"을 분리하여, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 어떤 스케줄링 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/), CFS 등)을 쓰든 [디스패처](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/)는 똑같이 동작할 수 있도록 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화했다.

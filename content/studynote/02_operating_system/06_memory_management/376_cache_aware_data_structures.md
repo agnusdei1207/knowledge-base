@@ -84,10 +84,10 @@ tags = ["studynote-operating-system"]
 
 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/"> 캐시 인식 해결책 (Cache-aware [Padding</a>) ]</strong>
 ```c
-struct { 
-    int A; 
+struct {
+    int A;
     char padding[60]; // 64바이트를 억지로 채워버림!
-    int B; 
+    int B;
 }
 ```
 이렇게 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)을 주면 A는 1번 캐시 라인에, B는 2번 캐시 라인에 완전히 분리되어 적재된다. 60바이트의 램을 버리는 대가로 두 코어 간의 하드웨어 캐시 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 간섭([False Sharing](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/))이 0%가 되어 멀티코어 성능이 100배 수직 상승한다.
@@ -99,7 +99,7 @@ struct {
 한 객체 안에서도 자주 읽는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Hot)와 가끔 읽는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Cold)를 물리적으로 찢어놓는 기법이다.
 - `struct Player { int hp; int x, y; // 자주 읽음 (Hot) ... string bio; string guild_name; // 가끔 읽음 (Cold) }`
 - 이 구조체가 200바이트라면 캐시 라인을 4개나 잡아먹는다. CPU가 `hp`와 좌표만 읽으려고 해도 뒤의 쓸데없는 프로필 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 덩달아 캐시로 끌려와 귀한 캐시 공간을 밀어내버린다(Cache Pollution).
-- **최적화**: 
+- **최적화**:
   `struct PlayerHot { int hp, x, y; *cold_ptr; }` (딱 64바이트 캐시 라인 안에 욱여넣음).
   자주 안 보는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 아예 다른 구조체로 빼버려 포인터로 연결한다. 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 캐시 적중률이 극단적으로 높아진다.
 
@@ -138,8 +138,8 @@ struct {
 
 ### 실무 시나리오: Java의 @Contended 애노테이션
 1. **문제의 발단**: 자바(Java) 기반의 초고성능 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 프로그래밍(예: LMAX Disruptor, RingBuffer)을 짤 때, 멀티스레드가 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 커서(`head`, `tail`)를 서로 미친 듯이 바꾼다. 이 두 변수가 같은 캐시 라인에 잡히면 '[거짓 공유](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/)([False Sharing](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/))'가 터져 서버가 기어간다.
-2. **과거의 꼼수**: 자바 개발자들은 `long p1, p2, p3, p4, p5, p6, p7;` 같은 아무 의미 없는 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 변수를 억지로 쑤셔 넣어서 56바이트를 채우는 엽기적인 짓을 했다 ([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 꼼수). 
-3. **자바 8의 공식 지원**: 
+2. **과거의 꼼수**: 자바 개발자들은 `long p1, p2, p3, p4, p5, p6, p7;` 같은 아무 의미 없는 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 변수를 억지로 쑤셔 넣어서 56바이트를 채우는 엽기적인 짓을 했다 ([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 꼼수).
+3. **자바 8의 공식 지원**:
    - 이 더러운 코드를 참다못한 오라클은 아예 자바 8부터 <strong><code>@sun.misc.Contended</code></strong> 라는 공식 애노테이션을 만들어주었다.
    - 변수 위에 이 마크를 달아주면, JVM(자바 가상 머신)이 런타임에 메모리를 할당할 때 "아! 이 변수는 멀티코어가 싸우는 곳이구나!" 하고 알아서 앞뒤로 64바이트(또는 128바이트)씩 텅 빈 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 여백을 팍팍 넣어 캐시 라인을 완벽하게 찢어준다. 하드웨어의 약점을 언어 문법이 감싸 안은 실무의 예술이다.
 

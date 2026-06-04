@@ -38,7 +38,7 @@ Phase 1: 기획 ─▶ [위험 분석 (PoC)] ─▶ 개발 ─▶ 평가 (작은
 Phase 2: 기획 ─▶ [위험 분석 (Proto)] ─▶ 개발 ─▶ 평가 (중간 리스크 해소)
 Phase 3: 기획 ─▶ [위험 분석 (Simul)] ─▶ 개발 ─▶ 평가 (최종 리스크 해소)
 ```
-이 도식에서 핵심은 위험을 발견하고 대응하는 시점이 '테스트' 단계에서 '각 주기의 위험 분석' 단계로 [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)([Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)) 되었다는 점입니다. 이런 배치는 실패 시 발생하는 매몰 비용(Sunk Cost)을 최소화하기 때문이며, 따라서 프로젝트가 돌이킬 수 없는 상태가 되기 전에 방향을 수정하거나 중단(Go/No-Go) 결정을 내릴 수 있게 합니다. 
+이 도식에서 핵심은 위험을 발견하고 대응하는 시점이 '테스트' 단계에서 '각 주기의 위험 분석' 단계로 [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)([Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)) 되었다는 점입니다. 이런 배치는 실패 시 발생하는 매몰 비용(Sunk Cost)을 최소화하기 때문이며, 따라서 프로젝트가 돌이킬 수 없는 상태가 되기 전에 방향을 수정하거나 중단(Go/No-Go) 결정을 내릴 수 있게 합니다.
 
 📢 **섹션 요약 비유**: 미지의 정글을 탐험할 때, 한 번에 목적지까지 직진하는 것이 아니라 베이스캠프를 치고 반경 1km를 정찰(위험 분석)한 뒤 안전이 확인되면 다음 캠프로 전진하는 것과 같습니다.
 
@@ -69,7 +69,7 @@ Phase 3: 기획 ─▶ [위험 분석 (Simul)] ─▶ 개발 ─▶ 평가 (최�
                              ↙               │      ↘ (단위/통합 테스트)
                                              │
                  [4. 다음 단계 계획 및 평가] │ [3. 엔지니어링 및 개발]
-                 
+
 * 중심점(0,0)에서 시작하여 밖으로 나갈수록 누적 개발 비용과 프로젝트 규모가 증가함.
 ```
 이 그림의 핵심은 나선이 한 바퀴 돌 때마다 반드시 '위험 분석' 영역(2사분면)을 통과해야만 '개발' 영역(3사분면)으로 진입할 수 있다는 점입니다. 따라서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목, 보안 취약점, 기술적 한계 등의 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 사전에 제거되지 않으면 개발을 시작하지 않습니다. 실무에서는 대규모 SI 사업이나 우주/항공 등 실패 비용이 천문학적인 도메인에서 절대적으로 유리하지만, 반대로 위험 분석 능력이 부족한 팀이 사용할 경우 무의미한 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)만 양산하며 비용만 낭비하는 치명적 구조가 될 수 있습니다.

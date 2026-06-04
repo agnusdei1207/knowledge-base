@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **Retrieval (검색/가져오기)**: 유저가 "우리 회사 환불 규정 뭐야?" 물어보면, AI한테 바로 묻지 않고 1차로 사내 위키(DB)를 검색해서 '환불 규정 PDF 텍스트 덩어리'를 긁어오는 단계.
   - **Augmented (증강/덧붙이기)**: 긁어온 PDF 텍스트를 유저의 원래 질문과 합체(프롬프트에 쑤셔 박음)시켜서 "질문을 뚱뚱하고 빵빵하게(증강)" 만드는 단계.
   - <strong>Generation (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>/답변하기)</strong>: 이 뚱뚱해진 팩트 프롬프트를 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(ChatGPT)에 던져서 "여기 적힌 팩트대로만 예쁘게 요약해서 대답해!"라고 정답을 찍어내는 단계.

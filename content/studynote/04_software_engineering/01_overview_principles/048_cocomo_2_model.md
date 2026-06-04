@@ -32,27 +32,27 @@ COCOMO II (1995, 2000 개정):
 1. Application Composition:
   대상: 빠른 프로토타입, 4GL, CASE 도구
   규모 단위: Object Point (OP)
-  
+
   PM = NOP / PROD
   (NOP: Nominal Object Point, PROD: 생산성 비율)
 
 2. Early Design:
   대상: 설계 초기 단계, 제한된 정보
   규모: 기능 점수 (Function Point)
-  
+
   PM = A × Size^SF × EM (초기 비용 드라이버)
 
 3. Post-Architecture:
   대상: 전체 아키텍처 정의 후
   가장 정확한 추정
   규모: KSLOC (1000라인 코드)
-  
+
   PM = A × Size^SF × ∏EMi
   (17개 비용 드라이버 적용)
 
 기본 방정식:
   PM (공수) = A × (Size)^SF × ∏EMi
-  
+
   A: 상수 (COCOMO II = 2.94)
   Size: 소프트웨어 규모 (KSLOC)
   SF: 스케일 지수 (Scaling Factor)
@@ -68,7 +68,7 @@ COCOMO II (1995, 2000 개정):
 ```
 SF (Scaling Factor):
   프로젝트 규모 증가에 따른 비용 증가율 결정
-  
+
   SF = B + 0.01 × Σ SFj
   B = 0.91 (COCOMO II 기본값)
 
@@ -102,7 +102,7 @@ SF (Scaling Factor):
 SF 계산 예:
   5개 요인 각 평균(3점) = 5 × 3.0 = 15
   SF = 0.91 + 0.01 × 15 = 1.06
-  
+
   SF > 1: 규모 증가 시 비선형 비용 증가
   (예: 10KSLOC → 100KSLOC: 10배 증가 아닌 12~15배 비용)
 ```
@@ -116,7 +116,7 @@ SF 계산 예:
 ```
 EM (Effort Multiplier):
   Post-Architecture 모델의 17개 요인
-  
+
   0.5~1.26 범위 값
   1.0: 표준(Nominal)
   < 1.0: 비용 감소 (좋은 요인)
@@ -167,18 +167,18 @@ Step 1: 모델 선택
 
 Step 2: 규모 추정
   LOC 직접 산정 또는 기능 점수(FP) 사용
-  
+
   FP → SLOC 변환 (언어별 SLOC/FP):
   Java: 53 SLOC/FP
   Python: 29 SLOC/FP
   C: 128 SLOC/FP
-  
+
   예: 500 FP × 53 = 26,500 SLOC = 26.5 KSLOC
 
 Step 3: SF 및 EM 평가
   팀 전체 워크숍으로 합의
   (개인 추정 아닌 팀 합의 중요)
-  
+
   Wideband Delphi:
   1. 각 요인 개별 평가
   2. 차이 큰 항목 토론
@@ -186,15 +186,15 @@ Step 3: SF 및 EM 평가
 
 Step 4: 공수 계산
   PM = 2.94 × (26.5)^1.06 × ∏EMi
-  
+
   예: SF=1.06, EM 곱=1.15
   PM = 2.94 × 32.1 × 1.15 ≈ 108 PM
 
 Step 5: 일정 계산
   TDEV = C × (PM)^(D + 0.2 × (SF - B))
-  
+
   C = 3.67, D = 0.28, B = 0.91
-  
+
   예: PM=108
   TDEV ≈ 14.2개월
 
@@ -230,7 +230,7 @@ SF 평가:
   RESL: High (위험 분석 철저) = 2.83
   TEAM: High (경험팀) = 2.19
   PMAT: CMMI Level 3 = 3.12
-  
+
   Σ SFj = 15.91
   SF = 0.91 + 0.01 × 15.91 = 1.07
 
@@ -240,7 +240,7 @@ SF 평가:
   ACAP: High (역량 있는 팀) = 0.85
   PCAP: High = 0.88
   TOOL: High (CI/CD, 자동화) = 0.86
-  
+
   EM 곱 = 1.26×1.17×0.85×0.88×0.86 = 0.93
 
 공수 계산:

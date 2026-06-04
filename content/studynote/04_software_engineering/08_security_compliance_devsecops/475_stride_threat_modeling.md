@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 세상의 모든 소프트웨어 해킹 기법은 수만 가지(SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/), [패킷 스니핑](/knowledge-base/studynote/09_security/03_network_security/272_packet_sniffing/) 등)가 있지만, 그 뼈대(목적)를 추려보면 결국 딱 6가지로 귀결된다. 이 6가지 카테고리의 앞 글자를 딴 것이 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/">STRIDE</a></strong>다. 
+- **개념**: 세상의 모든 소프트웨어 해킹 기법은 수만 가지(SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/), [패킷 스니핑](/knowledge-base/studynote/09_security/03_network_security/272_packet_sniffing/) 등)가 있지만, 그 뼈대(목적)를 추려보면 결국 딱 6가지로 귀결된다. 이 6가지 카테고리의 앞 글자를 딴 것이 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/">STRIDE</a></strong>다.
   `S(신분 위조) / T(데이터 변조) / R(오리발 내밀기) / I(정보 훔쳐보기) / D(서버 터뜨리기) / E(권한 빼앗기)`
 
 - **필요성**: 개발자들에게 "이 결제 시스템에서 일어날 수 있는 위협을 찾아봐!"라고 하면 1시간 내내 회의해도 "DB 털리면 어떡하죠?", "디도스 오면 어떡하죠?" 2개만 찾고 끝난다. 인간의 상상력에는 한계가 있다. 하지만 칠판에 `STRIDE` 6글자를 띄워놓고 강제로 1글자씩 대입해 보게 하면? "아, R(Repudiation)을 생각해보니 고객이 결제해 놓고 나중에 안 했다고 우기면 증명할 방법이 없네?"라며 **평소엔 절대 상상하지 못했던 '논리적 맹점'을 강제로 쥐어짜 내게** 만들어준다.

@@ -133,7 +133,7 @@ A 방식([3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exa
 
 ```text
 [산출물 검토] ──(기준 미달)──> [결함의 성격 분류]
-                                  ├─> (기능 누락/보안 취약) => 필수 시정조치 (Major) 
+                                  ├─> (기능 누락/보안 취약) => 필수 시정조치 (Major)
                                   │                             ↓ (오픈 불가)
                                   └─> (문서 오타/단순 사용성) => 권고 사항 (Minor)
                                                                 ↓ (운영 중 개선)
@@ -155,7 +155,7 @@ A 방식([3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exa
 | **시스템 보안/안전성** | 오픈 후 치명적 해킹 사고 발생 | [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 및 취약점 100% 사전 조치 | 침해 사고 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용 수십억 원 절감 |
 | **법적 분쟁** | 발주자-사업자 간 지체상금 소송 빈발 | 과업대비표 기반 객관적 완료 승인 | 분쟁 조정 및 소송 비용 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) |
 
-**미래 전망 (Future Standard)**: 
+**미래 전망 (Future Standard)**:
 전통적인 폭포수 방식에 최적화된 [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)는 현재 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 및 클라우드(Cloud), [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경으로의 패러다임 전환을 맞이하고 있다. 향후 [감리 프레임워크](/knowledge-base/studynote/11_design_supervision/01_audit_framework/006_audit_framework_3dimensional/)는 3단계의 정적 분할을 넘어, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 내에 자동화 진단 도구를 임베딩하여 매 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)([Sprint](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)) 단위로 코드를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 <strong>연속적 통제 (Continuous <a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">Auditing</a>)</strong> 기반의 '상시/자동화 [감리 프레임워크](/knowledge-base/studynote/11_design_supervision/01_audit_framework/006_audit_framework_3dimensional/) ([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) 3.0)'로 진화할 것이다. 이는 행정안전부 [정보시스템 감리기준](/knowledge-base/studynote/11_design_supervision/01_audit_framework/005_audit_standards/) 및 ISACA의 [CISA](/knowledge-base/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/) 최신 통제 지침과 맥을 같이 한다.
 
 📢 **섹션 요약 비유**: 수동으로 도장을 찍어주던 구형 품질 검사소(전통 감리)가, 이제는 공장 컨베이어 벨트 위에서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 카메라가 24시간 불량품을 실시간으로 솎아내는 스마트 품질 관제소(연속적/자동화 감리)로 진화하는 것과 같습니다.

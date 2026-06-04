@@ -29,7 +29,7 @@ tags = ["ict_convergence"]
 
 ### 💡 analogy
 
-블록체인은 여러 명이 동시에 같은 내용의 거래 내역 공부를 하고, 매일 저녁 모두 함께답え합わせ을 하며, 누구든 불일치가 있으면즉시에수정하는 회계 시스템과 같다. 한 명이 공부를 분실하거나 위조し고も, 나머지 수백 명의 정확한 기록이 존재하기 때문에 전체 시스템의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)은사호도 훼손되지 않는다.은행의중간업무를완전에성략에서きる. 
+블록체인은 여러 명이 동시에 같은 내용의 거래 내역 공부를 하고, 매일 저녁 모두 함께답え합わせ을 하며, 누구든 불일치가 있으면즉시에수정하는 회계 시스템과 같다. 한 명이 공부를 분실하거나 위조し고も, 나머지 수백 명의 정확한 기록이 존재하기 때문에 전체 시스템의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)은사호도 훼손되지 않는다.은행의중간업무를완전에성략에서きる.
 
 ### 배경 설명
 

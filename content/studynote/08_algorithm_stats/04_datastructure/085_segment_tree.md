@@ -50,7 +50,7 @@ class SegmentTree:
         n = len(arr)
         self.tree = [0] * (4 * n)
         self.build(arr, 0, n-1, 1)
-    
+
     def build(self, arr, l, r, node):
         if l == r:
             self.tree[node] = arr[l]
@@ -59,7 +59,7 @@ class SegmentTree:
         self.build(arr, l, mid, 2*node)
         self.build(arr, mid+1, r, 2*node+1)
         self.tree[node] = self.tree[2*node] + self.tree[2*node+1]
-    
+
     def query(self, l, r, node, nl, nr):  # 구간 합 O(log n)
         if r < nl or nr < l: return 0
         if l <= nl and nr <= r: return self.tree[node]

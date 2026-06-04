@@ -62,7 +62,7 @@ tags = ["studynote-software-engineering"]
 - **Actor Action (사용자 행동)**: "사용자가 장바구니 아이콘을 클릭한다."
 - **System Response (시스템 반응)**: "시스템은 로그인 토큰 유무를 검사하고, 유효 시 장바구니 내역을 1초 내로 렌더링한다."
 
-블랙박스 테스터는 명세서에 찍힌 1줄의 문장을 읽으면서, 그 1줄과 다음 줄로 넘어갈 때 시스템이 상태를 잃어버리는지([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) Drop), 아니면 화면 뒤로 도망가서 얼어버리는지를 연속 동작으로 매섭게 추적합니다. 
+블랙박스 테스터는 명세서에 찍힌 1줄의 문장을 읽으면서, 그 1줄과 다음 줄로 넘어갈 때 시스템이 상태를 잃어버리는지([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) Drop), 아니면 화면 뒤로 도망가서 얼어버리는지를 연속 동작으로 매섭게 추적합니다.
 
 - **📢 섹션 요약 비유**: 테니스장에서 혼자 폼을 잡으며 스윙([단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)) 연습하는 백 번의 헛스윙보다, 진짜 네트 반대편에 코치가 서서 서로 탁구 치듯(사용자와 시스템) 10번 연속 랠리([유스케이스 시나리오](/knowledge-base/studynote/04_software_engineering/03_design_architecture/164_use_case_scenario_flows/))가 안 끊기고 자연스럽게 오가는지 보는 실전 경기력을 측정하는 법입니다.
 
@@ -85,11 +85,11 @@ tags = ["studynote-software-engineering"]
 유스케이스 명세서는 곧 테스터의 내비게이션 경로입니다.
 거대한 유스케이스 대본 안에는 무수한 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)(Branch)가 들어있으며, QA는 이것들을 <strong>독립된 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/">테스트 케이스</a> 시나리오</strong>로 포장하여 뽑아냅니다.
 
-1. **시나리오 1: 기본 해피 패스 라인**  
+1. **시나리오 1: 기본 해피 패스 라인**
    - 가장 정상적이고 에러 1%도 없이 순한 양처럼 결제까지 달리는 경로(가장 먼저 테스트).
-2. **시나리오 2 ~ N: 대안 흐름 파생 라인**  
+2. **시나리오 2 ~ N: 대안 흐름 파생 라인**
    - 흐름 3번에서 한도 초과 오류를 타서 4a로 우회전했다가, 다시 5번 성공으로 돌아오는 구불구불한 흐름.
-3. **시나리오 예외 타격 라인**  
+3. **시나리오 예외 타격 라인**
    - 로그인 비밀번호를 5번 틀려서, 장바구니 구경도 못 하고 아예 시스템 밖으로 쫓겨나는(Abort) 치명적 실패 경로.
 
 유스케이스의 커버리지는 명세서에 쓰인 모든 액티비티(단계)와 분기문을 최소한 한 번씩은 밟아봤는지를 기준으로 삼으며, [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)([Integration Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)) 후반부와 [인수 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/)([Acceptance Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/)) 구간에서 위력을 떨칩니다.
@@ -108,8 +108,8 @@ tags = ["studynote-software-engineering"]
 
 전통적 명세서(SRS)가 두꺼운 통나무라면, 요즘 실무의 유스케이스는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 회의에서 포스트잇으로 붙이는 <strong>'<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/">사용자 스토리</a>(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/">User Story</a>)'</strong>와 영혼이 완전히 동일하게 연결됩니다.
 
-> "나는(Who) 쇼핑몰 회원으로서,  
-> 신용카드로 드론을 안전하게 결제하기를(What) 원한다.  
+> "나는(Who) 쇼핑몰 회원으로서,
+> 신용카드로 드론을 안전하게 결제하기를(What) 원한다.
 > 왜냐하면 내일 당장 조카 생일선물로 주어야(Why) 하기 때문이다."
 
 이렇게 작성된 티켓(Jira [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)) 1장을 QA 부서로 넘겨주면, QA는 그 스토리가 달성되거나 무너질 수 있는 5가지의 시나리오를 곧바로 엑셀과 테스트 오토메이션 툴로 작성장전합니다. 유스케이스 테스팅은 시스템의 설계 언어와 사용자의 입말을 똑같이 맞춤으로써, 테스터가 기계(코드)가 아닌 <strong>고객의 분노 포인트</strong>를 대변해 주는 페르소나 플레이로 고도화됩니다.

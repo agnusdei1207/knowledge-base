@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-스마트폰 시대가 열리면서 기업들은 iOS용 앱(Swift)과 Android용 앱(Kotlin)을 따로 만들어 앱 스토어에 올려야 했다. 이는 스타트업에게 막대한 개발 비용과 유지보수 부담([Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/))을 안겼다. 
+스마트폰 시대가 열리면서 기업들은 iOS용 앱(Swift)과 Android용 앱(Kotlin)을 따로 만들어 앱 스토어에 올려야 했다. 이는 스타트업에게 막대한 개발 비용과 유지보수 부담([Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/))을 안겼다.
 
 반면 웹(Web)은 한 번만 만들면 모든 기기에서 접속할 수 있었지만, 치명적인 단점이 있었다. **① 인터넷이 끊기면 아예 먹통이 되고, ② 푸시 알림을 보낼 수 없으며, ③ 홈 화면에 아이콘을 깔 수 없었다.** 즉, 사용자 경험(UX)이 네이티브 앱에 비해 너무 떨어졌다.
 

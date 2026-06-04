@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-Log4j 사태 이후, 미국 바이든 정부는 모든 공공 납품 소프트웨어에 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 제출을 의무화했다(행정명령 14028). 그런데 기업들이 제출한 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 파일들을 열어보니 가관이었다. 
+Log4j 사태 이후, 미국 바이든 정부는 모든 공공 납품 소프트웨어에 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 제출을 의무화했다(행정명령 14028). 그런데 기업들이 제출한 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 파일들을 열어보니 가관이었다.
 
 A 회사는 엑셀 파일로, B 회사는 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 문서로, C 회사는 자체 포맷의 텍스트 파일로 "우리는 이런 라이브러리를 썼습니다"라고 제출했다. 전 세계에서 쏟아지는 수백만 개의 소프트웨어를 사람이 일일이 엑셀을 열어보며 "여기에 위험한 부품이 있나?" 검사하는 것은 불가능했다.
 

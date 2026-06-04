@@ -49,7 +49,7 @@ tags = ["studynote-operating-system"]
 
 #### 1. [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/) ([Temporal Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/))
 - **정의**: 특정 메모리 주소가 한 번 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)되면, <strong>가까운 미래에 다시 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>될 확률이 매우 높다</strong>는 성질.
-- **코드 사례**: 
+- **코드 사례**:
   ```c
   int sum = 0;
   for(int i=0; i<100; i++) {
@@ -130,19 +130,19 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. <strong>DB <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a>의 캐시 파괴 (Table Full Scan의 공포)</strong>: 
-   - 실무에서 DBA가 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 없이 `SELECT * FROM table`을 갈기는 풀 스캔 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 가장 혐오하는 이유가 단순히 디스크를 많이 읽어서가 아니다. 
+1. <strong>DB <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a>의 캐시 파괴 (Table Full Scan의 공포)</strong>:
+   - 실무에서 DBA가 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 없이 `SELECT * FROM table`을 갈기는 풀 스캔 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 가장 혐오하는 이유가 단순히 디스크를 많이 읽어서가 아니다.
    - **아키텍트 분석**: 풀 스캔이 도는 순간 수백만 건의 쓸데없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 메모리로 올라오며, 기존에 예쁘게 쌓여있던 [캐시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/)와 버퍼 풀([시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)을 띠고 있던 뜨거운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들)을 빗자루로 싹 다 쓸어버린다(**Cache Pollution**). 이 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 하나 때문에 다른 잘 돌던 1,000명의 유저 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답 속도가 일제히 박살 난다. 캐시의 [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)을 훼손하는 코드는 서버 전체의 재앙이다.
 2. <strong>2차원 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>의 루프 순서 (행 우선 vs 열 우선)</strong>: C/C++ 개발자 면접에 100% 나오는 질문이다.
    ```c
-   // [ ✅ Good: 공간적 지역성 극대화 ] 
-   for(int i=0; i<1000; i++) 
-       for(int j=0; j<1000; j++) 
+   // [ ✅ Good: 공간적 지역성 극대화 ]
+   for(int i=0; i<1000; i++)
+       for(int j=0; j<1000; j++)
            sum += arr[i][j]; // C언어는 행(Row) 방향으로 메모리가 연속됨. 100배 빠름.
 
    // [ ❌ Bad: Cache Miss 융단 폭격 ]
-   for(int j=0; j<1000; j++) 
-       for(int i=0; i<1000; i++) 
+   for(int j=0; j<1000; j++)
+       for(int i=0; i<1000; i++)
            sum += arr[i][j]; // 세로(Col)로 건너뛰며 읽음. 매번 캐시 라인을 벗어남. 100배 느림.
    ```
    이 단순한 루프 순서 하나가 딥러닝 행렬 곱셈 연산에서는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 수만 배까지 차이 나게 만든다. <strong>"메모리가 어떻게 연속되어 있는가"</strong>를 이해하고 코딩하는 자만이 하드웨어의 축복을 받는다.

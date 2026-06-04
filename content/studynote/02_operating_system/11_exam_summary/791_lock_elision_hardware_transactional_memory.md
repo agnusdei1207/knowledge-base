@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/">HTM</a> (Hardware Transactional Memory)</strong>: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB)에서 쓰던 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(All or Nothing) 개념을 CPU L1 캐시 메모리로 끌고 온 것. 코드 실행을 '[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)'으로 묶어서, 도중에 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 꼬이면 연산 결과를 메모리에 반영하지 않고 전부 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)(취소)시킨다.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/270_lock_elision/">Lock Elision</a> (락 생략)</strong>: 이 HTM의 능력을 이용해, 프로그램이 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 획득하는 명령을 내릴 때 진짜로 락을 잡는 대신, 락을 안 잡은 채 [HTM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)으로 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) 코드를 냅다 실행해 버리는 우회 기법이다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 프로그래머들은 멀티스레드 코드를 짤 때 머리가 터질 것 같아서, 변수 1만 개가 들어있는 거대한 자료구조(예: [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) 전체)를 통째로 하나의 자물쇠(Global [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))로 묶어버리는 짓([Coarse-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/) [lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 자주 한다.
   - 이 경우, A [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 1번 변수를 고치고 B [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 9999번 변수를 고쳐서 실제로는 **아무 충돌이 없는데도**, 하나의 거대한 자물쇠 때문에 B는 A가 끝날 때까지 멍하니 놀면서 CPU 클럭을 버린다. (가짜 병목).
   - **해결책**: "어차피 둘이 건드리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 다르면 락 안 걸고 맘대로 실행해도 되잖아? CPU가 실시간으로 감시하다가, 진짜 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 건드릴 때만 멈추고 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)시키자!"
@@ -31,7 +31,7 @@ tags = ["studynote-operating-system"]
   - <strong>기존 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> (비관적)</strong>: 교차로에 신호등([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 있다. 1번 차가 우회전하든 직진하든, 일단 파란불 켜진 차만 지나가고 나머지 차는 100% 멈춰서 기다려야 한다 (안전하지만 꽉 병목).
   - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/270_lock_elision/">Lock Elision</a> (낙관적 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>)</strong>: 신호등을 뽑아버리고 "일단 다 같이 전속력으로 교차로에 진입해봐!([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 시작)". 99%는 서로 가는 길이 달라(충돌 없음) 슉슉 무사 통과한다. 만약 딱 부딪힐 것 같은 1%의 순간(Conflict)에만, 하늘에서 나타난 갓핸드(CPU [HTM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/))가 차들을 1초 전 위치로 돌려보내고([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)), 그때만 신호등을 켜서 정리해 준다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 2013년 인텔(Intel)이 Haswell 마이크로아키텍처에 <strong>TSX (Transactional <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">Synchronization</a> Extensions)</strong>라는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 셋을 탑재하면서 상용화되었다. 락 지옥에 빠진 소프트웨어를 구원할 궁극의 하드웨어 마법으로 찬사받았다.
 
 ```text

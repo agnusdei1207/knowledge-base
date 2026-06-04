@@ -63,9 +63,9 @@ tags = ["studynote-operating-system"]
 ### 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 NUMA 3계층 장부 아키텍처
 
 리눅스는 이 복잡한 물리적 지리를 관리하기 위해 램 관리 장부를 3단계(Node -> Zone -> [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))로 찢어서 관리한다.
-1. <strong>Node (노드, <code>pg_data_t</code>)</strong>: 
+1. <strong>Node (노드, <code>pg_data_t</code>)</strong>:
    가장 최상위 물리 단위. [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)(CPU)별로 붙어있는 램 덩어리를 `Node 0`, `Node 1`로 추상화한다.
-2. **Zone (존, 구역)**: 
+2. **Zone (존, 구역)**:
    노드 안에서도 램의 용도(예: 32비트 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 전용 옛날 구역, 64비트 일반 구역 `ZONE_NORMAL`)를 다시 쪼갠다.
 3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page Frame</a> (<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>)</strong>:
    가장 말단의 4KB 조각들이다.

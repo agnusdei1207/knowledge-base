@@ -88,7 +88,7 @@ UCT 공식은 이 두 가지의 [가중치](/knowledge-base/studynote/10_ai/03_l
 
 ### 트레이드오프 (Trade-off) 심층 분석
 순수 MCTS의 가장 큰 단점은 3단계 <strong>'무작위 시뮬레이션(Random Playout)'의 비효율성</strong>입니다. 바둑 고수라면 절대 두지 않을 바보 같은 곳까지 랜덤이라는 이유로 바둑돌을 놓아보며 쓸데없는 연산을 낭비합니다.
-- 이를 해결하기 위해 딥마인드(DeepMind)는 [MCTS](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/) 아키텍처에 딥러닝을 융합했습니다. 
+- 이를 해결하기 위해 딥마인드(DeepMind)는 [MCTS](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/) 아키텍처에 딥러닝을 융합했습니다.
 - 무작위로 수를 놓는 대신 <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>망(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a> Network)</strong>이 "프로기사라면 여기 둘 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 높아"라고 후보군을 대폭 줄여주고(Width 감소), 무식하게 끝까지 시뮬레이션 하는 대신 <strong>가치망(Value Network)</strong>이 "이 판세는 이미 백이 70% 이긴 판이야"라고 도중에 평가해 버림으로써(Depth 감소), MCTS의 연산 트레이드오프를 완벽하게 파괴해 버렸습니다.
 
 - **📢 섹션 요약 비유**: 순수 MCTS가 "눈을 가리고 다트 1만 개를 던져서 과녁을 맞히는 훈련"이라면, 알파고의 MCTS는 "시력 검사(가치망)를 마친 저격수가 망원렌즈([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)망)를 달고 다트 10개만 정밀하게 쏘는 훈련"으로 최적화된 것입니다.

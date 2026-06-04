@@ -130,13 +130,13 @@ tags = ["studynote-computer-architecture"]
 1. 장치가 단순 제어 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 수준인가, 아니면 대규모 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)·큐 구조를 갖는가?
 2. 대상 플랫폼이 x86 레거시 호환을 요구하는가?
 3. [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서 `IN`/`OUT` [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 비용을 감당할 수 있는가?
-4. 향후 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/), [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/)와의 통합을 고려했는가?
+4. 향후 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/), [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/)와의 통합을 고려했는가?
 
 ### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 고속 장치를 분리형 I/O만으로 계속 제어하려는 설계
 - 드라이버 확장성을 무시하고 "예전 방식이니 그대로 유지"하는 접근
-- [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 접근이 단순하다는 이유로 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/)·[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 비용을 과소평가하는 판단
+- [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 접근이 단순하다는 이유로 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/)·[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 비용을 과소평가하는 판단
 
 실제 현장에서는 "가능하냐"보다 "지금도 그 선택이 경제적인가"를 물어야 한다. 분리형 I/O는 여전히 존재하지만, 새로운 장치 설계의 기본값은 아니라는 점이 중요하다.
 

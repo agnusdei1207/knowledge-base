@@ -18,7 +18,7 @@ tags = ["software_engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-과거의 인프라 구축은 고통스러운 수작업의 연속이었다. 엔지니어가 클라우드 콘솔에 접속해 1번 서버를 켜고, IP를 잡고, 패키지를 설치하는 과정을 10번, 100번 반복해야 했다. 
+과거의 인프라 구축은 고통스러운 수작업의 연속이었다. 엔지니어가 클라우드 콘솔에 접속해 1번 서버를 켜고, IP를 잡고, 패키지를 설치하는 과정을 10번, 100번 반복해야 했다.
 
 이러한 수작업은 필연적으로 치명적인 인적 오류 (Human Error)를 낳는다. 실수로 4번 서버만 포트를 덜 열거나 패키지 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 틀어지는 현상이 발생하는데, 이를 구성 드리프트 ([Configuration Drift](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/)) 또는 서로 미세하게 다르다는 뜻의 눈송이 서버 ([Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) Server) 문제라고 한다. IaC는 이 끔찍한 노가다와 불일치를 없애기 위해 등장했다. 서버 종류, 개수, 네트워크 설정을 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(YAML, [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/), HCL)에 설계도로 적어 두면, 자동화 도구 로봇이 코드를 읽고 클라우드 환경에 완벽히 똑같은 인프라를 지어주는 패러다임 전환이다.
 
@@ -89,7 +89,7 @@ IaC는 주로 명령형 (Imperative) 방식과 선언형 ([Declarative](/knowled
 
 ## Ⅴ. 기대효과 및 결론
 
-인프라로서의 코드([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/))는 단순히 시스템 관리자의 타이핑 수고를 덜어준 것이 아니다. 인프라스트럭처 자체를 소프트웨어 엔지니어링의 영역으로 끌어올린 패러다임 시프트다. 
+인프라로서의 코드([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/))는 단순히 시스템 관리자의 타이핑 수고를 덜어준 것이 아니다. 인프라스트럭처 자체를 소프트웨어 엔지니어링의 영역으로 끌어올린 패러다임 시프트다.
 
 재사용성을 통해 미국 지사 서버를 한국 지사 코드 복붙 하나로 찍어내고, 보안 취약점 점검조차 코드 스캔 도구로([DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)) 배포 전에 막아낸다. 결국 IaC의 궁극적인 결론은 "인프라는 물리적인 철덩어리나 클릭 설정이 아니라, 논리적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능하고 통제 가능한 소프트웨어 텍스트 그 자체"라는 점이다. 클라우드 시대에 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 없는 인프라 관리는 곧 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 그 자체로 취급된다.
 

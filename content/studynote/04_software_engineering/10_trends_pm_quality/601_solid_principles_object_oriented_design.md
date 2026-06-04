@@ -19,8 +19,8 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
-  - 1990년대, 소프트웨어는 100만 줄의 뚱뚱한 C/C++ 덩어리였다. 객체지향([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/))을 쓴답시고 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(Inheritance)을 떡칠했다가, 부모 클래스 1줄 바꿨더니 자식 클래스 1만 개가 시뻘건 에러를 토하며 일제히 사망하는 지옥(Fragility)이 열렸다. 
+- **개념**:
+  - 1990년대, 소프트웨어는 100만 줄의 뚱뚱한 C/C++ 덩어리였다. 객체지향([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/))을 쓴답시고 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(Inheritance)을 떡칠했다가, 부모 클래스 1줄 바꿨더니 자식 클래스 1만 개가 시뻘건 에러를 토하며 일제히 사망하는 지옥(Fragility)이 열렸다.
   - Uncle Bob이 "이따위로 짜면 안 돼!"라며 정리한 **S, O, L, I, D** 5가지 원칙. 코드가 썩는 악취([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))를 도끼로 찍어내기 위한 방부제.
 
 - **필요성 (강결합과 경직성의 파국)**: 사장님이 "결제 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 카카오페이 1개 추가해 줘" 지시했다. 주니어가 `PaymentService.java` 파일을 열고 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000번째 줄에 `if(payType == "KAKAO")` 10줄을 욱여넣고 저장했다. 다음 날 아침 쿠팡 메인 서버가 뻗었다. 카카오페이 코드 넣다가 위에 있던 '신용카드 결제' 괄호(`}`) 하나를 건드려서 카드 결제가 100% 막힌 것이다. <strong>"아 씨발! 기능 하나 '추가(Add)'하는데 왜 멀쩡히 돌던 기존 코드를 '수정(Modify)'하려다 지뢰를 밟아야 해?! 기존 코드는 1바이트도 건드리지 않고도 새 기능을 무한대로 레고처럼 꽂을 수 있는 완벽한 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>화 설계 없어?!"</strong> 이 피눈물 나는 경직성(Rigidity)의 한계를 부수기 위해 SOLID가 태어났다.

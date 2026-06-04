@@ -21,7 +21,7 @@ tags = ["studynote-network"]
 
 1985년 데이비드 체이스가 고안한 고전적이고 단순한 방식입니다.
 
-- **방식**: 
+- **방식**:
   1. 수신기가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받았는데 에러가 나서 [NAK](/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/)(재요청)를 보냅니다.
   2. 송신기는 1차 때 보냈던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 <strong>토씨 하나 안 틀리고 똑같은 원본+패리티 코드를 그대로 복사해서 2차 전송</strong>합니다.
 - **수신기의 융합 (최대비 결합, MRC)**:

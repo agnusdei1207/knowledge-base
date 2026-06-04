@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **Digital (가상의 0과 1)** + **Twin (쌍둥이)**. 현실 세계(Physical World)에 존재하는 자동차, 항공기, 스마트 시티를 100% 똑같은 스펙의 3D 소프트웨어 덩어리로 컴퓨터(Virtual World) 뱃속에 복제해 두는 것.
   - 단순 3D CAD 도면과의 결정적 차이: CAD는 죽어있는 그림이다. 트윈은 현실 쌍둥이의 '현재 심장 박동(온도, 진동, 압력)' [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간으로 수혈받아 똑같이 살아 숨 쉰다.
 

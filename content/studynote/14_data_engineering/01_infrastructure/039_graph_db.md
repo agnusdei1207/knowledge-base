@@ -41,7 +41,7 @@ tags = ["studynote-data-engineering"]
 관계형 DB 비교:
   관계형: 친구의 친구의 친구 = 3번 JOIN
   그래프: MATCH (a)-[:KNOWS*3]->(c) RETURN c
-  
+
   JOIN 깊이 ↑ -> 관계형 성능 급감
   그래프 탐색 -> 깊이에 관계없이 일정
 ```
@@ -55,7 +55,7 @@ tags = ["studynote-data-engineering"]
 ```
 Cypher (Neo4j):
   그래프 패턴을 ASCII 아트로 표현
-  
+
 기본 문법:
   (노드) -[관계]-> (노드)
 
@@ -97,21 +97,21 @@ Page Rank:
    (User)-[:FOLLOWS]->(User)
    팔로워 추천, 영향력 분석
    예: Twitter 팔로우 그래프
-   
+
 2. 추천 시스템:
    (User)-[:BOUGHT]->(Product)
    (User)-[:LIKES]->(Product)
    협업 필터링 -> "당신과 비슷한 사람이 산 것"
-   
+
 3. 사기 탐지 (Fraud Detection):
    (Account)-[:TRANSFER_TO]->(Account)
    공통 기기/주소/패턴으로 사기 링 탐지
    링크 분석(Link Analysis): 공통 연결 노드 발견
-   
+
 4. 지식 그래프 (Knowledge Graph):
    Google 지식 패널, Wikidata
    (Entity)-[:IS_A]->(Category)
-   
+
 5. IT 인프라 의존성:
    (Service)-[:DEPENDS_ON]->(Database)
    장애 전파 경로 분석
@@ -133,14 +133,14 @@ Page Rank:
     JOIN friends f1 ON u1.id = f1.user_id
     JOIN users u2 ON f1.friend_id = u2.id
     ... (6번 반복)
-    
+
   1억 사용자 기준: ~분 소요
-  
+
 그래프 Cypher (6단계):
   MATCH (p:Person {name:"Alice"})
         -[:KNOWS*1..6]->(target)
   RETURN target.name
-  
+
   같은 데이터: ~밀리초
   이유: "인덱스 없는 인접성 (Index-Free Adjacency)"
        각 노드가 자신의 이웃 직접 참조
@@ -165,7 +165,7 @@ Page Rank:
   (Account)-[:TRANSFER {amount,time}]->(Account)
   (Account)-[:USES]->(Device)
   (Account)-[:LIVES_AT]->(Address)
-  
+
 사기 링 탐지 쿼리:
   // 동일 기기를 공유하는 계좌 클러스터
   MATCH (a1:Account)-[:USES]->(d:Device)
@@ -183,7 +183,7 @@ Page Rank:
 결과:
   관계형 DB: 이 패턴 찾는 쿼리 = 5분 이상
   Neo4j: 동일 데이터 = 200ms
-  
+
 실시간 처리:
   거래 발생 시 즉시 그래프 분석
   의심 패턴 발견 시 거래 보류

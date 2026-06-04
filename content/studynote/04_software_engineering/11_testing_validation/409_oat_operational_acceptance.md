@@ -19,10 +19,10 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어 릴리즈 직전, 개발팀과 현업 부서(비즈니스 사용자)는 UAT(User Acceptance Testing)를 통해 화면이 잘 나오고 계산이 맞는지를 확인하며 환호합니다. 
-하지만 IT 운영팀(Infra/Ops)의 표정은 다릅니다. 이들은 "새벽 3시에 서버 전원 코드가 뽑혀 이중화가 넘어가야 할 때", 혹은 "랜섬웨어에 걸려 어제 날짜로 DB를 긴급 복원해야 할 때" 시스템이 매뉴얼대로 작동할지를 더 우려합니다. 
+소프트웨어 릴리즈 직전, 개발팀과 현업 부서(비즈니스 사용자)는 UAT(User Acceptance Testing)를 통해 화면이 잘 나오고 계산이 맞는지를 확인하며 환호합니다.
+하지만 IT 운영팀(Infra/Ops)의 표정은 다릅니다. 이들은 "새벽 3시에 서버 전원 코드가 뽑혀 이중화가 넘어가야 할 때", 혹은 "랜섬웨어에 걸려 어제 날짜로 DB를 긴급 복원해야 할 때" 시스템이 매뉴얼대로 작동할지를 더 우려합니다.
 
-<strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/">OAT</a>(<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/409_operational_acceptance_testing_oat/">Operational Acceptance Testing</a>, <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/">운영 인수 테스트</a>)</strong>는 바로 이 운영자([Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/))들을 만족시키기 위한 테스트입니다. 
+<strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/">OAT</a>(<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/409_operational_acceptance_testing_oat/">Operational Acceptance Testing</a>, <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/">운영 인수 테스트</a>)</strong>는 바로 이 운영자([Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/))들을 만족시키기 위한 테스트입니다.
 애플리케이션을 살아 숨 쉬는 '생물'로 보고, 이 생물이 데이터센터라는 척박한 환경에서 버티기 위한 <strong>인프라 적합성, 모니터링 연동성, 재난 복원력</strong>을 검증하는 매우 차갑고 기계적인 테스트입니다.
 
 ```text
@@ -84,7 +84,7 @@ OAT는 [비기능 요구사항](/knowledge-base/studynote/04_software_engineerin
 전통적인 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 시대에 OAT는 거대한 체크리스트를 들고 서버실에 들어가 랜선을 뽑아보는 수작업 기반이었습니다.
 하지만 오늘날 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a>(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">Site Reliability 엔진ering</a>)</strong>와 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서는 OAT마저 코드로 내재화(Testing [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 됩니다.
 
-[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(k8s) 환경에서 OAT는 Pod를 무작위로 삭제하거나, 네트워크 지연을 5초 발생시켰을 때 Liveness/Readiness Probe가 정상적으로 헬스체크를 갱신하며 자동 재기동(Self-healing)하는지를 파이프라인에서 자동으로 테스트합니다. 
+[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(k8s) 환경에서 OAT는 Pod를 무작위로 삭제하거나, 네트워크 지연을 5초 발생시켰을 때 Liveness/Readiness Probe가 정상적으로 헬스체크를 갱신하며 자동 재기동(Self-healing)하는지를 파이프라인에서 자동으로 테스트합니다.
 OAT를 통과하지 못하면 아무리 개발 코드가 뛰어나도 릴리즈 파이프라인의 배포 버튼이 비활성화되는 강제 통제 수단으로 작용합니다.
 
 - **📢 섹션 요약 비유**: 옛날엔 관리인이 매달 한 번씩 소화기를 흔들어보며 점검했다면, 요즘은 로봇이 매일 아침마다 무작위로 복도에 가짜 불을 살짝 피워보고 스프링클러 로봇이 잘 켜지는지 전산으로 자동 확인하는 수준이 되었습니다.
@@ -116,7 +116,7 @@ OAT는 흔히 프로젝트 막바지에 "시간 부족"을 이유로 생략하�
 
 ## Ⅴ. 기대효과 및 결론
 
-[OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/)([운영 인수 테스트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/))는 개발팀(Dev)과 운영팀(Ops) 간의 신뢰를 연결하는 최후의 다리입니다. 
+[OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/)([운영 인수 테스트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/))는 개발팀(Dev)과 운영팀(Ops) 간의 신뢰를 연결하는 최후의 다리입니다.
 아무리 뛰어난 비즈니스 앱도 운영이 불가능한 구조라면 시한폭탄에 불과합니다. OAT를 철저히 거친 소프트웨어는 새벽의 장애에도 당직자를 당황시키지 않는 강인한 생명력을 갖게 되며, 장기적인 총소유비용([TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/))과 장애 대응 손실을 드라마틱하게 낮추는 방어선으로 영원히 작동할 것입니다.
 
 - **📢 섹션 요약 비유**: 가장 뛰어난 검술을 자랑하는 병사라도, 비상식량이 없고 갑옷을 혼자 입고 벗지 못한다면 실전에서 얼어 죽습니다. OAT는 그 병사에게 스스로 버티고 살아남는 '생존 훈련 수료증'을 발급해 주는 과정입니다.

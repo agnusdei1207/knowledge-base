@@ -76,7 +76,7 @@ StatefulSet을 정확히 이해하려면 무상태 워크로드를 관리하는 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 StatefulSet은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성이 생명인 인프라 컴포넌트를 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 위로 올릴 때 핵심적인 의사결정 대상이 된다. 
+실무에서 StatefulSet은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성이 생명인 인프라 컴포넌트를 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 위로 올릴 때 핵심적인 의사결정 대상이 된다.
 
 ### 💡 기술사 판단 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
 1. **워크로드 특성 검토**: [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 이름이나 IP가 변경되었을 때, 클러스터 [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)(예: [Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/), Paxos)이 깨지는가?

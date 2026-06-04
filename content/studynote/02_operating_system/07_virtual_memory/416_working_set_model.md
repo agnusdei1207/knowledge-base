@@ -61,7 +61,7 @@ tags = ["studynote-operating-system"]
 
 운영체제는 모든 프로세스의 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 견적서(WSS)를 취합하여 시스템의 생사를 결정한다.
 
-> **$D = \sum_{i=1}^{n} WSS_i$** 
+> **$D = \sum_{i=1}^{n} WSS_i$**
 > (D: 전체 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)의 총합 / M: 메인보드에 꽂힌 물리 램 총 프레임 수)
 
 1. **$D \le M$ ([안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/))**:
@@ -79,7 +79,7 @@ tags = ["studynote-operating-system"]
 이론은 완벽하지만 구현은 지옥이다.
 - $\Delta$가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000번 호출이라면, CPU가 메모리를 찌를 때마다 최근 1만 번의 기록을 저장하고 큐를 밀어내야 한다 (Overhead 폭발).
 - 이를 해결하기 위해 OS는 <strong>'타이머 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>'와 '<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>(R <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>)'</strong>를 이용한 근사치 기법을 쓴다.
-- **구현 꼼수**: 
+- **구현 꼼수**:
   1. [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)마다 '[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)' 외에 2비트짜리 작은 히스토리 변수를 둔다.
   2. 5초마다 타이머가 깨어나 R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 읽고 0으로 리셋한다.
   3. 최근 3번의 타이머(15초) 동안 R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 1번이라도 1로 켜졌던 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들은 모조리 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 집합에 포함시킨다.
@@ -123,7 +123,7 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오: 윈도우즈(Windows OS)의 [Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 튜닝
 리눅스가 PFF나 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)에 치중했다면, Microsoft의 Windows OS는 전통적으로 이 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">워킹 셋</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">Working Set</a>) 모델</strong>을 OS 핵심 아키텍처로 신봉해 왔다.
-1. **작업 관리자의 비밀**: 
+1. **작업 관리자의 비밀**:
    - 윈도우 작업 관리자([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Manager)를 열어 프로세스 탭의 메모리 컬럼을 보면, 그것이 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 총량이 아니라 바로 <strong>"현재 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">워킹 셋</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">Working Set</a>)"</strong> 크기다.
 2. **Min / Max Working Set의 강제**:
    - 윈도우 커널은 프로세스를 띄울 때 기본적으로 최소 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)(Min)과 최대 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)(Max)을 부여한다.
@@ -134,9 +134,9 @@ tags = ["studynote-operating-system"]
    - 이 락을 걸면 윈도우가 아무리 램이 쪼들려도 절대 이 게임의 2GB 프레임을 스왑으로 쫓아내지 않는다([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 원천 차단). 무거운 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 게임이 윈도우에서 렉 없이 돌아가는 궁극의 실무 API다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)을 초과하는 잦은 Full Scan
-[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 서버에서 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))가 깨져서 10GB짜리 테이블을 `Full Table Scan` 하는 악성 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 터졌다고 치자. 
+[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 서버에서 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))가 깨져서 10GB짜리 테이블을 `Full Table Scan` 하는 악성 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 터졌다고 치자.
 이 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 평소의 얌전한 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)(100MB)을 뚫고, 10GB 전체의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 1장씩 훑고 지나간다.
-[워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 모델 입장에선 "헉! 이놈의 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)이 10GB로 팽창했다!"라고 착각하고, 남의 램을 모조리 뺏어다 얘한테 10GB를 쏟아붓는다. 정작 이 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 10GB를 한 번 읽고 버릴 쓰레기인데 말이다. 이로 인해 서버 전체의 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)이 붕괴하며 대재앙(Cache Pollution)이 벌어진다. 
+[워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 모델 입장에선 "헉! 이놈의 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)이 10GB로 팽창했다!"라고 착각하고, 남의 램을 모조리 뺏어다 얘한테 10GB를 쏟아붓는다. 정작 이 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 10GB를 한 번 읽고 버릴 쓰레기인데 말이다. 이로 인해 서버 전체의 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)이 붕괴하며 대재앙(Cache Pollution)이 벌어진다.
 
 - **📢 섹션 요약 비유**: 윈도우 OS는 식당 주인으로서 손님(프로세스)마다 "이 손님은 밥그릇 3개(Min) ~ 5개(Max)면 충분해"라고 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)을 철저히 관리합니다. 그런데 갑자기 푸드파이터(풀 스캔 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))가 들어와서 그릇 1,000개를 달라고 난동을 부리면, 주인이 당황해서 다른 손님 밥그릇을 다 뺏어주는 바람에 식당이 망해버리는 치명적 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)입니다.
 

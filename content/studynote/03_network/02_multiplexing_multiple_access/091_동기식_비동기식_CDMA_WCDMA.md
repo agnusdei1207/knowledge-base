@@ -91,7 +91,7 @@ tags = ["network"]
 
 ## Ⅴ. 기대효과 및 결론
 
-비동기식 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) (WCDMA)는 동기식이 쥐고 있던 절대적 타이밍의 족쇄를 끊어내며 글로벌 통신 기술의 단일화를 이뤄낸 역사적 규격이다. 
+비동기식 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) (WCDMA)는 동기식이 쥐고 있던 절대적 타이밍의 족쇄를 끊어내며 글로벌 통신 기술의 단일화를 이뤄낸 역사적 규격이다.
 
 지형과 인프라 제약 없이 어디서든 유연하게 기지국을 늘릴 수 있는 생태계적 강점 덕분에, WCDMA는 [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) 진영을 중심으로 전 세계 80% 이상의 시장을 제패했다. 더 중요한 사실은 비동기식 셀 탐색 방식(계층적 동기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 추적)이 이후 LTE와 [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) ([New Radio](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/))의 핵심 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 메커니즘으로 고스란히 유산처럼 이어졌다는 점이다. 결국 미래 통신망은 강력한 단일 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)보다는 유연한 비동기식 자율 분산형 아키텍처가 우월함을 WCDMA가 완벽하게 입증했다.
 

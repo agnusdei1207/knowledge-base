@@ -125,8 +125,8 @@ NoHz
 
 ## 어린이를 위한 3줄 비유 설명
 
-꼭 울릴 필요 없어요.  
-필요할 때만 울려요.  
+꼭 울릴 필요 없어요.
+필요할 때만 울려요.
 틱리스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 그런 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이에요.
 
 ---

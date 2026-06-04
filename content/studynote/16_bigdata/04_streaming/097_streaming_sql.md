@@ -32,7 +32,7 @@ tags = ["studynote-bigdata"]
   FROM clicks
   WHERE event_type = 'purchase'
   GROUP BY user_id, TUMBLE(event_time, INTERVAL '5' MINUTE)
-  
+
   → 동일한 로직을 SQL 한 줄로!
 ```
 

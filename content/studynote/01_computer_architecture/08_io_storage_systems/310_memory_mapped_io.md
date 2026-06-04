@@ -119,7 +119,7 @@ MMIO를 정확히 이해하려면 분리형 I/O (Isolated I/O, PMIO)와 비교�
 
 ## Ⅴ. 기대효과 및 결론
 
-MMIO의 가장 큰 효과는 하드웨어와 소프트웨어 사이의 접점을 단순화한다는 데 있다. CPU는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합을 줄일 수 있고, 드라이버는 포인터 기반 접근 모델을 재사용할 수 있으며, 운영체제는 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) 기법으로 장치 접근 권한까지 함께 통제할 수 있다. 즉 MMIO는 “장치 제어를 메모리 모델 안으로 끌어들여 시스템 전체를 더 일관되게 만든다”는 전략이다.
+MMIO의 가장 큰 효과는 하드웨어와 소프트웨어 사이의 접점을 단순화한다는 데 있다. CPU는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합을 줄일 수 있고, 드라이버는 포인터 기반 접근 모델을 재사용할 수 있으며, 운영체제는 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) 기법으로 장치 접근 권한까지 함께 통제할 수 있다. 즉 MMIO는 “장치 제어를 메모리 모델 안으로 끌어들여 시스템 전체를 더 일관되게 만든다”는 전략이다.
 
 물론 대가도 있다. 주소 공간을 일부 소비하고, 잘못 캐시하거나 순서를 보장하지 않으면 메모리 오류보다 더 찾기 어려운 장치 오동작이 발생한다. 또한 MMIO 자체가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 만능 해법은 아니므로, 고속 I/O에서는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/), [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 최적화와 함께 설계되어야 한다.
 

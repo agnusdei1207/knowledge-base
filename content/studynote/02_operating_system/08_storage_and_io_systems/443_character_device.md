@@ -50,7 +50,7 @@ tags = ["studynote-operating-system"]
 │            내가 3번째 'L'만 콕 집어서 먼저 가져가는 것 불가능(No Seek) │
 └────────────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** 문자 장치는 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))나 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))라는 자료구조의 화신이다. 들어온 순서대로 처리되고, 처리되면 증발한다. [블록 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)(하드디스크)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 "보관(Storage)"을 목적으로 한다면, 문자 장치는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 <strong>"통과(Transit)"와 "소통(Communication)"</strong>을 목적으로 디자인된 태생부터 다른 생명체다. 
+**[다이어그램 해설]** 문자 장치는 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))나 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))라는 자료구조의 화신이다. 들어온 순서대로 처리되고, 처리되면 증발한다. [블록 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)(하드디스크)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 "보관(Storage)"을 목적으로 한다면, 문자 장치는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 <strong>"통과(Transit)"와 "소통(Communication)"</strong>을 목적으로 디자인된 태생부터 다른 생명체다.
 
 - **📢 섹션 요약 비유**: [블록 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)(하드)는 '도서관 대출 장부'처럼 내가 언제든 몇 번 책을 대출했는지 주소를 콕 집어 찾아볼 수 있는 공간입니다. 하지만 문자 장치(키보드)는 흐르는 강물에 종이배를 띄워 보내는 것과 같습니다. 강 하류(OS)에서 종이배가 흘러오는 족족 뜰채로 건져야지, 강물한테 "아까 떠내려간 첫 번째 종이배 다시 가져와!"라고 명령할 수 없는 자연의 섭리입니다.
 
@@ -64,14 +64,14 @@ tags = ["studynote-operating-system"]
 - 내가 터미널에서 `ls`를 치고 `백스페이스(지우기)`를 눌러 `l`로 만들고 다시 `s`를 치고 `엔터`를 쳤다 치자.
 - 이걸 앱이 1글자씩 받아서 지우기 로직을 다 구현하려면 앱 개발자가 피눈물을 흘린다.
 - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 중간 필터 (Line Discipline)</strong>: 리눅스는 키보드 하드웨어 드라이버와 유저 앱 사이에 이 '라인 디시플린'이라는 마법의 가공 공장을 끼워 넣었다.
-- 이 공장은 키보드에서 날아오는 문자를 쭉 모으고 있다가, 유저가 '백스페이스'를 치면 지가 알아서 앞 글자를 지워준다(Editing). 
+- 이 공장은 키보드에서 날아오는 문자를 쭉 모으고 있다가, 유저가 '백스페이스'를 치면 지가 알아서 앞 글자를 지워준다(Editing).
 - 그러다 유저가 <strong>'엔터(Enter, <code>\n</code>)' 키를 빡! 치는 순간</strong>, 완벽하게 조립된 "한 줄(Line)"의 문자열 덩어리를 그제야 유저 앱에 툭 던져준다(Cooked Mode). 리눅스 터미널 환경을 지탱하는 위대한 미들웨어다.
 
 ---
 
 ### [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 오버헤드 ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Storm)의 공포
 
-문자 장치는 1바이트마다 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 던진다. 
+문자 장치는 1바이트마다 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 던진다.
 - 마우스를 휙 움직이면 1초에 1000번의 좌표값 1바이트짜리가 날아온다.
 - 1초에 1000번씩 CPU가 하던 일을 멈추고([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로 뛰어들어가 마우스 좌표를 읽어야 한다. (CPU 사이클 학살).
 - 옛날 구형 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(RS-232)로 1MB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 다운받으려면, 1바이트 들어올 때마다 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 터져서(100만 번의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 컴퓨터 전체가 화면이 멈추고 마우스조차 버벅대는 끔찍한 현상이 일어났다.
@@ -129,7 +129,7 @@ tags = ["studynote-operating-system"]
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): 터미널 캣(cat) 폭탄
 리눅스 터미널(TTY)도 거대한 문자 장치(`/dev/tty`)다.
-초보자가 10GB짜리 바이너리 [코어 덤프](/knowledge-base/studynote/02_operating_system/01_overview_architecture/035_core_dump/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 실수로 `cat` 명령어로 화면에 뿌렸다 치자. 
+초보자가 10GB짜리 바이너리 [코어 덤프](/knowledge-base/studynote/02_operating_system/01_overview_architecture/035_core_dump/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 실수로 `cat` 명령어로 화면에 뿌렸다 치자.
 10GB의 쓰레기 문자열이 터미널 문자 장치로 쏟아져 들어간다. 터미널은 화면([모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))에 1글자씩 그려내기 위해 그래픽 처리와 폰트 렌더링을 100억 번 수행한다. (엄청난 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)와 CPU 낭비). `Ctrl+C`를 아무리 눌러도 버퍼에 꽉 찬 문자열 큐를 다 소화할 때까지 터미널 창은 절대 응답하지 않고 컴퓨터 팬이 미친 듯이 도는 흑역사를 생성하게 된다. 대용량 텍스트는 무조건 `less`나 `tail`로 짤라 봐야 한다.
 
 - **📢 섹션 요약 비유**: `/dev/null`은 회사에 놓인 '건의함'과 같습니다. 직원들이 쓴 수만 장의 불만 소리([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 집어넣으면, 사장님([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))은 그걸 열어 읽어보지도 않고 통째로 파쇄기에 갈아버린 뒤 "여러분의 소중한 의견 모두 잘 읽었습니다(성공 리턴)"라고 발표하는 극강의 행정 꼼수입니다.

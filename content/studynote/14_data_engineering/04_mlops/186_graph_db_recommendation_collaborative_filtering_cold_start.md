@@ -58,7 +58,7 @@ tags = ["studynote-data-engineering"]
 
 매트릭스 분해 (Matrix Factorization):
   R ≈ P × Q^T
-  
+
   R: 평점 행렬 (N×M)
   P: 사용자 잠재 벡터 (N×K)  ← 사용자 선호 임베딩
   Q: 아이템 잠재 벡터 (M×K)  ← 아이템 속성 임베딩
@@ -66,7 +66,7 @@ tags = ["studynote-data-engineering"]
 
 최소화 목적 함수:
   min Σ_{u,i} (r_ui - p_u · q_i)² + λ(||p_u||² + ||q_i||²)
-  
+
   → SGD 또는 ALS (교대 최소 제곱)로 최적화
 ```
 
@@ -101,7 +101,7 @@ GraphSAGE (Graph SAmple and aggreGatE) 추천:
 
   각 노드의 임베딩을 이웃 노드 정보로 업데이트:
   h_v^k = σ(W^k · CONCAT(h_v^{k-1}, MEAN(h_u^{k-1} for u in N(v))))
-  
+
   여기서:
   - h_v^k: 레이어 k에서 노드 v의 임베딩
   - N(v): v의 이웃 노드 집합

@@ -155,7 +155,7 @@ tags = ["studynote-operating-system"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | [PTBR](/knowledge-base/studynote/02_operating_system/06_memory_management/354_ptbr_ptlr/) ([Page-Table Base Register](/knowledge-base/studynote/02_operating_system/06_memory_management/354_ptbr_ptlr/)) / PTLR (Page-Table Length [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
 | [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Look-aside Buffer](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
 | [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 적중 ([TLB Hit](/knowledge-base/studynote/02_operating_system/06_memory_management/358_tlb_hit_miss/)) / [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스 ([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Miss) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
@@ -176,7 +176,7 @@ tags = ["studynote-operating-system"]
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)에서의 공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) (Shared Pages)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
-2. 먼저 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/)을 이해하면 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)에서의 공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) (Shared Pages)이 왜 필요한지 더 쉽게 보여요.
+2. 먼저 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/)을 이해하면 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)에서의 공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) (Shared Pages)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)에서의 공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) (Shared Pages)을 잘 알면 나중에 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Look-aside Buffer](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/))도 훨씬 쉽게 배울 수 있어요.
 
 ---

@@ -19,12 +19,12 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-딥러닝 생태계는 크게 두 가지 환경으로 나뉜다. 
+딥러닝 생태계는 크게 두 가지 환경으로 나뉜다.
 연구실에서 "어떻게든 모델을 똑똑하게 훈련시키는" <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/">Training</a>(학습)</strong> 환경과, 실제 공장이나 스마트폰에 배포해서 "얼마나 빨리 대답(예측)하는가"가 중요한 **Inference(추론/서빙)** 환경이다.
 
 학습할 때는 연구자들이 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 편한 PyTorch나 TensorFlow가 최고다. 하지만 이 코드를 그대로 실전(Inference) 서버에 올리면 끔찍한 속도 병목이 발생한다. 파이썬(Python) 특유의 느린 실행 속도와, 훈련을 위해 덕지덕지 붙어있는 불필요한 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 노드들 때문이다. 자율주행차가 시속 100km로 달리는데, 카메라에 찍힌 보행자를 인식하는 데 0.5초가 걸리면 사람은 죽는다.
 
-"파이토치 코드를 그냥 쓰지 마! 실전용 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 칩셋에 딱 맞게 <strong>수학 공식을 싹 다 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>하고 묶어서 기계어(C++) 수준으로 컴파일</strong>해 버리자!" 
+"파이토치 코드를 그냥 쓰지 마! 실전용 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 칩셋에 딱 맞게 <strong>수학 공식을 싹 다 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>하고 묶어서 기계어(C++) 수준으로 컴파일</strong>해 버리자!"
 이 절박함에서 탄생한 것이 서로 다른 프레임워크 간의 번역기인 <strong>ONNX (Open Neural Network Exchange)</strong>와, 그 번역된 모델을 NVIDIA GPU의 영혼까지 끌어내어 미친 듯이 가속시키는 **TensorRT** [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이다.
 
 ```text

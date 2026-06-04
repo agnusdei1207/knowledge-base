@@ -122,15 +122,15 @@ n개 원소, n개 버킷 → 각 버킷 기대 원소 수 = 1
 
 ### 적합한 사용 사례
 
-<strong>시나리오 1 — <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/">부동소수점</a> 정렬</strong>: [0, 1) 사이 확률값, 측정치 n=100만  
-→ 균등 분포 가정 시 O(n) ≈ 100만 연산  
+<strong>시나리오 1 — <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/">부동소수점</a> 정렬</strong>: [0, 1) 사이 확률값, 측정치 n=100만
+→ 균등 분포 가정 시 O(n) ≈ 100만 연산
 → 퀵소트 O(n log n) ≈ 2,000만 연산 대비 약 20배 빠름
 
-**시나리오 2 — 연령 분포 분석**: 0~120세, n=1억 명  
-→ 연령은 균등 분포에 가까움 → 버킷 수 121개, 각 버킷 평균 826,446명  
+**시나리오 2 — 연령 분포 분석**: 0~120세, n=1억 명
+→ 연령은 균등 분포에 가까움 → 버킷 수 121개, 각 버킷 평균 826,446명
 → 이 경우 각 버킷이 여전히 크므로 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/016_counting_sort/">계수 정렬</a></strong>이 더 적합
 
-<strong>시나리오 3 — 지형 고도 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>: GPS 고도 0~8,848m (균등 분포)  
+<strong>시나리오 3 — 지형 고도 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>: GPS 고도 0~8,848m (균등 분포)
 → 버킷 정렬로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전처리 후 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 
 ### [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 방지 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
@@ -199,8 +199,8 @@ n개 원소, n개 버킷 → 각 버킷 기대 원소 수 = 1
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-🎯 **다트 과녁 던지기**: 과녁을 여러 구역으로 나누고, 각 구역에 몇 개가 꽂혔는지 세어서 순서대로 꺼내면 정렬이 돼요!  
-🏪 **편의점 진열대**: 음료를 종류별 진열대에 먼저 넣고, 각 진열대 안에서 가격순으로 정리하면 전체 음료를 빠르게 정렬할 수 있어요.  
+🎯 **다트 과녁 던지기**: 과녁을 여러 구역으로 나누고, 각 구역에 몇 개가 꽂혔는지 세어서 순서대로 꺼내면 정렬이 돼요!
+🏪 **편의점 진열대**: 음료를 종류별 진열대에 먼저 넣고, 각 진열대 안에서 가격순으로 정리하면 전체 음료를 빠르게 정렬할 수 있어요.
 🌈 <strong>무지개 색 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong>: 빨간색부터 보라색까지 통에 나눠 담고, 각 통 안에서 밝기 순으로 정리하면 전체 색을 아주 빠르게 정렬할 수 있어요!
 
 ---

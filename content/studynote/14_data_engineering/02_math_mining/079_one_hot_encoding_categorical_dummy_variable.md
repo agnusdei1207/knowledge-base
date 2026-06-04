@@ -30,7 +30,7 @@ tags = ["studynote-data-engineering"]
 2. **알고리즘의 치명적 착각 (수학적 붕괴)**:
    - 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 선형 회귀(Linear Regression) AI에게 던져주었다.
    - AI는 숫자의 크기(Magnitude)에 미친 듯이 반응한다. "아하! 사과(1)보다 포도(3)가 숫자가 3배 더 크니까, 가격이나 중요도도 무조건 3배 더 크겠군!"
-   - 심지어 "사과(1) + 바나나(2)를 더하면 포도(3)가 되는구나!"라는 미친 연산을 시작한다. 
+   - 심지어 "사과(1) + 바나나(2)를 더하면 포도(3)가 되는구나!"라는 미친 연산을 시작한다.
    - 종류(명목형 변수)를 구분할 뿐인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에, 인간이 억지로 서열(Ordinal)과 크기의 개념을 주입해 버려서 모델을 쓰레기로 만든 것이다.
 
 📢 섹션 요약 비유: 축구 선수들의 등 번호(라벨 인코딩)와 같습니다. 손흥민이 7번을 달고, 김민재가 14번을 달았다고 해서 "아, 김민재가 손흥민보다 축구 실력이 정확히 2배 높구나!"라고 계산하는 것은 미친 짓입니다. 등 번호는 그냥 '구별용 라벨'일 뿐 더하기 빼기의 대상이 아닙니다. 하지만 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(수학 공식)는 무식해서 등 번호가 숫자로 입력되는 순간 진짜 크기인 줄 알고 곱하기를 해버리는 치명적인 맹점을 가지고 있습니다.
@@ -48,7 +48,7 @@ tags = ["studynote-data-engineering"]
    - 두 번째 줄 손님은 포도를 샀다: `[0, 0, 1]` (포도 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 켜짐).
    - 숫자는 오직 `0(없다)`과 `1(있다)` 두 개뿐이다. 크기의 차이(1, 2, 3)가 소멸했다.
 3. **AI의 평온한 학습**:
-   - 이제 AI는 오해하지 않는다. "아하! 이 컬럼들은 1(True)이냐 0(False)이냐의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)일 뿐이구나. 바나나와 포도 사이에는 아무런 크기 차이도, 수학적 더하기 관계도 없다!" 
+   - 이제 AI는 오해하지 않는다. "아하! 이 컬럼들은 1(True)이냐 0(False)이냐의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)일 뿐이구나. 바나나와 포도 사이에는 아무런 크기 차이도, 수학적 더하기 관계도 없다!"
    - 편견([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))이 0%로 사라지고, 각 과일 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 켜졌을 때 매출에 미치는 순수한 영향력([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))만을 객관적으로 미친 듯이 정밀하게 학습해 낸다.
 
 📢 섹션 요약 비유: <strong>라벨 인코딩</strong>은 아파트 1동, 2동, 3동에 사는 사람들을 한 장부에 적는 것입니다. AI는 3동 사는 사람이 1동 사람보다 3배 부자라고 착각합니다. <strong>원-핫 인코딩</strong>은 장부에 동 호수를 지워버리고 방을 3개 새로 만듭니다. 1동 사람에게 물어봅니다. "너 1동 살아? (예=1, 아니오=0)", "너 2동 살아? (0)", "3동 살아? (0)". 이렇게 모든 사람에게 [1, 0, 0]이라는 3개의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 질문표를 던져서, 동 호수라는 숫자가 가진 '서열과 크기의 오해'를 100% 멸균 처리해 버리는 공평한 인터뷰 기법입니다.

@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 전통적인 폭포수(Waterfall) 프로젝트에서는 시스템 오픈을 하고 모든 일정이 끝난 뒤(6개월~1년 뒤)에야 '포스트모템(Post-mortem, 사후 분석)' 회의를 했다. "우리 그때 요구사항 분석을 잘못해서 망할 뻔했지..."라고 후회해 봤자 프로젝트는 이미 끝나버려서 개선할 기회가 없었다.
 
-[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))은 이를 비판했다. <strong>"1년 뒤에 반성하지 말고, 2주에 한 번씩(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">스프린트</a> 종료 시) 우리가 어떻게 일했는지 반성하고 바로 다음 날부터 고쳐서 일하자!"</strong> 
+[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))은 이를 비판했다. <strong>"1년 뒤에 반성하지 말고, 2주에 한 번씩(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">스프린트</a> 종료 시) 우리가 어떻게 일했는지 반성하고 바로 다음 날부터 고쳐서 일하자!"</strong>
 
 이 위대한 성찰의 시간이 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/071_sprint_retrospective/">스프린트 회고</a>(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/071_sprint_retrospective/">Sprint Retrospective</a>)</strong>다. 회고가 없는 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)은 그저 2주 단위로 코딩만 미친 듯이 찍어내는 기계 공장(Mini-waterfall)일 뿐, 진정한 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)이 아니다.
 

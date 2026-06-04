@@ -66,7 +66,7 @@ tags = ["studynote-network"]
 - **대응**: 육지 해안선에 있는 <strong>가장 높은 산꼭대기(한라산, 지리산)에 초거대 고출력 기지국(슈퍼셀, Super-cell) <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a></strong>를 설치하여 전파를 하늘 위에서 아래로 내리꽂듯이 쏴서 둥근 지구의 한계를 100km까지 밀어냅니다.
 
 ### 3. 초고주파 간섭과 선박의 흔들림 ([도플러 효과](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/))
-- 배가 파도에 미친 듯이 롤링(흔들림)하면 주파수가 찌그러지는 [도플러 효과](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/)가 납니다. 
+- 배가 파도에 미친 듯이 롤링(흔들림)하면 주파수가 찌그러지는 [도플러 효과](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/)가 납니다.
 - 배 위에 달린 송수신기 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에 짐벌(Gyro 센서)을 달아 배가 흔들려도 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 항상 꼿꼿이 육지 산꼭대기 기지국을 조준하도록(방향 추적) 하드웨어를 기계적으로 제어합니다.
 
 해상 통신망을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [철도 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/914_lte_r_railway_communication_qpp_ps_lte/) [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-R가 기반 조건을 만든다면, 해상 통신망은 그 위에서 핵심 메커니즘을 구현하고, P2P는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.

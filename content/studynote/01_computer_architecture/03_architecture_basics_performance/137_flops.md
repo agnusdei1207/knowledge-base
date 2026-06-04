@@ -105,22 +105,22 @@ FLOPS를 제대로 해석하려면 무엇과 비교해야 하는지 경계를 �
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a> 기준을 먼저 고정했는가?</strong>  
+1. <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a> 기준을 먼저 고정했는가?</strong>
    FP64, FP32, FP16, BF16 중 무엇을 기준으로 본 수치인지 먼저 확인해야 한다.
-2. **이론치가 아니라 실효치가 있는가?**  
+2. **이론치가 아니라 실효치가 있는가?**
    [LINPACK](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/153_linpack/), 실제 학습 시간, 시뮬레이션 완료 시간 같은 Sustained [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 함께 봐야 한다.
-3. **메모리와 인터커넥트가 받쳐 주는가?**  
+3. **메모리와 인터커넥트가 받쳐 주는가?**
    FLOPS가 높아도 메모리 병목과 노드 간 통신 지연이 크면 연산기가 놀게 된다.
-4. <strong>전력 대비 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>이 적절한가?</strong>  
+4. <strong>전력 대비 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>이 적절한가?</strong>
    [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터에서는 [총 소유 비용](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/006_tco_total_cost_of_ownership/)([TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/)) 때문에 FLOPS/Watt도 핵심 판단 기준이 된다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **정수·분기 중심 서비스에 FLOPS만 보고 가속기를 도입하는 판단**  
+- **정수·분기 중심 서비스에 FLOPS만 보고 가속기를 도입하는 판단**
   웹 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 처리, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 질의는 높은 FLOPS보다 지연시간, 캐시 효율, 메모리 접근 패턴이 더 중요할 수 있다.
-- <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a>를 무시한 채 TFLOPS 숫자만 비교하는 판단</strong>  
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a>를 무시한 채 TFLOPS 숫자만 비교하는 판단</strong>
   FP16 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 높은 장비가 FP64 중심 시뮬레이션에서 반드시 유리한 것은 아니다.
-- <strong>Peak FLOPS를 실제 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>으로 오해하는 판단</strong>  
+- <strong>Peak FLOPS를 실제 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>으로 오해하는 판단</strong>
   애플리케이션이 FMA 친화적이지 않거나 메모리 접근이 불규칙하면 이론치와 실측치 차이가 크게 벌어진다.
 
 결국 FLOPS는 "계산 엔진의 최대 출력"을 보여 주는 유용한 지표지만, 채택 판단은 반드시 워크로드 특성과 함께 내려야 한다. 시험 답안에서는 FLOPS의 정의를 말한 뒤, [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 차이와 메모리 병목까지 연결해 주면 좋은 답이 된다.

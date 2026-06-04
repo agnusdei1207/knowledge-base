@@ -123,8 +123,8 @@ Relational Model
 
 ## 어린이를 위한 3줄 비유 설명
 
-번호표가 꼭 있어야 해요.  
-같은 번호면 안 돼요.  
+번호표가 꼭 있어야 해요.
+같은 번호면 안 돼요.
 개체 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은 그런 규칙이에요.
 
 ---

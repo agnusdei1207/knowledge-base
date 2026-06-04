@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">Serverless</a></strong>: "서버 관리에 대한 신경을 쓴다(Server) ➡ 신경 쓸 게 없다([Less](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/))". 물리적 서버는 AWS 창고에 당연히 존재하지만 나한텐 투명 인간이다.
   - <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/">FaaS</a> (Function <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">as</a> a <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a>)</strong>: [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)의 핵심 뇌 구조. 옛날엔 `Spring Boot` 거대 앱을 올렸다. 이젠 무식하게 통째로 올리지 말고, `결제_함수()`, `이미지_리사이징_함수()` 처럼 100줄짜리 쪼꼬만 <strong>함수(Function) 쪼가리 단위로 배포</strong>해서 이벤트가 터질 때만 잠깐 실행하고 죽이는 초경량 모델이다.
 

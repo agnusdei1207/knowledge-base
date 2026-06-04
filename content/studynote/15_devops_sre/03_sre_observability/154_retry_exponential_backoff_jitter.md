@@ -19,27 +19,27 @@ tags = ["studynote-devops-sre"]
 ## Ⅰ. 개요 및 왜 '지수 백오프와 지터' [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
 과거 모놀리식 통짜 쇳덩이 1통 서버 시대. 함수 부르다 에러 나면 걍 서버가 디진 거니 재시도고 뭐고 뻗음 샷다 내리면 끝났다 💀.
-**대재앙 발동 💥**: 2026년 AWS 클라우드 K8s [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 1,000개가 허공에서 핑퐁 치는 대항해 시대. 
-A 서버 봇이 B 결제 서버를 찔렀다. 근데 중간 인터넷 랜선이 0.1초 찰칵 튕겨서 503 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 에러를 뿜음. 
-멍청한 주니어 코더 왈: "어? 에러네 ㅋ 야 걍 무한 루프 `while` 돌려서 0.1초마다 계속 무지성 재시도(Retry) 쏴 갈겨 뚫릴 때까지 ㅋ 데헷 ㅋ" 
-➔ **[Retry Storm (재시도 폭풍 쓰나미 멸망 💀)] 터짐 쾅!!!** 
+**대재앙 발동 💥**: 2026년 AWS 클라우드 K8s [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 1,000개가 허공에서 핑퐁 치는 대항해 시대.
+A 서버 봇이 B 결제 서버를 찔렀다. 근데 중간 인터넷 랜선이 0.1초 찰칵 튕겨서 503 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 에러를 뿜음.
+멍청한 주니어 코더 왈: "어? 에러네 ㅋ 야 걍 무한 루프 `while` 돌려서 0.1초마다 계속 무지성 재시도(Retry) 쏴 갈겨 뚫릴 때까지 ㅋ 데헷 ㅋ"
+➔ **[Retry Storm (재시도 폭풍 쓰나미 멸망 💀)] 터짐 쾅!!!**
 B 서버는 방금 램(RAM) 꽉 차서 헉헉대며 오토 힐링 재부팅 치려는데 ➔ 앞단에서 A 서버 봇 1만 개가 동시에 0.1초 단위로 **"야 살았냐 핑! 야 살았냐 핑!"** 100만 발 기관총 디도스(DDoS) 폭격을 쌩 다이렉트 셀프 팀킬로 내리꽂음 💥!! ➔ B 서버는 부팅할 0.001초 찰나의 숨구멍 여유 버퍼조차 확보 못 하고 영구 무한 뻗음 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 셧다운 압사 타죽음 파국 그룹사 연쇄 멸망 엔딩 터짐 쾅!!!
 
-**아키텍트 대장 극대노 도끼 철퇴 🪓**: "야 이 씨발 좆소 눈먼 폭탄마 새끼들아 멈춰 찢어발겨 쾅!!!! 
-**하늘이 무너져도 에러 뻗은 타겟 서버한테 동시 다발 융단 폭격 팀킬 알몸 직통 찌르기 절대 사살 컷 락킹 박아 쾅!!! 
-당장 소스 코드 네트워크 핏줄에 **[지수 백오프 (Exponential Backoff 텐트 🚀)]** 주사 꽂아!! 1번째 실패하면 1초 대기 ➔ 2번째 실패하면 2초 대기 ➔ 3번째 실패하면 4초 8초 대기... [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 찰칵 뒤로 물러서서 B 서버가 숨 쉬고 부팅 오토 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 힐링할 시간적 여유 방벽을 뚫어 내란 말이야 미친아 쾅!! 
-어 시발 근데 1만 명이 다 같이 1초 뒤, 2초 뒤, 4초 뒤 똑같은 초시계(Sync) 정각에 동시에 찌르면 또 무지성 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 터지잖아 💀?! 
-➔ 무.조.건 그 타이머 뱃속 시계에 **[지터 (Jitter 꼼수 난수 믹서기 쉴드 ✨)]** 랜덤 오차 주사위 굴려 쑤셔 쳐 박아 록온 해 쾅!!! A 놈은 4.1초, B 놈은 3.8초, C 놈은 4.5초에 찌르게 10만 명의 트래픽 총알을 1초 시간 허공 축 위로 잘게 잘게 나노 찢기 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 흩뿌려 스텔스 도륙 내버려 🚀!!!**" 
+**아키텍트 대장 극대노 도끼 철퇴 🪓**: "야 이 씨발 좆소 눈먼 폭탄마 새끼들아 멈춰 찢어발겨 쾅!!!!
+**하늘이 무너져도 에러 뻗은 타겟 서버한테 동시 다발 융단 폭격 팀킬 알몸 직통 찌르기 절대 사살 컷 락킹 박아 쾅!!!
+당장 소스 코드 네트워크 핏줄에 **[지수 백오프 (Exponential Backoff 텐트 🚀)]** 주사 꽂아!! 1번째 실패하면 1초 대기 ➔ 2번째 실패하면 2초 대기 ➔ 3번째 실패하면 4초 8초 대기... [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 찰칵 뒤로 물러서서 B 서버가 숨 쉬고 부팅 오토 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 힐링할 시간적 여유 방벽을 뚫어 내란 말이야 미친아 쾅!!
+어 시발 근데 1만 명이 다 같이 1초 뒤, 2초 뒤, 4초 뒤 똑같은 초시계(Sync) 정각에 동시에 찌르면 또 무지성 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 터지잖아 💀?!
+➔ 무.조.건 그 타이머 뱃속 시계에 **[지터 (Jitter 꼼수 난수 믹서기 쉴드 ✨)]** 랜덤 오차 주사위 굴려 쑤셔 쳐 박아 록온 해 쾅!!! A 놈은 4.1초, B 놈은 3.8초, C 놈은 4.5초에 찌르게 10만 명의 트래픽 총알을 1초 시간 허공 축 위로 잘게 잘게 나노 찢기 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 흩뿌려 스텔스 도륙 내버려 🚀!!!**"
 이것이 자기 시스템이 스스로를 쏴 죽이는 셀프 디도스를 100% 무결점으로 회피 투명 흡수 쉴드 쳐버리는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 우주 복원력([Resiliency](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)) 통제 0순위 성배 헌법이다.
 
-- **📢 섹션 요약 비유**: 이 무지성 즉시 재시도([Immediate](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/) Retry) 파국은, 아이돌 콘서트 티켓 예매 서버 뻗었을 때 <strong>'10만 명이 분노해서 키보드 F5 (새로고침) 버튼을 0.1초마다 동시 미친 듯이 다구리 광클 연타 치기 💥'</strong>와 100% 완벽히 똑같습니다. 서버는 안 그래도 아파 누워있는데 10만 명이 F5 샷건을 갈기면 서버 램 용광로 타죽어 영구 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가 멸망 사망 💀 합니다. 
+- **📢 섹션 요약 비유**: 이 무지성 즉시 재시도([Immediate](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/) Retry) 파국은, 아이돌 콘서트 티켓 예매 서버 뻗었을 때 <strong>'10만 명이 분노해서 키보드 F5 (새로고침) 버튼을 0.1초마다 동시 미친 듯이 다구리 광클 연타 치기 💥'</strong>와 100% 완벽히 똑같습니다. 서버는 안 그래도 아파 누워있는데 10만 명이 F5 샷건을 갈기면 서버 램 용광로 타죽어 영구 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가 멸망 사망 💀 합니다.
 아키텍트의 지터(Jitter) 마법 텐트는 다릅니다!! **"야 니들 다 같이 F5 누르지 마 쾅!! ➔ 너 철수는 3.1초 뒤에 눌러, 영희는 2.8초 뒤에 눌러, 민수는 4.5초 뒤에 눌러 록온 박아 ✨!!"** ➔ 손님 10만 명이 줄을 쫙 스무스하게 퍼트려 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 대기 입장(Decoupling) 치게 만들어 ➔ 서버 문지기가 안 뻗고 여유롭게 1명씩 쾌속 핑퐁 통과 합격 패스(Pass) 시켜 100% 무정단 평화 생존을 이룩하는 미친 트래픽 흩뿌리기 기만술입니다 🚀.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-"아 공식 존나 머리 아프네 걍 1초마다 때림 안 됨 ㅠ?" 
+"아 공식 존나 머리 아프네 걍 1초마다 때림 안 됨 ㅠ?"
 하수들의 고정 랙 대재앙 멸망 늪을 도끼로 찢어발기는 3단 십자 융합 수술 타임라인 도해다.
 
 ```text
@@ -84,7 +84,7 @@ B 서버는 방금 램(RAM) 꽉 차서 헉헉대며 오토 힐링 재부팅 치�
 2. **Equal Jitter (최소 대기 보장 방폭문 🛡️)**: `(cap/2) + random(0, cap/2)` ➔ "야 0초 랜덤 나오면 너무 빨리 다시 찌르잖아 무거워 쾅 💥!" 절반은 무.조.건 최소 대기 락킹([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 강제 보장 텐트 치고, 나머지 절반 시간 안에서만 랜덤 주사위 굴리는 꼼수 안정형.
 3. **Decorrelated Jitter (탈동기화 극한 찢기 ✨)**: 방금 대기했던 시간에 3배 뻥튀기 쳐서 랜덤 돌림. 갈수록 대기 시간이 미친 듯이 늘어나고 편차가 우주 폭발 팽창해 ➔ 도미노 동시 파도를 100% 원천 척살 영구 삭제 소각 증발 시켜버리는 쾌속 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 록온.
 
-- **📢 섹션 요약 비유**: 고정 간격 재시도(Fixed Retry) 파국 멸망은, 마트 오픈 런(오전 10시 정각 💥)에 <strong>'대기 줄 손님 1,000명이 정각 땡 치자마자 1개 좁은 유리 셔터 문구멍으로 동시에 우당탕 어깨빵 치며 돌격 비집고 들어가다 ➔ 문 유리 박살 나고 압사 동반 타죽음 셧다운 뻗음 💀'</strong>과 100% 똑같습니다. 파도처럼 쾅 칩니다. 
+- **📢 섹션 요약 비유**: 고정 간격 재시도(Fixed Retry) 파국 멸망은, 마트 오픈 런(오전 10시 정각 💥)에 <strong>'대기 줄 손님 1,000명이 정각 땡 치자마자 1개 좁은 유리 셔터 문구멍으로 동시에 우당탕 어깨빵 치며 돌격 비집고 들어가다 ➔ 문 유리 박살 나고 압사 동반 타죽음 셧다운 뻗음 💀'</strong>과 100% 똑같습니다. 파도처럼 쾅 칩니다.
 지터(Jitter 흩뿌리기 텐트 🚀) 방패는 다릅니다!! 매니저(아키텍트)가 **"야 니들 다 같이 뛰지 마!! 철수는 10시 0분 3초에 들어가고, 영희는 10시 0분 7초에 스무스하게 각자 개인 입장 시간 배정 록온 쾅 ✨!"** ➔ 1,000명의 폭주 발걸음을 시간대별로 쫙 부드럽게 찢어서 펼쳐주니까, 마트 유리문은 1mm도 안 깨지고 점원(서버)도 1명씩 웃으면서 QR코드 스캔 패스(Pass) 무결점 통과 쾌속 질주 처리해 내는 궁극의 트래픽 트래픽 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 우회 평화 기만술입니다 🚀.
 
 ---
@@ -104,11 +104,11 @@ B 서버는 방금 램(RAM) 꽉 차서 헉헉대며 오토 힐링 재부팅 치�
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/">🚨 아키텍트의 피 터지는 메스: [서킷 브레이커</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/">Circuit Breaker</a>) 와의 영혼 십자 융합 ✨]</strong>
 "야 재시도 10번 돌렸는데 타겟 서버 10번 다 뻗었네 시발 ㅋ 어캄 ㅠ?"
-- **아키텍트 듀얼 텐트 록온 🚀**: "야 이 좆소 타자기야 무한 폭격 쏘지 마 타죽어 쾅!!! 
-하늘이 찢어져도 **[Retry (재시도 핑퐁)] 와 Circuit Breaker (서킷 차단 퓨즈 방폭문 ⚡)] 두 무기를 마트료시카 러시아 인형처럼 양파 껍데기 겹겹이 십자 융합 조립해 포개 록온 쳐 발라라 쾅 🚀!!!** 
-**1단계 쉴드**: 걍 어쩌다 1~2번 핑 끊긴 가벼운 기침 에러(일시적)는 ➔ **[지터 섞은 재시도(Retry)]** 가 1~2초 컷 뒤에서 조용히 몰래 스위칭 핑 쏴서 스무스하게 100% 오토 힐링 투명 쉴드 막아냄 개꿀 ㅋ. 
-**2단계 방폭문 발동 💀**: 근데 3번 연속 찔렀는데 계속 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 뻗음 뱉네? 아 이 새끼 서버 진짜 불타 터져 디졌구나(지속적 대형 장애 팩트 스캔 록온 쾅 💥)!! ➔ 찰나의 순간 그 즉시 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">서킷 브레이커 차단 [스위치</a> 찰칵! OPEN 락킹 텐트 내려 찍어 절단 차단해 쾅 🪓!!!]</strong> 
-➔ 그 담부턴 유저 트래픽 들어와도 재시도 찌르지도 마 좆까 무시 컷 ➔ 걍 0.1초 컷 에러 튕겨내 반송 치고(Fail Fast) ➔ 내 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) CPU 램 용광로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 스텔스 자가 생존 확보 달성 🚀!!! 
+- **아키텍트 듀얼 텐트 록온 🚀**: "야 이 좆소 타자기야 무한 폭격 쏘지 마 타죽어 쾅!!!
+하늘이 찢어져도 **[Retry (재시도 핑퐁)] 와 Circuit Breaker (서킷 차단 퓨즈 방폭문 ⚡)] 두 무기를 마트료시카 러시아 인형처럼 양파 껍데기 겹겹이 십자 융합 조립해 포개 록온 쳐 발라라 쾅 🚀!!!**
+**1단계 쉴드**: 걍 어쩌다 1~2번 핑 끊긴 가벼운 기침 에러(일시적)는 ➔ **[지터 섞은 재시도(Retry)]** 가 1~2초 컷 뒤에서 조용히 몰래 스위칭 핑 쏴서 스무스하게 100% 오토 힐링 투명 쉴드 막아냄 개꿀 ㅋ.
+**2단계 방폭문 발동 💀**: 근데 3번 연속 찔렀는데 계속 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 뻗음 뱉네? 아 이 새끼 서버 진짜 불타 터져 디졌구나(지속적 대형 장애 팩트 스캔 록온 쾅 💥)!! ➔ 찰나의 순간 그 즉시 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">서킷 브레이커 차단 [스위치</a> 찰칵! OPEN 락킹 텐트 내려 찍어 절단 차단해 쾅 🪓!!!]</strong>
+➔ 그 담부턴 유저 트래픽 들어와도 재시도 찌르지도 마 좆까 무시 컷 ➔ 걍 0.1초 컷 에러 튕겨내 반송 치고(Fail Fast) ➔ 내 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) CPU 램 용광로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 스텔스 자가 생존 확보 달성 🚀!!!
 이 [재시도(단기 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/))] 와 [서킷 차단(장기 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))] 의 2단 방어 텐트야말로 클라우드 K8s MSA가 1경 트래픽 디도스를 우주 무결점으로 튕겨내 방어 캐리하는 0순위 불멸 헌법 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터피스다 🚀."
 
 ---
@@ -118,22 +118,22 @@ B 서버는 방금 램(RAM) 꽉 차서 헉헉대며 오토 힐링 재부팅 치�
 이 낡은 AWS 재시도 폭풍 백오프 철학이 모던 스프링 부트(Spring Boot)와 K8s [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/)) 엣지 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 어떻게 0.1초 컷 오토 방폭문으로 부활 영혼 환생 빙의했는가 🚀.
 
 ### 실무 판단 시나리오
-1. **Resilience4j 프레임워크 십자 코드 융합 텐트 ✨ (자바 쇳덩이 코어 수술)**: 
+1. **Resilience4j 프레임워크 십자 코드 융합 텐트 ✨ (자바 쇳덩이 코어 수술)**:
    주니어 코더가 자바 `try-catch` 안에 `Thread.sleep(1000)` 무식하게 1초 대기 쌩 하드코딩 떡칠 치고 `for` 루프 재시도 스파게티 쓰레기를 짰다 ([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 블로킹 타죽음 파국 💀).
-   - **아키텍트 Resilience4j 록온 🚀**: "야 이 미친 원시인 새끼야 쓰레드 스파게티 멈춰 찢어발겨 쾅!!! 
-   당장 글로벌 1타 방어 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) **[Resilience4j]** 뼈대 [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/) `.jar` 찰칵 꽂아 록온 박아 쾅!! 
-   코드 100줄 노가다 다 소각 삭제 컷 치고 ➔ 걍 어노테이션 `@Retry(name="orderApi", fallbackMethod="fallbackCall")` 딱 1줄 대가리에 텍스트 스티커 예쁘게 쳐 발라 덮어버려 ✨!! 
+   - **아키텍트 Resilience4j 록온 🚀**: "야 이 미친 원시인 새끼야 쓰레드 스파게티 멈춰 찢어발겨 쾅!!!
+   당장 글로벌 1타 방어 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) **[Resilience4j]** 뼈대 [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/) `.jar` 찰칵 꽂아 록온 박아 쾅!!
+   코드 100줄 노가다 다 소각 삭제 컷 치고 ➔ 걍 어노테이션 `@Retry(name="orderApi", fallbackMethod="fallbackCall")` 딱 1줄 대가리에 텍스트 스티커 예쁘게 쳐 발라 덮어버려 ✨!!
    그리고 외부 `.yml` [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에다가 ➔ `maxAttempts: 3` (3번만 찔러 컷), `waitDuration: 500ms` ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 0.5초 대기), `enableExponentialBackoff: true` (배수 폭격 지수 점프 록온 🚀), `jitter: 0.5` (50% 난수 오차 섞어 스텔스 흩뿌리기 텐트 쾅 🪓) 딱 세팅 4줄 텍스트만 치면 ➔ 인간 코더 개입 0.01% 없이 스프링 봇 대장 뇌가 알아서 AOP [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 스텔스 허공 띄워 100% 무결점 지터 핑퐁 우회 짬처리 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)(Off-load) 방어막 대행 쳐주는 궁극의 다이어트 로직 코드 은닉술이다 🚀!"
-2. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 전체 재시도 예산 (Retry Budget) 글로벌 통치 쿼터제 쉴드 🛡️</strong>: 
-   사내 K8s [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 100개가 전부 3번씩 지터 섞어 재시도 쏘게 텐트 다 쳐놨다 데헷 ㅋ. 
+2. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 전체 재시도 예산 (Retry Budget) 글로벌 통치 쿼터제 쉴드 🛡️</strong>:
+   사내 K8s [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 100개가 전부 3번씩 지터 섞어 재시도 쏘게 텐트 다 쳐놨다 데헷 ㅋ.
    **대재앙 발동 💥**: 근데 결제 DB 메인 서버가 10분 뻗었다. [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 100개가 각각 유저 요청 1,000건 받음 ➔ 10만 건 요청이 각각 3번씩 재시도 쏜다 ➔ 30만 건의 트래픽 쓰나미가 허공에서 눈덩이 스노우볼 파국 팽창 증폭되어 결제 DB 부활하자마자 대가리 꽂혀 다시 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 터져 죽음 💀!! (지터 뿌려도 총알 개수 자체가 수직 3배 떡상 폭발하는 미친 맹점 💥).
-   - **아키텍트 트위터(Twitter) Finagle 룰 도입 메스 🪓**: "야 이 씨발 총알 갯수 제한 안 두면 서버 터져 찢어 쾅!!! 
-   하늘이 찢어져도 1개 봇의 재시도 시야에 매몰되지 말고!! 전사 글로벌 클러스터 단위로 **[재시도 예산 쿼터제 (Retry Budget 텐트 🚀)]** 한도 락킹(Limit) 을 걸어 잠가 시멘트 쳐 박아라 쾅!!! 
-   '야! 전체 원본 정상 트래픽이 100발 날아갈 때 ➔ 재시도(Retry)로 날아가는 추가 공짜 총알 허용 한도는 무.조.건 **원본의 10%] 비율 10발 이하로만 절대 통제 감금 락 박아 제한 컷 쳐 쾅!!**' 
+   - **아키텍트 트위터(Twitter) Finagle 룰 도입 메스 🪓**: "야 이 씨발 총알 갯수 제한 안 두면 서버 터져 찢어 쾅!!!
+   하늘이 찢어져도 1개 봇의 재시도 시야에 매몰되지 말고!! 전사 글로벌 클러스터 단위로 **[재시도 예산 쿼터제 (Retry Budget 텐트 🚀)]** 한도 락킹(Limit) 을 걸어 잠가 시멘트 쳐 박아라 쾅!!!
+   '야! 전체 원본 정상 트래픽이 100발 날아갈 때 ➔ 재시도(Retry)로 날아가는 추가 공짜 총알 허용 한도는 무.조.건 **원본의 10%] 비율 10발 이하로만 절대 통제 감금 락 박아 제한 컷 쳐 쾅!!**'
    만약 봇들이 무지성 재시도 쏘다가 이 사내 재시도 한도 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 쿼터를 꽉 채워 돌파 소진 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 치는 0.001초 찰나 순간!! ➔ 모든 100개 봇한테 '야 씨발 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 한도 털렸다 재시도 예산 0원 오링임! 당장 재시도 1발도 쏘지 말고 포기 빠꾸 스톱(Abort) 즉시 사살 모가지 에러 튕겨내 Fail Fast 차단 쳐 쾅 🚀!!!' 글로벌 킬 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 내려버림으로써 ➔ 1경 트래픽 쓰나미 환경에서 서버가 스스로 증폭시킨 자폭 재시도 트래픽에 짓눌려 타죽는 연쇄 캐스케이딩(Cascading) 멸망 파국을 원천 100% 흡수 스텔스 압살 방어해 내는 우주 최강 인프라 튜닝 성배다 ✨."
 
-- **📢 섹션 요약 비유**: 이 재시도 예산(Retry Budget) 쿼터 한도 텐트는, <strong>'식당 주방장의 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>(재시도) 볶음밥 리미트 제한 룰'</strong>과 100% 똑같습니다. 볶음밥이 탔을 때 1번 다시 볶아주는(Retry) 건 착한 마법입니다. 근데 볶음밥 시킨 100명 손님 요리가 싹 다 불타서 까맣게 망했습니다(대형 장애 뻗음 💥). 주방장이 100그릇을 몽땅 미친 듯이 싹 다 1부터 다시 웍질 돌려 새로 볶으려(100% 무지성 재시도 💀) 덤비면? 주방장 팔 빠져 타 죽고 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)레인지 폭발 식당 파산 화재 멸망 납니다 쾅!! 
-아키텍트 매니저는 룰을 박습니다 🪓. <strong>"야! 하루 전체 요리 100그릇 중에 ➔ 10그릇(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>% 예산 록온 ✨)까지만 다시 볶아주는(Retry) 공짜 웍질 수리 허용할게 락킹 쾅!! 근데 10그릇 한도 넘어가는 순간? 야 시발 웍질 당장 중단 멈춰 컷!! 뒤에 남은 손님 90명한텐 걍 '오늘 밥 다 떨어짐 ㅈㅅ 빠이 퉤 💥(즉각 에러 튕겨내기 Fail Fast)' 선언 치고 돌려보내 환불 차단 방어막 내려 찍어 쾅 🚀!!"</strong> 
+- **📢 섹션 요약 비유**: 이 재시도 예산(Retry Budget) 쿼터 한도 텐트는, <strong>'식당 주방장의 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>(재시도) 볶음밥 리미트 제한 룰'</strong>과 100% 똑같습니다. 볶음밥이 탔을 때 1번 다시 볶아주는(Retry) 건 착한 마법입니다. 근데 볶음밥 시킨 100명 손님 요리가 싹 다 불타서 까맣게 망했습니다(대형 장애 뻗음 💥). 주방장이 100그릇을 몽땅 미친 듯이 싹 다 1부터 다시 웍질 돌려 새로 볶으려(100% 무지성 재시도 💀) 덤비면? 주방장 팔 빠져 타 죽고 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)레인지 폭발 식당 파산 화재 멸망 납니다 쾅!!
+아키텍트 매니저는 룰을 박습니다 🪓. <strong>"야! 하루 전체 요리 100그릇 중에 ➔ 10그릇(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>% 예산 록온 ✨)까지만 다시 볶아주는(Retry) 공짜 웍질 수리 허용할게 락킹 쾅!! 근데 10그릇 한도 넘어가는 순간? 야 시발 웍질 당장 중단 멈춰 컷!! 뒤에 남은 손님 90명한텐 걍 '오늘 밥 다 떨어짐 ㅈㅅ 빠이 퉤 💥(즉각 에러 튕겨내기 Fail Fast)' 선언 치고 돌려보내 환불 차단 방어막 내려 찍어 쾅 🚀!!"</strong>
 손님 몇 명 욕먹고 쫓아내는 게(유저 에러 찰과상 쉴드), 무리하게 다 요리 볶으려다 식당 건물이 통째로 화재 전소 멸망(전사 서버 마비 셧다운 💀) 당해 수장 타 죽는 대참사를 막아내는 가장 냉혹하고 이기적이며 위대한 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 생존 통치 경제학 매트릭스 룰입니다.
 
 ---
@@ -142,13 +142,13 @@ B 서버는 방금 램(RAM) 꽉 차서 헉헉대며 오토 힐링 재부팅 치�
 
 지수 백오프와 지터 (Exponential Backoff with Jitter) 트래픽 스나이퍼 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 튜닝술은 ➔ "서버가 에러 나면 그냥 0.1초 뒤에 또 찌르면 뚫리겠지 ㅋ" 라는 1차원적 주니어 코더들의 멍청한 이기적 뇌피셜(Hope) 기도 메타를 도끼로 찍어 부수고 ➔ **"니가 쏜 재시도 트래픽 1발이 눈덩이 스노우볼로 증폭 폭발하여 너희 회사 100억 메인 서버의 심장 숨통을 끊어놓는 셀프 디도스 암살자(Retry Storm) 악마 파국이 된다 💀 쾅!!"** 이라는 K8s 클라우드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 역설적이고 잔혹한 통계 물리 법칙 팩폭 헌법을 인류 아키텍트의 뇌리에 시멘트 각인 세뇌시켜 버린 위대한 방폭문 대관식이다.
 
-과거 "와 시발 장애 났는데 왜 유저 트래픽이 평소 3배로 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 튀어 더 쏟아지고 뻗냐 ㅠ (재시도 쓰나미 좀비 떼죽음 💥)" 피눈물 흘리며 트래픽에 파묻혀 야근 철야 셧다운 압사 타죽던 강결합 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 야만 시대 💀. 
-넷플릭스와 AWS 대장 아키텍트들은 이 재앙을 100% 수학과 통계 난수 주사위(Random 🎲) 흑마법으로 찢어발겼다. 
-**"야!! 찌르기 실패하면 하늘이 두 쪽 나도 간격을 2배, 4배, 8배 늘려 핑퐁 도망 물러서서 상대방 서버가 숨통 쉴 산소 예열 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 부팅 힐링 타임 시간을 오토 배려 벌어다 줘 텐트 쳐 쾅 🚀!!! 그리고 그 벌어진 시간표 허공 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 위에다가 ➔ 10만 명의 트래픽 총알들을 0.001초 미세 나노 오차 단위 난수(Jitter)로 흩뿌려 살포 찢어 발겨 쪼개 배치 스텔스 분할 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 록온([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)-on) 쳐 박아버려 쾅 ✨!!! 
+과거 "와 시발 장애 났는데 왜 유저 트래픽이 평소 3배로 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 튀어 더 쏟아지고 뻗냐 ㅠ (재시도 쓰나미 좀비 떼죽음 💥)" 피눈물 흘리며 트래픽에 파묻혀 야근 철야 셧다운 압사 타죽던 강결합 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 야만 시대 💀.
+넷플릭스와 AWS 대장 아키텍트들은 이 재앙을 100% 수학과 통계 난수 주사위(Random 🎲) 흑마법으로 찢어발겼다.
+**"야!! 찌르기 실패하면 하늘이 두 쪽 나도 간격을 2배, 4배, 8배 늘려 핑퐁 도망 물러서서 상대방 서버가 숨통 쉴 산소 예열 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 부팅 힐링 타임 시간을 오토 배려 벌어다 줘 텐트 쳐 쾅 🚀!!! 그리고 그 벌어진 시간표 허공 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 위에다가 ➔ 10만 명의 트래픽 총알들을 0.001초 미세 나노 오차 단위 난수(Jitter)로 흩뿌려 살포 찢어 발겨 쪼개 배치 스텔스 분할 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 록온([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)-on) 쳐 박아버려 쾅 ✨!!!
 그럼 거대한 파도 폭격기 1대(Thundering Herd 멸망 💥)가 ➔ 10만 방울의 부드러운 가랑비 이슬([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 트래픽 방벽)로 기적처럼 변태 순화 융합되어 ➔ 타 죽어가던 B 서버 문지기 대문 옥상에 스무스하고 평화롭게 똑똑 떨어져 무결점 100% 오차 없는 생존 패스 통과 쾌속 질주 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)을 이룩해 내는 궁극의 트래픽 다이어트 공간 해킹술이 완성된다 미친아 🚀!!!"**
 
-비록 이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 랙 타이머 대기 세팅 탓에, 재시도를 타는 동안 유저 화면 모바일 앱 로딩 모래시계 랙([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) Overhead) 시간이 3초, 5초 길어져 유저 UX 빡침 [클레임](/knowledge-base/studynote/09_security/11_iam_access_control/539_claims/)을 짊어지고 가야 할지언정!! 
-이 지독한 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/">재시도 예산(Budget) 한도 락킹 + [서킷 브레이커</a> 방폭문 차단 + <a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/">폴백</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/">Fallback</a>) 우회 기만 스위칭 텐트]</strong> 4단 러시아 인형 십자 크로스 융합 매트릭스가 K8s [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이나 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) Envoy [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 봇 ✨) 심장 뱃속 깊은 곳에 떡 하니 강제 록온 용접 이식 세팅 되는 순간!! ➔ 
+비록 이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 랙 타이머 대기 세팅 탓에, 재시도를 타는 동안 유저 화면 모바일 앱 로딩 모래시계 랙([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) Overhead) 시간이 3초, 5초 길어져 유저 UX 빡침 [클레임](/knowledge-base/studynote/09_security/11_iam_access_control/539_claims/)을 짊어지고 가야 할지언정!!
+이 지독한 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/">재시도 예산(Budget) 한도 락킹 + [서킷 브레이커</a> 방폭문 차단 + <a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/">폴백</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/">Fallback</a>) 우회 기만 스위칭 텐트]</strong> 4단 러시아 인형 십자 크로스 융합 매트릭스가 K8s [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이나 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) Envoy [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 봇 ✨) 심장 뱃속 깊은 곳에 떡 하니 강제 록온 용접 이식 세팅 되는 순간!! ➔
 런칭 첫날 밤 12시 블랙프라이데이 1,000만 유저 디도스 결제 폭풍 쓰나미 속에서도, 우리 메인 코어 대동맥 핏줄 서버는 스스로 자폭 증폭하는 스파게티 핑퐁 트래픽에 짓눌려 타죽는 연쇄 셧다운 도미노 뻗음의 1바이트 찌끄레기 예외 오차 없이!! 100% 무결점 스텔스 제로 다운타임([Zero-Downtime](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/110_zero_downtime_db_schema_rollout/)) 평화 방어 생존 쾌속 복원력([Resiliency](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/) 맷집)의 기적 1경 달러 제국 전설을 클라우드 우주 끝까지 팽창시켜 호령 통치 지배할 것이다 🚀✨.
 
 ---

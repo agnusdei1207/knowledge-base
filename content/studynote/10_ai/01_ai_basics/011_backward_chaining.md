@@ -18,9 +18,9 @@ tags = ["ai"]
 ---
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
-[전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)([Expert System](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/))은 인간 전문가의 지식을 규칙(Rule) 형태로 저장하고 이를 통해 결론을 도출한다. 이때 방대한 [지식 베이스](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/)([Knowledge Base](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/))에서 결론을 찾는 방법론 중 하나가 바로 후향 추론(Backward [Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))이다. 
-[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템은 주어진 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바탕으로 결론을 도출하는 [전향 추론](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)([Forward Chaining](/knowledge-base/studynote/10_ai/01_ai_basics/010_forward_chaining/))을 사용했다. 그러나 [전향 추론](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많을 경우, 목표와 무관한 수많은 중간 결론까지 도출하며 컴퓨팅 자원을 낭비하는 문제(Rule Explosion)가 있었다. 
-이를 해결하기 위해 등장한 후향 추론은, "A라는 가설이 참인가?"라는 명확한 목표를 먼저 세운 뒤, A가 참이 되기 위한 조건 B와 C를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 다시 B와 C의 조건을 역으로 추적하는 방식을 취한다. 이는 특정 질병을 의심하고 그 증상이 있는지 역으로 문진하는 의사의 진단 과정과 동일하다. 
+[전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)([Expert System](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/))은 인간 전문가의 지식을 규칙(Rule) 형태로 저장하고 이를 통해 결론을 도출한다. 이때 방대한 [지식 베이스](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/)([Knowledge Base](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/))에서 결론을 찾는 방법론 중 하나가 바로 후향 추론(Backward [Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))이다.
+[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템은 주어진 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바탕으로 결론을 도출하는 [전향 추론](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)([Forward Chaining](/knowledge-base/studynote/10_ai/01_ai_basics/010_forward_chaining/))을 사용했다. 그러나 [전향 추론](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많을 경우, 목표와 무관한 수많은 중간 결론까지 도출하며 컴퓨팅 자원을 낭비하는 문제(Rule Explosion)가 있었다.
+이를 해결하기 위해 등장한 후향 추론은, "A라는 가설이 참인가?"라는 명확한 목표를 먼저 세운 뒤, A가 참이 되기 위한 조건 B와 C를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 다시 B와 C의 조건을 역으로 추적하는 방식을 취한다. 이는 특정 질병을 의심하고 그 증상이 있는지 역으로 문진하는 의사의 진단 과정과 동일하다.
 
 이 도식은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 너무 많을 때 목표 지향적 탐색이 왜 자원을 덜 소모하는지를 보여주는 개념적 대조도이다.
 ```text
@@ -58,9 +58,9 @@ tags = ["ai"]
    ↓
 [Sub-Goal 분할] : X와 Y를 새로운 목표로 Goal Stack에 Push
    ↓
-[작업 메모리 확인] : X가 작업 메모리에 있는가? 
+[작업 메모리 확인] : X가 작업 메모리에 있는가?
    ├─ (Yes) -> X 증명 완료. 다음 목표 Y 검사.
-   └─ (No)  -> X를 결과로 갖는 다른 Rule 검색 
+   └─ (No)  -> X를 결과로 갖는 다른 Rule 검색
                  또는 사용자에게 질의 (Ask User)
    ↓
 [Backtracking] : 만약 X를 증명할 수 없으면 이전 분기점으로 회귀하여 다른 규칙 탐색

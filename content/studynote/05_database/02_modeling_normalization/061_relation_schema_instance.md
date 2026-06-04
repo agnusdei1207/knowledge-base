@@ -150,8 +150,8 @@ Modern Data Design
 
 ## 어린이를 위한 3줄 비유 설명
 
-릴레이션은 여러 정보를 칸칸이 나눠 적은 표예요.  
-표의 모양은 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)이고, 실제 적힌 내용은 인스턴스예요.  
+릴레이션은 여러 정보를 칸칸이 나눠 적은 표예요.
+표의 모양은 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)이고, 실제 적힌 내용은 인스턴스예요.
 그래서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 헷갈리지 않게 정리할 수 있어요.
 
 ---

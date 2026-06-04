@@ -72,7 +72,7 @@ tags = ["ict_convergence"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-웹3.0 기업이나 게임사가 자체 메인넷(AppChain)을 구축할 때, 처음부터 L1 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)을 만드는 것은 비용과 보안 측면에서 자살 행위다. 
+웹3.0 기업이나 게임사가 자체 메인넷(AppChain)을 구축할 때, 처음부터 L1 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)을 만드는 것은 비용과 보안 측면에서 자살 행위다.
 
 ### 실무 도입 판단 기준
 1. <strong><a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/736_raas/">RaaS</a> (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/">Rollup</a>-as-a-Service) 활용</strong>: [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)러 아키텍처를 지원하는 플랫폼(예: [Caldera](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/715_caldera/), AltLayer)을 사용하여, 클릭 몇 번으로 실행 엔진(OP [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))과 [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 계층(Celestia)을 결합해 수일 내에 체인을 론칭해야 한다.

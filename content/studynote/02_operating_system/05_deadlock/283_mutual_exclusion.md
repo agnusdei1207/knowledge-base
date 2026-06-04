@@ -55,7 +55,7 @@ tags = ["studynote-operating-system"]
 
 ### [상호 배제 부정](/knowledge-base/studynote/02_operating_system/05_deadlock/293_deny_mutual_exclusion/)(Prevention)의 비현실성
 
-[교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 막기 위해 1번 조건인 '상호 배제'를 찢어버리려면, 세상의 모든 자원을 "다중 동시 공유(Sharing)"로 오픈해야 한다. 
+[교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 막기 위해 1번 조건인 '상호 배제'를 찢어버리려면, 세상의 모든 자원을 "다중 동시 공유(Sharing)"로 오픈해야 한다.
 
 운영체제로 치면:
 - CD-ROM 동시 굽기 (에러)
@@ -88,7 +88,7 @@ tags = ["studynote-operating-system"]
 2. <strong>트랜잭셔널 분리 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/">CQRS</a> 패턴)</strong>: RDB 인프라에서 읽기 노드(Read Replica) 수백 개는 상호 배제 트랜잭션이 없어 데드락-Free 구역. [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 노드([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) DB) 하나에만 배타 락을 집중, 즉 구조 레벨에서 '상호 배제 구역'을 분리 폐쇄시킴.
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
-- **오버 락킹 (불필요한 싱크로나이즈드)**: 읽기만 하는 구역이고 내부 상태가 불변 객체([Immutable Object](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/172_builder_immutable_object/))인데 굳이 `synchronized` 클래스를 덧씌워 "아무 의미 없는 상호 배제 공간"으로 변형. → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 악화 + 다른 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 로직과 맞물려 잠재적 데드락 부채를 떠안음. 
+- **오버 락킹 (불필요한 싱크로나이즈드)**: 읽기만 하는 구역이고 내부 상태가 불변 객체([Immutable Object](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/172_builder_immutable_object/))인데 굳이 `synchronized` 클래스를 덧씌워 "아무 의미 없는 상호 배제 공간"으로 변형. → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 악화 + 다른 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 로직과 맞물려 잠재적 데드락 부채를 떠안음.
 
 **📢 섹션 요약 비유**: 불변 객체에 락을 거는 것은, 박물관 유리벽 속 미술품을 구경하는데 한 번에 한 명만 복도에 들어오라는 지나친 통제 — 구경(읽기)만 하는 곳은 상호 배제가 필요악도 아닙니다.
 

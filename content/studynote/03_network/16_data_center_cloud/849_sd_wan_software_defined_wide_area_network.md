@@ -38,7 +38,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)(소프트웨어 정의 네트워크, 다음 850번)의 철학을 좁은 데이터센터가 아니라 <strong>전 세계 국가/지사망 단위(WAN)</strong>로 거대하게 확장한 융합 기술입니다. 
+[SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)(소프트웨어 정의 네트워크, 다음 850번)의 철학을 좁은 데이터센터가 아니라 <strong>전 세계 국가/지사망 단위(WAN)</strong>로 거대하게 확장한 융합 기술입니다.
 
 ### 1. 두뇌와 손발의 분리 ([SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 철학)
 - 옛날엔 지방 지사에 깔린 라우터 장비 1,000대를 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트하려면 직원이 1,000곳을 출장 다녀야 했습니다.
@@ -47,13 +47,13 @@ tags = ["studynote-network"]
 ### 2. 트래픽 인식 지능형 다중 경로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) (Application-Aware [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) 🌟
 SD-WAN이 돈을 벌어다 주는 진짜 이유입니다.
 - 지사 장비 엉덩이에 <strong>비싼 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/">전용선</a>(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/">MPLS</a>) 1개</strong>와 <strong>동네 싼 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 인터넷 랜선(500Mbps) 1개</strong>, 그리고 폰에서 쓰는 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 무선 라우터 1개</strong>, 총 3가닥의 이질적인 선을 동시에 꽂아둡니다.
-- **마법의 분배**: SD-WAN 장비는 패킷의 내용물(L7 앱)을 뜯어봅니다. 
+- **마법의 분배**: SD-WAN 장비는 패킷의 내용물(L7 앱)을 뜯어봅니다.
   - "이거 회사 사장님 결재 서류 패킷이네? 절대 해킹당하면 안 되니까 <strong>비싼 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/">전용선</a>(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/">MPLS</a>)</strong>으로 보내!"
   - "어? 이건 직원들이 점심시간에 보는 유튜브 패킷이네? 굳이 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 탈 필요 없지! 그냥 <strong>동네 싼 인터넷 선</strong>으로 밖으로 바로 던져버려!(Local Internet Breakout, 백홀링 병목 해소)"
   - 만약 싼 인터넷 선이 갑자기 품질이 구려지면(Jitter 폭증), 0.1초 만에 유튜브 패킷을 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 무선망으로 휙 꺾어서 우회</strong>시켜 버립니다. 끊김이 제로입니다.
 
 ### 3. 암호화 오버레이 (Overlay) 통합망 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)
-- 싼 인터넷 선을 타고 가도 해킹 걱정이 없습니다. 지사 장비와 서울 본사 장비 사이의 허공(인터넷)에 <strong>강력한 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPsec</a> 암호화 터널(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/">VPN</a> 오버레이)</strong>을 통째로 뚫어버립니다. 
+- 싼 인터넷 선을 타고 가도 해킹 걱정이 없습니다. 지사 장비와 서울 본사 장비 사이의 허공(인터넷)에 <strong>강력한 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPsec</a> 암호화 터널(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/">VPN</a> 오버레이)</strong>을 통째로 뚫어버립니다.
 - 물리적인 선이 구리선이든 광케이블이든 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 전파든 상관없이, 소프트웨어적으로는 하나의 완벽히 안전한 통합 [가상 사설망](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/)([VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))으로 덮어버립니다.
 
 ```text

@@ -43,7 +43,7 @@ tags = ["studynote-network"]
 - 3G는 두 개의 심장을 가졌습니다. 음성 통화를 위한 **서킷(회선) 교환기망**(집전화와 동일한 원리)과, 웹서핑을 위한 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/">패킷 교환</a>망</strong>(인터넷)이 별도로 존재했습니다. 관리 비용이 두 배로 들고 복잡했습니다.
 
 ### 2. LTE의 완벽한 단일망 (All-IP) 🌟
-- LTE는 구형 음성 서킷 교환망을 가차 없이 도려내어 쓰레기통에 버렸습니다. 
+- LTE는 구형 음성 서킷 교환망을 가차 없이 도려내어 쓰레기통에 버렸습니다.
 - 오직 <strong>"<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/">패킷 교환</a>(Packet Switched)" 하나만 남기고, 네트워크의 처음부터 끝까지 100% IP(Internet <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>) 주소 기반의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 망으로 완전히 뜯어고쳤습니다.</strong>
 - <strong>음성은 어떻게 할까? (<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/758_volte_voice_over_lte_sip_qos/">VoLTE</a>)</strong>: 음성 통화 역시 카카오보이스톡이나 스카이프처럼, 아날로그 목소리를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷으로 잘게 썰어(VoIP 기술) LTE [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)망에 태워버립니다. (이 기술이 다음 758번 문서의 VoLTE입니다.)
 
@@ -66,7 +66,7 @@ tags = ["studynote-network"]
 
 ### [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) (직교 주파수 분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)) 🌟
 - 기존 3G는 찰흙 덩어리([CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 코드)를 섞어서 보냈지만, 속도 한계가 명확했습니다.
-- LTE는 와이브로([WiMAX](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/570_wimax_802_16_wibro_mobile_broadband/))가 쓰던 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/">OFDMA</a></strong> 기술을 가져왔습니다. 20MHz짜리 굵은 주파수 대역을, 무려 <strong>1,200개의 바늘구멍 같은 얇은 실(Sub-carrier, <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/">부반송파</a>)</strong>로 쪼갭니다. 
+- LTE는 와이브로([WiMAX](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/570_wimax_802_16_wibro_mobile_broadband/))가 쓰던 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/">OFDMA</a></strong> 기술을 가져왔습니다. 20MHz짜리 굵은 주파수 대역을, 무려 <strong>1,200개의 바늘구멍 같은 얇은 실(Sub-carrier, <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/">부반송파</a>)</strong>로 쪼갭니다.
 - 그리고 이 실들을 서로 간섭(혼선)이 없는 완벽한 90도 직교(Orthogonal) 상태로 배열하여, 한 번에 수많은 가입자의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빽빽하게 구겨 넣어 동시에 발사합니다. 덕분에 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비가 0에 수렴하여 속도가 3G 대비 수십 배 폭발(최대 150Mbps)했습니다.
 
 LTE All-IP [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) 완전 전환,…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) 표준 개발이 기반 조건을 만든다면, LTE All-IP [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) 완전 전환,…는 그 위에서 핵심 메커니즘을 구현하고, [EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/) S-GW, P-GW 제어 망 트래픽…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -83,7 +83,7 @@ LTE All-IP [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_de
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 3G 기지국(NodeB) 위에는 기지국들을 묶어서 통제하는 RNC라는 시어머니(중간 제어 장비)가 있었습니다. 
+- 3G 기지국(NodeB) 위에는 기지국들을 묶어서 통제하는 RNC라는 시어머니(중간 제어 장비)가 있었습니다.
 - LTE는 이 시어머니(RNC)를 없애버리고, 그 지능을 모두 개별 기지국(eNodeB) 안으로 욱여넣었습니다(구조의 편평화, Flat). 덕분에 거치는 장비가 줄어들어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 반응 속도([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))가 획기적으로 빨라졌습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

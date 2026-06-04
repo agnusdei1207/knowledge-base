@@ -32,7 +32,7 @@ PBFT 도입으로 인한 상태 비가역성([Finality](/knowledge-base/studynot
              └──[B3'] (고아 블록 분기 발생)
 
 [ PBFT 합의 기반 체인 (하이퍼레저) ]
- ──[B1]──[B2]──[B3]──[B4] 
+ ──[B1]──[B2]──[B3]──[B4]
     |      |      |      |
   (확정) (확정) (확정) (확정) => 즉각적 100% 완결성 (분기 원천 차단)
 ```
@@ -92,7 +92,7 @@ PoW 체계는 아무나 익명으로 참여할 수 있기 때문에 [분산](/kn
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
-실무에서 PBFT를 도입할 때 가장 흔하게 발생하는 장애는 네트워크 구성의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)과 리더 장애([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) Change) 시 발생하는 일시적 합의 중단(Stall)입니다. 
+실무에서 PBFT를 도입할 때 가장 흔하게 발생하는 장애는 네트워크 구성의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)과 리더 장애([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) Change) 시 발생하는 일시적 합의 중단(Stall)입니다.
 
 1. <strong>최소 노드 수 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (N=3 구성의 함정)</strong>
    - 개발자들이 비용 절감을 위해 프라이빗 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)을 3대의 노드로만 구성하는 경우가 잦습니다. PBFT 공식 $N=3f+1$에 대입하면, $N=3$일 때 $f=0$이 됩니다. 즉 단 1대의 서버 해킹이나 장애도 견디지 못하고 시스템 전체가 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))에 걸립니다. 비잔틴 장애 1대를 버티기 위해서는 반드시 최소 4대의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 노드를 구성해야 합니다.
@@ -114,7 +114,7 @@ PoW 체계는 아무나 익명으로 참여할 수 있기 때문에 [분산](/kn
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-PBFT는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 '실용적'이라는 이름을 붙인 최초의 연구답게, 학계의 이론을 산업계의 메인스트림 코드로 안착시켰습니다. 
+PBFT는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 '실용적'이라는 이름을 붙인 최초의 연구답게, 학계의 이론을 산업계의 메인스트림 코드로 안착시켰습니다.
 
 | 기대효과 | 정량적 가치 및 아키텍처 기여 | 비고 |
 |:---|:---|:---|

@@ -116,8 +116,8 @@ TSDB는 센서, [로그](/knowledge-base/studynote/04_software_engineering/09_cl
 
 ## 어린이를 위한 3줄 비유 설명
 
-시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 매일 찍는 사진이에요.  
-처음 사진은 자세히 남기고, 오래된 사진은 요약 앨범으로 바꿔요.  
+시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 매일 찍는 사진이에요.
+처음 사진은 자세히 남기고, 오래된 사진은 요약 앨범으로 바꿔요.
 그래야 공간도 아끼고 필요한 순간은 빨리 찾을 수 있어요.
 
 ---

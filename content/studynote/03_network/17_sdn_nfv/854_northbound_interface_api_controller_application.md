@@ -39,13 +39,13 @@ tags = ["studynote-network"]
 
 ### 1. 네트워크의 완벽한 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) ([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)) 제공 🌟
 이게 노스바운드가 가져온 혁명입니다.
-- **과거의 끔찍함**: 1,000만 원짜리 디도스 방어 앱을 만들려면, 개발자가 시스코 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계어 명령(CLI)을 다 외우고, 주니퍼 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 언어도 다 따로 외워서 짜야 했습니다(하드웨어 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)). 
+- **과거의 끔찍함**: 1,000만 원짜리 디도스 방어 앱을 만들려면, 개발자가 시스코 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계어 명령(CLI)을 다 외우고, 주니퍼 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 언어도 다 따로 외워서 짜야 했습니다(하드웨어 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)).
 - **노스바운드의 구원**: 컨트롤러가 밑바닥의 그 더러운 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계어 차이를 다 감춰버리고, 앱 개발자에게는 아주 예쁘고 통일된 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/">RESTful API</a> (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 기반 <a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/">JSON</a>/XML)</strong>만 딱 제공합니다.
-- 개발자는 기계어를 1도 모르지만, 그냥 파이썬으로 `POST /api/network/block IP=1.1.1.1` 한 줄만 쏴주면, 밑에서 컨트롤러가 알아서 시스코 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)든 화이트박스 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)든 기계에 맞게 번역해서 디도스를 차단해 줍니다. 
+- 개발자는 기계어를 1도 모르지만, 그냥 파이썬으로 `POST /api/network/block IP=1.1.1.1` 한 줄만 쏴주면, 밑에서 컨트롤러가 알아서 시스코 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)든 화이트박스 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)든 기계에 맞게 번역해서 디도스를 차단해 줍니다.
 
 ### 2. 비즈니스 '의도([Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/))'의 전달
 - 윗단에 있는 앱(App)은 복잡한 네트워크 길 찾기를 알 필요가 없습니다.
-- 로드밸런서 앱이 노스바운드 API로 <strong>"이번 트래픽은 보안 1등급(의도)으로 쏴줘!"</strong>라고 대충 툭 던집니다. 
+- 로드밸런서 앱이 노스바운드 API로 <strong>"이번 트래픽은 보안 1등급(의도)으로 쏴줘!"</strong>라고 대충 툭 던집니다.
 - 이 말을 찰떡같이 알아들은 컨트롤러(뇌)가, 알아서 밑바닥 지도를 보고 해킹 위험이 없는 안전한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들로만 쏙쏙 피해서 길(경로)을 다 뚫어줍니다.
 
 ```text

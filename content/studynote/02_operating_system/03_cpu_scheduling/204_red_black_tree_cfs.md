@@ -28,7 +28,7 @@ tags = ["studynote-operating-system"]
   [배열(Array) vs 이진 탐색 트리(BST) vs 레드-블랙 트리(RB-Tree)의 차이]
 
   (1) 배열 구조 (O(N))
-  [ P1(10) | P2(30) | P3(50) | P4(100) ] 
+  [ P1(10) | P2(30) | P3(50) | P4(100) ]
    ▶ P5(20)이 들어오면? P2,P3,P4를 다 뒤로 한 칸씩 밀어야 함 (최악의 지연)
 
   (2) 일반 이진 탐색 트리 (기울어짐 발생 시 O(N))
@@ -155,7 +155,7 @@ $O(\log N)$이 $O(1)$보다 무거운 것은 사실이다. 그러나 [10](/knowl
 [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)를 도입함으로써 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 O(N) 탐색 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이라는 거대한 병목을 털어내고, 프로세스가 수만 개로 늘어나더라도 시스템 응답성이 무너지지 않는 <strong>'선형적 확장성 (Linear Scalability)'</strong>과 수학적으로 증명 가능한 <strong>'완벽한 공정성 (Perfect Fairness)'</strong>을 동시에 손에 넣었다.
 
 ### 결론 및 미래 전망
-CFS와 [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)의 결합은 2007년 이후 현재까지 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 가장 핵심적인 심장으로 굳건히 뛰고 있다. 그러나 최근 1,000코어가 넘어가는 미친 멀티코어 시대와 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 스토리지의 극초고속 I/O 시대가 열리면서, 트리에 넣고 빼고 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 거는 $O(\log N)$의 시간조차 아깝다는 목소리([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass)가 커지고 있다. 
+CFS와 [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)의 결합은 2007년 이후 현재까지 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 가장 핵심적인 심장으로 굳건히 뛰고 있다. 그러나 최근 1,000코어가 넘어가는 미친 멀티코어 시대와 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 스토리지의 극초고속 I/O 시대가 열리면서, 트리에 넣고 빼고 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 거는 $O(\log N)$의 시간조차 아깝다는 목소리([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass)가 커지고 있다.
 구글 등은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에 거대한 트리를 유지하는 대신, <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/">BPF</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a>)</strong> 기술을 이용해 `sched_ext`라는 커스텀 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 프레임워크를 개발하여, 유저 공간(User Space)에서 애플리케이션 특성에 맞는 해시나 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) 등 아예 다른 자료구조로 스케줄링 큐를 직접 짜서 갈아 끼우는 '[스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 모듈화' 시대로 넘어가고 있다.
 
 - **📢 섹션 요약 비유**: [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)는 지난 20년간 어떤 모진 풍파에도 무너지지 않는 완벽한 피라미드였습니다. 하지만 이제 피라미드마저 무겁다며, 짐을 땅에 닿기도 전에 공중에서 바로바로 던져서 쳐내버리는 마법([eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/))의 시대로 컴퓨터 과학은 한계를 깨고 나가고 있습니다.

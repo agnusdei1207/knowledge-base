@@ -65,7 +65,7 @@ tags = ["studynote-operating-system"]
 ### 1. [상태 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/) ([Status Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/)) - 하드웨어의 감정 표현창
 디바이스가 현재 어떤 상태인지 CPU에게 보고하는 읽기 전용(Read-Only) 1바이트 공간이다.
 - `Busy 비트`: "나 지금 요리 중이라 바빠! 명령 내리지 마!" (이게 1이면 CPU는 0이 될 때까지 기다려야 함 = [Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/) 렉 발생).
-- `Error 비트`: "앗, 프린터에 종이가 걸렸어!" 
+- `Error 비트`: "앗, 프린터에 종이가 걸렸어!"
 - `Ready 비트`: "방금 명령하신 요리(I/O) 다 끝났고 쉴 준비 됐어. 다음 명령 줘!"
 이 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들을 제대로 안 읽고 CPU가 무지성으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 계속 쑤셔 넣으면 하드웨어 버퍼가 터져버린다(Buffer Overrun).
 
@@ -73,7 +73,7 @@ tags = ["studynote-operating-system"]
 CPU가 디바이스의 동작 모드를 바꾸거나 기계에 명령을 하달할 때 쓰는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 전용(Write-Only) 공간이다.
 - "너 지금부터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보낼 때 1바이트씩 찌르지 말고, 꽉 차면 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 날려! ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Enable [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))"
 - "프린터 헤드 청소 모드로 변신해라!"
-- "디스크 바늘을 500번 트랙으로 움직여라!" 
+- "디스크 바늘을 500번 트랙으로 움직여라!"
 하드웨어 메뉴얼([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) sheet)에 적힌 마법의 16진수 숫자를 이 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 써넣으면 쇠덩어리가 마법처럼 움직인다.
 
 ### 3. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)-In / [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)-Out) - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배식구

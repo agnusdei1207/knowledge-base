@@ -22,9 +22,9 @@ tags = ["studynote-ai"]
 혼자 길을 찾는 A* (에이 스타) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 맵이 멈춰있다고 가정한다. 하지만 체스나 오목은 다르다. 내가 한 발짝 전진하면, 상대방은 나를 죽이려고 미친 듯이 판을 뒤엎는다. 이렇게 상대방과 턴을 주고받는 제로섬([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Sum) 게임에서는 <strong>적대적 탐색 (Adversarial Search)</strong>이라는 새로운 무기가 필요했다.
 
 "내가 이 수를 두면, 상대는 나를 제일 열받게 하는 저 수를 두겠지? 그럼 나는 또 이걸 두고..."
-인간이 장기를 둘 때 머릿속에서 수읽기를 하는 이 꼬리에 꼬리를 무는 사고방식을 컴퓨터의 트리(Tree) 코드로 번역한 것이 바로 **미니맥스 (Minimax)** [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. 
+인간이 장기를 둘 때 머릿속에서 수읽기를 하는 이 꼬리에 꼬리를 무는 사고방식을 컴퓨터의 트리(Tree) 코드로 번역한 것이 바로 **미니맥스 (Minimax)** [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
-그런데 문제가 터졌다. 체스에서 고작 3턴(나-상대-나) 앞을 내다보는 데도 경우의 수가 수십만 개로 뻗어나갔다. 컴퓨터의 CPU가 폭발하기 직전, 공학자들은 기가 막힌 아이디어를 냈다. "야, 내가 A방이랑 B방 중에 고를 건데, A방에 가면 무조건 100점을 따. 근데 B방 문을 살짝 열어보니, 첫 번째 서랍에 벌써 -10점짜리 폭탄이 들어있네? 그럼 **상대방은 무조건 나한테 -10점이나 그보다 더 나쁜 걸 먹이려고 들 테니, B방의 나머지 서랍은 뒤져보지도 말고 그냥 A방으로 가자!**" 
+그런데 문제가 터졌다. 체스에서 고작 3턴(나-상대-나) 앞을 내다보는 데도 경우의 수가 수십만 개로 뻗어나갔다. 컴퓨터의 CPU가 폭발하기 직전, 공학자들은 기가 막힌 아이디어를 냈다. "야, 내가 A방이랑 B방 중에 고를 건데, A방에 가면 무조건 100점을 따. 근데 B방 문을 살짝 열어보니, 첫 번째 서랍에 벌써 -10점짜리 폭탄이 들어있네? 그럼 **상대방은 무조건 나한테 -10점이나 그보다 더 나쁜 걸 먹이려고 들 테니, B방의 나머지 서랍은 뒤져보지도 말고 그냥 A방으로 가자!**"
 
 이것이 불필요한 노드를 통째로 베어버리는 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/020_alpha_beta_pruning/">알파-베타 가지치기</a> (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/020_alpha_beta_pruning/">Alpha-Beta Pruning</a>)</strong>의 위대한 탄생이다.
 
@@ -72,7 +72,7 @@ tags = ["studynote-ai"]
 ```
 
 **핵심 원리 (Alpha와 Beta의 조건부 폭파)**:
-이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 심장에는 두 개의 메모리 칩표가 돌아다닌다. 
+이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 심장에는 두 개의 메모리 칩표가 돌아다닌다.
 - **$\[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)$ (알파)**: 내(Max)가 지금까지 찾은 루트 중 **'가장 확실하게 챙겨둔 최소 확보 점수'**. (이거 밑으론 절대 안 내려감)
 - **$\beta$ (베타)**: 상대방(Min)이 지금까지 찾은 루트 중 **'나에게 던질 수 있는 가장 잔인한 최악의 점수'**. (상대는 이 위로 절대 안 올려줌)
 탐색을 내려가다가 만약 **$\[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) \ge \beta$ (내가 확보한 최솟값이 상대방이 쥐여주려는 최댓값보다 커버림)** 상황이 터지면, 그 방은 "더 파봐야 시간 낭비다!"라는 수학적 확신이 서기 때문에 그 노드의 자식들을 전부 `Pruning(가지치기)`해버린다.

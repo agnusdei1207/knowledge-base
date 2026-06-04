@@ -19,19 +19,19 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/">Virtualization</a>)</strong>: 컴퓨터 리소스의 물리적 특징을 숨기고, 사용자(OS나 앱)에게 논리적으로 분할되거나 통합된 가상의 자원을 제공하는 기술.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/">하이퍼바이저</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/">Hypervisor</a>)</strong>: [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)를 구현하여 가상 머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 스케줄링, 모니터링하는 플랫폼 관리자. Guest OS 입장에서는 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 마치 진짜 물리 하드웨어처럼 보인다.
 
-- **필요성(문제의식)**: 
-  - 과거 기업들은 DB용 서버, 웹 서버, 메일 서버를 각각 별도의 물리 서버 장비(베어메탈)로 샀다. 서로의 오류가 간섭하지 않게 하기 위해서였다. 
+- **필요성(문제의식)**:
+  - 과거 기업들은 DB용 서버, 웹 서버, 메일 서버를 각각 별도의 물리 서버 장비(베어메탈)로 샀다. 서로의 오류가 간섭하지 않게 하기 위해서였다.
   - 하지만 대부분의 서버는 CPU를 15%도 쓰지 않은 채 전력과 공간만 낭비했다 (Server Sprawl 문제).
   - **해결책**: "강력한 서버 1대를 사서 10대로 쪼갠 뒤, 각각 독립된 OS를 올려서 100% 꽉 채워 쓰자!" $\rightarrow$ 이를 조율할 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 필요해짐.
 
   - 물리 서버 1대에 1개의 OS만 돌리는 것은, 넓은 100평짜리 땅(물리 하드웨어)에 1인 가구(OS) 하나만 덩그러니 집을 짓고 사는 것이다.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/">하이퍼바이저</a></strong>는 이 땅 위에 10층짜리 고층 아파트를 짓고, 층마다 완벽히 방음·단열된 10개의 독립된 집(가상 머신)을 만들어 10가구가 효율적으로 모여 살게 해주는 <strong>건물 관리 소장</strong>과 같다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 1960년대 IBM 메인프레임에서 [시분할 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/003_time_sharing_system/) 용도로 최초 등장.
   - 1990년대 후반 VMware가 x86 환경 아키텍처의 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 난제를 소프트웨어적 이진 변환(Binary Translation)으로 풀어내며 x86 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 시장이 폭발.
   - 이후 Intel/AMD가 하드웨어 차원의 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 추가하며 클라우드 시대로 폭발적 성장.
@@ -127,7 +127,7 @@ CPU는 치명적인 특권 [명령어](/knowledge-base/studynote/01_computer_arc
    - Guest OS는 Non-Root의 Ring 0에서 작동하며 자기가 진짜 OS인 줄 앎. 특권 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 날리면 CPU 하드웨어가 빛의 속도로 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)(Root 모드)로 제어권을 넘겨줌([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit).
    - **현재 클라우드의 궁극적 표준** (수정 없는 OS + 하드웨어 가속 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)).
 
-- **📢 섹션 요약 비유**: 
+- **📢 섹션 요약 비유**:
   - [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/): 한국어(Guest OS)를 할 줄 모르는 미국인 사장(하드웨어) 옆에 통역사([하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))가 붙어 모든 말을 번역해주는 방식 (느림).
   - [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/): 직원이 사장과 대화하기 위해 미리 사내 공용어(Hypercall)를 배워서 직접 소통하는 방식 (빠르지만 학습 비용 발생).
   - HW 보조 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/): 사장이 뇌에 '동시 통역 칩([Intel VT-x](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/))'을 이식해서 어떤 언어든 바로 알아듣게 만든 궁극적 해결책.

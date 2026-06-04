@@ -49,7 +49,7 @@ GRE 터널이 뚫리면 원본 패킷은 아래처럼 3겹으로 무거워진다
 3. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">New</a> IP Header (20 Bytes)</strong>: 인터넷(KT 망)을 뚫고 가기 위해 라우터가 새로 씌운 껍데기 (출발지: `서울 공인 IP`, 목적지: `부산 공인 IP`). [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 번호 칸에는 <strong><code>47번 (GRE)</code></strong>이라고 쾅 찍혀 있다.
 
 ### 2. GRE의 멸망과 부활 (GRE over [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/))
-GRE는 편하지만 암호화가 없어서 보안 감사에 걸리면 즉각 징계를 먹는다. 
+GRE는 편하지만 암호화가 없어서 보안 감사에 걸리면 즉각 징계를 먹는다.
 반면 최고의 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 기술인 IPsec은 암호화는 신급인데, 치명적이게도 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a>나 브로드캐스트 패킷을 아예 캡슐화하지 못하는 멍청함</strong>을 가졌다. 즉, [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 단독으로는 두 지사 간에 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 맵을 교환할 수가 없다.
 - **천재적 결합**: 엔지니어들은 이 둘을 융합했다.
 - **1단계**: 먼저 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 패킷을 잡식성인 <strong>GRE 비닐봉지</strong>에 집어넣어 유니캐스트 IP 패킷으로 포장한다. ([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 해결!)

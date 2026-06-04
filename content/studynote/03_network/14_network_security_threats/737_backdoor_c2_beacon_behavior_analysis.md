@@ -57,7 +57,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-백도어가 던지는 이 '[비컨](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/)' 패킷은 완벽하게 암호화([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))되어 겉보기엔 그냥 직원이 네이버를 서핑하는 패킷과 똑같아 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/))에 절대 안 걸립니다. 어떻게 잡아야 할까요? 
+백도어가 던지는 이 '[비컨](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/)' 패킷은 완벽하게 암호화([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))되어 겉보기엔 그냥 직원이 네이버를 서핑하는 패킷과 똑같아 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/))에 절대 안 걸립니다. 어떻게 잡아야 할까요?
 
 해답은 내용물(Payload)을 안 보고 <strong>'행동 패턴 통계(Behavior Analysis)'</strong>를 AI로 잡는 것입니다.
 1. **정주기성 (Periodicity) 탐지 모델**: 사람이 웹서핑을 하면 패킷 발생 시간이 들쭉날쭉합니다. 하지만 백도어 프로그램은 멍청한 기계라서 **정확히 60초마다, 혹은 1시간마다 1바이트 오차도 없는 똑같은 크기의 통신을 규칙적으로** 발생시킵니다. 기계학습(ML) 알고리즘은 패킷들 사이의 이 소름 돋는 시간 간격의 '규칙성'을 수학적 통계(푸리에 변환 등)로 찾아내어 "이건 봇(Bot)의 짓이다!"라고 확신합니다.

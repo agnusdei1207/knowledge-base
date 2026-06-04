@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 48비트 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 64비트 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 인터페이스 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(Interface ID)로 확장 변환하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 규칙. 
+- **개념**: 48비트 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 64비트 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 인터페이스 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(Interface ID)로 확장 변환하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 규칙.
 - **필요성**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 시절엔 집 번호(Host ID)가 고작 `1~254` 였으므로 관리자가 수동으로 쳐 넣거나(Static IP) 공유기가 대충 남는 번호를 줬다([DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/)). 그런데 IPv6는 집 번호 칸만 무려 64비트(약 1845경 개)다. 이걸 인간이 어떻게 일일이 타이핑하고, [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버가 언제 수십억 대 기기를 관리하겠는가? "기계들아! 어차피 네 랜카드 안에 전 세계에서 너만 가진 유일한 번호([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)가 지져져 있잖아? <strong>그걸 그대로 재활용해서 네 스스로 집 번호를 조립(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/">SLAAC</a>)해버려!</strong>"라는 자급자족의 사상에서 탄생했다.
 
 - **💡 비유**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 6자리 짜리 <strong>"주민등록번호 앞자리(생년월일)"</strong>라면, EUI-64는 뒤에 <strong>"성별과 지역 코드(FF:FE)"</strong>를 자동으로 끼워 넣고 주민센터 도장(7번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 반전)을 쾅 찍어서 완벽한 <strong>"13자리 전체 주민등록번호(64비트)"</strong>를 손 댈 필요 없이 자동으로 발급해 주는 키오스크 기계입니다.
@@ -39,7 +39,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-어떤 PC의 랜카드 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 <strong><code>00:1A:2B:3C:4D:5E</code></strong> (48비트)라고 가정하자. 
+어떤 PC의 랜카드 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 <strong><code>00:1A:2B:3C:4D:5E</code></strong> (48비트)라고 가정하자.
 이 녀석이 EUI-64 규칙을 통해 64비트의 뒷부분 주소(인터페이스 ID)를 만들어내는 과정은 다음과 같다.
 
 ### 1단계: 정중앙 절단 및 `FF:FE` 삽입 ([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))

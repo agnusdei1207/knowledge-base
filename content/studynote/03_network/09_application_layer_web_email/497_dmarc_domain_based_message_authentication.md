@@ -74,7 +74,7 @@ tags = ["studynote-network"]
 <strong><code>v=DMARC1; p=reject; pct=100; rua=mailto:admin@회사.com; ruf=mailto:sec@회사.com</code></strong>
 
 - <strong><code>v=DMARC1</code></strong>: 이 줄은 DMARC [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 1 룰셋이라는 선언.
-- <strong><code>p=reject</code> (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a> - 가장 무서운 핵버튼)</strong>: 
+- <strong><code>p=reject</code> (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a> - 가장 무서운 핵버튼)</strong>:
   - `p=none`: (모니터링 모드) 아무것도 하지 마. 스팸함에도 넣지 말고 일단 통과시켜. (처음 도입할 때 안전하게 씀).
   - `p=quarantine`: (격리 모드) 얼라인먼트 틀리면 일단 고객의 '스팸함'에 박아 넣어.
   - `p=reject`: (사형 선고) 얼라인먼트 틀리면 메일 서버단에서 아예 찢어버려! 고객 눈에 절대 못 띄게 해!

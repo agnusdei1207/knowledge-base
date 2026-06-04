@@ -20,7 +20,7 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 통신 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 시대, 전기를 이용해 아날로그 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 전송하기 위해 가장 직관적으로 고안된 방법은 두 가닥의 구리선을 나란히 평행하게 배치하는 것이었다. 이를 평행 2선식 케이블(Twin-lead cable, 또는 Ribbon cable)이라 한다. 하나의 선은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 전송하고, 다른 하나의 선은 접지(Ground) 또는 귀환 경로(Return path) 역할을 하여 전기적 폐회로를 구성한다.
-과거 VHF/UHF 대역의 아날로그 TV [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 연결선 등으로 널리 쓰였으나, 두 선이 나란히 노출되어 있어 주변 금속이나 전자기장 환경 변화에 의해 선로의 전기적 특성([임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/))이 훼손되고, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 방사와 외부 간섭 흡수가 매우 쉽다는 한계가 명확했다. 
+과거 VHF/UHF 대역의 아날로그 TV [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 연결선 등으로 널리 쓰였으나, 두 선이 나란히 노출되어 있어 주변 금속이나 전자기장 환경 변화에 의해 선로의 전기적 특성([임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/))이 훼손되고, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 방사와 외부 간섭 흡수가 매우 쉽다는 한계가 명확했다.
 오늘날 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신 네트워크에서는 거의 사용되지 않는 사장된 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)이지만, <strong>"왜 현대의 랜선(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/">UTP</a>)은 선을 복잡하게 꼬아 놓았는가?"</strong>라는 질문에 답하기 위해, 그 전신인 평행 2선의 구조적 결함과 전자기학적 원리를 이해하는 것은 기술적으로 매우 중요한 통찰을 제공한다.
 
 아래 도식은 평행 2선식 구조가 외부 전자기 간섭(EMI)에 어떻게 무방비로 노출되는지를 보여준다.
@@ -33,7 +33,7 @@ tags = ["studynote-network"]
    절연체 띠 (Ribbon) ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
    도선 2 (Return)   ========================================== (-)
 
-   => 노이즈 발생원과의 거리 차이(d1 ≠ d2)로 인해 두 도선에 
+   => 노이즈 발생원과의 거리 차이(d1 ≠ d2)로 인해 두 도선에
       유도되는 노이즈 전압(Vn1, Vn2)이 서로 다르게 발생 (불균형 노이즈).
 ```
 이 도식에서 핵심은 두 도선이 물리적으로 평행하게 유지되다 보니, 외부에서 노이즈(전자기파)가 덮칠 때 노이즈 소스에 더 가까운 '도선 1'과 조금 더 먼 '도선 2'가 받는 간섭의 크기가 달라진다는 점이다. 수신단은 결국 두 선의 '[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 차이'를 측정하여 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 판별하는데, 노이즈가 양 선에 불균등하게 더해지면 이 차이값이 왜곡되어 원래의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 완전히 망가지게 된다. 이 "거리 편차에 의한 불균형 노이즈 흡수"가 평행선의 가장 뼈아픈 한계다.
@@ -110,8 +110,8 @@ tags = ["studynote-network"]
          ▼
 [단순 물리적 직결?] ──(Yes)──> 임피던스 붕괴, 정상 동작 불가 (신호 반사율 60% 이상)
          │
-       (No) 
-         │ 
+       (No)
+         │
          ▼
 [매칭 트랜스포머(Balun) 삽입] ──> 임피던스 변환(300Ω ↔ 75Ω) 및 평형/불평형 변환 성공
 ```

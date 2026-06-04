@@ -18,7 +18,7 @@ tags = ["studynote-security"]
 
 ## Ⅰ. 개요 및 필요성
 
-보안 장비([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/))를 아무리 떡칠해도 세상에 해킹 확률이 0%인 시스템은 존재하지 않는다. 아키텍트는 10억 원을 들여 1억 원짜리 자산을 지키는 오버엔지니어링(위험 감소)을 피해야 한다. 
+보안 장비([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/))를 아무리 떡칠해도 세상에 해킹 확률이 0%인 시스템은 존재하지 않는다. 아키텍트는 10억 원을 들여 1억 원짜리 자산을 지키는 오버엔지니어링(위험 감소)을 피해야 한다.
 
 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 매니지먼트에서 통제할 수 없거나 고치는 비용이 너무 비싸서 남겨진 위험을 '[잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/)'이라고 한다. 이 [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/)이 터졌을 때 회사가 망하는 것을 막기 위해, 경영진은 "내가 매년 1천만 원(보험료)을 낼 테니, 혹시라도 해킹으로 100억 원어치 피해가 터지면 네가 다 물어내라!"고 제3자와 계약을 맺는다. 이것이 보안 통제([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Control)의 한계를 금융 및 비즈니스 계약으로 돌파한 가장 자본주의적인 방어 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 위험 전가([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Transfer)의 탄생이다.
 

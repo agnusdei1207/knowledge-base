@@ -134,8 +134,8 @@ DevOps
 
 ## 어린이를 위한 3줄 비유 설명
 
-[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 한 번에 다 끝내려 하지 않고 조금씩 해 보면서 고치는 방법이에요.  
-친구와 자주 얘기해서 더 좋은 방법을 빨리 찾는 거예요.  
+[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 한 번에 다 끝내려 하지 않고 조금씩 해 보면서 고치는 방법이에요.
+친구와 자주 얘기해서 더 좋은 방법을 빨리 찾는 거예요.
 그래서 더 잘 배우고 더 빨리 좋아질 수 있어요.
 
 ---

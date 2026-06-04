@@ -140,7 +140,7 @@ OS와 하드웨어는 이 법칙을 맹신한다. 그래서 CPU가 RAM에서 [�
 메모리 계층 구조의 원리를 완벽히 이해하고 코드를 작성하면(Data-Oriented Design), 비싼 CPU를 하드웨어적으로 업그레이드하지 않고도 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)(Cache [Hit Ratio](/knowledge-base/studynote/02_operating_system/06_memory_management/359_effective_access_time/))을 90%에서 99%로 끌어올림으로써, 게임 프레임 방어나 고주파 트레이딩(HFT) 환경에서 <strong>10배 이상의 극단적인 소프트웨어 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 향상</strong>을 이뤄낼 수 있다.
 
 ### 결론 및 미래 전망
-메모리 계층 구조는 지난 반세기 동안 폰 노이만 아키텍처가 살아남을 수 있게 해 준 생명 유지 장치다. 
+메모리 계층 구조는 지난 반세기 동안 폰 노이만 아키텍처가 살아남을 수 있게 해 준 생명 유지 장치다.
 미래의 하드웨어 트렌드는 이 층(Layer)들을 아예 허물어버리는 방향으로 가고 있다. 인텔의 옵테인(Optane DCPMM)처럼 메인 메모리(RAM)와 디스크([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))의 경계를 허문 <strong>비휘발성 메모리(NVRAM)</strong>의 등장, 그리고 애플 M 시리즈 칩셋처럼 CPU와 메모리를 아예 1개의 칩 안에 때려 박아 물리적 거리를 0으로 만들어버리는 <strong>통합 메모리 아키텍처(<a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/379_uma/">UMA</a>)</strong> 기술이 발전하면서, 고전적인 피라미드 계층은 붕괴하고 하나의 거대하고 평평한 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 메모리 호수(Lake)로 진화해 나가고 있다.
 
 - **📢 섹션 요약 비유**: 옛날엔 서울(디스크), 대전(RAM), 대구(L3), 부산(CPU)으로 짐을 나르느라 물류망(계층 구조)이 복잡했습니다. 하지만 이제는 아예 KTX 기차를 빛의 속도로 뚫어버리거나(통합 메모리), 회사 자체를 다 서울로 이사시켜 버려서(NVRAM) 지역 간의 이동 시간 자체를 무의미하게 만드는 텔레포트의 시대로 넘어가고 있습니다.

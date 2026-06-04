@@ -58,12 +58,12 @@ P1과 P2가 서로 상대방 컴포넌트를 호출하는 `상호 의존성 주�
 
 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)은 보통 개발자의 '락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 순서 엇갈림'에서 폭발한다.
 
-1. <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/">Lock Ordering</a> Reversal (락 점유 순서 위반)</strong>: 
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/">Lock Ordering</a> Reversal (락 점유 순서 위반)</strong>:
    - [A개발자]: 함수 짜면서 `Lock(User)` → `Lock(Point)` 순서로 짰다.
    - [B개발자]: 딴 파일에 함수 짜면서 `Lock(Point)` → `Lock(User)` 순서로 짰다.
    - **타파**: 사내 코딩 컨벤션에 무조건 "User 먼저 락 잡고, 그다음 Point 락 잡아라" (락 획득 순서 강제화 = [Circular Wait](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) 예방) 를 박아버려 소스 레벨에서 박멸한다.
 2. **콜백 루프 (Callback Circular Dependency)**:
-   - 클래스 A가 락을 쥔 채로 남이 만든 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) B의 함수(Callback)를 빙글 호출했는데, 하필 B도 내부에서 락을 쥐고 A로 되돌려 쏘는 구조. 
+   - 클래스 A가 락을 쥔 채로 남이 만든 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) B의 함수(Callback)를 빙글 호출했는데, 하필 B도 내부에서 락을 쥐고 A로 되돌려 쏘는 구조.
    - **타파**: 락(Synchronized 블록 등)을 잡은 '범위 안([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))'에서는 남의 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 낯선 함수(Alien Method) 호출을 절대 하지 못하게 막는 <strong><code>Open Call</code> <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">리팩토링</a></strong> 기법으로 박살 낸다.
 
 **📢 섹션 요약 비유**: 개발자들의 가장 큰 죄악은 락(문단속)을 걸어둔 안방에서 배달 알바(외부 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/))를 부르는 겁니다. 그러다 배달부가 밖에 다른 문을 잠그고 들어오려 하면 영원히 현관에서 데드락이 갇히죠. "안방 락 풀고 거실에서 외부자 부르기!" 가 핵심 철학입니다.
@@ -88,7 +88,7 @@ P1과 P2가 서로 상대방 컴포넌트를 호출하는 `상호 의존성 주�
 1. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a> Dump 분석기 탑재 (<a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/">APM</a>)</strong>: 쿠버네티스나 스프링부트 서버에서 장애가 터지면 즉각적으로 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 덤프를 3초 간격으로 3번 떠서 `fastthread.io` 같은 사이트나 사내 APM에 던진다. Flame Graph로 예쁘게 그려주면서 붉은 줄로 "[Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)!" 도장을 쾅 찍어주면, 그 아래 호출 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)(`com.mycompany.UserService.deductPoint:124번째 라인`)까지 정확히 까발려지므로 개발자는 그 줄로 튀어가 `Lock 순서`를 `Point -> User` 로 맞춰버리면 10분 만에 패치 완료된다.
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
-- **트라이-캐치 눈속임 (Mute Exception)**: 데드락이 터져서 `DeadlockLoserDataAccessException` (스프링 DB에러)가 터졌는데, 원인을 찾아 고치긴 커녕 그 위에 `catch`문 걸어놓고 에러 로그만 숨긴 뒤 무한 재시도(`while(true)`) 타도록 로직을 짜버린 끔찍한 실무자! 
+- **트라이-캐치 눈속임 (Mute Exception)**: 데드락이 터져서 `DeadlockLoserDataAccessException` (스프링 DB에러)가 터졌는데, 원인을 찾아 고치긴 커녕 그 위에 `catch`문 걸어놓고 에러 로그만 숨긴 뒤 무한 재시도(`while(true)`) 타도록 로직을 짜버린 끔찍한 실무자!
    -> 이러면 데드락 자체는 영원히 방치되고, DB는 무한 재시도를 받아치느라 사이트 전체 CPU가 용암처럼 끓어오르는 대폭발 패닉을 맞이하게 된다. "버그는 회피하는 게 아니라 뿌리(순서)를 고치는 거다."
 
 **📢 섹션 요약 비유**: 벌레([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 오류)가 자꾸 기어 나오면 벌레 나오는 구명(소스코드 락 순위)을 시멘트로 막을 생각을 해야지, 구멍 위에 휴지통 엎어두고(Exception Catch 묵살) "벌레 안 보이네~" 하고 놔두면 나중에 휴지통째로 폭발합니다.

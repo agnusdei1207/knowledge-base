@@ -116,13 +116,13 @@ L1의 또 다른 연결 지점은 [캐시 일관성](/knowledge-base/studynote/0
 
 ### 판단해야 할 대표 상황
 
-1. **코드가 너무 큰 경우**  
+1. **코드가 너무 큰 경우**
    핫 루프가 거대한 함수 안에 섞여 있으면 L1I가 자주 교체된다. 이때는 함수 분리, 인라인 범위 조정, 분기 축소가 효과적이다.
 
-2. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 배치가 산만한 경우</strong>  
+2. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 배치가 산만한 경우</strong>
    연결 리스트처럼 포인터 추적이 많은 구조는 L1D에 불리하다. 반대로 연속 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)과 구조체 재배치는 같은 캐시 라인 안에서 더 많은 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰게 만든다.
 
-3. <strong>멀티코어 공유 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>가 잦은 경우</strong>  
+3. <strong>멀티코어 공유 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>가 잦은 경우</strong>
    서로 다른 스레드가 같은 캐시 라인을 건드리면 [거짓 공유](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/) ([False Sharing](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/))가 발생한다. 이때는 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/), 정렬, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 분산이 필요하다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

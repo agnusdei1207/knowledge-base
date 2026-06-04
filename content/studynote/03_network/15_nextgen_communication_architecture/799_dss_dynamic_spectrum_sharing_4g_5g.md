@@ -44,7 +44,7 @@ LTE와 5G는 서로 언어(파형 규격)가 달라서 한 도로를 쓰면 정�
 
 ### 2. 동적 시간 분할 (1ms 단위의 스위칭 마법) 🌟
 - DSS는 차선을 그리지 않습니다. 20MHz 전체 도로를 하나로 통으로 엽니다.
-- 기지국 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 1밀리초(ms, TTI 단위) 단위로 톨게이트를 조작합니다. 
+- 기지국 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 1밀리초(ms, TTI 단위) 단위로 톨게이트를 조작합니다.
 - **동작**: "0.001초는 4G 트럭 100대 통과시켜! (찰칵) 다음 0.001초는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 트럭 5대 왔네? [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 모드로 길 뚫어! (찰칵) 다시 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 고객 쏟아진다, 20MHz 전부 LTE로 싹 열어!"
 - 기지국이 접속한 사용자 비율을 실시간으로 계산해, <strong>초 단위로 4G와 5G에게 길을 찰칵찰칵 열어주고 닫으며 동적으로(Dynamic) 주파수를 배급</strong>합니다.
 

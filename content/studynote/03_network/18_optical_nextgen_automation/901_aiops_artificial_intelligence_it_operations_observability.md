@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **경고 피로도(Alert Fatigue)**: 옛날 모니터링 시스템은 융통성 없는 룰 기반(Rule-based)이었습니다. "CPU가 90% 넘으면 무조건 빨간불 띄워!" 밤새 백업을 돌리느라 잠깐 CPU가 올라간 건데도 사일렌이 울려서 엔지니어가 자다 깨서 뛰어왔습니다(오탐, False Positive). 
+- **경고 피로도(Alert Fatigue)**: 옛날 모니터링 시스템은 융통성 없는 룰 기반(Rule-based)이었습니다. "CPU가 90% 넘으면 무조건 빨간불 띄워!" 밤새 백업을 돌리느라 잠깐 CPU가 올라간 건데도 사일렌이 울려서 엔지니어가 자다 깨서 뛰어왔습니다(오탐, False Positive).
 - 이런 쓰레기 알람이 하루 1만 개씩 터지니 엔지니어들은 노이로제에 걸려 알람 소리를 아예 음소거해버리는 사태가 벌어졌습니다.
 
 ```text
@@ -55,7 +55,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 ### 1. [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/) ([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 기반 빅데이터 융합 수집
-- 단순히 "CPU 죽었음"이라는 단편적 정보만 보지 않습니다. 
+- 단순히 "CPU 죽었음"이라는 단편적 정보만 보지 않습니다.
 - 879번 문서에서 배운 <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/879_streaming_telemetry_grpc_push_based_monitoring/">스트리밍 텔레메트리</a></strong> 기술을 이용해, 장비의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([Logs](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)), [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 수치([Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)), 앱 트래픽 흐름 궤적(Traces) 등 과거엔 서로 찢어져 있던 3대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)([Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)) 한곳으로 폭풍처럼 밀어 넣어 AI의 밥(학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))으로 준비시킵니다.
 
 AIOps의 진정한 마법은 상관관계를 파악하는 추리 능력입니다.

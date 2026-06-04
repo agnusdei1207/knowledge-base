@@ -82,7 +82,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **의존성의 방향**: 화살표가 밖에서 무조건 안쪽(정중앙 육각형)을 향해 꽂힙니다. 1층(DB)이 2층(뇌)을 향해 거꾸로 꽂히는 <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/106_dip_dependency_inversion_principle/">의존성 역전 원칙</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/">Dependency Inversion Principle</a>)</strong>이 발동한 것입니다! 
+- **의존성의 방향**: 화살표가 밖에서 무조건 안쪽(정중앙 육각형)을 향해 꽂힙니다. 1층(DB)이 2층(뇌)을 향해 거꾸로 꽂히는 <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/106_dip_dependency_inversion_principle/">의존성 역전 원칙</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/">Dependency Inversion Principle</a>)</strong>이 발동한 것입니다!
 - **기적의 결과**: 나중에 DB를 오라클에서 몽고DB로 바꿉니다. 정중앙의 '비즈니스 뇌' 코드는 1줄도 수정하지 않습니다. 그냥 육각형 바깥에 꽂혀있던 '오라클 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 돼지코'를 뽑아버리고, 1시간 만에 새로 짠 '몽고DB [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 돼지코'를 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 구멍에 찰칵 끼워 넣으면 끝납니다. (플러그 앤 플레이)
 - **테스트**: DB 없이도 뇌 코드만 쏙 빼서 1초 만에 수만 번 [유닛 테스트](/knowledge-base/studynote/15_devops_sre/05_devsecops/263_unit_test_mocking_stubbing/)(Mocking)를 돌릴 수 있는 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경의 최고급 엘리트 아키텍처입니다.
 

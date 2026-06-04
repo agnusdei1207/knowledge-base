@@ -24,14 +24,14 @@ tags = ["studynote-database"]
 표기: R ÷ S
   R: 피제수 릴레이션 (분자)
   S: 제수 릴레이션 (분모)
-  
+
 조건:
   Attr(S) ⊆ Attr(R)  (S의 속성은 R의 속성 포함)
   결과 속성 = Attr(R) - Attr(S)
 
 정의:
   R ÷ S = {t | t ∈ πR-S(R) ∧ ∀s ∈ S, (t, s) ∈ R}
-  
+
   즉, 결과 t는:
   1. R에서 S 속성을 제외한 투영값이며
   2. S의 모든 투플 s에 대해 (t, s)가 R에 존재해야 함
@@ -61,7 +61,7 @@ R ÷ S = ?
   101: C001, C002, C003 ⊇ {C001, C002} → 포함 ✓
   102: C001, C002 ⊇ {C001, C002} → 포함 ✓
   103: C001 ⊉ {C001, C002} → 미포함 ✗
-  
+
   결과:
   학번
   101
@@ -139,7 +139,7 @@ SQL에서 나눗셈 구현:
             AND e2.course_id = rc.course_id
       )
   );
-  
+
   해석:
   "필수과목 중 해당 학생이 수강하지 않은 것이 하나도 없는 학생"
   = "모든 필수과목을 수강한 학생"
@@ -150,7 +150,7 @@ SQL에서 나눗셈 구현:
   WHERE course_id IN (SELECT course_id FROM RequiredCourses)
   GROUP BY student_id
   HAVING COUNT(DISTINCT course_id) = (SELECT COUNT(*) FROM RequiredCourses);
-  
+
   해석:
   학생의 수강 과목 중 필수과목 수 = 전체 필수과목 수
   (단, 중복 없는 COUNT 사용)
@@ -158,12 +158,12 @@ SQL에서 나눗셈 구현:
 방법 1 vs 2:
   이중 NOT EXISTS: 논리적으로 정확, 가독성 낮음
   COUNT: 가독성 높음, NULL 주의 필요
-  
+
   실무: COUNT 방법이 더 직관적으로 자주 사용됨
 
 확장 — 일정 비율 이상:
   모든 과목의 80% 이상 수강한 학생:
-  HAVING COUNT(DISTINCT course_id) >= 
+  HAVING COUNT(DISTINCT course_id) >=
       CEIL(0.8 × (SELECT COUNT(*) FROM RequiredCourses))
 ```
 
@@ -178,7 +178,7 @@ SQL에서 나눗셈 구현:
 
 1. "모든 상품을 구매한 고객":
    Orders(customer_id, product_id) ÷ Products(product_id)
-   
+
    SQL (COUNT):
    SELECT customer_id
    FROM Orders
@@ -187,12 +187,12 @@ SQL에서 나눗셈 구현:
 
 2. "모든 기술을 보유한 직원":
    EmployeeSkills(emp_id, skill_id) ÷ RequiredSkills(skill_id)
-   
+
    응용: 프로젝트 팀 적합 직원 선발
 
 3. "모든 지역에 배송한 공급업체":
    Shipments(supplier_id, region) ÷ AllRegions(region)
-   
+
    응용: 전국 배송 가능 공급업체 식별
 
 4. "모든 테스트를 통과한 소프트웨어":
@@ -222,7 +222,7 @@ SQL에서 나눗셈 구현:
 테이블 구조:
   EmployeeSkills(emp_id, skill_name, proficiency)
   ProjectRequirements(project_id, skill_name, min_proficiency)
-  
+
 요구: 특정 프로젝트의 모든 기술 요건을 충족하는 직원 찾기
 
 SQL:
@@ -245,7 +245,7 @@ SQL:
 
 성능 최적화:
   인덱스: (emp_id, skill_name), (project_id, skill_name)
-  
+
   COUNT 방법 (더 빠를 수 있음):
   SELECT es.emp_id
   FROM EmployeeSkills es
@@ -257,7 +257,7 @@ SQL:
       SELECT COUNT(*) FROM ProjectRequirements
       WHERE project_id = 'PRJ-001'
   );
-  
+
 실행 계획:
   Hash Aggregate → Hash Join → Index Scan
   → 수백만 레코드에서도 수초 내 응답 가능

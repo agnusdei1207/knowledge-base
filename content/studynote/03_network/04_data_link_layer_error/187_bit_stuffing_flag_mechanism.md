@@ -50,7 +50,7 @@ tags = ["studynote-network"]
 - 이렇게 하면 본문 전체를 통틀어 '1이 6개 연속되는 구간'은 절대, 네버 존재할 수 없게 됩니다. 오직 진짜 양끝의 깃발([Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))만이 1을 6개 가질 수 있습니다.
 
 ### 수신기의 해독 (Destuffing)
-- 수신기는 들어오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 편안하게 읽습니다. 
+- 수신기는 들어오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 편안하게 읽습니다.
 - 그러다 1이 연속으로 5개(`11111`) 들어오는 것을 발견하면 바짝 긴장합니다. "송신기가 또 0을 끼워 넣었나?"
 - 만약 <strong>그다음 6번째 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>가 <code>0</code>이면?</strong> "아, 송신기가 스터핑한 0이구나!" 하고 그 `0`을 핀셋으로 쏙 뽑아서 쓰레기통에 버려버리고(Destuffing) 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복원합니다.
 - 만약 <strong>그다음 6번째 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>가 <code>1</code>이면?</strong> "앗! 1이 6개네! 이건 진짜 프레임이 끝났다는 깃발(`01111110`)이다!"라고 판단하고 프레임을 칼같이 자릅니다.
@@ -70,7 +70,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- 8비트를 통째로 끼워 넣던 문자 방식보다 오버헤드(쓸데없이 늘어나는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기)가 극단적으로 적습니다. 
+- 8비트를 통째로 끼워 넣던 문자 방식보다 오버헤드(쓸데없이 늘어나는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기)가 극단적으로 적습니다.
 - 어떤 언어의 문자셋을 쓰든, 어떤 이진 파일을 보내든 전혀 상관없이 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 레벨에서 기계적으로 처리되므로 현대 모든 동기식 시리얼 통신의 뼈대가 되었습니다.
 
 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 스터핑을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 방식이 기반 조건을 만든다면, [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 스터핑은 그 위에서 핵심 메커니즘을 구현하고, [오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/) 개요는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.

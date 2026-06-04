@@ -141,8 +141,8 @@ Secure Design
 
 ## 어린이를 위한 3줄 비유 설명
 
-새 집에 들어가기 전에 어디로 들어올 수 있는지 먼저 봐요.  
-문, 창문, 담장에 구멍이 없는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해요.  
+새 집에 들어가기 전에 어디로 들어올 수 있는지 먼저 봐요.
+문, 창문, 담장에 구멍이 없는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해요.
 [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/)은 그런 구멍을 미리 찾는 일이에요.
 
 ---

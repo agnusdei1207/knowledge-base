@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - 과거 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 HZ(Hertz)라는 값에 따라 1초에 100번~1000번씩 규칙적으로 시계 알람([Timer](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/) [Tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/))을 울렸다.
   - 틱리스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(동적 틱, Dynamic [Tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/))은 CPU가 쉬는 상태([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))에 들어갈 때, 이 규칙적인 알람을 아예 꺼버리고 "다음 네트워크 패킷이 올 때"나 "3초 뒤 타이머 콜백이 예약된 시점"으로 하드웨어 타이머를 재프로그래밍(Reprogramming) 한 뒤 잠을 잔다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 리눅스 서버 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 스마트폰 초창기에 그대로 올렸더니, 사용자가 화면을 끄고 자는 동안에도 배터리가 1시간에 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%씩 살살 녹아내렸다.
   - "도대체 왜 녹지?" 분석해 보니, CPU는 쉴 때 전기를 안 먹는 C-State(Sleep 상태)로 들어가야 하는데, 고정된 타이머([Tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/))가 1ms마다 CPU의 뺨을 때려서 "별일 없어?"라고 깨우고 다시 재우기를 반복하고 있었다.
   - 잠드는 데 2ms가 걸리는데 1ms마다 깨우니, CPU는 영원히 깊은 잠에 들지 못하고 얕은 잠만 자며 전기를 퍼먹었다.
@@ -32,7 +32,7 @@ tags = ["studynote-operating-system"]
   - <strong>고정 틱 (Periodic <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/">Tick</a>)</strong>: 비행기 조종사가 승객들이 잘 자는지 확인하려고, 아무 일도 없는데 무조건 1분마다 방송을 켜서 "승객 여러분, 이상 없으십니까?"라고 묻는 미친 짓. 승객(CPU)은 밤새 잠을 못 자 피곤해 죽는다(배터리 고갈).
   - **틱리스 (Tickless)**: 조종사가 "내일 아침 7시 도착 예정이니 그때까지 방송 끕니다. 응급 환자가 생기면([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 승무원 호출 벨을 누르세요"라고 선언. 승객(CPU)은 아침까지 한 번도 안 깨고 푹 잔다(전력 보존).
 
-- **등장 배경**: 
+- **등장 배경**:
   - 2008년 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 2.6.21에 `NO_HZ`라는 이름으로 처음 도입되었다. 스마트폰(Android)의 등장과 함께 배터리 수명이 기기의 상업적 성패를 가르는 1순위 지표가 되면서, 모바일 아키텍처의 가장 절대적이고 기본적인 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 튜닝으로 자리 잡았다.
 
 ```text

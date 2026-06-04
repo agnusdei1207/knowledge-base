@@ -63,7 +63,7 @@ SSD는 HDD의 바늘을 없앤 천사 같지만, 속을 파보면 악마 같은 
    - 램(RAM)이나 HDD는 기존에 값이 들어있던 5번지에 새로운 값을 냅다 덧칠(덮어쓰기)하면 끝이다.
    - [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 낸드 셀은 한 번 전자를 채워(0) 넣으면, 그걸 비우기(Erase) 전에는 다른 전자를 덮어쓸 수 없는 물리적 한계가 있다.
    - 더 환장하는 건, 쓸 땐 4KB([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))씩 쓰는데, **지울 땐 무조건 2MB(Block) 덩어리를 고압 전기로 통째로 구워버려야(Erase)** 지워진다. 4KB 하나 고치겠다고 2MB를 통째로 지우는 병목이 발생한다.
-   
+
 2. **수명의 한계 (Wear-out)**:
    - 블록을 지울 때마다 고전압을 때리다 보니, 낸드 셀을 둘러싼 산화막이 서서히 녹아내린다.
    - 대략 1,000번 ~ 3,000번(TLC 기준) 지우고 쓰고를 반복하면 셀이 죽어버린다 (Dead Cell). 하드디스크처럼 평생 쓸 수 있는 기계가 절대 아니다. (TBW: Total Bytes Written 수명 제한).
@@ -79,7 +79,7 @@ SSD는 HDD의 바늘을 없앤 천사 같지만, 속을 파보면 악마 같은 
   - OS가 "야 LBA 10번지(4KB)에 덮어써!"라고 명령한다.
   - FTL은 10번지를 지우지 않는다. 그냥 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 구석에 있는 텅 빈 '새 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(예: 물리 900번지)'에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1초 만에 휙 쓴다(Out-of-place Update).
   - 그리고 자기 내부 매핑 장부([SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/))에 <strong>"앞으로 OS가 10번지라고 부르면 900번지로 뻥쳐라"</strong>라고 화살표를 슬쩍 꺾어버린다!
-  - 10번지에 있던 옛날 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 '유효하지 않음(Invalid)' 딱지를 붙이고 방치한다. 
+  - 10번지에 있던 옛날 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 '유효하지 않음(Invalid)' 딱지를 붙이고 방치한다.
   - OS는 덮어쓰기가 0.001ms 만에 끝난 줄 알고 "와 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 개빠르네!" 하고 감탄하며 완벽하게 속아 넘어간다.
 
 - **📢 섹션 요약 비유**: 서류철의 3페이지 내용을 고쳐야 합니다. 옛날 깐깐한 직원([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))은 3페이지에 펜을 북북 긋고 화이트로 지운 뒤(덮어쓰기) 그 위에 새 글씨를 썼습니다(종이가 닳고 느림). 똑똑한 신입([FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/))은 3페이지를 지우지 않습니다. 그냥 맨 뒤에 있는 깨끗한 새 종이(빈 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))에 고칠 내용을 쓱싹 적어놓고, 목차 장부만 몰래 수정해서 사장님(OS)이 3페이지를 찾을 때 맨 뒤의 새 종이를 척 보여줍니다. 사장님은 속도가 빛의 속도라 감동합니다. 방치된 낡은 3페이지 쓰레기 종이는 주말에 몰래 한 번에 파쇄([Garbage Collection](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/))해 버립니다.
@@ -101,7 +101,7 @@ SSD를 살 때 가격을 결정하는 낸드 셀의 저장 계급도다.
 
 ### 왜 QLC로 갈수록 느려지고 수명이 깎이는가?
 하나의 방(Cell) 안에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 4개씩(QLC) 우겨넣으면 용량은 4배로 뻥튀기되어 가격이 똥값이 된다.
-하지만 물이 반쯤 찬 컵(Cell)을 상상해 보라. SLC는 물이 있냐/없냐만 보면 되니 0.1초 컷이다. 
+하지만 물이 반쯤 찬 컵(Cell)을 상상해 보라. SLC는 물이 있냐/없냐만 보면 되니 0.1초 컷이다.
 QLC는 이 물의 높이를 무려 <strong>16단계로 초정밀 측정</strong>해야 한다. "이게 3단계 높이인가? 4단계 높이인가?"를 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 미세하게 넣었다 뺐다 하며 저울질(Read/Write) 하느라 속도가 처참하게 곤두박질친다. 게다가 미세 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 계속 때려 박으니 칩이 금방 닳아서 죽어버린다(Wear-out). 이를 속이기 위해 제조사들은 TLC/QLC 드라이브 앞단에 [SLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/) 캐시(가짜 고속도로)를 10GB쯤 깔아서 벤치마크 사기를 치는 것이 현대 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 설계의 어두운 이면이다.
 
 ```text
@@ -124,7 +124,7 @@ QLC는 이 물의 높이를 무려 <strong>16단계로 초정밀 측정</strong>
 ### 실무 시나리오: TRIM [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 속도 저하 방어
 1. **OS와 SSD의 소통 단절 (과거)**:
    - 윈도우에서 10GB짜리 영화를 '휴지통 비우기'로 삭제했다.
-   - OS 입장에서는 장부(NTFS)에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름만 쓱 지우고 끝이다. 
+   - OS 입장에서는 장부(NTFS)에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름만 쓱 지우고 끝이다.
    - 💥 **비극**: OS는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 지웠다고 생각하지만, 그 사실을 하드웨어인 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 컨트롤러에게 알려주지 않았다! [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 입장에서는 그 10GB 공간이 아직도 '사용 중인 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Valid [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))'라고 굳게 믿고 있다.
 2. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/">가비지 컬렉션</a>(GC) 폭주와 렉</strong>:
    - SSD가 꽉 찼을 때, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부 펌웨어는 빈 블록을 만들기 위해 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 딴 곳으로 낑낑대며 이사시키는 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/">가비지 컬렉션</a>(GC)</strong>을 돈다.

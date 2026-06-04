@@ -124,7 +124,7 @@ Microsoft Fabric (2023) = 통합 분석 플랫폼
   │  Data Factory  │  Synapse   │  Power BI │
   │  (데이터 통합) │  (분석)    │  (시각화)  │
   └─────────────────────────────────────────┘
-  
+
   특징:
   - 모든 데이터가 One Lake의 Delta Parquet 형식 저장
   - 복사 없이 각 서비스에서 직접 접근

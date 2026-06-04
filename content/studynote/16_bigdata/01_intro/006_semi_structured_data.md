@@ -26,7 +26,7 @@ tags = ["bigdata"]
 이러한 한계를 극복하기 위해, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체가 자신의 구조를 서술하는 방식이 고안되었다. [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/), XML, YAML 등이 대표적이며, 이들은 애플리케이션 개발의 민첩성을 높이고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 및 교환 시의 파싱 오버헤드를 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)한다. 현대의 웹 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통신, [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/), [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 등 빅데이터의 앞단에서는 거의 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 반정형 형태로 오고 간다. 결국 [반정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/003_semi_structured_data/)는 빅데이터의 '다양성(Variety)'과 '속도(Velocity)'를 충족시키는 핵심 매개체다.
 
 ```text
-이 도식은 기존의 고정 스키마 환경에서 발생하는 데이터 연동 병목과, 반정형 데이터 도입으로 인한 유연한 데이터 흐름을 비교하여 보여준다. 
+이 도식은 기존의 고정 스키마 환경에서 발생하는 데이터 연동 병목과, 반정형 데이터 도입으로 인한 유연한 데이터 흐름을 비교하여 보여준다.
 
 [기존 정형 데이터 환경]
 Client(Data) ──(스키마 불일치 발생)──> [Schema Validator] ──(파싱 에러 큐 체증)──> RDBMS
@@ -86,8 +86,8 @@ raw_data = '{"sensor_id": 101, "temp": 22.5, "status": "active"}'
 try:
     # 1단계 & 2단계: 문자열 읽기 및 구문 분석 (파서 엔진 수행)
     # 3단계: 딕셔너리 객체로 메모리에 생성
-    parsed_data = json.loads(raw_data) 
-    
+    parsed_data = json.loads(raw_data)
+
     # 4단계: 동적 스키마 처리 (데이터 내부의 키로 직접 접근)
     if parsed_data.get("temp") > 20.0:
         print(f"Warning: Sensor {parsed_data['sensor_id']} high temp!")
@@ -144,7 +144,7 @@ except json.JSONDecodeError as e:
                   ├── Yes ──> RDBMS에 적재 (JSON 컬럼 + 함수 인덱스 활용)
                   └── No  ──> Columnar DB / OLAP 에 ETL 변환 후 적재
 ```
-이 흐름의 핵심은 '[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)의 가변성'과 '조회 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)'의 상충 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 조율하는 것이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형태가 자주 변하는데 무리하게 정형 DB로 ETL을 수행하면 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 수시로 깨진다([Data Pipeline](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) Breakage). 
+이 흐름의 핵심은 '[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)의 가변성'과 '조회 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)'의 상충 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 조율하는 것이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형태가 자주 변하는데 무리하게 정형 DB로 ETL을 수행하면 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 수시로 깨진다([Data Pipeline](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) Breakage).
 
 <strong>실무 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (<a href="/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/">Anti-pattern</a>)</strong>:
 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 문자열을 통째로 RDBMS의 VARCHAR 컬럼에 저장하고, 애플리케이션 단에서 매번 전체를 파싱하여 검색하는 패턴이다. 이 경우 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 전혀 타지 못해 Table Full Scan이 발생하며 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 기하급수적으로 하락한다.

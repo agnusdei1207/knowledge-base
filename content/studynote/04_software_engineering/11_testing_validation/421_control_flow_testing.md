@@ -86,7 +86,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-제어 흐름 테스팅의 핵심 전략은, 그려진 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 모든 <strong>'독립 경로 모음(Basis Set)'</strong>을 뽑아내는 것입니다. 
+제어 흐름 테스팅의 핵심 전략은, 그려진 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 모든 <strong>'독립 경로 모음(Basis Set)'</strong>을 뽑아내는 것입니다.
 순환 복잡도가 4가 나왔다면, 최소 서로 다른 4가지의 흐름 고리가 존재한다는 뜻이고, 테스터는 4개의 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)(입력값 $x, y, z$의 조작)를 기가 막히게 세팅해서 4개의 경로만 찔러주면 이 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 구석구석을 100% 다 소독했다는 보증수표를 얻게 됩니다.
 
 만약 이 경로 탐색 중에 "어? 어떤 입력값을 넣건 간에 Node 5번으로 향하는 화살표로는 들어갈 수가 없네?"라는 결론이 나온다면, 바로 그것이 도달할 수 없는 유령 코드(Unreachable [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))이며 제어 흐름 테스팅이 잡아내는 최고의 전리품입니다.
@@ -106,7 +106,7 @@ tags = ["studynote-software-engineering"]
 실무에서 개발자가 노트에 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 그리는 짓은 하지 않습니다.
 개발팀이 코드를 IDE(IntelliJ 등)에 타이핑하는 즉시 SonarLint 같은 **정적 분석기(Static Analyzer)** 봇이 백그라운드에서 실시간으로 제어 흐름 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 그려보고 복잡도를 계산해 냅니다.
 
-그리고 개발자가 함수 하나에 `if`문과 `switch`문을 복잡하게 8번 중첩하는 순간, 화면에 빨간 밑줄이 그어지며 경고를 뱉습니다. *"경고: 이 메서드의 순환 복잡도가 15를 초과했습니다. 리팩토링하여 메서드를 분리하십시오."* 
+그리고 개발자가 함수 하나에 `if`문과 `switch`문을 복잡하게 8번 중첩하는 순간, 화면에 빨간 밑줄이 그어지며 경고를 뱉습니다. *"경고: 이 메서드의 순환 복잡도가 15를 초과했습니다. 리팩토링하여 메서드를 분리하십시오."*
 즉, 제어 흐름이 너무 복잡해지면 화이트박스 테스팅을 위해 짜야 할 TC가 기하급수적으로 늘어나 버리므로, 아예 코드 레벨에서 복잡한 미로 건립을 원천 철거해버리는 강제 규약으로 쓰이고 있습니다.
 
 - **📢 섹션 요약 비유**: 미로 탈출 게임을 만들려는데 건축가가 방 안에 함정 100개랑 구불구불한 꽈배기 계단을 넣으려 하자, 컴퓨터 감독이 "이러면 불났을 때 탈출 경로 검사를 영영 못 끝내니까 방벽 10개 허물어!"라고 옐로카드를 주는 예방 장치랍니다.

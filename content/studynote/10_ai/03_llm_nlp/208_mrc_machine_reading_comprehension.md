@@ -64,7 +64,7 @@ MRC는 딥러닝(NLP)이 단순한 단어 번역기를 넘어, 문맥([Context](
 ```
 
 **핵심 원리 (추출형 포인터 네트워크)**:
-챗GPT처럼 말을 유창하게 새로 창조하는(Generative) 방식이 아니라, 주어진 본문 텍스트 1,000자(Token)의 머리 위에 각각 <strong>"네가 정답의 시작점(Start)이냐?"</strong>와 <strong>"네가 정답의 끝점(End)이냐?"</strong>를 묻는 독립적인 두 개의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포([Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/))를 뿌린다. 그리고 이 두 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 가장 뾰족하게 치솟는 구간을 수학적 가위(Span)로 싹둑 오려내는 것이다. 
+챗GPT처럼 말을 유창하게 새로 창조하는(Generative) 방식이 아니라, 주어진 본문 텍스트 1,000자(Token)의 머리 위에 각각 <strong>"네가 정답의 시작점(Start)이냐?"</strong>와 <strong>"네가 정답의 끝점(End)이냐?"</strong>를 묻는 독립적인 두 개의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포([Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/))를 뿌린다. 그리고 이 두 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 가장 뾰족하게 치솟는 구간을 수학적 가위(Span)로 싹둑 오려내는 것이다.
 이 멍청해 보일 정도로 완고한 수식 구조 덕분에, 모델은 본문에 존재하지 않는 단어를 절대 지어낼 수 없으므로 팩트 조작([할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)) 방어력이 100%에 달하는 우주 최강의 팩트 체크 방패가 완성된다.
 
 | 요소 | 역할 |

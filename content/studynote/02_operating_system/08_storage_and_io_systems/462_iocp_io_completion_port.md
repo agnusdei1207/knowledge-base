@@ -52,7 +52,7 @@ tags = ["studynote-operating-system"]
 │          수만 명의 통신이 단 1초의 렉도 없이 완벽하게 처리됨.             │
 └───────────────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** 리눅스 `epoll`과 윈도우 `IOCP`의 가장 결정적 차이가 2번 스텝에 있다. `epoll`은 "야, 짐 도착했어" 까지만 알려주고, 결국 유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 무거운 램 복사(`read`)를 자기 손으로 낑낑대며 해야 한다([Synchronous](/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) 렉 발생). 하지만 윈도우 IOCP는 OS가 "내([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))가 램에 짐 복사까지 다 끝내서 식탁에 얹어 놨어. 넌 숟가락만 들어"라고 하는 **100% 완벽한 진성 비동기(Asynchronous)** 구조다. 
+**[다이어그램 해설]** 리눅스 `epoll`과 윈도우 `IOCP`의 가장 결정적 차이가 2번 스텝에 있다. `epoll`은 "야, 짐 도착했어" 까지만 알려주고, 결국 유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 무거운 램 복사(`read`)를 자기 손으로 낑낑대며 해야 한다([Synchronous](/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) 렉 발생). 하지만 윈도우 IOCP는 OS가 "내([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))가 램에 짐 복사까지 다 끝내서 식탁에 얹어 놨어. 넌 숟가락만 들어"라고 하는 **100% 완벽한 진성 비동기(Asynchronous)** 구조다.
 
 - **📢 섹션 요약 비유**: 리눅스의 epoll은 식당 진동벨입니다. 징징 울리면 내가 직접 카운터까지 걸어가서 무거운 쟁반을 들고 내 자리로 가져와야(read 메모리 복사) 합니다. 윈도우 IOCP는 최고급 호텔 룸서비스입니다. 요리사가 요리를 내 방 식탁 위에 쫙 다 세팅(메모리 복사 완료)해 주고 나서야 초인종(Completion)을 누릅니다. 나는 침대에서 일어나서 밥만 퍼먹으면 됩니다.
 
@@ -99,7 +99,7 @@ IOCP 큐 앞에 대기하는 [스레드](/knowledge-base/studynote/02_operating_
 | **승자** | **클라우드 / 웹 서버 (AWS, Nginx) 제패**| **글로벌 MMORPG 게임 서버 천하 통일** |
 
 ### 왜 게임 서버는 유독 윈도우(IOCP)를 사랑했는가?
-엔씨소프트, 넥슨 등 거대 게임사들의 옛날 C++ 서버는 99%가 윈도우 + IOCP 조합이었다. 
+엔씨소프트, 넥슨 등 거대 게임사들의 옛날 C++ 서버는 99%가 윈도우 + IOCP 조합이었다.
 - 게임은 1초에 캐릭터 좌표가 수백 번 바뀌는 아주 얇은 패킷(10바이트)이 수백만 명에게 융단폭격처럼 쏟아진다.
 - 리눅스 `epoll`은 10바이트 왔다고 알림 주면 유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 `read` 호출해서 유저-[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드를 1초에 100만 번 스위칭해야 한다 (시스템 콜 렉).
 - 윈도우 IOCP는 유저가 "버퍼 10만 개 줄 테니까, 여기에 10바이트씩 차곡차곡 담아서 꽉 차면 줘"라고 던져놓는다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 유저 모드 침범 없이 램에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조용히 다 쌓아놓고 딱 1번만 "가져가" 하고 튕긴다.
@@ -124,7 +124,7 @@ IOCP 큐 앞에 대기하는 [스레드](/knowledge-base/studynote/02_operating_
 ### 실무 시나리오: Overlapped I/O의 포인터 공중분해 재앙 ([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Fault)
 IOCP가 아무리 쩔어도 뉴비(Newbie) 개발자들이 100% 서버를 터뜨리는 마의 구간이 있다.
 1. **함정의 시작**: 개발자가 10KB [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 버퍼를 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 지역변수(Local Variable)로 선언하고 `WSARecv()`(비동기 읽기) 함수를 때린 뒤, 함수를 `return` 하고 끝내버렸다.
-2. **시한폭탄 작동**: 
+2. **시한폭탄 작동**:
    - OS는 "오케이, 네가 알려준 그 버퍼 주소에 네트워크 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 담을게" 하고 백그라운드([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))로 디스크나 랜카드를 긁기 시작한다.
    - 그런데 함수가 `return` 되면서 그 지역 변수 버퍼는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 메모리에서 펑 소멸해 버렸다(또는 다른 쓰레기 값으로 덮어씌워짐).
 3. **참사 발생**: 10ms 뒤, 랜카드가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져와서 아까 OS가 기억해 둔 주소(이미 소멸한 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 주소)에 10KB를 무자비하게 덮어써 버린다.
@@ -148,7 +148,7 @@ IOCP가 아무리 쩔어도 뉴비(Newbie) 개발자들이 100% 서버를 터뜨
 
 ### 결론 및 미래 전망
 
-I/O 완료 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) (IOCP)는 1990년대 윈도우 NT [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자인 데이브 커틀러(Dave Cutler)가 남긴 가장 위대한 유산이자, 운영체제가 "소프트웨어 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 늪"에 빠지지 않고 하드웨어 I/O를 가장 우아하게 다루는 법을 전 세계에 가르쳐 준 바이블이다. 이 기술은 당시 허접했던 리눅스를 비웃으며 마이크로소프트 서버와 게임 인프라의 황금기를 이끌었다. 비록 웹 서버 생태계가 `epoll`이라는 가벼운 무기를 든 리눅스 쪽으로 통일되며 현재 IOCP는 윈도우 서버 환경이나 레거시 C++ 게임 서버에 고립되는 듯 보였다. 하지만 IOCP의 100% 비동기 'Proactor' 철학만큼은 틀리지 않았음이 증명되어, 20년이 지난 지금 리눅스 진영이 피눈물을 흘리며 이 IOCP의 사상을 100% 베껴 만든 `io_uring` 이라는 괴물을 탄생시키는 역사적 기폭제가 되었다. 
+I/O 완료 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) (IOCP)는 1990년대 윈도우 NT [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자인 데이브 커틀러(Dave Cutler)가 남긴 가장 위대한 유산이자, 운영체제가 "소프트웨어 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 늪"에 빠지지 않고 하드웨어 I/O를 가장 우아하게 다루는 법을 전 세계에 가르쳐 준 바이블이다. 이 기술은 당시 허접했던 리눅스를 비웃으며 마이크로소프트 서버와 게임 인프라의 황금기를 이끌었다. 비록 웹 서버 생태계가 `epoll`이라는 가벼운 무기를 든 리눅스 쪽으로 통일되며 현재 IOCP는 윈도우 서버 환경이나 레거시 C++ 게임 서버에 고립되는 듯 보였다. 하지만 IOCP의 100% 비동기 'Proactor' 철학만큼은 틀리지 않았음이 증명되어, 20년이 지난 지금 리눅스 진영이 피눈물을 흘리며 이 IOCP의 사상을 100% 베껴 만든 `io_uring` 이라는 괴물을 탄생시키는 역사적 기폭제가 되었다.
 
 - **📢 섹션 요약 비유**: 남들이 자전거 페달 밟는 법([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 블로킹)을 개선하겠다며 기어를 달고 체인에 기름칠(epoll 튜닝)을 하고 있을 때, 아예 페달을 뽑아버리고 엔진(완전 비동기 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 짬처리)을 달아 오토바이를 만들어버린 90년대의 미친 오버테크놀로지입니다. 리눅스 진영이 자전거 튜닝의 한계를 느끼고 오토바이([io_uring](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/464_io_uring/))로 갈아타기까지 무려 20년의 세월이 걸렸습니다.
 

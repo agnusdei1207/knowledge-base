@@ -74,10 +74,10 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - **권장 (안전함)**: `ECDHE` (전방향 안전성 지원), `AES-GCM` 또는 `ChaCha20-Poly1305` (위조 방지 강력함).
-- **취약 (절대 사용 금지)**: 
-  - `NULL` (암호화 안 함), 
-  - `RC4` (털린 [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)), 
-  - `DES/3DES` (털린 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)), 
+- **취약 (절대 사용 금지)**:
+  - `NULL` (암호화 안 함),
+  - `RC4` (털린 [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)),
+  - `DES/3DES` (털린 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)),
   - `MD5 / SHA-1` (충돌 터진 해시).
 
 Cipher Suite 모델 표기방식 예시…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) Handshake [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 기반 조건을 만든다면, Cipher Suite 모델 표기방식 예시…는 그 위에서 핵심 메커니즘을 구현하고, [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 전방향 안전성 보장 원리는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.

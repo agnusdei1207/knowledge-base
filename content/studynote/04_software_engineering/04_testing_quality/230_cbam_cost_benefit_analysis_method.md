@@ -73,7 +73,7 @@ CBAM은 쌩뚱맞게 혼자 작동하지 않습니다. 무조건 <strong>"<a hre
 1. **1단계 (ATAM의 유산 받기)**: 먼저 ATAM을 돌려서 "대안 A(보안 몰빵 도면)", "대안 B([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 몰빵 도면)" 같은 쓸만한 도면 후보들을 기술적으로 검증해 냅니다.
 2. **2단계 (효용성 계산 Utility)**: 경영진이 각 도면의 점수를 매깁니다. "대안 A는 보안이 좋아서 해킹 벌금을 막아주니 우리에게 100점짜리 가치가 있고, 대안 B는 속도가 빨라 고객 이탈을 막아주니 80점짜리 가치가 있군."
 3. **3단계 (비용 Cost 산정)**: 도면대로 지을 때 견적을 뽑습니다. "대안 A는 서버 10대 사야 하니 10억 원, 대안 B는 코드만 깎으면 되니 2억 원이군."
-4. <strong>4단계 (가성비 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a> 계산 및 선택) 🌟</strong>: 
+4. <strong>4단계 (가성비 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a> 계산 및 선택) 🌟</strong>:
    - **대안 A**: 가치 100점 / 비용 10억 = 가성비([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)) <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a></strong>
    - **대안 B**: 가치 80점 / 비용 2억 = 가성비([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)) **40**
    - **결론**: 비록 대안 A가 기술적으론 더 완벽하고 가치가 높지만, 돈 대비 가성비([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))가 압도적으로 높은 **'대안 B' 도면을 회사의 최종 아키텍처로 낙찰(결정) 땅땅땅!**

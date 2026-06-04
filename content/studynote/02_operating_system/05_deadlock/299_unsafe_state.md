@@ -80,7 +80,7 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/">타조 알고리즘</a> 체제의 평범한 리눅스/윈도우</strong>: 이들은 뱅커스 회고 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 없으니 `Unsafe State`의 개념 구분 없이, 그냥 요청 오면 퍼주다 보니까 시스템 일과 중 90%를 맘 놓고 `Unsafe` 한강 위를 떠다닌다. [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 희박해 데드락이 우연히 안 터지니까 그냥 알빠노(Ostrich)로 버티다 1년에 한 번 재부팅하는 실전 철학이다. 
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/">타조 알고리즘</a> 체제의 평범한 리눅스/윈도우</strong>: 이들은 뱅커스 회고 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 없으니 `Unsafe State`의 개념 구분 없이, 그냥 요청 오면 퍼주다 보니까 시스템 일과 중 90%를 맘 놓고 `Unsafe` 한강 위를 떠다닌다. [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 희박해 데드락이 우연히 안 터지니까 그냥 알빠노(Ostrich)로 버티다 1년에 한 번 재부팅하는 실전 철학이다.
 2. **소프트 리밋 (Soft Limit) 설계**: 최신 배포 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에선 딱딱한 은행원 공식을 안 쓰지만, DB 커넥션 풀을 100개 중 80개까지만 평소 내주고(Soft Limit), 나머지 20개는 '시스템 연쇄 붕괴(Unsafe)'를 막기 위한 리커버리 전용 긴급 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) 구간으로 여겨([Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) 마지노선) 아껴두는 우회적 튜닝 파라미터로 사상이 계승되었다.
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:

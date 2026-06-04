@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어의 99%는 '결정적(Deterministic)'이다. 입력 A가 들어오면, B 함수를 거쳐 C를 출력한다는 명확한 순서도(Flowchart)가 존재한다. 
+소프트웨어의 99%는 '결정적(Deterministic)'이다. 입력 A가 들어오면, B 함수를 거쳐 C를 출력한다는 명확한 순서도(Flowchart)가 존재한다.
 
 하지만 인간의 지능을 흉내 내는 문제는 이 방식으로 풀 수 없다. 예를 들어, 로봇이 "저기 있는 빨간 사과 좀 집어줘"라는 말을 들었을 때, 음성 인식 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), 색깔 인식 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), 거리 측정 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 어떤 순서로 동작해야 할까? 음성 인식이 완벽하지 않으면 카메라가 과일 바구니를 보고 "아, 사과를 말했구나!"라고 추론해서 빈칸을 메워야 한다.
 

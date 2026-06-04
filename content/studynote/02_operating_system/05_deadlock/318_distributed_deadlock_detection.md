@@ -25,7 +25,7 @@ tags = ["studynote-operating-system"]
 한국 서버의 P1이 미국 서버의 DB락(X)을 잡았고, 미국 서버의 P2가 한국 서버의 DB락(Y)을 잡으려 찔렀다 치자.
 한국 서버 CPU 입장: "P1이 X 잡기 기다리네, 딱히 사이클 없네."
 미국 서버 CPU 입장: "P2가 Y 잡기 기다리네, 딱히 사이클 없네."
-서로 각자의 좁은 대기표만 보기 때문에 <strong>서로 영원히 뻗어있는 완벽한 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 교착(Global <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)</strong>이 터졌음에도 이 우주에는 이를 알아챌 신(God)이 없다. 
+서로 각자의 좁은 대기표만 보기 때문에 <strong>서로 영원히 뻗어있는 완벽한 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 교착(Global <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)</strong>이 터졌음에도 이 우주에는 이를 알아챌 신(God)이 없다.
 
 이걸 수습하기 위해 고안된 것이 찢어진 지도를 이어붙여 사이클을 찾아내는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/304_deadlock_detection/">교착 상태 탐지</a> (Distributed <a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>)</strong> [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
@@ -89,7 +89,7 @@ tags = ["studynote-operating-system"]
 
 <strong>진짜 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a>(환영 데드락 - Phantom <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)</strong>:
 - 코디네이터 A가 한국 서버 노드1의 락 정보("T1->T2 대기중")를 수집했다. 그리고 1초 뒤 노드2의 락 정보("T2->T1 대기중")를 받아서 "오! 데드락 사이클이네 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 시켜!" 하고 데드락 터졌다고 사형시켰다.
-- **진실은?**: 노드 1이 락 풀고 다 끝난 지 이미 0.5초가 넘었다. 단지 그 락 푼 해제 메시지가 태평양 해저 케이블 느린 속도 탓에 늦게 도착했을 뿐이다!! 즉, 네트워크 시간차 때문에 코디네이터 뇌 속에서만 환상으로 만들어진 <strong>'가짜 <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a>(Phantom <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)'</strong>인 것이다. 잘 끝난 애를 강제로 사형시켜서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 송출 전체를 개박살 내버렸다. 통신 릴레이라는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 절대적 한계다. 
+- **진실은?**: 노드 1이 락 풀고 다 끝난 지 이미 0.5초가 넘었다. 단지 그 락 푼 해제 메시지가 태평양 해저 케이블 느린 속도 탓에 늦게 도착했을 뿐이다!! 즉, 네트워크 시간차 때문에 코디네이터 뇌 속에서만 환상으로 만들어진 <strong>'가짜 <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a>(Phantom <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)'</strong>인 것이다. 잘 끝난 애를 강제로 사형시켜서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 송출 전체를 개박살 내버렸다. 통신 릴레이라는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 절대적 한계다.
 
 **📢 섹션 요약 비유**: 선생님(코디네이터)이 철수한테 엽서를 받고, 영수한테 엽서를 받아서 "너네 둘 멱살 잡고 있네 사형!" 이라고 외쳤지만, 사실 그 엽서는 3일 전에 붙인 거고 지금 둘은 어깨동무하고 술 먹고 집에 간 상태(팬텀 데드락)입니다. 글로벌 탐지기는 이런 뒷북 정보의 공포 때문에 실무에서 배척받았습니다.
 

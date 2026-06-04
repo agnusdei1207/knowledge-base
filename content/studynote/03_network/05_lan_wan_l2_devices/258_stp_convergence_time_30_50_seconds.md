@@ -59,7 +59,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-내 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 꽂혀있던 메인 선이 내 눈앞에서 "툭" 하고 뽑혔다. 
+내 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 꽂혀있던 메인 선이 내 눈앞에서 "툭" 하고 뽑혔다.
 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 센서가 꺼지는 것을 바로 감지하므로 20초(Max Age)를 멍청하게 기다릴 필요가 없다. 즉시 내가 막아두었던([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 예비 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 연다. 하지만 안전 확인을 위해 Listening(15초)과 [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)(15초)은 얄짤없이 거쳐야 한다.
 ▶ <strong>총 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 시간 = 30초 (15 + 15)</strong>
 

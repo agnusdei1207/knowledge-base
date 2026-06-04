@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **멀티태스킹 (Multitasking)**: 컴퓨터가 여러 개의 작업([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))을 짧은 시간 단위(Time [Slice](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) / [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/))로 번갈아 가며 처리하여, 인간의 눈에는 동시에 실행되는 것처럼 보이게 하는 OS의 핵심 기능.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">Task</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">태스크</a>)</strong>: 프로세스([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))나 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))를 포괄하여, OS가 스케줄링하는 실행의 기본 단위를 일컫는 범용적 용어.
 
-- **필요성 (인간의 인지 한계와 편의성 추구)**: 
+- **필요성 (인간의 인지 한계와 편의성 추구)**:
   - [DOS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) 시절(단일 태스킹)에는 문서를 인쇄하려면 프린트가 끝날 때까지 컴퓨터로 아무 작업도 할 수 없었다.
   - 인간의 뇌는 0.1초보다 빠른 컴퓨터의 교대([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))를 인지하지 못한다. 이를 이용해, CPU가 0.01초는 음악 플레이어를, 0.01초는 웹 브라우저를 번갈아 실행하면 사람은 두 개가 100% 동시에 돌아간다고 착각하게 된다.
   - **해결책**: 백그라운드 작업과 포그라운드 사용자 상호작용을 분리 없이 한 화면에서 섞어 쓸 수 있도록 시분할(Time-sharing) 철학을 개인용 컴퓨터에 이식한 것이 멀티태스킹이다.
@@ -99,7 +99,7 @@ tags = ["studynote-operating-system"]
 
 OS 역사에서 이 세 단어는 비슷해 보이지만 시대적 맥락이 다르다.
 
-1. <strong>멀티프로그래밍 (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">Multiprogramming</a>)</strong>: 
+1. <strong>멀티프로그래밍 (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">Multiprogramming</a>)</strong>:
    - 1960년대 키워드. 목적은 "I/O 대기 시간에 CPU를 놀리지 않는 것(효율 극대화)". 사용자와의 상호작용은 고려하지 않음.
 2. **멀티태스킹 (Multitasking)**:
    - 1970~80년대 키워드. 목적은 "사용자가 여러 프로그램을 동시에 쓰는 것처럼 느끼게 하는 것(응답성 극대화)". 시분할(Time-sharing)의 동의어로 많이 쓰임.

@@ -116,7 +116,7 @@ ISP의 핵심은 비즈니스 [전략](/knowledge-base/studynote/04_software_eng
 
 이 다층 프레임워크에서 각 레이어는 상위 레이어의 요구를 충족시키기 위해 설계된다. 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 레이어에서 도출된 [핵심 성공 요인](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf_critical_success_factor/)([CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/))이 IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 레이어의 IT 핵심 Initiative로 변환되고, 이는 다시 프로젝트 포트폴리오와 연결된다. 만약 이러한 연결 고리가 단절되면, IT 투자가 비즈니스 가치에 기여하지 않는 '기술 중심' 투자가 되어버린다.
 
-📢 **섹션 요약 비유**: 비즈니스-IT 정렬 프레임워크는 '인체 구조'와 같습니다.대뇌(경영진)가 신체 목표(비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))를 설정하면,척수([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))가 이를 신경 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))로 변환하여수，족(프로젝트/시스템)에 전달하고, 각말단는 그 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에 따라 행동합니다. 만약 신경전도가 원활하지 않으면대뇌의명령이정しく수，족에 전달되지 않아신체가동かない 것처럼, ISP의 정렬이 부실하면ビジネス전략이IT에 제대로 반영되지 않습니다. 
+📢 **섹션 요약 비유**: 비즈니스-IT 정렬 프레임워크는 '인체 구조'와 같습니다.대뇌(경영진)가 신체 목표(비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))를 설정하면,척수([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))가 이를 신경 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))로 변환하여수，족(프로젝트/시스템)에 전달하고, 각말단는 그 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에 따라 행동합니다. 만약 신경전도가 원활하지 않으면대뇌의명령이정しく수，족에 전달되지 않아신체가동かない 것처럼, ISP의 정렬이 부실하면ビジネス전략이IT에 제대로 반영되지 않습니다.
 
 ---
 
@@ -235,7 +235,7 @@ ISP를 체계적으로 수립하고 이행하면 다음과 같은 효과를 기�
 * <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/">디지털 전환</a>과의 통합</strong>: [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 ISP를일체화하여,デジタル 트랜스포메이션을 ISP의 핵심 요소로 포함
 * <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 기반 <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/">ISP</a></strong>: Big [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석을 통해 의사결정의객관성 강화
 
-📢 **섹션 요약 비유**: ISP는 기업의 '도항시스템(네비게이션)'과 같습니다.도항시스템 없이는목적지에 도착할 수 없지만, 교통 상황(환경 변화)이 변하면도항시스템도 실시간으로갱신되어야 합니다. 마찬가지로 ISP도 일회성 문서가 아니라 지속적인갱신과 관리가 필요한 living document입니다. 
+📢 **섹션 요약 비유**: ISP는 기업의 '도항시스템(네비게이션)'과 같습니다.도항시스템 없이는목적지에 도착할 수 없지만, 교통 상황(환경 변화)이 변하면도항시스템도 실시간으로갱신되어야 합니다. 마찬가지로 ISP도 일회성 문서가 아니라 지속적인갱신과 관리가 필요한 living document입니다.
 
 ---
 

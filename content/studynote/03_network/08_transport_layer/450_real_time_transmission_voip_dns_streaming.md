@@ -48,12 +48,12 @@ UDP가 TCP를 찢어발기고 광속을 내는 원리다.
 3. <strong>No <a href="/knowledge-base/studynote/03_network/08_transport_layer/428_tcp_congestion_control_network_perspective/">Congestion Control</a> (풀악셀)</strong>: 톨게이트가 막히든 말든(혼잡 제어 무시) 수신자가 램이 터지든 말든([흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) 무시) 묻고 더블로 풀악셀을 밟아댄다. (이 때문에 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 폭주가 일어나면 인터넷망이 쑥대밭이 된다).
 
 ### 2. UDP를 100% 활용하는 3대 현대 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)
-- <strong>VoIP (인터넷 전화) / <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/">WebRTC</a></strong>: 
+- <strong>VoIP (인터넷 전화) / <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/">WebRTC</a></strong>:
   - 사람의 귀는 음성이 0.1초 늦게 들리는 건 끔찍하게 불쾌해하지만, 100단어 중 1단어가 살짝 치직거리며 뭉개지는 건 맥락상 대충 알아듣고 뇌 내 필터링을 거친다. 따라서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없는 UDP가 무조건 정답이다.
 - <strong>스트리밍 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> (IPTV)</strong>:
   - 1080p 화면은 1초에 60장의 사진(프레임)이 날아간다. 그중 1~2장이 바다에 빠져 죽어도 시청자는 거의 인지하지 못한다. 멈춤([버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)) 없이 다음 59장을 빨리빨리 보여주는 게 핵심이다.
 - <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> 질의 응답</strong>:
-  - `naver.com`의 IP를 묻는 질문은 고작 몇십 바이트다. 이 짧은 단답형 핑퐁을 위해 TCP처럼 무거운 터널 공사를 하는 건 미친 짓이다. 가벼운 UDP로 "질문 툭 -> 대답 툭"으로 0.05초 만에 끝내는 게 가장 합리적이다. 
+  - `naver.com`의 IP를 묻는 질문은 고작 몇십 바이트다. 이 짧은 단답형 핑퐁을 위해 TCP처럼 무거운 터널 공사를 하는 건 미친 짓이다. 가벼운 UDP로 "질문 툭 -> 대답 툭"으로 0.05초 만에 끝내는 게 가장 합리적이다.
 
 ```text
  ┌─────────────────────────────────────────────────────────────┐

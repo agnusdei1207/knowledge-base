@@ -40,11 +40,11 @@ IPv4가 고갈되어 수십억 대의 [IoT](/knowledge-base/studynote/06_ict_con
 
 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/)(주소 할당) 서버를 완전히 멸망시킨 천재적인 자급자족 기술입니다.
 
-- <strong>원리 (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/">Stateless Address Autoconfiguration</a>)</strong>: 
+- <strong>원리 (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/">Stateless Address Autoconfiguration</a>)</strong>:
   - 작은 전구([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 단말)를 콘센트에 꽂아 전원을 켭니다. 전구는 서버에 IP를 달라고 떼쓰지 않습니다.
   - 전구는 허공에 귀를 열고, 옆에 있는 가정용 공유기(라우터)가 주기적으로 쏘는 `라우터 광고(RA: Router Advertisement)` 패킷을 쓱 엿듣습니다. "아, 우리 동네 이름(네트워크 프리픽스 64비트)이 `2001:db8::` 이구나!"
   - 동네 이름을 외운 전구는, 자기 공장에서 타고난 뒷주소(자신의 랜카드 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소) 48비트를 반으로 가르고 중간에 `FF:FE`를 쑤셔 넣어 <strong>64비트짜리 고유한 방 번호(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/330_eui_64_mac_to_ipv6_interface_id/">EUI-64</a>)</strong>를 지 스스로 조합해 냅니다.
-  - `[동네 이름 64비트] + [내가 만든 방 번호 64비트]` = <strong>128비트짜리 완벽한 전 세계 유일 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> 주소가 전구 스스로의 수학 계산만으로 0.1초 만에 뚝딱 탄생합니다!</strong> 
+  - `[동네 이름 64비트] + [내가 만든 방 번호 64비트]` = <strong>128비트짜리 완벽한 전 세계 유일 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> 주소가 전구 스스로의 수학 계산만으로 0.1초 만에 뚝딱 탄생합니다!</strong>
 - 서버가 뻗어도 상관없고([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)), 기계가 수백만 대가 동시에 켜져도 트래픽 하나 없이 즉각 인터넷 통신망(Plug & Play)에 물려버리는 IoT의 혁명입니다.
 
 ```text

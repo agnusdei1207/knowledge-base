@@ -19,7 +19,7 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-바야흐로 [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/)와 자율주행의 시대, 기업들은 끔찍한 비용 문제에 직면했다. 
+바야흐로 [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/)와 자율주행의 시대, 기업들은 끔찍한 비용 문제에 직면했다.
 자율주행 자동차가 보행자를 피하는 AI를 훈련시키려면 현실 도로에서 차를 100만 번 달리게 해야 한다. 차가 부서지고 사람이 다치고 회사가 파산한다. 발전소 터빈의 효율을 올리려고 온도 다이얼을 이리저리 돌려보다간 터빈이 폭발해서 대참사가 일어난다.
 
 "현실(Physical)에서 실험하는 건 너무 비싸고 위험해! 컴퓨터 속에 똑같은 가상의 공장([Digital Twin](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/))을 만들자. 거기서 터빈도 터뜨려보고, 자동차도 수만 번 박아보면서 AI를 훈련(Simulation)시킨 다음, 성공한 완벽한 뇌([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))만 현실 기계에 다운로드해주면 되잖아!"
@@ -70,7 +70,7 @@ tags = ["studynote-ai"]
 ```
 
 **핵심 원리 (칼만 필터와 베이지안 최적화 기반 보정)**:
-가상과 현실의 오차를 맞추는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(Calibration)는 단순한 덧셈 뺄셈이 아니다. 현실의 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 수많은 노이즈(전파 간섭, 튀는 값)가 섞여 있다. 이 쓰레기 센서 값을 가상 세계에 그대로 입력하면 트윈 모델이 망가진다. 
+가상과 현실의 오차를 맞추는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(Calibration)는 단순한 덧셈 뺄셈이 아니다. 현실의 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 수많은 노이즈(전파 간섭, 튀는 값)가 섞여 있다. 이 쓰레기 센서 값을 가상 세계에 그대로 입력하면 트윈 모델이 망가진다.
 아키텍트들은 과거부터 현재까지 들어온 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 흐름을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 분석해 "이 값은 노이즈니까 버리고, 이 마찰력 변화가 진짜다"라고 추정해 내는 수학적 필터, 즉 <strong>칼만 필터(Kalman Filter)</strong>나 <strong>베이지안 추론(Bayesian Inference)</strong>을 보정 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 심장으로 박아 넣는다. 이 수학적 체계 덕분에 트윈은 노이즈에 흔들리지 않고 현실 기계의 '진짜 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))'를 완벽히 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)할 수 있다.
 
 | 요소 | 역할 |

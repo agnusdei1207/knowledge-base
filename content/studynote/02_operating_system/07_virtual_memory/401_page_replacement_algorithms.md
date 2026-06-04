@@ -24,7 +24,7 @@ tags = ["studynote-operating-system"]
 
   - *[FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) 구단주*: "제일 옛날에 입단한 늙은 선수부터 쳐내!" (-> 노련한 주장을 잘라서 팀이 망함).
   - *[OPT](/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/) 구단주*: "나는 미래를 보는 초능력자다. 내년에 제일 안 뛸 선수를 쳐내!" (-> 불가능함).
-  - *[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 구단주*: "최근 10경기 동안 한 번도 출전 안 한 놈을 쳐내자. 과거를 보면 미래가 보인다!" (-> 매우 합리적). 
+  - *[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 구단주*: "최근 10경기 동안 한 번도 출전 안 한 놈을 쳐내자. 과거를 보면 미래가 보인다!" (-> 매우 합리적).
 
 - <strong>등장 배경 및 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 진화 트랙</strong>:
   1. <strong>초창기 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/">FIFO</a>)</strong>: 구현이 쉬워서 그냥 들어온 순서대로 쫓아냈다. (Belady의 모순 터짐).
@@ -61,7 +61,7 @@ tags = ["studynote-operating-system"]
 
 ### [Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) String ([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)열) 기반의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가
 
-[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 평가할 때는 실제 프로그램이 내뿜는 수백만 개의 주소를 다 보지 않는다. 
+[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 평가할 때는 실제 프로그램이 내뿜는 수백만 개의 주소를 다 보지 않는다.
 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)는 '[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호'가 바뀔 때만 일어나므로, 4KB 안에서의 오프셋 변동은 전부 무시하고 오직 <strong>"<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 번호의 순서(<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">Reference</a> String)"</strong>만을 추출하여 시뮬레이션을 돌린다.
 
 - 주소 트레이스: `0x0100, 0x0150, 0x0200, 0x0100, 0x0400...`
@@ -127,7 +127,7 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오: [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 및 웹 캐시([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/), Memcached)에서의 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 - **상황**: OS의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리뿐만 아니라, 백엔드 개발자가 쓰는 메모리 캐시 DB([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/))에서도 이 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 100% 똑같이 적용된다.
-- <strong>Redis의 <code>maxmemory-policy</code></strong>: 
+- <strong>Redis의 <code>maxmemory-policy</code></strong>:
   - [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 램을 2GB로 제한해 두었는데 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 꽉 찼다.
   - 이때 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 설정에 `allkeys-lru`를 주면, 수백만 개의 [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) 중 가장 오랫동안 조회(GET)되지 않은 Key부터 쓰레기통에 버리며 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받는다.
   - 만약 `volatile-lfu`를 주면 조회 빈도(횟수)가 적은 놈부터 버린다.

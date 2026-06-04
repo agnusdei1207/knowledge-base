@@ -135,8 +135,8 @@ Relational Model
 
 ## 어린이를 위한 3줄 비유 설명
 
-도시락 한 칸 한 칸이 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이에요.  
-도시락 한 줄이 튜플이에요.  
+도시락 한 칸 한 칸이 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이에요.
+도시락 한 줄이 튜플이에요.
 도시락이 몇 줄 있는지가 카디널리티예요.
 
 ---

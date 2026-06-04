@@ -102,7 +102,7 @@ tags = ["studynote-bigdata"]
 예산 소비 규칙:
   순차적 쿼리: 총 ε_total = ε₁ + ε₂ + ... + εₙ
   병렬 쿼리(다른 파티션): 총 ε_total = max(ε₁, ε₂, ..., εₙ)
-  
+
 실용적 의미:
   100번 쿼리, 각 ε=0.01 → 총 소비 = 1.0
   예산 소진 후에는 추가 쿼리 거부 (Privacy Budget Exhausted)

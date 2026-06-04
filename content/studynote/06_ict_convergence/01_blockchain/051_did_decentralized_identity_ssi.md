@@ -18,7 +18,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-인터넷이 탄생할 때, 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP)에는 있었지만 정작 가장 중요한 '신원(Identity)을 증명하는 레이어'가 빠져 있었다. 
+인터넷이 탄생할 때, 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP)에는 있었지만 정작 가장 중요한 '신원(Identity)을 증명하는 레이어'가 빠져 있었다.
 
 그래서 우리는 웹사이트에 접속할 때마다 구글, 애플, 네이버 같은 거대 플랫폼의 아이디로 로그인([SSO](/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/))하거나 정부의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 거쳐야 했다. 이 <strong>중앙집중형 신원 모델</strong>은 플랫폼이 내가 언제 어떤 사이트에 접속하는지 모든 족적을 감시하게 만들었고, 플랫폼의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스가 뚫리는 순간 수천만 명의 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)가 탈탈 털리는 참사를 낳았다. 이에 분노한 아키텍트들은 "내 정보는 내 스마트폰(지갑)에 두고, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)을 이용해 플랫폼의 간섭 없이 내가 직접 나를 증명하겠다"는 철학인 SSI(자기주권 신원)를 선언했고, 이를 구동하는 기계적 쇳덩어리 표준이 바로 [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/)(Decentralized Identity)다.
 

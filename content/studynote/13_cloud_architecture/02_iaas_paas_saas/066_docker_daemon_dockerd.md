@@ -137,8 +137,8 @@ Runtime Control
 
 ## 어린이를 위한 3줄 비유 설명
 
-주문을 받는 본부가 있어야 일이 시작돼요.  
-[도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 데몬이 그 본부예요.  
+주문을 받는 본부가 있어야 일이 시작돼요.
+[도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 데몬이 그 본부예요.
 그래서 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 만들고 멈추는 일을 관리해요.
 
 ---

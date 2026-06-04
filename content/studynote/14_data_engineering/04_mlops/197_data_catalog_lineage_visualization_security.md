@@ -30,7 +30,7 @@ tags = ["studynote-data-engineering"]
          → "customer_v2 쓰세요, customer는 deprecated"
          → "근데 PII가 포함되어 있어서 권한 신청 필요해요"
          → 권한 신청 → 승인 3일 소요
-         
+
 총 소요 시간: 데이터 찾기에만 3일 낭비
 ```
 

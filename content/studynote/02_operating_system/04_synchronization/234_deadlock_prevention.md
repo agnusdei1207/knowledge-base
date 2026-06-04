@@ -31,8 +31,8 @@ tags = ["studynote-operating-system"]
   2. 점유 대기 (Hold and Wait)   ─▶ 파괴 시도: "가진 거 다 놓고 기다려!" (자원 낭비)
   3. 비선점 (No Preemption)      ─▶ 파괴 시도: "안 주면 억지로 뺏어!" (롤백 비용 폭발)
   4. 순환 대기 (Circular Wait)   ─▶ 파괴 시도: "무조건 한 방향으로만 잡아!" (가장 실용적)
-  
-  >> 시스템 설계자는 이 4개의 방어막 중 "가장 비용이 싸고 현실적인 것 1개"만 
+
+  >> 시스템 설계자는 이 4개의 방어막 중 "가장 비용이 싸고 현실적인 것 1개"만
      집중 타격하여 무너뜨리면 데드락 예방을 달성할 수 있다.
 ```
 **[다이어그램 해설]** 예방 기법은 4개를 다 깰 필요가 없다. 4개 중 가장 만만한 고리 1개만 끊어버리면 완벽히 방어된다. 실무에서 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)나 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)을 깨는 것은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파괴를 부르기 때문에 너무 위험하고, 주로 [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)나 [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)를 타겟팅하여 아키텍처를 비튼다.
@@ -101,7 +101,7 @@ tags = ["studynote-operating-system"]
 | **실무 적용** | ⭕ ([순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) 방지는 백엔드 코드의 기본 규칙으로 널리 쓰임) | ❌ (은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 오버헤드와 비현실적 제약 때문에 아무도 안 씀) |
 
 ### 보수적 설계의 대가: 과잉 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) (Over-protection)
-예방 기법의 가장 큰 약점은 시스템을 너무 쫄보로 만든다는 것이다. 
+예방 기법의 가장 큰 약점은 시스템을 너무 쫄보로 만든다는 것이다.
 "[점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/) 예방(All-or-Nothing)"을 쓰면, 스레드가 1주일 동안 딱 한 번 1초만 프린터를 쓰면 되는데도, 프로그램이 켜질 때 프린터를 점유하고 1주일 내내 남들이 못 쓰게 쥐고 있는다. 이 **극단적인 자원 활용률 저하** 때문에 범용 OS에서는 예방 기법을 OS 차원에서 강제하지 않고 프로그래머의 자율에 맡긴다.
 
 - **📢 섹션 요약 비유**: 데드락 예방은 "불이 날까 무서우니 집안에 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/), 전기, 성냥을 아예 금지하는 원시 시대 룰"입니다. 절대 불(데드락)은 안 나겠지만 밥을 못 해 먹습니다(자원 낭비). 데드락 회피는 "요리할 때마다 화재 경보기와 AI가 불날 확률을 계산해서 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)를 켜주는 최첨단 시스템"입니다.
@@ -111,10 +111,10 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 개발자들의 락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>) 순서 십계명</strong>: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스 코드 내에는 수천 개의 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)과 뮤텍스가 존재한다. 
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 개발자들의 락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>) 순서 십계명</strong>: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스 코드 내에는 수천 개의 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)과 뮤텍스가 존재한다.
    - **실무 조치**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발 가이드라인 문서(`Documentation/locking/spinlocks.txt`)에는 "A 락을 쥐고 B 락을 쥘 때는 반드시 이 순서대로 하라"는 [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) 예방([Lock Ordering](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/)) 규칙이 명시되어 있다. 만약 어떤 개발자가 이 순서를 무시하고 역방향으로 락을 잡는 코드를 패치로 올리면, 리누스 토발즈(Linus Torvalds)에게 욕을 먹고 그 코드는 영원히 리젝트(Reject)된다. 즉, OS 자체는 예방을 안 해주지만 OS를 '만드는' 사람들은 철저히 예방 기법으로 코딩한다.
 2. <strong>JPA / Hibernate 낙관적 락(Optimistic <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)의 본질</strong>: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 트랜잭션에서 테이블에 `SELECT FOR UPDATE` (비관적 락)를 남발하면 데드락이 터지거나 DB 스루풋이 박살 난다.
-   - **아키텍트 결단**: 실무에서는 비관적 락을 버리고 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(@Version) 컬럼을 이용한 <strong>낙관적 락</strong>을 쓴다. 낙관적 락은 락을 걸지 않고 메모리를 수정하다가 Commit 시점에 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 다르면 `OptimisticLockException`을 터뜨린다. 
+   - **아키텍트 결단**: 실무에서는 비관적 락을 버리고 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(@Version) 컬럼을 이용한 <strong>낙관적 락</strong>을 쓴다. 낙관적 락은 락을 걸지 않고 메모리를 수정하다가 Commit 시점에 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 다르면 `OptimisticLockException`을 터뜨린다.
    - 이 예외를 잡아서 재시도(Retry)하는 구조는 코프만의 4조건 중 <strong>"<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/">비선점</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/">No Preemption</a>)"을 애플리케이션 레벨에서 자발적으로 파괴</strong>한 가장 우아한 실무적 예방 기술이다.
 
 ```text

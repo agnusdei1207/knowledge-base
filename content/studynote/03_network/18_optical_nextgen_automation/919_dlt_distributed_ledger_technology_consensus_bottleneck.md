@@ -41,7 +41,7 @@ DLT는 중앙 서버 독재를 무너뜨린 대가로 <strong>'끔찍한 통신 
 
 ### 1. 브로드캐스트와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 패킷의 폭풍 (통신망 병목)
 - 비자(VISA) 카드는 중앙 서버 1대에서 1초에 24,000건의 결제를 가볍게 처리합니다.
-- 반면 비트코인(DLT)에서 내 결제 1건을 처리하려면, 내 패킷이 전 세계 10만 대 노드에게 모두 전파(Broadcast/Gossip)되어야 합니다. 
+- 반면 비트코인(DLT)에서 내 결제 1건을 처리하려면, 내 패킷이 전 세계 10만 대 노드에게 모두 전파(Broadcast/Gossip)되어야 합니다.
 - 10만 대의 컴퓨터는 내가 보낸 패킷 암호(디지털 서명)를 일일이 돋보기로 수학적 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 합니다. 이 무식한 10만 번의 중복 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 연산과 통신 트래픽 부하 때문에 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목이 터집니다.
 
 ### 2. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 합의 (Consensus)의 지옥 같은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 파급) 🌟

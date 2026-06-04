@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어 회사가 은행의 차세대 뱅킹 시스템을 1년 동안 뼈 빠지게 만들었다. 
+소프트웨어 회사가 은행의 차세대 뱅킹 시스템을 1년 동안 뼈 빠지게 만들었다.
 개발팀은 수십만 개의 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)(초록불)와, 시스템 [성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/)(1만 명 동접자 처리) 결과 보고서를 들고 은행장(고객) 앞에 당당히 섰다. "완벽합니다! 버그 제로(0)입니다!"
 
 하지만 은행 창구 직원이 프로그램을 켜보고 이렇게 말한다.

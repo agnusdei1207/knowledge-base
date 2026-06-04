@@ -40,7 +40,7 @@ tags = ["studynote-network"]
 BGP의 경로 찾기(Path Vector) 원리의 절대적인 핵심 꼬리표([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/), [Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))입니다.
 
 - **개념**: 특정 IP 목적지(예: 네이버)로 가는 경로 정보가 전 세계 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 라우터들을 거쳐서 전파될 때, <strong>자신이 거쳐 지나온 모든 국가(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">AS</a> 번호)들의 목록을 순서대로 차곡차곡 꼬리표에 누적해서 적어둔 발자취 기록 장부</strong>입니다.
-- **예시**: [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 장부에 목적지 `8.8.8.8`로 가는 길이 `AS-Path: [15169, 701, 4766]` 이라고 적혀있다면? 
+- **예시**: [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 장부에 목적지 `8.8.8.8`로 가는 길이 `AS-Path: [15169, 701, 4766]` 이라고 적혀있다면?
   "아, 내 패킷이 목적지에 가려면 한국 통신사(4766)를 거치고, 미국 통신사(701)를 거쳐서, 최종 구글(15169)로 들어가는구나!"라는 거시적인 대륙 횡단 지도가 완성됩니다.
 
 ```text
@@ -60,7 +60,7 @@ BGP의 경로 찾기(Path Vector) 원리의 절대적인 핵심 꼬리표([속�
 
 ### 1. 전 지구적 무한 루핑([Looping](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/251_looping_broadcast_storm/))의 원천 차단 🌟 핵심 🌟
 OSPF나 RIP는 루프가 돌면 죽습니다. BGP는 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path 도장 하나로 루프를 완벽히 튕겨냅니다.
-- **원리**: 100번 통신사([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 100)의 라우터가 옆 나라에서 날아온 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 경로 정보를 받았습니다. 
+- **원리**: 100번 통신사([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 100)의 라우터가 옆 나라에서 날아온 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 경로 정보를 받았습니다.
 - 라우터가 꼬리표([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path)를 까봅니다. `[200, 300, 100]`
 - **결단**: **"어? 발자취 도장 목록에 우리 집 번호(100번)가 벌써 찍혀 있네? 이 길은 전 세계를 한 바퀴 뺑 돌아서 우리 집으로 다시 돌아온 미친 부메랑(Loop) 길이다!"** 라며 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 라우터는 이 경로 정보를 1초 만에 찢어발겨 휴지통에 던져버립니다(Drop). [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 세계에서는 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path 덕분에 루프(뺑뺑이)가 100% 물리적으로 발생할 수 없습니다.
 
@@ -86,7 +86,7 @@ OSPF나 RIP는 루프가 돌면 죽습니다. BGP는 [AS](/knowledge-base/studyn
 
 네트워크 관리자들이 이 룰을 악용해 고의로 트래픽을 조작합니다.
 - 우리 회사에 100G짜리 메인 회선과 10G짜리 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 회선이 있습니다. 전 세계 트래픽이 100G로만 오게 만들고 싶습니다.
-- 10G [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 회선으로 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 경로를 세상에 뿌릴 때, 관리자가 억지로 내 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 번호를 수십 번 덧칠해서 `[내번호, 내번호, 내번호...]` 꼬리표를 강제로 길게 뻥튀기 조작해 버립니다(Prepending). 
+- 10G [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 회선으로 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 경로를 세상에 뿌릴 때, 관리자가 억지로 내 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 번호를 수십 번 덧칠해서 `[내번호, 내번호, 내번호...]` 꼬리표를 강제로 길게 뻥튀기 조작해 버립니다(Prepending).
 - 외국 라우터들은 "아 저 10G 길은 거쳐야 할 나라가 너무 많네!" 속아 넘어가 그 길을 버리고 100G 메인 회선으로만 패킷을 몰아주게 되는 위대한 트래픽 엔지니어링 마법입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

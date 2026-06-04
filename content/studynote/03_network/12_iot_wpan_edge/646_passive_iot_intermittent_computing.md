@@ -38,7 +38,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 1. <strong>에너지 고갈로 인한 잦은 리부팅 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Failure)</strong>
-   - 센서가 온도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 측정하고 클라우드로 전송(통신)하려는 찰나, 모아둔 에너지가 바닥나 툭 꺼져버립니다(정전). 
+   - 센서가 온도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 측정하고 클라우드로 전송(통신)하려는 찰나, 모아둔 에너지가 바닥나 툭 꺼져버립니다(정전).
    - 10분 뒤 구름이 걷혀 에너지가 다시 모이면 기기가 처음부터 재부팅(Reboot)되어 아까 재어둔 온도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 통신 기록이 모두 메모리에서 싹 다 날아가 버리는(초기화) 문제가 발생합니다.
 
 2. **통신 프로토콜의 붕괴**
@@ -63,7 +63,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 ### 1. 비휘발성 메모리와 체크포인트 기술 (Intermittent Computing)
-- 기기가 꺼질 것을 항상 대비합니다. 게임에서 보스를 잡기 전에 강제 '세이브'를 하듯이, 에너지가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 남았을 때 하던 작업(현재 변수값, 통신 상태)을 전기가 끊겨도 날아가지 않는 비휘발성 메모리(FRAM, MRAM)에 1초 만에 찰칵 저장([Checkpointing](/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/))하고 눈을 감습니다. 
+- 기기가 꺼질 것을 항상 대비합니다. 게임에서 보스를 잡기 전에 강제 '세이브'를 하듯이, 에너지가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 남았을 때 하던 작업(현재 변수값, 통신 상태)을 전기가 끊겨도 날아가지 않는 비휘발성 메모리(FRAM, MRAM)에 1초 만에 찰칵 저장([Checkpointing](/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/))하고 눈을 감습니다.
 - 나중에 켜지면 0에서 시작하는 게 아니라 세이브된 부분부터 이어서 작업을 완수해 냅니다.
 
 ### 2. 패킷 쪼개기와 비동기 통신 ([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/))

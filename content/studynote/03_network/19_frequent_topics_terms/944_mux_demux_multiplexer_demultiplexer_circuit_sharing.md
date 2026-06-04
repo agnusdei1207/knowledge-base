@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **통신비 지옥**: 서울 본사와 부산 지사를 잇는 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 1가닥을 빌리는 데 한 달에 100만 원이 듭니다. 서울 직원 10명과 부산 직원 10명을 1:1로 이어주려면 1,000만 원이 깨집니다. 
+- **통신비 지옥**: 서울 본사와 부산 지사를 잇는 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 1가닥을 빌리는 데 한 달에 100만 원이 듭니다. 서울 직원 10명과 부산 직원 10명을 1:1로 이어주려면 1,000만 원이 깨집니다.
 - **해결책**: 고속의 광대역(1Gbps) [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 딱 1가닥만 빌리고, 직원 10명(각 100Mbps)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 파이프에 비빔밥처럼 구겨 넣어서([다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 쏘면 100만 원으로 끝납니다. 이 짓을 물리적으로 수행하는 하드웨어 장비가 MUX입니다.
 
 ```text
@@ -60,7 +60,7 @@ tags = ["studynote-network"]
 - 하나의 케이블에서 흐르는 전파를 100Hz, 200Hz 등 '주파수 대역(라디오 채널)' 별로 쪼개서 각 직원에게 할당합니다. 1번 직원은 91.9MHz 차선, 2번 직원은 107.7MHz 차선을 씁니다. 옛날 아날로그 라디오나 TV 케이블 방송에서 쓰던 방식입니다.
 
 ### 2. TDM ([시분할 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/075_시분할_다중화_TDM/)) - "시간표 나누기" 🌟
-- 현대 디지털 통신([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/), T1/E1 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/))의 뼈대입니다. 
+- 현대 디지털 통신([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/), T1/E1 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/))의 뼈대입니다.
 - 파이프는 하나지만, 1초를 0.1초씩 10조각으로 자릅니다. "0.1초는 1번 직원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 나가고, 다음 0.1초는 2번 직원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 나가!" 라며 <strong>순서대로 시간표(슬롯)를 배정하여 돌아가며 짐을 싣는 마법</strong>입니다.
 
 ### 3. WDM (파장 분할 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) - "무지개빛 색깔 나누기"

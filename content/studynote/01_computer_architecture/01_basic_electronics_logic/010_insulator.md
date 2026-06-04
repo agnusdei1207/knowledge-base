@@ -28,7 +28,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 칩 내에서 절연체의 역할은 게이트 산화막 (Gate Oxide)과 층간 절연막 (ILD, Inter-Layer Dielectric)으로 나뉜다. 
+[반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 칩 내에서 절연체의 역할은 게이트 산화막 (Gate Oxide)과 층간 절연막 (ILD, Inter-Layer Dielectric)으로 나뉜다.
 
 전통적으로 실리콘(Si)을 산화시킨 이산화규소 (SiO2)가 완벽한 자연 절연체로 쓰였다. 하지만 칩이 나노미터 단위로 축소되면서 절연막 두께가 얇아지자, 전자가 장벽을 무시하고 유령처럼 벽을 통과해버리는 <strong>양자 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/">터널링</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/">Quantum</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/">Tunneling</a>)</strong> 현상이 발생해 치명적인 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)(Leakage [Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/))를 만든다.
 
@@ -47,7 +47,7 @@ tags = ["studynote-computer-architecture"]
 └──────────────────────────────────────────────────────────────┘
 ```
 
-[터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)는 연산을 하지 않는 대기 상태에서도 배터리를 방전시키고 발열을 일으키는 주범이 된다. 
+[터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)는 연산을 하지 않는 대기 상태에서도 배터리를 방전시키고 발열을 일으키는 주범이 된다.
 
 - **📢 섹션 요약 비유**: 두꺼운 철문(절연체)을 너무 얇게 종잇장처럼 갈아버리면, 도둑(전자)이 문을 부수지도 않고 캐스퍼 유령처럼 벽을 스르륵 통과해 들어오는 것과 같다.
 
@@ -86,7 +86,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-상충되는 High-k와 Low-k 절연체의 적재적소 융합 배치는 모바일 기기의 배터리 수명을 비약적으로 늘리고 글로벌 배선의 통신 속도 한계를 돌파하게 만들었다. 
+상충되는 High-k와 Low-k 절연체의 적재적소 융합 배치는 모바일 기기의 배터리 수명을 비약적으로 늘리고 글로벌 배선의 통신 속도 한계를 돌파하게 만들었다.
 
 미래에는 원자 한 층 두께로 완벽한 절연 옹벽을 구축하는 육방정계 질화붕소 (h-BN) 같은 2D 절연 물질이 도입될 것이다. 더 나아가 광(Photonics) 통신 칩셋이 일반화되면, 전하 간섭이 소멸되어 배선 간 절연 늪에 빠져 허우적대던 역사가 종식될 가능성도 있다.
 

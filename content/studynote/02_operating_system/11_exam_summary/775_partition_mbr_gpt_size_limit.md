@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - 공장 출고 상태의 깡통 하드 디스크에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰려면, 먼저 '방([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))'을 만들어야 한다. 방의 크기와 개수를 적어두는 규격이 MBR과 GPT다.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/">MBR</a></strong>: 디스크의 맨 앞 0번 섹터(512바이트)에 부트 로더 코드와 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 테이블(64바이트)을 욱여넣은 구형 규격.
   - <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/">GPT</a></strong>: 고유 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(GUID)를 사용하여 전 세계의 모든 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 겹치지 않는 이름을 갖게 하고, 디스크 맨 앞과 맨 뒤에 테이블을 이중 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)하는 최신 규격.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 2010년대 들어 하드 디스크 용량이 3TB, 4TB로 커졌다.
   - 낡은 [MBR](/knowledge-base/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/) 방식으로 4TB 디스크를 포맷했더니, OS가 앞부분 2TB만 인식하고 나머지 2TB는 아예 없는 공간(Unallocated) 취급을 해버려 쓸 수가 없었다.
   - **해결책**: "주소(LBA)를 담는 공간이 32비트라서 2TB밖에 못 세는 거구나. 주소 공간을 64비트로 늘린 새로운 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 규격([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/))을 만들자!"
@@ -32,7 +32,7 @@ tags = ["studynote-operating-system"]
   - <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/">MBR</a></strong>: 방이 4개밖에 없는 낡은 아파트 도면. 방 번호를 쓸 수 있는 칸이 작아서, 아파트가 아무리 커져도 최대 2천 층(2TB)까지만 번호를 매길 수 있다. 그 이상 높이 지으면 번호를 못 매겨서 윗층에는 사람이 못 산다.
   - <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/">GPT</a></strong>: 방을 128개까지 마음대로 쪼갤 수 있고, 방 번호 칸이 엄청 넓어서 94억 층(9.4 ZB)까지도 번호를 매길 수 있는 최첨단 마천루 빌딩 도면.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 인텔이 기존 BIOS의 한계를 부수기 위해 만든 EFI(나중의 [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/)) 규격의 일부로 제정되었다. 디스크 대용량화의 압박으로 인해 윈도우 8 / 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 2.6 시절부터 MBR을 빠르게 대체하기 시작했다.
 
 ```text
@@ -73,7 +73,7 @@ tags = ["studynote-operating-system"]
 
 1. **디스크 주소 체계**: 디스크는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 512바이트 크기의 작은 블록(섹터)으로 쪼개서 저장한다. 각 섹터에는 0번, 1번, 2번... 주소(LBA, Logical Block Addressing)가 매겨진다.
 2. **MBR의 공간 제약**: MBR의 16바이트 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 레코드 안에는 "이 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 시작하는 섹터 번호"와 "총 섹터 개수"를 적는 칸이 있다. 이 칸의 크기가 하필 <strong>32비트(4바이트)</strong>로 설계되었다.
-3. **수학적 한계 계산**: 32비트로 표현할 수 있는 가장 큰 숫자는 $2^{32} = 4,294,967,296$ 개다. 
+3. **수학적 한계 계산**: 32비트로 표현할 수 있는 가장 큰 숫자는 $2^{32} = 4,294,967,296$ 개다.
 4. **용량 환산**: `4,294,967,296개 섹터 × 512 바이트/섹터 = 약 2.2조 바이트 = 2.2 TB (테라바이트)`.
 5. **결론**: [MBR](/knowledge-base/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/) 테이블은 42억 번 섹터까지만 숫자를 셀 수 있다. 4TB 디스크를 사서 84억 번 섹터에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰려고 해도, [MBR](/knowledge-base/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/) 장부에는 그 숫자를 적을 칸이 물리적으로 부족해서 에러가 나는 것이다.
 
@@ -186,7 +186,7 @@ MBR과 GPT는 단순한 용량 차이를 넘어, 컴퓨터가 처음 켜지는 �
 | [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/) [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 분리 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
 | [네트워크 파일 시스템](/knowledge-base/studynote/02_operating_system/11_exam_summary/774_nfs_stateless_network_file_system/) ([NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/)) 무상태 ([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
 | [클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) OS [자원 풀링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/638_resource_pooling_cxl/) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

@@ -171,7 +171,7 @@ RTS/CTS 메커니즘은 보이지 않는 전파 환경의 불확실성을 통제
        │  * 한계: 제어 프레임 오버헤드로 인한 대역폭 낭비 한계
        ▼
 [현대 무선 802.11ax/be] OFDMA + BSS Coloring + MU-MIMO
-       │  * 혁신: 주파수를 쪼개고 색깔(Color) 태그를 달아, 아예 
+       │  * 혁신: 주파수를 쪼개고 색깔(Color) 태그를 달아, 아예
           다른 노드의 패킷을 무시하고 여러 명이 '동시' 전송
 ```
 은닉 노드 문제를 해결하기 위해 고안된 RTS/CTS 교환은 "보이지 않으면 미리 물어보고, 남의 허가를 엿들었으면 침묵한다"는 매우 신사적이고 정교한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 알고리즘이다. 하지만 이 방식 역시 결국 한 번에 한 명만 통신해야 한다는 반이중(Half-Duplex)의 한계를 벗어나지는 못했다. 현대의 초연결 [Wi-Fi 6](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/)/7 기술은 RTS/CTS의 오버헤드를 줄이기 위해, AP가 직접 주파수 자원을 타일처럼 쪼개어 단말들에게 나누어주거나([OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)), 공간의 방향성을 제어([MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/))하여 은닉 노드 자체를 무력화시키는 중앙 집중형 아키텍처로 진화하며 새로운 패러다임을 열어가고 있다. 향후에는 지능형 자원 스케줄링와 결합되어 더 정교한 형태로 확장될 가능성이 크다.

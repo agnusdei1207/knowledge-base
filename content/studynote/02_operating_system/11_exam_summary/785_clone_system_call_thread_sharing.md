@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - `clone()`은 리눅스 전용 시스템 콜로, 새로운 실행 흐름([태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))을 만들 때 부모의 자원을 얼마나 공유할지 세밀하게 제어한다.
   - 인자로 넘기는 `flags` 값에 따라, 완전히 독립된 프로세스가 될 수도 있고 자원을 완벽히 공유하는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 될 수도 있다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 전통적인 유닉스(UNIX)에는 `fork()`밖에 없었다. `fork()`는 무조건 부모의 모든 걸 새로 복사(또는 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 연결)하여 완벽히 남남인 '프로세스'를 만들었다.
   - [다중 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/)([Multithreading](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/)) 시대가 오면서, "메모리는 같이 쓰되 실행만 따로 하는 가벼운 녀석([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))"이 필요해졌다.
   - 일부 OS는 '프로세스'와 '[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)'를 관리하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드를 아예 두 개로 나눠버렸다(복잡함 폭발).
@@ -32,7 +32,7 @@ tags = ["studynote-operating-system"]
   - **전통적 OS (Windows 등)**: 자동차를 만드는 공장(프로세스용)과 오토바이를 만드는 공장([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)용)이 완전히 따로 있다.
   - <strong>리눅스의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/">clone</a>()</strong>: **맞춤형 3D 프린터** 하나만 있다. 옵션 버튼에 따라, "엔진 공유 금지" 버튼을 누르면 새로운 자동차(프로세스)를 찍어내고, "엔진 공유 허용" 버튼을 누르면 기존 자동차에 운전대만 하나 더 달린 쌍두마차([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))를 찍어낸다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 리눅스 2.0 시절(1996년) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(LinuxThreads, 이후 NPTL)를 구현하기 위해 도입되었으며, 리눅스가 세상에서 가장 가볍고 빠른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(LWP) 성능을 가지게 만든 1등 공신이다.
 
 ```text

@@ -43,7 +43,7 @@ tags = ["studynote-operating-system"]
 
 명령 실행 과정:
   사용자: ls -la /tmp
-  
+
   1. 셸이 입력을 파싱: 명령=ls, 인수=-la, /tmp
   2. fork(): 자식 프로세스 생성
   3. exec(): 자식에서 /bin/ls 실행
@@ -70,11 +70,11 @@ Bash 셸 스크립팅:
 
 기본 구조:
   #!/bin/bash          # 쉬뱅 (Shebang) — 인터프리터 지정
-  
+
   # 변수
   NAME="World"
   echo "Hello, $NAME"
-  
+
   # 환경 변수
   export MY_VAR="value"
 
@@ -86,7 +86,7 @@ Bash 셸 스크립팅:
   else
       echo "실패"
   fi
-  
+
   # 파일 조건
   if [ -f "/etc/passwd" ]; then echo "파일 존재"; fi
   if [ -d "/tmp" ]; then echo "디렉토리 존재"; fi
@@ -96,13 +96,13 @@ Bash 셸 스크립팅:
   for i in {1..5}; do
       echo "처리 중: $i"
   done
-  
+
   # while 루프
   COUNT=0
   while [ $COUNT -lt 10 ]; do
       COUNT=$((COUNT + 1))
   done
-  
+
   # 파일 처리
   for FILE in /tmp/*.log; do
       echo "로그: $FILE"
@@ -119,7 +119,7 @@ Bash 셸 스크립팅:
 파이프 & 리다이렉션:
   # 파이프: 출력 → 다음 명령 입력
   ls -la | grep ".log" | wc -l
-  
+
   # 리다이렉션
   echo "로그" >> output.log   # 추가
   cat < input.txt             # 입력 리다이렉션
@@ -146,7 +146,7 @@ Bash 셸 스크립팅:
 
 PATH 동작:
   PATH=/usr/local/bin:/usr/bin:/bin
-  
+
   ls 명령 실행:
   1. /usr/local/bin/ls 있나? 없음
   2. /usr/bin/ls 있나? 없음
@@ -155,7 +155,7 @@ PATH 동작:
 셸 변수 vs 환경 변수:
   MY_VAR="local"   → 현재 셸만 (export 없음)
   export MY_VAR    → 자식 프로세스에게 상속
-  
+
   확인: env | grep MY_VAR
   삭제: unset MY_VAR
 
@@ -171,7 +171,7 @@ PATH 동작:
 셸에서 프로세스 생성:
   fg_job: 포그라운드 (셸 대기)
   bg_job &: 백그라운드 (셸 즉시 프롬프트)
-  
+
   작업 제어:
   Ctrl+Z: 일시 중지 (SIGTSTP)
   bg: 백그라운드 재개
@@ -218,7 +218,7 @@ Zsh 차이점:
   자동완성: 탭키로 경로/명령 자동완성 (bash보다 강력)
   플러그인: Oh-My-Zsh 생태계
   Globbing: **/*.txt (재귀 탐색)
-  
+
 fish 특징:
   문법: if command; echo OK; end
   자동 제안: 이력 기반 실시간 제안
@@ -228,7 +228,7 @@ fish 특징:
   .bashrc vs .bash_profile:
     .bash_profile: 로그인 셸 (한 번)
     .bashrc: 인터랙티브 셸 (매번)
-    
+
   alias 정의:
     alias ll="ls -la"
     alias gs="git status"
@@ -248,35 +248,35 @@ deploy.sh:
   set -e            # 오류 시 즉시 종료
   set -u            # 미정의 변수 사용 시 오류
   set -o pipefail   # 파이프 중 오류 감지
-  
+
   # 설정
   APP_NAME="myapp"
   DEPLOY_DIR="/opt/$APP_NAME"
   BACKUP_DIR="/opt/backup"
-  
+
   # 함수 정의
   log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1"; }
-  
+
   check_health() {
       local URL=$1
       local HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" $URL)
       [ "$HTTP_CODE" = "200" ]
   }
-  
+
   # 현재 버전 백업
   log "백업 시작"
   cp -r $DEPLOY_DIR $BACKUP_DIR/$(date +%Y%m%d_%H%M%S)
-  
+
   # 새 버전 배포
   log "배포 시작"
   git -C $DEPLOY_DIR pull origin main
-  
+
   # 의존성 설치
   pip install -r requirements.txt --quiet
-  
+
   # 서비스 재시작
   systemctl restart $APP_NAME
-  
+
   # 헬스체크
   log "헬스체크 중..."
   RETRY=0
@@ -290,9 +290,9 @@ deploy.sh:
       fi
       sleep 3
   done
-  
+
   log "배포 완료"
-  
+
 사용:
   chmod +x deploy.sh
   ./deploy.sh 2>&1 | tee -a /var/log/deploy.log

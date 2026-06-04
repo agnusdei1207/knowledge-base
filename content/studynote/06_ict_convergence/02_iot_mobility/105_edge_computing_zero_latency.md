@@ -28,7 +28,7 @@ tags = ["ict_convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) 구조는 크게 엔드 디바이스, 엣지 노드(서버/게이트웨이), 그리고 중앙 클라우드의 3계층으로 나뉜다. 
+[엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) 구조는 크게 엔드 디바이스, 엣지 노드(서버/게이트웨이), 그리고 중앙 클라우드의 3계층으로 나뉜다.
 
 | 계층 | 구성 요소 | 주요 역할 | 처리 특징 |
 | :--- | :--- | :--- | :--- |

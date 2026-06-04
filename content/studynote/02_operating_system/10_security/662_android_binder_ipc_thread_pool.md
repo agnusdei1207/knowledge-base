@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - 안드로이드의 각 앱(App)은 보안과 격리를 위해 각자 고유한 리눅스 프로세스(및 UID)로 실행된다.
   - 앱 A가 카메라를 켜려면, 카메라를 쥐고 있는 시스템 프로세스(Camera [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))에게 "카메라 좀 켜줘"라고 부탁해야 한다. 이 서로 다른 두 프로세스 간의 대화 창구가 바로 <strong>Binder</strong>다.
 
-- **필요성 (기존 Linux IPC의 한계)**: 
+- **필요성 (기존 Linux IPC의 한계)**:
   - 리눅스에는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)), [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)([Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)), [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)([Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)), 시스템 V 메시지 큐 등 훌륭한 IPC가 많다.
   - 하지만 스마트폰 환경은 특별하다. <strong>1) 메모리가 부족하므로 복사 오버헤드가 적어야 하고, 2) 객체 지향(Java/C++) 언어 특성상 메서드(Method)를 원격으로 호출(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/">RPC</a>)하기 쉬워야 하며, 3) 누가 나에게 요청을 보냈는지 발신자의 신원(UID/PID)을 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>이 완벽하게 보증</strong>해야 했다(보안).
   - 기존 리눅스 IPC는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사가 2번 일어나거나([소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)), 객체 지향을 지원하지 않거나, 보안 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)가 부족했다.

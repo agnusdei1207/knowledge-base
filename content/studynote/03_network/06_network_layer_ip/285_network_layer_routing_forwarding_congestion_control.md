@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: 2계층([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Link)이 "나와 직접 선이 연결된 옆집([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)/[허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))"과 통신하는 근거리 배달이라면, 3계층(Network)은 "전 세계 어딘가에 있는 목적지"까지 수십 개의 라우터를 건너 건너뛰며(Hop-by-Hop) 찾아가는 글로벌 배달망이다.
 - **필요성**: 서울에 있는 내 PC가 미국 뉴욕에 있는 구글 서버(IP 주소)에 접속한다고 치자. 두 기기 사이에는 태평양을 건너는 해저 케이블과 수천 대의 라우터가 얽힌 거대한 미로가 있다. "어느 쪽으로 가야 구글 본사가 나오지?"라는 방향 감각과 길 찾기 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 없으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 영원히 우주 미아([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Loop)가 되어 맴돌다 죽는다. 네트워크 계층은 바로 이 거대한 인터넷 지도망을 그리기 위해 발명되었다.
 
-- **💡 비유**: 네트워크 계층은 택배 회사의 중앙 물류 시스템과 같습니다. 
+- **💡 비유**: 네트워크 계층은 택배 회사의 중앙 물류 시스템과 같습니다.
   - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a>)</strong>: [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 본사에서 "오늘은 대전 물류센터를 거쳐 가는 게 가장 빠르다"라고 매일 아침 <strong>최적 배송 경로표(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 테이블)를 짜는 두뇌 작업</strong>입니다.
   - **포워딩(Forwarding)**: 대전 물류센터의 컨베이어 벨트 직원이, 박스의 우편번호(IP)를 슥 보고 무의식적으로 "이건 광주행 3번 트럭! 저건 부산행 5번 트럭!" 하고 <strong>실제로 짐을 밀어 넣는 육체 노동</strong>입니다.
 
@@ -76,7 +76,7 @@ tags = ["studynote-network"]
 ### 3. 혼잡 제어 ([Congestion Control](/knowledge-base/studynote/03_network/08_transport_layer/428_tcp_congestion_control_network_perspective/)) - 체증 방지
 망 내부에 패킷이 너무 많이 몰려 라우터 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)/버퍼)가 넘치면 패킷 유실이 발생하고, 유실된 패킷을 재전송하느라 트래픽이 기하급수적으로 폭발하는 <strong>혼잡 붕괴(Congestion Collapse)</strong>가 발생한다.
 - 3계층 장비(라우터)들은 이를 막기 위해 RED(Random Early [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) 같은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 쓴다.
-- 큐가 꽉 차기 직전에 미리 눈치채고, 중요도가 낮은 패킷을 **일부러 무작위로 몇 개 버린다(Drop)**. 
+- 큐가 꽉 차기 직전에 미리 눈치채고, 중요도가 낮은 패킷을 **일부러 무작위로 몇 개 버린다(Drop)**.
 - 패킷이 버려지면 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 4계층에서 눈치를 채고 "아 망이 혼잡하구나! 속도 줄이자!"라며 스스로 송신 윈도우 크기를 확 줄이게 유도한다. 이처럼 3계층과 4계층이 핑퐁을 치며 인터넷 대재앙을 막아낸다.
 
 - **📢 섹션 요약 비유**: ** 라우터의 포워딩은 밀려드는 택배 상자를 빠르게 분류하는 **"로봇 팔"<strong>이고, <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>은 로봇 팔에게 명령을 내리는 </strong>"메인 컴퓨터"**이며, 혼잡 제어는 컨베이어 벨트가 넘칠 것 같으면 잠시 전원을 끄고 수량을 조절하는 **"안전 센서"**입니다. 이 세 개가 완벽히 맞물려 돌아가야 지구 반대편으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 갑니다.

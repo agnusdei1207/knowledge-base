@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: [프레임 릴레이](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/268_frame_relay_x25_simplification/)([Frame Relay](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/268_frame_relay_x25_simplification/)) 프로토콜에서 트래픽의 전송 속도를 계약하고(CIR), 망 내부에 병목 현상(Congestion)이 생겼을 때 이를 양 끝단의 라우터에게 알려주는(FECN, BECN) 헤더 제어 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 기술이다.
 - **필요성**: X.25가 망 내부에서 무겁게 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)(속도 조절)를 하던 것을 버린 [프레임 릴레이](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/268_frame_relay_x25_simplification/)는, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 수만 개의 패킷을 막무가내로 쏟아내는 PC들 때문에 메모리(버퍼)가 꽉 차서 터져버릴 위험에 처했다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 버퍼가 터지기 직전, "나 죽을 것 같아! 속도 좀 줄여!"라고 송수신자에게 SOS를 쳐야 하는데, 무거운 별도의 메시지를 만들지 않고 지나가는 프레임 겉면에 스티커(1비트)만 살짝 붙이는 가벼운 방식으로 이를 해결했다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - **CIR**: 통신사가 "출퇴근 시간에 아무리 길이 막혀도 <strong>최소 시속 60km(CIR)</strong>는 무조건 보장할게! 새벽에 차 없으면 100km까지 밟게 해 줄게!"라고 약속하는 가성비 요금제입니다.
   - **FECN / BECN**: 톨게이트 직원이 차가 너무 막히자, 부산(수신자)으로 가는 차 트렁크에 **"오는 길 엄청 병목!(FECN)"** 딱지를 붙이고, 반대로 서울(송신자)로 돌아가는 차 트렁크에 **"야! 차 그만 내려보내!(BECN)"** 딱지를 붙여서 양쪽 동네에 도로 상황을 알리는 것입니다.
 
@@ -50,10 +50,10 @@ tags = ["studynote-network"]
 ### 2. 혼잡 알림: FECN ([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)) / BECN (Backward)
 망 한가운데 있는 [프레임 릴레이](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/268_frame_relay_x25_simplification/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 메모리(버퍼)가 80% 이상 차오르면 병목이 시작된다.
 
-- <strong>FECN (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a> Explicit Congestion Notification)</strong>: 
+- <strong>FECN (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a> Explicit Congestion Notification)</strong>:
   - 서울(송신) ──▶ 부산(수신)으로 가는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 프레임이 막힌 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 통과할 때, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 프레임 헤더의 FECN [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 `1`로 바꾼다.
   - 부산 라우터가 프레임을 받으면 "아, 중간에 길이 막히는구나. 서울 애들이 고생하겠네."라고 인지한다.
-- **BECN (Backward Explicit Congestion Notification)**: 
+- **BECN (Backward Explicit Congestion Notification)**:
   - 부산(수신) ──▶ 서울(송신)로 돌아가는(응답) 프레임이 막힌 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 통과할 때, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 헤더의 BECN [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 `1`로 바꾼다.
   - 서울 라우터가 프레임을 받으면 "헉! 내가 보내는 방향의 길이 막혔대! [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏘는 속도를 절반으로 줄여야지!"라고 스스로 전송 속도를 낮춘다. ([Traffic Shaping](/knowledge-base/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/) 작동)
 

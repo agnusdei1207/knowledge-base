@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>MESI <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>: 멀티코어 캐시 간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 유지하기 위해 캐시 라인(Cacheline)의 상태를 4가지(Modified, Exclusive, Shared, Invalid)로 나누어 관리하는 하드웨어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/).
   - **캐시라인 핑퐁 (Ping-pong)**: 두 개 이상의 코어가 동일한 캐시 라인에 있는 변수를 서로 번갈아 가며 수정(Write)할 때, 캐시 라인이 코어들을 미친 듯이 오가며 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 트래픽을 폭발시키는 병목 현상. (Contention)
 
-- **필요성 (멀티코어 시대의 숨겨진 재앙)**: 
+- **필요성 (멀티코어 시대의 숨겨진 재앙)**:
   - 개발자가 "뮤텍스는 느리니까, 엄청나게 빠른 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)([Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/))을 써서 `while(lock == 1)`로 무한 대기해야지!"라고 코드를 짰다.
   - 코어가 4개일 때는 괜찮았다. 그런데 코어가 64개인 서버에서 64개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 `lock` 변수를 쳐다보며 수정하려 달려들었다.
   - 코어 1개가 락을 잡고(`Modified`) 락을 푸는 순간, 나머지 63개 코어의 캐시가 전부 휴지통에 처박힌다(`Invalid`). 63개 코어는 동시에 램에서 새로운 락 값을 긁어오려고 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)(QPI/UPI)로 돌진한다.

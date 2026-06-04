@@ -63,7 +63,7 @@ tags = ["it_management"]
 | <strong>성과 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a>)</strong> | 주당 순이익, 시장 점유율 등 최종 비즈니스 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) 관리 | IT 투자 수익률([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)), 시스템 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 등 [IT BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/020_it_bsc/) 지표 관리 | 전사 BSC와 IT BSC의 연동 |
 | **보고 (Reporting)** | 주주 및 외부 규제 기관에 공시 | 이사회 및 경영진에 IT 현황 대시보드 보고 | IT 거버넌스 위원회 채널 |
 
-이 두 거버넌스 간의 가장 중요한 동작 원리는 <strong>'캐스케이딩(Cascading, 폭포수 하달)'</strong>과 <strong>'투명성 보장(Transparency)'</strong>이다. 
+이 두 거버넌스 간의 가장 중요한 동작 원리는 <strong>'캐스케이딩(Cascading, 폭포수 하달)'</strong>과 <strong>'투명성 보장(Transparency)'</strong>이다.
 
 ```text
 이 흐름도는 기업 거버넌스의 최상위 의사결정이 IT 거버넌스를 거쳐 실무로 하달되고, 그 결과가 다시 상향 보고되는 캐스케이딩(Cascading) 사이클을 보여준다.

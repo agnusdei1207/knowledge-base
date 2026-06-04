@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - 4가지 데드락 발생 조건([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/), [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/), [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/), 환형 대기)이 겹쳐 완전히 굳어버린 시스템에서, 탐지기([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))가 데드락을 발견한 직후 취하는 사후 조치([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))다.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/310_victim_selection/">희생자 선택</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/310_victim_selection/">Victim Selection</a>)</strong>: 엉켜있는 프로세스들 중 누구의 목을 칠 것인가를 수학적 비용(Cost) 모델로 계산한다.
   - <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a>)</strong>: 희생자로 선정된 프로세스가 하던 일을 몽땅 취소하고 시작 전 상태나 안전한 중간 저장 지점으로 강제 후퇴시키는 작업이다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 데드락이 발생하면 A, B, C 프로세스는 서로의 자원을 원하며 영원히 기다린다. 놔두면 서버를 물리적으로 재부팅해야 한다.
   - 은행원의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(회피)처럼 미리 데드락을 피하려고 매번 검사하면 서버 속도가 반토막 난다.
   - **해결책**: "어차피 데드락은 1년에 한두 번 날까 말까다. 차라리 평소엔 쌩쌩하게 달리게 내버려 두고, 아주 가끔 데드락이 났을 때만 <strong>가장 피해가 적은 한 놈만 골라 패서(Kill/<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a>) 꼬인 걸 풀자!</strong>"
@@ -33,7 +33,7 @@ tags = ["studynote-operating-system"]
   - <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/310_victim_selection/">희생자 선택</a></strong>: 경찰(OS)이 출동해서 4대 중 "가장 작고 후진하기 편한 경차(가장 비용이 적은 프로세스)"를 골라 희생자로 지목한다.
   - <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a></strong>: 지목당한 경차는 어쩔 수 없이 왔던 길을 빙빙 후진해서 다리 밖으로 돌아 나가고([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/), 자원 토해냄), 나머지 3대의 큰 차들이 무사히 지나간 뒤에야 경차는 다시 다리를 건널 수 있다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 예방 및 회피 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 막대한 런타임 오버헤드를 견디지 못한 상용 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 엔진([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), MySQL)과 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)들이, '사후 약방문'이 가장 현실적인 최적의 가성비(Cost-effective) 솔루션임을 깨닫고 도입한 방어 체계다.
 
 ```text

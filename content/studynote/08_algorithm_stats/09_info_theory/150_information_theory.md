@@ -82,15 +82,15 @@ I(x) = -log₂ P(x)   [단위: bit]
 
 ```
   0 ─────(1-p)────► 0
-    ╲                  
-     (p)              
-       ╲              
-        ► 1          
+    ╲
+     (p)
+       ╲
+        ► 1
   1 ─────(1-p)────► 1
-    ╲                  
-     (p)              
-       ╲              
-        ► 0          
+    ╲
+     (p)
+       ╲
+        ► 0
 ```
 
 BSC의 [채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/): C = 1 - H(p) = 1 + p·log₂p + (1-p)·log₂(1-p)

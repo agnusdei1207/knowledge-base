@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - 리눅스 시스템에서 물리적 메모리(RAM)와 스왑(Swap) 공간이 100% 꽉 찼을 때, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 메모리 관리자([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Subsystem)가 호출하는 응급 프로세스 강제 종료 루틴(`out_of_memory()`)이다.
   - 내부 점수([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Score)를 계산하여 가장 만만한 타겟(Victim)에게 `SIGKILL` 신호를 쏴서 가차 없이 즉사시킨다.
 
-- **필요성 (왜 그냥 메모리 할당을 실패(Fail)시키지 않고 죽일까?)**: 
+- **필요성 (왜 그냥 메모리 할당을 실패(Fail)시키지 않고 죽일까?)**:
   - 리눅스의 철학 중 하나인 **메모리 오버커밋(Overcommit)** 때문이다. 램이 10GB인데 앱들이 `malloc()`으로 총 15GB를 달라고 해도 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 "콜!"을 외친다(뻥대출). 어차피 앱들이 그 15GB를 당장 다 쓰진 않을 거란 얄팍한 믿음 때문이다.
   - 그런데 앱들이 갑자기 진짜로 15GB에 데이터를 꽉 채워버리기 시작하면 물리 램이 파산([Out of memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))한다. 이때는 이미 `malloc`은 성공한 상태라 실패(Fail)를 던질 수도 없다.
   - **해결책**: "은행(RAM)에 뱅크런이 터져 파산하게 생겼다! 은행이 무너지면 국가(OS)가 망하니까, 대출금을 제일 많이 당겨 쓴 고객(프로세스) 하나의 목을 쳐서 그 돈(메모리)을 강제로 회수해라!"
@@ -31,7 +31,7 @@ tags = ["studynote-operating-system"]
   - <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 발생</strong>: 정원이 10명인 작은 구명보트(서버)에 15명의 사람(프로세스)이 탔다. 평소엔 다들 앉아있어서(메모리 미사용) 배가 떴는데, 폭풍이 치자 다들 살겠다고 일어나서 날뛰니 보트가 물에 잠기며 가라앉기 일보 직전이다.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 킬러 출동</strong>: 선장([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))은 보트 전체가 침몰하는 걸 막기 위해 총을 빼 들고 "가장 뚱뚱하고(메모리를 많이 먹고) 필요 없는 놈 한 명을 물 밖으로 던져라!"라고 사형 집행(Kill)을 명하는 극단적인 구명조끼 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 메모리 용량이 부족했던 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 리눅스 시절, 효율적인 램 사용을 위해 도입된 '[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 할당([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)) 및 오버커밋'의 부작용을 막기 위한 불가피한 최후의 안전장치로 설계되었다.
 
 ```text

@@ -77,9 +77,9 @@ TCP의 가장 뼈아픈 약점이다.
 
 ### 3. F-[RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) ([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)-Recovery)
 D-SACK은 영수증이 올 때까지 기다려야 아는 거지만, <strong>F-<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/">RTO</a></strong>는 한술 더 뜬 방어책이다.
-- [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)이 나서 재전송을 딱 1개 갈겨본다. 
-- 그런데 연달아 날아오는 다음 영수증들을 보니까 "어라? 상대방이 2번, 3번 영수증을 정상적으로 부르네?" 
-- "아! [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 난 게 진짜 혼잡이 터진 게 아니라, 방금 잠깐 스파크가 튀어서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 거였구나!" 
+- [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)이 나서 재전송을 딱 1개 갈겨본다.
+- 그런데 연달아 날아오는 다음 영수증들을 보니까 "어라? 상대방이 2번, 3번 영수증을 정상적으로 부르네?"
+- "아! [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 난 게 진짜 혼잡이 터진 게 아니라, 방금 잠깐 스파크가 튀어서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 거였구나!"
 - 즉시 바닥으로 깎았던 CWND를 원래대로 휙 돌려버린다. 이 기능 덕분에 스마트폰이 와이파이를 갈아타도 유튜브가 거의 안 끊긴다.
 
 - **📢 섹션 요약 비유**: <strong> 불필요한 재전송의 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a>(<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/">Undo</a>) <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>은 오해로 헤어질 뻔한 연인들의 </strong>"빠른 사과와 화해"**입니다. "네가 안 읽씹 한 줄 알고 화내서(CWND=1) 미안해. 핸드폰이 꺼졌던 거였구나([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)). 화낸 거 다 취소([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/))하고 우리 다시 예전처럼 지내자!"라며 재빠르게 원상 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 훈훈한 결말입니다.

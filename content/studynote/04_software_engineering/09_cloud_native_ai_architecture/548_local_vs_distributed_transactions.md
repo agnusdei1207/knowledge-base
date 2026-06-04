@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 트래잭션([Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))은 "더 이상 쪼갤 수 없는 1개의 논리적 작업 덩어리"다. 
+- **개념**: 트래잭션([Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))은 "더 이상 쪼갤 수 없는 1개의 논리적 작업 덩어리"다.
   - `내 통장 -1만 원` ➡ `친구 통장 +1만 원`. 이 두 쿼리는 무조건 같이 죽거나 같이 살아야 한다(ACID 원칙).
   - <strong>로컬(Local) <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a></strong>: 내 통장 테이블과 친구 통장 테이블이 '같은 1대의 DB(MySQL)' 안에 있다. DB 엔진이 알아서 `COMMIT` 한 줄, 에러 나면 `ROLLBACK` 한 줄로 1초 만에 깔끔하게 마법을 부려준다.
   - <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>(Distributed) <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a></strong>: 534장([DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/))에서 "DB를 각 서비스마다 다 찢어라(DB-per-Service)!"라고 했다. 내 통장(결제 DB)과 친구 통장(송금 DB)이 물리적으로 지구 반대편의 완전히 다른 서버로 찢어졌다. 결제 DB에 -1만을 뺐는데, 송금 DB 서버가 네트워크 끊겨 죽어버렸다. 결제 DB의 -1만 원을 원상 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))시킬 권한(연결선)이 없어진 끔찍한 파탄 상태다.

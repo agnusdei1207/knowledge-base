@@ -25,11 +25,11 @@ RZ (Return to Zero):
 
 신호 파형:
   데이터: 1  0  1  1  0  1
-  
+
   RZ 단극성 (Unipolar RZ):
   |¯| |¯|¯| |¯|
   0               (1=+V 전반, 0=0V 내내, 0V로 복귀)
-  
+
   RZ 양극성 (Bipolar RZ / AMI 변형):
   |¯|  |-|¯|  |-|
        (1=교대로 +V/-V, 0=0V)
@@ -100,11 +100,11 @@ RZ:
 광섬유 RZ-OOK (On-Off Keying):
   빛이 있음 = 1, 빛 없음 = 0
   RZ: 각 1비트마다 빛을 짧은 펄스로 쏨
-  
+
   장점:
     초단 펄스(피코초 수준)로 초고속 전송 가능
     펄스 간 공간으로 OTDM(광 시분할 다중화) 구현
-    
+
   OTDM (Optical Time Division Multiplexing):
     여러 채널의 초단 펄스를 시간축으로 인터리빙
     단일 광섬유에서 테라비트 전송 가능

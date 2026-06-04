@@ -65,7 +65,7 @@ tags = ["studynote-network"]
 
 ### AAA의 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)([Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)) 모델 깊이 파보기 ([RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/) vs [ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/))
 
-AAA에서 가장 고도화하기 어려운 단계가 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a>(<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">Authorization</a>)</strong>다. 단순히 "들어와도 좋다"가 아니라 "어디까지 만져도 좋은가"를 규칙으로 짜야 하기 때문이다. 
+AAA에서 가장 고도화하기 어려운 단계가 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a>(<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">Authorization</a>)</strong>다. 단순히 "들어와도 좋다"가 아니라 "어디까지 만져도 좋은가"를 규칙으로 짜야 하기 때문이다.
 
 ```text
 ┌───────────────────────────────────────────────────────────────┐

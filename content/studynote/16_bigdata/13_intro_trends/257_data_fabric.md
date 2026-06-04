@@ -30,7 +30,7 @@ tags = ["studynote-bigdata"]
   데이터 사일로 (Data Silo):
   HR DB | CRM DB | IoT | S3 레이크 | ERP
   → 각각 분리, 연결 어려움
-  
+
   데이터 엔지니어: 각 연결 수동 구축
   → 파이프라인 수백 개 → 유지보수 지옥
 
@@ -38,7 +38,7 @@ tags = ["studynote-bigdata"]
   메타데이터 레이어:
   모든 데이터 소스 → 메타데이터 수집
   → 자동 관계 발견, 계보 추적
-  
+
   AI 추천:
   "이 쿼리에 필요한 데이터가 여기 있습니다"
   "이 파이프라인과 저 파이프라인은 같은 소스"
@@ -47,7 +47,7 @@ tags = ["studynote-bigdata"]
   자동화 우선 (Automation First)
   어디서든 연결 (Universal Connectivity)
   지능적 발견 (Intelligent Discovery)
-  
+
 데이터 패브릭 vs 데이터 메시:
   패브릭: 기술 자동화 중심
   메시: 조직 도메인 중심
@@ -67,7 +67,7 @@ tags = ["studynote-bigdata"]
 전통 메타데이터 (Passive):
   기술 메타데이터: 스키마, 데이터 타입
   비즈니스 메타데이터: 설명, 소유자
-  
+
   수동 업데이트, 검색만 가능
 
 능동 메타데이터 (Active):
@@ -75,12 +75,12 @@ tags = ["studynote-bigdata"]
   - 데이터 사용 패턴 관찰
   - 쿼리 이력 분석
   - 데이터 품질 측정 자동화
-  
+
   행동:
   - 관련 데이터셋 자동 추천
   - 데이터 품질 이슈 자동 알림
   - 잠재적 보안 위반 감지
-  
+
   예:
   사용자가 "매출" 검색
   → AI: "매출 테이블과 함께 자주 사용되는:
@@ -88,13 +88,13 @@ tags = ["studynote-bigdata"]
 
 데이터 계보 (Data Lineage):
   데이터가 어디서 왔는지 자동 추적
-  
+
   Source DB → ETL → Data Lake → Report
-  
+
   영향 분석:
   "Source DB의 컬럼 변경 시
    어떤 리포트가 영향 받나?" → 자동 계산
-  
+
   컴플라이언스:
   GDPR: "이 개인정보는 어디서 왔나?"
   → 계보로 자동 증명
@@ -127,7 +127,7 @@ tags = ["studynote-bigdata"]
   데이터 카탈로그 (Data Catalog)
   데이터 계보 (Lineage)
   데이터 품질 프로파일링
-  
+
   도구: Informatica Axon, IBM Watson Knowledge Catalog
 
 계층 3 — 통합 (Integration):
@@ -167,7 +167,7 @@ tags = ["studynote-bigdata"]
 개념:
   물리적으로 데이터를 이동하지 않고
   마치 하나의 통합 뷰처럼 쿼리
-  
+
   비유:
   여러 은행 계좌를 앱 하나로 조회
   → 실제 돈은 각 은행에 있지만
@@ -177,7 +177,7 @@ tags = ["studynote-bigdata"]
   가상화 레이어 (Logical Layer):
     모든 소스를 단일 엔드포인트로 노출
     SQL 인터페이스
-    
+
   소스들:
     Oracle DB ←→
     S3 Data Lake ←→ 가상화 레이어 → 사용자
@@ -231,11 +231,11 @@ tags = ["studynote-bigdata"]
    Microsoft Purview 도입
    3개 계열사 DB 스캔 → 메타데이터 자동 수집
    데이터 계보 자동 구축
-   
+
 2. 데이터 가상화:
    Starburst (Trino 기반) 도입
    SQL 한 번으로 3개 계열사 조회
-   
+
    SELECT c.name, b.balance, s.portfolio_value
    FROM bank.customers c
    JOIN securities.accounts s ON c.ssn = s.ssn

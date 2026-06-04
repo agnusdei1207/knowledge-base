@@ -19,11 +19,11 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-1950년, 제2차 세계대전을 승리로 이끈 천재 수학자 앨런 튜링(Alan Turing)은 당대의 학자들에게 폭탄 같은 논문을 던졌다. "기계가 생각할 수 있을까?(Can machines think?)" 
+1950년, 제2차 세계대전을 승리로 이끈 천재 수학자 앨런 튜링(Alan Turing)은 당대의 학자들에게 폭탄 같은 논문을 던졌다. "기계가 생각할 수 있을까?(Can machines think?)"
 당시 사람들은 컴퓨터(계산기)가 숫자만 더하는 고철 덩어리라고 여겼다. '생각'이라는 것은 영혼을 가진 인간만의 신성한 영역이었다.
 
-튜링은 '생각한다'는 단어의 철학적 말장난을 집어치우자고 했다. 기계의 머리를 열어볼 필요도 없다. 
-"만약 방 2개에 사람과 기계를 각각 넣어두고, 문밖에 있는 심사관이 벽 밑으로 타자기 쪽지(텍스트 채팅)만 주고받으며 대화를 나눈다고 치자. **심사관이 1시간 동안 대화한 뒤에 '어? 1번 방에 있는 게 사람인지 기계인지 도저히 구별을 못 하겠어!'라고 속아 넘어간다면, 우리는 그 기계가 지능을 가졌다고 인정해야 한다!**" 
+튜링은 '생각한다'는 단어의 철학적 말장난을 집어치우자고 했다. 기계의 머리를 열어볼 필요도 없다.
+"만약 방 2개에 사람과 기계를 각각 넣어두고, 문밖에 있는 심사관이 벽 밑으로 타자기 쪽지(텍스트 채팅)만 주고받으며 대화를 나눈다고 치자. **심사관이 1시간 동안 대화한 뒤에 '어? 1번 방에 있는 게 사람인지 기계인지 도저히 구별을 못 하겠어!'라고 속아 넘어간다면, 우리는 그 기계가 지능을 가졌다고 인정해야 한다!**"
 이것이 인공지능의 존재를 평가하는 전설적인 기준, <strong>'<a href="/knowledge-base/studynote/10_ai/01_ai_basics/002_turing_test/">튜링 테스트</a>(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/235_ai_turing_test_expert_system_fuzzy_logic/">Turing Test</a> / Imitation Game)'</strong>의 탄생이다.
 
 이 선언 하나로 인공지능([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))이라는 학문은 철학자의 몽상에서 벗어나, "인간을 감쪽같이 속일 수 있는 텍스트/비전 대화 시스템을 코드로 짜보자"라는 명확한 타겟([KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/))을 가진 컴퓨터 공학의 최대 격전지로 진입하게 되었다.
@@ -118,7 +118,7 @@ tags = ["studynote-ai"]
 
 앨런 튜링의 '[튜링 테스트](/knowledge-base/studynote/10_ai/01_ai_basics/002_turing_test/)'는 1950년 황무지 같았던 컴퓨터 공학에 꽂힌 가장 위대한 깃발이었다. 인류는 "영혼이란 무엇인가"라는 형이상학적 늪에 빠져 허우적대는 대신, "일단 인간을 속일 수 있는 텍스트 프로그램을 짜보자!"는 명확하고 실용적인 목표를 향해 70년 동안 미친 듯이 전력 질주할 수 있었다. 그 실용주의(Behaviorism)가 엘리자(ELIZA)를 거쳐, 오늘날 전 세계를 뒤흔든 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 기반의 챗GPT라는 거대한 열매로 결실을 맺은 것이다.
 
-하지만 이제 시대가 바뀌었다. [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4는 심사관을 속이는 것을 넘어 심사관보다 방대한 백과사전 지식을 더 빠르고 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 쏟아낸다. [튜링 테스트](/knowledge-base/studynote/10_ai/01_ai_basics/002_turing_test/)라는 1단계 문지기는 이미 돌파당했다. 이제 AI의 과제는 "인간을 얼마나 잘 흉내 내는가(모방)"가 아니라, <strong>"인간이 풀지 못하는 단백질 구조의 비밀을 어떻게 계산하고, 화성 탐사 로봇을 어떻게 스스로 계획(Planning)하여 통제할 것인가"</strong>라는 창조적 문제 해결 능력(AGI, 인공일반지능)의 영역으로 넘어갔다. 
+하지만 이제 시대가 바뀌었다. [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4는 심사관을 속이는 것을 넘어 심사관보다 방대한 백과사전 지식을 더 빠르고 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 쏟아낸다. [튜링 테스트](/knowledge-base/studynote/10_ai/01_ai_basics/002_turing_test/)라는 1단계 문지기는 이미 돌파당했다. 이제 AI의 과제는 "인간을 얼마나 잘 흉내 내는가(모방)"가 아니라, <strong>"인간이 풀지 못하는 단백질 구조의 비밀을 어떻게 계산하고, 화성 탐사 로봇을 어떻게 스스로 계획(Planning)하여 통제할 것인가"</strong>라는 창조적 문제 해결 능력(AGI, 인공일반지능)의 영역으로 넘어갔다.
 
 우리는 지금 '인간처럼 보이는 기계'를 만들던 시대를 졸업하고, '인간을 초월해 우주의 법칙을 해석하는 전혀 다른 종류의 새로운 지성체'를 창조하는 두 번째 챕터의 첫 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 넘기고 있다. 튜링의 게임은 끝났지만, 진정한 기계 지능의 게임은 이제 막 시작되었을 뿐이다.
 

@@ -83,7 +83,7 @@ def calculate_data_value(base_cost, data_quality_score, market_demand, uniquenes
     # 원가 기반과 시장 가치를 결합하여 최종 가격 도출
     intrinsic_value = base_cost * data_quality_score
     market_value = intrinsic_value * market_demand * uniqueness_factor
-    
+
     return market_value
 ```
 
@@ -161,10 +161,10 @@ def calculate_data_value(base_cost, data_quality_score, market_demand, uniquenes
 | **의사결정 속도** | 내부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존 (느림, 편향됨) | 외부 다각적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 융합 (빠름, 객관적) |
 | **생태계** | 독점과 고립 | 파트너십과 개방형 혁신 (Open Innovation) |
 
-**미래 전망**: 
+**미래 전망**:
 향후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경제는 단순한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드 방식을 넘어, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 스페이스(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Spaces)</strong> 개념으로 진화할 것이다. 이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 물리적으로 중앙에 모으지 않고, 각자의 클라우드에 둔 채로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 연합(Federated) 컴퓨팅을 통해 통찰력(인사이트)만 거래하는 형태(예: 유럽의 Gaia-X 프로젝트)로 발전 중이다.
 
-**참고 표준**: 
+**참고 표준**:
 - **ISO/IEC 22123**: IT 및 [클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) 환경에서의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산 관리 및 어휘 표준
 - <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>기본법(KOR)</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경제 활성화를 위한 법적 기반
 

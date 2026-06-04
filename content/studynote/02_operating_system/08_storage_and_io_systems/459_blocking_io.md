@@ -76,7 +76,7 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 - 일반적인 Sleep(S 상태, Interruptible)은 자고 있다가도 유저가 `Ctrl+C`를 누르면 "앗 깜짝이야!" 하고 깨어나서 바로 죽어(종료) 준다.
 - 하지만 <strong>디스크 I/O 블로킹</strong>에 걸려 하드웨어 장비와 깊게 엮인 상태는 <strong><code>D (Uninterruptible Sleep)</code></strong>라는 특수 기절 상태로 들어간다.
 - 이 상태에 빠지면 유저가 `kill -9` (우주 최강의 살인 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))를 백 번 날려도 절대 쳐다보지도 않고 무시한다!
-- 이유: 디스크가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 램으로 한창 쏟아붓고 있는데, 여기서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 `Ctrl+C` 맞고 돌연사해버리면 램 메모리가 붕괴되어 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패닉이 올 수 있기 때문이다. 
+- 이유: 디스크가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 램으로 한창 쏟아붓고 있는데, 여기서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 `Ctrl+C` 맞고 돌연사해버리면 램 메모리가 붕괴되어 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패닉이 올 수 있기 때문이다.
 - **결과**: 만약 꽂혀있는 외장 하드디스크가 물리적으로 고장 나버렸다면? 하드디스크가 영원히 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 안 보내준다. 이 프로세스는 영원히 깨어나지 못하는 좀비(D 상태)가 되어 시스템에 박제되고, 이 좀비를 치우려면 서버 전원 코드를 뽑는(Reboot) 수밖에 없는 최악의 사태가 터진다.
 
 - **📢 섹션 요약 비유**: 일반 수면(S 상태)은 꿀잠 자다가도 뺨을 때리면 화들짝 깨서 일어납니다. 하지만 디스크 I/O 락에 걸린 수면(D 상태)은 전신 마취 수술 상태입니다. 수술(I/O)이 다 끝나서 마취가 풀리기 전까지는, 옆에서 건물을 폭파시키고 귀에 대고 총을 쏴도 절대 일어날 수 없는 끔찍하고 무거운 잠에 빠진 겁니다.

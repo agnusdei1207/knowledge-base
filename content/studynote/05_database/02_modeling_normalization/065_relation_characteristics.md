@@ -127,8 +127,8 @@ Normalization
 
 ## 어린이를 위한 3줄 비유 설명
 
-카드 더미는 순서가 중요하지 않아요.  
-같은 카드는 두 번 있으면 안 돼요.  
+카드 더미는 순서가 중요하지 않아요.
+같은 카드는 두 번 있으면 안 돼요.
 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)도 그런 규칙을 지켜야 해요.
 
 ---

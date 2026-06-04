@@ -55,7 +55,7 @@ tags = ["studynote-computer-architecture"]
 
 핵심 설계식은 비교적 단순하다.
 
-> <strong>분해능(Resolution) = 1 / <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/">Timer</a> <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/">Clock</a></strong>  
+> <strong>분해능(Resolution) = 1 / <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/">Timer</a> <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/">Clock</a></strong>
 > **최대 측정 구간 = 2^N × Resolution**  (`N`은 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수)
 
 예를 들어 48MHz 타이머를 32비트 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)로 쓰면 분해능은 약 20.8ns이고, overflow까지 약 89.5초를 잴 수 있다. 하지만 같은 48MHz에 16비트 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)면 최대 구간이 약 1.36ms에 불과하다. 그래서 실시간 타이머 설계는 해상도만 높이면 끝나는 문제가 아니라, <strong>얼마나 오래 세야 하는지</strong>와 함께 봐야 한다.

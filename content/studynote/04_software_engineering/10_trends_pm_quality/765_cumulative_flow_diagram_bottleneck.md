@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 소프트웨어 개발 프로젝트는 눈에 보이지 않는 공장이다. 자동차 공장에서는 조립이 밀리면 컨베이어 벨트 위에 문짝과 바퀴가 수북이 쌓여서 누구나 "아, 여기가 병목이구나!" 하고 알 수 있다. 하지만 소프트웨어는 코드가 밀려도 컴퓨터 화면 밖으로 튀어나오지 않는다.
 
-Jira 같은 [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)([Kanban](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)) 보드를 쓰면 티켓들이 오른쪽으로 이동하긴 하지만, 과거의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 남지 않아 "어제는 어땠고, 지난주에는 어디가 막혔는지" 흐름(Flow)을 파악할 수 없다. 
+Jira 같은 [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)([Kanban](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)) 보드를 쓰면 티켓들이 오른쪽으로 이동하긴 하지만, 과거의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 남지 않아 "어제는 어땠고, 지난주에는 어디가 막혔는지" 흐름(Flow)을 파악할 수 없다.
 
 이 보이지 않는 소프트웨어 공장의 재고(대기 중인 코드)를 눈에 보이게 만들어주는 엑스레이가 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/086_cumulative_flow_diagram_cfd/">누적 흐름도</a>(CFD)</strong>다. 시간이 지날수록 각 단계에 티켓이 몇 개씩 쌓이고 있는지 색깔별로 누적해서 그려주어, 조직의 혈관이 어디서 막히는지 정확히 짚어준다.
 

@@ -76,7 +76,7 @@ Average: 평균값 → 전체적 특성 유지
 
 ```
 일반 레이어           잔차 연결 (Skip Connection)
-                    
+
 입력 x               입력 x ──────────────────┐
    ↓                    ↓                      │
 [Conv Layer]         [Conv Layer]              │

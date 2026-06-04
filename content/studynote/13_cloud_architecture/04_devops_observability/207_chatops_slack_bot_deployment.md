@@ -91,16 +91,16 @@ app = App(token=SLACK_BOT_TOKEN)
 @app.command("/deploy")
 def handle_deploy(ack, say, command, client):
     ack()
-    
+
     # 명령 파싱: "/deploy payment-service v2.1.3 production"
     parts = command['text'].split()
     service, version, env = parts[0], parts[1], parts[2]
-    
+
     # 프로덕션 배포는 승인 버튼 추가
     if env == "production":
         say(blocks=[{
             "type": "section",
-            "text": {"type": "mrkdwn", 
+            "text": {"type": "mrkdwn",
                      "text": f"⚠️ {service} v{version} 프로덕션 배포 요청"},
             "accessory": {
                 "type": "button",

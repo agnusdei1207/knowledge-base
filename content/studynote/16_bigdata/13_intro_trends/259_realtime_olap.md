@@ -23,7 +23,7 @@ tags = ["studynote-bigdata"]
 
 ETL 배치 파이프라인:
   이벤트 발생 → Kafka → Spark Batch(1시간) → Hive → 리포트
-  
+
   지연: 1~24시간
   문제: "오늘 캠페인 효과를 내일 봄"
 
@@ -67,14 +67,14 @@ ClickHouse (클릭하우스):
   행: [사용자, 이벤트, 시간, 가격]×10억
   컬럼: 가격 컬럼만 읽어 SUM 계산
   → 불필요한 컬럼 I/O 없음
-  
+
   압축률: 일반 대비 10~100배
   LZ4 / ZSTD 알고리즘 적용
 
 2. 벡터화 실행 (Vectorized Execution):
   CPU SIMD 명령어 활용
   256비트 AVX: 한 번에 32개 값 처리
-  
+
   SUM(price) 10억 행:
   일반: 10억 번 덧셈
   SIMD: 약 3,125만 번 (32배 빠름)
@@ -83,7 +83,7 @@ ClickHouse (클릭하우스):
   쓰기: 작은 파트(Part)로 저장
   백그라운드 머지: 파트 주기적 병합
   (LSM과 유사하지만 OLAP 최적화)
-  
+
   파티셔닝: 날짜별 파티션
   정렬 키: 자주 필터링하는 컬럼
 
@@ -97,7 +97,7 @@ ClickHouse (클릭하우스):
   UPDATE/DELETE: 비효율 (LSM 구조 특성)
   ACID: 부분적 지원
   JOIN: 큰 테이블 JOIN은 느림
-  
+
 적합 워크로드: 시계열, 로그 분석, 이벤트 스트림
 ```
 
@@ -110,44 +110,44 @@ ClickHouse (클릭하우스):
 ```
 Apache Druid:
   아키텍처: 마이크로서비스 + Kafka 통합
-  
+
   핵심 특징:
   1. 사전 집계 (Rollup):
     원본: 초당 100만 이벤트
     집계: 분당 사용자별 이벤트 수로 압축
     저장량: 100배 감소, 쿼리 100배 빠름
-  
+
   2. 컬럼 사전 처리:
     인덱스: 비트맵 인덱스 자동 생성
     압축: 컬럼별 최적 압축
-  
+
   3. 실시간 인제스트:
     Kafka → Druid 실시간 (스트리밍)
     Druid → S3/HDFS (배치 보완)
-  
+
   노드 유형:
     Historical: 과거 데이터 쿼리
     MiddleManager: 실시간 인제스트
     Broker: 쿼리 라우팅
     Coordinator: 데이터 분배
-  
+
   사용사례: Lyft, Netflix, Alibaba
 
 Apache Pinot:
   개발: LinkedIn
-  
+
   핵심 특징:
   1. 최저 지연 쿼리 (< 10ms):
     스타 트리 인덱스 (Star-Tree Index)
     자주 쓰는 집계를 미리 계산해 트리 형태로 저장
-    
+
   2. Upsert 지원:
     실시간 업데이트 가능 (Druid는 어려움)
     사용자 프로필 실시간 업데이트 + 집계
-  
+
   3. 멀티 스테이지 쿼리 엔진:
     복잡한 JOIN, 서브쿼리 지원
-  
+
   사용사례: LinkedIn, Uber, Stripe
 
 비교:
@@ -166,7 +166,7 @@ Apache Pinot:
 StarRocks (스타록스):
   구 DorisDB → StarRocks
   개발: 중국 빅테크, 2021 오픈소스
-  
+
   포지셔닝: "통합 분석 플랫폼"
   OLAP + ETL 대체 (Spark 없애기)
 
@@ -175,7 +175,7 @@ StarRocks (스타록스):
 1. MPP (Massively Parallel Processing):
   쿼리 자동 분산 실행
   각 노드 병렬 처리 후 집계
-  
+
 2. 벡터화 쿼리 엔진:
   ClickHouse와 유사 SIMD 최적화
 
@@ -184,15 +184,15 @@ StarRocks (스타록스):
   JOIN 순서, 인덱스 선택 자동화
 
 4. 스토리지 유형:
-  
+
   Primary Key 모델:
   Upsert 지원, 실시간 업데이트
   → 전자상거래 재고 실시간 업데이트
-  
+
   Aggregate 모델:
   SUM/MAX/MIN 사전 집계
   → 광고 지표 집계
-  
+
   Duplicate 모델:
   원본 데이터 그대로 저장
   → 로그 분석
@@ -208,7 +208,7 @@ StarRocks (스타록스):
 
 사용사례:
   JD.com, 이마트24, Meituan
-  
+
 성능:
   TPC-H 벤치마크: Spark 대비 5~10배 빠름
   실시간 인제스트 + 즉시 쿼리 가능
@@ -231,14 +231,14 @@ StarRocks (스타록스):
 
 문제:
   배치(Spark+Hive): 1시간 지연 → 광고주 불만
-  
+
 기존 아키텍처:
   AdServer → Kafka → Spark(1시간) → Hive → BI
 
 신규 아키텍처:
   AdServer → Kafka → [Druid 실시간] → 대시보드
                   ↘ [S3 원본 저장] ← Spark 배치
-  
+
   Druid 설정:
   Rollup: 초→분 집계 (광고주/캠페인/디바이스별)
   보존: 실시간 14일 (핫), S3 76일 (콜드)

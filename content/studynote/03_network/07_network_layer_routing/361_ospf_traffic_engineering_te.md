@@ -40,7 +40,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 트래픽 엔지니어링(TE)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집기
-[OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)-TE가 작동하려면 기존 OSPF의 `Hello`나 `LSA Type 1~5`로는 어림도 없다. 
+[OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)-TE가 작동하려면 기존 OSPF의 `Hello`나 `LSA Type 1~5`로는 어림도 없다.
 이를 위해 <strong>Type <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a> (Opaque LSA)</strong>라는 특수 엽서를 쓴다.
 - 이 엽서 안에는 단순히 '선이 살았다/죽었다'가 아니라 아주 디테일한 정보가 들어간다.
 - <strong>Max <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a></strong>: 이 선로의 물리적 최대 굵기 (예: 10G)
@@ -77,7 +77,7 @@ tags = ["studynote-network"]
 ```
 
 ### 3. MPLS와의 찰떡궁합 (RSVP-TE)
-[OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)-TE가 지도를 그려도 자기가 직접 길을 바꾸진 못한다. 
+[OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)-TE가 지도를 그려도 자기가 직접 길을 바꾸진 못한다.
 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)-TE가 CSPF 공식을 돌려 "국도로 가는 게 낫다"라고 결론을 내면, 이 지도를 <strong>RSVP-TE</strong>라는 프로토콜에게 넘겨준다.
 RSVP-TE는 그 지도를 들고 출동해서 라우터 A부터 Z망까지의 국도 위에 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/">MPLS</a> 터널(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/">LSP</a>)</strong>을 뻥 뚫어버리고 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 500Mbps를 강제 예약해 버린다. (이 둘은 영혼의 단짝이다).
 

@@ -105,10 +105,10 @@ EMFI를 제대로 이해하려면 다른 [결함](/knowledge-base/studynote/04_s
 
 ### 설계 판단 포인트
 
-1. **탐지**: 온칩 센서, [active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) shield, [clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)/[voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) monitor로 이상 펄스를 조기에 감지할 것  
-2. **완화**: 중요한 비교·서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·키 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 연산은 시간적/공간적 중복 계산을 둘 것  
-3. **반응**: 이상 징후 시 조용히 계속 실행하지 말고 [zeroization](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) 또는 secure reset으로 종료할 것  
-4. <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 개발 막판이 아니라 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 전 단계에서 실제 EMFI campaign으로 fault map을 수집할 것  
+1. **탐지**: 온칩 센서, [active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) shield, [clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)/[voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) monitor로 이상 펄스를 조기에 감지할 것
+2. **완화**: 중요한 비교·서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·키 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 연산은 시간적/공간적 중복 계산을 둘 것
+3. **반응**: 이상 징후 시 조용히 계속 실행하지 말고 [zeroization](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) 또는 secure reset으로 종료할 것
+4. <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 개발 막판이 아니라 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 전 단계에서 실제 EMFI campaign으로 fault map을 수집할 것
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 

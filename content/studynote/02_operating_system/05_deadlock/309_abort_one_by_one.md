@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-`Abort All(전체 학살)`은 잔인했다. "빈대 한 마리 때문에 집을 불태운 격"이었다. 
+`Abort All(전체 학살)`은 잔인했다. "빈대 한 마리 때문에 집을 불태운 격"이었다.
 
 여기에 빡친 OS 설계자들은 스나이퍼(저격수) 총을 들었다.
 `P1→P2→P3→P4` 4명이 원(Cycle)을 그리고 있다.
@@ -27,7 +27,7 @@ tags = ["studynote-operating-system"]
 그리곤 P2가 들고 있던 자원만 바닥에 쏟아지자, 그걸 주워먹은 P3가 탈출하고 연결고리가 파파팍 끊기는지 스캔 장비를 돌려 확인한다. 만약 사이클이 사라졌다면? 나머지 3명(P1, P3, [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/))은 자기 일을 고스란히 저장해 두고 피 흘림 없이 살아남는(회생) 위대한 구원이 발생한다!
 이게 바로 외과수술 메스 같은 <strong>순차 종료 (Abort One-by-One)</strong>다.
 
-**💡 비유**: 4개 차선 꼬리물기로 교차로가 마비(데드락). 불도저가 와서 4대를 한꺼번에 찌그러트려 폐차장으로 미는 것([Abort All](/knowledge-base/studynote/02_operating_system/05_deadlock/308_abort_all/))이 아니라, 교통경찰이 딱 가장 싸구려 티코 1대(피해 최소화)만 후진 방향으로 밀어서 빼본다. 어라? 티코(Victim 1명)가 빠진 공간으로 벤츠도 지나가고 버스도 지나가서 도로가 통쾌하게 뚫린다! 
+**💡 비유**: 4개 차선 꼬리물기로 교차로가 마비(데드락). 불도저가 와서 4대를 한꺼번에 찌그러트려 폐차장으로 미는 것([Abort All](/knowledge-base/studynote/02_operating_system/05_deadlock/308_abort_all/))이 아니라, 교통경찰이 딱 가장 싸구려 티코 1대(피해 최소화)만 후진 방향으로 밀어서 빼본다. 어라? 티코(Victim 1명)가 빠진 공간으로 벤츠도 지나가고 버스도 지나가서 도로가 통쾌하게 뚫린다!
 
 ```text
 ┌────────────────────────────────────────────────────────────────┐
@@ -63,8 +63,8 @@ tags = ["studynote-operating-system"]
    - P2: 백그라운드 크롤링, 자원 100개 쥐고 있음 (너 죽이면 자원 100개 공짜!)
    - P3: 방금 0.1초 켜진 깡통 (죽여봤자 자원도 안 줌)
    - -> 결과: P2가 희생자(Victim)로 낙점! 타격!
-2. <strong>탐지(<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>) <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 끔찍한 연쇄 채찍질</strong>: 
-   - P2를 잘랐다. 데드락이 100% 풀린다 장담 못 한다 (숨겨진 쌍 사이클 존재 가능). 
+2. <strong>탐지(<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>) <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 끔찍한 연쇄 채찍질</strong>:
+   - P2를 잘랐다. 데드락이 100% 풀린다 장담 못 한다 (숨겨진 쌍 사이클 존재 가능).
    - 따라서 $O(V+E)$ 또는 $O(m \times n^2)$짜리 **무거운 데드락 탐지 스캔을 또!** 돌려야 한다. 이놈 자르고 또 돌리고 저놈 자르고 또 돌리는 탓에 <strong>"최소 피해를 구하려다 CPU가 연산하다 타죽어버리는 오버헤드의 역린"</strong>을 만지게 된다.
 
 **📢 섹션 요약 비유**: 이 바닥의 절대 법칙 — "폭탄([Abort All](/knowledge-base/studynote/02_operating_system/05_deadlock/308_abort_all/))은 싸고 파괴적이며, 핀셋(One-by-One)은 비싸고 섬세하다." 한 명씩 정성스레 죽이려면 수천 번 시뮬레이션 계산기를 두들겨야 합니다.

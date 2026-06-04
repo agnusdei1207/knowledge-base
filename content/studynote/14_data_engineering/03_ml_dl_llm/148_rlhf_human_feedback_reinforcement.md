@@ -20,7 +20,7 @@ tags = ["studynote-data-engineering"]
 
 순수하게 인터넷의 방대한 텍스트로만 사전 학습(Pre-training)된 언어 모델은 그저 "다음에 올 단어를 가장 확률적으로 잘 맞히는 앵무새"일 뿐이다. 인터넷에는 훌륭한 지식도 있지만 혐오 발언, 해킹 코드, 차별적 언어도 가득하다. 베이스 모델에게 "은행을 터는 완벽한 계획을 짜줘"라고 하면, 영화 대본 통계망을 뒤져 아주 논리적이고 친절하게 범죄 계획서를 생성해 버리는 파국이 일어난다.
 
-오픈AI(OpenAI) 아키텍트들은 기겁했다. "야! 이 똑똑한 앵무새 기계를 대중한테 이대로 출시하면 우리 회사 소송 맞고 파산해!! 이 앵무새한테 <strong>'인간 사회의 도덕과 눈치(Alignment)'</strong>를 강제로 주입해 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어라!!" 
+오픈AI(OpenAI) 아키텍트들은 기겁했다. "야! 이 똑똑한 앵무새 기계를 대중한테 이대로 출시하면 우리 회사 소송 맞고 파산해!! 이 앵무새한테 <strong>'인간 사회의 도덕과 눈치(Alignment)'</strong>를 강제로 주입해 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어라!!"
 그래서 탄생한 것이 RLHF다. 로봇이 대답을 두 개 내놓으면, 인간 알바생(레이블러)이 "이건 착한 대답(승리), 이건 위험한 대답(패배)"이라고 점수를 매겨준다. 이 채점 기준을 학습한 '보상 채점 봇([Reward Model](/knowledge-base/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/))'을 만들어, 메인 LLM이 나쁜 짓을 할 때마다 채찍질(패널티)을 하고 착한 대답을 할 때 당근(보상)을 주는 미친 강화학습([PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)) 훈련장 속에 가둬버린 것이다. 이 지옥 훈련을 통과한 모델만이 우리가 아는 '예의 바른' ChatGPT로 세상에 나올 수 있다.
 
 - **📢 섹션 요약 비유**: RLHF는 늑대(야생의 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))를 데려와 맹인 안내견(ChatGPT)으로 길들이는 무자비한 훈련입니다. 야생의 늑대는 힘(지식)은 세지만 주인을 물 수도 있습니다. 조련사(인간 피드백)가 늑대가 사람을 물려 할 때 목줄을 당기고(패널티), 사람을 안전하게 안내할 때 고기를 주어(보상), 완벽히 인간 사회의 규칙(Alignment)에 복종하는 천사 강아지로 세뇌시키는 과정입니다.
@@ -83,9 +83,9 @@ RLHF는 엄청난 성공을 거두었지만 치명적인 한계가 있었고, �
 자체적인 sLLM(경량 언어 모델)을 회사에 도입하려는 엔터프라이즈 아키텍트들에게 RLHF는 가장 험난한 고비다.
 
 ### 실무 판단 시나리오
-1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> 파운데이션 모델의 정렬 여부(Chat vs Base) <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 허깅페이스(HuggingFace)에서 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 모델(Llama 3 등)을 다운받을 때 항상 두 가지 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 있다. `Llama3-8B-Base`와 `Llama3-8B-Instruct(Chat)`. 
+1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> 파운데이션 모델의 정렬 여부(Chat vs Base) <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 허깅페이스(HuggingFace)에서 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 모델(Llama 3 등)을 다운받을 때 항상 두 가지 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 있다. `Llama3-8B-Base`와 `Llama3-8B-Instruct(Chat)`.
    - **판단**: 주니어 코더가 뭣도 모르고 Base 모델을 사내 챗봇에 냅다 띄우면, 봇이 사용자 질문에 대답은 안 하고 질문을 계속 이어서 스무고개 소설을 쓰는 기괴한 에러가 난다. Base 모델은 [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 정렬(Alignment) 튜닝을 거치지 않은 '야생마 뇌'이기 때문이다. 대화형 AI나 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 챗봇을 띄울 때는 닥치고 반드시 [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 지옥 훈련이 끝난 <strong>Instruct/Chat <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a></strong> 모델을 골라야만 회사가 망하지 않는다.
-2. <strong>사내 특화 모델 튜닝 시 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/">DPO</a> (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/">Direct Preference Optimization</a>) 아키텍처 채택</strong>: "우리 은행 직원 말투(친절함)를 100% 카피하는 챗봇을 만들자!" 
+2. <strong>사내 특화 모델 튜닝 시 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/">DPO</a> (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/">Direct Preference Optimization</a>) 아키텍처 채택</strong>: "우리 은행 직원 말투(친절함)를 100% 카피하는 챗봇을 만들자!"
    - **판단**: 이때 자체적으로 보상 모델([RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/))을 만들고 [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 강화학습 파이프라인을 구축(전통적 [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/))하겠다고 나서면, 개발 기간 1년에 인건비 10억이 날아가는 오버엔지니어링의 무덤이다. 현대 아키텍트는 과감하게 PPO를 쓰레기통에 찢어 버린다! <strong>"야! 은행원 모범 답변(Chosen) 1만 개랑, 버릇없는 답변(Rejected) 1만 개만 쌍(Pair)으로 묶어서 준비해!! 그리고 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/">DPO</a> (다이렉트 선호 최적화) 알고리즘으로 모델 1개에다가 직접 크로스엔트로피 <a href="/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/">손실 함수</a> 쾅 때려 박아 튜닝 끝내 🚀!!"</strong> 보상 모델 서버를 안 띄워도 되니 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) A100 1대만 있어도 며칠 만에 은행 특화 맞춤형 정렬(Alignment)을 완벽 무혈 달성해 내는 압도적 가성비 아키텍처다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -97,7 +97,7 @@ RLHF는 엄청난 성공을 거두었지만 치명적인 한계가 있었고, �
 
 ## Ⅴ. 기대효과 및 결론
 
-[RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) (인간 피드백 기반 강화학습)는 방대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 집어삼키며 괴물로 커져가던 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))의 목에 채워진 유일하고도 가장 위대한 인류의 통제 장치 목줄이다. 
+[RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) (인간 피드백 기반 강화학습)는 방대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 집어삼키며 괴물로 커져가던 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))의 목에 채워진 유일하고도 가장 위대한 인류의 통제 장치 목줄이다.
 
 순수 예측 머신이었던 AI에게 "인간 사회에서 환영받으려면 어떤 말을 해야 하고, 어떤 말은 숨겨야 하는가"라는 윤리적 눈치(Alignment)를 수학적 보상 함수(Reward)로 변환해 뇌세포 단위까지 각인시켰다. 이 기술 덕분에 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)은 비로소 연구실의 통계 장난감을 넘어, 전 세계 수억 명의 일반 대중이 안심하고 사용할 수 있는 비서(ChatGPT)로 상용화의 벽을 뚫고 나올 수 있었다. OpenAI의 3H 원칙(Helpful 유용하게, Harmless 무해하게, Honest 정직하게)은 단순한 슬로건이 아니라 이 피 말리는 [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 연산 매트릭스를 통해 강제로 주입된 물리적 한계선이다.
 
@@ -126,7 +126,7 @@ SFT (Supervised Fine-Tuning) / 질문-답변 모범 답안을 외우게 하여 �
     │
     ▼
 RLHF 3단계 (인간 피드백 정렬) 십자 융합
- 1. 인간의 선호도 순위를 데이터로 수집 
+ 1. 인간의 선호도 순위를 데이터로 수집
  2. 인간의 눈치를 완벽히 복제한 [Reward Model(보상 모델)] 탄생
  3. 옥타곤 링에서 [PPO 강화학습]으로 보상 점수 펌핑하며 모델 세뇌 개조 쾅!
     │

@@ -36,18 +36,18 @@ tags = ["network"]
 [ 2x2 MIMO 공간 다중화의 행렬 복원 아키텍처 ]
 
 [송신 측: 스트림 분할]                 [무선 공간: 다중 경로 혼합]            [수신 측: 행렬 연산 복원]
-원본 데이터(X1, X2) 
-  ├─▶ [Tx 1] ────(경로 h11)─────────▶ 혼합 신호 y1 ＝ h11*x1 ＋ h12*x2 ──┐ 
+원본 데이터(X1, X2)
+  ├─▶ [Tx 1] ────(경로 h11)─────────▶ 혼합 신호 y1 ＝ h11*x1 ＋ h12*x2 ──┐
   │                ╲             /                                     ▼
   │                  ╲         /                                  [ DSP Equalizer ]
   │                    ╲     /     (수학적 행렬 연산 H)              (역행렬 H⁻¹ 곱셈)
   │                      X                                          X1, X2로 완벽 분리!
   │                    /   ╲                                           │
   │                  /       ╲                                         ▼
-  └─▶ [Tx 2] ────(경로 h22)─────────▶ 혼합 신호 y2 ＝ h21*x1 ＋ h22*x2 ──┘ 
+  └─▶ [Tx 2] ────(경로 h22)─────────▶ 혼합 신호 y2 ＝ h21*x1 ＋ h22*x2 ──┘
 ```
 
-수신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에 도착한 혼합 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)($y$)는 채널 행렬($H$)과 원본 송신 스트림($x$), 그리고 노이즈($n$)의 합으로 표현된다 ($y = Hx + n$). 수신기의 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리기 (DSP, Digital [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) Processor)는 채널 추정치 $\hat{H}$를 구한 뒤, 이의 역행렬을 곱하여 섞여 있는 원본 스트림 $\hat{x}$를 분리해낸다 (Zero-Forcing 방식 등). 
+수신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에 도착한 혼합 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)($y$)는 채널 행렬($H$)과 원본 송신 스트림($x$), 그리고 노이즈($n$)의 합으로 표현된다 ($y = Hx + n$). 수신기의 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리기 (DSP, Digital [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) Processor)는 채널 추정치 $\hat{H}$를 구한 뒤, 이의 역행렬을 곱하여 섞여 있는 원본 스트림 $\hat{x}$를 분리해낸다 (Zero-Forcing 방식 등).
 
 여기서 치명적인 병목은 채널 행렬 $H$의 독립성이다. 만약 경로가 겹쳐 행렬의 종속성이 커지면 역행렬 연산 시 작은 노이즈가 무한대로 증폭(Noise Amplification)되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 파괴된다. 따라서 공간 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)는 경로의 [직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)이 확보된 상황에서만 작동한다.
 
@@ -85,7 +85,7 @@ tags = ["network"]
 
 ## Ⅴ. 기대효과 및 결론
 
-공간 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)는 무선 통신의 영원한 골칫거리였던 '건물에 부딪혀 발생하는 다중 경로 반사파'를 오히려 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 전송하는 조력자로 탈바꿈시킨 패러다임의 역전이다. 
+공간 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)는 무선 통신의 영원한 골칫거리였던 '건물에 부딪혀 발생하는 다중 경로 반사파'를 오히려 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 전송하는 조력자로 탈바꿈시킨 패러다임의 역전이다.
 
 동일한 주파수와 전력을 가지고도 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(N)를 늘릴 때마다 통신 용량이 선형적으로 뻥튀기되므로, 통신사 입장에서는 수조 원의 주파수 매입 비용을 아껴주는 기적의 기술이 되었다. 4G LTE에서 시작된 이 기술은 5G의 [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 체제의 핵심 엔진으로 융합되었고, 다가올 6G에서는 서로 다른 위치의 기지국들이 협력해 하나의 단말기에 입체적으로 스트림을 꽂아 넣는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 공간 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)(Joint Transmission)로 진화하며 궁극의 스루풋 혁명을 이어가고 있다.
 

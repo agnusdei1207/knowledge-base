@@ -18,7 +18,7 @@ tags = ["database"]
 
 ## Ⅰ. 개요 및 필요성
 
-제3정규형 (3NF)은 [제2정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/)을 만족하는 테이블에서 이행적 함수 종속 ([Transitive Functional Dependency](/knowledge-base/studynote/05_database/02_modeling_normalization/098_transitive_functional_dependency/))을 제거하는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 단계다. 이행적 종속이란 $X \rightarrow Y$이고 $Y \rightarrow Z$일 때, $X \rightarrow Z$가 성립하는 구조, 즉 기본키가 아닌 일반 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(Y)이 또 다른 일반 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(Z)을 결정하는 현상을 말한다. 
+제3정규형 (3NF)은 [제2정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/)을 만족하는 테이블에서 이행적 함수 종속 ([Transitive Functional Dependency](/knowledge-base/studynote/05_database/02_modeling_normalization/098_transitive_functional_dependency/))을 제거하는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 단계다. 이행적 종속이란 $X \rightarrow Y$이고 $Y \rightarrow Z$일 때, $X \rightarrow Z$가 성립하는 구조, 즉 기본키가 아닌 일반 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(Y)이 또 다른 일반 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(Z)을 결정하는 현상을 말한다.
 
 이러한 다단계 종속 구조가 테이블에 남아있으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복이 발생한다. 예를 들어 사원(PK)이 부서코드(Y)를 결정하고, 부서코드(Y)가 부서명(Z)을 결정할 경우, 같은 부서에 속한 수많은 사원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)마다 동일한 부서명이 반복 저장된다. 부서명이 바뀌면 해당 부서의 모든 사원 레코드를 수정해야 하는 [갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/)이 터지므로, 이를 분리하는 수술이 반드시 필요하다.
 
@@ -75,7 +75,7 @@ tags = ["database"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계에서 3NF는 "가장 이상적인 타협점"으로 평가받는다. 
+실무 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계에서 3NF는 "가장 이상적인 타협점"으로 평가받는다.
 
 1. **채택 포인트 (3NF 준수)**: 시스템 구축 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 모델링 단계에서는 무조건 3NF 이상의 깐깐한 잣대를 적용하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 중복을 0으로 만들어야 한다. 무결성이 중요한 금융, 결제, 인사 시스템에서는 필수적이다.
 2. **회피 및 타협 포인트 (반정규화)**: 3NF로 인해 테이블이 너무 많이 쪼개지면, 사용자가 화면에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 볼 때마다 3~4개의 테이블을 [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 해야 하므로 조회 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(CPU, 메모리)이 급격히 저하된다. 이때는 의도적으로 3NF를 깨고 부서명을 다시 사원 테이블에 합치는 반정규화 (De-normalization)를 수행하여 읽기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 확보해야 한다.

@@ -51,7 +51,7 @@ K8s의 Kubelet은 [파드](/knowledge-base/studynote/13_cloud_architecture/02_ia
 └──────────────────────────────────────────────────────────────┘
 ```
 
-물리 라우터는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 가상 IP 대역을 모르기 때문에 패킷을 버린다. 따라서 CNI는 출발지와 목적지 물리 노드 IP를 적은 새 헤더로 원본 패킷을 감싸는 캡슐화 작업을 수행해 물리망을 통과시킨다. 
+물리 라우터는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 가상 IP 대역을 모르기 때문에 패킷을 버린다. 따라서 CNI는 출발지와 목적지 물리 노드 IP를 적은 새 헤더로 원본 패킷을 감싸는 캡슐화 작업을 수행해 물리망을 통과시킨다.
 
 - **📢 섹션 요약 비유**: 오버레이 캡슐화는 우체국(라우터)이 모르는 비밀 주소([파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) IP)가 적힌 편지를, 우체국이 아는 합법적인 겉봉투(노드 IP)에 한 번 더 담아 보내는 특급 첩보 배송이다.
 

@@ -98,7 +98,7 @@ tags = ["studynote-operating-system"]
 ### 멀티스레드([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) vs 멀티프로세스([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))의 역설
 
 일반적으로 "[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 프로세스보다 가볍다"고 배운다. 하지만 64코어 이상 대형 서버에서 메모리 해제(Free)를 밥 먹듯이 하는 앱이라면 이야기가 <strong>완전히 반대</strong>가 될 수 있다.
-- **멀티 프로세스 (Nginx 방식)**: 카톡 앱과 엑셀 앱은 가상 주소 장부([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))가 아예 다르다. 카톡이 자기 메모리를 해제해도, 엑셀이 돌고 있는 코어 1번에게 슛다운을 쏠 필요가 **전혀 없다** (어차피 장부가 달라서 남의 캐시가 오염될 일이 없음). 
+- **멀티 프로세스 (Nginx 방식)**: 카톡 앱과 엑셀 앱은 가상 주소 장부([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))가 아예 다르다. 카톡이 자기 메모리를 해제해도, 엑셀이 돌고 있는 코어 1번에게 슛다운을 쏠 필요가 **전혀 없다** (어차피 장부가 달라서 남의 캐시가 오염될 일이 없음).
 - <strong>멀티 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> (Tomcat 방식)</strong>: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 64개가 코어 64개에 퍼져서 '단 하나의 가상 주소 장부'를 똑같이 공유하고 있다. 0번 코어 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 메모리 한 줄을 해제(`free`)하면? **나머지 63개 코어 전체에 무자비하게 슛다운 IPI를 난사해야 한다!**
 - 💥 **결론**: 대형 서버에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 너무 많이 쪼개고 공유 메모리를 팡팡 지워대면, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Shootdown 폭풍에 갇혀 서버 CPU 점유율은 100%인데 정작 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)(TPS)은 1코어보다 느려지는 역주행(Degradation) 참사가 터진다.
 
@@ -124,7 +124,7 @@ tags = ["studynote-operating-system"]
 3. <strong>구원의 튜닝 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/">Huge Page</a> 2MB 켜기)</strong>:
    - 서버 관리자가 <strong>2MB <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/">Huge Page</a></strong>를 세팅한다.
    - 1GB 메모리를 지울 때, 25만 장이 아니라 단 <strong>500장</strong>의 2MB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)만 지우면 끝난다.
-   - 코어들에게 쏘는 슛다운 IPI의 횟수 자체가 500분의 1로 압축되어 멸종 수준으로 사라진다! 
+   - 코어들에게 쏘는 슛다운 IPI의 횟수 자체가 500분의 1로 압축되어 멸종 수준으로 사라진다!
    - 거대 코어 서버에서 Huge Page는 단순히 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스만 줄여주는 게 아니라, 이 악마 같은 '멀티코어 슛다운 렉'의 빈도를 박살 내어 서버 확장성(Scalability)의 목줄을 풀어주는 궁극의 생존 치트키다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): JVM과 mprotect의 미친 콜라보

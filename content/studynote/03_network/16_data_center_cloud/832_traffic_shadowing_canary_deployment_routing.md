@@ -19,10 +19,10 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 광부들이 탄광에 독가스가 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하려고 예민한 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)아 새를 먼저 들여보냈던 것에서 유래한 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)입니다. 
+- **개념**: 광부들이 탄광에 독가스가 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하려고 예민한 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)아 새를 먼저 들여보냈던 것에서 유래한 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)입니다.
 - **네트워크 라우팅의 예술**:
   - 옛날엔 L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/))로 그냥 50% 대 50%로 트래픽을 뿌렸습니다.
-  - 현대의 L7 라우터([Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/))나 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/))는 트래픽 비율을 소수점 단위로 미세 조절합니다. 
+  - 현대의 L7 라우터([Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/))나 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/))는 트래픽 비율을 소수점 단위로 미세 조절합니다.
   - 신버전(V2) 서버를 켜두고, 처음엔 **전체 트래픽의 딱 1%만 V2로 꺾어버립니다.** 에러가 안 터지는 걸 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하면 5%, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%, 100%로 밸브를 서서히 열어 V1을 자연스럽게 멸망시킵니다.
   - **A/B 테스트와의 차이**: [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)는 "이 코드가 에러를 뿜는지 안 뿜는지(안정성)"가 목적이고, A/B 테스트는 "파란 버튼과 빨간 버튼 중 어떤 게 매출이 높은지(비즈니스 가치)"가 목적입니다.
 
@@ -47,7 +47,7 @@ tags = ["studynote-network"]
 
 ### 2. 치명적 위험 차단: 응답(Response) 폐기 🌟
 - **Fire and Forget**: V2 서버도 이 복사본 패킷을 받고 열심히 DB를 뒤지고 결제 승인 연산을 돌립니다. 그리고 "결제 완료!"라는 응답을 돌려줍니다.
-- 하지만 L7 라우터는 V2가 보낸 응답(Response)을 **절대 클라이언트(사용자 폰)에게 돌려주지 않고 그 자리에서 찢어서 쓰레기통에 버립니다.** 오직 V1의 정상 응답만 손님에게 줍니다. 
+- 하지만 L7 라우터는 V2가 보낸 응답(Response)을 **절대 클라이언트(사용자 폰)에게 돌려주지 않고 그 자리에서 찢어서 쓰레기통에 버립니다.** 오직 V1의 정상 응답만 손님에게 줍니다.
 - 손님은 자기가 V2 서버의 [베타 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/408_beta_test/) 마루타가 된 줄 꿈에도 모른 채 정상 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 즐깁니다.
 
 ```text
@@ -82,7 +82,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 엄청난 주의가 필요합니다! [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)된 트래픽을 받은 V2 서버가 진짜 결제 DB에 붙어서 결제 승인 버튼을 두 번 눌러버리면 큰일 납니다. 
+- 엄청난 주의가 필요합니다! [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)된 트래픽을 받은 V2 서버가 진짜 결제 DB에 붙어서 결제 승인 버튼을 두 번 눌러버리면 큰일 납니다.
 - 그래서 섀도잉 망을 짤 때는, V2 서버가 바라보는 DB도 반드시 껍데기만 남은 가짜([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)) 테스트 DB를 바라보도록 격리망(Mocking)을 철저히 설계해야 합니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

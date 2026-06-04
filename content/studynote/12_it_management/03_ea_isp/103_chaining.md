@@ -54,7 +54,7 @@ tags = ["it_management"]
 └──────────────────────────────────────────────────────────────┘
 ```
 
-검색이나 삭제를 할 때는 1차로 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 인덱스를 찾아가고, 2차로 해당 인덱스에 매달린 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)를 순차 탐색(O(N))하여 일치하는 키를 찾아낸다. 
+검색이나 삭제를 할 때는 1차로 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 인덱스를 찾아가고, 2차로 해당 인덱스에 매달린 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)를 순차 탐색(O(N))하여 일치하는 키를 찾아낸다.
 
 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결정짓는 핵심 지표는 <strong>부하율 (Load Factor = <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수 / 버킷 수)</strong>이다. 부하율이 1.0을 넘어가면 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)의 길이가 길어져 탐색 속도가 떨어진다. 이를 막기 위해 최신 아키텍처(예: Java HashMap)에서는 버킷에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 8개 이상 쌓이면 선형 리스트를 [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/) ([Red-Black Tree](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/))로 변신시켜 [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)을 O(N)에서 O(log N)으로 방어하는 진화된 원리를 사용한다.
 
@@ -93,7 +93,7 @@ tags = ["it_management"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[체인법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/069_chaining/)은 직관적이고 구현이 쉬우면서도, 동적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증감과 최악의 충돌 상황에서 시스템이 뻗지 않도록 버텨주는 가장 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 높은 충돌 방어 체계다. 
+[체인법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/069_chaining/)은 직관적이고 구현이 쉬우면서도, 동적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증감과 최악의 충돌 상황에서 시스템이 뻗지 않도록 버텨주는 가장 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 높은 충돌 방어 체계다.
 
 시간이 지나면서 단순한 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)를 넘어 트리(Tree) 구조를 혼합하는 등 진화를 거듭하고 있지만, "충돌난 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 유연한 구조로 묶어둔다"는 본질적 가치는 변하지 않는다. 현대 프로그래밍에서 우리가 숨 쉬듯 편하게 사용하는 해시 맵 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조회 이면에는 이 [체인법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/069_chaining/)의 든든한 백업이 자리 잡고 있음을 기억해야 한다.
 

@@ -133,8 +133,8 @@ Merge Workflow
 
 ## 어린이를 위한 3줄 비유 설명
 
-숙제를 바로 내지 않아요.  
-먼저 친구와 선생님이 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해요.  
+숙제를 바로 내지 않아요.
+먼저 친구와 선생님이 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해요.
 PR은 그런 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 과정이에요.
 
 ---

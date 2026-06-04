@@ -84,7 +84,7 @@ IPS가 해커를 잡는 가장 기본적이고 확실한 블랙리스트 방식�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- <strong>CPU의 비명 (<a href="/knowledge-base/studynote/09_security/05_web_app_security/865_redos/">ReDoS</a> 공격)</strong>: 정규식은 문자 하나하나마다 수십 가지 경우의 수를 계산해야 하는 엄청난 CPU 연산 괴물입니다. 
+- <strong>CPU의 비명 (<a href="/knowledge-base/studynote/09_security/05_web_app_security/865_redos/">ReDoS</a> 공격)</strong>: 정규식은 문자 하나하나마다 수십 가지 경우의 수를 계산해야 하는 엄청난 CPU 연산 괴물입니다.
 - 해커가 이를 역이용합니다. 일부러 정규식이 계산하기 미치도록 복잡한 쓰레기 패킷(예: 엄청나게 긴 특수문자 조합)을 1초에 1만 번씩 날리면([ReDoS](/knowledge-base/studynote/09_security/05_web_app_security/865_redos/) 공격), IPS의 CPU가 정규식을 풀다가 100% 과부하가 걸려 네트워크 전체가 뻗어버리는 대참사가 터집니다.
 - **해결책**: 실무에서는 무작정 정규식부터 돌리지 않습니다. 가볍고 빠른 `content: "exe"` (단순 문자열 매칭)로 1차 필터링을 한 뒤, 여기서 걸린 놈들만 2차로 무거운 `pcre` (정규식)를 돌려 핀셋으로 적발하는 하이브리드 엔진 설계가 필수적입니다.
 

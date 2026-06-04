@@ -71,7 +71,7 @@ ECN이 작동하려면 IP 계층(라우터)과 [TCP](/knowledge-base/studynote/0
 
 ### 4단계: 서버의 브레이크 밟기 (CWR [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))
 - 경고장을 받은 넷플릭스 서버는 "알았어! 속도 반으로 팍 줄일게!" 하며 윈도우 사이즈(CUBIC 등)를 강제로 깎아버립니다.
-- 그리고 다음 영상 패킷을 보낼 때 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 헤더에 <code>CWR (Congestion Window Reduced, 나 윈도우 줄였어 안심해!)</code> 깃발을 꽂아 PC에게 알려줍니다.</strong> 
+- 그리고 다음 영상 패킷을 보낼 때 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 헤더에 <code>CWR (Congestion Window Reduced, 나 윈도우 줄였어 안심해!)</code> 깃발을 꽂아 PC에게 알려줍니다.</strong>
 - 라우터는 들어오는 양이 확 줄어들었으니 큐의 숨통이 트여 뻗지 않고 살아납니다.
 
 ECN 징후 큐 통지를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [BBR](/knowledge-base/studynote/03_network/08_transport_layer/439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control/) 구글 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 동적 모델 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 기반 혼…가 기반 조건을 만든다면, ECN 징후 큐 통지는 그 위에서 핵심 메커니즘을 구현하고, [DiffServ](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/) DSCP [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) PHB는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.

@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 3법 (한국)</strong>: 개인정보를 익명/가명 처리하면 기업이 빅데이터로 돈을 벌게 해줄게! 대신, 고객이 탈퇴하거나 동의 철회하면 흔적도 없이 확실하게 지워라!
   - <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/">GDPR</a> (유럽, 전 세계 국룰)</strong>: "잊혀질 권리(Right to be forgotten)", "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동권(내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엑셀로 뽑아줘)", "동의 철회권". 이 3가지 고객의 깡패 같은 요구를 <strong>"사용자가 버튼 1개 누르면 시스템적으로 즉각 처리되게 소프트웨어 UI/UX에 강제(Hardcoding)로 만들어 넣어라"</strong>는 법이다.
 

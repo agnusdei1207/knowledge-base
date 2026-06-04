@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- DRDoS나 대규모 볼류메트릭(Volumetric) 디도스 공격은 패킷의 덩치가 수십~수백 기가비트(Gbps)에 달합니다. 
+- DRDoS나 대규모 볼류메트릭(Volumetric) 디도스 공격은 패킷의 덩치가 수십~수백 기가비트(Gbps)에 달합니다.
 - 기업이 수천만 원을 주고 산 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)(침입 방지 시스템) 장비는 기껏해야 10Gbps 정도만 처리할 수 있습니다. 해커의 공격이 100Gbps로 쏟아지면, [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 장비를 검사하기도 전에 인터넷 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/), 예: KT)에서 기업으로 들어오는 <strong>물리적인 랜선 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>) 자체가 꽉 차버려 병목(Choke point)</strong>이 발생해 결국 서버가 마비됩니다.
 
 ```text

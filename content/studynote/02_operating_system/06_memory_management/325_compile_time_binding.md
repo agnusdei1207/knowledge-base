@@ -25,7 +25,7 @@ tags = ["studynote-operating-system"]
 그래서 똑똑한(하지만 미래를 내다보지 못한) 초창기 프로그래머들은 생각했다.
 "어차피 메모리 텅텅 비었는데, 귀찮게 실행할 때 주소 계산하지 말고 **C언어 빌드(컴파일)할 때 그냥 우리 프로그램은 영원히 메모리 1000번지에 올려라!** 라고 기계어 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 콱 박아버리면 변환 연산도 안 들고 초고속이잖아?"
 
-이것이 <strong>컴파일 시간 바인딩 (Compile Time Binding)</strong>이다. 
+이것이 <strong>컴파일 시간 바인딩 (Compile Time Binding)</strong>이다.
 말 그대로 컴파일러가 최종 결과물(`.exe`나 `.com`)을 뱉어낼 때, 그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내부의 모든 주소를 <strong>"진짜 하드웨어 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/">물리 주소</a>(1000번지)"</strong>로 하드코딩해버리는 상남자식 최적화다.
 
 **💡 비유**: 당신이 1박 2일 캠핑을 간다. 텐트를 어디 칠지 숲(메모리)에 도착해서 빈자리를 보고 치는 게 "적재 시간/[실행 시간 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/)"이라면, "컴파일 시간 바인딩"은 집에서 웹사이트로 "A구역 3번 데크(절대 주소)"를 아예 예약 결제하고 못 박아둔 채 출발하는 것이다. 만약 숲에 갔는데 딴 놈이 그 자리에 텐트 치고 있으면? "아 망했다 그냥 집에 가자" 하고 짐 싸서 돌아온다(에러 폭발). 빈 자리가 100개나 넘치는데 말이다!
@@ -64,7 +64,7 @@ tags = ["studynote-operating-system"]
 컴파일 시간 바인딩이 낳은 자식의 이름이 바로 `절대 코드(Absolute Code)`다. 이 코드는 메모리 상의 자신의 '절대적인 위치'를 태생부터 알고 있다.
 
 1. **재컴파일의 저주**: 만약 1000번지를 운영체제가 쓰기로 시스템이 업데이트되었다면? 당신의 환상적인 프로그램은 평생 실행 불가다. 고치려면 소스 코드를 열어서 컴파일러 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 주소를 2000번지로 바꾼 뒤 <strong>아예 처음부터 다시 빌드(Re-compile)</strong>해서 배포해야 한다.
-2. <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a> 압살</strong>: 오늘날 100명이 만든 카톡, 크롬, 롤(LoL)을 동시에 켜는데 만약 셋 다 지들 컴파일러에 "나는 500번지 쓸래!" 했다면? 셋 중 맨 처음 쳐 켠 1개만 실행되고 나머지는 영원히 파업한다. 
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a> 압살</strong>: 오늘날 100명이 만든 카톡, 크롬, 롤(LoL)을 동시에 켜는데 만약 셋 다 지들 컴파일러에 "나는 500번지 쓸래!" 했다면? 셋 중 맨 처음 쳐 켠 1개만 실행되고 나머지는 영원히 파업한다.
 
 **📢 섹션 요약 비유**: 옛날 MS-DOS 게임 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`.COM`)들이 바로 이 녀석입니다. 컴퓨터는 무조건 하나만 켜놓으니까 "나 혼자다 으하하 나는 무조건 100번지!" 하면서 빠르게 달렸죠. 하지만 여러 앱을 켜야 하는 윈도우 시대가 열리며 이 고집쟁이 절대 코드는 멸종당했습니다.
 
@@ -77,7 +77,7 @@ tags = ["studynote-operating-system"]
 2. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/">부트로더</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/">Bootloader</a>)</strong>: 컴퓨터 전원 켰을 때 BIOS에서 제일 먼저 실행되는 첫 512바이트 프로그램. 메모리가 텅텅 빈 황야 상태라 남의 눈치 볼 필요가 없고, 변환 장치([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))를 켤 정신조차 없기 때문에 무조건 `0x7C00` 절대 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)에 고정으로 올라가는 컴파일 바인딩 형식을 철저히 따른다.
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
-- **현대 OS 어플리케이션에 억지 절대 주소 삽입**: C/C++로 데스크톱 윈도우 앱을 짜면서 "아 나 포인터 주소 물리적으로 고정해서 버퍼 속도 1나노초 줄여볼까?" 라며 링크 스크립트를 조작해 절대 코드로 `.exe`를 만들면? 당신의 프로그램이 고객의 윈도우11 PC에서 10번 중 9번 충돌이 나서 더블클릭하자마자 허공으로 증발해 버려 무수한 욕(별점 1점)을 먹게 될 것이다. 
+- **현대 OS 어플리케이션에 억지 절대 주소 삽입**: C/C++로 데스크톱 윈도우 앱을 짜면서 "아 나 포인터 주소 물리적으로 고정해서 버퍼 속도 1나노초 줄여볼까?" 라며 링크 스크립트를 조작해 절대 코드로 `.exe`를 만들면? 당신의 프로그램이 고객의 윈도우11 PC에서 10번 중 9번 충돌이 나서 더블클릭하자마자 허공으로 증발해 버려 무수한 욕(별점 1점)을 먹게 될 것이다.
 
 **📢 섹션 요약 비유**: 세탁기에 카카오톡 같은 걸 깔 필요가 있나요? 없죠. 세탁기는 "위잉 세탁 돌려라"하는 딱 하나의 기능만 평생 한 자리에 서서(절대 공간) 하면 되기 때문에, 이 구닥다리 방식이 가벼운 초소형 장비 최적화에서는 여전히 끝판왕입니다.
 
@@ -91,7 +91,7 @@ tags = ["studynote-operating-system"]
 | [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) 유연성 | **지옥 (동시에 2개 앱 켜는 거 100% 불가능)** | 황제급 (수백 개 앱 켜고 이사도 자유자재) |
 | 사용처 | 전자레인지, 밥솥 장난감, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 부팅 디스크 | 스마트폰, 윈도우 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), 구글 서버 팜 |
 
-`컴파일 시간 바인딩 (Compile Time Binding)`은 컴퓨터 과학이 요람기에 있을 때 태어나, 가장 아름다운 속도 최적화(단일 프로그램 깡패)를 달성한 첫 번째 영웅이다. 
+`컴파일 시간 바인딩 (Compile Time Binding)`은 컴퓨터 과학이 요람기에 있을 때 태어나, 가장 아름다운 속도 최적화(단일 프로그램 깡패)를 달성한 첫 번째 영웅이다.
 비록 그 고집스러운 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) 고정(Absolute [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 성질 탓에 여러 프로그램의 메모리를 이리저리 끼워 맞추는 '[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)'와 '[스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)' 혁명에 올라타지 못하고 멸종 위기에 몰렸지만, 주소 연산을 1비트도 하지 않는 퓨어(Pure)한 실행 속도의 파괴력 덕분에 오늘날에도 우리 집 냉장고와 세탁기 칩(임베디드 세상) 안에서 묵묵히 밥 짓는 절대자로 전설을 이어가고 있다.
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.

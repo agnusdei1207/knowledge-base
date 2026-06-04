@@ -19,13 +19,13 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>충돌 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/">Collision</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a>)</strong>: 두 컴퓨터가 동시에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송할 때 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전기적으로 부딪혀 깨질(충돌할) 가능성이 있는 영역. (OSI 1계층 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 공유 문제)
   - <strong>브로드캐스트 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> (Broadcast <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a>)</strong>: 특정 컴퓨터가 브로드캐스트 프레임(목적지 `FF:FF...`)을 보냈을 때 그 프레임이 도달하여 영향을 미치는 전체 영역. (OSI 2계층 및 3계층 서브넷 문제)
 
 - **필요성**: 컴퓨터 수가 늘어날수록 통신은 혼잡해진다. 충돌 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 넓으면 "[데이터 파손](/knowledge-base/studynote/02_operating_system/09_file_system/564_bit_rot_btrfs_self_healing/)"이 빈번해 속도가 곤두박질치고, 브로드캐스트 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 넓으면 모든 컴퓨터가 "스팸 방송"을 처리하느라 CPU가 뻗어버린다(Broadcast Storm). 따라서 네트워크 설계의 핵심은 적절한 장비([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 라우터)를 배치해 이 두 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 잘게 쪼개는 것이다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - <strong>충돌 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a></strong>: 하나의 좁은 "1차선 다리"입니다. 양쪽에서 차가 동시에 진입하면 정면충돌이 납니다. (이를 해결한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 다리에 중앙선을 그어 양방향 통행을 만든 것입니다.)
   - <strong>브로드캐스트 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a></strong>: 마을 회관의 "마을 이장님 확성기 소리"가 들리는 반경입니다. 우리 마을 소식이 옆 마을까지 시끄럽게 들리지 않도록, 산(라우터)을 세워 소리를 막아줘야 합니다.
 

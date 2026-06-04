@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/) 셀에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓸 때는 높은 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)(약 20V)을 가해 전자를 산화막 안에 가두는데, 이 과정에서 절연체가 서서히 손상된다. (마모, Wear out)
   - 통상 셀 하나당 1,000번 ~ [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000번 썼다 지우면(P/E Cycle) 그 셀은 완전히 타버려 배드 블록(Bad Block)이 된다.
   - [마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)는 수만 개의 블록들이 모두 '비슷한 횟수'로 낡아가도록 지휘하는 두뇌(컨트롤러)의 지능적인 튜닝 로직이다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 과거 하드 디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)) 기반의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템인 FAT32나 NTFS를 SSD에 그대로 깔면 재앙이 터진다.
   - OS는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)나 [MBR](/knowledge-base/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/)(부트 레코드) 같은 특정 0번 블록 구역을 초당 수백 번씩 미친 듯이 덮어쓴다(Overwrite in place).
   - [마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)가 없다면 이 0번 블록은 단 며칠 만에 수명을 다해 죽어버리고, 나머지 99%의 공간이 멀쩡한데도 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 전체가 인식 불능으로 버려지게 된다.
@@ -33,7 +33,7 @@ tags = ["studynote-operating-system"]
   - **평준화 안 됨**: 공장장이 매일 출근하는 1번 창고 바닥만 집중적으로 지게차를 굴려서, 1번 바닥만 한 달 만에 완전히 다 파여서 공장 전체가 마비됨. (다른 99개 창고는 새것임).
   - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/">마모 평준화</a></strong>: 영리한 물류 로봇([FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/) 컨트롤러)이 공장장(OS) 몰래, 매일 지게차가 달리는 동선을 1번부터 100번 창고까지 돌아가며 분산시킨다. 10년 뒤 모든 창고 바닥이 똑같이 닳았을 때 공장 수명이 다하게 만든다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 2000년대 후반 SSD가 대중화되면서 NAND 플래시의 MLC/TLC 적층 기술로 인해 셀당 수명이 기하급수적으로 짧아지자(10만 번 $\rightarrow$ 1천 번), 이를 소프트웨어 컨트롤러 기술력으로 상쇄하기 위해 [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/)([Flash Translation Layer](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/)) 내부에 도입되었다.
 
 ```text

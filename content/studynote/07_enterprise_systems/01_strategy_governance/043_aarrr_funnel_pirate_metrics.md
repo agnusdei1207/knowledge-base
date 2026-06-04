@@ -64,9 +64,9 @@ R - Revenue (수익):
 ```
 코호트 분석 (Cohort Analysis):
   동일 시점 가입/행동 그룹을 시간에 따라 추적
-  
+
   예시: 2026년 1월 가입자 코호트
-  
+
   주(Week) | 활성 사용자 | 유지율
   ---------+-------------|-------
   Week 0   |    10,000   | 100%
@@ -74,7 +74,7 @@ R - Revenue (수익):
   Week 2   |     3,100   |  31%
   Week 4   |     2,000   |  20%
   Week 8   |     1,500   |  15%
-  
+
   → D30 유지율 15% (개선 필요: 업종 평균 20%)
 
 병목 분석 퍼널:
@@ -86,8 +86,8 @@ R - Revenue (수익):
   온보딩 완료   |  40%   | 60% 이탈 ← 병목 2
   첫 결제       |  15%   | 85% 이탈
   2회 결제      |  60%   | 40% 이탈
-  
-  분석: 
+
+  분석:
     회원가입 25% (산업 평균 35%) → 랜딩 페이지 개선 필요
     온보딩 완료 40% (산업 평균 55%) → 온보딩 UX 개선 필요
 
@@ -108,7 +108,7 @@ R - Revenue (수익):
 North Star Metric (NSM):
   회사 전체가 집중하는 단일 핵심 지표
   장기 가치 창출을 대표
-  
+
   성공 사례:
     Airbnb: "예약 야간 수" (숙박 횟수)
     Spotify: "구독 청취 시간"
@@ -131,7 +131,7 @@ Leading vs Lagging Indicator:
     D7 유지율 → 미래 LTV 예측
   Lagging: 과거 결과를 나타내는 후행 지표
     월간 매출 → 과거 성과 반영
-    
+
   실전 원칙:
     Leading으로 일상 모니터링
     Lagging으로 최종 성과 확인
@@ -152,9 +152,9 @@ Guardrail Metric:
 RARRA 재정렬:
   원래: AARRR (Acquisition 중심)
   현대: RARRA (Retention 중심)
-  
+
   Retention → Activation → Referral → Revenue → Acquisition
-  
+
   이유:
     유지율이 높으면 LTV가 높아져 더 많은 CAC 투자 가능
     기존 고객 유지 = 신규 고객 획득의 5배 저렴
@@ -163,12 +163,12 @@ RARRA 재정렬:
 PLG (Product-Led Growth):
   제품 자체가 성장 엔진
   영업/마케팅 없이 제품으로 고객 획득
-  
+
   PLG 지표:
     PQL (Product Qualified Lead):
       제품 내 특정 행동 = 구매 의향 신호
       예: Slack - 팀원 5명 추가 완료 = PQL
-    
+
   PLG 기업 사례:
     Slack: 무료 사용 → 팀 확대 → 유료 전환
     Figma: 링크 공유 → 팀원 초대 → 구독
@@ -198,18 +198,18 @@ AARRR 현황 진단:
   Acquisition:
     주요 채널: 오가닉 SEO 50%, 유료 광고 30%, 추천 20%
     CAC: SEO $15, 유료 광고 $120
-    
+
   Activation:
     온보딩 완료율: 38% (업계 평균 55%) ← 문제
     Aha Moment: "첫 팀 프로젝트 생성 + 팀원 초대"
-    
+
   Retention:
     D30 유지율: 42% (SaaS 평균 40%) ← 보통
     Churn Rate: 4%/월 (연간 38%) ← 개선 여지
-    
+
   Referral:
     K 계수: 0.25 ← 낮음 (추천 인센티브 부재)
-    
+
   Revenue:
     ARPU: $10/월
     LTV: $250 (25개월 평균 유지)
@@ -220,14 +220,14 @@ AARRR 현황 진단:
   Q1: Activation 개선 (38% → 55%)
     → 인터랙티브 온보딩 재설계
     → 첫 5분 내 팀원 초대 유도
-    
+
   Q2: Retention 개선 (42% → 55%)
     → 주간 사용량 리포트 이메일
     → 비활성 사용자 재활성화 캠페인
-    
+
   Q3: Referral 추가 (K: 0.25 → 0.7)
     → 팀원 추천 인센티브 (무료 플랜 연장)
-    
+
   Q4: CAC 최적화
     → 유료 광고 줄이고 SEO/Referral 확대
 

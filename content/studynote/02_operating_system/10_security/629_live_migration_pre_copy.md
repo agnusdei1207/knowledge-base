@@ -21,7 +21,7 @@ tags = ["studynote-operating-system"]
 
 - **개념**: 라이브 마이그레이션(vMotion, XenMotion, [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) Live Migration 등)은 Guest OS(가상머신)의 실행을 중단하지 않고, CPU 상태([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))와 메모리, I/O 상태를 다른 물리적 호스트(Target Node)로 복제하여 구동을 이어가는 기술이다.
 
-- **필요성 (서버 점검의 딜레마 극복)**: 
+- **필요성 (서버 점검의 딜레마 극복)**:
   - 과거에는 물리 서버의 램을 교체하거나 패치하려면 무조건 새벽에 공지를 띄우고 서버를 다운(Downtime)시켜야 했다.
   - 클라우드 환경에서는 하나의 물리 장비에 수십 개의 고객사 VM이 돌아가므로 셧다운이 불가능하다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 특정 물리 노드에 부하가 몰리거나 하드웨어 오류가 감지될 때, 고객이 눈치채지 못하게 VM을 다른 건강한 노드로 "살아있는 채로" 빼내야(Evacuation) 했다.
 
@@ -129,7 +129,7 @@ Pre-copy의 핵심은 라운드(Round)를 반복하면서 전송해야 할 [데�
 
 1. <strong>시나리오 — 메모리 집약적 워크로드의 라이브 마이그레이션 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 실패</strong>: 64GB 램을 쓰는 [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) DB VM이 들어있는 호스트를 긴급 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패치하기 위해 Evacuation(vMotion)을 시도했으나, 1시간째 99%에서 멈춰있다가 마이그레이션 실패(Abort) 에러가 떨어졌다.
    - **원인 분석**: DB가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰는 속도([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Dirty Rate)가 두 호스트를 잇는 10Gbps 관리망 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)보다 커서 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 끝없이 생성되는 발산(Divergence) 현상이 발생했다.
-   - **대응 (기술사적 가이드)**: 
+   - **대응 (기술사적 가이드)**:
      1. <strong>네트워크 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 확장</strong>: 마이그레이션 전용 네트워크 망([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/))을 25Gbps 또는 다중 링크(LACP)로 증설한다.
      2. **Auto Converge 활성화**: [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)([KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/)/ESXi) 옵션에서 `auto-converge`를 켠다. 이는 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 안 줄어들면, 원본 VM의 가상 CPU(vCPU)에 억지로 쓰로틀링(Throttling, 실행 속도 저하)을 걸어 메모리를 천천히 쓰게 만들어 강제로 수렴시키는 튜닝이다.
      3. **하이브리드 마이그레이션**: 정 안되면 Pre-copy 도중에 Post-copy로 강제 전환([Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))하는 기능을 사용한다.
@@ -179,7 +179,7 @@ Pre-copy의 핵심은 라운드(Round)를 반복하면서 전송해야 할 [데�
 | 구분 | Cold Migration (다운타임 허용) | Live Migration (Pre-copy) | 개선 효과 |
 |:---|:---|:---|:---|
 | **정량** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단: 수 초 ~ 10분 이상 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단: **수십 ms (밀리초)** | [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 연결 및 사용자 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 유지 (무중단 99.999% 달성) |
-| **정량** | 인프라 관리자 야간 작업 필수 | 자동화된 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([DRS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/626_drs_storage_mirroring/))에 의한 주간 작업 | 유지보수 공수 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) 및 [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 절감 |
+| **정량** | 인프라 관리자 야간 작업 필수 | 자동화된 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([DRS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/804_drs_storage_mirroring/))에 의한 주간 작업 | 유지보수 공수 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) 및 [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 절감 |
 | **정성** | 하드웨어 장애 시 대규모 [클레임](/knowledge-base/studynote/09_security/11_iam_access_control/539_claims/) | 노드 장애 예견 시 사전 대피(Evacuation) | 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))의 강력한 무기 |
 
 ### 미래 전망

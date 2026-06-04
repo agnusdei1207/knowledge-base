@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - 과거의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/379_uma/">UMA</a> (<a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/379_uma/">Uniform Memory Access</a>)</strong>: 100개의 CPU가 1개의 거대한 메모리를 똑같은 속도와 공평한 거리에서 공유하는 방식. ([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 구조).
   - 현재의 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a></strong>: CPU들을 몇 개의 그룹(Node)으로 묶고, 그룹마다 독립된 램(RAM)을 달아준다. Node 0의 CPU는 자기 램(로컬)을 엄청 빨리 읽지만, Node 1의 램(원격)을 읽으려면 대가를 지불해야 한다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 코어가 4개일 땐 [UMA](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/379_uma/) 구조로 메모리에 가는 길이 1개([프론트 사이드 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/365_fsb/), [FSB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/365_fsb/))라도 괜찮았다.
   - 하지만 코어가 64개가 되자, 64명이 1개의 메모리 문([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))을 통과하려고 서로 치고받고 싸우느라(메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목) 코어의 90%가 놀고 있는 대재앙이 벌어졌다.
   - **해결책**: "메모리로 가는 길을 1개로 두지 마! 코어 32개씩 찢어서 A팀과 B팀으로 나누고, A팀 전용 램과 B팀 전용 램을 따로 달아줘라! 각자 자기 밥그릇에서만 밥을 퍼먹으면 병목이 없어진다!"
@@ -31,7 +31,7 @@ tags = ["studynote-operating-system"]
   - <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/379_uma/">UMA</a> (과거)</strong>: 100명의 직원이 1층에 있는 '중앙 공용 정수기' 1대에서 물을 마신다. 정수기 앞에 항상 줄이 100m다 (메모리 병목 폭발).
   - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a> (현대)</strong>: 사무실을 1동과 2동으로 나누고, 1동 전용 정수기(로컬), 2동 전용 정수기(로컬)를 설치했다. 1동 직원은 자기 건물 정수기에서 1초 만에 물을 마신다. 단, 1동 정수기가 고장 나면 2동까지 걸어가서(원격 접근) 물을 마셔야 하니 시간이 2배 걸리는 패널티가 있다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 2003년 AMD의 Opteron 칩과 2008년 인텔의 Nehalem(QPI 도입) 아키텍처부터 메모리 컨트롤러를 메인보드 밖이 아닌 CPU 칩 내부로 쑤셔 넣으면서, 엔터프라이즈 서버(2소켓, 4소켓 장비)의 절대 표준이 되었다.
 
 ```text

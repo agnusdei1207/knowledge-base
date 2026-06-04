@@ -101,7 +101,7 @@ tags = ["studynote-operating-system"]
 동적 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 완벽해 보이지만 가장 큰 딜레마가 있다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 프로세스의 점수를 올리고 내릴 때 쓰는 공식은 결국 인간(OS 개발자)이 만든 "경험적 추측([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/))"에 불과하다는 점이다.
 - 동영상 재생기나 3D 게임은 마우스 입력(대화형)을 받으면서도 CPU를 100% 풀로 갈군다.
 - [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 "어? CPU 100% 쓰네? 너 강등!" 하고 3D 게임을 바닥 큐로 던져버린다.
-- 결과적으로 화면이 버벅대고 프레임이 박살 난다(Jitter). 
+- 결과적으로 화면이 버벅대고 프레임이 박살 난다(Jitter).
 이처럼 동적 평가 룰이 완벽하지 않기 때문에, 섣부른 동적 우선순위 개입은 오히려 끔찍한 사용자 경험을 초래하기도 한다. (리눅스 O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 CFS로 쫓겨난 결정적 이유다.)
 
 - **📢 섹션 요약 비유**: 융통성(동적 평가)은 양날의 검입니다. 융통성이 있으면 상황에 맞게 잘 대처하지만, 사람([스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/))의 '눈치([휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/))'가 틀려버리면 멀쩡한 VIP 손님(3D 게임)을 진상으로 오해하고 식당 밖으로 내쫓는 어처구니없는 대형 사고를 치게 됩니다.

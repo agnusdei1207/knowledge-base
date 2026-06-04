@@ -137,18 +137,18 @@ class ShadowComparisonService:
     def compare(self, prod_response, shadow_response, request_id):
         # 응답 일치율 측정
         match = self._deep_equal(prod_response, shadow_response)
-        
+
         # 성능 차이 측정
         latency_diff = shadow_response.time - prod_response.time
-        
+
         # 에러 감지
         has_error = shadow_response.status >= 500
-        
+
         # 메트릭 기록
         metrics.gauge("shadow.response_match", match)
         metrics.gauge("shadow.latency_diff_ms", latency_diff)
         metrics.counter("shadow.errors", has_error)
-        
+
         # 결과 불일치 시 로그
         if not match:
             logger.warn(f"Shadow mismatch: req={request_id}, "

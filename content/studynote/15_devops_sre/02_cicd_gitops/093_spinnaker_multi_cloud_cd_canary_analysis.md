@@ -119,7 +119,7 @@ tags = ["cicd", "studynote-devops-sre"]
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
-수동 스크립트 배포 
+수동 스크립트 배포
     │
     ▼
 Jenkins / CI 중심 배포 · 배포 과정의 복잡도 제어 한계

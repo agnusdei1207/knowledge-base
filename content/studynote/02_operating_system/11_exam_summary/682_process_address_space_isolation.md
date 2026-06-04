@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **주소 공간 (Address Space)**: 특정 프로세스가 합법적으로 접근할 수 있는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적인 메모리 주소의 범위.
   - <strong>공간 분리 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">Isolation</a>)</strong>: 각 프로세스의 주소 공간을 완벽하게 독립시켜, 서로 겹치거나 침범할 수 없도록 물리적/[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 벽을 치는 행위.
 
-- **필요성 (단일 주소 공간의 재앙)**: 
+- **필요성 (단일 주소 공간의 재앙)**:
   - 초창기 컴퓨터(MS-DOS 시절)에는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)가 없어서 모든 프로그램이 물리적 램(RAM)의 실제 주소를 직접 건드렸다.
   - 만약 A 프로그램이 주소 `0x1000`에 중요한 변수를 저장해 뒀는데, 새로 켜진 B 프로그램이 우연히 `0x1000` 주소에 값을 써버리면? A 프로그램은 이유도 모른 채 데이터가 오염되어 크래시가 난다.
   - 악성코드가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(OS)이 상주하는 메모리 영역을 덮어써 버리면 컴퓨터 전체가 블루스크린(BSOD)을 띄우며 죽어버린다.
@@ -74,7 +74,7 @@ tags = ["studynote-operating-system"]
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 크롬 브라우저를 켜든 엑셀을 켜든, 프로그램 입장에서는 자기가 메모리 `0x08048000`번지부터 시작해서 3GB의 유저 공간을 독점하고 있다고 생각한다. 크롬의 `0x08048000`과 엑셀의 `0x08048000`은 똑같은 '가상 주소'이지만, CPU 안의 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)(메모리 관리 유닛)를 거치고 나면 실제 물리 램(RAM)에서는 전혀 다른 위치(예: 크롬은 1,000번지, 엑셀은 8,000번지)로 매핑되므로 절대 충돌하지 않는다. 
+**[다이어그램 해설]** 크롬 브라우저를 켜든 엑셀을 켜든, 프로그램 입장에서는 자기가 메모리 `0x08048000`번지부터 시작해서 3GB의 유저 공간을 독점하고 있다고 생각한다. 크롬의 `0x08048000`과 엑셀의 `0x08048000`은 똑같은 '가상 주소'이지만, CPU 안의 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)(메모리 관리 유닛)를 거치고 나면 실제 물리 램(RAM)에서는 전혀 다른 위치(예: 크롬은 1,000번지, 엑셀은 8,000번지)로 매핑되므로 절대 충돌하지 않는다.
 
 ---
 
@@ -84,7 +84,7 @@ tags = ["studynote-operating-system"]
 
 1. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a> (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">Page Table</a>)</strong>: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 프로세스를 만들 때마다, 그 프로세스 전용의 '비밀 지도([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))'를 하나씩 만들어 메모리에 둔다.
 2. <strong>CR3 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/354_ptbr_ptlr/">PTBR</a>)</strong>: CPU가 프로세스 A를 실행할 때, 프로세스 A의 비밀 지도 시작 주소를 CPU의 특정 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(`CR3`)에 장착한다.
-3. **번역과 차단**: 프로세스 A가 "내 가상 주소 100번지를 읽어줘!"라고 CPU에 명령하면, MMU는 `CR3`에 있는 A의 지도를 편다. 
+3. **번역과 차단**: 프로세스 A가 "내 가상 주소 100번지를 읽어줘!"라고 CPU에 명령하면, MMU는 `CR3`에 있는 A의 지도를 편다.
    - 지도에 "가상 100번 = 물리 800번"이라고 적혀 있으면 물리 800번을 읽어준다.
    - 만약 프로세스 A가 해킹을 하려고 "가상 5,000번(남의 구역) 읽어줘!"라고 했는데, A의 지도에 가상 5,000번에 대한 매핑 정보가 없거나 '권한 없음(Invalid)'으로 표시되어 있다면? MMU는 즉시 하드웨어 인터럽트인 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">Segmentation</a> Fault (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a>)</strong>를 발생시키고, OS는 권한을 침범한 프로세스 A를 즉결 처형(Kill)한다.
 

@@ -20,7 +20,7 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 사용자가 자신의 의지와는 무관하게, <strong>해커가 의도한 행위(게시글 작성, 비밀번호 변경, 계좌 송금 등)를 특정 웹사이트에 '요청(Request)'하도록 강제당하는 웹 해킹 기법</strong>입니다.
-- **XSS와의 결정적 차이 🌟**: 
+- **XSS와의 결정적 차이 🌟**:
   - <strong><a href="/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/">XSS</a> (726번)</strong>: 해커가 내 브라우저에 악성 스크립트를 돌려서 내 '[쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)(지갑)'를 **훔쳐다 자기 주머니로 가져가는** 도둑질입니다.
   - **CSRF**: 해커는 내 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 훔치지(보지) 못합니다. 단지 로그인되어 있는 내 '손(권한)'을 꼭두각시처럼 강제로 조종해서, **내 신분으로 나도 모르게 은행에 악성 송금 버튼을 누르게(위조 요청)** 만드는 꼭두각시 조종술입니다.
 

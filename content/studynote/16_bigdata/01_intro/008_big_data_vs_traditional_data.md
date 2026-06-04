@@ -62,7 +62,7 @@ Shared-Nothing 아키텍처는 각 노드가 자신만의 CPU, 메모리, 디스
 
 [전통적 DB: Shared-Disk Architecture]
 [Node A (CPU/RAM)] ──┐                    ┌──> 락 경합(Lock Contention) 발생
-[Node B (CPU/RAM)] ──┼──> [SAN Storage] ──┤ 
+[Node B (CPU/RAM)] ──┼──> [SAN Storage] ──┤
 [Node C (CPU/RAM)] ──┘                    └──> 디스크 I/O 대역폭 병목
 
 [빅데이터: Shared-Nothing Architecture]
@@ -130,7 +130,7 @@ Shared-Nothing 아키텍처는 각 노드가 자신만의 CPU, 메모리, 디스
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-빅데이터 아키텍처의 도입은 기업이 '저장 공간 부족'이라는 물리적 제약에서 벗어나, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되는 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 자산화할 수 있는 토대를 마련했다. 
+빅데이터 아키텍처의 도입은 기업이 '저장 공간 부족'이라는 물리적 제약에서 벗어나, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되는 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 자산화할 수 있는 토대를 마련했다.
 
 | 지표 | 전통적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 환경 | 빅데이터 중심 환경 | 파급 효과 |
 |:---|:---|:---|:---|
@@ -138,7 +138,7 @@ Shared-Nothing 아키텍처는 각 노드가 자신만의 CPU, 메모리, 디스
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 유연성</strong> | 1주~1개월 ([DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/) 작업 대기) | 실시간 수용 ([Schema-on-Read](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/)) | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 개발 및 빠른 타임투마켓 |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> 보장</strong> | [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)-Standby 한계 | N중 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 기반 무중단 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 시스템 장애 시에도 100% [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
 
-미래의 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 아키텍처는 RDBMS와 빅데이터의 경계가 완전히 허물어지는 방향으로 진화하고 있다. [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/))와 대용량 분석([OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/))을 단일 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 동시에 처리하는 <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/">HTAP</a> (Hybrid Transactional/Analytical Processing)</strong> 기술이 대세로 떠오르고 있다. 
+미래의 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 아키텍처는 RDBMS와 빅데이터의 경계가 완전히 허물어지는 방향으로 진화하고 있다. [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/))와 대용량 분석([OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/))을 단일 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 동시에 처리하는 <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/">HTAP</a> (Hybrid Transactional/Analytical Processing)</strong> 기술이 대세로 떠오르고 있다.
 
 또한 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)의 유연성과 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)(RDBMS)의 ACID [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 및 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결합한 <strong><a href="/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/">레이크하우스</a>(<a href="/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/">Lakehouse</a>, 예: <a href="/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/">Delta Lake</a>)</strong>가 표준으로 자리잡으면서, 우리는 다시 '하나의 통합된 고성능 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼'으로 회귀하는 나선형 발전을 목격하고 있다. 기술사는 시스템의 제약을 이유로 기술을 거부할 것이 아니라, RDBMS와 빅데이터 생태계가 제공하는 최적의 교집합을 찾아내어 아키텍처를 설계하는 안목을 가져야 한다.
 

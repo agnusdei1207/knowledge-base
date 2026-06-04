@@ -28,17 +28,17 @@ tags = ["studynote-operating-system"]
   [다중 프로그래밍 정도(Multiprogramming)와 CPU 이용률의 스래싱 곡선]
 
       100% ┼                     (C) 스래싱 발생! (수직 낙하)
-           │   (A) 정상 구간        . 
-  CPU      │     .··············  │           ..··(↓) 
-  이용률    │   .· (↑) 이용률     │        .··   
-           │  .·                 │      .·     
-           │ .·                  ▼   .·        
+           │   (A) 정상 구간        .
+  CPU      │     .··············  │           ..··(↓)
+  이용률    │   .· (↑) 이용률     │        .··
+           │  .·                 │      .·
+           │ .·                  ▼   .·
            │.·                  (B) 임계점 (Thrashing Point)
-        0% ┼───────────────────────────────────────────── 
+        0% ┼─────────────────────────────────────────────
              0        10        20        30         40
                    메모리에 띄운 프로그램(프로세스) 개수
 ```
-**[다이어그램 해설]** 이 그래프는 OS 역사상 가장 유명한 절벽이다. 
+**[다이어그램 해설]** 이 그래프는 OS 역사상 가장 유명한 절벽이다.
 - (A) 구간: 프로그램을 많이 띄울수록 CPU가 쉴 틈 없이 일해서 이용률이 정비례로 솟구친다 (이상적 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)).
 - (B) 임계점: RAM의 모든 빈 공간이 사라진 한계점이다.
 - (C) 구간: [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 "CPU가 조금 노네? 프로그램 하나 더 띄워!"라고 착각(오판)하여 프로그램을 하나 더 밀어 넣는 순간, 기존 놈들의 메모리 밥그릇까지 뺏어가며 전원이 연쇄 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)를 일으켜 CPU 이용률이 0%로 처박힌다.
@@ -83,7 +83,7 @@ tags = ["studynote-operating-system"]
 
 ### 스래싱(Thrashing) vs [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))의 본질적 차이
 초보자들은 둘 다 컴퓨터가 멈추니까 헷갈리지만 원인은 하늘과 땅 차이다.
-- <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a></strong>: 서로가 가진 락(자물쇠)을 안 풀어서 **소프트웨어적(논리적)으로 영원히 멈춘 상태**. 디스크 I/O는 조용하고 CPU도 0%로 잔잔하다. 
+- <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a></strong>: 서로가 가진 락(자물쇠)을 안 풀어서 **소프트웨어적(논리적)으로 영원히 멈춘 상태**. 디스크 I/O는 조용하고 CPU도 0%로 잔잔하다.
 - **Thrashing**: 락이 아니라 물리적인 램(RAM) 공간이 모자라서, 디스크에 짐을 나르느라 **물리적 병목으로 시스템이 버벅대며 뻗은 상태**. 하드디스크 불이 미친 듯이 깜빡거리고 마우스가 뚝뚝 끊긴다. 돈을 주고 램(RAM)을 더 꽂으면 1초 만에 해결된다.
 
 - **📢 섹션 요약 비유**: [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 모델은 학생이 자주 보는 교과서 5권([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))을 파악해서 책상에 딱 5권 놓을 공간이 있을 때만 도서관 입장을 허락하는 깐깐한 사서입니다. PFF는 일단 앉혀놓고, 애가 책 찾으러 계속 돌아다니면(폴트 잦음) 책상을 넓혀주고, 가만히 있으면 책상을 뺏는 실용주의 사서입니다.
@@ -93,8 +93,8 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. <strong>Windows의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">Out of Memory</a>) 스래싱 지옥</strong>: 램이 8GB인 윈도우 PC에서 게임을 3개 켜면 갑자기 화면이 멈추고 10분 동안 하드 긁는 소리가 난다. 
-   - **이유**: 윈도우는 데스크톱 OS답게 어떻게든 프로그램을 죽이지 않고 살려보려고, 디스크 스왑 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`pagefile.sys`)에 남은 메모리를 미친 듯이 욱여넣으며 <strong>전통적인 스래싱(Thrashing)</strong>의 늪으로 자진해서 걸어 들어간다. 
+1. <strong>Windows의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">Out of Memory</a>) 스래싱 지옥</strong>: 램이 8GB인 윈도우 PC에서 게임을 3개 켜면 갑자기 화면이 멈추고 10분 동안 하드 긁는 소리가 난다.
+   - **이유**: 윈도우는 데스크톱 OS답게 어떻게든 프로그램을 죽이지 않고 살려보려고, 디스크 스왑 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`pagefile.sys`)에 남은 메모리를 미친 듯이 욱여넣으며 <strong>전통적인 스래싱(Thrashing)</strong>의 늪으로 자진해서 걸어 들어간다.
    - **사용자 경험**: 프로그램이 죽진 않지만 10분 동안 렉이 걸려 사용자가 답답해서 강제 리부팅을 하게 만드는 최악의 UX를 낳는다.
 2. **Linux 서버 / K8s 클라우드의 "Swap Off" 절대 룰**: 백엔드 서버나 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터에서는 윈도우 같은 짓을 절대 용납하지 않는다.
    - **아키텍트 결단**: 클라우드 엔지니어는 서버를 세팅할 때 무조건 `sudo swapoff -a` 명령어로 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)(스왑) 자체를 끄거나 비활성화한다.

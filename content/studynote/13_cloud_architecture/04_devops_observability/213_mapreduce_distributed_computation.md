@@ -85,9 +85,9 @@ MapReduce는 함수형 프로그래밍의 map()과 reduce() 개념을 [분산](/
 public class WordCountMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
     private Text word = new Text();
     private IntWritable one = new IntWritable(1);
-    
+
     @Override
-    protected void map(LongWritable key, Text value, Context context) 
+    protected void map(LongWritable key, Text value, Context context)
             throws IOException, InterruptedException {
         // 각 줄을 공백으로 분리하여 단어 추출
         StringTokenizer tokenizer = new StringTokenizer(value.toString());
@@ -101,7 +101,7 @@ public class WordCountMapper extends Mapper<LongWritable, Text, Text, IntWritabl
 // Reducer 클래스
 public class WordCountReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
     @Override
-    protected void reduce(Text key, Iterable<IntWritable> values, Context context) 
+    protected void reduce(Text key, Iterable<IntWritable> values, Context context)
             throws IOException, InterruptedException {
         int sum = 0;
         for (IntWritable val : values) {

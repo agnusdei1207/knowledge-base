@@ -60,10 +60,10 @@ tags = ["studynote-operating-system"]
 
 ### [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부의 이중 장부: PG_locked [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)
 
-리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(Frame) 한 장 한 장마다 `struct page`라는 관리 구조체를 램 구석에 수백만 개 가지고 있다. 
+리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(Frame) 한 장 한 장마다 `struct page`라는 관리 구조체를 램 구석에 수백만 개 가지고 있다.
 - 이 구조체 안에는 상태를 나타내는 `flags` [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)맵이 있다.
 - 여기에 <strong><code>PG_locked</code></strong> 또는 <strong><code>PG_reserved</code></strong> [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 1로 세팅되면 피닝이 된 것이다.
-- `kswapd` 데몬(교체 청소부)이 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 리스트를 뺑글뺑글 돌면서 희생양을 찾을 때, 이 `flags`를 슬쩍 보고 락이 걸려 있으면 <strong>무조건 패스(Skip)</strong>하고 다음 불쌍한 희생양을 찾으러 간다. 
+- `kswapd` 데몬(교체 청소부)이 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 리스트를 뺑글뺑글 돌면서 희생양을 찾을 때, 이 `flags`를 슬쩍 보고 락이 걸려 있으면 <strong>무조건 패스(Skip)</strong>하고 다음 불쌍한 희생양을 찾으러 간다.
 - 이 락은 I/O(디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)/읽기, 네트워크 수신)가 100% 완료되는 하드웨어 인터럽트가 떨어져야만 OS가 0으로 풀어준다.
 
 ---
@@ -72,7 +72,7 @@ tags = ["studynote-operating-system"]
 
 만약 일반 유저 프로그램(카카오톡)이 자기 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 버퍼에 하드디스크 파일을 다이렉트로([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)) 읽어오라고 시스템 콜을 때리면 어떻게 될까? OS는 유저의 램 영역 전체에 Pinning 락을 걸어야 할까?
 - 유저 메모리에 락을 남발하면 악의적인 유저가 램 16GB를 전부 락 걸어놓고 스왑을 마비시키는 램 테러(Denial of [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))가 일어난다.
-- <strong>OS의 방어 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 버퍼 바운싱)</strong>: OS는 절대 유저 램에 다이렉트로 I/O를 꽂지 않는다. 
+- <strong>OS의 방어 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 버퍼 바운싱)</strong>: OS는 절대 유저 램에 다이렉트로 I/O를 꽂지 않는다.
   1. I/O 장치에게는 <strong>OS 소유의 '<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 버퍼(미리 Pinning 된 놈)'</strong>에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘라고 지시한다.
   2. 하드웨어 전송이 끝나면, OS가 그 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼에서 유저 버퍼로 소프트웨어적으로 쓱 복사(Memcpy)해 준다.
   3. 이렇게 하면 유저 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 락을 걸 필요가 없어져, 언제든 자유롭게 [스왑 아웃](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/)될 수 있는 아름다운 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 상태를 유지한다.
@@ -96,7 +96,7 @@ tags = ["studynote-operating-system"]
 
 ### 보안과 크립토([Cryptography](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/))의 생명선
 해커로부터 비밀번호나 인증서를 다루는 C/C++ 암호화 프로그램은 메모리를 무조건 `mlock()`으로 피닝한다.
-왜일까? 만약 패스워드가 적힌 메모리가 스왑(Swap) 디스크로 쫓겨났다고 치자. 
+왜일까? 만약 패스워드가 적힌 메모리가 스왑(Swap) 디스크로 쫓겨났다고 치자.
 나중에 서버 전원을 끄고 해커가 그 하드디스크를 뜯어가 포렌식 툴로 스왑 파티션을 뒤져보면 내 비밀번호 평문이 고스란히 하드디스크 조각에 남아있다. 램은 전원을 끄면 날아가지만 디스크는 영원히 남기 때문이다.
 <strong>"내 메모리는 절대 하드디스크 스왑에 적히면 안 돼!"</strong>라는 극강의 보안 철학을 달성하기 위한 유일한 함수가 바로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 피닝(`mlock`)이다.
 
@@ -117,7 +117,7 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) / Redis의 Swap 렉 방어전
-1. **문제 상황**: 
+1. **문제 상황**:
    - 256GB 램 서버에서 오라클 DB가 잘 돌고 있다. 그런데 서버에 접속한 잡다한 파이썬 스크립트들이 램을 파먹기 시작했다.
    - 리눅스의 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)([Global Replacement](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 램을 비우려고, 가만히 캐싱되어 있던 오라클 DB의 가장 중요한 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 메모리를 스왑 디스크로 쫓아내 버렸다.
    - 유저가 쿼리를 날리자 오라클이 스왑에서 1GB를 퍼오느라 서버가 10초 동안 정지(STW)했다. 대재앙이다.

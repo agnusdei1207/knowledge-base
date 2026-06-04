@@ -26,7 +26,7 @@ tags = ["studynote-software-engineering"]
 - **💡 비유**: 마이크로서비스 분해는 <strong>'거대한 원룸 아파트를 50세대의 독립 오피스텔로 쪼개는 공사'</strong>와 똑같습니다. 옛날 원룸(모놀리식)은 화장실과 주방을 다 같이 썼습니다. 한 명이 화장실 변기를 막히게(메모리 릭 에러) 하면 50명 전원이 똥을 못 싸서 죽습니다(전체 시스템 셧다운). 훌륭한 건축가(아키텍트)는 칼을 듭니다. 각 세대(Microservice)마다 벽을 두껍게 치고, 독립적인 미니 화장실과 주방([Database per service](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/311_database_per_service_pattern/))을 개별적으로 달아줍니다. 이제 301호 변기가 터져도, 302호와 303호는 아주 평화롭게 장사를 계속할 수 있는(장애 격리) 극한의 생존술입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **모놀리식의 영광 (2000년대)**: 코드가 수만 줄일 땐 한 통에 넣고 짜는 게 최고로 빠르고 디버깅하기도 좋았다. 
+  1. **모놀리식의 영광 (2000년대)**: 코드가 수만 줄일 땐 한 통에 넣고 짜는 게 최고로 빠르고 디버깅하기도 좋았다.
   2. **아마존/넷플릭스의 딜레마 (2010s)**: 코드가 수백만 줄을 돌파했다. 개발자 1,000명이 똑같은 Git 코드 저장소에 Push 하다가 서로 충돌([Merge Conflict](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/068_git_merge_conflict_resolution_rebase/))이 나며 회사가 멈췄다. 제발 우리 각자 찢어져서 살자며 분할을 부르짖었다.
   3. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">도커</a>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a>)와 분해 패턴의 완성 (현재)</strong>: 찢어놓은 50개의 앱을 배포하는 게 지옥이었다. 하지만 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/))가 등장하며 찢어진 앱들을 1초 만에 허공에 띄울 수 있게 되면서, [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)([Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/)) 철학과 결합한 '완벽한 칼질(분해)의 룰'들이 글로벌 대세로 정착했다.
 

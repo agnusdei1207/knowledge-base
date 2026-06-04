@@ -59,11 +59,11 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 ### 1. 극단적 저전력 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 제어 (듀티 사이클 최적화)
-- WBAN 센서(체온계 등)는 심장 박동이 불규칙할 때 빼고는 평소에 99%의 시간을 <strong>'완전 수면(Deep Sleep) 상태'</strong>로 기절해 있습니다. 
+- WBAN 센서(체온계 등)는 심장 박동이 불규칙할 때 빼고는 평소에 99%의 시간을 <strong>'완전 수면(Deep Sleep) 상태'</strong>로 기절해 있습니다.
 - 중앙 코디네이터(스마트폰)가 "야 1초 뒤에 일어날게, 그때 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 빨리 던져!" 하고 스케줄을 맞춰줍니다. 센서는 딱 0.001초 눈을 뜨고 전파를 쏜 뒤 다시 기절합니다(듀티 사이클 최소화). 동전 건전지 하나로 5~10년을 버티게 하는 마법입니다.
 
 ### 2. 인체 전파 흡수율(SAR) 대응 통제 모델 🌟
-- 일반 무선망은 장애물이 있으면 "전파 세게 쏴버려!" 하고 출력을 높입니다. 
+- 일반 무선망은 장애물이 있으면 "전파 세게 쏴버려!" 하고 출력을 높입니다.
 - WBAN은 출력을 높이면 내 장기가 타버립니다. 센서가 스마트폰으로 쏘는 전파가 뼈나 지방층에 부딪혀 신호가 약해지면(감쇠), 출력을 높이지 않고 <strong>전파가 피부 표면을 타고 흐르는 성질(표면파, Surface <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/">Wave</a>)</strong>을 이용하거나, 펄스 형태의 [UWB](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/160_uwb_ultra_wideband/)(초광대역) 저출력 파동을 써서 인체 피해를 0%로 통제합니다.
 
 ### 3. 암살 방어용 체내 보안 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) & [Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)) 🌟

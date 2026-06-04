@@ -29,7 +29,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[헬름](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)의 동작은 뼈대가 되는 '템플릿(Template)'에 상황에 맞는 '값(Values)'을 렌더링(Rendering)하여 완성된 매니페스트(Manifest)를 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버에 전달하는 과정이다. 
+[헬름](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)의 동작은 뼈대가 되는 '템플릿(Template)'에 상황에 맞는 '값(Values)'을 렌더링(Rendering)하여 완성된 매니페스트(Manifest)를 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버에 전달하는 과정이다.
 
 | 구성 요소 | 역할 | 핵심 특징 |
 | :--- | :--- | :--- |

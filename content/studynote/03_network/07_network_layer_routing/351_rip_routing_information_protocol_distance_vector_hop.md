@@ -40,9 +40,9 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 30초의 저주 (Update [Timer](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/))
-RIP는 말이 안 통할 정도로 수다쟁이다. 
+RIP는 말이 안 통할 정도로 수다쟁이다.
 - [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블(자기 지식 전부)을 **무조건 30초마다** 이웃 라우터에게 복사해서 던진다.
-- 1시간 동안 아무런 선로 단절(이벤트)이 없어도, 30초마다 수백 줄짜리 엽서를 계속 주고받는다. 
+- 1시간 동안 아무런 선로 단절(이벤트)이 없어도, 30초마다 수백 줄짜리 엽서를 계속 주고받는다.
 - 이 때문에 구형 56Kbps 같은 좁은 전용선에서는 <strong>RIP가 떠드는 소리(오버헤드) 때문에 정작 고객의 진짜 데이터가 지나갈 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>이 꽉 막혀버리는 현상</strong>이 발생했다.
 
 ### 2. 15 Hop 제한의 딜레마 (Count to Infinity)

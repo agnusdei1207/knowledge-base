@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: C언어 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 프로그래밍에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터(fd)에 `O_NONBLOCK` 깃발(옵션)을 딱 꽂아주는 순간 발동한다. 이 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)에 `read()`를 때리면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있다면 빛의 속도로 퍼다 주고 끝난다. 그런데 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없다면? OS는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 멱살을 잡아 [대기 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/)([Wait Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/))에 처넣지 않고, 0.001초 만에 **"에러코드 -1 (EAGAIN/EWOULDBLOCK): 나중에 다시 와라!"** 라고 매몰차게 뱉고 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 즉시 방출(Return)시켜 버린다. 
+- **개념**: C언어 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 프로그래밍에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터(fd)에 `O_NONBLOCK` 깃발(옵션)을 딱 꽂아주는 순간 발동한다. 이 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)에 `read()`를 때리면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있다면 빛의 속도로 퍼다 주고 끝난다. 그런데 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없다면? OS는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 멱살을 잡아 [대기 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/)([Wait Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/))에 처넣지 않고, 0.001초 만에 **"에러코드 -1 (EAGAIN/EWOULDBLOCK): 나중에 다시 와라!"** 라고 매몰차게 뱉고 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 즉시 방출(Return)시켜 버린다.
 - **필요성**: 인터넷 서버에 접속한 1만 명의 유저(C10K)가 있다 치자. 유저 A가 로그인 버튼을 누르고 10초 동안 비밀번호를 안 치고 가만히 있는다. 옛날 블로킹([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 서버는 A를 기다리느라 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1개가 10초 동안 뇌사 상태로 굳어버렸다. 1만 명을 상대하려면 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 1만 개 필요했고, 이 1만 개의 뇌([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))를 스위칭하느라 서버의 램과 CPU가 불타서 재가 되었다. 빡친 개발자들은 외쳤다. "아니, 대답 안 하는 놈을 왜 기다려줘? 없으면 그냥 버리고 당장 대답할 수 있는 다음 놈한테 빨리 넘어가라고!" [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 목숨(가동 시간)을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 대기라는 불확실성에서 100% 해방시킨 혁명이다.
 
 - **등장 배경 및 아파치의 몰락**:
@@ -71,15 +71,15 @@ tags = ["studynote-operating-system"]
 ### 치명적 함정: 넌블로킹의 맹점 = [Busy Wait](/knowledge-base/studynote/02_operating_system/11_exam_summary/700_spinlock_busy_waiting/) ([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/))
 
 넌블로킹 함수는 한 번 부르고 없으면 끝난다. 그런데 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 1초 뒤에 오면 어떻게 다시 읽을까?
-- **바보 같은 해결책**: 
+- **바보 같은 해결책**:
   ```c
-  while(1) { 
-      res = read(socket, O_NONBLOCK); 
-      if (res != EAGAIN) break; 
+  while(1) {
+      res = read(socket, O_NONBLOCK);
+      if (res != EAGAIN) break;
   }
   ```
   이 짓거리는 1초에 1억 번 `read` 시스템 콜을 때려 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 유저 모드를 미친 듯이 스위칭([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))하게 만든다. CPU 점유율이 100%로 불타버리며 컴퓨터가 녹아내린다. (소위 <strong>스핀 락/<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a>의 저주</strong>다).
-- 즉, 순수한 넌블로킹 I/O는 이대로 쓰면 시스템을 조져버리는 최악의 쓰레기 코드다. 이 맹점을 완벽하게 덮어준 구원자가 바로 다음 장에서 배울 <strong>I/O 멀티플렉싱(epoll/<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/">select</a>)</strong>이다. 
+- 즉, 순수한 넌블로킹 I/O는 이대로 쓰면 시스템을 조져버리는 최악의 쓰레기 코드다. 이 맹점을 완벽하게 덮어준 구원자가 바로 다음 장에서 배울 <strong>I/O 멀티플렉싱(epoll/<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/">select</a>)</strong>이다.
 
 - **📢 섹션 요약 비유**: 우편함에 편지 왔는지 확인할 때 멍하니 기다리지 않는(넌블로킹) 것까진 좋았습니다. 그런데 언제 편지가 올지 몰라서 1초마다 문 열고 뛰어나가 우편함을 열어보고 들어오고, 다시 뛰어나가 열어보고 들어오고(While 루프 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/))를 반복하다가 과로사로 죽어버리는 꼴입니다. 넌블로킹은 눈치는 빠르지만 행동이 너무 촐싹대서 혼자서는 아무 쓸모가 없습니다.
 
@@ -100,7 +100,7 @@ tags = ["studynote-operating-system"]
 
 ### 디스크 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O 앞에서는 한없이 작아지는 넌블로킹
 개발자들이 환상을 가진다. "오! [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽을 때 `O_NONBLOCK` 켜서 읽으면 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)도 넌블로킹으로 쓱싹 읽히겠네!"
-**대착각이다.** 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 하드디스크 같은 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/">블록 장치</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/">Block Device</a>)를 읽을 때는 <code>O_NONBLOCK</code> 플래그가 사실상 100% 개무시당한다.</strong> 
+**대착각이다.** 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 하드디스크 같은 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/">블록 장치</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/">Block Device</a>)를 읽을 때는 <code>O_NONBLOCK</code> 플래그가 사실상 100% 개무시당한다.</strong>
 - 왜냐하면 디스크의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 "언젠가 올 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"가 아니라 "무조건 저기 디스크에 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"로 취급되기 때문에, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 강제로 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 목덜미를 잡고 디스크(8ms)를 긁어올 때까지 억지로 블로킹(D [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 시켜버린다.
 - 그래서 Node.js([이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/))가 네트워크는 넌블로킹으로 수만 개를 쳐내지만, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) `read`를 하는 순간 메인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 굳어버려서 서버가 즉사한다. 이를 우회하려고 Node.js는 뒤에서 몰래 <strong>C++ <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">스레드 풀</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">Thread Pool</a>)</strong> 4개를 띄워놓고 거기에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 블로킹 읽기 작업을 하청 주는 눈물겨운 꼼수를 쓴다. (진정한 리눅스 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) AIO는 `io_uring`이 나오기 전까진 전멸 상태였다).
 
@@ -126,10 +126,10 @@ tags = ["studynote-operating-system"]
    - Nginx 개발자 이고르 시소예프는 "[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 1개만 띄운다(Worker [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))"고 선언했다.
    - 1만 명의 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 몽땅 <strong><code>O_NONBLOCK</code></strong>으로 열어버린다.
    - 워커 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1마리가 1번 유저에게 `read` 쳤다. 안 왔네?(EAGAIN). 0.001초 만에 2번 유저로 건너뛴다. 왔네? 쓱싹 처리. 3번 유저 안 왔네? 패스!
-   - 단 1개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 1초에 1만 개의 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 채찍질하며 미친 듯이 훑고([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 지나간다. 
-3. **위대한 결과**: 
-   - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 1개뿐이라 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 비용이 <strong>0</strong>이다. 
-   - 램([스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 점유율은 불과 수 메가바이트(MB)에 불과하다. 
+   - 단 1개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 1초에 1만 개의 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 채찍질하며 미친 듯이 훑고([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 지나간다.
+3. **위대한 결과**:
+   - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 1개뿐이라 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 비용이 <strong>0</strong>이다.
+   - 램([스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 점유율은 불과 수 메가바이트(MB)에 불과하다.
    - 구형 펜티엄 똥컴으로도 동시 접속자 1만 명(C10K)을 렉 없이 쳐내는 소프트웨어 아키텍처의 혁명이 완성되었다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): Node.js [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) 차단 ([Event Loop](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) [Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))

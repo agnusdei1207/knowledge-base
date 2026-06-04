@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
-  - Sun Microsystems가 1984년 개발한 [분산 파일 시스템](/knowledge-base/studynote/02_operating_system/09_file_system/553_distributed_file_system/). 
+- **개념**:
+  - Sun Microsystems가 1984년 개발한 [분산 파일 시스템](/knowledge-base/studynote/02_operating_system/09_file_system/553_distributed_file_system/).
   - 클라이언트가 서버의 특정 디렉터리를 자신의 폴더에 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)([Mount](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/))하면, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)([VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/))가 몰래 로컬 시스템 콜을 네트워크 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) 패킷으로 포장해 서버로 던지고 결과를 받아온다.
 
-- <strong>필요성 (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 환경의 <a href="/knowledge-base/studynote/05_database/07_exam_summary/443_isolation_concurrency_control/">고립성</a> 타파)</strong>: 
+- <strong>필요성 (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 환경의 <a href="/knowledge-base/studynote/05_database/07_exam_summary/443_isolation_concurrency_control/">고립성</a> 타파)</strong>:
   - 과거 수십 대의 유닉스 워크스테이션이 있을 때, A 직원이 B 자리로 가면 자신이 쓰던 소스 코드를 플로피 디스크에 복사해서 옮겨 다녀야 했다(Sneakernet).
   - "중앙의 거대한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 서버 하나에 모든 코드를 두고, 100대의 컴퓨터가 동시에 그 폴더를 C드라이브처럼 연결해서 쓰면 어떨까?"
   - 그런데 이 과정에서 중앙 서버의 랜선이 1초 빠지면 클라이언트 100대가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O 에러로 동반 자살하는 끔찍한 연쇄 크래시 위험이 있었다.
@@ -32,7 +32,7 @@ tags = ["studynote-operating-system"]
   - **상태 유지 (Stateful, 텔레마케터)**: "고객님 아까 말씀하신 그 상품([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 오픈) 말이죠, 방금 고르신 색상(10번지 오프셋)으로 주문할까요?" -> 중간에 전화가 끊겨서 다시 걸면 처음부터 상황 설명을 다 다시 해야 함.
   - <strong>무상태 (<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a>, 자판기)</strong>: 돈을 넣고 '콜라 1번(정확한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 위치 묘사)'을 누르면 무조건 콜라가 나옴. 자판기 전원이 나갔다 들어와도, 내 손에 동전(요청)만 있으면 처음부터 아무 일 없었던 듯 뽑아 먹을 수 있음.
 
-- **등장 배경**: 
+- **등장 배경**:
   - LAN(근거리 통신망) 시대의 도래와 함께 썬 마이크로시스템즈의 "네트워크가 곧 컴퓨터다(The Network is the Computer)"라는 사상을 현실화한 기술이며, 오늘날 AWS EFS 같은 관리형 클라우드 [NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) 시스템의 표준 뼈대로 자리 잡았다.
 
 ```text
@@ -118,7 +118,7 @@ tags = ["studynote-operating-system"]
 
 ### [NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/) 버전별 진화와 Stateful로의 변절 ([NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/) v3 vs v4)
 
-무상태([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 철학은 아름다웠지만 시대가 변하며 한계를 맞았다. 
+무상태([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 철학은 아름다웠지만 시대가 변하며 한계를 맞았다.
 
 | 비교 항목 | [NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/) v3 (고전적 무상태 표준) | [NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/) v4 (현대적 Stateful 설계) |
 |:---|:---|:---|

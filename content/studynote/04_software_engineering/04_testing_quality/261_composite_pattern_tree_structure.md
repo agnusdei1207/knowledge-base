@@ -69,13 +69,13 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-1. <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">Component</a> (추상적인 공통 껍데기)</strong>: 
-   - 윈도우 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 탐색기의 `[아이콘]` 또는 `[Node]`라는 추상 클래스입니다. 
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">Component</a> (추상적인 공통 껍데기)</strong>:
+   - 윈도우 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 탐색기의 `[아이콘]` 또는 `[Node]`라는 추상 클래스입니다.
    - 이 안에는 `용량계산하기()` 같은 공통 함수 구멍이 파져 있습니다.
-2. **Leaf (잎사귀 / 단일 객체)**: 
+2. **Leaf (잎사귀 / 단일 객체)**:
    - 자식이 없는 맨 밑바닥 부품입니다. (예: `[텍스트파일.txt]`)
    - `용량계산하기()`를 부르면 쿨하게 "난 10MB야!"라고 자기 용량만 반환합니다.
-3. **Composite (복합 객체 / 폴더)** 🌟 (이게 핵심) 🌟: 
+3. **Composite (복합 객체 / 폴더)** 🌟 (이게 핵심) 🌟:
    - 1번 컴포넌트를 상속받은 놈이자, 자기 뱃속에 자식([Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))들을 List 배열로 무한정 품을 수 있는 <strong>'폴더' 객체</strong>입니다.
    - 밖에서 폴더한테 `용량계산하기()`를 부르면? 자기가 직접 계산하지 않고, 자기 뱃속에 들어있는 모든 자식([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이든 폴더든 상관없음)들에게 "야! 너네 용량 다 내놔!"라고 **재귀적(Recursive)으로 함수를 넘겨버리고(위임)** 그 합을 뭉쳐서 반환합니다.
 
@@ -89,7 +89,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **클라이언트(사용자)의 관점**: 
+- **클라이언트(사용자)의 관점**:
   - "내가 찌른 놈이 가장 끄트머리 `[텍스트 파일]`인지, 아니면 수천 개의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 든 거대한 `[C드라이브 폴더]`인지 **나는 1%도 알 필요가 없다!!** 어차피 똑같은 `Component` 껍데기를 쓰고 있으니까 난 그냥 `용량계산하기()` 버튼만 한 번 누르면 끝난다!!"
   - 사용자는 1만 줄짜리 복잡한 트리 구조를, 단일 객체 다루듯 편안하게 조작할 수 있게 됩니다 (단순함의 극치).
 

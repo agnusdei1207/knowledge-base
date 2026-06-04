@@ -19,18 +19,18 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/572_protection_domain/">보호 도메인</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/572_protection_domain/">Protection Domain</a>)</strong>: 시스템 내의 객체([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 메모리 세그먼트, 프린터 등)에 대해 주체(프로세스, 사용자)가 가질 수 있는 접근 권한의 묶음. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)은 $\langle 객체, 권한\_집합 \rangle$의 쌍으로 정의된다.
   - <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/">최소 권한 원칙</a> (PoLP)</strong>: 어떤 주체가 작업을 수행할 때, 그 작업을 완수하기 위한 최소한의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서만 실행되어야 한다는 보안의 기본 원칙.
 
-- **필요성**: 
+- **필요성**:
   - 과거 단일 사용자 시스템에서는 모든 프로그램이 시스템의 모든 자원에 접근할 수 있었다. 그러나 다중 사용자, [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 환경에서는 하나의 버그나 악의적인 코드가 시스템 전체를 마비시킬 위험이 크다.
   - "만능 열쇠"를 가진 프로세스가 해킹당하면, 해커도 "만능 열쇠"를 쥐게 된다. 따라서 프로세스의 권한을 목적에 맞게 잘게 쪼개고 한정하는 메커니즘이 필수적이다.
 
   - <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/">최소 권한 원칙</a></strong>: 회사 건물에서 '화장실 청소부'의 출입 카드에는 화장실과 청소 도구실 문만 열리는 권한을 주고, 서버실이나 사장실 문은 열리지 않게 설정하는 것과 같다.
   - 만약 편의를 위해 모든 문이 열리는 '마스터 키'를 주었다가 그 키를 도둑맞으면 회사 전체가 위험해진다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 초기의 조잡한 권한 관리(예: root가 아니면 아무것도 못하는 시스템)의 한계 $\rightarrow$ 권한 위임과 전이([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Switching)의 필요성 대두 $\rightarrow$ Multics의 Ring [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구조 및 UNIX의 [SetUID](/knowledge-base/studynote/02_operating_system/09_file_system/548_special_permissions_setuid/) 체계 도입 $\rightarrow$ 오늘날의 정교한 [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/) 및 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 권한 제어로 진화.
 
 ```text
@@ -64,7 +64,7 @@ tags = ["studynote-operating-system"]
 
 ### [보호 도메인](/knowledge-base/studynote/02_operating_system/10_security/572_protection_domain/)의 구성 및 표현
 
-[보호 도메인](/knowledge-base/studynote/02_operating_system/10_security/572_protection_domain/)은 구조적으로 시스템 내 객체들의 접근 권한 매트릭스의 행(Row)으로 볼 수 있다. 
+[보호 도메인](/knowledge-base/studynote/02_operating_system/10_security/572_protection_domain/)은 구조적으로 시스템 내 객체들의 접근 권한 매트릭스의 행(Row)으로 볼 수 있다.
 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)은 프로세스의 신분(Identity)에 결속되며, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 주체가 어떤 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 실행되고 있는지 지속적으로 추적한다.
 
 | 요소명 | 역할 | 내부 동작 | 기술적 예시 | 비유 |

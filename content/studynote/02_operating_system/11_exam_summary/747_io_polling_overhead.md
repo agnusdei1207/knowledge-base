@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) (Polling)은 호스트(CPU)가 장치 컨트롤러의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/">상태 레지스터</a> (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/">Status Register</a>)</strong>의 특정 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(예: Busy [bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/), [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Ready [bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))를 무한 반복해서 읽어 장치의 준비 상태를 점검하는 제어 방식이다.
   - 이 무의미하게 반복되는 검사 시간을 가리켜 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/">바쁜 대기</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/">Busy Waiting</a>)</strong> 상태라고 하며, 이로 인해 소모되는 CPU 사이클을 '[폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 오버헤드(Polling Overhead)'라고 부른다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - "I/O 장치가 작업을 다 끝냈는지 CPU가 어떻게 알 수 있을까?"
   - 초창기 컴퓨터는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))라는 복잡한 하드웨어 회로망이 없었다. 그래서 CPU가 직접 주기적으로 디바이스를 찾아가서 "다 됐니? 다 됐니?"라고 계속 물어보는 수밖에 없었다.
   - 이 방식은 1바이트씩 천천히 입력되는 키보드(느린 장치)나 디스크([지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)이 긴 장치)를 상대할 때 시스템 전체를 마비시키는 치명적인 병목을 일으켰다.
@@ -31,7 +31,7 @@ tags = ["studynote-operating-system"]
   - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a>(Polling)</strong>: 전자레인지에 피자를 돌려놓고, 다 익었는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하려고 1초마다 전자레인지 문을 열어보며 그 앞에 계속 서 있는 행동. 그동안 다른 집안일(연산)은 전혀 할 수 없다.
   - (반면 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a></strong>는 전자레인지의 타이머 소리 "땡!"이 울릴 때까지 거실에서 책을 읽는 방식이다.)
 
-- **등장 배경**: 
+- **등장 배경**:
   - [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 시스템에서 구현의 편리함으로 사용되다 멀티프로그래밍 시대에 병목으로 지목되어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 구동([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)-driven) I/O로 패러다임이 전환되었다.
   - 그러나 현대 10G/100G [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 네트워크 카드에서는 패킷마다 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 걸리면 오히려 CPU가 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리 비용([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 등)에 질식해버리는 '[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 폭풍([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Storm)' 문제가 생겼고, 역설적으로 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)을 영리하게 부활시키는 기술(NAPI 등)이 도입되고 있다.
 
@@ -84,7 +84,7 @@ char read_device() {
     while ( (inb(STATUS_REG) & READY_BIT) == 0 ) {
         // 아키텍처에 따라 일시적 대기(NOP, cpu_relax)를 넣기도 함
     }
-    
+
     // 루프 탈출: 장치 준비 완료! 데이터를 읽어옴
     return inb(DATA_REG);
 }

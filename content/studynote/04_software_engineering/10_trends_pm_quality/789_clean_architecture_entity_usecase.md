@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어를 만들 때 개발자들은 습관적으로 "DB부터 설계하자!"라고 말한다. 테이블(Table)을 만들고, 그 테이블에 맞춰서 SQL을 짜고, 마지막에 화면(UI)을 붙인다. 
+소프트웨어를 만들 때 개발자들은 습관적으로 "DB부터 설계하자!"라고 말한다. 테이블(Table)을 만들고, 그 테이블에 맞춰서 SQL을 짜고, 마지막에 화면(UI)을 붙인다.
 
 이런 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 주도 설계</strong>는 10년 뒤 끔찍한 재앙을 부른다. 오라클([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))을 몽고DB([MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/))로 바꾸려 하거나, 웹 화면을 모바일 앱으로 바꾸려 하면, 비즈니스 로직(할인율 계산 등) 곳곳에 SQL과 웹 프레임워크 코드가 거미줄처럼 엉켜 있어서 시스템 전체를 갈아엎어야(Rewrite) 하기 때문이다.
 

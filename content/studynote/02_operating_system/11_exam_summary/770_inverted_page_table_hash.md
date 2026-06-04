@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - 기존 OS는 프로세스마다 고유의 '[페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))'을 만들었다. (프로세스 중심)
   - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/">역 페이지 테이블</a></strong>은 시스템 전체에 딱 1개의 글로벌 테이블만 둔다. (물리 메모리 중심)
   - 이 테이블은 RAM의 물리적 프레임 개수와 똑같은 개수의 엔트리(행)를 가지며, 각 엔트리에는 `[PID, 논리 페이지 번호(p)]`가 적혀 있다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 32비트 OS에서는 가상 공간이 4GB라 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 크기가 감당 가능했다. 하지만 64비트 OS에서는 가상 공간이 수 엑사바이트(EB)다.
   - 다단계(4단계, 5단계) 테이블을 써서 쪼개더라도, 수만 개의 프로세스가 뜨면 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 자체가 잡아먹는 물리 RAM이 수십 GB에 달하는 배보다 배꼽이 큰 상황(Memory Overhead)이 벌어졌다.
   - **해결책**: "어차피 물리 RAM 크기는 16GB로 한정되어 있는데, 왜 보이지도 않는 가상 주소를 기준으로 표를 만들지? 차라리 **'실제 존재하는 16GB 램의 각 방'에 누가 들어있는지 적어두는 전역 명부 하나만 만들자!**"
@@ -32,7 +32,7 @@ tags = ["studynote-operating-system"]
   - <strong>기존 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a></strong>: 호텔에 예약한 손님(프로세스) 10만 명에게 각자 두꺼운 '전체 객실 안내 책자'를 나눠주고 자기가 묵을 방 번호를 찾아보게 하는 방식 (책자 인쇄비/종이 낭비 극심).
   - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/">역 페이지 테이블</a></strong>: 프론트 데스크(메인 메모리)에 딱 1권의 '실제 객실 현황판'만 두고, 101호엔 A손님, 102호엔 B손님이 있다고 적어놓는 방식 (안내 책자는 1권이면 충분함).
 
-- **등장 배경**: 
+- **등장 배경**:
   - IBM의 PowerPC, HP의 IA-64(Itanium) 등 초창기 64비트 엔터프라이즈 서버 아키텍처에서 메모리 절약을 위해 하드웨어 레벨로 도입된 혁신적 기법이다.
 
 ```text

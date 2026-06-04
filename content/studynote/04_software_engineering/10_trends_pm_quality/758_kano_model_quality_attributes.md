@@ -107,7 +107,7 @@ Kano 모델을 소프트웨어 개발에 적용할 때 아키텍트가 내려야
 
 ## Ⅴ. 기대효과 및 결론
 
-Kano 모델을 프로젝트 초기에 적용하면, 쓸데없는 기능(무관심, 역 품질)에 개발자들의 소중한 주말과 야근 시간을 낭비하는 끔찍한 오버엔지니어링을 사전에 차단할 수 있다. 
+Kano 모델을 프로젝트 초기에 적용하면, 쓸데없는 기능(무관심, 역 품질)에 개발자들의 소중한 주말과 야근 시간을 낭비하는 끔찍한 오버엔지니어링을 사전에 차단할 수 있다.
 
 결론적으로 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 단순히 코드를 짜는 기술이 아니라, 고객의 마음을 코드로 번역하는 심리학이다. 기술 리더는 기능 명세서의 줄 수를 채우는 것에 만족하지 말고, Kano 모델을 방패 삼아 <strong>"고객이 당연하게 여기는 것(안전, 보안, <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>)은 목숨 걸고 지키고, 남는 시간으로 고객을 놀라게 할 단 하나의 칼(매력)을 다듬는"</strong> 선택과 집중의 아키텍처를 지휘해야 한다.
 

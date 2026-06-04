@@ -67,19 +67,19 @@ class FenwickTree:
     def __init__(self, n):
         self.n = n
         self.tree = [0] * (n + 1)  # 1-indexed
-    
+
     def update(self, i, delta):    # O(log N)
         while i <= self.n:
             self.tree[i] += delta
             i += i & (-i)          # lowbit 추가
-    
+
     def query(self, i):            # prefix sum [1..i], O(log N)
         s = 0
         while i > 0:
             s += self.tree[i]
             i -= i & (-i)          # lowbit 제거
         return s
-    
+
     def range_query(self, l, r):   # [l..r] 범위 합
         return self.query(r) - self.query(l - 1)
 ```
@@ -111,7 +111,7 @@ class FenwickTree:
 
 1. 좌표 압축 후 BIT 초기화
 2. 오른쪽에서 왼쪽으로 순회:
-   - query(A[i] - 1): 현재 원소보다 작은 값이 
+   - query(A[i] - 1): 현재 원소보다 작은 값이
      이미 처리된 개수 (= A[i]가 앞에 있으면 역전)
    - update(A[i], 1): 현재 원소 추가
 

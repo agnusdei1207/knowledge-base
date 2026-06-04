@@ -21,7 +21,7 @@ tags = ["studynote-ai"]
 
 하루에 전 세계에서 쏟아지는 트위터(X) 게시물은 5억 개가 넘고, 아마존 쇼핑몰에는 1초마다 수천 개의 상품 리뷰가 달린다. 이 거대한 텍스트의 바다는 기업 입장에서 금광이다. 사람들이 우리 회사 브랜드나 경쟁사 제품에 대해 어떻게 느끼는지(Brand Reputation)를 실시간으로 안다면, 광고 마케팅을 어떻게 틀고 어떤 제품을 리콜할지 0.1초 만에 결정할 수 있기 때문이다.
 
-하지만 이 글들을 인간이 읽는 것은 물리적으로 불가능하다. 그래서 등장한 것이 <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/">감성 분석</a> (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/">Sentiment Analysis</a>)</strong>, 또는 <strong>오피니언 마이닝(Opinion Mining)</strong>이다. 
+하지만 이 글들을 인간이 읽는 것은 물리적으로 불가능하다. 그래서 등장한 것이 <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/">감성 분석</a> (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/">Sentiment Analysis</a>)</strong>, 또는 <strong>오피니언 마이닝(Opinion Mining)</strong>이다.
 초창기 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)은 단순히 사전에 "좋다=1점, 나쁘다=-1점"이라고 적어놓고 글 안에 무슨 단어가 많이 들어있는지 점수를 더하는 원시적인 덧셈 기계였다. 하지만 언어는 교활하다. "배송이 미치도록 빠르네요"라는 문장에서 '미치도록'은 사전적으로 부정적이지만 문맥상 극찬이다. 이 미묘한 뉘앙스의 한계를 돌파하기 위해, 딥러닝([RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/), [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/))이 도입되어 단어의 앞뒤 순서를 기억하기 시작했고, 마침내 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))가 문장 전체의 감정적 색채를 꿰뚫어 보며 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)은 인간의 눈치를 100% 모방하는 경지에 이르렀다.
 
 ```text
@@ -109,7 +109,7 @@ tags = ["studynote-ai"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)([Sentiment Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/))의 안착은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 인간의 차가운 '[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)'를 계산하는 것을 넘어, 따뜻하고 때로는 변덕스러운 '마음(Heart)'을 읽어내는 공감의 시대로 진입했음을 알리는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)탄이다. 
+[감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)([Sentiment Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/))의 안착은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 인간의 차가운 '[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)'를 계산하는 것을 넘어, 따뜻하고 때로는 변덕스러운 '마음(Heart)'을 읽어내는 공감의 시대로 진입했음을 알리는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)탄이다.
 
 과거 수십억 원을 들여 설문조사를 돌려야 알 수 있었던 대중의 심리 변화를, 이제 기업들은 트위터 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 하나만 걸어두면 0.1초 단위의 꺾은선 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Sentiment Trend)로 공짜로 받아먹고 있다. 대통령 선거의 향방을 예측하고, 신작 영화의 흥행 수입을 미리 맞추며, 우울증 환자의 SNS 글을 스캔해 자살 위험을 0.01초 만에 감지하고 구급차를 보내는 등 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)은 인류의 감정을 통계로 치환해 낸 가장 위대한 거울이다.
 

@@ -92,10 +92,10 @@ Prime+Probe 방어는 “공유 파일을 끊자”로 끝나지 않는다. 공�
 
 ### 방어 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-1. <strong>캐시 <a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">파티셔닝</a></strong>: CAT (Cache Allocation Technology), [page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) coloring, way-based isolation으로 세트를 분리  
-2. **실행 격리**: 민감 프로세스와 비신뢰 코드를 같은 [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/)·[SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) sibling에 두지 않기  
-3. **구현 개선**: constant-time crypto, table-less 또는 bitsliced 구현 채택  
-4. **관측 제한**: 고해상도 타이머 축소, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 기반 이상 probe 탐지  
+1. <strong>캐시 <a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">파티셔닝</a></strong>: CAT (Cache Allocation Technology), [page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) coloring, way-based isolation으로 세트를 분리
+2. **실행 격리**: 민감 프로세스와 비신뢰 코드를 같은 [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/)·[SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) sibling에 두지 않기
+3. **구현 개선**: constant-time crypto, table-less 또는 bitsliced 구현 채택
+4. **관측 제한**: 고해상도 타이머 축소, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 기반 이상 probe 탐지
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 

@@ -18,7 +18,7 @@ tags = ["ict_convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에서 내가 내 자산을 정당하게 이체한다는 사실을 수학적으로 증명하는 도구가 바로 디지털 서명이다. 사토시 나카모토는 비트코인을 설계할 당시, 짧은 키 길이로도 강력한 보안을 제공하는 [타원곡선](/knowledge-base/studynote/09_security/03_network_security/120_elliptic_curve_equation/) 기반의 ECDSA (Elliptic Curve [Digital Signature](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/) [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))를 채택했다. 
+[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에서 내가 내 자산을 정당하게 이체한다는 사실을 수학적으로 증명하는 도구가 바로 디지털 서명이다. 사토시 나카모토는 비트코인을 설계할 당시, 짧은 키 길이로도 강력한 보안을 제공하는 [타원곡선](/knowledge-base/studynote/09_security/03_network_security/120_elliptic_curve_equation/) 기반의 ECDSA (Elliptic Curve [Digital Signature](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/) [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))를 채택했다.
 
 그러나 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이 대중화되고 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)와 기업용 다중 서명(Multi-Signature, 예: 3명 중 2명 동의 시 출금) 거래가 급증하면서 ECDSA의 한계가 명확해졌다. ECDSA는 여러 명이 서명할 경우 그 서명 데이터를 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 개별적으로 모두 기록해야 한다. 가뜩이나 1MB 크기 제한으로 좁은 비트코인 블록에서 무거운 서명 찌꺼기들이 공간을 낭비하자 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리 지연과 수수료 폭등 문제가 발생했다. 이를 해결하기 위해 수학적 병합이 가능한 슈노르 서명이 구세주로 등장했다.
 

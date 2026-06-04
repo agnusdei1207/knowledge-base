@@ -106,7 +106,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[컨테이너 이미지 스캐닝](/knowledge-base/studynote/15_devops_sre/05_devsecops/247_container_image_scanning_os_trivy/)과 K8s 기반의 권한 통제 아키텍처를 결합하면, 개발자의 실수(비밀번호 하드코딩 등)가 실운영 서버로 유출되는 것을 기계적으로, 그리고 100% 원천 차단할 수 있다. 
+[컨테이너 이미지 스캐닝](/knowledge-base/studynote/15_devops_sre/05_devsecops/247_container_image_scanning_os_trivy/)과 K8s 기반의 권한 통제 아키텍처를 결합하면, 개발자의 실수(비밀번호 하드코딩 등)가 실운영 서버로 유출되는 것을 기계적으로, 그리고 100% 원천 차단할 수 있다.
 
 결론적으로 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 시대에 '보안'은 더 이상 사람이 눈으로 코드를 리뷰해서 지켜낼 수 있는 영역이 아니다. 기술 리더는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 파이프라인의 **스캐너(탐지)**, [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)의 <strong>서명(<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>)</strong>, 쿠버네티스의 <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 엔진(통제)</strong>이라는 3중 방어막을 자동화하여, 사람의 개입 없이도 안전한 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)만이 시스템에 생존하도록 설계([DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/))해야 한다.
 

@@ -45,11 +45,11 @@ tags = ["studynote-network"]
 - 패킷의 본문([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 내용)은 절대 뜯어보지 않습니다.
 
 ### 2. 장점과 한계
-- 겉봉투만 보니까 속도가 미친 듯이 빠르고(극강의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)), [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비의 가격도 쌉니다. 
+- 겉봉투만 보니까 속도가 미친 듯이 빠르고(극강의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)), [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비의 가격도 쌉니다.
 - 하지만 사용자가 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 화면으로 네이버 뉴스를 보려는지, 로그인을 하려는지 목적을 모르기 때문에 디테일한 서버 맞춤 분배가 불가능합니다.
 
-실제 거대 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)(카카오, 토스 등)는 하나만 쓰지 않습니다. 
-- [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 입구에 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) <strong>대형 쇳덩어리 L4 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>를 방패막이로 세워 수천만 명의 트래픽을 큼직하게 1차로 박살 내어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시킵니다. 
+실제 거대 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)(카카오, 토스 등)는 하나만 쓰지 않습니다.
+- [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 입구에 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) <strong>대형 쇳덩어리 L4 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>를 방패막이로 세워 수천만 명의 트래픽을 큼직하게 1차로 박살 내어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시킵니다.
 - 그 L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 뒤에 수십 대의 똑똑한 소프트웨어 <strong>L7 라우터(Nginx, HAProxy 등)</strong>를 배열하여 세밀한 서비스별 분배(2차 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))를 융합하는 2단 콤보 전술을 사용합니다.
 
 ```text
@@ -72,7 +72,7 @@ tags = ["studynote-network"]
 ### 1. 동작 원리 ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 본문 심층 해부)
 - OSI 7계층(응용 계층) 끝단까지 짐을 전부 다 까봅니다.
 - <strong><a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 기준</strong>: <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> URI 경로, <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 헤더, <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">Cookie</a>) 값, 페이로드 본문 내용</strong>을 현미경처럼 뜯어봅니다.
-- <strong>마법 같은 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a></strong>: 
+- <strong>마법 같은 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a></strong>:
   - 사용자가 `domain.com/video`를 치면 ➜ [동영상 스트리밍 서버 10대]로 찢어줍니다.
   - 사용자가 `domain.com/pay`를 치면 ➜ [보안 결제 서버 5대]로 안전하게 찢어줍니다.
   - 헤더에 `Mobile=True`라고 적혀 있으면 ➜ [스마트폰 전용 가벼운 UI 서버]로 보내버립니다.

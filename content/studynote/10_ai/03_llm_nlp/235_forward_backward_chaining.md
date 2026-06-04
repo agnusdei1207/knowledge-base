@@ -19,12 +19,12 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-1970~80년대 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 황금기를 이끈 '[전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)([Expert System](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/))'의 심장은 <strong>추론 엔진(Inference 엔진)</strong>이었다. 
+1970~80년대 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 황금기를 이끈 '[전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)([Expert System](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/))'의 심장은 <strong>추론 엔진(Inference 엔진)</strong>이었다.
 [지식 베이스](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/)(DB) 안에는 의사들이 짜놓은 `IF (열) AND (기침) THEN (감기)` 같은 규칙(Rule)들이 1만 개나 쌓여 있었다. 문제는 "이 1만 개의 규칙을 도대체 어떤 순서로 뒤져야 가장 빨리 정답에 도달할까?"였다.
 
 처음엔 무식하게 밀고 나갔다. 환자가 "저 열이 나요"라고 팩트([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 던져주면, 엔진은 1만 개의 규칙 중에서 `IF (열)`로 시작하는 규칙 1,000개를 다 깨운다. 그리고 그 1,000개에서 또 파생되는 다음 규칙들을 미친 듯이 활성화하며 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>에서 결론을 향해 전진하는 전향 추론 (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/010_forward_chaining/">Forward Chaining</a>)</strong>을 썼다. 그런데 결론이 수만 개로 갈라지며 메모리가 펑펑 터져나갔다.
 
-그래서 천재적인 꼼수가 등장했다. "야! [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 출발하니까 너무 많이 퍼져나가잖아. 아예 처음부터 **'얘는 감기일 것이다'라고 최종 목표(결론)를 딱 찍어놔! 그리고 규칙을 거꾸로 뒤집어서 '감기(Then)이려면 열(If)이 있어야 하는데, 환자야 너 열나냐?'라고 역으로 캐묻자!**" 
+그래서 천재적인 꼼수가 등장했다. "야! [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 출발하니까 너무 많이 퍼져나가잖아. 아예 처음부터 **'얘는 감기일 것이다'라고 최종 목표(결론)를 딱 찍어놔! 그리고 규칙을 거꾸로 뒤집어서 '감기(Then)이려면 열(If)이 있어야 하는데, 환자야 너 열나냐?'라고 역으로 캐묻자!**"
 이것이 불필요한 규칙 탐색을 완전히 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))해 버리는 위대한 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/">후향 추론</a> (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/">Backward Chaining</a>)</strong>의 탄생이다.
 
 ```text

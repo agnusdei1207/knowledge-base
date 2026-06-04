@@ -73,7 +73,7 @@ VFIO 구조의 중심에는 세 가지가 있다. 첫째는 장치를 격리 가
 
 ## Ⅲ. 비교 및 연결
 
-VFIO를 이해할 때 가장 자주 비교되는 대상은 Virtio와 UIO다. Virtio가 표준 가상 장치를 제공하는 방식이라면, VFIO는 실제 장치를 직접 넘기는 방식이다. UIO는 사용자 공간 드라이버에 문을 열어 준다는 점은 비슷하지만, [IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) 기반 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/)와 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리 완성도 면에서 VFIO보다 약하다.
+VFIO를 이해할 때 가장 자주 비교되는 대상은 Virtio와 UIO다. Virtio가 표준 가상 장치를 제공하는 방식이라면, VFIO는 실제 장치를 직접 넘기는 방식이다. UIO는 사용자 공간 드라이버에 문을 열어 준다는 점은 비슷하지만, [IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) 기반 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/)와 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리 완성도 면에서 VFIO보다 약하다.
 
 | 비교 축 | UIO | Virtio | VFIO |
 | :--- | :--- | :--- | :--- |
@@ -130,7 +130,7 @@ VFIO 프레임워크의 가장 큰 효과는 [성능](/knowledge-base/studynote/
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) | VFIO의 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) 경계를 실제 하드웨어에서 강제하는 기반 |
+| [IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) | VFIO의 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) 경계를 실제 하드웨어에서 강제하는 기반 |
 | [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) | 장치를 여러 함수로 나누고, 그 결과물을 VFIO로 할당할 수 있게 함 |
 | [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) | VFIO를 통해 사용자 공간에서 네트워크 카드를 직접 다루는 대표 사례 |
 | FLR | 장치 재할당과 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 좌우하는 reset 메커니즘 |

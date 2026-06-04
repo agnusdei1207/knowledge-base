@@ -89,7 +89,7 @@ model = SentenceTransformer('paraphrase-multilingual')
 raw_text = "배송은 느렸지만 포장이 깔끔해요." # 비정형 텍스트
 
 # 1. 자연어를 고차원 벡터로 변환 (Embedding)
-vector_representation = model.encode(raw_text).tolist() 
+vector_representation = model.encode(raw_text).tolist()
 
 # 2. Vector DB에 메타데이터와 함께 업로드 (시맨틱 검색 준비)
 index.upsert(vectors=[("review_123", vector_representation, {"category": "delivery"})])

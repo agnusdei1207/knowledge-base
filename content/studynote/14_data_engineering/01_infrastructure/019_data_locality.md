@@ -140,7 +140,7 @@ A 방식(전통 클라우드)은 컴퓨팅 노드를 자유롭게 껐다 켤 수
        │
        ├─ Spark UI/YARN 로그 확인 -> Locality Level 검사
        │
-       ├─ (NODE_LOCAL이 80% 이상인가?) 
+       ├─ (NODE_LOCAL이 80% 이상인가?)
        │     └── YES: 지역성 문제 아님. CPU 로직 자체나 DB 병목 의심
        │
        └─ (ANY, OFF_RACK 비율이 비정상적으로 높은가?)

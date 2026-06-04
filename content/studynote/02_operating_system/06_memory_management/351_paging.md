@@ -90,12 +90,12 @@ CPU가 뱉어내는 32비트(또는 64비트)의 긴 이진수 [논리 주소](/
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 하드웨어 매커니즘의 가장 위대한 점은 '오프셋(d)'은 전혀 변하지 않고 통과(Bypass)한다는 것이다. 프레임의 크기와 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 크기가 4KB로 완벽하게 동일하기 때문에, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 내에서 1050번째 떨어진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는, 물리 램 프레임 안에서도 정확히 1050번째 위치에 존재한다. MMU는 오직 방 번호(p)를 실제 아파트 동 번호(f)로 1:1 치환해 주는 작업만 수행하면 된다. 
+**[다이어그램 해설]** 이 하드웨어 매커니즘의 가장 위대한 점은 '오프셋(d)'은 전혀 변하지 않고 통과(Bypass)한다는 것이다. 프레임의 크기와 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 크기가 4KB로 완벽하게 동일하기 때문에, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 내에서 1050번째 떨어진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는, 물리 램 프레임 안에서도 정확히 1050번째 위치에 존재한다. MMU는 오직 방 번호(p)를 실제 아파트 동 번호(f)로 1:1 치환해 주는 작업만 수행하면 된다.
 
 ### [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) ([Internal Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/))의 부활
 
 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 '[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)'라는 악마를 죽였지만, '[내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)'라는 작은 도깨비를 다시 불러왔다.
-- 프로그램 크기가 13KB고, [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)가 4KB라면? 
+- 프로그램 크기가 13KB고, [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)가 4KB라면?
 - 4KB × 3장 = 12KB. 남은 1KB를 위해 <strong>어쩔 수 없이 4KB 프레임 1장을 더 할당</strong>해야 한다.
 - 마지막 4번째 프레임 안에는 1KB만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 차고 3KB가 텅 비게 된다. 이 3KB는 그 어떤 프로세스도 쓸 수 없는 '[내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)'다.
 - 하지만 수십 MB가 버려지던 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)에 비하면, 기껏해야 수 KB가 버려지는 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)는 현대의 기가바이트(GB) 급 램 환경에서는 애교 수준의 푼돈이므로 OS는 이를 쿨하게 무시한다.
@@ -115,7 +115,7 @@ CPU가 뱉어내는 32비트(또는 64비트)의 긴 이진수 [논리 주소](/
 | **분할 철학** | **기계 중심** (아무 의미 없이 그냥 4KB로 무식하게 멉) | **인간 중심** (함수, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 등 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 의미 단위로 예쁘게 자름) |
 | **조각 크기** | **고정** 크기 (동일함) | **가변** 크기 (제각각임) |
 | <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a> 종류</strong> | <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/">내부 단편화</a> 발생</strong> (외부는 0%) | <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a> 발생</strong> (크기가 달라 테트리스 실패) |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/">메모리 보호</a>/공유</strong>| 조각이 의미 없이 잘려 있어서 권한 주기가 조금 까다로움 | 함수 단위로 잘려 있어 Read-only 등 보안/공유 주기가 매우 쉬움 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/">메모리 보호</a>/공유</strong>| 조각이 의미 없이 잘려 있어서 권한 주기가 조금 까다로움 | 함수 단위로 잘려 있어 Read-only 등 보안/공유 주기가 매우 쉬움 |
 
 ### [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 뼈아픈 오버헤드 (Memory Access Penalty)
 

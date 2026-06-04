@@ -62,7 +62,7 @@ tags = ["studynote-network"]
 
 ### 1. ICIC (인접 셀 간 간섭 조정, Inter-Cell Interference Coordination) 🌟
 - **원리**: A 기지국과 B 기지국이 무전기(X2 인터페이스)로 서로 짬짜미(협상)를 합니다.
-- <strong>주파수 양보 (Fractional <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/554_frequency_reuse_cluster_capacity/">Frequency Reuse</a>)</strong>: "야 B기지국! 우리 경계선(셀 엣지)에 있는 철수한테 내가 100MHz 주파수로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏠 거니까, **너는 그 시간에 100MHz 주파수 대역 절대 쓰지 말고 비워둬!**" 
+- <strong>주파수 양보 (Fractional <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/554_frequency_reuse_cluster_capacity/">Frequency Reuse</a>)</strong>: "야 B기지국! 우리 경계선(셀 엣지)에 있는 철수한테 내가 100MHz 주파수로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏠 거니까, **너는 그 시간에 100MHz 주파수 대역 절대 쓰지 말고 비워둬!**"
 - B 기지국이 양보해서 그 주파수를 비워주면, 철수 입장에서는 간섭(노이즈)이 0이 되어 약한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)라도 깨끗하게 들을 수 있어 다운로드 속도가 부활합니다. (주파수 쪼개기 마법)
 
 ### 2. [CoMP](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/) ([협력 통신](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/), Coordinated Multi-Point) (913번 심화 / 1013번 문서)
@@ -70,7 +70,7 @@ tags = ["studynote-network"]
 - A 기지국과 B 기지국이 철수에게 <strong>동시에 100% 똑같은 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전파를 정밀한 타이밍으로 조준해서 쏴버립니다(Joint Transmission).</strong> 두 전파가 공중에서 파동 겹침으로 더해져서 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기(에너지)가 2배로 뻥튀기되며 엣지 수율이 폭발합니다.
 
 ### 3. [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) ([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)) 및 [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/)
-- 기지국 안테나가 360도로 둥글게 전파를 퍼뜨리지 않습니다. 
+- 기지국 안테나가 360도로 둥글게 전파를 퍼뜨리지 않습니다.
 - 엣지에 있는 철수 스마트폰의 정확한 위치를 계산해, 손전등을 켜듯 **레이저 빔(지향성 전파)을 철수의 정수리에만 다이렉트로 꽂아버립니다.** 옆 사람에게 전파가 새지 않으니 간섭이 줄고, 철수는 에너지를 온전히 다 받아 속도가 떡상합니다.
 
 셀 엣지 수율을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)이 기반 조건을 만든다면, 셀 엣지 수율은 그 위에서 핵심 메커니즘을 구현하고, CoMP는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.

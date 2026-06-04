@@ -19,7 +19,7 @@ tags = ["studynote-security"]
 
 ### Ⅰ. 개요 (Context & Background)
 <strong>정보 보안(Information Security)</strong>은 IT 인프라의 최후의 보루이자 비즈니스 생존을 위한 필수 보험이다. 과거에는 외부 인터넷과 내부 인트라넷을 물리적으로 분리하고 방화벽(Firewall) 하나만 세우는 '경계 기반 보안(Perimeter Security)' 모델이 유효했다. 그러나 스마트폰, 원격 근무, 하이브리드 클라우드의 폭발적 도입으로 시스템의 '경계' 자체가 증발해버렸다.
-랜섬웨어(Ransomware)와 APT(지능형 지속 위협) 공격은 기존의 패턴 매칭(백신) 방어망을 비웃듯 시스템의 심장부로 침투한다. 이러한 현대의 비대칭적 사이버 전쟁에서 승리하기 위해, 정보 보안은 단일 솔루션 도입을 넘어 거버넌스(ISMS), 암호학 수학 논리, 애플리케이션 취약점 방어(OWASP), 인프라 네트워크 격리 기술을 모두 융합한 다층적 방어(Defense in Depth) 아키텍처로 진화하였다. 
+랜섬웨어(Ransomware)와 APT(지능형 지속 위협) 공격은 기존의 패턴 매칭(백신) 방어망을 비웃듯 시스템의 심장부로 침투한다. 이러한 현대의 비대칭적 사이버 전쟁에서 승리하기 위해, 정보 보안은 단일 솔루션 도입을 넘어 거버넌스(ISMS), 암호학 수학 논리, 애플리케이션 취약점 방어(OWASP), 인프라 네트워크 격리 기술을 모두 융합한 다층적 방어(Defense in Depth) 아키텍처로 진화하였다.
 
 ---
 
@@ -40,7 +40,7 @@ tags = ["studynote-security"]
 가장 강력한 보안은 대칭키의 '속도'와 비대칭키의 '안전한 키 교환'을 결합한 하이브리드 방식이다.
 ```text
     [ SSL/TLS 하이브리드 암호화 아키텍처 / SSL/TLS Hybrid Encryption Architecture ]
-    
+
     [ Client (Browser) ]                                [ Server (Web) ]
            |                                                   |
            | -- 1. ClientHello (지원 Cipher Suite, 난수 A) --> |

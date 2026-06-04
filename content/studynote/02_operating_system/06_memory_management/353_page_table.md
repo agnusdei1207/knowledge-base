@@ -164,7 +164,7 @@ tags = ["studynote-operating-system"]
 | [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) ([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
 | [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/) ([Page Size](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
 | [PTBR](/knowledge-base/studynote/02_operating_system/06_memory_management/354_ptbr_ptlr/) ([Page-Table Base Register](/knowledge-base/studynote/02_operating_system/06_memory_management/354_ptbr_ptlr/)) / PTLR ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-Table Length [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

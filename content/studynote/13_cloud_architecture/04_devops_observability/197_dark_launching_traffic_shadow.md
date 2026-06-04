@@ -72,7 +72,7 @@ tags = ["studynote-cloud-architecture"]
 def process_search(query, user_id):
     # 기존 서비스 실행 (결과 반환용)
     result = legacy_search_service.search(query)
-    
+
     # 다크 론칭: 비동기로 신규 서비스 실행 (결과 버림)
     if feature_flag.is_enabled("dark_launch_new_search", user_id):
         async def dark_execute():
@@ -81,13 +81,13 @@ def process_search(query, user_id):
                 new_result = new_search_service.search(query)
                 # 결과 비교 로깅 (사용자에게는 미반환)
                 metrics.record("dark_search_latency", time.time() - start)
-                metrics.record("dark_search_match", 
+                metrics.record("dark_search_match",
                                new_result == result)
             except Exception as e:
                 metrics.record("dark_search_error", str(e))
-        
+
         asyncio.create_task(dark_execute())
-    
+
     return result  # 항상 기존 결과 반환
 ```
 
@@ -117,7 +117,7 @@ def process_search(query, user_id):
 # 잘못된 예: 다크 론칭 중 실제 DB에 데이터 저장
 def dark_execute():
     result = new_service.process(request)  # DB에 실수로 저장!
-    
+
 # 올바른 예: 읽기 전용 모드 또는 별도 테스트 DB 사용
 def dark_execute():
     result = new_service.process_readonly(request)  # 조회만

@@ -63,13 +63,13 @@ tags = ["studynote-operating-system"]
 
 1. **폴트율 $p = 0.001$ (1,000번 중 1번 폴트 날 때)**
    - $EAT = 200 + 7,999.8 = 8,199.8 ns$
-   - 결과: 원래 200ns짜리 시스템이 8199ns가 되었다. 무려 <strong>40배(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/548_special_permissions_setuid/">4000</a>%) 느려졌다!</strong> 
+   - 결과: 원래 200ns짜리 시스템이 8199ns가 되었다. 무려 <strong>40배(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/548_special_permissions_setuid/">4000</a>%) 느려졌다!</strong>
 
 2. <strong>허용 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하율을 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>% 미만으로 막고 싶다면?</strong>
    - 조건: $EAT < 220 ns$ (200ns의 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 추가 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 허용)
    - $200 + 7,999,800p < 220$
    - $7,999,800p < 20$
-   - $p < 0.0000025$ 
+   - $p < 0.0000025$
    - **결론**: 시스템 속도 저하를 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%로 막으려면, 40만 번의 메모리 접근 중 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트가 단 1번 이하로 터져야 한다.
 
 ---
@@ -129,11 +129,11 @@ tags = ["studynote-operating-system"]
    - 워커들이 자기 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)을 유지할 최소한의 램 공간조차 부족해서, 방금 퍼온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옆 워커가 디스크로 바로 차버리는 지옥의 무한 루프([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))가 돌고 있다. 폴트율 $p$가 기하급수적으로 커져 $EAT$가 디스크 속도에 동기화되었다.
    - CPU 사용률(`us`, `sy`)은 1%인데, 디스크 대기(`wa`, iowait)가 99%를 찍고 서버는 응답을 거부한다.
 3. **신의 결단 (하드웨어 증설)**:
-   - 이때 "OS 튜닝으로 어떻게 안 되나요?"라고 묻는 건 EAT 방정식을 모르는 바보다. 
+   - 이때 "OS 튜닝으로 어떻게 안 되나요?"라고 묻는 건 EAT 방정식을 모르는 바보다.
    - $p$ 값이 물리적 한계를 넘어섰을 때는 그 어떤 [페이지 교체 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/)([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 등)도 소용이 없다. 엔지니어는 즉각 "EAT 붕괴입니다. 당장 AWS에서 램 32GB 인스턴스로 스케일업([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)) 결재 올리세요!"라고 선언하고 물리 램을 꽂아 이 참사를 끝낸다.
 
 ### [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 시대에서 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 시대로의 패러다임 시프트
-EAT 수식의 뒷부분을 담당하던 `Page Fault Time(디스크 속도)`이 과거 회전형 하드디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)) 시절엔 8ms라는 괴물이었지만, 최근 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 시대가 오며 0.05ms (50 마이크로초) 수준으로 160배 이상 쪼그라들었다. 
+EAT 수식의 뒷부분을 담당하던 `Page Fault Time(디스크 속도)`이 과거 회전형 하드디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)) 시절엔 8ms라는 괴물이었지만, 최근 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 시대가 오며 0.05ms (50 마이크로초) 수준으로 160배 이상 쪼그라들었다.
 이 엄청난 하드웨어의 발전 덕분에, 현대의 스마트폰이나 PC는 $p$(폴트율) 값이 조금 튀어도(램이 모자라도) 사용자가 예전처럼 컴퓨터가 멈췄다고 느끼지 않고 스무스하게 넘어가는 '[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 진정한 르네상스'를 맞이하게 되었다.
 
 - **📢 섹션 요약 비유**: 예전엔 램(책상)이 좁아서 디스크(창고)까지 걸어가서 책을 가져오느라(8ms) 공부를 못했는데, 이제는 창고가 바로 내 등 뒤로 이사를 와서([NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 의자만 돌리면 바로 꺼낼 수 있게 되니 책상이 조금 좁아도 공부 속도에 큰 타격이 없는 축복받은 환경입니다.

@@ -20,7 +20,7 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 최대 50km 반경(도시 크기)의 노드들을 150Mbps 이상의 고속으로 연결하는 MAN 규격 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/). 슬롯(Slot) 단위로 데이터를 잘라서 전송한다.
-- **필요성**: 
+- **필요성**:
   - LAN(근거리 망)은 거리가 너무 짧았고, WAN(광역 망)인 X.25 전용선은 너무 느리고 비쌌다. "서울시 전체, 부산시 전체에 있는 대학과 관공서를 하나로 묶어주는 적당한 거리(50km)의 고속 광통신망을 만들자!"라는 도시권 망(MAN)의 수요가 생겼다.
   - [FDDI](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/282_fddi_fiber_distributed_data_interface_dual_ring/)(이중 링)를 쓰자니 수십 km짜리 링을 완벽히 둥글게 공사하는 게 너무 빡셌다. "그냥 곧게 쭉 뻗은 선 2개(Dual [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))를 쫙 깔고 양방향 통신을 시키자!"라는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 토폴로지 기반의 DQDB가 탄생했다.
 
@@ -76,7 +76,7 @@ DQDB는 물리적으로 [버스](/knowledge-base/studynote/01_computer_architect
 ```
 
 ### 3. DQDB의 몰락
-이 천재적인 예약 시스템은, 데이터를 53바이트(헤더 5+페이로드 48) 단위의 슬롯으로 잘라 보낸다. (어디서 많이 보지 않았는가? 바로 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 셀 규격과 100% 동일하다). 
+이 천재적인 예약 시스템은, 데이터를 53바이트(헤더 5+페이로드 48) 단위의 슬롯으로 잘라 보낸다. (어디서 많이 보지 않았는가? 바로 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 셀 규격과 100% 동일하다).
 DQDB 위원회는 [B-ISDN](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/279_b_isdn_broadband_integrated_services_digital_network/)([ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/))과의 호환성을 위해 이 규격을 맞췄지만, 정작 통신사들은 "어차피 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 셀 규격 쓸 거면, 뭐하러 복잡하게 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)망 예약 시스템을 까냐? 그냥 처음부터 끝까지 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)로 다 깔아버리자!"라며 망을 넘어가 버렸고, DQDB는 상용화 직전에 사장되었다.
 
 - **📢 섹션 요약 비유**: <strong> DQDB의 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 큐는 회전초밥집에서 </strong>"나 연어초밥 먹을 거니까 주방장(상류)님! 내 앞사람들이 다 먹어 치우지 못하게 연어초밥 하나만 따로 빼서 흘려보내 주세요!"**라고 반대편 레일로 쪽지를 날리는 극강의 민주적 컨베이어 벨트 시스템이었습니다.

@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 소프트웨어 시스템이 붕괴하는 이유는 코딩(문법)을 못해서가 아니라 아키텍처 설계가 엉망이기 때문이다. 설계가 잘못되면 코드를 아무리 예쁘게 짜도 나중에 고칠 방법이 없다.
 
-그렇다면 "이 아키텍처가 좋은 설계인가?"를 어떻게 알 수 있을까? 개발자는 "MSA로 쪼개서 최신 유행을 따랐으니 좋은 설계다!"라고 우기고, 보안팀은 "암호화가 안 되어 있으니 쓰레기다!"라고 싸운다. 
+그렇다면 "이 아키텍처가 좋은 설계인가?"를 어떻게 알 수 있을까? 개발자는 "MSA로 쪼개서 최신 유행을 따랐으니 좋은 설계다!"라고 우기고, 보안팀은 "암호화가 안 되어 있으니 쓰레기다!"라고 싸운다.
 
 아키텍처의 좋고 나쁨은 '코드의 형태'가 아니라 <strong>'비즈니스의 목표'를 달성할 수 있느냐</strong>로 결정되어야 한다. 이를 위해 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)(개발자, 테스터, 고객, 보안팀)가 모두 모여 현재 설계된 아키텍처의 약점과 위험을 객관적으로 찾아내는 회의 기법이 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/">ATAM</a>(아키텍처 트레이드오프 분석 방법론)</strong>이다.
 

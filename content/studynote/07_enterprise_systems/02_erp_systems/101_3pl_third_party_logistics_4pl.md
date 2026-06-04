@@ -27,7 +27,7 @@ tags = ["enterprise_systems"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-물류 아웃소싱의 진화는 주체가 누구인지, 그리고 제공하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 범위(단순 배송 vs 종합 컨설팅)에 따라 1PL에서 4PL로 계층화된다. 
+물류 아웃소싱의 진화는 주체가 누구인지, 그리고 제공하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 범위(단순 배송 vs 종합 컨설팅)에 따라 1PL에서 4PL로 계층화된다.
 
 3PL은 단순히 트럭을 빌려주는 것이 아니라 재고 관리, 창고 운영(Fulfillment), 포장, 반품 처리까지 물류의 엔드투엔드([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/))를 전담한다. 나아가 4PL은 3PL의 실행력에 <strong>IT 및 비즈니스 컨설팅 역량</strong>을 결합하여, 화주의 전체 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)) 아키텍처를 진단하고 재설계하는 두뇌 역할까지 수행한다.
 

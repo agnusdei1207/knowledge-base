@@ -28,10 +28,10 @@ tags = ["studynote-algorithm-stats"]
 근사 비율 (Approximation Ratio):
   최소화 문제: ρ = A(I) / OPT(I) ≤ ρ
   최대화 문제: ρ = OPT(I) / A(I) ≤ ρ
-  
+
   A(I): 알고리즘 출력값
   OPT(I): 최적해 값
-  
+
   ρ=1: 완벽 최적해 (=정확 알고리즘)
   ρ=2: 최적의 2배 이하 (최소화) → "2-근사"
   ρ=1.5: 최적의 1.5배 → TSP Christofides
@@ -40,7 +40,7 @@ tags = ["studynote-algorithm-stats"]
   PTAS (Polynomial-Time Approximation Scheme):
     임의 ε > 0에 대해 (1+ε)-근사
     시간: poly(n)이지만 ε에 지수적
-    
+
   FPTAS (Fully PTAS):
     시간: poly(n, 1/ε)
     배낭 문제 FPTAS가 대표적
@@ -64,7 +64,7 @@ tags = ["studynote-algorithm-stats"]
 
 2-근사 알고리즘:
   아이디어: 임의 에지 선택 → 양 끝점 추가 → 반복
-  
+
   알고리즘:
   C = {}
   while E는 비어있지 않음:
@@ -72,14 +72,14 @@ tags = ["studynote-algorithm-stats"]
     C = C ∪ {u, v}
     u, v에 인접한 모든 에지 제거
   return C
-  
+
   예시:
   그래프: 1-2, 2-3, 3-4, 4-5
   에지 (1,2) 선택 → {1,2} 추가
   에지 (3,4) 선택 → {3,4} 추가
   에지 5에 연결된 것 → {5} or 에지 (4,5) 커버됨
   → C = {1,2,3,4}
-  
+
   최적해: {2,4} (크기 2)
   알고리즘: 크기 4 ≤ 2 × 최적(2) ✓ 2-근사!
 
@@ -107,7 +107,7 @@ tags = ["studynote-algorithm-stats"]
 
 그리디 알고리즘:
   아이디어: 매 단계 가장 많은 원소를 커버하는 집합 선택
-  
+
   알고리즘:
   C = {} (선택된 집합)
   R = U (남은 원소)
@@ -119,9 +119,9 @@ tags = ["studynote-algorithm-stats"]
 
 근사 비율:
   H_n = 1 + 1/2 + 1/3 + ... + 1/n ≈ ln(n)
-  
+
   → O(log |U|) 근사 보장
-  
+
   예: |U|=100 → 최적 k개, 그리디 ≤ k × ln(100) ≈ 4.6k
 
 불가능 결과:
@@ -148,7 +148,7 @@ TSP (여행하는 외판원 문제):
   = NP-하드
 
 Christofides 알고리즘 (1976, 삼각 부등식 가정):
-  
+
   1. MST (최소 신장 트리) 계산
   2. MST에서 홀수 차수 정점 집합 O 추출
   3. O에서 최소 완전 매칭 M 계산
@@ -166,14 +166,14 @@ Christofides 알고리즘 (1976, 삼각 부등식 가정):
 최근 개선 (2020):
   Karlin-Klein-Gharan: (1.5-ε)-근사 증명
   46년 만의 개선!
-  
+
   하지만 엄청나게 복잡한 알고리즘
   실용성은 낮음
 
 주의:
   삼각 부등식 없는 일반 TSP:
   P≠NP 가정 하에 임의 상수 근사 불가
-  
+
 일반 근사:
   2-opt, 3-opt: 로컬 서치 휴리스틱
   LKH (Lin-Kernighan-Helsgott): 실용 최고 품질
@@ -201,7 +201,7 @@ Christofides 알고리즘 (1976, 삼각 부등식 가정):
 2. Christofides 1.5-근사:
    정확한 최적 보장
    하지만 최소 완전 매칭 계산 복잡
-   
+
 3. 실용 선택 — LKH (Lin-Kernighan):
    100개 도시: 밀리초~초
    품질: 최적과 0.1~0.5% 차이
@@ -222,7 +222,7 @@ Christofides 알고리즘 (1976, 삼각 부등식 가정):
   2-opt: ~15% 추가 단축
   Christofides: 이론 1.5× OPT 보장
   LKH: 실용 최고 (~0.3% OPT 차이)
-  
+
 비용 효과:
   배송 경로 최적화 10% 단축
   드라이버 일 평균 이동: 200km → 180km

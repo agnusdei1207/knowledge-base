@@ -20,7 +20,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 소프트웨어 시스템은 기능이 많아질수록 테스터에게 저주를 내립니다.
-쇼핑몰 검색 필터를 봅시다. 
+쇼핑몰 검색 필터를 봅시다.
 - 성별(남/여) = 2개
 - 옷 종류(상의/하의/신발/모자) = 4개
 - 정렬(가격/신상/리뷰순) = 3개
@@ -28,7 +28,7 @@ tags = ["studynote-software-engineering"]
 
 이 검색어 조합을 하나도 빠짐없이 무식하게 직교곱([Cartesian Product](/knowledge-base/studynote/05_database/07_exam_summary/412_cartesian_product/))으로 돌리면 조합의 수는 `2 x 4 x 3 x 2 = 48`개입니다. 여기까지는 할 만합니다. 하지만 현업의 렌터카 예약, 비행기 티켓팅 시스템 옵션은 각 변수가 10개, 항목이 10개일 때 <strong>100억 개</strong>의 경우의 수 폭탄(Combinatorial Explosion)을 터트립니다.
 
-평생 퇴근을 못 하는 상황에서, 구글과 나사(NASA)의 천재 공학자들은 외칩니다. 
+평생 퇴근을 못 하는 상황에서, 구글과 나사(NASA)의 천재 공학자들은 외칩니다.
 *"모든 걸 다 돌릴 필요 없다. 우리 회사 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 10년 치를 까봤더니, 프로그램이 뻗어버리는 이유는 변수 5개가 복잡하게 얽혀서가 아니라 거의 전부 '성별이 남자인 모자' 따위의 **딱 변수 2개(Pair)의 재수 없는 출동** 때문이었다!"*
 
 그래서 변수들이 한 쌍(Pair)으로 만나는 모든 경우의 수만 최소 단 한 번 이상만 지나가게 싹싹 쓸어 담아 엑셀 줄을 줄여버리는 최강의 가성비 커팅이 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/">페어와이즈</a>(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/">Pairwise</a> / 올-페어즈 All-Pairs) 테스팅</strong>입니다.
@@ -64,7 +64,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-QA 테스터가 이 압축표를 머릿속 퍼즐로 끼워 맞추며 노가다(?)를 하는 것이 아닙니다. 
+QA 테스터가 이 압축표를 머릿속 퍼즐로 끼워 맞추며 노가다(?)를 하는 것이 아닙니다.
 기본적으로 통계학자들이 만들어놓은 <strong>오소고날 어레이 (직교 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>, Orthogonal <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">Array</a>)</strong>라는 완벽한 수리 배분 마방진(Table)을 차용하거나, 컴퓨터 소프트웨어 알고리즘인 IPOG, 에어던 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(AETG) 등 최적화 엔진 도구(마이크로소프트의 PICT 툴 등)가 0.1초 만에 최적의 엑셀 15줄을 뱉어내 줍니다.
 
 테스터가 할 일은 그저 <strong>"우리 프로그램에 들어가는 입력 박스 종류와 값들이 무엇무엇이 있는지 목록(입력 파라미터 모델)을 툴에 밀어 넣는 일"</strong>뿐입니다.
@@ -91,7 +91,7 @@ QA 테스터가 이 압축표를 머릿속 퍼즐로 끼워 맞추며 노가다(
 아무리 무적의 가성비 지름길이라도, 모든 곳에 남발하면 엄청난 사고가 날 수 있습니다.
 [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) 테스팅은 "버그는 주로 변수 2개의 짝에서 난다"는 고도의 <strong>경험적 가설(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/">Heuristic</a>)</strong>에 기댄 모험입니다.
 
-1. 만약 프로그램이 우주선 엔진 제어 장치, 원자력 발전소 시스템이라면? 
+1. 만약 프로그램이 우주선 엔진 제어 장치, 원자력 발전소 시스템이라면?
    - 3개, 4개 변수가 겹쳤을 때 터질 수 있는 극단적인(희귀한) 1% [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 찾아내기 위해 가성비고 뭐고 100억 번의 경우의 수라도 그냥 수퍼컴퓨터로 다 돌려야(All-Combinations) 합니다.
 2. 각 입력값 사이에 <strong>상호 무시 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 규칙(Constraints)</strong>이 엄청 셀 때
    - 예를 들어 "OS 종류가 Linux로 잡히면, DB 종류에 Oracle은 선택조차 할 수 없다"라는 제약 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)가 강하게 걸려있으면, [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) 도구가 만들어낸 엑셀 콤보 15줄 중 절반이 에러 화면을 띄우며 쓸모없게 버려질 수 있습니다. 의사 결정 테이블의 피가 조금 섞여 들어가야 합니다.
@@ -110,7 +110,7 @@ QA 테스터가 이 압축표를 머릿속 퍼즐로 끼워 맞추며 노가다(
 
 실무에서의 QA 부서는 기획자의 요구사항 문서에 수없이 많은 체크박스와 라디오버튼이 있으면 즉시 환호를 지릅니다([페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) 툴을 돌려 퇴근을 빨리 할 수 있는 놀이터이기 때문입니다).
 
-가장 유명한 마이크로소프트의 무료 도구인 <strong>PICT (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/">Pairwise</a> Independent Combinatorial Testing)</strong> [커맨드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) 창에 파라미터 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1줄만 밀어 넣으면, 그토록 고통스럽던 1만 가지의 결제 필터링, 정렬 기능이 단 30개의 매직 스크립트 시트로 변신합니다. 
+가장 유명한 마이크로소프트의 무료 도구인 <strong>PICT (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/">Pairwise</a> Independent Combinatorial Testing)</strong> [커맨드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) 창에 파라미터 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1줄만 밀어 넣으면, 그토록 고통스럽던 1만 가지의 결제 필터링, 정렬 기능이 단 30개의 매직 스크립트 시트로 변신합니다.
 QA 팀장은 그 시트를 주니어 테스터 3명에게 10개씩 배분하고 검토가 끝나는 즉시, 비즈니스 요건의 95% 이상을 커버했다는 자신감 뿜은 검수 리포트(Sign-off)를 개발실로 날리게 됩니다.
 
 - **📢 섹션 요약 비유**: 수작업으로 1,000평 잔디밭 바리깡으로 깎다 죽을 뻔한 정원사에게 잔디밭 전용 자동 로봇 제초기 1대를 사줬더니, 로봇이 혼자 최단거리 마법 스킬(직교 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))을 돌며 1시간 만에 칼각으로 깎아놓아 정원사는 커피를 마시며 웃는 현대 공학의 승리입니다.

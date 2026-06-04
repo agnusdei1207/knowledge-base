@@ -18,7 +18,7 @@ tags = ["enterprise_systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-[공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 관리([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))에서 채찍 효과 (Bullwhip Effect)는 가장 경계해야 할 고질적인 병폐다. 긴 가죽 채찍을 휘두를 때 손잡이 부분은 불과 몇 센티미터만 움직여도 채찍 끝은 수 미터를 궤적으로 그리며 음속을 돌파하는 물리 현상에서 유래했다. 
+[공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 관리([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))에서 채찍 효과 (Bullwhip Effect)는 가장 경계해야 할 고질적인 병폐다. 긴 가죽 채찍을 휘두를 때 손잡이 부분은 불과 몇 센티미터만 움직여도 채찍 끝은 수 미터를 궤적으로 그리며 음속을 돌파하는 물리 현상에서 유래했다.
 
 소비자가 마트에서 물건을 1~2개 더 산 것뿐인데, 소매점은 불안감에 10개를 발주하고, 도매상은 100개를 발주하며, 제조 공장은 철야 작업을 해 1000개를 만들어버리는 촌극이 벌어진다. 이는 단일 기업의 문제가 아니라 기업과 기업 사이를 흐르는 '정보 비대칭(Information Asymmetry)'과 '소통 부재'가 낳은 비극이며, 현대 SCM이 중앙화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼을 필요로 하게 된 결정적 계기가 되었다.
 

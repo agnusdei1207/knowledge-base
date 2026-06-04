@@ -23,7 +23,7 @@ tags = ["studynote-security"]
 ## Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
 ### 1. 보안과 편의성의 딜레마 (Trade-off)
-전통적으로 정보보안 시스템은 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)([Confidentiality](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/))과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))을 최우선으로 설계되었습니다. 
+전통적으로 정보보안 시스템은 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)([Confidentiality](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/))과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))을 최우선으로 설계되었습니다.
 - 이로 인해 개발자와 보안 관리자는 16자리 이상의 복잡한 특수문자 조합 패스워드를 30일마다 변경하도록 강제하거나, 사내망 접속을 위해 3중, 4중의 [OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/)(One Time Password)와 보안 프로그램 설치를 요구하는 <strong>극단적 통제 지향 설계</strong>를 남발했습니다.
 
 ### 2. 사용자의 반격: 심리적 저항과 보안 우회 (Pain Point)

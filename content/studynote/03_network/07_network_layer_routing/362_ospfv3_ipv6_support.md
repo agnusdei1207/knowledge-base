@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 네트워크를 위한 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(RFC 5340). 기존 OSPFv2의 기본 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/), Area 계층 구조)은 유지하되, IPv6의 128비트 주소 체계와 구조적 특징(Link-Local 주소 등)을 수용하도록 재설계되었다.
 - **필요성**: 세상이 IPv6로 넘어가면서 32비트짜리 주소를 담던 OSPFv2의 엽서(LSA) 봉투 규격으로는 128비트 주소를 쑤셔 넣을 방법이 없었다. 게다가 IPv6는 기계가 알아서 주소를 만드는 `fe80` (링크 로컬) 같은 괴상한 주소 체계가 생겨서, 옛날처럼 IP 대역(Subnet)만 보고 라우터 친구(Neighbor)를 맺는 로직이 다 박살 났다. <strong>"<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 천재성은 그대로 두되, 데이터를 담는 상자 규격과 친구 맺는 기준을 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> 시대에 맞게 확 갈아엎자!"</strong>라는 요구가 v3를 낳았다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - **OSPFv2**: 도로명 주소가 없던 시절, <strong>"동 단위(Subnet)"</strong>로 뭉뚱그려 지도를 그리고 소문을 내던 옛날 우체부 아저씨입니다.
   - **OSPFv3**: 도로명 주소([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))가 도입되자, 동 이름(IP 주소)에 연연하지 않고 **"도로와 골목길 라인(Link)"** 그 자체를 기준으로 지도를 새로 그리는 현대의 정밀 내비게이션 매핑 시스템입니다.
 

@@ -61,7 +61,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. 핫 스페어(Hot) vs 콜드 스페어(Cold) 
+### 1. 핫 스페어(Hot) vs 콜드 스페어(Cold)
 스페어 디스크는 시스템 전기 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/))의 활성 유무와 랙 물리 장착 여부에 따라 용어 계통이 나뉜다.
 
 | 구분 명칭 | 물리적 장착 및 상태 | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 투입 조건 매커니즘 | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 및 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 타격률 |
@@ -72,7 +72,7 @@ tags = ["studynote-operating-system"]
 ### 2. 스페어 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) : 글로벌 스페어(Global) vs 데디케이티드(Dedicated) 스페어
 하나의 거대 스토리지 백플레인에 디스크가 24개쯤 꼽혀있어 레이드 볼륨(그룹)이 3개 이상 쪼개져 있다면, 이 잉여 스페어 자원을 어떤 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 범위로 설정할 건지 아키텍처 토폴로지를 구성해야 한다.
 
-- **글로벌 핫 스페어 (Global Hot Spare)**: 한 물리 샷시 안의 모든 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 볼륨(예: 1번 그룹, 2번 그룹, 3번 그룹)들이 딱 한 개의 '만능' 대기자(스페어 디스크)를 십시일반 공유 등록하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다. 만약 조가 다른 2번 그룹에서 장애가 터져도, 이 글로벌 스페어가 "오케이 내가 갈게" 하고 2번 멤버로 빨려 들어간다. 
+- **글로벌 핫 스페어 (Global Hot Spare)**: 한 물리 샷시 안의 모든 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 볼륨(예: 1번 그룹, 2번 그룹, 3번 그룹)들이 딱 한 개의 '만능' 대기자(스페어 디스크)를 십시일반 공유 등록하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다. 만약 조가 다른 2번 그룹에서 장애가 터져도, 이 글로벌 스페어가 "오케이 내가 갈게" 하고 2번 멤버로 빨려 들어간다.
   - *제한*: 24베이 샷시에서 그룹들이 서로 완전히 용량이 같다면 (전부 10테라 하드) 가장 엄청난 효율로 방어망을 치는 경제적인 우산 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다.
 - **Dedicated 핫 스페어 (전담 스페어 지정)**: 시스템 내에 두 개의 레이드 볼륨이 있는데 (V1은 고속 2TB [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 플래시, V2는 10TB 아카이브 하드). 이 특수 크기와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이 때문에 스페어를 섞어 쓰면 하향 평준화 재앙이 온다. 고로 V1 만을 위한 "고속 스페어"를 따로 지정 바인딩해주고 그 진영 바깥 사고에는 절대 출동하지 않게 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 거는 분립 지정 방식이다.
 
@@ -90,8 +90,8 @@ tags = ["studynote-operating-system"]
 3. **핫스페어 도입 황금 권장 룰**: 즉 핫 스페어라는 자본의 추가 투입 낭비 옵션은 베이 슬롯이 4개 따리인 우물 안에서 쓰는 게 아니라, 거대 엔터프라이즈 스토리지 랙(Rack) 단위 (최소 12 Bay/ 24 Bay 시스템 이상) 에서 [RAID 6](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/488_raid_6_dual_parity/) 듀얼 묶음 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 2~3개를 치고 **"이 큰 공장에서 전체 디스크 수십 개 중 밤에 누가 갑자기 늙어 뒤질지 모르니 만능 우산 1개(Global Hot spare)를 예산 태워 꽂자"** 하는 수량의 규모 경제선([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/))에서 써야 비로소 가치가 증폭된다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) (의도치 않은 다운그레이드 지옥)
-- **스페어 용량의 법칙**: 핫 스페어로 지정할 디스크의 물리적 용량 크기(예: 8TB)는, 반드시 그 장비에 속해 있는 '가장 큰 디스크 용량'(예: 8TB 이상)과 동일하거나 커야 한다! 볼륨들은 작은 스페어 파츠 깡통에 큰 코어를 구겨 담을 수 없어 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 실패 거절 Reject 터질 수 있다. 
-- <strong>RPM/<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> Type 매칭</strong>: 만일 10k RPM 쌩쌩 돌아가는 미친 속도 SAS [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 그룹에, 대충 굴러다니는 싸구려 5,000 RPM 구형 하드를 핫 스페어로 지정해 두면, "[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 진행된 이후부터" 그 그룹 전체의 속도는 저 구형 하드의 느려터진 I/O 스루풋에 볼모 체증이 걸려 하향 평준화되는 I/O 병목 렉 테러가 발생한다. 
+- **스페어 용량의 법칙**: 핫 스페어로 지정할 디스크의 물리적 용량 크기(예: 8TB)는, 반드시 그 장비에 속해 있는 '가장 큰 디스크 용량'(예: 8TB 이상)과 동일하거나 커야 한다! 볼륨들은 작은 스페어 파츠 깡통에 큰 코어를 구겨 담을 수 없어 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 실패 거절 Reject 터질 수 있다.
+- <strong>RPM/<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> Type 매칭</strong>: 만일 10k RPM 쌩쌩 돌아가는 미친 속도 SAS [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 그룹에, 대충 굴러다니는 싸구려 5,000 RPM 구형 하드를 핫 스페어로 지정해 두면, "[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 진행된 이후부터" 그 그룹 전체의 속도는 저 구형 하드의 느려터진 I/O 스루풋에 볼모 체증이 걸려 하향 평준화되는 I/O 병목 렉 테러가 발생한다.
 
 - **📢 섹션 요약 비유**: 4명 이하의 작은 스타트업 팀 단칸방에서 굳이 직원을 1명 뽑아다 "너는 일하지 말고 노는 예비역(핫스페어) 해" 라고 시키면 노동 자원 낭비 손해가 멍청함의 극심이죠. 모두 같이 일하고 서로 방어해 주는 쌍둥이 결합([RAID 10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)/6)이 현명합니다. 스페어 예비역 투입은 직원이 수십 명 넘어가는(Bay 24개 이상 대형 스토리지) 거대 기업 총무팀이나 공장에서나 쓸 수 있는 예비 인력 우산 인프라 여유분 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 룰입니다.
 
@@ -148,8 +148,8 @@ tags = ["studynote-operating-system"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 5개의 마차 톱니바퀴가 굴러가고 있는데, 나사 하나가 풀려 1개 바퀴가 부서졌어요 (하드웨어 고장 붕괴). 보통은 마부가 집에 뛰어가서 새 바퀴를 가져올 때까지 며칠 동안 마차가 멈춰야 한답니다. 
-2. 하지만 "핫 스페어"라는 똑똑한 기계 세팅은 마차 트렁크 뒷면에 평소 안 쓰던 예비 스페어 바퀴를 하나 딱 붙여놓은 채 달리는 럭셔리 마차 옵션이에요! 
+1. 5개의 마차 톱니바퀴가 굴러가고 있는데, 나사 하나가 풀려 1개 바퀴가 부서졌어요 (하드웨어 고장 붕괴). 보통은 마부가 집에 뛰어가서 새 바퀴를 가져올 때까지 며칠 동안 마차가 멈춰야 한답니다.
+2. 하지만 "핫 스페어"라는 똑똑한 기계 세팅은 마차 트렁크 뒷면에 평소 안 쓰던 예비 스페어 바퀴를 하나 딱 붙여놓은 채 달리는 럭셔리 마차 옵션이에요!
 3. 달리는 도중 하나가 부서지면 마차가 그냥 알아서 로봇 손([RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 컨트롤러) 버튼을 켜 그 예비 바퀴를 덜컹 장착하고 1초 만에 다시 길을 달려 나가니, 주인(엔지니어)은 잠을 푹 자도 되는 세상 최고 자동 힐러 휠체어랍니다!
 
 ---

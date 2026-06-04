@@ -20,7 +20,7 @@ tags = ["studynote-devops-sre"]
 
 ```text
 모든 리소스(CPU·메모리·디스크·NIC)에 대해:
-  U: Utilization → 사용률 (%) 
+  U: Utilization → 사용률 (%)
   S: Saturation → 포화도 (큐 길이)
   E: Errors → 에러 수
 → 하나라도 이상이면 병목!

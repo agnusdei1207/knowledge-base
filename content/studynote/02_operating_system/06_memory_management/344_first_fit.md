@@ -88,7 +88,7 @@ First-Fit을 메모리 주소 순서대로 운영하다 보면, 항상 리스트
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 무조건 앞에서부터 찾는 성질 때문에, 메모리의 앞쪽(Low Address)은 프로그램이 들어왔다 나갔다를 반복하며 갈기갈기 찢겨 작은 자투리(Splinter)들로 붐비게 된다. 반면 뒤쪽(High Address)은 접근조차 안 되어 거대한 통짜 구멍으로 남아있다. 검색할 때마다 이 앞단의 자투리 무덤들을 지나가야 하므로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)보다는 점점 할당 속도가 느려진다. 
+**[다이어그램 해설]** 무조건 앞에서부터 찾는 성질 때문에, 메모리의 앞쪽(Low Address)은 프로그램이 들어왔다 나갔다를 반복하며 갈기갈기 찢겨 작은 자투리(Splinter)들로 붐비게 된다. 반면 뒤쪽(High Address)은 접근조차 안 되어 거대한 통짜 구멍으로 남아있다. 검색할 때마다 이 앞단의 자투리 무덤들을 지나가야 하므로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)보다는 점점 할당 속도가 느려진다.
 
 ### 개선판: 다음 적합 (Next-Fit)
 위의 쏠림 현상을 해결하기 위해 등장한 변형 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
@@ -114,7 +114,7 @@ First-Fit을 메모리 주소 순서대로 운영하다 보면, 항상 리스트
 ### 공간 활용률의 패러독스 (Best-Fit의 배신)
 
 - 직관적으로 생각하면 가장 크기가 비슷한 곳에 꽂아 넣는 Best-Fit이 공간을 가장 아낄 것 같지만, 실제 시뮬레이션에서는 First-Fit이 공간 활용률마저 Best-Fit을 이기거나 비슷한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낸다.
-- **이유**: Best-Fit은 16MB 구멍에 15MB를 넣고 1MB짜리 구멍을 만든다. 이 1MB 구멍은 훗날 그 어떤 프로세스도 들어갈 수 없어 장부만 차지하는 완전한 쓰레기(Dead wood)가 된다. 반면 First-Fit이 30MB 구멍에 15MB를 넣고 남긴 15MB 구멍은 훗날 10MB짜리 앱이 넉넉히 들어갈 수 있는 생명력 있는 구멍이다. 
+- **이유**: Best-Fit은 16MB 구멍에 15MB를 넣고 1MB짜리 구멍을 만든다. 이 1MB 구멍은 훗날 그 어떤 프로세스도 들어갈 수 없어 장부만 차지하는 완전한 쓰레기(Dead wood)가 된다. 반면 First-Fit이 30MB 구멍에 15MB를 넣고 남긴 15MB 구멍은 훗날 10MB짜리 앱이 넉넉히 들어갈 수 있는 생명력 있는 구멍이다.
 
 ```text
 ┌──────────┬────────────┬────────────┬─────────────────────┐
@@ -140,7 +140,7 @@ First-Fit을 메모리 주소 순서대로 운영하다 보면, 항상 리스트
    - 프로그램이 실행되며 수만 번의 동적 할당 요청이 들어오는데, 리스트 전체를 뒤지는 Best-Fit을 썼다간 프로그램이 기어 다니기 때문이다.
 2. **First-Fit의 한계와 Segregated Fit (격리 적합)의 등장**:
    - 하지만 First-Fit도 결국 O(N) 탐색이라, 오래 실행된 서버에서는 리스트 길이가 10만 개를 넘어가며 심각한 지연을 낳았다.
-   - 현대의 할당기(ptmalloc, jemalloc 등)는 First-Fit을 버리고, 빈 공간들을 크기별(8바이트, 16바이트, 32바이트...)로 아예 <strong>방을 여러 개 따로 나누어 관리하는 격리 적합(Segregated Fit)이나 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/">버디 시스템</a></strong>으로 진화했다. 
+   - 현대의 할당기(ptmalloc, jemalloc 등)는 First-Fit을 버리고, 빈 공간들을 크기별(8바이트, 16바이트, 32바이트...)로 아예 <strong>방을 여러 개 따로 나누어 관리하는 격리 적합(Segregated Fit)이나 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/">버디 시스템</a></strong>으로 진화했다.
 3. **의사결정**:
    - 즉, First-Fit은 "크기가 섞여 있는 단일 리스트" 환경에서는 최강자지만, 실무 환경에서는 아예 리스트 자체를 크기별로 분리해두어 [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/) 자체를 O(1)로 만들어버리는 아키텍처로 진화했다.
 

@@ -130,8 +130,8 @@ Verify / Observe
 
 ## 어린이를 위한 3줄 비유 설명
 
-[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 장난감을 만드는 공장이 자동으로 움직이는 것과 같아요.  
-부품이 들어오면 검사하고, 조립하고, 포장해서 바로 내보내요.  
+[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 장난감을 만드는 공장이 자동으로 움직이는 것과 같아요.
+부품이 들어오면 검사하고, 조립하고, 포장해서 바로 내보내요.
 그래서 사람이 놓치는 실수를 줄이고 더 빨리 보낼 수 있어요.
 
 ---

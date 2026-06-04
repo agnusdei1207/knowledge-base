@@ -27,7 +27,7 @@ tags = ["studynote-ict-convergence"]
 옵티미스틱 (Optimistic) 의미:
   "트랜잭션이 유효하다고 낙관적으로 가정"
   즉시 유효성 검증 없이 상태 전이 수용
-  
+
   vs ZK 롤업:
     ZK: 매 배치마다 유효성 증명(zk-proof) 생성 및 검증
     Optimistic: 7일 이의제기 기간 동안 누가 문제 제기하지 않으면 확정
@@ -36,12 +36,12 @@ tags = ["studynote-ict-convergence"]
   시퀀서 (Sequencer):
     L2 트랜잭션 수집 및 순서 결정
     배치 상태 루트를 L1에 제출
-    
+
   L1 계약 (Rollup Contract):
     배치 데이터 저장 (calldata or blob)
     상태 루트 기록
     이의제기 처리
-    
+
   이의제기자 (Challenger):
     배치 데이터를 재실행하여 검증
     오류 발견 시 사기 증명 제출
@@ -155,10 +155,10 @@ EVM 호환성      | 100% (간단)           | zkEVM 필요 (복잡)
 Optimistic 롤업 주요 위험:
   1. 시퀀서 검열: 시퀀서가 특정 트랜잭션 제외 가능
      대응: L1 Force Include (이더리움으로 강제 포함)
-  
+
   2. 이의제기 활성화 가정: 아무도 감시 안 하면?
      대응: Watchers (자동 감시 봇)
-  
+
   3. 7일 유동성 잠금:
      대응: 브리지 유동성 공급자 (즉시 출금 + 수수료)
 
@@ -186,13 +186,13 @@ DApp 배포 단계:
   1. 계약 배포:
      이더리움 mainnet 계약 → Base에 그대로 배포
      (EVM 100% 호환)
-     
+
      forge deploy --rpc-url https://mainnet.base.org
-     
+
   2. 브리징:
      ETH → Base ETH (7일 출금 지연)
      또는 CEX(Coinbase) 직접 출금으로 즉시 획득
-     
+
   3. 사용자 경험:
      가스비: ~$0.01~$0.10 (이더리움 $3~$50 대비)
      처리량: ~2,000 TPS (이더리움 ~15 TPS)
@@ -201,7 +201,7 @@ EIP-4844 (Proto-Danksharding) 영향:
   2024년 이더리움 업그레이드
   Blob 데이터: calldata 대비 10~100배 저렴
   → Optimistic 롤업 수수료 추가 80~90% 감소
-  
+
   Base, Optimism, Arbitrum 모두 즉시 적용
   결과: 평균 L2 거래 수수료 $0.001~$0.01 수준
 

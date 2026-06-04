@@ -18,8 +18,8 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 왜 'Linpack' [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-1970년대, 잭 동가라(Jack Dongarra) 교수는 항공역학이나 기상 예측 시뮬레이션을 위해 거대 행렬 방정식을 푸는 포트란(Fortran) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(LINPACK)를 만들었다. 
-그런데 학자들이 이 코드를 돌리다 보니, "야 이 미친 행렬 코드가 워드프로세서 같은 거 돌릴 땐 티도 안 나던 <strong>CPU의 진짜 밑바닥 수학 연산력(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/">부동소수점</a>)과 메모리 랙(병목) 한계치를 가장 극악무도하게 쥐어짜서 까발려버리네 쾅?!</strong>" 
+1970년대, 잭 동가라(Jack Dongarra) 교수는 항공역학이나 기상 예측 시뮬레이션을 위해 거대 행렬 방정식을 푸는 포트란(Fortran) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(LINPACK)를 만들었다.
+그런데 학자들이 이 코드를 돌리다 보니, "야 이 미친 행렬 코드가 워드프로세서 같은 거 돌릴 땐 티도 안 나던 <strong>CPU의 진짜 밑바닥 수학 연산력(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/">부동소수점</a>)과 메모리 랙(병목) 한계치를 가장 극악무도하게 쥐어짜서 까발려버리네 쾅?!</strong>"
 이때부터 린팩은 단순한 계산기를 넘어 전 세계에서 제일 비싸고 무거운 슈퍼컴퓨터들의 근육(FPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))을 시험하는 <strong>'우주 최강의 가혹한 쇳덩이 벤치마크 체력장'</strong>으로 차원 도약 진화하게 되었다.
 
 - **📢 섹션 요약 비유**: 린팩 벤치마크는 <strong>'덤프트럭 1만 대 분량의 모래산(거대 행렬 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)을 반대편으로 퍼 나르는 포크레인(슈퍼컴퓨터) 채굴 시험'</strong>과 100% 똑같습니다. 일반 벤치마크(SPEC)가 오토바이를 타고 복잡한 장애물 좁은 길을 도는 민첩성 테스트라면, 린팩은 걍 직진밖에 없는 넓은 고속도로에서 포크레인 바가지 크기(연산력)와 트럭의 무한 릴레이(메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))로 압도적인 100% 무식한 물리적 깡패 수량전 스피드([FLOPS](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/137_flops/))를 겨루는 웅장한 헤비급 매치입니다.
@@ -56,7 +56,7 @@ tags = ["studynote-computer-architecture"]
 ```
 
 **[아키텍트의 피 터지는 메스: [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) $O(N^3)$ 의 늪]**
-린팩의 가장 끔찍한 본질은 행렬 크기 $N$이 2배 커지면 연산 노가다량은 8배($2^3$)로 폭주한다는 점이다. 현대 HPL 벤치마크는 칩셋 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 한계까지 쥐어짜기 위해 $N$의 크기를 램(RAM)이 허용하는 최대치 수백만 단위로 끝없이 펌핑 시켜 던진다. 
+린팩의 가장 끔찍한 본질은 행렬 크기 $N$이 2배 커지면 연산 노가다량은 8배($2^3$)로 폭주한다는 점이다. 현대 HPL 벤치마크는 칩셋 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 한계까지 쥐어짜기 위해 $N$의 크기를 램(RAM)이 허용하는 최대치 수백만 단위로 끝없이 펌핑 시켜 던진다.
 연산력([FLOPS](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/137_flops/))이 아무리 쩔어도, 수만 대의 노드 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 나르는 <strong>네트워크 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)과 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 병목 랙</strong>이 발생하면 슈퍼컴퓨터의 린팩 점수는 바닥에 쳐박힌다. 즉, 린팩은 단순히 CPU 점수가 아니라 ➔ 코어, 메모리, 네트워크([InfiniBand](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)) 3박자가 1바이트 병목의 오차도 없이 톱니바퀴처럼 굴러가는지를 평가하는 <strong>우주 최강의 인프라 통합(System-level) 결합 테스트</strong>다.
 
 - **📢 섹션 요약 비유**: 이 타일 쪼개기 통신 핑퐁은 <strong>'축구장 크기의 모자이크 벽화(거대 행렬) 그리기'</strong>입니다. 화가(CPU 코어) 1만 명한테 도화지 타일을 나눠주고 그리게 합니다. 자기 그림만 그리면 되는 게 아니라, 옆 화가랑 붓선 경계 색깔이 이어져야 하니까 1초마다 무전기(네트워크 망)로 "야 너 무슨 색 칠했어 핑퐁!" 소통해야 합니다. 화가들 그림 속도([FLOPS](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/137_flops/))가 우주 최강이어도 무전기(네트워크)가 끊겨 랙 걸리면 전체 벽화 완성 시간은 개망하는(점수 떡락 💥) 뼈저린 병목 연쇄 테스트입니다.
@@ -80,19 +80,19 @@ tags = ["studynote-computer-architecture"]
 최고의 린팩 점수를 짜내기 위해 하드웨어 벤더사와 아키텍트들이 피눈물 흘리며 깎아내는 튜닝 도해다.
 
 ### 실무 판단 시나리오
-1. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 클러스터(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 팜) <a href="/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/219_benchmarking_best_practice/">벤치마킹</a> 타당성 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> ✨</strong>: 
-   사내에 챗GPT 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 훈련용으로 엔비디아(NVIDIA) H100 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 1,000대를 엮어 클러스터 인프라를 구축했다. 
-   - **판단 (아키텍트 팩폭 🪓)**: "야!! 기계 1,000대 꼽고 불 켜졌다고 당장 파이토치 돌리지 마 다 타죽어 쾅!! 하늘이 찢어져도 런칭 전 첫 빠따로 **[HPL 린팩 벤치마크 풀악셀 텐트]** 부터 록온 쳐 돌려 쾅!!! 
-   딥러닝 텐서(Tensor) 신경망의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 학습 수식($W^T X$)은 린팩의 빽빽한 거대 행렬 곱셈($Ax=b$) 뼈대 로직과 소름 돋게 100% 정확히 일치한다 🚀. [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 1,000대가 뿜어내는 린팩(TFLOPS) 실측 팩트 점수가 ➔ 하드웨어 스펙 곱하기 대비 80% 수율이 안 나온다면? 
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 클러스터(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 팜) <a href="/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/219_benchmarking_best_practice/">벤치마킹</a> 타당성 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> ✨</strong>:
+   사내에 챗GPT 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 훈련용으로 엔비디아(NVIDIA) H100 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 1,000대를 엮어 클러스터 인프라를 구축했다.
+   - **판단 (아키텍트 팩폭 🪓)**: "야!! 기계 1,000대 꼽고 불 켜졌다고 당장 파이토치 돌리지 마 다 타죽어 쾅!! 하늘이 찢어져도 런칭 전 첫 빠따로 **[HPL 린팩 벤치마크 풀악셀 텐트]** 부터 록온 쳐 돌려 쾅!!!
+   딥러닝 텐서(Tensor) 신경망의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 학습 수식($W^T X$)은 린팩의 빽빽한 거대 행렬 곱셈($Ax=b$) 뼈대 로직과 소름 돋게 100% 정확히 일치한다 🚀. [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 1,000대가 뿜어내는 린팩(TFLOPS) 실측 팩트 점수가 ➔ 하드웨어 스펙 곱하기 대비 80% 수율이 안 나온다면?
    ➔ **[네트워크 랙 스파게티 붕괴 확정 💀]** 100% [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)([InfiniBand](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)) 라우터 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 세팅 병목 나서 노드끼리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 핑퐁 못 치고 뻗은 거니까 당장 토폴로지 통신망 뜯어고쳐 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 튜닝부터 조져라 미친아 🚀!"
-2. <strong>BLAS (Basic Linear Algebra Subprograms) 쇳덩이 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> 융합 🛡️</strong>: 
+2. <strong>BLAS (Basic Linear Algebra Subprograms) 쇳덩이 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> 융합 🛡️</strong>:
    주니어 코더가 린팩 C언어 소스를 걍 `gcc` 쌩으로 돌렸다. 점수가 1/[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 토막 나서 쓰레기가 됐다 💥.
-   - **아키텍트 수술 🪓**: "야 이 무식한 놈아 행렬 곱셈을 쌩 `for` 문 3중 중첩으로 쳐 돌리면 CPU 캐시 다 미스(Miss) 나서 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 랙 뻗어 타죽어 쾅!!! 
+   - **아키텍트 수술 🪓**: "야 이 무식한 놈아 행렬 곱셈을 쌩 `for` 문 3중 중첩으로 쳐 돌리면 CPU 캐시 다 미스(Miss) 나서 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 랙 뻗어 타죽어 쾅!!!
    무.조.건 칩 제조사(Intel, AMD)가 자기들 CPU 캐시 사이즈와 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 파이프라인(AVX-512) 핏줄에 완벽하게 100% 아다리가 맞물려 떨어지게 기계어 수준으로 피 깎아 용접해 둔 **[MKL, OpenBLAS 수학 전용 쇳덩이 라이브러리]** 를 링킹(Link) 시켜서 융합 쳐 돌려라 쾅!!! 그래야 CPU가 메모리 병목 1바이트 랙 없이 100% 풀 파워 쾌속으로 행렬을 씹어 삼킨다 ✨."
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **일반 웹/DB 클라우드 서버 평가에 린팩(Linpack) 점수 들이대기 (오버엔지니어링 사기 파국 💀)**: 
-  "우왕 ㅋ AWS 이 인스턴스 린팩 TFLOPS 점수 1등 개쩌네여 우리 회사 스프링(Spring) 웹 서버 이걸로 띄워 꿀 빰 데헷 ㅋ" 
+- **일반 웹/DB 클라우드 서버 평가에 린팩(Linpack) 점수 들이대기 (오버엔지니어링 사기 파국 💀)**:
+  "우왕 ㅋ AWS 이 인스턴스 린팩 TFLOPS 점수 1등 개쩌네여 우리 회사 스프링(Spring) 웹 서버 이걸로 띄워 꿀 빰 데헷 ㅋ"
   - **대재앙 발동 💥**: 웹 서버나 RDBMS(DB) 트래픽은 복잡한 소수점 행렬 곱셈을 평생 1번도 안 쓴다. 텍스트 파싱하고 `if-else` 분기 타고 디스크 IOPS 긁는 <strong>100% 쌩 정수(Integer) 깡통 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a></strong>이다. 린팩 1등 칩은 실수 연산기(FPU) 뚱뚱하게 쑤셔 박느라 캐시(Cache) 용량이 작아서 ➔ 막상 웹 서버 띄우면 잦은 분기문에 뇌 정지 뻗고 깡통 서버로 떡락 타 죽는다. 웹 서버는 무.조.건 SPECint 나 TPC-C 벤치를 보고 골라야 한다 쾅!!
 
 - **📢 섹션 요약 비유**: 웹 서버 사는데 린팩 점수 보는 건, 쿠팡 택배 알바(웹 트래픽 처리)를 뽑는데 <strong>'김연아(린팩 1등)'</strong>를 고용하는 것과 100% 똑같습니다. 빙판 위 트리플 악셀([부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 행렬 연산)은 우주 최고지만, 무거운 박스 들고 계단 오르락내리락하는 근력 노동(정수 연산 및 DB 검색)은 동네 택배 아저씨보다 100배 느리고 돈만 축냅니다. 벤치마크 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 핀셋 매핑 매칭 실패의 전형적인 헛돈 낭비 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)입니다.
@@ -103,10 +103,10 @@ tags = ["studynote-computer-architecture"]
 
 린팩(Linpack)은 컴퓨터를 단순한 '덧셈 계산기' 장난감에서 우주의 기상과 핵폭발을 시뮬레이션하는 <strong>'초정밀 과학 병기'</strong>로 차원 승격 도약시킨, 반세기 컴퓨터 아키텍처 발전사를 관통하는 가장 무자비한 수학적 철혈 심판관이다.
 
-매년 6월과 11월, 미국, 중국, 유럽 등 강대국들은 TOP500.org 랭킹에 국가의 자존심과 국운을 걸고 수조 원의 국방/과학 예산을 린팩 점수(EFLOPS) 스펙 올리기에 쏟아붓는다. 과거엔 CPU 깡클럭 펌핑으로 승부하던 쇳덩이 시대는 끝났다. 
+매년 6월과 11월, 미국, 중국, 유럽 등 강대국들은 TOP500.org 랭킹에 국가의 자존심과 국운을 걸고 수조 원의 국방/과학 예산을 린팩 점수(EFLOPS) 스펙 올리기에 쏟아붓는다. 과거엔 CPU 깡클럭 펌핑으로 승부하던 쇳덩이 시대는 끝났다.
 현대 린팩 점수의 헤게모니는 ➔ 1대의 천재 뇌가 아니라, 수십만 개의 작고 멍청한 코어(NVIDIA [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/))들을 미친 듯이 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 네트워크로 엮어서 무자비한 행렬 수량전(Parallel Processing) 십자 포화를 쏟아붓는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 컴퓨팅 클러스터 대통일의 시대</strong>로 완벽히 권력이 이양 환승 완료되었다 🚀.
 
-비록 "현실 세계의 듬성듬성한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 빵꾸를 반영하지 못한다"는 오만함의 비판(HPCG 라이벌 등장)에 뼈를 맞고 있지만!! 
+비록 "현실 세계의 듬성듬성한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 빵꾸를 반영하지 못한다"는 오만함의 비판(HPCG 라이벌 등장)에 뼈를 맞고 있지만!!
 이 무식하고 거대한 행렬 나눗셈 방정식의 연산 뼈대야말로 ➔ 오늘날 인류의 세상을 지배 독식하고 있는 챗GPT, 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))의 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 텐서 딥러닝 훈련 심장 구조와 100% 소름 돋게 오차 없이 일치하는, 인류 지능 확장(AGI 제국)을 뒷받침하는 영원 불멸의 0순위 성배 측정기 척도로 타오를 것이다 ✨.
 
 ---

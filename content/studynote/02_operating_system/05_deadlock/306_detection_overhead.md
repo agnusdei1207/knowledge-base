@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-교착 탐지([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))는 예방과 회피를 무시한 대가로, <strong>컴퓨터가 엄청나게 빠른 속도로 쌩쌩 달리게 해주는 마약</strong>이다. 
+교착 탐지([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))는 예방과 회피를 무시한 대가로, <strong>컴퓨터가 엄청나게 빠른 속도로 쌩쌩 달리게 해주는 마약</strong>이다.
 그러나 가끔 발생하는 교통사고(데드락)를 치우기 위해선 드론(탐지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 띄워 공중에서 빙글빙글 도는 놈들을 찾아야 하는데 이 드론 배터리 소모량이 문제다.
 
 1. 드론을 **매 초마다** 하늘에 띄우면? 경찰 월급(CPU 비용)으로 예산이 거덜 나서 아무 프로그램도 못 돌린다. (회피 모델보다 구려지는 상황 도래)
@@ -61,7 +61,7 @@ tags = ["studynote-operating-system"]
 
 탐지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 단일 인스턴스([DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/))일 때 $O(V+E)$, 다중 인스턴스 은행원 변형일 때 무려 $O(m \times n^2)$의 무거운 빅-오를 지닌다.
 
-1. <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 발동 시 사이클 복합화 (Snowball Effect)</strong>: 
+1. <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 발동 시 사이클 복합화 (Snowball Effect)</strong>:
    - 스캔을 오랫동안 미루면, 데드락의 원(Cycle)이 1개가 아니라 마치 올림픽 오륜기처럼 5~6명의 무고한 프로세스가 더 붙어서 <strong>거대한 거미줄 교착망</strong>을 형성한다.
    - 이때 한 번 뒤늦게 탐지가 발동하면, 원 1개를 끊기 위해 누구를 잘라야 할지 계산하는 연산량이 기하급수적으로 폭증하며 연쇄 살해(Cascade Abort)의 참극이 터진다.
 2. <strong>CPU <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a> 지표 (Utilization Drop)</strong>:
@@ -104,7 +104,7 @@ tags = ["studynote-operating-system"]
 | 자원 고갈 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) | 스캔하다가 CPU가 다 죽음 | 평온할 땐 스캔 안 함 (안정권) |
 | 설계 복잡도 | 50줄짜리 단순 루프 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) | CPU Load, [Wait Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/) 추적 센서 연동 필수 |
 
-교착 탐지([Deadlock Detection](/knowledge-base/studynote/02_operating_system/05_deadlock/304_deadlock_detection/)) 모델의 치명적 약점인 연산량(Overhead) 딜레마는, "언제 어떻게 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 데몬을 깨울 것인가"라는 영리한 엔지니어링 감각으로 돌파되었다. 
+교착 탐지([Deadlock Detection](/knowledge-base/studynote/02_operating_system/05_deadlock/304_deadlock_detection/)) 모델의 치명적 약점인 연산량(Overhead) 딜레마는, "언제 어떻게 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 데몬을 깨울 것인가"라는 영리한 엔지니어링 감각으로 돌파되었다.
 과학자들의 무거운 매트릭스 공식은, 현장 개발자들의 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)) 한 방과 시스템 지표 센서(Utilization Trigger)의 융합 앞에서 <strong>자원 이용률 지상주의의 완벽한 최적화 무기</strong>로 아름답게 다듬어져 오늘날 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 교착 처리의 표준 유산으로 살아남았다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.

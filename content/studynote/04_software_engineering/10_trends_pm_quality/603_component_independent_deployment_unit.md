@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **Class (클래스)**: 코드 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개. 바퀴, 핸들, 나사 1개 낱개 부품 수준. (너무 작아서 1개만 배포 못 함).
   - **Component (컴포넌트)**: 바퀴, 핸들, 엔진을 싹 다 조립해서 만든 <strong>'바퀴 달린 1개의 완성된 엔진 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>'</strong>. 이 덩어리 하나 툭 떼어다 딴 자동차 껍데기에 붙여도 100% 동일하게 쌩쌩 굴러가는 '기능적 완전체 덩어리'. (Java의 `JAR`, 윈도우의 `DLL`, 리눅스의 `SO` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)).
 

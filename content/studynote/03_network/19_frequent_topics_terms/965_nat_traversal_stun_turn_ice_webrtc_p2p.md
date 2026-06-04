@@ -65,9 +65,9 @@ tags = ["studynote-network"]
 - 철수는 이 번호를 영희에게 카톡(시그널링)으로 보내고, 영희가 철수 집 `1.1.1.1:5000`으로 돌진해서 뚫려있는 구멍으로 쏙 들어가(홀 펀칭) 통화가 연결됩니다.
 
 ### 2. TURN (도저히 구멍이 안 뚫릴 때의 용병 서버) 🌟
-치명적인 한계의 구원 투수입니다. 
+치명적인 한계의 구원 투수입니다.
 - 회사(Symmetric [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))처럼 보안이 극도로 빡센 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은, STUN으로 알아낸 5000번 구멍으로 영희가 몰래 들어오려 하면 "이 구멍은 STUN 서버 전용 구멍이야! 다른 년(영희)이 어딜 들어와!" 하고 칼같이 모가지를 자릅니다(STUN 실패).
-- 이때 최후의 수단으로 폰은 <strong>TURN 서버(중계 릴레이 기지국)</strong>에게 붙습니다. 철수도 TURN 서버에 접속하고, 영희도 밖에서 TURN 서버에 접속해서, **가운데 위치한 서버가 100% 데이터를 릴레이(중계 대행)해서 토스해 줍니다.** 
+- 이때 최후의 수단으로 폰은 <strong>TURN 서버(중계 릴레이 기지국)</strong>에게 붙습니다. 철수도 TURN 서버에 접속하고, 영희도 밖에서 TURN 서버에 접속해서, **가운데 위치한 서버가 100% 데이터를 릴레이(중계 대행)해서 토스해 줍니다.**
 - 구멍 뚫기엔 성공하지만, 중앙 서버에 미친 듯한 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 트래픽 부하가 걸려서 돈이 엄청 깨집니다.
 
 ### 3. ICE (최종 조율사 마스터)

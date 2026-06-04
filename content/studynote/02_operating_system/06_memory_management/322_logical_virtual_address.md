@@ -28,7 +28,7 @@ tags = ["studynote-operating-system"]
 이것이 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 주소 (Logical Address)</strong> 혹은 가상 주소(Virtual Address)의 위대한 탄생이다.
 CPU는 0번지를 내뿜지만, 밑단에서 기계([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))가 몰래 "아 게임의 0번지는 실제 램의 5만 번지에, 카톡의 0번지는 실제 램 8만 번지에 조립해 주자"라고 뒤통수를 치는 것이다.
 
-**💡 비유**: 현실 세계 아파트 동호수. 어떤 택배 기사(프로그램)든 항상 "나는 무조건 101호에 배달할 거야!"라고 외친다([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소). 하지만 경비원([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 해석기-[MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))이 그 택배를 받아서 몰래 "아 A회사 택배의 101호는 실제로는 강남구 삼성동 101호([물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/))로, B회사 택배의 101호는 부산 해운대 101호([물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/))로" 분류해서 대신 딱딱 꽂아주는 마술이다. 
+**💡 비유**: 현실 세계 아파트 동호수. 어떤 택배 기사(프로그램)든 항상 "나는 무조건 101호에 배달할 거야!"라고 외친다([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소). 하지만 경비원([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 해석기-[MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))이 그 택배를 받아서 몰래 "아 A회사 택배의 101호는 실제로는 강남구 삼성동 101호([물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/))로, B회사 택배의 101호는 부산 해운대 101호([물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/))로" 분류해서 대신 딱딱 꽂아주는 마술이다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────────┐
@@ -96,7 +96,7 @@ CPU는 0번지를 내뿜지만, 밑단에서 기계([MMU](/knowledge-base/studyn
 | 프로그래밍 | 램 용량과 남의 공간 눈치 보며 주소 숫자 하드코딩 | 그냥 막무가내로 포인터 0번지부터 막 쓰면 됨 |
 | 시스템 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) | 여러 프로그램 동시 켜면 서로 주소 엉켜서 파멸 | 각자 가상 독방에 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))되어 수천 개 동시 구동 |
 
-`논리 주소 (Logical Address)`는 IT 역사가 이룩한 <strong>위대한 기만(Great Deception)의 마스터피스</strong>다. 소프트웨어가 복잡해지며 수백 개의 프로세스를 램(RAM)이라는 한정된 운동장에 쑤셔 넣어야 하는 지옥에서, 프로그래머들에게 "네 땅이 찢어지고 다른 놈이랑 섞일 걱정 따윈 하지 마! 너한테는 매트릭스(Matrix) 안의 완벽하고 끝없이 펼쳐진 너만의 0번지 도화지를 선사하마!"라며 거대한 백지수표를 끊어준 것이다. 
+`논리 주소 (Logical Address)`는 IT 역사가 이룩한 <strong>위대한 기만(Great Deception)의 마스터피스</strong>다. 소프트웨어가 복잡해지며 수백 개의 프로세스를 램(RAM)이라는 한정된 운동장에 쑤셔 넣어야 하는 지옥에서, 프로그래머들에게 "네 땅이 찢어지고 다른 놈이랑 섞일 걱정 따윈 하지 마! 너한테는 매트릭스(Matrix) 안의 완벽하고 끝없이 펼쳐진 너만의 0번지 도화지를 선사하마!"라며 거대한 백지수표를 끊어준 것이다.
 CPU가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 이 가짜 주소들 덕분에, 인류의 소프트웨어는 하드웨어의 물리적 파편화 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 구속에서 완벽하게 해방되어 우주 끝까지 확충되는 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 기적을 이루어냈다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.

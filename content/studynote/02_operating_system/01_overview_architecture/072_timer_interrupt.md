@@ -129,8 +129,8 @@ Context Switch
 
 ## 어린이를 위한 3줄 비유 설명
 
-종이 울리면 바꿔요.  
-CPU도 잠깐 쉬어요.  
+종이 울리면 바꿔요.
+CPU도 잠깐 쉬어요.
 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 그런 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)예요.
 
 ---

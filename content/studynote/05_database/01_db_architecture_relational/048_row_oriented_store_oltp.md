@@ -38,7 +38,7 @@ tags = ["studynote-database"]
 OLTP에서의 장점:
   SELECT * WHERE id = 1
   → 행 1 포함 페이지 1개만 읽기 (빠름)
-  
+
   UPDATE salary WHERE id = 1
   → 행 1 포함 페이지 읽기 → 수정 → 쓰기
 
@@ -49,10 +49,10 @@ OLAP에서의 단점:
 
 페이지 구조 (MySQL InnoDB):
   페이지 크기: 16KB (기본)
-  
+
   페이지 내 구조:
   [페이지 헤더][행1][행2]...[행N][빈 공간][페이지 디렉토리][페이지 트레일러]
-  
+
   가득 찬 페이지(Fill Factor ~87%):
   INSERT 공간 부족 → 페이지 분할 (Page Split)
 ```
@@ -84,16 +84,16 @@ OLTP 최적화 기법:
 1. 버퍼 풀 (Buffer Pool):
   자주 접근하는 페이지 메모리 캐싱
   히트율 = 메모리에서 직접 읽기 비율
-  
+
   목표: 99%+ 히트율
-  
+
   LRU 알고리즘으로 페이지 교체
   버퍼 풀 크기 = 물리 메모리 × 70~80%
 
 2. 인덱스 (Index):
   B+ 트리 인덱스: 범위 검색 효율
   복합 인덱스: 자주 쓰는 WHERE 컬럼 조합
-  
+
   쓰기 오버헤드:
   INSERT 1건 → 인덱스 수 × 2 I/O 추가
 
@@ -132,17 +132,17 @@ OLTP 최적화 기법:
 
 HTAP (Hybrid Transaction/Analytical Processing):
   단일 DB에서 OLTP + OLAP 동시 처리
-  
+
   기술:
   인메모리 컬럼 저장소:
   TiDB: RocksDB(OLTP) + TiFlash(OLAP)
   MySQL HeatWave: InnoDB + 컬럼 가속기
   SQL Server: In-Memory OLTP + Columnstore
-  
+
   장점:
   ETL 불필요 (OLTP DB에서 직접 분석)
   데이터 신선도: 실시간 분석
-  
+
   단점:
   자원 경합 (OLTP-OLAP I/O 충돌)
   복잡한 운영
@@ -164,35 +164,35 @@ MySQL InnoDB 행 저장 상세:
 
 B+ 트리 클러스터드 인덱스:
   기본 키 순서로 행 저장
-  
+
   장점: PK 기반 검색 = 인덱스 + 데이터 1번 I/O
   단점: 무작위 PK INSERT = 페이지 분할 빈번
 
 물리적 행 형식 (COMPACT):
   [삭제 플래그 1비트][레코드 타입][N-byte 포인터][NULL 비트맵]
   [가변 길이 컬럼 오프셋 목록][컬럼1][컬럼2]...[컬럼N]
-  
+
   가변 길이 컬럼 (VARCHAR):
   데이터 앞에 실제 길이 저장
-  
+
   VARCHAR(255) → 최대 1바이트 오프셋
   VARCHAR(65535) → 최대 2바이트 오프셋
 
 페이지 분할 (Page Split):
   B+ 트리 노드 가득 참 → 분할
-  
+
   순서 INSERT (PK 1, 2, 3, ...): 분할 적음
   무작위 INSERT (UUID): 잦은 분할 → 성능 저하
-  
+
   해결: UUID v7 (시간 순서 보장)
   또는 AUTO_INCREMENT + 순서 삽입
 
 MVCC (Multi-Version Concurrency Control):
   행 변경 시 기존 행 삭제 안 함
-  
+
   행에 trx_id, roll_pointer 포함
   읽기: 자신의 트랜잭션 시작 전 버전 읽기
-  
+
   Undo Log: 이전 버전 저장 공간
   장기 트랜잭션 → Undo Log 급증 → 성능 저하
 ```
@@ -210,7 +210,7 @@ MVCC (Multi-Version Concurrency Control):
   MySQL 8.0 (InnoDB)
   초당 주문: 1,000건
   평균 응답: 250ms (목표 50ms)
-  
+
   슬로우 쿼리:
   SELECT * FROM orders WHERE user_id = ? AND status = 'pending'
   → 200ms (풀 스캔)
@@ -218,7 +218,7 @@ MVCC (Multi-Version Concurrency Control):
 분석:
   orders 테이블: 5천만 행
   인덱스: PK (order_id) 만 존재
-  
+
   쿼리 플랜:
   → type: ALL (풀 테이블 스캔!)
   → rows: 50,000,000 (전체 스캔)
@@ -228,11 +228,11 @@ MVCC (Multi-Version Concurrency Control):
 1. 복합 인덱스 추가:
   CREATE INDEX idx_user_status
   ON orders (user_id, status, created_at DESC);
-  
+
   쿼리 플랜 재확인:
   → type: ref (인덱스 사용)
   → rows: 15 (극적 감소)
-  
+
   응답: 200ms → 8ms ✓
 
 2. 버퍼 풀 증설:

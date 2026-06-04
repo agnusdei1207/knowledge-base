@@ -40,16 +40,16 @@ tags = ["studynote-network"]
 
 가장 강력한 패러다임 전환입니다.
 - **문제**: 스마트폰이나 VR 안경(오큘러스) 안에 고성능 PC급 그래픽 카드를 박아 넣으면 너무 무겁고 배터리가 10분 만에 녹습니다.
-- <strong>해결책 (오프로드 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 처리)</strong>: 
+- <strong>해결책 (오프로드 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 처리)</strong>:
   - 913번 노변 기지국에서 배웠던 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/">MEC</a>(<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/999_mec_mobile_edge_computing/">모바일 엣지 컴퓨팅</a>)</strong> 서버를 동네 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 밑에 세웁니다.
   - 내 VR 기기는 "나 지금 고개 왼쪽으로 돌렸음!" 이라는 좌표 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 엣지 서버로 휙 던집니다.
   - 강력한 엣지 서버가 0.001초 만에 수만 명의 아바타가 있는 3D 세계를 자기 그래픽 카드([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))로 빡세게 그립니다(Cloud Rendering).
   - 그리고 완성된 2D 비디오 화면만 내 VR 기기로 쏴줍니다(비디오 스트리밍). VR 안경은 просто 화면만 띄우는 깡통 모니터가 되어 극도로 가벼워집니다.
 
 1,000만 명의 아바타 좌표를 어떻게 한 번에 다 처리할까요? 게임의 마법을 씁니다.
-- <strong>공간 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a> 및 분할 (AoI, Area of Interest)</strong>: 
+- <strong>공간 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a> 및 분할 (AoI, Area of Interest)</strong>:
   - 나(아바타)를 중심으로 반경 50m 공간(관심 영역, AoI)을 설정합니다.
-  - 통신망은 내 반경 50m 안에 있는 100명의 아바타 움직임만 나에게 0.01초 단위로 정밀하게 전송([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))해 줍니다. 
+  - 통신망은 내 반경 50m 안에 있는 100명의 아바타 움직임만 나에게 0.01초 단위로 정밀하게 전송([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))해 줍니다.
   - 저기 500m 밖에서 춤추는 아바타들의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 전송 우선순위([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))를 확 낮춰서 1초에 한 번만 끊기듯 보내거나 아예 차단하여 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비를 100% 방어합니다.
 - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong>: 콘서트에서 아이돌이 손을 흔드는 동작 패킷은 1,000만 명에게 개별로(유니캐스트) 쏘지 않고 [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)망(905번 HLS)을 통해 한 방에 방송하여 망 병목을 박살 냅니다.
 

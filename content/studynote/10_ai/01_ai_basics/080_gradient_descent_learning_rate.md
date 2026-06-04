@@ -18,7 +18,7 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-딥러닝을 학습시킨다는 것은, '오차(Loss)'라는 거대하고 울퉁불퉁한 산맥의 꼭대기에 맹인([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델)을 떨어뜨려 놓고 "지팡이(미분)로 발밑의 경사를 더듬어 가장 낮은 골짜기(정답)로 내려가라!"고 명령하는 것과 같다. 
+딥러닝을 학습시킨다는 것은, '오차(Loss)'라는 거대하고 울퉁불퉁한 산맥의 꼭대기에 맹인([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델)을 떨어뜨려 놓고 "지팡이(미분)로 발밑의 경사를 더듬어 가장 낮은 골짜기(정답)로 내려가라!"고 명령하는 것과 같다.
 
 이때 맹인에게 "오르막의 반대 방향으로 내려가라"는 방향은 수학(미분 기울기)이 알려준다. 하지만 <strong>"그 방향으로 한 번에 1cm를 내디딜 것인가, 아니면 10m를 펄쩍 뛰어넘을 것인가?"</strong>는 수학이 알려주지 않는다. 오직 인간 엔지니어(아키텍트)가 수동으로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해 주어야 한다. 이것이 바로 학습률([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate)이다. 이 보폭을 한 치라도 잘못 설계하면 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델은 산 밑을 밟지 못하고 우주 밖으로 날아가 버리거나(발산), 산 중턱의 작은 웅덩이에 평생 갇혀버리게([지역 최솟값](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/)) 되므로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 공학에서 가장 잔혹한 쇳덩어리 다이얼(Knob)로 불린다.
 

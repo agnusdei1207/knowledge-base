@@ -46,7 +46,7 @@ tags = ["data_engineering"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-YARN은 철저하게 마스터-슬레이브(Master-Slave) 구조 위에서 동적인 '[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/))' 단위로 자원을 격리하고 할당합니다. 
+YARN은 철저하게 마스터-슬레이브(Master-Slave) 구조 위에서 동적인 '[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/))' 단위로 자원을 격리하고 할당합니다.
 
 | 구성 요소 | 역할 | 내부 동작 | [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 비유 |
 |:---|:---|:---|:---|:---|
@@ -74,7 +74,7 @@ YARN은 철저하게 마스터-슬레이브(Master-Slave) 구조 위에서 동�
 │  [Container] ─ (그 안에서 Spark Executor가 메모리를 잡고 연산 시작)  │
 └─────────────────────────────────────────────────────────────────┘
 ```
-이 도식에서 가장 놀라운 점은 ApplicationMaster(AM)의 존재 방식입니다. AM은 고정된 마스터 서버에 뜨지 않고, 워커 노드(NodeManager) 중 자원이 남는 아무 곳의 첫 번째 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 안에서 동적으로 스폰(Spawn)됩니다. 만약 AM이 띄워진 노드의 하드웨어가 죽어버리면, RM은 이를 감지하고 다른 노드에 새 AM을 띄워 처음부터 다시 복구시킵니다. 따라서 이 배치는 특정 마스터 노드의 [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 한계를 극복하고, 클러스터 자원을 극도로 탄력적으로 유동화하는 결과를 낳습니다. 
+이 도식에서 가장 놀라운 점은 ApplicationMaster(AM)의 존재 방식입니다. AM은 고정된 마스터 서버에 뜨지 않고, 워커 노드(NodeManager) 중 자원이 남는 아무 곳의 첫 번째 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 안에서 동적으로 스폰(Spawn)됩니다. 만약 AM이 띄워진 노드의 하드웨어가 죽어버리면, RM은 이를 감지하고 다른 노드에 새 AM을 띄워 처음부터 다시 복구시킵니다. 따라서 이 배치는 특정 마스터 노드의 [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 한계를 극복하고, 클러스터 자원을 극도로 탄력적으로 유동화하는 결과를 낳습니다.
 
 **심층 동작 원리**
 1. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a> 큐 (Queues)</strong>: [RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/) 내부에는 트리 구조의 큐(예: root.marketing, root.data_science)가 존재하며, 부서별로 가용할 수 있는 최대 RAM/CPU 파이가 엄격히 통제됩니다.
@@ -99,7 +99,7 @@ YARN은 철저하게 마스터-슬레이브(Master-Slave) 구조 위에서 동�
 
 이 비교 매트릭스는 온프레미스의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 왕자(YARN)와 클라우드의 제왕(K8s) 간의 워크로드 차이를 보여주는 대조 매트릭스입니다.
 ```text
-┌── 자원 스케줄링 패러다임 차이 ──┐
++-- 자원 스케줄링 패러다임 차이 --+
 
 [YARN 강점: Batch Data Processing]
 "이 스파크 잡은 데이터가 노드 A에 있으니 무조건 노드 A 근처에 띄워!"
@@ -108,7 +108,7 @@ YARN은 철저하게 마스터-슬레이브(Master-Slave) 구조 위에서 동�
 [Kubernetes 강점: Microservices]
 "웹 서버 파드 3개가 죽었네? 클러스터 안 아무 노드에나 빨리 띄워 복구해!"
 => 무중단 서비스와 빠른 복원력에 목숨 욺 (빠른 재배치 사수)
-└────────────────────────────┘
++---------------------------------+
 ```
 A 방식(YARN)은 철저히 '[하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/)'라는 스토리지 구조와 피가 섞여 있어, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는 곳으로 연산을 밀어 넣는 데 미친 성능을 보여줍니다. 반면 B 방식(K8s)은 개발자가 파이썬, 고(Go), 노드(Node) 등 어떤 언어로 짠 환경이든 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지로 말아 올리기만 하면 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 충돌 없이 깔끔하게 격리해 돌려주는 이식성이 뛰어납니다. 실무에서는 스파크(Spark) 잡을 돌릴 때 레거시 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 클러스터가 있다면 YARN을 쓰고, 클라우드 네이티브로 신규 구축한다면 [데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/) 손실을 캐시로 메꾸면서 Spark on K8s 아키텍처로 넘어가고 있는 거대한 과도기적 융합 국면에 있습니다.
 

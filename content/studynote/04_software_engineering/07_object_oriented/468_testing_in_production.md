@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: TiP(Testing in Production)는 시스템이 고객에게 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)되고 있는 그 순간, 그 무대(라이브 서버) 위에서 테스트를 강행하는 것이다. 
+- **개념**: TiP(Testing in Production)는 시스템이 고객에게 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)되고 있는 그 순간, 그 무대(라이브 서버) 위에서 테스트를 강행하는 것이다.
   - 과거: "운영 서버에서 테스트를 돌려? 너 제정신이야? DB 날아가면 어떡할래!"
   - 현재: "운영 서버에서 안 돌려보고 이게 1억 명 트래픽을 버틸 거라고 어떻게 확신해? 당장 트래픽 1%만 빼서 테스트 돌려!"
 
@@ -28,7 +28,7 @@ tags = ["studynote-software-engineering"]
 - **💡 비유**: 운영 환경 테스트(TiP)는 <strong>'비행 중인 여객기 엔진 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 점검'</strong>과 같습니다. 격납고(테스트 서버)에서 아무리 엔진을 돌려봐야 고도 1만 미터의 영하 50도 추위와 난기류(라이브 환경)는 똑같이 재현할 수 없습니다. 진짜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보려면, 승객들(실제 유저) 모르게 부조종사가 날아가는 비행기 안에서 엔진의 밸브를 살짝 열어보며(TiP) 계기판을 체크해야만 가장 완벽하고 신뢰할 수 있는 데이터가 나옵니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **"운영망 절대 접근 금지" 시대**: [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/) 시절엔 운영 서버 접근은 신성모독이었다. 
+  1. **"운영망 절대 접근 금지" 시대**: [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/) 시절엔 운영 서버 접근은 신성모독이었다.
   2. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)의 거미줄</strong>: 100개의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 얽히자, QA 서버 하나에 100개 서버를 똑같이 띄워두는 게 불가능해졌다(테스트 환경 붕괴).
   3. **인프라 관측성/분리의 성숙 (현재)**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)와 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) 덕분에 트래픽을 마음대로 자르고, 꼬리표(Header)를 달아 테스트 트래픽과 진짜 결제 트래픽을 완벽히 격리할 수 있는 기술이 완성되면서 TiP가 글로벌 빅테크의 표준으로 등극했다.
 

@@ -44,7 +44,7 @@ tags = ["studynote-algorithm-stats"]
   p=3: 9,15,21,27 제거 (6,12...는 이미 제거)
   p=5: 25 제거 (10,15,20,30은 이미 제거)
   p=7 > √30≈5.47이므로 종료
-  
+
   결과: [2,3,5,7,11,13,17,19,23,29]
 
 왜 p²부터 시작?
@@ -65,7 +65,7 @@ tags = ["studynote-algorithm-stats"]
 def sieve_of_eratosthenes(n):
     is_prime = [True] * (n + 1)
     is_prime[0] = is_prime[1] = False  # 0, 1은 소수 아님
-    
+
     p = 2
     while p * p <= n:  # p <= √n
         if is_prime[p]:
@@ -73,7 +73,7 @@ def sieve_of_eratosthenes(n):
             for multiple in range(p * p, n + 1, p):
                 is_prime[multiple] = False
         p += 1
-    
+
     return [i for i in range(2, n + 1) if is_prime[i]]
 
 # 테스트
@@ -95,13 +95,13 @@ def sieve_bitarray(n):
     is_prime = bitarray(n + 1)
     is_prime.setall(True)
     is_prime[0] = is_prime[1] = False
-    
+
     p = 2
     while p * p <= n:
         if is_prime[p]:
             is_prime[p*p::p] = False  # 슬라이스 연산
         p += 1
-    
+
     return [i for i in range(2, n+1) if is_prime[i]]
 ```
 
@@ -142,32 +142,32 @@ def segmented_sieve(n):
     limit = int(math.sqrt(n)) + 1
     # 기본 소수 (√N까지)
     base_primes = sieve_of_eratosthenes(limit)
-    
+
     primes = list(base_primes)
-    
+
     # 세그먼트 처리
     seg_size = limit
     low = limit + 1
-    
+
     while low <= n:
         high = min(low + seg_size - 1, n)
         sieve = [True] * (high - low + 1)
-        
+
         for p in base_primes:
             # 세그먼트 내 p의 첫 배수 위치
             start = ((low + p - 1) // p) * p
             if start == p:
                 start += p  # p 자신은 제외
-            
+
             for j in range(start, high + 1, p):
                 sieve[j - low] = False
-        
+
         for i in range(len(sieve)):
             if sieve[i]:
                 primes.append(low + i)
-        
+
         low = high + 1
-    
+
     return primes
 ```
 
@@ -176,7 +176,7 @@ def segmented_sieve(n):
 장점:
   캐시 친화적 (세그먼트가 L1 캐시에 들어감)
   메모리 효율적 (전체 배열 불필요)
-  
+
 성능:
   N = 10억:
   기본 체: 1GB 메모리 필요
@@ -193,7 +193,7 @@ def segmented_sieve(n):
 ```
 소수 정리 (Prime Number Theorem):
   N 이하 소수 개수 π(N) ≈ N / ln(N)
-  
+
   π(100) = 25 (실제) vs 100/ln(100) ≈ 21.7
   π(1,000,000) = 78,498 vs 10^6/ln(10^6) ≈ 72,382
   N이 클수록 근사 정확도 향상
@@ -201,7 +201,7 @@ def segmented_sieve(n):
 소수 관련 개념:
   쌍둥이 소수 (Twin Primes): (3,5), (5,7), (11,13), (17,19), ...
   차이 = 2인 소수 쌍, 무한히 많은지 미증명 (추측)
-  
+
   메르센 소수: 2^n - 1 형태 소수
   M(2)=3, M(3)=7, M(5)=31, M(7)=127
   현재 알려진 최대 소수: 2^82,589,933 - 1 (2018)
@@ -212,15 +212,15 @@ def segmented_sieve(n):
   RSA: 큰 소수 p, q 생성 (512~4096 비트)
   에라토스테네스 체로 소수 후보 필터 후
   밀러-라빈 테스트로 확인
-  
+
 2. 해시 테이블:
   크기를 소수로 설정 → 해시 충돌 감소
-  
+
 3. 코딩테스트:
   "N까지 소수의 합" → 에라토스테네스 O(N log log N)
   "N이 소수인지" → 밀러-라빈 O(k log²N)
   "소인수분해" → 폴라드 로 알고리즘
-  
+
 4. 정수론 문제:
   GCD + 소수 = 정수론 알고리즘의 핵심
 ```
@@ -247,12 +247,12 @@ def segmented_sieve(n):
 3. 작은 소수 테스트:
    for p in small_primes:
      if n % p == 0: 버리고 다음 난수
-   
+
    속도: n이 합성수일 확률 ~70% 빠르게 걸러냄
 
 4. 밀러-라빈 확률 소수 테스트:
    k=15 라운드 → 오류 확률 < 4^(-15) ≈ 10^(-9)
-   
+
 5. 통과하면 소수로 채택
 
 통계:

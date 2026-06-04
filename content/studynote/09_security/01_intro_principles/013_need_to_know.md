@@ -65,7 +65,7 @@ tags = ["security"]
        U의 등급(Top Secret) ≥ D의 등급(Secret) ? ---> [PASS]
 
 2단계: 알 필요성 검증 (Category Intersection Check)
-       U의 카테고리([Project_A, Finance]) ⊇ D의 카테고리([Project_A, Project_B]) ? 
+       U의 카테고리([Project_A, Finance]) ⊇ D의 카테고리([Project_A, Project_B]) ?
        ---> [FAIL] (사용자는 Project_B에 대한 Need-to-Know가 없음)
 
 결론: 사용자는 상위 등급임에도 불구하고 알 필요성이 부족하여 문서 D에 [접근 불가]

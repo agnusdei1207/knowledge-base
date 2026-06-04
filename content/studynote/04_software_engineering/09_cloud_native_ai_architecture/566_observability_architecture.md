@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>Monitoring (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링)</strong>: "CPU 80% 넘었네? 삐용삐용! (증상 알림)". 알려진 문제(Known Unknowns)에 대한 수동적 감시.
   - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">Observability</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">옵저버빌리티</a>/가시성)</strong>: "CPU가 80% 찍은 이유는, 1초 전 배송 서버 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 캐시가 깨져서 1만 건의 트래픽이 일제히 오라클 DB를 타격(Full Scan)했기 때문이야! (원인 규명)". 시스템 내부 출력을 통해 내부 상태를 100% 유추할 수 있는 시스템의 철학적 투명성(Unknown Unknowns 방어).
 

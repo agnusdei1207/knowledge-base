@@ -214,7 +214,7 @@ tags = ["devops_sre"]
 **1. 실무 의사결정 시나리오**
 - <strong>시나리오 A:CPU를 많이 사용하는 작업(画像処理)과 I/O를 많이 사용하는 작업(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 호출)이 동일한 프로세스에서 수행되어 병목이 발생하는 상황</strong>
   - **상황**: 단일 프로세스에서 동기적으로 이미지 리사이징과 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출을 모두 처리하여, 이미지 처리 대기 시간 때문에 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답까지 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)됨.
-  - **판단**: 동시성 원칙에 따라 두 작업을 별도 프로세스로 분리해야 한다. 이미지 처리는CPU 워커(별도 프로세스/서버)로 분리하고, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출은 웹 프론트엔드(또는 event-driven)로 처리하여 각각 최적화된자원배치가이구현. 
+  - **판단**: 동시성 원칙에 따라 두 작업을 별도 프로세스로 분리해야 한다. 이미지 처리는CPU 워커(별도 프로세스/서버)로 분리하고, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출은 웹 프론트엔드(또는 event-driven)로 처리하여 각각 최적화된자원배치가이구현.
 
 - <strong>시나리오 B: 백그라운드 작업(이메일 전송, <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 처리)이 웹 요청 처리와혼재되어 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하가 발생하는 상황</strong>
   - **판단**: 백그라운드 작업은 워커 프로세스(예: Sidekiq, Celery)가 전용으로 처리하고, 웹 요청은 웹 프로세스가처리하는.  이렇게 하면 웹 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 백그라운드 작업의영향을 받지 않는다.

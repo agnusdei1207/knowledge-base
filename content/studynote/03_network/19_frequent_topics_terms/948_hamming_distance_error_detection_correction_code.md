@@ -61,7 +61,7 @@ tags = ["studynote-network"]
 통신 엔지니어가 규칙(코드 사전)을 만들 때, 사전에 있는 모든 유효한 단어들끼리의 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)를 계산해 가장 작은 값을 **최소 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)($D_{min}$)**라고 부릅니다. 이 숫자 하나가 에러를 얼만큼 고칠 수 있는지를 절대적으로 결정합니다.
 
 ### 1. 에러 검출 ([Error Detection](/knowledge-base/studynote/02_operating_system/01_overview_architecture/040_error_detection/)) 능력 공식
-- **공식**: $D_{min} \ge e + 1$ 
+- **공식**: $D_{min} \ge e + 1$
 - **해석**: 최소 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)가 3($D_{min}=3$)인 규칙을 만들었다면, **최대 2개($e=2$)의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 깨지는 것까지는 "아! 이거 사전에 없는 에러난 단어네!" 하고 눈치(검출)챌 수 있습니다.** (만약 3개가 깨져버리면 다른 정상 단어로 완벽히 둔갑해 버리므로 에러인 줄도 모르고 속습니다.)
 
 ### 2. 에러 정정 (Error Correction) 능력 공식 🌟 빈출 🌟
@@ -84,7 +84,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 이 거리를 일부러 넓혀서 에러를 고치기 위해, 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 뒤에 추가적인 쓰레기 잉여 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([Parity Bit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/))들을 수학적 공식을 돌려 덕지덕지 붙여서 전송합니다. 
+- 이 거리를 일부러 넓혀서 에러를 고치기 위해, 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 뒤에 추가적인 쓰레기 잉여 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([Parity Bit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/))들을 수학적 공식을 돌려 덕지덕지 붙여서 전송합니다.
 - 이 기법([해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)) 덕분에 우주선에서 날아오는 위성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 태양풍에 깨져도, 지구 관제소 컴퓨터가 스스로 깨진 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 완벽하게 치유(FEC)하여 사진을 살려내는 기적이 가능해집니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

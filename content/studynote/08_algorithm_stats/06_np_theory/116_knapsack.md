@@ -41,7 +41,7 @@ tags = ["studynote-algorithm-stats"]
 문제 정의 (0/1 배낭):
   물건 n개: 각 가치 v_i, 무게 w_i
   배낭 용량: W
-  
+
   목적: Σ v_i × x_i 최대화
   조건: Σ w_i × x_i ≤ W
         x_i ∈ {0, 1}
@@ -49,7 +49,7 @@ tags = ["studynote-algorithm-stats"]
 예시:
   물건: (v=60, w=10), (v=100, w=20), (v=120, w=30)
   배낭 용량: W=50
-  
+
   최적: 물건2 + 물건3 → 가치=220, 무게=50
 ```
 
@@ -64,7 +64,7 @@ tags = ["studynote-algorithm-stats"]
 
 점화식:
   dp[i][w] = 물건 1..i 중 무게 w 이하에서 최대 가치
-  
+
   dp[i][w] = max(
     dp[i-1][w],          # 물건 i 미선택
     dp[i-1][w-w_i] + v_i # 물건 i 선택 (w ≥ w_i 일 때)
@@ -73,14 +73,14 @@ tags = ["studynote-algorithm-stats"]
 예시:
   물건: A(v=60,w=10), B(v=100,w=20), C(v=120,w=30)
   W=50
-  
+
   dp 테이블 (일부):
   w:  0  10  20  30  40  50
   초기: 0   0   0   0   0   0
   A:  0  60  60  60  60  60
   B:  0  60 100 160 160 160
   C:  0  60 100 160 180 220
-  
+
   최적값: dp[3][50] = 220
 
 추적 (어떤 물건?):
@@ -91,7 +91,7 @@ tags = ["studynote-algorithm-stats"]
 시간/공간 복잡도:
   O(nW) 시간, O(nW) 공간
   n=100, W=10^9 → 실용 불가
-  
+
   공간 최적화: O(W) (1차원 DP)
   dp[w] = max(dp[w], dp[w-w_i]+v_i)
   (역방향 순회)
@@ -101,7 +101,7 @@ tags = ["studynote-algorithm-stats"]
   (W는 입력 값이지 크기가 아님)
   입력 비트수 기준: O(n × 2^b) (b=W 비트수)
   → 다항 시간이 아님!
-  
+
   하지만 실용적 W에서는 효율적
 ```
 
@@ -121,7 +121,7 @@ tags = ["studynote-algorithm-stats"]
 예시:
   물건: A(v=60,w=10), B(v=100,w=20), C(v=120,w=30)
   단위 가치: A=6, B=5, C=4
-  
+
   W=50:
   A 전체: 무게 10, 가치 60 (남은 W=40)
   B 전체: 무게 20, 가치 100 (남은 W=20)
@@ -140,7 +140,7 @@ tags = ["studynote-algorithm-stats"]
 0/1 vs 분수:
   0/1: 동일 예시 → 최적: 220 (B+C)
   분수: 동일 예시 → 최적: 240 (A+B+C부분)
-  
+
   분수 ≥ 0/1 항상 성립
   (분수는 더 유연한 선택 가능)
 ```
@@ -156,26 +156,26 @@ tags = ["studynote-algorithm-stats"]
 
 FPTAS (Fully Polynomial-Time Approximation Scheme):
   (1-ε) 최적 근사 보장
-  
+
   아이디어: 가치를 스케일링해서 DP
   원래 가치: v_i
   스케일 가치: v'_i = floor(v_i × n/ε/v_max)
-  
+
   복잡도: O(n² / ε)
   ε=0.1 → 90% 근사
   ε=0.01 → 99% 근사
-  
+
   → 최적에 가까운 해를 다항 시간에!
 
 FPT (Fixed-Parameter Tractable):
   파라미터: 물건 수 n 고정
   또는 최적 해의 물건 수 k
-  
+
   O(2^k × poly(n)) — k가 작으면 실용적
 
 분기 한정 (Branch & Bound):
   DP보다 실용적 최적해 탐색
-  
+
   분기: 물건 선택/미선택 분기
   한정: 분수 배낭 상한값으로 가지치기
   → 최적 경로만 탐색
@@ -200,17 +200,17 @@ FPT (Fixed-Parameter Tractable):
   가상 서버 100대: 각 CPU 요구량, 비용 효율성
   물리 서버 용량: 128 vCPU
   목표: 비용 효율성 합계 최대화
-  
+
   = 0/1 배낭 문제 형태
 
 접근:
   DP: W=128, n=100
   O(100 × 128) = O(12,800) → 실용적!
-  
+
   빈 패킹 + 배낭의 혼합:
   여러 서버에 VM 분산 배치
   → 복수 배낭 (NP-하드)
-  
+
   실용 접근:
   First Fit Decreasing (FFD) 근사:
   CPU 요구량 높은 VM부터 첫 번째 들어가는 서버에 배치
@@ -220,7 +220,7 @@ FPT (Fixed-Parameter Tractable):
   Kubernetes 스케줄러 = 배낭 변형
   Pod 요청 (CPU, 메모리) = 무게
   노드 가용 자원 = 배낭 용량
-  
+
   Bin Packing + First Fit 전략
   → 노드 수 최소화 + 자원 효율 최대화
 

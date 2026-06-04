@@ -138,8 +138,8 @@ DataOps / MLOps
 
 ## 어린이를 위한 3줄 비유 설명
 
-퍼즐을 맞추려면 설명서가 필요해요.  
-[데이터 마이닝](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/)도 순서를 정해 놓아야 잘 돼요.  
+퍼즐을 맞추려면 설명서가 필요해요.
+[데이터 마이닝](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/)도 순서를 정해 놓아야 잘 돼요.
 프레임워크는 그 순서를 알려 주는 설명서예요.
 
 ---

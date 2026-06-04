@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 기능이 섞여 있으면, 버튼 UI 하나 수정하려다 DB 접속 코드를 건드려 시스템이 마비됩니다. 
+- 기능이 섞여 있으면, 버튼 UI 하나 수정하려다 DB 접속 코드를 건드려 시스템이 마비됩니다.
 - 테스트를 하려 해도, 화면이 없으면 DB 코드만 따로 똑 떼어서 테스트할 수가 없어 개발 속도가 바닥을 칩니다.
 
 - **📢 섹션 요약 비유**: 계층형 아키텍처 (Layered [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
@@ -47,7 +47,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 전체 시스템을 비슷한 역할을 하는 <strong>'관심사(Concern)' 단위로 찢어 여러 개의 층(Layer, 계층)으로 층층이 수직으로 쌓아 올린 아키텍처</strong>입니다. 
+- **개념**: 전체 시스템을 비슷한 역할을 하는 <strong>'관심사(Concern)' 단위로 찢어 여러 개의 층(Layer, 계층)으로 층층이 수직으로 쌓아 올린 아키텍처</strong>입니다.
 - OSI 7계층(942번)이 통신망을 7개 층으로 찢은 것처럼, 소프트웨어 코드도 보통 3~4개의 층으로 찢어 놓습니다.
 
 - **📢 섹션 요약 비유**: 계층형 아키텍처 (Layered [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
@@ -75,7 +75,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 이 룰을 깨는 순간 계층형을 쓰는 의미가 사라집니다.
-- <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a> 수직 하강 룰 (Strict Layering)</strong>: **무조건 N층은 바로 밑의 N-1층한테만 부탁(호출)할 수 있습니다.** 
+- <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a> 수직 하강 룰 (Strict Layering)</strong>: **무조건 N층은 바로 밑의 N-1층한테만 부탁(호출)할 수 있습니다.**
 - 3층(화면)이 2층(비즈니스)을 건너뛰고 바로 1층(DB)을 다이렉트로 호출하는 짓(Skip)은 보안과 유지보수를 개박살 내므로 절대 엄격히 금지됩니다. 역방향(1층이 2층 호출)도 절대 금지입니다.
 
 - **장점**: <strong>관심사 분리(Separation of Concerns)</strong>로 인해 1층 UI 디자이너와 2층 백엔드 개발자가 완전히 병렬로 독립적으로 일할 수 있고, 층별로 따로따로 모의 테스트(Mocking)가 가능합니다.

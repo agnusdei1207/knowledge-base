@@ -20,7 +20,7 @@ tags = ["studynote-operating-system"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: "[요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))"이 디스크에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 게으르게 퍼오는 기술이라면, "수요 제로 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)(Demand [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))"은 디스크에서 퍼올 원본 파일조차 없는 무의 공간([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/), [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/))을 0으로 게으르게 채워주는 기술이다. 유저가 찌르는(Demand) 그 찰나의 순간에 마이너 폴트(Minor Fault)를 터뜨리고, 빈 4KB 프레임을 `0x00`으로 싹 닦아서 연결해 준다.
-- **필요성**: C언어에서 `int arr[10000];` 처럼 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)값을 안 주고 전역 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 선언했다. 이 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)([BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/) 영역)은 무조건 0으로 꽉 차 있어야 한다는 문법적 규칙이 있다. 옛날 OS는 프로그램이 켜지기 전에 램에 40KB를 할당하고 포문을 돌며 0을 4만 번 채워 넣었다. (개쌉노가다). 10GB [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이면 0 채우다 서버가 뻗는다. "아니 어차피 안 쓸지도 모르는 빈 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)인데 뭣 하러 피땀 흘려 0을 미리 다 써놔? 그냥 가짜 주소만 주고 버티다가 진짜로 저 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 건드릴 때 1장씩만 0으로 채워 주자!"라는 얌체 같은 효율성이 등장했다. 
+- **필요성**: C언어에서 `int arr[10000];` 처럼 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)값을 안 주고 전역 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 선언했다. 이 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)([BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/) 영역)은 무조건 0으로 꽉 차 있어야 한다는 문법적 규칙이 있다. 옛날 OS는 프로그램이 켜지기 전에 램에 40KB를 할당하고 포문을 돌며 0을 4만 번 채워 넣었다. (개쌉노가다). 10GB [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이면 0 채우다 서버가 뻗는다. "아니 어차피 안 쓸지도 모르는 빈 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)인데 뭣 하러 피땀 흘려 0을 미리 다 써놔? 그냥 가짜 주소만 주고 버티다가 진짜로 저 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 건드릴 때 1장씩만 0으로 채워 주자!"라는 얌체 같은 효율성이 등장했다.
 
 - **등장 배경 및 보안 결함의 방어**:
   1. **정보 유출의 공포**: OS가 빈 램을 그냥 줬더니, 그 램에 예전에 죽은 은행 앱이 남기고 간 남의 통장 비밀번호가 고스란히 남아있었다(Information Leak).
@@ -101,7 +101,7 @@ tags = ["studynote-operating-system"]
 - 1번 앱 (은행 앱) : 유저가 비밀번호 `1234`를 입력해 램 50번 프레임에 저장했다. 은행 볼일이 끝나고 앱이 꺼지며 램 50번을 OS에 반납했다.
 - 2번 앱 (해커가 만든 악성 앱) : 1초 뒤 `malloc`을 왕창 때려 램 50번 프레임을 배정받았다.
 - **만약 ZFOD(세탁)가 없다면?** 해커 앱이 자기 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 읽었을 뿐인데, 조금 전 은행 앱이 버리고 간 `1234`라는 비밀번호가 고스란히 텍스트로 남아있다. (이른바 Information Leakage 공격).
-- 그래서 리눅스와 윈도우는 아무리 CPU 사이클이 깎여나가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 떨어지더라도 하늘이 두 쪽 나도 <strong>"유저에게 빈 램을 넘기기 전 무조건 100% 0으로 밀어버린다"</strong>는 강박적 결벽증(ZFOD)을 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 최우선 헌법으로 박아넣었다. 
+- 그래서 리눅스와 윈도우는 아무리 CPU 사이클이 깎여나가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 떨어지더라도 하늘이 두 쪽 나도 <strong>"유저에게 빈 램을 넘기기 전 무조건 100% 0으로 밀어버린다"</strong>는 강박적 결벽증(ZFOD)을 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 최우선 헌법으로 박아넣었다.
 
 ```text
 ┌──────────┬────────────┬────────────┬──────────────────────────────────┐
@@ -112,7 +112,7 @@ tags = ["studynote-operating-system"]
 │ **ZFOD** │ **🚀 빠름** │ **🟢 1장씩 줌** │ **🟢 원천 봉쇄**           │
 └──────────┴────────────┴────────────┴──────────────────────────────────┘
 ```
-**[매트릭스 해설]** Demand [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)(ZFOD)은 속도, 램 절약, 보안이라는 절대로 동시에 잡을 수 없는 트릴레마(Trilemma)를 모두 완벽하게 잡아낸 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 공학의 마스터피스다. 
+**[매트릭스 해설]** Demand [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)(ZFOD)은 속도, 램 절약, 보안이라는 절대로 동시에 잡을 수 없는 트릴레마(Trilemma)를 모두 완벽하게 잡아낸 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 공학의 마스터피스다.
 
 - **📢 섹션 요약 비유**: 이전에 살던 세입자(은행 앱)가 놓고 간 비밀 금고 번호(쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 다음 세입자(해커 앱)가 못 보게 하려면, 집주인(OS)이 무조건 입주 직전에 도배와 장판([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-fill)을 싹 새로 해서 과거의 흔적을 0%로 지워버려야만 원룸 건물(시스템)에 범죄가 끊이지 않는 치안을 유지할 수 있습니다.
 
@@ -131,7 +131,7 @@ tags = ["studynote-operating-system"]
    - 나중에 유저가 이 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 글을 쓰려 할 때(Write) 비로소 COW가 터지며 1장씩 떨어져 나가 세탁(ZFOD)된다.
 4. **결론**: 최신 리눅스 환경에서 거대 메모리를 할당할 때는 `malloc`을 하고 유저가 직접 `memset` 0을 먹이는 것보다, 차라리 OS의 전역 제로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 흑마술을 타는 <strong><code>calloc</code>이 속도와 램 절약 측면에서 수천 배 더 빠르고 위대한 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>을 낸다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): JVM과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 불필요한 이중 세탁 
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): JVM과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 불필요한 이중 세탁
 자바(Java)는 보안을 위해 객체를 띄울 때 멤버 변수를 무조건 0이나 null로 밀어버린다.
 그런데 OS(리눅스) 입장에서도 램을 Java에게 넘겨줄 때 무조건 0으로 닦아(ZFOD) 넘겨준다.
 OS가 피땀 흘려 0으로 닦아준 깨끗한 램을, JVM이 건네받자마자 "난 너 못 믿어"라며 0으로 다시 한번 빡빡 닦는 이중 세탁(Double Zeroing)의 바보짓이 터진다. 이는 클라우드 환경에서 눈에 보이지 않는 거대한 CPU 낭비를 유발하며, 최신 Java 버전에선 OS가 닦아준 건 안 닦도록 스킵(Elision)하는 고도화된 GC 튜닝이 도입되고 있다.

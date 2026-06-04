@@ -102,10 +102,10 @@ OS 교과서에서 30년 넘게 토시 하나 안 틀리고 가르치는 완벽�
 
 ### 숨겨진 함정: [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) ([Page Replacement](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/))
 
-위 6단계 중 <strong>3단계(빈 프레임 확보)</strong>는 이상적인 상황일 뿐이다. 
+위 6단계 중 <strong>3단계(빈 프레임 확보)</strong>는 이상적인 상황일 뿐이다.
 현실에서는 램이 16GB 꽉 차 있어서 빈방이 단 한 개도 없는 경우가 99%다.
 - 빈방이 없으면 OS는 3.5단계로 <strong>"그럼 지금 램에 있는 놈 중 가장 안 쓸 것 같은 쓰레기 1놈(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a>)을 골라서 디스크로 발로 차버려라(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/">Swap Out</a>)!"</strong>라는 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/">페이지 교체</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/">Page Replacement</a>)</strong> 로직을 강제로 태운다.
-- 쫓아내는 놈이 수정된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Dirty Bit](/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/) = 1)라면 디스크에 쓰는 시간(8ms)이 추가로 걸린다. 
+- 쫓아내는 놈이 수정된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Dirty Bit](/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/) = 1)라면 디스크에 쓰는 시간(8ms)이 추가로 걸린다.
 - 결국 빈방이 없으면 [스왑 아웃(디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)) -> 스왑 인(디스크 읽기)]의 2번 디스크 I/O를 맞아야 해서 페널티 시간이 2배로 폭증한다. (이 교체 알고리즘은 뒤에서 자세히 배운다).
 
 ```text
@@ -124,10 +124,10 @@ OS 교과서에서 30년 넘게 토시 하나 안 틀리고 가르치는 완벽�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오: [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 지옥, EPT ([Extended Page Table](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/661_extended_page_table/)) 
+### 실무 시나리오: [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 지옥, EPT ([Extended Page Table](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/661_extended_page_table/))
 클라우드 가상 머신(AWS EC2 등)을 띄우면 호스트 OS(리눅스) 위에 게스트 OS(우분투)가 올라간다.
 1. **이중 폴트의 공포**:
-   - 우분투(게스트) 앱이 폴트를 내면 6단계 처리 과정을 밟는다. 
+   - 우분투(게스트) 앱이 폴트를 내면 6단계 처리 과정을 밟는다.
    - 그런데 게스트 OS가 "좋아, 빈방 5번 램에 꽂아!" 했는데, 그 5번 램이 가짜(가상 램)이고 호스트 OS의 진짜 물리 램에선 디스크로 [스왑 아웃](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/)되어 있다면?
    - <strong>폴트 안에서 또 폴트가 터진다 (Nested <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a>)</strong>.
 2. **오버헤드의 기하급수적 팽창**:

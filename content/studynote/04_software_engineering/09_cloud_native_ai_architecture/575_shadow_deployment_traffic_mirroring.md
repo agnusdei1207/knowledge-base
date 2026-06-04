@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **Shadow (그림자/유령)**: 유저 눈에는 보이지 않지만, 본체(V1 서버) 뒤에 똑같이 찰싹 붙어 행동을 똑같이 따라 하는 V2 샌드박스(테스트) 서버.
   - <strong>Traffic Mirroring (거울 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>)</strong>: 1개의 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 패킷이 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 라우터에 닿는 순간, 거울에 반사되듯 2개의 똑같은 패킷으로 100% [클론](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Clone](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/))되어 하나는 V1으로, 하나는 V2로 흩어져 날아가는 인프라 네트워크 꺾기 마술.
 

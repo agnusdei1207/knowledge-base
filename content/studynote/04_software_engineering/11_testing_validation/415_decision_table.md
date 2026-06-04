@@ -28,9 +28,9 @@ tags = ["studynote-software-engineering"]
 ┌──────────────────────────────────────────────────────────────┐
 │                  의사 결정 테이블의 시각적 구조                 │
 ├──────────────────────────────────────────────────────────────┤
-│ [조건 (Conditions)]        | Rule 1 | Rule 2 | Rule 3 | Rule 4 |  
-│ C1: 골드 회원인가?         |    T   |    T   |    F   |    F   |  
-│ C2: 일요일인가?            |    T   |    F   |    T   |    F   |  
+│ [조건 (Conditions)]        | Rule 1 | Rule 2 | Rule 3 | Rule 4 |
+│ C1: 골드 회원인가?         |    T   |    T   |    F   |    F   |
+│ C2: 일요일인가?            |    T   |    F   |    T   |    F   |
 │ ─────────────────────────┼────────┼────────┼────────┼────────┤
 │ [동작 (Actions)]           |        |        |        |        |
 │ A1: 20% 추가 할인 적용      |    X   |        |        |        |
@@ -56,7 +56,7 @@ tags = ["studynote-software-engineering"]
 
 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/)은 단순히 엑셀 표가 아니라, 엄격한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로처럼 구성됩니다.
 
-1. <strong>조건 스터브 (Condition <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">Stub</a>)</strong>: 위쪽 좌측 영역. 비즈니스 규칙에서 분기를 타게 만드는 '원인'들을 나열합니다. 
+1. <strong>조건 스터브 (Condition <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">Stub</a>)</strong>: 위쪽 좌측 영역. 비즈니스 규칙에서 분기를 타게 만드는 '원인'들을 나열합니다.
 2. **조건 항목 (Condition Entry)**: 위쪽 우측 영역. 원인들이 취할 수 있는 값(일반적으로 참(True)/거짓(False))의 조합을 채워 넣습니다.
 3. <strong>동작 스터브 (Action <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">Stub</a>)</strong>: 아래쪽 좌측 영역. 조건들의 결과로써 시스템이 뿜어내야 할 '출력(행동)'들을 명시합니다.
 4. **동작 항목 (Action Entry)**: 아래쪽 우측 영역. 위의 조건 조합(Rule)이 맞을 때, 어떤 행동이 실행(X)되어야 하는지 체크합니다.
@@ -84,7 +84,7 @@ tags = ["studynote-software-engineering"]
 조건이 10개라면, True/False 조합은 $2^{[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)} = 1024$개의 Rule이 쏟아집니다. 이를 1024번 모두 테스트하는 것은 비효율적입니다.
 이를 해결하는 강력한 개념이 <strong>허용 불가 및 무관(Don't Care, 기호 <code>-</code>)</strong>입니다.
 
-예를 들어 `C1: 미성년자인가?`, `C2: 운전면허 갱신 대상인가?`라는 조건이 있을 때, C1이 `True(미성년자)`라면 C2가 참이든 거짓이든 애초에 운전면허가 없으므로 신경 쓸 필요가 없습니다. 이때 [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 칸에 `-`를 표시하면, `T-T`와 `T-F`라는 두 개의 Rule을 `T- -` 하나로 병합하여 절반으로 압축해 버릴 수 있습니다. 
+예를 들어 `C1: 미성년자인가?`, `C2: 운전면허 갱신 대상인가?`라는 조건이 있을 때, C1이 `True(미성년자)`라면 C2가 참이든 거짓이든 애초에 운전면허가 없으므로 신경 쓸 필요가 없습니다. 이때 [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 칸에 `-`를 표시하면, `T-T`와 `T-F`라는 두 개의 Rule을 `T- -` 하나로 병합하여 절반으로 압축해 버릴 수 있습니다.
 이러한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 최적화([카르노 맵](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/) 같은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 최소화)를 통해 수천 개의 테스트를 수십 개로 극적으로 줄이면서도 놓치는 시나리오는 제로로 만드는 것이 고수 QA의 실력입니다.
 
 - **📢 섹션 요약 비유**: 피자 토핑을 고르는데 최상단 분기문에 "피자 말고 스파게티 선택"을 참(T)으로 골랐다면, 그 밑에 페퍼로니를 얹을지 파인애플을 얹을지(조건들)는 전부 쳐다볼 필요도 없이 싹 다 무시선(-)을 그어버려서 종이 낭비를 줄이는 기술입니다.
@@ -102,7 +102,7 @@ tags = ["studynote-software-engineering"]
 현업에서 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/)이 빛을 발하는 가장 극적인 순간은, <strong>아무도 모르는 10년 된 레거시(Legacy) 코드를 파악할 때</strong>입니다.
 퇴사한 개발자가 남긴 `if (a && b) { if (c || d) { ... } }`가 난무하는 지옥의 1000줄짜리 코드를 보고 누구도 건드리지 못할 때, QA 또는 분석가가 이 코드를 한 줄씩 읽어가며 엑셀에 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/)로 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)([Reverse 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/))하여 그려냅니다.
 
-그려보면 충격적인 사실을 발견합니다. "어? 개발자가 Rule 7번(T-F-T 조합)에 대해서는 `else`문 처리를 안 해놨네?" 
+그려보면 충격적인 사실을 발견합니다. "어? 개발자가 Rule 7번(T-F-T 조합)에 대해서는 `else`문 처리를 안 해놨네?"
 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/)은 이처럼 소스코드가 놓치고 있는 예외 상황이나 기획자가 요구사항 정의서에 아예 적지도 않은 맹점(Missing Requirements)을 수학적으로 고발해 내는 가장 날카로운 정적 검토([Static Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/430_static_testing/)) 무기가 됩니다.
 
 - **📢 섹션 요약 비유**: 할아버지 지갑 속에 마구 영수증과 돈이 구겨져 있어서 얼마가 있는지 모를 때, 책상에 다 쏟아붓고 1만 원권, 1천 원권 동전으로 반듯하게 줄을 세워(표로 정리)놓으면, 비로소 "아, 5백 원짜리가 비는구나!"라고 누락을 한눈에 찾아내는 정리의 마법입니다.

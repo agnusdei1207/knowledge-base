@@ -136,8 +136,8 @@ Retention Policy
 
 ## 어린이를 위한 3줄 비유 설명
 
-[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)은 다시 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위한 복사본이에요.  
-아카이빙은 오래 보관할 자료를 따로 두는 거예요.  
+[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)은 다시 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위한 복사본이에요.
+아카이빙은 오래 보관할 자료를 따로 두는 거예요.
 둘은 목적이 달라서 구분해야 해요.
 
 ---

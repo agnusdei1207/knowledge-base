@@ -20,8 +20,8 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 ### 1. [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1 파이프라이닝의 꿈 (The Ambition)
-[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 웹([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.0)은 한 번 요청하고 응답이 올 때까지 하염없이 기다리는 '비동기 통신의 무덤'이었습니다. 이를 타파하고자 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1은 <strong>파이프라이닝(Pipelining)</strong>을 도입했습니다. 
-- 클라이언트가 `이미지 1`, `이미지 2`, `이미지 3`을 달라는 요청(Request) 3개를 응답도 기다리지 않고 하나의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)으로 한 방에 밀어 넣습니다. 
+[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 웹([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.0)은 한 번 요청하고 응답이 올 때까지 하염없이 기다리는 '비동기 통신의 무덤'이었습니다. 이를 타파하고자 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1은 <strong>파이프라이닝(Pipelining)</strong>을 도입했습니다.
+- 클라이언트가 `이미지 1`, `이미지 2`, `이미지 3`을 달라는 요청(Request) 3개를 응답도 기다리지 않고 하나의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)으로 한 방에 밀어 넣습니다.
 - 이론상으로는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 효율성이 3배 좋아져야 했습니다.
 
 ### 2. 순서 강제의 저주 (The Pain Point)
@@ -73,7 +73,7 @@ tags = ["studynote-network"]
 이 문제가 너무나 끔찍했기 때문에, 애플(Safari), 구글(Chrome), 모질라(Firefox) 등 전 세계 브라우저 개발사들은 소스 코드에서 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 파이프라이닝 기능을 아예 **기본 비활성화(Disabled by Default)** 시켜버렸습니다. 사실상 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1의 파이프라이닝은 '스펙 문서에만 존재하는 죽은 기술'이 되었습니다.
 
 ### 2. 브라우저의 꼼수: 다중 커넥션 (Multi-Connections)
-파이프라이닝을 껐다면, 한 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)에서는 무조건 1개 받고 1개 받아야 하므로 100개의 이미지를 받으려면 세월아 네월아 걸립니다. 
+파이프라이닝을 껐다면, 한 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)에서는 무조건 1개 받고 1개 받아야 하므로 100개의 이미지를 받으려면 세월아 네월아 걸립니다.
 - 이를 해결하기 위해 브라우저들은 1개의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(예: `www.naver.com`)당 <strong>동시에 6개의 독립적인 <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a>(커넥션)을 강제로 뚫어버리는 꼼수</strong>를 사용했습니다. 6차선 도로를 억지로 만든 것입니다. 하지만 이 역시 6개를 넘어가면 7번째 요청부터는 다시 막히는 근본적 한계를 지닙니다.
 
 | 우회 기술 ([Workaround](/knowledge-base/studynote/12_it_management/02_itsm_itil/076_workaround_temporary_fix_incident/)) | 동작 메커니즘 | 치명적 단점 (Trade-off) |

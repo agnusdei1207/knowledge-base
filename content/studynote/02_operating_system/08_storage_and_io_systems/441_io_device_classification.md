@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 컴퓨터에 꽂히는 주변기기(I/O Devices)를 OS가 관리하는 논리적 기준이다. 
+- **개념**: 컴퓨터에 꽂히는 주변기기(I/O Devices)를 OS가 관리하는 논리적 기준이다.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/">블록 장치</a> (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/">Block Device</a>)</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 일정한 크기의 덩어리(블록, 보통 512바이트~4KB) 단위로 읽고 쓴다. <strong>주소(Address)</strong>가 있어서 100번 블록을 읽다가 갑자기 5만 번 블록으로 <strong>건너뛰기(랜덤 액세스, Seek)</strong>가 가능하다. (예: [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/), [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 메모리)
   - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/443_character_device/">문자 장치</a> (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/443_character_device/">Character Device</a>)</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1바이트(문자) 단위의 연속된 흐름([Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))으로 읽고 쓴다. 주소 개념이 없어서 건너뛰기가 불가능하며, **오직 순차적으로(Sequential)** 물이 흐르듯 지나가면 끝이다. (예: 키보드, 마우스, 프린터, 사운드카드)
 - **필요성**: 세상에는 키보드처럼 초당 10번 딸깍거리는 극저속 장치부터, SSD처럼 초당 기가바이트를 쏟아내는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 장치까지 수만 종의 하드웨어가 있다. OS가 이 수만 개의 장치마다 1:1 맞춤형 코드를 짠다면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 용량이 테라바이트가 되어도 모자랄 것이다. "디바이스의 물리적 특성을 버리고, 놈들이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 뱉는 '모양새'만 보고 크게 2개의 템플릿(인터페이스)으로 묶어버리자!"라는 극강의 공학적 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))가 이 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)법을 탄생시켰다.
@@ -62,7 +62,7 @@ tags = ["studynote-operating-system"]
 리눅스에서 터미널을 열고 `ls -l /dev`를 쳐보면 맨 앞에 요상한 알파벳과 숫자 조합이 나온다.
 - `brw-rw----  1 root disk    8,   0  sda`
 - `crw-rw-rw-  1 root tty     5,   0  tty`
-  
+
 여기서 맨 앞의 <strong><code>b</code></strong>가 [Block Device](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)(하드디스크 `sda`), <strong><code>c</code></strong>가 [Character Device](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/443_character_device/)(터미널 화면 `tty`)를 뜻한다.
 - **Major Number (주 번호)**: 8번. "이 기계를 조종할 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부의 디바이스 드라이버가 누구냐?"를 가리킨다. (예: 8번은 SCSI 디스크 드라이버).
 - **Minor Number (부 번호)**: 0번. "그 드라이버가 조종하는 기계 중에 정확히 몇 번째 놈이냐?"를 가리킨다. (예: 0번은 첫 번째 하드디스크, 1번은 그 하드의 첫 번째 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) `sda1`).

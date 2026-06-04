@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/">PWA</a> (Progressive Web Apps)</strong>: 평범한 HTML 웹사이트를 구글 플레이스토어 앱처럼 아이콘도 만들고, 푸시 알림도 쏘고, 오프라인 작동도 되게 진화(Progressive)시키는 구글 주도 웹 헌법.
   - <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/784_pwa_service_worker_caching_network/">Service Worker</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 워커)</strong>: PWA의 뇌(Brain). 브라우저 탭(UI [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) 밖에서 별도로 독립적으로 도는 좀비 자바스크립트 워커(Worker). 백그라운드에서 캐시 가로채기, 푸시 알림 받기를 노가다 뛴다.
   - **Offline-first (오프라인 우선)**: "오프라인을 예외 상황(Error)으로 취급하지 말고, 아예 처음부터 오프라인 상태(Local Cache)에서 화면을 그리고 시작한 뒤 백엔드를 찔러라"는 극한의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/생존 아키텍처 사상.

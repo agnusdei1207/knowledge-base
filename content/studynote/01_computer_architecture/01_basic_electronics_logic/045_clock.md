@@ -66,10 +66,10 @@ Data: ─────XXXX│XXXX─────
 
 Critical Path (임계 경로):
   두 플립플롭 사이 최장 조합 논리 경로
-  
+
   최대 클럭 주파수 결정:
   T ≥ tclk-q + t_combinational + tsu
-  
+
   예: tclk-q=0.1ns, 조합논리=2.5ns, tsu=0.1ns
       T_min = 2.7ns → f_max = 370 MHz
 ```
@@ -83,24 +83,24 @@ Critical Path (임계 경로):
 ```
 클럭 스큐 (Clock Skew):
   동일 클럭 신호가 칩 여러 지점에 다른 시간에 도달
-  
+
   원인:
   - 배선 길이 차이
   - 버퍼 지연 차이
   - 온도/공정 변이
-  
+
 클럭 스큐 영향:
   FF1 ─(긴 배선)─→ 클럭 도착: t+δ
   FF2 ─(짧은 배선)→ 클럭 도착: t
-  
+
   δ = 클럭 스큐 (Clock Skew)
-  
+
   긍정적 스큐: 데이터 경로와 같은 방향 → 도움
   부정적 스큐: 데이터 경로와 반대 방향 → 해로움
 
 클럭 트리 합성 (CTS, Clock Tree Synthesis):
   목표: 모든 플립플롭에 클럭 동시 도달
-  
+
   방법: 버퍼 트리 구조
         클럭 소스
            │
@@ -108,7 +108,7 @@ Critical Path (임계 경로):
      BUF     BUF
     ┌─┴─┐   ┌─┴─┐
    FF  FF   FF  FF
-   
+
   현대 CPU: 수십억 개 플립플롭
   CTS 목표: 스큐 < 50 ps
 
@@ -126,28 +126,28 @@ Critical Path (임계 경로):
 ```
 클럭 게이팅 (Clock Gating):
   동작하지 않는 회로의 클럭 공급 차단
-  
+
   목적: 소비전력 감소
-  
+
   메커니즘:
   Enable ─┐
            AND Gate → 게이팅된 클럭
   Clock  ─┘
-  
+
   효과: 동적 전력 P = α × C × V² × f
   클럭 비활성 → α(활동 인자) = 0 → P = 0
 
 DVFS (Dynamic Voltage Frequency Scaling):
   동적 전압-주파수 조절
-  
+
   부하 낮을 때: f↓, V↓ → 전력 절감 (V² 효과!)
   부하 높을 때: f↑, V↑ → 성능 최대화
-  
+
   스마트폰 CPU: 코어당 DVFS 독립 조절
 
 클럭 도메인 교차 (CDC, Clock Domain Crossing):
   서로 다른 주파수 도메인 간 데이터 전달
-  
+
   위험: 메타스태빌리티 (Metastability)
   해결: 동기화 플립플롭 (2-stage sync), FIFO
 
@@ -175,7 +175,7 @@ Qualcomm Snapdragon SoC 클럭 구조:
   CPU Big Core:  3.2 GHz (고성능, DVFS)
   CPU Little Core: 1.8 GHz (저전력, DVFS)
   GPU:           900 MHz
-  DSP:           800 MHz  
+  DSP:           800 MHz
   LPDDR5 Memory: 3.2 GHz (DDR: 양방향 6.4 GT/s)
 
 소비전력 최적화:
@@ -186,7 +186,7 @@ Qualcomm Snapdragon SoC 클럭 구조:
 열 제어 (Thermal Throttling):
   온도 > 90°C → 주파수 자동 감소
   클럭 ↓ = 성능 ↓ + 발열 ↓
-  
+
   스마트폰 방열 한계 → 지속 성능 < 피크 성능
 
 검증 (Timing Closure):

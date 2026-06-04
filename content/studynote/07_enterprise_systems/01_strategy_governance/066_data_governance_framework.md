@@ -137,8 +137,8 @@ Data Trust
 
 ## 어린이를 위한 3줄 비유 설명
 
-책을 아무렇게나 두면 못 찾아요.  
-누가 책임지는지 정해야 정리가 돼요.  
+책을 아무렇게나 두면 못 찾아요.
+누가 책임지는지 정해야 정리가 돼요.
 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)는 그런 규칙이에요.
 
 ---

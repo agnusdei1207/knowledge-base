@@ -54,7 +54,7 @@ ISP 수행은 철저하게 논리적인 인과관계를 가진 4단계 폭포수
 
 ## Ⅲ. 비교 및 연결
 
-ISP는 단독으로 존재하지 않으며, 조직의 거대한 뼈대인 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/))를 바탕으로, 실제 소프트웨어 개발 생명주기 ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))의 최상단에서 방향을 제시한다. 
+ISP는 단독으로 존재하지 않으며, 조직의 거대한 뼈대인 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/))를 바탕으로, 실제 소프트웨어 개발 생명주기 ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))의 최상단에서 방향을 제시한다.
 
 | 비교 영역 | [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) (비즈니스 프로세스 재설계) | ISP (정보화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 계획) | [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) (소프트웨어 개발 생명주기) |
 | :--- | :--- | :--- | :--- |

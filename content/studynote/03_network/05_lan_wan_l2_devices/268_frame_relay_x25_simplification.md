@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: X.25를 대체하기 위해 1990년대 등장한 OSI 2계층([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크) 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/). T1(1.544Mbps)에서 T3(45Mbps) 급의 고속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송을 목표로 설계되었다.
 - **필요성**: X.25는 매 라우터를 지날 때마다 에러를 검사하고 응답(ACK)하느라 아무리 장비가 좋아도 속도를 내지 못했다(오버헤드 심각). 시대가 변해 튼튼한 광케이블이 깔리자, "선로가 좋아서 어차피 에러도 안 나는데, 톨게이트마다 세워서 검사하지 말고 그냥 논스톱으로 쏴버리자!"라는 발상의 전환이 필요해졌다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - **X.25**: 고속도로 톨게이트(라우터)마다 차를 세우고 면허증, 짐 검사를 다 한 뒤 통과시켜 주는 꽉 막힌 도로.
   - **프레임 릴레이**: 톨게이트에 하이패스를 설치하여 검사 없이 **무정차 통과(Relay)** 시키는 도로. 혹시 과속하거나 불량 차가 있으면 하이패스 카메라가 찍어서 통지서만 띡 날리고(끝단 처리), 도로 중간에서 길을 막지 않습니다.
 
@@ -47,8 +47,8 @@ tags = ["studynote-network"]
 - 만약 프레임이 깨졌다면 그냥 버린다(Drop). 그러면 최종 수신지 컴퓨터의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 4계층 모듈이 "어? 3번 패킷 안 왔네? 다시 보내!"라고 출발지 컴퓨터에게 직접 요청한다. <strong>통신망의 책임을 엔드포인트(단말기)로 전가한 것</strong>이 고속화의 핵심이다.
 
 ### 2. 가상 회선(Virtual Circuit)을 통한 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)
-물리적인 라우터 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(예: [Serial](/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/) 0/0) 하나에 논리적인 길을 여러 개 뚫을 수 있다. 
-예를 들어, 본사 라우터 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 1개에 지사 A로 가는 길(가상 회선 100번), 지사 B로 가는 길(가상 회선 200번)을 소프트웨어적으로 생성할 수 있다. 
+물리적인 라우터 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(예: [Serial](/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/) 0/0) 하나에 논리적인 길을 여러 개 뚫을 수 있다.
+예를 들어, 본사 라우터 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 1개에 지사 A로 가는 길(가상 회선 100번), 지사 B로 가는 길(가상 회선 200번)을 소프트웨어적으로 생성할 수 있다.
 비싼 전용선을 지사마다 물리적으로 깔 필요 없이, 통신사 클라우드까지만 선 하나를 꽂으면 내부에서 통신사가 길을 갈라주므로 <strong>구축 비용이 파격적으로 절감</strong>되었다.
 
 ```text
@@ -69,7 +69,7 @@ tags = ["studynote-network"]
 ### 3. 통신 요금 체계의 혁신: [CIR](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/) ([Committed Information Rate](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/))
 전용선은 무조건 고정 요금이지만, 프레임 릴레이는 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/">CIR</a> (보장 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>)</strong>이라는 요금제를 도입했다.
 - 사용자가 통신사와 "최소 2Mbps는 무조건 보장해 줘([CIR](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/))"라고 계약한다.
-- 평소에는 2Mbps로 쓰다가, 새벽에 망에 남는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 널널하면 통신사가 임시로 4Mbps까지 쏠 수 있게 유도리를 부려준다(Burst). 
+- 평소에는 2Mbps로 쓰다가, 새벽에 망에 남는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 널널하면 통신사가 임시로 4Mbps까지 쏠 수 있게 유도리를 부려준다(Burst).
 - 사용자는 싼 맛에 샀지만 트래픽이 널널할 땐 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 왕창 쓸 수 있는 엄청난 가성비를 누렸다.
 
 - **📢 섹션 요약 비유**: ** 프레임 릴레이는 아파트에서 각 세대로 들어가는 **"수도관 배관 공사(Virtual Circuit)"**와 같습니다. 메인 상수도관(물리 선로) 하나만 아파트에 끌어오면, 내부에서 파이프를 가상으로 쪼개서 수십 가구에 물([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 동시에 저렴하게 공급할 수 있습니다.

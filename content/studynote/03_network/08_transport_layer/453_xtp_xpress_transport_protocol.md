@@ -47,8 +47,8 @@ tags = ["studynote-network"]
 ### 1. XTP의 4가지 초특급 무기 (기능적 특징)
 당시 TCP가 상상도 못 하던 기능들을 한 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 안에 싹 다 쑤셔 넣었다.
 
-1. <strong>에러 제어와 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a>의 분리 (Decoupling)</strong>: 
-   - TCP는 ACK 영수증이 "나 여기까지 받았어(에러 제어)"와 "내 윈도우 사이즈 100이야([흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/))"라는 두 가지 임무를 한 번에 섞어서 했다. 
+1. <strong>에러 제어와 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a>의 분리 (Decoupling)</strong>:
+   - TCP는 ACK 영수증이 "나 여기까지 받았어(에러 제어)"와 "내 윈도우 사이즈 100이야([흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/))"라는 두 가지 임무를 한 번에 섞어서 했다.
    - XTP는 "야, 이거 두 개 분리해! 그래야 하나는 유연하게 속도를 내고 하나는 깐깐하게 검사하지!"라고 구조를 분해했다.
 2. **선택적 재전송 (Selective Retransmission)**:
    - TCP가 멍청하게 "3번 누락됐네? 3번부터 10번까지 다시 다 쏴!"(누적 ACK) 하던 시절, XTP는 "나 3번만 안 왔으니까 3번만 핀셋으로 콕 집어서 줘!"라는 현대 SACK의 개념을 10년 일찍 도입했다.

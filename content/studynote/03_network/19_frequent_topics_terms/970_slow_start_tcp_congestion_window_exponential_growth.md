@@ -65,9 +65,9 @@ tags = ["studynote-network"]
 
 언제까지 2배로 뻥튀기할까요? 끝없이 하면 결국 도로가 터집니다.
 
-- <strong>ssthresh (<a href="/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/">Slow Start</a> Threshold, 임계 한계선)</strong>: 
+- <strong>ssthresh (<a href="/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/">Slow Start</a> Threshold, 임계 한계선)</strong>:
   - 송신자 마음속에 "아무리 뻥튀기해도 대충 이 숫자(예: 64)쯤 오면 슬슬 길이 막힐 텐데 조심해야지"라고 정해둔 <strong>경계선</strong>입니다.
-- <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/432_congestion_avoidance_aimd_algorithm/">혼잡 회피</a> (Congestion Avoidance) 페이즈 진입</strong>: 
+- <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/432_congestion_avoidance_aimd_algorithm/">혼잡 회피</a> (Congestion Avoidance) 페이즈 진입</strong>:
   - 지수 증가를 하며 16, 32, 64까지 빵빵 터지며 올라왔습니다.
   - CWND가 딱 이 <strong>임계값(ssthresh=64)</strong>에 도달하거나 넘는 순간! 철수는 브레이크를 밟습니다.
   - "오케이, 여기까지가 한계 속도에 근접한 거다. 지금부터 2배 뻥튀기(지수 증가)는 중단하고, 쫄리니까 <strong>답장이 올 때마다 창문 크기를 1씩만 더해주는(64 ➜ 65 ➜ 66) 소심한 더하기 모드(선형 증가, Linear)</strong>로 전환하자!"

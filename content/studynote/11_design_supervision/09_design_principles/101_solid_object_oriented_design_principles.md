@@ -72,7 +72,7 @@ SRP가 클래스의 덩치를 통제한다면, OCP는 다형성을 이용해 변
 
 최근의 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/), [Microservices Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) 설계에서도 이 원칙들이 적용된다. SRP는 각 서비스의 경계([Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))를 나누는 기준이 되고, DIP는 외부 API와의 통신을 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)하여 장애 격리를 돕는다. 결국 SOLID는 단일 메모리 상의 객체 지향을 넘어, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 설계의 근간으로 확장된다.
 
-- **📢 섹션 요약 비유**: [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)이 목수가 쓰는 톱과 망치(도구)라면, [SOLID](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) 원칙은 집이 바람에 무너지지 않게 설계하는 무게 중심과 기둥 배치의 역학(이론)이다. 
+- **📢 섹션 요약 비유**: [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)이 목수가 쓰는 톱과 망치(도구)라면, [SOLID](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) 원칙은 집이 바람에 무너지지 않게 설계하는 무게 중심과 기둥 배치의 역학(이론)이다.
 
 ---
 

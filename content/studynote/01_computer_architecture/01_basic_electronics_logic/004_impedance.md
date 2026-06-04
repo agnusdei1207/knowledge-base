@@ -28,7 +28,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-고속 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 구형파([Square](/knowledge-base/studynote/04_software_engineering/06_software_architecture/341_iso_iec_25010/) [Wave](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)) 형태를 띠며, 수많은 고주파 성분의 합으로 이루어져 있다. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 전송 선로를 이동할 때, 선로의 폭, 절연체의 두께, 유전율 등에 의해 고유한 특성 임피던스 ($Z_0$)가 결정된다. 
+고속 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 구형파([Square](/knowledge-base/studynote/04_software_engineering/06_software_architecture/341_iso_iec_25010/) [Wave](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)) 형태를 띠며, 수많은 고주파 성분의 합으로 이루어져 있다. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 전송 선로를 이동할 때, 선로의 폭, 절연체의 두께, 유전율 등에 의해 고유한 특성 임피던스 ($Z_0$)가 결정된다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -68,7 +68,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무 설계에서 가장 중요한 임피던스 제어 영역은 마더보드의 고속 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 칩의 전력 분배망 (PDN, [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Delivery Network)이다. 
+실무 설계에서 가장 중요한 임피던스 제어 영역은 마더보드의 고속 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 칩의 전력 분배망 (PDN, [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Delivery Network)이다.
 
 코어가 수백 암페어의 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 나노초 단위로 스위칭할 때, 전원 배선이 가진 인덕턴스 때문에 거대한 임피던스 장벽이 생겨 칩 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 곤두박질친다. 이를 막으려면 주파수 대역별로 크기가 다른 디커플링 커패시터들을 병렬로 촘촘히 배치하여, **타겟 임피던스 (Target Impedance)** 곡선 이하로 임피던스를 평탄화(Flat)해야 한다.
 
@@ -122,7 +122,7 @@ tags = ["studynote-computer-architecture"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 임피던스는 물놀이장 슬라이드의 '매끄러운 정도'와 같아요. 
+1. 임피던스는 물놀이장 슬라이드의 '매끄러운 정도'와 같아요.
 2. 미끄럼틀 굵기가 중간에 갑자기 좁아지거나 넓어지면, 타고 내려오던 친구들이 부딪혀서 뒤로 튕겨 나가는 사고가 발생해요.
 3. 그래서 슬라이드 설계자들은 처음부터 끝까지 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 굵기를 똑같이 맞추어(임피던스 매칭) 모두가 안전하게 빛의 속도로 골인하게 만들어 준답니다.
 

@@ -63,20 +63,20 @@ Zoning (존 설정):
 ```
 Fibre Channel (FC):
   전통적 SAN 프로토콜
-  
+
   특징:
   전용 FC 패브릭 (IP 네트워크와 분리)
   FC-0 ~ FC-4 계층 구조
-  
+
   속도: 8G / 16G / 32G / 64Gbps
   지연: < 1마이크로초
   신뢰성: 손실 없는 전송 (Lossless)
-  
+
   장점:
   초저지연, 고성능
   미션 크리티컬 DB에 적합
   성숙한 기술, 강력한 보안 (Zoning)
-  
+
   단점:
   전용 인프라 필요 → 높은 비용
   FC HBA, FC 스위치, FC 케이블
@@ -84,19 +84,19 @@ Fibre Channel (FC):
 
 iSCSI (Internet SCSI):
   SCSI 명령을 IP 패킷에 캡슐화
-  
+
   특징:
   기존 IP 네트워크 활용 가능
   표준 이더넷 NIC 사용 가능
-  
+
   속도: 10G / 25G / 100Gbps (이더넷 기반)
   지연: 수십~수백 마이크로초
-  
+
   장점:
   저렴한 구축 비용 (기존 이더넷 활용)
   원거리 스토리지 연결 가능 (WAN)
   관리 단순
-  
+
   단점:
   FC 대비 지연 높음
   IP 네트워크 혼잡 영향 가능
@@ -124,45 +124,45 @@ NVMe-oF (NVMe over Fabrics):
 
 DAS (Direct-Attached Storage):
   서버에 직접 연결된 디스크
-  
+
   예: 서버 내부 SATA/SAS HDD, 외장 RAID
-  
+
   장점: 단순, 저지연, 저비용
   단점: 서버 간 공유 불가, 확장성 제한
   적합: 소규모 독립 서버
 
 NAS (Network-Attached Storage):
   파일 수준 스토리지, IP 네트워크
-  
+
   프로토콜: NFS (Unix/Linux), SMB/CIFS (Windows)
-  
+
   예: NetApp ONTAP, EMC Isilon, Synology
-  
+
   장점:
   파일 공유 용이 (다수 클라이언트)
   관리 단순, 저렴
-  
+
   단점:
   블록 수준 접근 불가
   DB 등 고성능 워크로드 부적합
-  
+
   적합: 파일 공유, 백업, 아카이브
 
 SAN (Storage Area Network):
   블록 수준 스토리지, 전용 패브릭
-  
+
   프로토콜: FC, iSCSI, NVMe-oF
-  
+
   예: EMC VMAX, HPE 3PAR, IBM FlashSystem
-  
+
   장점:
   고성능 (DB, VM)
   스토리지 통합, 유연한 할당
   스토리지 마이그레이션 (비중단)
-  
+
   단점:
   높은 구축 비용 및 복잡도
-  
+
   적합: 엔터프라이즈 DB, VM 스토리지
 
 하이퍼 컨버지드 (HCI):
@@ -184,7 +184,7 @@ SAN (Storage Area Network):
   서버 1: 내장 디스크 500GB (사용 40%)
   서버 2: 내장 디스크 500GB (사용 30%)
   서버 3: 내장 디스크 500GB (사용 20%)
-  
+
   총 용량: 1.5TB, 사용: 450GB
   활용률: 30% (낭비!)
 
@@ -193,18 +193,18 @@ SAN 통합 후:
   서버 1: LUN 1 (200GB 할당)
   서버 2: LUN 2 (150GB 할당)
   서버 3: LUN 3 (100GB 할당)
-  
+
   활용률: 30% → 70%+ (동적 재할당)
 
 LUN 마스킹 & Zoning:
   LUN 마스킹: 스토리지에서 서버별 LUN 접근 제한
   Zoning: FC 스위치에서 포트별 통신 허용
-  
+
   이중 보안으로 데이터 격리 보장
 
 스토리지 마이그레이션 (무중단):
   서버 다운 없이 LUN 이동
-  
+
   방법:
   스토리지 레벨 LUN 복사
   멀티패스 I/O (MPIO)로 경로 전환
@@ -214,7 +214,7 @@ HA 구성:
   멀티패스 (Multipathing):
   서버 → [HBA 1] → [FC 스위치 A] → 스토리지
   서버 → [HBA 2] → [FC 스위치 B] → 스토리지
-  
+
   경로 1 장애 → 경로 2 자동 전환
   Linux: DM-Multipath, Windows: MPIO
 ```

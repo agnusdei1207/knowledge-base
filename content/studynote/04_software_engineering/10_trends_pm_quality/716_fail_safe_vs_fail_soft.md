@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어와 하드웨어는 언젠가 반드시 고장 난다(Assume Failure). 과거의 엔지니어들은 고장 나면 그냥 시스템이 폭발하거나 멈춰버리게 방치했다. 하지만 엘리베이터의 모터가 고장 났다고 해서 엘리베이터가 그대로 추락하면 큰일이다. 
+소프트웨어와 하드웨어는 언젠가 반드시 고장 난다(Assume Failure). 과거의 엔지니어들은 고장 나면 그냥 시스템이 폭발하거나 멈춰버리게 방치했다. 하지만 엘리베이터의 모터가 고장 났다고 해서 엘리베이터가 그대로 추락하면 큰일이다.
 
 그래서 엔지니어들은 <strong>"고장이 나는 그 순간, 시스템이 스스로 어떤 상태(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)로 진입할 것인가?"</strong>를 아키텍처 설계 단계부터 강제로 정해두기 시작했다. 고장이 났을 때 무조건 기계를 멈춰서 사람을 살리는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/">페일 세이프</a>(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/">Fail-Safe</a>)</strong>와, 비행기 엔진 2개 중 1개가 고장 나도 남은 1개로 어떻게든 날아가게 만드는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/460_fail_soft/">페일 소프트</a>(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/460_fail_soft/">Fail-Soft</a>)</strong>가 바로 그 대답이다.
 

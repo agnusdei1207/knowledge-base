@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/472_c_scan_scheduling/">C-SCAN</a> (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/472_c_scan_scheduling/">Circular SCAN</a>)</strong>: 디스크 암(Arm)이 항상 0번에서 199번 한쪽 방향으로만 움직이며 요청을 처리하고, 199번에 도달하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하지 않고 곧바로 0번으로 복귀하여 다시 0번부터 처리를 시작하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/). 마치 디스크가 끝과 끝이 연결된 원형(Circular)인 것처럼 다룬다.
 
-- **필요성 (SCAN의 불공평성 극복)**: 
-  - SCAN [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(엘리베이터)은 10층을 찍고 내려가면서 9층, 8층 사람을 바로 태운다. 
-  - 1층에 있는 사람은 엘리베이터가 10층을 찍고 내려와서 2층까지 다 태운 뒤에야 탈 수 있다(가장 오래 기다림). 
+- **필요성 (SCAN의 불공평성 극복)**:
+  - SCAN [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(엘리베이터)은 10층을 찍고 내려가면서 9층, 8층 사람을 바로 태운다.
+  - 1층에 있는 사람은 엘리베이터가 10층을 찍고 내려와서 2층까지 다 태운 뒤에야 탈 수 있다(가장 오래 기다림).
   - 즉, 가운데 트랙은 빗자루가 자주 지나가서 금방 처리되지만, 양 끝단 트랙은 빗자루가 한 번 떠나면 다시 올 때까지 시스템에서 가장 긴 대기 시간을 견뎌야 하는 <strong>지리적 차별(불공평성)</strong>이 존재했다.
   - **해결책**: "내려갈 땐 아무도 태우지 말고 그냥 1층으로 뚝 떨어지자! 그리고 무조건 올라갈 때만 태우자!" 이렇게 하면 모든 층의 사람이 1층에서 10층으로 가는 똑같은 주기(Cycle)마다 한 번씩 공평하게 탈 수 있다.
 
@@ -45,7 +45,7 @@ tags = ["studynote-operating-system"]
 
 ### [C-SCAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/472_c_scan_scheduling/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 시뮬레이션
 
-디스크 실린더가 0번부터 199번까지 있다. 
+디스크 실린더가 0번부터 199번까지 있다.
 현재 헤드 위치: **50번 ([진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 방향: 우측 $\rightarrow$ 199번 방향)**
 요청 큐: `[98, 183, 37, 122, 14, 124, 65, 67]`
 
@@ -204,7 +204,7 @@ C-SCAN의 존재 이유는 오직 이 '편차([분산](/knowledge-base/studynote
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 1층부터 10층까지 있는 건물에서 'SCAN 엘리베이터'는 올라갈 때도 태우고, 내려올 때도 태웠어요. 그러니까 중간인 5층 사람들은 하루에 두 번이나 타는데, 1층 사람은 엘리베이터가 한참 뒤에나 돌아와서 화가 났죠.
-2. 그래서 '[C-SCAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/472_c_scan_scheduling/) 엘리베이터'를 도입했어요! 이 엘리베이터는 무조건 "올라갈 때([단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/))"만 사람을 태워요. 
+2. 그래서 '[C-SCAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/472_c_scan_scheduling/) 엘리베이터'를 도입했어요! 이 엘리베이터는 무조건 "올라갈 때([단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/))"만 사람을 태워요.
 3. 10층에 도착하면 아무도 안 태우고 번지점프를 하듯 1층으로 0.1초 만에 휙! 떨어집니다. 그리고 다시 1층부터 태우면서 올라가요. 덕분에 모든 층 사람들이 완벽하게 똑같은 시간만 기다리면 엘리베이터를 탈 수 있게 되었답니다!
 
 ---

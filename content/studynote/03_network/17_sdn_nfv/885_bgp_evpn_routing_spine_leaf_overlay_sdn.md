@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 앞서 817번 문서에서 VXLAN이 1,600만 개의 가상망(오버레이 터널)을 뚫어준다고 배웠습니다. 
+- 앞서 817번 문서에서 VXLAN이 1,600만 개의 가상망(오버레이 터널)을 뚫어준다고 배웠습니다.
 - 하지만 VXLAN은 짐을 싸는 '택배 박스([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)'일 뿐, '주소(Control Plane)'를 어떻게 찾을지는 정해주지 않았습니다. 그래서 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) VXLAN은 목적지 주소를 찾기 위해 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)(Multicast)로 온 동네방네 택배 송장을 복사해서 뿌리며 물어보는 멍청한 짓(Flood-and-Learn)을 했습니다. 스파인-리프 망이 뻗어버렸습니다.
 
 ```text
@@ -67,7 +67,7 @@ tags = ["studynote-network"]
 
 ### 3. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 애니캐스트 게이트웨이 (Distributed Anycast Gateway)
 - VM이 1층 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 랙에서 5층 랙으로 이사를 갑니다(vMotion). 옛날엔 5층으로 가면 기본 게이트웨이(Gateway) IP를 바꿔야 해서 인터넷이 끊겼습니다.
-- [EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/) 망에서는 전국의 모든 Leaf [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들이 <strong>"내가 192.168.1.254(게이트웨이)야!"</strong>라고 똑같은 가짜 얼굴(Anycast IP/[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))을 하고 서 있습니다. 
+- [EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/) 망에서는 전국의 모든 Leaf [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들이 <strong>"내가 192.168.1.254(게이트웨이)야!"</strong>라고 똑같은 가짜 얼굴(Anycast IP/[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))을 하고 서 있습니다.
 - VM이 5층으로 훌쩍 날아가도, 5층 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 똑같은 게이트웨이 얼굴로 받아주기 때문에 VM은 자기가 이사 온 줄도 모른 채 단 1초의 통신 끊김 없이 넷플릭스를 봅니다. (완벽한 L2/L3 심리스 마이그레이션)
 
 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)-[EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/) 스파인-리프 오버레이를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [ONIE](/knowledge-base/studynote/03_network/17_sdn_nfv/884_onie_open_network_install_environment_bootloader/) (Open Network Insta…가 기반 조건을 만든다면, [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)-[EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/) 스파인-리프 오버레이는 그 위에서 핵심 메커니즘을 구현하고, [엣지 가상화](/knowledge-base/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.

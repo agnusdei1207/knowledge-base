@@ -21,7 +21,7 @@ tags = ["cloud_architecture"]
 
 **전통적 IT 인프라의 한계와 퍼블릭 클라우드의 혁신**
 과거의 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)([On-Premise](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)) 환경에서는 새로운 비즈니스 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 론칭하려면 서버 하드웨어 발주, 네트워크 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 공사, OS 설치 등 수 개월의 리드 타임과 막대한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 자본 투자가 수반되었다. 더욱이, 블랙 프라이데이와 같은 피크 트래픽을 대비해 구매한 장비들은 평상시에는 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~20%의 활용률에 머무르며 막대한 유지보수 비용과 공간적 낭비를 발생시켰다.
-퍼블릭 클라우드 (Public Cloud)는 이러한 물리적 경직성을 타파하고, 전기나 수도처럼 IT 자원을 "필요한 순간에 필요한 용량만큼만" API를 통해 끌어다 쓰고 요금을 지불하는 완벽한 유틸리티 컴퓨팅(Utility Computing) 모델을 실현했다. 
+퍼블릭 클라우드 (Public Cloud)는 이러한 물리적 경직성을 타파하고, 전기나 수도처럼 IT 자원을 "필요한 순간에 필요한 용량만큼만" API를 통해 끌어다 쓰고 요금을 지불하는 완벽한 유틸리티 컴퓨팅(Utility Computing) 모델을 실현했다.
 
 **💡 비유**: 예전에는 여행을 갈 때마다 자동차를 직접 사서 주차장을 마련하고 엔진오일을 갈아야 했다면, 퍼블릭 클라우드는 스마트폰 앱으로 전 세계 어디서나 즉시 차를 빌려 타고 달린 거리만큼만 결제하는 글로벌 카셰어링 혁신과 같다.
 

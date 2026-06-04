@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: 대형 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 내에서 [iBGP](/knowledge-base/studynote/03_network/07_network_layer_routing/366_ibgp_ebgp_split_horizon_rule/) 피어링의 $N(N-1)/2$ 확장성 문제(Full-Mesh 요구사항)를 극복하기 위한 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 토폴로지 최적화 기술 두 가지.
 - **필요성**: SKT 망에 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 라우터가 1,000대 있다. [iBGP](/knowledge-base/studynote/03_network/07_network_layer_routing/366_ibgp_ebgp_split_horizon_rule/) 룰에 따르면 1번 라우터가 외부 지도를 가져와도 2번한테 주면 2번은 3번한테 주지 못한다(루프 방지 침묵). 이 침묵을 깨려면 1번이 1,000명과 1:1 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)(Full-Mesh)을 열고 똑같은 지도를 999번 전송해야 한다. 통신사 라우터들이 이 짓을 하다가 연산 폭주로 뻗어버렸다. "어떻게든 스플릿 호라이즌의 족쇄를 끊으면서도, 루핑([Looping](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/251_looping_broadcast_storm/))은 안 돌게 하는 묘수를 찾아내라!!"
 
-- **💡 비유**: 
+- **💡 비유**:
   - **Full-Mesh의 지옥**: 100명의 회사원이 서로 한 번씩 인사를 나누려면 악수를 **4,950번** 해야 합니다. 손이 다 부르틉니다.
   - <strong>루트 리플렉터(<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/">RR</a>)</strong>: 사장님([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))이 단상에 올라옵니다. 99명의 직원은 사장님에게만 <strong>1번씩 악수(<a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a>)</strong>를 합니다. 사장님이 마이크를 잡고 "다들 인사했음!" 하고 공지하면 끝납니다. 악수가 총 <strong>99번</strong>으로 줄어듭니다.
   - **컨페더레이션**: 100명이 너무 많으니 30명, 30명, 40명짜리 <strong>3개의 부서(Sub-<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">AS</a>)</strong>로 쪼갭니다. 부서 안에서는 악수를 다 돌리고, 부서 사이에는 부장님들끼리만 악수(eBGP 룰 적용)하게 하여 악수 횟수를 획기적으로 줄입니다.
@@ -44,13 +44,13 @@ tags = ["studynote-network"]
 
 ### 1. Route Reflector ([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/), 경로 반사기)의 3대 전파 룰
 통신사 망([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))에서 99% 쓴다. (가장 대중적이다).
-망 안에 반장([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))을 지정하고, 나머지를 쫄따구([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)), 반장과 친구인 다른 반장을 비쫄따구(Non-[Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))라 부른다. 
+망 안에 반장([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))을 지정하고, 나머지를 쫄따구([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)), 반장과 친구인 다른 반장을 비쫄따구(Non-[Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))라 부른다.
 
 1. 반장([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))이 <strong>쫄따구</strong>한테 받은 엽서 ──▶ 다른 **쫄따구** + <strong>비쫄따구</strong>에게 전부 다 반사(Reflect)해 준다! (원래 iBGP에선 금지된 짓이지만 RR의 권력으로 가능).
 2. 반장([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))이 외부 통신사(**eBGP**)에서 받은 엽서 ──▶ 쫄따구 + 비쫄따구에게 전부 다 반사해 준다!
 3. 반장([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))이 **비쫄따구**(다른 반장)한테 받은 엽서 ──▶ 쫄따구들한테만 반사하고, **또 다른 비쫄따구한테는 절대 주지 않는다.** (반장들끼리 무한 반사하다가 루프 도는 걸 막기 위한 최후의 안전장치다).
 
-**RR의 루프 방지**: "어? 스플릿 호라이즌(침묵)을 무시하고 남한테 엽서를 복사해 주면 무한 루프 도는 거 아니야?" 
+**RR의 루프 방지**: "어? 스플릿 호라이즌(침묵)을 무시하고 남한테 엽서를 복사해 주면 무한 루프 도는 거 아니야?"
 맞다. 그래서 RR은 엽서를 반사할 때 엽서 겉면에 <strong><code>Originator_ID</code>(최초 작성자 IP)</strong>와 <strong><code>Cluster_List</code>(자기가 거쳐 온 반장들 ID 목록)</strong>라는 특수 도장을 쾅쾅 찍어서 쏜다. 자기가 쓴 글이 도장 찍혀 다시 돌아오면 쓰레기통에 폐기하여 완벽히 루프를 억제한다.
 
 ```text

@@ -18,7 +18,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-컴퓨터는 숫자인 0과 1밖에 모른다. 시스템이 키보드 입력을 처리하거나 화면에 문자를 출력하려면, '알파벳과 이진수의 매핑([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)) 통일 규약'이 필요하며, 이것이 바로 ASCII (American Standard [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) for Information Interchange)다. 
+컴퓨터는 숫자인 0과 1밖에 모른다. 시스템이 키보드 입력을 처리하거나 화면에 문자를 출력하려면, '알파벳과 이진수의 매핑([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)) 통일 규약'이 필요하며, 이것이 바로 ASCII (American Standard [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) for Information Interchange)다.
 
 ASCII 표준이 없던 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨팅 시대에는 제조사(IBM, HP 등)마다 독자적인 문자 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 표를 사용했다. 이로 인해 서로 다른 기종 간 텍스트 파일을 공유하거나 네트워크 통신을 할 때 데이터가 호환되지 않는 심각한 파편화 문제가 발생했다. 텍스트 처리의 일관성과 기기 간 상호운용성을 보장하기 위해 전 세계 모든 컴퓨터가 준수해야 할 '공통 번역 사전'이 필수적으로 요구되었다.
 

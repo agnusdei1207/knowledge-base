@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: Mutation(뮤테이션)은 '[돌연변이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/)'를 뜻한다. 
+- **개념**: Mutation(뮤테이션)은 '[돌연변이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/)'를 뜻한다.
   원본 코드가 `if (a > b)`라면, 기계가 몰래 이 코드를 `if (a >= b)`나 `if (a < b)`로 살짝 바꾼 가짜 코드([돌연변이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) 몬스터) 100개를 찍어낸다. 그리고 기존 테스트 코드를 돌린다. 테스트가 진짜 깐깐하다면 이 몬스터들을 모조리 발견하고 실패(Fail) 에러를 뿜으며 몬스터를 죽여야(Kill) 한다. 그런데 만약 테스트가 통과(Pass)해 버린다면? 테스트 코드가 눈을 감고 있다는 뜻이다(Survive, 몬스터 생존).
 
 - **필요성**: 개발자에게 "테스트 커버리지 80% 달성해!"라고 지시했다. 개발자는 귀찮아서 테스트 코드 안에 결과를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 `assertEquals()` 함수를 다 빼버렸다. 이러면 코드가 에러를 뱉든 말든 테스트는 무조건 성공(Pass)하고 커버리지는 100%로 찍힌다(가짜 커버리지). 나중에 라이브 서버에서 돈이 복사되는 버그가 터진다. <strong>"테스트 코드가 내 소스 코드를 지켜준다면, 그 테스트 코드가 멀쩡한지는 누가 지켜주는가?"</strong>라는 원초적인 질문에 대답하기 위해 뮤테이션 테스팅이 등장했다.

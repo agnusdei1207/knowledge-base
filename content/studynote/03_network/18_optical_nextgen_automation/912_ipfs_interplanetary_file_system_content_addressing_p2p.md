@@ -20,8 +20,8 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **위치 지정(Location-based Addressing)**: 현재 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 프로토콜은 "저기 판교 3번 서버 C드라이브 /img 폴더에 있는 사진을 가져와!"라는 철저한 장소, <strong>위치 기반의 지시</strong>입니다.
-- **재앙의 씨앗**: 
-  - 중앙 서버(판교)가 디도스를 맞거나 파산해 서버 코드를 뽑으면, 전 세계 모든 사람이 그 사진을 잃어버립니다(단일 고장점 [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)). 
+- **재앙의 씨앗**:
+  - 중앙 서버(판교)가 디도스를 맞거나 파산해 서버 코드를 뽑으면, 전 세계 모든 사람이 그 사진을 잃어버립니다(단일 고장점 [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)).
   - 만약 해커가 서버 안의 원본 사진을 야한 사진으로 몰래 바꿔치기해도 주소(URL)는 그대로이기 때문에 접속자는 속아 넘어갑니다.
 
 ```text
@@ -60,12 +60,12 @@ tags = ["studynote-network"]
 ### 1. 콘텐츠 주소 지정 (Content-based Addressing / 해시 기반) 🌟
 IPFS의 심장이자 기존 웹을 전복시킨 절대 원리입니다.
 - 내가 귀여운 고양이 사진 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개를 [IPFS](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/) 망에 툭 던집니다.
-- IPFS는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 내용을 믹서기(SHA-256 [암호화 알고리즘](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/))에 넣고 갈아버립니다. 그러면 `QmYwAPJzv5CZ...` 같은 길고 미친 **고유한 암호 문자열 지문(CID, 콘텐츠 해시값)** 하나가 툭 튀어나옵니다. 
-- **마법의 결과**: 이제 이 사진의 이름표(주소 URL)는 판교 네이버 서버 위치가 아니라, 저 고유한 `QmYwAPJ...` 해시값 그 자체입니다. 내가 인터넷 브라우저에 저 해시 주소를 치면, 전 세계 [IPFS](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/) 컴퓨터들이 자기들 하드디스크를 뒤져 저 지문과 100% 일치하는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조각들을 긁어모아 1초 만에 합쳐서 내 모니터에 띄워줍니다. 
+- IPFS는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 내용을 믹서기(SHA-256 [암호화 알고리즘](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/))에 넣고 갈아버립니다. 그러면 `QmYwAPJzv5CZ...` 같은 길고 미친 **고유한 암호 문자열 지문(CID, 콘텐츠 해시값)** 하나가 툭 튀어나옵니다.
+- **마법의 결과**: 이제 이 사진의 이름표(주소 URL)는 판교 네이버 서버 위치가 아니라, 저 고유한 `QmYwAPJ...` 해시값 그 자체입니다. 내가 인터넷 브라우저에 저 해시 주소를 치면, 전 세계 [IPFS](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/) 컴퓨터들이 자기들 하드디스크를 뒤져 저 지문과 100% 일치하는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조각들을 긁어모아 1초 만에 합쳐서 내 모니터에 띄워줍니다.
 
 ### 2. 위변조 절대 불가 및 영구 저장 ([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 연계)
-- 만약 해커가 그 사진에 픽셀 점 하나만 까맣게 칠해서 위조(해킹)했다고 칩시다. 
-- [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내용이 단 1비트라도 바뀌는 순간, 믹서기가 내놓는 해시값 지문(`QmYw...`)이 완전히 다른 알파벳 덩어리로 변해버립니다. 
+- 만약 해커가 그 사진에 픽셀 점 하나만 까맣게 칠해서 위조(해킹)했다고 칩시다.
+- [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내용이 단 1비트라도 바뀌는 순간, 믹서기가 내놓는 해시값 지문(`QmYw...`)이 완전히 다른 알파벳 덩어리로 변해버립니다.
 - 사람들은 원래 해시 주소를 치고 들어가므로, 해커가 위조한 가짜 사진은 검색조차 되지 않고 영원히 버려집니다. 이것이 <strong>가짜 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(위변조)을 원천 차단하는 궁극의 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>(<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">Integrity</a>)</strong>입니다. (이 때문에 NFT 미술품 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 무조건 이 [IPFS](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/) 해시값을 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 새겨서 보관합니다.)
 
 IPFS를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 에지 보안 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 진화 모델 SSE가 기반 조건을 만든다면, IPFS는 그 위에서 핵심 메커니즘을 구현하고, V2I 노변 기지국 [RSU](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/) 교통 관제 시스템…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.

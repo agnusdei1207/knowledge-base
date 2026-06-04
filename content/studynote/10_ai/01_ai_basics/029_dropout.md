@@ -48,7 +48,7 @@ tags = ["studynote-ai"]
 학습 시:
   mask ~ Bernoulli(1-p)  # 각 뉴런 독립적으로 생존 여부 결정
   y = f(mask * x * W)    # 마스크 × 입력 × 가중치
-  
+
 추론 시:
   y = f(x * W * (1-p))   # 전체 뉴런 + 스케일링 (Inverted Dropout)
 

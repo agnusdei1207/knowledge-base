@@ -137,7 +137,7 @@ PUF는 원래 미세한 공정 편차를 칩의 지문으로 사용하는 구조
 
 **진행 상황**: 627 / 803
 
-← **이전**: [626. 재해 복구 시스템 (DRS) 스토리지 미러링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/626_drs_storage_mirroring/)
+← **이전**: [626. 재해 복구 시스템 (DRS) 스토리지 미러링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/804_drs_storage_mirroring/)
 **다음**: [627. RPO (Recovery Point Objective)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/627_rpo/) →
 
 ---

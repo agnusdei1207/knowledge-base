@@ -81,7 +81,7 @@ tags = ["devops_sre"]
                           │ CMD: "flyway migrate"        │
                           │ Env: Prod_DB_Config          │
                           └──────────┬───────────────────┘
-                                     │ 
+                                     │
                            [Success] │ [Fail]
                   ┌──────────────────┴─────────────┐
                   ↓                                ↓

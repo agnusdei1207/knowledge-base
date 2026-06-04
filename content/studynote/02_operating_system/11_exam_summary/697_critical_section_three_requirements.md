@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">임계 구역</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">Critical Section</a>)</strong>: 멀티프로세스 환경에서 두 개 이상의 프로세스가 동시에 접근해서는 안 되는 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Shared [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 읽거나 쓰는 짧은 코드 덩어리.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">임계 구역</a> 문제 (The Critical-Section Problem)</strong>: 프로세스들이 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 안에서 충돌하지 않도록 협력 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(진입 구역 $\rightarrow$ [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) $\rightarrow$ 퇴출 구역)을 설계하는 문제.
 
-- **필요성 (엉성한 자물쇠의 비극)**: 
-  - 개발자가 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 한답시고 엉성한 코드(소프트웨어 락)를 짰다고 치자. 
+- **필요성 (엉성한 자물쇠의 비극)**:
+  - 개발자가 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 한답시고 엉성한 코드(소프트웨어 락)를 짰다고 치자.
   - 두 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 충돌하는 것은 막았는데([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 성공), 화장실에 아무도 없는데도 서로 "네가 먼저 들어가"라고 양보하다가 둘 다 영원히 못 들어가는 상황이 발생했다 ([진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 조건 실패, [Livelock](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/)).
   - 또는, A와 B만 번갈아 가며 계속 화장실을 쓰고, C는 10시간째 문 밖에서 덜덜 떨며 기다리고 있다 ([한정된 대기](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/) 실패, [Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)).
   - **해결책**: "단순히 남을 못 들어오게 막는 것만으로는 부족하다. 진짜 안전하고 멈추지 않는 시스템을 만들려면 3가지 철칙을 동시에 증명해야 한다"는 공학적 기준이 확립되었다.

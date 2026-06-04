@@ -48,7 +48,7 @@ tags = ["studynote-network"]
 
 ### 2. 라우터의 한계 ([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/) Network)
 정적 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)의 한계점은 명확하다. 통신사가 선로 공사를 하다가 `10.1.1.2`로 가는 선을 끊어먹었다고 치자.
-라우터는 선이 죽은 줄도 모르고 끝없이 `10.1.1.2` 쪽으로 회사의 소중한 데이터를 밀어 넣는다(블랙홀). 회사는 통신 단절에 빠지고, 빡친 관리자가 차를 몰고 회사에 출근해서 수동으로 `no ip route...`를 쳐서 설정을 지워주기 전까지 통신은 절대 스스로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Self-healing)되지 않는다. 
+라우터는 선이 죽은 줄도 모르고 끝없이 `10.1.1.2` 쪽으로 회사의 소중한 데이터를 밀어 넣는다(블랙홀). 회사는 통신 단절에 빠지고, 빡친 관리자가 차를 몰고 회사에 출근해서 수동으로 `no ip route...`를 쳐서 설정을 지워주기 전까지 통신은 절대 스스로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Self-healing)되지 않는다.
 그래서 출구가 딱 1개뿐인 <strong>단말 네트워크(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">Stub</a> Network, 막다른 골목)</strong>에서만 쓴다.
 
 ### 3. 궁극의 치트키: 디폴트 라우터 (Default Route)

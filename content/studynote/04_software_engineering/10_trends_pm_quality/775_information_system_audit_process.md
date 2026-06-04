@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 과거 공공기관이 500억을 들여 대국민 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 앱을 만들었다. SI 개발 업체는 1년 내내 "잘되고 있습니다"라고 보고했다. 하지만 오픈 첫날, 접속자가 몰리자 서버는 터졌고, 개인정보는 다 뚫렸으며, 요구했던 기능은 절반도 없었다. 개발사는 도망갔고 공무원들은 징계를 받았다.
 
-왜 이런 일이 반복될까? 발주자(고객)는 IT 전문가가 아니기 때문에 개발사가 가져온 문서나 코드를 검증할 능력이 없기 때문이다. 
+왜 이런 일이 반복될까? 발주자(고객)는 IT 전문가가 아니기 때문에 개발사가 가져온 문서나 코드를 검증할 능력이 없기 때문이다.
 
 이 비극을 막기 위해 법(전자정부법 등)으로 강제한 제도가 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/">정보시스템 감리</a></strong>다. 건축을 할 때 시공사가 벽돌을 잘 쌓는지 '건축 감리사'가 옆에서 매일 감시하듯, <strong>최고의 기술 전문가(정보처리기술사, 수석감리원)들로 구성된 제3의 팀이 투입되어 개발의 모든 과정을 탈탈 터는(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/">Audit</a>) 제도</strong>다.
 

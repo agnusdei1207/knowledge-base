@@ -136,8 +136,8 @@ Nested Virtualization
 
 ## 어린이를 위한 3줄 비유 설명
 
-[하드웨어 보조](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/527_hardware_assisted_virtualization/) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)는 컴퓨터 안에 가상세계 전용 문지기를 넣는 거예요.  
-예전에는 선생님이 모든 방을 직접 돌봤지만, 이제는 문지기가 먼저 보고 중요한 일만 선생님께 알려 줘요.  
+[하드웨어 보조](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/527_hardware_assisted_virtualization/) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)는 컴퓨터 안에 가상세계 전용 문지기를 넣는 거예요.
+예전에는 선생님이 모든 방을 직접 돌봤지만, 이제는 문지기가 먼저 보고 중요한 일만 선생님께 알려 줘요.
 그래서 여러 컴퓨터를 더 빠르고 안전하게 돌릴 수 있어요.
 
 ---

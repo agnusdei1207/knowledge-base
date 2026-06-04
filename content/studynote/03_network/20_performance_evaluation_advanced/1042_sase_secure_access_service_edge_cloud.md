@@ -20,7 +20,7 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **과거**: 회사 네트워크는 하나의 '거대한 성(Castle)'이었습니다. 성 안에 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있고, 성문([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)/[VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/)) 하나만 100억 원어치 장비로 겹겹이 막아두면 완벽했습니다.
-- **붕괴 원인**: 
+- **붕괴 원인**:
   1. 직원이 재택근무를 합니다 (성 밖에 있음).
   2. 회사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 AWS, 구글 드라이브, 슬랙으로 이사 갔습니다 (성 밖 클라우드).
 - 사람도 성 밖에 있고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 성 밖에 있는데, 직원이 억지로 성(본사 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))으로 들어왔다가 다시 클라우드로 나가는 미친 병목(트롬본 효과) 현상으로 인터넷이 다 터져버렸습니다.

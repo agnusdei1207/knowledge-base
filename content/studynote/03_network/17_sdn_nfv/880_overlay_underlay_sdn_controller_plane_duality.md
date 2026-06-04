@@ -46,7 +46,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-현대 클라우드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)(네이버, AWS)는 둘 중 하나만 쓰지 않습니다. 
+현대 클라우드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)(네이버, AWS)는 둘 중 하나만 쓰지 않습니다.
 - <strong>오버레이</strong>는 VM이 생기고 죽을 때마다 1초 만에 논리적 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/), 842번)을 치고 터널을 파는 데 씁니다.
 - <strong>언더레이</strong>는 밑바닥에 [ECMP](/knowledge-base/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/)([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 다중 경로) 대동맥을 깔아 오버레이 터널이 터지지 않도록 튼튼한 무결점 쾌속 아스팔트를 까는 데 씁니다.
 - **최종 연동 체계**: 상위 오버레이 컨트롤러(오픈스택 등)가 "[VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 이사 간다 터널 뚫어라!"라고 명령하면, 그 명령이 하위 언더레이 컨트롤러(ONOS 등)에게 전달되어 "터널 지나갈 테니 물리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 3번 차선 비워둬라!"라며 <strong>구름 위와 땅바닥의 뇌 2개가 실시간으로 소통하고 연동하는 완벽한 2단 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">오케스트레이션</a> 망</strong>이 구성됩니다.

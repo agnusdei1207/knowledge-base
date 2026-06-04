@@ -39,7 +39,7 @@ tags = ["studynote-network"]
 
 오늘날 클라우드 시대에 전체 트래픽의 80% 이상을 차지하며 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)를 터뜨리는 주범입니다.
 
-- 옛날엔 커다란 프로그램(Monolithic) 1개가 모든 걸 다 처리했습니다. 
+- 옛날엔 커다란 프로그램(Monolithic) 1개가 모든 걸 다 처리했습니다.
 - 지금은 프로그램을 결제, 로그인, 장바구니 등 100개의 작은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 조각([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))으로 쪼개서 각기 다른 서버에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시켜 둡니다([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)). 결제 버튼 하나 누르면 이 100개의 서버들끼리 승인을 받기 위해 엄청난 양의 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통신(East-West)을 미친 듯이 주고받아야만 합니다.
 
 ### 2. 서버 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) ([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 마이그레이션)

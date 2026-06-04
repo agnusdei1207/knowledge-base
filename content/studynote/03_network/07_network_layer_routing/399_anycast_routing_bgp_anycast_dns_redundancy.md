@@ -24,7 +24,7 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 애니캐스트는 전국 어디서나 똑같이 걸 수 있는 <strong>"119 구급대 번호"</strong>와 같습니다.
   - 내가 서울에서 119를 누르든, 부산에서 119를 누르든 전화번호(목적지 IP)는 완전히 똑같습니다.
-  - 하지만 통신사 교환기([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 라우터)가 내 발신 위치를 파악하고, **"가장 출동이 빠른 제일 가까운 소방서"** 단 한 곳으로만 전화를 연결해 줍니다. 
+  - 하지만 통신사 교환기([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 라우터)가 내 발신 위치를 파악하고, **"가장 출동이 빠른 제일 가까운 소방서"** 단 한 곳으로만 전화를 연결해 줍니다.
   - (절대로 전국 모든 소방서에 전화가 동시에 울리지 않습니다. 이건 브로드캐스트의 영역).
 
 ```text
@@ -74,7 +74,7 @@ tags = ["studynote-network"]
 ```
 
 ### 2. 치명적인 단점 ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 친화력 0%)
-애니캐스트는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 쿼리처럼 "묻고 딱 대답 하나 듣고 끊는" <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 통신</strong>에는 완벽한 신의 기술이다. 
+애니캐스트는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 쿼리처럼 "묻고 딱 대답 하나 듣고 끊는" <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 통신</strong>에는 완벽한 신의 기술이다.
 하지만 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드 같은 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 통신</strong>에는 쥐약이다.
 - 이유: 내가 서울 서버랑 3-Way Handshake를 맺고 다운로드를 시작했는데, 갑자기 인터넷망 상황이 살짝 흔들려서 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 지도가 갱신되었다.
 - 내 트래픽이 갑자기 일본 도쿄 서버로 꺾여서 들어간다.

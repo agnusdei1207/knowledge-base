@@ -107,7 +107,7 @@ for (int i = 0; i < n - 1; i++) {
         }
     }
     // 이번 회전에서 단 한 번의 교환도 없었다면 이미 완벽히 정렬된 것이므로 즉시 종료!
-    if (!swapped) break; 
+    if (!swapped) break;
 }
 ```
 

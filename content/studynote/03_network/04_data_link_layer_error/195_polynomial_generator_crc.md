@@ -19,11 +19,11 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-네트워크 전공 서적을 보면 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 설명에 난데없이 $x^3 + x^2 + 1$ 같은 수학 방정식이 등장합니다. 
+네트워크 전공 서적을 보면 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 설명에 난데없이 $x^3 + x^2 + 1$ 같은 수학 방정식이 등장합니다.
 당황할 필요 없습니다. 이는 **단순히 이진수(0과 1)의 자리표시를 수학의 $x$ 거듭제곱으로 멋있게 표현한 것**일 뿐입니다.
 
 - **변환 규칙**: 각 자리의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)값이 `1`이면 $x$의 (해당 자리 위치)승을 살려두고, `0`이면 그 항을 날려버립니다. (맨 오른쪽 1의 자리는 $x^0 = 1$입니다).
-- **예시 변환**: 
+- **예시 변환**:
   - `1 0 1 1` (4비트)
   - ➔ $1 \cdot x^3 + 0 \cdot x^2 + 1 \cdot x^1 + 1 \cdot x^0$
   - ➔ **$x^3 + x + 1$** (이것이 1011의 다항식 표현입니다!)

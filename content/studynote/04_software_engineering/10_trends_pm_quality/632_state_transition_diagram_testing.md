@@ -27,7 +27,7 @@ tags = ["studynote-software-engineering"]
   - <strong>상태 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)</strong>: 개찰구는 '잠김(Locked)' 또는 '열림(Unlocked)' 두 가지 상태만 있습니다.
   - **이벤트 (Event)**: '교통카드 찍기' 또는 '사람이 밀고 들어가기'라는 사건이 일어납니다.
   - **정상 전이 (Positive)**: '잠김' 상태에서 카드를 찍으면, 삑 소리가 나고 '열림' 상태로 바뀝니다.
-  - **비정상 전이 (Negative)**: '잠김' 상태에서 카드를 안 찍고 몸으로 밀고 들어가려 하면, 삐빅! 경고음(Action)이 울리고 개찰구는 여전히 '잠김' 상태를 유지해야 합니다. 
+  - **비정상 전이 (Negative)**: '잠김' 상태에서 카드를 안 찍고 몸으로 밀고 들어가려 하면, 삐빅! 경고음(Action)이 울리고 개찰구는 여전히 '잠김' 상태를 유지해야 합니다.
   이 모든 경우의 수를 표로 만들어 확인하는 것이 상태 전이 테스트입니다.
 
 - **등장 배경 및 발전 과정**:

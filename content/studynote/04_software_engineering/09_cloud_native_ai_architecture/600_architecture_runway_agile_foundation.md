@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **Feature (비행기 / 비즈니스 가치)**: "장바구니 쿠폰 결제 기능!" ➡ 유저가 직접 만지고 사장님이 돈 버는(Value) 화려한 껍데기 기능들.
   - **Runway (활주로 / 인프라 뼈대)**: "[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 비동기 큐, OAuth 2.0 사내 공통 로그인 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 세팅" ➡ 유저 눈에는 1도 안 보이고 돈도 당장 안 벌어주지만, 이게 없으면 위의 '결제 기능'을 코딩할 때 서버가 터져 죽거나 개발 기간이 1달에서 1년으로 뻥튀기되는 절대적 밑바닥 기반 공사(Enablers).
 

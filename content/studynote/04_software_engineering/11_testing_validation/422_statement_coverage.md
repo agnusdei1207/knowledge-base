@@ -65,7 +65,7 @@ tags = ["studynote-software-engineering"]
 $$ 구문 커버리지(SC) = \frac{실행된 구문(Statement)의 수}{전체 실행 가능한 구문의 수} \times 100 $$
 
 현대 프로젝트에서 주석, 줄 바꿈, 변수 단순 선언문 등은 '실행 불가능한 구문'으로 빼고 순수 로직만 계산합니다.
-이 지표의 진짜 존재 가치는 100%가 못 채워진 <strong>'미실행 영역(Uncovered Area)'</strong>을 찾아내 조롱하는 데 있습니다. 
+이 지표의 진짜 존재 가치는 100%가 못 채워진 <strong>'미실행 영역(Uncovered Area)'</strong>을 찾아내 조롱하는 데 있습니다.
 
 수정이 중첩된 노후 레거시 코드에서는, 논리적 모순 때문에 어떤 파라미터 조합을 쑤셔 넣어도 절대 `if` 안쪽으로 들어갈 수 없는 무덤 블록들이 존재합니다. 이것을 컴파일 용어로 <strong>데드 코드(Dead <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)나 Unreachable <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a></strong>라고 부릅니다. 구문 커버리지가 이 유령 블록에 형광펜 칠을 해주면, 개발자는 용기 내어 그 쓰레기 코드를 `Delete` 키로 날려버림으로써 시스템의 몸무게를 줄이고 보안 취약점을 근원적으로 없앱니다.
 

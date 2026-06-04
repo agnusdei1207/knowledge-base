@@ -91,7 +91,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **코드 = 살아있는 기획서**: 자바나 파이썬 코드를 한글로 소리 내어 읽으면, 그 자체로 현업의 완벽한 비즈니스 기획서가 됩니다. 
+- **코드 = 살아있는 기획서**: 자바나 파이썬 코드를 한글로 소리 내어 읽으면, 그 자체로 현업의 완벽한 비즈니스 기획서가 됩니다.
 - 새로운 신입 개발자가 들어와서 코드만 읽어도 이 회사의 은행 업무 프로세스([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))를 완벽하게 파악할 수 있는 기적이 일어납니다.
 
 > 📢 **섹션 요약 비유**: 기존의 소프트웨어 개발은 <strong>'스페인 요리사(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 전문가)'가 요리법을 설명하면 '한국인 번역가(개발자)'가 그걸 자기 맘대로 대충 한국식 된장찌개 레시피로 번역해서 노트(코드)에 적어놓는 끔찍한 오역의 과정</strong>이었습니다. 나중에 스페인 요리사가 노트를 보고 자기가 말한 파에야가 된장찌개로 변한 걸 보고 피를 토합니다. <strong>유비쿼터스 언어(Ubiquitous Language)</strong>는 번역가를 없애고, 요리사와 개발자가 무조건 <strong>'스페인어(비즈니스 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 언어)' 단 하나로만 대화하기로 합의한 절대 규칙</strong>입니다. 요리사가 "빠에야(Paella) 팬에 쌀을 아소프리토(Sofrito) 하라"고 말하면, 개발자도 자신의 비밀 레시피 노트(소스 코드)에 무조건 함수 이름을 `doSofritoInPaellaPan()` 이라고 똑같이 스페인어로 적어 넣습니다. 이렇게 100% 단어를 일치시키면, 나중에 요리사가 개발자의 암호 같은 레시피 노트를 쓱 보더라도 "오, 여기서 아소프리토를 제대로 하고 있군!" 하고 직관적으로 오류를 잡아낼 수 있는, 소통의 장벽을 부숴버린 마법의 공용어 사전입니다.

@@ -94,10 +94,10 @@ Flush+Reload 대응의 출발점은 “무엇을 공유하고 있는가”를 �
 
 ### 방어 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-1. <strong>공유 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 축소</strong>: KSM과 dedup 비활성화, 민감 코드·데이터의 프로세스 전용 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)화  
-2. **구현 개선**: constant-time crypto, secret-dependent branch 제거, [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI 같은 전용 명령 사용  
-3. **관측 통제**: `clflush` 사용 모니터링, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 기반 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/), 정밀 타이머 제한  
-4. **실행 배치**: 민감 워크로드를 비신뢰 코드와 같은 코어·LLC에 두지 않기  
+1. <strong>공유 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 축소</strong>: KSM과 dedup 비활성화, 민감 코드·데이터의 프로세스 전용 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)화
+2. **구현 개선**: constant-time crypto, secret-dependent branch 제거, [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI 같은 전용 명령 사용
+3. **관측 통제**: `clflush` 사용 모니터링, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 기반 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/), 정밀 타이머 제한
+4. **실행 배치**: 민감 워크로드를 비신뢰 코드와 같은 코어·LLC에 두지 않기
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 

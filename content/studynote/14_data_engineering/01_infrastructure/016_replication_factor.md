@@ -46,7 +46,7 @@ Client ──쓰기──> Block A (원본) ──> [DataNode 1 (Rack 1)]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-복제 메커니즘은 클라이언트, [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)([NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)), 그리고 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담는 [데이터노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/)([DataNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/)) 간의 긴밀한 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 작동합니다. 
+복제 메커니즘은 클라이언트, [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)([NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)), 그리고 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담는 [데이터노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/)([DataNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/)) 간의 긴밀한 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 작동합니다.
 
 | 구성 요소 | 역할 | 내부 동작 | [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 비유 |
 |:---|:---|:---|:---|:---|

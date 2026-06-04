@@ -19,7 +19,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-웹 애플리케이션의 배포는 서버에 코드를 올리기만 하면 되지만, 모바일 앱의 배포는 극도로 폐쇄적이고 고통스럽다. 특히 iOS 환경은 개발자 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서, [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) 프로파일 ([Provisioning](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) Profile), 번들 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)가 정확히 일치해야만 앱 구동이 허락되는 까다로운 [코드 서명](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/) 체계를 가지고 있다. 
+웹 애플리케이션의 배포는 서버에 코드를 올리기만 하면 되지만, 모바일 앱의 배포는 극도로 폐쇄적이고 고통스럽다. 특히 iOS 환경은 개발자 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서, [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) 프로파일 ([Provisioning](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) Profile), 번들 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)가 정확히 일치해야만 앱 구동이 허락되는 까다로운 [코드 서명](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/) 체계를 가지고 있다.
 
 과거에는 개발자가 직접 자신의 맥북에서 소스코드를 빌드하고, 애플 개발자 포털에 접속해 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 갱신하며, 앱스토어 커넥트 (App Store Connect)에 접속하여 수동으로 스크린샷과 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 올렸다. 이 과정은 시간 낭비를 넘어 오타와 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 누락이라는 치명적인 장애를 낳았다. Fastlane은 이런 모바일 배포의 모든 수작업을 코드(Fastfile) 기반 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 엮어 모바일 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) (Mobile [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) 환경을 가능하게 만든 구원자다.
 
@@ -29,7 +29,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-Fastlane의 핵심은 각각의 배포 단계를 담당하는 '액션 (Action)'들을 조합하여, 하나의 고속도로(차선, Lane)로 이어붙이는 아키텍처다. 
+Fastlane의 핵심은 각각의 배포 단계를 담당하는 '액션 (Action)'들을 조합하여, 하나의 고속도로(차선, Lane)로 이어붙이는 아키텍처다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐

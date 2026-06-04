@@ -25,26 +25,26 @@ tags = ["studynote-ai"]
   초기: 각 데이터 포인트 = 독립 군집 (N개 군집)
   단계: 가장 유사한 두 군집 합치기
   종료: 모두 하나의 군집 (1개)
-  
+
   N → N-1 → N-2 → ... → 2 → 1
-  
+
   복잡도: O(n³) 또는 O(n² log n)
 
 분리형 (Divisive, Top-Down):
   초기: 모든 데이터 = 하나의 군집
   단계: 가장 이질적인 군집 나누기
   종료: 각 포인트가 독립 군집
-  
+
   1 → 2 → ... → N-1 → N
-  
+
   더 복잡, 덜 사용됨
 
 덴드로그램 (Dendrogram):
   계층적 군집화의 시각화
-  
+
   y축: 군집 간 거리 (합병 시 거리)
   x축: 데이터 포인트
-  
+
   예시:
   A ─┐
   B ─┘─┐
@@ -58,7 +58,7 @@ tags = ["studynote-ai"]
 군집 수 결정 (덴드로그램 절단):
   덴드로그램을 특정 높이에서 절단
   → 그 높이의 가지 수 = 군집 수
-  
+
   최적 절단: 가장 긴 수직선 위치 (가장 큰 거리 점프)
 ```
 
@@ -73,44 +73,44 @@ tags = ["studynote-ai"]
 
 단일 연결 (Single Linkage = MIN):
   두 군집 간 거리 = 가장 가까운 두 점의 거리
-  
+
   Dist(C1, C2) = min{dist(a,b): a∈C1, b∈C2}
-  
+
   특성:
   체인 효과 (Chaining Effect): 하나씩 이어붙임
   긴 사슬 모양 군집 생성
   이상치 민감
-  
+
   적합: 고리 형태 군집, 연결 클러스터
 
 완전 연결 (Complete Linkage = MAX):
   두 군집 간 거리 = 가장 먼 두 점의 거리
-  
+
   Dist(C1, C2) = max{dist(a,b): a∈C1, b∈C2}
-  
+
   특성:
   컴팩트한 구형 군집
   이상치에 강함 (최대 거리 기준)
   균일한 크기 군집
-  
+
   적합: 구형 군집, 노이즈 있는 데이터
 
 평균 연결 (Average Linkage = UPGMA):
   두 군집 간 모든 쌍의 평균 거리
-  
+
   Dist(C1, C2) = avg{dist(a,b): a∈C1, b∈C2}
-  
+
   특성: Single과 Complete의 중간
 
 Ward 연결:
   합병 시 군집 내 분산(WCSS) 증가량 최소화
-  
+
   Dist(C1, C2) = 합병 후 WCSS - (C1 WCSS + C2 WCSS)
-  
+
   특성:
   균일한 크기의 컴팩트한 군집
   대부분 상황에서 최고 성능
-  
+
   권장: 일반적으로 Ward 방법이 기본 선택
 
 비교 시각화:
@@ -135,30 +135,30 @@ Ward 연결:
 의사코드 (단순 버전):
   1. 거리 행렬 D 계산 (n×n)
      D[i][j] = dist(xi, xj)
-  
+
   2. 각 포인트 = 독립 군집 (C = {C1, C2, ..., Cn})
-  
+
   3. n-1 반복:
      - 가장 작은 D[Ci, Cj] 찾기
      - Ci와 Cj 합병 → Ck
      - 덴드로그램 기록 (합병 거리, 높이)
      - D 업데이트 (Ck와 나머지 군집 거리 재계산)
      - C에서 Ci, Cj 제거, Ck 추가
-  
+
   4. 덴드로그램 반환
 
 Python 구현:
   from scipy.cluster.hierarchy import linkage, dendrogram
   from scipy.spatial.distance import pdist
   import matplotlib.pyplot as plt
-  
+
   # 거리 계산 + 계층 군집화
   Z = linkage(X, method='ward', metric='euclidean')
-  
+
   # 덴드로그램 시각화
   dendrogram(Z, labels=labels, color_threshold=5)
   plt.show()
-  
+
   # 특정 군집 수로 절단
   from scipy.cluster.hierarchy import fcluster
   labels = fcluster(Z, t=3, criterion='maxclust')
@@ -168,7 +168,7 @@ Python 구현:
   SLINK (Single): O(n²)
   CLINK (Complete): O(n²)
   Ward (Lance-Williams): O(n² log n)
-  
+
   n = 10,000:
   O(n³) = 10^12 → 수 시간
   → 대규모 데이터: k-means 선호
@@ -186,7 +186,7 @@ Python 구현:
 외부 지표 (레이블 알 때):
   ARI (Adjusted Rand Index):
   0~1 (1 = 완벽 일치)
-  
+
   NMI (Normalized Mutual Information):
   0~1 (정보 공유 정도)
 
@@ -196,7 +196,7 @@ Python 구현:
   1: 완벽한 군집
   0: 군집 경계
   -1: 잘못 분류됨
-  
+
   코펜헤틱 상관 계수 (Cophenetic Correlation):
   덴드로그램이 원본 거리를 얼마나 반영하는가
   높을수록 좋은 계층 군집화
@@ -237,7 +237,7 @@ k-means vs 계층 군집화:
 
 계층적 군집화 적용:
   Z = linkage(X_scaled, method='ward')
-  
+
   덴드로그램 분석:
   y=5 높이에서 가장 긴 수직선
   → 절단 높이 = 5 → 4개 군집 최적
@@ -257,11 +257,11 @@ k-means vs 계층 군집화:
 k-means 대비 장점:
   군집 수(4개) 덴드로그램으로 결정
   (k-means: 미리 k=4로 지정해야)
-  
+
   군집 계층 분석:
   VIP와 충성 고객이 먼저 합쳐짐 (유사)
   → 함께 "우량 고객" 캠페인도 가능
-  
+
 결과:
   휴면 고객 캠페인 응답률: 12% (업계 평균 5%)
   신규→충성 전환율: 28% (이전 15%)

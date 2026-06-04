@@ -86,7 +86,7 @@ tags = ["studynote-software-engineering"]
 
 <strong>ISO 27001</strong>은 정보보안 관리 시스템 ([ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/): [Information Security Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/095_information_security_management/) System)의국제표준으로, [Plan-Do-Check-Act](/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/) ([PDCA](/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/)) 사이클을 기반으로 한 보안 거버넌스 프레임워크다. 인증을 통해 조직의 보안 관리 수준을외부에 증명할 수 있다.
 
-<strong>NIST Cybersecurity Framework (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/">CSF</a>)</strong>는 미국 NIST가 개발한 보안 거버넌스 프레임워크로, Identify, Protect, Detect, Respond, Recover의 5개 기능에 [security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) controls을 매핑한다. 규제 요건이 아닌자원적 framework로, 다양한 규모의 조직에 적용 가능한령활성이ある. 
+<strong>NIST Cybersecurity Framework (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/">CSF</a>)</strong>는 미국 NIST가 개발한 보안 거버넌스 프레임워크로, Identify, Protect, Detect, Respond, Recover의 5개 기능에 [security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) controls을 매핑한다. 규제 요건이 아닌자원적 framework로, 다양한 규모의 조직에 적용 가능한령활성이ある.
 
 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/">COBIT</a> (Control Objectives for Information Technologies)</strong>는 IT 거버넌스 및 관리에 대한 comprehensive framework로, 비즈니스 목표와 IT 목표를 연결하고, 정보보안을 포함한 IT 관리 영역을체계적으로 다룬다.
 

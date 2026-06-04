@@ -17,7 +17,7 @@ tags = ["studynote-data-engineering"]
 ---
 
 ## Ⅰ. 개요 및 필요성
-일반적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이의 거리를 잴 때는 자로 잰 듯한 직선 거리인 유클리드 거리 (Euclidean Distance)를 사용한다. 하지만 현실의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 키와 몸무게처럼 변수 간에 강한 상관관계가 있거나, 측정 단위(cm, kg)가 달라 특정 방향으로 길게 늘어지는 특성을 갖는다. 
+일반적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이의 거리를 잴 때는 자로 잰 듯한 직선 거리인 유클리드 거리 (Euclidean Distance)를 사용한다. 하지만 현실의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 키와 몸무게처럼 변수 간에 강한 상관관계가 있거나, 측정 단위(cm, kg)가 달라 특정 방향으로 길게 늘어지는 특성을 갖는다.
 
 만약 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 오른쪽 위로 길게 늘어진 타원 모양으로 분포해 있다면, 분포를 무시한 단순 직선 거리는 중심에서 같은 거리에 있더라도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)군 안에 포함된 정상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 밖으로 튀어나간 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)를 구분하지 못하는 치명적인 왜곡을 낳는다. 이러한 문제를 해결하기 위해, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 흩어진 모양과 변수들의 결합 상태를 수학적으로 고려하여 <strong>'확률적으로 얼마나 일어나기 힘든 거리에 있는가'</strong>를 계산하는 마할라노비스 거리가 등장했다.
 
@@ -59,7 +59,7 @@ tags = ["studynote-data-engineering"]
 ---
 
 ## Ⅲ. 비교 및 연결
-거리 측정 방식은 변수들이 서로 독립적인가, 단위가 동일한가에 따라 선택 기준이 갈린다. 
+거리 측정 방식은 변수들이 서로 독립적인가, 단위가 동일한가에 따라 선택 기준이 갈린다.
 
 | 비교 항목 | 유클리드 거리 (Euclidean) | 마할라노비스 거리 (Mahalanobis) |
 | :--- | :--- | :--- |
@@ -81,7 +81,7 @@ tags = ["studynote-data-engineering"]
 1. <strong>금융권 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/267_gnn_fraud_detection_knowledge_graph/">FDS</a> (Fraud <a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a> System)</strong>:
    - 사용자의 '결제 금액'과 '접속 횟수'는 상관관계가 높다. 평소와 달리 횟수와 금액의 비율이 어긋나는 이상 거래를 적발할 때 단순 거리는 정상 결제와 사기 결제를 구분하지 못하지만, 마할라노비스 거리는 분포를 이탈한 사기 패턴을 정확히 잡아낸다.
 2. **기술사적 한계와 판단 포인트**:
-   - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수가 변수(차원)의 개수보다 적거나(차원의 저주), 공분산 행렬이 비가역 행렬(역행렬이 존재하지 않음)인 경우에는 마할라노비스 거리를 계산할 수 없다. 
+   - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수가 변수(차원)의 개수보다 적거나(차원의 저주), 공분산 행렬이 비가역 행렬(역행렬이 존재하지 않음)인 경우에는 마할라노비스 거리를 계산할 수 없다.
    - 이때는 [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) ([Principal Component Analysis](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/))로 차원을 먼저 축소하거나, 유사 역행렬(Pseudo Inverse)을 사용하는 등 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)와 결합된 하이브리드 전략을 제시해야 한다.
 
 - **📢 섹션 요약 비유**: 공장의 불량품 검사기계와 같다. 크기, 무게, 색깔이 서로 맞물려 있는 복잡한 부품에서 어느 하나라도 "평소의 조합(공분산)"을 벗어나면 기가 막히게 불량품 통으로 튕겨낸다.

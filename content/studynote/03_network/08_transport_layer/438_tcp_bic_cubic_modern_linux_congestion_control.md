@@ -68,7 +68,7 @@ CUBIC은 이름 그대로 3차 함수 곡선 $y = x^3$ 의 S자 모양(정확히
 ```
 
 ### 2. [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 공평성의 파괴 (이기적인 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
-CUBIC은 기존의 룰을 파괴했다. 
+CUBIC은 기존의 룰을 파괴했다.
 - 기존 Reno는 영수증(ACK)이 1개 와야 속도를 1 올렸다. 그래서 핑([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))이 10ms로 짧은 한국 사람은 핑이 200ms인 미국 사람보다 ACK를 더 자주 받아 속도를 혼자 다 빨아먹었다([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) Fairness 문제).
 - **CUBIC의 쿨함**: CUBIC의 3차 함수 공식은 ACK 개수 따위 신경 안 쓴다. 오직 <strong>"마지막으로 사고(Drop)가 터진 후 흐른 '절대 시간(Time)'"</strong>만을 변수로 쓴다. 즉, 한국 사람이든 미국 사람이든 시간이 흐르면 3차 함수 곡선을 타고 다 같이 공평하게 속도가 확확 오르므로, 장거리 통신망(LFN)의 속도 저하 문제를 완벽히 해결했다.
 

@@ -23,11 +23,11 @@ tags = ["studynote-ict-convergence"]
 
 1. Rollup (롤업):
    트랜잭션 묶음 처리 + L1에 압축 데이터 기록
-   
+
    Optimistic Rollup:
      낙관적으로 처리 후 분쟁 제기 기간
      Arbitrum, Optimism
-     
+
    ZK-Rollup (Zero-Knowledge):
      영지식 증명으로 유효성 즉시 검증
      zkSync, StarkNet, Polygon zkEVM
@@ -36,11 +36,11 @@ tags = ["studynote-ict-convergence"]
    두 당사자 간 Off-chain 채널 개설
    최종 상태만 L1 기록
    비트코인 Lightning Network
-   
+
 3. Plasma:
    사이드체인 + 주기적 L1 커밋
    폐기 가능성 검토됨 (데이터 가용성 문제)
-   
+
 4. Validium:
    ZK 증명 + Off-chain 데이터 저장
    높은 처리량, 낮은 비용, 데이터 가용성 절충
@@ -69,11 +69,11 @@ Optimistic Rollup 동작:
 장점:
   EVM 호환성 높음 (기존 Ethereum 앱 그대로 이식)
   구현 상대적으로 간단
-  
+
 단점:
   인출 대기: 7일 (L2 -> L1 자금 이동)
   사기 증명 비용 (챌린저 필요)
-  
+
 대표:
   Arbitrum One (TVL 1위, EVM 완전 호환)
   Optimism (OP Stack, Coinbase Base 기반)
@@ -96,7 +96,7 @@ ZK 증명 유형:
   SNARK (Succinct Non-interactive ARgument of Knowledge):
     증명 크기 매우 작음, 검증 빠름
     Groth16, PLONK
-    
+
   STARK (Scalable Transparent ARgument of Knowledge):
     신뢰 설정 불필요, 더 큰 증명 크기
     StarkNet 사용
@@ -104,7 +104,7 @@ ZK 증명 유형:
 장점:
   즉시 인출 (7일 기다림 없음)
   더 강한 보안 보장 (수학적 증명)
-  
+
 단점:
   EVM 호환 어려움 (zkEVM 개발로 개선 중)
   증명 생성 비용 높음 (GPU/ASIC 필요)
@@ -141,7 +141,7 @@ Lightning Network (비트코인):
   두 당사자만 가능 (스마트 컨트랙트 복잡)
   채널 개설/닫기 비용
   온라인 유지 필요 (감시자 필요)
-  
+
 사용 케이스:
   마이크로페이먼트 (커피값 결제)
   게임 내 즉시 거래

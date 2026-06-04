@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **샌드박스 (Sandbox)**: 아이들이 노는 좁은 모래놀이터. 아이(앱)는 자기 모래판 안에서는 성을 짓든 부수든 마음대로 할 수 있지만, 놀이터 밖(다른 앱의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 시스템 코어)으로는 절대 모래를 던질 수 없게 벽이 쳐져 있다.
   - 앱스토어에서 다운받은 모든 iOS 앱은 설치되는 순간 이 투명한 감옥에 갇힌 채 실행된다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 과거 윈도우나 맥 맥([Mac](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)) 데스크톱 환경(DAC, 임의 [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/))에서는, 내가 무심코 실행한 출처 불명의 게임 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 백그라운드에서 내 `C드라이브`의 모든 공인인증서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 비밀번호를 읽어서 해커 서버로 전송할 수 있었다. (자원 공유의 파국).
   - 스마트폰은 내 지문, 얼굴, 금융 정보가 몽땅 들어있는 가장 민감한 개인 기기다. 이런 환경에서 악성 앱 하나가 다른 앱의 폴더를 뒤지는 걸 허용하면 프라이버시는 멸망한다.
   - **해결책**: "앱마다 철창(Sandbox)을 치고, 아예 자기한테 할당된 폴더([Document](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/), [Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)) 밖의 세상은 '존재하지 않는 것'처럼 느끼게 환상을 심어주자! 그리고 카메라나 마이크를 쓰고 싶으면 무조건 OS(문지기)한테 명시적으로 허락을 맡게 강제하자!"
@@ -31,7 +31,7 @@ tags = ["studynote-operating-system"]
   - <strong>기존 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> 환경</strong>: 사무실에 파티션이 없고 서랍에 자물쇠가 없다. 신입사원(새 앱)이 들어오면 사장님 방(Root) 빼고는 옆자리 김대리(다른 앱)의 서랍을 맘대로 뒤져서 서류를 볼 수 있다.
   - **iOS 샌드박스 환경**: 신입사원이 입사하자마자 '독방'에 가둬버린다. 밥(메모리)도 작은 배식구로만 넣어준다. 옆방에 김대리가 사는지 이대리가 사는지 아예 알 방법이 없다. 소통하고 싶으면 반드시 교도관(iOS 시스템 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))을 통해서 철저히 검열된 쪽지([IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/))만 전달할 수 있다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - UNIX 계열의 FreeBSD와 Mach [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 뿌리로 둔 iOS(Darwin [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)부터 보안을 위해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에 강력한 [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)인 **Seatbelt** 프레임워크를 도입하여, 오늘날 폐쇄적이고 안전한 애플 생태계의 절대적 뼈대를 구축했다.
 
 ```text

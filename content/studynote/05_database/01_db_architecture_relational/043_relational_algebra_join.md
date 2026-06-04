@@ -21,7 +21,7 @@ tags = ["studynote-database"]
 ```
 자연 조인 (Natural Join, ⋈):
   R ⋈ S = π_{고유속성} (σ_{R.공통속성=S.공통속성} (R × S))
-  
+
   과정:
   1. 카티전 프로덕트 (R × S): 모든 조합 생성
   2. 셀렉션: 공통 속성 값이 같은 튜플만 선택
@@ -30,7 +30,7 @@ tags = ["studynote-database"]
 세타 조인 (θ-Join):
   R ⋈_θ S = σ_θ (R × S)
   θ: 임의의 비교 조건 (=, <, >, ≤, ≥, ≠)
-  
+
   등가 조인 (Equi-Join): θ가 = 인 경우
   비등가 조인: θ가 = 이외
 
@@ -38,7 +38,7 @@ tags = ["studynote-database"]
   R ⟗ S (Full Outer Join): 두 릴레이션 모든 튜플 포함
   R ⟕ S (Left Outer Join): R의 모든 튜플 보존
   R ⟖ S (Right Outer Join): S의 모든 튜플 보존
-  
+
   비매칭 튜플: NULL로 패딩
 
 세미 조인 (Semi-Join):
@@ -102,13 +102,13 @@ DBMS 조인 구현 알고리즘:
    FOR each r in R:
      FOR each s in S:
        IF r.key = s.key: output (r, s)
-   
+
    복잡도: O(|R| × |S|) = O(n²)
-   
+
    Index Nested Loop:
      FOR each r in R:
        s = INDEX_LOOKUP(S, r.key)  ← O(log n)
-   
+
    복잡도: O(|R| × log|S|)
    적합: 한쪽 테이블 작거나 조인 키 인덱스 있을 때
 
@@ -117,7 +117,7 @@ DBMS 조인 구현 알고리즘:
      hash_table[h(r.key)] = r
    Phase 2 (Probe): 큰 테이블 S → 해시 테이블 조회
      FOR each s in S: lookup hash_table[h(s.key)]
-   
+
    복잡도: O(|R| + |S|) 평균
    적합: 대용량 테이블, 동등 조인, 정렬 불필요
    단점: 메모리 부족 시 디스크 스필 발생
@@ -125,7 +125,7 @@ DBMS 조인 구현 알고리즘:
 3. Sort-Merge Join:
    Phase 1: R을 키 기준 정렬, S를 키 기준 정렬
    Phase 2: 두 정렬된 결과를 병렬 스캔으로 병합
-   
+
    복잡도: O(|R|log|R| + |S|log|S|) (정렬 미리 되어 있으면 O(n))
    적합: 조인 키에 이미 인덱스/정렬, 범위 조인
 
@@ -157,7 +157,7 @@ EXPLAIN 실행 계획 분석 (PostgreSQL):
   SELECT * FROM orders o
   JOIN customers c ON o.customer_id = c.id
   JOIN products p ON o.product_id = p.id;
-  
+
   출력:
   Hash Join (cost=... rows=...)
     -> Seq Scan on orders
@@ -196,14 +196,14 @@ EXPLAIN 실행 계획 분석 (PostgreSQL):
   LEFT JOIN order_items oi ON o.id = oi.order_id
   LEFT JOIN products p ON oi.product_id = p.id
   WHERE o.order_date >= '2026-01-01';
-  
+
   실행 시간: 45초 (데이터: customer 100만, orders 500만)
 
 EXPLAIN 분석:
   Seq Scan on customers (rows: 1,000,000) ← 문제!
   Hash Join (rows: 500,000)
   Seq Scan on orders → WHERE 적용 후 10만 행
-  
+
   문제점:
     customers 전체 스캔 후 조인 → 90만 행이 NULL 결과
     WHERE 조건이 orders에 있는데 LEFT JOIN 사용 → 비효율

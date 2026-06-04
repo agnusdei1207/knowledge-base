@@ -26,7 +26,7 @@ tags = ["studynote-software-engineering"]
 - **배경 이론**: 소프트웨어 결함의 상당 부분이 단일 변수 결함이거나 두 변수 간의 상호작용(2-way interaction)에서 발생한다는 경험적 관찰에 기반한다. 세 변수 이상의 고차 상호작용(3-way, 4-way...)에서 발생하는 결함은 상대적으로 드물다.
 
 - **비유**: [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) 테스팅은 **'춤 춰마체（マーダ）】
-'와 같다. 스쿠버 다이버 Revels에서 만나는 모든 사람과 짝을 지어 추는 것은 시간과 에너지가 많이 든다. Revels에서 각 사람이 특정 의상(변수 1)과 신발(변수 2)을 신고 Revels에 참여하고,Revels는 두 사람 간의 호환성을 테스트한다. [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) 테스팅은 Revels에서 각 사람을 다른 모든 사람과 한 번씩 추게 하는 것처럼, 각 변수 값의 조합을루らさずテスト하는. 
+'와 같다. 스쿠버 다이버 Revels에서 만나는 모든 사람과 짝을 지어 추는 것은 시간과 에너지가 많이 든다. Revels에서 각 사람이 특정 의상(변수 1)과 신발(변수 2)을 신고 Revels에 참여하고,Revels는 두 사람 간의 호환성을 테스트한다. [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) 테스팅은 Revels에서 각 사람을 다른 모든 사람과 한 번씩 추게 하는 것처럼, 각 변수 값의 조합을루らさずテスト하는.
 
 - **등장 배경 및 발전 과정**:
   1. **1990년대초**: Bell Labs에서 전화 교환 시스템 테스트를 위한 조합 테스트 기법으로 개발

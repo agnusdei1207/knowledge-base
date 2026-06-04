@@ -25,7 +25,7 @@ tags = ["studynote-software-engineering"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-소프트웨어 개발 생명주기(SDLC)는 시스템이 태어나서 폐기될 때까지의 전 과정을 규격화한 아키텍처 프레임워크다. 
+소프트웨어 개발 생명주기(SDLC)는 시스템이 태어나서 폐기될 때까지의 전 과정을 규격화한 아키텍처 프레임워크다.
 
 #### 1. 핵심 공학 도메인
 | 도메인 | 상세 역할 | 내부 동작/활용 기법 | 관련 산출물 및 표준 | 비유 |
@@ -42,7 +42,7 @@ tags = ["studynote-software-engineering"]
 ```text
     [ V-Model Testing Architecture ]
     [ V-모델 테스트 아키텍처 ]
-    
+
     (요구사항 분석 / Requirements) ---------------------------> (인수 테스트 / Acceptance)
              \                                                /
       (시스템 설계 / System Design) ------------------> (시스템 테스트 / System Testing)
@@ -117,7 +117,7 @@ tags = ["studynote-software-engineering"]
 | **객체지향 리팩토링** | 코드 순환 복잡도(Cyclomatic Complexity) 감소로 유지보수 비용(TCO) **40% 절감** |
 
 **미래 전망 및 진화 방향**:
-소프트웨어 공학의 미래는 'AI-Augmented 엔진ering'으로 압살된다. 깃허브 코파일럿(Copilot)과 같은 생성형 AI가 단순 코딩(Implementation)을 완벽히 대체함에 따라, 개발자의 역할은 '요구사항을 정교한 프롬프트로 변환'하고 생성된 코드의 '아키텍처 정합성을 감리'하는 상위 레벨의 오케스트레이터로 격상될 것이다. 
+소프트웨어 공학의 미래는 'AI-Augmented 엔진ering'으로 압살된다. 깃허브 코파일럿(Copilot)과 같은 생성형 AI가 단순 코딩(Implementation)을 완벽히 대체함에 따라, 개발자의 역할은 '요구사항을 정교한 프롬프트로 변환'하고 생성된 코드의 '아키텍처 정합성을 감리'하는 상위 레벨의 오케스트레이터로 격상될 것이다.
 
 **※ 참고 표준/가이드**:
 - ISO/IEC 25010: 소프트웨어 품질 평가(SQuaRE) 8대 주특성 국제 표준 (기능성, 신뢰성, 사용성, 효율성, 유지보수성 등).

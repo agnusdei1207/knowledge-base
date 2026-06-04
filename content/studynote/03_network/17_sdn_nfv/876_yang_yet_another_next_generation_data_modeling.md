@@ -58,7 +58,7 @@ tags = ["studynote-network"]
 YANG 코드를 뜯어보면 프로그래밍 언어의 뼈대(Class)를 잡는 것과 완전히 똑같습니다.
 
 ### 1. 계층적 트리 구조 (Tree Structure)
-- 장비의 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 나뭇가지처럼 분류합니다. 
+- 장비의 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 나뭇가지처럼 분류합니다.
   - `[인터페이스]` ➜ 그 밑에 `[이더넷 1번]`, `[이더넷 2번]` ➜ 그 밑에 `[IP 주소]`, `[동작 상태]`
 - 이 구조 덕분에 "[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)의 IP 주소를 가져와라"라는 명령을 직관적인 경로로 뚝딱 만들 수 있습니다.
 

@@ -132,8 +132,8 @@ Immutable Deployment
 
 ## 어린이를 위한 3줄 비유 설명
 
-한 번 포장하면 내용이 안 바뀌어요.  
-그 상자를 어디서나 열 수 있어요.  
+한 번 포장하면 내용이 안 바뀌어요.
+그 상자를 어디서나 열 수 있어요.
 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지는 그런 불변 상자예요.
 
 ---

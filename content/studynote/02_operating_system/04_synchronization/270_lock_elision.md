@@ -22,7 +22,7 @@ tags = ["studynote-operating-system"]
 > ⚠️ 이 문서는 다중 코어 시스템에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들이 불필요하게 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 획득하느라 성능이 처참하게 무너지는 현상을 막기 위해, 최신 CPU 하드웨어가 개입하여 "어차피 충돌 안 날 것 같으면 락을 아예 안 건 것처럼 무시하고 통과시켜 버리는" 극한의 최적화 기술인 '락 엘리전'을 다룹니다.
 
 프로그래머들은 데드락과 [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))이 너무 무서운 나머지 방어적인 코딩을 한다.
-1만 개의 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A는 `[1]`번 방을 수정하고, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B는 `[9999]`번 방을 수정하려고 한다. 둘은 전혀 겹치지 않으므로 동시에 작업해도 아무 문제가 없다. 
+1만 개의 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A는 `[1]`번 방을 수정하고, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B는 `[9999]`번 방을 수정하려고 한다. 둘은 전혀 겹치지 않으므로 동시에 작업해도 아무 문제가 없다.
 하지만 귀찮은 프로그래머는 그냥 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> 전체(1만 개)를 통째로 락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)</strong> 걸어버린다 ([Coarse-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)). 결과적으로 A가 1번 방을 고치는 동안, 9999번 방을 고치려던 B는 의미 없이 밖에서 멍하니 기다려야 한다. (성능의 학살)
 
 하드웨어 엔지니어들은 이 꼴을 보고 탄식했다. "저 바보 같은 소프트웨어 락 때문에 우리가 만든 16코어 CPU가 1코어 빼고 다 놀고 있잖아! 우리가 실리콘(하드웨어) 차원에서 직접 개입해서, **안 겹칠 것 같으면 락을 그냥 무시(Elision)하게 만들어주자!**" 이렇게 탄생한 기술이 바로 하드웨어 기반의 <strong>락 엘리전(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> Elision)</strong>이다.
@@ -36,7 +36,7 @@ tags = ["studynote-operating-system"]
 락 엘리전은 소프트웨어 단독으로는 불가능하다. 인텔의 TSX 같은 [하드웨어 트랜잭셔널 메모리](/knowledge-base/studynote/02_operating_system/04_synchronization/269_htm_intel_tsx/)([HTM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/)) 지원 칩이 반드시 필요하다.
 
 1. **도박의 시작 (Speculative Execution)**
-   - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 `lock()` 명령어에 도달한다. 
+   - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 `lock()` 명령어에 도달한다.
    - CPU는 락을 실제로 거는(메모리 값을 1로 바꾸어 문을 잠그는) 무거운 작업을 <strong>생략(Elision)</strong>해 버린다. 대신 이 구간을 <strong>하드웨어 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a></strong> 모드로 몰래 전환하고 냅다 코드를 실행해 버린다.
 2. <strong>충돌 감시망 (Cache Coherency <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a> 활용)</strong>
    - CPU는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 이 구간에서 읽고 쓰는 메모리 주소들을 CPU 내부의 L1/L2 캐시(Cache)에 꼬리표를 달아 감시한다. (읽은 곳 꼬리표, 쓴 곳 꼬리표).

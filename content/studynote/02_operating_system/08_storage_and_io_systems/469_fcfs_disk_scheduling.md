@@ -74,7 +74,7 @@ FCFS가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_
 - OS가 열심히 "[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) -> 900 -> 20" 순서로 정직하게 I/O 명령을 하드디스크로 쐈다 치자.
 - 그런데 최신 하드디스크 내부의 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)(NCQ, Native [Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Queuing 지원 칩셋)는 바보가 아니다.
 - 칩셋 왈: "OS 이 멍청한 놈이 바늘 다 망가지게 순서를 이상하게 줬네? 내가 내 맘대로 순서 다시 정렬해서 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) -> 20 -> 900으로 긁을게!"
-- 하드웨어가 스스로 맘대로 순서를 뒤집어버리면, OS는 자기가 1등으로 보낸 900번이 가장 늦게 응답 오는 꼴을 보며 OS [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링의 통제력을 완전히 상실하게 된다. 
+- 하드웨어가 스스로 맘대로 순서를 뒤집어버리면, OS는 자기가 1등으로 보낸 900번이 가장 늦게 응답 오는 꼴을 보며 OS [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링의 통제력을 완전히 상실하게 된다.
 
 - **📢 섹션 요약 비유**: 구청장(OS)이 민원 처리 순서를 "접수된 순서대로 1번 김씨, 2번 박씨" 정해서 서류를 줬더니, 현장 공무원(디스크 컨트롤러)이 "아니 김씨 집 너무 멀어. 가까운 박씨 집부터 갔다 올래" 하고 멋대로 순서를 바꿔서(NCQ) 구청장의 공평한 지시([FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/))를 휴지 조각으로 만들어버리는 꼴입니다.
 
@@ -117,8 +117,8 @@ FCFS가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_
 ### 실무 시나리오: [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 환경에서의 'Noop(None)' [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 부활
 놀랍게도, 버려졌던 낡은 [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 2020년대 최신 100만 IOPS 급 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/">NVMe</a> <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> 서버 환경에서 <code>Noop</code> 또는 <code>None</code> 이라는 이름표를 달고 화려하게 황제로 부활</strong>했다.
 1. **문제 상황**: SSD는 바늘(Head)도 없고 원판도 없다. 10번지를 찌르든 10만 번지를 찌르든 전기가 꽂히는 속도는 0.001ms로 100% 똑같다. ([탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/) [Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/) 자체가 물리적으로 0이다).
-2. **최적화 로직의 트롤링**: 
-   - 멍청한 리눅스 커널이 옛날 버릇 못 버리고, 들어온 I/O 요청을 바늘 동선 아껴준답시고 열심히 `O(N log N)`으로 정렬(Sorting)을 하고 자빠졌다. 
+2. **최적화 로직의 트롤링**:
+   - 멍청한 리눅스 커널이 옛날 버릇 못 버리고, 들어온 I/O 요청을 바늘 동선 아껴준답시고 열심히 `O(N log N)`으로 정렬(Sorting)을 하고 자빠졌다.
    - SSD는 이미 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리할 준비가 다 됐는데, OS 커널이 정렬하느라 0.1초 동안 요청을 안 주고 쥐고 있어서 서버 전체 I/O 대역폭이 반토막이 났다.
 3. <strong>Noop (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/">FCFS</a>) 의 재평가</strong>:
    - 실무진은 빡쳐서 I/O [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 설정을 **`echo none > /sys/block/nvme0n1/queue/scheduler`**로 강제로 바꿔버렸다.

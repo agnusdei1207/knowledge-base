@@ -29,7 +29,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-PCB는 유저가 임의로 조작하여 권한을 탈취하는 것을 막기 위해 반드시 보안이 격리된 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간 ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Space)에만 적재된다. 
+PCB는 유저가 임의로 조작하여 권한을 탈취하는 것을 막기 위해 반드시 보안이 격리된 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간 ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Space)에만 적재된다.
 
 | 구성 요소 | 역할 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 스케줄링 관점의 의미 |
 | :--- | :--- | :--- |
@@ -102,9 +102,9 @@ PCB는 유저가 임의로 조작하여 권한을 탈취하는 것을 막기 위
 
 ## Ⅴ. 기대효과 및 결론
 
-PCB와 TCB의 정교한 관리 구조는 단일 CPU에서도 수천 개의 작업이 부드럽게 돌아가는 현대 멀티태스킹의 기적을 가능케 했다. 
+PCB와 TCB의 정교한 관리 구조는 단일 CPU에서도 수천 개의 작업이 부드럽게 돌아가는 현대 멀티태스킹의 기적을 가능케 했다.
 
-[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 무거운 상태 정보를 모두 엎어 쓰는 방식이었으나, 점차 메모리 영역은 묶어두고 실행 흐름만 가볍게 스위칭하는 TCB 계층 구조로 진화하며 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화했다. 미래에는 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 기술을 통해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 수정 없이도 PCB의 상태 변화를 실시간으로 추적하거나, 사용자 공간(User Space)에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 없이 수만 개의 가상 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(Virtual [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))를 직접 스케줄링하는 방식으로 아키텍처가 발전하고 있다. 
+[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 무거운 상태 정보를 모두 엎어 쓰는 방식이었으나, 점차 메모리 영역은 묶어두고 실행 흐름만 가볍게 스위칭하는 TCB 계층 구조로 진화하며 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화했다. 미래에는 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 기술을 통해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 수정 없이도 PCB의 상태 변화를 실시간으로 추적하거나, 사용자 공간(User Space)에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 없이 수만 개의 가상 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(Virtual [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))를 직접 스케줄링하는 방식으로 아키텍처가 발전하고 있다.
 
 - **📢 섹션 요약 비유**: 두꺼운 종이 서류철([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) PCB) 하나로 모든 걸 관리하다가, 이제는 가벼운 포스트잇(TCB)을 서류철 안에 여러 장 붙여 빠르게 넘겨가며 일하는 고효율 시스템으로 진화한 것이다.
 

@@ -39,11 +39,11 @@ tags = ["studynote-network"]
 
 LPWAN이 장거리 통신과 10년 배터리를 동시에 이룬 비결은 단 하나, <strong>'속도(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Rate)와 실시간성을 잔인하게 포기'</strong>했기 때문입니다.
 
-1. **극단적인 저속 통신**: 
+1. **극단적인 저속 통신**:
    - 전송 속도가 고작 100 bps ~ 수백 Kbps 수준입니다. 음악이나 사진은 절대 보낼 수 없으며, "현재 온도 24도", "수도 사용량 10L" 같은 몇 바이트짜리 텍스트 숫자만 하루에 한두 번 보냅니다.
-2. <strong>좁은 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> (Narrowband) 집중</strong>: 
+2. <strong>좁은 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> (Narrowband) 집중</strong>:
    - 돋보기로 햇빛을 모아 종이를 태우듯, 아주 좁은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(차선)으로 전파의 힘(에너지)을 한 점으로 쫙 모아 쏘기 때문에, 작은 배터리 힘으로도 수십 km를 날아가고 지하 3층 콘크리트 벽까지 뚫고 나갑니다.
-3. **가벼운 프로토콜과 수면 모드**: 
+3. **가벼운 프로토콜과 수면 모드**:
    - 통신 연결 과정이 매우 단순하고, 평소에는 완전 기절 상태(Deep Sleep)로 있다가 하루에 딱 몇 초만 일어나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘고 잡니다.
 
 ```text
@@ -63,10 +63,10 @@ LPWAN이 장거리 통신과 10년 배터리를 동시에 이룬 비결은 단 �
 
 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 기술은 전파 사용권(정부 허가)에 따라 두 진영으로 나뉘어 피 터지는 주도권 싸움을 하고 있습니다. (다음 문서들에서 상세히 다룸)
 
-1. **비면허 대역 (Unlicensed Band)**: 
+1. **비면허 대역 (Unlicensed Band)**:
    - 누구나 공짜로 쓸 수 있는 주파수 대역(주로 900MHz 이하 Sub-1GHz 대역)을 쓰는 방식. 통신사를 거치지 않고 개인이 직접 안테나를 사다 망을 깔 수 있습니다.
    - 대표 선수: <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">LoRa</a>(<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/">로라</a>), <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/">Sigfox</a>(<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/">시그폭스</a>)</strong>
-2. **면허 대역 (Licensed Band)**: 
+2. **면허 대역 (Licensed Band)**:
    - SKT, KT 같은 이동통신사가 돈을 내고 정부에서 산 독점 주파수([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/), [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 대역)의 남는 자투리 공간을 활용하는 방식. 품질이 보장되고 통신사가 전국망을 다 깔아주는 대신 매월 요금을 내야 합니다.
    - 대표 선수: <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/">NB-IoT</a>, <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/">LTE-M</a> (<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/">eMTC</a>)</strong>
 

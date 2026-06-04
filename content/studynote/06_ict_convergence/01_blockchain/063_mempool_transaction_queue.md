@@ -137,8 +137,8 @@ Confirmation
 
 ## 어린이를 위한 3줄 비유 설명
 
-놀이공원에 들어가려면 먼저 줄을 서야 해요.  
-앞줄에 서는 사람은 더 빨리 들어가요.  
+놀이공원에 들어가려면 먼저 줄을 서야 해요.
+앞줄에 서는 사람은 더 빨리 들어가요.
 멤풀은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 거래가 기다리는 줄이에요.
 
 ---

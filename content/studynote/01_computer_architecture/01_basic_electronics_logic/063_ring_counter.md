@@ -34,7 +34,7 @@ Init 1
   ↓
 FF1 → FF2 → FF3 → FF4
   ↑               ↓
-  └───────────────┘
+  +------- feedback -------+
 ```
 
 | 구성 요소 | 역할 |
@@ -132,8 +132,8 @@ Sequence Control
 
 ## 어린이를 위한 3줄 비유 설명
 
-친구들이 동그랗게 서서 차례를 넘겨요.  
-한 번에 한 사람만 이름표를 들고 있어요.  
+친구들이 동그랗게 서서 차례를 넘겨요.
+한 번에 한 사람만 이름표를 들고 있어요.
 링 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)는 이렇게 순서를 계속 돌리는 장치예요.
 
 ---

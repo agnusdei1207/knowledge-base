@@ -123,8 +123,8 @@ Interference Reduction
 
 ## 어린이를 위한 3줄 비유 설명
 
-사이 공간을 비워요.  
-그래야 부딪히지 않아요.  
+사이 공간을 비워요.
+그래야 부딪히지 않아요.
 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 대역은 그런 공간이에요.
 
 ---

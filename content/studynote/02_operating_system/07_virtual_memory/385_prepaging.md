@@ -138,7 +138,7 @@ tags = ["studynote-operating-system"]
 ### 실무 시나리오: Windows SuperFetch와 SysMain 데몬
 윈도우 사용자들이 겪는 기묘한 현상이 있다. 컴퓨터를 켜고 가만히 놔뒀는데 하드디스크 혼자 미친 듯이 드르륵드르륵 돌아가고 램 사용량이 80%를 찍는다.
 1. **과거의 불만**: 윈도우 부팅이나 포토샵을 켤 때 너무 오래 걸린다는 불만이 폭주했다.
-2. **SuperFetch의 등장**: 
+2. **SuperFetch의 등장**:
    - 마이크로소프트는 극한의 선행 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기술인 `SuperFetch(현재 SysMain)`를 도입했다.
    - 이 데몬은 유저의 며칠 치 사용 습관을 백그라운드에서 머신러닝으로 분석한다.
    - "아, 이 유저는 오후 1시에 항상 크롬과 롤(LoL)을 켜네?" -> 12시 50분부터 디스크가 혼자 몰래 돌면서 크롬과 롤의 수백 MB 코드 덩어리들을 램의 남는 공간에 모조리 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)(Prepaging)해 둔다.

@@ -216,7 +216,7 @@ await: I/O ìììì ëìíì ëëê ìëêììíê ëê ìê (ëëì)
 
 **ìë êì**:
 1. `iostat -x 1` ìí -> ëìí %utilê 95%ë íí
-2. `iotop` -> mysql/mariadb íëììêì ëëëì 
+2. `iotop` -> mysql/mariadb íëììêì ëëëì
 3. `blktrace`ë ìì ëì -> ìì íêê ëëë 4KB~16KB ( ëìí ìê)
 4. `perf stat -a -e block:block_rq_issue`ë ëì -> ëì ìì 4KB ìê ìì ëì
 

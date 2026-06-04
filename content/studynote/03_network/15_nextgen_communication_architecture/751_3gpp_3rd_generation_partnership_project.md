@@ -80,7 +80,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 삼성이나 퀄컴 같은 기업들은 이 3GPP 회의에 자사의 기술을 '표준(Standard)'으로 채택시키기 위해 수조 원을 쏟아붓습니다. 
+- 삼성이나 퀄컴 같은 기업들은 이 3GPP 회의에 자사의 기술을 '표준(Standard)'으로 채택시키기 위해 수조 원을 쏟아붓습니다.
 - 자사의 기술이 3GPP 표준 문서에 단 한 줄이라도 들어가면, 전 세계 모든 스마트폰 제조사와 통신사는 그 기술을 써야만 하므로 어마어마한 <strong>표준 필수 특허(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/791_apple_sep/">SEP</a>)</strong> 로열티 수익을 영원히 앉아서 벌어들일 수 있기 때문입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

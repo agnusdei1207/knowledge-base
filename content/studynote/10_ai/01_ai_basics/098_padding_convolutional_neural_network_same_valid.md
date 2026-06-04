@@ -19,7 +19,7 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-패딩 (Padding)은 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)([Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/)) 층을 통과할 때마다 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 가로세로 크기가 줄어드는 현상을 막기 위해 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주변을 특정 값(주로 0)으로 둘러싸는 처리 방법이다. 
+패딩 (Padding)은 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)([Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/)) 층을 통과할 때마다 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 가로세로 크기가 줄어드는 현상을 막기 위해 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주변을 특정 값(주로 0)으로 둘러싸는 처리 방법이다.
 
 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/))에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 이미지를 슬라이딩하며 연산할 때, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 이미지 밖으로 벗어날 수 없으므로 출력 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)([Feature Map](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/))의 크기는 입력보다 작아지게 된다. 또한, 이미지 중앙 픽셀은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 여러 번 노출되어 연산에 많이 반영되지만, 가장자리 픽셀은 적게 노출되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 및 불균형이 발생한다. 패딩은 이 두 가지 근본적인 한계를 해결하기 위해 등장했다.
 
@@ -29,7 +29,7 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-제로 패딩 ([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Padding)은 가장 널리 쓰이는 방식으로 테두리에 0을 덧댄다. 이를 통해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 원래 가장자리에 있던 픽셀도 여러 번 훑고 지나갈 수 있도록 슬라이딩 영역을 확보해 준다. 
+제로 패딩 ([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Padding)은 가장 널리 쓰이는 방식으로 테두리에 0을 덧댄다. 이를 통해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 원래 가장자리에 있던 픽셀도 여러 번 훑고 지나갈 수 있도록 슬라이딩 영역을 확보해 준다.
 
 [합성곱 연산](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/) 후 출력 크기 $O$는 입력 크기 $I$, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 크기 $K$, [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)) $S$, 패딩 크기 $P$에 의해 다음 공식으로 결정된다.
 $$O = \frac{I - K + 2P}{S} + 1$$

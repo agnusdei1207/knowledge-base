@@ -47,7 +47,7 @@ tags = ["studynote-operating-system"]
 │   ▶ Miss 경로 총 소요 시간 = 201 ns                               │
 └───────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** 이 두 갈래 길이 시스템의 운명을 결정한다. Hit가 나면 1번만 램에 가면 되니 100ns 수준에 방어하지만, Miss가 나면 장부를 읽느라 램에 2번 가야 해서 200ns라는 끔찍한 시간이 걸린다. 관건은 이 200ns 지뢰밭을 밟을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 극도로 낮추는 것이다. 
+**[다이어그램 해설]** 이 두 갈래 길이 시스템의 운명을 결정한다. Hit가 나면 1번만 램에 가면 되니 100ns 수준에 방어하지만, Miss가 나면 장부를 읽느라 램에 2번 가야 해서 200ns라는 끔찍한 시간이 걸린다. 관건은 이 200ns 지뢰밭을 밟을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 극도로 낮추는 것이다.
 
 - **📢 섹션 요약 비유**: 복권 뽑기 상자에서 당첨([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/))을 뽑으면 1초 만에 젤리를 먹지만, 꽝(Miss)을 뽑으면 창고에 가서 열쇠를 가져와야 해 2초가 걸립니다. 다행히 이 상자에는 당첨표가 99장 들어있어 평균적으로는 매번 1초 언저리로 젤리를 먹는 마술 상자입니다.
 
@@ -77,7 +77,7 @@ tags = ["studynote-operating-system"]
 
 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 검색 시간($\epsilon$)을 10ns, 메모리 접근 시간($M$)을 100ns라고 가정해 보자.
 - 만약 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> 없음)</strong>: 무조건 2번 읽어야 함. `100 + 100 = 200ns`
-- 만약 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> <a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/">적중률</a>이 80%</strong>라면: 
+- 만약 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> <a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/">적중률</a>이 80%</strong>라면:
   `EAT = 0.8 * (10 + 100) + 0.2 * (10 + 100 + 100)`
   `= 0.8 * 110 + 0.2 * 210`
   `= 88 + 42 = 130 ns` (여전히 30% 정도 느림)
@@ -104,13 +104,13 @@ TLB의 세계에서는 "겨우 1% 떨어졌네?"가 통하지 않는다. 99%와 
 | **80% (재앙)** | 130 ns | 정상 대비 약 20% [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (시스템 체감 렉 폭발) |
 | <strong>50% (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a>)</strong>| 160 ns | 서버 마비 수준의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 |
 
-표에서 보듯, [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)이 100%에서 80%로 떨어지면 메모리 속도가 무려 20% 가까이 곤두박질친다. CPU가 3GHz에서 2.4GHz로 강제 다운클럭 당하는 것과 똑같은 체감 효과다. 
+표에서 보듯, [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)이 100%에서 80%로 떨어지면 메모리 속도가 무려 20% 가까이 곤두박질친다. CPU가 3GHz에서 2.4GHz로 강제 다운클럭 당하는 것과 똑같은 체감 효과다.
 
 ### 왜 TLB는 64개밖에 안 되는데 99%가 맞을까? (Locality)
 - 캐시 방이 달랑 64~1024개뿐인데 어떻게 수백만 개의 주소 중 99%를 맞힐까?
-- 해답은 소프트웨어의 <strong>지역성(Locality)</strong>이다. 
+- 해답은 소프트웨어의 <strong>지역성(Locality)</strong>이다.
 - **공간 지역성(Spatial)**: [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) `A[0]`을 읽으면 곧바로 `A[1]`을 읽는다. 즉, 같은 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 안에서 계속 놀기 때문에 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시는 한 번 올려두면 수천 번의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 실행되는 동안 절대 Miss가 나지 않는다.
-- **시간 지역성(Temporal)**: `for` 루프를 수만 번 돌면, 똑같은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 코드가 있는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 계속 반복해서 부른다. 
+- **시간 지역성(Temporal)**: `for` 루프를 수만 번 돌면, 똑같은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 코드가 있는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 계속 반복해서 부른다.
 
 ```text
 ┌──────────┬────────────┬────────────┬─────────────────────────────┐
@@ -131,7 +131,7 @@ TLB의 세계에서는 "겨우 1% 떨어졌네?"가 통하지 않는다. 99%와 
 ### 실무 시나리오: [Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/) 도입과 EAT 최적화
 1. **상황**: 오라클 DB에서 수십 GB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 풀 스캔(Full Scan)한다. 포인터가 계속 수백 MB씩 뒤로 넘어가므로 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 시대의 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)(1024칸)는 단 4MB 스캔 만에 캐시가 전부 박살(Eviction)난다.
 2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/">Hit</a> Ratio의 폭락</strong>:
-   - 엄청난 양의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 훑고 지나가니 공간 지역성이 무너지고 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)($\[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)$)이 50% 밑으로 추락한다. 
+   - 엄청난 양의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 훑고 지나가니 공간 지역성이 무너지고 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)($\[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)$)이 50% 밑으로 추락한다.
    - EAT가 100ns에서 180ns로 치솟으며 서버 CPU 사용률이 iowait와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 타임으로 붉게 물든다.
 3. <strong>엔지니어의 대응 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/">Huge Page</a>)</strong>:
    - 엔지니어가 리눅스 옵션에서 2MB [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)([Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/))를 켠다.

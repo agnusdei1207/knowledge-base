@@ -82,7 +82,7 @@ Reno는 완벽해 보였지만, 창문(Window) 크기가 거대해지면서 약�
 ```
 
 ### 3. 해결책을 향한 갈망
-엔지니어들은 빡쳤다. "아니 10번, 20번 잃어버렸으면, 수신자가 처음부터 <strong>'나 10번이랑 20번 두 개 잃어버렸어!'</strong>라고 영수증에 콕 집어서 말해주면, 굳이 속도를 두 번 안 깎아도 되잖아!!" 
+엔지니어들은 빡쳤다. "아니 10번, 20번 잃어버렸으면, 수신자가 처음부터 <strong>'나 10번이랑 20번 두 개 잃어버렸어!'</strong>라고 영수증에 콕 집어서 말해주면, 굳이 속도를 두 번 안 깎아도 되잖아!!"
 이 분노에서 탄생한 것이 바로 다음 장에서 배울 <strong>NewReno</strong>와 <strong>SACK(선택적 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> 응답)</strong>이다.
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> Reno는 1개의 상처에는 아주 훌륭한 연고(<a href="/knowledge-base/studynote/03_network/08_transport_layer/434_fast_recovery_skip_slow_start/">빠른 회복</a>)를 바르지만, </strong>온몸에 상처(다중 유실)가 났을 때는 상처마다 연고를 바르며 진통제(속도 삭감)를 과다 복용하다가 부작용으로 기절해버리는 한계**를 지닌 1세대 명의입니다.

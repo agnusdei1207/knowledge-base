@@ -34,12 +34,12 @@ tags = ["studynote-operating-system"]
    가치 0  ┼─────────┼──────────▶ 시간
            │         │ 🚨 가치가 즉시 마이너스(재앙)로 곤두박질침
            │         ▼
-         -∞ 
+         -∞
 
   (2) Soft Real-time (연성 실시간)
   가치 100 ┼─────────┐ (데드라인)
            │         │ ↘
-           │         │    ↘ 
+           │         │    ↘
    가치 0  ┼─────────┼───────↘──▶ 시간
            │                    (서서히 불만족도 증가, 가치 하락)
 ```
@@ -59,7 +59,7 @@ tags = ["studynote-operating-system"]
    - 시스템에 새로운 프로세스가 들어올 때, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 녀석을 무조건 받아주지 않는다.
    - 수학 공식을 돌려 "이 녀석을 받아주면 기존 프로세스들의 데드라인이 깨지는가?"를 검사하고, 만약 1%라도 펑크 날 위험이 있으면 <strong>"리소스 부족으로 실행 거부(Reject)"</strong>를 때린다.
 2. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a> (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">Virtual Memory</a>) 및 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a> 금지</strong>
-   - 하드 디스크 스왑(Swap)은 실시간 시스템의 절대 악이다. 디스크에서 페이지를 퍼오는 시간([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))은 수십 ms로 널뛰기 때문에 데드라인을 보장할 수 없다. 
+   - 하드 디스크 스왑(Swap)은 실시간 시스템의 절대 악이다. 디스크에서 페이지를 퍼오는 시간([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))은 수십 ms로 널뛰기 때문에 데드라인을 보장할 수 없다.
    - 따라서 모든 프로세스의 코드는 부팅 시 무조건 물리적 RAM에 100% 락(Memory [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어 고정시켜야 한다.
 3. <strong>최악 실행 시간 (WCET, Worst-Case <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/">Execution Time</a>)의 도출</strong>
    - 프로그래머는 자기가 짠 함수가 최상의 조건에서 몇 ms에 도는지(평균)가 아니라, 캐시가 다 깨지고 분기문이 최악으로 흘렀을 때 <strong>최대 몇 ms가 걸리는지(WCET)</strong>를 어셈블리 수준에서 증명하여 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)에 제출해야 한다.

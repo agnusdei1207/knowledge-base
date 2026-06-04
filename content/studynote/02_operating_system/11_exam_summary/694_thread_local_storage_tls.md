@@ -19,10 +19,10 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>TLS (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/113_thread_local_storage/">Thread Local Storage</a>)</strong>: 변수 선언 시 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 단위로 생명 주기가 관리되는 저장 공간. A [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 TLS 변수 `count`와 B [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 TLS 변수 `count`는 이름만 같고 메모리 주소가 완전히 다르다.
 
-- **필요성 (전역 변수의 배신과 락 병목)**: 
+- **필요성 (전역 변수의 배신과 락 병목)**:
   - 멀티스레드의 장점은 "메모리를 공유"하는 것이다. 하지만 이게 독이 될 때가 있다.
   - C언어에서 시스템 콜이 실패하면 그 이유를 전역 변수인 `errno`에 적는다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 실패해서 `errno=5`를 적었는데, 그 찰나에 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 덮어쓰고, A가 `errno`를 읽으면 엉뚱한 에러를 보게 된다 ([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)).
   - 이걸 막으려면 `errno`를 읽고 쓸 때마다 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어야 하는데, 그러면 멀티스레드의 장점(병렬성)이 다 날아가고 시스템이 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)처럼 느려진다.
@@ -57,7 +57,7 @@ tags = ["studynote-operating-system"]
 
 ### 하드웨어와 OS의 마술: FS / GS [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (x86 기준)
 
-C코드에서 `__thread int my_id;` 라고 치면 어떻게 각 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)마다 다른 주소를 찾아갈까? 
+C코드에서 `__thread int my_id;` 라고 치면 어떻게 각 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)마다 다른 주소를 찾아갈까?
 이것은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))을 할 때 CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 교묘하게 조작하기 때문이다.
 
 ```text

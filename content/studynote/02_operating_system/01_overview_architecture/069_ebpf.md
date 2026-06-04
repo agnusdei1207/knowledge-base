@@ -132,8 +132,8 @@ Kernel Observability
 
 ## 어린이를 위한 3줄 비유 설명
 
-[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안을 안전하게 들여다봐요.  
-무엇이 일어나는지 볼 수 있어요.  
+[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안을 안전하게 들여다봐요.
+무엇이 일어나는지 볼 수 있어요.
 eBPF는 그런 똑똑한 안경이에요.
 
 ---

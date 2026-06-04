@@ -67,7 +67,7 @@ tags = ["studynote-operating-system"]
       turn = 1;               // 근데 일단 P1 너한테 턴을 넘길게.
 
       // P1이 들어갈 준비가 되었고, 턴도 P1이라면 난 여기서 뺑뺑이 돌며 대기!
-      while (flag[1] == true && turn == 1) { 
+      while (flag[1] == true && turn == 1) {
           // busy wait (스핀락 상태)
       }
 
@@ -150,7 +150,7 @@ tags = ["studynote-operating-system"]
 소프트웨어적 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 원리를 깊이 이해하면, 복잡한 시스템 내부에서 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))과 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))가 어떠한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 결함에서 피어나는지 꿰뚫어 볼 수 있는 직관을 얻게 되며, 이는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))에서 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 오류를 디버깅하는 가장 강력한 무기가 된다.
 
 ### 결론 및 미래 전망
-소프트웨어 락(Software [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))의 시대는 CPU가 복잡해지면서 역사 속으로 저물었고, 그 자리를 OS가 제공하는 무거운 락([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))이 대체했다. 
+소프트웨어 락(Software [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))의 시대는 CPU가 복잡해지면서 역사 속으로 저물었고, 그 자리를 OS가 제공하는 무거운 락([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))이 대체했다.
 하지만 흥미롭게도, 락이 무거워지면서 성능에 병목이 생기자 현대의 컴퓨터 과학은 다시 "락을 우회하는 꼼수"로 회귀하고 있다. 하드웨어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)([CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/))를 절묘하게 꼬아서 만든 [락-프리](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)([Lock-Free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) 프로그래밍은 사실상 <strong>'현대판 피터슨 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>'</strong>이다. 인간의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)로 다시금 하드웨어의 틈새를 돌파하려는 이 소프트웨어적 발악은, 향후 [트랜잭셔널 메모리](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/)(Transactional Memory)가 완전히 대중화될 때까지 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 튜닝의 최전선에서 계속될 것이다.
 
 - **📢 섹션 요약 비유**: 연금술사들이 돌을 황금(소프트웨어 락)으로 만들려던 시도는 과학적으로 실패했지만, 그 과정에서 발전한 화학 지식(상호배제/[진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/))이 현대 과학([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))의 찬란한 밑거름이 된 것처럼, 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 비록 실무에선 죽었으나 영원히 교과서의 위대한 실패작으로 빛나고 있습니다.

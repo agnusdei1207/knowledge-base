@@ -21,7 +21,7 @@ tags = ["studynote-operating-system"]
 
 - **개념**: 자원을 복제해 달라는 요청이 들어왔을 때, 즉시 물리적인 복사를 수행하지 않고 원본 자원의 포인터(주소)만 공유하다가, 누군가 "[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write)" 작업을 시도할 때만 물리적인 복사를 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 실행하는 자원 관리 최적화 기법이다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - UNIX [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 부모 프로세스가 `fork()`를 호출해 자식 프로세스를 만들 때, 부모의 1GB짜리 메모리(코드, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 힙, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))를 자식에게 100% 똑같이 물리적으로 복사해 주었다.
   - 그런데 자식 프로세스는 태어나자마자 십중팔구 `exec()` 시스템 콜을 호출하여 아예 다른 프로그램(예: `/bin/ls`)으로 자신을 덮어써 버린다.
   - 방금 1GB를 힘들게 복사해 줬는데, 1 밀리초 뒤에 그걸 다 버리고 새 프로그램을 덮어쓰는 끔찍한 낭비(CPU 시간, 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 고갈)가 발생했다.
@@ -30,7 +30,7 @@ tags = ["studynote-operating-system"]
   - 수업 시간에 선생님이 100페이지짜리 교재를 학생 30명에게 전부 복사해서 나눠주려면 복사비도 많이 들고 무겁다.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">COW</a> 방식</strong>: 일단 큰 빔프로젝터(공유 원본)로 교재를 화면에 띄워 30명이 다 같이 보게 한다. 그러다 특정 학생이 "선생님, 저 15페이지에 형광펜으로 밑줄을 치고 싶어요(Write)!"라고 할 때, 그 학생에게만 15페이지 종이 1장([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))을 복사해서 나눠주는 방식이다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 1980년대 초 BSD UNIX 및 Mach 운영체제에서 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)) 기술이 성숙하면서, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위의 권한 제어 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))을 활용하여 COW가 최초로 도입되었고 현대 OS [프로세스 생성](/knowledge-base/studynote/02_operating_system/02_process_thread/104_process_creation/)의 표준이 되었다.
 
 ```text
@@ -99,7 +99,7 @@ tags = ["studynote-operating-system"]
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 시퀀스는 OS 역사상 가장 아름다운 눈속임이다. `fork()` 직후 부모나 자식 중 어느 한쪽이라도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정하려고 하면, CPU MMU가 즉각 하드웨어 에러([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))를 뿜어낸다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 폴트 핸들러는 이 에러가 악의적 해킹인지, 아니면 자기가 설정한 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 때문인지 판별한다. [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 때문이라면, 그때서야 비로소 딱 4KB(1페이지) 크기만큼만 메모리를 새로 할당해서 복사해 준 뒤, 권한을 R/W로 풀어주고 프로그램을 다시 실행시킨다. 프로세스는 자신이 찰나의 순간 잠들었다가 복사본을 배정받았다는 사실조차 모른 채 자연스럽게 작업을 이어간다. 
+**[다이어그램 해설]** 이 시퀀스는 OS 역사상 가장 아름다운 눈속임이다. `fork()` 직후 부모나 자식 중 어느 한쪽이라도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정하려고 하면, CPU MMU가 즉각 하드웨어 에러([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))를 뿜어낸다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 폴트 핸들러는 이 에러가 악의적 해킹인지, 아니면 자기가 설정한 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 때문인지 판별한다. [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 때문이라면, 그때서야 비로소 딱 4KB(1페이지) 크기만큼만 메모리를 새로 할당해서 복사해 준 뒤, 권한을 R/W로 풀어주고 프로그램을 다시 실행시킨다. 프로세스는 자신이 찰나의 순간 잠들었다가 복사본을 배정받았다는 사실조차 모른 채 자연스럽게 작업을 이어간다.
 
 ### [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운트 ([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) Count) 관리
 

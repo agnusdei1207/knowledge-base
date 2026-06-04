@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- L4/L7 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(로드밸런서) 뒤에는 10대의 서버가 있습니다. 1초에 1,000명의 접속 요청이 쏟아질 때, 어떤 서버에 패킷을 꽂아줄지 결정하는 내부의 수학적 규칙(맵 할당 로직)이 필요합니다. 
+- L4/L7 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(로드밸런서) 뒤에는 10대의 서버가 있습니다. 1초에 1,000명의 접속 요청이 쏟아질 때, 어떤 서버에 패킷을 꽂아줄지 결정하는 내부의 수학적 규칙(맵 할당 로직)이 필요합니다.
 - 서버의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 현재 바쁜 정도(부하 상태)를 어떻게 추정하느냐에 따라 알고리즘이 갈립니다.
 
 ```text

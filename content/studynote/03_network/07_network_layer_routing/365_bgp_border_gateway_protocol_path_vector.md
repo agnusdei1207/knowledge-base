@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)(자율 시스템) 간에 도달 가능성 정보(네트워크 경로)를 교환하여 전체 인터넷망의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 조율하는 [EGP](/knowledge-base/studynote/03_network/07_network_layer_routing/346_egp_exterior_gateway_protocol_bgp/) 계열의 경로 벡터 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (현재 BGPv4, RFC 4271). [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 179번을 사용한다.
 - **필요성**: 삼성전자 내부망([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/))은 수천 대의 라우터가 "가장 빠른 길"을 0.001초 만에 찾는 게 지상 과제다. 하지만 삼성전자가 인터넷(KT 망)으로 나가는 관문에 섰을 때는 입장이 달라진다. KT 라우터 입장에서는 "전 세계 90만 개의 IP 주소 덩어리가 어디로 가는지 굵직굵직한 도로망만 파악하면 돼. 그리고 만약 중국 망이 우리 KT한테 돈(Transit 비용)을 안 내면 저쪽으로는 1바이트도 통과 안 시켜줄 거야!"라는 무자비한 룰([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))이 필요했다. <strong>속도(Speed)를 버리고, 확장성(Scale)과 통제(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>)에 몰빵한 괴물</strong>이 바로 BGP다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a> (사내망)</strong>: 목적지까지 골목길, 샛길 다 따져서 1분이라도 빨리 도착하게 해주는 <strong>"카카오내비(빠른 길 우선)"</strong>입니다.
   - **BGP (인터넷)**: 국가 간 물류를 통제하는 <strong>"세관(세관장)"</strong>입니다. 미국에서 온 택배(패킷)가 아무리 빨리 오고 싶어도, "어? 너네 중국([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path) 거쳐서 왔네? 우리나라는 중국 거쳐 온 물건 취급 안 해! 딴 나라로 돌아가!(필터링)"라며 속도와 무관하게 정치와 돈의 잣대로 통로를 막고 엽니다.
 
@@ -46,9 +46,9 @@ tags = ["studynote-network"]
 BGP는 이 멍청함을 극복하기 위해 <strong>Path-Vector(경로 벡터)</strong>를 쓴다.
 
 - BGP가 던지는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 엽서(Update 메시지) 안에는 <strong><code>AS-Path</code></strong>라는 빈칸이 있다.
-- 구글([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 15169)이 미국 통신사([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 100)에게 지도를 던진다. 
+- 구글([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 15169)이 미국 통신사([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 100)에게 지도를 던진다.
   - 봉투 겉면: `[목적지: 구글(8.8.8.x), 거쳐 온 길: AS 15169]`
-- 미국 통신사가 이걸 한국 KT([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 1759)에 던진다. 
+- 미국 통신사가 이걸 한국 KT([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 1759)에 던진다.
   - 봉투 겉면: `[목적지: 구글(8.8.8.x), 거쳐 온 길: AS 100, AS 15169]` (지나온 도장을 차곡차곡 쌓는다!)
 - **루프 차단 마법**: 만약 지구를 한 바퀴 뺑 돈 이 엽서가 우연히 다시 구글([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 15169) 라우터로 들어왔다고 치자. 구글 라우터는 봉투를 딱 보고 "어? 거쳐 온 길 목록에 <strong>내 도장(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">AS</a> 15169)</strong>이 이미 찍혀있네? 이 패킷은 내가 옛날에 보낸 게 돌고 돌아온 썩은 패킷(Loop)이군!" 하고 즉시 쓰레기통에 버린다. (우주 스케일의 완벽한 무한 루프 방어다).
 
@@ -59,7 +59,7 @@ BGP 라우터가 친구(Neighbor)를 맺는 방식은 상대방이 어느 국가
   - 예: KT([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 1759) 라우터와 SKT([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 10000) 라우터의 만남.
   - 특징: 국경을 맞대고 있으니 반드시 랜선이 1:1로 직접 꽂혀 있어야만(Directly connected) 친구를 맺어준다. (기본 룰: 홉 제한 1).
 - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/366_ibgp_ebgp_split_horizon_rule/">iBGP</a> (Internal BGP)</strong>: 나와 찐친을 맺으려는 상대방의 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">AS</a> 번호가 나랑 똑같을 때</strong>.
-  - 예: 서울 KT 라우터와 부산 KT 라우터의 만남. 
+  - 예: 서울 KT 라우터와 부산 KT 라우터의 만남.
   - 둘 다 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 1759이므로 eBGP로 외부에서 받아온 90만 개의 인터넷 지도를 "우리 식구들끼리 공유"하기 위해 맺는다.
   - 특징: 같은 나라 안이니까 굳이 랜선이 직접 안 꽂혀 있고 중간에 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 라우터 10대가 끼어 있어도 <strong>논리적으로(<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 179번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>) 멀리서 친구를 맺을 수 있다</strong>.
 

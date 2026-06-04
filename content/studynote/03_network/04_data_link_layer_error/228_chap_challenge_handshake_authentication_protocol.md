@@ -41,7 +41,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 3-Way 핸드셰이크 메커니즘
-CHAP는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 과정을 서버(Authenticator)가 주도(Server-driven)한다. 
+CHAP는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 과정을 서버(Authenticator)가 주도(Server-driven)한다.
 
 1. **Challenge (질의)**: 서버가 클라이언트에게 임의의 무작위 값([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/), Challenge)과 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID를 전송한다.
 2. **Response (응답)**: 클라이언트는 받은 난수, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID, 그리고 자신이 알고 있는 '비밀번호'를 [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/)(Message-Digest [algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 5) 같은 해시 함수에 넣고 돌려 <strong>해시값(Response)</strong>을 생성해 서버로 보낸다. *(이때 비밀번호는 전송되지 않음)*

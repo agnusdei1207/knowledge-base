@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **이미지 스캐닝**: [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))에서 다운받은 `ubuntu:latest` 나 `nginx` 깡통 안에 5년 전 털린 `OpenSSL` 버그([CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) 폭탄)가 숨어있는지 빌드 파이프라인에서 엑스레이로 뼛속까지 찍어 차단하는 기술.
   - **Non-root user (루트 실행 금지)**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 내부의 `admin(root)`은 밖의 리눅스 진짜 `root`와 100% 동일한 권한을 갖는 치명적 위험이 있다. 앱이 실행될 때 절대 왕(Root)의 옷을 입히지 않고, 권한 없는 하급 노예(User ID 1001) 옷을 강제로 입혀 탈옥 시 폭파력을 0으로 뭉개는 기술.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/">네임스페이스</a>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/">Namespace</a>) 샌드박스</strong>: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) A가 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) B의 파일이나 프로세스를 절대 훔쳐보지 못하게, 눈과 귀를 물리적으로 가려버리는 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 절대 독방(격리) 기술.

@@ -21,7 +21,7 @@ tags = ["studynote-data-engineering"]
 
 [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/) ([Logistic Regression](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/))는 독립 변수들의 선형 결합을 이용하여 사건의 발생 가능성을 예측하는 통계 기법이다. 선형 회귀(Linear Regression)는 주택 가격처럼 연속적인 숫자를 예측하는 데는 적합하지만, "스팸 메일인가 아닌가?", "암인가 아닌가?" 같은 이산적인(0 또는 1) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 문제에 적용하면 결과값이 1을 초과하거나 0 미만으로 떨어지는 치명적인 문제가 발생한다.
 
-이러한 선형 회귀의 한계를 극복하기 위해, 어떤 실수 값을 입력해도 항상 0과 1 사이의 값으로 맵핑([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))해주는 장치가 필요해졌다. 이 역할을 수행하는 것이 바로 [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) ([Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)) 함수이며, 이를 통해 우리는 산출된 값을 "사건이 발생할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"로 합리적으로 해석할 수 있게 된다. 
+이러한 선형 회귀의 한계를 극복하기 위해, 어떤 실수 값을 입력해도 항상 0과 1 사이의 값으로 맵핑([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))해주는 장치가 필요해졌다. 이 역할을 수행하는 것이 바로 [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) ([Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)) 함수이며, 이를 통해 우리는 산출된 값을 "사건이 발생할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"로 합리적으로 해석할 수 있게 된다.
 
 - **📢 섹션 요약 비유**: 선형 회귀가 온도계를 보고 "내일은 25.5도일 것"이라고 숫자를 맞추는 일이라면, [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)는 구름의 양을 보고 "내일 비가 올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 80%"라고 이분법적 판단의 근거를 알려주는 일기예보관이다.
 
@@ -29,7 +29,7 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)의 핵심 메커니즘은 승산 (Odds)과 로짓 (Logit) 변환, 그리고 [시그모이드 함수](/knowledge-base/studynote/10_ai/01_ai_basics/069_sigmoid_function_vanishing_gradient/)를 통한 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 산출이다. 
+[로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)의 핵심 메커니즘은 승산 (Odds)과 로짓 (Logit) 변환, 그리고 [시그모이드 함수](/knowledge-base/studynote/10_ai/01_ai_basics/069_sigmoid_function_vanishing_gradient/)를 통한 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 산출이다.
 
 1. **승산 (Odds)**: 성공 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)($P$)과 실패 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)($1-P$)의 비율이다. ($Odds = P / (1-P)$)
 2. **로짓 (Logit) 변환**: 승산에 자연로그를 취해, $0 \sim 1$ 사이의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 $-\infty \sim +\infty$ 범위의 실수로 확장한다. 이를 통해 선형 회귀식($\beta_0 + \beta_1 X$)과 연결 고리를 만든다.

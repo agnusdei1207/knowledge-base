@@ -19,9 +19,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 물건을 만들려면 공장([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인)과 재료([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)/외부 SW)가 필요하다. 해커가 이 공급망(Supply Chain)을 오염시킨다. 
-  - 1) 개발자가 치는 코드에 몰래 섞여 들어가기 (Git 털기). 
-  - 2) [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)가 코드를 `.jar` 로 압축할 때 몰래 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 껴넣기 (Build 서버 털기). 
+- **개념**: 물건을 만들려면 공장([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인)과 재료([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)/외부 SW)가 필요하다. 해커가 이 공급망(Supply Chain)을 오염시킨다.
+  - 1) 개발자가 치는 코드에 몰래 섞여 들어가기 (Git 털기).
+  - 2) [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)가 코드를 `.jar` 로 압축할 때 몰래 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 껴넣기 (Build 서버 털기).
   - 3) 내가 쓰는 외부 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)의 공식 업데이트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 독을 발라두기 (Dependency 털기).
 
 - **필요성**: 2020년, 미국 국방부, 백악관, 마이크로소프트 등 천상계 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 두른 1만 개의 기관이 동시다발적으로 개털렸다. 원인은 그들이 100% 믿고 쓰는 '솔라윈즈(SolarWinds)'라는 네트워크 감시 소프트웨어의 <strong>"공식 업데이트 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>"</strong> 안에 러시아 해커가 심어둔 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)가 섞여 있었기 때문이다. 해커는 솔라윈즈의 빌드 서버(공장)를 털어서 공식 인감도장을 찍어버렸다. <strong>아무리 내 성벽을 100m로 쌓아도, 매일 성안으로 들어오는 식량 마차(공식 업데이트/<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a>)에 독이 들었으면 성은 하루 만에 함락된다.</strong> 내가 통제할 수 없는 이 외부의 독을 걸러내기 위해 공급망 방어가 전 세계 1순위 안보 과제로 터져 올랐다.

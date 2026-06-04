@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **지역성 (Locality)**: 프로세스가 기억 장치 내의 정보를 균일하게 접근하지 않고, 특정 순간에 특정 영역만 집중적으로 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하는 특성.
   - **[워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) ($WS$)**: 현재 시점 $t$에서 과거 $\Delta$(Delta, [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)) 시간 동안 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들의 집합.
 
-- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a>의 비극과 맹목적 할당의 한계)</strong>: 
-  - 과거 OS는 남는 램이 있으면 무작정 프로세스를 더 띄웠다([다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 증가). 
+- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a>의 비극과 맹목적 할당의 한계)</strong>:
+  - 과거 OS는 남는 램이 있으면 무작정 프로세스를 더 띄웠다([다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 증가).
   - 프로세스들에게 메모리를 공평하게 10장씩 나눠줬는데, 어떤 프로그램은 5장만 있어도 잘 돌지만(작은 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)), 어떤 프로그램은 최소 15장이 있어야 도는(큰 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)) 애였다. 15장 필요한 애한테 10장만 주니 매초 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault가 터져 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)으로 시스템이 뻗어버렸다.
   - **해결책**: "공평하게 주는 게 중요한 게 아니다. 각 프로세스가 <strong>'최소한 숨을 쉬기 위해 필요한 산소통의 크기(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">워킹 셋</a>)'</strong>를 실시간으로 재서, 그만큼은 무조건 보장해 주고, 그게 안 되면 아예 프로세스를 죽이거나 쫓아내자!"
 

@@ -27,7 +27,7 @@ tags = ["studynote-algorithm"]
 Text:    A B A B C A B A B A B D
 Pattern: A B A B A B D
          | | | | | x (Mismatch at index 4)
-         
+
 [ LPS Array Construction ]
 Pattern: A B A B A B D
 Index:   0 1 2 3 4 5 6

@@ -66,7 +66,7 @@ tags = ["studynote-computer-architecture"]
 | **노이즈** | 치명적임 (노이즈가 그대로 증폭됨) | **면역력 극강** (마진으로 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) |
 | **주요 용도** | 오디오 앰프, 무선 통신(RF), 센서 수집 | CPU, 메모리, 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연산 및 저장 |
 
-완벽히 매끄러운 아날로그 선을 컴퓨터에 저장하려면, 모눈종이 위에 점을 찍어 계단 모양으로 깎아내는 샘플링([표본화](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/))과 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) 과정을 거쳐야 한다. 이 과정에서 필연적으로 곡선과 계단 모서리 사이에 텅 빈 공간이 생기며 이를 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 오차([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) Error)라 한다. 
+완벽히 매끄러운 아날로그 선을 컴퓨터에 저장하려면, 모눈종이 위에 점을 찍어 계단 모양으로 깎아내는 샘플링([표본화](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/))과 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) 과정을 거쳐야 한다. 이 과정에서 필연적으로 곡선과 계단 모서리 사이에 텅 빈 공간이 생기며 이를 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 오차([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) Error)라 한다.
 
 - **📢 섹션 요약 비유**: 둥근 사과(아날로그)를 컴퓨터 화면에 띄우기 위해 네모난 레고 블록(디지털 픽셀)으로 조립하는 과정과 같다. 블록이 아무리 작아도 둥근 곡선을 100% 표현할 수 없어 계단처럼 오돌토돌해지는 손실이 발생한다.
 
@@ -89,7 +89,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-디지털 시스템은 노이즈 마진을 무기로 정보의 100% [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 달성하며 현대 IT 문명을 건설했다. 
+디지털 시스템은 노이즈 마진을 무기로 정보의 100% [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 달성하며 현대 IT 문명을 건설했다.
 
 하지만 최근 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연산 폭증으로 디지털의 극심한 곱셈 전력 소모가 한계에 다다르자, [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)(R) 값이 변하는 메모리(Memristor)를 이용해 옴의 법칙과 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)/전류량 자체로 행렬 곱셈을 단숨에 끝내버리는 <strong>아날로그 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 가속기 (Analog In-Memory Computing)</strong>로의 기괴한 르네상스 회귀가 시도되고 있다. 극단의 신뢰성을 추구하던 디지털 패러다임이, 에너지 효율을 위해 다시 아날로그적 물리 법칙과 결합하는 나선형 진화의 변곡점이다.
 

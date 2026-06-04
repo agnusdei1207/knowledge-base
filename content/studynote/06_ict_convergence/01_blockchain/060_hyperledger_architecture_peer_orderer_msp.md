@@ -132,8 +132,8 @@ MSP / Peer / Orderer 분리
 
 ## 어린이를 위한 3줄 비유 설명
 
-하이퍼레저는 회사에서 역할을 나눠 일하는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이에요.  
-신분 확인하는 사람, 장부를 쓰는 사람, 순서를 정하는 사람이 따로 있어요.  
+하이퍼레저는 회사에서 역할을 나눠 일하는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이에요.
+신분 확인하는 사람, 장부를 쓰는 사람, 순서를 정하는 사람이 따로 있어요.
 그래서 더 빠르고 더 안전하게 기록할 수 있어요.
 
 ---

@@ -150,16 +150,16 @@ Upper Bound (upper_bound): target 초과의 첫 번째 위치
 
 ### 실무 시나리오
 
-<strong>시나리오 1 — <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a></strong>: B-트리 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 각 노드 내 키 탐색  
+<strong>시나리오 1 — <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a></strong>: B-트리 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 각 노드 내 키 탐색
 → 페이지당 수백 개 키에 이분 탐색 → O(log n) 탐색 보장
 
-**시나리오 2 — 컴파일러 심볼 테이블**: 정렬된 심볼 목록에서 변수명 탐색  
+**시나리오 2 — 컴파일러 심볼 테이블**: 정렬된 심볼 목록에서 변수명 탐색
 → 이분 탐색으로 O(log n) 조회
 
-<strong>시나리오 3 — <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/">이진 탐색 트리</a>(BST)</strong>: 이분 탐색의 구조화된 형태  
+<strong>시나리오 3 — <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/">이진 탐색 트리</a>(BST)</strong>: 이분 탐색의 구조화된 형태
 → 삽입/삭제가 가능한 동적 이분 탐색 구조
 
-**시나리오 4 — 업무 최적화 문제**: "최소 배송 비용으로 D일 이내 전달 가능한가?"  
+**시나리오 4 — 업무 최적화 문제**: "최소 배송 비용으로 D일 이내 전달 가능한가?"
 → 매개변수 탐색: 비용 x에 대해 판단 함수 설계 후 이분 탐색
 
 ### 기술사 구현 주의사항
@@ -231,8 +231,8 @@ Upper Bound (upper_bound): target 초과의 첫 번째 위치
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-📖 **두꺼운 사전 찾기**: '사과'를 찾을 때 가운데 페이지를 펼쳐서 '사과'가 앞인지 뒤인지 보고, 계속 반씩 줄이면 어떤 단어도 금방 찾을 수 있어요!  
-🎯 **업다운 숫자 맞히기**: 1~100 중 숫자를 맞힐 때 50, 25, 75 순으로 물으면 7번 만에 반드시 맞힐 수 있어요 — 이게 바로 이분 탐색이에요!  
+📖 **두꺼운 사전 찾기**: '사과'를 찾을 때 가운데 페이지를 펼쳐서 '사과'가 앞인지 뒤인지 보고, 계속 반씩 줄이면 어떤 단어도 금방 찾을 수 있어요!
+🎯 **업다운 숫자 맞히기**: 1~100 중 숫자를 맞힐 때 50, 25, 75 순으로 물으면 7번 만에 반드시 맞힐 수 있어요 — 이게 바로 이분 탐색이에요!
 🔍 **키 큰 순서 줄 서기**: 이미 키 순으로 줄 서 있는 친구들 사이에서 내 자리를 찾을 때, 가운데 친구와 비교하면서 반씩 줄여가면 빠르게 찾을 수 있어요!
 
 ---

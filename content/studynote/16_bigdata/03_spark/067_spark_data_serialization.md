@@ -28,7 +28,7 @@ tags = ["studynote-bigdata"]
 
 1. Java Serialization: Default, flexible but slow and large footprint.
 2. Kryo Serialization: Fast, compact, but requires manual registration.
-3. Tungsten Engine: Uses off-heap memory and binary format directly to skip 
+3. Tungsten Engine: Uses off-heap memory and binary format directly to skip
    heavy serialization/deserialization overhead.
 ```
 

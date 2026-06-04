@@ -19,9 +19,9 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-암세포가 몸짓을 키워 파괴(탐지/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))하기 전에, 아예 암세포가 생길 수 없는(Prevent) 무균실 유전자로 인간을 개조한다면 어떨까? 
+암세포가 몸짓을 키워 파괴(탐지/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))하기 전에, 아예 암세포가 생길 수 없는(Prevent) 무균실 유전자로 인간을 개조한다면 어떨까?
 
-<strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a> 예방</strong>은 바로 데드락의 씨앗인 4개 조건 연합을 타격하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 범죄 발생의 4요소(의도, 수단, 대상, 기회) 중 단 하나라도 사라지면 범죄가 성립하지 못하듯, 데드락 역시 4가지 조건이 `AND`로 결합해야만 발동하므로, OS 구조를 뜯어고쳐 그중 하나를 `False`로 고정시켜버린다. 
+<strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a> 예방</strong>은 바로 데드락의 씨앗인 4개 조건 연합을 타격하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 범죄 발생의 4요소(의도, 수단, 대상, 기회) 중 단 하나라도 사라지면 범죄가 성립하지 못하듯, 데드락 역시 4가지 조건이 `AND`로 결합해야만 발동하므로, OS 구조를 뜯어고쳐 그중 하나를 `False`로 고정시켜버린다.
 
 **💡 비유**: 교차로 4방향 꼬리물기(데드락) 예방. "차는 무조건 직진만 해! 좌회전 절대 금지!"(조건 부정)라고 룰을 강제하면 절대 교차로 중앙에서 꼬리가 물릴 수가 없다. 다만, 운전자는 목적지까지 몇 바퀴를 우회하며 엄청난 비효율(오버헤드)을 감수해야 한다.
 
@@ -58,7 +58,7 @@ tags = ["studynote-operating-system"]
 
 각 조건을 깨부수는 아키텍처는 필연적으로 시스템의 자연스러운 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/">자원 할당</a> 타이밍(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/">Resource Allocation</a> Timing)을 왜곡</strong>시킨다.
 
-- 프로세스는 자신이 언제 무슨 파일과 디바이스를 필요로 할지 런타임 유저 입력에 따라 달라진다. 
+- 프로세스는 자신이 언제 무슨 파일과 디바이스를 필요로 할지 런타임 유저 입력에 따라 달라진다.
 - 그런데 2번 [점유 대기 부정](/knowledge-base/studynote/02_operating_system/05_deadlock/294_deny_hold_and_wait/) 원칙은 "시작 전에 메뉴판에 있는 걸 다 시키고 결제해 둬!(Static Allocation)"라고 강박을 준다.
 - 이는 동적 프로그래밍과 비동기 반응성이 핵심인 현대 OS 아키텍처의 패러다임을 정면으로 역행하는 철학이 되어버린다.
 
@@ -82,7 +82,7 @@ tags = ["studynote-operating-system"]
 
 **실무 시나리오**:
 1. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 레벨의 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/">Lock Hierarchy</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/296_deny_circular_wait/">순환 대기 부정</a>)</strong>: Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 트리 내 수천 개의 락. 예방 규칙 중 유일하게 실용성이 있는 "[순환 대기 부정](/knowledge-base/studynote/02_operating_system/05_deadlock/296_deny_circular_wait/)(번호 순서대로 락 획득)" 규칙 하나만은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자가 수명 코딩 규칙(Coding Standard)으로 철저히 지킨다. 이를 통해 어플리케이션이 아닌 OS 자체의 치명적 크래시([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))를 예방한다.
-2. <strong>비관적 락(Pessimistic <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)</strong>: 예방 철학의 마이너 버전업. 트랜잭션에서 충돌할 게 빤히 보이면, `SELECT ... FOR UPDATE`로 시작부터 강제로 락을 잡아버려 데드락이 꼬이기 전 선점한다. ([점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/) 조건 일부 응용 회피). 
+2. <strong>비관적 락(Pessimistic <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)</strong>: 예방 철학의 마이너 버전업. 트랜잭션에서 충돌할 게 빤히 보이면, `SELECT ... FOR UPDATE`로 시작부터 강제로 락을 잡아버려 데드락이 꼬이기 전 선점한다. ([점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/) 조건 일부 응용 회피).
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
 - <strong>자원 사전 확보 강박 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/284_hold_and_wait/">Hold-and-Wait</a> 부정 설계)</strong>: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))에서 "모든 외부 DB와 통신 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 4개를 다 쥐어야만 1단계 로직을 시작한다"는 설계. 특정 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)이 느리면, 쥐고 있는 다른 3개 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)마저 1시간 대기하며 전체 서버 풀이 순식간에 녹아내린다. "필요할 때 짧게 잡고 놓아주는(Release)" 현대화된 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) 락 방식에 완전한 역행.

@@ -78,7 +78,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - **한계점 (거리의 제약)**: 이 빛의 알갱이(단일 광자)는 너무 연약해서 광케이블 속을 50~100km밖에 못 날아갑니다. 중간에 흔한 광 증폭기(EDFA)를 쓰면 앞서 말한 관측 붕괴가 일어나 키가 다 깨져버립니다.
-- **해결책 (신뢰 노드 릴레이망)**: 서울에서 대전까지 QKD를 보내려면, 중간 기착지(수원)에 완벽한 무장 경찰관이 지키는 <strong>'신뢰 노드(Trusted Node)'</strong>라는 릴레이 벙커를 세웁니다. 서울 ➜ 수원까지 1번 양자키를 쏘고, 수원에서 이걸 풀어 안전하게 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 뒤 다시 수원 ➜ 대전으로 2번 양자키로 포장해 릴레이로 이어달리기를 합니다. 
+- **해결책 (신뢰 노드 릴레이망)**: 서울에서 대전까지 QKD를 보내려면, 중간 기착지(수원)에 완벽한 무장 경찰관이 지키는 <strong>'신뢰 노드(Trusted Node)'</strong>라는 릴레이 벙커를 세웁니다. 서울 ➜ 수원까지 1번 양자키를 쏘고, 수원에서 이걸 풀어 안전하게 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 뒤 다시 수원 ➜ 대전으로 2번 양자키로 포장해 릴레이로 이어달리기를 합니다.
 - 현재 SKT, KT 등이 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/[6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 핵심 통신망 백본(서울-대전 구간)에 이 [QKD](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/922_qkd_quantum_key_distribution_bb84_eavesdropping/) 장비를 부착하여 국가 금융, 국방 통신망의 절대 보안을 실증하고 있습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

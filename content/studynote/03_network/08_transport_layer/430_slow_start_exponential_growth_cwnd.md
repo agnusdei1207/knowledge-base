@@ -46,11 +46,11 @@ tags = ["studynote-network"]
 ### 1. $2^N$ 지수적 증가(Exponential Growth)의 수학
 ACK가 1개 돌아올 때마다 송신자 뇌구조(CWND)는 1씩 증가한다. 이게 왜 기하급수적으로 늘어날까?
 
-- <strong>1라운드 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a> 1)</strong>: `CWND=1`. 패킷을 딱 1개 쏜다. 
-  - (잠시 후) 영수증(ACK) 1개가 왔다. 
+- <strong>1라운드 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a> 1)</strong>: `CWND=1`. 패킷을 딱 1개 쏜다.
+  - (잠시 후) 영수증(ACK) 1개가 왔다.
   - 내 `CWND = 1 + 1 = 2`가 된다.
 - <strong>2라운드 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a> 2)</strong>: 내 창문 크기가 2가 됐으니 패킷 2개를 쏜다.
-  - (잠시 후) 영수증이 2장 연달아 온다. 
+  - (잠시 후) 영수증이 2장 연달아 온다.
   - 내 `CWND = 2(원래) + 1 + 1 = 4`가 된다.
 - <strong>3라운드 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a> 3)</strong>: 창문이 4가 됐으니 패킷 4개를 쏜다.
   - 영수증 4장이 온다.
@@ -84,7 +84,7 @@ ACK가 1개 돌아올 때마다 송신자 뇌구조(CWND)는 1씩 증가한다. 
 ```
 
 ### 3. 통신 장애(Drop) 시 슬로우 스타트의 부활
-순조롭게 달리다가 라우터가 꽉 차서 패킷이 짤려 나갔다([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/) 발생). 
+순조롭게 달리다가 라우터가 꽉 차서 패킷이 짤려 나갔다([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/) 발생).
 내 PC의 판단: "아 씨, 길 막혀서 죽었네! 싹 다 엎어!"
 1. 다음번 목표인 안전 커트라인(`ssthresh`)을 현재 창문 크기의 <strong>절반(1/2)</strong>으로 훅 깎아내린다. (너 아까 20 쏘다 죽었지? 다음엔 10까지만 뛰어라).
 2. 내 `CWND`를 무자비하게 <strong><code>1</code></strong>로 곤두박질치게 리셋해버린다.

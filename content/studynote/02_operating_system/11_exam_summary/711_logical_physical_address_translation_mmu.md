@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/">논리 주소</a> (Logical / Virtual Address)</strong>: 컴파일러와 CPU가 보는 주소. 프로그램마다 독립적으로 0번지부터 시작하는 가상 공간.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/">물리 주소</a> (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/">Physical Address</a>)</strong>: 실제 메모리 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)) 칩에 꽂혀 있는 핀 번호와 직결된 절대 위치.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/">MMU</a> (메모리 관리 유닛)</strong>: CPU와 메모리(캐시) 사이에 위치하여, 이 두 주소를 매핑([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))해 주는 전용 하드웨어.
 
-- **필요성 (소프트웨어의 짐을 하드웨어가 덜다)**: 
+- **필요성 (소프트웨어의 짐을 하드웨어가 덜다)**:
   - OS가 여러 프로그램을 램에 올렸다 내렸다([Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)) 하면, 엑셀은 오늘 아침엔 1,000번지에 있다가 점심엔 5,000번지로 이사를 간다.
   - 엑셀 안에는 변수들의 주소가 수십만 개 적혀 있다. 이사 갈 때마다 OS(소프트웨어)가 엑셀의 코드를 일일이 뒤져서 "1,000번지를 5,000번지로 다 고쳐라!"라고 하면 부팅에만 10분이 걸릴 것이다([Load Time](/knowledge-base/studynote/02_operating_system/06_memory_management/326_load_time_binding/) Binding의 한계).
   - **해결책**: "엑셀의 코드는 그냥 놔둬라([논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)). 대신 CPU가 메모리를 읽으려고 전기 신호를 쏠 때, 그 중간에 번역기([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))를 하나 놔서 찰나의 순간에 4,000을 더해서(Relocation) 보내라!"
@@ -89,7 +89,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅲ. 비교 및 연결
 
-### [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/): OS vs 하드웨어([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))
+### [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/): OS vs 하드웨어([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))
 
 "해킹을 막는 주체는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)일까, 하드웨어일까?"
 

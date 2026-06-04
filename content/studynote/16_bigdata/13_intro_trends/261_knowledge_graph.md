@@ -24,7 +24,7 @@ tags = ["studynote-bigdata"]
 
 삼중항 (Triple: S-P-O):
   Subject - Predicate - Object
-  
+
   예:
   (구글, 설립자, 래리 페이지)
   (래리 페이지, 국적, 미국)
@@ -34,19 +34,19 @@ tags = ["studynote-bigdata"]
 그래프 구조:
   노드: 개체 (구글, 래리 페이지, 마운틴뷰)
   엣지: 관계 (설립자, 국적, 본사위치)
-  
+
   래리 페이지 → (설립) → 구글
   래리 페이지 → (국적) → 미국
   구글 → (본사) → 마운틴뷰
 
 RDF (Resource Description Framework):
   W3C 표준 형식
-  
+
   <구글> <설립자> <래리 페이지> .
   <래리 페이지> <국적> <미국> .
-  
+
   SPARQL: RDF 쿼리 언어
-  
+
   "구글 설립자의 국적은?"
   SELECT ?country
   WHERE {
@@ -56,11 +56,11 @@ RDF (Resource Description Framework):
 
 온톨로지 (Ontology):
   지식 그래프의 스키마/개념 계층
-  
+
   클래스: 사람, 회사, 장소
   속성: 이름, 설립일, 위치
   관계: 설립자, 소속, 위치
-  
+
   OWL (Web Ontology Language): W3C 표준
 ```
 
@@ -76,7 +76,7 @@ RDF (Resource Description Framework):
 1. Google Knowledge Graph (2012):
    20 billion 팩트, 570 million 개체
    검색 결과 오른쪽 "지식 패널" 제공
-   
+
    기능:
    "아인슈타인" 검색 → 생년, 국적, 업적 즉시 표시
    "파리" → 에펠탑, 루브르, 인구, 날씨 연결
@@ -84,7 +84,7 @@ RDF (Resource Description Framework):
 2. Wikidata (2012, Wikimedia):
    오픈 지식 그래프
    100M+ 개체, 1.4B+ 삼중항
-   
+
    SPARQL 쿼리:
    "1950년 이후 태어난 한국 대통령 목록"
 
@@ -117,7 +117,7 @@ RDF (Resource Description Framework):
 ```
 지식 그래프 임베딩 (KGE):
   개체와 관계를 연속 벡터 공간에 표현
-  
+
   목적:
   유사한 개체 → 가까운 벡터
   관계 추론 → 벡터 연산으로
@@ -125,21 +125,21 @@ RDF (Resource Description Framework):
 TransE (2013):
   핵심 아이디어:
   head + relation ≈ tail
-  
+
   (파리, 수도, 프랑스)
   V(파리) + V(수도) ≈ V(프랑스)
-  
+
   비유:
   V(왕) - V(남성) + V(여성) ≈ V(여왕)  ← Word2Vec과 유사!
-  
+
   학습: 올바른 트리플의 score를 높임
   score = -||h + r - t||
 
 관계 추론:
   "구글의 CEO는?" → 지식 그래프에 없는 경우
-  
+
   V(구글) + V(CEO) → 가장 가까운 개체 = V(순다 피차이)
-  
+
   링크 예측 (Link Prediction):
   누락된 관계 자동 예측
   → 지식 그래프 완성
@@ -169,7 +169,7 @@ Graph RAG (Knowledge Graph + RAG):
 Graph RAG 강점:
   (삼성전자, has_division, 반도체사업부)
   (반도체사업부, has_ceo, 경계현)
-  
+
   → 그래프 탐색으로 정확한 답변
   → 추론 경로 설명 가능: "삼성전자 → 반도체사업부 → CEO"
 
@@ -179,7 +179,7 @@ Microsoft GraphRAG (2024):
   1. 문서 → NLP → 개체/관계 추출 → 지식 그래프 구축
   2. 질의 → 그래프 탐색 + 벡터 검색 결합
   3. 두 결과 통합 → LLM 답변 생성
-  
+
   Community Detection: Leiden 알고리즘
   계층적 요약 생성 (Global Search)
 
@@ -212,7 +212,7 @@ Neo4j + LLM:
 배경:
   AML (Anti-Money Laundering) 탐지 강화
   단순 규칙 기반 → 복잡한 관계망 탐지 불가
-  
+
   기존 문제:
   A → B → C → D (4단계 간접 송금)
   규칙 기반: A-D 직접 연결 없어 탐지 불가
@@ -248,7 +248,7 @@ Neo4j + LLM:
   직접 탐지 불가했던 네트워크 5개 발견
   의심 계좌 탐지율: 34% → 89%
   허위 양성(False Positive): 12% 감소
-  
+
   Graph ML 추가:
   GNN(그래프 신경망)으로 패턴 학습
   → 새로운 자금 세탁 패턴 자동 탐지

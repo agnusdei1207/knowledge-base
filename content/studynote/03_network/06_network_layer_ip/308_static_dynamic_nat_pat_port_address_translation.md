@@ -25,7 +25,7 @@ tags = ["studynote-network"]
   - <strong>PAT (NAPT - Network Address <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a> Translation)</strong>: 1 대 다(1:N) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 변환
 - **필요성**: 상황마다 필요한 변환 방식이 다르다. 사내 웹서버를 돌린다면 누군가 외부에서 `211.x.x.5`를 쳤을 때 무조건 그 서버(사설 IP `192.168.0.50`)로 꽂아줘야 하니 Static이 필요하다. 반면 직원 100명이 네이버 웹서핑만 할 거라면, 공인 IP 100개를 사는 건 미친 짓이므로 공인 IP 딱 1개에 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) 100개를 붙여서 쪼개 쓰는 PAT가 압도적으로 경제적이다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - <strong>Static <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a></strong>: 사장님 전용 **"고정 주차 구역(1:1)"**. 사장님 차 번호와 주차 칸 번호가 영구 매칭되어 있습니다.
   - <strong>Dynamic <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a></strong>: 회사 공용 주차장 **"자율 주차(M:N)"**. 주차 칸(공인 IP)이 5개면, 출근 빨리한 직원 5명만 주차하고, 6번째 직원은 퇴근차가 나올 때까지 빙빙 돌아야 합니다.
   - **PAT**: 놀이공원의 **"거대한 공용 사물함(1:N)"**. 사물함(공인 IP)은 1개지만, 안에 열쇠 번호([포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/))가 수만 개 달려 있어서, 열쇠 번호만 다르면 수천 명이 동시에 한 사물함을 나누어 쓸 수 있습니다.

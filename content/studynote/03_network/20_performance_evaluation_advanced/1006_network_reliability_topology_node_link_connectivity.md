@@ -62,9 +62,9 @@ tags = ["studynote-network"]
 
 어떻게 선을 꽂아야 안 터질까요?
 
-1. **스타(Star) 토폴로지**: 한가운데 중앙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 두고 뻗은 별 모양. 
+1. **스타(Star) 토폴로지**: 한가운데 중앙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 두고 뻗은 별 모양.
    - <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a> 최악</strong>: 중앙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 1대만 불타면([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 전 직원이 통신 멸망합니다.
-2. <strong>링(Ring) 토폴로지 (896번 <a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/">SONET</a>)</strong>: 동그랗게 원을 그린 모양. 
+2. <strong>링(Ring) 토폴로지 (896번 <a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/">SONET</a>)</strong>: 동그랗게 원을 그린 모양.
    - <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a> 중간</strong>: 선이 1번 끊어지면 반대 방향으로 빙 돌아가서 살아남습니다. 하지만 선이 2곳에서 뚝딱 끊어지면 망이 고립됩니다.
 3. <strong>풀 <a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>(Full <a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">Mesh</a>) 토폴로지</strong>: 모든 컴퓨터가 나머지 모든 컴퓨터와 빠짐없이 1:1 전용 랜선으로 미친 듯이 엉켜있는 거미줄 모양.
    - <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a> 극강</strong>: 노드가 $N$개면, 링크 수가 $\frac{N(N-1)}{2}$ 개로 폭발합니다. 선이 수십 가닥 잘려나가도 100% 다른 우회로가 존재해 좀비처럼 살아남습니다. 국가 국방망이나 코어망(코어 라우터 간 연결)에 돈을 떡칠해서 구축하는 궁극의 맷집입니다.
@@ -83,7 +83,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 실제 데이터센터는 무식하게 풀 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)를 깔 돈이 없습니다. 그래서 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/">이중화</a>(Redundancy)</strong>라는 꼼수를 씁니다. 
+- 실제 데이터센터는 무식하게 풀 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)를 깔 돈이 없습니다. 그래서 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/">이중화</a>(Redundancy)</strong>라는 꼼수를 씁니다.
 - "모든 선을 2개씩 꽂고(Active-Standby), 메인 라우터 옆에 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 라우터 1대를 더 사서 나란히 둬라([VRRP](/knowledge-base/studynote/03_network/07_network_layer_routing/396_vrrp_virtual_router_redundancy_protocol/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))." 즉, 노드 연결도와 링크 연결도를 강제로 "2점(2가닥 끊어져야 죽음)" 이상으로 끌어올리는 최소한의 방어막 구축술입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

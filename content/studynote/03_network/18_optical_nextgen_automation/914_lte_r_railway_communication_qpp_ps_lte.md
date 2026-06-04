@@ -57,18 +57,18 @@ tags = ["studynote-network"]
 
 ### 1. QPP ([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/), Priority, Pre-emption) - "절대 우선순위 강탈" 🌟
 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-R은 승객용망이 아니라 관제 전용망이지만, 긴급 상황 시 이 망의 트래픽에도 서열이 존재합니다.
-- **Priority(우선순위)와 Pre-emption(선점/강탈)**: 
+- **Priority(우선순위)와 Pre-emption(선점/강탈)**:
   - KTX가 불타고 있습니다. 기관사가 "비상 정지!" 버튼을 누릅니다.
   - 이때 철도망 안에서 다른 역무원들이 일상 통화(일반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 하느라 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 꽉 차 있습니다.
   - 시스템은 0.01초 만에 <strong>역무원들의 일반 통화를 강제로 끊어버리고(Pre-emption 강탈), 기관사의 비상 제어 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 패킷에 'QCI 1번(최고 등급 하이패스)' 꼬리표를 딱 붙여 빛의 속도로 관제실로 꽂아 넣습니다.</strong> 이것이 QPP 기술입니다.
 
 ### 2. 고속 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) ([Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/))와 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 오버랩
 - 차가 300km/h로 달리면, 1초마다 철로 옆 기지국(RU) 1번 안테나에서 2번 안테나로 통신권이 넘어갑니다.
-- 일반 스마트폰은 이때 0.1초씩 전화가 틱틱 끊깁니다. 
+- 일반 스마트폰은 이때 0.1초씩 전화가 틱틱 끊깁니다.
 - [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-R은 <strong>'핑퐁 <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a>'</strong>를 막기 위해, 기지국 A와 B의 전파가 겹치는 겹침 구간(Overlap Zone)을 아주 길게 설계하고, 코어망([EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/))에서 미리 다음 기지국으로 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 터널을 뚫어놓아(Make-before-break) 300km 속도에서도 패킷 단 1개도 드랍되지 않는 100% 무결점 심리스(Seamless) 통신을 달성합니다.
 
 ### 3. 이중 링(Ring) 토폴로지 생존망 구축
-- 철로를 따라 깔린 광케이블(백본망)이 지진으로 뚝 끊어지면? 
+- 철로를 따라 깔린 광케이블(백본망)이 지진으로 뚝 끊어지면?
 - 896번에서 배운 [SONET](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/)/[SDH](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/) 기반의 <strong>이중 링(Ring) 네트워크 구조</strong>로 국사를 엮어둡니다. 케이블이 끊어지면 반대편 철길로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 뺑 돌아서 50ms 만에 복구되어 관제실과 절대 끊기지 않습니다.
 
 철도 통신망을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. V2I 노변 기지국 [RSU](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/) 교통 관제 시스템…가 기반 조건을 만든다면, 철도 통신망은 그 위에서 핵심 메커니즘을 구현하고, [해상 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/) [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) / e-Navigat…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.

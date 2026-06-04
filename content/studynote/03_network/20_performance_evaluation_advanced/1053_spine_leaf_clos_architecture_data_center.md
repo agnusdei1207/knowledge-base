@@ -63,7 +63,7 @@ tags = ["studynote-network"]
 
 ### 2. 무조건 딱 2칸! 확정적 초저지연 (Deterministic [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 🌟
 가장 위대한 장점입니다.
-- 서버 A(리프 1번)에서 서버 B(리프 50번)로 데이터를 쏠 때 거치는 경로는 무조건 <strong><code>[리프 1] ➜ [아무 스파인이나 1개] ➜ [리프 50]</code></strong>입니다. 
+- 서버 A(리프 1번)에서 서버 B(리프 50번)로 데이터를 쏠 때 거치는 경로는 무조건 <strong><code>[리프 1] ➜ [아무 스파인이나 1개] ➜ [리프 50]</code></strong>입니다.
 - [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)에 서버가 100대 있든 10만 대 있든, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 10개든 1,000개든 상관없이 <strong>어떤 서버 간의 통신이든 무조건 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> '홉(Hop) 수'가 딱 3번(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 2개 경유)으로 고정</strong>됩니다. 이로 인해 트래픽이 널뛰기하지 않고 나노초 단위의 100% 예측 가능한 확정적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간이 딥러닝 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 클러스터 연산을 완벽하게 보장합니다.
 
 ### 3. 무한의 수평 확장 ([Scale-Out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))과 [ECMP](/knowledge-base/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/)

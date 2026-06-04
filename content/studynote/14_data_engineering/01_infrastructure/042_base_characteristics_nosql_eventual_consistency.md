@@ -134,7 +134,7 @@ Amazon DynamoDB:
   Read Consistency: Eventually Consistent (기본) vs Strongly Consistent (옵션)
   Eventual: 읽기 용량 절반 소비, 저렴
   Strong: 최신 쓰기 반영 보장, 비용 2배
-  
+
 Cassandra:
   Replication Factor (RF): 데이터 복사본 수
   Consistency Level:
@@ -142,7 +142,7 @@ Cassandra:
     QUORUM: 과반수 노드 응답 (RF=3이면 2개)
     ALL: 전체 노드 응답 (강한 일관성)
   R + W > RF → Strong Consistency 달성 가능
-  
+
 MongoDB:
   기본: PRIMARY 노드에서만 읽기 (강한 일관성)
   Read Concern secondaryPreferred → Eventual

@@ -67,7 +67,7 @@ tags = ["studynote-network"]
 ### 2단계: ONS ([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버) 질의와 NAPTR 레코드
 - 리더기가 저 뒤집힌 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 주소를 들고 전 세계 중앙 ONS 서버([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버)로 접속해 질문을 쏩니다. "이 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 주소록에 등록되어 있어?"
 - [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버에는 A 레코드(IP 주소) 대신 <strong>NAPTR(Naming Authority Pointer) 레코드</strong>라는 특수한 서랍장이 있습니다. 이 서랍을 엽니다.
-- "아! 그 앞자리 숫자 대역은 펩시콜라 제조사 번호네. 펩시의 물류 서버 주소는 여기야!" 
+- "아! 그 앞자리 숫자 대역은 펩시콜라 제조사 번호네. 펩시의 물류 서버 주소는 여기야!"
 - ➜ `http://epcis.pepsico.com/product_info` (진짜 서버 URL 발급!)
 
 ### 3단계: EPCIS 서버 접속 (최종 종착지)

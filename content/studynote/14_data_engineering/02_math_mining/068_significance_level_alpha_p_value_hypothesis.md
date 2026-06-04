@@ -59,7 +59,7 @@ Decision
 
 | 해석 | 주의점 |
 | :-- | :-- |
-| p < α | 기각 가능 | 
+| p < α | 기각 가능 |
 | p ≥ α | 기각 어려움 |
 
 유의 수준과 p-value는 통계적 판단의 기준을 만들지만, 결과의 실질적 중요성과는 별개다.
@@ -131,8 +131,8 @@ Statistical Decision
 
 ## 어린이를 위한 3줄 비유 설명
 
-넘어야 할 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이 있어요.  
-실제 점수와 비교해요.  
+넘어야 할 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이 있어요.
+실제 점수와 비교해요.
 유의 수준과 p-value는 그런 규칙이에요.
 
 ---

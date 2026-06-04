@@ -53,7 +53,7 @@ tags = ["studynote-ai"]
    - **단점**: 일반화(Generalization) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 떨어지는 경향이 있다. 매끄럽게 내려가다가 얕은 웅덩이([Local Minima](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/))에 빠졌을 때 튕겨 나갈 덜컹거림(노이즈)이 없어서 그대로 영원히 학습이 멈춰버릴 수 있다.
 2. <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/">배치 사이즈</a>가 작을 때 (Small Batch)</strong>:
    - 16개, 32개씩 쪼개면 엉뚱한 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)([Outlier](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/))의 영향력이 커져서 기울기가 지그재그로 미친 듯이 널뛰며 걷는다.
-   - **장점**: 이 덜컹거림 덕분에 웅덩이에 빠져도 퉁 튕겨져 나오며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 미세한 특징을 찰지게 잡아내어 실전 테스트에서 성적이 더 잘 나오는 경우가 많다 ([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 효과). 
+   - **장점**: 이 덜컹거림 덕분에 웅덩이에 빠져도 퉁 튕겨져 나오며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 미세한 특징을 찰지게 잡아내어 실전 테스트에서 성적이 더 잘 나오는 경우가 많다 ([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 효과).
    - **단점**: GPU를 효율적으로 못 써서 학습 시간이 어마어마하게 오래 걸린다.
 
 | 요소 | 역할 |

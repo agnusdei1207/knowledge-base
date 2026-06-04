@@ -112,7 +112,7 @@ tags = ["studynote-operating-system"]
 
 | 비교 항목 | [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/) (Contiguous) | 비연속 할당 (Non-contiguous) |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/">메모리 보호</a> 단위</strong>| 프로세스 통째로 1번 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걺 | 찢어진 수만 개의 <strong>조각(<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>)마다 각기 다른 권한(R/W/X)</strong> 부여 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/">메모리 보호</a> 단위</strong>| 프로세스 통째로 1번 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걺 | 찢어진 수만 개의 <strong>조각(<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>)마다 각기 다른 권한(R/W/X)</strong> 부여 |
 | **코드 공유(Sharing)**| 불가능 (또는 매우 힘듦) | [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 띄운 5명에게 '코드 조각' 1개만 매핑해 주어 완벽 공유 달성 |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 강건성</strong> | 구멍이 흩어져 잦은 패닉 발생 | [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)가 없어 램을 1byte 남김없이 쥐어짬 |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">스와핑</a> 단위</strong> | 프로세스 1GB 전체 스왑 (시스템 마비) | 필요한 4KB 조각만 살짝 스왑 (체감 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 제로) |

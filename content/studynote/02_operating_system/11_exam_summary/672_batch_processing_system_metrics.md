@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>일괄 처리 (<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/">Batch Processing</a>)</strong>: 여러 개의 작업(Job)이나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모아두었다가, 일정량(Batch)이 되거나 정해진 시간(주로 야간)이 되면 시스템이 개입 없이 자동으로 순차 처리하는 방식.
   - **Job (작업)**: 프로그램, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 그리고 제어 정보(JCL: Job Control Language)가 하나로 묶인 일괄 처리의 기본 단위.
 
-- **필요성 (CPU의 유휴 시간 최소화)**: 
+- **필요성 (CPU의 유휴 시간 최소화)**:
   - 1950년대 컴퓨터(메인프레임)는 엄청나게 비쌌다. 사람이 컴퓨터에 펀치 카드를 넣고 결과를 기다린 뒤, 다음 카드를 넣는 방식은 사람이 움직이는 시간 동안 비싼 CPU가 놀게 되는 치명적 낭비를 불렀다.
   - **해결책**: "사람이 하는 일을 모아서 테이프나 디스크에 한 번에 기록해 두자! 그리고 컴퓨터([모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 프로그램)가 사람이 자는 동안 테이프를 읽어서 알아서 100개의 프로그램을 연속으로 돌리게 만들자!"라는 경제적 아이디어에서 일괄 처리 시스템이 탄생했다.
 
@@ -121,7 +121,7 @@ tags = ["studynote-operating-system"]
 
 ### 일괄 처리와 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)([Multiprogramming](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))의 결합
 
-[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 일괄 처리 시스템은 한 번에 하나의 Job만 메모리에 올려서 실행했다(Uniprogramming). 
+[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 일괄 처리 시스템은 한 번에 하나의 Job만 메모리에 올려서 실행했다(Uniprogramming).
 - **문제점**: Job 1이 하드디스크에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어오는(I/O) 동안 CPU는 할 일이 없어서 그냥 쉬었다.
 - **해결 (Multiprogrammed Batch)**: 메모리에 Job 1, 2, 3을 다 올려둔다. Job 1이 I/O를 하러 가면, OS가 즉시 Job 2에게 CPU를 준다. 이로 인해 CPU 활용률이 100%에 근접하게 되며, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))이 기하급수적으로 폭발했다.
 
@@ -140,7 +140,7 @@ tags = ["studynote-operating-system"]
 
 1. **시나리오 — 은행의 야간 결제 대사(정산) 시스템 병목**: 매일 자정 12시에 1,000만 건의 카드 결제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정산하는 배치(Batch) 프로그램이 돈다. 그런데 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 늘어나 아침 6시까지 배치가 안 끝나서 출근 시간 은행 앱 서비스에 장애가 생김 ([Turnaround Time](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/172_turnaround_waiting_response_time/) 초과).
    - **원인 분석**: 단일 스레드로 한 건씩 DB에서 읽어와 계산하고 다시 쓰는 낡은 Uniprogramming 방식이라 Throughput이 1,000 TPS에 불과했다.
-   - **대응 (기술사적 가이드)**: 
+   - **대응 (기술사적 가이드)**:
      - 1) **Chunk Size 조절**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1건씩 처리하지 않고, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000건 단위의 묶음([Batch Size](/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/))으로 메모리에 올려 한 번에 Insert 하도록 쿼리를 튜닝한다 (I/O 병목 제거).
      - 2) <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리 (Parallel <a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">Partitioning</a>)</strong>: 1,000만 건의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 10개의 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(100만 건씩)으로 쪼개고, 10개의 멀티스레드(또는 멀티 노드)가 동시에 배치를 돌리도록 아키텍처를 개편하여 Throughput을 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000 TPS로 10배 끌어올린다. (결과적으로 Turnaround Time이 6시간 $\rightarrow$ 30분으로 단축됨)
 

@@ -52,7 +52,7 @@ tags = ["studynote-network"]
 - $P_1$ 영역 검사: "어? 에러 났어!" (1)
 - $P_2$ 영역 검사: "어? 여기도 에러 났어!" (1)
 - $P_3$ 영역 검사: "여긴 정상이야." (0)
-결과로 `011`(십진수로 3)이라는 신호가 나옵니다. 이 숫자의 의미는 기가 막힙니다. <strong>"아하, 1번과 2번이 겹치는 구역인 '3번째 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>'가 번개 맞고 깨졌구나!"</strong> 
+결과로 `011`(십진수로 3)이라는 신호가 나옵니다. 이 숫자의 의미는 기가 막힙니다. <strong>"아하, 1번과 2번이 겹치는 구역인 '3번째 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>'가 번개 맞고 깨졌구나!"</strong>
 수신기는 송신기에 다시 보내달라고 하지 않고, 그 3번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 값을 스스로 반대로 뒤집어(1➔0) 완벽히 복원해 냅니다.
 
 ```text

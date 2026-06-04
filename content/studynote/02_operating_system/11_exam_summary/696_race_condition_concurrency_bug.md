@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **경쟁 (Race)**: 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 하나의 자원을 차지하기 위해 앞다투어 달리기 경주를 하는 상황.
   - **조건 (Condition)**: 그 경주의 결과(누가 먼저 도착했느냐)에 따라 시스템의 최종 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 결정되어 버리는 불안정한 상태.
 
-- **필요성 (디버깅 지옥의 시작)**: 
+- **필요성 (디버깅 지옥의 시작)**:
   - 싱글 코어 시절이나 단일 프로세스 환경에서는 코드가 항상 1번부터 10번까지 순서대로 실행되므로 결과가 100% 예측 가능(Deterministic)했다.
   - 하지만 멀티스레드 환경에서는 OS 스케줄러가 언제 내 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 멈추고 남의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 켤지([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 아무도 모른다.
   - 이로 인해 똑같은 코드를 100번 돌렸을 때 99번은 성공하고 딱 1번만 실패하는, 개발자들을 미치게 만드는 <strong>비결정적(Non-deterministic) 버그</strong>가 탄생했다.
@@ -126,7 +126,7 @@ tags = ["studynote-operating-system"]
 
 1. **시나리오 — 조회수/좋아요 카운트 누락 사태**: 유명 연예인의 인스타그램에 사진이 올라왔다. 1초 만에 10만 명이 '좋아요'를 눌렀는데, 실제 DB에 찍힌 좋아요 수는 3만 개밖에 안 됨.
    - **원인 분석**: 웹 서버의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 10만 개가 DB의 `좋아요 수` 레코드를 동시에 읽고 +1을 해서 저장하는 Race Condition이 발생했다. 수만 개의 +1 연산이 허공으로 증발([Lost Update](/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/))한 것이다.
-   - **아키텍처 적용**: 
+   - **아키텍처 적용**:
      - **해결 1 (DB Atomic 연산)**: 앱에서 `좋아요 값`을 읽어와서 더하지 말고, DB에 `UPDATE table SET likes = likes + 1 WHERE id = 1` [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 날린다. DBMS는 이 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 자체에 원자적 락(Row [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어 Race Condition을 원천 차단한다.
      - <strong>해결 2 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a> 도입)</strong>: RDBMS 락이 너무 느리다면, 싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 동작하여 태생적으로 Race Condition이 발생하지 않는 Redis의 `INCR` 명령어를 사용하여 초고속으로 카운트를 올린 뒤 나중에 DB로 덤프를 뜬다.
 

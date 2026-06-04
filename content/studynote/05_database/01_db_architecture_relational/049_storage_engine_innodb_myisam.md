@@ -47,7 +47,7 @@ MySQL 아키텍처:
       id INT PRIMARY KEY,
       ...
   ) ENGINE=InnoDB;
-  
+
   CREATE TABLE access_log (
       ...
   ) ENGINE=MyISAM;
@@ -65,7 +65,7 @@ InnoDB 핵심 특성:
 1. ACID 트랜잭션:
   BEGIN / COMMIT / ROLLBACK 지원
   애플리케이션 오류 시 자동 롤백
-  
+
   BEGIN;
   UPDATE accounts SET balance = balance - 100 WHERE id = 1;
   UPDATE accounts SET balance = balance + 100 WHERE id = 2;
@@ -86,18 +86,18 @@ InnoDB 핵심 특성:
 
 5. 클러스터드 인덱스 (Clustered Index):
   PK 순서로 데이터 물리 저장
-  
+
   구조:
   PK B+ 트리: 리프 노드에 실제 데이터
   세컨더리 인덱스: PK 값을 포인터로 사용
-  
+
   장점: PK 범위 검색 고속
   단점: 무작위 PK(UUID) 삽입 시 페이지 분할
 
 6. 버퍼 풀 (Buffer Pool):
   디스크 페이지를 메모리에 캐시
   innodb_buffer_pool_size: 메모리 70~80% 권장
-  
+
   LRU 알고리즘으로 관리
 ```
 
@@ -130,7 +130,7 @@ MyISAM 핵심 특성:
 3. 비클러스터드 인덱스:
   인덱스 파일(MYI)과 데이터 파일(MYD) 분리
   인덱스 → 데이터 파일 포인터
-  
+
   장점: 유연한 인덱스 관리
 
 4. 전문 검색 (Full-Text Search):
@@ -218,7 +218,7 @@ MyISAM → InnoDB 마이그레이션:
 
 3. ALTER TABLE:
   ALTER TABLE orders ENGINE=InnoDB;
-  
+
   대규모 테이블:
   pt-online-schema-change (Percona Toolkit)
   → 무중단 변환 (쓰기 허용하며 복사)
@@ -236,7 +236,7 @@ InnoDB 추가 최적화:
   innodb_log_file_size = 1G
   innodb_flush_log_at_trx_commit = 2  (성능↑, 내구성↓)
   innodb_io_capacity = 2000  (SSD 기준)
-  
+
   PK 설계:
   UUID 대신 AUTO_INCREMENT → 순차 삽입
   UUID 필요 시: UUID_TO_BIN() 또는 ULIDv7

@@ -86,7 +86,7 @@ CPU가 `논리 페이지 3번`을 달라고 요청했을 때 하드웨어가 밟
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 
+**[다이어그램 해설]**
 1. <strong>PTLR (길이 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>)의 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>: 프로그램이 자기에게 할당된 크기(예: 100페이지)를 넘어 해킹 목적이나 버그로 500번째 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 요청하면, 램으로 가기도 전에 하드웨어 PTLR이 "선 넘었네!" 하고 비교 회로를 통해 즉각 쳐낸다. 소프트웨어 개입이 1도 없는 0초 방어선이다.
 2. <strong>PTBR (시작 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>)의 포인팅</strong>: 통과된 정상 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) P는, 메모리에 있는 거대한 1차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)(장부)의 '[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)' 역할을 한다. `배열 시작 주소(PTBR) + (인덱스 P × 한 칸의 크기)`라는 단순한 덧셈과 곱셈 연산 회로가 물리 메모리의 장부 위치를 정확히 타격한다.
 
@@ -149,7 +149,7 @@ CPU가 `논리 페이지 3번`을 달라고 요청했을 때 하드웨어가 밟
 
 ### [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))가 프로세스보다 가벼운 진짜 이유
 같은 프로세스 소속의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B로 전환될 때는, <strong>둘 다 같은 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a> 장부를 공유</strong>한다.
-따라서 OS는 PTBR(CR3 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)) 값을 바꿀 필요가 없다! 
+따라서 OS는 PTBR(CR3 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)) 값을 바꿀 필요가 없다!
 PTBR을 안 바꾸니 캐시([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/))가 플러시(Flush)되지 않고 그대로 남아있어, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 전환은 프로세스 전환보다 수십 배~수백 배 빠른 속도로 화면을 넘나들 수 있는 것이다.
 
 - **📢 섹션 요약 비유**: 이사를 갈 때마다 집 주소 장부(PTBR)를 통째로 바꾸면, 우체부 아저씨의 머릿속 기억([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시)을 다 지우고 새로 학습시켜야 해서 첫 달엔 택배([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 엄청 늦게 오는 오버헤드가 발생합니다. 하지만 같은 집 안에서 형과 동생이 방만 바꾸는 것([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 전환)은 장부를 갱신할 필요가 없어 택배 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 없습니다.
@@ -163,7 +163,7 @@ PTBR을 안 바꾸니 캐시([TLB](/knowledge-base/studynote/02_operating_system
 | 구분 | 내용 |
 |:---|:---|
 | <strong>O(1) <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a> 달성</strong> | 수십 MB짜리 장부 자체를 건드리지 않고, 8바이트짜리 주소(PTBR) 하나만 갱신하여 프로세스 격리를 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 스위칭 |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/">메모리 보호</a> 하드웨어화</strong>| PTLR 회로를 통해 소프트웨어(OS)의 IF문 분기 검사 없이, [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 레벨에서 나노초 단위로 불법 주소 접근 차단 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/">메모리 보호</a> 하드웨어화</strong>| PTLR 회로를 통해 소프트웨어(OS)의 IF문 분기 검사 없이, [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 레벨에서 나노초 단위로 불법 주소 접근 차단 |
 | <strong>다단계 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>으로의 확장</strong>| PTBR이 가리키는 곳을 1차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 아닌, 트리(Tree) 구조의 최상단 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 테이블로 삼아 무한한 확장성 제공 |
 
 ### 결론 및 미래 전망
@@ -180,7 +180,7 @@ PTBR과 PTLR은 [운영체제](/knowledge-base/studynote/02_operating_system/01_
 |:---|:---|
 | [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/) ([Page Size](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
 | [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
 | [페이징에서의 공유 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/356_shared_pages/) ([Shared Pages](/knowledge-base/studynote/02_operating_system/06_memory_management/356_shared_pages/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -201,7 +201,7 @@ PTBR과 PTLR은 [운영체제](/knowledge-base/studynote/02_operating_system/01_
 
 1. PTBR ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-Table [Base Register](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/)) / PTLR ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-Table Length [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))을 이해하면 PTBR ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-Table [Base Register](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/)) / PTLR ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-Table Length [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 PTBR ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-Table [Base Register](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/)) / PTLR ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-Table Length [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))을 잘 알면 나중에 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/)도 훨씬 쉽게 배울 수 있어요.
+3. 그래서 PTBR ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-Table [Base Register](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/)) / PTLR ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-Table Length [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))을 잘 알면 나중에 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/)도 훨씬 쉽게 배울 수 있어요.
 
 ---
 

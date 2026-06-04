@@ -19,7 +19,7 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-스타크래프트에서 마린을 클릭하고 저 멀리 적의 기지를 우클릭했다. 마린 앞에는 나무도 있고, 언덕도 있고, 지뢰밭도 있다. 
+스타크래프트에서 마린을 클릭하고 저 멀리 적의 기지를 우클릭했다. 마린 앞에는 나무도 있고, 언덕도 있고, 지뢰밭도 있다.
 마린([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))은 이 복잡한 장애물을 뚫고 어떻게 '가장 짧은 길(최단 경로)'을 찾아 1초 만에 뛰어갈까?
 
 초창기 컴퓨터는 무식했다. 내 주위에 있는 상하좌우 타일을 파도처럼 동심원을 그리며 싹 다 뒤져서 목적지에 닿을 때까지 퍼져나가는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/">다익스트라</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/">Dijkstra</a> / <a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/">BFS</a> 업글 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a>)</strong> [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 썼다. 목적지가 동쪽에 있는데, 이 멍청한 코드는 서쪽 타일도 똑같이 꼼꼼하게 다 뒤지며 쓸데없는 연산량 낭비로 게임을 렉(Lag)에 빠뜨렸다.

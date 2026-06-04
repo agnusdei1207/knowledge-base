@@ -57,7 +57,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 ### 1. 무의미한 관리 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 전면 필터링 (가장 중요)
-- 일반 가정집 사용자가 밖에서 CCTV에 '텔넷(Telnet, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 23)'이나 '[SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 22)'로 터미널 코딩 접속을 할 일이 0.1%도 없습니다. 
+- 일반 가정집 사용자가 밖에서 CCTV에 '텔넷(Telnet, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 23)'이나 '[SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 22)'로 터미널 코딩 접속을 할 일이 0.1%도 없습니다.
 - 제조사나 통신사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 단에서, 이런 디버깅용 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)들이 <strong>외부 인터넷 망으로 아예 뚫려 나가지 못하도록 철저히 차단(필터링/Block)</strong>해야 스캐닝 자체를 원천 봉쇄할 수 있습니다.
 
 ### 2. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 디폴트(Default) 패스워드 폐지

@@ -69,7 +69,7 @@ tags = ["studynote-operating-system"]
 - [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부는 꽉 차서 4KB를 쓸 빈방이 없었다. GC를 발동한다.
 - GC가 빈 블록을 만들기 위해, 낡은 블록 5개를 뒤져서 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1.9MB어치를 새 블록으로 이사시켰다(복사 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 발생).
 - 그리고 낡은 블록을 지운 뒤, 마침내 유저가 시킨 4KB를 그 빈 공간에 썼다.
-- **물리적 결과 (NAND Write)**: 
+- **물리적 결과 (NAND Write)**:
   유저가 시킨 건 4KB인데, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 낸드 칩은 이사 가느라 1.9MB를 썼고, 거기에 4KB를 더 썼다. 총 <strong>약 2MB(2000KB)의 물리적 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a></strong>가 발생했다!
 - **WA 계수 = 2000 / 4 = 500배 폭증**.
 이것을 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/">쓰기 증폭</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/">Write Amplification</a>, WA)</strong>이라 부르며, 낸드 셀의 제한된 수명(TBW)을 빛의 속도로 갉아먹어 비싼 SSD를 1년 만에 사망하게 만드는 가장 무서운 암 덩어리다.
@@ -84,7 +84,7 @@ tags = ["studynote-operating-system"]
    - 컨트롤러가 몰래 깨어나 더러운 블록들을 싹 정리해 깨끗한 통짜 방(Free Block Pool)을 수천 개 쟁여둔다.
    - 유저가 갑자기 10GB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 저장하면, 쟁여둔 빈방에 딜레이 0초로 팍팍 꽂아버려 "와 이 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 미쳤네" 소리가 나오게 만든다.
 2. **Foreground GC / On-demand GC (지옥의 렉)**:
-   - 유저가 100GB짜리 영화를 한 방에 냅다 다운받는다. 
+   - 유저가 100GB짜리 영화를 한 방에 냅다 다운받는다.
    - 쟁여둔 빈방이 순식간에 다 털렸다. 램 잔고가 0이 됐다.
    - 당장 4KB를 더 받아야 하는데 빈방이 없다. 컨트롤러는 다운로드를 강제로 '일시 정지(Stall)'시키고, 다운받는 와중에 눈앞에서 쓰레기 블록을 털어 이사시키고 폭파(Erase)하는 대청소를 눈물을 흘리며 쌩으로 돌린다.
    - 유저가 보는 다운로드 속도 막대기가 바닥으로 뚝 떨어지는 <strong>'<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 절벽(Write Cliff)'</strong> 현상이 바로 이 포그라운드 GC가 터졌다는 확실한 증거다.
@@ -126,7 +126,7 @@ TRIM 덕분에 SSD는 무거운 이삿짐(삭제된 [데이터](/knowledge-base/
 3. **신의 아키텍처 (LSM Tree / Append-Only)**:
    - [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)나 최신 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) DB 개발자들은 SSD의 이 GC 렉을 피하기 위해 **덮어쓰기(Random Write) 자체를 코딩에서 완전히 금지시켜버렸다.**
    - 무조건 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 끝에 덧붙여 쓰는 <strong>순차 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>(Append-Only)</strong>만 한다.
-   - 이렇게 하면 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부의 블록 1번, 2번, 3번이 순서대로 100% 꽉꽉 뭉쳐서 채워진다. 
+   - 이렇게 하면 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부의 블록 1번, 2번, 3번이 순서대로 100% 꽉꽉 뭉쳐서 채워진다.
    - 낡은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 삭제할 때도 무작위로 안 지우고 "어제 자 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 10GB 통째로 날려!"라고 뭉텅이로 지운다.
    - **결과**: [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 블록 안에 쓰레기 100%만 존재하거나, 유효 100%만 존재하게 된다! GC가 이사(Copy)를 다닐 필요 없이 그냥 쓰레기 블록을 쿨하게 통째로 폭파(Erase)시켜버리면 끝이므로, <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/">쓰기 증폭</a>(WA)이 1에 수렴하며 <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>이 영구기관처럼 100만 IOPS를 뿜어낸다.</strong>
 

@@ -21,12 +21,12 @@ tags = ["studynote-operating-system"]
 
 - **개념**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 자원 제약은 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 `cgroups`를 기반으로 특정 [프로세스 그룹](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/)([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)/[Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))이 쓸 수 있는 자원의 상한선을 강제하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다. '오버커밋(Overcommit)'은 물리 서버가 가진 자원보다 더 많은 양의 자원(Limit의 합)을 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)들에게 허락해 주는 클라우드의 경제적 꼼수다.
 
-- **필요성 (Noisy Neighbor 문제)**: 
+- **필요성 (Noisy Neighbor 문제)**:
   - 100개의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 하나의 워커 노드(리눅스 서버)에서 돌아간다. 그중 하나의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(개발자가 `while(1)`에 메모리 할당을 실수로 넣은 버그 서버)가 미쳐 날뛰어 램(RAM)을 100% 집어삼켰다.
   - 자원 통제가 없다면 서버의 가용 램이 0이 되어, 멀쩡히 돌아가던 나머지 99개의 중요 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)까지 덩달아 멈추거나 [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)이 온다. 이를 **시끄러운 이웃(Noisy Neighbor)** 현상이라고 한다.
   - **해결책**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(OS)이 각 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)마다 "너는 CPU 2개, 램 4GB까지만 써"라고 명확한 선을 긋고, 선을 넘는 순간 경찰([OOM Killer](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/))을 보내 즉결 처형해야 한다.
 
-  - **오버커밋(Overcommit)**: 비행기가 100석인데 항공사는 손님들이 다 안 탈 것을 예상하고 표(Limit)를 120장 판다. 
+  - **오버커밋(Overcommit)**: 비행기가 100석인데 항공사는 손님들이 다 안 탈 것을 예상하고 표(Limit)를 120장 판다.
   - **Requests와 Limits**: 기내식 배급. Requests(요청)는 "이 손님은 무조건 밥 1개를 보장해 줘"이고, Limits(제한)는 "남는 밥이 아무리 많아도 이 손님은 절대 2개 이상은 주지 마"이다.
   - **Throttling (CPU)**: 승객이 제한보다 말을 많이 하려 하면, 승무원이 입을 틀어막아 말하는 속도를 늦춘다(살려두긴 함).
   - <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> Kill (Memory)</strong>: 승객이 제한보다 밥을 많이 먹으려 하면, 승무원이 그 승객을 비행기 밖으로 던져버린다(즉사).
@@ -132,7 +132,7 @@ K8s는 사용자가 YAML 파일에 적은 Requests와 Limits를 Kubelet을 통�
 
 1. **시나리오 — CPU Throttling으로 인한 무한 랙(Hang) 발생 현상**: Java Spring Boot 웹 서버 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 CPU Limits를 "1" 코어로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)했다. 트래픽이 몰리지도 않았는데 응답 시간이 평소 10ms에서 갑자기 500ms로 튀는 지터(Jitter)가 주기적으로 발생.
    - **원인 분석**: 자바는 멀티스레드 기반이다. 요청 하나를 처리할 때 4개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 돌면, 0.25초 만에 Limit("1" 코어) 분량의 할당량을 전부 소진해 버린다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 CFS 스케줄러는 이 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 악성으로 간주하고 남은 0.75초 동안 CPU를 아예 주지 않고 멈춰버린다(Throttled). 트래픽은 적은데 순간 버스트(Burst) 때문에 스로틀링 덫에 걸린 것이다.
-   - **대응 (기술사적 가이드)**: 
+   - **대응 (기술사적 가이드)**:
      1. 가장 확실한 방법: <strong>CPU Limits를 아예 삭제(Remove)</strong>한다. Limits가 없어도 Requests 비율에 따라 스케줄러가 알아서 남는 CPU를 공평하게 나눠주므로, 넷플릭스나 구글 등 최상위 테크 기업들은 "CPU Limits를 쓰지 마라"고 강력히 권고한다.
      2. 유지해야 한다면: Limits 값을 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 개수 이상(예: "4")으로 넉넉히 열어두어 짧은 순간의 버스트를 허용하게 한다.
 

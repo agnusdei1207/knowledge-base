@@ -69,7 +69,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - 거실에서 안방으로 데이터를 건네주던 '거실 전구(라우터)'가 고장 나서 불이 나갔습니다.
-- [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 네트워크는 와이파이처럼 통신이 100% 끊겨서 죽지 않습니다. 
+- [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 네트워크는 와이파이처럼 통신이 100% 끊겨서 죽지 않습니다.
 - **Self-Healing (자가 치유)**: 1초 만에 안방 센서가 다른 길을 찾습니다. "어? 거실 전구 죽었네? 그럼 주방 쪽 스마트 플러그(다른 라우터)를 거쳐서 돌아가야지!" 망의 일부가 터져도 남은 기기들끼리 새로운 거미줄을 즉각 재설정하여 무조건 통신을 살려내는 무서운 생명력을 자랑합니다.
 
 [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 메쉬를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) LE가 기반 조건을 만든다면, [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 메쉬는 그 위에서 핵심 메커니즘을 구현하고, NFC 표준은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.

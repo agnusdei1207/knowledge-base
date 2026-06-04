@@ -36,7 +36,7 @@ tags = ["enterprise_systems"]
                          │ (특정 우선순위 사업 도출)
 [프로젝트 차원]          ▼ (예: "물류 시스템 개편 사업")
 ┌─────────────────────────────────────────────────────┐
-│ 2. ISMP (Information System Master Plan)            │ -> "물류 시스템의 세부 기능 150개와 하드웨어 스펙, 
+│ 2. ISMP (Information System Master Plan)            │ -> "물류 시스템의 세부 기능 150개와 하드웨어 스펙,
 │ (단일 사업 상세 기획 및 RFP 작성, 소요 기간 2~3개월)│     예산 30억 산출, 벤더 선정 기준 마련"
 └────────────────────────┬────────────────────────────┘
                          │ (RFP 발송 및 벤더 선정)
@@ -128,7 +128,7 @@ ISMP의 수립 방법론은 한국지능정보사회진흥원(NIA)의 가이드�
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
-실무에서 ISMP를 적용할 때 가장 주의해야 할 의사결정 포인트는 'Vendor-Neutral(벤더 종립성) 원칙'의 준수다. [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) 결과물인 RFP가 특정 솔루션이나 벤더(예: [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), AWS 등 특정 기업)에게만 유리하게 작성되면 심각한 공정성 시비가 발생한다. 
+실무에서 ISMP를 적용할 때 가장 주의해야 할 의사결정 포인트는 'Vendor-Neutral(벤더 종립성) 원칙'의 준수다. [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) 결과물인 RFP가 특정 솔루션이나 벤더(예: [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), AWS 등 특정 기업)에게만 유리하게 작성되면 심각한 공정성 시비가 발생한다.
 
 **실무 시나리오 및 해결책**
 1. **공공 정보화 사업 예비타당성 조사**: 500억 규모의 공공 차세대 시스템 구축 시, 예산 당국은 이 사업이 왜 필요한지, 비용 산정은 정확한지 깐깐하게 심사한다. 이때 ISMP를 통해 노후화된 현행 시스템의 유지보수 비용([TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/)) 증가분을 입증하고, [기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) 모델로 500억이라는 숫자의 근거를 정확히 제시해야만 예타를 통과할 수 있다.

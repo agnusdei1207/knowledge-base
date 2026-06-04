@@ -37,7 +37,7 @@ TBD 흐름:
   Alice: code -> commit -> push (trunk)   [오전]
   Bob:   code -> commit -> push (trunk)   [오후]
   CI:    자동 테스트 -> 통과 -> 배포 준비  [실시간]
-  
+
 단기 브랜치 허용 (Scaled TBD):
   feature 브랜치 최대 2일 이내 병합
   PR(Pull Request) 통한 리뷰 후 병합
@@ -73,7 +73,7 @@ Feature Flag (피처 플래그) + TBD:
   코드는 프로덕션에 배포됐지만 기능은 숨김
   언제든 즉시 롤백 (플래그 OFF)
   A/B 테스트 가능 (사용자 절반씩 다른 경험)
-  
+
 도구:
   LaunchDarkly, Unleash, CloudBees
   직접 DB/Redis로 간단 구현 가능
@@ -164,11 +164,11 @@ TBD 전환 계획 (3개월):
 1개월: 인프라 준비
   CI 파이프라인 강화 (테스트 자동화 70%+)
   피처 플래그 플랫폼 도입 (Unleash)
-  
+
 2개월: 팀 교육 + 파일럿
   1개 팀 TBD 시범 도입
   Small Commit 가이드 배포
-  
+
 3개월: 전사 전환
   모든 팀 TBD 전환
   Git Flow 브랜치 정리

@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/">Helm</a> (조타 장치)</strong>: 배의 키(방향타). K8s 선장님이 배를 몰 때, 조타 장치 1개만 돌리면 알아서 밑에 수백 개의 기어가 맞물려 돌아가게 해 주는 편의성 툴.
   - **Chart (차트)**: Helm이 배포하는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 패키지 덩어리 이름. (우리가 윈도우에서 까는 `.exe` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이나 리눅스의 `.deb` 패키지와 100% 동일한 개념).
 

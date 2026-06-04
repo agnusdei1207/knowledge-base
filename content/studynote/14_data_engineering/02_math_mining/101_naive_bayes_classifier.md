@@ -19,7 +19,7 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-[나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기는 "어떤 사건이 일어났을 때, 그것이 특정 범주에 속할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"을 구하는 알고리즘이다. 머신러닝이 발전하기 전부터 문서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)나 스팸 메일 필터링 분야에서 가장 널리 쓰여 왔다. 텍스트 분석에서는 수만 개의 단어가 특성(Feature)이 되는데, 이 단어들이 서로 어떤 영향을 주는지 복잡하게 계산하면 연산량이 폭발하여 실시간 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 불가능해진다. 
+[나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기는 "어떤 사건이 일어났을 때, 그것이 특정 범주에 속할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"을 구하는 알고리즘이다. 머신러닝이 발전하기 전부터 문서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)나 스팸 메일 필터링 분야에서 가장 널리 쓰여 왔다. 텍스트 분석에서는 수만 개의 단어가 특성(Feature)이 되는데, 이 단어들이 서로 어떤 영향을 주는지 복잡하게 계산하면 연산량이 폭발하여 실시간 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 불가능해진다.
 
 이 문제를 해결하기 위해 [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)는 "스팸 메일에서 '무료'라는 단어가 나올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)과 '당첨'이라는 단어가 나올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 서로 아무런 상관이 없다"고 극단적으로 단순화한다. 이 '조건부 독립(Conditional [Independence](/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/))' 가정을 도입하면, 복잡한 결합 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 개별 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)의 단순 곱셈으로 바꿀 수 있어, 수만 차원의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 눈 깜짝할 사이에 처리할 수 있다.
 
@@ -78,7 +78,7 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기를 선택할 때 [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)는 "빠르게 쳐내는 1차 필터망"으로 가장 훌륭한 선택지다. 
+실무에서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기를 선택할 때 [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)는 "빠르게 쳐내는 1차 필터망"으로 가장 훌륭한 선택지다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 판단 기준
 1. <strong>변수 독립성 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 피처들이 서로 강하게 연관되어 있다면(예: 아파트 평수와 방 개수), 나이브 가정이 깨지면서 예측 성능이 급락한다. 이때는 [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/))로 넘어가야 한다.

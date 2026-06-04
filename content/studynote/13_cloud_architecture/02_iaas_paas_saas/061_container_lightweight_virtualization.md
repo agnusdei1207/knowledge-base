@@ -137,8 +137,8 @@ Cloud Native
 
 ## 어린이를 위한 3줄 비유 설명
 
-[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 필요한 물건만 담은 작은 상자예요.  
-아파트의 한 방처럼 빨리 만들고 빨리 옮길 수 있어요.  
+[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 필요한 물건만 담은 작은 상자예요.
+아파트의 한 방처럼 빨리 만들고 빨리 옮길 수 있어요.
 하지만 방이 곧 금고는 아니에요.
 
 ---

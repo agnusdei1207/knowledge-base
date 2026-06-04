@@ -18,7 +18,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-부호 없는 정수(Unsigned Integer)는 시스템 내에서 크기나 수량, 위치 정보만을 순수하게 표현하기 위해 고안되었다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터 설계자들은 메모리와 레지스터의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 하나하나가 극도로 제한된 자원임을 인식했다. 파일의 크기나 메모리 주소처럼 태생적으로 0보다 작을 수 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 부호 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/))를 할당하는 것은 가용 메모리 공간을 절반으로 깎아먹는 심각한 낭비였다. 
+부호 없는 정수(Unsigned Integer)는 시스템 내에서 크기나 수량, 위치 정보만을 순수하게 표현하기 위해 고안되었다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터 설계자들은 메모리와 레지스터의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 하나하나가 극도로 제한된 자원임을 인식했다. 파일의 크기나 메모리 주소처럼 태생적으로 0보다 작을 수 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 부호 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/))를 할당하는 것은 가용 메모리 공간을 절반으로 깎아먹는 심각한 낭비였다.
 
 이를 해결하기 위해 MSB조차 수치의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(2ⁿ⁻¹)로 온전히 편입시키는 Unsigned 체계를 도입했다. 이 방식은 별도의 부호 검사 로직이 필요 없어 연산 속도를 높일 수 있고, 하드웨어가 접근할 수 있는 절대적인 주소 공간을 최대치로 밀어 올리는 기반이 되었다.
 
@@ -37,7 +37,7 @@ tags = ["studynote-computer-architecture"]
 | 부호 없는 정수 (Unsigned) | X (모두 수치) | 0 | **4,294,967,295** |
 
 ### 연산기([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 동작 원리: 제로 확장과 [논리 시프트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/120_logical_shift/)
-하드웨어 관점에서 부호 없는 정수는 처리가 매우 단순하다. 
+하드웨어 관점에서 부호 없는 정수는 처리가 매우 단순하다.
 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 버스를 확장할 때 부호를 복사할 필요 없이 상위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 전부 0으로 채우는 <strong>제로 확장(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a> Extension)</strong> 로직을 거친다.
 - 나눗셈을 위한 우측 [시프트 연산](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/119_shift_operations/) 시 빈자리에 무조건 0을 밀어 넣는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/120_logical_shift/">논리 시프트</a>(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/120_logical_shift/">Logical Shift</a>)</strong> [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 사용된다. 복잡한 판별 게이트가 없어 클럭 지연이 최소화된다.
 
@@ -87,7 +87,7 @@ tags = ["studynote-computer-architecture"]
 
 부호 없는 정수의 적극적인 활용은 마이크로프로세서가 가진 하드웨어 레지스터와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 버스의 폭을 낭비 없이 100% 효율로 끌어내는 기술이다. 부호 검사가 생략된 단순한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패스([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Path)는 클럭 스피드 향상에 기여하며, 특히 저전력 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 디바이스나 네트워크 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 프로토콜에서 헤더 길이를 최소화하는 데 핵심적이다.
 
-결론적으로 부호 없는 정수는 "음수가 필요 없다"는 시스템의 제약 사항을 "범위 2배 확장과 속도 향상"이라는 하드웨어적 이점으로 치환한 모범적인 아키텍처 설계의 결과물이다. 
+결론적으로 부호 없는 정수는 "음수가 필요 없다"는 시스템의 제약 사항을 "범위 2배 확장과 속도 향상"이라는 하드웨어적 이점으로 치환한 모범적인 아키텍처 설계의 결과물이다.
 
 - **📢 섹션 요약 비유**: 부호 없는 정수는 무조건 앞으로만 가는 경주마에 눈가리개를 씌운 것이다. 옆이나 뒤를 볼 필요가 없기 때문에 오직 최고 속도로 트랙(연산)을 질주할 수 있다.
 

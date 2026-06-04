@@ -41,7 +41,7 @@ BERT 입력 구성
 [CLS] 나는 [MASK] 에 간다 [SEP] 공부가 재미있다 [SEP]
   ↑                 ↑      ↑
 [CLS]: 문장 전체 표현    [SEP]: 문장 구분자
-        
+
 어텐션 패턴 (양방향):
   나는 ←→ [MASK] ←→ 에 ←→ 간다
   모든 토큰이 모든 토큰과 어텐션 가능
@@ -121,7 +121,7 @@ T5 (Text-To-Text Transfer Transformer): Google 2019
   모든 NLP 태스크를 텍스트→텍스트 변환으로 통일
   입력: "translate Korean to English: 나는 학교에 간다"
   출력: "I go to school"
-  
+
   → 분류도 텍스트 생성으로 처리
     입력: "sentiment: 오늘 정말 행복해"
     출력: "positive"

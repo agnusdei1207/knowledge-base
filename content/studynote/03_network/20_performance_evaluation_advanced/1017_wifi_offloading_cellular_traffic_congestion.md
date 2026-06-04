@@ -58,7 +58,7 @@ tags = ["studynote-network"]
 
 ### 1. ANDSF (액세스망 탐색 및 선택 기능) - "똑똑한 뇌"
 - 폰이 LTE를 쓰다가 무조건 와이파이로 잡으면 쓰레기 와이파이를 잡아 카톡이 안 가는 대참사가 터집니다(핑퐁 현상).
-- [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) 표준인 <strong>ANDSF (Access Network Discovery and <a href="/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/">Selection</a> Function)</strong> 서버가 폰을 지배합니다. 
+- [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) 표준인 <strong>ANDSF (Access Network Discovery and <a href="/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/">Selection</a> Function)</strong> 서버가 폰을 지배합니다.
 - 이 중앙 서버가 내 폰 위치를 파악하고 룰을 꽂아 줍니다. "야! 지금 넌 강남역 1번 출구인데, 여기 SKT 와이파이가 속도가 빵빵하게 비어있다! 지금 즉시 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 끄고 와이파이 3번 AP로 갈아타라!" 라고 <strong>망 상태를 실시간 측정하여 최적의 와이파이 접속 타이밍을 강제 통제(지능형 <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a>)</strong>해 줍니다.
 
 ### 2. SIM 기반 자동 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) (EAP-AKA)

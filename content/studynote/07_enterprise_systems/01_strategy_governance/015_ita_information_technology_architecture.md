@@ -107,8 +107,8 @@ tags = ["enterprise_systems"]
 ```text
 [ITA와 ISP(정보화전략계획)의 시너지 및 역할 분담]
 
-┌──────────── ISP (기획 관점) ─────────────┐ 
-│ 1. 비즈니스 환경 분석 및 목표 수립       │  ===> [WHY & WHEN] 
+┌──────────── ISP (기획 관점) ─────────────┐
+│ 1. 비즈니스 환경 분석 및 목표 수립       │  ===> [WHY & WHEN]
 │ 2. 추진 과제 도출 및 예산/ROI 편성       │       "무엇을 언제 할 것인가"
 └──────────────────┬───────────────────────┘
                    │ 연계 및 제약 작용
@@ -145,7 +145,7 @@ tags = ["enterprise_systems"]
    └─ (No) ───▶ [기술 타당성 평가] 기존 RDBMS 표준으로 구현 불가능한 요구사항인가?
                   ├─ (No) ──▶ [기각] 유지보수 비용 증가 우려. 기존 표준 RDBMS 사용 지시.
                   │
-                  └─ (Yes) ─▶ 파일럿(PoC) 진행 후, 전사 TRM/SP에 신규 규격으로 
+                  └─ (Yes) ─▶ 파일럿(PoC) 진행 후, 전사 TRM/SP에 신규 규격으로
                                '공식 등재(업데이트)' 처리 후 사용 조건부 승인
 ```
 *해설: 이 프로세스는 ITA가 낡은 기술을 고집하는 장애물이 아니라, 체계적인 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 통해 전사 기술 생태계를 건강하게 진화시키는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인임을 증명한다. 예외적 도입을 허용하더라도, 반드시 '표준 업데이트'라는 문서를 남겨 시스템 사각지대([Shadow IT](/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it/))가 발생하지 않도록 차단하는 것이 핵심이다.*

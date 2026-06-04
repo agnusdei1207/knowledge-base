@@ -19,11 +19,11 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-의사가 폐암 엑스레이(X-ray) 사진을 보고 암인지 정상인지 판별하려면 10년의 수련이 필요하다. 
+의사가 폐암 엑스레이(X-ray) 사진을 보고 암인지 정상인지 판별하려면 10년의 수련이 필요하다.
 이 10년 치 뇌 구조를 컴퓨터에 심기 위해, 초창기 공학자들은 "까만 점이 3cm 넘으면 암, 아니면 정상"이라는 룰(Rule)을 하드코딩하려 했지만 엑스레이의 노이즈와 예외 상황 때문에 즉각 폐기 처분되었다.
 
 대신 공학자들은 컴퓨터를 방에 가두고 엑스레이 사진 10만 장을 던져주었다. 여기서 중요한 건 사진 뒤에 인간 의사 100명을 고용해 <strong>"이건 폐암(정답)", "이건 정상(정답)"이라고 완벽한 정답지(Label/Target)</strong>를 써 붙여 놓았다는 것이다.
-컴퓨터는 수백만 번 사진과 정답지를 대조하며 내부의 미적분 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 미친 듯이 깎아 나갔고, 마침내 "오호! 사진의 우상단 픽셀들이 이렇게 뭉쳐있을 땐 폐암일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 99%구나!"라는 자신만의 함수(모델)를 터득했다. 
+컴퓨터는 수백만 번 사진과 정답지를 대조하며 내부의 미적분 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 미친 듯이 깎아 나갔고, 마침내 "오호! 사진의 우상단 픽셀들이 이렇게 뭉쳐있을 땐 폐암일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 99%구나!"라는 자신만의 함수(모델)를 터득했다.
 
 이것이 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 역사상 가장 정확도가 높고 상업적으로 대성공을 거둔 <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/">지도 학습</a> (<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/">Supervised Learning</a>)</strong>이다. 선생님(인간 라벨러)이 정답(지도, Supervise)을 떠먹여 주면, 기계가 새로운 미지의 사진이 들어왔을 때 귀신같이 정답을 찍어 맞추는 궁극의 예측 공장이 탄생한 것이다.
 
@@ -68,7 +68,7 @@ tags = ["studynote-ai"]
 ```
 
 <strong>핵심 원리 (오차 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a>와 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/087_loss_function/">Loss Function</a>)</strong>:
-[지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)이 똑똑해지는 수학적 심장은 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/">손실 함수</a>(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/087_loss_function/">Loss Function</a>)</strong>다. 
+[지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)이 똑똑해지는 수학적 심장은 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/">손실 함수</a>(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/087_loss_function/">Loss Function</a>)</strong>다.
 처음 깡통 로봇에게 고양이 사진을 주면, 로봇은 "강아지!"라고 멍청한 오답(Prediction)을 뱉는다. 이때 훈련 시스템이 "땡! 정답(Label)은 고양이야. 너의 멍청함(오차/Loss)은 100점이야!"라고 혼낸다. 기계는 이 100점짜리 오차를 0점으로 깎아내리기 위해, 뇌 속의 방정식 기울기를 살짝 뒤트는 미분 마법인 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/">경사 하강법</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/">Gradient Descent</a>)</strong>을 발동하여 스스로 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))를 교정한다. 이 매 맞고 고치는 루프를 100만 번 반복하면 오차가 0.01로 수렴하며 무적의 모델이 된다.
 
 | 요소 | 역할 |

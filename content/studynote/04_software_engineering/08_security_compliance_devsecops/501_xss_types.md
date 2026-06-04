@@ -26,7 +26,7 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 의사가 암 환자를 수술할 때, 폐암인지 대장암인지 알아야 배를 가를지 가슴을 가를지 결정한다. 멍청한 개발자는 [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 방어랍시고 백엔드 DB 저장할 때 필터를 쳤다고 우긴다. 하지만 DOM-based XSS는 백엔드 서버를 아예 거치지도 않고 브라우저 안에서 혼자 터지는 폭탄이다. <strong>해커가 침투하는 3가지의 완벽히 다른 배달 루트(Delivery Route)를 정확히 해부하고 파악해야만, 그 길목마다 서로 다른 맞춤형 방어막(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/">WAF</a>, Escaping, JS 검열)을 빈틈없이 칠 수 있는 전술적 필요성</strong>이 대두되었다.
 
-- **💡 비유**: [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 3형제는 <strong>'암살자의 독약 배달법'</strong>과 똑같습니다. 
+- **💡 비유**: [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 3형제는 <strong>'암살자의 독약 배달법'</strong>과 똑같습니다.
   - **Reflected**: 암살자가 독이 든 <strong>'거울'</strong>을 택배로 보냅니다. 피해자가 거울을 쳐다보면 반사된 독가스를 맞고 그 즉시 죽습니다(1회성).
   - **Stored**: 암살자가 마을 한가운데 있는 우물(DB)에 독을 풉니다. 다음 날 아침 우물물을 떠먹는 마을 사람 전체가 피를 토하며 몰살당합니다(대량 살상).
   - **DOM-based**: 암살자는 아무 짓도 안 합니다. 그냥 피해자 집 앞마당(브라우저)에 독버섯 포자(URL 해시)를 놔둡니다. 피해자의 로봇 청소기(프론트엔드 자바스크립트)가 마당을 쓸다가 포자를 빨아들여 집 안에 퍼뜨려서 스스로 자폭합니다(서버 개입 없음).

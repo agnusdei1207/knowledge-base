@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-교차로에서 두 사람이 마주쳤다. 
+교차로에서 두 사람이 마주쳤다.
 `데드락(Deadlock)`: 둘 다 "네가 안 비키면 나도 안 비켜!" 라며 가만히 서 있는 상태. 서로 눈을 부라리며 영원히 서 있는다.
 `라이브락(Livelock)`: 착한 두 사람이 서로 비켜주겠다고 왼쪽으로 한 발짝 옮겼다. 어라? 둘 다 똑같이 왼쪽으로 옮겨서 또 마주쳤다. "아이고 죄송합니다" 하고 이번엔 둘 다 오른쪽으로 옮겼다. 또 마주쳤다. 이걸 1초에 1억 번씩 무한 반복하며 땀을 뻘뻘 흘리는데(CPU 폭발), 정작 앞으로 한 발짝도 걷지 못한다(실제 진척도 0%).
 
@@ -54,9 +54,9 @@ tags = ["studynote-operating-system"]
 
 웃기게도 라이브락은 대부분 <strong>"개발자가 데드락을 없애보겠답시고 어설프게 양보 로직(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a>/Retry)을 기입했을 때"</strong> 발생한다.
 
-1. **상호 교인 락 (Politeness Mechanism)**: 
-   - 데드락 예방을 위해 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 락을 기다리다 안 되면 `자발적 Un-lock (락 해제)`을 하고 재도전(Retry) 하도록 코드를 짰다. 
-2. <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>된 뻘짓 (Synchronized Retry)</strong>: 
+1. **상호 교인 락 (Politeness Mechanism)**:
+   - 데드락 예방을 위해 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 락을 기다리다 안 되면 `자발적 Un-lock (락 해제)`을 하고 재도전(Retry) 하도록 코드를 짰다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>된 뻘짓 (Synchronized Retry)</strong>:
    - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 둘의 속도와 클럭이 똑같기 때문에, 정확히 동시에 자기 락을 풀고, 정확히 동시에 다시 락을 잡는다.
    - 계속해서 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)된 리듬으로 둘 다 양보하고 둘 다 침투하는 짓을 반복하며, 아무도 두 개의 락을 전부 잡아내는([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 돌파) 데 성공하지 못한다.
 

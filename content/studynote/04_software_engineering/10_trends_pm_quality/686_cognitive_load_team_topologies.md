@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-심리학에서 유래한 '인지 부하' 개념을 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)에 본격적으로 도입한 것은 매슈 스켈톤과 마누엘 파이스의 저서 《팀 토폴로지(Team Topologies)》다. 
+심리학에서 유래한 '인지 부하' 개념을 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)에 본격적으로 도입한 것은 매슈 스켈톤과 마누엘 파이스의 저서 《팀 토폴로지(Team Topologies)》다.
 
 과거 모놀리식 환경에서는 코딩만 잘하면 됐다. 하지만 현대의 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서는 개발자가 비즈니스 로직([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식)뿐만 아니라, [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/), 장애 알람 설정까지 전부 알아야 배포가 가능해졌다. 사람의 뇌는 한 번에 처리할 수 있는 정보량에 명확한 한계가 있으므로, 이 한계를 초과하면 생산성은 수직 낙하하고 코드는 스파게티가 되며 직원은 퇴사한다.
 

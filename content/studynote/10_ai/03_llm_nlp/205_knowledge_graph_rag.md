@@ -66,7 +66,7 @@ tags = ["studynote-ai"]
 ```
 
 **핵심 원리 (온톨로지와 추론 능력)**:
-[지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)의 미친 점은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장만 하는 게 아니라, 자기가 알아서 <strong>'숨겨진 진실을 추론(Reasoning)'</strong>해 낸다는 것이다. 
+[지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)의 미친 점은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장만 하는 게 아니라, 자기가 알아서 <strong>'숨겨진 진실을 추론(Reasoning)'</strong>해 낸다는 것이다.
 예를 들어 `(소크라테스) ─[태어남]─▶ (아테네)`, 그리고 `(아테네) ─[속함]─▶ (그리스)`라는 두 개의 팩트만 넣어주면, [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) 엔진은 내가 가르쳐주지도 않았는데 거미줄 2개를 엮어서 <strong>"(소크라테스) ─[국적]─▶ (그리스)"</strong>라는 새로운 지식 엣지를 스스로 그어버린다. 이처럼 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)의 사슬(Chain)을 타고 들어가 꼬리에 꼬리를 무는 다단계 추론이야말로 일반 벡터 DB([Vector DB](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/151_vector_database_embedding_ann_search/))가 죽었다 깨어나도 못 하는 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)만의 전유물이다.
 
 | 요소 | 역할 |

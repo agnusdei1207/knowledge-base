@@ -94,10 +94,10 @@ tags = ["studynote-operating-system"]
 
 ### [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) ([Least Frequently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/))의 진정한 부활
 
-앞 장에서 "LFU는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 알박기 때문에 죽은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다"라고 배웠다. 
+앞 장에서 "LFU는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 알박기 때문에 죽은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다"라고 배웠다.
 그런데 실무나 논문에서 "[LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) 캐시 교체를 썼다"고 말하면, 십중팔구 쌩 LFU가 아니라 이 <strong>'에이징이 결합된 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/">LFU</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/">Aging</a>-<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/">LFU</a> 또는 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/">LFU</a> with Decay)'</strong>를 뜻한다.
 - 에이징 덕분에 과거 1만 번의 조회수는 시간이 지나며 나누기 2가 수십 번 반복되어 0으로 증발한다.
-- 알박기(망령)가 사라지니, LFU의 진짜 장점인 "오랫동안 꾸준히 사랑받은 스테디셀러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)"의 진가가 폭발한다. 
+- 알박기(망령)가 사라지니, LFU의 진짜 장점인 "오랫동안 꾸준히 사랑받은 스테디셀러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)"의 진가가 폭발한다.
 - [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 버퍼나 웹서버 캐시가 가장 사랑하는 마법의 레시피가 바로 이 `LFU + Aging`의 결합이다.
 
 ```text

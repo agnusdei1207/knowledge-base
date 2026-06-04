@@ -39,7 +39,7 @@ tags = ["studynote-network"]
 
 ### 1. 인스턴스 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 배포 (Instantiation & Configuration)
 - 위쪽 총사령관([NFVO](/knowledge-base/studynote/03_network/17_sdn_nfv/869_nfvo_nfv_orchestrator_network_service_lifecycle/))이 "야 반장! [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/) 1개 띄워!"라고 지시합니다.
-- VNFM은 밑에 있는 땅 소장([VIM](/knowledge-base/studynote/03_network/17_sdn_nfv/871_vim_virtualised_infrastructure_manager_openstack_k8s/), 871번)에게 "소장님, 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 빈방 1개랑 IP 주소 하나만 파주쇼!"라고 요청합니다. 
+- VNFM은 밑에 있는 땅 소장([VIM](/knowledge-base/studynote/03_network/17_sdn_nfv/871_vim_virtualised_infrastructure_manager_openstack_k8s/), 871번)에게 "소장님, 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 빈방 1개랑 IP 주소 하나만 파주쇼!"라고 요청합니다.
 - 빈방이 나오면 VNFM이 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 소프트웨어를 쓱 밀어 넣어 설치하고, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비밀번호와 룰 세팅([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화)을 끝내어 완벽히 작동하는 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 1대를 탄생시킵니다.
 
 ### 2. 자동 확장 및 축소 (Scaling Up/Down/Out/In) 🌟
@@ -49,7 +49,7 @@ tags = ["studynote-network"]
 
 ### 3. 자가 치유 및 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) (Healing & Fault [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) 🌟
 - **장애 감지**: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 갑자기 핑(Ping) 응답을 안 하고 심장 박동이 멎었습니다(소프트웨어 에러 또는 뻗음).
-- **자동 치유(Auto-Healing)**: VNFM은 밤에 자고 있는 인간 엔지니어를 깨우지 않습니다. 지가 알아서 즉각 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 프로세스를 <strong>강제 재부팅(Reboot)</strong>시키거나, 아예 헌 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 찢어버리고 새 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) VNF를 깨끗하게 새로 하나 파서(Re-instantiation) 0.1초 만에 죽은 자리에 그대로 끼워 넣습니다. 
+- **자동 치유(Auto-Healing)**: VNFM은 밤에 자고 있는 인간 엔지니어를 깨우지 않습니다. 지가 알아서 즉각 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 프로세스를 <strong>강제 재부팅(Reboot)</strong>시키거나, 아예 헌 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 찢어버리고 새 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) VNF를 깨끗하게 새로 하나 파서(Re-instantiation) 0.1초 만에 죽은 자리에 그대로 끼워 넣습니다.
 
 ### 4. 종료 및 삭제 (Termination)
 - 사업이 끝나서 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 필요 없어지면, 라이선스를 회수하고 서버에서 흔적도 없이 삭제하여 서버 메모리를 땅 소장([VIM](/knowledge-base/studynote/03_network/17_sdn_nfv/871_vim_virtualised_infrastructure_manager_openstack_k8s/))에게 고스란히 반납합니다.

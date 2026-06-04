@@ -70,8 +70,8 @@ tags = ["studynote-software-engineering"]
 
 254번 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)를 한 번에 여러 개 묶어놓은 꼴입니다.
 
-1. **Abstract Factory (최상위 본사 껍데기)**: 
-   - 텅 빈 구멍 함수들을 모아놓은 인터페이스입니다. 근데 구멍이 1개가 아닙니다! 
+1. **Abstract Factory (최상위 본사 껍데기)**:
+   - 텅 빈 구멍 함수들을 모아놓은 인터페이스입니다. 근데 구멍이 1개가 아닙니다!
    - `createButton()`, `createScrollbar()` 이렇게 <strong>부품의 개수만큼 빈 구멍</strong>을 뚫어놓습니다.
 2. **Concrete Factory (현대 공장, 삼성 공장)**:
    - 본사 껍데기를 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)받은 진짜 거대 공장들입니다.

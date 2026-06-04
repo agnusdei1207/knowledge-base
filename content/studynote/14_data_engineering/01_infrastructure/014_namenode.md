@@ -35,7 +35,7 @@ tags = ["data_engineering"]
                  │ 블록번호 : Blk_1001, Blk_1002        │
                  │ 블록위치 : Blk_1001 -> DataNode 2,5  │
                  └─────────────────▲──────────────────┘
-            주소지 조회 (RPC) ↗      │ 
+            주소지 조회 (RPC) ↗      │
                               │ Heartbeat & Block Report 주기적 보고
       [HDFS Client]           │      │
       (Spark, Hive 등)        │      ▼
@@ -69,16 +69,16 @@ tags = ["data_engineering"]
 [FsImage와 EditLog의 무한 증식 방지를 위한 SNN 체크포인트 병합 메커니즘]
 
    [Active NameNode]                               [Secondary NameNode (도우미)]
-   RAM : Namespace 유지                                           
-   Disk:                                                          
-     ├── FsImage (오래된 기준점) --------(다운로드)--------┐        
-     └── EditLog (실시간 변경 무한히 쌓임) --(다운로드)----┼─┐     
+   RAM : Namespace 유지
+   Disk:
+     ├── FsImage (오래된 기준점) --------(다운로드)--------┐
+     └── EditLog (실시간 변경 무한히 쌓임) --(다운로드)----┼─┐
                                                           │ │ [메모리에서 두 파일 병합 연산!]
      ┌── (새로운 압축 스냅샷 덮어쓰기 반환!) <─────────[FsImage.new 생성]
-     │                                                    
-   Disk 업데이트:                                         
-     ├── FsImage.new (새로운 기준점으로 교체됨)           
-     └── EditLog (비워짐! 새로 시작)                      
+     │
+   Disk 업데이트:
+     ├── FsImage.new (새로운 기준점으로 교체됨)
+     └── EditLog (비워짐! 새로 시작)
                                                   (주기적, 예: 1시간마다 반복)
 ```
 
@@ -105,10 +105,10 @@ tags = ["data_engineering"]
 [NameNode HA (고가용성) 클러스터와 JournalNode의 상태 동기화 구조]
 
    [ ZooKeeper Quorum (상태 감시자, 누가 Active인지 투표) ]
-         │ (헬스 체크)                         │ 
-         ▼                                   ▼ 
+         │ (헬스 체크)                         │
+         ▼                                   ▼
 ┌────────────────────┐              ┌────────────────────┐
-│ Active NameNode    │ <--- 차단 ---│ Standby NameNode   │ (Active가 죽으면 
+│ Active NameNode    │ <--- 차단 ---│ Standby NameNode   │ (Active가 죽으면
 │ (현재 실제 사령관) │ (Fencing)  │ (대기 중인 부사령관) │ 즉시 권한 승계)
 └────────┬───────────┘              └──────────┬─────────┘
          │ (EditLog 실시간 쓰기)               │ (EditLog 실시간 읽기/반영)

@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-<strong>1000BASE-T (IEEE 802.3ab)</strong>는 데스크톱 및 서버의 기본 유선 네트워크 속도를 기가비트(1 Gbps) 단위로 격상시킨 역사적인 표준입니다. 
+<strong>1000BASE-T (IEEE 802.3ab)</strong>는 데스크톱 및 서버의 기본 유선 네트워크 속도를 기가비트(1 Gbps) 단위로 격상시킨 역사적인 표준입니다.
 
 [Fast Ethernet](/knowledge-base/studynote/03_network/03_physical_layer_media/138_10base_t_100base_tx_fast_ethernet/)(100BASE-TX)까지는 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블 4쌍 중 2쌍만 송신/수신용으로 나누어 썼지만, 기가비트로 넘어가면서 구리선([UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/))의 물리적 한계에 부딪혔습니다. 이를 극복하기 위해 케이블의 구조를 바꾸는 대신(하위 호환성을 위해 Cat 5e 사용), <strong>랜카드 내부의 통신 칩(PHY)의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 처리 알고리즘을 비약적으로 발전</strong>시켰습니다.
 
@@ -55,7 +55,7 @@ tags = ["studynote-network"]
 하나의 쌍에서 250Mbps씩 처리하여 4쌍 합계 1Gbps를 만들어냅니다.
 
 ### 2. [에코](/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/) 상쇄 (Echo Cancellation)
-하나의 구리 선에서 송신과 수신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 동시에 달리면 파동이 충돌하여 엉망이 됩니다([에코](/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/) 현상). 
+하나의 구리 선에서 송신과 수신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 동시에 달리면 파동이 충돌하여 엉망이 됩니다([에코](/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/) 현상).
 1000BASE-T의 PHY 칩 내부에는 고도의 <strong>DSP(Digital <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">Signal</a> Processor)</strong>가 탑재되어 있습니다. 이 칩은 자신이 송신한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 패턴을 정확히 기억하고 있다가, 혼합되어 들어오는 수신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에서 <strong>자신의 송신 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 성분을 수학적으로 빼버림(상쇄)</strong>으로써 상대방이 보낸 순수한 수신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)만 걸러냅니다. 이는 '노이즈 캔슬링 이어폰'의 원리와 정확히 같습니다.
 
 ### 3. PAM-5 (Pulse Amplitude Modulation 5) 변조

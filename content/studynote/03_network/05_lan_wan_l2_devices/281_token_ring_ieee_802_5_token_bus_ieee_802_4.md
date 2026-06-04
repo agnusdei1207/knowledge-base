@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: 여러 대의 컴퓨터가 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)(선로)를 공유할 때 충돌 없이 통신하기 위해, '토큰'이라는 3바이트짜리 특수 제어 프레임을 사용하는 방식이다.
 - **필요성**: 1980년대 초창기 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD)은 "먼저 말하는 사람이 임자"인 시스템이었다. 컴퓨터가 3대일 땐 편했지만, 100대가 되면 너도나도 말하려다 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))이 나서 아무도 통신을 못 하는 마비 현상([Collision Domain](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/) 폭발)이 심각했다. 은행이나 공장 제어 시스템처럼, "속도가 좀 느려도 좋으니, 내가 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 중간에 끊기거나 파기되는 일은 절대 없어야 한다(결정론적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))"라는 강력한 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 니즈가 토큰 링을 탄생시켰다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>(<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/">CSMA</a>/CD)</strong>: 토론회에서 누구나 눈치껏 빈틈을 타서 말하다가, 목소리가 겹치면 멈췄다 다시 말하는 **"자유 토론"** (사람이 적으면 빠르지만, 많아지면 시장통이 됨).
   - **토큰 링(Token Ring)**: 토론회에서 <strong>"하나뿐인 마이크(Token)"</strong>를 옆 사람에게 시계 방향으로 돌려가며, 마이크를 쥔 사람만 말할 수 있는 **"순차적 발언"** (사람이 적을 땐 마이크 기다리느라 속 터지지만, 사람이 많아도 한 명씩은 무조건 말할 기회가 옴).
 

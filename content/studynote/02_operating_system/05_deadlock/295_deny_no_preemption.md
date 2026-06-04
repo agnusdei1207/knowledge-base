@@ -19,9 +19,9 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-데드락의 세 번째 조건인 '[비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)([No Preemption](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/))'은 "내가 내 손으로 내려놓기 전엔 아무도 못 뺏어!"라는 철칙이다. 
+데드락의 세 번째 조건인 '[비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)([No Preemption](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/))'은 "내가 내 손으로 내려놓기 전엔 아무도 못 뺏어!"라는 철칙이다.
 
-이걸 깨버리는 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/">비선점</a> 부정</strong>은 아주 무자비하지만 확실한 해결책이다. 
+이걸 깨버리는 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/">비선점</a> 부정</strong>은 아주 무자비하지만 확실한 해결책이다.
 "네가 자원 A를 쥐고 B를 달라고 손을 내밀었지? 근데 B가 당장 없어? 그럼 넌 괘씸죄로 당장 네가 쥐고 있던 A마저 강제로 뱉어내고 쫓겨나라!"
 
 **💡 비유**: 줄을 서서 식판(A)을 받고 반찬(B)을 받으려는데 반찬이 다 떨어져 멈춰 서면, 배식원이 "뒤에 식판 필요한 사람 있으니까, 너 식판 도로 뺏고 반찬 채워질 때까지 아예 식당 밖으로 나가!" 하고 내쫓는 것. 내 뒤통수에 붙어있던 대기열(데드락 후보군)은 해소된다.
@@ -58,7 +58,7 @@ tags = ["studynote-operating-system"]
 
 이론적으론 아주 간단히 "뺏어!" 하면 될 것 같지만 현대 컴퓨터 아키텍처는 이를 완강히 거부한다.
 
-1. <strong>상태(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a>) 복사 비용의 폭증</strong>: CPU는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 몇 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 버리면 그만이다(완벽한 선점 부정). 그러나 프린터나 DVD 버너, 혹은 DB 테이블 업데이트는 중간에 뺏기면 잉크가 번지고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 깨진다. 
+1. <strong>상태(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a>) 복사 비용의 폭증</strong>: CPU는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 몇 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 버리면 그만이다(완벽한 선점 부정). 그러나 프린터나 DVD 버너, 혹은 DB 테이블 업데이트는 중간에 뺏기면 잉크가 번지고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 깨진다.
 2. <strong>소프트웨어 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> (<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/">Undo</a> Log)</strong>: 만약 굳이 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)을 파괴하고 뺏어 오려면, DBMS처럼 그동안 해온 모든 작업을 추적하는 [UNDO](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 촘촘히 짜서 "뺏김과 동시에 예전 상태로 무결점 타임머신 복원"을 수행해야 하는데 엄청난 연산 부하가 터진다.
 
 **📢 섹션 요약 비유**: 강제 선점이 CPU에선 쉽지만, 하드디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 에선 불가능한 건 블럭 쌓기(CPU-쉽게 멈추고 기록)와 찰흙 빚기(디스크-중간에 남이 만지면 아예 망함)의 차이입니다. 찰흙은 절대 뺏으면 안 되는 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) 룰의 성역입니다.

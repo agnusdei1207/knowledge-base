@@ -127,8 +127,8 @@ Data Integrity
 
 ## 어린이를 위한 3줄 비유 설명
 
-바구니에는 아무거나 넣지 못해요.  
-도메인은 넣을 수 있는 것만 정해 주는 규칙이에요.  
+바구니에는 아무거나 넣지 못해요.
+도메인은 넣을 수 있는 것만 정해 주는 규칙이에요.
 그래야 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 헷갈리지 않아요.
 
 ---

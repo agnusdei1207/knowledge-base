@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a> Trust</strong>: "아무도 믿지 마라, 항상 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하라(Never Trust, Always Verify)". 네트워크 경계([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)) 중심의 방어를 버리고, 주체(사용자/디바이스/프로세스)마다 최소 권한을 부여하고 지속 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 패러다임.
   - <strong>런타임 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> (Runtime <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">Integrity</a> Measurement)</strong>: 디스크에 저장된 정적인 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이나 메모리에 떠 있는 프로세스가, 원래 의도된 순수한 상태(변조되지 않은 상태)를 유지하고 있는지를 실행 시점(Runtime)에 검사하는 OS 아키텍처.
 
-- <strong>필요성 (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>의 붕괴와 내부자 위협)</strong>: 
+- <strong>필요성 (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>의 붕괴와 내부자 위협)</strong>:
   - 과거에는 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([Firewall](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))만 튼튼하게 치면 성벽 안(내부망)의 시스템들은 서로를 100% 신뢰했다.
   - 하지만 해커가 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 메일로 직원의 PC를 털어 내부망으로 들어오면(Lateral Movement), 내부의 리눅스 서버들은 이 해커를 믿고 숭배했다. 해커가 윈도우의 `cmd.exe`나 리눅스의 `ls` 명령어를 악성코드로 몰래 덮어써버리면([루트킷](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/)), 관리자는 영원히 해킹 사실을 눈치채지 못했다.
   - **해결책**: "OS 내부에서 실행되는 모든 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(바이너리, 스크립트)도 절대 믿지 마라!" [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 실행되기 바로 직전(0.001초 전)에, 그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 고유한 지문(Hash)을 떠서 진짜가 맞는지 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 직접 검문하는 런타임 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)망이 필요했다.

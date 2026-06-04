@@ -47,14 +47,14 @@ tags = ["studynote-network"]
 이 4단계를 외우지 못하면 네트워크 면접에서 광탈한다. 누가 먼저 끊자고([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Close) 제안했는지 클라이언트 입장에서 따라가 보자.
 
 ### 1단계: 클라이언트의 이별 통보 (FIN)
-- 클라이언트는 더 보낼 게 없다. 
+- 클라이언트는 더 보낼 게 없다.
 - 패킷 헤더에 <strong><code>FIN</code></strong> 불을 켜서 서버로 날린다.
 - **상태 변화**: 클라이언트는 <strong><code>FIN_WAIT_1</code></strong> 상태로 진입하여 상대방의 첫 대답을 기다린다.
 
 ### 2단계: 서버의 일단 수긍 (ACK)
 - 서버가 `FIN`을 받았다. "오케이 네가 끊고 싶은 건 알겠어."
 - 서버는 일단 <strong><code>ACK</code></strong> 불을 켜서 대답만 먼저 해준다.
-- **상태 변화**: 
+- **상태 변화**:
   - 서버는 <strong><code>CLOSE_WAIT</code></strong> 상태가 된다. (이게 핵심이다! "어? 나 얘한테 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 램에 좀 남아있는데? 프로세스(앱)야, 빨리 남은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 다 뿜어내서 정리해 줘!"라며 앱의 종료를 기다리는 상태다).
   - 클라이언트는 ACK를 받고 <strong><code>FIN_WAIT_2</code></strong> 상태가 되어 서버의 진짜 마지막 인사를 기다린다. (이때 클라이언트의 쏘는 입은 닫혔지만, 서버가 보내는 패킷을 '듣는 귀'는 활짝 열려 있다 = Half-Close).
 

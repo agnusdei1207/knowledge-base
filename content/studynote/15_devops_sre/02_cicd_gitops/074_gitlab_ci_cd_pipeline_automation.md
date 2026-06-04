@@ -124,8 +124,8 @@ Runner
 
 ## 어린이를 위한 3줄 비유 설명
 
-코드 저장소에서 바로 일해요.  
-줄을 정해 자동으로 움직여요.  
+코드 저장소에서 바로 일해요.
+줄을 정해 자동으로 움직여요.
 GitLab [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 그런 시스템이에요.
 
 ---

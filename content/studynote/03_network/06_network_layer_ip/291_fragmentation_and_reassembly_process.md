@@ -67,7 +67,7 @@ tags = ["studynote-network"]
 ```
 
 ### 3. 현대 네트워크의 회피 전술
-단편화는 라우터의 CPU를 갉아먹고(라우터 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하), 패킷 하나만 분실돼도 망 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 전체를 낭비하는 재앙을 부른다. 
+단편화는 라우터의 CPU를 갉아먹고(라우터 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하), 패킷 하나만 분실돼도 망 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 전체를 낭비하는 재앙을 부른다.
 그래서 현대의 컴퓨터와 서버들은 아예 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 통신을 시작할 때, 목적지까지 가는 길목 중 가장 좁은 문(Path MTU)을 미리 알아낸 다음, 처음부터 <strong>단편화가 발생하지 않을 크기(보통 1460 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a> 이하)로 미리 잘게 썰어서</strong> 패킷을 쏘는 방식을 채택했다. 이를 통해 라우터가 칼질하는 수고를 원천적으로 없앴다.
 
 - **📢 섹션 요약 비유**: <strong> 단편화는 3조각으로 나뉜 보물지도와 같습니다. 2조각을 먼저 찾아도 마지막 1조각을 잃어버리면 보물(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)을 찾을 수 없으므로, 여태껏 힘들게 찾은 2조각마저 찢어버리고 지도를 </strong>처음부터 통째로 다시 그려야 하는 엄청난 삽질**을 유발합니다.

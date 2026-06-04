@@ -29,7 +29,7 @@ ClusterIP는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_c
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-ClusterIP [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되면 Kube-proxy가 클러스터 내 모든 노드의 iptables 또는 IPVS (IP Virtual Server) 규칙을 업데이트하여 트래픽을 가로채고 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시킨다. 
+ClusterIP [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되면 Kube-proxy가 클러스터 내 모든 노드의 iptables 또는 IPVS (IP Virtual Server) 규칙을 업데이트하여 트래픽을 가로채고 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시킨다.
 
 | 핵심 요소 | 동작 원리 및 역할 |
 | :--- | :--- |

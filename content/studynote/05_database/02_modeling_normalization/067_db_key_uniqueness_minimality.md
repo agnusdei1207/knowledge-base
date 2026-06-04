@@ -132,8 +132,8 @@ Normalization
 
 ## 어린이를 위한 3줄 비유 설명
 
-사람을 구분하는 번호가 필요해요.  
-딱 필요한 것만 있어야 해요.  
+사람을 구분하는 번호가 필요해요.
+딱 필요한 것만 있어야 해요.
 키는 그런 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)예요.
 
 ---

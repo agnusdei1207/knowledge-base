@@ -20,7 +20,7 @@ tags = ["studynote-operating-system"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 공유 데이터를 조작하려 할 때, 아직 자신이 원하는 상태(Condition, 예: 큐에 데이터가 들어옴)가 아닐 경우 일단 대기실로 물러나 자고, 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 상태를 변경한 뒤 "이제 조건이 맞으니 일어나라!"라고 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 보내주는 메커니즘이다.
-- **필요성**: 뮤텍스([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))는 "방에 1명만 들어가게"는 막아주지만, 방에 들어갔는데 정작 할 일이 없으면 문제가 된다. 
+- **필요성**: 뮤텍스([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))는 "방에 1명만 들어가게"는 막아주지만, 방에 들어갔는데 정작 할 일이 없으면 문제가 된다.
   예를 들어, 프린터 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 방([임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))에 들어갔는데 인쇄할 종이가 없다. 이때 종이가 올 때까지 방 안에서 문을 잠그고 멍때리면([Busy Waiting](/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/)), 밖에 있는 사용자 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 종이를 넣어주려 해도 문이 잠겨있어 들어가지 못하는 <strong>치명적 데드락(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)</strong>에 빠진다. 따라서 "종이가 없으면 일단 문을 열어주고(Unlock) 밖에서 자라"는 고급 제어 기능이 필요했다.
 
 - **등장 배경**: C.A.R. Hoare 와 Brinch Hansen 등의 학자들이 "[세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)가 너무 원시적이라 프로그래머들이 계속 데드락을 낸다"고 비판하며, 이를 더 고차원적이고 안전하게 제어하기 위한 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">Monitor</a>)</strong>라는 개념을 발표할 때 그 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)의 내부 핵심 부품으로 설계되었다.
@@ -50,12 +50,12 @@ tags = ["studynote-operating-system"]
 
 조건 변수(`pthread_cond_t`)는 절대 혼자 쓰이지 않으며 반드시 뮤텍스(`pthread_mutex_t`)와 함께 파라미터로 엮여 들어간다.
 
-1. <strong><code>wait(cond, mutex)</code></strong>: 
+1. <strong><code>wait(cond, mutex)</code></strong>:
    - 내가 쥐고 있는 `mutex`를 풀고, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 `cond` 대기 큐에 넣어 잠재운다. (이 과정이 원자적으로 일어남)
    - 나중에 누군가 깨워주면, 다시 `mutex`를 쟁취하기 위해 싸운 뒤, 쟁취하는 순간 함수가 반환(리턴)되며 잠에서 깬다.
-2. <strong><code>signal(cond)</code></strong>: 
+2. <strong><code>signal(cond)</code></strong>:
    - `cond` 대기 큐에서 자고 있는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 중 **딱 1명만** 깨운다. (라운드 로빈이나 우선순위에 따라 OS가 고름)
-3. <strong><code>broadcast(cond)</code></strong>: 
+3. <strong><code>broadcast(cond)</code></strong>:
    - `cond` 대기 큐에서 자고 있는 <strong>모든 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>를 다 깨운다</strong> (알람 대폭발). 깨어난 놈들은 각자 `mutex`를 다시 잡으려고 피 터지게 싸운다 (Thundering Herd 현상).
 
 ### 왜 `if` 가 아니라 `while` 로 묶어야 하는가? (Spurious Wakeup)
@@ -65,11 +65,11 @@ tags = ["studynote-operating-system"]
 ```c
   // ❌ 최악의 코드 (if 사용)
   pthread_mutex_lock(&mutex);
-  if (count == 0) {  
+  if (count == 0) {
       pthread_cond_wait(&cond, &mutex); // 자고 일어남
   }
   // 🚨 여기서 count가 0인데도 물건을 빼려고 해서 NullPointerException 터짐!
-  take_item(); 
+  take_item();
   pthread_mutex_unlock(&mutex);
 ```
 **왜 터질까?**
@@ -83,7 +83,7 @@ tags = ["studynote-operating-system"]
   while (count == 0) {   // ⭐ 깨어나서도 조건이 맞는지 독하게 다시 검사함!
       pthread_cond_wait(&cond, &mutex);
   }
-  take_item(); 
+  take_item();
   pthread_mutex_unlock(&mutex);
 ```
 **[해설]** OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/) 등의 이유로 `signal()`을 안 쳤는데도 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 가끔 실수로 깨어나는 현상(Spurious Wakeup)을 스펙상 허용한다. 따라서 프로그래머는 내가 깨어났을 때 "진짜 물건이 있어서 깨운 건지, 헛것을 보고 깬 건지, 아니면 남이 쌔벼간 건지"를 `while`을 돌며 끈질기게 재검증해야만 무결성이 보장된다.
@@ -121,7 +121,7 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오
 1. <strong>Java의 <code>Object.wait()</code>와 <code>notifyAll()</code></strong>: 자바의 모든 객체(Object)는 태어날 때부터 내부에 보이지 않는 "뮤텍스 1개 + 조건 변수 1개"를 쌍으로 가지고 태어난다. (이걸 Monitor라고 부른다).
-   - **실무 규칙**: 자바에서 `wait()`를 호출하려면 무조건 그 객체의 `synchronized` 블록(뮤텍스 획득) 안에 있어야 한다. 밖에서 호출하면 `IllegalMonitorStateException`을 뱉으며 뺨을 때린다. OS의 철칙(뮤텍스와 CV의 결합)을 언어 레벨에서 완벽하게 강제한 가장 성공적인 아키텍처다. 
+   - **실무 규칙**: 자바에서 `wait()`를 호출하려면 무조건 그 객체의 `synchronized` 블록(뮤텍스 획득) 안에 있어야 한다. 밖에서 호출하면 `IllegalMonitorStateException`을 뱉으며 뺨을 때린다. OS의 철칙(뮤텍스와 CV의 결합)을 언어 레벨에서 완벽하게 강제한 가장 성공적인 아키텍처다.
 2. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">Signal</a> vs Broadcast (Thundering Herd Problem 방어)</strong>: 1개의 데이터가 들어왔는데 대기실에 1,000개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 자고 있다.
    - **아키텍트의 실수**: 아무 생각 없이 `broadcast()`를 때렸다. 1,000개가 일제히 깨어나서 뮤텍스 1개를 잡으려고 좀비떼처럼 덤벼들며 999개의 문맥 교환이 발생하여 CPU가 폭파된다(이를 <strong>Thundering Herd, 천둥 치는 소떼 현상</strong>이라 부른다).
    - **실무 조치**: 들어온 데이터가 1개뿐이라면 절대 `broadcast()`를 치지 말고 <strong><code>signal()</code> (자바에선 <code>notify()</code>)</strong>을 쳐서 딱 1마리만 조용히 깨워야 한다. 반면, "[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 파일이 업데이트됨!"처럼 모두가 알아야 하는 글로벌 이벤트일 때는 무조건 `broadcast()`를 쳐야 999명이 영원히 자는 버그를 막을 수 있다.

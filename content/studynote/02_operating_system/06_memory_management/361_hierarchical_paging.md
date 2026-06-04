@@ -89,7 +89,7 @@ tags = ["studynote-operating-system"]
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 다이어그램은 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 아름다움이자 끔찍함을 동시에 보여준다. CPU가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 번 읽기 위해, 1) `P1`을 들고 1단계 장부를 읽어 2단계 장부 위치를 찾고, 2) 그곳으로 가서 `P2`를 들고 2단계 장부를 읽어 실제 프레임 번호를 찾고, 3) 마지막으로 알아낸 프레임 주소로 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어온다. 
+**[다이어그램 해설]** 이 다이어그램은 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 아름다움이자 끔찍함을 동시에 보여준다. CPU가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 번 읽기 위해, 1) `P1`을 들고 1단계 장부를 읽어 2단계 장부 위치를 찾고, 2) 그곳으로 가서 `P2`를 들고 2단계 장부를 읽어 실제 프레임 번호를 찾고, 3) 마지막으로 알아낸 프레임 주소로 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어온다.
 <strong>총 메모리 접근이 3번(장부 2번 + <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 1번) 발생</strong>하여, 시스템 속도는 이론상 1/3 토막이 난다.
 
 ---

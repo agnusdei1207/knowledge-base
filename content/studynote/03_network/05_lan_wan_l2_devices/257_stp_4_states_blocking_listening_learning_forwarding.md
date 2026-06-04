@@ -48,7 +48,7 @@ tags = ["studynote-network"]
 - **지속 시간**: 이 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 차단 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(Block [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))로 결정되면 평생 이 상태에 머문다. 포워딩 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(DP, [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/))로 나가야 한다고 판정되면 즉시 다음 단계로 넘어간다. (장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시에는 Max Age 20초 대기 발생)
 
 ### 3. Listening (청취 상태) - "나도 명함을 돌려볼까?"
-- **동작**: 사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 여전히 차단된다. 하지만 이제 남의 BPDU를 듣기만 하는 게 아니라, <strong>나의 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/">BPDU</a>(명함)를 만들어 상대방에게 전송</strong>하기 시작한다. 
+- **동작**: 사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 여전히 차단된다. 하지만 이제 남의 BPDU를 듣기만 하는 게 아니라, <strong>나의 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/">BPDU</a>(명함)를 만들어 상대방에게 전송</strong>하기 시작한다.
 - "이 선의 주인(DP)은 나야!"라고 서로 선거 유세를 벌이며 옥신각신하는 기간이다. 만약 유세에서 지면 다시 Blocking으로 쫓겨난다.
 - **지속 시간**: 15초 ([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Delay)
 

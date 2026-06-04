@@ -79,7 +79,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-수백 Gbps로 쏟아지는 트래픽은 회사 앞의 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)) 장비로는 물리적으로 막을 수 없습니다(인터넷 선이 먼저 터짐). 
+수백 Gbps로 쏟아지는 트래픽은 회사 앞의 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)) 장비로는 물리적으로 막을 수 없습니다(인터넷 선이 먼저 터짐).
 - 오늘날의 방어는 클라우드플레어(Cloudflare)나 통신사(KT)가 제공하는 거대한 대피소인 <strong>'<a href="/knowledge-base/studynote/09_security/03_network_security/250_scrubbing_center/">스크러빙 센터</a>(<a href="/knowledge-base/studynote/03_network/14_network_security_threats/721_drdos_scrubbing_center_mitigation/">Scrubbing Center</a>)'</strong>로 회사의 모든 트래픽을 돌려보내, 그곳의 무식하게 거대한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 필터로 쓰레기를 다 세척해 내고 맑은 물(정상 고객)만 사내망으로 넣어주는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 가입하여 막아냅니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

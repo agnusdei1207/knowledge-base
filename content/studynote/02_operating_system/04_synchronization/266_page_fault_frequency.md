@@ -88,11 +88,11 @@ PFF는 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchroniza
    - 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(텍스처, 모델)를 마구 부르므로 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 1초에 1,000번씩 미친 듯이 터진다.
    - [PFF](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/) 상한선을 뚫어버린다. OS는 프레임을 뺏지 않고 계속 무한정 던져주어 순식간에 2GB의 작업 공간([워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))을 램에 세팅해 준다.
 2. **안정기 (게임 플레이 중)**:
-   - 2GB 안에서 잘 놀기 때문에 폴트가 거의 안 터진다 (상한/하한 사이). 
+   - 2GB 안에서 잘 놀기 때문에 폴트가 거의 안 터진다 (상한/하한 사이).
    - OS는 프레임 개수를 그대로 2GB로 유지시켜 준다.
 3. **수축기 (로비 복귀)**:
    - 한참 동안 폴트가 안 나다가, 새로운 메뉴를 누르며 간만에 폴트가 딱 1번 터졌다 ($\Delta t$ 가 매우 김).
-   - OS: "오랜만에 터졌네! 게임할 때 쓰던 2GB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 지금 하나도 안 쓰고 있지?" 
+   - OS: "오랜만에 터졌네! 게임할 때 쓰던 2GB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 지금 하나도 안 쓰고 있지?"
    - 즉시 3D 게임용 2GB 메모리를 싹 다 압수(Free)하여 다른 프로세스에게 넘겨준다.
 
 ### PFF의 치명적 맹점 (Blind Spot)
@@ -146,7 +146,7 @@ PFF의 유일한 단점은 <strong>"폴트가 안 터지면 OS가 개입을 안 
 [PFF](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/) 메커니즘을 통해 운영체제는 복잡한 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 시뮬레이션 없이도, <strong>"각 프로세스가 최소한으로 숨을 쉴 수 있는 프레임 개수"</strong>를 실시간으로 조율하여 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)을 방어하고, [다중 프로그래밍 정도](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/)(DOM)를 램이 허용하는 극한의 스위트 스팟(Sweet Spot)으로 자동 유지할 수 있다.
 
 ### 결론 및 미래 전망
-[페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 빈도([PFF](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/))는 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 이론의 비현실적 오버헤드를 타파하고 실제 상용 운영체제가 메모리의 팽창과 수축을 다룰 수 있게 해 준 가장 현실적이고 우아한 실용 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. 
+[페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 빈도([PFF](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/))는 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 이론의 비현실적 오버헤드를 타파하고 실제 상용 운영체제가 메모리의 팽창과 수축을 다룰 수 있게 해 준 가장 현실적이고 우아한 실용 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 그러나 현대의 백엔드 인프라(K8s 등 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경)에서는 OS가 동적으로 메모리를 뺏었다 줬다 하는 행위 자체가 '예측 불가능한 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Jitter)'을 낳는 원흉으로 지목받고 있다. 미래의 트렌드는 OS의 얌체 같은 [PFF](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/) 자동 조절을 끄고, 대신 <strong>Cgroups를 이용해 <code>Limit</code>과 <code>Request</code>를 명시적으로 하드코딩</strong>하여 "내가 선언한 메모리는 끝까지 보장받고, 넘치면 차라리 죽겠다"는 <strong>결정론적(Deterministic) <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/">자원 할당</a> 패러다임</strong>으로 완전히 교체되고 있다.
 
 - **📢 섹션 요약 비유**: PFF는 수압이 변할 때마다 알아서 밸브를 조여주는 똑똑한 자동 샤워기였습니다. 하지만 한 번 씻을 때 갑자기 찬물이 나오는 찰나의 순간(Jitter)조차 견디지 못하는 현대인(클라우드 아키텍처)들은, 아예 수조 통 자체를 개인 전용으로 따로 파버려서([Cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 누가 물을 쓰든 내 샤워기 수압은 평생 변하지 않게 만드는 방향으로 진화했습니다.

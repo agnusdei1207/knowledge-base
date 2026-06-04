@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 알고리즘이 선거와 계산을 수행할 때 사용하는 수학적 파라미터.
 - **필요성**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 10대가 연결된 망에서 "누가 대장 할래?"라고 물으면 기계들은 결정을 내릴 수 없다. 반드시 모든 기계가 동의할 수 있는 객관적이고 유일무이한 숫자 값이 필요하다. 또한 대장까지 가는 길이 여러 갈래일 때 "어느 길이 제일 빠른가?"를 판단할 거리 단위도 필요하다. 이 두 가지 기준이 없으면 트리 구조 자체가 그려지지 않는다.
 
-- **💡 비유**: 반장 선거와 같습니다. 
+- **💡 비유**: 반장 선거와 같습니다.
   - <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">브리지</a> ID</strong>: 반장(대장)을 뽑을 때 무조건 <strong>"출석 번호(우선순위+<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>)가 제일 빠른(낮은) 사람"</strong>이 반장이 된다는 엄격한 학교 규칙입니다.
   - **비용(Cost)**: 반장 집까지 놀러 갈 때 좁은 흙길(10Mbps)로 가면 피로도(Cost)가 100이고, 넓은 고속도로(1Gbps)로 가면 피로도가 4입니다. 당연히 덜 피곤한(Cost가 낮은) 길을 선택합니다.
 

@@ -130,7 +130,7 @@ tags = ["studynote-network"]
 3. <strong>의사결정 및 아키텍처 조치 (FOD, Foreign <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/">Object Detection</a> 필수 강제)</strong>:
    - WPC 국제 기구는 Qi 표준 설계 시 <strong>FOD (이물질 감지 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>)</strong>를 가장 0순위의 강제 필수 하드웨어 아키텍처로 못 박았다.
    - **에너지 핑퐁 검사 로직**: 충전 패드는 내가 폰으로 쏜 전기량(TX [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) = 15W)과, 폰이 "나 지금 패드한테서 14.5W 받았어!"라고 무선으로 보고해 준 수신량(RX [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/))을 1초마다 실시간으로 뺀다(Loss = TX - RX).
-   - **결과**: "어? 내가 15W를 쐈는데 폰은 10W밖에 못 받았다고? 그럼 중간 허공에서 5W의 전기가 샜다는 뜻인데? 쇳덩이(동전)가 그 전기를 처먹고 달궈지고 있구나!!" 
+   - **결과**: "어? 내가 15W를 쐈는데 폰은 10W밖에 못 받았다고? 그럼 중간 허공에서 5W의 전기가 샜다는 뜻인데? 쇳덩이(동전)가 그 전기를 처먹고 달궈지고 있구나!!"
    - 패드는 0.1초 만에 경고 빨간 불을 띄우고 충전 전류를 0으로 차단(Shutdown)하여 화재를 100% 원천 방어하는 철벽 안전망을 완성했다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)

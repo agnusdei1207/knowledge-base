@@ -86,7 +86,7 @@ tags = ["enterprise_systems"]
 ### 2. 가비지 인, 가비지 아웃 (GIGO)의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 들어온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조작하지 못하게 막아줄 뿐, 처음부터 센서를 속여 '가짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'를 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 넣는 행위(오라클 문제)는 막지 못한다. 따라서 센서([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/))의 물리적 봉인과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 연동이 필수다.
 
-- **📢 섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 절대 부서지지 않는 완벽한 자물쇠다. 하지만 자물쇠를 채우기 전에 상자 안에 진짜 다이아몬드 대신 돌멩이를 집어넣고(오라클 문제) 잠가버리면, 그 자물쇠는 "이 돌멩이가 진짜다"라고 영원히 보증하는 바보 기계가 되어버린다. 
+- **📢 섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 절대 부서지지 않는 완벽한 자물쇠다. 하지만 자물쇠를 채우기 전에 상자 안에 진짜 다이아몬드 대신 돌멩이를 집어넣고(오라클 문제) 잠가버리면, 그 자물쇠는 "이 돌멩이가 진짜다"라고 영원히 보증하는 바보 기계가 되어버린다.
 
 ---
 

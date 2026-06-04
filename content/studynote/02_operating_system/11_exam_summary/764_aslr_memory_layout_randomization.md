@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - 과거의 프로그램들은 `0x08048000` 같은 뻔하고 고정된 메모리 주소에 코드를 올리고 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 배정받았다.
   - ASLR은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 로더(Loader)가 개입하여, 프로세스가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)될 때마다 이 기본 주소(Base Address)에 무작위 난수 델타(Offset) 값을 더해서 완전히 엉뚱한 위치에 공간을 던져주는 기술이다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 해커가 [스택 버퍼 오버플로우](/knowledge-base/studynote/09_security/04_endpoint_security/331_stack_buffer_overflow/) 공격을 하려면, 함수 종료 시 CPU가 돌아갈 '리턴 주소'를 <strong>해커가 심어둔 악성 코드의 주소(예: <code>0xbffff123</code>)로 정확히 조준(Targeting)해서 덮어써야</strong> 한다.
   - 고정된 메모리 환경에서는 해커가 자기 집 컴퓨터에서 프로그램의 메모리 지도를 연구한 뒤 쏘면, 전 세계 모든 서버의 메모리 지도도 똑같으므로 100% 명중률로 해킹이 성공했다.
   - **해결책**: "실행할 때마다 도시의 건물(메모리) 위치를 전부 섞어버리자! 해커가 저격총을 쏴도 주소가 계속 바뀌면 절대 명중시킬 수 없을 것이다."
@@ -31,7 +31,7 @@ tags = ["studynote-operating-system"]
   - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/">ASLR</a> 미적용</strong>: 은행 금고(중요 함수)의 위치가 모든 지점에서 항상 "지하 1층 3번 방"으로 도면상에 고정되어 있어, 도둑이 눈을 감고도 찾아가서 털 수 있는 상황.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/">ASLR</a> 적용</strong>: 은행이 매일 아침 문을 열 때마다 금고, 창구, 화장실의 위치를 무작위로 섞어버리는 '마법의 건물([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))'. 도둑이 침입해도 어제가 지하 1층이었다고 오늘 찾아가 보면 벽으로 막혀있어 길을 잃고 갇혀버림([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Fault 크래시).
 
-- **등장 배경**: 
+- **등장 배경**:
   - 2001년 PaX 프로젝트(리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 보안 패치)에서 처음 고안되었고, 2005년 리눅스 2.6, 2007년 윈도우 비스타에 기본 탑재되며 [DEP](/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/)([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 실행 방지)와 함께 원격 코드 실행(RCE) 공격을 박멸하기 위한 가장 강력한 패러다임 시프트가 되었다.
 
 ```text

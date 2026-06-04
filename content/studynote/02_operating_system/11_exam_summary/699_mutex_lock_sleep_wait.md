@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/">Mutex</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">Mutual Exclusion</a>)</strong>: 한 번에 오직 하나의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)만 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 접근하게 하는 자물쇠 메커니즘.
   - **Sleep-Wait 락**: 락을 얻지 못하면 CPU를 놓아버리고 휴면 상태에 들어가는 락의 총칭. (Spinlock의 반대말)
 
-- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/">스핀락</a>의 CPU 낭비와 발열 폭발)</strong>: 
+- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/">스핀락</a>의 CPU 낭비와 발열 폭발)</strong>:
   - [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)은 락이 열릴 때까지 `while (lock == 1)`을 돌며 CPU를 100% 혹사시킨다. 락을 쥔 놈이 0.1초 안에 나오면 다행이지만, 화장실([임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) 안에서 1시간 동안 잠들어버리면(I/O 블로킹), 밖에서 기다리는 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 1시간 내내 CPU를 미친 듯이 돌리며 전기를 낭비한다.
   - 특히 단일 코어(Single Core) 시스템에서는 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)이 돌면 스케줄러조차 CPU를 못 뺏어서 영원한 데드락에 빠진다.
   - **해결책**: "기다릴 거면 CPU를 물고 있지 말고, 그냥 대기실([Wait Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/))에 가서 코 자고 있어라! 앞사람이 끝나면 OS가 깨워줄게!"라는 효율적인 양보(Yield) 기반의 락이 뮤텍스다.

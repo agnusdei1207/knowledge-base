@@ -69,7 +69,7 @@ tags = ["studynote-operating-system"]
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 오프셋</strong>: 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 안에서 위치를 찾는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (하위 0~11비트).
 - 4KB(12비트) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 시스템에서, L2 캐시의 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 크기가 12비트를 넘어가서 16비트를 쓴다면?
 - <strong>남아도는 4개의 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> (12, 13, 14, 15번 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>)</strong>가 발생한다.
-- 이 4개의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)($2^4 = 16$가지 조합)가 바로 우리가 부르는 <strong>16가지의 '색깔(Color)'</strong>이다. 
+- 이 4개의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)($2^4 = 16$가지 조합)가 바로 우리가 부르는 <strong>16가지의 '색깔(Color)'</strong>이다.
 - 이 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들은 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)(가상->물리) 변환 시 OS가 맘대로 바꿔치기할 수 있는 영역이므로, OS는 이 4비트 값을 `0000(빨강)`, `0001(파랑)` 등으로 세팅해 주면서 프레임을 골라 주는 것이다.
 
 ---
@@ -78,7 +78,7 @@ tags = ["studynote-operating-system"]
 
 리눅스가 컬러링을 적용하면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부의 빈방 장부(Free List)가 기괴하게 진화한다.
 - 기존: `[ 빈 프레임 1만 개 모음 큐 ]` 하나만 있었다.
-- 컬러링 도입 후: 
+- 컬러링 도입 후:
   `[ 🔴 빨강 프레임 큐 ]`
   `[ 🔵 파랑 프레임 큐 ]`
   `[ 🟡 노랑 프레임 큐 ]` ... (16가지 색깔의 큐로 찢어버림)
@@ -128,14 +128,14 @@ tags = ["studynote-operating-system"]
 1. **상황**: GPU로 넘길 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 행렬(Matrix) 곱셈 텐서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 C++로 100GB짜리 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 만들었다.
 2. **캐시 오염(Pollution)**: 행렬을 세로(Column)로 껑충껑충 뛰며 읽어대면, 100GB의 특정 주소 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)(색깔)가 우연히 정확히 L3 캐시의 1번 방에만 수만 번 연속으로 겹치게([Aliasing](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)) 꽂혀버리는 재앙이 터진다. 하드웨어 해싱(Hash)이 섞어준다고 해도, 워낙 거대한 규모의 일정한 뜀박질 앞에서는 충돌이 터지고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 1/10로 깎인다.
 3. **수동 컬러링 꼼수 (Padding의 미학)**:
-   - 개발자는 행렬 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 크기 `1024 x 1024`를 선언하지 않는다. 
+   - 개발자는 행렬 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 크기 `1024 x 1024`를 선언하지 않는다.
    - 의도적으로 `1024 x 1025` 또는 소수(Prime Number) 크기로 선언하여 맨 끝에 <strong>의미 없는 빈 공간(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a>)</strong>을 강제로 쑤셔 넣는다.
    - 이렇게 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 폭을 비틀어버리면? 한 줄을 내려갈 때마다 메모리 주소의 뒷자리([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))가 인위적으로 1칸씩 어긋나며 엇갈리게(Coloring) 된다!
-   - 결국 L3 캐시의 1번 방, 2번 방, 3번 방에 골고루 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 흩뿌려지며 100% 풀 [캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)를 달성해 연산 속도가 수십 배 뛰어오른다. 
+   - 결국 L3 캐시의 1번 방, 2번 방, 3번 방에 골고루 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 흩뿌려지며 100% 풀 [캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)를 달성해 연산 속도가 수십 배 뛰어오른다.
 
 ### [Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기에서의 컬러링 ([Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) Coloring)
 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에 80바이트짜리 객체를 찍어내는 붕어빵 틀([Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/))이 있다.
-틀 1개 안에 객체 수백 개가 들어간다. 여러 개의 틀([Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 1, [Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 2, [Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 3)이 메모리에 올라갈 때, 모든 틀의 첫 번째 객체가 `0번지`, `4096번지`, `8192번지` 등 똑같은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)(똑같은 빨간색 캐시)에 박히는 참사가 났다. 
+틀 1개 안에 객체 수백 개가 들어간다. 여러 개의 틀([Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 1, [Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 2, [Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 3)이 메모리에 올라갈 때, 모든 틀의 첫 번째 객체가 `0번지`, `4096번지`, `8192번지` 등 똑같은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)(똑같은 빨간색 캐시)에 박히는 참사가 났다.
 리눅스 개발자들은 두 번째 붕어빵 틀을 만들 때 시작 위치를 0번지가 아닌 `64바이트 띄운 지점`부터 시작하게 강제로 비틀어(Offset) 버렸다. 이렇게 틀마다 시작점을 다르게 틀어주는 것을 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/">Slab</a> Coloring(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/">슬랩</a> 컬러링)</strong>이라 부르며, 현대 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부의 캐시 충돌을 박멸한 최고의 최적화 팁으로 남아있다.
 
 - **📢 섹션 요약 비유**: 타일 바닥을 깔 때 줄눈을 십자(+) 모양으로 똑같이 맞추면 작은 압력(캐시 충돌)에도 바닥 전체가 금이 가며 박살 납니다. 하지만 줄눈을 어긋나게 벽돌 쌓기(Coloring/[Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))처럼 비틀어 쌓으면, 충격이 사방(모든 캐시 방)으로 골고루 분산되어 절대 부서지지 않는 튼튼한 요새가 완성됩니다.

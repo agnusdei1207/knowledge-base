@@ -127,8 +127,8 @@ Declarative Pipeline
 
 ## 어린이를 위한 3줄 비유 설명
 
-순서를 코드로 적어요.  
-자동으로 따라 해요.  
+순서를 코드로 적어요.
+자동으로 따라 해요.
 선언적 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 그런 방식이에요.
 
 ---

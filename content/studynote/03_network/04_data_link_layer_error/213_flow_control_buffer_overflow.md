@@ -48,7 +48,7 @@ tags = ["studynote-network"]
 ### 2. 슬라이딩 윈도우 (Sliding Window) - "내 양동이 남은 공간만큼만 쏴!"
 - **방식**: 현대 통신([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))의 지배적인 흐름 제어 방식입니다.
 - 송신기는 ACK를 안 기다리고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 막 쏠 수 있습니다. 하지만 <strong>수신기가 정해준 '<a href="/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/">윈도우 크기</a>(<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/">Window Size</a>, 양동이의 빈 공간 크기)' 한도 내에서만 쏠 수 있습니다.</strong>
-- **동작**: 
+- **동작**:
   - 수신기: "야, 내 양동이에 지금 박스 5개(윈도우 사이즈=5) 더 들어갈 수 있어."
   - 송신기: "오케이, 다다다닥 5개 쏠게." (이 이상은 쏘고 싶어도 멈춤).
   - 수신기: (박스 2개를 소화함) "어! 방금 2개 치워서 이제 빈 공간 7개(윈도우 7로 팽창)로 늘어났어! 더 쏴!"

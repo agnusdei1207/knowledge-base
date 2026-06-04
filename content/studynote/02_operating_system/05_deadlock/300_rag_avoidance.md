@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-[자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/) ([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/), [Resource Allocation Graph](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/))는 원래 "이미 터진" 데드락을 찾아내는 `사후 탐지용` 캔버스다. (너 이거 물었고, 나 저거 쥐어뜯고). 
+[자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/) ([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/), [Resource Allocation Graph](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/))는 원래 "이미 터진" 데드락을 찾아내는 `사후 탐지용` 캔버스다. (너 이거 물었고, 나 저거 쥐어뜯고).
 
 그런데 천재들은 이걸 어떻게 "미래의 데드락을 예측하는 `회피(Avoidance)`"용으로 써먹을까 고민했다. 답은 간단했다. <strong>아직 자원을 요하지 않았지만(실선), 나중에 요구할 거라는 선전포고를 미리 점선(예약 간선)으로 다 그려놓고 시작하는 것</strong>이다.
 

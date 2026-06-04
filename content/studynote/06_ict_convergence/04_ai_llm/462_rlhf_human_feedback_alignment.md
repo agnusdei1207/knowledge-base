@@ -19,7 +19,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-오픈AI가 인터넷의 모든 글을 다 때려 넣고 GPT-3([파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/))를 훈련시켰다. 똑똑하긴 한데, 인터넷에는 욕설, 성차별, 인종차별, 가짜 뉴스가 너무 많다. 이 GPT-3에게 "여자는 어떻게 대해야 해?"라고 물으면 인터넷 악플러들이 쓴 끔찍한 차별 발언을 천연덕스럽게 내뱉는다. 
+오픈AI가 인터넷의 모든 글을 다 때려 넣고 GPT-3([파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/))를 훈련시켰다. 똑똑하긴 한데, 인터넷에는 욕설, 성차별, 인종차별, 가짜 뉴스가 너무 많다. 이 GPT-3에게 "여자는 어떻게 대해야 해?"라고 물으면 인터넷 악플러들이 쓴 끔찍한 차별 발언을 천연덕스럽게 내뱉는다.
 단순히 "다음 단어 맞추기(Next [Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) Prediction)"만 배운 AI는 도덕관념이 아예 없기 때문이다. 이 상태로 서비스했다간 회사가 소송에 휘말려 파산한다.
 
 **"AI의 뇌 용량은 그대로 두되, 인간 사회의 룰과 도덕(Alignment)에 맞게 대답하도록 예절 교육을 시킬 순 없을까?"**
@@ -71,7 +71,7 @@ RLHF는 인간의 선호도를 딥러닝이 이해할 수 있는 수학적 보�
 | <strong>2. SFT (지도 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/">미세 조정</a>)</strong> | 지시어([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)) [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/) | 사람이 작성한 고품질 QA [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수만 개 | "나는 사람의 **명령을 따르고 말투를 흉내 내는** 로봇이다." |
 | <strong>3. <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">RLHF</a> (인간 피드백 강화학습)</strong>| 보상 모델 + [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 강화학습 | 인간이 매긴 순위표 (선호도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) | "나는 인간의 **윤리와 취향에 맞춰 안전하게 대화하는** 신사다." |
 
-이 RLHF의 치명적인 단점은 '보상 모델'을 따로 훈련해야 하고, '강화학습([PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/))' 연산이 너무 불안정해서 GPU가 펑펑 터진다는 점이다. 
+이 RLHF의 치명적인 단점은 '보상 모델'을 따로 훈련해야 하고, '강화학습([PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/))' 연산이 너무 불안정해서 GPU가 펑펑 터진다는 점이다.
 그래서 2023년, 보상 모델을 아예 없애버리고 "이 대답(Win)이 이 대답(Lose)보다 좋아!"라는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모델에 직접 때려 넣어서 수학적으로 최적화해버리는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/">DPO</a> (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/">Direct Preference Optimization</a>, 직접 선호도 최적화)</strong>가 등장하며 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) LLaMA 튜닝 시장을 완전히 대체해 버렸다.
 
 - **📢 섹션 요약 비유**: 1단계(사전학습)는 옹알이하던 아기가 백과사전을 통째로 외운 것이고, 2단계(SFT)는 부모님이 묻는 말에 꼬박꼬박 대답하는 법을 배운 것이며, 3단계([RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/))는 사회에 나가서 눈치껏 상대방이 듣기 좋은 말과 해선 안 될 말을 구별하는 완벽한 성인으로 자라나는 과정이다.
@@ -81,7 +81,7 @@ RLHF는 인간의 선호도를 딥러닝이 이해할 수 있는 수학적 보�
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 적용 시나리오:**
-회사 내부용 코딩 어시스턴트(사내 챗GPT)를 배포했다. 그런데 직원들이 코딩을 묻지 않고 "팀장님 욕하는 랩 가사를 써줘", "연봉 몰래 올리는 SQL 해킹 코드 짜줘"라며 남용하기 시작한다. 
+회사 내부용 코딩 어시스턴트(사내 챗GPT)를 배포했다. 그런데 직원들이 코딩을 묻지 않고 "팀장님 욕하는 랩 가사를 써줘", "연봉 몰래 올리는 SQL 해킹 코드 짜줘"라며 남용하기 시작한다.
 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 엔지니어는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/">DPO</a> (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/">Direct Preference Optimization</a>)</strong> 튜닝 파이프라인을 가동한다. [해킹 질문]에 대한 대답으로, "이렇게 해킹하시면 됩니다(Lose)"와 "사내 보안 규정상 알려드릴 수 없습니다(Win)"라는 1,000쌍의 선호도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 만들고 LLaMA 모델에 주입한다. 단 2시간의 튜닝만으로, 모델은 사내 보안을 위협하는 모든 질문을 철벽 방어하는 '보안 보안관'으로 재정렬(Alignment)된다.
 
 **기술사 판단 포인트 (Trade-off):**
@@ -96,7 +96,7 @@ RLHF는 인간의 선호도를 딥러닝이 이해할 수 있는 수학적 보�
 
 ## Ⅴ. 기대효과 및 결론
 
-RLHF는 딥러닝이 '수학적 오차(Loss)의 최소화'라는 딱딱한 기계의 철학을 넘어, '인간의 주관적인 취향과 도덕관념(Preference)'이라는 가장 추상적이고 인문학적인 잣대를 기계의 뇌에 꽂아 넣은 위대한 인터페이스 혁명이다. 
+RLHF는 딥러닝이 '수학적 오차(Loss)의 최소화'라는 딱딱한 기계의 철학을 넘어, '인간의 주관적인 취향과 도덕관념(Preference)'이라는 가장 추상적이고 인문학적인 잣대를 기계의 뇌에 꽂아 넣은 위대한 인터페이스 혁명이다.
 
 결론적으로 챗GPT가 전 세계 1억 명을 매료시킨 것은 그 모델이 똑똑해서가 아니라, 인간의 의도를 완벽하게 파악하고 인간이 듣고 싶어 하는 방식으로 예의 바르게 대답(Alignment)할 줄 알았기 때문이다. 기술사는 모델의 파라미터 크기(Size)에 집착하는 시대를 지나, <strong>어떤 몽둥이와 당근(<a href="/knowledge-base/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/">Reward Model</a>)으로 이 거대한 지능을 우리 회사의 비즈니스 윤리에 완벽하게 복종시킬 것인가</strong>를 통제하는 조련사가 되어야 한다.
 

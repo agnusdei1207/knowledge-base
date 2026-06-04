@@ -18,7 +18,7 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 아키텍트는 비즈니스 기획자가 던져준 수백 페이지의 업무 요구사항 문서를 읽으며 밑줄을 긋는다. 
+[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 아키텍트는 비즈니스 기획자가 던져준 수백 페이지의 업무 요구사항 문서를 읽으며 밑줄을 긋는다.
 *"우리 병원은 <strong>환자</strong>가 방문하면 <strong>의사</strong>가 진료를 보고 <strong>처방전</strong>을 발급합니다."*
 
 여기서 굵게 칠해진 명사들(환자, 의사, 처방전)이 바로 현실 세계에 존재하는 뚜렷한 실체, 즉 <strong>개체(Entity)</strong>다. 컴퓨터는 현실 세계의 연속적인 개념을 이해하지 못한다. 그래서 인간은 끝없이 흘러가는 복잡한 업무의 강물 속에서, 정보로서 저장할 가치가 있는 굳건한 바위(실체)들을 건져내어 이름을 붙이고 네모 상자(E-R 모델 기호) 안에 가둬야 한다. 개체를 정확히 뽑아내지 못하면, 나중에 DB 테이블 구조가 엉망이 되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넣을 수도 뺄 수도 없는 끔찍한 쓰레기 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 탄생하게 된다.
@@ -55,7 +55,7 @@ tags = ["studynote-database"]
 └────────────────────────────────────────────────────────┘
 ```
 
-여기서 가장 중요한 것은 <strong>엔티티 타입(Entity Type)</strong>과 <strong>엔티티 인스턴스(Entity Instance)</strong>의 분리다. 
+여기서 가장 중요한 것은 <strong>엔티티 타입(Entity Type)</strong>과 <strong>엔티티 인스턴스(Entity Instance)</strong>의 분리다.
 '학생'이라는 집합(껍데기) 자체는 엔티티 타입이고, 그 안에 들어가는 '홍길동(학번:01)', '이순신(학번:02)'이라는 한 명 한 명의 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 엔티티 인스턴스다. 아키텍트가 설계하는 것은 인스턴스가 아니라, 그것들을 담아낼 거대한 그릇인 '타입'이다.
 
 - **📢 섹션 요약 비유**: 개체 타입은 '붕어빵 기계(틀)'이고, 개체 인스턴스는 그 기계에서 찍혀 나오는 '팥 붕어빵 1호, 슈크림 붕어빵 2호'다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계자는 매번 붕어빵을 손으로 빚는 게 아니라, 어떤 붕어빵이든 완벽하게 찍어낼 수 있는 강철 기계(틀)의 모양을 설계하는 사람이다.

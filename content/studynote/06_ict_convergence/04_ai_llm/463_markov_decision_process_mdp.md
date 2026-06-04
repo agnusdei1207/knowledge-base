@@ -19,10 +19,10 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-강아지에게 "앉아"라고 훈련을 시킨다. 강아지가 앉으면 간식(보상)을 주고, 서 있으면 아무것도 안 준다(벌). 강아지는 과거에 자기가 했던 행동의 결과를 바탕으로 "아, 주인이 이 표정(상태)일 때, 내가 앉으면(행동) 맛있는 걸(보상) 주는구나!"라는 법칙을 깨닫게 된다. 
+강아지에게 "앉아"라고 훈련을 시킨다. 강아지가 앉으면 간식(보상)을 주고, 서 있으면 아무것도 안 준다(벌). 강아지는 과거에 자기가 했던 행동의 결과를 바탕으로 "아, 주인이 이 표정(상태)일 때, 내가 앉으면(행동) 맛있는 걸(보상) 주는구나!"라는 법칙을 깨닫게 된다.
 이것이 인간과 동물이 세상을 살아가는 방식, <strong>강화학습(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/">Reinforcement Learning</a>)</strong>이다.
 
-"그럼 이 <strong>[상황 -> 행동 -> 결과]</strong>라는 연속된 인생의 과정을 컴퓨터가 계산할 수 있게 수학 공식으로 바꿀 순 없을까?" 
+"그럼 이 <strong>[상황 -> 행동 -> 결과]</strong>라는 연속된 인생의 과정을 컴퓨터가 계산할 수 있게 수학 공식으로 바꿀 순 없을까?"
 수학자 마르코프(Markov)가 고안한 "과거는 잊고 현재만 봐라"라는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 모델에, 어떤 행동을 할지 선택(Decision)하는 과정을 결합하여 만든 5가지 변수의 완벽한 수학 모형이 바로 <strong>MDP</strong>다.
 
 - **📢 섹션 요약 비유**: 인생은 B(Birth)와 D(Death) 사이의 C(Choice)라고 한다. MDP는 이 수많은 인생의 갈림길(상태)에서 어떤 선택(행동)을 해야 나중에 벼락부자(보상)가 될 수 있는지를 계산해 주는 인생 시뮬레이션 게임의 룰북이다.
@@ -85,7 +85,7 @@ MDP는 기계(Agent)와 세상([Environment](/knowledge-base/studynote/15_devops
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 적용 시나리오:**
-쇼핑몰 추천 AI를 짠다. 고객이 들어온다([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)). AI가 A상품, B상품 중 하나를 추천한다(Action). 고객이 사면 +100점, 안 사면 0점을 받는다(Reward). 
+쇼핑몰 추천 AI를 짠다. 고객이 들어온다([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)). AI가 A상품, B상품 중 하나를 추천한다(Action). 고객이 사면 +100점, 안 사면 0점을 받는다(Reward).
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자는 고객의 클릭 로그를 바탕으로 이 MDP 환경을 구성하고 <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/">Q-Learning</a></strong> [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 띄운다. 처음엔 엉뚱한 물건을 추천하던 AI가, "이 옷을 본 고객(S)에게 저 신발을 추천(A)했더니 +100점을 주네!"라는 사실을 깨닫고 Q-Table(수첩)에 점수를 적는다. 수만 번의 고객 트래픽을 거친 AI는 어떤 고객 상태(S)가 주어지든 가장 돈을 많이 버는 추천(A)을 뽑아내는 최고의 세일즈맨으로 진화한다.
 
 **기술사 판단 포인트 (Trade-off):**

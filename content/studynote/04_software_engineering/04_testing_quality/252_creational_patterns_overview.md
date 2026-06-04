@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **비극**: `Car myCar = new Avante();` 처럼 코드를 짜는 순간, 내 클래스(고수준)와 `Avante`(저수준 구체물)는 **콘크리트로 찰싹 달라붙어버립니다(강한 결합).** 
+- **비극**: `Car myCar = new Avante();` 처럼 코드를 짜는 순간, 내 클래스(고수준)와 `Avante`(저수준 구체물)는 **콘크리트로 찰싹 달라붙어버립니다(강한 결합).**
 - 내일 차 종이 바뀌면 내 코드를 찢어발기고 뜯어고쳐야 합니다. (244번 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 원칙, 247번 [DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) 원칙 완벽 위배)
 - 즉, <strong>"객체를 누가 언제 어떻게 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>할 것인가?"</strong>를 고민 없이 짜면 시스템 확장이 아예 불가능해집니다.
 
@@ -88,7 +88,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 건물을 지으려면 일단 '벽돌(객체)'을 가져와야 합니다.
-- 근데 내가 찰흙([new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))으로 매번 벽돌을 굽고 있으면 집이 엉망이 됩니다. 
+- 근데 내가 찰흙([new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))으로 매번 벽돌을 굽고 있으면 집이 엉망이 됩니다.
 - 이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 패턴 5인방은 내가 찰흙을 만지지 않고, 외부의 '스마트 공장'에 전화를 걸어 100% 규격이 일치하는 벽돌(객체)을 안전하게 배달받도록 만들어주는 <strong>가장 우아한 팩토리 시스템의 기초</strong>입니다.
 
 > 📢 **섹션 요약 비유**: <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 패턴(Creational Patterns)</strong>은 레스토랑의 <strong>'요리 주문과 제조의 철저한 분리 원칙'</strong>입니다. 하수 식당([new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 하드코딩)은 홀서빙 직원이 손님 주문을 받으면 자기가 직접 주방에 들어가서 프라이팬을 들고 스파게티(`new 스파게티()`)를 만듭니다(강한 결합). 만약 내일부터 메뉴가 우동으로 바뀌면 서빙 직원이 우동 요리법까지 새로 배워야 하는 쌩고생을 합니다([OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 위반 수정). 이를 깨부순 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 패턴은 식당에 <strong>'거대한 밀폐 주방(Factory 캡슐화)'</strong>을 하나 지어버립니다. 홀서빙 직원은 이제 절대 주방([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정)에 들어가지 않습니다! 손님이 주문하면 그냥 주방 문틈(인터페이스)으로 "면 요리 하나 주세요!" 라고 추상적인 주문(요청)만 쓱 밀어 넣고 돌아섭니다. 그럼 밀폐된 주방 안에서 주방장([팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)나 [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/))이 오늘 메뉴에 맞춰서 알아서 스파게티를 볶든 우동을 삶든 뚝딱 찍어내서 접시에 담아 내보내 줍니다. 서빙 직원은 접시에 담긴 게 면이기만 하면 그냥 쿨하게 손님상에 내면 끝나는, '무엇(What)을 쓸지만 생각하고 어떻게(How) 찍어낼지는 완전히 남에게 미뤄버리는' 객체지향 1원칙의 실사판입니다.

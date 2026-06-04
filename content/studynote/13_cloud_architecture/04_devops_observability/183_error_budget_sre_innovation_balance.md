@@ -57,8 +57,8 @@ tags = ["studynote-cloud-architecture"]
 | Burn Rate | 예산 소진 속도 | 빠른 장애와 느린 악화를 구분해 다중 창으로 감시 |
 | [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 배포·실험 규칙 | 예산 상태별 승인 권한과 동결 조건을 사전 합의 |
 
-[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 기준에서는 계산식이 단순하다.  
-`Error Budget = Total Eligible Time × (1 - SLO)`  
+[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 기준에서는 계산식이 단순하다.
+`Error Budget = Total Eligible Time × (1 - SLO)`
 예를 들어 30일 동안 43,200분이 있고 SLO가 99.95%라면 예산은 21.6분뿐이다. 숫자 한 자리 차이가 허용 실패량을 절반 이하로 줄이므로, [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 상향은 곧 더 엄격한 배포 관리와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 자동화를 요구한다.
 
 아래 제어 루프는 [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)이 관측에서 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 바뀌는 과정을 요약한다.

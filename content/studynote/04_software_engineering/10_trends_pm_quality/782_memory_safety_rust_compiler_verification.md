@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어 해킹 사고의 70% 이상은 단 하나의 원인에서 출발한다. 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/529_memory_safety_rust_go/">메모리 안전성</a>(<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/529_memory_safety_rust_go/">Memory Safety</a>) 취약점</strong>이다. 
+소프트웨어 해킹 사고의 70% 이상은 단 하나의 원인에서 출발한다. 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/529_memory_safety_rust_go/">메모리 안전성</a>(<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/529_memory_safety_rust_go/">Memory Safety</a>) 취약점</strong>이다.
 
 C와 C++는 개발자에게 메모리를 마음대로 다룰 자유(포인터, `malloc/free`)를 주었다. 개발자가 실수로 이미 해제한 메모리를 또 해제하려 하거나([Double Free](/knowledge-base/studynote/09_security/04_endpoint_security/352_double_free/)), 허용된 메모리 크기보다 더 큰 값을 밀어 넣으면([Buffer Overflow](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)) 해커는 그 틈을 타서 악성코드를 실행했다.
 

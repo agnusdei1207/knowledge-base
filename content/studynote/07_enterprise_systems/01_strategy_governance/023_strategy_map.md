@@ -122,13 +122,13 @@ tags = ["studynote-enterprise-systems"]
 
 실무에서 [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)를 작성할 때 빠지기 쉬운 3가지 함정이 있다.
 
-**1. 스파게티 맵 함정 (Spaghetti Map)**  
+**1. 스파게티 맵 함정 (Spaghetti Map)**
 목표와 화살표를 과도하게 그려 넣으면 누구도 이해할 수 없는 장식용 문서가 된다. 각 관점별 핵심 목표는 3~5개 이내로 엄선하여 한 장 슬라이드에서 스토리 라인이 한 호흡에 읽혀야 한다.
 
-**2. 시차(Time Lag)에 대한 오해**  
+**2. 시차(Time Lag)에 대한 오해**
 학습/IT 투자가 재무 성과로 나타나기까지는 수개월~수년의 시차가 필연적으로 존재한다. 이를 무시하고 단기 평가에 즉각 반영하면 [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)이 붕괴된다.
 
-**3. 가설의 경직화**  
+**3. 가설의 경직화**
 [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)는 '절대 진리'가 아닌 '현 시점의 가설'이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 결과 A를 개선해도 B가 오르지 않는다면 화살표(인과관계 가설) 자체가 틀린 것이므로, 과감히 맵을 수정([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))하는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)한 접근이 필수다.
 
 ```text

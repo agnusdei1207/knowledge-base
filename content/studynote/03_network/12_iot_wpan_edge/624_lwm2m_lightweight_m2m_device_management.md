@@ -37,7 +37,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- LwM2M은 완전히 밑바닥부터 새로 만든 것이 아닙니다. 
+- LwM2M은 완전히 밑바닥부터 새로 만든 것이 아닙니다.
 - 바로 전 문서(623번)에서 배운 <strong>가장 빠르고 가벼운 <a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 기반 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>인 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/">CoAP</a>(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/">Constrained Application Protocol</a>)의 통신망(RESTful 구조)을 그대로 뼈대로 가져와서, 그 위에 '기기 관리용 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>' 규격을 얹은 것</strong>입니다.
 - 즉, CoAP의 가벼움(초저전력, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 헤더)을 그대로 누리면서 효율적으로 기기를 통제합니다.
 

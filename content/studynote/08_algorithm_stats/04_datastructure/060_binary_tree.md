@@ -32,7 +32,7 @@ tags = ["datastructure", "studynote-algorithm"]
 1. Root: 트리의 최상위 노드
 2. Level/Height: 트리의 깊이와 높이
 3. Degree: 자식 노드의 개수 (최대 2)
-4. Traversal (순회): 
+4. Traversal (순회):
    - Pre-order (전위): Root -> L -> R
    - In-order (중위): L -> Root -> R
    - Post-order (후위): L -> R -> Root

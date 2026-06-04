@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: `Lang(Language)` 언어 모델을 `Chain(사슬)` 엮어치기 한다는 뜻이다. 
+- **개념**: `Lang(Language)` 언어 모델을 `Chain(사슬)` 엮어치기 한다는 뜻이다.
   - <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">Component</a> (부품)</strong>: [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/), Claude), 프롬프트 템플릿, Output Parser([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 변환기) 같은 독립된 부품들.
   - <strong>Chain (조립/<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인)</strong>: 이 부품들을 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(`|`) 기호로 연결해 "프롬프트 ➡ [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ➡ [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 변환"으로 데이터가 물 흐르듯 슉슉 넘어가게 엮어둔 1개의 완성된 로직 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 덩어리(LCEL 문법).
 

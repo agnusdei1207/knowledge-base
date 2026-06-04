@@ -83,14 +83,14 @@ TPS:            7         ~30       ~4,000   ~250
    블록체인을 여러 샤드(조각)로 분할
    각 샤드가 독립적으로 트랜잭션 처리
    이더리움 로드맵: Danksharding
-   
+
    문제: 샤드 간 통신, 보안 복잡성
-   
+
 2. 합의 알고리즘 개선:
    PoW -> PoS (이더리움 머지 2022)
    에너지 99.95% 절약
    TPS 직접 향상 효과는 제한적
-   
+
 3. 블록 크기/타임 조정:
    단기 처리량 향상 but 중앙화 위험
    (큰 블록 -> 일반 노드 운영 어려움)
@@ -99,7 +99,7 @@ TPS:            7         ~30       ~4,000   ~250
   L1: 보안/합의만 담당
   L2 (롤업): 실제 트랜잭션 처리
   L2가 주기적으로 L1에 증명 제출
-  
+
   Optimistic Rollup: ETH 위에 10x TPS
   ZK Rollup: ETH 위에 100x TPS (zkSync)
 ```
@@ -119,17 +119,17 @@ EVM 호환 L1들:
   Avalanche C-Chain (EVM 호환)
   Polygon PoS (EVM 호환)
   Fantom (EVM 호환)
-  
+
 장점:
   Solidity 코드 재사용 가능
   MetaMask, DApp 그대로 사용
   개발자 풀 공유
-  
+
 EVM 비호환 (독자 VM):
   Solana: SVM (Rust, C)
   Cardano: Plutus VM (Haskell)
   Near Protocol: WASM 기반
-  
+
 EVM 트레이드오프:
   EVM 호환: 쉬운 마이그레이션
   독자 VM: 성능/기능 최적화 가능
@@ -146,25 +146,25 @@ DeFi 프로토콜 개발팀 L1 선택 기준:
 
 기능 요구사항:
   스마트 컨트랙트 필수 -> Bitcoin 제외
-  
+
 성능 요구사항:
   DEX (탈중앙 거래소): 초당 수천 트랜잭션
   -> 이더리움 직접: ~30TPS 부족
   -> 이더리움 + L2 (Arbitrum): ~2,000TPS
   -> Solana: 고성능 but 다운타임 이력 있음
-  
+
 보안/탈중앙화:
   $1B+ TVL(총 예치금) -> 보안 최우선
   이더리움: 가장 검증된 L1
-  
+
 비용:
   이더리움 가스비: 피크 시 $50/트랜잭션
   Solana: $0.0001/트랜잭션
-  
+
 결정:
   소규모 DeFi: Solana 또는 L2
   대규모 DeFi (TVL > $1B): Ethereum + L2
-  
+
 2024년 현재:
   DeFi TVL 상위: Ethereum L1+L2 (>60%)
   성장세: Solana, Base(Coinbase L2)

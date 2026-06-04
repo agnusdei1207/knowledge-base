@@ -63,7 +63,7 @@ tags = ["studynote-network"]
 ### 2단계: RESV 메시지 (거꾸로 돌아오며 자리 예약하기) 🌟
 가장 중요한 핵심입니다. <strong>예약은 쏘는 놈이 아니라 받는 놈(수신자)이 요청</strong>합니다.
 - 100Mbps가 필요하다는 PATH 패킷을 받은 뉴욕 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(수신자)가 "콜! 그 길 그대로 예약 잡아라!"라며 이번엔 거꾸로 역방향으로 <strong><code>RESV (Reservation)</code> 패킷</strong>을 쏩니다.
-- RESV 패킷은 아까 오토바이가 왔던 길(R3 ➜ R2 ➜ R1)을 똑같이 역주행합니다. 
+- RESV 패킷은 아까 오토바이가 왔던 길(R3 ➜ R2 ➜ R1)을 똑같이 역주행합니다.
 - 라우터 R3는 이 패킷을 받고 자기 장부에 씁니다. "아, 사장님 전용 100Mbps [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 건드리지 말고 꽉 비워두자!" 이렇게 모든 라우터가 예약 장부([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 쓰면 완벽한 전용 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(가상 회선)가 개통됩니다.
 
 ### 3단계: 전용차로 질주 (실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송)
@@ -85,8 +85,8 @@ RSVP 자원 예약 플로우를 볼 때는 앞뒤 개념과의 경계를 함께 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 이론상 최고인데 왜 지금 인터넷은 모두 1089번 DiffServ를 쓸까요?
-- **확장성(Scalability)의 재앙**: 
-  - 라우터 1대 입장에서, 예약한 놈이 1명이면 장부([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 1줄만 적으면 됩니다. 
+- **확장성(Scalability)의 재앙**:
+  - 라우터 1대 입장에서, 예약한 놈이 1명이면 장부([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 1줄만 적으면 됩니다.
   - 근데 전 세계 인터넷 백본망 코어 라우터에는 1초에 수천만 명의 유저가 쏟아집니다. <strong>라우터가 수천만 명의 100Mbps 예약 장부 상태(Soft <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)를 일일이 기억하고 메모리에 유지해야 합니다.</strong>
   - 라우터 메모리가 미친 듯이 터져버리고, 라우터가 껐다 켜지면 수천만 명의 예약이 다 날아가는 끔찍한 오버헤드 때문에 글로벌 인터넷망(WAN)에서는 결국 적용이 불가능해져 멸망했습니다. (현재는 사내망 좁은 곳이나 MPLS-TE 같은 특정 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 용도로만 씁니다.)
 

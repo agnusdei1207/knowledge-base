@@ -103,13 +103,13 @@ big.LITTLE을 이해하려면 먼저 동종 멀티코어와 비교해야 한다.
 
 ### 실무 판단 포인트
 
-1. <strong>응답 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>이 중요한 작업은 big 코어 우선</strong>  
+1. <strong>응답 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>이 중요한 작업은 big 코어 우선</strong>
    사용자 인터페이스(User Interface, UI) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/), 렌더링, 실시간 오디오 같은 작업은 짧은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 핵심이므로 big 코어가 유리하다.
-2. **상시 백그라운드 작업은 LITTLE 코어 우선**  
+2. **상시 백그라운드 작업은 LITTLE 코어 우선**
    센서 모니터링, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 대기, 알림 수신, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수집은 LITTLE 코어에 두는 편이 배터리와 열 관리에 유리하다.
-3. **부하 균등 분할보다 동적 분배가 중요**  
+3. **부하 균등 분할보다 동적 분배가 중요**
    코어별 처리 속도가 다르므로 고정 크기 분할보다 워크 스틸링([Work Stealing](/knowledge-base/studynote/02_operating_system/04_synchronization/271_work_stealing/))이나 적응형 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링이 더 적합하다.
-4. <strong>열 설계 전력(Thermal Design <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a>, TDP)과 스로틀링을 함께 봐야 함</strong>  
+4. <strong>열 설계 전력(Thermal Design <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a>, TDP)과 스로틀링을 함께 봐야 함</strong>
    big 코어는 순간 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 높지만, 열이 쌓이면 오래 유지되지 못한다. 지속 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 스로틀링 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)까지 포함해 판단해야 한다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

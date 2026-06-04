@@ -24,7 +24,7 @@ tags = ["studynote-network"]
   - **SVC (Switched Virtual Circuit)**: 교환 가상 회선
 - **필요성**: 기업 망은 지사마다 특성이 다르다. 서울 본사와 부산 지사는 1초도 쉬지 않고 회사 인트라넷 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받아야 하니 '[전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)' 같은 무조건적인 연결(PVC)이 필요하다. 반면, 한 달에 한 번 결산 자료만 올리는 외딴섬 출장소는 굳이 길을 24시간 열어두며 요금을 낼 필요 없이, 필요할 때만 잠시 길을 뚫어서 쓰고 버리는(SVC) 편이 경제적이다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - **PVC**: 연인 사이에 언제든 버튼만 누르면 바로 통화가 되는 <strong>"핫라인(직통 전화)"</strong>입니다. 한 번 개통해 두면 매번 전화번호를 누를 필요 없이 수화기만 들면 바로 연결되어 있습니다.
   - **SVC**: 배달 음식을 시킬 때마다 식당 전화번호를 찾아 다이얼을 누르고(Setup), 배달 주문을 한 뒤([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송), 수화기를 내려놓는(Teardown) <strong>"일반 전화"</strong>와 같습니다.
 

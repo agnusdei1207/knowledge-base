@@ -19,7 +19,7 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-이미지나 시계열 같은 다차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 인접한 픽셀 혹은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간의 공간적, 시간적 연관성이 매우 중요하다. 과거의 MLP (Multi-Layer [Perceptron](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)) 모델은 이러한 2차원 이미지를 1차원 벡터로 길게 펼쳐서 처리했기 때문에, 원래 픽셀 간의 위치 정보(예: 눈 옆에 코가 있다)가 완전히 파괴되는 문제가 있었다. 
+이미지나 시계열 같은 다차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 인접한 픽셀 혹은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간의 공간적, 시간적 연관성이 매우 중요하다. 과거의 MLP (Multi-Layer [Perceptron](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)) 모델은 이러한 2차원 이미지를 1차원 벡터로 길게 펼쳐서 처리했기 때문에, 원래 픽셀 간의 위치 정보(예: 눈 옆에 코가 있다)가 완전히 파괴되는 문제가 있었다.
 
 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 층은 이 공간적 맥락을 보존하기 위해 등장했다. 인간의 시각 세포가 시야의 좁은 영역(Local Receptive Field)에만 반응하는 원리에서 착안하여, 픽셀의 상하좌우 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 그대로 유지하며 이미지를 분석한다. 이것이 없으면 수천만 개의 픽셀을 처리하기 위해 기하급수적으로 많은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 필요해져 메모리가 폭발하고 학습이 불가능해진다.
 
@@ -54,7 +54,7 @@ tags = ["studynote-ai"]
 
 ## Ⅲ. 비교 및 연결
 
-[합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 층을 깊이 이해하려면, 모든 뉴런이 촘촘하게 연결된 [완전 연결 층](/knowledge-base/studynote/10_ai/02_dl_architecture_new/102_fully_connected_layer_dense_flatten_softmax/) (Fully Connected Layer, Dense Layer)과 비교해야 한다. 
+[합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 층을 깊이 이해하려면, 모든 뉴런이 촘촘하게 연결된 [완전 연결 층](/knowledge-base/studynote/10_ai/02_dl_architecture_new/102_fully_connected_layer_dense_flatten_softmax/) (Fully Connected Layer, Dense Layer)과 비교해야 한다.
 
 | 비교 항목 | [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 층 ([Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/) Layer) | [완전 연결 층](/knowledge-base/studynote/10_ai/02_dl_architecture_new/102_fully_connected_layer_dense_flatten_softmax/) (Fully Connected Layer) |
 | :--- | :--- | :--- |

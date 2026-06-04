@@ -19,7 +19,7 @@ tags = ["studynote-security"]
 
 ## Ⅰ. 개요 및 필요성
 
-과거 [IND-CPA](/knowledge-base/studynote/09_security/02_crypto/095_ind_cpa/) (선택 평문 공격에 대한 구별 불가능성) 등급을 통과한 암호 시스템이라 하더라도, 현실의 웹 서버는 속수무책으로 뚫리기 일쑤였다. 공격자는 평문 대신 <strong>조작된 쓰레기 암호문(Ciphertext)</strong>을 웹 서버(오라클)에 집어넣었고, 서버가 당황하며 내뱉는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 500 에러("[패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)이 깨졌어요!")의 패턴을 모아 단숨에 비밀키나 평문을 역산해 냈다. 
+과거 [IND-CPA](/knowledge-base/studynote/09_security/02_crypto/095_ind_cpa/) (선택 평문 공격에 대한 구별 불가능성) 등급을 통과한 암호 시스템이라 하더라도, 현실의 웹 서버는 속수무책으로 뚫리기 일쑤였다. 공격자는 평문 대신 <strong>조작된 쓰레기 암호문(Ciphertext)</strong>을 웹 서버(오라클)에 집어넣었고, 서버가 당황하며 내뱉는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 500 에러("[패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)이 깨졌어요!")의 패턴을 모아 단숨에 비밀키나 평문을 역산해 냈다.
 
 이러한 적응적 선택 암호문 공격(Adaptive [CCA](/knowledge-base/studynote/09_security/02_crypto/093_cca/)) 환경에 암호가 노출되자, 암호학계는 기존의 기준을 버리고 <strong>"서버가 해커의 가짜 암호문 폭격에도 단 한 줌의 에러 <a href="/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/">힌트</a>도 주지 않는 완벽한 벙어리가 되어야 한다"</strong>는 지옥의 충돌 테스트 기준을 만들었다. 이것이 바로 현대 암호 설계가 도달해야 할 가장 완벽한 방어력의 척도, IND-CCA2다.
 

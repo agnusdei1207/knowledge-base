@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>트래픽 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>(Traffic <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a>)</strong>: 도로에 진입하는 자동차([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 패킷) 100대를 앞단([프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))에서 낚아채어 "90대는 A 구도로(V1 서버)로 가고, 10대는 B 신도로(V2 서버)로 가라!"고 멱살 잡고 길을 틀어주는 행위다.
   - <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">카나리 배포</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/195_canary_release_deployment/">Canary Release</a>)</strong>: 옛날 광부들이 일산화탄소를 탐지하려 '[카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)아 새'를 먼저 동굴에 들여보냈던 것처럼, 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(V2)을 전체 서버 100대에 확 깔지 않고 딱 1대에만 깐 뒤 1% 트래픽만 먹여보며 에러(독가스)가 터지는지 간을 보는 배포 기법이다.
 

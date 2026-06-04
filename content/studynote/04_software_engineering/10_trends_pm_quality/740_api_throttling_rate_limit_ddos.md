@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-웹 서버를 만들면 세상의 모든 요청을 다 받아주고 싶지만, 서버의 자원(CPU, 메모리, DB 커넥션)은 한정되어 있다. 만약 특정 해커가 1초에 10만 번씩 검색 API를 찌르면(DDoS 공격), 선량한 9만 9천 명의 정상 유저들은 서버가 터져서 사이트에 들어오지 못하게 된다. 
+웹 서버를 만들면 세상의 모든 요청을 다 받아주고 싶지만, 서버의 자원(CPU, 메모리, DB 커넥션)은 한정되어 있다. 만약 특정 해커가 1초에 10만 번씩 검색 API를 찌르면(DDoS 공격), 선량한 9만 9천 명의 정상 유저들은 서버가 터져서 사이트에 들어오지 못하게 된다.
 
 혹은 해커가 아니라도, 유명 인플루언서가 "이 상품 좋아요!"라고 링크를 올리는 순간 수만 명의 트래픽이 순간적으로 폭주(Traffic [Spike](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/))하여 시스템이 연쇄 붕괴(Cascading Failure)할 수 있다.
 
@@ -106,7 +106,7 @@ Rate Limiting은 "네가 너무 많이 달라고 해서 안 줘!"이고, Circuit
 
 ## Ⅴ. 기대효과 및 결론
 
-[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 스로틀링을 구축하면, 수능 마감일이나 유명 가수의 콘서트 티켓팅 등 극단적인 트래픽이 몰릴 때 시스템이 폭발(Crash)하는 대신, 선착순 1만 명만 우아하게 처리하고 나머지는 "잠시 후 다시 시도해 주세요"라는 안내로 트래픽을 평탄화(Smoothing)할 수 있다. 
+[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 스로틀링을 구축하면, 수능 마감일이나 유명 가수의 콘서트 티켓팅 등 극단적인 트래픽이 몰릴 때 시스템이 폭발(Crash)하는 대신, 선착순 1만 명만 우아하게 처리하고 나머지는 "잠시 후 다시 시도해 주세요"라는 안내로 트래픽을 평탄화(Smoothing)할 수 있다.
 
 결론적으로 기술 리더는 "우리 서버는 무한히 늘어날 수 있다"는 오만함을 버려야 한다. 스로틀링 설계는 시스템의 한계를 명확히 인정하고, 그 한계 안에서 가장 소중한 비즈니스 자원([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))을 누구에게 어떻게 분배할지 결정하는 가장 경제학적이고 이성적인 아키텍처 패턴이다.
 

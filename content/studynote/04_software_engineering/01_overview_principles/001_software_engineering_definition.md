@@ -18,9 +18,9 @@ tags = ["software_engineering"]
 ---
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
-소프트웨어 공학 (Software 엔진ering)은 IEEE (Institute of Electrical and Electronics 엔진ers)에 의해 "소프트웨어의 개발, 운영, 유지보수에 대한 체계적이고 규율되며 정량화된 접근 방법"으로 정의된다. 단순히 코드를 작성하는 프로그래밍을 넘어, 일련의 공학적 원리와 프로세스를 적용하여 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 높고 유지보수 가능한 소프트웨어를 경제적으로 생산하는 것을 목표로 한다. 
+소프트웨어 공학 (Software 엔진ering)은 IEEE (Institute of Electrical and Electronics 엔진ers)에 의해 "소프트웨어의 개발, 운영, 유지보수에 대한 체계적이고 규율되며 정량화된 접근 방법"으로 정의된다. 단순히 코드를 작성하는 프로그래밍을 넘어, 일련의 공학적 원리와 프로세스를 적용하여 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 높고 유지보수 가능한 소프트웨어를 경제적으로 생산하는 것을 목표로 한다.
 
-[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 소프트웨어 산업은 소수 천재 프로그래머들의 개인적 역량에 의존하는 '장인 정신' 기반의 개발 양상을 보였다. 그러나 시스템의 규모와 복잡도가 급증함에 따라, 개발 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 예산 초과, 잦은 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발생이라는 이른바 '[소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) ([Software Crisis](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/))'에 직면하게 되었다. 이로 인해 개인의 기량에 의존하던 방식에서 벗어나, 건축이나 토목 공학처럼 표준화된 절차와 도구, 정량적 측정 방식을 도입하여 일관된 품질의 소프트웨어를 생산해야 할 필요성이 대두되었다. 
+[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 소프트웨어 산업은 소수 천재 프로그래머들의 개인적 역량에 의존하는 '장인 정신' 기반의 개발 양상을 보였다. 그러나 시스템의 규모와 복잡도가 급증함에 따라, 개발 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 예산 초과, 잦은 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발생이라는 이른바 '[소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) ([Software Crisis](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/))'에 직면하게 되었다. 이로 인해 개인의 기량에 의존하던 방식에서 벗어나, 건축이나 토목 공학처럼 표준화된 절차와 도구, 정량적 측정 방식을 도입하여 일관된 품질의 소프트웨어를 생산해야 할 필요성이 대두되었다.
 
 > 💡 **비유**: 마치 동네 목수가 감으로 집을 짓다가 한계에 부딪혀, 전문 설계도, 시방서, 감리 절차를 갖춘 대형 건설사의 '건축 공학'적 시스템을 도입하게 된 것과 같다.
 
@@ -53,7 +53,7 @@ tags = ["software_engineering"]
 ```text
 [소프트웨어 공학의 3대 핵심 목표 트레이드오프]
 
-      (고성능) 
+      (고성능)
      효율성 (Efficiency)
         /  \
        /    \  <-- [자원 제약 병목 구간]
@@ -126,7 +126,7 @@ tags = ["software_engineering"]
 [아키텍처 리팩토링 및 모듈화 원칙 철저 준수 (유지보수성 우선)]
 ```
 **[도식 설명]**
-이 흐름도는 실무에서 일정 압박과 품질([유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)) 사이의 트레이드오프 상황을 판단하는 의사결정 과정을 보여준다. 가장 큰 병목은 "모든 공학적 원칙을 지키며 기한을 맞추는 것"의 어려움이다. 실무에서는 전략적으로 '[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))'를 일시 허용하되, 이를 인지하고 추후 상환([리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/))하는 절차를 두는 것이 공학적 접근의 핵심이다. 
+이 흐름도는 실무에서 일정 압박과 품질([유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)) 사이의 트레이드오프 상황을 판단하는 의사결정 과정을 보여준다. 가장 큰 병목은 "모든 공학적 원칙을 지키며 기한을 맞추는 것"의 어려움이다. 실무에서는 전략적으로 '[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))'를 일시 허용하되, 이를 인지하고 추후 상환([리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/))하는 절차를 두는 것이 공학적 접근의 핵심이다.
 
 잘못 사용된 안티패턴으로는 완벽한 공학적 설계에 매몰되어 정작 시장 출시 타이밍을 놓치는 "분석 마비 (Analysis Paralysis)" 상태를 들 수 있다.
 

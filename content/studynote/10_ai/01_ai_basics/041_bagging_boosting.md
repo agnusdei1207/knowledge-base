@@ -23,7 +23,7 @@ tags = ["studynote-ai"]
   모델 학습 중 데이터에서 자동으로 최적화
   신경망 가중치(W, b)
   선형 회귀 계수 (β0, β1, ...)
-  
+
 하이퍼파라미터 (Hyperparameter):
   학습 시작 전 인간이 설정
   알고리즘의 동작 방식 제어
@@ -42,7 +42,7 @@ tags = ["studynote-ai"]
   최소 분할 샘플 수
   n_estimators (트리 수)
   learning_rate (부스팅)
-  
+
 SVM:
   C (정규화 강도)
   γ (RBF 커널 파라미터)
@@ -79,7 +79,7 @@ SVM:
 4. HyperBand / ASHA:
    조기 종료 (Early Stopping) 활용
    나쁜 설정 빠르게 제거 → 유망한 것 집중
-   
+
 5. AutoML:
    NAS (Neural Architecture Search)
    Google AutoML Tables, H2O, Auto-sklearn
@@ -96,16 +96,16 @@ SVM:
   가장 중요한 하이퍼파라미터
   너무 크면: 발산 (Loss 폭발)
   너무 작으면: 수렴 매우 느림
-  
+
 일반 권고:
   Adam 옵티마이저: 0.001 (기본값)
   SGD: 0.01~0.1
-  
+
 학습률 스케줄러:
   Step Decay: 일정 에폭마다 감소
   Cosine Annealing: 코사인 함수로 감소
   Warm-up: 초반 작게 시작 → 증가 → 감소
-  
+
 학습률 탐색 (LR Finder):
   매우 작게 시작해서 점차 증가
   Loss가 최소인 지점의 1/10 사용
@@ -131,19 +131,19 @@ K-Fold 교차 검증:
 
 주의: 데이터 누수 (Data Leakage):
   검증 데이터가 학습에 영향 받으면 안 됨
-  
+
   잘못된 방법:
     전체 데이터 정규화 후 분할 (누수!)
     검증 성능 보고 HP 수동 조정 반복
-    
+
   올바른 방법:
     분할 후 훈련셋만으로 정규화 파라미터 계산
     검증셋은 훈련셋 기준으로만 변환
-    
+
 테스트 세트 보호:
   HP 튜닝에 테스트 세트 절대 사용 금지
   최종 모델 평가에만 한 번 사용
-  
+
 Nested Cross-Validation:
   외부 CV: 성능 추정
   내부 CV: HP 튜닝

@@ -23,7 +23,7 @@ tags = ["studynote-network"]
 - **필요성**: 1981년 TCP가 처음 나왔을 땐 모뎀을 썼다. 수신자 컴퓨터의 RAM 창고 크기가 64KB를 넘을 일이 평생 없을 줄 알고 [Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/) 칸을 16비트(최대 65,535)로 만들어 놨다. 세월이 흘러 1Gbps 광랜 시대가 왔다. 수신자 PC의 램은 16GB다. "구글아 나 창고 엄청 크니까 100MB 한방에 쏴!"라고 헤더에 적으려는데, **적을 칸이 65535에서 막혀서 더 이상 큰 숫자가 안 써진다!** 결국 1Gbps 선을 꽂아놓고도 구글은 64KB씩 찔끔찔끔 보내고 영수증(ACK)을 기다리는 미친 병목 현상이 발생했다. 기존 헤더를 안 부수고 이 한계를 뚫을 꼼수가 절실했다.
 
 - **💡 비유**: 윈도우 스케일 옵션은 무역 거래의 <strong>"화폐 단위 절상(0 덧붙이기)"</strong>과 같습니다.
-  - 구형 송장([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 16비트 헤더)에는 금액을 적는 칸이 5칸(최대 99,999원)밖에 없습니다. 
+  - 구형 송장([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 16비트 헤더)에는 금액을 적는 칸이 5칸(최대 99,999원)밖에 없습니다.
   - 물가가 올라서 천만 원짜리 물건을 사야 하는데 송장에 적을 수가 없습니다.
   - 그래서 계약을 처음 맺을 때(SYN), 서류 맨 밑 빈칸(Options)에 특약 사항을 적습니다. **"앞으로 이 송장에 적힌 숫자는 뒤에 무조건 0을 두 개(100배) 더 붙여서 읽읍시다(Window Scale)."**
   - 이제 송장에 "99,999"라고 적으면, 상대방은 그걸 "9,999,900원"으로 뻥튀기해서 해석합니다. 송장 칸을 안 늘리고도 천만 원 거래가 가능해집니다.
@@ -45,7 +45,7 @@ tags = ["studynote-network"]
 
 ### 1. Shift Count ([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [시프트 연산](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/119_shift_operations/))
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 옵션 구역에 들어가는 스케일 값은 1, 2, 3 같은 숫자가 아니라 "[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 왼쪽으로 몇 번 밀 것인가(Shift)"를 나타내는 $N$ 값이다. 최대 $N=14$까지 쓸 수 있다.
-- 만약 SYN 패킷에 `Window scale: 8` 이 적혀있다면? 
+- 만약 SYN 패킷에 `Window scale: 8` 이 적혀있다면?
 - $2^8 = 256$ 배 뻥튀기하겠다는 뜻이다.
 - 통신 중에 패킷 겉면 16비트 헤더에 `Window Size = 10,000` 이라고 적혀 날아왔다.
 - 수신자 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 뇌구조: "오, 겉면에 1만 적혀있네? 아까 곱하기 256 하기로 했지? <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>,000 x 256 = 2,560,000 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a> (약 2.5MB)</strong> 쏠 수 있네! 쏴라!"
@@ -56,8 +56,8 @@ tags = ["studynote-network"]
 - 스케일 옵션이 없으면 내가 한 번에 쏠 수 있는 최대 창문 크기는 64KB다.
 - 나는 64KB를 0.0001초 만에 냅다 쏘고, 미국에서 "잘 받았어(ACK)"라는 대답이 올 때까지 <strong>창문이 닫혀서 200ms 동안 멍하니 숨을 참고 대기</strong>해야 한다.
 - 대답이 오면 또 64KB 쏘고 200ms 대기한다.
-- 1초에 고작 5번(1000ms / 200ms) 쏠 수 있다. 
-- **초당 전송량 = 64KB * 5 = 고작 320KB/s (약 2.5Mbps).** 
+- 1초에 고작 5번(1000ms / 200ms) 쏠 수 있다.
+- **초당 전송량 = 64KB * 5 = 고작 320KB/s (약 2.5Mbps).**
 - 나는 1Gbps 선을 샀는데, TCP의 64KB 룰 때문에 실효 속도가 2.5Mbps로 박살이 난 것이다!
 - **해결**: Window Scale을 켜서 창문 크기를 1GB로 늘려버리면, 대답(ACK)이 200ms 걸리든 10초가 걸리든 닥치고 1GB를 풀악셀로 때려 넣을 수 있으므로 1Gbps 선로 속도를 100% 뽑아낼 수 있다.
 

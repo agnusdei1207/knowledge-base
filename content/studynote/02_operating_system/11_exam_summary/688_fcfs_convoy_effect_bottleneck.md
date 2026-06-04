@@ -19,18 +19,18 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/">FCFS</a> 스케줄링</strong>: 도착한 순서대로 프로세스에게 CPU를 할당하는 방식 ([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) 큐 사용).
   - <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/">호위 효과</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/">Convoy Effect</a>)</strong>: 처리 시간이 긴 거대한 프로세스 하나 때문에, 뒤따라오는 짧고 가벼운 프로세스들이 길게 줄을 서서 꼼짝 못 하고 기다리는 비효율적 현상.
 
-- **필요성 (단순함의 끔찍한 대가)**: 
+- **필요성 (단순함의 끔찍한 대가)**:
   - FCFS는 코딩하기 가장 쉽다. 그냥 큐에 넣고 순서대로 빼면 끝이다. 스위칭 오버헤드도 없다.
   - 하지만 현실의 프로그램들은 대부분 '1초 연산하고 10초 다운로드'하는 I/O 바운드다.
   - 만약 '10시간짜리 동영상 렌더링' 프로그램이 운 좋게 제일 먼저 큐에 들어와 버렸다면? 뒤에 있는 수천 개의 채팅 앱, 마우스 클릭 처리 앱이 10시간 동안 멈춘다.
   - **해결책**: FCFS의 [호위 효과](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/)는 시스템 전체의 평균 대기 시간(Average Waiting Time)을 미친 듯이 치솟게 만들었고, 이는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 학자들이 새로운 스케줄링 기법을 발명하게 된 가장 강력한 동기가 되었다.
 
   - 왕복 1차선 좁은 도로에서 시속 20km로 달리는 거대한 덤프트럭 1대가 맨 앞에 있다.
-  - 그 뒤를 시속 100km로 달릴 수 있는 스포츠카(짧은 프로세스) 100대가 빵빵거리며 졸졸 따라가고 있다. 마치 대통령을 <strong>호위(Convoy)</strong>하는 차량 행렬처럼 보인다고 해서 붙여진 이름이다. 
+  - 그 뒤를 시속 100km로 달릴 수 있는 스포츠카(짧은 프로세스) 100대가 빵빵거리며 졸졸 따라가고 있다. 마치 대통령을 <strong>호위(Convoy)</strong>하는 차량 행렬처럼 보인다고 해서 붙여진 이름이다.
   - (현실은 호위가 아니라 갇힌 것이다.)
 
 - **발전 과정**:
@@ -100,7 +100,7 @@ tags = ["studynote-operating-system"]
 
 ### 과목 융합 관점
 
-- <strong>자료구조 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Structure)</strong>: FCFS는 가장 단순한 [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) ([First-In First-Out](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/)) 큐로 구현된다. 큐는 넣고 빼는 속도가 $O(1)$로 완벽하게 빠르지만, 내부의 우선순위를 재정렬할 수 없다는 태생적 한계가 바로 [호위 효과](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/)를 낳았다. 
+- <strong>자료구조 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Structure)</strong>: FCFS는 가장 단순한 [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) ([First-In First-Out](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/)) 큐로 구현된다. 큐는 넣고 빼는 속도가 $O(1)$로 완벽하게 빠르지만, 내부의 우선순위를 재정렬할 수 없다는 태생적 한계가 바로 [호위 효과](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/)를 낳았다.
 - **네트워크 (NW)**: 라우터나 스위치에서 패킷을 처리할 때도 [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/)(Drop-tail [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))를 쓰면 거대한 동영상 패킷 덩어리 때문에 실시간 VoIP(음성) 패킷이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되는 현상이 똑같이 발생한다. 이를 네트워크에서도 '[호위 효과](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/)(또는 [Head-of-Line](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) [Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))'라 부르며, 이를 막기 위해 WFQ([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 공평 큐잉) 등을 사용한다.
 
 - **📢 섹션 요약 비유**: 평등(먼저 온 순서)만 강조하다가 전체의 행복(평균 대기 시간)을 나락으로 떨어뜨리는 FCFS의 [호위 효과](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/)는, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설계 시 유연성 없는 원칙이 얼마나 무서운 결과를 낳는지 보여주는 철학적 사례입니다.

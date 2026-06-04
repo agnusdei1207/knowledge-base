@@ -20,7 +20,7 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 기지국은 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(RU)와 데이터를 처리하는 두뇌(DU, CU)로 나뉩니다.
-- **블랙박스(Black-box) 폐쇄성**: 화웨이나 에릭슨 같은 거대 장비 제조사들은 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)와 두뇌가 통신하는 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 규격(CPRI)을 자기들 입맛대로 비틀어 암호화해버렸습니다. 
+- **블랙박스(Black-box) 폐쇄성**: 화웨이나 에릭슨 같은 거대 장비 제조사들은 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)와 두뇌가 통신하는 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 규격(CPRI)을 자기들 입맛대로 비틀어 암호화해버렸습니다.
 - **결과**: SKT가 에릭슨의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 샀다면, 두뇌 서버도 눈물을 머금고 10배 비싼 에릭슨 정품만 짝맞춤으로 사야 했습니다. ([Vendor Lock-in](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/) 현상)
 
 ```text
@@ -82,7 +82,7 @@ O-RAN를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 일본 라쿠텐모바일, 미국 디시네트워크 등이 전 세계 최초로 100% O-RAN으로 통신망을 깔아 증명해 보였습니다. 
+- 일본 라쿠텐모바일, 미국 디시네트워크 등이 전 세계 최초로 100% O-RAN으로 통신망을 깔아 증명해 보였습니다.
 - 화웨이나 에릭슨 같은 기존 공룡들은 겉으로는 동참하는 척하지만, 속으로는 자기들 밥그릇이 박살 나므로 O-RAN 도입을 매우 꺼립니다. 반면 삼성전자나 중소기업들은 거인들을 박살 내고 새로운 시장을 먹기 위해 O-RAN 표준을 맹렬히 주도하고 있습니다. (특히 미국의 화웨이 퇴출 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 맞물려 서방 세계 표준으로 급부상 중입니다.)
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

@@ -32,7 +32,7 @@ tags = ["studynote-software-engineering"]
   4. **2000년대**: [ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/) ([Attribute-Based Access Control](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/)) - 사용자, 자원, 환경 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 기반 동적 접근 통제
   5. **2010년대 이후**: [Zero Trust Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/184_zero_trust_architecture/) - "절대 신뢰하지 말 것, 항상 검증할 것" 원칙
 
-- **📢 섹션 요약 비유**: 접근 통제는 <strong>'관중석 출입문 관리'</strong>와 같다. 공연장 관중석에는 해당 좌석구역에만 출입 가능한 직원만 접근할 수 있고, 무대후방에는 관계자 외 출입이 금지되며, 비상구는emergency 상황에서만 개방된다.적연건시스템중，방문공제근거용호각색, 자원류형, 배경조건등공제대각구역적방문，미경수권적방문피조지. 
+- **📢 섹션 요약 비유**: 접근 통제는 <strong>'관중석 출입문 관리'</strong>와 같다. 공연장 관중석에는 해당 좌석구역에만 출입 가능한 직원만 접근할 수 있고, 무대후방에는 관계자 외 출입이 금지되며, 비상구는emergency 상황에서만 개방된다.적연건시스템중，방문공제근거용호각색, 자원류형, 배경조건등공제대각구역적방문，미경수권적방문피조지.
 
 ---
 

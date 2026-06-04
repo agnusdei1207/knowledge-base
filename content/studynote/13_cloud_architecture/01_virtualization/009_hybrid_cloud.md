@@ -20,7 +20,7 @@ tags = ["cloud_architecture"]
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
 **양극단의 딜레마와 하이브리드의 탄생 배경**
-엔터프라이즈 기업이 클라우드 도입을 검토할 때 항상 두 가지 극단적인 한계에 부딪힌다. 
+엔터프라이즈 기업이 클라우드 도입을 검토할 때 항상 두 가지 극단적인 한계에 부딪힌다.
 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)는 무한한 확장성과 최신 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기술을 제공하지만, 각국의 엄격한 [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) 법안(금융 보안 규제 등)과 기존 레거시 시스템과의 심각한 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 문제로 인해 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스를 넘기기 두렵다. 반면, 자체 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)([프라이빗 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/008_private_cloud/))는 보안 통제권은 완벽하지만 블프(Black Friday)나 수강 신청처럼 1년에 한두 번 발생하는 슈퍼 트래픽 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)를 막아내려면 막대한 장비를 사서 1년 내내 놀려야 하는 자원 낭비의 덫에 빠진다.
 하이브리드 클라우드 (Hybrid Cloud)는 이 두 세계를 강력한 보안 네트워크 튜브로 연결하여, "중요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 내 집에 숨겨두고, 힘든 계산이나 넘치는 손님 처리는 바깥의 거대한 공장(퍼블릭)에 맡긴다"는 가장 현실적이고 효율적인 타협점을 완성해 냈다.
 

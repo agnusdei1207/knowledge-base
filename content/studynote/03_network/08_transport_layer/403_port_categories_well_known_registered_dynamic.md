@@ -56,7 +56,7 @@ tags = ["studynote-network"]
 - <strong>443번 (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/">HTTPS</a>)</strong>: 완벽하게 암호화된 안전한 웹 접속. 현대 인터넷 트래픽의 80%가 443번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 쏠려 있다.
 
 ### 2. Registered Ports (등록된 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 1024 ~ 49151)
-대기업들이 IANA에 "우리가 만든 프로그램은 전 세계적으로 이 번호를 기본 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 쓰게 허락해 주세요"라고 찜해둔 번호들이다. 
+대기업들이 IANA에 "우리가 만든 프로그램은 전 세계적으로 이 번호를 기본 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 쓰게 허락해 주세요"라고 찜해둔 번호들이다.
 - **1521번 (MS SQL Server)**: 마이크로소프트 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 뚫을 때 쓴다.
 - **3306번 (MySQL)**: 오라클 등 다른 DB가 쓴다.
 - **3389번 (RDP)**: 윈도우 원격 데스크톱 연결. 해커들의 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 침투 1순위 구멍이라 방화벽에서 3389를 열어두면 망한다.

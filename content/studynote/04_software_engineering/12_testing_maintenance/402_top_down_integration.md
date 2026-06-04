@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 자동차를 조립하는 두 가지 방법이 있다. 타이어와 엔진(바닥)부터 깎아 만드는 사람이 있고, 멋진 차체 껍데기와 운전대(위쪽)부터 만들어 놓고 속을 채워 넣는 사람이 있다.
 
-소프트웨어에서 <strong>하향식 통합(Top-down)</strong>은 후자다. 
+소프트웨어에서 <strong>하향식 통합(Top-down)</strong>은 후자다.
 메인 메뉴 화면(사용자 UI)이나 핵심 제어(Control) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 1순위로 조립한다. 이렇게 하면 아직 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB) 연결 로직이나 복잡한 계산 알고리즘이 하나도 안 만들어져 있어도, 당장 내일 고객을 불러다가 "자, 로그인 버튼 누르면 이 화면으로 넘어갑니다!"라고 눈으로 보여주는 시연(Demonstration)이 가능해진다.
 
 하지만 큰 문제가 있다. 메인 화면(상위) 코드는 `로그인_확인()`이라는 하위 함수를 호출하게 짜여 있는데, 아직 `로그인_확인()` 함수를 개발하지 못했다면 컴파일조차 되지 않고 뻗어버린다.

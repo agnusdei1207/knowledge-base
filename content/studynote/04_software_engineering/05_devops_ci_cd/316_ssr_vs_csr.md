@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **SSR (Server-Side Rendering)**: 서버가 DB에서 데이터를 가져와 HTML 틀에 꽂아 넣은 뒤, '완성된 형태의 HTML 문서'를 브라우저로 내려주는 방식 (과거 JSP, PHP).
   - <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/">CSR</a> (Client-Side Rendering)</strong>: 서버는 텅 빈 HTML 껍데기와 엄청나게 큰 JS [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)만 내려주고, 브라우저가 그 JS를 실행해 서버([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))에 데이터를 요청하고 직접 HTML을 그려내는 방식 (React, Vue).
 

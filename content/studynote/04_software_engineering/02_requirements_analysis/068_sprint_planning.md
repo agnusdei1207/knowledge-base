@@ -134,8 +134,8 @@ Execution
 
 ## 어린이를 위한 3줄 비유 설명
 
-여행 가기 전에 어디로 갈지 정해요.  
-짐을 누가 들지 나눠요.  
+여행 가기 전에 어디로 갈지 정해요.
+짐을 누가 들지 나눠요.
 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 계획 회의는 그런 약속이에요.
 
 ---

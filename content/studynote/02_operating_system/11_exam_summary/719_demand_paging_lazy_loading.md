@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/">요구 페이징</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/">Demand Paging</a>)</strong>: 프로그램 실행 시 모든 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 물리 메모리에 적재하지 않고, 오직 CPU가 접근(요청)하여 필요해진 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)만 디스크에서 물리 메모리로 가져오는(Swap-in) 기법.
   - <strong>선페이징 (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/">Prepaging</a>)</strong>: [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)과 반대로, 앞으로 쓸 것 같은 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 미리 예측해서 램에 올려두는 기법.
 
-- **필요성 (불필요한 로딩의 낭비 극복)**: 
+- **필요성 (불필요한 로딩의 낭비 극복)**:
   - 과거에는 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 프로세서(100MB)를 켜면, 에러 처리 코드, 한 번도 안 쓰는 특수 기능 코드까지 100MB 전체를 램에 다 올릴 때까지 기다려야 했다 (Pure [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)).
   - 통계적으로 프로그램 코드의 80%는 예외 처리나 안 쓰는 기능이라 평생 실행되지 않는다. 즉, 램과 디스크 I/O를 엄청나게 낭비하고 있었다.
   - **해결책**: "아무것도 램에 올리지 말고 일단 실행부터 해! 그리고 CPU가 코드를 읽으려다 에러가 나면, 그때그때 필요한 조각(4KB)만 디스크에서 가져오자!"라는 궁극의 '게으름(Laziness)' 철학이 등장했다.
@@ -113,7 +113,7 @@ CPU가 `Invalid` 상태의 [페이지](/knowledge-base/studynote/01_computer_arc
 
 1. <strong>시나리오 — 클라우드 서버의 Major <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a> 폭주로 인한 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (System Hang)</strong>: Java 어플리케이션을 새로 배포하고 트래픽을 넣었더니, 첫 5분 동안 CPU `iowait`이 100%를 치고 응답 시간이 10초를 넘김(Warm-up 문제).
    - **원인 분석**: 자바 프로세스가 켜지자마자 1만 명의 유저가 몰려왔다. 코드를 램에 다 올리지 않고 켜는 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)의 특성상, 수만 개의 `Major Page Fault`(디스크를 읽어야 하는 끔찍한 폴트)가 1초 만에 터졌다. OS가 디스크에서 수만 장의 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 하나씩 긁어오느라([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 디스크 큐가 터진 것이다.
-   - **대응 (기술사적 가이드)**: 
+   - **대응 (기술사적 가이드)**:
      - 1) **Pre-warming (예열)**: 앱 배포 후 로드밸런서(L4)에 트래픽을 열기 전에, 가짜 트래픽([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) Request)을 수천 번 날려서 OS가 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault를 미리 겪고 핵심 코드([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))들을 램에 올려두도록 훈련시킨다.
      - 2) 리눅스의 <strong><code>mlockall()</code></strong> 시스템 콜을 사용하여, 애플리케이션 기동 시 자신의 모든 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 코드를 램에 강제로 퍼올리고(Prefault) 절대 디스크로 쫓겨나지 않게(Pinning) 아키텍처를 강제한다.
 

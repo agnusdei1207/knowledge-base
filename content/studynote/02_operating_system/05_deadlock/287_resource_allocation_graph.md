@@ -21,7 +21,7 @@ tags = ["studynote-operating-system"]
 
 수많은 스레드와 자원이 복잡하게 요청하고 점유하는 상황을 C언어 텍스트나 변수만 보고 즉각 "꼬였다([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))"라고 선언할 수 없다. 우리는 거대한 미로를 조감할 지도가 필요하다.
 
-<strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/">자원 할당</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a></strong>는 프로세스를 원(Circle)으로, 자원을 사각형([Square](/knowledge-base/studynote/04_software_engineering/06_software_architecture/341_iso_iec_25010/)/Rectangle)으로 그려 요청과 할당이라는 화살표 두 개로 거대한 대기 역학 관계를 한눈에 통찰할 수 있게 만든다. 
+<strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/">자원 할당</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a></strong>는 프로세스를 원(Circle)으로, 자원을 사각형([Square](/knowledge-base/studynote/04_software_engineering/06_software_architecture/341_iso_iec_25010/)/Rectangle)으로 그려 요청과 할당이라는 화살표 두 개로 거대한 대기 역학 관계를 한눈에 통찰할 수 있게 만든다.
 
 **💡 비유**: 복잡한 지하철 환승역 노선도에 '사람들이 가려는 방향(요청 간선)'과 '현재 차지한 개찰구(할당 간선)' 화살표를 다 그려보는 것 — 어딘가에서 화살표가 원형으로 빙빙 도는 고리가 생겼다면 막힌([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 지점임을 1초 만에 파악할 수 있다.
 
@@ -103,7 +103,7 @@ tags = ["studynote-operating-system"]
 2. <strong>Java <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a> Dump 역추적</strong>: 심야 서버 마비 시 DevOps가 남긴 쓰레드 덤프 텍스트에서 `waiting to lock <0x12ab>`와 `locked <0xfedc>` 상태를 읽고 화이트보드에 동그라미 네모를 손으로 그려보는 행위 자체가 RAG를 인스턴스화하여 데드락 원흉 코드를 짚어내는 일이다.
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
-- **자원 개수를 맹신한 무방비 개발**: 서버 통신 커넥션 풀을 100개(다중 인스턴스) 심었다고 해서 데드락이 우회될 거라 맹신. 커넥션 고갈 시 결국 이 거대한 다중 인스턴스 RAG가 [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) 함락의 덫이 되어 시스템을 일순간 고체화([Solid](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/))시킨다. 
+- **자원 개수를 맹신한 무방비 개발**: 서버 통신 커넥션 풀을 100개(다중 인스턴스) 심었다고 해서 데드락이 우회될 거라 맹신. 커넥션 고갈 시 결국 이 거대한 다중 인스턴스 RAG가 [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) 함락의 덫이 되어 시스템을 일순간 고체화([Solid](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/))시킨다.
 
 **📢 섹션 요약 비유**: 쓰레드 덤프를 보며 WFG를 그리는 개발자는 혈흔(텍스트)을 보고 범인의 경로([교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))를 추리해내는 노련한 [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) 수사대입니다.
 

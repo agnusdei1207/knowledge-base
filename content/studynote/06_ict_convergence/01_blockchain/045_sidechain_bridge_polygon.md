@@ -30,7 +30,7 @@ tags = ["studynote-ict-convergence"]
   메인체인과 연결된 별도 블록체인
   독립 합의 메커니즘
   더 빠르고 저렴
-  
+
   특성:
   - 자체 노드·검증자 보유
   - 자체 토큰 또는 페그 토큰
@@ -40,7 +40,7 @@ tags = ["studynote-ict-convergence"]
   메인체인 → 사이드체인:
   1. ETH 잠금 (Lock) on Ethereum
   2. 사이드체인에 wETH 발행 (Mint)
-  
+
   사이드체인 → 메인체인:
   1. wETH 소각 (Burn) on Sidechain
   2. 원래 ETH 잠금 해제 (Unlock)
@@ -48,7 +48,7 @@ tags = ["studynote-ict-convergence"]
 롤업과 차이:
   사이드체인: 독립 합의 → 보안 독립
   롤업: 이더리움 보안 직접 활용 (강함)
-  
+
   사이드체인 보안 = 자체 검증자 신뢰
   (이더리움보다 약할 수 있음)
 ```
@@ -64,7 +64,7 @@ tags = ["studynote-ict-convergence"]
 
 1. Lock-and-Mint:
    체인 A에 자산 잠금 → 체인 B에 래핑 토큰 발행
-   
+
    예: ETH → Polygon
    1. Ethereum: Bridge 컨트랙트에 1 ETH 잠금
    2. Polygon: 1 wETH 발행 (래핑 ETH)
@@ -84,13 +84,13 @@ tags = ["studynote-ict-convergence"]
   중앙화 위험:
   - Lock-and-Mint: 잠금 컨트랙트에 거대 자산 집중
   - 해커 공격 1순위
-  
+
   사례:
   Ronin Bridge 해킹 (2022.03):
   - Axie Infinity의 Ethereum ↔ Ronin 사이드체인 브릿지
   - 해커: 5개 검증자 노드 컴프로마이즈
   - 피해: 624백만 달러 (ETH + USDC)
-  
+
   Wormhole 해킹 (2022.02):
   - Solana ↔ Ethereum 브릿지
   - 피해: 320백만 달러
@@ -116,7 +116,7 @@ Polygon PoS (사이드체인):
   검증자: 100개 검증자 노드
   TPS: 7,000+ TPS
   가스비: Ethereum의 1/100 수준
-  
+
   보안: Ethereum보다 약함 (100 검증자 신뢰)
   체크포인트: ~256 블록마다 Ethereum에 기록
               → 최종 확정은 Ethereum 보안
@@ -126,7 +126,7 @@ Polygon zkEVM (ZK 롤업):
   Ethereum EVM 100% 호환
   TPS: 2,000+ TPS
   가스비: Ethereum의 1/50~1/100
-  
+
   차이: PoS보다 보안 강함 (ZK 수학적 증명)
 
 Polygon 2.0:
@@ -160,7 +160,7 @@ LayerZero:
   옴니체인(Omnichain) 메시징 프로토콜
   50+ 체인 연결
   Ultra-Light Node (오라클 + 릴레이어)
-  
+
   사용: Stargate Finance, Radiant Capital
 
 Chainlink CCIP:
@@ -200,7 +200,7 @@ P2E 게임 NFT 크로스체인 아키텍처:
 배경:
   게임 NFT: Polygon PoS (저렴한 민팅)
   NFT 거래: Ethereum (높은 유동성)
-  
+
   사용자 요구: Polygon 게임 NFT를 OpenSea에서 판매
 
 구조:
@@ -213,7 +213,7 @@ Polygon Bridge → Ethereum:
   1. Polygon: NFT 잠금 (Bridge 컨트랙트)
   2. 체크포인트 확인 (7일 또는 빠른 인출)
   3. Ethereum: 동일 NFT 복원 (래핑)
-  
+
   빠른 인출: 유동성 풀 활용 (1-2시간, 0.1% 수수료)
   일반 인출: 7일 챌린지 (무료)
 

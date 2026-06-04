@@ -19,10 +19,10 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>)</strong>: 프로세스가 실제 실행되는 시간보다, [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 처리)에 더 많은 시간을 소비하여 시스템 전체의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 곤두박질치는 현상.
 
-- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>의 독이 든 성배)</strong>: 
+- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>의 독이 든 성배)</strong>:
   - [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))이 등장하면서, 8GB 램으로 100GB짜리 프로그램 10개를 띄울 수 있게 되었다.
   - OS는 CPU를 100% 활용하기 위해 메모리에 최대한 많은 프로세스를 올렸다.
   - 하지만 각 프로세스에게 할당된 램(프레임)이 너무 적어지자, A 프로세스가 1초 실행될 때마다 자꾸 자기 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 없어서([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 디스크를 긁어오고, 이 과정에서 B 프로세스의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쫓아냈다. B가 실행될 때는 또 A의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쫓아냈다.
@@ -66,7 +66,7 @@ tags = ["studynote-operating-system"]
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 
+**[다이어그램 해설]**
 1. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 N을 늘릴수록 (앱을 많이 켤수록) CPU가 I/O 대기 시간에 딴짓을 할 수 있어 CPU 이용률이 정비례로 쫙쫙 오른다.
 2. 하지만 <strong>임계점(Knee Point)</strong>을 넘는 순간, 각 프로세스에게 돌아가는 램(프레임) 개수가 턱없이 부족해진다.
 3. 모든 프로세스가 디스크를 긁어오기 시작한다([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 폭발). CPU는 디스크 I/O가 끝날 때까지 할 일이 없으니(Wait) <strong>CPU 이용률이 0%로 수직 낙하</strong>해 버린다.
@@ -117,7 +117,7 @@ tags = ["studynote-operating-system"]
    - **해결 (커널의 개입)**: 리눅스 커널은 CPU `iowait`이 치솟고 메모리 여유 공간이 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 밑으로 떨어지면 "이대로 가면 OS가 죽는다"고 판단한다. 이때 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/">Out-Of-Memory</a>) Killer</strong> 데몬이 깨어나서 메모리를 제일 많이 먹으면서도 가장 만만한 놈(주로 JVM 프로세스)을 `SIGKILL(-9)`로 무자비하게 쏴 죽인다. 앱 1개가 죽자 프레임이 수십만 개 쏟아져 나오며 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)이 멈추고 서버가 다시 살아난다.
 
 2. **시나리오 — 모바일 OS (iOS/Android)의 스왑 금지 철학**: 스마트폰에서 카카오톡을 하다가 유튜브를 보고, 다시 인스타그램을 켰다.
-   - **아키텍처 적용**: 데스크탑(Windows/Linux)은 램이 부족하면 하드디스크에 스왑(Swap)을 만들어 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)을 견딘다. 하지만 <strong>iOS와 안드로이드는 스왑 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 자체가 없다!</strong> 
+   - **아키텍처 적용**: 데스크탑(Windows/Linux)은 램이 부족하면 하드디스크에 스왑(Swap)을 만들어 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)을 견딘다. 하지만 <strong>iOS와 안드로이드는 스왑 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 자체가 없다!</strong>
    - 스마트폰의 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)(eMMC)에 스왑 아웃을 해대면 메모리 수명이 1년 만에 닳아버리고 배터리가 광탈하기 때문이다. 따라서 모바일 OS는 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)이 발생할 틈도 주지 않고, 램이 모자란 순간 백그라운드에 있는 앱(예: 카카오톡)의 메모리를 가차 없이 날려버린다(App Kill). 사용자가 다시 카톡을 켜면 아예 처음부터 다시 부팅되게 만들어버리는 강압적이지만 효율적인 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 쓴다.
 
 ### 의사결정 및 튜닝 플로우

@@ -30,14 +30,14 @@ tags = ["ai"]
       ↓ (청소)                       │  (간선: Vacuum)
 방 B가 깨끗해짐    ====>    (Node S2: 로봇=B, 방=깨끗함) -- [Goal]
 ```
-이 구조도의 핵심은 복잡한 다차원 현실을 컴퓨터가 연산 가능한 이산적(Discrete) 노드 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 맵핑([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))했다는 점이다. 이렇게 변환되면 어떤 문제든 'S0에서 S2로 가는 최단 경로를 찾는 수학 문제'로 치환되며, 이후에는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 이론 기반의 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/), [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/), [Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) 등)을 일관되게 적용할 수 있게 된다. 
+이 구조도의 핵심은 복잡한 다차원 현실을 컴퓨터가 연산 가능한 이산적(Discrete) 노드 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 맵핑([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))했다는 점이다. 이렇게 변환되면 어떤 문제든 'S0에서 S2로 가는 최단 경로를 찾는 수학 문제'로 치환되며, 이후에는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 이론 기반의 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/), [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/), [Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) 등)을 일관되게 적용할 수 있게 된다.
 
 📢 **섹션 요약 비유**: 마치 복잡한 서울 시내의 실제 지형과 건물을 다 지워버리고, 오직 지하철역(상태)과 철로(연산자)만 남겨놓은 노선도로 바꾸어 최단 경로를 쉽게 찾는 것과 같습니다.
 
 ---
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
-상태 공간을 정의하고 탐색을 수행하기 위해서는 명확하게 정형화된 5가지 구성 요소가 필요하다. 
+상태 공간을 정의하고 탐색을 수행하기 위해서는 명확하게 정형화된 5가지 구성 요소가 필요하다.
 
 **상태 공간 문제의 5요소 (Problem Formulation)**
 | 구성 요소 | 역할 | 내부 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 및 예시 (8-퍼즐 기준) |
@@ -53,7 +53,7 @@ tags = ["ai"]
 [그래프 모델] (무한 순환 가능)      [탐색 트리 확장 과정] (루프 방지 구조)
    (S0) ───┐                            [ S0 ] (Root Node)
   ↗   ↘    │                            /    \
-(S1) (S2)  │    == 전개(Expand) ==>  [ S1 ]  [ S2 ] 
+(S1) (S2)  │    == 전개(Expand) ==>  [ S1 ]  [ S2 ]
   ↖   ↙    │                         /       /  \
    (S3) <──┘                     (무시)    [S3] [S4] (목표 도달 시 중단)
                              (S0 회귀 방지)
@@ -81,7 +81,7 @@ tags = ["ai"]
   ↑
   │                                   * (바둑: 10^170, 탐색 불가 -> MCTS/딥러닝 도입)
   │                                 /
-  │                                / 
+  │                                /
   │                     * (체스: 10^47, 알파베타 가지치기 한계치)
   │                   /
   │       * (루빅스 큐브: 10^19, 휴리스틱 필수)

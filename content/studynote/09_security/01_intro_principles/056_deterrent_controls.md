@@ -121,8 +121,8 @@ tags = ["studynote-security"]
 
 ## 어린이를 위한 3줄 비유 설명
 
-[억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) 통제는 "여기서는 장난치면 안 돼요"라고 크게 적어 두는 거예요.  
-그 말을 보면 나쁜 짓을 하려던 마음이 잠깐 멈춰요.  
+[억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) 통제는 "여기서는 장난치면 안 돼요"라고 크게 적어 두는 거예요.
+그 말을 보면 나쁜 짓을 하려던 마음이 잠깐 멈춰요.
 그래서 진짜 문은 다른 자물쇠가 지키고, 팻말은 마음을 지키는 역할을 해요.
 
 ---

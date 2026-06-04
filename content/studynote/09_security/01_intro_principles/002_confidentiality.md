@@ -165,7 +165,7 @@ tags = ["security"]
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-철저한 기밀성 통제는 기업의 평판을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하고 규제 기관의 철퇴를 피하는 핵심 장치다. 
+철저한 기밀성 통제는 기업의 평판을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하고 규제 기관의 철퇴를 피하는 핵심 장치다.
 
 | 기대효과 구분 | 단순 비밀번호 의존 환경 | 강력한 기밀성 아키텍처 (암호화+[DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/)) | 실질적 가치 |
 |:---|:---|:---|:---|
@@ -173,7 +173,7 @@ tags = ["security"]
 | **규제 컴플라이언스**| [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/) 위반 (과태료 대상) | 안전한 암호화 조치로 면책 사유 충족 | 법적 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) |
 | **비즈니스 협업** | 외부 파트너와 자료 공유 기피 | DRM을 통한 뷰어 권한만 제어하여 공유 | 안전한 파트너 생태계 확장 |
 
-미래의 기밀성 기술은 양자 컴퓨터의 등장이라는 거대한 위협에 직면해 있다. 양자 컴퓨터의 쇼어(Shor) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 현재 널리 쓰이는 [비대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/077_asymmetric_encryption/)([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/), [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/))를 단시간에 무력화할 수 있다. 이에 대응하기 위해 국제 표준화 기구인 NIST는 <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/">양자 내성 암호</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/">PQC</a>: <a href="/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/">Post-Quantum Cryptography</a>)</strong> 표준을 제정하고 있다. 
+미래의 기밀성 기술은 양자 컴퓨터의 등장이라는 거대한 위협에 직면해 있다. 양자 컴퓨터의 쇼어(Shor) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 현재 널리 쓰이는 [비대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/077_asymmetric_encryption/)([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/), [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/))를 단시간에 무력화할 수 있다. 이에 대응하기 위해 국제 표준화 기구인 NIST는 <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/">양자 내성 암호</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/">PQC</a>: <a href="/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/">Post-Quantum Cryptography</a>)</strong> 표준을 제정하고 있다.
 
 더불어, 암호화된 상태 그대로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연산할 수 있는 <strong>동형 암호화(<a href="/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/">Homomorphic Encryption</a>)</strong> 기술이 실용화 단계에 접어들고 있다. 이 기술이 보편화되면 클라우드 환경에서 '사용 중인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [in Use](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/694_confidential_computing_data_in_use/))'의 기밀성 문제를 완벽히 해결하여 정보보안의 패러다임을 바꿀 것이다.
 

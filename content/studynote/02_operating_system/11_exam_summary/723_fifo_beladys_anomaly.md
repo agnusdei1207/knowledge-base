@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/">FIFO</a> <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/">페이지 교체</a></strong>: 물리 메모리가 꽉 찼을 때, 가장 먼저 들어온(가장 오래된) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 무조건 디스크로 쫓아내는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/).
   - <strong>Belady's <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/">Anomaly</a> (벨라디의 모순)</strong>: 1969년 Laszlo Belady가 발견한 현상. 메모리(프레임) 개수를 늘리면 일반적으로 캐시 적중률이 올라가야 하지만, FIFO에서는 오히려 미스율이 올라가는 구간이 존재함.
 
-- **필요성 (직관의 배신)**: 
+- **필요성 (직관의 배신)**:
   - 컴퓨터가 느리면 보통 "램(RAM)을 하나 더 사서 꽂자!"라고 생각한다.
   - 그런데 램을 3GB에서 4GB로 업그레이드했는데, 컴퓨터가 2배 더 느려지는 기이한 현상이 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) OS에서 발견되었다.
   - **해결책**: 학자들은 이 현상의 원인이 '하드웨어'가 아니라 운영체제의 멍청한 '[FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) 스케줄링'에 있음을 증명했고, 이 모순을 회피할 수 있는 새로운 수학적 부류의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 찾아내는 계기가 되었다.
@@ -136,7 +136,7 @@ tags = ["studynote-operating-system"]
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 인프라를 증설할 때는 "다다익선(많으면 많을수록 좋다)"이라는 맹신을 버려야 한다. 하부의 소프트웨어 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 그것을 소화할 능력이 안 되면, 늘어난 램은 오히려 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간을 꼬이게 만드는 폭탄이 된다. 
+**[다이어그램 해설]** 인프라를 증설할 때는 "다다익선(많으면 많을수록 좋다)"이라는 맹신을 버려야 한다. 하부의 소프트웨어 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 그것을 소화할 능력이 안 되면, 늘어난 램은 오히려 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간을 꼬이게 만드는 폭탄이 된다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/">CDN</a> / Varnish 캐시 서버 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 이미지나 동영상을 캐싱하는 엣지 서버([CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/))를 세팅할 때, 단순히 '가장 먼저 저장된 이미지'를 지우는 옵션([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/))으로 켜두진 않았는가? 10년 전 올린 회사 로고 이미지는 가장 오래됐지만 매일 수만 번 불린다. 이를 지워버리고 방금 올라온 안 보는 스팸 이미지를 남겨두는 참사를 막기 위해, 철저히 `LRU`나 `LFU`를 켜두었는지 재확인하라.

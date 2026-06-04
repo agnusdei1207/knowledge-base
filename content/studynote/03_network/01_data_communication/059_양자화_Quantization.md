@@ -138,8 +138,8 @@ PCM 기반 음성 통신
 
 ## 어린이를 위한 3줄 비유 설명
 
-[양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)는 끝이 없는 소수점을 딱 떨어지는 숫자 칸으로 바꾸는 일이에요.  
-칸을 촘촘히 나누면 더 정확하지만, 그만큼 저장하기도 더 어려워져요.  
+[양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)는 끝이 없는 소수점을 딱 떨어지는 숫자 칸으로 바꾸는 일이에요.
+칸을 촘촘히 나누면 더 정확하지만, 그만큼 저장하기도 더 어려워져요.
 그래서 컴퓨터는 상황에 맞게 칸 크기를 골라요.
 
 ---

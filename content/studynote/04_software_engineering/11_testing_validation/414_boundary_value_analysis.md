@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어가 미쳐 날뛸 때, 그 원인을 파고 들어가 원시 소스 코드의 무덤을 열어보면 가장 흔한 시체는 바로 부등호 기호 `>` 와 `>=` 의 오타착각입니다. 
+소프트웨어가 미쳐 날뛸 때, 그 원인을 파고 들어가 원시 소스 코드의 무덤을 열어보면 가장 흔한 시체는 바로 부등호 기호 `>` 와 `>=` 의 오타착각입니다.
 인간 개발자의 뇌는 어리석게도 50이나 70 같은 중간 숫자를 다룰 때는 연산 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)가 매우 평화롭게 작동합니다. 하지만 배열의 양 끝 절벽 끝인 첫 번째 칸 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 0(-1로 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/))이나, 마지막 방 100칸을 다뤄야 할 때 뇌 정지가 오며 치명적 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 오류(Off-by-one error)가 폭발적으로 일어납니다.
 
 이를 수십 년간 고통스럽게 지켜본 선배 엔지니어들은 결론을 내렸습니다. "버그는 평지에 숨어있지 않다. 무조건 계단 모서리, 담벼락, 끄트머리에 우글우글 몰려있다!" 이 깨달음이 바로 가장자리 끝값을 괴롭히는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지 철학, <strong>경계값 분석(Boundary Value Analysis, BVA)</strong>을 세상에 낳았습니다.
@@ -82,7 +82,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-단순히 `1~10`이라는 숫자의 경계값만 있는 것이 아닙니다. 
+단순히 `1~10`이라는 숫자의 경계값만 있는 것이 아닙니다.
 현업에서 고수 QA들이 BVA를 적용할 때 타격하는 진짜 무서운 경계는 명세서에 한 줄도 쓰여 있지 않은 <strong>시스템의 물리적 한계 경계선</strong>입니다.
 
 - 입력 란에 아무 숫자 조건을 안 달아놨지만, 컴퓨터 메모리의 극단인 `2,147,483,647` (32비트 [정수 오버플로우](/knowledge-base/studynote/09_security/04_endpoint_security/333_integer_overflow/) MAX)을 슬쩍 입력해 봅니다.
@@ -104,7 +104,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 경계값 분석은 블랙박스 테스트를 단순한 랜덤 노가다에서, 일격필살의 핀셋 저격수 무공으로 승화시켜 준 일등 공신 기법입니다.
-구역 안의 대표들은 [동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/)(EP) 형님이 다루게 두시고, BVA는 오직 이 부등호와 배열의 양극단 칼날 위에서 춤을 춥니다. 
+구역 안의 대표들은 [동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/)(EP) 형님이 다루게 두시고, BVA는 오직 이 부등호와 배열의 양극단 칼날 위에서 춤을 춥니다.
 무한 테스트 함정에 허덕이던 인간이 찾아낸 "[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 숨어있는 모서리의 습성"을 역이용한 이 패턴 공략법 덕분에, 인류는 단 4~6줄의 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 엑셀 스크립트만으로도 시스템 전체 방어벽의 90% 치명상을 방어할 수 있게 되었습니다.
 
 - **📢 섹션 요약 비유**: 호수에서 큰 물고기가 어디 있는지 모를 때 온 호수에 그물을 치는 어리석은 짓을 멈추고, "물고기들은 항상 호수 가장자리 담벼락 돌 틈에만 모여 산다"는 자연의 습성(버그의 습성)을 깨닫고 가장자리에만 미끼를 흔드는 최고 낚시꾼의 비법입니다.

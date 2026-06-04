@@ -29,17 +29,17 @@ tags = ["studynote-security"]
 
 "성벽 모델" 문제:
   성벽(방화벽) 안에 들어오면 자유롭게 이동
-  
+
   공격 시나리오:
   1. 피싱으로 내부 PC 감염
   2. 내부 PC → 데이터베이스 서버 (자유롭게 이동)
   3. DB에서 민감 데이터 탈취
-  
+
   방화벽이 허용했어도 내부 이동은 무방비
 
 VLAN 기반 세그먼테이션 한계:
   VLAN으로 부서 간 분리
-  
+
   문제:
   같은 VLAN 내 서버들은 자유 통신
   VLAN 변경 = 네트워크 재구성 (고비용)
@@ -64,7 +64,7 @@ VLAN 기반 세그먼테이션 한계:
 개념:
   기존: 서버 A ↔ 서버 B (자유 통신)
   마이크로 세그먼테이션:
-  
+
   [웹 서버] ←→ [앱 서버] ←→ [DB 서버]
       ↑             ↑            ↑
   (정책: 80/443만) (정책: 8080) (정책: 3306, 앱서버만)
@@ -72,7 +72,7 @@ VLAN 기반 세그먼테이션 한계:
 핵심 원칙:
   묵시적 거부 (Implicit Deny):
   명시적 허용 없으면 기본 차단
-  
+
   최소 권한 (Least Privilege):
   필요한 포트/프로토콜만 허용
 
@@ -85,7 +85,7 @@ VLAN 기반 세그먼테이션 한계:
 2. ID 기반 (현대):
   호스트명, 태그, 레이블로 그룹 정의
   IP 변경에 독립적
-  
+
   예:
   role=web → role=app: TCP/8080 허용
   role=app → role=db: TCP/3306 허용
@@ -113,21 +113,21 @@ Zero Trust Network Access와 결합:
 
 1. 호스트 기반 방화벽:
   각 서버에 iptables/Windows Firewall 설정
-  
+
   중앙 관리 도구:
   Illumio Core: 에이전트 기반, 자동 정책 학습
-  
+
   장점: 물리/VM/클라우드 모두 적용
   단점: 에이전트 설치 필요
 
 2. SDN (Software-Defined Networking):
   네트워크 계층에서 정책 적용
-  
+
   VMware NSX:
   vSphere 환경의 소프트웨어 오버레이
   VLAN 변경 없이 방화벽 정책 적용
   마이크로 세그먼테이션 핵심 솔루션
-  
+
   Cisco ACI:
   Application Centric Infrastructure
   하드웨어 + 소프트웨어 통합
@@ -136,7 +136,7 @@ Zero Trust Network Access와 결합:
   AWS: Security Group (인스턴스 레벨 방화벽)
   Azure: NSG (Network Security Group)
   GCP: Firewall Rules + VPC-native
-  
+
   서버리스/컨테이너:
   Kubernetes Network Policy:
   apiVersion: networking.k8s.io/v1
@@ -172,24 +172,24 @@ Zero Trust Network Access와 결합:
 
 Phase 1 - 가시성 확보:
   현재 통신 패턴 파악
-  
+
   도구:
   Illumio 탐색 모드 (트래픽 기록만, 차단 없음)
   VMware NSX Flow Monitoring
   VPC Flow Logs (AWS)
-  
+
   결과:
   "어떤 서버가 어디와 통신하는가" 맵핑
 
 Phase 2 - 그룹화 및 정책 설계:
   워크로드를 역할 기반 그룹으로 정의
-  
+
   예: 그룹 정의
   G1: Web servers (role=web)
   G2: App servers (role=app)
   G3: Database (role=db)
   G4: Management (role=mgmt)
-  
+
   정책:
   인터넷 → G1: TCP/80,443 허용
   G1 → G2: TCP/8080 허용
@@ -222,7 +222,7 @@ Phase 5 - 지속적 관리:
 배경:
   2021년 유사 금융사 랜섬웨어 피해 100억+
   내부 서버 간 자유 통신 → 전사 확산
-  
+
   현황:
   - 3-Tier 아키텍처 (웹/앱/DB) × 12개 시스템
   - VMware vSphere 환경
@@ -241,7 +241,7 @@ Phase 5 - 지속적 관리:
   App → DB: 5432
   App → Redis: 6379
   나머지 동서 통신: 전부 차단
-  
+
   개발 ↔ 운영 격리:
   개발 존 → 운영 존: 완전 차단
 
@@ -255,7 +255,7 @@ Phase 5 - 지속적 관리:
   시뮬레이션 랜섬웨어 공격:
   - 기존: 전사 확산 (4시간)
   - NSX 적용 후: 최초 감염 서버 1대 격리
-  
+
   컴플라이언스:
   금융보안원 평가 + 3점 (마이크로 세그 적용)
 ```

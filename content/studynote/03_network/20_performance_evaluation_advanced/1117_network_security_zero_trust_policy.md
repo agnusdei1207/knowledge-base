@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **흔한 착각**: "시스코나 팰로알토에서 [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/) 솔루션 장비 10억 주고 샀으니까 우리 회사 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 완성임 ㅋ" 
+- **흔한 착각**: "시스코나 팰로알토에서 [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/) 솔루션 장비 10억 주고 샀으니까 우리 회사 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 완성임 ㅋ"
 - **진실**: [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)는 장비 1대가 아니라 네트워크 설계의 <strong>'철학이자 방법론'</strong>입니다. 기존 네트워크를 완전히 해체하고 재조립하는 과정이 필요합니다.
 
 ```text

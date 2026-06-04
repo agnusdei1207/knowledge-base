@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 기존 라우터는 우직한 우체부입니다. 왼쪽에서 10바이트짜리 1번 패킷과 2번 패킷이 날아옵니다. 
+- 기존 라우터는 우직한 우체부입니다. 왼쪽에서 10바이트짜리 1번 패킷과 2번 패킷이 날아옵니다.
 - 라우터는 이 두 패킷을 임시 메모리에 잠시 담아뒀다(Store)가, 절대 내용물에 손대지 않고 1번 패킷을 앞문으로 날리고([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)), 끝난 뒤에 2번 패킷을 날립니다. 즉 도로에 차 2대가 따로 지나가야 하니 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(시간과 용량)이 2배로 듭니다. (나비 넥타이 병목 현상)
 
 ```text

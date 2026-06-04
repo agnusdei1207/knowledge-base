@@ -19,20 +19,20 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 보안 버그나 치명적인 오류가 발견되었을 때, 수정된 소스 코드로 컴파일된 '패치 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(`*.ko`)'을 메모리에 동적으로 밀어 넣는다.
   - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 기존의 버그 난 함수로 진입하려는 CPU의 흐름을 낚아채어, 방금 새로 밀어 넣은 깨끗한 함수로 실행 흐름을 꺾어버린다(Redirection).
 
-- **필요성(문제의식)**: 
-  - 과거에는 [커널 취약점](/knowledge-base/studynote/09_security/04_endpoint_security/376_kernel_vulnerability/)(예: Dirty [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))이 뜨면 무조건 ① 새 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 다운로드 ② 서버 종료 ③ 재부팅 의 과정을 거쳐야 했다. 
+- **필요성(문제의식)**:
+  - 과거에는 [커널 취약점](/knowledge-base/studynote/09_security/04_endpoint_security/376_kernel_vulnerability/)(예: Dirty [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))이 뜨면 무조건 ① 새 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 다운로드 ② 서버 종료 ③ 재부팅 의 과정을 거쳐야 했다.
   - 재부팅을 하려면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 거대한 메모리 캐시가 날아가므로 밤 12시 롤아웃 작업을 위해 수많은 엔지니어가 야근해야 했고, 시스템 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시까지 10분 넘게 웹사이트가 마비되었다.
-  - 하지만 해커들은 재부팅을 기다려주지 않는다. 취약점 발표 후 몇 시간 만에 무차별 공격을 퍼붓는다. 
+  - 하지만 해커들은 재부팅을 기다려주지 않는다. 취약점 발표 후 몇 시간 만에 무차별 공격을 퍼붓는다.
   - **해결책**: "재부팅할 시간도 아깝다! 램(RAM)에 로드된 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 기계어 코드 뭉치에서, 버그가 난 그 함수의 시작점에 '무조건 새 함수로 가라'는 점프(JMP) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 한 줄만 몰래 덮어써 버리자!"
 
   - <strong>전통적 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 패치 (재부팅)</strong>: 기차(서버)를 달리게 하는 엔진([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수)에 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 생기면, 기차를 무조건 다음 역에 세우고(Downtime) 승객을 다 내리게 한 뒤 새 엔진으로 통째로 교체하고 다시 출발해야 한다.
   - **라이브 패칭**: 기차가 시속 300km로 맹렬히 달리고 있는 도중에, 정비사(Kpatch)가 지붕에 매달려 엔진의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 난 부품을 쏙 빼고 새 부품을 번개처럼 끼워 넣는다. 승객(사용자)들은 기차가 수리된 줄도 모른 채 목적지에 도착한다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 2008년 MIT 연구진의 Ksplice를 시작으로, Red Hat의 <strong>Kpatch</strong>와 SUSE의 <strong>kGraft</strong>가 경쟁하다 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 4.0(2015년)에서 이들의 장점만 모은 `Livepatch`라는 이름의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 통합 표준 뼈대가 완성되어 엔터프라이즈 리눅스(RHEL, Ubuntu Livepatch)의 킬러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 상용화되었다.
 
 ```text
@@ -93,7 +93,7 @@ tags = ["studynote-operating-system"]
 
 ### ftrace 훅을 활용한 하부 아키텍처
 
-라이브 패칭은 맨땅에서 태어난 게 아니라 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 디버깅 및 트레이싱 도구인 `ftrace` 인프라에 기생하여 완성되었다. gcc 컴파일러는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 빌드할 때 모든 함수의 시작 부분에 몰래 5바이트짜리 `NOP`(아무것도 안 함) 여백을 만들어둔다(`-pg` 옵션). 라이브 패칭은 바로 이 예쁘게 비워진 5바이트 빈칸 공간에 점프(JMP) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 쏙 끼워 넣는 것이기 때문에 주변 기계어 코드를 훼손하지 않고 완벽하게 이식할 수 있다. 
+라이브 패칭은 맨땅에서 태어난 게 아니라 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 디버깅 및 트레이싱 도구인 `ftrace` 인프라에 기생하여 완성되었다. gcc 컴파일러는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 빌드할 때 모든 함수의 시작 부분에 몰래 5바이트짜리 `NOP`(아무것도 안 함) 여백을 만들어둔다(`-pg` 옵션). 라이브 패칭은 바로 이 예쁘게 비워진 5바이트 빈칸 공간에 점프(JMP) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 쏙 끼워 넣는 것이기 때문에 주변 기계어 코드를 훼손하지 않고 완벽하게 이식할 수 있다.
 
 - **📢 섹션 요약 비유**: 옛날 버그가 있는 화장실(구형 함수)을 폐쇄하고 새 화장실(새로운 유형의 함수)을 열 때, "누가 안에 똥을 싸고 있는데 무식하게 화장실 문을 벽돌로 막아버리면(강제 점프) 그 사람은 갇혀 죽습니다([커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)). 그래서 Kpatch 아저씨는 "안에 사람 다 나갈 때까지 문 앞에서 기다렸다가" 아무도 없을 때 0.1초 만에 문에 '폐쇄/옆 화장실 이용' 팻말을 붙이는 가장 안전한 배관공입니다.
 

@@ -32,7 +32,7 @@ tags = ["studynote-operating-system"]
   2. ... (1번 자원 사용 중)                            2. ... (2번 자원 사용 중)
   3. lock(Mutex_2); 요청 (Wait)                      3. lock(Mutex_1); 요청 (Wait)
      ▶ Mutex_2는 B가 쥐고 있으므로 대기                   ▶ Mutex_1은 A가 쥐고 있으므로 대기
-     
+
   🚨 [결과 ─▶ Deadlock 터짐]
   - A는 Mutex_1을 '점유(Hold)'한 채로 Mutex_2를 '대기(Wait)'한다.
   - B는 Mutex_2를 '점유(Hold)'한 채로 Mutex_1을 '대기(Wait)'한다.
@@ -47,7 +47,7 @@ tags = ["studynote-operating-system"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 4대 조건과 점유 대기의 위치
-데드락은 4가지 조건(상호배제, 점유 대기, [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/), [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/))이 100% 모여야 터진다. 이 중 '점유 대기'는 2번째 조건이다. 
+데드락은 4가지 조건(상호배제, 점유 대기, [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/), [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/))이 100% 모여야 터진다. 이 중 '점유 대기'는 2번째 조건이다.
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 설계자들은 이 4가지 조건 중 하나라도 부수면 데드락을 원천 차단할 수 있다는 것을 안다. '[상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)'는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파괴 우려 때문에 부수기 힘들고, '[비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)'은 락의 본질이라 부수기 힘들다. 그래서 아키텍트들이 가장 만만하게 타겟팅하는 놈이 바로 이 '점유 대기([Hold and Wait](/knowledge-base/studynote/02_operating_system/05_deadlock/284_hold_and_wait/)) 파괴'다.
 
 ### 점유 대기를 박살 내는 예방(Prevention) 기법 2가지
@@ -98,9 +98,9 @@ tags = ["studynote-operating-system"]
      ```java
      lockA.lock(); // A를 홀드함
      // 3초간 기다려보고 B를 못 잡으면? Hold and Wait 포기!
-     if (!lockB.tryLock(3, TimeUnit.SECONDS)) { 
+     if (!lockB.tryLock(3, TimeUnit.SECONDS)) {
          lockA.unlock(); // 🚨 내가 쥐고 있던 A마저 토해내고 퇴각! (점유 대기 파괴)
-         return RETRY_LATER; 
+         return RETRY_LATER;
      }
      ```
    - **아키텍처 효과**: 쥐고 뻗대는 무한 대기를 3초라는 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)으로 강제 폭파시켜 버렸다. 데드락이 터지려다가도 3초 뒤에 한 놈이 자원을 다 뱉고 도망가므로, 남은 놈이 자원을 주워 먹어 데드락이 스르륵 풀려버리는 실무 최고의 락 회피 패턴이다.

@@ -40,8 +40,8 @@ tags = ["studynote-network"]
 해시 결과물의 '[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 길이(출력 크기)'에 따라 크게 4명의 형제로 나뉩니다. 숫자가 클수록 해킹(충돌) 저항력이 우주급으로 상승하지만 연산이 약간 무거워집니다.
 
 1. **SHA-224**: 224비트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (잘 안 쓰임)
-2. **SHA-256 🌟**: 가장 대중적인 슈퍼스타입니다. 
-   - 평문을 갈아서 256비트(64자리의 16진수) 해시값을 뱉어냅니다. 
+2. **SHA-256 🌟**: 가장 대중적인 슈퍼스타입니다.
+   - 평문을 갈아서 256비트(64자리의 16진수) 해시값을 뱉어냅니다.
    - <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>코인(Bitcoin)</strong>이 [작업 증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/014_pow_proof_of_work/)(PoW, 채굴)과 지갑 주소를 만들 때 쓰는 절대적인 심장이며, 현대 웹 서버 SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 보장하는 데 가장 널리 쓰입니다. 이 256비트의 경우의 수($2^{256}$)를 무차별 대입으로 충돌시키는 것은 지구상의 모든 모래알 숫자보다 많아 물리적으로 불가능합니다.
 3. **SHA-384**: 384비트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (잘 안 쓰임)
 4. **SHA-512 🌟**: 최고 보안 등급.
@@ -62,7 +62,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- 구형 SHA-1과 같은 'Merkle-Damgård(머클-담고르)' 아키텍처라는 동일한 수학적 뼈대를 쓰지만, 블록을 쪼개고 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 미친 듯이 돌려버리는(Shift, XOR) 내부 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/) 스텝 수를 대폭 늘렸습니다. 
+- 구형 SHA-1과 같은 'Merkle-Damgård(머클-담고르)' 아키텍처라는 동일한 수학적 뼈대를 쓰지만, 블록을 쪼개고 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 미친 듯이 돌려버리는(Shift, XOR) 내부 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/) 스텝 수를 대폭 늘렸습니다.
 - 덕분에 20년이 넘은 지금까지도 학계에서 SHA-2의 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))을 현실적인 시간 내에 찾아내는 치명적인 해킹 수법은 단 1건도 발견되지 않은 무적의 상태입니다.
 
 SHA-2 패밀리를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) 회피 조치, SHA-1 차단이 기반 조건을 만든다면, SHA-2 패밀리는 그 위에서 핵심 메커니즘을 구현하고, [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/) 패밀리는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.

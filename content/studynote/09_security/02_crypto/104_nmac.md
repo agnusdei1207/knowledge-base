@@ -85,7 +85,7 @@ NMAC의 핵심은 "안에서 밖을 건드릴 수 없고, 밖에서 안을 공�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-오늘날 실무 시스템 코드에서 순수한 NMAC을 직접 구현하거나 호출하는 일은 사실상 존재하지 않는다. 
+오늘날 실무 시스템 코드에서 순수한 NMAC을 직접 구현하거나 호출하는 일은 사실상 존재하지 않는다.
 
 ### 판단 가이드
 1. <strong>역사적/이론적 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a></strong>: 시스템 아키텍트나 보안 관리자 시험 등에서 해시 기반 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)의 진화 과정을 묻거나, "왜 굳이 해시를 두 번 중첩해야 하는가?"라는 근원적 질문을 던질 때 NMAC의 원리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))를 방어 논리로 제시해야 한다.
@@ -100,7 +100,7 @@ NMAC의 핵심은 "안에서 밖을 건드릴 수 없고, 밖에서 안을 공�
 
 ## Ⅴ. 기대효과 및 결론
 
-결론적으로 NMAC은 "이론의 완벽함이 실무의 편의성으로 타협되는 기술 진화의 가장 훌륭한 표본"이다. 
+결론적으로 NMAC은 "이론의 완벽함이 실무의 편의성으로 타협되는 기술 진화의 가장 훌륭한 표본"이다.
 
 비록 키를 2개나 관리해야 하고 블랙박스(Black-box) 사용이 불가능하다는 약점 때문에 상업적 표준이 되지는 못했지만, NMAC이 증명해 낸 '중첩 아키텍처의 절대 방어력'은 현대 정보 보안의 근간을 세웠다. NMAC은 해커의 길이 확장 공격을 수학적으로 종식시킨 위대한 선구자로서 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) 교과서의 가장 깊은 곳에 영원히 새겨져 있다.
 

@@ -155,6 +155,6 @@ SLA를 기준으로 시스템을 설계하면 장애 대응이 감각이 아니�
 **진행 상황**: 625 / 803
 
 ← **이전**: [624. BMT (Bench Mark Test) 절차 및 평가 항목](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/624_bmt_procedure/)
-**다음**: [626. 재해 복구 시스템 (DRS) 스토리지 미러링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/626_drs_storage_mirroring/) →
+**다음**: [626. 재해 복구 시스템 (DRS) 스토리지 미러링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/804_drs_storage_mirroring/) →
 
 ---

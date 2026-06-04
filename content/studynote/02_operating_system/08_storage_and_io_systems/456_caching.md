@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 프랑스어 'cache(숨기다)'에서 유래했다. 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 저 멀리 느린 곳에 놔두고, 방금 내가 쓴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 복사본만 내 손 닿는 곳(Cache)에 숨겨두었다가 필요할 때 1초 만에 꺼내 쓰는 행위다. 
+- **개념**: 프랑스어 'cache(숨기다)'에서 유래했다. 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 저 멀리 느린 곳에 놔두고, 방금 내가 쓴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 복사본만 내 손 닿는 곳(Cache)에 숨겨두었다가 필요할 때 1초 만에 꺼내 쓰는 행위다.
 - **필요성**: CPU는 빛의 속도로 계산을 하는데, 하드디스크는 바늘을 돌려 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찾느라 8밀리초(800만 나노초)가 걸린다. CPU가 하드디스크를 매번 기다리면 지구상의 어떤 프로그램도 1초 안에 켜질 수 없다. "그럼 자주 쓰는 파일들을 미리 램(RAM)에 복사해 두면 안 돼?"라는 지극히 상식적인 분노가 캐시를 낳았다. 램에서 읽으면 100나노초면 끝나기 때문에, 디스크를 1번만 읽고 그 뒤로 1만 번을 램에서 읽어대면 전체 시스템 속도는 램 스피드에 수렴하게 된다.
 
 - **등장 배경 및 계층 구조의 탄생**:
@@ -60,7 +60,7 @@ tags = ["studynote-operating-system"]
 
 캐시의 성패를 가르는 운명의 갈림길이다.
 - <strong>Cache <a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/">Hit</a></strong>: CPU가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 달라고 했는데, 캐시에 그 복사본이 딱 있을 때. (0초 컷). 이 확률을 [Hit Ratio](/knowledge-base/studynote/02_operating_system/06_memory_management/359_effective_access_time/)([적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/))라고 한다.
-- **Cache Miss**: 캐시를 뒤졌는데 없을 때. 뒤에 있는 멍청하고 느린 원본(디스크나 메인 램)까지 억지로 걸어가서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져와야 한다. 
+- **Cache Miss**: 캐시를 뒤졌는데 없을 때. 뒤에 있는 멍청하고 느린 원본(디스크나 메인 램)까지 억지로 걸어가서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져와야 한다.
 
 ### 버퍼(Buffer)와 캐시(Cache)의 절대적 차이점
 
@@ -78,11 +78,11 @@ tags = ["studynote-operating-system"]
 
 캐시는 '복사본'이다. 내가 램(캐시)에 있는 엑셀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 글자를 A에서 B로 바꿨다. 그런데 디스크(원본)에는 아직 A라고 적혀있다. 원본과 복사본의 내용이 달라지는 이 끔찍한 불일치(Inconsistency)를 어떻게 해결할까?
 
-1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/">Write-through</a> (<a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/">동시 쓰기</a> - 철통 보안)</strong>: 
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/">Write-through</a> (<a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/">동시 쓰기</a> - 철통 보안)</strong>:
    - 램에 'B'를 적는 그 즉시! 무조건 디스크에도 'B'를 같이 적는다.
    - 원본과 캐시가 100% 일치한다. 정전이 나도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 안전하다.
    - **단점**: 글자 하나 쓸 때마다 디스크를 긁어야 해서 캐시를 만든 의미가 없이 **너무 느려터진다.**
-2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/">Write-back</a> (<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> - 극강 효율)</strong>: 
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/">Write-back</a> (<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> - 극강 효율)</strong>:
    - 일단 램(캐시)에만 'B'를 적는다. 그리고 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 <strong>'나 수정됐어(<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/">Dirty Bit</a> = 1)'</strong>라고 빨간 딱지를 붙인다.
    - 나중에 램이 꽉 차서 이 캐시를 버려야 할 때, 혹은 데몬(pdflush)이 5초마다 깨어났을 때, 모아뒀던 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 디스크에 한 방에 덮어쓴다.
    - **장점**: [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 속도가 우주 최강(램 속도)이 된다. 현대 리눅스의 기본 정책이다.

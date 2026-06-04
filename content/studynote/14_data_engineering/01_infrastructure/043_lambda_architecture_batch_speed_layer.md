@@ -21,7 +21,7 @@ tags = ["studynote-data-engineering"]
 ```
 람다 아키텍처 (Lambda Architecture):
   Nathan Marz (Twitter) 제안, 2012
-  
+
   데이터 소스
       │
       ├── 배치 레이어 (Batch Layer) ──────────┐
@@ -62,7 +62,7 @@ tags = ["studynote-data-engineering"]
   전체 데이터셋(역사적 데이터 포함)을 처리
   정확성 최우선
   지연 허용 (시간 ~ 일 단위)
-  
+
 데이터 스토어:
   HDFS, Amazon S3, Azure ADLS
   포맷: Parquet, ORC (컬럼 지향, 압축 효율)
@@ -126,7 +126,7 @@ Apache Spark 배치 예시:
 쿼리 시 조합:
   총 판매액 쿼리:
     결과 = Batch View (어제까지) + Realtime View (오늘 현재)
-    
+
   코드:
     batch_result = query_hbase("batch_view", user_id, date_range)
     speed_result = query_cassandra("speed_view", user_id, today)
@@ -157,9 +157,9 @@ Flink 스트리밍 예시:
 
 카파 아키텍처 (Kappa Architecture):
   Jay Kreps (LinkedIn) 제안, 2014
-  
+
   핵심: 스트리밍 레이어 하나로 통합
-  
+
   데이터 소스 → Kafka (로그 저장) → 스트리밍 처리 → 서빙
 
   배치 재처리가 필요하면:
@@ -180,7 +180,7 @@ Flink 스트리밍 예시:
   Databricks Delta Live Tables:
     배치 + 스트리밍을 동일 코드로 처리
     람다의 이점 + 카파의 단순성
-    
+
   Apache Flink + Apache Iceberg:
     스트리밍 처리 + 배치 쿼리 통합
     = Kappa + 대규모 재처리 개선
@@ -207,15 +207,15 @@ Flink 스트리밍 예시:
   배치 레이어:
     Spark on EMR, 매일 새벽 3시 실행
     S3 Parquet (원본) → 일별/월별 집계 → HBase (batch view)
-    
+
   스피드 레이어:
     Kafka → Flink → Cassandra (speed view)
     Tumbling Window: 1분 단위 집계
-    
+
   서빙 레이어:
     대시보드 API:
       GET /dashboard/sales?date=today
-      
+
       Response:
         historical (배치 뷰, HBase): 어제까지 합계
         realtime (스피드 뷰, Cassandra): 오늘 지금까지
@@ -229,7 +229,7 @@ Flink 스트리밍 예시:
 카파로 전환 검토:
   문제: 동일 집계 로직 Spark + Flink 중복
   해결: Flink로 통합 + Kafka 24시간 로그 보관
-  
+
   전환 후:
     코드 50% 감소
     인프라 40% 단순화

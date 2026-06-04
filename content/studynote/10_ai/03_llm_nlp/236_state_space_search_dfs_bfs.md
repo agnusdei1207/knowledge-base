@@ -19,7 +19,7 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-초창기 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)(1960년대)은 딥러닝처럼 사진을 보고 개/고양이를 구분하는 게 아니었다. AI의 지능을 뽐내는 유일한 무대는 체스, 8퍼즐(숫자 밀어 맞추기), 하노이의 탑 같은 '게임'이었다. 
+초창기 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)(1960년대)은 딥러닝처럼 사진을 보고 개/고양이를 구분하는 게 아니었다. AI의 지능을 뽐내는 유일한 무대는 체스, 8퍼즐(숫자 밀어 맞추기), 하노이의 탑 같은 '게임'이었다.
 기계가 체스를 이기려면 어떻게 해야 할까? 직관? 딥러닝? 다 필요 없고, <strong>"내가 돌을 여기 놨을 때 일어날 수 있는 미래의 모든 경우의 수를 수백만 개 그려보고, 가장 이길 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>이 높은 길을 고르는 노가다 계산"</strong>이 정답이었다.
 
 이 '경우의 수' 하나하나를 점([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))으로 부르고, 점들을 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)하며 뻗어나가는 지도를 <strong>상태 공간 트리 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> Space Tree)</strong>라고 부른다. 맨 꼭대기 점은 '현재 체스판의 상태([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 상태)'고, 맨 밑바닥 점 어딘가에는 '내가 체스에서 이긴 상태(목표 상태)'가 숨어 있다.
@@ -73,7 +73,7 @@ AI가 상태 공간 트리를 뒤질 때 머릿속의 임시 저장소(자료구
 ```
 
 <strong>핵심 원리 (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a> vs Queue의 메모리 딜레마)</strong>:
-DFS는 메모리(RAM)를 아주 조금 먹는다. 지금 내가 걸어 들어온 길(Path)만 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 저장해 두고 막히면 한 칸 뒤로 물러서기([Backtracking](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/)) 때문이다. 깊이가 100층이어도 100개의 점만 기억하면 된다([공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) 선형). 
+DFS는 메모리(RAM)를 아주 조금 먹는다. 지금 내가 걸어 들어온 길(Path)만 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 저장해 두고 막히면 한 칸 뒤로 물러서기([Backtracking](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/)) 때문이다. 깊이가 100층이어도 100개의 점만 기억하면 된다([공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) 선형).
 반면 BFS는 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 같은 층의 모든 형제 노드들을 와르르 욱여넣고 동시에 전진한다. 층이 깊어질수록 기억해야 할 점의 수가 지수 함수($2^n$, $3^n$)로 폭발하여, 정답을 찾기도 전에 컴퓨터 메모리가 가득 차서 프로그램이 강제 종료([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))되어 버리는 끔찍한 [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)의 저주에 빠진다.
 
 | 요소 | 역할 |

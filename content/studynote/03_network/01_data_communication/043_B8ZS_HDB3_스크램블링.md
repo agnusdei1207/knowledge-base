@@ -26,10 +26,10 @@ AMI (Alternate Mark Inversion) 코딩:
 문제점: 연속 0 데이터:
   입력:  0 0 0 0 0 0 0 0
   AMI:   0 0 0 0 0 0 0 0 (계속 0V)
-  
+
   수신측: 클럭 동기화 실패!
   이유: 전이(Transition)가 없으면 클럭 복원 불가
-  
+
   T1/E1 회선: 클럭이 데이터에서 추출됨
   → 연속 0 = 동기 신호 없음 = 데이터 손실
 
@@ -51,13 +51,13 @@ AMI (Alternate Mark Inversion) 코딩:
 ```
 B8ZS 규칙:
   연속 8개 0 → 특수 8비트 패턴으로 대체
-  
+
   마지막 1의 극성에 따라:
 
   마지막 1이 + 극성:
     000 +V -V 0 -V +V
     (위치:  4  5      7  8 에서 Violation)
-    
+
   마지막 1이 - 극성:
     000 -V +V 0 +V -V
     (위치:  4  5      7  8 에서 Violation)
@@ -65,7 +65,7 @@ B8ZS 규칙:
 위반(Violation) 탐지:
   V: 이전 1과 같은 극성 (AMI 위반)
   B: 이전 1과 다른 극성 (정상 AMI)
-  
+
   패턴: B-0-0-V-B-0-V-B (8비트)
   수신측: V 패턴 탐지 → 원래 8개 0으로 복원
 
@@ -73,7 +73,7 @@ B8ZS 규칙:
   입력:  1  0  0  0  0  0  0  0  0
   AMI:  +V  0  0  0  0  0  0  0  0   (동기 손실!)
   B8ZS: +V  0  0  0 +V -V  0 -V +V  (V=+V, -V 포함)
-  
+
   수신측: 두 번의 Violation(+V→+V) 탐지 → 00000000으로 복원
 
 사용처:
@@ -165,7 +165,7 @@ T1 회선 구성 (미국 기업):
   채널: 24개 DS0 (64Kbps × 24)
   프레임: D4 또는 ESF(Extended Super Frame)
   회선 코딩: AMI 또는 B8ZS
-  
+
   B8ZS 설정 (Cisco):
     controller T1 0/0/0
       framing esf
@@ -176,7 +176,7 @@ E1 회선 구성 (유럽/아시아 기업):
   속도: 2.048Mbps
   채널: 30개 음성 + 2개 시그널링 (채널 0, 16)
   회선 코딩: AMI 또는 HDB3
-  
+
   HDB3 설정 (Cisco):
     controller E1 0/0/0
       framing crc4

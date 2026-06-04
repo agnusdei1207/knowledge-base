@@ -112,7 +112,7 @@ IT 보안과 [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_o
 1. <strong>인라인(In-line) 차단 모드 강제 적용 (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> 파괴)</strong>
    - **상황**: 보안팀이 [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 망 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 IT용 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)(Intrusion Prevention System)를 인라인으로 설치하고 차단([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 모드를 활성화함.
    - **문제**: IPS의 미세한 패킷 검사 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 PLC와 로봇 팔 간의 타이밍 동기화를 깨뜨리거나, 오탐(False Positive)으로 정상 제어 패킷을 드롭하여 전체 생산 라인이 급정지함.
-   - **의사결정**: [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 환경에서는 보안 장비를 절대 인라인으로 배치하지 않고, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)(Mirror/SPAN) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 통해 아웃오브밴드(Out-of-band) 형태로 트래픽을 수집하여 <strong>모니터링 및 탐지(<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a> Only)</strong> 위주로 구성해야 한다. 
+   - **의사결정**: [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 환경에서는 보안 장비를 절대 인라인으로 배치하지 않고, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)(Mirror/SPAN) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 통해 아웃오브밴드(Out-of-band) 형태로 트래픽을 수집하여 <strong>모니터링 및 탐지(<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a> Only)</strong> 위주로 구성해야 한다.
 
 2. <strong>레거시 윈도우 OS 대상 백신(<a href="/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/">AV</a>) 스캔 강제</strong>
    - **상황**: HMI(Human Machine Interface) 시스템이 Windows XP를 사용 중이라, 백신 프로그램을 설치하고 매일 정오에 전체 스캔(Full Scan)을 예약함.
@@ -175,8 +175,8 @@ IT 보안과 [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_o
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-🏭 **공장 방어선**: [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 보안은 인터넷 해커가 공장 로봇팔에 나쁜 명령을 보내지 못하도록 막는 것이에요. 공장이 멈추면 사람이 다칠 수도 있어서 매우 중요해요!  
-🔌 **연결의 위험**: 예전에는 공장 컴퓨터가 인터넷과 완전히 분리되어 안전했어요. 하지만 이제 인터넷으로 공장을 원격 관리하면서 해커가 침입할 구멍이 생겼어요!  
+🏭 **공장 방어선**: [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 보안은 인터넷 해커가 공장 로봇팔에 나쁜 명령을 보내지 못하도록 막는 것이에요. 공장이 멈추면 사람이 다칠 수도 있어서 매우 중요해요!
+🔌 **연결의 위험**: 예전에는 공장 컴퓨터가 인터넷과 완전히 분리되어 안전했어요. 하지만 이제 인터넷으로 공장을 원격 관리하면서 해커가 침입할 구멍이 생겼어요!
 🛡️ **층별 방어**: 퍼듀 모델은 공장 네트워크를 층별로 나눠서 한 층이 뚫려도 다른 층은 안전하게 지키는 방어 방법이에요. 아파트 각 층에 자물쇠를 따로 달아두는 것처럼요!
 
 ---

@@ -62,9 +62,9 @@ tags = ["studynote-operating-system"]
 
 모든 램 조각을 다 옮길 수 있는 것은 절대 아니다. 컴팩션 아키텍처의 가장 큰 벽은 "움직일 수 없는 녀석들(Unmovable Pages)"을 가려내는 것이다.
 
-1. **이동 가능 (Movable Pages)**: 
-   - 일반 유저 앱(크롬, [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 등)이 쓰는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 매핑 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들. 
-   - [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐시([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache). 
+1. **이동 가능 (Movable Pages)**:
+   - 일반 유저 앱(크롬, [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 등)이 쓰는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 매핑 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들.
+   - [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐시([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache).
    - 이들은 램 위치가 바뀌어도 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)(PT) 화살표만 슬쩍 바꿔주면 CPU가 알아서 따라가므로 완벽하게 이사 가능하다.
 2. **이동 불가 (Unmovable Pages)**:
    - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 구조체(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/">슬랩</a> 등)</strong>: [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 마법을 안 거치고 하드웨어가 직접 주소를 물고 있는 경우가 많아 옮기면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 패닉(Crash)에 빠진다.

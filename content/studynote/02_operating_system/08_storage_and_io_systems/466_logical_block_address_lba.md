@@ -59,11 +59,11 @@ tags = ["studynote-operating-system"]
 
 ### [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)에서 물리로: Zoned [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Recording (ZBR)
 
-하드디스크 원판(플래터)을 생각해 보자. 
-- 바깥쪽 원둘레가 안쪽 원둘레보다 훨씬 길다. 
+하드디스크 원판(플래터)을 생각해 보자.
+- 바깥쪽 원둘레가 안쪽 원둘레보다 훨씬 길다.
 - 옛날엔 원판을 피자처럼 똑같이 잘라서, 바깥쪽도 10섹터, 안쪽도 10섹터만 넣었다(바깥쪽 공간 낭비).
 - **ZBR 기술의 도입**: "바깥쪽 원이 더 기니까, 거기에 자석을 더 촘촘히 발라서 섹터를 30개 넣자!" (용량 폭발적 증가).
-- **OS의 패닉**: 이렇게 원판 구역(Zone)마다 섹터 개수가 제각각으로 달라지면, 밖에서 보는 OS는 도대체 어디가 몇 번 섹터인지 수학적으로 계산을 할 수가 없다! 
+- **OS의 패닉**: 이렇게 원판 구역(Zone)마다 섹터 개수가 제각각으로 달라지면, 밖에서 보는 OS는 도대체 어디가 몇 번 섹터인지 수학적으로 계산을 할 수가 없다!
 - **LBA의 절대적 위상**: 하드디스크 제조사는 이 ZBR 기술을 팔아먹기 위해 "OS야, 계산은 우리 컨트롤러 칩이 다 할 테니까 넌 그냥 LBA 1차원 번호표만 달라고 해!" 라며 LBA를 강제할 수밖에 없었다. LBA는 고밀도 하드디스크를 가능케 한 1등 공신이다.
 
 ---
@@ -72,7 +72,7 @@ tags = ["studynote-operating-system"]
 
 하드디스크를 오래 쓰면 자성이 날아가서 특정 섹터(예: 물리적 500번지)가 죽어버린다(배드 섹터).
 - 과거 CHS 시절: OS가 500번지에 쓰려고 했다가 에러가 난다. OS가 화면에 파란 창을 띄우고 유저에게 "하드 고장 남 ㅋ" 하고 뻗어버렸다.
-- **현대 LBA 시절 (Remapping)**: 
+- **현대 LBA 시절 (Remapping)**:
   - OS가 "LBA 500번에 써라"고 던졌다.
   - 디스크 컨트롤러가 써보니 에러가 난다. (배드 섹터 발견).
   - 컨트롤러는 OS에게 보고하지 않고, <strong>디스크 구석에 짱박아둔 여분의 예비 공간(Spare Sector)</strong>으로 슬쩍 찾아가서 거기에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰고 온다.
@@ -97,7 +97,7 @@ tags = ["studynote-operating-system"]
 
 ### LBA와 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 조각화 ([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))
 OS의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(EXT4)이 보기에 1번 LBA와 2번 LBA는 나란히 붙어있는 이웃이다. 그래서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 연속해서 LBA 1번, 2번에 쓰면 나중에 빨리 읽겠지?"라고 생각한다.
-하지만 하드디스크 내부에서 배드 섹터 리매핑이 터져서, 2번 LBA가 저 멀리 안쪽 예비 섹터로 쫓겨나 있다면? 
+하지만 하드디스크 내부에서 배드 섹터 리매핑이 터져서, 2번 LBA가 저 멀리 안쪽 예비 섹터로 쫓겨나 있다면?
 OS는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 연속되어 있다고 굳게 믿지만, 실제 하드디스크 바늘은 1번을 읽고 2번을 읽기 위해 원판을 가로질러 덜그럭덜그럭 점프(Seek)를 뛰게 된다. 소프트웨어 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)와 하드웨어 물리의 간극이 빚어낸 딜레마다.
 
 ```text

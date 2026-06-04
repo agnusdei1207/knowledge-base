@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-네트워크에서 통신이 성립하려면 송신 측의 부호화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 물리적 에너지([전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), 빛, 전파 등) 형태로 수신 측까지 살아서 도달해야 한다. 이 에너지가 이동하는 통로를 전송 매체(Transmission Media)라 부르며, OSI 7계층 중 1계층(Physical Layer)의 가장 밑바닥을 구성한다. 
+네트워크에서 통신이 성립하려면 송신 측의 부호화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 물리적 에너지([전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), 빛, 전파 등) 형태로 수신 측까지 살아서 도달해야 한다. 이 에너지가 이동하는 통로를 전송 매체(Transmission Media)라 부르며, OSI 7계층 중 1계층(Physical Layer)의 가장 밑바닥을 구성한다.
 매체는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 에너지를 특정 경로로 구속하여(가두어) 전달하는 <strong>유도 매체(Guided Media)</strong>와, 대기나 진공 상태로 에너지를 방사하는 <strong>비유도 매체(Unguided Media)</strong>로 나뉜다. 기존에는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 높고 안정적인 유도 매체가 지배적이었으나, 기기의 이동성 요구와 지형적 제약으로 인해 비유도 매체 기술(무선 통신)이 폭발적으로 발전하는 패러다임 변화를 겪고 있다.
 이 두 매체의 특성을 정확히 이해하는 것은, 요구되는 트래픽 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)), 물리적 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/), 그리고 구축 예산(CAPEX) 간의 트레이드오프를 최적화하여 네트워크 아키텍처의 뼈대를 세우기 위해 반드시 필요하다.
 

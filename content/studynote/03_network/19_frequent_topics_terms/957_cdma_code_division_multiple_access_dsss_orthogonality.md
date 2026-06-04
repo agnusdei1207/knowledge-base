@@ -41,12 +41,12 @@ tags = ["studynote-network"]
 CDMA는 앞서 배운 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/956_dsss_direct_sequence_spread_spectrum_chipping_code/">DSSS</a> (직접 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/">확산 스펙트럼</a>)</strong> 기술 위에 '직교 수학'을 얹어 다수결 통신을 만든 것입니다.
 
 1. **송신 (코드 씌우기)**: 철수와 영희가 동시에 전화를 겁니다.
-   - 폰은 철수의 음성에 'A라는 직교 암호 코드(칩)'를 100만 번 곱해서 파동을 안개처럼 확 넓힙니다. 
+   - 폰은 철수의 음성에 'A라는 직교 암호 코드(칩)'를 100만 번 곱해서 파동을 안개처럼 확 넓힙니다.
    - 영희의 음성에는 'B라는 직교 암호 코드'를 씌워 안개처럼 넓힙니다.
-2. **공중에서의 짬뽕 (간섭/노이즈화)**: 
-   - 철수의 안개 파동과 영희의 안개 파동이 공중(같은 주파수)에서 쾅 부딪혀 한 덩어리의 쓰레기 잡음(백색 소음)으로 뭉개집니다. 
+2. **공중에서의 짬뽕 (간섭/노이즈화)**:
+   - 철수의 안개 파동과 영희의 안개 파동이 공중(같은 주파수)에서 쾅 부딪혀 한 덩어리의 쓰레기 잡음(백색 소음)으로 뭉개집니다.
 3. **수신 (역확산 핀셋 추출) 🌟**:
-   - 기지국이 이 거대한 쓰레기 잡음 덩어리를 뜰채로 받습니다. 
+   - 기지국이 이 거대한 쓰레기 잡음 덩어리를 뜰채로 받습니다.
    - 기지국은 철수의 목소리를 찾기 위해 믹서기(수신기)에 쓰레기 덩어리를 넣고 <strong>'철수의 A 암호 코드'</strong>를 다시 곱해버립니다(역확산).
    - **기적**: 철수의 암호와 [직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)(서로 수학적 각도가 90도로 어긋남)을 가진 영희의 B 데이터는 믹서기에 갈리면서 바닥의 0(먼지)으로 짓눌려 사라져버립니다. **오직 철수의 A 데이터만이 산봉우리처럼 뾰족하게 확 살아나 100% 복원됩니다.**
 

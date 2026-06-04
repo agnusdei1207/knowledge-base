@@ -89,13 +89,13 @@ tags = ["studynote-operating-system"]
 └──────────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 구조는 속도와 메모리라는 두 마리 토끼를 잡는 핵심 메커니즘이다. 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안에는 진짜 `printf` 코드가 아니라 껍데기([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))만 있다. 최초 호출 시에는 OS의 동적 링커가 개입하여 시스템 폴더를 뒤져 `libc.so`를 찾고 메모리에 올린 뒤 그 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)를 알아내어 주소 테이블(GOT)에 적어둔다. (이때 미세한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생). 하지만 두 번째 호출부터는 테이블에 적힌 주소로 다이렉트 점프(Yes 경로)하므로 속도 저하가 전혀 발생하지 않는다. 
+**[다이어그램 해설]** 이 구조는 속도와 메모리라는 두 마리 토끼를 잡는 핵심 메커니즘이다. 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안에는 진짜 `printf` 코드가 아니라 껍데기([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))만 있다. 최초 호출 시에는 OS의 동적 링커가 개입하여 시스템 폴더를 뒤져 `libc.so`를 찾고 메모리에 올린 뒤 그 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)를 알아내어 주소 테이블(GOT)에 적어둔다. (이때 미세한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생). 하지만 두 번째 호출부터는 테이블에 적힌 주소로 다이렉트 점프(Yes 경로)하므로 속도 저하가 전혀 발생하지 않는다.
 
 ---
 
 ### 주소 독립 코드 (PIC: Position Independent [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))
 
-동적 연결이 완벽하게 작동하려면, [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 메모리의 <strong>어느 주소에 적재되더라도 정상적으로 실행</strong>될 수 있도록 컴파일되어야 한다. 
+동적 연결이 완벽하게 작동하려면, [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 메모리의 <strong>어느 주소에 적재되더라도 정상적으로 실행</strong>될 수 있도록 컴파일되어야 한다.
 - 만약 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 특정 절대 주소(예: 1000번지)를 고집한다면, 다른 프로그램이 1000번지를 쓰고 있을 때 충돌이 난다.
 - 따라서 C/C++에서 동적 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 만들 때(예: GCC의 `-fPIC` 옵션)는, 모든 코드 내부의 JUMP 주소를 절대 주소가 아닌 <strong>현재 위치(Program <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">Counter</a>) 기준 상대 주소(Relative Address)</strong>로 변환하여 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다. 이를 주소 독립 코드라고 한다.
 

@@ -66,7 +66,7 @@ tags = ["studynote-network"]
 이 고전적인 공격을 막기 위해 오늘날의 윈도우와 리눅스는 철통같은 방어막을 쳐두었습니다.
 
 1. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/">ASLR</a> (주소 공간 배치 난수화)</strong>:
-   - 해커가 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 덮어쓸 때 "악성코드가 있는 주소"를 정확히 알아야 점프할 수 있습니다. 
+   - 해커가 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 덮어쓸 때 "악성코드가 있는 주소"를 정확히 알아야 점프할 수 있습니다.
    - ASLR은 컴퓨터가 켜질 때마다, 또는 프로그램이 실행될 때마다 <strong>메모리의 주소(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>, 힙 등) 위치를 무작위(Random)로 마구 섞어버리는 기술</strong>입니다. 해커는 악성코드의 주소가 매번 바뀌므로 점프할 과녁을 찾지 못하게 됩니다.
 2. <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/">DEP</a>/NX (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 실행 방지)</strong>:
    - [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이나 힙은 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'를 담는 곳이지 '[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)'를 실행하는 곳이 아닙니다. CPU 차원에서 <strong>"이 구역(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>)에 있는 텍스트는 절대 코드로 실행하지 마라!"라고 실행 방지(No-eXecute) 도장을 찍어두는 기술</strong>입니다. 해커가 점프에 성공해도 코드가 실행되지 않습니다.

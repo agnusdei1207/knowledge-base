@@ -19,12 +19,12 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 40바이트 고정 헤더 내에 위치한 8비트짜리 필드 두 개. 
+- **개념**: [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 40바이트 고정 헤더 내에 위치한 8비트짜리 필드 두 개.
   - `Next Header`: 내 뒤에 따라오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 종류([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 혹은 확장 헤더)를 지시.
   - `Hop Limit`: 패킷이 거칠 수 있는 최대 라우터 개수.
 - **필요성**: IPv4는 헤더 안에 옵션(Options)을 마구 집어넣을 수 있어서 헤더 길이가 20바이트에서 60바이트까지 들쭉날쭉 변했다. 이러면 라우터가 "어디까지가 헤더야?" 하고 계산하느라 뻗어버린다. IPv6는 <strong>"무조건 메인 헤더는 40바이트로 픽스! 만약 추가 옵션이 필요하면 메인 헤더 뒤에 별도의 '확장 헤더' 블록을 꼬리물기 하듯 붙여라!"</strong>라는 천재적인 모듈화 설계를 도입했다. 이 꼬리물기를 엮어주는 고리가 Next Header다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - **Next Header**: 블록 장난감 기차의 <strong>"자석 연결 고리"</strong>입니다. 맨 앞 기관차(기본 헤더)의 고리에 화물칸(확장 헤더)을 붙이고, 화물칸의 고리에 또 여객칸([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))을 무한히 이어 붙일 수 있게 해줍니다.
   - **Hop Limit**: 좀비 목에 걸어둔 <strong>"폭탄 타이머"</strong>입니다. 방(라우터)을 하나 통과할 때마다 숫자가 1씩 깎이고, 0이 되면 펑! 터져서 방황하는 좀비를 제거합니다.
 

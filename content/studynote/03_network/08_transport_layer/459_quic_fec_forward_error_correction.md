@@ -20,7 +20,7 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))들에 수학적인 오류 정정 코드(Redundant/[Parity bit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/))를 추가로 붙여 전송함으로써, 네트워크 상에서 일부 패킷이 유실되더라도 수신 측이 재전송 요청([ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/)) 없이 독립적으로 유실된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복원해 내는 채널 코딩 기술. (초기 구글 QUIC에서 실험적으로 도입됨).
-- **필요성**: 화성 탐사선이나 해저 케이블 통신을 해보자. 미국에서 한국까지 한 번 쏘는데 200ms가 걸린다. 100번 패킷이 바다에 빠졌다. 한국 PC가 "100번 다시 줘!(ACK)" 쏘고, 미국 서버가 "옛다 100번!(재전송)" 쏴주는 걸 기다리려면 400ms(0.4초)가 허공에 날아간다. <strong>"야! 왕복 시간(<a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a>) 기다리는 거 개빡치니까, 애초에 내가 보낼 때 '만능 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 패킷'을 하나 끼워 팔 테니까, 가다가 하나 빠져도 네가 그 만능 패킷으로 수학 계산해서 빈칸 채워 넣어!! 재전송 요구 절대 하지 마!!"</strong> 
+- **필요성**: 화성 탐사선이나 해저 케이블 통신을 해보자. 미국에서 한국까지 한 번 쏘는데 200ms가 걸린다. 100번 패킷이 바다에 빠졌다. 한국 PC가 "100번 다시 줘!(ACK)" 쏘고, 미국 서버가 "옛다 100번!(재전송)" 쏴주는 걸 기다리려면 400ms(0.4초)가 허공에 날아간다. <strong>"야! 왕복 시간(<a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a>) 기다리는 거 개빡치니까, 애초에 내가 보낼 때 '만능 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 패킷'을 하나 끼워 팔 테니까, 가다가 하나 빠져도 네가 그 만능 패킷으로 수학 계산해서 빈칸 채워 넣어!! 재전송 요구 절대 하지 마!!"</strong>
 
 - **💡 비유**: FEC는 시험 칠 때 선생님이 주시는 <strong>"부분 <a href="/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/">힌트</a> 정답지"</strong>와 같습니다.
   - <strong>재전송(<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>)</strong>: 학생이 3번 문제를 못 풀면 선생님께 "3번 정답 알려주세요!"라고 손을 듭니다(재전송 요청). 선생님이 걸어올 때까지 아무 문제도 못 풀고 기다려야 합니다.
@@ -49,7 +49,7 @@ tags = ["studynote-network"]
 - 결과물로 <strong><code>패리티 패킷 P</code></strong>가 1개 뿅! 하고 튀어나온다.
 - 서버는 `A, B, C, D, P` 총 5개를 쏜다.
 - **사고 발생!**: 패킷 `C` 가 바다에 빠져서 영원히 죽었다.
-- 수신자(스마트폰)는 `A, B, _, D, P` 4개만 받았다. 
+- 수신자(스마트폰)는 `A, B, _, D, P` 4개만 받았다.
 - <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>의 기적</strong>: 수신자는 놀라지 않고, 멀쩡히 받은 `A, B, D` 그리고 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 엽서인 `P`를 믹서기(역 XOR 연산)에 다시 넣고 갈아버린다.
 - 믹서기 안에서 마법처럼 죽어버린 <strong><code>C</code>의 원본 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 100% 완벽하게 튀어나온다!!</strong>
 

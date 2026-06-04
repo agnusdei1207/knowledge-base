@@ -42,7 +42,7 @@ tags = ["studynote-network"]
 
 ### 1. [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) / DSRC (Wi-Fi 기반)
 * **표준**: IEEE 802.11p
-* <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">매체</a> 제어 (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/">CSMA</a>/<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a>)</strong>: 기존 Wi-Fi처럼 데이터를 보내기 전에 주파수 채널이 비어있는지 먼저 들어보고(Carrier Sense), 비어있으면 쏜다. 
+* <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">매체</a> 제어 (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/">CSMA</a>/<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a>)</strong>: 기존 Wi-Fi처럼 데이터를 보내기 전에 주파수 채널이 비어있는지 먼저 들어보고(Carrier Sense), 비어있으면 쏜다.
 * **특징**: 복잡한 기지국(망) 없이 노변 기지국([RSU](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/))과 차량 단말(OBU)만 있으면 즉시 통신이 가능한 단순한 구조다. 하지만 차가 너무 많아지면 서로 눈치를 보느라 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 발생한다.
 
 ### 2. [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) (이동통신 기반)

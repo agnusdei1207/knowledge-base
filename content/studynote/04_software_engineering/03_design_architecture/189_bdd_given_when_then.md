@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-[행위 주도 개발](/knowledge-base/studynote/11_design_supervision/06_exam_summary/412_process/)([Behavior-Driven Development](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/126_bdd_behavior_driven_development_given_when_then/))은 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)([테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/))에서 파생된 기법으로, 테스트 자체가 **'사용자가 시스템에서 기대하는 행동(Behavior)'** 을 명세하는 문서가 되도록 하는 접근법입니다. 
+[행위 주도 개발](/knowledge-base/studynote/11_design_supervision/06_exam_summary/412_process/)([Behavior-Driven Development](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/126_bdd_behavior_driven_development_given_when_then/))은 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)([테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/))에서 파생된 기법으로, 테스트 자체가 **'사용자가 시스템에서 기대하는 행동(Behavior)'** 을 명세하는 문서가 되도록 하는 접근법입니다.
 비개발자(PO, 기획자)와 개발자 모두가 이해할 수 있는 공통의 일상 언어([Ubiquitous Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/))로 요구사항을 작성하는 것이 핵심입니다.
 
 - **📢 섹션 요약 비유**: BDD의 Given-When-Then 문법을 이용한 명세은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.

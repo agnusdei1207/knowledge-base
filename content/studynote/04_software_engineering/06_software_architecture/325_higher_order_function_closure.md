@@ -19,15 +19,15 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
-  - **고차 함수 (Higher-Order Function, HOF)**: "함수를 매개변수(인자)로 받거나, 결과값으로 함수를 반환(Return)하는" 한 차원 높은 함수다. 
+- **개념**:
+  - **고차 함수 (Higher-Order Function, HOF)**: "함수를 매개변수(인자)로 받거나, 결과값으로 함수를 반환(Return)하는" 한 차원 높은 함수다.
   - **클로저 (Closure)**: "어떤 함수가 내부에서 또 다른 내부 함수를 반환할 때, 그 내부 함수가 자신이 태어난 외부 함수의 변수 환경(Lexical [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))을 끈질기게 기억하고 접근할 수 있는 마법"이다.
 
-- **필요성**: 
+- **필요성**:
   - **고차 함수의 필요성**: 배열에서 짝수를 찾는 `for`문, 3의 배수를 찾는 `for`문을 매번 수십 줄씩 반복해서 짰다. "배열을 순회하는 껍데기 로직은 내가 짤 테니, 안에 들어갈 '조건(함수)'만 니가 밖에서 던져주면 안 될까?"라는 극단적인 코드 재사용의 요구가 `filter`나 `map` 같은 고차 함수를 탄생시켰다.
   - **클로저의 필요성**: 자바스크립트에는 `private` 같은 변수 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 문법이 오랫동안 없었다. 누구나 전역 변수를 건드려 화면 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)(버튼 클릭 수)를 조작할 수 있었다. "함수가 끝난 뒤에도 어떤 변수 값을 끈질기게 기억하게 하면서, 바깥세상(해커)은 절대 그 변수를 훔쳐보거나 조작하지 못하게 할 수 없을까?"라는 캡슐화의 열망이 클로저라는 유령 같은 구조를 만들어냈다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - <strong>고차 함수</strong>는 <strong>'만능 붕어빵 기계'</strong>입니다. 반죽 굽는 기계(고차 함수)는 똑같은데, 손님이 팥(함수)을 던져주면 팥붕어빵이 나오고, 슈크림(함수)을 던져주면 슈크림붕어빵이 튀어나오는 극강의 조립 시스템입니다.
   - <strong>클로저</strong>는 <strong>'영원히 간직된 할머니의 비법 노트'</strong>입니다. 할머니 식당(외부 함수)은 망해서 문을 닫았지만(메모리 소멸), 손자(내부 반환된 함수)가 할머니의 비법 노트(외부 변수)를 몰래 가슴에 품고 빠져나와 평생 그 레시피를 기억하며 요리를 만들어 파는 마법입니다.
 

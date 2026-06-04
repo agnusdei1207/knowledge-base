@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-과거의 보안 테스트는 개발이 다 끝나고 배포하기 직전, 보안팀이 수동으로 모의해킹([Penetration Testing](/knowledge-base/studynote/09_security/13_secops_ir_forensics/676_penetration_testing/))을 수행하는 식이었다. 하지만 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))과 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD의 도입으로 하루에도 수십 번씩 배포가 일어나는 환경에서 수동 검사는 심각한 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))이 되었다. 
+과거의 보안 테스트는 개발이 다 끝나고 배포하기 직전, 보안팀이 수동으로 모의해킹([Penetration Testing](/knowledge-base/studynote/09_security/13_secops_ir_forensics/676_penetration_testing/))을 수행하는 식이었다. 하지만 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))과 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD의 도입으로 하루에도 수십 번씩 배포가 일어나는 환경에서 수동 검사는 심각한 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))이 되었다.
 
 이를 해결하기 위해 "보안 검증도 코드로 자동화하자"는 [데브섹옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)([DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)) 철학이 대두되었다. 사람이 직접 코드를 리뷰하는 대신, 도구가 알아서 소스코드를 스캔하고([SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)), 웹사이트를 찔러보며([DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)), 애플리케이션 내부에서 로직을 감시([IAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/493_iast_interactive_analysis/))하는 자동화된 보안 테스팅 툴 체인이 등장하게 된 것이다.
 
@@ -78,7 +78,7 @@ tags = ["studynote-software-engineering"]
 └──────────────────────────────────────────────────────────────┘
 ```
 
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/">SAST</a> (정적)</strong>: 코드가 실행되지 않은 상태에서 텍스트(설계도)만 분석한다. 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/">SAST</a> (정적)</strong>: 코드가 실행되지 않은 상태에서 텍스트(설계도)만 분석한다.
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/">DAST</a> (동적)</strong>: 코드는 못 보고, 밖에서 해커처럼 로그인 창에 이상한 문자를 쏴본다.
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/493_iast_interactive_analysis/">IAST</a> (대화형)</strong>: DAST처럼 밖에서 쏘는데, 앱 안에도 센서(에이전트)가 있어서 "아, 방금 들어온 문자가 125번 줄 SQL 쿼리까지 도달했네! 취약점이다!"라고 정확히 집어낸다.
 

@@ -152,7 +152,7 @@ cgroups v2: 통합 계층 구조 · PSI (Pressure Stall)
     ▼
 K8s: requests/limits → QoS(Guaranteed · Burstable · BestEffort)
 ```
-2. 이러면 다른 친구들이 배가 고파 쓰러지겠죠? 그래서 호랑이 선생님(리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 나섰어요! "여기 각자 자기 이름이 적힌 접시에 고기 딱 10인분씩만 덜어 줄 테니, 다 먹었으면 더 이상 남의 고기 넘보지 마!" 
+2. 이러면 다른 친구들이 배가 고파 쓰러지겠죠? 그래서 호랑이 선생님(리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 나섰어요! "여기 각자 자기 이름이 적힌 접시에 고기 딱 10인분씩만 덜어 줄 테니, 다 먹었으면 더 이상 남의 고기 넘보지 마!"
 3. 이렇게 아이들(프로세스)마다 먹을 수 있는 고기와 밥의 한계량(Limit)을 아주 엄격하게 딱딱 정해서 배분해 주고 통제하는 호랑이 선생님의 마법을 '[cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/)(씨그룹스)'라고 한답니다!
 
 ---

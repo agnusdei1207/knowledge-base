@@ -23,7 +23,7 @@ tags = ["studynote-network"]
 - **IT 망 (사무실, 인터넷)**:
   - <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">기밀성</a> (<a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">Confidentiality</a>)이 1순위</strong>입니다. 고객 개인정보가 털리는 게 최악입니다. 백신 돌리느라 서버가 1초 멈추거나 재부팅 해도 아무도 안 죽습니다.
 - <strong><a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/">OT</a> 망 (공장, 발전소, 철도, <a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/894_scada/">SCADA</a>/<a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/893_ics_industrial_control_system/">ICS</a>) 🌟</strong>:
-  - <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>)이 무조건 0순위</strong>입니다. 기밀이 털리든 말든, 돌아가는 용광로 밸브 시스템이 백신 업데이트하느라 '1초 정지(재부팅)'되는 순간 폭발 사고로 전 직원이 몰살당합니다. 
+  - <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>)이 무조건 0순위</strong>입니다. 기밀이 털리든 말든, 돌아가는 용광로 밸브 시스템이 백신 업데이트하느라 '1초 정지(재부팅)'되는 순간 폭발 사고로 전 직원이 몰살당합니다.
   - **딜레마**: 공장 기계는 윈도우 95, [XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) 같은 구석기 OS를 20년째 안 끄고 그냥 돌립니다(패치/백신 설치 불가). 해커가 들어오면 100% 감염되는 걸 알면서도 끌 수가 없는 최악의 무방비 시한폭탄입니다.
 
 ```text
@@ -57,7 +57,7 @@ tags = ["studynote-network"]
 ### 2. 물리적 일방향 전송 (Unidirectional [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Diode](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)) 🌟 최고 무기 🌟
 방화벽은 소프트웨어라 해커가 뚫을 수 있습니다. 물리학으로 방어합니다.
 - 공장의 온도를 사장님에게 보내줘야 하니 선은 연결해야 합니다.
-- <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/">다이오드</a> 마법</strong>: 공장([OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/)) ➜ 사장님(IT) 방향으로만 레이저 빛을 쏠 수 있고, <strong>사장님(IT) 쪽에서 공장(<a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/">OT</a>)으로는 수신 센서(광 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/">다이오드</a>) 자체를 아예 하드웨어적으로 도려내어 부숴버린 1,000만 원짜리 전용 장비</strong>를 길목에 박아버립니다. 
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/">다이오드</a> 마법</strong>: 공장([OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/)) ➜ 사장님(IT) 방향으로만 레이저 빛을 쏠 수 있고, <strong>사장님(IT) 쪽에서 공장(<a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/">OT</a>)으로는 수신 센서(광 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/">다이오드</a>) 자체를 아예 하드웨어적으로 도려내어 부숴버린 1,000만 원짜리 전용 장비</strong>를 길목에 박아버립니다.
 - 해커가 사장님 망을 다 뚫고 공장으로 악성 코드를 날려도, 반대편에서 빛을 받아주는 렌즈 칩 자체가 물리학적으로 존재하지 않기 때문에 패킷이 허공에 툭 떨어져 증발해 버리는(역류 100% 불가) 절대 에어갭 융합 장비입니다.
 
 ### 3. [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 화이트리스팅 및 키오스크 소독

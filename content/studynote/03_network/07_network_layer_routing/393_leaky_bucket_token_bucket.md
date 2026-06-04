@@ -20,7 +20,7 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 네트워크로 유입되는 트래픽의 전송률(Rate)을 측정하고, 돌발적인 폭주(Burst) 트래픽을 평탄화(Smoothing)하거나 제한하기 위해 고안된 두 가지 고전적인 트래픽 계측 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/).
-- **필요성**: 라우터에 "10Mbps로 속도 제한해!"라고 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 쳤다. 컴퓨터가 0.1초 동안 20Mbps로 쏘고 나머지 0.9초를 쉬면 평균은 10Mbps 이하다. 이걸 막아야 할까 봐줘야 할까? <strong>"순간적인 폭주(Burst)를 용납하지 않고 칼같이 썰어버릴 것인가, 아니면 평균값만 맞으면 융통성 있게 한 번에 훅 통과시켜 줄 것인가?"</strong>를 결정하는 판단 기준이 필요했다. 
+- **필요성**: 라우터에 "10Mbps로 속도 제한해!"라고 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 쳤다. 컴퓨터가 0.1초 동안 20Mbps로 쏘고 나머지 0.9초를 쉬면 평균은 10Mbps 이하다. 이걸 막아야 할까 봐줘야 할까? <strong>"순간적인 폭주(Burst)를 용납하지 않고 칼같이 썰어버릴 것인가, 아니면 평균값만 맞으면 융통성 있게 한 번에 훅 통과시켜 줄 것인가?"</strong>를 결정하는 판단 기준이 필요했다.
 
 - **💡 비유**: 두 버킷은 놀이공원의 <strong>"입장 게이트 통제 방식"</strong>과 같습니다.
   - **Leaky Bucket**: 회전문입니다. 밖에 1,000명이 몰려와도 무조건 "1초에 1명씩만" 돌아갑니다. 극도의 안정성을 주지만 융통성이 0입니다.
@@ -43,7 +43,7 @@ tags = ["studynote-network"]
 
 ### 1. Leaky Bucket (리키 버킷) - 절대 평탄화
 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/)(비동기 전송 모드) 네트워크에서 주로 썼던 구형 방식이다.
-- 동작: 물(패킷)을 양동이 위로 들이붓는다. 양동이 밑바닥엔 구멍이 뚫려 있어 일정 속도로만 물이 빠져나간다. 
+- 동작: 물(패킷)을 양동이 위로 들이붓는다. 양동이 밑바닥엔 구멍이 뚫려 있어 일정 속도로만 물이 빠져나간다.
 - 결과: 입력 속도가 아무리 지멋대로 뛰어도, **출력 속도는 무조건 $V$ 라는 상수(Constant Rate)로 100% 일정하게 고정된다**.
 - [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/): 너무 많이 부어서 양동이 위로 물이 넘치면? 그 패킷들은 가차 없이 버려진다(Drop).
 - 특징: **Burst(순간 폭주)를 단 1%도 허락하지 않는다**.
@@ -53,7 +53,7 @@ tags = ["studynote-network"]
 - **$Tc$ (Time Interval)**: 보통 1초의 1/1000 단위. 토큰을 채워 넣는 주기.
 - **$Bc$ (Committed Burst)**: 양동이의 크기 (최대 모을 수 있는 동전 개수).
 - **$[CIR](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/)$ ([Committed Information Rate](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/))**: 계약한 속도. 1초에 동전을 몇 개씩 부어줄 것인가.
-- 동작 원리: 
+- 동작 원리:
   1. 시스템이 일정 시간마다 양동이에 토큰(동전)을 떨어뜨린다.
   2. 패킷 1바이트가 지나가려면 바구니에서 토큰 1개를 빼서 내야(지불해야) 나갈 수 있다.
   3. 바구니에 토큰이 없으면? 패킷은 버려지거나(Policing) 큐에 대기(Shaping)한다.

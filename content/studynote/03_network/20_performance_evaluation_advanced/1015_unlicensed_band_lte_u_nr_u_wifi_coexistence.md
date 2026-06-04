@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **면허 대역 (Licensed Band)**: 정부가 주파수 경매로 통신사에게 조 단위 돈을 받고 '독점 권리'를 파는 도로입니다. 다른 놈이 이 전파를 쏘면 전파법으로 감옥에 갑니다. 
+- **면허 대역 (Licensed Band)**: 정부가 주파수 경매로 통신사에게 조 단위 돈을 받고 '독점 권리'를 파는 도로입니다. 다른 놈이 이 전파를 쏘면 전파법으로 감옥에 갑니다.
 - **비면허 대역 (Unlicensed Band)**: 무전기, [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/), <strong>와이파이(2.4GHz, 5GHz)</strong>가 쓰는 도로입니다. 누구나 무료로 공유기를 사서 전파를 쏠 수 있습니다.
 - **통신사의 절망**: 스마트폰 트래픽이 폭증해서 돈 주고 산 면허 대역이 꽉 막혀버려 속도가 바닥을 쳤습니다.
 
@@ -39,7 +39,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **개념**: 셀룰러 통신망(4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 또는 [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/)) 기술을 수정하여, <strong>정부에 돈을 내지 않고 누구나 쓸 수 있는 공용 5GHz, 6GHz 대역(와이파이 대역)의 잉여 주파수 자원을 통신사 기지국 트래픽 전송에 공짜로 보태어 쓰는 초광대역 융합 기술</strong>입니다.
-- <strong>작동 원리 (1014번 <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a> 묶음 연동)</strong>: 
+- <strong>작동 원리 (1014번 <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a> 묶음 연동)</strong>:
   - 통신사는 안전한 '면허 대역(유료 도로)'을 절대 버리지 않고 메인 차선(제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)용 닻)으로 잡고 뜁니다.
   - 여기에 <strong>'비면허 대역(공짜 와이파이 도로)'을 보조 차선으로 하나 슬쩍 걸친 뒤, 앞서 1014번에서 배운 <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a>(주파수 묶음) 기술을 이용해 두 도로의 데이터를 짬뽕해서 다운로드 속도를 미친 듯이 뻥튀기시킵니다.</strong>
 
@@ -62,12 +62,12 @@ tags = ["studynote-network"]
 
 ### 1. 와이파이 학살의 위협 (매너의 부재)
 - 와이파이는 952번 문서에서 배웠듯, <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/">CSMA</a>/<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a> (눈치 게임)</strong>라는 아주 예의 바른 프로토콜을 씁니다. "누구 전파 쏘고 있으면 나 1초 쉴게~"
-- 반면 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)(통신사) 전파는 깡패입니다. 중앙 기지국이 0.001초마다 시간표를 꽉 짜서 "내가 대장이야! 비켜!" 라며 전파를 무자비하게 밀어냅니다([TDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/)/[OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)). 
+- 반면 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)(통신사) 전파는 깡패입니다. 중앙 기지국이 0.001초마다 시간표를 꽉 짜서 "내가 대장이야! 비켜!" 라며 전파를 무자비하게 밀어냅니다([TDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/)/[OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)).
 - 이 깡패 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 전파가 평화로운 5GHz 와이파이 동네(비면허 대역)에 난입하면? 예의 바른 와이파이 기기들은 눈치만 보다가 전파를 한 번도 못 쏘고 굶어 죽게 되는 대재앙(와이파이 먹통)이 일어납니다.
 
 ### 2. CSAT (Carrier-Sensing Adaptive Transmission)의 꼼수
 - 와이파이 진영의 항의에 직면한 통신사([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-U 퀄컴 진영)는 땜질 처방을 냅니다.
-- "알았어! 우리가 와이파이 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기(간섭)를 귀로 들어보고, 와이파이가 많으면 우리 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 전파를 10ms 쏘고 10ms 쉬어줄게(Duty Cycle 조절)! 쉴 때 와이파이 너네가 쏴라!" 
+- "알았어! 우리가 와이파이 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기(간섭)를 귀로 들어보고, 와이파이가 많으면 우리 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 전파를 10ms 쏘고 10ms 쉬어줄게(Duty Cycle 조절)! 쉴 때 와이파이 너네가 쏴라!"
 - 하지만 이 꼼수는 여전히 강압적인 시간표(On/Off) 분배 방식이라 와이파이 진영을 설득하지 못했고, 국제 표준([3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/))으로 채택되는 데 실패했습니다.
 
 언면허 대역망을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [캐리어 어그리게이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1014_carrier_aggregation_lte_advanced_5g/)이 기반 조건을 만든다면, 언면허 대역망은 그 위에서 핵심 메커니즘을 구현하고, LAA는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.

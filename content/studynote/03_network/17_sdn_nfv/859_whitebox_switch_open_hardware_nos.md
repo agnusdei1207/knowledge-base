@@ -81,7 +81,7 @@ tags = ["studynote-network"]
 1. **극강의 원가 절감 (CAPEX/OPEX 파괴)**:
    - 벤더사의 상표값과 소프트웨어 라이선스 값이 싹 빠지므로, 장비 도입 비용이 <strong>최대 60~80% 저렴</strong>해집니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터에 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 10만 대 깔아야 하는 클라우드 기업에겐 천문학적인 돈을 아껴줍니다.
 2. <strong>소프트웨어 제어권(주권) <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a> 및 맞춤형 개발</strong>:
-   - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내부 OS가 흔한 리눅스(Linux) 환경과 똑같습니다. 
+   - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내부 OS가 흔한 리눅스(Linux) 환경과 똑같습니다.
    - 개발자가 파이썬(Python)으로 사내 환경에 딱 맞는 로드밸런서 앱이나 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 앱을 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 안에 마음대로 깔아서 돌릴 수 있습니다. (Vendor Lock-in의 완벽한 해방)
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

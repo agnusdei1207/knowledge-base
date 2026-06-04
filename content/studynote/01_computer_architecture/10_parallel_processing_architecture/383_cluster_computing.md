@@ -122,13 +122,13 @@ tags = ["studynote-computer-architecture"]
 
 ### 대표 적용 시나리오
 
-1. <strong>고가용성 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 클러스터</strong>  
+1. <strong>고가용성 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 클러스터</strong>
    웹 서버나 애플리케이션 서버를 여러 대 두고 로드밸런서 뒤에 배치한다. 특정 노드가 내려가도 나머지 노드가 요청을 이어받아 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 시간을 줄일 수 있다.
 
-2. **고성능 계산 클러스터**  
+2. **고성능 계산 클러스터**
    기상 시뮬레이션, 분자 모델링, 대규모 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습처럼 계산량이 매우 큰 문제를 여러 노드로 나눈다. 이때는 CPU보다 네트워크와 집합 통신 최적화가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 지배하는 경우가 많다.
 
-3. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 처리 클러스터</strong>  
+3. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 처리 클러스터</strong>
    [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) ([Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)), 스파크 (Spark) 같은 프레임워크로 저장과 계산을 같이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는 노드 근처에서 계산하는 [데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/)이 핵심이다.
 
 ### 설계 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

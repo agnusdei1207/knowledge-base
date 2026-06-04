@@ -92,7 +92,7 @@ tags = ["it_management"]
 
 ## Ⅴ. 기대효과 및 결론
 
-강화학습은 인공지능이 인간의 궤적(정답 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 흉내 내는 수준을 넘어, 스스로 수백만 번의 시뮬레이션을 통해 인간이 한 번도 생각하지 못한 창의적인 수(알파고의 37수)를 두게 만드는 궁극의 자율 지능 기술이다. 
+강화학습은 인공지능이 인간의 궤적(정답 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 흉내 내는 수준을 넘어, 스스로 수백만 번의 시뮬레이션을 통해 인간이 한 번도 생각하지 못한 창의적인 수(알파고의 37수)를 두게 만드는 궁극의 자율 지능 기술이다.
 
 그러나 학습에 천문학적인 연산 자원과 시간이 필요하고 실제 환경에 곧바로 적용하기 위험하다는 치명적 한계가 있다. 앞으로의 강화학습은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 효율성을 높이는 방향과, 인간의 피드백을 직접 보상으로 사용하는 [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) (Reinforcement [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) from Human Feedback)와 같이 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))을 통제하는 필수 안전장치로 그 발전 방향이 넘어가고 있다.
 

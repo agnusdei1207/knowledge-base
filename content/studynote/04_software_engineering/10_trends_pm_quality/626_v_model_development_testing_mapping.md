@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 폭포수 모델의 가장 큰 약점은 '테스트'를 그저 코딩 다음의 한 단계(Phase)로만 취급했다는 점이다. 이로 인해 개발 막바지에 다다라서야 요구사항이 잘못되었다는 것을 발견하는 참사가 빈번했다. V-모델은 "요구사항을 정의할 때 [인수 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/) 기준도 같이 만들어라", "기본 설계를 할 때 [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) 기준도 같이 만들어라"라고 규칙을 박아버려, 각 개발 단계의 결함을 조기에 차단하는 방어막을 구축했다.
 
-- **💡 비유**: V-모델은 집을 지을 때(개발)와 감리할 때(테스트)의 완벽한 짝꿍입니다. 
+- **💡 비유**: V-모델은 집을 지을 때(개발)와 감리할 때(테스트)의 완벽한 짝꿍입니다.
   - 집의 '조감도(요구사항)'를 그릴 때, 집주인이 "이 집을 살지 말지([인수 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/))" 결정할 체크리스트를 미리 만듭니다.
   - '배관/전기 설계도(기본설계)'를 그릴 때, 나중에 물과 전기가 잘 연결되는지 "수압 체크 방법([통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/))"을 미리 정합니다.
   - '벽돌 하나(코드)'를 구울 때, 그 벽돌이 단단한지 깰 "망치질 방법([단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/))"을 미리 정해놓는 치밀한 공법입니다.

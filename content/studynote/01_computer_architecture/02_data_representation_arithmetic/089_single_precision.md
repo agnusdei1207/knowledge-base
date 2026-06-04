@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-단정밀도 (Single [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/), FP32)는 컴퓨터 시스템이 소수점이 있는 실수를 32비트 (4바이트) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 하나에 저장하기 위해 고안된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표현 방식이다. 1980년대 하드웨어 환경에서 메모리는 극도로 귀중한 자원이었고, 그래픽 렌더링에 64비트를 사용하는 것은 메모리와 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)의 심각한 낭비였다. 
+단정밀도 (Single [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/), FP32)는 컴퓨터 시스템이 소수점이 있는 실수를 32비트 (4바이트) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 하나에 저장하기 위해 고안된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표현 방식이다. 1980년대 하드웨어 환경에서 메모리는 극도로 귀중한 자원이었고, 그래픽 렌더링에 64비트를 사용하는 것은 메모리와 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)의 심각한 낭비였다.
 
 이러한 배경에서 "가수부에 23비트만 할당해도 시각적으로 픽셀의 계단 현상이 눈에 띄지 않는다"는 점을 이용해, 인간의 인지 한계와 하드웨어 한계를 절충한 FP32가 3D 그래픽 엔진과 일반 연산의 척추로 자리 잡게 되었다.
 

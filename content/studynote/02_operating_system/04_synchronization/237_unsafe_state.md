@@ -73,12 +73,12 @@ tags = ["studynote-operating-system"]
 | **P2** | **2** | **4** | **2** |
 | **P3** | **2** | **4** | **2** |
 
-*재분석*: 이제 남은 자원이 <strong>1개</strong>뿐이다. 그런데 P1(5), P2(2), P3(2) 그 누구의 Need도 1개로는 채워줄 수 없다! 
+*재분석*: 이제 남은 자원이 <strong>1개</strong>뿐이다. 그런데 P1(5), P2(2), P3(2) 그 누구의 Need도 1개로는 채워줄 수 없다!
 🚨 **결과**: 그 어떤 안전 순서열도 그릴 수 없다. 이것이 바로 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">불안전 상태</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">Unsafe State</a>)</strong>로의 추락이다. 이 상태에서 P2나 P3가 자원을 더 달라고 하면 영원히 무한 대기([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠지게 된다. 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 P3가 1개를 달라고 했을 때 이 결과를 미리 계산해 보고, 1개를 주는 것을 거절(Block)하여 시스템을 [Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) State에 머물게 하는 기술이다.
 
 ### 회피(Avoidance)의 극단적 보수성 (왜 욕을 먹는가?)
-위의 [불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/) 시나리오를 다시 보자. 
-P2와 P3는 최대(Max) 4개가 필요하다고 OS에 신고(계약)해 놨지만, 실제로 코드를 돌려보니 3개만 쓰고 끝날 수도 있는 일이다. 만약 P2가 운 좋게 3개만 쓰고 자원을 반납했다면, 남은 1개 자원으로도 충분히 시스템은 돌아갔을 것이다. 
+위의 [불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/) 시나리오를 다시 보자.
+P2와 P3는 최대(Max) 4개가 필요하다고 OS에 신고(계약)해 놨지만, 실제로 코드를 돌려보니 3개만 쓰고 끝날 수도 있는 일이다. 만약 P2가 운 좋게 3개만 쓰고 자원을 반납했다면, 남은 1개 자원으로도 충분히 시스템은 돌아갔을 것이다.
 하지만 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 <strong>"니들이 최악으로 나쁜 마음(Max)을 먹었을 때"를 가정</strong>하고 철퇴를 내리기 때문에, 실제로는 데드락이 터지지 않을 상황인데도 멀쩡한 스레드를 재워버리는(Sleep) 극심한 시스템 낭비를 유발한다.
 
 - **📢 섹션 요약 비유**: 대출 심사역(회피 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 너무 보수적입니다. 고객이 마이너스 통장 한도(Max Need)를 1억 뚫어놓으면, 실제로 고객이 100만 원만 꺼내 쓸 확률이 높음에도 불구하고 "이놈이 내일 1억을 한 번에 다 빼가면 어쩌지?"라고 최악을 상정하여 다른 고객들의 대출을 다 막아버리는 꽉 막힌 금융 시스템입니다.
@@ -107,9 +107,9 @@ P2와 P3는 최대(Max) 4개가 필요하다고 OS에 신고(계약)해 놨지�
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. <strong>Linux <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">Out of Memory</a>) Killer의 작동 원리 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">불안전 상태</a>의 실무적 방치)</strong>: 
-   - 리눅스는 데드락 회피(Banker's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))를 포기했다. 즉, <strong>리눅스 시스템은 밥 먹듯이 <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">불안전 상태</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">Unsafe State</a>)를 들락날락한다</strong>. 
-   - 사용자가 메모리(자원)를 요청(malloc)하면 리눅스는 "일단 다 써!"라고 가상 메모리를 펑펑 남발한다(**Memory Overcommit**). 
+1. <strong>Linux <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">Out of Memory</a>) Killer의 작동 원리 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">불안전 상태</a>의 실무적 방치)</strong>:
+   - 리눅스는 데드락 회피(Banker's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))를 포기했다. 즉, <strong>리눅스 시스템은 밥 먹듯이 <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">불안전 상태</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">Unsafe State</a>)를 들락날락한다</strong>.
+   - 사용자가 메모리(자원)를 요청(malloc)하면 리눅스는 "일단 다 써!"라고 가상 메모리를 펑펑 남발한다(**Memory Overcommit**).
    - 그러다 진짜로 물리 메모리가 부족해져서 데드락 직전의 임계점(진짜 100% 꽉 참)에 도달하면, 그제야 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/">OOM Killer</a></strong>라는 자객을 보내서 메모리를 많이 먹는 놈을 뒤통수 쳐서 죽여버린다.
    - **아키텍처의 승리**: 이론적으로는 위험해 보이지만, 대부분의 프로세스가 `malloc` 해놓고 실제론 메모리를 다 안 쓴다는 현실적 통계(운)를 믿고 오버헤드 0의 극강의 스루풋을 달성한 실무 아키텍처의 승리다.
 2. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/">Kubernetes</a>(K8s) Resource Overcommit 제어</strong>: 클라우드 인프라에서도 리눅스처럼 오버커밋을 즐긴다. K8s [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))에 `Requests`와 `Limits`를 다르게 설정하는 것 자체가 "[불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)를 합법적으로 허용하겠다"는 선언이다.

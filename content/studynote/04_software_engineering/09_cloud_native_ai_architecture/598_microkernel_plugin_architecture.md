@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/">Microkernel</a> (마이크로 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> = Core System)</strong>: 프로그램이 굴러가기 위한 최소한의 심장. 텍스트 열기, 끄기, 저장하기 등 우주가 두 쪽 나도 절대 안 바뀌는 순백의 코어 로직. (용량 10MB).
   - <strong>Plug-in (플러그인 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>)</strong>: 코어에 USB처럼 꽂았다 뺐다 하는 무기. C++ 문법 하이라이팅, AWS 자동 배포, 맞춤법 검사기 등 시시때때로 바뀌고 사람마다 쓸지 안 쓸지 모르는 부가 기능들.
 

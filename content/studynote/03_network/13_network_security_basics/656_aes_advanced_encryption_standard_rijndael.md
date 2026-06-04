@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 미국 국립표준기술연구소(NIST)가 낡은 DES를 강판시키고 새롭게 전 세계 표준으로 제정한 <strong>현존 최고 수준의 2세대 블록 기반 <a href="/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/">대칭키 암호</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>입니다. 
+- **개념**: 미국 국립표준기술연구소(NIST)가 낡은 DES를 강판시키고 새롭게 전 세계 표준으로 제정한 <strong>현존 최고 수준의 2세대 블록 기반 <a href="/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/">대칭키 암호</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>입니다.
 - **탄생**: 전 세계 15개의 쟁쟁한 암호가 경쟁한 끝에, 벨기에의 수학자 두 명이 만든 **Rijndael(레인달)** [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/), 처리 속도, 메모리 절약 등 모든 부문에서 만점에 가까운 점수를 받아 최종 AES 표준으로 채택되었습니다.
 
 ```text

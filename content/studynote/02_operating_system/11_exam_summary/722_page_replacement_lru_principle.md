@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/">페이지 교체</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/">Page Replacement</a>)</strong>: [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 시스템에서 빈 프레임(RAM)이 없을 때, 현재 램에 올라와 있는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 중 하나를 골라 디스크(Swap)로 쫓아내고 그 빈자리에 새로운 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 올리는 작업.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">Least Recently Used</a>)</strong>: 쫓아낼 희생자(Victim)를 고를 때 "가장 오랫동안 건드리지 않은 놈"을 고르는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/).
 
-- **필요성 (미래를 알 수 없는 시스템의 차선책)**: 
+- **필요성 (미래를 알 수 없는 시스템의 차선책)**:
   - 램이 꽉 차서 누군가를 쫓아내야 한다. 가장 좋은 방법([OPT](/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/))은 "앞으로 가장 오랫동안 안 쓸 놈"을 쫓아내는 것이다.
   - 하지만 운영체제는 미래를 예측할 수 없다(프로그램이 다음에 뭘 읽을지 모름).
   - **해결책**: "미래를 모른다면, 과거를 보자!" 과거에 가장 오랫동안 안 쓰인 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)라면, 미래에도 안 쓰일 확률이 제일 높다는 통계적 사실(지역성)에 기대어 LRU가 탄생했다.

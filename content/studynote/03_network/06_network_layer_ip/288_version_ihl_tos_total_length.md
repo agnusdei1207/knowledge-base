@@ -43,7 +43,7 @@ tags = ["studynote-network"]
 - 라우터가 패킷을 까보고 4비트를 읽었을 때 `0100 (10진수 4)`이 나오면 IPv4로 처리하고, `0110 (10진수 6)`이 나오면 완전히 다른 헤더 규격을 가진 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 패킷으로 간주하고 처리 모듈을 바꾼다.
 
 ### 2. IHL (Internet Header Length, 4 Bits)
-- <strong>4바이트 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/">워드</a> 단위</strong>: 헤더의 길이가 총 몇 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)인지 라우터에게 알려주는 필드다. 그런데 공간이 고작 4비트밖에 없어 최대 숫자 15(`1111`)까지만 적을 수 있다. 
+- <strong>4바이트 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/">워드</a> 단위</strong>: 헤더의 길이가 총 몇 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)인지 라우터에게 알려주는 필드다. 그런데 공간이 고작 4비트밖에 없어 최대 숫자 15(`1111`)까지만 적을 수 있다.
 - **해결책 (x 4 연산)**: 헤더 길이는 무조건 4바이트 단위로 증가한다. 그래서 이 필드에 <strong><code>5</code></strong>가 적혀 있으면 라우터는 속으로 곱하기 4를 해서 <strong>"아, 헤더는 20바이트구나!"</strong>라고 계산한다. 옵션이 꽉 차서 60바이트 헤더면 이 값은 `15`가 된다. (5 미만의 숫자가 오면 깨진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 간주해 버림).
 
 ### 3. TOS (Type of [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) / DSCP (8 Bits = 1 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/))

@@ -58,7 +58,7 @@ tags = ["studynote-network"]
 현실과 컴퓨터 속 3D 세상을 한 몸처럼 오차 없이 연결([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))하려면, 그 사이를 잇는 탯줄(네트워크 통신망)은 어마어마한 요구사항을 견뎌내야 합니다.
 
 ### 1. 극단적인 초저지연 (Ultra-Low [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))과 결정성 (Determinism)
-- 자율주행차(현실)가 시속 100km로 달릴 때, 카메라가 본 전방 상황이 0.1초 늦게 사이버 시스템으로 들어가면 트윈 세계의 차는 3m 뒤에 있는 셈이 되어 판단 오류가 납니다. 
+- 자율주행차(현실)가 시속 100km로 달릴 때, 카메라가 본 전방 상황이 0.1초 늦게 사이버 시스템으로 들어가면 트윈 세계의 차는 3m 뒤에 있는 셈이 되어 판단 오류가 납니다.
 - 따라서 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/">MEC</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">엣지 컴퓨팅</a>), <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/">URLLC</a>, 유선 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/">TSN</a></strong> 기술을 총동원하여 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간을 1~5ms 이내로 극한 보장해야 합니다.
 
 ### 2. 거대한 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) (High [Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))

@@ -78,7 +78,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 오픈컨피그는 단순히 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)([Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)) 양식만 통일한 게 아닙니다. 다음 879번 문서에서 다룰 <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/879_streaming_telemetry_grpc_push_based_monitoring/">스트리밍 텔레메트리</a>(<a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1058_streaming_telemetry_network_monitoring/">Streaming Telemetry</a>)</strong>의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 양식까지 통일해 버렸습니다.
-- 전국의 수만 대 이기종 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들이 1초마다 중앙 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)(그라파나, [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/))로 자신의 CPU 온도와 트래픽 양을 보고합니다. 
+- 전국의 수만 대 이기종 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들이 1초마다 중앙 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)(그라파나, [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/))로 자신의 CPU 온도와 트래픽 양을 보고합니다.
 - 제조사가 달라도 쏘아 보내는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형식이 100% 일치(OpenConfig 모델)하므로, 중앙 서버는 복잡한 파싱이나 번역 툴 없이 수만 대의 빅데이터를 1초 만에 모아 글로벌 시야(Global [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)) 대시보드로 띄울 수 있습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

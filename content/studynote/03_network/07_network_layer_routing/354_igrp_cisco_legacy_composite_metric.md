@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: 1980년대 중반 시스코가 RIP의 치명적인 한계점(최대 15 Hop 제한, 단순한 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))을 극복하고자 자사 라우터 전용으로 개발한 디스턴스 벡터 [IGP](/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/) ([프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 번호 9).
 - **필요성**: 큰 회사 망에 라우터를 20대 깔았다. RIP를 켰더니 16번째 라우터부터 핑이 안 나간다(15 Hop 제한). 게다가 100메가짜리 쾌속 광랜을 놔두고, 라우터 개수가 적다는 이유만으로 9.6Kbps 짜리 조선시대 전화선으로 모든 데이터를 몰아넣어 망을 뻗게 만든다. 빡친 시스코 엔지니어들은 <strong>"야, 우리가 라우터 파는 1위 기업인데, 우리 기계끼리만이라도 똑똑하게 100대까지 커버하고, 진짜 '속도' 빠른 선을 1등으로 찾아내는 끝판왕 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>을 만들자!"</strong>라며 칼을 빼 들었다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/">RIP</a></strong>: 식당의 맛, 위생, 가격은 다 무시하고 오직 <strong>"우리 집에서 걸음 수가 제일 적은 식당(Hop Count)"</strong>만 무조건 1등 맛집으로 치는 극강의 길치.
   - **IGRP**: 미슐랭 가이드. <strong>"음식의 맛(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>), 서빙 속도(<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>), 청결도(<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a>), 식당의 붐빔 정도(부하)"</strong>라는 4가지 기준에 각각 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(K값)를 곱해 100만 점 만점의 완벽한 1등 맛집(복합 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))을 찾아내는 깐깐한 미식가.
 
@@ -41,7 +41,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-현재 실무에서는 IGRP가 삭제되었으므로 쓸 일은 0%다. 다만, 정보처리기사나 네트워크 관리사 시험에서는 이 녀석의 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 공식이 자주 출제된다. 
+현재 실무에서는 IGRP가 삭제되었으므로 쓸 일은 0%다. 다만, 정보처리기사나 네트워크 관리사 시험에서는 이 녀석의 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 공식이 자주 출제된다.
 
 ### 1. IGRP의 5대 복합 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) (K 상수)
 IGRP는 길의 점수를 매길 때 $K1$부터 $K5$까지 5개의 잣대(상수)를 수학 공식에 넣고 팽팽 돌린다.
@@ -51,7 +51,7 @@ IGRP는 길의 점수를 매길 때 $K1$부터 $K5$까지 5개의 잣대(상수)
 - <strong>K4 = <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/">Reliability</a> (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a>)</strong>: 케이블이 구려서 에러가 얼마나 자주 나냐. (안 씀)
 - **K5 = MTU (최대 전송 단위)**: 패킷을 얼마나 크게 썰어 넣을 수 있냐. (안 씀)
 
-보통 K1(속도)과 K3([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))만 1로 켜두고 나머지는 0으로 무시한다. 
+보통 K1(속도)과 K3([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))만 1로 켜두고 나머지는 0으로 무시한다.
 즉, <strong>"안 막히고 속도 빠른 선이 짱이다!"</strong>라는 결론이다.
 
 ### 2. RIP를 압살했던 3대 장점

@@ -91,17 +91,17 @@ tags = ["studynote-operating-system"]
 void on_interrupt_signal() {
     save_register_to_kernel_stack(CPU_REG_PC);
     save_register_to_kernel_stack(CPU_REG_PSW); // 현재 모드 비트 포함
-    
+
     // 모드 비트 강제 전환 (물리적 회로 연결 변경)
-    CPU_INTERNAL_MODE_BIT = 0; 
-    
+    CPU_INTERNAL_MODE_BIT = 0;
+
     // 커널의 인터럽트 서비스 루틴으로 강제 이동
     CPU_REG_PC = INTERRUPT_VECTOR_TABLE[signal_id];
 }
 
 // 사용자 코드의 한계
 void malicious_code() {
-    // __asm__("mov cr3, eax"); // 사용자 모드(Bit=1)에서 실행 시 
+    // __asm__("mov cr3, eax"); // 사용자 모드(Bit=1)에서 실행 시
                                 // 하드웨어가 즉시 General Protection Fault 유발
 }
 ```

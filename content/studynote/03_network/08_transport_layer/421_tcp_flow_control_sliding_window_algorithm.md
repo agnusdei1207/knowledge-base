@@ -46,13 +46,13 @@ tags = ["studynote-network"]
 ### 1. [송신 버퍼](/knowledge-base/studynote/03_network/08_transport_layer/423_send_buffer_receive_buffer/)의 3가지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상태
 송신자는 자기가 가진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 3그룹으로 쪼개어 관리한다.
 1. **창문 왼쪽 (과거)**: 이미 보내서 상대방이 잘 받았다고 영수증(ACK)까지 다 보내준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/). 미련 없이 메모리에서 지워버린다.
-2. **창문 안쪽 (현재) ★핵심**: 
+2. **창문 안쪽 (현재) ★핵심**:
    - 이 창문 크기가 곧 <strong>수신자가 허락한 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/">Window Size</a></strong>다.
    - 영수증(ACK)을 아직 못 받았지만, 수신자가 허락했으니 <strong>지금 당장 냅다 쏠 수 있는 (또는 이미 쏜) <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>들이다.
 3. **창문 오른쪽 (미래)**: 아직 창문 안에 못 들어와서, 보내고 싶어도 꾹 참고 대기해야 하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/).
 
 ### 2. 창문이 스르륵 밀리는 기적 (Sliding)
-1. 수신자가 허락한 창문 크기가 3개(패킷 1, 2, 3번)다. 
+1. 수신자가 허락한 창문 크기가 3개(패킷 1, 2, 3번)다.
 2. 송신자는 ACK도 안 받고 일단 1, 2, 3번을 빛의 속도로 쏟아붓는다.
 3. 수신자에게서 <strong>"1번 잘 받았어! (ACK 2)"</strong>라는 영수증이 도착했다!
 4. 송신자의 뇌구조: "오예! 1번은 끝났네! 그럼 내 창문을 오른쪽으로 한 칸 쓱 밀자(Slide)!"

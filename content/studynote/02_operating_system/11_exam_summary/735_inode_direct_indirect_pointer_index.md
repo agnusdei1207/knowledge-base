@@ -19,14 +19,14 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>i-node (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/528_unix_inode_mechanism/">Index Node</a>)</strong>: 리눅스에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개가 생성될 때 무조건 1개씩 짝지어 생성되는 고유한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록. ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름은 디렉터리가 갖고, i-node는 그 외의 모든 정보를 가짐)
   - <strong>직접 포인터 (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/">Direct</a> Pointer)</strong>: 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어있는 디스크 블록의 주소를 바로 적어놓은 칸.
   - <strong>간접 포인터 (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/">Indirect</a> Pointer)</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 아니라, "진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주소들이 잔뜩 적힌 또 다른 블록([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 블록)"의 주소를 적어놓은 칸.
 
-- <strong>필요성 (<a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 블록 크기의 딜레마)</strong>: 
+- <strong>필요성 (<a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 블록 크기의 딜레마)</strong>:
   - [색인 할당](/knowledge-base/studynote/02_operating_system/09_file_system/526_indexed_allocation/)([Indexed Allocation](/knowledge-base/studynote/02_operating_system/09_file_system/526_indexed_allocation/))을 쓰기로 했다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록 주소를 한곳에 모아두면 빠르기 때문이다.
-  - 그런데 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 블록을 얼마나 크게 만들어야 할까? 
+  - 그런데 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 블록을 얼마나 크게 만들어야 할까?
   - 10GB짜리 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 매핑하려면 포인터가 수백만 개 필요하니 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 블록을 10MB로 아주 크게 만들어야 한다.
   - 하지만 디스크에 저장된 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 90%는 10KB도 안 되는 작은 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이다. 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나 저장하려고 10MB짜리 거대한 목차 블록을 만들면 디스크가 순식간에 낭비로 터져버린다.
   - **해결책**: "작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 i-node 안의 작은 빈칸(직접 포인터)으로 해결하고, 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)일 때만 꼬리에 꼬리를 무는 마트료시카 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 블록(간접 포인터)을 동적으로 붙여주자!"
@@ -74,7 +74,7 @@ i-node 객체 크기는 128바이트이며, 그중 [데이터](/knowledge-base/s
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 구조는 극단적으로 <strong>비대칭적(Asymmetric)</strong>이다. 48KB짜리 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽을 때는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 뒤지느라 디스크를 더 읽을 필요가 없다. 1번만 I/O를 치면 바로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 나온다. 반면 3GB짜리 영화를 읽으려면 14번 칸(이중 간접)을 타야 하므로, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽기 전에 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 블록만 2번을 더 읽어야 하는 오버헤드(Double I/O)가 발생한다. 
+**[다이어그램 해설]** 이 구조는 극단적으로 <strong>비대칭적(Asymmetric)</strong>이다. 48KB짜리 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽을 때는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 뒤지느라 디스크를 더 읽을 필요가 없다. 1번만 I/O를 치면 바로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 나온다. 반면 3GB짜리 영화를 읽으려면 14번 칸(이중 간접)을 타야 하므로, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽기 전에 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 블록만 2번을 더 읽어야 하는 오버헤드(Double I/O)가 발생한다.
 
 ---
 

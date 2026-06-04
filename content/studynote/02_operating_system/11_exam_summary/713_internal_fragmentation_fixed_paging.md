@@ -19,14 +19,14 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>고정 분할 (Fixed <a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">Partitioning</a>)</strong>: 메모리를 미리 정해진 고정 크기(예: 10MB)로 썰어두는 옛날 방식.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">Paging</a>)</strong>: 메모리를 4KB(또는 2MB 등) 단위의 고정된 프레임(Frame)으로 아주 잘게 썰어 쓰는 현대적 방식.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/">내부 단편화</a> (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/">Internal Fragmentation</a>)</strong>: 할당된 고정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(또는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 내부에서, 사용자가 쓰지 않고 남겨두었지만 다른 누구도 쓸 수 없게 버려진 공간.
 
-- **필요성 (관리의 단순함을 향한 타협)**: 
+- **필요성 (관리의 단순함을 향한 타협)**:
   - 가변 분할(원하는 만큼만 딱 잘라주는 방식)을 썼더니, [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)([External Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))가 발생해서 남는 메모리를 아예 못 쓰는 최악의 사태가 벌어졌다. [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))을 하려니 CPU가 죽어났다.
-  - **해결책**: "사용자 입맛에 맞추는 걸 포기하자! 메모리는 무조건 내가 정해둔 '상자 크기'로만 줄 테니, 물건이 작아도 상자 하나를 다 써라!" 
+  - **해결책**: "사용자 입맛에 맞추는 걸 포기하자! 메모리는 무조건 내가 정해둔 '상자 크기'로만 줄 테니, 물건이 작아도 상자 하나를 다 써라!"
   - 이렇게 하면 상자(블록)들 사이의 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)는 완전히 사라지고 관리가 미친 듯이 편해지지만, 상자 안의 남는 공간([내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/))이라는 새로운 부작용이 생겼다.
 
   - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a> (가변 분할)</strong>: 피자를 손님이 원하는 모양과 크기로 잘라주다 보니, 피자 판에 이상한 모양의 찌꺼기가 남아 다음 손님에게 피자를 못 주는 현상.
@@ -186,7 +186,7 @@ tags = ["studynote-operating-system"]
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 철수가 피자 가게에서 "나는 피자 1.5조각만 먹을래!"라고 주문했어요.
-2. 하지만 피자집 주인([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))은 "우리는 무조건 온전한 1조각 단위로만 팝니다!"라며 피자 2조각을 주었어요. 
+2. 하지만 피자집 주인([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))은 "우리는 무조건 온전한 1조각 단위로만 팝니다!"라며 피자 2조각을 주었어요.
 3. 철수는 피자 1.5조각을 먹고, 남은 0.5조각은 배가 불러서 그냥 쓰레기통에 버려야 했어요. 이렇게 정해진 크기로만 주다 보니 어쩔 수 없이 버려지는 자투리 0.5조각을 '[내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)'라고 부른답니다!
 
 ---

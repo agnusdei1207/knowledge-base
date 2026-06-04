@@ -19,10 +19,10 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - 저널링은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 변경 사항([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 원본 디스크 위치에 반영하기 직전에, 원형 큐 구조로 된 전용 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 영역(Journal Area)에 일기장 쓰듯 순서대로 먼저 밀어 넣는(Commit) 기법이다.
 
-- <strong>필요성 (디스크 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 붕괴의 공포)</strong>: 
+- <strong>필요성 (디스크 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 붕괴의 공포)</strong>:
   - "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개를 만든다"는 행위는 내부적으로 매우 복잡한 다단계 톱니바퀴다.
   - ① i-node 1개 할당 $\rightarrow$ ② 빈 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록 할당 $\rightarrow$ ③ [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 항목에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)명 추가 $\rightarrow$ ④ [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/).
   - 만약 ②번까지만 하고 갑자기 <strong>정전(<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Loss)</strong>이 되면 어떻게 될까? OS가 재부팅되면 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록은 "할당은 됐는데 가리키는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 없는" 영원한 쓰레기 고아 블록이 되어 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이 서서히 붕괴(Corruption)된다.
@@ -32,7 +32,7 @@ tags = ["studynote-operating-system"]
   - **비저널링 (구형)**: 책상 위에 레고 조각 수만 개를 쏟아놓고 성을 조립하다가, 지진이 나서 흩어지면 처음부터 도면을 다 뒤져가며 잃어버린 조각이 뭔지 찾아내야 한다 (fsck 수시간 소요).
   - **저널링**: 조립하기 전에 꼭 작업 노트(저널)에 "지금 지붕 블록 3개를 끼울 거임"이라고 적고 조립한다. 지진이 나도 노트 맨 마지막 줄만 딱 읽어보면, 지붕 블록을 다시 껴야 하는지 아니면 아예 취소할 건지 1초 만에 알 수 있다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 엔터프라이즈 서버 디스크 용량이 10GB를 넘어가면서 디스크 전체 검사(fsck) 시간이 인내의 한계를 돌파하자, IBM의 JFS나 SGI의 XFS 등 고성능 UNIX 진영에서 DB의 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 기법을 차용해 개발했고 리눅스의 ext3/ext4로 대중화되었다.
 
 ```text
@@ -137,7 +137,7 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오 및 운영 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-1. <strong>시나리오 — <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> 수명 단축과 MySQL 이중 저널링 오버헤드</strong>: MySQL DB 서버를 AWS EBS([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))에 세팅했는데, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 부하가 커지자 디스크 IOPS가 폭발하면서 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 심해졌다. 
+1. <strong>시나리오 — <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> 수명 단축과 MySQL 이중 저널링 오버헤드</strong>: MySQL DB 서버를 AWS EBS([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))에 세팅했는데, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 부하가 커지자 디스크 IOPS가 폭발하면서 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 심해졌다.
    - **원인 분석**: InnoDB 스토리지 엔진은 자체적으로 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([Redo](/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/) log)를 맹렬하게 기록한다. 그런데 밑바닥에 깔린 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(ext4) 역시 저널링(`data=ordered`)을 돌리며 자기 나름대로 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 저널을 계속 쓰고 있다. 앱 단의 안전장치와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단의 안전장치가 겹치면서 디스크 입장에서는 1건의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)당 엄청난 이중 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)([Write Amplification](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)) 폭탄을 맞고 있는 것이다.
    - **아키텍트 판단 (저널링 비활성화 튜닝)**: DB 엔진이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 100% 책임지는 전용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 디스크 블록이라면, 과감하게 ext4의 저널링 기능을 끄는(disable) 극단적 최적화(`tune2fs -O ^has_journal`)를 단행하거나, 애초에 저널 오버헤드가 적은 XFS [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템으로 교체 포맷하여 스토리지 IOPS를 극한으로 아껴 내야 한다.
 

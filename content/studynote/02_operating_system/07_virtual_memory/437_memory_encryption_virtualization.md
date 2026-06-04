@@ -107,7 +107,7 @@ OS가 메모리를 할당할 때, 하드웨어에 "이 [페이지](/knowledge-ba
 | **방어 범위** | 램 덤프([RAM Dump](/knowledge-base/studynote/09_security/13_secops_ir_forensics/666_ram_dump/)) 당하면 메모리 평문 유출됨 | 램을 얼려서 훔쳐가도 암호화되어 있어 완벽 무적 |
 
 ### 클라우드 인프라의 트러스트 모델 (Trust Boundary)의 붕괴
-기존 클라우드의 보안 상식은 "내가 아마존(AWS) 서버를 빌려 쓰니, 아마존의 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 직원들은 절대 내 코드를 훔쳐보지 않는 착한 천사들일 것이다"라는 맹목적인 믿음에 기반했다. 
+기존 클라우드의 보안 상식은 "내가 아마존(AWS) 서버를 빌려 쓰니, 아마존의 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 직원들은 절대 내 코드를 훔쳐보지 않는 착한 천사들일 것이다"라는 맹목적인 믿음에 기반했다.
 하지만 이 하드웨어 암호화(SEV/TDX) 기술이 도입되면서, <strong>"나는 클라우드 인프라 제공자(AWS, MS)를 잠재적 해커(Untrusted)로 간주한다. 그들이 내 서버를 훔쳐보려 해도 물리적으로 막아버리겠다"</strong>는 진정한 의미의 '[기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/)([Confidential Computing](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/))'이 성립되었다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 노드나 은행권이 클라우드로 대이동할 수 있었던 결정적인 물리적 담보가 바로 이 기술이다.
 
 ```text
@@ -130,8 +130,8 @@ OS가 메모리를 할당할 때, 하드웨어에 "이 [페이지](/knowledge-ba
 
 ### 실무 시나리오: [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 장치(랜카드/[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))와의 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 지옥 (SWIOTLB)
 1. **문제의 발단**: AMD SEV를 켜서 램을 100% 암호화했다. 내 가상 머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))이 바깥으로 인터넷을 하려고 10MB짜리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 네트워크 카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 하드웨어에 다이렉트([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))로 넘겼다.
-2. **랜카드의 오열**: 
-   - 랜카드 칩셋은 CPU의 마스터키를 가지고 있지 않다. 
+2. **랜카드의 오열**:
+   - 랜카드 칩셋은 CPU의 마스터키를 가지고 있지 않다.
    - 랜카드가 램을 퍼갔더니 `XyZ!@#` 같은 암호화된 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 잔뜩 있다.
    - 밖으로 전송된 인터넷 패킷이 모조리 깨져버려서 통신이 두절되었다!
 3. <strong>OS <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 수습 (SWIOTLB - Bounce Buffer)</strong>:

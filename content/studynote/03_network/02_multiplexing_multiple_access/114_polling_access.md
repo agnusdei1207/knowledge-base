@@ -64,7 +64,7 @@ tags = ["studynote-network"]
 ```text
 [상황 1: 주국이 종국의 데이터를 수집할 때 - Poll 동작]
 Primary        [Poll(주소B)]  ────>   Secondary B (전송할 짐 있음)
-               <── [Data] ────        
+               <── [Data] ────
                [ACK] ─────────>       (수신 완료 승인)
 
 [상황 2: 주국이 잉여 종국을 순회할 때 - Poll Overhead]
@@ -75,7 +75,7 @@ Primary        [Poll(주소C)]  ────>   Secondary C (전송할 짐 없�
 Primary        [Select(주소A)] ───>   Secondary A
                <── [ACK(준비됨)] ──
                [Data] ────────>       (주국의 데이터 전송)
-               <── [ACK(잘받음)] ── 
+               <── [ACK(잘받음)] ──
 ```
 *해설*: 이 도식의 핵심은 모든 통신의 시작점이 무조건 주국(Primary)의 제어 프레임 발송에 의존한다는 점이다. 상황 1의 Poll은 슬레이브가 가진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 끌어올리는 과정이며, 상황 3의 Select는 마스터가 가진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 내려꽂는 과정이다. 이런 배치는 전체 토폴로지 상의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌을 원천 통제하지만, 최악의 약점을 유발한다. 바로 상황 2처럼 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없는 노드(C)에게도 일일이 찾아가서 물어봐야 하는 '[폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 오버헤드([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/) Overhead)'다. NAK를 받기 위해 보내는 질문 프레임과 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 자체가 채널 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 심각하게 낭비하는 잉여 작업이 된다.
 
@@ -129,7 +129,7 @@ Primary        [Select(주소A)] ───>   Secondary A
          │                 │
          │                 ├─> 노드가 동등한 권한을 가져야 하는가?
          │                 │    ├─ (Yes) ─> 분산 제어 기반 토큰 패싱(Token Bus) 채택
-         │                 │    └─ (No)  ─> 중앙 PLC가 밸브들을 관리하는 마스터-슬레이브 
+         │                 │    └─ (No)  ─> 중앙 PLC가 밸브들을 관리하는 마스터-슬레이브
          │                 │                구조이므로 Polling Access(Modbus) 전격 도입!
 ```
 *해설*: 이 흐름의 핵심은 '모든 기기가 동일한 지위를 갖느냐'는 비즈니스적 통제 논리다. 용광로의 온도를 감시하는 센서 100개가 있다고 치자. 이 센서들이 마음대로 본부(주국)에 알람을 쏘다 충돌해서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되는 것보다, 메인 제어기(Primary [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/))가 1번부터 100번 센서까지 정확히 10ms 단위로 순회([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))하며 물어보는 방식이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 시간의 예측 가능성(Determinism) 측면에서 압도적으로 우수하다. 실무 공장 자동화나 스카다([SCADA](/knowledge-base/studynote/09_security/18_iot_ot_physical/894_scada/)) 통신망에서 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방식이 표준으로 군림하는 이유가 바로 이 결정론적 안정성에 있다.

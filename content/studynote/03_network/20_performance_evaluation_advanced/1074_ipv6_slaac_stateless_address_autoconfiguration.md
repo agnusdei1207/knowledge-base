@@ -61,14 +61,14 @@ tags = ["studynote-network"]
 - 허공에 브로드캐스트([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/))로 냅다 소리칩니다. **"이 동네 대장(라우터) 누구냐! 여기 동네 이름(Prefix) 좀 알려주라!" (RS 패킷 발송)**
 
 ### 2단계: 라우터 광고 ([RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/), Router Advertisement) - "여긴 강남구야"
-- 동네 입구를 지키던 라우터가 대답합니다. 
+- 동네 입구를 지키던 라우터가 대답합니다.
 - <strong>"나 여기 있어! 이 동네 네트워크 이름(Prefix)은 <code>2001:0db8:85a3:0000::/64</code> 란다!" (<a href="/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/">RA</a> 패킷 발송)</strong>
 - 서버처럼 장부에 "누구한테 IP 줬음" 기록하지 않습니다. 그냥 라디오처럼 방송만 틱 날리고 뒤도 안 돌아보는 쿨한 방식([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/))입니다.
 
 ### 3단계: [EUI-64](/knowledge-base/studynote/03_network/06_network_layer_ip/330_eui_64_mac_to_ipv6_interface_id/) 기반 IP 자가 조립 (Self Creation) 🌟 궁극의 꼼수
 가장 핵심입니다. 컴퓨터는 128비트 주소를 조립해야 합니다.
 - **앞부분(64비트)**: 방금 라우터가 알려준 동네 이름(`2001:0db8:85a3:0000`)을 그대로 붙여넣습니다. (네트워크 ID)
-- **뒷부분(64비트)**: 자기 컴퓨터 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))에 공장에서부터 각인되어 있는 <strong>절대 겹치지 않는 고유 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/">식별자</a>(48비트 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소)</strong>를 가져옵니다. 
+- **뒷부분(64비트)**: 자기 컴퓨터 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))에 공장에서부터 각인되어 있는 <strong>절대 겹치지 않는 고유 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/">식별자</a>(48비트 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소)</strong>를 가져옵니다.
 - 48비트 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 반으로 쪼개고, 그 가운데에 `FF:FE`라는 채움재를 억지로 쑤셔 넣어서 64비트(Interface ID)로 뻥튀기(변형된 [EUI-64](/knowledge-base/studynote/03_network/06_network_layer_ip/330_eui_64_mac_to_ipv6_interface_id/) 방식)시킵니다.
 - **최종 합체**: <strong><code>[앞부분 64비트 동네 주소] + [뒷부분 64비트 MAC 변형 주소]</code> = 128비트 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> 주소 완성!</strong>
 - 전 세계에 내 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소는 1개뿐이므로, 내가 만든 IP 주소도 전 세계에서 절대 남과 충돌(중복)하지 않는 완벽한 공인 IP로 1초 만에 개통됩니다.

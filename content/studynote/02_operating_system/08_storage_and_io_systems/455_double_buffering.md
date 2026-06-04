@@ -40,21 +40,21 @@ tags = ["studynote-operating-system"]
 
 ```text
 
-        ëì ëí(Sync) vs ìì ëí(Async/Parallel) êëë ìêí    
+        ëì ëí(Sync) vs ìì ëí(Async/Parallel) êëë ìêí
 
-                                                                      
-  1. ëì ëí (Single Buffering) - íìì ëëì ëë               
-   [ìê]     T1         T2         T3         T4                     
-   [ëìí] ð(ëíìì)   ð(ëê)   ð(ëíìì)   ð(ëê)         
-   [ CPU  ] ð(ëê)   ð(ëíëì) ð(ëê)   ð(ëíëì)           
-   ð êê: íëììê 50%ì ìê ëì ëëëë ëê ìì. íì ìì. 
-                                                                      
-  2. ìì ëí (Double Buffering) - 1ìë ì ìë ëìë             
-   [ìê]     T1         T2         T3         T4                     
-   [ëìí] ð(Aìì)  ð(Bìì)  ð(Aìì)  ð(Bìì)                
-   [ CPU  ] ð(ëê)   ð(Aëì)  ð(Bëì)  ð(Aëì)                
-    êê: T2ëí ëìíì CPUê ëí A, Bë ëêìêë ìê         
-           ëì(Parallel)ì ìí! ìë(Throughput) êì 2ë ìì!     
+
+  1. ëì ëí (Single Buffering) - íìì ëëì ëë
+   [ìê]     T1         T2         T3         T4
+   [ëìí] ð(ëíìì)   ð(ëê)   ð(ëíìì)   ð(ëê)
+   [ CPU  ] ð(ëê)   ð(ëíëì) ð(ëê)   ð(ëíëì)
+   ð êê: íëììê 50%ì ìê ëì ëëëë ëê ìì. íì ìì.
+
+  2. ìì ëí (Double Buffering) - 1ìë ì ìë ëìë
+   [ìê]     T1         T2         T3         T4
+   [ëìí] ð(Aìì)  ð(Bìì)  ð(Aìì)  ð(Bìì)
+   [ CPU  ] ð(ëê)   ð(Aëì)  ð(Bëì)  ð(Aëì)
+    êê: T2ëí ëìíì CPUê ëí A, Bë ëêìêë ìê
+           ëì(Parallel)ì ìí! ìë(Throughput) êì 2ë ìì!
 
 ```
 **[ëììêë íì]** ëì ëíê ììì(Sequential)ì íëëíëë, ìì ëíë ë êì íëëíê ìëíê ëëë ëìì ëìêë ëë(Parallel) íìíëìì êìë. ë(RAM)ì ìëì êì ì KB(ëí 1ê íê) ë ëììë êëìë, ìëë ììë CPUì ëìíì ëëëë êë ìêì 100% êê ìì ëìëë êíì êìëì ëìííìë.
@@ -73,7 +73,7 @@ tags = ["studynote-operating-system"]
 - **ììì(Producer)**: ëìí ëëìë. ëìíë ë ëíì ìì ëë ë.
 - **ìëì(Consumer)**: CPU ììê. ë ëíì ëìíë ììëë ë.
 ì ëì 1êì ëíë ëê "ëê ëìê ëì!" "ëê ëê ëì!" íê ë([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)/[Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)) êíì ëìë ììë ìëë ììì ëìíë.
-íìë 2êì ëíë ìë ëì ê íìê ìë. 
+íìë 2êì ëíë ìë ëì ê íìê ìë.
 ìììê `Buffer 1`ì ëë ëì, ìëìë ììíê `Buffer 2`ìì ëëìë ëë. ë ëëë ììê ëëììë ììí ëëëì ììëë ëìíê êì([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)) ìë ìê, ìíìí ììì ëë ìë $O(1)$ ëêíê ìëíë.
 
 ---
@@ -96,7 +96,7 @@ tags = ["studynote-operating-system"]
 
 ### ëê 1: ìíí êëíì(ëëí)ììì íë ììì(Tearing) ëì
 
-ìì ëíëì êì ëëìê íìíê ëìëìê êì ì ìëì ëìê ëë êëí ìë([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))ì ëëí ììì ìììë. 
+ìì ëíëì êì ëëìê íìíê ëìëìê êì ì ìëì ëìê ëë êëí ìë([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))ì ëëí ììì ìììë.
 
 | ëê íë | ëì ëíë (Single [Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)) | ìì ëíë (Double [Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)) |
 |:---|:---|:---|
@@ -112,11 +112,11 @@ tags = ["studynote-operating-system"]
 
 ```text
 
- ëí êì   VRAM ìëë íë ììì ëì ìí ë(í ìí) ëì 
+ ëí êì   VRAM ìëë íë ììì ëì ìí ë(í ìí) ëì
 
- 1ê (ëì) êì ìì    ï ììì ëì  ìì (ëë)            
- 2ê (ìì) 2ë ìë     ð ìë ëì   ð ìêì ìí ë íì  
- 3ê (ìì) 3ë ìë     ð ìë ëì   ð ìí ëêì ëë!    
+ 1ê (ëì) êì ìì    ï ììì ëì  ìì (ëë)
+ 2ê (ìì) 2ë ìë     ð ìë ëì   ð ìêì ìí ë íì
+ 3ê (ìì) 3ë ìë     ð ìë ëì   ð ìí ëêì ëë!
 
 ```
 **[ëíëì íì]** ëíë íë ë ìêí ëëë VRAMì ìì ëêëìíì ëìêìë, êìëëì 144Hz ììíì ìí êê ëëë ëëìì êêì ìëíë êì íë êì ìì(ìëì, ìëí)ê ìëëì(NVIDIA) ììíì ìë íë êìë.

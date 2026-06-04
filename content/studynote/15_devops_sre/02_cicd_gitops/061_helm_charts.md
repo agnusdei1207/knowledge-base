@@ -135,8 +135,8 @@ GitOps
 
 ## 어린이를 위한 3줄 비유 설명
 
-[Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) Charts는 레고 설명서처럼 부품과 순서를 묶어 둔 거예요.  
-색깔만 바꿔 여러 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 만들 수 있어요.  
+[Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) Charts는 레고 설명서처럼 부품과 순서를 묶어 둔 거예요.
+색깔만 바꿔 여러 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 만들 수 있어요.
 그래서 같은 모양을 여러 곳에 쉽게 설치할 수 있어요.
 
 ---

@@ -34,7 +34,7 @@ tags = ["studynote-bigdata"]
   데이터 파이프라인 이슈로 데이터가 부정확/불완전/미사용
   평균 발견 시간: 9.1시간 (Monte Carlo 2022 연구)
   영향: 잘못된 ML 예측, 대시보드 오류, 비즈니스 결정 오류
-  
+
   예시:
     ETL 파이프라인 오류 → NULL 레코드 유입 → KPI 대시보드 이상
     분석가가 오후에 발견 → 오전 의사결정 이미 오염
@@ -58,63 +58,63 @@ tags = ["studynote-bigdata"]
 
 1. 신선도 (Freshness):
    마지막 업데이트 시간 모니터링
-   
+
    모니터링 지표:
    - 테이블 마지막 업데이트 시간
    - 예상 업데이트 주기 대비 지연
    - NULL 비율의 시간적 변화
-   
+
    경보 예시:
    - "orders 테이블 업데이트가 4시간 없음 (기대: 1시간)"
 
 2. 분포 (Distribution):
    값의 통계적 분포 모니터링
-   
+
    모니터링 지표:
    - Min/Max 범위
    - 평균/중앙값/표준편차
    - NULL/0 비율
    - 카테고리 값 분포 (새 카테고리 등장)
-   
+
    경보 예시:
    - "price 컬럼 평균이 어제 대비 50% 급감"
    - "country 컬럼에 새 값 'ZZ' 등장"
 
 3. 볼륨 (Volume):
    데이터 양 모니터링
-   
+
    모니터링 지표:
    - 일별/시간별 레코드 수
    - 테이블 크기 증가율
    - 배치 처리 레코드 수 편차
-   
+
    경보 예시:
    - "오늘 주문 레코드 2만건 (어제: 10만건) — 80% 감소"
 
 4. 스키마 (Schema):
    데이터 구조 변경 모니터링
-   
+
    모니터링 지표:
    - 컬럼 추가/삭제/이름 변경
    - 데이터 타입 변경
    - NOT NULL 제약 변경
-   
+
    경보 예시:
    - "users 테이블 email 컬럼 삭제됨"
    - "amount 컬럼 type: INT → VARCHAR 변경"
 
 5. 계보 (Lineage):
    데이터 흐름 추적
-   
+
    기능:
    - 데이터 소스 → 변환 → 최종 소비 경로 시각화
    - 이슈 발생 시 영향 범위 자동 파악
    - 근본 원인 분석 (Root Cause Analysis)
-   
+
    계보 예시:
    raw_orders (S3) → ETL (Spark) → orders_dw (Redshift)
    → dashboard (Tableau) → kpi_report (PDF)
-   
+
    이슈: raw_orders 스키마 변경
    → 계보 추적: Tableau 대시보드까지 영향 자동 알림
 ```
@@ -137,29 +137,29 @@ tags = ["studynote-bigdata"]
 
 2. Great Expectations (오픈소스):
    Python 기반 데이터 검증 라이브러리
-   
+
    핵심 개념:
    - Expectation: 데이터 품질 규칙
    - Suite: 규칙 모음
    - Checkpoint: 파이프라인 내 검증 실행 지점
-   
+
    예시:
    expect_column_values_to_not_be_null("user_id")
    expect_column_values_to_be_between("age", 0, 120)
    expect_table_row_count_to_be_between(1000, 1000000)
-   
+
    실행 결과: HTML 리포트 + JSON 결과
 
 3. Soda Core (오픈소스):
    YAML 기반 데이터 품질 체크
-   
+
    checks.yml:
    checks for orders:
      - row_count > 0
      - missing_count(order_id) = 0
      - duplicate_count(order_id) = 0
      - avg(amount) between 10 and 1000
-   
+
    실행: soda scan -d prod_db -c checks.yml
 
 4. Apache Atlas:
@@ -169,7 +169,7 @@ tags = ["studynote-bigdata"]
 5. dbt (data build tool) + 테스트:
    dbt test: YAML 기반 데이터 테스트
    dbt source freshness: 신선도 체크 내장
-   
+
    schema.yml:
    models:
      - name: orders
@@ -190,7 +190,7 @@ tags = ["studynote-bigdata"]
 정의:
   데이터 생산자(Producer)와 소비자(Consumer) 간의
   스키마, 품질, SLA를 명시한 공식 계약
-  
+
   = API 계약의 데이터 버전
 
 구조:
@@ -200,21 +200,21 @@ tags = ["studynote-bigdata"]
     title: Orders Data Contract
     version: 1.0.0
     owner: data-platform-team
-  
+
   models:
     orders:
       fields:
         order_id: {type: string, required: true}
         amount: {type: number, minimum: 0}
         created_at: {type: timestamp}
-  
+
   quality:
     - type: not_null
       field: order_id
     - type: custom
       engine: great-expectations
       expectation: expect_column_values_to_be_between
-      
+
   SLA:
     freshness: 1 hour
     availability: 99.9%
@@ -248,14 +248,14 @@ E커머스 추천 ML 모델 데이터 파이프라인 모니터링:
 문제 상황 (데이터 다운타임 발생):
   오전 9:00 — Spark ETL 이슈 발생
     user_id 컬럼 일부 NULL 유입 (스키마 변경 버그)
-    
+
   오전 9:00 ~ 오후 2:00 (5시간):
     ML 모델: NULL user_id 데이터 학습
     추천 API: 이상 추천 결과 반환
-    
+
   오후 2:00:
     분석가가 KPI 대시보드 이상 발견 → 조사 시작
-    
+
   오후 4:00 (7시간 후):
     근본 원인 발견, 파이프라인 수정
 
@@ -263,10 +263,10 @@ E커머스 추천 ML 모델 데이터 파이프라인 모니터링:
   Great Expectations 적용:
     expect_column_values_to_not_be_null("user_id")
     expect_column_values_to_be_between("session_duration", 0, 3600)
-    
+
   Soda 신선도 모니터링:
     피처 스토어 마지막 업데이트 체크 (1분 주기)
-    
+
   알림 흐름:
   오전 9:02 — NULL 비율 0.01% → 경보 트리거 (기준: 0.001%)
   오전 9:03 — Slack 알림: "user_id NULL 이상 탐지 in feature_store"

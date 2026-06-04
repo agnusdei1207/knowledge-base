@@ -135,7 +135,7 @@ Max Pooling (2×2, stride=2):
 
 ### [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 공유([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) Sharing)의 의미
 
-[FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 레이어: 각 연결마다 별도의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) → 파라미터 수 = 입력 × 출력  
+[FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 레이어: 각 연결마다 별도의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) → 파라미터 수 = 입력 × 출력
 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/): 동일한 필터가 전체 이미지를 슬라이딩 → 파라미터 수 = F × F × C_in × C_out
 
 예) 224×224×3 입력, 첫 레이어:

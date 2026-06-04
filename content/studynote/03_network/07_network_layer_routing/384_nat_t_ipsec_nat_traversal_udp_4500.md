@@ -42,7 +42,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. IKE의 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)-Discovery ([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 존재 여부 탐지)
-두 장비가 무작정 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 4500을 쓰는 게 아니다. 
+두 장비가 무작정 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 4500을 쓰는 게 아니다.
 [IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/) Phase 1 협상 중에, 송신자와 수신자는 서로의 오리지널 IP와 헤더 상태를 교환하며 핑퐁을 친다.
 - "어? 내가 쏜 출발지 IP가 192.x 인데, 네가 받은 패킷의 출발지 IP는 211.x 라고? 헐, 중간에 누군가(공유기)가 IP를 바꿨구나!!"
 - 중간에 NAT가 존재함을 양쪽이 확신([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))하게 된다.

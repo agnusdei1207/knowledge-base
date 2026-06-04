@@ -64,13 +64,13 @@ tags = ["studynote-network"]
 
 QoS가 완벽하다고 QoE가 100점이 나오는 건 절대 아닙니다.
 
-1. **디바이스(단말기)의 한계**: 
+1. **디바이스(단말기)의 한계**:
    - 통신망([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))은 기가인터넷을 쏴줬는데, 내 스마트폰 CPU가 너무 낡아서 유튜브 영상을 화면에 그리는(디코딩) 데 버벅댑니다. 사람은 "이거 인터넷 왜 이렇게 느려!"라고 화를 냅니다(QoE 바닥).
 2. **콘텐츠 서버의 한계**:
    - 통신망은 완벽한데 넷플릭스 본사 서버가 터져서 영상을 늦게 쏴줍니다. 사용자는 넷플릭스가 아니라 통신사(SKT)를 욕합니다.
 3. **애플리케이션의 보정(은닉) 능력 (908번 연계)**:
    - 반대의 경우도 있습니다. 통신망이 구려서 패킷이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%나 유실되었습니다([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 바닥).
-   - 그런데 줌(Zoom) 화상 회의 앱이 미친 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))을 돌려 깨진 목소리 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%를 감쪽같이 가짜로 그려 넣어 보정해버렸습니다(손실 은닉 기법). 
+   - 그런데 줌(Zoom) 화상 회의 앱이 미친 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))을 돌려 깨진 목소리 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%를 감쪽같이 가짜로 그려 넣어 보정해버렸습니다(손실 은닉 기법).
    - 사용자는 "오! 오늘 통화 엄청 깨끗하네!" 라며 별점 5점(QoE 최고)을 줍니다. (QoS는 똥인데 QoE는 높은 기적)
 
 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [클라우드 네이티브 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/1000_cni_cloud_native_network/)가 기반 조건을 만든다면, [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교는 그 위에서 핵심 메커니즘을 구현하고, [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.

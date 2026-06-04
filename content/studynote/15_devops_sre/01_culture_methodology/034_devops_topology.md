@@ -72,7 +72,7 @@ Anti-Type D — QA/Ops 격리:
 ```
 Google SRE 모델:
   SRE팀 = 소프트웨어 엔지니어 + 시스템 엔지니어 혼합
-  
+
   특징:
     - 운영 업무 상한선: 50% (나머지 50%는 개발·자동화)
     - 에러 버짓(Error Budget): 허용 장애 시간 계산
@@ -97,7 +97,7 @@ Platform Engineering 모델:
   인프라 자동화           셀프서비스 포털
   CI/CD 골든 패스         개발자 직접 사용
   관측성 대시보드
-  
+
   [Stream-aligned Teams] → IDP를 통해 자율 운영
   → 개발팀이 인프라 팀에 의존하지 않고 셀프서비스
   → 개발팀 인지 부하 감소 + Platform Team 중앙 통제 균형
@@ -112,15 +112,15 @@ Platform Engineering 모델:
 ```
 단계 1 (초기):
   Dev ↔ Ops 완전 분리 → Anti-Type A 상태
-  
+
 단계 2 (전환):
   DevOps 챔피언(선도자) 등장
   DevOps 팀 설립 (임시 브릿지)
-  
+
 단계 3 (성장):
   Platform Team 형성
   Stream-aligned Team 자율 배포
-  
+
 단계 4 (성숙):
   DORA 메트릭 Elite 달성
   NoOps (서버리스·IDP 완성)

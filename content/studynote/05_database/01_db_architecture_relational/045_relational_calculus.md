@@ -24,16 +24,16 @@ tags = ["studynote-database"]
 관계 대수 (Relational Algebra):
   절차적 (Procedural)
   어떻게 결과를 얻는지 기술
-  
+
   예: 직원 테이블에서 개발팀 직원 이름 조회
   σ_부서='개발'(직원) → π_이름(결과)
-  
+
   연산: σ(선택), π(투영), ⋈(조인), ∪, ∩, -
 
 관계 해석 (Relational Calculus):
   비절차적 (Non-Procedural, Declarative)
   무엇을 원하는지 조건으로 기술
-  
+
   예: TRC
   { t.이름 | EMPLOYEE(t) ∧ t.부서='개발' }
   "직원 튜플 t에서, t가 직원 테이블에 있고
@@ -43,7 +43,7 @@ SQL의 계보:
   SELECT 이름
   FROM 직원
   WHERE 부서 = '개발'
-  
+
   → 관계 해석의 선언적 정신 계승
   → 내부 실행 계획은 관계 대수로 변환
 
@@ -63,16 +63,16 @@ TRC (Tuple Relational Calculus):
   형식: { t | P(t) }
   t: 튜플 변수
   P(t): t가 만족해야 할 조건(술어)
-  
+
 기본 구성 요소:
   원자 공식 (Atomic Formula):
   - R(t): 튜플 t가 관계 R에 속함
   - t.A θ s.B: 속성 비교 (θ: =, ≠, <, >, ≤, ≥)
   - t.A θ 상수: 상수 비교
-  
+
   연결사:
   - ∧ (AND), ∨ (OR), ¬ (NOT)
-  
+
   정량자 (Quantifier):
   - ∃ (존재 정량자, Existential): "어떤 ... 가 존재한다"
   - ∀ (전체 정량자, Universal): "모든 ... 에 대해"
@@ -108,32 +108,32 @@ DRC (Domain Relational Calculus):
   형식: { <d1, d2, ..., dn> | P(d1, d2, ..., dn) }
   d: 도메인(속성 값) 변수
   P: 조건
-  
+
   특징: 튜플이 아닌 개별 속성 값을 변수로 사용
 
 예제:
 
 예1: 개발팀 직원 이름
-{ <이름> | ∃부서 ∃번호 (EMPLOYEE(번호, 이름, 부서) 
+{ <이름> | ∃부서 ∃번호 (EMPLOYEE(번호, 이름, 부서)
             ∧ 부서='개발') }
 
 예2: QBE (Query By Example) — DRC의 실용적 구현
   IBM 1970년대 개발한 시각적 질의 언어
-  
+
   테이블 형태 인터페이스:
   EMPLOYEE | 직원번호 | 이름    | 부서
            | _번호   | P._이름 | 개발
-  
+
   _: 변수 표시
   P.: 출력(Print) 표시
-  
+
   Access 쿼리 디자인 뷰 = QBE의 후손
 
 TRC vs DRC 비교:
   TRC: 튜플 단위 처리 → SQL에 더 가까움
   DRC: 속성값 단위 처리 → QBE에 더 가까움
   표현력: 동등 (Codd의 관계 완전성)
-  
+
 실제 SQL과 매핑:
   TRC: SELECT, FROM, WHERE의 직접 대응
   DRC: 덜 직접적이나 동등 표현 가능
@@ -171,9 +171,9 @@ WHERE e.급여 > 5000
 
 전체 정량자(∀) SQL 변환:
   "모든 부서에 참여한 직원"
-  
+
   TRC: ∀d (DEPT(d) → ∃w (WORKS_ON(w) ∧ ...))
-  
+
   SQL (이중 부정):
   SELECT 이름 FROM EMPLOYEE e
   WHERE NOT EXISTS (
@@ -184,7 +184,7 @@ WHERE e.급여 > 5000
         AND w.부서번호 = d.번호
     )
   );
-  
+
   "존재하지 않는 부서를 가진 직원을 제외"
 
 DBMS 내부:

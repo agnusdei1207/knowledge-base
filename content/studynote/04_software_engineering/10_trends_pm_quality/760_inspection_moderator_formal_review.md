@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 개발자가 코드를 다 짠 뒤, 코드가 잘 도는지 확인하기 위해 실행(Run) 버튼을 누른다. 에러가 난다. 어디서 났는지 몰라 수만 줄의 코드를 디버깅하느라 밤을 새운다. 이것이 동적 테스트([Dynamic Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/431_dynamic_testing/))의 뼈아픈 한계다.
 
-1976년, IBM의 마이클 페이건(Michael Fagan)은 "코드를 실행하기 전에, 차라리 사람 여러 명이 모여서 코드를 한 줄씩 낭독하며 눈으로 버그를 찾으면 어떨까?"라는 아이디어를 냈다. 
+1976년, IBM의 마이클 페이건(Michael Fagan)은 "코드를 실행하기 전에, 차라리 사람 여러 명이 모여서 코드를 한 줄씩 낭독하며 눈으로 버그를 찾으면 어떨까?"라는 아이디어를 냈다.
 
 그의 예상은 적중했다. 코드를 실행하기도 전에 설계서나 코드에 숨은 치명적인 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 오류를 70% 이상 찾아낼 수 있었다. 이렇게 탄생한 <strong>'가장 깐깐하고 빡빡한 형태의 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/">코드 리뷰</a> 회의'</strong>가 바로 <strong>페이건 <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/">인스펙션</a>(Fagan Inspection)</strong>이다.
 

@@ -33,7 +33,7 @@ tags = ["studynote-operating-system"]
 
 계층 관계:
   보안 (Security) ⊃ 보호 (Protection)
-  
+
   외부 위협 방어 (보안)
         ↓
   내부 접근 제어 (보호)
@@ -55,9 +55,9 @@ OS 보안 요구사항 (CIA):
 ```
 보호 도메인 (Protection Domain):
   주체(Subject)가 가진 권한 집합
-  
+
   도메인 D = { (객체, 권한) 쌍의 집합 }
-  
+
   예:
   Domain 1 (root): { (file1, rw), (file2, rwx), (mem, rw) }
   Domain 2 (user): { (file1, r), (file3, rw) }
@@ -79,7 +79,7 @@ OS 보안 요구사항 (CIA):
    파일A: { (도메인1, rw), (도메인2, r) }
    장점: 객체별 접근자 목록 관리 쉬움
    단점: 특정 주체의 모든 권한 확인 어려움
-   
+
 2. Capability List — 행 기준:
    도메인1: { (파일A, rw), (파일B, rwx), (프린터, print) }
    장점: 주체 관점에서 권한 관리
@@ -116,7 +116,7 @@ Ring 3 — 사용자 모드 (User Mode):
     시스템 콜 (INT, SYSCALL 명령어)
     예외 처리 (Exception Handler)
     인터럽트 (Interrupt)
-  
+
   Ring 0 → Ring 3:
     IRET, SYSRET 명령어
     스케줄러에 의한 사용자 프로세스 복귀
@@ -190,10 +190,10 @@ MAC (Mandatory Access Control):
 SELinux (Security-Enhanced Linux):
   NSA 개발, Red Hat/CentOS/Fedora 기본 탑재
   레이블 기반: 모든 파일/프로세스에 보안 컨텍스트
-  
+
   컨텍스트 형식: user:role:type:level
   예: system_u:system_r:httpd_t:s0
-  
+
   정책 유형:
     Enforcing: 정책 위반 = 차단 + 로그
     Permissive: 차단 없음 + 로그만 (개발/디버깅)
@@ -202,7 +202,7 @@ SELinux (Security-Enhanced Linux):
 AppArmor (Ubuntu/SUSE):
   경로 기반 프로파일
   더 간단, 관리 편이
-  
+
   /etc/apparmor.d/usr.sbin.nginx 예시:
     /var/www/html/** r,
     /var/log/nginx/** w,

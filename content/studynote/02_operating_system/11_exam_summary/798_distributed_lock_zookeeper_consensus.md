@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>단일 락 (Local <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)</strong>: 한 대의 컴퓨터 안에서 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 싸울 때 OS 커널이 정리해 주는 자물쇠 (예: Java `synchronized`, `pthread_mutex`).
   - <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 락 (Distributed <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)</strong>: 컴퓨터 A, B, C가 각자 독립된 프로세스로 도는데, 셋이 동시에 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 같은 줄(Row)을 수정하려 할 때, 제3의 중앙 통제 서버(ZooKeeper, [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/))를 두고 먼저 락을 획득한 놈만 들어가게 해주는 원격 자물쇠.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 1번 서버(결제망)와 2번 서버(결제망)가 있다. 둘 다 동시에 "홍길동의 잔액 100만 원"을 읽고, 각각 50만 원씩 빼서 50만 원으로 업데이트했다. 100만 원을 썼는데 잔액이 50만 원이 남는 대참사([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))가 발생한다.
   - 1번 서버의 RAM에 락을 걸면 2번 서버는 그 락을 볼 수가 없다(메모리 고립).
   - **해결책**: "서버 밖에다가 자물쇠 보관함([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락 서버)을 따로 짓자. 1번이든 2번이든 돈을 빼기 전에 반드시 자물쇠 보관함에 가서 열쇠를 하나만 꺼내 오게 만들자!"
@@ -31,7 +31,7 @@ tags = ["studynote-operating-system"]
   - **단일 락**: 한 가족이 화장실을 쓸 때, 문에 달린 걸쇠([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)) 하나만 잠그면 다른 가족이 못 들어온다.
   - <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 락</strong>: 아파트 전체가 공용 화장실을 하나 쓴다. 각자의 집에선 남이 화장실에 갔는지 알 수 없다. 그래서 아파트 1층 경비실(ZooKeeper)에 '화장실 열쇠'를 딱 하나 놔두고, 누구든 화장실을 가려면 경비실까지 내려와서 그 열쇠를 가져가야만([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락 획득) 쓸 수 있게 만든 철저한 관리 시스템.
 
-- **등장 배경**: 
+- **등장 배경**:
   - [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/), [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 같은 거대 빅데이터 클러스터가 등장하면서, 수천 대의 노드 중 "누가 리더(마스터)를 할 것인가?"를 정하거나 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값을 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하기 위한 100% 신뢰 가능한 제3의 [중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)([Coordinator](/knowledge-base/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/))가 필요해져 Yahoo! 에서 개발되었다.
 
 ```text

@@ -19,7 +19,7 @@ tags = ["database"]
 ---
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
-[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 3단계 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)(외부, 개념, 내부)를 독립적으로 정의해 두더라도, 이들 간에 원활한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환이 일어나지 않는다면 아키텍처는 동작할 수 없습니다. [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 매핑([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Mapping), 우리말로는 '사상(寫像)'이라 불리는 이 기술은 서로 다른 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 수준을 가진 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 변환하고 대응시키는 규칙의 집합입니다. 
+[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 3단계 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)(외부, 개념, 내부)를 독립적으로 정의해 두더라도, 이들 간에 원활한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환이 일어나지 않는다면 아키텍처는 동작할 수 없습니다. [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 매핑([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Mapping), 우리말로는 '사상(寫像)'이라 불리는 이 기술은 서로 다른 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 수준을 가진 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 변환하고 대응시키는 규칙의 집합입니다.
 만약 매핑 계층이 없다면, 테이블에 컬럼이 하나 추가되거나 디스크의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 경로가 바뀌었을 때 응용 프로그램의 소스코드를 모두 뒤져서 수정해야 합니다. 매핑은 계층 간의 완충 지대(Buffer Zone)를 형성하여 하위 계층의 변경이 상위 계층으로 전파되는 것을 차단합니다. 현대 시스템에서 비즈니스 로직(응용 프로그램)과 스토리지(물리 DB)가 수명 주기를 달리하며 발전할 수 있는 이유는 전적으로 이 매핑 매커니즘 덕분입니다.
 
 다음 그림은 3단계 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 구조 사이에서 두 가지 매핑이 어떻게 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)을 형성하는지 보여줍니다.
@@ -50,11 +50,11 @@ tags = ["database"]
 ```text
 1. [User Query] SELECT name FROM Employee_View;
         ↓
-2. [외부/개념 매핑 동작] 
+2. [외부/개념 매핑 동작]
    - 딕셔너리 조회: Employee_View는 'EMP' 테이블의 'emp_name' 컬럼과 매핑됨.
    - 쿼리 변환: SELECT emp_name FROM EMP;
         ↓
-3. [개념/내부 매핑 동작] 
+3. [개념/내부 매핑 동작]
    - 딕셔너리 조회: 'EMP' 테이블은 'DATA_TBS_01' 파일의 14번 블록에 있음.
    - 접근 경로 산출: 'EMP_NAME_IDX' B-Tree 인덱스를 거쳐 Heap 데이터로 접근.
         ↓

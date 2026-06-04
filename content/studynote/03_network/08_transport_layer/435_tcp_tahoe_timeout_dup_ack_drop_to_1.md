@@ -23,8 +23,8 @@ tags = ["studynote-network"]
 - **필요성**: 1986년, 아무런 통제 없이 패킷을 쏟아붓던 인터넷이 40bps로 멈춰 서는 대재앙이 발생했다. 모두가 패킷이 유실될 때마다 똑같은 속도로 미친 듯이 재전송을 갈겨댔기 때문이다. **"야! 패킷이 죽었다는 건 길이 막혔다는 뜻이야! 무조건 속도를 1(바닥)로 확 줄이고 처음부터 살금살금 밟아 올라오게 법으로 강제해!!"** 인터넷을 멸망에서 구하기 위해 가장 원초적이고 확실한 브레이크 시스템이 필요했다.
 
 - **💡 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Tahoe는 융통성이라곤 1도 없는 <strong>"FM(원칙주의자) 초보 운전 강사"</strong>와 같습니다.
-  - 고속도로를 시속 100km로 달리다가 앞차가 급정거([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))를 했습니다. 
-  - 강사는 기겁하며 조수석 브레이크를 꽉 밟아 차를 아예 <strong>시속 0km(완전 정지, CWND 1)</strong>로 세워버립니다. 
+  - 고속도로를 시속 100km로 달리다가 앞차가 급정거([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))를 했습니다.
+  - 강사는 기겁하며 조수석 브레이크를 꽉 밟아 차를 아예 <strong>시속 0km(완전 정지, CWND 1)</strong>로 세워버립니다.
   - 이번엔 길바닥에 작은 돌멩이(3 Dup-ACK, 패킷 1개 유실)가 하나 튀었습니다. 다른 차들은 그냥 속도만 줄이고 지나가는데, 이 원칙주의자 강사는 기겁을 하며 또다시 브레이크를 꽉 밟아 차를 <strong>시속 0km(완전 정지, CWND 1)로 갓길에 세우고 1단 기어(<a href="/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/">Slow Start</a>)부터 다시 출발</strong>시킵니다.
 
 ```text

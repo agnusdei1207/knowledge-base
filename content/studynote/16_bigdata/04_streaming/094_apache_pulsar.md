@@ -27,7 +27,7 @@ Kafka는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_syste
 Kafka 문제:
   Broker 1: Partition 0, 1 (Leader)
   Broker 2: Partition 2 (Leader) ← 이 브로커 장애 발생!
-  
+
   → Partition 2의 팔로워가 리더가 될 때까지 일시 불가용
   → 새 브로커 추가 시 파티션 재배치 필요 (시간 소요)
   → 클러스터 규모 커질수록 리밸런싱 비용 증가
@@ -39,7 +39,7 @@ Kafka 문제:
 Pulsar 해결책:
   Broker: 라우팅·서빙 담당 (상태 없음, Stateless)
   BookKeeper: 실제 데이터 저장 (상태 있음, Stateful)
-  
+
   Broker 2 장애 시:
   → 해당 토픽의 소유권(Ownership)만 다른 Broker로 즉시 이전
   → 데이터는 BookKeeper에 그대로 있어 손실 없음

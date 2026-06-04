@@ -81,7 +81,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 탈취당하는 또 다른 구멍은, 와이파이를 몰래 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)(스니핑)하는 것입니다. 
+- [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 탈취당하는 또 다른 구멍은, 와이파이를 몰래 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)(스니핑)하는 것입니다.
 - 이를 막기 위해 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 구워줄 때 <strong><code>Secure</code></strong>라는 옵션도 같이 달아줍니다. 이 꼬리표가 붙으면, 브라우저는 평문 통신인 `http://`에서는 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 절대 내보내지 않고, 완벽히 암호화된 <strong><code>https://</code> 통신을 할 때만 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>를 안전하게 실어 보냅니다.</strong>
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

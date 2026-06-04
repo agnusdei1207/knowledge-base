@@ -42,7 +42,7 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a>-M은 100% <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a>를 지원</strong>합니다. 시속 수십 km로 달리는 자동차나 물류 트럭에 부착해도 통신이 끊기지 않아 '차량 관제 시스템(Fleet [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))'이나 어린이/반려견 안심 트래커에 완벽하게 부합합니다.
 
 ### 2. 음성 통화 ([VoLTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/758_volte_voice_over_lte_sip_qos/)) 지원
-- 1Mbps의 속도를 낼 수 있으므로 데이터를 넘어 사람의 목소리까지 깨끗하게 전송할 수 있습니다. 
+- 1Mbps의 속도를 낼 수 있으므로 데이터를 넘어 사람의 목소리까지 깨끗하게 전송할 수 있습니다.
 - 엘리베이터 내부의 비상 통화 장치나, 독거노인 응급 호출기(보이스 지원 웨어러블)처럼 유사시 "사람의 목소리"가 들어가야 하는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기에는 오직 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-M만 사용할 수 있습니다.
 
 ### 3. FOTA ([Firmware](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) Over The Air) 무선 업데이트

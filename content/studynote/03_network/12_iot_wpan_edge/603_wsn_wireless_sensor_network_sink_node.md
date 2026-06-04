@@ -61,7 +61,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - 앞서 배운 [MANET](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/588_manet_mobile_ad_hoc_network/)(588번)은 전쟁터의 병사들처럼 <strong>단말기들 스스로가 마구 이동(Mobility)하면서 통신</strong>하는 것이 목적입니다.
-- 반면 WSN의 센서 노드들은 한 번 땅에 뿌려지면 **거의 움직이지 않습니다(고정형).** 
+- 반면 WSN의 센서 노드들은 한 번 땅에 뿌려지면 **거의 움직이지 않습니다(고정형).**
 - WSN의 목표는 오직 "어떻게 하면 전기를 아끼면서, 모든 센서의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안 잃어버리고 무사히 싱크 노드 한 곳으로 다 퍼부어줄 수 있을까?"입니다. 따라서 특정 노드 하나만 계속 중계(릴레이) 역할을 하다 배터리가 죽어버리지 않게, 번갈아 가며 중계 역할을 하는 똑똑한 배터리 절약 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(예: LEACH 등)이 핵심입니다.
 
 [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/) / 싱크 노드 구성을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [사물 통신](/knowledge-base/studynote/03_network/12_iot_wpan_edge/602_m2m_machine_to_machine_telemetry/)이 기반 조건을 만든다면, [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/) / 싱크 노드 구성은 그 위에서 핵심 메커니즘을 구현하고, WPAN는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전력 효율과 현장 반응성에 어떤 차이를 만드는지 비교하는 것이 중요하다.

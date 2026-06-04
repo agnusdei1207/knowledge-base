@@ -24,7 +24,7 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경 및 성긴(Sparse) 주소 공간의 관리**:
   1. **가상 주소의 뻥튀기**: 64비트 시대가 오며 가상 주소가 테라바이트 급으로 넓어졌으나, 실사용은 찔끔찔끔 흩어져 있었다.
-  2. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> 장부의 불가능성</strong>: 빈 곳이 99%인 4GB 전체를 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 감시하는 건 램 낭비다. 
+  2. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> 장부의 불가능성</strong>: 빈 곳이 99%인 4GB 전체를 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 감시하는 건 램 낭비다.
   3. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">연결 리스트</a> 노드의 도입</strong>: "딱 진짜로 쓰는 구역(Area)들만 시작 주소와 끝 주소를 객체(VMA)로 묶어서 포인터로 줄줄이 연결해 놓자!"는 소프트웨어적 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 기법 도입.
 
 ```text
@@ -66,7 +66,7 @@ tags = ["studynote-operating-system"]
 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스코드(C언어)에서 VMA를 정의하는 구조체를 뜯어보면 핵심 철학이 보인다.
 - `vm_start`: 구역의 시작 가상 주소
 - `vm_end`: 구역의 끝 가상 주소
-- `vm_page_prot`: 이 구역 전체에 적용되는 접근 권한 (Read, Write, Execute). 
+- `vm_page_prot`: 이 구역 전체에 적용되는 접근 권한 (Read, Write, Execute).
 - `vm_file`: 이 구역이 하드디스크의 어떤 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(예: `mmap("data.txt")`)과 연결되어 있는지 가리키는 포인터. ([익명 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)/힙이면 NULL).
 
 ---
@@ -142,7 +142,7 @@ MMU가 'I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_re
 
 ### 실무 시나리오: C언어 `malloc()`의 꼼수와 VMA 병합(Merge)
 1. **문제 상황**: 개발자가 C언어의 반복문(for) 안에서 `malloc(4KB)`를 1000번 호출했다.
-2. **최악의 시나리오 (VMA 폭발)**: 
+2. **최악의 시나리오 (VMA 폭발)**:
    - 원칙대로라면 OS는 4KB짜리 VMA 텐트 객체를 1000개나 만들어서 R-B Tree에 매달아야 한다. 트리가 쓸데없이 무거워진다.
 3. <strong>리눅스 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 VMA Merge (병합 흑마술)</strong>:
    - 똑똑한 리눅스 메모리 매니저는 1000개의 텐트를 치지 않는다.
@@ -165,7 +165,7 @@ Java나 Python 기반의 괴물 같은 [데이터](/knowledge-base/studynote/05_
 
 | 구분 | 내용 |
 |:---|:---|
-| **[메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) $O(\log N)$ 최적화** | [Red-Black Tree](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/) 도입을 통해, 가상 공간을 찌르는 수백만 번의 폴트가 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)으로 터지더라도 즉각 합법/불법 판정을 내려 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) |
+| **[메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) $O(\log N)$ 최적화** | [Red-Black Tree](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/) 도입을 통해, 가상 공간을 찌르는 수백만 번의 폴트가 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)으로 터지더라도 즉각 합법/불법 판정을 내려 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a> Allocation의 든든한 뼈대</strong> | 진짜 램(RAM)을 주지 않고도 VMA 장부의 `end` 크기만 슬쩍 늘려줌으로써, "메모리 줬다"고 뻥을 치는(Overcommit) [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 철학을 기술적으로 완성 |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> I/O와 메모리의 완벽한 융합</strong>| VMA 안에 `vm_file` 포인터를 품게 하여, `mmap`된 가상 주소를 찌르면 1초 만에 디스크의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 섹터로 다이렉트 점프하는 고속도로 개통 |
 

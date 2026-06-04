@@ -86,10 +86,10 @@ tags = ["studynote-database"]
 집합 연산자의 진짜 활용법은 가짜 컬럼을 추가해 이종 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 포매팅하는 것이다.
 
 ### 실무 판단 시나리오
-1. **구시대 레거시 분할 테이블의 강제 통합 통계 리포트**: 회사의 DB가 너무 낡아 `주문_2024` 테이블과 `주문_2025` 테이블을 년도별로 찢어서 따로 만들어 두었다(수동 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)). 사장님이 "최근 2년 치 총주문 건수와 매출 총합을 한 줄로 뽑아와!"라고 시켰다. 
+1. **구시대 레거시 분할 테이블의 강제 통합 통계 리포트**: 회사의 DB가 너무 낡아 `주문_2024` 테이블과 `주문_2025` 테이블을 년도별로 찢어서 따로 만들어 두었다(수동 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)). 사장님이 "최근 2년 치 총주문 건수와 매출 총합을 한 줄로 뽑아와!"라고 시켰다.
    - **판단**: 집합 연산자의 가장 고전적이고 아름다운 실무 활용처다. 아키텍트는 두 테이블을 <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/141_inline_view_subquery/">인라인 뷰</a>(<a href="/knowledge-base/studynote/05_database/03_relational_model/141_inline_view_subquery/">Inline View</a> 괄호)</strong> 안에서 `UNION ALL` 로 먼저 길게 위아래로 붙여서 하나의 거대한 가상 테이블(가짜 2년 치 덩어리)을 창조한다.
    `SELECT SUM(매출) FROM ( SELECT 매출 FROM 주문_2024 UNION ALL SELECT 매출 FROM 주문_2025 );`
-   그리고 그 가상 테이블 바깥에서 `SUM` 이라는 믹서기([집계 함수](/knowledge-base/studynote/05_database/03_relational_model/147_aggregate_function_group_by/))를 한 방 윙~ 갈아버리면, 물리적으로 찢어진 두 우주의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 하나의 완벽한 통계 숫자로 0.1초 만에 환생한다. 
+   그리고 그 가상 테이블 바깥에서 `SUM` 이라는 믹서기([집계 함수](/knowledge-base/studynote/05_database/03_relational_model/147_aggregate_function_group_by/))를 한 방 윙~ 갈아버리면, 물리적으로 찢어진 두 우주의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 하나의 완벽한 통계 숫자로 0.1초 만에 환생한다.
 2. <strong><code>UNION</code> 과 다중 <code>OR</code> 조회의 <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 튜닝 마개조</strong>: "A부서 직원(10명)이거나, 급여가 1억 넘는 직원(5명) 명단을 뽑아라." 주니어 개발자가 `SELECT * FROM 사원 WHERE 부서='A' OR 급여>1억;` 으로 짰다. `OR` 연산자 특성상 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 부서 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)와 급여 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 타지 못하고 혼란에 빠져 1,000만 건 사원 테이블을 무식하게 풀스캔(Full Scan) 때리며 5분이 걸렸다.
    - **판단**: SQL 튜너들의 영원한 무기, **'OR 조건을 UNION으로 찢어발기기'** 비기다.
    `SELECT * FROM 사원 WHERE 부서='A'` (부서 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 광속 탑승 0.01초!)
@@ -112,7 +112,7 @@ tags = ["studynote-database"]
 
 가로([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))로 엮이지 못하는 운명이라도, 세로(Union)로 쌓아 올려 거대한 탑을 짓는다. 집합 연산자는 10년 전 은퇴한 선배들의 먼지 쌓인 장부(Archive)와 오늘 아침 입사한 신입의 장부(Live)를 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 화면 위에서 단 하나의 완벽한 '전체 명단(Single [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))'으로 부활시키는 마법의 보자기다. 이 무식하지만 파괴적인 세로의 확장을 이해하고, `UNION`의 정렬(Sort) 독가스를 피하는 통제력을 얻었을 때 아키텍트는 비로소 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 물리적 파편화를 완벽히 극복하게 된다.
 
-- **📢 섹션 요약 비유**: 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))은 햄버거 빵과 고기 패티를 위아래로 포개어 <strong>'새로운 요리 1개(가로 확장)'</strong>를 완성하는 우아한 요리법입니다. 집합 연산자(UNION)는 햄버거 상자 10개가 든 박스 밑에 햄버거 상자 10개를 겹쳐서 쌓아 올리고 테이프를 감아 <strong>'거대한 20개짜리 탑(세로 확장)'</strong>을 만들어 납품하는 무식하지만 확실한 화물 상하차 포장술입니다. 
+- **📢 섹션 요약 비유**: 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))은 햄버거 빵과 고기 패티를 위아래로 포개어 <strong>'새로운 요리 1개(가로 확장)'</strong>를 완성하는 우아한 요리법입니다. 집합 연산자(UNION)는 햄버거 상자 10개가 든 박스 밑에 햄버거 상자 10개를 겹쳐서 쌓아 올리고 테이프를 감아 <strong>'거대한 20개짜리 탑(세로 확장)'</strong>을 만들어 납품하는 무식하지만 확실한 화물 상하차 포장술입니다.
 
 ---
 

@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **Uniprogramming (단일 프로그래밍)**: 한 번에 오직 하나의 프로그램만 메모리에 올려 실행하는 방식 (예: MS-DOS).
   - **Multiprogramming (다중 프로그래밍)**: 메모리에 2개 이상의 프로그램을 동시에 올려두고, 하나의 프로그램이 입출력(I/O)을 하느라 멈출 때 OS가 즉시 다른 프로그램에게 CPU를 넘겨주는 방식.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/">Degree of Multiprogramming</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/">다중 프로그래밍 정도</a>)</strong>: 현재 메인 메모리에 올라가 있는 프로세스의 총개수.
 
-- **필요성 (CPU와 I/O 장치의 극단적 속도 차이)**: 
+- **필요성 (CPU와 I/O 장치의 극단적 속도 차이)**:
   - 컴퓨터의 연산(CPU) 속도는 엄청나게 빠른데, 프린터를 뽑거나 디스크를 읽는 속도(I/O)는 달팽이처럼 느렸다.
   - 단일 프로그래밍 시절, 프로그램 1개가 디스크에서 데이터를 읽어오는 1초 동안 CPU는 수십억 번의 연산을 할 수 있음에도 그냥 멍하니 쉬어야 했다 (CPU 유휴 상태).
   - **해결책**: "CPU가 놀게 놔둘 수 없다! 1번 프로그램이 디스크를 읽으러 가면, 그 틈에 메모리에 대기 중이던 2번 프로그램을 CPU가 실행하게 만들자!"라는 경제적 극대화 논리가 다중 프로그래밍을 낳았다.
@@ -116,7 +116,7 @@ tags = ["studynote-operating-system"]
 
 ### 과목 융합 관점
 
-- <strong>컴퓨터구조 (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a>)</strong>: 다중 프로그래밍을 위해 메모리에 여러 앱을 동시에 올리면, A 앱이 B 앱의 메모리를 훔쳐보거나 덮어쓰는 대형 보안 사고가 터진다. 이를 막기 위해 CPU 하드웨어 단에서 <strong>Base &amp; <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/">Limit Register</a> (<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/">메모리 보호</a> <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>)</strong>가 도입되었고, 이는 후일 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)(메모리 관리 유닛)로 발전한다.
+- <strong>컴퓨터구조 (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a>)</strong>: 다중 프로그래밍을 위해 메모리에 여러 앱을 동시에 올리면, A 앱이 B 앱의 메모리를 훔쳐보거나 덮어쓰는 대형 보안 사고가 터진다. 이를 막기 위해 CPU 하드웨어 단에서 <strong>Base &amp; <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/">Limit Register</a> (<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/">메모리 보호</a> <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>)</strong>가 도입되었고, 이는 후일 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)(메모리 관리 유닛)로 발전한다.
 - **소프트웨어공학 (SE)**: 다중 프로그래밍이 등장하면서, 여러 프로그램이 동일한 프린터나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(공유 자원)에 동시에 접근하려다 시스템이 멈추는 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))나 [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))이라는 부작용이 최초로 발생했다. 즉, 다중 프로그래밍은 '[동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어([Concurrency Control](/knowledge-base/studynote/05_database/04_transactions_concurrency/508_concurrency_control/))'라는 소프트웨어 공학의 거대한 숙제를 낳은 판도라의 상자였다.
 
 - **📢 섹션 요약 비유**: 다중 프로그래밍은 좁은 무대(메모리)에 여러 배우를 억지로 구겨 넣고 연극을 시킨 것입니다. 배우들이 대기 시간 없이 일하게 되어 효율은 올랐지만, 서로 어깨를 부딪히고(메모리 침범) 소품을 뺏으려 싸우는([교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 새로운 골칫거리들을 만들어 냈습니다.
@@ -189,7 +189,7 @@ tags = ["studynote-operating-system"]
 ### 결론
 다중 프로그래밍(Multiprogramming)은 비싼 쇳덩어리(CPU)를 어떻게든 혹사시키기 위한 자본주의적 경제 논리에서 출발한 개념이다. 이 단순한 "남는 시간에 다른 거 하자"는 아이디어는, 멀티프로세스 환경, 스케줄링 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), 메모리 격리, 그리고 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)라는 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 모든 핵심 뼈대를 강제로 잉태시켰다. 다중 프로그래밍의 역사를 이해하는 것은, 오늘날 왜 서버 아키텍처가 비동기/이벤트 루프와 마이크로서비스로 찢어지게 되었는지, 그리고 메모리 최적화가 왜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 전부인지 그 필연성을 깨닫는 과정이다.
 
-- **📢 섹션 요약 비유**: 1명이 살던 단독주택(단일 프로그래밍)을 허물고 100명이 사는 아파트(다중 프로그래밍)를 지었더니, 층간 소음([메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/))과 엘리베이터 정체(스케줄링)라는 새로운 문제가 생겼고, 이를 해결하며 건축 기술([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))이 비약적으로 발전한 것입니다.
+- **📢 섹션 요약 비유**: 1명이 살던 단독주택(단일 프로그래밍)을 허물고 100명이 사는 아파트(다중 프로그래밍)를 지었더니, 층간 소음([메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/))과 엘리베이터 정체(스케줄링)라는 새로운 문제가 생겼고, 이를 해결하며 건축 기술([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))이 비약적으로 발전한 것입니다.
 
 ---
 

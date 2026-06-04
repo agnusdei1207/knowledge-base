@@ -93,7 +93,7 @@ tags = ["studynote-software-engineering"]
 A(3일) → B(2일) → D(4일)
               ↓
          C(5일) → D
-         
+
 CPM: A→C→D = 3+5+4 = 12일 (최장 경로 = 임계 경로)
 여유시간(Float): B = 12 - (3+2+4) = 3일
 ```

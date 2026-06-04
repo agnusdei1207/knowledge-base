@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: 단일 윈도우 내 다중 패킷 손실(Multiple Packet Loss) 발생 시 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Reno의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하(다중 Fast Recovery로 인한 CWND 급감 및 [Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))를 방지하기 위해 개선된 [혼잡 회피](/knowledge-base/studynote/03_network/08_transport_layer/432_congestion_avoidance_aimd_algorithm/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(NewReno)과 확장 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더 옵션(SACK).
 - **필요성**: 1Gbps 초고속망이 되니까 한 번에 쏘는 윈도우 크기가 1,000개가 넘었다. 해저 케이블에서 노이즈가 살짝 튀면 1,000개 중 5개가 듬성듬성 유실된다. Reno는 이 5개를 잃어버릴 때마다 속도를 1/2, 1/4, 1/8, 1/16, 1/32로 미친 듯이 깎아 먹다가 아예 뻗어버렸다([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)). **"야! 1,000개 보낸 것 중에 5개 잃어버린 건 '한 번의 사고'잖아! 왜 속도를 5번이나 깎아! 그리고 잃어버린 것만 딱딱 집어서 알려주면 내가 한 방에 다 다시 쏴줄 텐데 굳이 누적 ACK로 사람 숨 막히게 할 거야?!"** 이 절규가 SACK과 NewReno를 탄생시켰다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - **Reno (구형)**: 택배 100개를 시켰는데 10번과 20번이 안 왔습니다. 고객은 "10번 안 왔어!"라고 1차 클레임을 겁니다(속도 삭감). 회사가 10번을 보내줍니다. 그제야 고객은 "20번도 안 왔어!"라고 2차 클레임을 겁니다(속도 또 삭감). 배송 회사는 암 걸립니다.
   - **SACK (새로운 유형의)**: 고객이 택배를 받자마자, <strong>"1~9번 오케이, <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/">11</a>~19번 오케이, 21~100번 오케이!"라고 영수증에 형광펜으로 칠해서(SACK 블록)</strong> 보냅니다. 배송 회사는 영수증을 딱 보고, <strong>"아 10번이랑 20번 2개가 비었네? 한 번에 퀵으로 쏴줄게! (속도 삭감은 1번만)"</strong>라며 눈부신 처리를 보여줍니다.
 

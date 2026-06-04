@@ -18,7 +18,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-저항 (Resistance)은 [도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/) 내부에서 전하 운반자가 이동할 때 원자 격자와 충돌하며 겪는 방해의 크기를 옴($\Omega$) 단위로 나타낸 것이다. 옴의 법칙 ($V=[IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/)$)에 따라 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)과 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)의 관계를 결정하며, 전력을 열로 변환 ($P=I^2R$)한다. 
+저항 (Resistance)은 [도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/) 내부에서 전하 운반자가 이동할 때 원자 격자와 충돌하며 겪는 방해의 크기를 옴($\Omega$) 단위로 나타낸 것이다. 옴의 법칙 ($V=[IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/)$)에 따라 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)과 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)의 관계를 결정하며, 전력을 열로 변환 ($P=I^2R$)한다.
 
 디지털 시스템에서 저항은 양면성을 가진다. 입력 핀의 상태를 안정시키는 풀업/풀다운 저항이나 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 반사를 막는 종단 저항 (**ODT, On-Die Termination**)처럼 의도적으로 배치되어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 지키는 데 꼭 필요하다. 하지만 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 미세화가 진행되면서 금속 배선의 단면적이 줄어들어 발생하는 기생 배선 저항은 회로의 동작 속도를 떨어뜨리고 발열을 일으키는 가장 큰 병목이 되었다.
 
@@ -30,7 +30,7 @@ tags = ["studynote-computer-architecture"]
 
 컴퓨터 구조에서 저항은 의도된 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 제어와 극복해야 할 기생 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이라는 두 가지 형태로 나타난다. [MOSFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/) [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)는 게이트 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 통해 소스와 드레인 사이의 채널 저항을 무한대(OFF)에서 수십 옴(ON)으로 급격히 변화시키는 거대한 가변 저항기다. 이 저항의 극단적인 스위칭이 곧 1과 0의 디지털 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 만든다.
 
-반면 금속 배선이 가지는 고유 저항($R$)은 주변 배선과의 [정전용량](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/)($C$)과 결합하여 <strong>RC (Resistor-Capacitor) <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong>을 발생시킨다. 
+반면 금속 배선이 가지는 고유 저항($R$)은 주변 배선과의 [정전용량](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/)($C$)과 결합하여 <strong>RC (Resistor-Capacitor) <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong>을 발생시킨다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -70,7 +70,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 배선 저항의 증가는 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하 ([IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) Drop)와 일렉트로마이그레이션 (Electromigration)이라는 두 가지 치명적인 문제를 일으킨다. 
+실무에서 배선 저항의 증가는 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하 ([IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) Drop)와 일렉트로마이그레이션 (Electromigration)이라는 두 가지 치명적인 문제를 일으킨다.
 
 전원 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) (PDN)의 저항이 크면 CPU가 순간적으로 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 끌어당길 때 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 목표치 이하로 떨어져 시스템이 셧다운된다. 또한 좁은 구리 배선에 고밀도 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 계속 흐르면, 전자가 금속 원자를 밀어내어 배선이 끊어지는 물리적 파괴가 발생한다. 이를 막기 위해 설계자는 최상위 글로벌 메탈 레이어에는 두꺼운 구리나 코발트를 배정하고, 수직 연결 비아(Via)는 다중 어레이로 뚫어 저항 병목을 강제로 넓혀야 한다.
 
@@ -85,9 +85,9 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-저항을 정밀하게 제어하고 기생 저항을 억제하면, 칩은 더 높은 [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/) 도달과 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 감소라는 두 마리 토끼를 잡을 수 있다. 
+저항을 정밀하게 제어하고 기생 저항을 억제하면, 칩은 더 높은 [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/) 도달과 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 감소라는 두 마리 토끼를 잡을 수 있다.
 
-하지만 미세 공정이 3nm 이하로 내려가면서 전자가 구리 배선의 경계면과 충돌하는 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/) 효과로 인해 비저항이 폭증하는 한계에 다다랐다. 이를 극복하기 위해 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 후면에 전력 전용 배선을 따로 두는 <strong>BSPDN (Backside <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Delivery Network)</strong>이나, 아예 저항이 없는 빛으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송하는 실리콘 포토닉스 같은 혁신적 아키텍처가 도입되고 있다. 
+하지만 미세 공정이 3nm 이하로 내려가면서 전자가 구리 배선의 경계면과 충돌하는 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/) 효과로 인해 비저항이 폭증하는 한계에 다다랐다. 이를 극복하기 위해 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 후면에 전력 전용 배선을 따로 두는 <strong>BSPDN (Backside <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Delivery Network)</strong>이나, 아예 저항이 없는 빛으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송하는 실리콘 포토닉스 같은 혁신적 아키텍처가 도입되고 있다.
 
 결론적으로 저항은 제거할 수 없는 물리적 제약이며, 차세대 컴퓨터 구조는 이 마찰을 어떻게 우회하고 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시킬 것인가에 대한 설계 싸움이다.
 

@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>OPT (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/402_optimal_page_replacement/">Optimal Page Replacement</a>, <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/301_opt_replacement/">최적 교체</a>)</strong>: 벨라디(Belady)가 제안한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(MIN [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이라고도 함). 발생 가능한 [Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 횟수를 수학적으로 최소화하는 이론적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/).
   - <strong>오프라인 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>: 시스템이 실행되기 전에 전체 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(메모리 참조열)를 이미 다 알고 있는 상태에서 동작하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/).
 
-- **필요성 (완벽에 대한 기준점 제시)**: 
+- **필요성 (완벽에 대한 기준점 제시)**:
   - [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템을 만들고 FIFO를 돌려보니 벨라디의 모순이 터지는 등 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 너무 구렸다.
   - 학자들은 "그럼 도대체 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)를 '최소'로 줄이면 몇 번까지 줄일 수 있는 걸까?"라는 궁극적인 궁금증이 생겼다.
   - **해결책**: "신(God)의 관점에서 미래를 다 안다고 치고, 가장 늦게 쓰일 놈을 버려보자. 그게 우리가 도달할 수 있는 완벽한 한계점(Upper Bound)이다!"라는 목적으로 OPT 모델이 탄생했다.

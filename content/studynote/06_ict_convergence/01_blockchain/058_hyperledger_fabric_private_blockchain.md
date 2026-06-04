@@ -107,8 +107,8 @@ MSP / Channel / Peer / Orderer
 
 ## 어린이를 위한 3줄 비유 설명
 
-하이퍼레저 패브릭은 초대장 받은 사람만 들어오는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이에요.  
-아무나 다 보는 게 아니라, 필요한 사람끼리만 장부를 함께 써요.  
+하이퍼레저 패브릭은 초대장 받은 사람만 들어오는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이에요.
+아무나 다 보는 게 아니라, 필요한 사람끼리만 장부를 함께 써요.
 그래서 회사에서 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 더 좋아요.
 
 ---

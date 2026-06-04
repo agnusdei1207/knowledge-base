@@ -130,8 +130,8 @@ Mitigation
 
 ## 어린이를 위한 3줄 비유 설명
 
-한쪽 사람이 너무 많으면 결과가 바뀔 수 있어요.  
-[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)도 똑같아요.  
+한쪽 사람이 너무 많으면 결과가 바뀔 수 있어요.
+[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)도 똑같아요.
 51% 공격은 그런 과반 장악이에요.
 
 ---

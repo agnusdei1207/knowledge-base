@@ -144,7 +144,7 @@ tags = ["studynote-operating-system"]
 
 | 구분 | 내용 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/">메모리 보호</a> 효율</strong> | 4KB의 미세한 크기별로 Read/Write/Execute 비트를 세팅할 수 있어 정밀한 해킹 방어 시스템 구축 가능 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/">메모리 보호</a> 효율</strong> | 4KB의 미세한 크기별로 Read/Write/Execute 비트를 세팅할 수 있어 정밀한 해킹 방어 시스템 구축 가능 |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> 미스율 하락</strong> | 적절히 상향된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 크기는 캐시 히트율을 높여 Memory Access Latency를 기계적 한계까지 낮춤 |
 | **스토리지 정합성** | 하드디스크와 SSD의 기본 섹터/블록 I/O 사이즈(4KB)와 일치시켜 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 전송의 오버헤드를 제로화함 |
 

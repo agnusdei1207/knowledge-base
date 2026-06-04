@@ -69,14 +69,14 @@ tags = ["studynote-operating-system"]
 
 이 강력한 태생적 오버헤드 락 (Random Write Penalty = $4 \times IOPS$) 규칙 탓에, 초당 수만 건의 Update, Delete [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 빈발하는 거대 Transactional [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) (금융 결제 MariaDB 등) 원본 스토리지 구축에 함부로 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5 구성을 박으면 DB가 속을 게우며 병목 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) Delay)에 크래쉬하기 십상이다 (이때는 이중 돈을 들여서라도 [RAID 10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 으로 이주하는 것이 진리다). 하지만 일반적인 대규모 범용 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 보관용, 이메일 스토리지, 영상 콜드/웜 [핫 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/) 아카이빙에서는 너무나도 가격 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비가 최고존엄을 발휘한다.
 
-### 2. 가용 용량 효율성과 [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) (Total Cost of Ownership) 매직 
+### 2. 가용 용량 효율성과 [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) (Total Cost of Ownership) 매직
 
 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5의 역사적인 가치는 가장 싼 돈으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무결점을 사는 <strong>디스크 용량 효율 계산식</strong>에 있다.
 
 - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> 용량 보존 계산식</strong> = `총 디스크 갯수(N) - 패리티 소요 디스크 공간 분할 몫 (1) `
 - 만약 10TB 하드 드라이브를 5장 구매했다? (총 투자액 50TB 원석)
   - [RAID 1](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/485_raid_1_mirroring/)(미러)로 짠다면: 무려 50% 반토막인 <strong>실 25TB</strong>만 손에 쥐게 되어 CFO의 지갑 예산이 거덜 남.
-  - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> 5로 짠다면?</strong>: $10TB \times (5장 - 1)$ = **실제 가용 용량 40TB 획득(80% 효율)!** 
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> 5로 짠다면?</strong>: $10TB \times (5장 - 1)$ = **실제 가용 용량 40TB 획득(80% 효율)!**
   - (물론 한 장이 박살 나도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 0바이트도 손실되지 않는 무적 방패까지 포함인데 이 가격이다!)
 
 - **📢 섹션 요약 비유**: 패리티가 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5는 아주 기가 막힌 자동차 보험 상품입니다. 10대의 차 중 아무 차나 길 가다 퍼져도 보험사가 다 새것(XOR 복원)으로 공짜 수리해 주는데, 보험금 가격(버려지는 공간)은 10대 차량 전체 가격의 단 1대 값어치 분량의 희생금밖에 청구하지 않으니 세상 모든 중소 IT 인프라 기업들이 사랑할 수밖에 없던 기적의 적금 구조입니다.
@@ -87,7 +87,7 @@ tags = ["studynote-operating-system"]
 
 ### 현대 스토리지 환경에서 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5 몰락 임계와 치사율 구조선 (URE)
 
-기업의 영원한 황금 룰이었던 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 레이드 5를, 최근 5년 이래 퍼블릭 거대 클라우드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 설계자들이 "절대 쓰지 말 것 - [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 6나 ZFS [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/)-Z2로 즉각 하드 마이그레이션 할 것"으로 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 퇴출 서명령서를 발동하는 끔찍한 치사율 수학의 원인이 발생했다. 
+기업의 영원한 황금 룰이었던 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 레이드 5를, 최근 5년 이래 퍼블릭 거대 클라우드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 설계자들이 "절대 쓰지 말 것 - [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 6나 ZFS [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/)-Z2로 즉각 하드 마이그레이션 할 것"으로 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 퇴출 서명령서를 발동하는 끔찍한 치사율 수학의 원인이 발생했다.
 바로 물리적 하드용량의 뻥튀기 비대화와 그에 따른 <strong>URE (Unrecoverable Read Error - <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 불가능 랜덤 에러 요율)</strong> 의 반란이다.
 
 ```text
@@ -110,7 +110,7 @@ tags = ["studynote-operating-system"]
   └─────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 단일 드라이브 용량이 16TB, 20TB 이상으로 커진 현대 구조체에서 기계의 속도 자체는 늘어나지 않았기에, 리빌딩 (살아남은 디스크 전부의 끝단 구석까지 풀 트래시 읽고 긁어내서 XOR 수학 계산하기) 소요 시간은 수십 시간을 넘어 며칠이 소요된다. 제조사가 보증하는 하드의 에러 방어선 URE 스펙은 통상 `10^14 비트(약 12.5TB)` 긁을 때 운 나쁘게 1비트쯤 읽기 실패 삑사리가 날 수 있다고 선언하는데, 20TB 꽉 막힌 거대 리빌딩을 돌리느라 어장 전체를 수일간 풀파워로 긁다 보면 수학 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 통계법칙 상 매우 높은 리스크로 남아있는 디스크 중 한 개의 무작위 소자가 돌연사해 치명적 2차 폭발 사고가 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 거의 명백하게 발동하게 되는 비극([RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5의 재앙 한계점)이 터진다! 
+**[다이어그램 해설]** 단일 드라이브 용량이 16TB, 20TB 이상으로 커진 현대 구조체에서 기계의 속도 자체는 늘어나지 않았기에, 리빌딩 (살아남은 디스크 전부의 끝단 구석까지 풀 트래시 읽고 긁어내서 XOR 수학 계산하기) 소요 시간은 수십 시간을 넘어 며칠이 소요된다. 제조사가 보증하는 하드의 에러 방어선 URE 스펙은 통상 `10^14 비트(약 12.5TB)` 긁을 때 운 나쁘게 1비트쯤 읽기 실패 삑사리가 날 수 있다고 선언하는데, 20TB 꽉 막힌 거대 리빌딩을 돌리느라 어장 전체를 수일간 풀파워로 긁다 보면 수학 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 통계법칙 상 매우 높은 리스크로 남아있는 디스크 중 한 개의 무작위 소자가 돌연사해 치명적 2차 폭발 사고가 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 거의 명백하게 발동하게 되는 비극([RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5의 재앙 한계점)이 터진다!
 
 - **📢 섹션 요약 비유**: 잔인하게 말하면 디스크가 1테라이던 시절의 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5는 부상병(디스크)이 생기면 가마가 가벼워 팀원들이 거뜬히 들고 부활 절에 잘 데려다줬는데, 부상병 무게([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공간)가 20테라 초고도 비만 코끼리로 진화해 버린 현대에는 남은 부대원들이 가마 들고 가다가 관절염(하드 스트레스 URE)이 도져서 길거리에서 무더기로 쓰러져버리는 2차 연쇄 살인이 터지는 시한폭탄의 무덤인 것입니다. 이제 그 무덤의 극복은 최소 방어 인원을 두 배로 늘린 [RAID 6](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/488_raid_6_dual_parity/) 로 위임되는 역사적 현장입니다.
 
@@ -118,7 +118,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 아키텍처 도입 결정을 위한 정량 지표 
+### 아키텍처 도입 결정을 위한 정량 지표
 - **구매 가성비의 종착지**: [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)의 돈벌레(50% 로스)를 처내고 N-1이라는 압도적 공간 장악력 보증수표 [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 성적 달성.
 - **용도의 황금 픽**: 막무가내 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 파워(랜덤 Write DB)만 배제한다면, 기업용 대형 저장 서버 / 이메일 호스팅 서버 / [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 콜드 [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/) NAS용에서 이보다 더 완벽하게 돈과 속도와 보존을 감싸 쥐는 기술은 없다.
 - **제약점 한계 봉쇄**: 단, 물리 드라이브당 1~2TB로 자잘하게 구성한 [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/) 환경에서나 5레벨의 생존력이 유지될 뿐, 초거대 섀시 디스크들의 바인딩 어레이로 넘어갈 경우 반드시 Dual Parity (레이드 6 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 체인지) 로 전환해야만 하는 마이그레이션 로드맵 지식을 기술자는 머릿속에 지침으로 박아둬야 한다.
@@ -165,7 +165,7 @@ tags = ["studynote-operating-system"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 5명의 친구(하드디스크 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 묶음)가 커다란 수박 조각을 나눠 들고 옮기는데, 한 명은 수박 대신 만약에 수박이 깨질 때 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)가 되는 마법주문(패리티)을 외우고 있어요! 
+1. 5명의 친구(하드디스크 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 묶음)가 커다란 수박 조각을 나눠 들고 옮기는데, 한 명은 수박 대신 만약에 수박이 깨질 때 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)가 되는 마법주문(패리티)을 외우고 있어요!
 2. 옛날에는 한 친구([RAID 4](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/486_raid_4_dedicated_parity/))만 매일 주문 외우느라 병에 걸려 체증이 대박 났거든요. 그래서 이번엔 매일 요일을 정해서 돌아가면서 마법 주문을 외우고 나머지가 짐을 들기로 아주 현명하게 공평한 룰을 바꿨어요!
 3. 그게 이 발명의 비밀! 누구나 편하게 돈도 아끼면서(용량 최고!), 실수로 길 걷다 바닥에 수박을 떨어뜨려 기절한 친구 한 명이 생겨도 즉석에서 마법 주문 역방향 계산([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 복원)으로 수박을 다시 살려내는 대중적 기적 가성비 레이드 파워랍니다!
 

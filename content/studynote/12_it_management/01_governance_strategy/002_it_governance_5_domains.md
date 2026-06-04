@@ -64,7 +64,7 @@ IT 거버넌스 5대 [도메인](/knowledge-base/studynote/05_database/02_modeli
 | <strong>4. 위험 관리 (<a href="/knowledge-base/studynote/09_security/17_framework_compliance/841_iso_27005_risk_management/">Risk Management</a>)</strong> | 규제 준수 및 IT 자산 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), 재난 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 자산 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 후 취약점과 위협을 분석하고, BCP/DRP 체계를 구축하여 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연속성을 보장한다. | [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/), [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/), ISO 27001 | 방패와 안전망 |
 | <strong>5. 성과 측정 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a> Measurement)</strong> | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 구현 및 프로젝트 진척 상황 추적 | 목표 대비 달성도를 정량화된 KPI로 추출하고, [IT BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/020_it_bsc/)(균형성과기록표) 4대 관점으로 평가하여 피드백한다. | [IT BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/020_it_bsc/) (Balanced Scorecard), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) | 계기판과 감사원 |
 
-각 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)은 독립적으로 동작하지 않으며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 의사결정이 유기적으로 연결되는 심층 파이프라인을 가진다. 
+각 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)은 독립적으로 동작하지 않으며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 의사결정이 유기적으로 연결되는 심층 파이프라인을 가진다.
 
 ```text
 이 흐름도는 실무 현장에서 신규 비즈니스 요구사항이 접수되었을 때 5대 도메인이 단계별로 어떻게 의사결정에 개입하는지를 보여주는 순차 흐름도이다.
@@ -147,7 +147,7 @@ IT 거버넌스 5대 [도메인](/knowledge-base/studynote/05_database/02_modeli
 
 #### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) ([Anti-Patterns](/knowledge-base/studynote/11_design_supervision/06_exam_summary/403_architecture/))
 *   <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">사일로</a>(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">Silo</a>)화된 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 관리</strong>: 보안팀은 '위험 관리'만, 재무팀은 '성과 측정'만, 개발팀은 '가치 전달'만 신경 쓰며 서로 소통하지 않는 구조. 거버넌스는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 간의 통합된 시야가 필수적이다.
-*   **측정을 위한 측정**: 비즈니스 목표와 무관한 IT 실무의 잡다한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수백 개씩 수집하여 화려한 대시보드만 만드는 행위(성과 측정의 오용). 
+*   **측정을 위한 측정**: 비즈니스 목표와 무관한 IT 실무의 잡다한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수백 개씩 수집하여 화려한 대시보드만 만드는 행위(성과 측정의 오용).
 
 ```text
 이 의사결정 트리는 기존 조직의 거버넌스 성숙도를 진단할 때, 5대 도메인 중 어느 곳에 병목(장애)이 있는지 찾아내는 진단 플로우를 보여준다.

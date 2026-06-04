@@ -181,7 +181,7 @@ IT 거버넌스의 개념을 명확히 하기 위해서는 실무 계층의 활�
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-IT 거버넌스가 기업 내에 성공적으로 정착되면, IT는 단순한 자원 소모처가 아니라 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 자산으로 기능하게 된다. 
+IT 거버넌스가 기업 내에 성공적으로 정착되면, IT는 단순한 자원 소모처가 아니라 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 자산으로 기능하게 된다.
 
 #### 정량적/정성적 기대효과
 | 구분 | 기대효과 내용 | 측정 지표 예시 |

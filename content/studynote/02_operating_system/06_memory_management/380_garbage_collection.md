@@ -90,7 +90,7 @@ tags = ["studynote-operating-system"]
 └───────────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운팅의 '순환 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)' 버그를 완벽하게 분쇄하는 천재적인 알고리즘이다. 지들끼리 백날 서로를 가리키며 카운트를 높여놔 봐야, 뿌리(Root)로부터 전기가 통하지 않는(닿지 않는) 고립된 섬이라면 Mark 단계에서 색칠을 받지 못해 Sweep 단계에서 예외 없이 쓸려나간다. 
+**[다이어그램 해설]** [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운팅의 '순환 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)' 버그를 완벽하게 분쇄하는 천재적인 알고리즘이다. 지들끼리 백날 서로를 가리키며 카운트를 높여놔 봐야, 뿌리(Root)로부터 전기가 통하지 않는(닿지 않는) 고립된 섬이라면 Mark 단계에서 색칠을 받지 못해 Sweep 단계에서 예외 없이 쓸려나간다.
 
 ### 3. [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) ([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) - 파편화 해결)
 Sweep으로 쓰레기를 지우고 나면 힙 메모리가 가변 분할의 저주인 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>(이빨 빠진 구멍)</strong> 상태가 된다.

@@ -59,7 +59,7 @@ tags = ["studynote-network"]
 돈을 아끼겠다고 비율을 무리하게 높이면 다음과 같은 지옥이 열립니다.
 
 1. <strong>병목 현상 (<a href="/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>) 및 패킷 드랍 (Packet Drop)</strong>:
-   - 수강 신청이나 티켓팅 날, 서버 40대가 갑자기 40Gbps를 꽉 채워 위로 쏩니다. 
+   - 수강 신청이나 티켓팅 날, 서버 40대가 갑자기 40Gbps를 꽉 채워 위로 쏩니다.
    - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 위로 나가는 구멍이 10Gbps밖에 안 되니, 나머지 30Gbps 어치 데이터는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 안의 임시 창고(버퍼 메모리, Buffer)에 쌓아둡니다. 버퍼마저 다 차버리면 패킷을 바닥에 집어던집니다(Drop). 수강 신청 화면이 하얗게 변하며 튕깁니다.
 2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>) 폭발</strong>:
    - 패킷이 버퍼 창고에서 줄을 서서 자기 차례를 기다리느라 엄청난 [큐잉 지연](/knowledge-base/studynote/03_network/01_data_communication/018_큐잉_지연/)([Queueing Delay](/knowledge-base/studynote/03_network/01_data_communication/018_큐잉_지연/))이 발생합니다. (761번에서 배운 초저지연 URLLC가 불가능해집니다.)

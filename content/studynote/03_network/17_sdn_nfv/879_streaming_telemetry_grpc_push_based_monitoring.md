@@ -19,8 +19,8 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a>(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a>) 방식의 한계</strong>: 중앙 감시 서버가 전국의 장비들에게 주기적(보통 5분)으로 질의(Pull)를 던져 상태를 가져옵니다. 
-- **초정밀성 붕괴**: 5분 사이에 10Gbps의 엄청난 해커 디도스 트래픽이 들어왔다가 1분 만에 싹 빠져나갑니다. [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 그래프를 보면 5분 단위 평균으로 퉁쳐져서 디도스가 들어왔던 뾰족한 송곳 흉터가 아예 그래프에서 증발해버립니다(가시성 제로). 
+- <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a>(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a>) 방식의 한계</strong>: 중앙 감시 서버가 전국의 장비들에게 주기적(보통 5분)으로 질의(Pull)를 던져 상태를 가져옵니다.
+- **초정밀성 붕괴**: 5분 사이에 10Gbps의 엄청난 해커 디도스 트래픽이 들어왔다가 1분 만에 싹 빠져나갑니다. [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 그래프를 보면 5분 단위 평균으로 퉁쳐져서 디도스가 들어왔던 뾰족한 송곳 흉터가 아예 그래프에서 증발해버립니다(가시성 제로).
 - **장비 과부하**: 중앙에서 1,000만 개의 질의를 쏘면 라우터의 CPU가 대답하느라 터져버립니다.
 
 ```text
@@ -41,11 +41,11 @@ tags = ["studynote-network"]
 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링의 주도권을 중앙 서버(Pull)에서, <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 장비 본인(Push)</strong>으로 180도 뒤집어버립니다.
 
 ### 1. 자발적 푸시 (Push) 방식의 빅데이터 폭격 🌟
-- 장비(라우터) 안에 아주 가벼운 내장 앱(에이전트)이 돕니다. 
+- 장비(라우터) 안에 아주 가벼운 내장 앱(에이전트)이 돕니다.
 - 중앙 서버가 물어보지도 않았는데, 라우터가 스스로 자기 CPU 상태, 인터페이스 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 대기열 꽉 찬 상태, [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 경로 변경 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 등을 모아서 <strong>0.1초, 혹은 마이크로초(µs) 단위로 연속된 강물(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">Stream</a>)처럼 중앙 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 컬렉터(빅데이터 서버)로 쉴 새 없이 뿜어냅니다.</strong>
 
 ### 2. [오픈컨피그](/knowledge-base/studynote/03_network/17_sdn_nfv/878_openconfig_vendor_neutral_yang_model/)(YANG)와 [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 전송 결합
-- 무식하게 텍스트로 쏘면 중앙 서버가 뻗습니다. 
+- 무식하게 텍스트로 쏘면 중앙 서버가 뻗습니다.
 - 878번의 <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/878_openconfig_vendor_neutral_yang_model/">오픈컨피그</a>(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/878_openconfig_vendor_neutral_yang_model/">OpenConfig</a>) 표준 YANG 뼈대</strong>에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정갈하게 맞춘 뒤, 구글이 만든 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 이진(Binary) 직렬화 통신 프로토콜인 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/">gRPC</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/2 기반 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/535_sync_communication_rest_grpc/">Protocol Buffers</a>)</strong> 껍데기로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 포장해서 빛의 속도로 쏴버립니다. 텍스트 파싱을 할 필요가 없어 CPU 오버헤드가 제로에 수렴합니다.
 
 ```text

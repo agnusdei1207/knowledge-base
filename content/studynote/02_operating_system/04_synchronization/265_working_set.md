@@ -27,7 +27,7 @@ tags = ["studynote-operating-system"]
 ```text
   [참조의 지역성(Locality)에 따른 워킹 셋(Working Set)의 동적 변화]
 
-  [시간 t1: 초기화 루프 구역] 
+  [시간 t1: 초기화 루프 구역]
   참조된 페이지: {1, 2, 2, 1, 2, 3, 2, 1}
   ▶ 워킹 셋 W(t1) = {1, 2, 3}  (크기 3)
   ▶ OS 조치: "현재 이 놈은 프레임 3개만 주면 절대 폴트 안 남!"
@@ -69,7 +69,7 @@ $\Delta$ 값(타이머)을 어떻게 잡느냐에 따라 시스템의 운명이 
   - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a> 임계점 돌파!</strong> 이대로 두면 시스템이 멈춘다.
   - **OS의 결단 (Suspend)**: 가장 만만한 프로세스 하나를 골라 아예 램에서 통째로 쫓아낸다(Swap-out). 그리고 그놈이 쓰던 프레임들을 뺏어서 남은 놈들의 워킹 셋을 채워준다. (잔인하지만 시스템 전체를 살리는 살신성인의 결단).
 - 만약 **$D < M$** 이라면?
-  - 램 공간이 널널하다. 
+  - 램 공간이 널널하다.
   - **OS의 혜택 (Resume/Activate)**: 하드디스크에 잠자고 있던 프로세스 하나를 깨워서 메모리에 올려 [다중 프로그래밍 정도](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/)(DOM)를 높여 CPU 효율을 영끌한다.
 
 - **📢 섹션 요약 비유**: 텐트(전체 메모리) 안에 4명의 사람(프로세스)이 눕기 위해 각자 굴러다니는 공간(WSS)을 합쳐보니 텐트가 찢어질 것 같습니다(D > M). 이때 텐트를 지키는 방법은 한 명을 깨워서 텐트 밖으로 내쫓고(Swap-out), 남은 3명이 편하게 굴러다니며 자게 놔두는 것뿐입니다.
@@ -101,7 +101,7 @@ PFF는 워킹 셋의 "정확한 내용물(어떤 [페이지](/knowledge-base/stu
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. <strong>Windows OS의 Working Set 관리 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> (실무의 현현)</strong>: 
+1. <strong>Windows OS의 Working Set 관리 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> (실무의 현현)</strong>:
    - 윈도우즈는 신기하게도 워킹 셋이라는 단어를 OS 아키텍처에 공식 명칭으로 박아 넣었다. 윈도우 작업 관리자([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Manager)를 열면 `작업 집합(Working Set)` 이라는 메모리 열이 존재한다.
    - **실무 작동**: 윈도우 메모리 관리자(Memory Manager)는 1초마다 모든 프로세스의 워킹 셋을 감시(Working Set Trimming)한다. 시스템 램이 널널하면 각 프로세스의 Max Working Set 크기까지 램을 퍼주어 쾌적함을 유지한다. 하지만 램이 쪼들리기 시작하면, 프로세스들이 가지고 있던 워킹 셋 프레임들을 뺏어서 강제로 Min Working Set 크기까지 박살(Trimming) 내버려 디스크 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 지옥([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))을 유발하며 전체 시스템의 다운을 막아낸다.
    - **아키텍트 조치**: C++ 게임 클라이언트를 짤 때 `SetProcessWorkingSetSize()` API를 써서 "내 게임은 무조건 최소 4GB는 보장해 줘!"라고 OS에 하드코딩 결박을 걸면, 윈도우가 아무리 메모리가 부족해도 내 게임의 워킹 셋을 건드리지 않아 프레임 드랍(Jitter)을 방어할 수 있다.
@@ -172,7 +172,7 @@ PFF는 워킹 셋의 "정확한 내용물(어떤 [페이지](/knowledge-base/stu
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 넓은 도화지([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))에 그림을 그릴 때, 100가지 색연필이 다 필요하진 않아요. 
+1. 넓은 도화지([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))에 그림을 그릴 때, 100가지 색연필이 다 필요하진 않아요.
 2. 당장 '바다'를 그릴 때 내 손에 쥐고 있어야 하는 파란색, 하늘색, 흰색 3개의 색연필 무리를 묶어서 <strong>워킹 셋(Working Set)</strong>이라고 불러요.
 3. 선생님([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))이 내 책상(RAM)에 이 3개의 색연필을 놓을 수 있는 작은 자리(프레임)를 무조건 보장해 주어야만, 내가 색연필을 찾으러 돌아다니지([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 않고 그림을 빨리 그릴 수 있답니다!
 

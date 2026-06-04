@@ -18,7 +18,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 개요 및 필요성
 
-DRY (Don't Repeat Yourself) 원칙은 실용주의 프로그래머(The Pragmatic Programmer)에서 강조된 소프트웨어 설계의 근본 철학이다. 코드나 시스템 아키텍처에 동일한 의미를 가진 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 여러 번 반복해서 등장하는 것을 경계한다. 
+DRY (Don't Repeat Yourself) 원칙은 실용주의 프로그래머(The Pragmatic Programmer)에서 강조된 소프트웨어 설계의 근본 철학이다. 코드나 시스템 아키텍처에 동일한 의미를 가진 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 여러 번 반복해서 등장하는 것을 경계한다.
 
 이 원칙이 필요한 이유는 '동기화의 실패'를 막기 위해서다. 부가세 계산 로직이 시스템의 5곳에 복사되어 있다면, 세법이 바뀌었을 때 개발자가 4곳만 수정하고 1곳을 누락할 위험이 매우 커진다. 이러한 중복은 결국 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치와 예측 불가능한 버그를 낳으며, 시스템의 신뢰도를 바닥으로 떨어뜨린다.
 
@@ -30,11 +30,11 @@ DRY (Don't Repeat Yourself) 원칙은 실용주의 프로그래머(The Pragmatic
 
 DRY는 단순히 복사하여 붙여넣기를 하지 말라는 구문(Syntax) 차원의 조언을 넘어, 지식(Knowledge)과 의도([Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/))의 중복을 제어하는 아키텍처 원리다.
 
-1. **SSOT (Single Source of Truth)**: 
+1. **SSOT (Single Source of Truth)**:
    시스템 내의 모든 상태나 로직은 오직 하나의 진실의 원천에서 파생되어야 한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 정규화도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복을 막는 DRY의 일환이다.
-2. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>와 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>화</strong>: 
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>와 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>화</strong>:
    중복된 코드는 함수, 클래스, 또는 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservices Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) 구조의 마이크로서비스로 추출(Extract)하여 공통 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화한다. 이를 통해 클라이언트는 로직의 내부 구현을 몰라도 단순히 호출([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))만 하면 된다.
-3. **코드 생성기와 매크로**: 
+3. **코드 생성기와 매크로**:
    [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 정의서나 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 명세서에서 반복적인 보일러플레이트 코드를 자동 생성하는 것도 지식의 원천을 문서 하나로 모으는 DRY의 훌륭한 적용 사례다.
 
 ```text
@@ -79,11 +79,11 @@ DRY 원칙을 맹신할 때 발생하는 부작용을 경계하기 위해, 상�
 
 실무 프로젝트나 감리 과정에서 DRY 원칙은 소프트웨어의 지속 가능성을 평가하는 가장 직관적인 척도다.
 
-1. **Rule of Three (3의 법칙) 적용**: 
+1. **Rule of Three (3의 법칙) 적용**:
    중복 코드를 처음 발견했을 때는 그냥 둔다. 두 번 발견되었을 때도 참는다. 하지만 세 번째로 동일한 로직을 작성해야 할 때 비로소 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)하여 공통화(DRY)한다. 이는 미래를 너무 앞서서 설계하는 [YAGNI](/knowledge-base/studynote/11_design_supervision/06_exam_summary/362_yagni/) (You Aren't Gonna Need It) 위반과 성급한 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)를 막기 위한 실무적 가이드라인이다.
-2. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/">매직 넘버</a>(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/">Magic Number</a>) 제거 판단</strong>: 
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/">매직 넘버</a>(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/">Magic Number</a>) 제거 판단</strong>:
    코드 내에 하드코딩된 숫자나 문자열이 여러 번 등장하는 것은 명백한 DRY 위반이다. 이를 전역 상수나 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 파일로 추출하여 중앙에서 통제하도록 아키텍처 지침을 내려야 강제할 수 있다.
-3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 환경에서의 DRY 타협</strong>: 
+3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 환경에서의 DRY 타협</strong>:
    MSA에서는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간의 완벽한 독립성을 위해 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체나 유틸리티 코드의 복사를 일부 허용한다. [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 낮추는 것이 무조건적인 중복 제거보다 더 큰 가치를 지닐 때가 있기 때문이다.
 
 - **📢 섹션 요약 비유**: 실무에서 DRY의 적용은 "공용 공구함"을 만드는 것과 같다. 망치가 한 번 필요하다고 무작정 공용으로 만들면 관리만 힘들다. 망치를 세 명 이상이 매일 빌리러 올 때 비로소 번듯한 공용 도구함(공통 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))을 짜는 것이 현명한 판단이다.

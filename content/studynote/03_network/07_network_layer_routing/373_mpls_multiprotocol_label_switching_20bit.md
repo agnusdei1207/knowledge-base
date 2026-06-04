@@ -42,7 +42,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 심(Shim) 헤더의 삽입 위치 (2.5계층)
-MPLS는 기존 패킷을 망가뜨리지 않는다. 
+MPLS는 기존 패킷을 망가뜨리지 않는다.
 2계층([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 헤더)과 3계층(IP 헤더) <strong>"그 사이(틈바구니)"</strong>에 절묘하게 4바이트짜리 꼬리표(Label 헤더)를 쑤셔 넣는다. 그래서 L2.5 기술이라고 부른다.
 
 ### 2. MPLS 4바이트(32비트) 헤더의 4가지 알맹이
@@ -70,8 +70,8 @@ MPLS는 기존 패킷을 망가뜨리지 않는다.
 ```
 
 ### 3. 멀티프로토콜(Multiprotocol)의 위엄
-왜 '다중 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)'[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? 
-코어 라우터는 알맹이(Payload)가 뭔지 쳐다보질 않는다. 오직 겉면에 붙은 20비트 Label 숫자만 보고 포워딩한다. 
+왜 '다중 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)'[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)?
+코어 라우터는 알맹이(Payload)가 뭔지 쳐다보질 않는다. 오직 겉면에 붙은 20비트 Label 숫자만 보고 포워딩한다.
 그러니 뱃속에 들어있는 게 IPv4든, IPv6든 심지어 구닥다리 IPX나 AppleTalk이든, 그냥 Label 껍데기만 씌워주면 **통신사는 망을 하나도 안 고치고 모든 종류의 고객 트래픽을 싹 다 태워 나를 수 있다.** 엄청난 확장성이다.
 
 - **📢 섹션 요약 비유**: ** MPLS Label은 무적의 **"택배용 검은 비닐봉지"**입니다. 내용물이 금괴([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/))인지 쓰레기(구형 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))인지 알 바 없이 무조건 똑같은 규격의 검은 봉투에 담아 겉면에 바코드(Label)만 붙여서 컨베이어 벨트를 태워버리니 처리가 기가 막히게 빠르고 단순해집니다.

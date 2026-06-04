@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/">OOM Killer</a></strong>: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 기본 기능으로, 메모리가 완전히 바닥났을 때(패닉 직전) 가장 메모리를 많이 먹는 프로세스를 죽이는 극단적 처방.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/787_android_lmk_low_memory_killer/">Low Memory Killer</a> (LMK)</strong>: 안드로이드(Android)가 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 위에 추가한 커스텀 데몬으로, 메모리가 완전히 바닥나기 '전'에 여유 공간(Free RAM)의 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)에 따라 가장 덜 중요한 앱을 부드럽게 미리 죽여놓는 예방적 관리 시스템이다.
 
-- **필요성 (PC와 스마트폰의 램 관리 차이)**: 
+- **필요성 (PC와 스마트폰의 램 관리 차이)**:
   - [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(윈도우)는 램이 꽉 차면 안 쓰는 데이터를 SSD로 몰아내는 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)([Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))을 한다. 스마트폰의 낸드 플래시(eMMC, UFS)에 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)을 하면 수명이 급격히 줄어들고(Wear-out), 배터리가 녹아내린다.
   - 또한, 스마트폰 사용자는 앱의 'X(종료) 버튼'을 누르지 않고 무조건 홈 버튼만 눌러 백그라운드로 넘긴다. 앱 50개를 켜두면 램이 견딜 수가 없다.
   - **해결책**: 스왑을 없애고, 백그라운드에 숨어있는 앱들을 '우선순위'에 따라 차례대로 암살(Kill)하여 빈 메모리를 항상 일정 수준 이상 유지하는 LMK 데몬이 모바일 OS의 생명줄로 도입되었다.

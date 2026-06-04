@@ -112,11 +112,11 @@ Write-Back의 의미는 다른 [쓰기](/knowledge-base/studynote/13_cloud_archi
 
 ### 실무 판단 체크포인트
 
-1. <strong>반복 갱신 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>인가?</strong>  
+1. <strong>반복 갱신 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>인가?</strong>
    같은 블록을 여러 번 수정한다면 Write-Back 효과가 크다.
-2. **외부 장치와 메모리를 공유하는가?**  
+2. **외부 장치와 메모리를 공유하는가?**
    [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/), [네트워크 인터페이스 카드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) ([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/), Network Interface Card), 그래픽 처리 장치 ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))와 버퍼를 공유한다면 캐시 플러시/무효화 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 반드시 필요하다.
-3. <strong>장애 시 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 유실이 치명적인가?</strong>  
+3. <strong>장애 시 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 유실이 치명적인가?</strong>
    전원 차단 직전 캐시에만 남은 최신 값은 사라질 수 있으므로, [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) 계층에서는 별도 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 필요하다.
 
 ### 대표 시나리오

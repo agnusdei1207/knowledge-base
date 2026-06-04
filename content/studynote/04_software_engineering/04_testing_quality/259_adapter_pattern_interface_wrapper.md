@@ -87,7 +87,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 이미 엄청난 돈을 들여 만들어 놓은 낡은 <strong>레거시(Legacy) 코드나 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/">서드파티</a> 외부 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a>(남이 짠 코드)</strong>를 내 최신 시스템 구조에 억지로 우겨넣어야 할 때, 99.9% 확률로 이 패턴을 씁니다. 
+- 이미 엄청난 돈을 들여 만들어 놓은 낡은 <strong>레거시(Legacy) 코드나 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/">서드파티</a> 외부 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a>(남이 짠 코드)</strong>를 내 최신 시스템 구조에 억지로 우겨넣어야 할 때, 99.9% 확률로 이 패턴을 씁니다.
 - (※ 만약 처음부터 둘 다 내가 짜는 코드라면? 굳이 어댑터 만들지 말고 처음부터 인터페이스를 통일해서 짜는 게 당연히 백배 빠릅니다. 어댑터는 '손댈 수 없는 남의 코드'를 엮을 때 쓰는 방패입니다.)
 
 > 📢 **섹션 요약 비유**: <strong>어댑터(Adapter) 패턴</strong>은 해외여행 갈 때 필수품인 <strong>'다이소 돼지코(여행용 변환 멀티 어댑터)'</strong>입니다. 내가 한국에서 쓰던 노트북 충전기(Adaptee 낡은 시스템)는 뾰족한 220V 쇠꼬챙이 규격을 가졌습니다. 유럽 호텔(Target 새로운 시스템) 벽에 달린 콘센트는 네모난 구멍 3개 규격입니다. 내 충전기를 벽에 냅다 꽂으려 하면 구멍이 안 맞아 죽어도 안 들어갑니다(인터페이스 불일치 에러). 멍청한 사람([어댑터 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/383_adapter_pattern_summary/) 모르는 놈)은 충전기 선을 가위로 잘라서 네모난 철사를 납땜으로 붙여버립니다(기존 코드 수정). 한국 오면 다시 뜯어야 하는 끔찍한 삽질입니다. 똑똑한 사람은 여행 가방에서 <strong>'변환 돼지코(Adapter 클래스)'</strong>를 꺼냅니다. 이 돼지코의 겉모습(Target 인터페이스 구현)은 완벽한 유럽식 네모 3구라서 벽에 쏙 들어갑니다. 그리고 돼지코의 뒷면(뱃속)에는 내 한국식 충전기가 꽂힐 수 있는 둥근 구멍이 뚫려있어 내 충전기를 품습니다(합성 Composition). 벽에서 유럽 전기가 흘러 들어오면 돼지코가 뱃속에서 그걸 한국 전기로 통역해 노트북에 흘려보냅니다. 내 소중한 충전기(기존 코드)는 흠집 하나 내지 않고 100% 무사히 보존하면서, 전혀 호환되지 않는 낯선 호텔(새로운 시스템)과 완벽한 결합(호환)을 이뤄낸 객체지향 최고의 평화협정 통역사입니다.

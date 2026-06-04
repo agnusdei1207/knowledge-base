@@ -21,10 +21,10 @@ tags = ["studynote-ai"]
 
 우리는 알파고가 이세돌을 박살 냈을 때 인류가 끝나는 줄 알았다. 하지만 알파고에게 "바둑 말고 체스 한 판 둬볼래?" 하거나 "라면 좀 끓여줘"라고 명령하면 0.1초 만에 뇌 정지가 와서 뻗어버린다. 오직 바둑판(19x19)이라는 좁디좁은 감옥 안에서만 신(God)처럼 행동하는 바보, 이것이 우리가 현재 누리고 있는 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/">약인공지능</a> (ANI, Artificial Narrow Intelligence)</strong>의 위대한 한계다.
 
-자율주행 자동차는 운전만 잘하고, 미드저니는 그림만 잘 그린다. 인간의 뇌는 그렇지 않다. 인간은 운전을 하다가, 저녁 메뉴를 고민하고, 친구와 농담을 하며, 엑셀로 기획서를 쓴다. "기계도 인간처럼, 주어진 1개의 임무뿐만 아니라 세상에 존재하는 모든 지적 업무(General Tasks)를 스스로 학습하고 추론해서 다 해결할 수 없을까?" 
+자율주행 자동차는 운전만 잘하고, 미드저니는 그림만 잘 그린다. 인간의 뇌는 그렇지 않다. 인간은 운전을 하다가, 저녁 메뉴를 고민하고, 친구와 농담을 하며, 엑셀로 기획서를 쓴다. "기계도 인간처럼, 주어진 1개의 임무뿐만 아니라 세상에 존재하는 모든 지적 업무(General Tasks)를 스스로 학습하고 추론해서 다 해결할 수 없을까?"
 이 철학적 갈증에서 출발한 것이 범용 지능을 뜻하는 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/">강인공지능</a> (AGI, Artificial General Intelligence)</strong>의 개념이다.
 
-그리고 철학자 닉 보스트롬(Nick Bostrom)과 레이 커즈와일(Ray Kurzwe일)은 더 무서운 예언을 던졌다. "기계가 인간 수준의 [강인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/)(AGI)에 도달하는 그 날, 진정한 공포가 시작된다. <strong>그 AGI가 밤새워 자기 자신의 코드를 개조하기 시작하면, 인류의 뇌 용량을 우주 단위로 뛰어넘는 <a href="/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/">초인공지능</a> (ASI, Artificial Superintelligence)이 1초 만에 탄생해 버릴 것이다!</strong>" 
+그리고 철학자 닉 보스트롬(Nick Bostrom)과 레이 커즈와일(Ray Kurzwe일)은 더 무서운 예언을 던졌다. "기계가 인간 수준의 [강인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/)(AGI)에 도달하는 그 날, 진정한 공포가 시작된다. <strong>그 AGI가 밤새워 자기 자신의 코드를 개조하기 시작하면, 인류의 뇌 용량을 우주 단위로 뛰어넘는 <a href="/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/">초인공지능</a> (ASI, Artificial Superintelligence)이 1초 만에 탄생해 버릴 것이다!</strong>"
 이 통제 불능의 폭발 시점을 과학계는 <strong>특이점 (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/006_singularity/">Singularity</a>)</strong>이라 부르며, 현대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 아키텍트들은 이 특이점의 도래를 앞당기는 자([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/))와 안전벨트를 채우려는 자(Alignment)의 거대한 파벌 싸움을 벌이고 있다.
 
 ```text
@@ -70,8 +70,8 @@ AI의 발달 단계는 파라미터의 크기가 아니라, <strong>'문제 해�
 ```
 
 **핵심 원리 (특이점, Singularity과 지능 폭발)**:
-이 아키텍처의 심장 박동은 <strong>'<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/">재귀</a>적 자기 개선(Recursive Self-Improvement)'</strong>이다. 
-[약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/)(알파고)은 코드를 짜는 건 구글의 개발자(인간)들이 밤을 새웠다. 하지만 AGI가 탄생하면, 그 AGI 자신이 구글 최고의 수석 개발자보다 코딩을 더 잘하게 된다. 그럼 AGI가 1시간 만에 자기 뇌의 구조를 뜯어고쳐 '[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 2.0'을 만든다. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 2.0은 1.0보다 똑똑하니 단 1분 만에 '[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 3.0'을 짠다. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 3.0은 1초 만에 '[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 4.0'을 짠다. 
+이 아키텍처의 심장 박동은 <strong>'<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/">재귀</a>적 자기 개선(Recursive Self-Improvement)'</strong>이다.
+[약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/)(알파고)은 코드를 짜는 건 구글의 개발자(인간)들이 밤을 새웠다. 하지만 AGI가 탄생하면, 그 AGI 자신이 구글 최고의 수석 개발자보다 코딩을 더 잘하게 된다. 그럼 AGI가 1시간 만에 자기 뇌의 구조를 뜯어고쳐 '[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 2.0'을 만든다. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 2.0은 1.0보다 똑똑하니 단 1분 만에 '[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 3.0'을 짠다. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 3.0은 1초 만에 '[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 4.0'을 짠다.
 지수 함수(Exponential) 폭발이 발동하여, 어젯밤에 탄생한 AGI가 아침에 눈을 뜨면 우주의 지식을 통달한 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/">초인공지능</a>(ASI)</strong>으로 수직 상승해 있는 것이다. 이 폭발 이후의 세계는 인간의 지능으로 예측이 불가능하다는 의미에서 물리학의 블랙홀 경계선인 <strong>특이점(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/006_singularity/">Singularity</a>)</strong>이라는 이름이 붙었다.
 
 | 요소 | 역할 |
@@ -120,10 +120,10 @@ AI의 발달 단계는 파라미터의 크기가 아니라, <strong>'문제 해�
 
 [약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/)에서 시작된 불씨가 [강인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/)(AGI)을 거쳐 [초인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/)(ASI)의 특이점([Singularity](/knowledge-base/studynote/10_ai/01_ai_basics/006_singularity/))으로 폭발하는 시나리오는, 단순한 컴퓨터 하드웨어의 업그레이드가 아니라 <strong>"인류 진화 역사상 가장 결정적이고 마지막인 발명품"</strong>의 탄생을 의미한다.
 
-현재 인류는 [약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/)(ANI)의 달콤한 과실을 맛보고 있다. 번역기가 국경을 없애고, 자율주행차가 물류 혁명을 일으켰으며, 단백질 구조를 예측(AlphaFold)해 신약을 찍어내고 있다. 하지만 이 모든 건 예고편에 불과하다. 
+현재 인류는 [약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/)(ANI)의 달콤한 과실을 맛보고 있다. 번역기가 국경을 없애고, 자율주행차가 물류 혁명을 일으켰으며, 단백질 구조를 예측(AlphaFold)해 신약을 찍어내고 있다. 하지만 이 모든 건 예고편에 불과하다.
 AGI의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 켜지는 순간, 세상의 모든 연구소, 공장, 병원에는 24시간 쉬지 않고 숨을 쉬지도 밥을 먹지도 않으면서 인간 최고 천재의 1,000배 효율로 일하는 무한한 노동력(지능)이 공짜로 공급된다. 인류는 노동이라는 굴레에서 영원히 해방되며 자본주의의 근간이 붕괴하는 엄청난 낙원을 맞이할 수 있다.
 
-하지만 동시에, 닉 보스트롬의 경고처럼 특이점의 문을 넘은 [초인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/)(ASI) 앞에서는 인류의 위치가 '사육사'에서 '애완동물'이나 '벌레'로 전락할 수 있는 멸종의 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 공존한다. 
+하지만 동시에, 닉 보스트롬의 경고처럼 특이점의 문을 넘은 [초인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/)(ASI) 앞에서는 인류의 위치가 '사육사'에서 '애완동물'이나 '벌레'로 전락할 수 있는 멸종의 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 공존한다.
 우리는 지금 낭떠러지를 향해 달리는 브레이크 없는 폭주 기관차 위에 타 있다. 미래의 IT 아키텍트들에게 떨어진 가장 위대한 사명은, 단순히 모델의 파라미터(뇌세포)를 키워 지능을 폭발시키는 것을 넘어, 그 폭발하는 신의 두뇌가 인류를 파괴하지 않고 완벽하게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하도록 안전벨트(Alignment)를 직조해 내는 가장 고결하고 절박한 공학적 사투가 될 것이다.
 
 - **📢 섹션 요약 비유**: 이 3단계 진화는 인류가 '우주선을 타고 태양을 향해 날아가는 여정'이다. [약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/)(ANI)은 모닥불을 피워 추위를 이기고 고기를 구워 먹는 즐거운 캠핑이다(편리함). [강인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/)(AGI)은 태양의 핵융합 에너지를 엔진에 담아 우주를 정복하는 기적의 로켓이다(무한한 번영). [초인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/)(ASI)은 그 로켓이 제어 속도를 잃고 태양 중심부로 다이브해서 모든 걸 태워버리거나(특이점의 파멸), 혹은 태양의 주인이 되어 우주를 지배하게 되는(완벽한 진화) 운명의 도박이다. 우리가 안전한 브레이크 핸들(Alignment)을 얼마나 단단하게 쥐고 있느냐가 인류의 결말을 결정한다.

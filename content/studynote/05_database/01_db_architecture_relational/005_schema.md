@@ -116,13 +116,13 @@ tags = ["database"]
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
-실무에서 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 장애의 상당수는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 아니라, '스키마 변경([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Migration)'이라는 폭탄을 섣불리 건드렸을 때 발생합니다. 
+실무에서 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 장애의 상당수는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 아니라, '스키마 변경([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Migration)'이라는 폭탄을 섣불리 건드렸을 때 발생합니다.
 
 <strong>실무 의사결정 시나리오 1: 대용량 테이블의 스키마 변경 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/">DDL</a> 연산)</strong>
 수억 건이 있는 테이블에 칼럼을 하나 추가(ALTER TABLE ADD)하는 상황입니다. 기존의 구형 RDBMS에서는 이 명령을 내리는 순간 테이블 전체에 배타적 잠금(Exclusive [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 걸리며 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 완전히 멈추는 대형 장애가 발생했습니다. 실무 DBA는 이를 피하기 위해 임시 테이블을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하고 원본과 바꿔치기하는 우회 작업을 하거나, 최신 RDBMS가 지원하는 'Online [DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/)(비차단 스키마 변경)' 옵션을 반드시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 적용해야 합니다.
 
 <strong>실무 의사결정 시나리오 2: 스키마 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 관리와 <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/">형상 관리</a></strong>
-애플리케이션 코드는 Git을 통해 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 관리되지만, DB 스키마는 수동 스크립트로 실행되다 보니 운영/개발/테스트 서버 간의 스키마 불일치가 빈번하게 발생합니다. "개발 서버에서는 되는데 운영 서버에서는 칼럼이 없어서 에러가 납니다"라는 상황이 대표적입니다. 
+애플리케이션 코드는 Git을 통해 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 관리되지만, DB 스키마는 수동 스크립트로 실행되다 보니 운영/개발/테스트 서버 간의 스키마 불일치가 빈번하게 발생합니다. "개발 서버에서는 되는데 운영 서버에서는 칼럼이 없어서 에러가 납니다"라는 상황이 대표적입니다.
 
 ```text
 [스키마 불일치 파국과 Flyway를 통한 파이프라인 방어]

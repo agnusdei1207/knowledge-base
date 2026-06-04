@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - 멀티스레드 환경에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변경의 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)([Atomicity](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/), 쪼개질 수 없는 절대적 실행)을 하드웨어 칩셋(CPU) 레벨에서 보장해 주는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)다. x86 아키텍처에서는 `CMPXCHG` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 형태로 존재한다.
   - 작동 방식: `CAS(변수 주소, 기대하는_기존_값, 바꿀_새로운_값)` $\rightarrow$ 성공(True) 또는 실패(False) 반환.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 단순히 코드로 `count++` 를 쳤다고 치자. 겉보기엔 1줄이지만 CPU 내부에서는 3단계로 나뉜다: ① 메모리에서 레지스터로 `count` 읽기 $\rightarrow$ ② 레지스터에서 `+1` 하기 $\rightarrow$ ③ 결과를 메모리에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/).
   - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 1단계(읽기)를 하고 2단계를 하려는 찰나, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 끼어들어 1~3단계를 다 해버리면? A가 가진 기존 값은 '옛날 쓰레기 값(Stale [data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))'이 되어버리고, A가 3단계를 완료하는 순간 B가 고생해서 올린 숫자가 허공으로 증발해 버린다([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)).
   - **해결책**: "OS의 무거운 락([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))을 걸면 너무 느리다. CPU 칩 설계자에게 부탁해서, '기존 값 비교'와 '새 값 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)'를 하는 동안 절대 다른 코어가 끼어들지 못하게 전기적으로 막아버리는([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 단일 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 만들어달라!"
@@ -31,7 +31,7 @@ tags = ["studynote-operating-system"]
   - <strong>기존 방식 (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/">Race Condition</a>)</strong>: 도서관 자리에 내 가방을 놓으려고 빈자리인지 확인했다(읽기). 가방을 가지러 1초 뒤돌아본 사이, 남이 그 자리에 앉아버렸는데 나는 그것도 모르고 내 가방을 그 사람 무릎 위에 올려버린다(덮어쓰기 파탄).
   - **CAS 방식**: 내 눈이 자리를 확인하는 순간 내 손이 이미 가방을 던져 놓고 있다. 확인과 차지가 동시에 0.0001초 만에 이루어지므로 누구도 그 사이에 새치기할 틈이 없는 <strong>궁극의 밑장빼기 방어 기술</strong>이다.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 1970년대 IBM 메인프레임에서 [다중 프로세서](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/375_multiprocessor/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 위해 도입된 `Test-and-Set`의 확장판으로, 무거운 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 오버헤드([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))를 회피하려는 현대 고성능 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템과 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 프로그래밍의 절대적 표준이 되었다.
 
 ```text

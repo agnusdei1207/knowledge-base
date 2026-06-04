@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - 일반 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내용이 변경되면, 예전 그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 있던 물리적 위치(제자리, In-place)를 찾아가서 덮어쓴다.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/541_log_structured_file_system/">LFS</a></strong>는 디스크를 하나의 거대한 무한의 롤 종이(Log)로 본다. 기존 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 수정하든 새 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 만들든 옛날 위치는 신경 안 쓰고, 무조건 메모리에 모아뒀던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(수 MB 크기의 세그먼트)를 디스크의 맨 끝자락(빈 공간)에 차곡차곡 순서대로 덧붙여서(Append-only) 쓴다.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 1990년대, CPU 속도는 미친 듯이 빨라지고 램(RAM) 용량도 커져서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) '읽기(Read)'는 메모리 캐시에서 다 해결되었다.
   - 문제는 '[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write)'였다. 수많은 사용자가 작은 문서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(4KB)들을 동시에 저장하니, 디스크의 물리적 헤드가 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 덮어쓰러 디스크판 위를 미친 듯이 왔다 갔다(Random I/O) 하느라 서버가 뻗었다. 디스크 암(Arm)의 이동 속도는 물리적 한계에 부딪혔다.
   - **해결책**: "어차피 쓰는 게 문제라면, 헤드를 움직이지 마라! 들어오는 모든 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 쓰레기통에 쑤셔 넣듯 큰 덩어리로 뭉쳐서 디스크 맨 끝에 빈 공간으로 한 번에(Sequential) 쭉 밀어버려라!"
@@ -31,7 +31,7 @@ tags = ["studynote-operating-system"]
   - **기존 덮어쓰기 (Random Write)**: 백화점 진열대 100곳에 직원이 새로 들어온 신상품([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 일일이 카트를 끌고 돌아다니며(헤드 이동) 예전 자리에 진열하는 고통스러운 노동.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/541_log_structured_file_system/">LFS</a> 순차 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> (Sequential Log)</strong>: 직원은 진열대를 돌아다니지 않는다. 새로 온 모든 물건을 창고 바닥 끝 빈자리(Log 끝단)부터 그냥 차곡차곡 무조건 일렬로 쏟아놓는다(Append). 놓는 속도는 1초면 끝난다. (나중에 물건 찾을 땐 어디 뒀는지 맵만 업데이트해 두면 된다).
 
-- **등장 배경**: 
+- **등장 배경**:
   - 1992년 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) 버클리의 논문(The Design and Implementation of a [Log-Structured File System](/knowledge-base/studynote/02_operating_system/09_file_system/541_log_structured_file_system/))에서 처음 제안되었다. RAM 캐시의 확대로 'Read' 병목이 사라진 미래에는 오직 'Write' 병목만 남을 것을 정확히 예견한 선구적 아키텍처다.
 
 ```text

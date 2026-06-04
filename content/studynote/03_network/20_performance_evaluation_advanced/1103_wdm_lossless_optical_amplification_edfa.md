@@ -63,7 +63,7 @@ WDM(파장 분할 [다중화](/knowledge-base/studynote/03_network/02_multiplexi
 
 ### 2. 빛의 유도 방출 (Stimulated Emission) - 빛의 복사
 - 이때 서울에서 100km를 날아와서 희미해진 <strong>'진짜 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 빛(1550nm 파장)'</strong>이 이 흥분한 에르븀 유리관 속으로 진입합니다.
-- [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 빛이 에르븀 이온을 툭 치고 지나갑니다! 
+- [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 빛이 에르븀 이온을 툭 치고 지나갑니다!
 - 그 순간, 흥분해 있던 에르븀 이온이 자기가 머금고 있던 에너지를 토해내는데, 놀랍게도 <strong>방금 툭 친 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 빛과 '색깔, 파장, 위상이 100% 완벽하게 똑같은 쌍둥이 빛'을 쏟아냅니다!</strong>
 - 1가닥의 희미한 빛이 100가닥, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000가닥의 빛으로 복제되며 찬란하고 밝은 본래의 빛으로 100배 증폭(Amplification)되어 다음 100km를 향해 날아갑니다.
 

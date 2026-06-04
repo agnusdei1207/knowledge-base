@@ -93,7 +93,7 @@ PCB 필드들은 갱신 주기와 접근 패턴에 따라 정적 필드와 동�
 
 ## Ⅴ. 기대효과 및 결론
 
-PCB 요소들이 체계적으로 분리되고 확장됨으로써 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 수만 개의 프로세스를 안정적으로 굴릴 수 있는 무한한 제어력을 확보했다. 
+PCB 요소들이 체계적으로 분리되고 확장됨으로써 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 수만 개의 프로세스를 안정적으로 굴릴 수 있는 무한한 제어력을 확보했다.
 
 과거의 단순한 문맥 보존용 블록에서 출발한 PCB는 이제 CPU 과금 회계 처리, [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 방지, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 격리, 시그널 통신까지 아우르는 클라우드 인프라의 핵심 통제 장부로 진화했다. 따라서 기술사는 단순히 "PCB는 정보를 담는다"는 수준을 넘어, "PCB 내 특정 필드의 조작이 시스템 전반의 보안과 자원 한계에 어떤 영향을 미치는가"를 구조적으로 꿰뚫어 보아야 한다.
 

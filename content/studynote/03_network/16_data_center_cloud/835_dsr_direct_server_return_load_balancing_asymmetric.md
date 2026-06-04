@@ -42,11 +42,11 @@ tags = ["studynote-network"]
 ### DSR을 성립시키는 속임수 마법 ([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 변조) 🌟
 응답 패킷이 L4를 안 거치고 다이렉트로 나가면, 손님(클라이언트)은 "어? 나는 L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(VIP)한테 요청했는데, 왜 생판 모르는 1번 서버(Real IP)가 답장을 줘? 해킹인가?" 하고 패킷을 찢어버립니다. 이를 속이기 위한 치밀한 세팅이 필요합니다.
 
-1. **들어올 때 (L4의 기만)**: 
+1. **들어올 때 (L4의 기만)**:
    - 손님이 목적지에 <strong>가짜 간판(VIP)</strong>을 적어 보냅니다. L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 패킷의 목적지 IP(VIP)는 절대 건드리지 않고, 겉면의 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소(L2 껍데기)</strong>만 1번 서버의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소로 몰래 슥 바꿔치기해서 던집니다(L2 DSR).
-2. **서버의 가짜 신분증 (Loopback VIP 셋팅)**: 
+2. **서버의 가짜 신분증 (Loopback VIP 셋팅)**:
    - 1번 서버에 도착했습니다. 목적지 IP가 자기 IP(Real IP)가 아니라 가짜 간판(VIP)으로 적혀 있으면 원래 버려야 합니다. 하지만 서버 엔지니어가 1번 서버 컴퓨터 안에 몰래 'Loopback 가상 인터페이스'를 하나 뚫어두고, 거기에 가짜 간판 주소(VIP)를 똑같이 세팅해 둡니다. 1번 서버는 "아, 이거 나한테 온 거 맞네!" 하고 덥석 받아먹습니다.
-3. **나갈 때 직배송 (Return)**: 
+3. **나갈 때 직배송 (Return)**:
    - 1번 서버가 응답 패킷을 쏠 때, **보내는 사람(출발지 IP)에 자기 실제 IP를 적지 않고, 아까 그 가짜 간판 주소(VIP)를 떡하니 적어서 인터넷으로 바로 쏴버립니다.** 손님은 "아! 가짜 간판(VIP)이 보낸 답장이 무사히 왔네!"라고 100% 속아 넘어가 통신이 완성됩니다.
 
 ```text

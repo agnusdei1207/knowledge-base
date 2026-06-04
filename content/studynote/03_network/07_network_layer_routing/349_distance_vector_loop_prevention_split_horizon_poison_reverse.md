@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: [Distance Vector](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 환경에서 잘못된 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정보가 노드 간에 반복 순환하며 무한히 홉(Hop) 카운트가 증가하는 Count-to-Infinity(무한대 세기) 문제를 억제하기 위한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)적 안전장치들.
 - **필요성**: 목적지 Z로 가려면 `A -> B -> C -> Z` 순서로 가야 한다. B는 A에게 "나한테 주면 Z까지 2칸 만에 감!"이라고 자랑해 뒀다. 어느 날 B와 C 사이의 선이 끊어졌다. B는 "아 망했네, 못 가네" 하고 지우려는데, A가 B한테 정기방송(30초)을 때린다. "야! 나 Z로 3칸(A->B->C->Z)이면 간다!" **(사실 B가 아까 알려준 길임)**. B는 바보같이 "어? 선 끊겼는데 A가 3칸 만에 간다네? 그럼 난 A한테 주면 4칸(B->A->...) 만에 가겠네!"라며 지도를 갱신해 버린다. 결국 Z로 가는 패킷은 A와 B 사이를 영원히 빙빙 돌며 대역폭을 갉아먹는다. 이 멍청함을 막을 꼼수가 뼈저리게 필요했다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - **스플릿 호라이즌 (수평선 분할)**: 친구 철수(A)가 영희(B)에게 "내일 비 온대!"라고 알려줬습니다. 영희가 다음날 철수에게 가서 <strong>"야, 내일 비 온대!"라고 자기가 들은 소문을 원래 말해준 당사자에게 역으로 다시 말하는 바보짓을 입을 꿰매어 강제로 막는 규칙</strong>입니다.
 
 ```text
@@ -50,7 +50,7 @@ tags = ["studynote-network"]
 
 ### 3. 루트 포이즈닝 (Route Poisoning - 독약 바르기)
 - **규칙**: B와 Z망 사이의 선이 포크레인에 툭 끊어졌다. B는 30초 정기방송을 기다리지 않는다.
-- **작동**: 선이 끊어진 걸 눈치챈 B는 즉시 자기 지도의 Z망 홉 카운트를 <strong>16(무한대, 독약)</strong>으로 조작해 버린다. 그리고 A에게 "야! Z망 홉 카운트 16이야(접근 불가)!"라고 독약을 묻혀서 냅다 쏴버린다. 
+- **작동**: 선이 끊어진 걸 눈치챈 B는 즉시 자기 지도의 Z망 홉 카운트를 <strong>16(무한대, 독약)</strong>으로 조작해 버린다. 그리고 A에게 "야! Z망 홉 카운트 16이야(접근 불가)!"라고 독약을 묻혀서 냅다 쏴버린다.
 - A는 이 엽서를 받고 "헐 16이네? 이 길 썩었네!" 하고 즉시 지도를 폐기한다.
 
 ### 4. 포이즌 리버스 (Poison Reverse - 독약 되돌려주기)

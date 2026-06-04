@@ -90,7 +90,7 @@ HPA는 "목표 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_
 
 ## Ⅴ. 기대효과 및 결론
 
-HPA를 올바르게 구성하면 운영자는 트래픽 폭주로 인한 새벽 장애 알람에서 해방될 수 있다. 애플리케이션은 스스로 부하를 감지하고 유연하게 크기를 조절하며, 불필요한 클라우드 요금 지출을 원천적으로 차단한다. 
+HPA를 올바르게 구성하면 운영자는 트래픽 폭주로 인한 새벽 장애 알람에서 해방될 수 있다. 애플리케이션은 스스로 부하를 감지하고 유연하게 크기를 조절하며, 불필요한 클라우드 요금 지출을 원천적으로 차단한다.
 
 하지만 HPA는 만능이 아니며, 인프라의 여유 공간(노드 자원)과 외부 의존성(DB 커넥션 등)이 함께 받쳐줄 때만 완벽하게 동작한다. 미래에는 KEDA와 같은 이벤트 기반 자동 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)이 기본이 되어, CPU 수치가 아닌 실제 비즈니스 부하 지표를 중심으로 HPA가 더욱 정교해질 것이다. HPA는 "클라우드 네이티브의 [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)(Elasticity)을 완성하는 가장 기초적인 심장박동"으로 기억해야 한다.
 

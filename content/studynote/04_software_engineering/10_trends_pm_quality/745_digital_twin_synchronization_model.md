@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 과거 제조업에서는 비행기나 우주선을 만들 때 시제품([Prototype](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/))을 만들어 직접 날려보고 부서지면 원인을 찾았다(물리적 테스트). 소프트웨어 세계에서는 CAD나 3D 모델링 도구가 발전했지만, 이는 멈춰있는 그림(Static Model)에 불과했다.
 
-[사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/))과 클라우드가 발전하면서 기계에 수천 개의 센서를 달 수 있게 되었다. 그러자 "비행기 엔진에 센서를 달아 실시간 온도를 측정하고, 그 온도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 컴퓨터 안의 3D 가상 비행기 엔진에 똑같이 부어주자. 그러면 진짜 비행기와 가상 비행기가 똑같이 뜨거워지고 똑같이 작동하지 않을까?"라는 아이디어가 실현되었다. 
+[사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/))과 클라우드가 발전하면서 기계에 수천 개의 센서를 달 수 있게 되었다. 그러자 "비행기 엔진에 센서를 달아 실시간 온도를 측정하고, 그 온도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 컴퓨터 안의 3D 가상 비행기 엔진에 똑같이 부어주자. 그러면 진짜 비행기와 가상 비행기가 똑같이 뜨거워지고 똑같이 작동하지 않을까?"라는 아이디어가 실현되었다.
 
 이것이 NASA의 아폴로 계획에서 우주선의 고장을 지상에서 고치기 위해 처음 고안되고, 제너럴 일렉트릭(GE)이 산업의 표준으로 만든 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">디지털 트윈</a>(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">Digital Twin</a>)</strong> 기술이다.
 

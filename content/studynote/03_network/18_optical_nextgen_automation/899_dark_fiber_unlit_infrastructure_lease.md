@@ -44,7 +44,7 @@ tags = ["studynote-network"]
 
 ### 2. 다크 파이버 대여의 무한한 자유도 🌟
 - 구글이나 카카오 같은 대기업은 통신사에게 "네 라우터 치워! 그냥 땅속에 묻힌 **'빈 유리관(다크 파이버)' 자체만 나한테 통으로 렌트해 줘!**"라고 선언합니다.
-- <strong>무한한 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 확장</strong>: 대기업이 이 빈 유리관 양 끝단에 자신들이 직접 사 온 최첨단 893번 <strong><a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/893_otn_optical_transport_network_g709_fec_container/">OTN</a> 장비나 800Gbps짜리 DWDM(파장 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a>) 광 전송 장비</strong>를 직접 꽂아서 빛을 쏴버립니다. 
+- <strong>무한한 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 확장</strong>: 대기업이 이 빈 유리관 양 끝단에 자신들이 직접 사 온 최첨단 893번 <strong><a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/893_otn_optical_transport_network_g709_fec_container/">OTN</a> 장비나 800Gbps짜리 DWDM(파장 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a>) 광 전송 장비</strong>를 직접 꽂아서 빛을 쏴버립니다.
 - 어차피 유리관 하나를 통째로 빌렸으므로, 장비만 좋은 걸로 갈아 끼우면 통신사에 허락을 안 받고 10G, 100G, 1Tbps로 미친 듯이 속도를 공짜로 뻥튀기할 수 있습니다. (궁극의 망 지배권 확보)
 
 ### 3. 완벽한 물리적 보안 보장
@@ -65,7 +65,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- <strong>규제 및 보수 공사 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong>: 
+- <strong>규제 및 보수 공사 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong>:
   - 통신사가 다크 파이버를 빌려줄 때 "케이블 관리(포크레인 단선 방어)는 우리가 해주지만, 케이블 껍데기 외에 네가 쏜 빛 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 끊기는 건 우리가 책임 못 져!" ([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 보장 한계)라고 선을 긋습니다.
   - 결국 유지보수를 할 자체 네트워크 엔지니어링 팀을 갖춘 대기업이나 금융권만이 다크 파이버를 사서 직접 조립하고 운용(DIY)할 자격이 됩니다.
 - **국가 인프라 자산 규제**: 땅을 함부로 팔 수 없듯, 국가 기간망인 광케이블 자산의 임대 시장 개방과 가격 상한을 정부가 어느 정도 규제하며 벤처기업들이 저렴하게 망을 깔 수 있도록 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)적으로 개입하기도 합니다.

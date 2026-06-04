@@ -24,7 +24,7 @@ tags = ["studynote-network"]
 
 - **💡 비유**: ssthresh는 고무풍선을 불 때의 <strong>"풍선 표면 장력 한계선"</strong>과 같습니다.
   - 처음엔 에어 펌프로 공기를 훅훅(배수) 불어 넣어도 풍선이 잘 커집니다.
-  - 하지만 풍선이 터지기 직전 크기(ssthresh)에 도달하면, 그때부터는 공기를 훅훅 불어 넣으면 풍선이 터집니다. 
+  - 하지만 풍선이 터지기 직전 크기(ssthresh)에 도달하면, 그때부터는 공기를 훅훅 불어 넣으면 풍선이 터집니다.
   - 이 커트라인부터는 입으로 아주 조심스럽게 호~ 호~(1씩 더하기) 불어 넣어야 풍선을 최대한 크고 안전하게 부풀릴 수 있습니다.
 
 ```text
@@ -72,7 +72,7 @@ tags = ["studynote-network"]
 ```
 
 ### 2. [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 관건
-이 `ssthresh` 값이 너무 빨리 깎이면(네트워크가 조금만 덜컹거려도 깎임), 내 컴퓨터는 평생 속도를 못 내고 계속 17, 18, 19로 기어가게 된다(다운로드 속도 저하). 반대로 너무 늦게 깎이면 버퍼가 계속 터져서 패킷이 다 죽는다. 
+이 `ssthresh` 값이 너무 빨리 깎이면(네트워크가 조금만 덜컹거려도 깎임), 내 컴퓨터는 평생 속도를 못 내고 계속 17, 18, 19로 기어가게 된다(다운로드 속도 저하). 반대로 너무 늦게 깎이면 버퍼가 계속 터져서 패킷이 다 죽는다.
 리눅스 엔지니어들은 이 깎이는 비율(1/2)을 `BBR`, `CUBIC` 같은 최신 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 알고리즘으로 튜닝하여 고속망에서 속도 저하를 막아내고 있다.
 
 - **📢 섹션 요약 비유**: ** ssthresh의 갱신 룰은 **"술자리 주량 계산법"**과 똑같습니다. 소주 4병(CWND 32)을 마시고 필름이 끊겨 응급실에 실려 갔다면([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)), 다음번 술자리에선 "아, 내 진짜 주량은 4병의 절반인 2병(ssthresh 16)이구나!"라고 깨닫고, 2병을 넘기는 순간부터는 원샷(지수 증가)을 멈추고 반 잔씩 끊어 마시는(선형 증가) 생존 본능입니다.

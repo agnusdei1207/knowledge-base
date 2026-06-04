@@ -62,7 +62,7 @@ tags = ["studynote-operating-system"]
 ### S-G List (Scatterlist) 구조체의 흑마술
 
 OS와 DMA는 어떻게 주소 목록을 주고받을까? 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에는 `struct scatterlist` 라는 구조체 배열이 존재한다.
-- OS는 램에 `[시작 주소, 길이], [시작 주소, 길이], [시작 주소, 길이]` 형태로 배열을 쫙 적어놓는다. 
+- OS는 램에 `[시작 주소, 길이], [시작 주소, 길이], [시작 주소, 길이]` 형태로 배열을 쫙 적어놓는다.
 - 그리고 이 <strong>배열의 첫 번째 주소(포인터)</strong>만 랜카드나 디스크의 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 제어 레지스터에 틱 던져준다.
 - 똑똑한 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 칩셋은 램에 있는 이 배열을 스스로 읽고(Fetch), 1번째 줄 주소에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꽂고, 다 끝나면 2번째 줄 주소를 읽어서 또 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꽂는 <strong>셀프 루프 연산</strong>을 하드웨어 내부 트랜지스터로 징징징 돌려버린다.
 
@@ -75,7 +75,7 @@ OS와 DMA는 어떻게 주소 목록을 주고받을까? 리눅스 [커널](/kno
 2. OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 헤더(출발지, 목적지 IP)를 붙인다. 이 헤더는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 램 공간에 있다. (주소 B)
 3. 만약 S-G DMA가 없다면? OS는 주소 A와 주소 B의 내용을 제3의 연속된 버퍼(주소 C)로 몽땅 복사(Memcpy)해서 하나로 예쁘게 뭉친 뒤에야 랜카드에 쏴야 한다. 서버 CPU가 복사하다가 100% 터져 죽는다.
 4. <strong>S-G DMA의 등판 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/">Zero-Copy</a>)</strong>:
-   - OS는 복사를 안 한다. 그냥 DMA에게 S-G 리스트를 던진다. 
+   - OS는 복사를 안 한다. 그냥 DMA에게 S-G 리스트를 던진다.
    - `[주소 B에서 64바이트(헤더) 가져와라, 그 다음 주소 A에서 1500바이트(영상) 가져와라]`
    - 랜카드 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 칩셋이 알아서 찢어져 있는 주소 B와 A를 쓱쓱 긁어와(Gather), 랜카드 내부에서 하나의 1564바이트짜리 뚱뚱한 패킷으로 이쁘게 조립해 인터넷으로 쏴버린다!
    - 램 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 1mm도 움직이지 않았다. CPU 복사 연산 0회. 이것이 초당 수천만 번의 패킷을 쳐내는 10G/40G 현대 네트워크 서버 최강의 비밀 병기, <strong>Tso (<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">Segmentation</a> Offload)</strong>와 융합된 Gather 기술의 정수다.
@@ -124,7 +124,7 @@ S-G 기술이 없을 때 [커널](/knowledge-base/studynote/02_operating_system/
 3. <strong>블록 레이어의 합치기 (S-G List <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>)</strong>:
    - 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 블록 I/O 계층은 이 찢어진 2,500만 개의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 중, 운 좋게 물리적으로 연속된 놈들끼리 묶고 나머지는 S-G 리스트로 주소록을 짠다.
 4. <strong>HBA (Host <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">Adapter</a>) 칩셋의 발진</strong>:
-   - 서버 뒤에 꽂힌 광케이블 랜카드(HBA)가 이 S-G 리스트를 낚아챈다. 
+   - 서버 뒤에 꽂힌 광케이블 랜카드(HBA)가 이 S-G 리스트를 낚아챈다.
    - 칩셋 내부의 하드웨어 모터가 이 수천만 개의 램 조각을 빛의 속도로 스캔하여(Gather) 한 덩어리의 거대한 광케이블 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 패킷([Fibre Channel](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/))으로 묶어버린다.
    - 단 한 번의 CPU 복사도 없이 100GB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 네트워크 건너편의 스토리지 서버로 꽂힌다.
    - 이 S-G 기술이 없었다면 현대의 넷플릭스, 유튜브가 제공하는 테라바이트 급 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트리밍은 CPU가 다 타버려서 애초에 불가능했다.

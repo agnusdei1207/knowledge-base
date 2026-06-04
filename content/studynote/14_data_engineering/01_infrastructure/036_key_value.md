@@ -81,11 +81,11 @@ DynamoDB 특성:
   완전 관리형 (서버리스)
   단일 자릿수 밀리초 응답
   자동 수평 확장 (수천 TPS -> 수백만 TPS)
-  
+
   기본 키 설계:
   - Partition Key (PK): 데이터 분산 키
   - Sort Key (SK): 파티션 내 정렬 (선택)
-  
+
   예시 설계:
   PK: "USER#1234"
   SK: "ORDER#2024-01-01"
@@ -110,11 +110,11 @@ DynamoDB 특성:
 1. Cache-Aside (Lazy Loading):
    앱 -> Redis에 요청
    Redis 미스 -> DB 쿼리 -> Redis에 저장 -> 반환
-   
+
 2. Write-Through:
    쓰기 시 DB와 캐시에 동시 저장
    항상 캐시와 DB 동기화
-   
+
 3. Write-Behind:
    쓰기 시 캐시에만 저장
    비동기로 DB 반영 (고성능, 데이터 손실 위험)

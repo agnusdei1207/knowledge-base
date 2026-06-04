@@ -25,7 +25,7 @@ tags = ["studynote-operating-system"]
 이때 OS가 고를 수 있는 가장 터프한 `해결책 루트 A`가 바로 <strong>"<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a> 연루자 전원 사살 (Abort All)"</strong>이다.
 "누구 잘못인지 가리기 귀찮으니, 저기 얽힌 4명 모두의 프로세스 ID에 `SIGKILL`을 날려서 싹 다 메모리에서 날려버려(Abort)! 그리고 넷이 양손에 쥐고 있던 모든 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)), 모든 메모리(Resource) 싹 다 압수해서 땅바닥에 뿌려!"
 
-**💡 비유**: 길거리에 4명이 서로 멱살을 잡고 데드락에 빠져 무한 정지 상태에 빠졌다. 경찰(OS)이 와서 누가 잘못했나 CCTV를 보는 대신(연산 로직), 수류탄을 하나 까서 4명 사이에 던져버린다. 4명 다 증발한다. 길거리엔 구경하던 사람들만 남아 여유롭게 길을 지나간다(교착 완전 해방). 
+**💡 비유**: 길거리에 4명이 서로 멱살을 잡고 데드락에 빠져 무한 정지 상태에 빠졌다. 경찰(OS)이 와서 누가 잘못했나 CCTV를 보는 대신(연산 로직), 수류탄을 하나 까서 4명 사이에 던져버린다. 4명 다 증발한다. 길거리엔 구경하던 사람들만 남아 여유롭게 길을 지나간다(교착 완전 해방).
 
 ```text
 ┌────────────────────────────────────────────────────────────────┐
@@ -54,7 +54,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 연루자 척결(Sweep) 메커니즘 
+### 연루자 척결(Sweep) 메커니즘
 
 이 전법은 OS 내부의 프로세스 관리 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드로 보면 가장 짜기 쉽다.
 
@@ -81,8 +81,8 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/">커널 패닉</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">Out Of Memory</a>) Killer</strong>: 데드락과는 약간 다르지만 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)(메모리가 가득 차서 OS가 다 터지기 일보 직전의 패닉) 상황에 도달하면, 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 섬세한 선택이고 자시고 간에 무거운 덩치 프로세스들을 한방 콤보로 서너 개 연쇄 폭파(Kill) 시켜버린다. 
-2. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 모바일/<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 시스템의 셧다운</strong>: 하드웨어가 극도로 후달려 복잡한 희생자 계산기($O(n^2)$ 순차 분석)를 켤 전기마저 안 타까운 구형 장비는, 데드락 워프(Watchdog) 불이 들어오는 순간 얽힌 쓰레드 집단을 그냥 한 방에 클리어시키거나 아예 앱 전체를 크래시(Crash) 내 강제 종료시켜 버린다(유저 빡치게 하기). 
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/">커널 패닉</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">Out Of Memory</a>) Killer</strong>: 데드락과는 약간 다르지만 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)(메모리가 가득 차서 OS가 다 터지기 일보 직전의 패닉) 상황에 도달하면, 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 섬세한 선택이고 자시고 간에 무거운 덩치 프로세스들을 한방 콤보로 서너 개 연쇄 폭파(Kill) 시켜버린다.
+2. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 모바일/<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 시스템의 셧다운</strong>: 하드웨어가 극도로 후달려 복잡한 희생자 계산기($O(n^2)$ 순차 분석)를 켤 전기마저 안 타까운 구형 장비는, 데드락 워프(Watchdog) 불이 들어오는 순간 얽힌 쓰레드 집단을 그냥 한 방에 클리어시키거나 아예 앱 전체를 크래시(Crash) 내 강제 종료시켜 버린다(유저 빡치게 하기).
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
 - <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>(이체) 서버에서의 Abort All 발동</strong>: A가 B에게 1억을 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 이체 중이다, B는 C에게 결제 중인데 꼬여서 데드락이 났다. 여기서 `Abort All`을 때려버리면 1억 이체하던 네트워크 패킷과 쿼리가 허공에서 절단 삭제된다. 복잡한 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 처리조차 동시에 터져 디비 정합성([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))이 영구적인 불능에 빠져 치명적인 파동을 일으킬 수 있다. (절대 쓰면 안 되는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)).

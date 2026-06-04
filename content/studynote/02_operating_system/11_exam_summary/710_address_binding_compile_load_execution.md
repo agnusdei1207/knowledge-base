@@ -19,15 +19,15 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/324_address_binding_stages/">주소 바인딩</a> (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/324_address_binding_stages/">Address Binding</a>)</strong>: 프로그램의 명령어와 데이터가 실제 메모리의 어느 위치([Physical Address](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/))에 적재될지를 결정하고 묶어주는(Bind) 과정.
 
-- **필요성 (멀티프로그래밍의 이사(Migration) 딜레마)**: 
+- **필요성 (멀티프로그래밍의 이사(Migration) 딜레마)**:
   - 과거 단일 프로그래밍 시절에는 램을 나 혼자 쓰니까 "내 코드는 무조건 램의 0번지부터 쓴다!"라고 컴파일할 때 하드코딩해도 상관이 없었다. (절대 코드, Absolute [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))
   - 하지만 프로그램을 여러 개 동시에 띄우려다 보니, A 프로그램이 0번지를 차지하고 있으면, B 프로그램은 0번지에 들어갈 수 없어 실행이 불가능했다.
   - **해결책**: "개발자는 무조건 0번지부터 쓴다고 생각하고 코드를 짜라(가상 주소). 실제 램의 빈 공간(예: 5,000번지)에 올리는 건 OS가 알아서 하고, CPU가 계산할 때마다 5,000을 더해줄게!"라며 바인딩의 시점을 점점 뒤로 늦추는 구조가 필요해졌다.
 
-  - '홍길동'이라는 친구에게 편지를 보내고 싶다. 
+  - '홍길동'이라는 친구에게 편지를 보내고 싶다.
   - **컴파일 타임**: 편지 봉투에 '서울시 강남구 아파트 101동'이라고 주소를 영구적으로 펜으로 적어버린다. 홍길동이 이사를 가면 이 편지는 영원히 도착하지 못한다.
   - **로드 타임**: 우체국에 편지를 들고 갔을 때, 우체국 직원이 오늘 아침 홍길동의 주소록을 조회해서 '부산 해운대구'라는 주소 스티커를 붙여준다. 만약 배달 가는 도중에 홍길동이 이사를 가버리면 편지는 분실된다.
   - **실행 타임 (현대 OS)**: 봉투에 그냥 '홍길동'이라고만 적어둔다. 우체부([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))가 홍길동의 집 앞에 도착하기 0.1초 직전에, 홍길동의 폰 위치 추적기([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))를 실시간으로 확인해서 그가 있는 바로 그 물리적 위치로 편지를 건네준다. 홍길동이 하루에 10번 이사를 다녀도 무조건 편지를 받는다.
@@ -108,8 +108,8 @@ tags = ["studynote-operating-system"]
    - **대응 (기술사적 가이드)**: 이런 환경에서는 운영체제의 화려한 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)를 기대하면 안 된다. 개발자는 링커 스크립트(Linker Script)를 열고, `TEXT(코드) 영역은 물리 주소 0x08000000에 굽고, DATA 영역은 SRAM의 0x20000000에 정확히 배치해라`라고 수동으로 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/325_compile_time_binding/">Compile Time</a> / Link Time Binding</strong>을 지시하는 원시적인(하지만 가장 가볍고 확실한) 방법으로 돌아가야 한다.
 
 2. <strong>시나리오 — 동적 링킹(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/">Dynamic Linking</a> / .so, .dll)과 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/326_load_time_binding/">Load Time</a> Binding의 결합</strong>: 게임을 다운받았는데 실행할 때 `d3dx9_43.dll이 없어 프로그램을 시작할 수 없습니다` 에러가 뜬다.
-   - **원인 분석**: 게임을 만들 때 용량을 줄이기 위해 DirectX [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 코드를 게임 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(.exe) 안에 구워 넣지 않고, 컴파일 바인딩을 보류했다(동적 링킹). 
-   - **아키텍처 동작**: 이 게임은 실행을 위해 메모리에 올라가는 순간([Load Time](/knowledge-base/studynote/02_operating_system/06_memory_management/326_load_time_binding/)), 윈도우 OS의 로더가 C드라이브에서 `d3dx9_43.dll`을 찾아서 메모리의 빈 공간에 올리고, 게임 코드의 빈칸([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))에 그 DLL의 시작 주소를 바인딩해 준다. DLL [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 없으니 바인딩이 실패해서 에러가 난 것이다. 
+   - **원인 분석**: 게임을 만들 때 용량을 줄이기 위해 DirectX [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 코드를 게임 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(.exe) 안에 구워 넣지 않고, 컴파일 바인딩을 보류했다(동적 링킹).
+   - **아키텍처 동작**: 이 게임은 실행을 위해 메모리에 올라가는 순간([Load Time](/knowledge-base/studynote/02_operating_system/06_memory_management/326_load_time_binding/)), 윈도우 OS의 로더가 C드라이브에서 `d3dx9_43.dll`을 찾아서 메모리의 빈 공간에 올리고, 게임 코드의 빈칸([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))에 그 DLL의 시작 주소를 바인딩해 준다. DLL [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 없으니 바인딩이 실패해서 에러가 난 것이다.
 
 ### 의사결정 및 튜닝 플로우
 

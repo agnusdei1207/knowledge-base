@@ -23,8 +23,8 @@ tags = ["studynote-operating-system"]
 
 우리가 흔히 아는 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)([Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/))의 기본 구조는 단순하다. 중앙에 거대한 '할 일 목록(Global [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))'이 하나 있고, 100명의 일꾼([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))이 달려들어 일을 하나씩 빼간다.
 
-* <strong>최악의 병목 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/">Lock Contention</a>)</strong>: 
-  - 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 여러 명이 동시에 빼가면 엉키기 때문에, 누군가 하나 뺄 때마다 전체 큐에 <strong>락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)</strong>을 걸어야 한다. 
+* <strong>최악의 병목 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/">Lock Contention</a>)</strong>:
+  - 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 여러 명이 동시에 빼가면 엉키기 때문에, 누군가 하나 뺄 때마다 전체 큐에 <strong>락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)</strong>을 걸어야 한다.
   - 100개의 코어가 일을 빼가려고 동시에 큐에 달려들면, 1개 코어만 일하고 99개 코어는 락이 풀리길 기다리며 줄을 서서 논다. (배보다 배꼽이 더 큰 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 오버헤드)
 
 이 문제를 해결하기 위한 발상의 전환이 <strong>"전체 큐를 쪼개서 각 일꾼의 책상(Local <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)에 나눠주자!"</strong> 였다. 각자 자기 책상에서만 일을 빼가면 락을 걸 필요가 없어진다.
@@ -40,7 +40,7 @@ tags = ["studynote-operating-system"]
 Work Stealing을 완벽하게 구현하기 위해, 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 대신 양쪽에서 다 빼낼 수 있는 <strong>덱(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/084_deque/">Deque</a>, Double-Ended <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)</strong> 자료구조를 사용한다.
 
 #### 1. 정상 작업 모드 (LIFO: 나 혼자 일할 때)
-- 일꾼([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))은 자기 책상(로컬 덱)의 <strong>앞쪽(Top)</strong>에서만 일을 넣고 뺀다. 
+- 일꾼([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))은 자기 책상(로컬 덱)의 <strong>앞쪽(Top)</strong>에서만 일을 넣고 뺀다.
 - 이것은 마치 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))과 같아서, 가장 최근에 들어온 일을 가장 먼저 처리(LIFO)한다. CPU 캐시 히트율(Cache [Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Rate)이 극대화되어 엄청나게 빠르며, 자기 혼자 쓰므로 <strong>락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)이 아예 필요 없다</strong>.
 
 #### 2. 도둑질 모드 ([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/): 남의 일을 훔칠 때)
@@ -75,11 +75,11 @@ Work Stealing을 완벽하게 구현하기 위해, 큐([Queue](/knowledge-base/s
 
 ## Ⅲ. 비교 및 연결
 
-Work Stealing 알고리즘을 가장 널리 유행시킨 것은 Java 7에 도입된 <strong><code>ForkJoinPool</code></strong>이다. 
+Work Stealing 알고리즘을 가장 널리 유행시킨 것은 Java 7에 도입된 <strong><code>ForkJoinPool</code></strong>이다.
 
 * **Fork (쪼개기)**: 큰 작업을 작은 작업으로 계속 쪼개서 자기 로컬 덱의 Top에 푸시(Push)한다.
 * <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">Join</a> (합치기)</strong>: 쪼개진 작업들의 결과가 나오면 병합한다.
-* 일반적인 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)(ExecutorService)은 네트워크 I/O처럼 오래 기다리는 작업에 적합하지만, 수억 개의 데이터를 정렬하거나 이미지 픽셀을 변환하는 것 같은 <strong>CPU 집약적인 거대 연산</strong>을 할 때는 글로벌 큐 락 때문에 엄청 느려진다. 
+* 일반적인 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)(ExecutorService)은 네트워크 I/O처럼 오래 기다리는 작업에 적합하지만, 수억 개의 데이터를 정렬하거나 이미지 픽셀을 변환하는 것 같은 <strong>CPU 집약적인 거대 연산</strong>을 할 때는 글로벌 큐 락 때문에 엄청 느려진다.
 * 이때 개발자가 `ForkJoinPool`을 적용하면, 각 코어가 100% 쉬지 않고 남의 일을 훔쳐 가며 계산을 때려 부수므로 다중 코어의 성능을 극한까지 끌어올릴 수 있다.
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.

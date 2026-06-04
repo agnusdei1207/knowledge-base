@@ -19,7 +19,7 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. 개요 및 필요성
 
-IT 시스템이 기업의 비즈니스와 생존에 직결되면서, 서버가 죽었을 때 담당자가 주먹구구식으로 고치는 방식은 더 이상 용납되지 않는다. 고객(발주사)은 IT 아웃소싱 업체(SI/[SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/))가 일정한 품질 이상의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 안정적으로 제공할 수 있다는 확실한 보증 수표를 원하게 되었다. 
+IT 시스템이 기업의 비즈니스와 생존에 직결되면서, 서버가 죽었을 때 담당자가 주먹구구식으로 고치는 방식은 더 이상 용납되지 않는다. 고객(발주사)은 IT 아웃소싱 업체(SI/[SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/))가 일정한 품질 이상의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 안정적으로 제공할 수 있다는 확실한 보증 수표를 원하게 되었다.
 
 이를 위해 영국의 IT 인프라 라이브러리인 [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) ([IT Infrastructure Library](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/))이라는 훌륭한 교과서가 널리 퍼졌으나, [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) 자체는 권고사항일 뿐 기업을 강제하거나 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)해 주지 않았다. 따라서 "이 기업이 진짜 [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) 교과서대로 똑바로 운영하고 있는가?"를 객관적인 심사원이 체크하고 공식 자격증을 부여하기 위해 탄생한 심사 잣대가 바로 ISO/IEC 20000이다.
 
@@ -29,7 +29,7 @@ IT 시스템이 기업의 비즈니스와 생존에 직결되면서, 서버가 �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-ISO 20000 체계는 경영 시스템의 기본인 [PDCA](/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/) ([Plan-Do-Check-Act](/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/)) 사이클을 엔진으로 삼고, 그 위에 14개 이상의 핵심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [관리 프로세스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/018_admin_processes/) 톱니바퀴들을 맞물려 돌린다. 
+ISO 20000 체계는 경영 시스템의 기본인 [PDCA](/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/) ([Plan-Do-Check-Act](/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/)) 사이클을 엔진으로 삼고, 그 위에 14개 이상의 핵심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [관리 프로세스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/018_admin_processes/) 톱니바퀴들을 맞물려 돌린다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -75,7 +75,7 @@ IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-현업에서 ISO 20000을 도입할 때 기술사가 가장 경계해야 할 안티패턴은 <strong>"<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>만을 위한 서류 작업"</strong>으로 변질되는 것이다. 
+현업에서 ISO 20000을 도입할 때 기술사가 가장 경계해야 할 안티패턴은 <strong>"<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>만을 위한 서류 작업"</strong>으로 변질되는 것이다.
 
 ### 기술사 판단: 도입 시 핵심 고려사항
 1. <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">Service Level Agreement</a>)의 현실화</strong>: 고객과 맺은 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 지표가 "서버 가동률 100%"처럼 달성 불가능하거나 "고객 만족도"처럼 측정 모호하면 안 된다. "업무 시간 내 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 2시간 이내 99% 달성"처럼 정량적이고 측정 가능해야 한다.

@@ -18,12 +18,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 왜 '좀비' [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 우주 생태계는 피도 눈물도 없는 부모-자식(Parent-Child) 계급 강결합 족쇄로 돌아간다. 자식(`fork` 쳐서 나온 봇)이 일을 다 끝내고 자살(`exit(0)`)하면, 얘가 쓰던 램(RAM)과 파일은 즉시 삭제 소각된다. 
+리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 우주 생태계는 피도 눈물도 없는 부모-자식(Parent-Child) 계급 강결합 족쇄로 돌아간다. 자식(`fork` 쳐서 나온 봇)이 일을 다 끝내고 자살(`exit(0)`)하면, 얘가 쓰던 램(RAM)과 파일은 즉시 삭제 소각된다.
 
-**대재앙의 딜레마 발동 💀**: 자식은 죽었지만 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(OS 뇌)은 자식의 '주민번호(PID)' 껍데기를 즉시 재활용 통에 버리지 못하고 꽉 쥐고 버틴다. 왜? 
-"야 부모 새끼야!! 니 자식이 성공(`0`)해서 죽었는지, 에러(`-1`) 뿜고 죽었는지 내가 이 시체 껍데기에 유서(Exit Status) 남겨놨으니까 빨리 와서 읽고 도장(`wait`) 찍고 치워가 시발 쾅!!!" 
-근데 부모 놈이 자기 메인 루프 돌기 바빠서 이 사망 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)서를 안 읽고 걍 쌩까버렸다(직무 유기). 
-➔ <strong>메모리(영혼)는 이미 증발해 비어있는데, PID(이름표 육체)만 살아남아 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 테이블 1칸을 영구 점거하며 무한 대기 뻗음 타는 [좀비(Zombie Z-state) 시체]의 기괴한 탄생이다.</strong> 
+**대재앙의 딜레마 발동 💀**: 자식은 죽었지만 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(OS 뇌)은 자식의 '주민번호(PID)' 껍데기를 즉시 재활용 통에 버리지 못하고 꽉 쥐고 버틴다. 왜?
+"야 부모 새끼야!! 니 자식이 성공(`0`)해서 죽었는지, 에러(`-1`) 뿜고 죽었는지 내가 이 시체 껍데기에 유서(Exit Status) 남겨놨으니까 빨리 와서 읽고 도장(`wait`) 찍고 치워가 시발 쾅!!!"
+근데 부모 놈이 자기 메인 루프 돌기 바빠서 이 사망 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)서를 안 읽고 걍 쌩까버렸다(직무 유기).
+➔ <strong>메모리(영혼)는 이미 증발해 비어있는데, PID(이름표 육체)만 살아남아 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 테이블 1칸을 영구 점거하며 무한 대기 뻗음 타는 [좀비(Zombie Z-state) 시체]의 기괴한 탄생이다.</strong>
 
 - **📢 섹션 요약 비유**: [좀비 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/)는 <strong>'이미 퇴사한 직원의 사원증 락킹'</strong>과 100% 똑같습니다. 직원은 짐 다 빼서 몸은 집에 가고 없는데(램 자원 0% 반납), 팀장([부모 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/))이 전산망에서 퇴사 처리 결재 버튼(`wait` 시스템 콜)을 안 눌러줘서 ➔ 회사 조직도(PID 테이블)에는 유령 직원이 영원히 1칸 버젓이 자리 차지하고 떠 있는 뻗음 파국입니다 💥. 사원증 발급 개수는 정해져 있어서 퇴사자 유령이 수만 명 쌓이면 ➔ 내일 당장 진짜 뽑아야 할 신입사원 사원증 발급 슬롯(PID 고갈)이 부족해 1명도 채용 못 하는 회사 마비 셧다운 대참사가 터집니다 💀.
 
@@ -68,14 +68,14 @@ tags = ["studynote-operating-system"]
 ```
 
 <strong>[아키텍트 팩폭 튜닝: <code>SIG_IGN</code> 마법 1줄 록온 쉴드 ✨]</strong>
-"야 시발 `waitpid` 치고 `SIGCHLD` 핸들러 짜고 귀찮아 뒤지겠네 코드 10줄 스파게티 떡칠 ㅠ" 
-- **아키텍트 초간단 1타 쌍피 수술**: "야!! 부모 소스 코드 위에다가 딱 1줄 <strong><code>signal(SIGCHLD, SIG_IGN);</code></strong> 이라고 타자 쳐 발라 록온 박아 쾅!!! 
-이 1줄 뜻이 뭐냐? 부모 놈이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 뇌한테 선전포고 치는 거다. <strong>'야 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>아! 난 내 자식이 죽어서 성공했든 10억 적자 에러 뿜고 죽었든(Exit Status) 1바이트 찌끄레기 1도 관심 없고 알 바 좆까 무시(Ignore) 칠 거니까!! ➔ 자식 뒈지면 나한테 노티 알람 주지도 말고 니가 알아서 시체 껍데기(PID) 휴지통에 0초 컷 폐기 쾌속 소각 삭제 쳐버려 쾅 🚀!!'</strong> 
+"야 시발 `waitpid` 치고 `SIGCHLD` 핸들러 짜고 귀찮아 뒤지겠네 코드 10줄 스파게티 떡칠 ㅠ"
+- **아키텍트 초간단 1타 쌍피 수술**: "야!! 부모 소스 코드 위에다가 딱 1줄 <strong><code>signal(SIGCHLD, SIG_IGN);</code></strong> 이라고 타자 쳐 발라 록온 박아 쾅!!!
+이 1줄 뜻이 뭐냐? 부모 놈이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 뇌한테 선전포고 치는 거다. <strong>'야 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>아! 난 내 자식이 죽어서 성공했든 10억 적자 에러 뿜고 죽었든(Exit Status) 1바이트 찌끄레기 1도 관심 없고 알 바 좆까 무시(Ignore) 칠 거니까!! ➔ 자식 뒈지면 나한테 노티 알람 주지도 말고 니가 알아서 시체 껍데기(PID) 휴지통에 0초 컷 폐기 쾌속 소각 삭제 쳐버려 쾅 🚀!!'</strong>
 이 옵션 켜면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 부모 기다리지 않고 걍 즉시 좀비를 분쇄기 갈아버려 영구 말살(Auto-Reaping)시키는 최강 가성비 1줄 매직이다 (단, 종료 코드를 진짜 읽어야 하는 크론 배치 봇에선 절대 쓰면 안 됨 팩폭)."
 
-- **📢 섹션 요약 비유**: 이 3가지 헌법 차이는 <strong>'청소 알바 짬처리 방식'</strong>입니다. 
-1번 블로킹(`wait`): 부모가 빗자루 들고 알바생(자식) 퇴근할 때까지 문 앞 매트에서 무한 뻗음 죽치고 기다리는 멍청 짓 💥. 
-2번 시그널(`SIGCHLD`): 부모는 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 돈 계산(메인 로직) 쌩쌩 치고 있다가, 알바가 퇴근 벨 징~ 누르는 순간에만 고개 휙 돌려서 "ㅇㅋ 수고 퇴근!" 1초 컷 영수증 검사 쾌속 찍어주고 본업 복귀하는 천재 사장님 ✨. 
+- **📢 섹션 요약 비유**: 이 3가지 헌법 차이는 <strong>'청소 알바 짬처리 방식'</strong>입니다.
+1번 블로킹(`wait`): 부모가 빗자루 들고 알바생(자식) 퇴근할 때까지 문 앞 매트에서 무한 뻗음 죽치고 기다리는 멍청 짓 💥.
+2번 시그널(`SIGCHLD`): 부모는 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 돈 계산(메인 로직) 쌩쌩 치고 있다가, 알바가 퇴근 벨 징~ 누르는 순간에만 고개 휙 돌려서 "ㅇㅋ 수고 퇴근!" 1초 컷 영수증 검사 쾌속 찍어주고 본업 복귀하는 천재 사장님 ✨.
 3번 `SIG_IGN`(오토 무시): 아예 알바 면접 때 "너 퇴근할 때 나한테 인사하지 마 귀찮아!! 걍 쓰레기 니가 버리고 문 닫고 사라져라 쾅 🚀!!" 짬처리 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 쳐버린 극강의 프리패스 무결점 방어막입니다.
 
 ---
@@ -94,7 +94,7 @@ tags = ["studynote-operating-system"]
 <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">🚨 실무 파국: [쿠버네티스</a>(K8s) <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 뱃속 좀비 떼죽음 폭발 💥]</strong>
 "와 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)로 띄우니까 고아 봇(Orphan) 생겨도 `init(PID 1번)` 대장님이 알아서 자동 수거 오토 짬처리 개꿀 해주겠죠 데헷 ㅋ?"
 <strong>아키텍트 <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a> 메스 🪓</strong>: "야 이 미친 좆소 무지성 타자기야!! [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 뱃속 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에서 PID 1번 봇은 리눅스 만능 신 `init` 봇이 아니야!! ➔ <strong>니가 짠 자바(Java) 앱 쇳덩이가 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 뱃속에서 걍 PID 1번 대관식 대장 자리를 먹은 거라고 미친아 💀!!!</strong>
-니가 짠 병신 자바 앱은 좀비 고아들을 줍고 청소(`waitpid`)해 주는 능력이 단 1바이트 찌끄레기도 코딩 안 되어 있잖아 쾅!! 
+니가 짠 병신 자바 앱은 좀비 고아들을 줍고 청소(`waitpid`)해 주는 능력이 단 1바이트 찌끄레기도 코딩 안 되어 있잖아 쾅!!
 그래서 K8s [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 안에서 자식 봇들 죽어나가면 ➔ 수거해 줄 신(init)이 없어서, 좀비 수만 마리가 좁은 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 안에 겹겹이 썩어 문드러져 쌓이고 ➔ 결국 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) PID 풀 고갈로 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 터져 서버 연쇄 동반 폭사 파산 멸망 터진다 쾅 💥!!!
 <strong>하늘이 찢어져도 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">도커</a> <code>ENTRYPOINT</code> 에 니들 앱 쌩으로 직통 띄우지 마!! 무.조.건. <code>tini</code> 나 <code>dumb-init</code> 같은 아주 얇고 똑똑한 1MB짜리 [전문 좀비 사냥꾼 봇] 을 1번 PID 대장 방폭문 쉴드로 록온 띄워 박고 ➔ 그 밑에 자식으로 니 앱을 띄워 감싸야만 무결점 좀비 청소 오토 힐링 생존망이 탄생한다 🚀!!!</strong>"
 
@@ -107,25 +107,25 @@ tags = ["studynote-operating-system"]
 좀비 사냥(Reaping) 철학은 구시대 C언어 터미널 장난감을 넘어 ➔ 서버리스와 백그라운드 K8s 봇 생태계의 절대 통치 철혈 룰이다.
 
 ### 실무 판단 시나리오
-1. <strong><code>ps</code> 엑스레이 스캔과 킬 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> (Kill <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a>) 타격 융합 👁️</strong>: 
+1. <strong><code>ps</code> 엑스레이 스캔과 킬 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> (Kill <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a>) 타격 융합 👁️</strong>:
    서버 CPU는 노는데 갑자기 "새 [프로세스 생성](/knowledge-base/studynote/02_operating_system/02_process_thread/104_process_creation/) 실패 에러(EAGAIN)" 뿜으며 Nginx 100% 셧다운 올스탑 마비 터졌다.
-   - **판단 (아키텍트 즉각 투시 🪓)**: "야 당장 터미널 열고 `ps aux | grep ' Z '` 엑스레이 레이더 레이저 스캔 쏴 쾅!!! 
-   어? 시발 `STAT` 컬럼에 `Z(Zombie)` 달고 있는 쓰레기 시체 껍데기가 3만 개나 깔려있네!! 
-   초보 코더가 "이거 `kill -9` 쏴서 3만 개 지울게요 ㅋ" ➔ 야 멈춰 미친놈아!! 이미 뒈진 귀신 시체한테 샷건 100방 쏴봐야 안 뒤져 관통 패스야 무식아 💀!! 
+   - **판단 (아키텍트 즉각 투시 🪓)**: "야 당장 터미널 열고 `ps aux | grep ' Z '` 엑스레이 레이더 레이저 스캔 쏴 쾅!!!
+   어? 시발 `STAT` 컬럼에 `Z(Zombie)` 달고 있는 쓰레기 시체 껍데기가 3만 개나 깔려있네!!
+   초보 코더가 "이거 `kill -9` 쏴서 3만 개 지울게요 ㅋ" ➔ 야 멈춰 미친놈아!! 이미 뒈진 귀신 시체한테 샷건 100방 쏴봐야 안 뒤져 관통 패스야 무식아 💀!!
    당장 <strong>[그 3만 개 좀비를 낳은 병신 부모 놈(PPID) 모가지를 <code>kill -9</code> 다이렉트 록온 꽂아 대갈통 찢어 죽여버려 쾅!!!]</strong> 부모 대가리를 날려버리는 0.1초 찰나에 ➔ 3만 개 좀비는 졸지에 부모 잃은 <strong>[고아(Orphan)]</strong>로 신분 스위칭 세탁 전환 됨 ➔ 그 순간 1번 만능 신 `init(systemd)` 봇이 나타나 '어 내 양자들이네 ㅋ' 하고 1초 컷으로 3만 개 자동 무결점 쾌속 오토 청소 소각 싹 다 치워버림 생존 폭파 달성 🚀!!!"
-2. **Subreaper (서브 리퍼 보조 사냥꾼) 융합 텐트 쉴드 🛡️**: 
+2. **Subreaper (서브 리퍼 보조 사냥꾼) 융합 텐트 쉴드 🛡️**:
    클라우드 환경에서는 PID 1번(`systemd`) 신한테 좀비 수거를 짬처리 시키면 시스템 전체 오버헤드가 타죽는다. "우리 앱이 낳은 좀비는 우리 앱 그룹 대장이 알아서 줍게 고립 샌드박스 치고 싶어 ㅠ"
-   - **아키텍트 록온 수술 ✨**: "야 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해킹 쳐!! 부모 봇 C언어 소스에다가 <strong><code>prctl(PR_SET_CHILD_SUBREAPER, 1);</code></strong> 이 마법의 1줄 텍스트 주사 바늘을 쾅 꽂아 넣어 록온 락 박아라 🚀!! 
+   - **아키텍트 록온 수술 ✨**: "야 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해킹 쳐!! 부모 봇 C언어 소스에다가 <strong><code>prctl(PR_SET_CHILD_SUBREAPER, 1);</code></strong> 이 마법의 1줄 텍스트 주사 바늘을 쾅 꽂아 넣어 록온 락 박아라 🚀!!
    이거 켜두면, 1번 `init` 신까지 안 올라가고!! ➔ 내 바로 직속 대장(Subreaper 선언한 봇) 놈이 중간에서 **[사설 청소 용역 대장 봇]** 쉴드 텐트가 되어 ➔ 밑에 달린 100마리 고아 좀비 새끼들을 지가 다 스틸 낚아채서 중간에 흡수 수거 소각 척살을 대행 쳐버림 쾅!! K8s [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)) 내부 샌드박스 생태계를 100% 무결점으로 독립 통치 자율 관리해 내는 최강의 모던 OS 해킹술이다 🪓."
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- <strong><code>wait()</code> 쌩 블로킹 지옥의 싱글 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 멸망 (The <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a> Death <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">Trap</a> 💀)</strong>: 
-  좆소 코더가 자식 좀비 수거한답시고 메인 웹 서버 `while` 루프 한가운데에 `wait(&status);` 1줄 띡 적어 쳐놨다. 
-  **대재앙 발동 💥**: 자식 봇이 타 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 찌르느라 10분 동안 일 안 끝내고 안 죽고 살아 버팀. 
-  ➔ 어?! 부모 웹 서버 대장 메인 봇이 그 자식 뒤질 때까지 `wait()` 늪에 갇혀 무한 대기 뻗음 숨 참고 동면 상태 블로킹([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) 락킹) 정지 얼음 쾅 💀!!! 
+- <strong><code>wait()</code> 쌩 블로킹 지옥의 싱글 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 멸망 (The <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a> Death <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">Trap</a> 💀)</strong>:
+  좆소 코더가 자식 좀비 수거한답시고 메인 웹 서버 `while` 루프 한가운데에 `wait(&status);` 1줄 띡 적어 쳐놨다.
+  **대재앙 발동 💥**: 자식 봇이 타 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 찌르느라 10분 동안 일 안 끝내고 안 죽고 살아 버팀.
+  ➔ 어?! 부모 웹 서버 대장 메인 봇이 그 자식 뒤질 때까지 `wait()` 늪에 갇혀 무한 대기 뻗음 숨 참고 동면 상태 블로킹([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) 락킹) 정지 얼음 쾅 💀!!!
   ➔ 이 10분 동안 외부에서 쇼핑몰 들어오는 신규 유저 1만 명 요청 100% 모조리 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 엑스박스 튕기고 전 국민 사과문 셧다운 파산 멸망 폭사 터짐 쾅!!!
-  - **아키텍트 팩폭 철퇴 🪓**: "야 이 미친 타자기 살인마야!! 메인 서버 대동맥 심장 핏줄에 동기식(Sync) `wait()` 쇳덩이 블로킹 거는 건 자살 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 테러 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다 쾅!!! 
-  하늘이 무너져도 좀비 사냥은 무.조.건 **[비동기(Async) 십자 융합]** 쳐서 우회 기만 탈출해야 돼 🚀!! 
+  - **아키텍트 팩폭 철퇴 🪓**: "야 이 미친 타자기 살인마야!! 메인 서버 대동맥 심장 핏줄에 동기식(Sync) `wait()` 쇳덩이 블로킹 거는 건 자살 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 테러 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다 쾅!!!
+  하늘이 무너져도 좀비 사냥은 무.조.건 **[비동기(Async) 십자 융합]** 쳐서 우회 기만 탈출해야 돼 🚀!!
   자식이 뒤졌을 때만 백그라운드 텔레파시 때려주는 <strong><code>SIGCHLD</code> 핸들러 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 핑퐁 방폭문</strong> 띄워놓고 ➔ 그 안에서만 살짝 `waitpid(WNOHANG)` (논블로킹 스킵 패스 옵션) 찔러서 시체만 1초 컷 훔쳐 수거하고 ➔ 메인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 단 1밀리초도 안 쉬고 무결점 무정단 생존 쾌속 핑퐁 통신을 24시간 찍어 돌려라 미친아 ✨!!!"
 
 - **📢 섹션 요약 비유**: 이 블로킹 `wait` 파국은 식당 사장님(부모)이 알바생(자식) 퇴근할 때 <strong>'가게 대문 손잡이 잡고 무작정 기다리기'</strong>와 100% 똑같습니다. 알바생이 창고에서 청소하느라 1시간 퇴근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 늦어지면 ➔ 사장님도 1시간 내내 문고리 잡고 얼음(블로킹 뻗음 💥)!! 그동안 손님 100명 와도 요리 1개도 못 하고 식당 파산 멸망 💀 납니다. 비동기 `SIGCHLD` 융합은 다릅니다!! 사장님은 주방에서 미친 듯이 무정단 쾌속 웍질 요리 치고 있다가 ➔ 알바생이 퇴근 지문 띡! 찍는 기계 알람 텔레파시(시그널) 울리는 0.01초 찰나에만 딱 고개 돌려 "오냐 수고 컷 ㅋ!" (논블로킹 수거) 외치고 요리 1바이트 멈춤 없이 무결점 꿀 빠는 우주 최강 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) 분업 텐트입니다 🚀.
@@ -140,10 +140,10 @@ tags = ["studynote-operating-system"]
 이 섬뜩하고도 기괴한 리눅스 프로세스 가족 핏줄의 연대 책임 록온(Lock-on) 룰은 ➔ 수십만 개의 앱이 0.1초 찰나에 찰칵 켜지고 뒤지는 K8s 클라우드 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 1경 트래픽 쓰나미 전장 속에서도, <strong>시스템의 영혼(메모리)과 육체 이름표(PID 테이블)가 단 한 칸의 누수 빵꾸 오버헤드 없이 100% 투명 클린 완벽 밸런스 회전</strong>을 돌 수 있게 지탱해 주는 절대 무적 강철 뼈대 동맥으로 기능하고 있다.
 
 과거 C언어 코더들이 `fork` 와 `waitpid` 사이에서 블로킹 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 지옥을 겪으며 피눈물 쏟던 노가다의 야만 시대는 ➔ 이제 <strong><code>tini</code> 같은 클라우드 초경량 1MB 좀비 전문 킬러 봇 텐트</strong> 와, 밖에서 무지성 오토 부활 청소 짬처리를 100% 다 쳐주는 <strong><code>systemd</code> 대장 뇌의 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">오프로딩</a>(Off-load) 마스터피스 생태계</strong>로 대통합 영혼 빙의 변태 승천을 완수했다 ✨.
-비록 우리가 짜는 자바(Java), 파이썬 코드가 직접 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 시체 주머니를 만질 일은 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 구름(Cloud) 너머로 깊숙이 숨어 은닉 소각 증발해 버렸을지언정!! 
+비록 우리가 짜는 자바(Java), 파이썬 코드가 직접 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 시체 주머니를 만질 일은 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 구름(Cloud) 너머로 깊숙이 숨어 은닉 소각 증발해 버렸을지언정!!
 이 텅 빈 깡통 시체(Zombie)가 가져오는 시스템 PID 고갈 셧다운 뻗음 폭파 멸망의 도미노 사슬 공포와, 이를 비동기 시그널 핑퐁(`SIGCHLD`)으로 찰나에 스킵 우회 기만 베어 넘기는 <strong>'비동기 논블로킹(Async Non-<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">blocking</a>) 쾌속 척살 록온 설계 사상'</strong>만큼은 ➔ 2026년 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 비동기 핑퐁 통신망과 자바스크립트 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)([Event Loop](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)) 대항해 시대 최정점에서 100% 똑같은 DNA 얼굴표로 환생하여 인류 IT 제국 전체를 영원 무궁 호령 통치 지배할 것이다 🚀.
 
-- **📢 섹션 요약 비유**: 좀비 척살 K8s 융합 텐트는, 초대형 빌딩 화장실의 <strong>'빈칸 램프 자동 오토 인식기'</strong>와 완벽히 100% 똑같습니다. 사람이 볼일 다 보고 몸은 빠져나갔는데(메모리 반납 완료), 멍청하게 센서 고장 나서 문에 계속 [사용 중 빨간불] 켜져 있는 껍데기 오류(좀비 Z-상태 PID 점유 💥). 이게 100칸 누적 쌓이면 밖에서 급한 유저 100만 명은 똥 못 싸고 다 뻗어 지려버리는 화장실 올스탑 마비 셧다운 멸망 💀 터집니다!! 
+- **📢 섹션 요약 비유**: 좀비 척살 K8s 융합 텐트는, 초대형 빌딩 화장실의 <strong>'빈칸 램프 자동 오토 인식기'</strong>와 완벽히 100% 똑같습니다. 사람이 볼일 다 보고 몸은 빠져나갔는데(메모리 반납 완료), 멍청하게 센서 고장 나서 문에 계속 [사용 중 빨간불] 켜져 있는 껍데기 오류(좀비 Z-상태 PID 점유 💥). 이게 100칸 누적 쌓이면 밖에서 급한 유저 100만 명은 똥 못 싸고 다 뻗어 지려버리는 화장실 올스탑 마비 셧다운 멸망 💀 터집니다!!
 아키텍트 대장님은 인간 청소부(수동 wait) 기다리지 않고 ➔ <strong>'중앙 통제실 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 봇(init 1번/tini 쉴드)'</strong> 을 달아서, 문 열리는 찰나에 무.조.건 강제 파란불 리셋 초기화 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 0.1초 컷 찰칵 쏴갈겨 록온 쳐버립니다 🚀!! 덕분에 사람 100만 명이 회전문 드나들듯 미친 듯이 핑퐁 쏟아져 들어와도 1칸 딜레이 랙 없이 무결점 쾌속 순환 생존 달성 꿀빨기를 쳐내는 궁극의 자원 회수 방폭문 마법입니다.
 
 ---

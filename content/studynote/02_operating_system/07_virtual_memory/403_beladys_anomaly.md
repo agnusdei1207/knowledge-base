@@ -50,7 +50,7 @@ tags = ["studynote-operating-system"]
 │  💥 최종 채점: 램을 늘려줬는데 총 **10번**의 Page Fault 폭발!            │
 └──────────────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** 이 마법 같은 상황이 발생하는 이유는 <strong>"방이 넓어짐으로 인해 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>가 램에 머무는 시간이 길어졌고, 그 길어진 시간이 하필이면 FIFO의 '죽음의 룰렛' 타이밍과 절묘하게 엇갈려버렸기 때문"</strong>이다. 방이 3개일 땐 운 좋게 빨리 쫓겨나서 나중에 다시 들어오는 타이밍이 맞았는데, 방이 4개라 늦게 쫓겨나는 바람에 정작 필요할 때 버려지는 엇박자가 터진 것이다. 
+**[다이어그램 해설]** 이 마법 같은 상황이 발생하는 이유는 <strong>"방이 넓어짐으로 인해 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>가 램에 머무는 시간이 길어졌고, 그 길어진 시간이 하필이면 FIFO의 '죽음의 룰렛' 타이밍과 절묘하게 엇갈려버렸기 때문"</strong>이다. 방이 3개일 땐 운 좋게 빨리 쫓겨나서 나중에 다시 들어오는 타이밍이 맞았는데, 방이 4개라 늦게 쫓겨나는 바람에 정작 필요할 때 버려지는 엇박자가 터진 것이다.
 
 - **📢 섹션 요약 비유**: 4인승 택시(방 3개)를 탈 땐 자리가 좁아 내 절친이 일찍 쫓겨나는 바람에 다음 목적지에 운 좋게 서 있었는데, 5인승 밴(방 4개)으로 바꿨더니 내 절친이 끝까지 타고 있다가 하필 목적지 직전에 엉뚱한 곳에 내려져서 미아가 되어버린(폴트 횟수 증가) 재수 없는 타이밍의 장난입니다.
 
@@ -62,7 +62,7 @@ tags = ["studynote-operating-system"]
 
 벨라디의 모순이 터지는지 안 터지는지를 가르는 수학적 경계선은 "이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)?"이다.
 - <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 정의</strong>: 프레임이 $N$개일 때 램에 들어있는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들의 집합이, 프레임이 $N+1$개일 때 램에 들어있는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들의 집합에 <strong>완벽하게 포함(Subset)</strong>되어야 한다.
-- <strong>LRU와 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/">OPT</a> (안전함)</strong>: 
+- <strong>LRU와 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/">OPT</a> (안전함)</strong>:
   방 3개일 때 최근에 가장 많이 쓴 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) `{A, B, C}`를 가지고 있다. 방 4개로 늘리면 당연히 `{A, B, C}`는 그대로 가지고 있고 거기에 추가로 덜 중요한 `{D}` 하나를 더 얹어서 `{A, B, C, D}`를 가진다. 과거의 엑기스를 100% 품고 가므로 절대 모순이 터지지 않는다.
 - **FIFO의 파괴 행위 (모순 발생)**:
   방 3개일 때 `{A, B, C}`를 들고 있었다. 방 4개로 늘리면 `{A, B, C, D}`를 들고 있을 거라 착각하지만, FIFO는 '들어온 시간'만 따지기 때문에 엉뚱하게 옛날에 들어왔던 A를 내팽개치고 `{B, C, D, E}`라는 완전히 다른 멤버 구성을 만들어버린다. (포함 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 박살남). A가 방 3개일 땐 살아있었는데 방 4개일 땐 쫓겨나 버렸으니, A를 부르는 순간 모순(추가 폴트)이 펑펑 터지는 것이다.
@@ -96,7 +96,7 @@ CPU 캐시를 교체할 때 회로를 아끼려고 무식한 [FIFO](/knowledge-b
 단순히 "벨라디 모순이 터져서" 버려진 것이 아니다. FIFO는 프로그램의 생태를 전혀 이해하지 못하는 기계적 멍청함의 극치이기 때문이다.
 - 프로그램이 처음 켜질 때 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화되는 핵심 전역 변수(예: `Configuration config`)나 메인 루프 변수는 램에 제일 '먼저' 들어온다 (First-In).
 - 이 놈들은 프로그램이 꺼질 때까지 평생 읽히고 쓰여야 하는 0순위 핵심 뼈대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)다.
-- 그런데 램이 모자라자, FIFO는 "어? 너 제일 늙었네? 1번으로 들어왔네? 나가!"라며 이 핵심 뼈대를 스왑으로 걷어차버린다. 
+- 그런데 램이 모자라자, FIFO는 "어? 너 제일 늙었네? 1번으로 들어왔네? 나가!"라며 이 핵심 뼈대를 스왑으로 걷어차버린다.
 - 0.01초 뒤 프로그램이 `config`를 찾다 폴트가 터지고 디스크를 긁어오면 또 다른 뼈대를 쫓아내는 자해 공갈 쇼가 펼쳐진다. 벨라디 모순은 이 바보 같은 짓의 수학적 결과물일 뿐이다.
 
 ```text
@@ -118,7 +118,7 @@ CPU 캐시를 교체할 때 회로를 아끼려고 무식한 [FIFO](/knowledge-b
 
 ### 실무 시나리오: Second-Chance ([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 타협
 1. **문제 봉착**: 벨라디의 모순을 겪은 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자들은 학을 떼고 "무조건 LRU를 써야 해!"라고 결심했다.
-2. **이상과 현실의 벽**: 
+2. **이상과 현실의 벽**:
    - 진짜 완벽한 LRU를 만들려면, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 수백만 장마다 "언제 마지막으로 접근했는지" 64비트짜리 타임스탬프 시계를 매 클럭마다 갱신해야 한다. CPU가 램을 읽는 속도보다 시계 기록하는 데 걸리는 시간이 더 오래 걸려 OS가 멈춰버렸다.
    - "순수 LRU는 너무 무거워서 쓸 수가 없어!"
 3. <strong>천재적인 우회로 (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/">Clock</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>)</strong>:

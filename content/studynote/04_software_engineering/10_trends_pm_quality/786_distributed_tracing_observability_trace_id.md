@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-고객이 쇼핑몰에서 결제 버튼을 눌렀다. 500 에러가 떴다. 개발자가 '결제 서버' [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 까봤다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 수만 줄이 쌓여 있어서 지금 에러가 난 고객의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 어느 것인지 찾을 수가 없다. 
+고객이 쇼핑몰에서 결제 버튼을 눌렀다. 500 에러가 떴다. 개발자가 '결제 서버' [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 까봤다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 수만 줄이 쌓여 있어서 지금 에러가 난 고객의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 어느 것인지 찾을 수가 없다.
 
 겨우 찾았더니, 결제 서버의 에러 원인은 "포인트 서버가 응답하지 않음"이었다. 그래서 포인트 서버 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 까봤다. 마찬가지로 수만 줄의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 있다. 결제 서버의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 포인트 서버의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 중 <strong>"어떤 것이 동일한 고객의 하나의 요청 사이클인가?"</strong>를 이어붙일(Correlate) 방법이 전혀 없었다.
 

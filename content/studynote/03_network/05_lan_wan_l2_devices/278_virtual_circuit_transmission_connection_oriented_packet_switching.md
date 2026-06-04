@@ -19,10 +19,10 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 패킷 교환의 세부 방식 중 하나로, 송신자와 수신자 사이에 논리적 연결(가상 회선, VC)을 확립(Setup)한 뒤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송하고 연결을 해제(Teardown)하는 통신 방식. 
+- **개념**: 패킷 교환의 세부 방식 중 하나로, 송신자와 수신자 사이에 논리적 연결(가상 회선, VC)을 확립(Setup)한 뒤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송하고 연결을 해제(Teardown)하는 통신 방식.
 - **필요성**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 방식으로 패킷을 마구잡이로 뿌리면 도착 순서가 뒤죽박죽되어, 동영상을 실시간으로 보거나 화상 전화를 할 때 화면이 깨지고 말이 끊기는 참사가 벌어진다. 패킷을 쪼개서 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 효율은 살리되, <strong>"모든 패킷이 이탈하지 않고 순서대로 줄 맞춰서 차례대로 도착하게 만드는 컨베이어 벨트"</strong>가 필요했다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>그램</strong>: 100명의 아이들이 각자 알아서 목적지 공원에 찾아오는 **"개인 행동"** (누가 먼저 올지, 길을 잃을지 모름).
   - **가상 회선**: 100명의 아이들이 앞사람 어깨에 손을 올리고 선생님이 파놓은 한 줄짜리 길만 따라가는 **"유치원 기차놀이"** (길을 잃지 않고 1번부터 100번까지 무조건 순서대로 도착함).
 

@@ -19,7 +19,7 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 초창기, 모든 경우의 수를 샅샅이 뒤지는 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/)(깊이 우선)나 [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)(너비 우선) 탐색은 완벽했다. 무조건 가장 완벽한 정답을 100% 찾아주었기 때문이다. 
+[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 초창기, 모든 경우의 수를 샅샅이 뒤지는 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/)(깊이 우선)나 [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)(너비 우선) 탐색은 완벽했다. 무조건 가장 완벽한 정답을 100% 찾아주었기 때문이다.
 하지만 현실의 비즈니스 문제는 그렇게 호락호락하지 않다. 100개의 도시를 한 번씩만 방문하고 돌아오는 택배 기사의 최단 경로를 짜는 '[외판원 문제](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/)([TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/))'의 경우의 수는 $99!$ (구십구 팩토리얼)이다. 전 우주의 슈퍼컴퓨터를 다 합쳐서 빅뱅부터 지금까지 돌려도 탐색 트리 지도를 다 그릴 수가 없다.
 
 "아! 100% 완벽한 1등 정답(Global Optimum)을 찾는 건 수학적으로 불가능해! 그냥 대충 쓸 만한 **95점짜리 정답(Good Enough)이라도 좋으니까 당장 1분 만에 답을 내놓는 꼼수를 쓰자!**"

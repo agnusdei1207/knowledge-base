@@ -14,7 +14,7 @@ tags = ["studynote-operating-system"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) ([Multiprogramming](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))은 I/O 작업으로 인해 CPU가 유휴 상태 ([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))가 될 때 다른 작업으로 전환하여 CPU 활용률 (Utilization)을 극대화하는 자원 효율화 기법이다.
 > 2. **가치**: 단일 작업 처리 (Uni-programming)의 한계인 자원 낭비를 극복하고, 메모리에 여러 프로세스를 상주시켜 시스템 전체의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 비약적으로 향상시킨다.
-> 3. **융합**: 현대의 [시분할 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/003_time_sharing_system/) (Time-sharing)과 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) ([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)) 기술의 근간이 되었으며, 프로세스 스케줄링 및 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) ([Memory Protection](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/)) 기술 발전을 견인했다.
+> 3. **융합**: 현대의 [시분할 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/003_time_sharing_system/) (Time-sharing)과 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) ([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)) 기술의 근간이 되었으며, 프로세스 스케줄링 및 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) ([Memory Protection](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/)) 기술 발전을 견인했다.
 
 ---
 
@@ -151,7 +151,7 @@ tags = ["studynote-operating-system"]
 ### 도입 시 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/">자원 할당</a></strong>: 각 프로세스가 실행에 필요한 최소 메모리 ([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))를 보장받고 있는가?
 - **공정성**: 특정 프로세스가 자원을 독점하지 않도록 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) ([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) 기법이나 우선순위 조정이 적용되었는가?
-- **안정성**: [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) 메커니즘이 활성화되어 한 프로세스의 결함이 다른 프로세스나 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 전파되지 않는가?
+- **안정성**: [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) 메커니즘이 활성화되어 한 프로세스의 결함이 다른 프로세스나 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 전파되지 않는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>) 방치</strong>: CPU 이용률이 떨어진다고 해서 프로세스 수를 계속 늘리면, 시스템은 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 교체 작업에만 몰두하여 결국 멈추게 된다.
@@ -189,7 +189,7 @@ tags = ["studynote-operating-system"]
 | **스케줄링 (Scheduling)** | 어떤 프로세스에게 CPU를 줄지 결정하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>)</strong> | 과도한 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)으로 인해 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급격히 저하되는 현상 |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a>)</strong> | I/O 완료 등 외부 이벤트를 OS에 알려 작업 전환을 유도하는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/">메모리 보호</a> (<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/">Memory Protection</a>)</strong> | 여러 작업이 공존할 때 서로의 영역을 침범하지 못하게 하는 안전장치 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/">메모리 보호</a> (<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/">Memory Protection</a>)</strong> | 여러 작업이 공존할 때 서로의 영역을 침범하지 못하게 하는 안전장치 |
 
 ---
 
@@ -211,7 +211,7 @@ tags = ["studynote-operating-system"]
 [메모리 보호 (Memory Protection)]
 ```
 
-이 흐름도는 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching)에서 출발해 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) ([Memory Protection](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
+이 흐름도는 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching)에서 출발해 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) ([Memory Protection](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)은 컴퓨터가 <strong>"여러 가지 일을 한꺼번에 하는 법"</strong>을 배운 거예요.

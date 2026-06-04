@@ -19,8 +19,8 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
-  - **JS (자바스크립트)**: 브라우저가 화면 글씨 색깔 바꾸라고 만든 허접한(?) 텍스트 언어. 텍스트를 파싱 ➡ 컴파일 ➡ 실행하느라 중간 낭비 렉이 심하다. 
+- **개념**:
+  - **JS (자바스크립트)**: 브라우저가 화면 글씨 색깔 바꾸라고 만든 허접한(?) 텍스트 언어. 텍스트를 파싱 ➡ 컴파일 ➡ 실행하느라 중간 낭비 렉이 심하다.
   - <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/">WASM</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/">WebAssembly</a>)</strong>: "야, 텍스트 말고 010101 기계어(바이너리)로 미리 꽉꽉 뭉쳐진 고철 덩어리를 브라우저에 쑤셔 넣자!" C/C++, [Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/), Go 등 강력한 언어로 코드를 짠 뒤, [WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/) 컴파일러 봇(Emscripten)에 넣고 윙 돌리면 `.wasm` 이라는 1MB짜리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 덩어리가 뿅 나온다. 브라우저는 이걸 해석할 필요도 없이 그냥 씹어 먹고 0.1초 컷 빛의 속도로 실행해 버린다.
 
 - <strong>필요성 (JS <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>의 물리적 한계 붕괴)</strong>: 웹 브라우저(Chrome)가 세상을 먹었다. 근데 자바스크립트는 치명적인 딜레마가 있다. 브라우저 위에서 '10GB짜리 동영상 인코딩'이나 '에픽게임즈 3D 언리얼 엔진 게임'을 돌리면 유저 노트북 쿨러가 미친 듯이 돌다 브라우저 탭이 OOM으로 하얗게 죽어버린다(JS [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) 컴파일러의 오버헤드). <strong>"아 씨발! 옛날 스타크래프트 겜이나 포토샵을 C++로 기가 막히게 다 짜놨는데, 이걸 웹(Web)으로 서비스하려면 자바스크립트로 그 1,000만 줄을 다 다시 짜야 해?! 그딴 짓 할 바엔 차라리 C++ 코드를 통째로 브라우저에 쑤셔 넣어서 100% <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 뽕 뽑는 방법 좀 만들어봐!!"</strong> 이 1티어 거대 IT 기업들의 절박한 탐욕이 WASM을 탄생시켰다.

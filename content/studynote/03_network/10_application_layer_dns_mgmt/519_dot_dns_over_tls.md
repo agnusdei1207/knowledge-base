@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-DoT는 기존에 평문(Plaintext)으로 전송되던 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의(Query)와 응답(Response)을 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)(Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 프로토콜로 암호화하여 전송하는 국제 표준(RFC 7858)입니다. 
+DoT는 기존에 평문(Plaintext)으로 전송되던 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의(Query)와 응답(Response)을 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)(Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 프로토콜로 암호화하여 전송하는 국제 표준(RFC 7858)입니다.
 인터넷 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))나 중간자(Man-in-the-Middle)가 사용자의 웹 방문 기록을 도청하거나 조작하는 것을 방지하기 위해 도입되었습니다.
 
 ```text

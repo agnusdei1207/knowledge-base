@@ -29,7 +29,7 @@ tags = ["hadoop", "studynote-bigdata"]
 4. Reduce: Aggregate values for each key.
 
 [ Diagram: Word Count Example ]
-(Input: "Apple Banana Apple") 
+(Input: "Apple Banana Apple")
       |
 [ Map ] --> (Apple, 1), (Banana, 1), (Apple, 1)
       |

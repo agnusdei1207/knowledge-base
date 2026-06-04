@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 일반적인 인터넷(IP 네트워크)은 무한 리필 뷔페식이다. 사람들이 1,000명 몰려오면 다 받아준다. 대신 다운로드 속도가 1/1000로 끔찍하게 느려져 동영상이 다 끊긴다 (Best Effort).
 
 하지만 **전화 통화나 실시간 원격 수술(의료)** 망이 이렇게 동작하면 끔찍한 재앙이 터진다. 대화가 10초씩 지연되고 수술 로봇이 멈춘다. 그래서 이동통신망이나 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 망 같은 '[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)(품질) 보장형' 네트워크는 예약식 고급 레스토랑처럼 동작해야 한다.
-테이블이 100개뿐이면, 101번째 손님이 아무리 문을 두드려도 <strong>"죄송합니다. 현재 네트워크가 꽉 찼습니다(통화 중 뚜뚜뚜~)"</strong>라고 튕겨내야 한다. 
+테이블이 100개뿐이면, 101번째 손님이 아무리 문을 두드려도 <strong>"죄송합니다. 현재 네트워크가 꽉 찼습니다(통화 중 뚜뚜뚜~)"</strong>라고 튕겨내야 한다.
 
 이처럼 새로운 연결([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))을 수락할지 말지 결정하는 지능적인 통제 시스템이 바로 <strong>호 수락 제어(CAC, <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/">Call</a> Admission Control)</strong>이다.
 

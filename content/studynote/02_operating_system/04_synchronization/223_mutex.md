@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))의 축약어로, 공유 자원([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), DB 레코드 등)에 대한 동시 접근을 막기 위해 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)나 프로그래밍 언어 차원에서 제공하는 가장 대중적인 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 객체다. 
+- **개념**: [Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))의 축약어로, 공유 자원([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), DB 레코드 등)에 대한 동시 접근을 막기 위해 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)나 프로그래밍 언어 차원에서 제공하는 가장 대중적인 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 객체다.
 - **필요성**: [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)([Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/))은 락을 얻을 때까지 `while` 루프를 돌며 CPU 사이클과 전력을 100% 태워버린다. 만약 락을 쥔 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 I/O 작업을 하느라 1초 동안 안 나온다면, 밖에서 기다리는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 1초 동안 CPU를 무의미하게 불태우며 시스템을 마비시킨다. 따라서 "문이 잠겨있으면 쓸데없이 문 앞에서 서성이지 말고, 대기실([Wait Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/))에 가서 잠을 자라! 문 열리면 깨워줄게!"라는 <strong>자원 절약형 대기 매커니즘</strong>이 절실했다.
 
 - **등장 배경**: 시분할 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 환경에서 응용 프로그램(User Space)들은 언제 락이 풀릴지 알 수 없는 긴 작업을 수행했다. 이들에게 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)을 쥐여주면 전체 시스템 응답성이 붕괴하므로, POSIX 표준([pthreads](/knowledge-base/studynote/02_operating_system/11_exam_summary/790_posix_threads_pthreads_standard_api/))은 유저 스페이스 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 위한 기본 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 도구로 Sleep 기반의 뮤텍스를 제정했다.
@@ -28,14 +28,14 @@ tags = ["studynote-operating-system"]
   [뮤텍스(Mutex)의 획득(Lock)과 해제(Unlock) 생명 주기]
 
   [ 스레드 A ]                                      [ 스레드 B ]
-  1. mutex.lock() 호출 
+  1. mutex.lock() 호출
      ▶ 성공! (임계구역 진입)
                                                   1. mutex.lock() 호출
                                                      ▶ 실패! (이미 잠김)
                                                   2. OS가 B를 'Wait Queue'에 넣고 Sleep 시킴.
                                                      (B는 CPU를 놓고 기절함 💤)
   2. 임계구역 실행 (1초 소요)
-  3. mutex.unlock() 호출 
+  3. mutex.unlock() 호출
      ▶ 락 반환!
   4. OS가 Wait Queue에 자고 있던 B를 깨움! (Wakeup)
                                                   3. B가 Ready Queue로 이동하여 CPU를 할당받음.
@@ -97,7 +97,7 @@ tags = ["studynote-operating-system"]
 1. **Sleep 오버헤드**: 락 획득 실패 시 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 콜 발생 ─▶ [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 덤프 ─▶ [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 호출 ─▶ 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 복원 (약 2,000ns 소모)
 2. **Wakeup 오버헤드**: 락 해제 시 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 발생 ─▶ [대기 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/)에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 꺼냄 ─▶ Ready 큐 삽입 ─▶ [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 재호출 (약 2,000ns 소모)
 
-만약 내가 잠그려는 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)의 코드 실행 시간이 고작 10ns(단순 덧셈)인데, 앞사람이 문을 잠가서 10ns를 기다리지 않고 바로 Sleep 해버리면? 
+만약 내가 잠그려는 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)의 코드 실행 시간이 고작 10ns(단순 덧셈)인데, 앞사람이 문을 잠가서 10ns를 기다리지 않고 바로 Sleep 해버리면?
 <strong>10ns를 아끼려다 잠들고 깨는 데 4,000ns를 버리게 되는 바보 같은 짓</strong>이 발생한다.
 
 ### 진화: 적응형 뮤텍스 (Adaptive Mutex)
@@ -115,10 +115,10 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **Java의 Synchronized와 ReentrantLock**: 자바 개발자가 가장 많이 쓰는 `synchronized` 블록은 과거에는 무조건 OS 뮤텍스를 호출하는 아주 무거운 락(Heavyweight [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이었다. 
+1. **Java의 Synchronized와 ReentrantLock**: 자바 개발자가 가장 많이 쓰는 `synchronized` 블록은 과거에는 무조건 OS 뮤텍스를 호출하는 아주 무거운 락(Heavyweight [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이었다.
    - **JVM의 튜닝**: 자바 6부터는 이것이 진화하여, 충돌이 없으면 락을 아예 안 걸고(Biased [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)), 약간 충돌하면 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)(Lightweight [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 돌다가, 피 터지게 싸울 때만 진짜 OS 뮤텍스를 부르는(Heavyweight [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 3단계 <strong>락 에스컬레이션(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> Escalation)</strong> 구조로 리팩토링되었다. (단, 최근 Biased Lock은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이슈로 폐기 중). 실무자는 `ReentrantLock`을 써서 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)(`tryLock`) 기능과 공정성(Fairness)을 세밀하게 통제해야 서버 폭파를 막을 수 있다.
 2. <strong>이중 잠금 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> 패턴 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/272_double_checked_locking/">Double-Checked Locking</a>, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/022_dcl/">DCL</a>)</strong>: [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) 객체를 생성할 때 뮤텍스를 무식하게 메서드 전체에 걸면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 수백 배 느려진다.
-   - **실무 조치**: 
+   - **실무 조치**:
      ```java
      if (instance == null) { // 1차 락-프리 검사 (빠름)
          synchronized(Mutex.class) { // 진짜 임계 구역에만 뮤텍스 락!

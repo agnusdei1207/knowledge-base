@@ -39,13 +39,13 @@ tags = ["studynote-network"]
 
 현재 우리가 쓰고 있는 대부분의 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 통신망(Option 3 계열)입니다.
 
-- **아키텍처 구조**: 
+- **아키텍처 구조**:
   - **뇌(Core)**: 구형 4G 코어망 ([EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/))
   - **손발(기지국)**: 4G [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(eNB) + [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(gNB) 동시 사용
 - **작동 원리 (이중 연결, EN-DC 마법)**:
   - 내 폰이 켜지면 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(인사말, 암호화)는 무조건 안 터지는 곳이 없는 <strong>믿음직한 4G <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a> 기지국</strong>으로 쏩니다 (LTE가 닻, Anchor 역할을 함).
   - 인사말이 끝나고 넷플릭스 다운로드를 누르는 순간! 무식한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리는 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 기지국과 4G 기지국 2곳에서 동시에 쏟아져 들어와 폰으로 꽂힙니다.</strong>
-- **장단점**: 
+- **장단점**:
   - 통신사는 코어망을 안 바꿔도 되니 싸고 빠르게 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 마케팅을 시작할 수 있었습니다.
   - 단점: 폰이 4G와 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 두 전파를 계속 잡아야 해서 배터리가 미친 듯이 녹아내리고, 뇌가 4G라서 자율주행에 필요한 '0.001초 초저지연'이나 '네트워크 쪼개기(슬라이싱)'는 기술적으로 절대 불가능한 반쪽짜리 망입니다.
 

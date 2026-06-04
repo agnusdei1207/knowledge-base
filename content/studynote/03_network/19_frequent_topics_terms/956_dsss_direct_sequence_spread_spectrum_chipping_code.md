@@ -39,10 +39,10 @@ tags = ["studynote-network"]
 
 어떻게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 얇게 펴서 숨길까요? 수학적 트릭이 숨어 있습니다.
 
-1. **송신 (확산, Spreading)**: 
+1. **송신 (확산, Spreading)**:
    - 내가 `1`이라는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 딱 1비트를 보내려 합니다 (매우 좁은 주파수 필요).
    - 시스템은 나와 친구 둘만 아는 엄청나게 빠른 비밀 난수 암호(`10110111`, 이것을 <strong>Chip</strong>이라 부름)를 원본 `1`에 곱해버립니다.
-   - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 갑자기 `10110111`이라는 8비트짜리 긴 엿가락으로 확 늘어납니다. 길이가 길어졌으니(고속 전송) 주파수 대역폭도 8배로 쫙 넓어집니다. 
+   - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 갑자기 `10110111`이라는 8비트짜리 긴 엿가락으로 확 늘어납니다. 길이가 길어졌으니(고속 전송) 주파수 대역폭도 8배로 쫙 넓어집니다.
    - 넓어진 대신 **신호의 솟구치는 힘(전력 밀도)은 1/8로 바닥으로 뚝 떨어져서 안개처럼 깔립니다.**
 
 2. **수신 (역확산, De-spreading) 🌟 핵심 🌟**:
@@ -66,7 +66,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 ### 1. 스텔스 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 불가 (백색 소음화)
-- 신호를 8배, 10배 넓게 쫙 펴버리면 파동의 높이가 바닥을 칩니다. 
+- 신호를 8배, 10배 넓게 쫙 펴버리면 파동의 높이가 바닥을 칩니다.
 - 해커가 안테나를 들이대고 전파를 스니핑해도, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 일반 자연계의 노이즈(백색 소음) 아래에 파묻혀 있어서 "그냥 잡음이네" 하고 지나갑니다. 설령 잡는다 해도 <strong>비밀 암호 코드(Chip)</strong>를 모르면 원본 `1`로 합쳐낼(역확산) 방법이 지구상에 존재하지 않습니다.
 
 ### 2. 협대역 간섭(Jamming) 분쇄기

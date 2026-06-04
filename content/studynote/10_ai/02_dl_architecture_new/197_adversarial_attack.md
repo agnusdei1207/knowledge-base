@@ -21,7 +21,7 @@ tags = ["studynote-ai"]
 
 딥러닝([CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/), ViT 등)은 이미지를 픽셀 단위로 분해하고 곱해서 정답을 기가 막히게 잘 맞춘다. 정확도가 99%를 넘어가자 사람들은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 "진짜 인간처럼 시각을 이해했다"고 착각했다.
 
-2014년 딥러닝의 아버지 중 한 명인 크리스천 세게디(Christian Szegedy) 연구팀은 이 환상을 산산조각 내는 소름 끼치는 마술(논문)을 공개했다. 완벽하게 판다로 인식되는 귀여운 판다 사진에, 사람 눈에는 그냥 회색 먼지(Noise)처럼 보이는 미세한 필터를 0.007% 섞어서 사진을 뽑았다. 사람이 볼 때는 100% 똑같은 판다 사진이었지만, 딥러닝 모델에 집어넣자 갑자기 <strong>"이건 99.3% <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>로 긴팔원숭이(Gibbon)입니다!"</strong>라고 확신에 차서 미친 헛소리를 뱉어낸 것이다. 
+2014년 딥러닝의 아버지 중 한 명인 크리스천 세게디(Christian Szegedy) 연구팀은 이 환상을 산산조각 내는 소름 끼치는 마술(논문)을 공개했다. 완벽하게 판다로 인식되는 귀여운 판다 사진에, 사람 눈에는 그냥 회색 먼지(Noise)처럼 보이는 미세한 필터를 0.007% 섞어서 사진을 뽑았다. 사람이 볼 때는 100% 똑같은 판다 사진이었지만, 딥러닝 모델에 집어넣자 갑자기 <strong>"이건 99.3% <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>로 긴팔원숭이(Gibbon)입니다!"</strong>라고 확신에 차서 미친 헛소리를 뱉어낸 것이다.
 
 이 충격적인 해킹을 <strong><a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/942_adversarial_example/">적대적 예제</a> (Adversarial Attack)</strong>라고 부른다. 딥러닝은 수만 개의 픽셀 숫자가 곱해지는 비선형(Non-linear) 조합이라 생각하지만, 사실 고차원 공간에서는 매우 길고 뾰족한 '선형성(Linearity)'을 가지고 있어, 해커가 이 약점의 각도(Gradient)를 정확히 계산해 미세한 모래알만 뿌려줘도 신경망의 결과 값이 절벽 끝으로 나락 가버리는 수학적 치명상을 안고 있었던 것이다.
 
@@ -66,7 +66,7 @@ tags = ["studynote-ai"]
 ```
 
 **핵심 원리 (화이트박스 vs 블랙박스 공격)**:
-공격자가 딥러닝의 내부 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(파라미터)와 모델 아키텍처 코드를 100% 훔쳐보고 완벽한 미분식을 짜서 독약을 부어버리는 치명타를 <strong>화이트박스(White-box) 공격</strong>이라 한다([FGSM](/knowledge-base/studynote/09_security/19_ai_advanced_security/943_fgsm/), [PGD](/knowledge-base/studynote/09_security/19_ai_advanced_security/944_pgd/) 등). 
+공격자가 딥러닝의 내부 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(파라미터)와 모델 아키텍처 코드를 100% 훔쳐보고 완벽한 미분식을 짜서 독약을 부어버리는 치명타를 <strong>화이트박스(White-box) 공격</strong>이라 한다([FGSM](/knowledge-base/studynote/09_security/19_ai_advanced_security/943_fgsm/), [PGD](/knowledge-base/studynote/09_security/19_ai_advanced_security/944_pgd/) 등).
 반면, 타겟 AI가 네이버나 구글의 클라우드 API로 닫혀있어서 내부를 못 보는 상태에서, 해커가 그냥 사진 1만 장을 마구 쏴보고 결과값만 보며 유추해서 독약 노이즈를 깎아내는 좀비 공격을 <strong>블랙박스(Black-box) 공격</strong>이라 한다. 소름 돋는 사실은, A라는 딥러닝 모델을 속이기 위해 만든 독약 사진을 B라는 완전히 다른 딥러닝 모델에 넣어도 똑같이 바보처럼 속아 넘어가는 이른바 **'전이성 (Transferability)'** 흑마술 탓에 블랙박스 공격마저 어이없이 쉽게 뚫린다는 점이다.
 
 | 요소 | 역할 |
@@ -115,7 +115,7 @@ tags = ["studynote-ai"]
 
 [적대적 예제](/knowledge-base/studynote/09_security/19_ai_advanced_security/942_adversarial_example/)(Adversarial Attack)의 발견은 "정확도 99% 딥러닝이 인간의 지능을 완벽히 모방했다"는 찬사에 끼얹은 가장 뼈아프고 잔혹한 찬물이었다. 기계는 우리와 똑같이 세상을 보고(인식하고) 있지 않았다. 우리는 고양이의 귀와 수염이라는 '본질'을 보고 고양이라고 알지만, 기계는 그저 픽셀들의 비선형 곱셈이 만들어낸 얇은 유리판(결정 경계, Decision Boundary) 위를 위태롭게 걷는 장님 계산기였음이 폭로된 것이다.
 
-하지만 이 해킹 공격의 역설적인 미학은, 인류에게 더 강력한 AI를 깎아내는 거대한 채찍질이 되었다는 점이다. 해커의 공격을 막기 위한 [PGD](/knowledge-base/studynote/09_security/19_ai_advanced_security/944_pgd/) [적대적 훈련](/knowledge-base/studynote/09_security/19_ai_advanced_security/968_adversarial_training/)과 스무딩 방어 아키텍처들은 역으로 딥러닝 모델의 통계적 맷집(Robustness)을 극한으로 단련시켰고, 웬만한 노이즈나 [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) 따위에는 절대 흔들리지 않는 장갑차 같은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)을 세상에 쏟아내게 만들었다. 
+하지만 이 해킹 공격의 역설적인 미학은, 인류에게 더 강력한 AI를 깎아내는 거대한 채찍질이 되었다는 점이다. 해커의 공격을 막기 위한 [PGD](/knowledge-base/studynote/09_security/19_ai_advanced_security/944_pgd/) [적대적 훈련](/knowledge-base/studynote/09_security/19_ai_advanced_security/968_adversarial_training/)과 스무딩 방어 아키텍처들은 역으로 딥러닝 모델의 통계적 맷집(Robustness)을 극한으로 단련시켰고, 웬만한 노이즈나 [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) 따위에는 절대 흔들리지 않는 장갑차 같은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)을 세상에 쏟아내게 만들었다.
 
 결국 창과 방패의 이 영원한 [미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/)([Minimax](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/)) 싸움, 즉 "더 정교하게 속이려는 공격 노이즈"와 "그 노이즈마저 정답의 일부로 씹어 삼키는 백신 신경망"의 처절한 진화 싸움이 멈추는 그날, 우리는 비로소 픽셀의 숫자가 아니라 세상의 본질과 개념([Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/)) 그 자체를 진짜 인간처럼 꿰뚫어 보는 진정한 범용 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)(AGI)의 눈동자를 마주하게 될 것이다.
 

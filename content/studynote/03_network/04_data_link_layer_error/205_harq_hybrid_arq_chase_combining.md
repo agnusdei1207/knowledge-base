@@ -39,10 +39,10 @@ tags = ["studynote-network"]
 
 HARQ는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 때 기본적으로 FEC([터보 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/), [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) 등)용 수학적 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 섞어서 보냅니다.
 
-1. **1차 전송 및 FEC 실패**: 송신기가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)+[힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 보냅니다. 수신기가 받았는데 노이즈가 너무 심해 FEC(자체 수리)로도 에러가 다 안 고쳐집니다. 
+1. **1차 전송 및 FEC 실패**: 송신기가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)+[힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 보냅니다. 수신기가 받았는데 노이즈가 너무 심해 FEC(자체 수리)로도 에러가 다 안 고쳐집니다.
 2. <strong>저장과 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/">ARQ</a> 요청 (Hybrid)</strong>: 수신기는 고장 난 프레임을 휴지통에 버리지 않고 **자신의 버퍼(메모리)에 고이 모셔둡니다.** 그리고 송신기에게 [NAK](/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/)(다시 줘!)를 날립니다.
-3. **재전송과 융합 결합 (Soft Combining) ★마법의 순간**: 
-   - 송신기가 똑같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(혹은 추가 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/))를 다시 쏴줍니다. 
+3. **재전송과 융합 결합 (Soft Combining) ★마법의 순간**:
+   - 송신기가 똑같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(혹은 추가 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/))를 다시 쏴줍니다.
    - 수신기는 두 번째로 날아온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 보고 푸는 게 아니라, <strong>아까 버퍼에 짱박아둔 1차 실패 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 방금 날아온 2차 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 퍼즐 맞추듯 수학적으로 융합(Combining)</strong>해 버립니다.
    - 이렇게 확률값을 덧셈하면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 세기([SNR](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/))가 2배로 폭증하면서, 에러가 마법처럼 씻은 듯이 고쳐집니다.
 

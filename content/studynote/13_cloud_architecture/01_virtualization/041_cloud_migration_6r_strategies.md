@@ -25,24 +25,24 @@ Cloud Migration 6R 전략:
   더 이상 사용하지 않는 시스템 종료
   클라우드 이전 없이 제거
   비율: 포트폴리오의 10~20%
-  
+
 [Retain] 유지 (보류)
   현재는 클라우드 이전 불필요 또는 불가
   레거시 의존성, 규제, 라이선스 문제
-  
+
 [Rehost] 리호스트 (Lift & Shift)
   수정 없이 그대로 클라우드 VM으로 이전
   빠르고 낮은 위험
   클라우드 최적화 없음 (비용 절감 제한)
-  
+
 [Replatform] 리플랫폼 (Lift, Tinker & Shift)
   핵심 아키텍처 유지, 일부 클라우드 서비스 활용
   예: DB → RDS 이관, 앱서버 → 관리형 컨테이너
-  
+
 [Repurchase] 재구매 (Drop & Shop)
   기존 솔루션 폐기 후 SaaS 전환
   예: 온프레미스 CRM → Salesforce
-  
+
 [Refactor] 재설계 (Re-architect)
   클라우드 네이티브로 완전 재설계
   마이크로서비스, 서버리스, 컨테이너
@@ -71,12 +71,12 @@ Rehost 특징:
   AWS Migration Hub, Server Migration Service
   VMware → EC2 직접 이전
   비용: 온프레미스 대비 10~20% 절감
-  
+
 Replatform 특징:
   RDS 전환 (DB 관리 부담 감소)
   ECS/EKS 도입 (컨테이너화)
   코드 변경 최소화 + 클라우드 이점 일부 획득
-  
+
 Refactor 특징:
   MSA (마이크로서비스 아키텍처)
   Lambda/Fargate (서버리스)
@@ -160,7 +160,7 @@ Refactor:
 비용 분석 도구:
   AWS Migration Evaluator (TCO 분석)
   AWS Cost Explorer (이전 후 비용 추적)
-  
+
 타사 클라우드:
   Azure Migrate
   Google Cloud Migrate for Compute Engine
@@ -178,7 +178,7 @@ Refactor:
 배경:
   온프레미스 220개 애플리케이션
   데이터센터 계약 만료 18개월
-  
+
 포트폴리오 분석 결과:
 
 Retire (15개, 6.8%):

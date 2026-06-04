@@ -55,7 +55,7 @@ tags = ["studynote-ai"]
 - **📢 섹션 요약 비유**: 전국 노래자랑 예선전([특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/))에 16명의 참가자가 4개 조(2x2 구역)로 나뉘어 대결할 때, 심사위원([Max Pooling](/knowledge-base/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/))이 각 조에서 목소리가 제일 큰 1명만 결선으로 올려보내 방송 시간(연산량)을 $1/4$로 줄이는 룰과 같다.
 
 ### Ⅲ. 비교 및 연결
-[풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)의 핵심 효과는 '공간 이동 불변성(Translation Invariance)'이다. 
+[풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)의 핵심 효과는 '공간 이동 불변성(Translation Invariance)'이다.
 
 | 비교 항목 | 픽셀 단위 학습 ([풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 없음) | [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 계층 적용 후 |
 |---|---|---|

@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-자원 두 개가 있다고 가정하자. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 자원 1을 점유하고 자원 2를 요청한다. 여기까지는 '1자형 라인'이다. 
+자원 두 개가 있다고 가정하자. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 자원 1을 점유하고 자원 2를 요청한다. 여기까지는 '1자형 라인'이다.
 그런데 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 동시에 자원 2를 점유하고 자원 1을 요청하는 순간, 두 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 화살표가 <strong>원을 그려 닫히는 고리(Cycle)</strong>를 형성한다. 이 사이클이 바로 <strong>순환 대기(Circular Wait)</strong>다.
 
 직선 대기라면 끝에 있는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 작업 후 하나씩 풀면 연쇄적으로 해소되겠지만, 닫힌 원 위에서는 누구도 시작점이자 끝점이 될 수 없어 무한 멈춤이 발생한다.

@@ -75,7 +75,7 @@ tags = ["devops_sre"]
 │ └─────────────────────┘      └─────────────────────┘
 ```
 
-이 그림의 핵심은 종속성이 명시적으로 선언되면, 모든 환경(개발자 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버, 프로덕션)에서 동일한판본적 종속성이 설치된다는 점이다. 이를 통해"동일한 [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/) + 동일한 종속성 선언 = 동일한 동작"이라는 공식이 성립한다. 가상 환경(Virtual [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))이나 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 사용하면 종속성이 시스템 전역이 아닌 애플리케이션 Within에 격리되어 설치되므로, 다른 애플리케이션과의 충돌도방げる. 
+이 그림의 핵심은 종속성이 명시적으로 선언되면, 모든 환경(개발자 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버, 프로덕션)에서 동일한판본적 종속성이 설치된다는 점이다. 이를 통해"동일한 [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/) + 동일한 종속성 선언 = 동일한 동작"이라는 공식이 성립한다. 가상 환경(Virtual [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))이나 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 사용하면 종속성이 시스템 전역이 아닌 애플리케이션 Within에 격리되어 설치되므로, 다른 애플리케이션과의 충돌도방げる.
 
 > 📢 **섹션 요약 비유**: 종속성 격리는"음식의 식재료 원산지 표시제"와 같다. 요리사가 만드는 요리(애플리케이션)에 어떤 식재료(종속성)가 사용되었는지 명시하면,식품안전감관당국(개발자/운영자)이 언제든 그것을검정에서き, 문제 발생 시 원인 파악이 용이하다. 만약 원산지를 밝히지 않으면(암시적 종속성) 문제 발생 시 추적이 불가능해진다.
 

@@ -97,7 +97,7 @@ SCAN은 공평해 보이지만 위치에 따라 대기 시간이 로또급으로
 
 ### 데드라인([Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/)) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)로의 진화
 리눅스는 SCAN의 "끝단 차별 문제"를 해결하기 위해 가만히 있지 않았다.
-아무리 SCAN을 돌려도, 특정 요청이 큐에 들어온 지 너무 오래되어 굶어 죽기 일보 직전이라면? 
+아무리 SCAN을 돌려도, 특정 요청이 큐에 들어온 지 너무 오래되어 굶어 죽기 일보 직전이라면?
 리눅스의 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/">Deadline</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a></strong>는 엘리베이터(SCAN) 큐 옆에, <strong>시간 초시계가 달린 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/">FIFO</a> 큐(Read 500ms, Write 5초 제한)</strong>를 하나 더 몰래 놔둔다. 평소엔 엘리베이터처럼 예쁘게 처리하다가, 구석탱이 요청이 데드라인(500ms)을 넘겨서 비명을 지르면, 엘리베이터 방향이고 뭐고 깡그리 무시하고 즉시 그쪽으로 바늘을 꺾어버려 응답 지연의 상한선을 철통같이 방어한다.
 
 ```text
@@ -118,7 +118,7 @@ SCAN은 공평해 보이지만 위치에 따라 대기 시간이 로또급으로
 
 ### 실무 시나리오: [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 서버의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 조각화와 SCAN의 위력
 1. **문제 상황**: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 10GB를 하드디스크에 쓰는데, 하드디스크가 오래되어 빈 공간이 1번, 50만 번, 10만 번으로 조각조각 찢어져 있다.
-2. **OS의 큐잉**: 커널은 이 10GB를 4KB씩 250만 개의 I/O 요청으로 찢어서 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 큐에 던진다. 
+2. **OS의 큐잉**: 커널은 이 10GB를 4KB씩 250만 개의 I/O 요청으로 찢어서 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 큐에 던진다.
 3. **SCAN의 무쌍 (Elevator Sweep)**:
    - 만약 FCFS였다면 바늘이 1번 갔다가 50만 번 갔다가 10만 번 가면서 헤드 모터가 타버렸을 것이다.
    - 하지만 SCAN [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(CFQ의 뼈대)는 이 250만 개의 지저분한 요청을 트랙 번호순으로 싹 정렬한다.

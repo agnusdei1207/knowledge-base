@@ -28,7 +28,7 @@ tags = ["studynote-software-engineering"]
   - <strong>행동 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">스텁</a>(Action <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">Stub</a>)</strong>: 표의 하단에 취할 수 있는 조치들을 나열
   - **규칙(Rules)**: 각 열은 특정 조건 조합에 대한 행동 규칙을 나타냄
 
-- **비유**: 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/)은 <strong>'지하철 노선도'</strong>와 같다. 지하철 노선도에서는 여러 역(조건)이 서로 연결되어 있고, 각 경로(조건 조합)를 통해 목적지(행동)에 도달한다. 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/)도동양에, 복수의조건의조み합わせ에よっ고이なる결과가득られるこ와/과를시す. 
+- **비유**: 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/)은 <strong>'지하철 노선도'</strong>와 같다. 지하철 노선도에서는 여러 역(조건)이 서로 연결되어 있고, 각 경로(조건 조합)를 통해 목적지(행동)에 도달한다. 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/)도동양에, 복수의조건의조み합わせ에よっ고이なる결과가득られるこ와/과를시す.
 
 - **등장 배경 및 발전 과정**:
   1. **1950년대**: IBM에서 비즈니스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리을 위한 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/) 도입

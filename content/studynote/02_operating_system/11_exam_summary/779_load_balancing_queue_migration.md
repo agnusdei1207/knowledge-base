@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>Run <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a> (실행 대기열)</strong>: 멀티 코어 OS는 중앙에 큐를 1개만 두면 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 병목이 걸리므로, 코어 0번 전용 큐, 코어 1번 전용 큐처럼 코어마다 독립된 대기열을 갖는다.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/">부하 균등화</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/">Load Balancing</a>)</strong>: 주기적으로 각 코어 큐의 길이를 감시하다가, 불균형이 감지되면 바쁜 큐의 프로세스를 뽑아 널널한 큐로 강제로 이사(Migration) 시키는 작업.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 코어가 4개(0,1,2,3번) 있다. 처음에 프로세스 4개가 하나씩 0,1,2,3에 예쁘게 분배되었다.
   - 그런데 1, 2, 3번에 할당된 프로세스는 1초 만에 작업이 끝나 퇴근해 버렸고, 0번에 할당된 동영상 인코딩 프로세스만 10분째 혼자 돌아가며 무한히 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 낳고 있다.
   - 결국 1, 2, 3번 코어는 0%로 펑펑 놀고 있는데, 0번 코어의 큐에만 100개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 쌓여서 사용자는 "컴퓨터가 멈췄다(렉 걸렸다)"고 분노하게 된다.
@@ -33,7 +33,7 @@ tags = ["studynote-operating-system"]
   - 그런데 1번 계산대 줄의 첫 손님이 하필 동전 천 개로 결제하느라 줄이 꽉 막혔다. 반면 2, 3, 4번 계산대는 손님이 다 빠져 점원이 핸드폰을 보고 있다.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/">부하 균등화</a>(Migration)</strong>: 마트 매니저(OS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/))가 나타나 "1번 줄 뒤에 서 계신 손님 5분! 비어있는 2번과 3번 계산대로 가세요!"라고 강제로 이동(이주)시켜서 전체 마트의 결제 속도를 정상화하는 탁월한 고객 관리술.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 전통적인 단일 프로세서(Uni-processor) 시대에는 큐가 하나라 필요 없는 개념이었으나, 1990년대 후반 [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/)(Symmetric Multiprocessing) 구조가 표준화되고 각 코어별 런큐(Per-CPU Runqueue) 체제가 정착하면서 코어 간 눈치싸움을 조율하기 위한 필연적 알고리즘으로 탄생했다.
 
 ```text
@@ -207,7 +207,7 @@ tags = ["studynote-operating-system"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
 | [프로세스 친화성](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/) ([Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)) 스케줄링 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
 | [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 동적 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 트레이싱 프레임워크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
 | ZFS [Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 볼륨 관리 통합 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |

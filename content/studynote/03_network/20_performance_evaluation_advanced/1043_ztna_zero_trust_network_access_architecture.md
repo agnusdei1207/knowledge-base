@@ -64,7 +64,7 @@ NIST(미국 국립표준기술연구소)에서 정의한 뼈대입니다.
 
 ### 1. 지속적이고 동적인 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) (Continuous [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))
 - 아침에 지문 찍고 로그인했다고 끝이 아닙니다.
-- 기밀문서를 누르려는 찰나, 시스템이 AI로 분석합니다. "어? 홍길동 대리는 맨날 서울에서 맥북으로 접속했는데, 지금 갑자기 아프리카 IP 윈도우 PC에서 접속 중이네?" 
+- 기밀문서를 누르려는 찰나, 시스템이 AI로 분석합니다. "어? 홍길동 대리는 맨날 서울에서 맥북으로 접속했는데, 지금 갑자기 아프리카 IP 윈도우 PC에서 접속 중이네?"
 - 아이디/비번이 맞더라도 위치, 기기 상태, 접속 시간을 실시간 점검하여 조금이라도 이상하면 즉시 [OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/) 2차 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 때려버리는([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/)) 끈질긴 감시 체계입니다.
 
 ### 2. 최소 권한의 원칙 ([Least Privilege](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/))

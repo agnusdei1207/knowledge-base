@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-근거리 통신망(LAN) 구축의 가장 큰 난제는 "건물 내 수백 대의 PC를 어떻게 가장 저렴하고 쉽게 연결할 것인가?"였다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 10BASE5 (Thicknet) 같은 동축 케이블은 너무 굵고 구부러지지 않아 벽체 시공이 불가능에 가까웠고, 차폐막을 두른 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/)([Shielded Twisted Pair](/knowledge-base/studynote/03_network/03_physical_layer_media/125_shielded_foil_twisted_pair/))는 무겁고 값비싸며 복잡한 접지 공사가 강제되었다. 
+근거리 통신망(LAN) 구축의 가장 큰 난제는 "건물 내 수백 대의 PC를 어떻게 가장 저렴하고 쉽게 연결할 것인가?"였다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 10BASE5 (Thicknet) 같은 동축 케이블은 너무 굵고 구부러지지 않아 벽체 시공이 불가능에 가까웠고, 차폐막을 두른 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/)([Shielded Twisted Pair](/knowledge-base/studynote/03_network/03_physical_layer_media/125_shielded_foil_twisted_pair/))는 무겁고 값비싸며 복잡한 접지 공사가 강제되었다.
 이러한 물리적 족쇄를 끊어낸 것이 바로 UTP(Unshielded Twisted Pair)다. 케이블 외피(Jacket) 속에 절연된 구리선 8가닥을 두 개씩 짝지어 꼬아 놓았을 뿐, 어떠한 금속 쉴드도 두르지 않았다. "차폐 없이도 노이즈를 견딜 수 있다"는 발상의 전환은 차동 전송(Differential Transmission) 회로 기술의 비약적 발전과 페어별 정밀한 꼬임(Twisting) 기술 덕분에 실현되었다.
 결과적으로 UTP는 극강의 유연성, RJ-45 플러그의 체결 편의성, 압도적인 경제성을 앞세워 전 세계 구내 통신망의 99%를 장악하는 사실상(De facto) 물리 계층 표준으로 자리매김했다.
 
@@ -53,13 +53,13 @@ UTP 케이블이 금속 차폐막 없이 기가비트급의 데이터를 손실 
 | **십자형 격벽 (Cross-filler)** | 케이블 정중앙에 위치한 플라스틱 십자(+) 기둥 (Cat.6 이상) | 4쌍의 페어를 물리적으로 분리 유지하여 내부 [누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/)(NEXT) 원천 차단 |
 | **재킷 (Jacket)** | 케이블의 겉 껍질 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)막 (보통 [PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) 재질) | 화재 확산 방지용 난연/플레넘(Plenum) 등급 적용 외피 증가 |
 
-1Gbps ([1000BASE-T](/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/)) 이상의 속도를 구현하기 위해 UTP는 송수신 아키텍처에 근본적인 혁신을 단행했다. 
+1Gbps ([1000BASE-T](/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/)) 이상의 속도를 구현하기 위해 UTP는 송수신 아키텍처에 근본적인 혁신을 단행했다.
 
 아래 다이어그램은 100Mbps 환경과 1Gbps 환경에서 UTP 내부 8가닥(4쌍) 선로의 송수신(Tx/Rx) 활용 방식이 어떻게 진화했는지 보여준다.
 ```text
 [ 100BASE-TX (Fast Ethernet)의 선로 사용 구조 ]
  송신(Tx) 전용  : Pair 2 (주황), Pair 3 (녹색)  --- (2쌍만 사용)
- 수신(Rx) 전용  : 
+ 수신(Rx) 전용  :
  (미사용 예비)  : Pair 1 (파랑), Pair 4 (갈색)  --- (놀고 있음)
  => 단순하고 충돌(Collision) 위험 없음.
 

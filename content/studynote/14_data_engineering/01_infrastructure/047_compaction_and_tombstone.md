@@ -25,19 +25,19 @@ LSM 쓰기 특성:
   MemTable → 플러시 → SSTable 생성
   같은 키의 새 값 → 새 SSTable에 저장
   (기존 SSTable 수정 X, 불변)
-  
+
   결과:
   키 K1의 버전 1: SSTable A에
   키 K1의 버전 2: SSTable B에
   키 K1의 버전 3: SSTable C에
-  
+
   읽기 시: SSTable A, B, C 모두 확인 필요
   → 읽기 오버헤드 증가
 
 컴팩션 역할:
   SSTable A + B + C → SSTable D (합병)
   키 K1: 버전 3만 남김 (버전 1, 2 제거)
-  
+
   효과:
   1. 읽기 성능 향상 (확인할 파일 수 감소)
   2. 공간 효율화 (중복 제거)
@@ -47,14 +47,14 @@ LSM 쓰기 특성:
   CPU: 파일 병합, 정렬
   I/O: 대용량 파일 읽기 + 쓰기
   임시 공간: 원본 + 결과물 동시 보유
-  
+
   → 컴팩션 집중 시 프로덕션 성능 영향
   → Rate Limiter로 속도 제한 필요
 
 Write Amplification:
   논리적 쓰기 1MB → 실제 디스크 쓰기 10MB?
   WA = 실제 쓰기 / 논리 쓰기
-  
+
   높은 WA: 컴팩션 오버헤드 큰 전략
   SSD 수명 영향: 쓰기 횟수 제한
 ```
@@ -76,10 +76,10 @@ Write Amplification:
   DELETE FROM users WHERE id = 1
   → MemTable에 Tombstone(id=1) 쓰기
   → SSTable로 플러시
-  
+
   실제 삭제는 컴팩션 시:
   Tombstone과 원본 데이터 같이 있으면 → 제거
-  
+
   읽기 시 Tombstone 처리:
   id=1 데이터 찾기
   SSTable에서 id=1 Tombstone 발견
@@ -97,24 +97,24 @@ Tombstone 문제 (Tombstone Hell):
 시나리오:
   DELETE 집중 워크로드
   또는 TTL 많은 데이터 (IoT, 로그)
-  
+
   컴팩션 늦으면:
   Tombstone 수백만 개 축적
-  
+
   읽기 시:
   데이터 1개 찾는데 Tombstone 100만개 확인
-  
+
   카산드라 tomb_failure_threshold:
   기본 100,000개 → 초과 시 경고/오류
 
 GC Grace Period:
   Tombstone이 실제 삭제되기까지 대기 시간
   Cassandra 기본: 10일 (864,000초)
-  
+
   이유: 복제 노드가 Tombstone 전파 보장
   만약 3일 후 오프라인 노드 복귀:
   GC Grace 10일 이내 → Tombstone 전파 OK
-  
+
   단, 10일 동안 Tombstone 축적됨
 ```
 
@@ -129,56 +129,56 @@ Cassandra 컴팩션 전략:
 
 1. STCS (Size-Tiered Compaction Strategy):
   기본 전략
-  
+
   동작: 비슷한 크기의 SSTable N개 → 하나로 합침
-  
+
   예:
   4개의 50MB SSTable → 200MB SSTable
   4개의 200MB SSTable → 800MB SSTable
-  
+
   장점:
   쓰기 최적화 (Write-Heavy 적합)
   컴팩션 빈도 낮음
-  
+
   단점:
   읽기 시 여러 파일 확인
   공간 사용 증가 (임시 공간 필요)
   Tombstone 오래 축적
-  
+
   적합: 쓰기 집중, 데이터 변경 적음
 
 2. LCS (Leveled Compaction Strategy):
   각 레벨에서 키 범위 비중첩 보장
-  
+
   L0: 새 SSTable들
   L1: 최대 크기 제한 (예: 160MB)
   L2: L1 × 10 (1600MB)
   ...
-  
+
   장점:
   읽기 최적화 (각 레벨 1개 파일만 확인)
   공간 효율적
   Tombstone 빠른 제거
-  
+
   단점:
   쓰기 증폭 높음 (더 많은 컴팩션)
   쓰기 집중 워크로드에 I/O 과부하
-  
+
   적합: 읽기 집중, 업데이트 많음
 
 3. TWCS (Time Window Compaction Strategy):
   시계열 데이터 특화
-  
+
   동작: 시간 윈도우(예: 1일)로 SSTable 분류
   같은 시간 윈도우 내 SSTable만 합침
-  
+
   장점:
   오래된 데이터(변경 없음) = 컴팩션 안 함
   TTL 데이터 효율적 삭제
-  
+
   단점:
   시계열 외 워크로드에 비효율
-  
+
   적합: 시계열 IoT, 로그, 이벤트 데이터
 ```
 
@@ -220,7 +220,7 @@ Tombstone 문제 해결:
 진단:
   nodetool compactionstats
   → 대기 컴팩션 확인
-  
+
   nodetool tablestats <keyspace>.<table>
   → LiveSSTableCount, TombstoneScannedHistogram
 
@@ -228,12 +228,12 @@ Tombstone 문제 해결:
   1. 강제 컴팩션:
   nodetool compact <keyspace> <table>
   → 즉시 컴팩션 실행 (IO 집중!)
-  
+
   2. GC Grace 조정:
   ALTER TABLE ... WITH gc_grace_seconds = 86400;
   (10일 → 1일)
   데이터 손실 위험 검토 후 적용
-  
+
   3. TWCS 전환:
   시계열 데이터 → TWCS로 전략 변경
 
@@ -255,15 +255,15 @@ IoT 플랫폼 Cassandra 컴팩션 최적화:
   센서 10,000개, 데이터 보존 90일
   TTL 설정: 90일 (7,776,000초)
   기본 STCS 전략 사용
-  
+
   문제:
   읽기 지연 급증: P99 5초 (목표 1초)
   디스크 사용량 계속 증가
-  
+
   진단:
   nodetool tablestats → TombstoneScannedHistogram: 평균 500,000!
   LiveSSTableCount: 350개 (매우 많음)
-  
+
   원인:
   TTL 만료 → Tombstone 대량 생성
   STCS: Tombstone 포함 SSTable이 쌓임
@@ -276,14 +276,14 @@ IoT 플랫폼 Cassandra 컴팩션 최적화:
   WITH compaction = {'class': 'TimeWindowCompactionStrategy',
     'compaction_window_unit': 'DAYS',
     'compaction_window_size': '1'};
-  
+
   효과: 오래된(TTL 만료) 시간 윈도우 자동 정리
   Tombstone 축적 90% 감소
 
 2. GC Grace 단축:
   단일 DC, 실시간 데이터:
   ALTER TABLE sensor_data WITH gc_grace_seconds = 86400; (1일)
-  
+
   주의: 2개 이상 DC면 단축 위험 있음
 
 3. 불필요 DELETE 제거:

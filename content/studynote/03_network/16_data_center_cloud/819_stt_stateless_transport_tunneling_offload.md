@@ -66,7 +66,7 @@ VMWare 산하의 Nicira에서 개발한 이 [터널링](/knowledge-base/studynot
 ## Ⅲ. 비교 및 연결
 
 - **장점 (오프로드의 극의)**: 거대한 트래픽이 쏟아져도 컴퓨터 서버의 CPU는 포장 업무를 랜카드 하드웨어에 다 떠넘겼으므로(Offload) 점유율이 바닥을 치고 본업인 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연산에 집중할 수 있습니다. VMWare NSX [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 모델에 핵심적으로 투입되었습니다.
-- **한계 (비운의 도태)**: 
+- **한계 (비운의 도태)**:
   1. 가짜 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 패킷을 만들다 보니, 중간 언더레이망 라우터 방화벽들이 "어? 이거 TCP인데 통신 상태가 이상하네? 불량 패킷인가?" 하고 버려버리는 일이 종종 터졌습니다.
   2. 인텔(Intel) 같은 랜카드 제조사들이 "알았어, 우리가 다음 세대 랜카드 칩셋부터는 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/)([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))도 썰어주는 기능 칩에 넣어줄게!" 라며 새로운 유형의 칩([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) Offload)을 찍어내기 시작했습니다.
   - 결국 랜카드가 스스로 VXLAN을 썰어주게 되면서, 굳이 TCP로 사기를 치던 STT 기술은 존재 이유가 사라져 역사의 뒤안길로 사라졌습니다.

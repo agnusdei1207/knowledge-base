@@ -41,7 +41,7 @@ OVS가 멍청한 리눅스 기본 브릿지(Linux [Bridge](/knowledge-base/study
 
 ### 1. 거대 규모 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러와의 완벽한 연동 ([OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/)) 🌟
 - 물리적인 [화이트박스 스위치](/knowledge-base/studynote/03_network/17_sdn_nfv/859_whitebox_switch_open_hardware_nos/)만 OpenFlow를 알아듣는 게 아닙니다.
-- <strong>OVS는 태생부터 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a>(소프트웨어 정의 네트워크)을 위해 만들어진 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>입니다.</strong> 
+- <strong>OVS는 태생부터 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a>(소프트웨어 정의 네트워크)을 위해 만들어진 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>입니다.</strong>
 - 1,000대의 서버 뱃속에 있는 1,000개의 OVS들이 저 위 하늘에 떠 있는 중앙 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러(뇌)와 <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/">OpenFlow</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>을 통해 대화를 나눕니다. 컨트롤러가 "이 IP는 막아라!"라고 플로우 룰을 내리면, OVS가 즉시 자기 배 속 스위칭 장부에 반영하여 수만 대의 VM을 마이크로 통제합니다.
 
 ### 2. 강력한 오버레이 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)(Overlay) 기능 흡수

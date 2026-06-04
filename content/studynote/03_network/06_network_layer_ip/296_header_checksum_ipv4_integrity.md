@@ -48,7 +48,7 @@ IP 헤더 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data
 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)의 가장 큰 문제는 <strong>"헤더가 변하면 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">체크섬</a>도 다시 계산해야 한다"</strong>는 점이다.
 - 패킷이 라우터를 지날 때마다 패킷의 생명줄인 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a>(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">Time To Live</a>) 값이 무조건 1씩 감소</strong>한다.
 - 헤더 안의 숫자([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)) 하나가 변했으므로, 예전 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 값은 더 이상 유효하지 않다.
-- 전 세계의 모든 라우터는 패킷 수백만 개를 통과시킬 때마다, 1) TTL을 1 빼고, 2) 새로운 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)을 다시 계산해서 덮어쓰는 뻘짓을 무한 반복해야 한다. 
+- 전 세계의 모든 라우터는 패킷 수백만 개를 통과시킬 때마다, 1) TTL을 1 빼고, 2) 새로운 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)을 다시 계산해서 덮어쓰는 뻘짓을 무한 반복해야 한다.
 
 ```text
  ┌─────────────────────────────────────────────────────────────┐

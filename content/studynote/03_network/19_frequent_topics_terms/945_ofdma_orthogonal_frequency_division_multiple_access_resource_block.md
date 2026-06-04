@@ -39,7 +39,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/), [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), 최신 Wi-Fi 6의 심장이 되는 다원 접속 기술입니다. 
+- **개념**: 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/), [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), 최신 Wi-Fi 6의 심장이 되는 다원 접속 기술입니다.
 - 넓은 주파수 대역폭을 수백~수천 개의 <strong>엄청나게 얇은 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/">부반송파</a>(Sub-carrier) 잔가지들로 촘촘히 잘게 쪼갠 뒤</strong>, 이 잔가지들을 묶어서 타일 형태의 <strong>'자원 블록(Resource Block, RB)'</strong>이라는 블록 레고를 만들고, 이 블록들을 여러 사용자에게 0.001초 단위로 입맛대로 분배하여 전송하는 방식입니다.
 
 ```text

@@ -20,7 +20,7 @@ tags = ["studynote-operating-system"]
 ## Ⅰ. 개요 및 필요성
 
 **개념 및 정의**
-샌드박싱 (Sandboxing)은 아이들이 다치지 않고 놀 수 있도록 모래놀이터(Sandbox)의 울타리를 쳐주는 것에서 유래한 용어로, 특정 애플리케이션이 실행될 때 CPU, 메모리, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템, 네트워크 등 시스템 자원에 대한 접근 권한을 엄격하게 제한하는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 및 격리 기법이다. 
+샌드박싱 (Sandboxing)은 아이들이 다치지 않고 놀 수 있도록 모래놀이터(Sandbox)의 울타리를 쳐주는 것에서 유래한 용어로, 특정 애플리케이션이 실행될 때 CPU, 메모리, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템, 네트워크 등 시스템 자원에 대한 접근 권한을 엄격하게 제한하는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 및 격리 기법이다.
 
 **필요성 및 등장 배경**
 기존의 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 보안은 "사용자 계정" 단위의 권한 통제(DAC)에 머물렀다. 만약 관리자(root/Admin) 권한으로 실행된 웹 브라우저나 메일 클라이언트가 악성코드에 감염되면, 해당 프로세스는 관리자의 모든 권한을 상속받아 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 파괴할 수 있었다. 이를 막기 위해 어플리케이션 자체를 "절대 신뢰하지 않는" 환경이 필요해졌다. 즉, 브라우저가 해킹당하더라도 로컬 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 읽거나 네트워크 소켓을 열 수 없도록 프로세스 주위에 보이지 않는 감옥(Jail)을 치는 샌드박스 기술이 브라우저(Chrome), 모바일 OS(iOS, Android), 클라우드 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 시장의 표준으로 자리 잡았다.

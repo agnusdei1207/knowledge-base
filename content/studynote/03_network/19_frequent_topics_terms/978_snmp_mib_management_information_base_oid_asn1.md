@@ -62,12 +62,12 @@ tags = ["studynote-network"]
 
 ### 2. OID (Object [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/), 객체 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)) 🌟 핵심 🌟
 트리 끝에 매달린 'CPU 온도'라는 이파리([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 지칭하는 <strong>전 세계 유일무이한 고유 번호(주민번호)</strong>입니다.
-- **형식**: 폴더를 타고 내려오는 숫자를 점(`.`)으로 연결합니다. 
-- **예시**: `1.3.6.1.2.1.2.2.1.10.1` 
+- **형식**: 폴더를 타고 내려오는 숫자를 점(`.`)으로 연결합니다.
+- **예시**: `1.3.6.1.2.1.2.2.1.10.1`
   - 저 미친 숫자는 전 세계 만국 공통으로 <strong>"1번 랜선 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>로 들어온 총 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a> 수(ifInOctets)"</strong>를 의미합니다.
   - 중앙 관리 서버가 시스코 라우터한테 `1.3.6...10.1 좀 줘!` 하고 패킷을 쏘면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 `현재 1500바이트 찼습니다` 라고 정확히 던져줍니다.
 
-### 3. [SMI](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/530_smi_structure_of_management_information/) (Structure of [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Information)와 ASN.1 
+### 3. [SMI](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/530_smi_structure_of_management_information/) (Structure of [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Information)와 ASN.1
 MIB라는 트리 구조를 컴퓨터가 파싱할 수 있도록 글씨를 쓰는 문법(규칙)입니다.
 - **ASN.1**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 글로 적는 문법. (`INTEGER`, `OCTET STRING` 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입을 규정합니다.)
 - <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/530_smi_structure_of_management_information/">SMI</a></strong>: "[MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) 트리를 짤 때는 무조건 OID 점 찍는 룰을 지키고, ASN.1 문법으로만 써라!"라고 족쇄를 채우는 근본 구조 헌법입니다.
@@ -86,7 +86,7 @@ MIB라는 트리 구조를 컴퓨터가 파싱할 수 있도록 글씨를 쓰는
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 공통 표준([mib](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/)-2)은 모든 회사가 똑같이 씁니다. 
+- 공통 표준([mib](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/)-2)은 모든 회사가 똑같이 씁니다.
 - 근데 삼성이 새로운 이상한 기능을 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 넣었습니다. 이건 공통 폴더에 없죠? 그래서 `private(4)` ➜ `enterprises(1)` 폴더 밑에 벤더별 고유 번호를 발급받아(시스코는 9번) 그 밑에 자기들만의 맘대로 짠 사설 OID 가지를 무한히 뻗어 나가는 확장성을 갖추었습니다.
 - **한계**: 1,000개 수치를 물어보려면 1,000번 질의([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))를 해야 해서 CPU가 뻗습니다. 그래서 최근엔 879번 문선의 **텔레메트리(스트리밍 푸시)** 기술로 넘어가며 MIB의 낡은 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 굴레를 벗어나고 있습니다.
 

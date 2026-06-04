@@ -90,12 +90,12 @@ CFT 방식은 노드가 단순히 멈추는 물리적 장애만 가정하므로,
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
-실무 환경에서 순수 BFT를 대규모 퍼블릭 네트워크에 그대로 적용하는 것은 불가능에 가깝습니다. 메시지 교환량 때문입니다. 노드가 N개일 때 BFT의 통신 복잡도는 $O(N^2)$로 폭증합니다. 
+실무 환경에서 순수 BFT를 대규모 퍼블릭 네트워크에 그대로 적용하는 것은 불가능에 가깝습니다. 메시지 교환량 때문입니다. 노드가 N개일 때 BFT의 통신 복잡도는 $O(N^2)$로 폭증합니다.
 
 따라서 실무 시스템 아키텍트는 다음의 장애 요소와 제약을 우회하기 위한 전략을 선택해야 합니다.
 
 1. <strong>퍼블릭 <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">블록체인</a>의 딜레마 극복</strong>
-   - 비트코인(PoW)은 BFT의 무거운 통신을 버리고, 해시 퍼즐이라는 물리적 장벽을 통해 확률적으로 비잔틴 장애를 허용하는 우회로를 택했습니다. 
+   - 비트코인(PoW)은 BFT의 무거운 통신을 버리고, 해시 퍼즐이라는 물리적 장벽을 통해 확률적으로 비잔틴 장애를 허용하는 우회로를 택했습니다.
    - 반면 이더리움이나 코스모스 같은 PoS 기반 최신 체인은 수만 개의 노드 중 소수의 위원회(Committee)만 무작위로 차출하여 [BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/) 투표를 진행하는 방식으로 확장성(Scalability) 병목을 해결합니다.
 
 2. <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/020_private_blockchain/">프라이빗 블록체인</a> 노드 운영 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
@@ -116,7 +116,7 @@ CFT 방식은 노드가 단순히 멈추는 물리적 장애만 가정하므로,
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터 과학의 이론적 난제였던 BFT는, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기술과 만나면서 현대 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 금융 시스템과 중앙은행 디지털 화폐([CBDC](/knowledge-base/studynote/06_ict_convergence/01_blockchain/061_cbdc_central_bank_digital_currency/))의 핵심 인프라로 자리 잡았습니다. 
+[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터 과학의 이론적 난제였던 BFT는, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기술과 만나면서 현대 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 금융 시스템과 중앙은행 디지털 화폐([CBDC](/knowledge-base/studynote/06_ict_convergence/01_blockchain/061_cbdc_central_bank_digital_currency/))의 핵심 인프라로 자리 잡았습니다.
 
 | 정량적/정성적 효과 | 비고 및 발전 방향 |
 |:---|:---|

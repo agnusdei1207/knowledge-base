@@ -150,7 +150,7 @@ systemd 핵심 개선:
 결과 예시:
   Startup finished in 1.2s (kernel) + 3.8s (userspace)
   Total: 5.0s
-  
+
   systemd-analyze blame:
     2.1s NetworkManager.service
     1.5s snapd.service
@@ -159,7 +159,7 @@ systemd 핵심 개선:
 최적화:
   disable snapd (사용 안 함)
   -> 부팅 시간 5.0s -> 2.8s (44% 단축)
-  
+
   실무 서버에서:
   cloud-init 비활성화 (가상머신 아닌 경우)
   불필요한 서비스 disable

@@ -57,7 +57,7 @@ tags = ["studynote-network"]
 
 ### 1. 엣지 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) (Edge [Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))과 오리진 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)
 - 한국 유저 A가 처음 뉴욕 본사(오리진)에서 영상을 땡겨올 때, 중간에 있는 한국 엣지 서버가 그 영상을 자기 뱃속 디스크에 몰래 복사([캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))해 둡니다.
-- 1초 뒤 한국 유저 B가 같은 영상을 클릭하면? 엣지 서버가 "오케이! 내가 갖고 있어!" 하며 뉴욕 본사로 요청을 안 보내고 자기가 직접 쏴버립니다. 
+- 1초 뒤 한국 유저 B가 같은 영상을 클릭하면? 엣지 서버가 "오케이! 내가 갖고 있어!" 하며 뉴욕 본사로 요청을 안 보내고 자기가 직접 쏴버립니다.
 - <strong>효과 (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">오프로딩</a>)</strong>: 뉴욕 본사 서버의 부하를 90% 이상 깎아내어([Offloading](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)) 트래픽 요금 수백억 원을 아껴주는 기적을 낳습니다.
 
 ### 2. 애니캐스트(Anycast)와 글로벌 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)

@@ -47,7 +47,7 @@ tags = ["studynote-network"]
 1. **최초 접속**: 스마트폰(와이파이 `10.1.1.1`)이 구글 서버에 QUIC으로 접속한다. 이때 구글은 스마트폰에게 <strong>"너는 이제부터 CID <code>#ABC-123</code> 이야!"</strong>라고 64비트 번호판을 준다.
 2. <strong>망 변경 (<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">Handover</a> 발생)</strong>: 폰을 들고 밖으로 나간다. IP가 통신사 5G인 `200.2.2.2`로 휙 바뀐다.
 3. **이주(Migration) 시도**: 스마트폰은 새로 바뀐 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 주소로 패킷을 쏘면서, 겉면([QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) 헤더)에 아까 받은 <strong>CID <code>#ABC-123</code></strong>을 당당하게 꽝 찍어 보낸다.
-4. **서버의 관대한 수용**: 구글 서버가 패킷을 받는다. 
+4. **서버의 관대한 수용**: 구글 서버가 패킷을 받는다.
    "어? IP가 `200.2.2.2`네? 처음 보는 놈인데? 잠깐, 겉면에 CID가 `#ABC-123`이잖아? 야 이거 아까 와이파이로 영상 다운받고 있던 걔야! 연결 끊지 말고 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) IP로 쏜 패킷 그대로 받아주고 다운로드 이어서 쏴줘!"
 
 ```text

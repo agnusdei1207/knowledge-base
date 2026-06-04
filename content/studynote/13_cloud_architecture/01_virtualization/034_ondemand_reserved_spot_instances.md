@@ -114,7 +114,7 @@ Savings Plans 유형:
 | Azure    | Reserved Instances     | Azure Spot VMs       |
 | GCP      | Committed Use Discounts| Preemptible VMs      |
 
-**핵심 원칙**: 
+**핵심 원칙**:
 - 기준 워크로드([baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)): 예약 100%
 - 가변 워크로드(variable): 온디맨드
 - 내결함성 워크로드: 스팟 최대 활용

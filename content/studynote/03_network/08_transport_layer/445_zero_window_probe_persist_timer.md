@@ -105,7 +105,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 해커들은 이 영 윈도우를 악용한다. 해커가 내 웹서버에 접속해 놓고, 고의로 `Window=0`만 주구장창 보낸다. 내 웹서버는 "오 손님이 버퍼가 꽉 찼네" 하고 해커에게 던져줄 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 자기 램([송신 버퍼](/knowledge-base/studynote/03_network/08_transport_layer/423_send_buffer_receive_buffer/))에 평생 쥐고 기다려준다.
-해커 10만 명이 이렇게 물고 늘어지면 내 웹서버의 메모리가 터져 죽는다. ([Slowloris](/knowledge-base/studynote/09_security/03_network_security/258_slowloris/) 공격의 친척뻘이다). 
+해커 10만 명이 이렇게 물고 늘어지면 내 웹서버의 메모리가 터져 죽는다. ([Slowloris](/knowledge-base/studynote/09_security/03_network_security/258_slowloris/) 공격의 친척뻘이다).
 그래서 현대 방화벽은 <strong>"Window=0 상태로 60초 이상 뻐팅기는 놈은 그냥 해커로 간주하고 <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 세션의 목을 가차 없이 잘라버려라(RST)!"</strong>라는 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 룰을 켜둔다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

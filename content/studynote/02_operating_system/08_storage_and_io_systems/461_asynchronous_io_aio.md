@@ -24,7 +24,7 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경 및 콜백의 도래**:
   1. **멀티스레드 렉의 폭발**: I/O 대기를 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 개수(1만 개)로 덮어씌우던 아파치(Apache) 모델이 서버 램을 파먹고 붕괴함.
-  2. **Event-Driven 아키텍처의 각성**: "[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 늘리지 말고 이벤트 큐를 쓰자." 
+  2. **Event-Driven 아키텍처의 각성**: "[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 늘리지 말고 이벤트 큐를 쓰자."
   3. **비동기의 표준화**: 윈도우의 IOCP가 서버 시장을 휩쓸자, 리눅스도 AIO를 도입했으나 멍청하게 설계되어 욕을 먹다가 최근 `io_uring`으로 각성하여 전 세계를 통일 중이다.
 
 ```text
@@ -75,8 +75,8 @@ tags = ["studynote-operating-system"]
    - 까보니 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨에서 진정한 비동기를 지원하는 게 아니라, [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 유저 공간에 몰래 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">스레드 풀</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">Thread Pool</a>) 100개를 띄워놓고 거기서 '블로킹 read'를 치는 꼼수</strong>를 부리고 있었다. (이럴 거면 톰캣이랑 다를 게 뭐냐며 개발자들이 분노함).
 2. <strong>libaio (반쪽짜리 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 지원)</strong>:
    - 빡친 리눅스는 진짜 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) AIO를 만들었다. 그런데 치명적 제약이 있었다.
-   - <strong>오직 <code>O_DIRECT</code> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/">버퍼 캐시</a> 우회) 플래그를 쓸 때만 비동기로 동작했다.</strong> 
-   - 만약 [버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/)(일반 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))를 타는 순간 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 다시 '블로킹' 늪에 빠져 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 정지시켜 버렸다. 
+   - <strong>오직 <code>O_DIRECT</code> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/">버퍼 캐시</a> 우회) 플래그를 쓸 때만 비동기로 동작했다.</strong>
+   - 만약 [버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/)(일반 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))를 타는 순간 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 다시 '블로킹' 늪에 빠져 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 정지시켜 버렸다.
    - 결국 오라클([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) DB 같은 극한의 `O_DIRECT` 성애자들을 제외하고, Nginx나 Node.js는 이 쓰레기 같은 리눅스 AIO를 버리고 `epoll`이라는 넌블로킹(Non-[blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 꼼수로 도망쳐 10년을 버텼다. (최근 `io_uring`이 나오기 전까지의 암흑기).
 
 - **📢 섹션 요약 비유**: 리눅스 우체국에 비동기 배달(AIO)을 시켰더니, 알고 보니 우체국 뒷방에 알바생 100명을 숨겨놓고([스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)) 알바생들이 직접 뛰어가서 기다리다 가져오는 사기를 쳤던 겁니다. 진정한 텔레포트(하드웨어 비동기)가 아니라 인건비로 땜빵한 가짜 비동기였던 것이 뼈아픈 과거입니다.
@@ -126,7 +126,7 @@ tags = ["studynote-operating-system"]
    - `await`를 만나는 순간 자바스크립트 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 하던 함수의 뇌 상태([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), Closure 변수들)를 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 메모리 한구석에 욱여넣고 기절한 척 도망간다. (이른바 [코루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/)/상태 머신 변환).
    - 밑바닥 C언어는 OS에게 `epoll`이나 `AIO` 시스템 콜을 때리고, [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) 큐에 이벤트가 꽂힐 때까지 다른 `await` 멈춰 둔 함수들을 끄집어와서 돌려막기 한다.
    - 디스크가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 다 긁어서 콜백이 떨어지면, 아까 힙에 쑤셔 박아뒀던 뇌 상태(상태 머신)를 다시 꺼내와 `await` 아랫줄부터 실행을 재개시킨다.
-4. **결론**: 최신 언어들의 우아한 비동기 문법(`async/await`)은 사실 공짜가 아니라, OS의 원초적인 비동기 시스템 콜(AIO)의 더러운 콜백 핑퐁과 복잡한 힙 메모리 스위칭을 컴파일러가 대신 땀 흘려 처리해 준 결과물이다. 
+4. **결론**: 최신 언어들의 우아한 비동기 문법(`async/await`)은 사실 공짜가 아니라, OS의 원초적인 비동기 시스템 콜(AIO)의 더러운 콜백 핑퐁과 복잡한 힙 메모리 스위칭을 컴파일러가 대신 땀 흘려 처리해 준 결과물이다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): AIO의 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 지옥
 AIO를 쓰면 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 1개니까 락([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))을 안 써도 된다고 착각한다. Node.js 생태계에서 초보들이 가장 많이 저지르는 실수다.

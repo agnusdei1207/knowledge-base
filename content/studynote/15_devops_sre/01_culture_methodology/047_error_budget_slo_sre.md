@@ -28,27 +28,27 @@ SLI (Service Level Indicator):
 SLO (Service Level Objective):
   내부 목표 (계약 아님)
   예: "요청 성공률 SLO = 99.9%"
-  
+
   → 현재 99.95% > 99.9% → SLO 준수 ✅
 
 SLA (Service Level Agreement):
   고객과의 외부 계약
   예: "가용성 99.9% 보장 (SLA)"
-  
+
   SLO > SLA 설정: 완충 지대
   (SLO 위반 → 경고, SLA 위반 → 계약 페널티)
 
 Error Budget:
   SLO에서 허용되는 오류 총량
-  
+
   Error Budget = 1 - SLO
-  
+
   예: SLO = 99.9%
   Error Budget = 0.1%
-  
+
   월 기준 (30일 × 24시간 × 60분 = 43,200분):
   허용 다운타임 = 43,200분 × 0.1% = 43.2분
-  
+
   소진 추적:
   이번 달 다운타임 = 30분
   남은 예산 = 43.2 - 30 = 13.2분 (70.4% 소진)
@@ -56,7 +56,7 @@ Error Budget:
 Error Budget 소진율:
   빠른 소진 → 릴리스 속도 감소
   느린 소진 → 더 빠른 릴리스 가능
-  
+
   소진율 100% → SLO 위반
 ```
 
@@ -118,31 +118,31 @@ Google SRE 골든 시그널 (4 Golden Signals):
 1. 지연 시간 (Latency):
   요청 처리 시간
   중요: 성공 응답 vs 실패 응답 지연 구분
-  
+
   SLI 예: P99 응답시간 < 200ms
-  
+
   실패 응답 지연도 포함해야:
   타임아웃 = 5초 응답 = 나쁜 SLI에 포함
 
 2. 트래픽 (Traffic):
   시스템 부하 측정
   HTTP RPS, 초당 트랜잭션
-  
+
   SLI 예: RPS (성능 용량 SLI)
   트래픽 급증 탐지 → 자동 스케일링 트리거
 
 3. 에러 (Errors):
   요청 실패율
-  
+
   SLI 예: 에러율 < 0.1%
-  
+
   명시적 실패: HTTP 500
   암묵적 실패: HTTP 200이지만 잘못된 응답
 
 4. 포화도 (Saturation):
   시스템 리소스 얼마나 차 있나
   CPU: 80%, 메모리: 85%, 디스크: 90%
-  
+
   SLI 예: 큐 깊이 < 100개
   성능 저하 예측 지표
 
@@ -154,7 +154,7 @@ SLI 작성 원칙:
 
 나쁜 SLI 예:
   CPU 사용률 < 70% (사용자 경험과 직접 무관)
-  
+
 좋은 SLI 예:
   요청 성공률 > 99.9%
   P99 응답시간 < 300ms
@@ -172,7 +172,7 @@ SLO 설정 과정:
 
 1단계: SLI 정의
   어떤 지표가 사용자 경험을 대표하는가?
-  
+
   결제 서비스:
   SLI-1: 결제 요청 성공률
   SLI-2: 결제 P99 응답시간
@@ -180,37 +180,37 @@ SLO 설정 과정:
 
 2단계: 기준선 파악
   과거 데이터 분석 (최소 4주)
-  
+
   현재 성공률: 99.93%
   P99 응답시간: 280ms
   에러율: 0.07%
 
 3단계: SLO 설정
   기준선 기반 + 비즈니스 요구사항 고려
-  
+
   원칙:
   SLO = 기준선 - 완충 (5~20%)
   너무 엄격: 지속 불가
   너무 느슨: 의미 없음
-  
+
   SLO-1: 성공률 ≥ 99.9% (기준 99.93%)
   SLO-2: P99 ≤ 300ms (기준 280ms)
   SLO-3: 에러율 ≤ 0.1% (기준 0.07%)
 
 4단계: 측정 구현
   Prometheus + Grafana:
-  
+
   # 성공률 쿼리
   sum(rate(http_requests_total{status=~"2.."}[5m]))
   /
   sum(rate(http_requests_total[5m]))
-  
+
   Datadog, Google Cloud Monitoring 내장 SLO
 
 5단계: Error Budget 추적
   주간 SLO 리뷰 미팅
   Error Budget Burn Rate 알림
-  
+
   Burn Rate > 1: 예산 소진 중
   Burn Rate > 3: 심각 경보 (1시간 내 SLO 위반 예상)
 ```
@@ -244,16 +244,16 @@ SLO: 성공률 99.95%, P99 < 500ms
 
 Error Budget Policy 발동:
   Budget 소진 100% → 릴리스 프리즈 선언
-  
+
   3주차:
   기능 개발 중단
   원인 분석:
   → DB 인덱스 미생성 쿼리 → 전체 테이블 스캔
   → 트래픽 증가 시 타임아웃
-  
+
   해결:
   인덱스 추가, 쿼리 최적화, DB 읽기 복제 추가
-  
+
   4주차:
   성능 테스트 + 점진적 배포
   Budget 회복 (월 초기화)

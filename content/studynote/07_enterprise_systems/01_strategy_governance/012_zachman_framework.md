@@ -127,8 +127,8 @@ tags = ["enterprise_systems"]
 이론적 완벽성에도 불구하고 [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)를 실무에 도입할 때 자주 실패하는 이유는 '모든 빈칸을 채워야 한다'는 강박관념(Analysis Paralysis) 때문이다.
 
 1. <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a> 환경에서의 잭맨 차용</strong>: 현대 IT 환경에서는 36개 셀을 모두 문서화하는 것은 막대한 낭비(Waste)다. 따라서 실무에서는 필요한 열(Column)과 행(Row)만 선택적으로 취하는 <strong>테일러링(<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/">Tailoring</a>)</strong>이 필수적이다. 예컨대, SaaS를 도입할 때는 Implementer(소스코드) 계층의 문서화는 생략하고 Planner, Owner 영역의 비즈니스 목적 정렬에만 집중해야 한다.
-2. **트레이드오프 판단**: 
-   - *장점*: 시스템 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 Root Cause를 찾기 위한 최고의 추적성([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/)) 제공. 
+2. **트레이드오프 판단**:
+   - *장점*: 시스템 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 Root Cause를 찾기 위한 최고의 추적성([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/)) 제공.
    - *단점*: [메타데이터 관리 시스템](/knowledge-base/studynote/05_database/02_modeling_normalization/125_metadata_management_system_mms/)([EAMS](/knowledge-base/studynote/12_it_management/03_ea_isp/124_eams_ea_management_system/)) 없이 수기로 Excel/Visio 관리는 불가능에 가까움.
 3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 주의</strong>: 하나의 산출물(예: 복합 시스템 다이어그램)을 매트릭스의 여러 셀에 동시에 걸쳐 넣는 행위는 [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)의 가장 큰 원칙인 '상호 배타성([MECE](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/))'을 위반하는 치명적 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. 한 문서는 반드시 단 하나의 관점과 하우(How/What 등)에만 속하도록 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)([Atomicity](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/))을 쪼개야 한다.
 
@@ -154,7 +154,7 @@ tags = ["enterprise_systems"]
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-[잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)는 엔터프라이즈 아키텍처([EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/))라는 학문을 탄생시킨 아버지로서, 그 가치는 시간이 지나도 퇴색되지 않는다. 
+[잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)는 엔터프라이즈 아키텍처([EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/))라는 학문을 탄생시킨 아버지로서, 그 가치는 시간이 지나도 퇴색되지 않는다.
 
 | 지표 | 정량적 / 정성적 기대효과 | 비고 |
 |:---|:---|:---|

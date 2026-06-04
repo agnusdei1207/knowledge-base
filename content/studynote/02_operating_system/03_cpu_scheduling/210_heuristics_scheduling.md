@@ -28,12 +28,12 @@ tags = ["studynote-operating-system"]
   [휴리스틱(Heuristics)을 통한 프로세스 성격 자동 분류 메커니즘]
 
   [ 커널 스케줄러의 은밀한 감시 카메라 ]
-  
-  ▶ 프로세스 A: 10ms 퀀텀을 주니까 1ms만 쓰고 I/O 하러 도망감. 
+
+  ▶ 프로세스 A: 10ms 퀀텀을 주니까 1ms만 쓰고 I/O 하러 도망감.
      (이 행동을 3번 반복함)
      💡 스케줄러의 휴리스틱 결론: "얘는 타자를 치는 놈이 분명해! (I/O Bound)
         응답 속도가 생명이니 보너스 +5점을 주고 VIP 큐에 박제해라!"
-        
+
   ▶ 프로세스 B: 10ms 퀀텀을 주니까 10ms 꽉꽉 채워 쓰고 더 달라고 아우성침.
      (이 행동을 3번 반복함)
      💡 스케줄러의 휴리스틱 결론: "얘는 동영상 인코딩 하는 놈이야! (CPU Bound)
@@ -63,7 +63,7 @@ tags = ["studynote-operating-system"]
    - "이 `Sleep_avg` 값이 특정 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 넘으면, 넌 완벽한 대화형(Interactive)이다!"라고 확정 짓고, 이 녀석이 타임 슬라이스를 다 써도 Expired 큐로 안 보내고 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 큐에 다시 넣어주는 무한 혜택을 줬다.
 
 ### 꼼수(Gaming)와 족집게 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 싸움
-휴리스틱이 도입되자 개발자들은 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 속이기 시작했다. 무거운 수학 연산을 돌리는 프로세스 중간에 의도적으로 `sleep(1ms)`을 수백 번 호출하는 꼼수를 넣은 것이다. 
+휴리스틱이 도입되자 개발자들은 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 속이기 시작했다. 무거운 수학 연산을 돌리는 프로세스 중간에 의도적으로 `sleep(1ms)`을 수백 번 호출하는 꼼수를 넣은 것이다.
 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 휴리스틱 로직은 "어? 잠을 자네? 착한 I/O 바운드구나!" 하고 속아 넘어가서, 이 수학 연산 프로세스에게 어마어마한 보너스와 CPU 시간을 몰아주는 사태가 발생했다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해커들은 이 꼼수를 막기 위해 수면 시간에서 꼼수 수면을 발라내는 예외 처리 코드를 수백 줄씩 덧대야만 했다.
 
 - **📢 섹션 요약 비유**: 선생님([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 "엎드려 자는 애(Sleep)는 아픈 애(I/O 바운드)니까 깨우지 말고 배려해 줘라"라고 휴리스틱 규칙을 세우자, 놀기 좋아하는 불량 학생(CPU 바운드)들이 일부러 아픈 척 엎드려 자면서 선생님의 배려를 악용하는 꼴입니다.
@@ -82,7 +82,7 @@ tags = ["studynote-operating-system"]
 | **CPU 사용 패턴** | 매우 적음 (1ms 미만) | 100% 꽉 채워 씀 | **100% 꽉 채워 씀 (그래픽 렌더링)** |
 | **휴리스틱의 판정**| "착한 놈! 보너스 +5 줘!" | "나쁜 놈! 페널티 -5 줘!" | 🚨 **오판**: "너 마우스 쓰지만 CPU 다 쓰네? 넌 나쁜 놈(배치)이야! 페널티 먹고 바닥으로 꺼져!" |
 
-[스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 게임 프로세스를 일괄 처리(Batch) 잡으로 오해하여 바닥 큐로 던져버렸다. 그 결과 3D 게임을 하거나 영화를 볼 때마다 화면이 1초씩 멈추는(프레임 드랍, Jitter) 대참사가 일어났다. 이 렉을 풀려면 사용자가 마우스를 미친 듯이 흔들어서 억지로 I/O 인터럽트를 발생시켜 휴리스틱 센서를 속여야만 화면이 다시 부드러워졌다. 
+[스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 게임 프로세스를 일괄 처리(Batch) 잡으로 오해하여 바닥 큐로 던져버렸다. 그 결과 3D 게임을 하거나 영화를 볼 때마다 화면이 1초씩 멈추는(프레임 드랍, Jitter) 대참사가 일어났다. 이 렉을 풀려면 사용자가 마우스를 미친 듯이 흔들어서 억지로 I/O 인터럽트를 발생시켜 휴리스틱 센서를 속여야만 화면이 다시 부드러워졌다.
 
 ### 수학(CFS) vs 관상(O(1) Heuristics)
 - **O(1) 휴리스틱**: 프로세스의 과거 행동을 분석해 성격을 규정(관상)하고, 성격에 따라 차별 대우한다. (예외 처리에 코드가 지저분함)

@@ -129,8 +129,8 @@ Security Review
 
 ## 어린이를 위한 3줄 비유 설명
 
-무서운 일이 어떤 종류인지 먼저 나눠 봐요.  
-도둑, 훼손, 유출 같은 이름표를 붙여요.  
+무서운 일이 어떤 종류인지 먼저 나눠 봐요.
+도둑, 훼손, 유출 같은 이름표를 붙여요.
 STRIDE는 그런 위협 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)표예요.
 
 ---

@@ -141,8 +141,8 @@ Clean Room
 
 ## 어린이를 위한 3줄 비유 설명
 
-[다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/)는 창고에 묻혀 있는 장난감 상자예요.  
-AI는 상자 안 물건에 이름표를 붙여 정리해 줘요.  
+[다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/)는 창고에 묻혀 있는 장난감 상자예요.
+AI는 상자 안 물건에 이름표를 붙여 정리해 줘요.
 클린 룸은 서로 장난감을 보여 주지 않고도 개수만 같이 세는 비밀 방이에요.
 
 ---

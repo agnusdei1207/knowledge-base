@@ -45,10 +45,10 @@ tags = ["studynote-network"]
 ### 1. 권력의 분업: AVG와 AVF
 GLBP 그룹 내에는 1개의 가상 IP(VIP)가 존재하지만, 가상 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소는 최대 4개까지 생성된다.
 
-- <strong>AVG (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> Virtual Gateway)</strong>: 
-  - Priority 점수가 제일 높은 1놈이 선출된다. 
-  - 역할: 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포워딩도 하지만, 가장 중요한 임무는 <strong>"<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> 뻥치기"</strong>다. PC들이 `192.168.0.254(VIP)`의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 뭐냐고 브로드캐스트를 때릴 때, 대답할 수 있는 권한은 오직 이 AVG 한 놈뿐이다. 
-- <strong>AVF (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> Virtual Forwarder)</strong>: 
+- <strong>AVG (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> Virtual Gateway)</strong>:
+  - Priority 점수가 제일 높은 1놈이 선출된다.
+  - 역할: 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포워딩도 하지만, 가장 중요한 임무는 <strong>"<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> 뻥치기"</strong>다. PC들이 `192.168.0.254(VIP)`의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 뭐냐고 브로드캐스트를 때릴 때, 대답할 수 있는 권한은 오직 이 AVG 한 놈뿐이다.
+- <strong>AVF (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> Virtual Forwarder)</strong>:
   - 동네에 있는 최대 4대의 라우터들이 각각 하나씩 맡는 '진짜 일꾼'이다.
   - AVG가 각 AVF에게 0007.b400.xxxx 대역의 가상 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 하나씩 하사한다.
   - 역할: AVG가 "PC야, 너는 3번 가상 MAC으로 가라"고 배정해 주면, 3번 AVF는 자기를 향해 쏟아지는 트래픽을 인터넷으로 열심히 펌프질해 넘긴다.
@@ -58,7 +58,7 @@ AVG가 PC들의 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/3
 
 1. <strong>Round-Robin (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/">라운드 로빈</a>) ★기본값</strong>:
    - 돌아가면서 순서대로 1장씩 돌린다.
-   - 첫 번째 PC엔 AVF 1번 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), 두 번째 PC엔 AVF 2번 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)... 
+   - 첫 번째 PC엔 AVF 1번 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), 두 번째 PC엔 AVF 2번 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)...
    - 가장 공평하게 트래픽이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되는 최고의 알고리즘이다.
 2. **Host-Dependent (호스트 종속)**:
    - "A라는 PC는 죽을 때까지 무조건 AVF 1번 MAC만 알려줘!"

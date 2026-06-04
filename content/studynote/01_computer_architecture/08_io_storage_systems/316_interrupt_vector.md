@@ -147,13 +147,13 @@ tags = ["studynote-computer-architecture"]
 
 ### 대표 판단 포인트
 
-1. **예외 벡터와 장치 벡터를 분리했는가?**  
+1. **예외 벡터와 장치 벡터를 분리했는가?**
    CPU 예약 영역을 침범하면 디버깅이 매우 어려워진다.
-2. **고속 장치에 충분한 벡터를 할당했는가?**  
+2. **고속 장치에 충분한 벡터를 할당했는가?**
    `MSI-X` 기반 네트워크 카드나 `NVMe (Non-Volatile Memory Express)` 장치는 큐 수만큼 벡터를 받으면 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 좋아진다.
-3. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 친화성 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a> <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/">Affinity</a>)을 설정했는가?</strong>  
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 친화성 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a> <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/">Affinity</a>)을 설정했는가?</strong>
    특정 벡터를 특정 코어에 매핑하면 캐시 지역성과 예측 가능성이 좋아진다.
-4. <strong>벡터 부족과 공유 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 상황을 고려했는가?</strong>  
+4. <strong>벡터 부족과 공유 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 상황을 고려했는가?</strong>
    벡터 수는 유한하므로 장치가 많으면 공유나 재배치 전략이 필요하다.
 
 아래 그림은 실무에서 자주 만나는 의사결정 흐름이다.

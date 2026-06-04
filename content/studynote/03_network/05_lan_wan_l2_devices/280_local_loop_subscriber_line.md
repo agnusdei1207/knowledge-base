@@ -47,7 +47,7 @@ tags = ["studynote-network"]
 2. **HFC 망 (케이블 TV 선 재활용)**:
    - "전화선은 너무 느려! 집집마다 깔린 굵직한 [동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/)(유선 방송 선)을 로컬 루프로 쓰자!" (초창기 두루넷 등). 케이블 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)을 달아 속도를 올렸지만, 동네 사람들이 선 하나를 공유하는 방식이라 저녁 퇴근 시간만 되면 인터넷이 멈췄다.
 3. **FTTH (Fiber To The Home)**:
-   - "꼼수 쓰지 말고, 전화국(CO)부터 고객 집 거실(Home)까지 100% 광케이블을 새로 깔아버리자!" 
+   - "꼼수 쓰지 말고, 전화국(CO)부터 고객 집 거실(Home)까지 100% 광케이블을 새로 깔아버리자!"
    - 이 거대한 토목 공사가 성공하면서 로컬 루프의 병목이 해결되었고, 기가 인터넷(1Gbps)과 10기가 인터넷 시대가 열렸다.
 
 ```text

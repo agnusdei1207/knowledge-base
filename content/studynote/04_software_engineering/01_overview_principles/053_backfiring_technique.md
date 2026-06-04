@@ -18,7 +18,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어 규모 산정의 두 축은 소스 코드의 길이(LOC)를 세는 방식과 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 기능의 개수([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/))를 세는 방식이다. 이상적으로는 사용자의 요구사항을 분석해 [기능 점수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/)([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/))를 계산하는 것이 맞다. 
+소프트웨어 규모 산정의 두 축은 소스 코드의 길이(LOC)를 세는 방식과 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 기능의 개수([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/))를 세는 방식이다. 이상적으로는 사용자의 요구사항을 분석해 [기능 점수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/)([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/))를 계산하는 것이 맞다.
 
 하지만 1990년대 코볼(COBOL)로 짜인 은행의 코어 뱅킹 시스템을 뜯어고친다고 가정해 보자. 설계 문서는 불타 없어졌고, 코드를 짠 개발자는 은퇴했다. 이 시스템의 기능이 정확히 몇 개인지 세는 것은 불가능하다. 이때 소프트웨어 공학자들은 "코드가 10만 줄짜리 코볼이라면, 과거의 통계에 비추어 볼 때 대략 [기능 점수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/)([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) 1,000점어치 분량이겠군!"이라고 역산하는 통계학적 꼼수를 발명했다. 총구에서 불이 뒤로 뿜어지는 백파이어(Backfire)처럼, 결과물(코드)에서 원인(기능 규모)을 역방향으로 쏴서 맞추는 이 기법이 바로 백파이어링이다.
 

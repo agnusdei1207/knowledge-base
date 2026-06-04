@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: 라우터 내부의 아키텍처는 제어 평면(경로 계산)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면(실제 패킷 전달)으로 논리적/물리적으로 분리되어 동작한다.
 - **필요성**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 라우터는 CPU 하나가 OSPF로 길도 찾고, 들어오는 패킷 IP도 읽고 포워딩도 했다. 그런데 인터넷이 커지면서 초당 100만 개의 패킷이 쏟아져 들어오자 CPU가 폭발해버렸다. "경로를 찾는 똑똑한 뇌(CPU)와, 들어오는 족족 튕겨내는 단순무식한 근육(하드웨어 칩셋)을 완전히 분리하자! 근육은 뇌가 미리 계산해 둔 <strong>가이드라인(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/">FIB</a>)</strong>만 보고 생각 없이 몸만 움직이게 하자!" 이것이 기가비트 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)의 시작이다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - **제어 평면 (RIB)**: 물류 회사의 <strong>"본사 작전 회의실"</strong>입니다. 내비게이션 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석해 "강남구는 3번 고속도로가 제일 빠름"이라는 최적의 루트 지도를 짭니다. 머리를 많이 써야 해서 느립니다.
   - <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 평면 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/">FIB</a>)</strong>: 물류 센터의 <strong>"단순 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 로봇(컨베이어 벨트)"</strong>입니다. 박스에 적힌 '강남구'란 글자를 스캐너로 찍자마자, 본사에서 미리 내려준 지침([FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/))대로 0.1초 만에 3번 트럭으로 박스를 확 던져버립니다. 로봇은 절대 스스로 길을 계산하지 않습니다.
 
@@ -43,13 +43,13 @@ tags = ["studynote-network"]
 
 ### 1. 제어 평면 (Control Plane)과 RIB
 - **주체**: 메인 CPU, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/), [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/), [RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/)) 프로세스 프로세스.
-- **역할**: 전 세계 라우터들과 대화를 나누어 토폴로지(지형)를 파악한다. 선로가 끊어지면 우회로를 찾고, <strong>RIB (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a> Information Base, <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 테이블)</strong>를 갱신한다. 
+- **역할**: 전 세계 라우터들과 대화를 나누어 토폴로지(지형)를 파악한다. 선로가 끊어지면 우회로를 찾고, <strong>RIB (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a> Information Base, <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 테이블)</strong>를 갱신한다.
 - **한계**: RIB는 트리 구조 등으로 되어 있어 특정 IP를 찾으려면 CPU가 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 탐색(Recursive Lookup)을 해야 하므로 패킷을 넘기는 속도가 밀리초(ms) 단위로 매우 느리다.
 
 ### 2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)과 [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/)
 - **주체**: 스위칭 패브릭(고속 백플레인), 라인 카드([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)), 하드웨어 [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 칩셋.
 - **역할**: 오직 사용자의 패킷(IP [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램)을 입력 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에서 출력 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 넘겨주는(Forwarding) 육체노동만 전담한다.
-- **동작 방식**: 
+- **동작 방식**:
   1. 제어 평면의 CPU가 RIB 지도를 완성하면, 이를 기계어로 번역해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면의 고속 하드웨어 메모리([TCAM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/591_tcam_packet_classification/))로 쏴준다. 이것이 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/">FIB</a> (Forwarding Information Base)</strong>다.
   2. 라인 카드로 패킷이 훅 들어오면, 라인 카드에 달린 칩셋은 중앙 CPU를 괴롭히지 않고, 자기 라인 카드에 있는 [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) 메모리만 쓱 보고 즉시 3번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 패킷을 쏴버린다. (CPU 개입 0%)
 

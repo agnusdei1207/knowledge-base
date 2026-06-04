@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: 출발지에서 목적지까지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전달할 때, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(교환기)가 선로와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떤 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 다룰 것인가를 결정하는 3대 아키텍처다.
 - **필요성**: 통신선은 비싸다. 이 비싼 선 하나를 100만 명의 국민이 나눠 써야 한다. "통화 중엔 절대 안 끊기게 나 혼자만 선을 독점하게 해줘!"라는 전화국 마인드(회선 교환)와, "모두의 이메일을 조각조각 내서 하나의 선으로 동시에 섞어 보내자!"라는 컴퓨터 마인드(패킷 교환)가 충돌했고, 결국 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭증 시대를 견뎌낸 패킷 교환이 승리했다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - **회선 교환**: 1시간 동안 <strong>"전세 낸 전용 차선"</strong>입니다. 내 차가 달리지 않고 멈춰있어도 다른 차는 절대 들어올 수 없습니다.
   - **메시지 교환**: <strong>"우편 배달"</strong>입니다. 거대한 이삿짐을 한 상자에 싸서 우체국([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))에 통째로 맡기면 알아서 배달해 주지만, 상자가 커서 처리하는 데 오래 걸립니다.
   - **패킷 교환**: <strong>"택배 분할 배송"</strong>입니다. 이삿짐을 100개의 작은 우체국 1호 박스(패킷)로 나누고, 도로(선로)의 빈 차선에 요리조리 끼어들어 다 같이 동시에 배송되는 시스템입니다.
@@ -44,7 +44,7 @@ tags = ["studynote-network"]
 
 ### 1. 회선 교환 (Circuit Switching)
 - **동작**: "여보세요?" 하는 순간, 교환국 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 내 전화기와 상대방 전화기 사이의 구리선을 물리적(또는 논리적)으로 찰칵! 하고 하나로 이어버린다.
-- **특징**: 경로가 미리 확정되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 순서대로 도착하며, 다른 사람의 트래픽이 끼어들지 않아 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay)이 일정하고 예측 가능하다. 
+- **특징**: 경로가 미리 확정되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 순서대로 도착하며, 다른 사람의 트래픽이 끼어들지 않아 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay)이 일정하고 예측 가능하다.
 - **단점**: 연결 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(Setup)에 시간이 오래 걸리고, 연결된 동안 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안 보내도 망 자원이 낭비(독점)된다.
 
 ### 2. 메시지 교환 (Message Switching) - 스토어 앤 포워드의 원조
@@ -54,7 +54,7 @@ tags = ["studynote-network"]
 ### 3. 패킷 교환 (Packet Switching)
 - **동작**: 메시지 교환의 딜레이를 해결하기 위해 등장했다. 10GB짜리 동영상을 1.5KB 크기의 수백만 개 패킷으로 잘게 썬다.
 - <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a>(<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">Multiplexing</a>)의 기적</strong>: 내 패킷 조각과 다른 사람의 패킷 조각들이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 버퍼에서 섞여서(Interleaving) 번갈아 가며 나간다. 앞사람이 10GB를 보내도, 내 패킷은 앞사람 패킷들 사이에 낑겨서 전송되므로 딜레이 없이 실시간으로 목적지에 도착한다.
-- **결과**: 현대의 IP 라우터와 인터넷 망은 100% 패킷 교환 방식을 기반으로 작동한다. 
+- **결과**: 현대의 IP 라우터와 인터넷 망은 100% 패킷 교환 방식을 기반으로 작동한다.
 
 ```text
  ┌─────────────────────────────────────────────────────────────┐

@@ -102,11 +102,11 @@ tags = ["database"]
 ```text
 [A. App Server 루프: 네트워크 병목]
  App ──(10만 번 SELECT/UPDATE 요청)──▶ DB
-  ▲                                    ▼ 
+  ▲                                    ▼
   └─────(10만 번 결과 반환)────────────┘ => 엄청난 Network I/O 및 App 메모리 낭비
 
 [B. DB Stored Procedure (절차적 DML): 성능 최적화]
- App ──("Call 정산_프로시저()")───────▶ DB 
+ App ──("Call 정산_프로시저()")───────▶ DB
                                      │ ┌───────────────┐
                                      │ │ FOR 1..10만:  │ (DB 엔진 내부에서
                                      │ │   UPDATE...   │  메모리/디스크 간 고속 연산)

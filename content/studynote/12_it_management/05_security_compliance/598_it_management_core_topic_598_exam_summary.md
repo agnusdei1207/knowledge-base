@@ -11,159 +11,150 @@ tags = ["studynote-it-management"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: IT 경영 관리 핵심 토픽 598번 시험 요약은(는) 보안 컴플라이언스 및 IT 경영 관리 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: IT 경영 관리(Governance·Strategy·Portfolio·Service·Risk 통합)는 **COBIT 2019(34개 governance/process objective) × ITIL 4(SVS 34 practices) × ISO/IEC 38500(6 principles) × PMBOK 7(8 performance domains)**를 4-Layer Control Model(전략-전술-운영-감시)로 융합하여 **"Value Realization(EVT×BR×RR / [Cost+Risk])"** 공식을 기반으로 IT 투자를 비즈니스 성과로 정량 전환하는 경영 체계이다.
+> 2. **가치**: McKinsey Digital(2023) 기준 COBIT+ITIL 통합 적용 기업은 **IT 비용 대비 비즈니스 성과 23% 향상, 프로젝트 실패율 38%→9% 감소, MTTR 62% 단축, 감사 지적사항 71% 감소, TCO 5년 누적 34% 절감** 효과를 거두며, 디지털 트랜스포메이션(DX) 성공률(Industry 평균 30%)을 **67%까지 제고**시킨다.
+> 3. **판단 포인트**: 거버넌스-관리(Governance vs Management) 경계, **RACI matrix**(Responsible/Accountable/Consulted/Informed) 명확화, **3 Lines of Defense(비즈니스·위험관리·내부감사)** 모델 적용, Agile-DevOps-Cloud 전환 시 **Dual Operating System(기존 체계 + 디지털 코어)** 설계, 그리고 측정 가능한 **KPI Tree(CSF→KPI→KGI)** 구축 여부가成败를 가른다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-IT 경영 관리 핵심 토픽 598번 시험 요약은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+전통적 IT 운영(CIO 중심 비용 센터, CapEx 위주, 사일로 부서, Waterfall)은 4차 산업혁명(AI/Cloud/Data/Bio/IoT) 환경에서 비즈니스 속도·규모·복잡성 증가에 따른 **3대 패러다임 붕괴**를 겪고 있다:
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, IT Management Core Topic 598 Exam Summary 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+1. **기술-비즈니스 간 시간차 붕괴**: 평균 36개월→9개월(Forrester, 2024)
+2. **데이터 규모·속도 붕괴**: Zettabyte 시대(전 세계 데이터 2025년 175ZB), 실시간 의사결정 요구
+3. **규제·보안 환경 붕괴**: GDPR(€20M/4%), KR ISO 27001/27701, DORA, ESG 공시 의무화
+
+이에 IT 경영 관리는 단순 IT 운영을 넘어 **"전략적 비즈니스 파트너"**로 진화해야 하며, 이는 **ISO/IEC 38500(거버넌스 표준)**, **COBIT 2019(관리 목표 프레임워크)**, **ITIL 4(서비스 가치 체계)**, **TOGAF 10(EA 방법론)**, **PMBOK 7(프로젝트/프로그램/포트폴리오)** 5대 프레임워크의 통합적 적용을 요구한다. 정보관리기술사 관점에서는 **"IT가 비즈니스에 정량적 가치를 창출하는가"**를 입증할 수 있는 거버넌스 체계를 설계·감리하는 능력이 핵심 평가 포인트다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                    IT 경영 관리 핵심 토픽 598번 시험 요약 개념 구조                       │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  기존 방식              vs            신규 접근법             │
-│  ┌──────────┐                    ┌──────────────┐           │
-│  │ 수동 관리 │ ──── 전환 ────▶  │ 자동화/통합   │           │
-│  │ 반응적    │                    │ 선제적        │           │
-│  │ 사일로    │                    │ 통합 관리     │           │
-│  └──────────┘                    └──────────────┘           │
-│                                                              │
-│  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         │
-└──────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────┐
+│                  IT 경영 관리 4-Layer 통합 아키텍처                   │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│  ┌─────────────────────────────────────────────────────────────┐    │
+│  │  Layer 1: 전략 거버넌스 (Strategy & Governance)              │    │
+│  │  • ISO/IEC 38500 6원칙  • Board/CDO/Steering Committee     │    │
+│  │  • IT Strategy Map  • Value Realization Framework           │    │
+│  └──────────────────────┬──────────────────────────────────────┘    │
+│                         │ Cascading                                 │
+│  ┌──────────────────────▼──────────────────────────────────────┐    │
+│  │  Layer 2: 전술 기획 (Tactical Portfolio & EA)                │    │
+│  │  • COBIT 2019 (40 Governance/Management Objectives)         │    │
+│  │  • TOGAF ADM (Preliminary→Vision→Business→IS→Tech→...)     │    │
+│  │  • Portfolio Prioritization (NPV/IRR/ROIC/Strategic Fit)    │    │
+│  └──────────────────────┬──────────────────────────────────────┘    │
+│                         │ Allocation                                │
+│  ┌──────────────────────▼──────────────────────────────────────┐    │
+│  │  Layer 3: 운영 실행 (Service & Project Delivery)             │    │
+│  │  • ITIL 4 SVS (Service Value System, 34 Practices)           │    │
+│  │  • PMBOK 7 (8 Performance Domains)                          │    │
+│  │  • DevOps/Agile/SRE/IT4IT                                   │    │
+│  └──────────────────────┬──────────────────────────────────────┘    │
+│                         │ Monitoring                                │
+│  ┌──────────────────────▼──────────────────────────────────────┐    │
+│  │  Layer 4: 감시·통제 (Assurance & Risk)                       │    │
+│  │  • 3 Lines of Defense  • Internal Audit  • GRC               │    │
+│  │  • KPI/KGI/SLA Reporting  • Continuous Improvement           │    │
+│  └─────────────────────────────────────────────────────────────┘    │
+│                                                                      │
+│  Cross-cutting: ISO 27001(보안) · ISO 20000(서비스) · ISO 31000(리스크)│
+└──────────────────────────────────────────────────────────────────────┘
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+기존(As-Is)인 **"CIO 직할 IT 부서, 연간 CapEx 예산 중심, 개별 시스템 단위 운영, 사후 감리"** 모델은 **To-Be**인 **"BizDevOps + Value Steward + 실증 거버넌스 + 연속적 의사결정"** 모델로 전환되어야 하며, 이때 핵심은 **"측정 가능성(Measurability) × 정당성(Justification) × 지속가능성(Sustainability)"** 의 3축 균형이다.
 
-- **📢 섹션 요약 비유**: IT 경영 관리 핵심 토픽 598번 시험 요약은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: IT 경영 관리는 마치 **"도시의 도시계획 + 교통관제 + 소방서 + 감사관"**을 한 시스템으로 묶은 것과 같다. 도시계획(전략), 교통관제(운영), 소방서(리스크), 감사관(컴플라이언스) 어느 하나라도 어긋나면 도시 전체가 마비되는 것처럼, IT의 4계층이 동시에 조화롭게 돌아가야 한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-IT 경영 관리 핵심 토픽 598번 시험 요약의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+### 1. ISO/IEC 38500 IT 거버넌스 — 6대 원칙 프레임워크
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│              IT Management Core Topic 598 Exam Summary 아키텍처 3계층 구조                   │
-├──────────────────────────────────────────────────────────────┤
-│  [수집 계층]                                                  │
-│    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   │
-│         │                                                    │
-│  [처리/분석 계층]                                             │
-│    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               │
-│         │                                                    │
-│  [실행/피드백 계층]                                           │
-│    자동 대응 · 알림 · 보고서 · 지속 개선                     │
-└──────────────────────────────────────────────────────────────┘
+ISO/IEC 38500:2015는 **"Direct, Monitor, Evaluate"** 3단계 모델과 **6 Principles(책임, 전략, 획득, 성능, 적합성, 인간행동)** 을 제시하며, 이사회·경영진이 IT 의사결정의 5가지 관점(현재·미래·계획·최적·실행)을 지속적으로 검토하도록 요구한다.
+
+### 2. COBIT 2019 — 40 Governance/Management Objectives
+
+**EDM(5) → Align/Plan/Organize(14) → Build/Acquire/Implement(11) → Deliver/Service/Support(6) → Monitor/Evaluate/Assess(4)** 의 5개 도메인, 40개 목표 체계. 핵심은 **"Goal Cascade(Enterprise Goal→Alignment Goal→Process Goal)"** 로 비-IT KPI(S/N/P 등 13개)와 IT KPI를 자동 매핑하는 메커니즘이다.
+
+### 3. ITIL 4 — Service Value System (SVS)
+
+**Opportunity/Demand → Value → Value Chain(Plan/Engage/Design/Obtain/Build/Deliver/Support) → 34 Practices(General, Service, Technical Management)** 구조. 핵심은 **"SLA → OLA → UC(Service Catalogue)"** 의 3단 서비스 계약 체계와 **"Incident→Problem→Known Error→Change"** 의 ITIL Service Operation Life-cycle이다.
+
+### 4. Value Realization Formula (가치 실현 공식)
+
+```
+Value = (Enterprise Value × Benefits Realization × Risk Reduction)
+        ─────────────────────────────────────────────────
+              (Total Cost of Ownership + Risk Cost)
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+이 공식을 **연속 측정(Continuous Measurement)** 하기 위해 **CSF(Critical Success Factor) → KPI(Key Performance Indicator) → KGI(Key Goal Indicator)** 의 3단계 인과 사슬을 설계한다. 예: "고객 이탈률 5% 감소(KGI)" ← "모바일 앱 가용성 99.95%(KPI)" ← "MSA 전환 및 Active-Active DR 구성(CSF)".
+
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│         IT 가치 실현을 위한 KPI Tree & 인과관계 매핑 예시             │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│   [CSF] Strategic ─────────────────────────────────────────────┐    │
+│      │ DX 가속화 & 글로벌 SaaS 전환                              │    │
+│      ▼                                                          │    │
+│   [KPI-1] Time-to-Market 18개월→6개월                          │    │
+│   [KPI-2] 신규 SaaS 통합 MTTR < 2h                              │    │
+│   [KPI-3] Cloud TCO YoY -15%                                   │    │
+│      │                                                          │    │
+│      ▼                                                          │    │
+│   [KGI] 매출신장률 +12%  | 고객이탈률 -5% | EBITDA +3%p        │    │
+│      ▲                                                          │    │
+│      │                                                          │    │
+│   [CSF] Operational ────────────────────────────────────────────┘    │
+│      │                                                            │
+│      ├── Incident MTTR < 30min  (L1)                              │
+│      ├── Change Success Rate > 98%                                │
+│      ├── Major Incident ≤ 1/분기                                  │
+│      └── Problem RCA 100% (5-Whys + Fishbone)                    │
+│                                                                      │
+│   [CSF] Compliance/Security                                        │
+│      ├── KR ISO 27001 인증 유지                                    │
+│      ├── 취약점 Critical 0건, High ≤ 3건                           │
+│      └── 개인정보 영향평가 100% 사전 이행                          │
+└──────────────────────────────────────────────────────────────────────┘
+```
+
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Board / Steering Committee** | 거버넌스 의사결정 최고 기구 | 6원칙 책임, 분기별 Review, 화이트페이퍼 기반 의사결정, **RACI Matrix** 명문화 |
+| **CDO/CIO + PMO** | 전략-전술 연결, 프로젝트 우선순위화 | **COBIT EDM(01~05)** 수행, **MoSCoW/AHP/Weighted Scoring** 으로 포트폴리오 우선순위 산정, **Stage-Gate Process**(Idea→Feasibility→Planning→Delivery→Closure) 운영 |
+| **EA Team (TOGAF ADM)** | 아키텍처 표준·로드맵 | **Preliminary→A(Architecture Vision)→B(Business)→C(IS)→D(Technology)→E(Opportunities)→F(Migration)→G(Implementation)→H(Change Management)** 의 9단계 사이클, **ArchiMate 3.2** 표기 |
+| **Service Operation Center (SOC/NOC)** | 일일 운영·모니터링 | **ITIL 4 34 Practices** 중 Incident/Problem/Change/Service Desk/Continuity 운영, **ServiceNow/Jira Service Management** 같은 ITSM Tool로 워크플로우 자동화 |
+| **GRC Platform** | 정책·리스크·컴플라이언스 통합 | **3 Lines of Defense** 매핑, ISO 27001 Annex A 93 통제 + ISO 31000 리스크 레지스터 통합, **RSA Archer / ServiceNow GRC / SAP GRC** 활용 |
+| **Continuous Improvement (CSI)** | 측정·학습·개선 | **Lean/DMAIC, PDCA, NPS, KPT 회고**, SRI(Service Request Index)/SPI/CSI 등록 및 추적 |
+| **Assurance Function** | 내부감사·제3자 검증 | **ISAE 3402 / SOC 2 Type II**, **GDPR/ISMS-P/PCI-DSS** 인증, **통제 테스트(Control Test)** 6개월 주기 |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+### 5. Risk Management 심화 (ISO 31000 + NIST CSF 2.0)
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+**Risk = Threat × Vulnerability × Asset Value / Control Effectiveness**. 리스크 평가 시 **Qualitative(매트릭스) + Quantitative(FAIR/ALE)** 하이브리드 접근을 권장한다. **NIST CSF 2.0(2024)** 의 **6 Function(Govern, Identify, Protect, Detect, Respond, Recover)** + **Tier(1~4)** 모델과 매핑한다.
+
+### 6. IT Portfolio & Investment Management
+
+**"Run(50~60%) / Grow(30~35%) / Transform(10~15%)"** 의 IT 예산 배분(Jeff Bezos 2-Pizza Team 원칙 변형)이 글로벌 표준이며, **NPV(순현재가치), IRR(내부수익률), Payback Period, ROIC, Strategic Fit Score, Risk-adjusted Return(RAROC)** 의 6대 지표로 우선순위화한다.
+
+- **📢 섹션 요약 비유**: IT 경영 관리 4계층은 마치 **"오케스트라 지휘자(Board) → 악장(PMO) → 연주자(Service Ops) → 비평가(Audit)"**의 관계와 같다. 지휘자가 명확한 악보(전략)를 주지 않으면, 아무리 좋은 연주자도 엇나가고, 비평가는 객관적·독립적이어야만 신뢰할 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-IT 경영 관리 핵심 토픽 598번 시험 요약을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | IT 경영 관리 핵심 토픽 598번 시험 요약 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. IT 경영 관리 핵심 토픽 598번 시험 요약은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 IT 경영 관리 핵심 토픽 598번 시험 요약은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 IT 경영 관리 핵심 토픽 598번 시험 요약을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-IT 경영 관리 핵심 토픽 598번 시험 요약을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, IT 경영 관리 핵심 토픽 598번 시험 요약 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: IT 경영 관리 핵심 토픽 598번 시험 요약은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | IT 경영 관리 핵심 토픽 598번 시험 요약의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | IT 경영 관리 핵심 토픽 598번 시험 요약의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        │
-        ▼
-스크립트 기반 자동화
-        │
-        ▼
-IT 경영 관리 핵심 토픽 598번 시험 요약 도입
-        │
-        ▼
-AI/ML 기반 지능화
-        │
-        ▼
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. IT 경영 관리 핵심 토픽 598번 시험 요약은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
+| 구분 | **COBIT 2019** | **ITIL 4** | **ISO 38500** | **PMBOK 7** | **TOGAF 10** |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **주 목적** | IT 거버넌스/관리 목표 | 서비스 가치 창출 | 이사회 수준 IT 거버넌스 | 프로젝트/프로그램 관리 | 기업 아키텍처 |
+| **계층 위치** | 전술·관리(Tactical) | 운영(Operational) | 전략·거버넌스(Strategic) | 전술(Tactical) | 전술·설계(Tactical/Design) |
+| **핵심 산출물** | 40 Governance Objectives | 34 Practices, SVS | 6 Principles + 5 Tasks | 8 Performance Domains | ADM Cycle, ArchiMate 모델 |
+| **측정 중심** | Maturity Level(0~5) / Process Capability | SLA / SLO / Error Budget | Conformance + Performance | Project KPIs(SP/PI/CV/SV) | Architecture Roadmap |
+| **통합 인터페이스** | **APO(Align-Plan-Org)** 모듈 | **Service Value Chain** | **Direct/Monitor/Evaluate** | **Plan/Execution/Work** | **Architecture Repository** |
+| **적합 조직 단계** | 중·대규모, 규격 준수 산업 | 서비스 중심 기업 | 대기업·공공기관 | 프로젝트 비중 30%↑ | 디지털 전환 추진 기업 |
+| **결합 시너지** | **지표 정의** | **실행 운영** | **원칙·책무** | **일정·범위·원가** | **표준·로드맵** |
 
 ## 🔗 이전/다음 글 (Navigation)
 

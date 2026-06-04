@@ -19,7 +19,7 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/)) 아키텍처는 컴퓨터 비전 분야에서 이미지의 특징을 스스로 학습하는 인공신경망 구조다. 1990년대 LeNet-5가 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)([Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/))과 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)([Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))을 반복하는 기본 골격을 제시했지만, 컴퓨팅 파워의 한계와 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)([Vanishing Gradient](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/)) 문제로 오랫동안 암흑기를 겪었다. 
+[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/)) 아키텍처는 컴퓨터 비전 분야에서 이미지의 특징을 스스로 학습하는 인공신경망 구조다. 1990년대 LeNet-5가 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)([Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/))과 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)([Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))을 반복하는 기본 골격을 제시했지만, 컴퓨팅 파워의 한계와 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)([Vanishing Gradient](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/)) 문제로 오랫동안 암흑기를 겪었다.
 
 이러한 한계를 극복하고 모델의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 비약적으로 높이기 위해, 학계는 "어떻게 하면 신경망을 더 깊게 쌓을 수 있을까?"에 집중했다. 깊은 신경망은 더 복잡하고 추상적인 특징을 추출할 수 있지만, 파라미터 폭발과 학습 정체라는 치명적인 문제를 동반한다. 따라서 이를 해결하기 위한 혁신적인 구조 변경이 필수적이었으며, 그 결과물들이 오늘날 딥러닝의 부흥을 이끈 전설적인 아키텍처들이다.
 
@@ -127,7 +127,7 @@ AlexNet (ReLU 활성화 함수, GPU 연산 도입)
     │
     ├───────────┐
     ▼           ▼
-VGGNet          GoogLeNet 
+VGGNet          GoogLeNet
 (3x3 필터)      (Inception 모듈, 경량화)
     │           │
     └─────┬─────┘

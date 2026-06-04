@@ -19,12 +19,12 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>가변 분할 (Variable <a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">Partitioning</a>)</strong>: 프로세스가 요구하는 크기만큼 메모리를 잘라서 주는 방식.
   - **Free List (빈 공간 리스트)**: 운영체제가 현재 메모리에서 사용되지 않고 비어있는 조각(Hole)들의 주소와 크기를 기록해 둔 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/).
   - <strong>동적 할당 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>: Free List를 뒤져서 프로세스의 요구 크기($N$)를 만족하는 최적의 Hole을 골라내는 탐색 기법.
 
-- **필요성 (파편화와의 전쟁)**: 
+- **필요성 (파편화와의 전쟁)**:
   - 메모리 공간에 10MB, 30MB, 20MB짜리 빈 공간(Hole)이 흩어져 있다. 새로운 15MB짜리 프로세스가 들어왔다.
   - 30MB에 넣으면 15MB가 남고, 20MB에 넣으면 5MB가 남는다. 어디에 넣어야 남은 공간이 나중에 재활용되기 좋을까?
   - **해결책**: "탐색 속도"와 "남은 구멍의 크기([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 비율)" 사이의 트레이드오프를 계산하여, 시스템의 성격에 맞는 검색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(First, Best, Worst)을 적용해야 했다.
@@ -47,7 +47,7 @@ tags = ["studynote-operating-system"]
 
 ### 3대 할당 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 시뮬레이션
 
-메모리의 Free List에 **[ 10MB ], [ 30MB ], [ 15MB ], [ 50MB ]** 크기의 빈 구멍(Hole)이 순서대로 있다고 가정하자. 
+메모리의 Free List에 **[ 10MB ], [ 30MB ], [ 15MB ], [ 50MB ]** 크기의 빈 구멍(Hole)이 순서대로 있다고 가정하자.
 여기에 **[ 20MB ]** 크기의 새로운 프로세스 $P_1$이 도착했다.
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 탐색 과정 및 할당 위치 | 남은 잉여 공간 | [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) |
@@ -63,7 +63,7 @@ tags = ["studynote-operating-system"]
 이름만 들으면 Best-Fit이 가장 우수할 것 같지만, OS 역사상 가장 큰 배신을 안겨준 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
 1. **Best-Fit의 배신 (Micro-hole 양산)**:
-   - 20MB가 필요한데 21MB 구멍에 넣었다([Best-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/)). 
+   - 20MB가 필요한데 21MB 구멍에 넣었다([Best-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/)).
    - 남은 1MB는? 너무 작아서 지구상의 어떤 프로세스도 들어갈 수 없는 완전한 '쓰레기 조각([External Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))'이 된다.
    - Best-Fit은 이런 쓸모없는 쥐똥만 한 조각들을 메모리 전체에 수만 개씩 양산하여 시스템을 빠르게 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))으로 몰고 간다.
 

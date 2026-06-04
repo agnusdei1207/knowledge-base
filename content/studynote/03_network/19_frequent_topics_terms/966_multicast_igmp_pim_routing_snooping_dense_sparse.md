@@ -80,7 +80,7 @@ tags = ["studynote-network"]
 동네 라우터가 "우리 동네 1명 봅니다!"라고 외쳤으니, 서울 본사 넷플릭스 서버부터 우리 동네까지 연결되는 핏줄([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 트리)을 엮어야 합니다.
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/">PIM</a> (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a> Independent Multicast)</strong>: 전국의 라우터들끼리 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 길을 뚫어주는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 프로토콜입니다. PIM은 두 가지 극단적인 성격(모드)이 있습니다.
 
-1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/">PIM</a>-DM (Dense Mode, 빽빽한 모드)</strong>: 
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/">PIM</a>-DM (Dense Mode, 빽빽한 모드)</strong>:
    - **사상**: "야, 전 국민 90%가 다 킹덤 방송 보지? 일단 전국 모든 라우터한테 영상을 무식하게 다 쏟아부어(Push/Flooding)!"
    - <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">가지치기</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">Pruning</a>)</strong>: 그러다 저기 산골짜기 빈방 라우터가 "야! 우리 동네는 아무도 안 봐!"라고 소리치면(Prune 메시지), 그때서야 그쪽으로 가는 영상 밸브만 툭 끊어버립니다([가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)). 시청자가 미친 듯이 빽빽하게 많을 때 씁니다.
 

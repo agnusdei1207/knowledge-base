@@ -19,14 +19,14 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a> 무시 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a> Ignorance)</strong>: OS 수준에서 데드락을 처리하기 위한 어떠한 코드나 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)도 포함하지 않는 방식.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/">타조 알고리즘</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/">Ostrich Algorithm</a>)</strong>: 타조가 맹수(문제)를 만나면 땅에 머리를 파묻고 "안 보이니까 괜찮아"라고 무시한다는 서양의 속설에서 유래한 학술적 은유.
 
-- **필요성 (완벽함의 끔찍한 가성비)**: 
+- **필요성 (완벽함의 끔찍한 가성비)**:
   - 1970년대 학자들은 4가지 조건 파괴(예방), 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(회피) 등 수학적으로 완벽한 데드락 방어막을 쏟아냈다.
   - 하지만 이를 실제 OS에 넣었더니, 앱이 파일을 열거나 메모리를 달라고 할 때마다 OS가 복잡한 행렬 검사(O(N^2))를 하느라 컴퓨터가 숨을 쉬지 못했다.
-  - 반면 실제 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 환경에서는 사용자가 웹서핑을 하다가 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 꼬여 데드락이 날 확률이 극히 낮았다. 
+  - 반면 실제 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 환경에서는 사용자가 웹서핑을 하다가 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 꼬여 데드락이 날 확률이 극히 낮았다.
   - **해결책**: "빈대(데드락) 잡으려다 초가삼간([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)) 다 태운다. 데드락이 나서 앱이 멈추면, 그냥 사용자가 작업 관리자 열어서 앱을 '강제 종료(Ctrl+[Alt](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/762_accelerated_life_testing/)+Del)'하게 놔두는 게 백번 낫다!"는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 우선주의가 승리했다.
 
   - <strong>예방/회피 (은행원 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>)</strong>: 운석이 떨어질 확률에 대비해 전 국민에게 1년 내내 두꺼운 강철 헬멧을 쓰고 다니게 법으로 강제하는 것. 운석은 피하겠지만 목 디스크로 다 죽는다.
@@ -112,7 +112,7 @@ OS가 손을 놔버렸기 때문에, 그 폭탄은 고스란히 윗선(Applicati
 1. <strong>시나리오 — K8s/<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a> 환경에서의 <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/">타조 알고리즘</a> 실전 (Liveness Probe)</strong>: 자바 스프링 서버에서 데드락이 터져 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 200개가 전부 멈췄다(Tomcat Hang). 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(타조)은 아무 조치도 하지 않는다.
    - **아키텍처 적용**: 애플리케이션 개발자는 이 타조(OS)를 믿으면 안 된다. 대신 K8s의 <strong>Liveness Probe</strong>를 설정한다. K8s가 10초마다 `/health` API를 찌른다.
    - 데드락에 빠진 톰캣은 10초 안에 응답하지 못한다.
-   - K8s(외부 감시자)는 "이 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 데드락 났구나!" 판단하고, <strong>가차 없이 해당 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a>)를 킬(Kill)하고 새 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>를 띄운다.</strong> 
+   - K8s(외부 감시자)는 "이 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 데드락 났구나!" 판단하고, <strong>가차 없이 해당 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a>)를 킬(Kill)하고 새 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>를 띄운다.</strong>
    - OS가 무시한 데드락을, 클라우드 인프라가 1분 만에 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)해 내는 완벽한 분업 아키텍처다.
 
 2. **시나리오 — 클라이언트 앱(iOS/Android)의 "응답 없음" 처리 (ANR / Watchdog)**: 앱 개발자가 메인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(UI)와 백그라운드 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간에 락을 잘못 걸어 데드락이 났다. 화면이 터치해도 멈춰버림.

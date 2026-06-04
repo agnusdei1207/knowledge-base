@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **디바이스 드라이버**: 특정 하드웨어 장치를 제어하는 소프트웨어 코드 뭉치. 하드웨어 제조사(NVIDIA, Realtek 등)가 직접 짜서 OS에 맞게 제공한다.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/067_lkm/">LKM</a> (적재가능 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>)</strong>: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 구동 중일 때(Runtime), 메모리의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 영역에 동적으로 쑥 밀어 넣어(Load) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 일부로 만들거나, 필요 없을 때 즉시 빼버릴(Unload) 수 있는 동적 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(`*.ko` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) 기술.
 
-- **필요성(문제의식)**: 
+- **필요성(문제의식)**:
   - 과거 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)([Monolithic Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/))는 세상의 모든 마우스, 프린터 드라이버 코드를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 하나에 다 뭉쳐서 컴파일(빌드)했다.
   - 새 그래픽 카드를 하나 샀을 뿐인데, OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스를 다시 컴파일하고 컴퓨터를 재부팅해야만 그래픽 카드를 쓸 수 있었다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 덩치도 수백 메가바이트로 너무 무거웠다.
   - **해결책**: "[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 뼈대(Core)는 최대한 가볍게 남겨두고, 하드웨어 통역 코드는 별도의 레고 블록([모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))으로 빼자. USB를 꽂는 순간 그에 맞는 레고 블록만 찰칵! 하고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 합체시키자!"
@@ -31,7 +31,7 @@ tags = ["studynote-operating-system"]
   - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/">모놀리식 커널</a></strong>: 세상 모든 나라의 언어(수만 개)를 한 사람([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))의 뇌 속에 다 집어넣어 암기시키는 방식. 너무 똑똑하지만 머리가 터질 것 같고 새로운 언어가 나오면 뇌수술(재부팅)을 해야 함.
   - <strong>드라이버 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/067_lkm/">LKM</a>)</strong>: 뼈대 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 영어만 할 줄 앎. 아랍어 통역이 필요하면 '아랍어 통역 칩([모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))'을 귀에 꽂고(Load), 다 쓰면 뺀다(Unload). 수술 없이 칩만 바꿔 끼우며 무한히 확장 가능함.
 
-- **등장 배경**: 
+- **등장 배경**:
   - 리눅스 진영이 모놀리식(Monolithic) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 속도를 유지하면서도, [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)([Microkernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/))의 유연함(동적 확장성)을 흡수하기 위해 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 인터페이스 아키텍처를 도입하여 오늘날 Plug-and-Play(플러그 앤 플레이) 시대의 근간이 되었다.
 
 ```text

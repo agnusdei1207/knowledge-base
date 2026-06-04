@@ -117,7 +117,7 @@ SQL [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/
 GROUP BY / HAVING 도입 (RDBMS 엔진 내부의 선언적 통계 연산)
     │
     ▼
-Sort Group By 방식의 디스크 I/O 병목 
+Sort Group By 방식의 디스크 I/O 병목
     │
     ▼
 Hash Group By 아키텍처 진화 (메모리 해시 테이블을 이용한 초고속 튜닝)

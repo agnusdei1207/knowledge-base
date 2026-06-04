@@ -20,7 +20,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - 개발자는 항상 두려움에 떱니다. "내년에 카카오톡처럼 동접자 1,000만 명이 몰리면 어떡하지?"
-- 사실 이 쇼핑몰은 하루에 10명밖에 안 오는 동네 구멍가게인데, 혼자 1,000만 명을 대비하겠다고 아마존 K8s, [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/), [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 등 듣도 보도 못한 신기술을 떡칠해서 로직을 미치도록 복잡하게 꼬아버립니다. 
+- 사실 이 쇼핑몰은 하루에 10명밖에 안 오는 동네 구멍가게인데, 혼자 1,000만 명을 대비하겠다고 아마존 K8s, [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/), [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 등 듣도 보도 못한 신기술을 떡칠해서 로직을 미치도록 복잡하게 꼬아버립니다.
 - **비극**: 트래픽은 영원히 안 오고, 정작 로그인 버튼에 버그 하나 났는데 고치는 데 3일이 걸립니다. (코드가 너무 복잡해서 작성자 본인도 못 읽음)
 
 - **📢 섹션 요약 비유**: KISS (Keep It Simple, Stupid) 원칙은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
@@ -51,7 +51,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **명칭 유래**: 1960년대 미국 해군에서 전투기 수리 매뉴얼을 만들 때 쓰던 표어. (전투 중에 기계가 복잡하면 수리를 못 하고 죽으니까 제발 멍청할 정도로 단순하게 만들라는 뜻)
-- **개념**: 시스템과 소스 코드는 <strong>필요한 목적을 달성하는 선에서 무조건 가장 '단순하고, 직관적이고, 읽기 쉽게' 작성되어야 한다는 원칙</strong>입니다. 
+- **개념**: 시스템과 소스 코드는 <strong>필요한 목적을 달성하는 선에서 무조건 가장 '단순하고, 직관적이고, 읽기 쉽게' 작성되어야 한다는 원칙</strong>입니다.
 - 복잡함은 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 가장 큰 적입니다. 복잡할수록 버그가 터질 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)([결함 밀도](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/))이 기하급수적으로 올라가고 유지보수 비용(시간)이 폭발하기 때문입니다.
 
 - **📢 섹션 요약 비유**: KISS (Keep It Simple, Stupid) 원칙은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.

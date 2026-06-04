@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: RIP의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)인 Version 1(RFC 1058)이 가진 클래스 제약과 보안적 결함을 보완하기 위해, 호환성을 유지하면서 기능을 대폭 끌어올린 업그레이드 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) Version 2(RFC 2453).
 - **필요성**: RIPv1이 쓰이던 시대엔 A, B, C 클래스가 인터넷의 법이었다. 마스크가 무조건 8, 16, 24비트 고정이었으니 엽서에 마스크를 적어 보낼 필요가 없었다. 그런데 인터넷이 커지고 IP가 부족해지자 [VLSM](/knowledge-base/studynote/03_network/06_network_layer_ip/306_vlsm_variable_length_subnet_mask/)(가변 길이 [서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/)) 기술이 도입되었다. C클래스 하나를 `/25`, `/26`으로 갈기갈기 쪼개 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시작했는데, RIPv1은 마스크를 못 읽으니 이 쪼개진 골목길을 도무지 구별해 내지 못하고 길을 다 잃어버리는 치명적 참사가 발생했다. <strong>"야! 엽서 보낼 때 무조건 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/">서브넷 마스크</a>도 옆에 적어서 보내!!"</strong>라는 절박함이 v2를 탄생시켰다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - **RIPv1**: 우편번호가 없던 시절의 편지. 겉면에 대충 <strong>"서울시 김아무개"</strong>라고만 적혀 있어서 동명이인이 있으면 배달부가 미쳐버림 (마스크 부재).
   - **RIPv2**: 5자리 최신 우편번호가 도입된 편지. 겉면에 <strong>"서울시 김아무개 + 우편번호 06234(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/">서브넷 마스크</a>)"</strong>까지 꽉꽉 적혀 있어 골목길 101동 202호까지 완벽하게 찾아감.
 
@@ -53,13 +53,13 @@ tags = ["studynote-network"]
 ### 1. [Classful](/knowledge-base/studynote/03_network/06_network_layer_ip/297_ip_address_exhaustion_classful_addressing/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(v1)의 대참사 시나리오
 라우터 A에 영업부(`/25`)와 인사부(`/26`)가 쪼개져 꽂혀있다.
 - A가 RIPv1으로 라우터 B에게 소문을 낸다. 마스크를 안 보내니까 그냥 뭉뚱그려 "나 192.168.1.0 (C클래스) 망 가지고 있어!"라고 던진다.
-- 만약 다른 동네에 있는 라우터 C도 우연히 `192.168.1.0/24`를 자기가 쪼개 쓰고 있었다면? 
+- 만약 다른 동네에 있는 라우터 C도 우연히 `192.168.1.0/24`를 자기가 쪼개 쓰고 있었다면?
 - B는 A한테도 가야 하고 C한테도 가야 하는 혼란([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Blackhole)에 빠져 통신이 완전 박살 난다.
 - 반면 RIPv2는 "나는 192.168.1.0 의 `서브넷 255.255.255.128` 이야!"라고 정확히 꼬리표를 붙여 보내므로 B가 절대 헷갈리지 않는다.
 
 ### 2. [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))의 도입
 RIPv1은 해커가 노트북 랜선을 꽂고 가짜 라우터인 척 엽서를 쏘면 "어휴 우리 친구!" 하면서 그걸 지 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블에 냉큼 덮어써 버린다([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)과 동일한 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)).
-RIPv2는 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/">MD5</a> 해시 비밀번호</strong> 기능을 넣었다. 
+RIPv2는 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/">MD5</a> 해시 비밀번호</strong> 기능을 넣었다.
 "야, 엽서 봉투에 우리가 합의한 비밀번호(예: `cisco123`) 암호화해서 찍어 보내. 암호 틀리면 네가 보낸 지도는 갈기갈기 찢어버릴 거야!"라는 강력한 보안막이 생겼다.
 
 ```text

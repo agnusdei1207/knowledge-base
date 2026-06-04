@@ -28,9 +28,9 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[IEEE 754](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/) 표준에서 지수부를 인코딩할 때의 목표는 "음수를 없애라!"이다. 
+[IEEE 754](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/) 표준에서 지수부를 인코딩할 때의 목표는 "음수를 없애라!"이다.
 
-- $127$ 편향 적용 (FP32): 실제 지수가 $-2$라면 $127$을 더해 양수 $125$를 메모리에 기록한다. 실제 지수가 $+1$이라면 $127$을 더해 $128$을 기록한다. 
+- $127$ 편향 적용 (FP32): 실제 지수가 $-2$라면 $127$을 더해 양수 $125$를 메모리에 기록한다. 실제 지수가 $+1$이라면 $127$을 더해 $128$을 기록한다.
 - 비교 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 통과: 하드웨어 ALU는 단순 [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/) ([Unsigned Integer](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/081_unsigned_integer/) Compare)에 이 8비트를 각각 던져 넣는다. 알아서 128 자리가 125 자리보다 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 크므로 1클럭 만에 "이 수가 더 크다"라고 바로 판단한다.
 
 ```text

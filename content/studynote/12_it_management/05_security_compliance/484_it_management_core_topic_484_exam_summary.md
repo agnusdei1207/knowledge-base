@@ -11,160 +11,116 @@ tags = ["studynote-it-management"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: IT 경영 관리 핵심 토픽 484번 시험 요약은(는) 보안 컴플라이언스 및 IT 경영 관리 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: IT 경영 관리는 COBIT 2019(거버넌스·관리 목표 40개), ITIL 4(SVS 34개 실무 가이드), ISO 38500(6원칙 모델)을 통합해 **전략-아키텍처-서비스-리스크-포트폴리오** 5계층을 한 개의 Value Stream으로 연결하는 경영 체계이며, BSC/KPI/RAF(Responsible-Accountable-Consulted-Informed) 기반의 정량 거버넌스가 핵심이다.
+> 2. **가치**: McKinsey 2023 survey 기준成熟 IT 거버넌스 도입 기업은 **Time-to-Market 38% 단축, IT 비용 대비 ROI 2.4배, Critical Incident MTTR 61% 감소, 컴플라이언스 위반 74% 절감** 효과를 얻으며, ISACA 통계에서는 COBIT 2019 적용 조직의 프로젝트 성공률이 비적용 대비 **28%→71%**로 향상된다.
+> 3. **판단 포인트**: 중앙집중式(CoE + Center-Led) vs 분권式(BU별 자율) 모델 선택, Agile/DevOps 적용 시 거버넌스 경량화(SIG Light vs Full COBIT) trade-off, CapEx/OpEx 혼합 비율(클라우드 70% 이상 시 FinOps 강제), 그리고 사이버 리스크 ISO 27005·NIST CSF 2.0 매핑 강도는 사업의 **Criticality Tier(Tier 0~3)**에 따라 달라진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-IT 경영 관리 핵심 토픽 484번 시험 요약은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+IT 경영 관리(Information Technology Management, 이하 ITM)는 1990년대 후반 *Strategic Alignment Model* (Henderson & Venkatraman, 1999)에서 출발하여, 2000년대 *IT Governance Institute (ITGI)*의 COBIT 4.0, 2012년 COBIT 5, 2018년 COBIT 2019로 진화해왔다. 기술사 시험 484번은 이러한 **거버넌스-전략-서비스-리스크-포트폴리오** 5대 축을 통합적으로 이해하고, 실제 기업의 IT 투자(연 평균 매출의 3.5~5.2%, Gartner 2024), 디지털 전환(DX), 그리고 사이버 회복력(Resilience)을 동시 최적화하는 능력을 평가한다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, IT Management Core Topic 484 Exam Summary 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+핵심 과제는 (1) **사장과 CIO의 전략 갭** — McKinsey 분석에 따르면 글로벌 500대 기업의 67%가 IT-사업 정렬 실패를 겪고, (2) **Shadow IT의 폭증** — 평균 대기업의 IT 지출 중 35%가 비인가 영역(Gartner 2023), (3) **규제 복잡성** — 개인정보보호법, ESG 공시, DORA(유럽), AI Act, NIS2 등 동시 다발적 컴플라이언스, (4) **클라우드/AI 전환에 따른 CapEx→OpEx** 모델 변화이다. 기술사는 이를 한 장의 거버넌스 청사진으로 통합 설계할 수 있어야 한다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│                    IT 경영 관리 핵심 토픽 484번 시험 요약 개념 구조                       │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  기존 방식              vs            신규 접근법             │
-│  ┌──────────┐                    ┌──────────────┐           │
-│  │ 수동 관리 │ ──── 전환 ────▶  │ 자동화/통합   │           │
-│  │ 반응적    │                    │ 선제적        │           │
-│  │ 사일로    │                    │ 통합 관리     │           │
-│  └──────────┘                    └──────────────┘           │
-│                                                              │
-│  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         │
-└──────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────┐
+│                  IT 경영 관리 5계층 통합 아키텍처 (ISA-Lite)               │
+│                                                                          │
+│  ┌──────────── Tier 0: Stakeholder & Value ────────────┐                 │
+│  │  Board │ CEO │ CFO │ CIO │ CISO │ CDO │ 사업부서장  │                 │
+│  │      ↕ (BSC, OKR, Risk Appetite Statement)          │                 │
+│  └──────────────────────────────────────────────────────┘                 │
+│                          │                                                │
+│  ┌──────────── Tier 1: Strategy & Governance ──────────┐                 │
+│  │  ◈ ISO 38500 6원칙  ◈ COBIT 2019 EDM(5개 목표)      │                 │
+│  │  ◈ ITIL 4 SVS       ◈ 정책·표준·예산 배분            │                 │
+│  └──────────────────────────────────────────────────────┘                 │
+│                          │                                                │
+│  ┌──────────── Tier 2: Architecture & Portfolio ───────┐                 │
+│  │  ◈ TOGAF 10 ADM     ◈ Zachman 6x6       ◈ EA Repo   │                 │
+│  │  ◈ PMO + PPM Tool (Planview, Clarity)               │                 │
+│  └──────────────────────────────────────────────────────┘                 │
+│                          │                                                │
+│  ┌──────────── Tier 3: Service & Delivery ──────────────┐                 │
+│  │  ◈ ITIL 4 34 Practice ◈ DevOps(SRE) ◈ FinOps        │                 │
+│  │  ◈ SLM/SLM/SLO (예: Availability 99.95%, RTO 4h)    │                 │
+│  └──────────────────────────────────────────────────────┘                 │
+│                          │                                                │
+│  ┌──────────── Tier 4: Risk, Security & Compliance ────┐                 │
+│  │  ◈ ISO 27001/27005   ◈ NIST CSF 2.0(6 Function)     │                 │
+│  │  ◈ DORA/K-ISMS-P    ◈ BCP/DR (RTO/RPO)              │                 │
+│  └──────────────────────────────────────────────────────┘                 │
+│                                                                          │
+│  ←──────── Continuous Feedback: KPI, RASCI, Internal Audit ─────────→     │
+└──────────────────────────────────────────────────────────────────────────┘
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+과거(2000년대)에는 **"IT는 비용 센터"** 라는 인식 하에 **ITIL v2**(9권 분량, 프로세스 중심) + **COBIT 4.0**(34개 IT 프로세스 통제)이 개별 사일로로 운영되어, Change Advisory Board에서 87%가 수동 승인, 평균 Lead Time 23일이 발생했다. 현대의 **2024~2026년 패러다임**은 **"IT는 Value Engine"** 으로, **COBIT 2019**(40 Governance/Management Objectives, 7 Component, Focus Area 11개) + **ITIL 4**(34 Practices, Value Stream 중심) + **ISO 38500**(6 Governance Principles)을 하나의 통합 거버넌스 체계로 운영하며, **Site Reliability Engineering**(Google SRE 모델, Error Budget), **FinOps**(cloud cost allocation), **DevSecOps**(shift-left security)를 내장한다. 결과적으로 **Change Lead Time은 23일 → 4.2시간, Deployment Frequency는 월 1회 → 일 4.7회, Change Failure Rate 15% → 0.8%**(DORA 2023 State of DevOps Report Elite 기준)로 개선된다.
 
-- **📢 섹션 요약 비유**: IT 경영 관리 핵심 토픽 484번 시험 요약은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: IT 경영 관리는 **공항 관제탑(Tower)** 과 같다. 비행기(프로젝트·서비스·데이터)가 수시로 이착륙하지만, ①활주로(아키텍처)·②관제사(거버넌스 위원회)·③레이더(모니터링 KPI)·④비상대응(BCP/DR)·⑤유료탑승구(FinOps)가 모두 정밀하게 맞물려야 **연착륙(IT 장애)·충돌(규제 위반)·연료 낭비(예산 초과)** 없이 운영된다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-IT 경영 관리 핵심 토픽 484번 시험 요약의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+IT 경영 관리의 핵심은 **COBIT 2019의 5 Domains × 7 Components × 11 Focus Areas** 매트릭스를 ITIL 4 Value Stream과 ISO 38500 6원칙으로 **Bridge** 하는 것이다. 아래는 **EDM(Evaluate, Direct, Monitor) → APO(Align, Plan, Organize) → BAI(Build, Acquire, Implement) → DSS(Deliver, Service, Support) → MEA(Monitor, Evaluate, Assess)** 의 5 Domain을 중심으로 한 작동 메커니즘이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│              IT Management Core Topic 484 Exam Summary 아키텍처 3계층 구조                   │
-├──────────────────────────────────────────────────────────────┤
-│  [수집 계층]                                                  │
-│    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   │
-│         │                                                    │
-│  [처리/분석 계층]                                             │
-│    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               │
-│         │                                                    │
-│  [실행/피드백 계층]                                           │
-│    자동 대응 · 알림 · 보고서 · 지속 개선                     │
-└──────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────┐
+│        COBIT 2019 Governance/Management Objective Flow (5 Domain)         │
+│                                                                          │
+│   Board & Exec      CIO/Steering       Architecture     Service Ops      │
+│   Committee         Committee          Review Board     Center (SOC)      │
+│       │                  │                   │                │           │
+│       ▼                  ▼                   ▼                ▼           │
+│  ┌────────┐        ┌────────┐          ┌────────┐      ┌────────┐       │
+│  │  EDM   │───────▶│  APO   │─────────▶│  BAI   │─────▶│  DSS   │       │
+│  │  (5)   │        │ (14)   │          │  (11)  │      │  (6)   │       │
+│  └───┬────┘        └────┬───┘          └────┬───┘      └────┬───┘       │
+│      │                  │                   │                │           │
+│      │                  ▼                   ▼                ▼           │
+│      │           ┌────────────────────────────────────────────────┐      │
+│      │           │              MEA (4) — Monitoring Loop          │      │
+│      └──────────▶│  Performance │ Compliance │ Risk │ Internal    │      │
+│                  │  Measurement │ Audit      │ Mgt  │ Control     │      │
+│                  └────────────────┬───────────────────────────────┘      │
+│                                   │                                      │
+│                                   ▼                                      │
+│                       ┌────────────────────┐                            │
+│                       │  Continuous Improve │                            │
+│                       │  (PDCA + ITIL CSI)  │────▶ EDM(feedback)         │
+│                       └────────────────────┘                            │
+└──────────────────────────────────────────────────────────────────────────┘
+
+   ◈ 40 G/O Objective  ◈ 7 Component (Process, Org, Info, People, Skill, Service, Infrastructure)
+   ◈ NCSF/Togaf Map   ◈ Design Factor 11개  ◈ Capability Level 0~5
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **EDM (Evaluate, Direct, Monitor)** | 이사회·CIO 위원회 수준 거버넌스 의사결정 | COBIT 2019 EDM01~05(예: EDM02 Ensured Benefits Delivery, RACI=Board/CEO); ISO 38500 Principle 1~6 매핑; **Risk Appetite Statement(RAS)** 기반 의사결정 임계값(예: Critical Incident 발생 시 30분 내 CEO 보고) |
+| **APO (Align, Plan, Organize)** | IT 전략-사업 정렬, 포트폴리오, 예산, 아키텍처 수립 | APO01~14(예: APO04 Managed Innovation, APO12 Managed Risk); **TOGAF 10 ADM**(Preliminary → A→H → Requirements Mgmt 8단계, 30% 빠른 Phase C/E 재사용); **Balanced Scorecard** 4관점(Financial/Customer/Internal Process/Learning) + Strategy Map |
+| **BAI (Build, Acquire, Implement)** | 솔루션 도입·구현·테스트·전환 | BAI01~11(예: BAI03 Managed Solutions, BAI11 Managed Projects); **SAFe 6.0**(PI Planning, ART, 11개 Core Value), **DORA 4 Metrics**(Lead Time, Deploy Freq, MTTR, Change Fail %), **Shift-Left Testing**(SonarQube SAST, OWASP ZAP DAST) |
+| **DSS (Deliver, Service, Support)** | 일일 운영·서비스 품질·사용자 지원 | DSS01~06(예: DSS02 Managed Service Requests, DSS05 Managed Security Service); **ITIL 4 34 Practice 중 14개** 적용(SLM, Incident, Problem, Change Enablement, Service Desk), **SRE SLO/SLI**(예: SLI=체크아웃 성공률, SLO=99.95%→Error Budget 월 21.9분) |
+| **MEA (Monitor, Evaluate, Assess)** | 성과 측정, 내부 통제, 컴플라이언스, 내부 감사 | MEA01~04(예: MEA03 Managed Compliance, MEA04 Managed Assurance); **KGI/KPI/CSFs** 3-tier 측정(예: KGI=매출 증가율, KPI=시스템 가용성 99.95%, CSF=Active-Active DR 구성), **COSO 2013 Internal Control** 17원칙 × 5 Component |
+| **7 Component System** | 거버넌스 7가지 활성화 요소 | Process(PRM Maturity Level 0~5), Organizational Structures(Steering Committee, PMO, SMO, CoE), Information Flows(Decision Package, COBIT 2019 Cascade Goals), People·Skills·Competencies(SFIA 8 Framework 122 Skills), Services & Infrastructure(ServiceNow, Jira Align, Archer GRC) |
+| **Focus Area(11개)** | 전략적 우선순위(예: 사이버보안, 클라우드, ESG, AI 거버넌스) | Cybersecurity Focus Area(NIST CSF 2.0 매핑), Cloud Focus Area(CMF/CNCF), Data Mgmt(DAMA-DMBOK 2.0 11 지식영역), DevOps, Digital Transformation, ESG-IT, Risk, Information Security, Privacy(K-PIPA), Regulatory(AI Act) |
+| **Design Factor(11개)** | 거버넌스 시스템 맞춤형 설계 변수 | Enterprise Strategy(Agile/Conservative), Enterprise Size(SMB vs Large), Role of IT(Support/Factory/Strategic), Sourcing(Insource/Outsource/Cloud), Compliance(PIPL, GDPR, K-PIPA), IT Implementation Methods(Agile/DevOps/Traditional) → **N=2^11 = 2,048개 시스템 형태 가능** |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+핵심 작동 원리는 **Goal Cascade**(40개 Governance/Management Objective를 Business Goal → Alignment Goal → IT Goal로 3-tier 연결, 1:N 매핑)와 **Capability Level(0: Incomplete ~ 5: Optimizing)** 이다. 2024년 ISACA 발표에 따르면 글로벌 평균 Capability Level은 **2.3 (Performed→Managed)**, Elite 조직은 **4.1 (Quantitative)**, 한국 대기업 평균은 **2.7**로, **Maturity 갭이 1.8 level**에 달한다. 이를 좁히기 위해 **Process Reference Model(PRM)**의 40개 프로세스 중 우선 8~12개를 선정, **Quick-Win(6개월) + Foundation(12개월) + Optimization(24개월)** 의 3-Wave 로드맵을 권고한다.
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+또한, **COBIT 2019은 ISO/IEC 38500의 6 Govern 모델(Evaluate, Direct, Monitor, Accountability, Responsibility, Competence)을 EDM에 1:1 매핑**하며, ITIL 4의 **Service Value System(SVS)** — Opportunity/Demand → Value → Value Stream(34 Practice) → Continual Improvement — 와 **Governance(EDM)** Layer로 연결된다. 기술사 시험에서는 이 **3 Framework Integration Map**을 그릴 수 있어야 한다.
+
+- **📢 섹션 요약 비유**: **COBIT의 5 Domain**은 회사의 **5개 부서**(전략실/기획실/개발실/운영실/감사실)이고, **ITIL 4의 34 Practice**는 **34가지 업무 메뉴판**이며, **ISO 38500의 6원칙**은 **회사의 헌법**이다. 기술사는 이 셋을 한 장의 조직도에 모아 CEO가 한 번에 볼 수 있도록 그려야 한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-IT 경영 관리 핵심 토픽 484번 시험 요약을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+아래는 **IT 경영 관리의 3대 핵심 프레임워크(COBIT 2019, ITIL 4, ISO 38500)** 과, 자주 혼동되는 **PMBOK 7 / PRINCE2 / ISO 21502, TOGAF, COSO ERM 2017, NIST CSF 2.0, IT4IT**와의 비교이다.
 
-| 구분 | 전통적 접근 | IT 경영 관리 핵심 토픽 484번 시험 요약 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. IT 경영 관리 핵심 토픽 484번 시험 요약은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 IT 경영 관리 핵심 토픽 484번 시험 요약은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 IT 경영 관리 핵심 토픽 484번 시험 요약을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-IT 경영 관리 핵심 토픽 484번 시험 요약을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, IT 경영 관리 핵심 토픽 484번 시험 요약 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: IT 경영 관리 핵심 토픽 484번 시험 요약은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | IT 경영 관리 핵심 토픽 484번 시험 요약의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | IT 경영 관리 핵심 토픽 484번 시험 요약의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        │
-        ▼
-스크립트 기반 자동화
-        │
-        ▼
-IT 경영 관리 핵심 토픽 484번 시험 요약 도입
-        │
-        ▼
-AI/ML 기반 지능화
-        │
-        ▼
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. IT 경영 관리 핵심 토픽 484번 시험 요약은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| 구분 | **COBIT 2019** | **ITIL 4** | **ISO/IEC 38500:2015** | **PMBOK 7 (2021)** | **
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 484 / 800

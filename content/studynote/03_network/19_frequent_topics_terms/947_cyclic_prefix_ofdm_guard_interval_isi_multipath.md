@@ -61,8 +61,8 @@ tags = ["studynote-network"]
 
 ### CP의 작동 원리 (꼬리 잘라 머리에 붙이기) 🌟
 침묵을 하지 않으면서도 앞 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 방어하는 천재적 수학적 꼼수입니다.
-1. **복사 및 붙여넣기**: 송신기가 1번 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 파동의 <strong>'가장 맨 마지막 꼬리 부분'을 복사(Copy)해서, 1번 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>의 '맨 앞 대가리(Prefix)' 자리에 한 번 더 연장해서 붙여버립니다(순환, Cyclic).</strong> 
-2. 결과적으로 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 길이가 강제로 늘어납니다. 이 늘어난 짝퉁 머리통 부분이 아까 말한 '[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구간(GI)' 공간을 물리적인 파동으로 가득 채워버립니다. 
+1. **복사 및 붙여넣기**: 송신기가 1번 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 파동의 <strong>'가장 맨 마지막 꼬리 부분'을 복사(Copy)해서, 1번 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>의 '맨 앞 대가리(Prefix)' 자리에 한 번 더 연장해서 붙여버립니다(순환, Cyclic).</strong>
+2. 결과적으로 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 길이가 강제로 늘어납니다. 이 늘어난 짝퉁 머리통 부분이 아까 말한 '[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구간(GI)' 공간을 물리적인 파동으로 가득 채워버립니다.
 3. **수신자의 처리**: 폰(수신기)에 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 도착하면 메아리(지각생)들이 쳐들어와서, 아까 머리에 붙여둔 <strong>가짜 복사본(<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/">CP</a>) 부분을 쾅 때리며 간섭(에러)을 일으킵니다.</strong>
 4. 수신기는 쿨하게 <strong>"에러 난 머리통(<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/">CP</a>) 부분은 어차피 가짜 복사본(미끼)이니까 싹둑 잘라서 쓰레기통에 버려!"</strong> 하고 버립니다. 그리고 그 뒤에 온전히 살아남은 진짜 오리지널 몸통 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)만 딱 꺼내서 에러율 0%로 완벽하게 해석해 냅니다.
 

@@ -78,7 +78,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-수백 대의 차가 동시에 브레이크 메시지를 뿜어내는데, 해커가 가짜 "급브레이크!" 메시지를 쏘면 도로가 마비됩니다. 
+수백 대의 차가 동시에 브레이크 메시지를 뿜어내는데, 해커가 가짜 "급브레이크!" 메시지를 쏘면 도로가 마비됩니다.
 - 이를 막기 위해 [V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) 통신에는 <strong><a href="/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/">PKI</a>(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/676_pki_public_key_infrastructure/">공개키 기반 구조</a>)</strong> 보안이 필수적입니다. 차마다 발급받은 '[전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/)'을 붙여서 통신하며, 주변 차들은 이 서명이 진짜 자동차 공장에서 만든 인증서가 맞는지 실시간으로 검증한 후 브레이크를 밟게 됩니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)

@@ -121,7 +121,7 @@ Level 4: 최적화 (Optimizing)
 
 이 단계모형적 핵심은 각 수준에서 필요한 활동의 성격이 다르다는 점이다. 수준 1에서 수준 2로는 기술(도구) 도입에 집중하고, 수준 2에서 수준 3으로는 프로세스와 문화에 집중하며, 수준 3에서 수준 4로는 측정과 공유를 통한 지속적 개선 체계화에 집중해야 한다. 많은 조직이 수준 2에서정체하는데, 이는 기술 도입만으로는 한계에 도달하기 때문이다.
 
-> 📢 **섹션 요약 비유**: CALMS의 5가지는 건강관리의 다섯 가지 축과 같다. 문화는 운동결심이고, 자동화는 헬스장을 리용약정하는제도적습관, リーン는 불필요한 간식을 끊는 식단 관리, 측정은 체중/혈압을 정기적으로 재는 것, 공유는 PT 트레이너나 운동 친구에게 조언을 구하는 것이다. 이 다섯 가지가 한 축이라도결하면건강관리는실패하는. 
+> 📢 **섹션 요약 비유**: CALMS의 5가지는 건강관리의 다섯 가지 축과 같다. 문화는 운동결심이고, 자동화는 헬스장을 리용약정하는제도적습관, リーン는 불필요한 간식을 끊는 식단 관리, 측정은 체중/혈압을 정기적으로 재는 것, 공유는 PT 트레이너나 운동 친구에게 조언을 구하는 것이다. 이 다섯 가지가 한 축이라도결하면건강관리는실패하는.
 
 ---
 
@@ -179,7 +179,7 @@ CALMS와 [가치 흐름 매핑](/knowledge-base/studynote/07_enterprise_systems/
 
 - **시나리오 B: 자동화는 되었으나개선효과가 미미할 때**
   - **상황**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 구축되었으나, 배포 빈도나 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간이 개선되지 않음.
-  - **판단**: 자동화와 함께 Measurement와 Sharing이 병목일 수 있다. 먼저 대시보드를 구축하여 모든 사람이 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)를 볼 수 있게 하고, 정기적인 공유 미팅을 통해 개선 아이디어를 brainstorm하면, 자동화의잠능재적이해방される. 
+  - **판단**: 자동화와 함께 Measurement와 Sharing이 병목일 수 있다. 먼저 대시보드를 구축하여 모든 사람이 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)를 볼 수 있게 하고, 정기적인 공유 미팅을 통해 개선 아이디어를 brainstorm하면, 자동화의잠능재적이해방される.
 
 ```text
 [시나리오별 CALMS 추진 전략]

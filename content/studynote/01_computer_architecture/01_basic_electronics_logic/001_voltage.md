@@ -119,11 +119,11 @@ tags = ["studynote-computer-architecture"]
 
 ### 기술사 답안에서 잡아야 할 판단 포인트
 
-1. **전압 상향은 최후 수단인가**  
+1. **전압 상향은 최후 수단인가**
    타이밍이 안 맞을 때 무조건 전압부터 올리면 전력과 열 문제가 커진다. 먼저 경로 최적화, 파이프라이닝, 클럭 조정을 검토해야 한다.
-2. <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 분리가 필요한가</strong>  
+2. <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 분리가 필요한가</strong>
    [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), 메모리 PHY처럼 특성이 다른 블록을 단일 전압으로 묶으면 불필요한 전력 낭비가 생긴다.
-3. **저전압 리스크를 검증했는가**  
+3. **저전압 리스크를 검증했는가**
    Undervolting은 전력 절감에 유리하지만, 부하 급변 시 전압 강하와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오류를 일으킬 수 있으므로 워크로드 기반 검증이 필수다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)

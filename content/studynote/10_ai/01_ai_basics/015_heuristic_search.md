@@ -67,7 +67,7 @@ tags = ["ai"]
 ---
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
-탐색 환경의 제약(메모리 부족, 시간 촉박)에 따라 A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 외에도 국소 탐색(Local Search) 계열의 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)들이 사용된다. 
+탐색 환경의 제약(메모리 부족, 시간 촉박)에 따라 A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 외에도 국소 탐색(Local Search) 계열의 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)들이 사용된다.
 
 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a> 탐색 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 비교 매트릭스</strong>
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 평가 기준 | 메모리 사용량 | 특징 및 트레이드오프 |

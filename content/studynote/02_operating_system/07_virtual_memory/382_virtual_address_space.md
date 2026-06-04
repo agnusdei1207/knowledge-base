@@ -137,7 +137,7 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오: 32비트 서버의 3GB 제한([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 한계 돌파
 1. **과거의 절망**: 32비트 리눅스/윈도우 시절, 서버에 램을 16GB나 빵빵하게 꽂았는데 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB) 프로세스가 3GB 메모리를 쓴 순간 `Out Of Memory` 에러를 뿜으며 사망했다.
-2. **원인 분석**: 
+2. **원인 분석**:
    - 32비트 가상 주소 공간의 총합은 4GB다. 여기서 상단 1GB는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 선점한다.
    - 유저 프로세스가 뻗어나갈 수 있는(malloc) 최대 한계치([스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)+힙+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 논리적으로 <strong>3GB</strong>의 벽에 막혀버린 것이다. 물리 램이 100GB가 남아돌아도 가상 우주의 크기가 작아서 질식사한 셈이다.
 3. **땜질 처방 (PAE와 4GT)**:

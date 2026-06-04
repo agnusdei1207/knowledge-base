@@ -23,7 +23,7 @@ tags = ["studynote-computer-architecture"]
 
 이 공격이 특히 주목받은 이유는 [멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/) 대응 이후에도 여전히 의미 있는 정보를 뽑아낼 수 있었기 때문이다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 직접 읽기 어렵게 막아도, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 최근에 저장한 포인터와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조각이 스토어 버퍼에 남아 있으면 공격자는 그 흔적을 통해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 배치 정보를 역추적할 수 있다. 즉 폴아웃은 "읽기 금지"보다 더 아래 계층인 "[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 임시 경로"가 새고 있음을 보여줬다.
 
-따라서 폴아웃은 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) 기법이 완성됐더라도 마이크로아키텍처의 비가시적 최적화까지 같이 보지 않으면 보안 설계가 끝나지 않는다는 사실을 드러낸다. 저장 경로는 평소 보이지 않지만, 실제로는 민감 정보가 가장 먼저 스쳐 가는 통로 중 하나다.
+따라서 폴아웃은 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) 기법이 완성됐더라도 마이크로아키텍처의 비가시적 최적화까지 같이 보지 않으면 보안 설계가 끝나지 않는다는 사실을 드러낸다. 저장 경로는 평소 보이지 않지만, 실제로는 민감 정보가 가장 먼저 스쳐 가는 통로 중 하나다.
 
 - **📢 섹션 요약 비유**: 폴아웃은 우체통을 뜯는 공격이 아니라, 편지를 우체통에 넣기 전 우체부 가방 속 메모를 몰래 찍어 보는 공격과 같다.
 

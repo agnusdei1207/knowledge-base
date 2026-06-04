@@ -43,7 +43,7 @@ tags = ["studynote-network"]
 
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> 마이그레이션의 딜레마</strong>: 1층 서버실 랙(192.168.1.x 대역)에서 돌던 가상머신을, 유지보수를 위해 5층 서버실 랙(192.168.5.x 대역)으로 살아서 움직이는 채로 쓱 이사(마이그레이션)시키고 싶습니다.
 - **물리망의 장벽**: 물리적 라우터 세팅상 5층으로 가면 VM의 IP 주소를 192.168.5.x로 바꿔야만 통신이 됩니다. IP가 바뀌면 접속 중이던 손님들은 100% 에러가 나며 튕깁니다.
-- <strong>오버레이 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/">터널링</a>(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/">Tunneling</a>) 마법 🌟</strong>: 
+- <strong>오버레이 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/">터널링</a>(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/">Tunneling</a>) 마법 🌟</strong>:
   - VMWare나 오픈스택(OpenStack) 컨트롤러가 **1층과 5층 서버 사이에 거대한 소프트웨어 투명 튜브(터널)를 허공에 뚫어버립니다.**
   - 이 터널을 통해, VM이 5층으로 이사를 가도 옛날 1층 IP(192.168.1.x)를 그대로 유지(L2 확장)한 채 옆방 서버와 통신하게 만듭니다. 밑바닥 라우터들(언더레이)은 그냥 자기 머리 위로 투명 튜브가 지나가는 줄만 알고 속아 넘어갑니다.
 

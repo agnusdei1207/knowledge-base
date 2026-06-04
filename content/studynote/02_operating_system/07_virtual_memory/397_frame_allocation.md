@@ -86,12 +86,12 @@ tags = ["studynote-operating-system"]
 
 크기(Size)가 아닌 프로세스의 '중요도(Priority)'에 따라 프레임을 몰아주는 기법이다.
 - 비례 할당의 공식을 살짝 비틀어, 크기 대신 프로세스의 우선순위 수치로 배율을 정한다.
-- 램이 모자라서 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 터졌을 때, 1순위 VIP [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 프로세스는 자기가 가진 걸 안 버리고, **우선순위가 가장 낮은 꼴찌 프로세스의 프레임을 뺏어서(강제 수용) 자기 방에 채워버린다.** 
+- 램이 모자라서 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 터졌을 때, 1순위 VIP [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 프로세스는 자기가 가진 걸 안 버리고, **우선순위가 가장 낮은 꼴찌 프로세스의 프레임을 뺏어서(강제 수용) 자기 방에 채워버린다.**
 - 모바일 OS(Android, iOS)에서 내가 지금 보고 있는 전면(Foreground) 앱이 날아다니고, 뒤에 숨겨둔 백그라운드(Background) 앱들이 프레임을 다 뺏기고 멈춰버리는 현상의 코어 로직이다.
 
 ### [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/) vs [지역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/)의 배분 철학
 
-할당(Allocation)과 교체(Replacement)는 동전의 양면이다. 
+할당(Allocation)과 교체(Replacement)는 동전의 양면이다.
 
 | 할당 및 교체 조합 | 철학 및 결과 | 현대 OS 채택 여부 |
 |:---|:---|:---|
@@ -115,7 +115,7 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: cgroups를 통한 프레임 [할당량](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/) 하드 락(Hard Limit)
-1. **클라우드의 위기**: 
+1. **클라우드의 위기**:
    - 리눅스의 묻지마 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)(능력주의)는 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) 시대에 치명적 위기를 맞았다.
    - 서버 하나에 10개 회사 앱을 띄웠는데, 1번 회사 앱 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 버그를 내며 미친 듯이 램을 요구([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))했다.
    - [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/) 논리에 의해 리눅스는 나머지 9개 회사의 프레임(램)을 다 뺏어서 1번 놈에게 줘버려 멀쩡한 9개 회사가 다 뻗어버리는 대참사(Noisy Neighbor)가 났다.
@@ -123,7 +123,7 @@ tags = ["studynote-operating-system"]
    - 구글 엔지니어들은 이 야생의 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)를 통제하기 위해, 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/">cgroups</a></strong>라는 철창을 만들었다.
    - [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)마다 `Memory Limit = 1GB` 라는 하드웨어적 철창([지역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/)의 부활)을 씌웠다.
    - 1번 회사가 1GB를 다 채우면? 더 이상 남의 램을 못 뺏게 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 킬러로 그 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 하나만 깔끔하게 암살해 버린다.
-3. **실무의 결론**: 
+3. **실무의 결론**:
    - 현대 백엔드 인프라(k8s)는 OS의 유연한 전역 할당([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)) 위에 cgroups라는 깐깐한 지역 할당 제한(보안/격리)을 강제로 덮어씌운 완벽한 하이브리드 경제 체제로 돌아가고 있다.
 
 ### [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드별 할당의 한계

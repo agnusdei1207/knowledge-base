@@ -29,11 +29,11 @@ tags = ["studynote-operating-system"]
 
   do {
       [ 진입 구역 (Entry Section) ]    ◀─ "저기요! 저 지금 터널(공유자원) 들어갑니다! 문 잠글게요!"
-      
+
       [ 임계 구역 (Critical Section) ] ◀─ 🚨 위험 구역! 공유 변수(count) 수정, DB 업데이트 실행
-      
+
       [ 퇴장 구역 (Exit Section) ]     ◀─ "다 썼습니다! 터널 문 열고 나갈게요!"
-      
+
       [ 나머지 구역 (Remainder Section) ]◀─ 혼자 쓰는 변수 계산 등 안전하고 자유로운 구역
   } while (true);
 ```

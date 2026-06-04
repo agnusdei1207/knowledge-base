@@ -19,13 +19,13 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: `주문 서버`가 `결제 서버`의 API를 부르고 싶다. 결제 서버는 오토스케일링으로 IP가 매일 바뀐다(540장 연계). 
+- **개념**: `주문 서버`가 `결제 서버`의 API를 부르고 싶다. 결제 서버는 오토스케일링으로 IP가 매일 바뀐다(540장 연계).
   - <strong><a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/169_client_side_vs_server_side_discovery/">Client-Side Discovery</a></strong>: 주문 서버의 뱃속에 로직이 들어있다. 주문 서버가 직접 Eureka(전화번호부)에 "결제 서버 IP들 다 내놔!" 해서 리스트를 받는다. 그리고 자기 코드(자바스크립트 등)로 "음, 오늘은 3번 결제 서버로 쏴야지!" 결정하고 직접 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 패킷을 날린다.
   - **Server-Side Discovery**: 주문 서버는 멍청해진다. 그냥 `http://payment-service` 라는 고정된 문자로 패킷을 던진다. 그 앞을 지키고 있는 인프라 장비(AWS ELB, K8s [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))가 패킷을 낚아챈 뒤, 자기가 전화번호부([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 등)를 확인해서 실제 살아있는 결제 서버 IP로 몰래 길을 틀어준다.
 
 - **필요성**: MSA로 서버를 50개 찢었다. 50개 서버마다 언어가 다르다(Java, Node.js, Python). Client-Side를 쓰려면 3개 언어마다 "전화번호부 뒤지고 분배하는 로직([라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))"을 각자 100줄씩 일일이 짜야 했다(언어 종속성의 지옥). <strong>"개발자는 제발 남의 서버 IP 찾고 분배하는 인프라 짓거리 좀 코드에 치지 마! 그냥 비즈니스 핵심 로직만 짜! 길 찾는 건 밖에서 인프라 기계가 다 해줄게!"</strong>라는 철학적 몸부림이 두 아키텍처의 처절한 대결을 불러왔다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - <strong><a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/169_client_side_vs_server_side_discovery/">Client-Side Discovery</a></strong>는 <strong>'내가 직접 운전하는 렌터카 여행'</strong>입니다. 내가 내 스마트폰(로컬 코드)으로 직접 구글 맵(디스커버리 서버)을 켜서 맛집 주소를 찾고, 직접 핸들을 돌려 제일 안 막히는 길(로드밸런싱)을 골라 운전해서 찾아갑니다. 내 맘대로 할 수 있어 빠르지만 운전하느라 피곤합니다.
   - <strong>Server-Side Discovery</strong>는 <strong>'콜택시(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a>) 뒷좌석 탑승'</strong>입니다. 나는 "명동 맛집 가주세요!" 딱 한마디만 하고 잡니다. 택시 기사(로드밸런서)가 알아서 자기 폰으로 길을 찾고 가장 쾌적한 곳으로 데려다줍니다. 너무 편하지만, 목적지까지 택시 기사를 한 번 거쳐야 하므로 비용(Network Hop 1번 추가)이 살짝 듭니다.
 

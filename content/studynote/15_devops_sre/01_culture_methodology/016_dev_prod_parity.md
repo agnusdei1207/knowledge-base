@@ -21,7 +21,7 @@ tags = ["devops_sre"]
 
 개발/운영 환경 일치 (Dev/Prod Parity)는 소프트웨어가 개발자의 로컬 환경에서 작성된 시점부터 프로덕션 환경에 배포되어 실행될 때까지 모든 런타임 환경을 최대한 동일하게 유지하려는 아키텍처 원칙이다. 과거 전통적인 소프트웨어 개발 생명주기([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))에서는 개발 환경과 운영 환경 간에 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 운영 주체 등이 크게 달라 배포 시 예기치 않은 장애가 빈번히 발생했다.
 
-이러한 환경 불일치는 주로 세 가지 축에서 발생한다. 첫째, '시간의 간극'으로 개발자가 코드를 작성한 후 운영에 배포되기까지 수주~수개월이 걸린다. 둘째, '인력의 간극'으로 코드를 작성하는 개발자(Dev)와 배포를 담당하는 운영자(Ops)가 분리되어 있다. 셋째, '도구의 간극'으로 개발 환경(예: SQLite, 로컬 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템)과 운영 환경(예: PostgreSQL, S3)의 인프라 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 다르다. Dev/Prod Parity는 이 세 가지 간극을 없애는 것을 목표로 한다. 
+이러한 환경 불일치는 주로 세 가지 축에서 발생한다. 첫째, '시간의 간극'으로 개발자가 코드를 작성한 후 운영에 배포되기까지 수주~수개월이 걸린다. 둘째, '인력의 간극'으로 코드를 작성하는 개발자(Dev)와 배포를 담당하는 운영자(Ops)가 분리되어 있다. 셋째, '도구의 간극'으로 개발 환경(예: SQLite, 로컬 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템)과 운영 환경(예: PostgreSQL, S3)의 인프라 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 다르다. Dev/Prod Parity는 이 세 가지 간극을 없애는 것을 목표로 한다.
 
 개발/운영 환경 일치를 달성하지 못하면 [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/) 및 배포([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD) 자동화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)이 무너진다. 아무리 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)와 [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)를 거쳐도 '환경의 차이'로 인한 장애는 런타임에서만 발견되기 때문이다. 따라서 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기술과 IaC를 통해 환경 자체를 코드로 [버저닝](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/317_versioning_data_model_design/)하고 배포하는 [불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/) 패러다임이 필수적으로 요구된다.
 
@@ -51,7 +51,7 @@ tags = ["devops_sre"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-Dev/Prod Parity를 구현하기 위해서는 코드 수준의 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 분리부터 인프라 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)까지 시스템 전반에 걸친 아키텍처 원칙이 필요하다. 
+Dev/Prod Parity를 구현하기 위해서는 코드 수준의 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 분리부터 인프라 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)까지 시스템 전반에 걸친 아키텍처 원칙이 필요하다.
 
 | 핵심 요소 | 역할 | 내부 동작 메커니즘 | 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 예시 | 비유 |
 |:---|:---|:---|:---|:---|
@@ -74,7 +74,7 @@ Dev/Prod Parity를 구현하기 위해서는 코드 수준의 [설정](/knowledg
       [Build]                     │
         ↓                         │
 ┌───────────────┐               [Combine]
-│ Artifact      │ ───────────────>│ 
+│ Artifact      │ ───────────────>│
 │ (Docker Image)│                 ↓
 └───────────────┘        ┌──────────────────┐
   * Immutable!           │ Release Object   │
@@ -114,7 +114,7 @@ dbClient.connect();
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-Dev/Prod Parity를 달성하기 위한 접근 방식은 로컬 개발 환경을 어떻게 구성하느냐에 따라 나뉜다. 
+Dev/Prod Parity를 달성하기 위한 접근 방식은 로컬 개발 환경을 어떻게 구성하느냐에 따라 나뉜다.
 
 | 비교 항목 | 경량형 로컬 환경 (Lightweight) | 완전형 로컬 환경 (Full-Parity) | 원격 개발 환경 (Remote/Cloud) |
 |:---|:---|:---|:---|
@@ -166,7 +166,7 @@ Dev/Prod Parity를 달성하기 위한 접근 방식은 로컬 개발 환경을 
 
 3. <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/819_data_masking/">데이터 마스킹</a>과 Parity</strong>
    - **상황**: 개발 환경의 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 덤프받아 쓰려 하는데, [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/)에 위배됨.
-   - **판단**: 구조적 파리티([스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 일치)는 유지하되, 내용적 파리티는 비식별화([마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 거친 후 개발 DB로 적재([DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/))하는 자동화 프로세스가 필요하다. 
+   - **판단**: 구조적 파리티([스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 일치)는 유지하되, 내용적 파리티는 비식별화([마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 거친 후 개발 DB로 적재([DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/))하는 자동화 프로세스가 필요하다.
 
 다음은 환경 일치성 여부를 진단하고 개선하기 위한 실무 운영 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)이다.
 

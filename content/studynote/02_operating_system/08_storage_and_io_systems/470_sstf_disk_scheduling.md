@@ -60,7 +60,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 절대적 기아 현상 ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))의 발생 
+### 절대적 기아 현상 ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))의 발생
 
 "눈앞에 있는 것만 주워 먹는다." 이 [탐욕 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/)(Greedy)은 필연적으로 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">기아 상태</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">Starvation</a>)</strong>라는 최악의 버그를 낳는다.
 - 디스크 바늘이 50번 트랙 근처에서 52, 48, 55번 요청을 처리하고 있다.
@@ -123,7 +123,7 @@ SSTF는 그 자체로는 실패작이지만, 후대 인류에게 가장 완벽�
 1. **문제의 본질 깨달음**: "바늘이 방향을 이리저리 휙휙 꺾으니까 50번대 늪에 빠지는구나!"
 2. **방향성(Direction) 락의 도입**:
    - 스케줄러에 규칙을 하나 강제한다. **"바늘이 일단 오른쪽으로 가기 시작했으면, 무조건 끝까지 오른쪽으로만 밀고 가라! 도중에 왼쪽 가까운 곳에 콜이 들어와도 무시하고 직진해!"**
-   - 이것이 바로 그 유명한 <strong>SCAN (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/471_scan_elevator_scheduling/">엘리베이터 알고리즘</a>)</strong>의 탄생이다. 
+   - 이것이 바로 그 유명한 <strong>SCAN (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/471_scan_elevator_scheduling/">엘리베이터 알고리즘</a>)</strong>의 탄생이다.
 3. **결과적 대성공**:
    - 한쪽으로 쭉 밀면서 가니까(SSTF의 최단 거리 장점 흡수), 동선 낭비가 없다.
    - 끝까지 쭉 갔다가 벽을 치고 다시 반대쪽으로 오니까, 아무리 구석(999번)에 있는 요청도 바늘이 한 번은 무조건 핥고 지나간다 ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) 완벽 해결).

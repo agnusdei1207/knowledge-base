@@ -40,23 +40,23 @@ tags = ["studynote-operating-system"]
 
 ```text
 
-        ìììë ìëì ëë ëìí ëë(Head) ëìì ëìí ìì ìêí 
+        ìììë ìëì ëë ëìí ëë(Head) ëìì ëìí ìì ìêí
 
-                                                                         
- [ ìí: íì ëë ìì 50ë / ìì í: 90ë, 10ë, 80ë, 20ë ]         
-                                                                         
-  1. ìììë ìì (ëìì ììëë FCFS)                               
-  ëì: 50 (ìëë 40) 90 (ìëë 80) 10                       
-        (ìëë 70) 80 (ìëë 60) 20                          
-  ð ì ëë ìë êë = 40 + 80 + 70 + 60 = 250 íë ìë!              
-  (ëëì ìëìë ììíìë ëì ëì ëëë ììëë ë)              
-                                                                         
-  2. ëëí ëìí ìììë (êëì SSTF / ëíì SCAN)                 
-  í ììë ëë! -> êêì êëí íê êì!                            
-  ëì: 50 (ìëë 30) 80 (ìëë 10) 90                       
-        (ìëë 70) 20 (ìëë 10) 10                          
-   ì ëë ìë êë = 30 + 10 + 70 + 10 = 120 íë ìë!              
-  (ìë êëê ìë ìì ììëë ëìí ìë ìëê 2ë ëëì ð)      
+
+ [ ìí: íì ëë ìì 50ë / ìì í: 90ë, 10ë, 80ë, 20ë ]
+
+  1. ìììë ìì (ëìì ììëë FCFS)
+  ëì: 50 (ìëë 40) 90 (ìëë 80) 10
+        (ìëë 70) 80 (ìëë 60) 20
+  ð ì ëë ìë êë = 40 + 80 + 70 + 60 = 250 íë ìë!
+  (ëëì ìëìë ììíìë ëì ëì ëëë ììëë ë)
+
+  2. ëëí ëìí ìììë (êëì SSTF / ëíì SCAN)
+  í ììë ëë! -> êêì êëí íê êì!
+  ëì: 50 (ìëë 30) 80 (ìëë 10) 90
+        (ìëë 70) 20 (ìëë 10) 10
+   ì ëë ìë êë = 30 + 10 + 70 + 10 = 120 íë ìë!
+  (ìë êëê ìë ìì ììëë ëìí ìë ìëê 2ë ëëì ð)
 
 ```
 **[ëììêë íì]** ì ëìí ììê ëìí ìììëì ìëíì 100% ìëíë. ëë ìë êëê 250ìì 120ìë ììëë êì, ìë ìê([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))ì 2ë ëëìê ëì ìêë ìëë([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))ì 2ë ëìëëë ëìë. OSë ëì ëëë ëìì ììë 0.001ì ëì ëêì ëìë, êê ììì ëëì íìì êê ëíê ìììë.
@@ -71,7 +71,7 @@ tags = ["studynote-operating-system"]
 
 ### ëìí ìììëì 2ë ìë ëí
 
-ìììì ìììëë íì ëìëë ë ëë íëë ìëë. 
+ìììì ìììëë íì ëìëë ë ëë íëë ìëë.
 
 1. <strong>íì ìê(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/">Seek Time</a>) ììí = ìì ìëë(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>) êëí</strong>
    - **ìë**: êì ëëì ììì ê, ìê ë ëë ìììì ìì êêì ëëí ìì ìëíë ê ìì ìêë íìììë. ìë ëì ëëê ìì ìììë.
@@ -112,17 +112,17 @@ tags = ["studynote-operating-system"]
 ### [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache (ëí)ìì êëí êì ìì
 ëìí ìììë íììë ìëë ìì ìë í([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))ì ììì ë ê ììë ëì ììíë í ìê ìë.
 - íì 10ë, 5000ë ë êëì ììë ëìê ëëêë íì íë.
-- **ëí ììì íë**: OSì 'íìì ìì([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)'ê ëìì ëìíë êê ëìëë(ìì ìê). 
+- **ëí ììì íë**: OSì 'íìì ìì([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)'ê ëìì ëìíë êê ëìëë(ìì ìê).
 - 5ì ìë ê ìê ëìëë ëíì ìê ììì 1ë êë ììë!
-- ëí ììê ì 1ë êì ììì í ëì ëìí ìììë íë ììëëë(Flush). 
+- ëí ììê ì 1ë êì ììì í ëì ëìí ìììë íë ììëëë(Flush).
 - ìììëë ì 1ë êì ëëí ìì í(Pool)ì êìê ìëíê ììí ìëëìí ëìì ìì, ëëì 1mm ììì ëëë ëìíë íêíë ììëë ìëìì I/O ìëíì ëìíë. I/O ìììëì ë ììì ëíë ëìê([Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/)) ììë ìëí ì ìë ìììë.
 
 ```text
 
- ìì íê   í(Queue) ìí  ìììëì êë  I/O ìëí êê     
+ ìì íê   í(Queue) ìí  ìììëì êë  I/O ìëí êê
 
- ëê ìëìë 1~2ê í ë   ìëí ê ìì ï ìì (ëë íë)   
- ìì íëëí 1ëê ê ì   ííëì ëìì ð ìì (ëë ì ì) 
+ ëê ìëìë 1~2ê í ë   ìëí ê ìì ï ìì (ëë íë)
+ ìì íëëí 1ëê ê ì   ííëì ëìì ð ìì (ëë ì ì)
 
 ```
 **[ëíëì íì]** "ëì ëììì ëë ìëë." I/O ìììëì íìì í ìì ìì ëêíì êìì ìëíê ëëíë. ìíìê ëìì ìë êëë ììíê êë ì ìê ëëìë. ìêì ëë DB ìëëì ììíê êì ì ìê ëêë ë MB ëìë ëëíê ëìì(Bulk Insert) OSì ëììë íì ììë.
@@ -139,10 +139,10 @@ tags = ["studynote-operating-system"]
 ìíí ììì êì ìëí "ìêëìì ìì" ìêìë.
 1. **êêì ìê**: 2010ë ìì íëëìí([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)) ìì, ììëìëì ì I/O ëì([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/))ì ììê ìí [C-SCAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/472_c_scan_scheduling/), [Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/), CFQ ë ìì ìì ëìí ìíì ìììë ìêëìì ëëì ëë. ì ìêëì íëê ìë ìëì 2ëì ìëë.
 2. **SSDì íêì ëì**:
-   - ëë(Head)ë ìê ìíë ìë ëëì SSDê íìëìë. 
+   - ëë(Head)ë ìê ìíë ìë ëëì SSDê íìëìë.
    - 1ëìë 100ë ëìë ìê ìë ìëê 0.001msë 100% ëêë ([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/) = 0).
 3. **ìììëì ìí êê**:
-   - ëëì OSê ìë ëë ë ëëê [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ìììë `CFQ(ìëëìí)` ìììëë ëëë. 
+   - ëëì OSê ìë ëë ë ëëê [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ìììë `CFQ(ìëëìí)` ìììëë ëëë.
    - ëìì ììì ëíììë ììê ì ìë(Sorting)íëë ììí CPU ììë íëê 0.1ì ëì ëëìë.
    - êëë ìì SSDë ììê ìëëë ëìëììë ìëê ëêìë! ìììëì ìë ëêëê ìëí **íìê(Overhead)**ê ëìëëë.
 4. <strong>ììëìì ìí (<code>noop / none</code>)</strong>:

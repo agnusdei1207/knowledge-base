@@ -49,7 +49,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 관련된 여러 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체들(엔티티와 값 객체들)을 <strong>논리적으로 하나의 '거대한 군집(덩어리)'으로 묶어낸 것</strong>입니다. 
+- **개념**: 관련된 여러 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체들(엔티티와 값 객체들)을 <strong>논리적으로 하나의 '거대한 군집(덩어리)'으로 묶어낸 것</strong>입니다.
 - 이 비닐봉지로 묶인 군집은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 변경될 때 <strong>무조건 다 같이 살고 다 같이 죽는 '하나의 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 변경 단위'</strong>로 작동하며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 완벽하게 지켜냅니다.
 
 - **📢 섹션 요약 비유**: 애그리게이트 (Aggregate)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.

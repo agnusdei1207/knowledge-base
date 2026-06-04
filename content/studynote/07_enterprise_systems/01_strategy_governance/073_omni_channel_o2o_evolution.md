@@ -124,8 +124,8 @@ Customer Journey
 
 ## 어린이를 위한 3줄 비유 설명
 
-어디로 와도 같아요.  
-기분 좋은 경험이 이어져요.  
+어디로 와도 같아요.
+기분 좋은 경험이 이어져요.
 옴니채널은 그런 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이에요.
 
 ---

@@ -15,7 +15,7 @@ tags = ["studynote-cloud-architecture"]
 > 3. **판단 포인트**: K8s 클러스터의 안정성과 확장성을 위해 기존 In-Tree 볼륨을 CSI로 마이그레이션해야 하며, [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)이나 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 같은 고급 기능 필요 시 [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) 지원 여부를 우선 확인해야 한다.
 
 ## Ⅰ. 개요 및 필요성
-초창기 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)는 AWS EBS나 GCP Persistent Disk 같은 주요 스토리지 연동 코드를 K8s 코어 바이너리(In-Tree)에 포함하여 배포했다. 이 방식은 스토리지 드라이버에 버그가 생기면 K8s [마스터 노드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/) 전체가 다운될 수 있는 심각한 결함을 가졌다. 또한, 새로운 스토리지 연동 코드를 추가하려면 K8s 메이저 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 릴리즈 일정(수개월)을 기다려야만 했다. 이러한 K8s 뱃속의 비대화와 배포 병목 현상을 해결하기 위해, 스토리지 제어 로직을 K8s 본체에서 완전히 분리하는 [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) 규격이 등장하게 되었다. 
+초창기 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)는 AWS EBS나 GCP Persistent Disk 같은 주요 스토리지 연동 코드를 K8s 코어 바이너리(In-Tree)에 포함하여 배포했다. 이 방식은 스토리지 드라이버에 버그가 생기면 K8s [마스터 노드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/) 전체가 다운될 수 있는 심각한 결함을 가졌다. 또한, 새로운 스토리지 연동 코드를 추가하려면 K8s 메이저 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 릴리즈 일정(수개월)을 기다려야만 했다. 이러한 K8s 뱃속의 비대화와 배포 병목 현상을 해결하기 위해, 스토리지 제어 로직을 K8s 본체에서 완전히 분리하는 [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) 규격이 등장하게 되었다.
 
 - **📢 섹션 요약 비유**: 스마트폰 메인보드에 이어폰을 아예 납땜해서 팔다가(In-Tree), 고장이 잦아지자 누구나 꽂을 수 있는 공용 이어폰 잭([CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/))을 만들어 메인보드 밖으로 빼버린 것과 같다.
 
@@ -56,7 +56,7 @@ In-Tree 방식과 Out-of-Tree([CSI](/knowledge-base/studynote/12_it_management/0
 | **안정성** | 드라이버 버그 시 K8s [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 전체 위험 | 버그 발생 시 해당 [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) 파드만 재시작 |
 | **확장 기능** | 기본 볼륨 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 위주 | [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/), 클로닝, 리사이징 등 동적 확장 가능 |
 
-CSI는 [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/)([Container Network Interface](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/100_cni_container_network_interface_flannel_calico/))와 함께 K8s를 가볍게 유지하면서도 생태계를 무한히 넓혀주는 핵심 인터페이스 쌍으로 연결된다. 
+CSI는 [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/)([Container Network Interface](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/100_cni_container_network_interface_flannel_calico/))와 함께 K8s를 가볍게 유지하면서도 생태계를 무한히 넓혀주는 핵심 인터페이스 쌍으로 연결된다.
 
 - **📢 섹션 요약 비유**: In-Tree가 TV 안에 비디오 플레이어가 내장된 일체형 콤보라면, CSI는 HDMI [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)만 남겨두고 DVD든 블루레이든 마음대로 연결하게 만든 최신 TV다.
 

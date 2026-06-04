@@ -118,13 +118,13 @@ SRAM을 제대로 이해하려면 DRAM과의 차이를 "빠르다/느리다" 수
 
 ### 설계 판단 체크포인트
 
-1. <strong>접근 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 상한이 엄격한가?</strong>  
+1. <strong>접근 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 상한이 엄격한가?</strong>
    1~3ns 수준의 응답이 필요하면 SRAM을 우선 검토한다.
-2. **용량 요구가 작고 국소적인가?**  
+2. **용량 요구가 작고 국소적인가?**
    수 KB~수 MB 범위의 [핫 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/) 저장소에 적합하다.
-3. **대기전력이 중요한가?**  
+3. **대기전력이 중요한가?**
    항상 켜져 있는 대형 SRAM 블록은 누설전력이 부담이므로 파워 게이팅 ([Power Gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)) 전략이 필요하다.
-4. <strong>동시 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>가 필요한가?</strong>  
+4. <strong>동시 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>가 필요한가?</strong>
    [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)처럼 다중 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 필요하면 멀티포트 SRAM이 필요하지만, 면적 비용이 더 커진다.
 
 ### 대표 적용 예시

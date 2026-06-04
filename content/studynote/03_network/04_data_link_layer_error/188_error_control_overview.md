@@ -73,7 +73,7 @@ tags = ["studynote-network"]
 - **장점**: 평소에 보내는 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 작아 인터넷이 엄청 빠릅니다. 인터넷 다운로드나 일반적인 통신 환경([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))의 99%가 이 방식을 씁니다.
 - **단점**: 핑퐁(재요청-재전송)을 해야 하므로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay)이 발생합니다.
 
-> FEC(스스로 수정)는 택배 안에 강력 접착제와 설계도를 같이 넣어 보내서, 도착한 물건이 부서져 있으면 손님이 <strong>직접 본드로 붙여서(수리) 쓰는 방식</strong>입니다(오래 걸리고 택배가 무거움). 
+> FEC(스스로 수정)는 택배 안에 강력 접착제와 설계도를 같이 넣어 보내서, 도착한 물건이 부서져 있으면 손님이 <strong>직접 본드로 붙여서(수리) 쓰는 방식</strong>입니다(오래 걸리고 택배가 무거움).
 > [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/)(재요청)는 택배를 뜯어보고 부서졌으면 쿨하게 쓰레기통에 던진 뒤, <strong>쇼핑몰에 전화해서 "새 물건으로 다시 보내!"라고 진상(?)을 부리는 가장 흔하고 효율적인 환불/교환 방식</strong>입니다.
 
 오류 제어 개요를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)이 기반 조건을 만든다면, 오류 제어 개요는 그 위에서 핵심 메커니즘을 구현하고, [비트 에러율](/knowledge-base/studynote/03_network/04_data_link_layer_error/189_ber_bit_error_rate/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.

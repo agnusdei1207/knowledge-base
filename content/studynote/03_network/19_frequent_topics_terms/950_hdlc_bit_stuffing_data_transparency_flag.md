@@ -20,8 +20,8 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층(L2)의 대표적인 고전 프로토콜인 <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/">HDLC</a>(High-Level <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Link Control)</strong>는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 때 패킷의 시작과 끝을 알리기 위해 특수한 '깃발([Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))' [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 씁니다.
-- <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a>(<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">Flag</a>) 패턴</strong>: `01111110` (즉, 앞뒤로 0이 있고 가운데 1이 연속 6개). 
-- **투명성(Transparency)의 위기**: 사용자가 보낸 순수한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Payload) 안에 우연히 저 `01111110` 이라는 패턴이 똑같이 들어있을 수 있습니다. 
+- <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a>(<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">Flag</a>) 패턴</strong>: `01111110` (즉, 앞뒤로 0이 있고 가운데 1이 연속 6개).
+- **투명성(Transparency)의 위기**: 사용자가 보낸 순수한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Payload) 안에 우연히 저 `01111110` 이라는 패턴이 똑같이 들어있을 수 있습니다.
 - 수신 측 장비는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽다가 중간에 저 패턴을 만나면 "아! 여기서 패킷 전송이 끝났구나!"라고 착각하여 뒤에 남은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 싹 다 버려버리는 치명적 오류가 터집니다.
 
 ```text
@@ -58,8 +58,8 @@ tags = ["studynote-network"]
 
 ### 1. 송신자 (Stuffing - 쑤셔 넣기)
 - 송신자는 전송할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1비트씩 훑어봅니다.
-- 만약 본문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중에 <strong><code>1</code>이 연속해서 5번(<code>11111</code>) 나오면, 그 즉시 묻지도 따지지도 않고 그 뒤에 강제로 <code>0</code>을 하나 쑤셔 넣습니다.</strong> 
-- **예시**: 
+- 만약 본문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중에 <strong><code>1</code>이 연속해서 5번(<code>11111</code>) 나오면, 그 즉시 묻지도 따지지도 않고 그 뒤에 강제로 <code>0</code>을 하나 쑤셔 넣습니다.</strong>
+- **예시**:
   - 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/): `01111110` ([플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)와 똑같아 위험함!)
   - 스터핑 후: `011111` <strong><code>0</code></strong> `10`
 - **효과**: 이제 본문 안에는 죽었다 깨어나도 `1`이 6번 연속 나오는 일(`01111110` [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 패턴)이 절대 발생하지 않습니다. 수신자가 헷갈릴 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 0%가 됩니다.

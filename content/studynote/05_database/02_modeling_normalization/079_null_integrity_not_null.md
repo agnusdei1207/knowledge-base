@@ -20,7 +20,7 @@ tags = ["studynote-database"]
 
 NULL [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)(Null [Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))은 관계형 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(RDB)가 현실 세계의 불확실성을 수용하기 위해 만든 양날의 검이다.
 
-회원가입 테이블을 만들 때 '이름'은 무조건 알아야 하지만, '결혼기념일'은 아직 미혼이거나 입력하기 싫을 수 있다. 이 빈칸에 숫자 0을 넣거나 띄어쓰기(공백)를 넣으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 의미가 완전히 왜곡된다. 에드거 코드(E.F. Codd) 박사는 이처럼 "값이 존재하지 않음"을 수학적으로 표현하기 위해, 값이 아예 존재하지 않는 특수한 블랙홀 마커인 `NULL`을 고안했다. 
+회원가입 테이블을 만들 때 '이름'은 무조건 알아야 하지만, '결혼기념일'은 아직 미혼이거나 입력하기 싫을 수 있다. 이 빈칸에 숫자 0을 넣거나 띄어쓰기(공백)를 넣으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 의미가 완전히 왜곡된다. 에드거 코드(E.F. Codd) 박사는 이처럼 "값이 존재하지 않음"을 수학적으로 표현하기 위해, 값이 아예 존재하지 않는 특수한 블랙홀 마커인 `NULL`을 고안했다.
 
 하지만 개발자가 아무데나 빈칸을 허용하면 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Garbage [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 쌓이고 시스템이 붕괴된다. 은행 계좌에 잔액 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 비어버리는 참사를 막기 위해, [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 레벨에서 "이 열(Column)은 빈칸을 절대 용납하지 않겠다"라고 쇳덩어리 규칙을 거는 것이 바로 `NOT NULL` 제약조건의 핵심이다.
 

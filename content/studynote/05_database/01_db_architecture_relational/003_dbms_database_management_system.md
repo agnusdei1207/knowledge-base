@@ -35,9 +35,9 @@ App B (Java)  ───[종속]──> Employee.bin (바이너리 포맷)   ─�
 [현재: DBMS를 통한 추상화와 독립성]
 App A (C언어) ───[SQL]──┐
                         ▼
-               ┌─────────────────┐
-App B (Java)  ─┼─> DBMS Engine   ├─> DB (통합된 Employee 테이블)
-               └─────────────────┘
+               +-----------------+
+App B (Java)  -+-> DBMS Engine   +-> DB (통합된 Employee 테이블)
+               +-----------------+
                         ▲
 App C (Python) ─[SQL]───┘
 ```

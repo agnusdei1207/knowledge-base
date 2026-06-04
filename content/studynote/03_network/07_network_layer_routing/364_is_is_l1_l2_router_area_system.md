@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: 대규모 네트워크 환경에서 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)([LSDB](/knowledge-base/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/))의 크기를 최소화하고 수렴 속도를 높이기 위해 설계된 [IS-IS](/knowledge-base/studynote/03_network/07_network_layer_routing/363_is_is_intermediate_system_clnp_telecom/) 프로토콜의 2계층(Hierarchical) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 아키텍처.
 - **필요성**: SKT 백본망에 라우터 5,000대가 있다 치자. 5,000대가 동네 골목길 1번 끊어질 때마다 [SPF](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/) 공식을 팽팽 돌리면 국가 통신망이 마비된다. "서울 강남구(Area 1)는 자기들끼리만 지도 그리고, 강남구를 벗어날 땐 강남구 관문 라우터(L1/L2)한테 다 던지자! 그리고 전국구 코어 라우터들(L2)은 시시콜콜한 골목길 정보는 알 필요 없이 '강남구 가는 길' 딱 1줄만 외우자!"라는 계층화가 도입되었다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - **Level 1 (L1) 라우터**: 경기도 성남시 안에서만 마을버스를 모는 **"시내버스 기사님"**. 성남시 지리는 빠삭하지만 서울 가는 길은 아예 모름. 그냥 성남버스터미널(L1/L2)에 손님을 내려주고 치움.
   - **Level 2 (L2) 라우터**: 성남버스터미널에서 서울, 부산을 잇는 **"고속버스 기사님"**. 전국 터미널 위치(고속도로망)는 다 외우지만, 성남시 뒷골목이 어떻게 생겼는지는 전혀 알 바 아님.
   - **L1/L2 라우터**: 시내버스와 고속버스가 만나는 <strong>"종합 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> 터미널"</strong>. 이 녀석만이 동네 사람을 전국구로 쏴주고, 전국에서 온 사람을 동네로 꽂아준다.
@@ -44,7 +44,7 @@ tags = ["studynote-network"]
 
 ### 1. 라우터의 3가지 계급장 (Level)
 관리자는 라우터에 접속해서 `is-type` 명령어로 이 라우터가 평생 살아갈 신분을 박아준다.
-1. **Level 1 (L1) 라우터**: OSPF의 Internal Router([IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/))와 같다. 오직 자기와 "같은 Area" 번호를 가진 놈하고만 찐친(L1 [Adjacency](/knowledge-base/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/))을 맺고 L1 전용 엽서([LSP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/))만 주고받는다. 
+1. **Level 1 (L1) 라우터**: OSPF의 Internal Router([IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/))와 같다. 오직 자기와 "같은 Area" 번호를 가진 놈하고만 찐친(L1 [Adjacency](/knowledge-base/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/))을 맺고 L1 전용 엽서([LSP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/))만 주고받는다.
 2. **Level 2 (L2) 라우터**: OSPF의 Backbone Router와 같다. 전국의 L2 라우터들과 거대한 뼈대(Backbone) 망을 구축한다. **"L2 라우터들이 서로 연속해서 연결된 길의 집합체" 자체가 곧 백본이다.** (OSPF처럼 Area 0 이라는 이름의 가상의 광장이 강제되지 않는다).
 3. **Level 1-2 (L1/L2) 라우터**: OSPF의 ABR과 같다. 동네 라우터들과는 L1 찐친을 맺고, 전국구 라우터들과는 L2 찐친을 맺는 양다리(통역사)다.
 

@@ -23,7 +23,7 @@ tags = ["studynote-algorithm"]
 ## Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
 ### 1. [선택 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/)([Selection Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/))의 개념
-[선택 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/)은 제자리 정렬(In-place sorting) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 하나로, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 '정렬된 부분(Sorted part)'과 '정렬되지 않은 부분(Unsorted part)'으로 논리적으로 나눕니다. 
+[선택 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/)은 제자리 정렬(In-place sorting) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 하나로, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 '정렬된 부분(Sorted part)'과 '정렬되지 않은 부분(Unsorted part)'으로 논리적으로 나눕니다.
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 정렬된 부분이 비어있으며, 정렬되지 않은 부분에서 가장 작은 원소를 '선택'하여 정렬되지 않은 부분의 첫 번째 원소와 자리를 바꾸며 정렬된 영역을 넓혀가는 방식입니다.
 
 ### 2. 왜 [선택 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/)을 알아야 하는가? (Pain Point와 트레이드오프)

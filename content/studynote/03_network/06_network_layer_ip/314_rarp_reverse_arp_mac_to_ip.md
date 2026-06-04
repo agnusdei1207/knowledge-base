@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(물리적 주소)를 IP 주소(논리적 주소)로 매핑해 주는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (RFC 903).
 - **필요성**: 보통 컴퓨터는 하드디스크에 `192.168.0.10`이라고 자기 IP가 저장되어 있다. 그런데 1980년대 멍텅구리 씬 클라이언트(하드디스크가 없는 깡통 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))들은 전원을 켜면 자기가 뉘신지 IP가 없었다. 통신을 하려면 3계층 IP가 무조건 있어야 한다. 깡통 PC가 아는 건 오직 자기 랜카드에 공장에서 지져서 나온 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소뿐이었다. "저기요 RARP 서버님! 제 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 [AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/):BB:CC인데요, 제 IP가 뭐였죠?"라고 물어볼 수단이 절실했다.
 
-- **💡 비유**: 
+- **💡 비유**:
   - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a></strong>: 친구의 <strong>'이름(IP)'</strong>은 아는데 <strong>'전화번호(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>)'</strong>를 몰라서 114에 물어보는 것.
   - **RARP**: 내가 기억상실증에 걸려서, 내 호주머니에 있는 <strong>'주민등록증(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>)'</strong>을 경찰서(서버)에 내밀며 <strong>"제 이름(IP)이 뭔가요?"</strong>라고 역으로 물어보는 것.
 
@@ -74,7 +74,7 @@ RARP 메시지 구조는 [ARP](/knowledge-base/studynote/03_network/06_network_l
 ```
 
 ### 3. 역사적 퇴장과 진화
-- RARP는 너무 단순해서 쓸모가 없었다. 
+- RARP는 너무 단순해서 쓸모가 없었다.
 - 이를 개선하여 BOOTP(Bootstrap [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))가 나왔고, IP뿐만 아니라 [서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/), 게이트웨이 주소, 부팅 파일의 이름까지 넘겨줄 수 있게 되었다.
 - BOOTP마저 관리자가 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 일일이 쳐야 하는 귀찮음이 있자, "그냥 꽂으면 랜덤으로 남는 IP 빌려주면(Lease) 안 돼?"라며 끝판왕인 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/">DHCP</a></strong>가 등장했고 RARP는 교과서에서나 볼 수 있는 화석이 되었다.
 

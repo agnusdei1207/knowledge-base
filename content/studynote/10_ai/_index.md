@@ -40,16 +40,16 @@ tags = ["studynote-ai"]
 LLM을 탄생시킨 구글의 'Attention Is All You Need' 논문 핵심 구조다. RNN의 치명적인 순차적 처리 병목을 파단하고 모든 단어를 병렬 연산한다.
 ```text
     [ 트랜스포머 멀티헤드 어텐션 아키텍처 / Transformer: Multi-Head Self-Attention Architecture ]
-    
+
     Input Text: "The bank of the river"
-    
+
     (1) Embedding & Positional Encoding
             |
     (2) Query(Q), Key(K), Value(V) 생성 (가중치 행렬 곱)
             |
     (3) Scaled Dot-Product Attention:
         Attention(Q, K, V) = softmax( (Q * K^T) / sqrt(d_k) ) * V
-        
+
         [ 단어 간 연관성 매트릭스 예시 ]
                  The    bank    of     the    river
         The     [1.0    0.1    0.0    0.0    0.0  ]

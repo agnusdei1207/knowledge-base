@@ -48,7 +48,7 @@ SDN은 단순한 기술이 아닙니다. <strong>"모든 하드웨어 통신망�
 
 ### 3. 네트워크의 프로그래밍 가능성 (Programmability)
 - 닫혀있던 네트워크 기계에 외부 개발자들이 <strong>오픈 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/">REST API</a>)</strong>를 통해 접속할 수 있게 되었습니다.
-- 자바나 파이썬으로 짠 앱 프로그램(예: "디도스 공격 들어오면 10번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 전원 차단해라")을 컨트롤러에 올리면, 컨트롤러가 알아서 전국 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 룰을 하달해 줍니다. 
+- 자바나 파이썬으로 짠 앱 프로그램(예: "디도스 공격 들어오면 10번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 전원 차단해라")을 컨트롤러에 올리면, 컨트롤러가 알아서 전국 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 룰을 하달해 줍니다.
 
 이 아키텍처를 이해하는 것이 850번대의 핵심입니다. (이후 문서에서 상세히 뜯어봅니다.)
 

@@ -18,7 +18,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-현대의 스마트폰이든 초거대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 슈퍼컴퓨터든, 껍데기를 까보면 결국 4가지 부품의 조합으로 귀결된다. 
+현대의 스마트폰이든 초거대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 슈퍼컴퓨터든, 껍데기를 까보면 결국 4가지 부품의 조합으로 귀결된다.
 
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 에니악(ENIAC) 시절에는 연산 회로와 저장 회로가 뒤죽박죽 섞여 있어 프로그램을 바꿀 때마다 전선을 다시 꽂아야 했다. 폰 노이만은 "프로그램(소프트웨어)을 메모리에 올려두고, CPU가 그걸 순서대로 읽어서 실행하게 만들자([내장형 프로그램](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/125_stored_program/))"는 아이디어를 냈고, 이를 위해 연산(CPU), 저장(Memory), 통로([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)), 외부 소통(I/O)이라는 명확한 역할 분담 체계를 정립했다. 이 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화된 아키텍처 덕분에 인류는 하나의 쇳덩어리 기계로 문서 작업부터 3D 게임까지 무한대의 목적(General Purpose)을 달성할 수 있게 되었다.
 
@@ -88,7 +88,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-이 4대 핵심 구성요소는 1945년 존 폰 노이만이 논문으로 발표한 이래, 80년이 지난 지금까지도 변하지 않은 절대적인 아키텍처의 바이블이다. 
+이 4대 핵심 구성요소는 1945년 존 폰 노이만이 논문으로 발표한 이래, 80년이 지난 지금까지도 변하지 않은 절대적인 아키텍처의 바이블이다.
 
 물론 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)가 작아지면서 메모리 컨트롤러나 그래픽카드(I/O)가 아예 CPU 실리콘 다이(Die) 안으로 융합([SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/), [System on Chip](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/))되기도 하고, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 병목을 극복하기 위해 [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)(고대역폭 메모리) 같은 기괴한 패키징 기술이 등장하기도 했다. 하지만 물리적인 거리가 0에 수렴할 뿐, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로는 여전히 연산, 저장, 입출력, 통로라는 4개의 분업화된 공장이 완벽한 톱니바퀴처럼 맞물려 돌아가는 경이로운 마이크로아키텍처의 정점이다.
 

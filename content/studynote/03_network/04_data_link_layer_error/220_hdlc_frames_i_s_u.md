@@ -65,14 +65,14 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-통신을 시작하기 전에 "선 좀 꼽자", "이제 끊자" 등 연결 셋업을 담당하는 관리자입니다. 
+통신을 시작하기 전에 "선 좀 꼽자", "이제 끊자" 등 연결 셋업을 담당하는 관리자입니다.
 순서 번호(Sequence Number)가 전혀 안 적혀 있어서 Unnumbered(비번호)라고 부릅니다.
 
 - <strong>제어부 첫 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a></strong>: 무조건 <strong><code>11</code></strong>로 시작합니다.
 - **역할**: 에러 검출 이런 게 아니라, 링크를 처음 열 때(SABM: 비동기 균형 모드로 연결하자!), 에러 나서 링크를 리셋할 때, 접속을 끊고 집에 갈 때(DISC: Disconnect) 던지는 최상위 시스템 제어 명령어들입니다.
 
-> <strong>I-프레임(0)</strong>은 과자를 싣고 배달 가는 듬직한 <strong>'택배 트럭'</strong>입니다. 
-> <strong>S-프레임(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>)</strong>은 짐칸은 텅 비어있고 스피커만 달린 <strong>'경찰차'</strong>로, 도로 위에서 "잘 오고 있다([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))", "잠깐 차 세워라(RNR)", "3번 트럭 뒤로 빽해라!(REJ)"라고 호루라기를 부는 교통정리 요원입니다. 
+> <strong>I-프레임(0)</strong>은 과자를 싣고 배달 가는 듬직한 <strong>'택배 트럭'</strong>입니다.
+> <strong>S-프레임(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>)</strong>은 짐칸은 텅 비어있고 스피커만 달린 <strong>'경찰차'</strong>로, 도로 위에서 "잘 오고 있다([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))", "잠깐 차 세워라(RNR)", "3번 트럭 뒤로 빽해라!(REJ)"라고 호루라기를 부는 교통정리 요원입니다.
 > <strong>U-프레임(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/">11</a>)</strong>은 아예 도로의 차단기를 올리거나 내리는 <strong>'톨게이트 관리 요원'</strong>입니다.
 
 정보 프레임, 감독/제어, 비번호를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [NRM](/knowledge-base/studynote/03_network/04_data_link_layer_error/219_nrm_arm_abm_hdlc_modes/) / ARM / ABM가 기반 조건을 만든다면, 정보 프레임, 감독/제어, 비번호는 그 위에서 핵심 메커니즘을 구현하고, SDLC는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.

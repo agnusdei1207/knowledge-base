@@ -31,13 +31,13 @@ tags = ["studynote-operating-system"]
 
   ▶ 스레드 A 진입: wait(S) 호출 ─▶ S=1로 감소. 프린터 1번 사용 시작.
   ▶ 스레드 B 진입: wait(S) 호출 ─▶ S=0으로 감소. 프린터 2번 사용 시작.
-  
-  ▶ 스레드 C 진입: wait(S) 호출 ─▶ S가 0이므로 진입 불가! 
+
+  ▶ 스레드 C 진입: wait(S) 호출 ─▶ S가 0이므로 진입 불가!
                  C는 OS에 의해 대기 큐(Wait Queue)로 쫓겨나 Sleep(수면).
-                 
+
   ▶ 스레드 A 퇴장: signal(S) 호출 ─▶ S=1로 증가시킴과 동시에,
                  대기 큐에서 자고 있던 C를 Wakeup(기상) 시킴!
-                 
+
   ▶ 스레드 C 진입: 깨어난 C가 남은 프린터 1번을 사용 시작.
 ```
 **[다이어그램 해설]** 세마포어의 정수 `S`는 "현재 쓸 수 있는 자원의 남은 개수"를 뜻한다. 만약 `S`가 음수(-1)가 되었다면, "현재 1명이 대기실에서 자면서 기다리고 있다"는 뜻이다. 이 숫자 하나만으로 시스템의 혼잡도를 완벽하게 추적(Tracking)하고 제어하는 천재적인 발상이다.
@@ -154,7 +154,7 @@ tags = ["studynote-operating-system"]
 카운팅 세마포어를 시스템에 이식하면, 다중 프로세스 환경에서 N개의 한정된 자원([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 코어, DB 커넥션 등)을 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 없이 완벽하게 통제할 수 있으며, 프로세스 간의 실행 순서(Sync)를 톱니바퀴처럼 한 치의 오차 없이 맞물리게 제어할 수 있다.
 
 ### 결론 및 미래 전망
-데이크스트라의 세마포어는 [폰 노이만 아키텍처](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/)([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)) 위에서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 프로그래밍을 가능하게 만든 "위대한 첫 번째 삽"이었다. 하지만 그 자유도(소유권 없음, 아무나 [signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 호출 가능)가 가져오는 데드락과 스파게티 코드의 늪은 수많은 프로젝트를 파멸로 이끌었다. 
+데이크스트라의 세마포어는 [폰 노이만 아키텍처](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/)([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)) 위에서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 프로그래밍을 가능하게 만든 "위대한 첫 번째 삽"이었다. 하지만 그 자유도(소유권 없음, 아무나 [signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 호출 가능)가 가져오는 데드락과 스파게티 코드의 늪은 수많은 프로젝트를 파멸로 이끌었다.
 이에 따라 미래의 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 패러다임은 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)에 세마포어를 거는 방식([Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) Model)을 버리고, Go 언어의 <strong>채널(Channel)</strong>이나 Erlang의 <strong>액터(Actor) 모델</strong>처럼 <strong>"메모리를 공유하지 말고, 메시지를 주고받으며(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/">Message Passing</a>) 통신해라"</strong>라는 새로운 패러다임으로 진화하고 있다. 세마포어는 점차 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 하부의 유물로 남고, 유저 레벨에서는 자취를 감출 것이다.
 
 - **📢 섹션 요약 비유**: 세마포어는 거대한 공용 칠판([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/))에 100명이 분필을 들고 질서를 지키며 그림을 그리게 만드는 훌륭한 룰이었습니다. 하지만 아무리 룰이 좋아도 결국 어깨가 부딪힙니다(데드락). 미래의 코딩은 각자 자기 방에서 그림을 그려서 우편([Message Passing](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/))으로 보내 합치는 방식으로 칠판(세마포어) 자체를 없애고 있습니다.

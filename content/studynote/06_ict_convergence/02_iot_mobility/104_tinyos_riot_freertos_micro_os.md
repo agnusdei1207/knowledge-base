@@ -17,7 +17,7 @@ tags = ["ict_convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-초소형 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (Micro OS)는 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), Internet of Things)의 발달과 함께 등장한 필수적인 소프트웨어 인프라다. 
+초소형 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (Micro OS)는 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), Internet of Things)의 발달과 함께 등장한 필수적인 소프트웨어 인프라다.
 
 화재 감지기, 스마트 전구 등에 탑재되는 [마이크로컨트롤러](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) (MCU, [Microcontroller](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) Unit)는 불과 수십 MHz의 CPU와 수 KB~수십 KB의 RAM(Random Access Memory)만을 가진다. 여기에 부팅에만 수백 MB가 필요한 리눅스(Linux)나 윈도우(Windows)를 탑재하는 것은 물리적으로 불가능하다. 또한, 이러한 센서 기기들은 건전지 하나로 수년을 버텨야 하며, 화재 발생 같은 중요한 이벤트에는 즉각적으로 반응하는 실시간성 (RTOS, Real-Time OS)이 요구된다. 따라서 불필요한 기능을 모두 덜어내고 뼈대만 남긴 초경량, 저전력 특화 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 필요하게 되었다.
 

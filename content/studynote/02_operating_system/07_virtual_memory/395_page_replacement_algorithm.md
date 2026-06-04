@@ -141,17 +141,17 @@ tags = ["studynote-operating-system"]
 ### 실무 시나리오: [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))의 소용돌이와 디버깅
 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 영웅이지만, 선을 넘으면 시스템을 파멸로 이끄는 악마다.
 1. **발단**: 16GB 램 서버에 3개의 무거운 빅데이터 분석 파이썬 10GB짜리 스크립트를 켰다 (총 30GB 요구).
-2. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/">페이지 교체</a>의 한계 돌파</strong>: 
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/">페이지 교체</a>의 한계 돌파</strong>:
    - A 스크립트가 램을 달라고 B 스크립트의 4KB를 디스크로 내쫓았다(Swap-out).
    - 0.01초 뒤 B 스크립트가 실행 차례가 되어 방금 쫓겨난 자기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽으려고, 다시 A의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 디스크로 쫓아내며(Swap-out) 자기 걸 읽어왔다(Swap-in).
    - 다시 A 차례가 되어 B 걸 쫓아낸다... (무한 반복).
 3. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>) 지옥 터짐</strong>:
    - 디스크 I/O가 100%를 찍으며 서버 하드디스크가 비명을 지른다. CPU 사용률은 1%인데, CPU는 아무 계산도 못 하고 오직 A와 B의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 램과 디스크 사이에서 퍼 나르는 '교체 작업(Replacement)'에만 모든 생명력을 탕진한다.
-4. **실무적 결단**: 
+4. **실무적 결단**:
    - 시스템 관리자는 `vmstat` 명령어로 초당 수천 번의 `si/so(Swap In/Out)`가 터지는 걸 보고 식은땀을 흘리며 `kill -9`로 파이썬 하나를 쏴 죽인다. 즉시 10GB 빈 램이 생기고 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)가 멈추며 서버가 마법처럼 평온을 되찾는다.
 
 ### [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 전쟁의 서막 ([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) vs [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))
-누구를 내쫓을 것인가? 
+누구를 내쫓을 것인가?
 가장 먼저 램에 들어온 놈을 내쫓는 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/">FIFO</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/">First-In First-Out</a>)</strong>를 썼더니, 가장 자주 쓰는 핵심 코드가 자꾸 쫓겨나서 에러(Belady의 모순)가 터졌다. 공학자들은 "과거를 보면 미래를 안다"는 철학 아래 <strong>"가장 오랫동안 한 번도 안 쳐다본 놈을 쫓아내자"는 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">Least Recently Used</a>)</strong> [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 숭배하게 되었다. 이 피 튀기는 [페이지 교체 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/) 100년 전쟁은 다음 키워드에서 본격적으로 다뤄진다.
 
 - **📢 섹션 요약 비유**: 좁은 소파(램)에 세 명이 자려는데 누우면 자리가 모자라서, 자는 사람을 한 명씩 번갈아 가며 발로 차서 바닥(디스크)으로 밀어내고 자는 환장할 밤([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))입니다. 차라리 한 명을 아예 옆방으로 쫓아내(Kill) 버려야 남은 둘이라도 꿀잠을 잘 수 있는 냉혹한 현실입니다.

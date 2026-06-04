@@ -56,7 +56,7 @@ tags = ["studynote-network"]
 
 ### 1. 송신: 시맨틱 추출 및 코딩 (Semantic [Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))
 - 내가 폰으로 1GB짜리 '웃고 있는 내 얼굴' 고화질 영상을 찍습니다.
-- 폰([Edge AI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/174_edge_ai_on_device_ai/))이 영상을 1GB [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 포장하지 않습니다. 딥러닝 망(Neural Network)에 넣고 돌려, 얼굴의 뼈대(Landmark) 좌표 수십 개와 "지금 씩 웃고 있다"라는 텍스트 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(의미 특징점)만 쏙 뽑아냅니다. 
+- 폰([Edge AI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/174_edge_ai_on_device_ai/))이 영상을 1GB [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 포장하지 않습니다. 딥러닝 망(Neural Network)에 넣고 돌려, 얼굴의 뼈대(Landmark) 좌표 수십 개와 "지금 씩 웃고 있다"라는 텍스트 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(의미 특징점)만 쏙 뽑아냅니다.
 - 1GB짜리 영상이 단 <strong>1KB짜리 초경량 텍스트/벡터 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>로 극한 압축됩니다.
 
 ### 2. 채널 전송 (에러의 관용)

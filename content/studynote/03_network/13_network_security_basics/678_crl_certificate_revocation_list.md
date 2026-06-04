@@ -64,7 +64,7 @@ tags = ["studynote-network"]
 
 위의 뚱뚱한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 문제를 덜어내기 위해 여러 꼼수가 등장했습니다.
 
-1. <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/196_delta_crl_efficiency_improvement/">Delta CRL</a> (델타 CRL)</strong>: 
+1. <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/196_delta_crl_efficiency_improvement/">Delta CRL</a> (델타 CRL)</strong>:
    - 매번 전체 명단(수십 MB)을 다운받지 않습니다.
    - 어제 전체 명단(Base CRL)을 받았으니, <strong>오늘은 어제 이후로 "새로 추가된 수배자 명단(<a href="/knowledge-base/studynote/09_security/04_endpoint_security/196_delta_crl_efficiency_improvement/">Delta CRL</a>, 수십 KB)"만 살짝 다운받아서 기존 명단에 업데이트</strong> 치는 아주 스마트하고 효율적인 차분 다운로드 방식입니다.
 

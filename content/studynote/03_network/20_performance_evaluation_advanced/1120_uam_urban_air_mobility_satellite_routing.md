@@ -53,7 +53,7 @@ tags = ["studynote-network"]
 - 우주 위성은 에어택시를 하늘에서 땅으로 내리꽂아 수직으로 비춰주기 때문에, 남산타워 뒤 건물 그림자에 100% 구애받지 않는 절대 끊기지 않는 100% 무중단 [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/)(조종) 통신망을 수호합니다.
 
 ### 3. V2V 기체 간 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/) (Air-to-Air)
-- 1024번 자동차 V2X처럼 에어택시들끼리도 전파를 쏩니다. 
+- 1024번 자동차 V2X처럼 에어택시들끼리도 전파를 쏩니다.
 - 앞 에어택시가 갑자기 돌풍을 만나 고도를 확 낮추면, 지상 기지국을 거칠 틈도 없이 뒷 기체로 다이렉트로 브로드캐스트 경보(V2V)를 날려 공중 충돌을 0.01초 만에 회피해 냅니다.
 
 ```text

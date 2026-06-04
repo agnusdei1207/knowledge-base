@@ -52,7 +52,7 @@ tags = ["studynote-network"]
 가장 중요한 컴포넌트들의 역할이다. (결국 [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)과 똑같은 구조다).
 
 1. <strong>ITR (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/">Ingress</a> Tunnel Router, 입구 톨게이트)</strong>:
-   - 내 회사 앞단 방화벽이다. 
+   - 내 회사 앞단 방화벽이다.
    - 사내 서버가 `목적지 EID = 10.2.2.2(부산 지사)`로 편지를 쏜다.
    - ITR이 잡는다. "어? 이건 EID네? 이대로 인터넷(RLOC 망)에 쏘면 버려지는데? 얘 진짜 위치(RLOC)가 어디야?"
 2. **Map-Server (동사무소 / 114 안내소)**:

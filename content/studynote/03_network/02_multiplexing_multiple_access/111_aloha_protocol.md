@@ -82,7 +82,7 @@ Time ──┴───────────┴──────────
 
 ## Ⅲ. 비교 및 연결
 
-순수 알로하는 시스템 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 모델링의 고전적 사례이다. 패킷 생성률이 포아송 분포(Poisson Distribution)를 따른다고 가정할 때, 트래픽 부하 $G$ (채널 시간당 생성되는 평균 패킷 수)에 따른 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) $S$ ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))는 수학적으로 $S = G \times e^{-2G}$로 도출된다. 
+순수 알로하는 시스템 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 모델링의 고전적 사례이다. 패킷 생성률이 포아송 분포(Poisson Distribution)를 따른다고 가정할 때, 트래픽 부하 $G$ (채널 시간당 생성되는 평균 패킷 수)에 따른 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) $S$ ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))는 수학적으로 $S = G \times e^{-2G}$로 도출된다.
 
 *무작위 [매체 접근 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/)(Random Access) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교 매트릭스*
 이 도식은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층의 진화 단계에서 순수 알로하가 갖는 구조적 한계와 개선 모델의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이를 정량적으로 분석한다.
@@ -122,7 +122,7 @@ Time ──┴───────────┴──────────
          │                 │    ├─ (Yes) ─> Slotted ALOHA 채택 (성능 향상)
          │                 │    └─ (No)  ─> Pure ALOHA 기반 초경량 설계 (가장 저렴)
 ```
-*해설*: 이 흐름의 핵심은 비용([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 전력, 하드웨어)과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(채널 효율) 사이의 트래픽 트레이드오프를 결정하는 것이다. 중앙 제어나 클럭 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 센서 노드의 배터리를 빠르게 갉아먹는다. 실무에서는 수동형 RFID 태그나 해저/지하 깊숙이 매설된 1회용 센서 등에서 구현 비용을 0으로 만들어야 할 때 순수 알로하 기반의 충돌 회피 변형 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 설계한다. 
+*해설*: 이 흐름의 핵심은 비용([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 전력, 하드웨어)과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(채널 효율) 사이의 트래픽 트레이드오프를 결정하는 것이다. 중앙 제어나 클럭 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 센서 노드의 배터리를 빠르게 갉아먹는다. 실무에서는 수동형 RFID 태그나 해저/지하 깊숙이 매설된 1회용 센서 등에서 구현 비용을 0으로 만들어야 할 때 순수 알로하 기반의 충돌 회피 변형 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 설계한다.
 
 <strong>실무 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 및 실패 시나리오</strong>:
 1. **트래픽 오버로드로 인한 붕괴**: 초당 채널 수용량(G)이 0.5를 넘어가는 설계 구간에서 순수 알로하를 고집하면, 재전송 횟수가 기하급수적으로 증가하는 '재전송 폭풍(Retransmission Storm)' 큐잉 병목이 발생하여 시스템 가용성이 완전히 0으로 수렴하게 된다.

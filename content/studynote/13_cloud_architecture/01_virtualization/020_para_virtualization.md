@@ -102,7 +102,7 @@ tags = ["cloud_architecture"]
 | <strong>I/O 통신 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 가짜 장치 에뮬레이션 부하로 터짐 | 분할 드라이버 공유로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 극소화 | 현대 클라우드에서 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 기술의 생존 구역 |
 
 <strong>결정적 패착: <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 수정의 덫과 하드웨어의 반격</strong>
-[반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)의 가장 치명적인 아킬레스건은 "[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 반드시 수정해야 한다"는 조건이었다. 마이크로소프트(MS)가 자기들만의 폐쇄적인 윈도우 소스코드를 클라우드 벤더 마음대로 뜯어고치게 놔둘 리 만무했다. 결과적으로 전 세계 엔터프라이즈 시장의 절반을 차지하는 윈도우 서버를 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)로 돌릴 수 없다는 것은 엄청난 비즈니스 제약이었다. 게다가 Intel과 AMD가 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)의 치명적 속도 문제를 해결하기 위해 CPU 내부에 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 칩셋([Intel VT-x](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/))을 탑재해 버리자, CPU 자원을 처리하는 데 있어서 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)의 우위는 완전히 소멸해 버렸다. 순수 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 기술은 결국 역사 속으로 사라지는 듯했다. 
+[반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)의 가장 치명적인 아킬레스건은 "[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 반드시 수정해야 한다"는 조건이었다. 마이크로소프트(MS)가 자기들만의 폐쇄적인 윈도우 소스코드를 클라우드 벤더 마음대로 뜯어고치게 놔둘 리 만무했다. 결과적으로 전 세계 엔터프라이즈 시장의 절반을 차지하는 윈도우 서버를 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)로 돌릴 수 없다는 것은 엄청난 비즈니스 제약이었다. 게다가 Intel과 AMD가 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)의 치명적 속도 문제를 해결하기 위해 CPU 내부에 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 칩셋([Intel VT-x](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/))을 탑재해 버리자, CPU 자원을 처리하는 데 있어서 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)의 우위는 완전히 소멸해 버렸다. 순수 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 기술은 결국 역사 속으로 사라지는 듯했다.
 
 하지만 반전이 일어났다.
 
@@ -111,7 +111,7 @@ tags = ["cloud_architecture"]
 
 ┌────────────────────────────────────────────────────────┐
 │               현대적 Guest OS (Windows / Linux)        │
-│ 1. CPU / 메모리 코어 연산 ──▶ [전가상화(HVM) 방식 채택]   │ ◀ 수정 불가한 OS도 Intel VT-x 
+│ 1. CPU / 메모리 코어 연산 ──▶ [전가상화(HVM) 방식 채택]   │ ◀ 수정 불가한 OS도 Intel VT-x
 │                         (Trap 없이 하드웨어 다이렉트 처리)  │    하드웨어 빨로 베어메탈급 고속 처리
 │                                                        │
 │ 2. 디스크 / 네트워크 통신 ──▶ [반가상화(PV) 방식 채택]    │ ◀ 부팅 후 Add-on 형태의 반가상화
@@ -150,11 +150,11 @@ tags = ["cloud_architecture"]
             │               │
             │               ├─ (No) ───▶ 이미 VirtIO 등 반가상화 드라이버를 쓰는가?
             │                               │
-            │                               └─▶ [추가 튜닝] 호스트 레벨의 DPDK(Data Plane 
+            │                               └─▶ [추가 튜닝] 호스트 레벨의 DPDK(Data Plane
             │                                   Development Kit)나 SR-IOV 물리 매핑 검토
 ```
 
-이 판단의 핵심은 <strong>"<a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 환경의 I/O는 가짜 장치를 버리고 무조건 <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/">PV</a>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/">반가상화</a>) 인터페이스로 통과시켜야 한다"</strong>는 대원칙이다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 "나는 진짜 디스크를 갖고 있어"라고 착각하게 두는 것은 낭만적이지만 서버가 타들어 가는 지름길이다. 
+이 판단의 핵심은 <strong>"<a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 환경의 I/O는 가짜 장치를 버리고 무조건 <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/">PV</a>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/">반가상화</a>) 인터페이스로 통과시켜야 한다"</strong>는 대원칙이다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 "나는 진짜 디스크를 갖고 있어"라고 착각하게 두는 것은 낭만적이지만 서버가 타들어 가는 지름길이다.
 
 📢 **섹션 요약 비유**: 오토바이를 탈 때 바람막이(에뮬레이터)를 달고 달리면 편안하긴 하지만 공기 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)(오버헤드) 때문에 속도가 나지 않으니, 바람막이를 떼어내고 몸을 납작 엎드려([반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 드라이버 세팅) 공기 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)을 뚫고 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)으로 달리는 레이서의 세팅과 같습니다.
 

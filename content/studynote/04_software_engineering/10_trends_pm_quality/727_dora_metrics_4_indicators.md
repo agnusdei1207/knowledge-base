@@ -19,9 +19,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-[소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 오랜 난제는 <strong>"우리 회사 개발팀이 일을 잘하고 있는지 어떻게 숫자로 증명할 것인가?"</strong>였다. 제조업처럼 생산된 나사못의 개수를 세거나 불량률을 잴 수 없었기 때문이다. 
+[소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 오랜 난제는 <strong>"우리 회사 개발팀이 일을 잘하고 있는지 어떻게 숫자로 증명할 것인가?"</strong>였다. 제조업처럼 생산된 나사못의 개수를 세거나 불량률을 잴 수 없었기 때문이다.
 
-초기에는 개발자가 하루에 짠 코드 라인 수(LOC)를 쟀다. 그러자 개발자들은 필요 없는 코드를 길게 늘여 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시작했다. 버그 수정 개수를 지표로 삼자, 일부러 버그를 만들고 고치는 코미디가 벌어졌다. 
+초기에는 개발자가 하루에 짠 코드 라인 수(LOC)를 쟀다. 그러자 개발자들은 필요 없는 코드를 길게 늘여 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시작했다. 버그 수정 개수를 지표로 삼자, 일부러 버그를 만들고 고치는 코미디가 벌어졌다.
 
 구글의 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 연구팀(니콜 포스그렌 박사 등)은 6년간의 방대한 설문과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 끝에, 진정한 소프트웨어 배달(Delivery) 능력을 증명하는 것은 개개인의 코딩 속도가 아니라 <strong>'팀 단위의 파이프라인(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD) 속도와 회복력'</strong>임을 밝혀냈다. 이것이 글로벌 표준이 된 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/">DORA</a> 메트릭스(<a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/201_dora_metrics_devops_performance/">DORA Metrics</a>)</strong>다.
 

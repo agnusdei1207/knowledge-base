@@ -79,7 +79,7 @@ SCTP는 애초에 태어날 때부터 이걸 완벽히 막아버렸다.
 ```
 
 ### 3. 메시지 단위(Message-oriented) 전송
-TCP는 물줄기([Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)) 방식이라 앱이 "안녕" "하세요"를 던져도 수신자는 "안녕하세" "요" 처럼 지 맘대로 썰어서 받는다. 
+TCP는 물줄기([Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)) 방식이라 앱이 "안녕" "하세요"를 던져도 수신자는 "안녕하세" "요" 처럼 지 맘대로 썰어서 받는다.
 SCTP는 UDP처럼 **"앱이 던진 덩어리(메시지)의 경계를 완벽하게 지켜서"** 1번 박스와 2번 박스를 섞지 않고 정확히 분리해서 전달해 준다. (앱 개발자가 파싱하기 너무 편하다).
 
 - **📢 섹션 요약 비유**: <strong> SCTP의 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">Cookie</a>) 방식은 클럽 입구의 </strong>"예약금 제도"<strong>입니다. <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 클럽은 손님이 "갈게요(SYN)" 전화만 해도 테이블(메모리)을 비워둬서 노쇼(해커)에 망합니다. 하지만 SCTP 클럽은 "갈게요" 전화하면 </strong>"입금 계좌([쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/))"**만 문자로 보내고 테이블을 안 비워둡니다. 손님이 진짜로 **"입금 완료([Cookie](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) Echo)"**를 해야만 그제야 빈 테이블을 잡아줍니다. 절대 노쇼에 당하지 않습니다.

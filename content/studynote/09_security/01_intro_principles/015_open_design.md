@@ -19,7 +19,7 @@ tags = ["security"]
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-공개 설계 원칙(Open Design Principle)은 솔트저(Saltzer)와 슈로더(Schroeder)가 제안한 핵심 보안 설계 원칙으로, 암호학의 '케르크호프스의 원리(Kerckhoffs's Principle)'를 일반적인 컴퓨터 시스템 보안으로 확장한 개념이다. 이 원칙은 "시스템의 보안은 그 설계([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), 소스코드, 하드웨어 회로)의 무지에 의존해서는 안 된다"고 천명한다. 
+공개 설계 원칙(Open Design Principle)은 솔트저(Saltzer)와 슈로더(Schroeder)가 제안한 핵심 보안 설계 원칙으로, 암호학의 '케르크호프스의 원리(Kerckhoffs's Principle)'를 일반적인 컴퓨터 시스템 보안으로 확장한 개념이다. 이 원칙은 "시스템의 보안은 그 설계([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), 소스코드, 하드웨어 회로)의 무지에 의존해서는 안 된다"고 천명한다.
 
 과거에는 자체적으로 개발한 비밀 암호 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이나 아무에게도 보여주지 않은 독자적인 보안 로직을 사용하면 안전할 것이라 믿었다. 하지만 이러한 '은닉을 통한 보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) through Obscurity)'은 내부자가 퇴사하거나, [리버스 엔지니어링](/knowledge-base/studynote/04_software_engineering/06_software_architecture/389_reverse_engineering/) 도구로 바이너리가 분석되는 순간 전체 시스템이 영구적으로 무너지는 끔찍한 결과를 낳는다. 하드코딩된 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 한 번 유출되면 시스템 전체를 재구축해야 하기 때문이다. 따라서 방어 시스템의 메커니즘은 모두 공개하여 집단 지성의 검증을 받되, 오직 쉽게 교체할 수 있는 '키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))'만을 비밀로 유지하는 것이 필수적이다.
 
@@ -81,7 +81,7 @@ tags = ["security"]
 
 이 구조도의 핵심은 엔진([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))과 연료([Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))가 물리적/[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 완전히 분리되어 있다는 점이다. 이러한 배치는 시스템 개발자와 운영자가 코드를 다루더라도 실제 데이터의 복호화 키에는 접근할 수 없도록 강제하기 때문이며, 따라서 공격자가 소스 코드가 들어 있는 GitHub 저장소를 통째로 해킹하더라도 키가 들어있는 [KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/)([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 뚫지 못하면 데이터를 열어볼 수 없다. 실무에서는 이러한 분리를 위해 코드 내부에 키를 박아넣는 하드코딩(Hardcoding)을 극도로 경계한다.
 
-공개 설계의 내부 메커니즘은 '[동료 검토](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/)([Peer Review](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/))를 통한 진화'에 기반한다. 소수가 밀실에서 만든 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 특정 패턴이나 약점이 존재하기 마련이다. 하지만 AES와 같은 표준은 설계도와 수학적 구조가 만천하에 공개되어 수만 명의 암호학자들이 수십 년간 공격을 시도(Cryptanalysis)해 본 후 살아남은 가장 강인한 결과물이다. 
+공개 설계의 내부 메커니즘은 '[동료 검토](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/)([Peer Review](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/))를 통한 진화'에 기반한다. 소수가 밀실에서 만든 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 특정 패턴이나 약점이 존재하기 마련이다. 하지만 AES와 같은 표준은 설계도와 수학적 구조가 만천하에 공개되어 수만 명의 암호학자들이 수십 년간 공격을 시도(Cryptanalysis)해 본 후 살아남은 가장 강인한 결과물이다.
 
 📢 **섹션 요약 비유**: 마술사가 트릭을 꽁꽁 숨기는 것은 트릭이 들통나면 마술이 끝나기 때문(폐쇄형 보안)이지만, 튼튼한 금고는 "여기 망치와 톱을 줄 테니 마음대로 부숴봐라"라고 공개적으로 실험을 허락하는 것(공개 설계)과 같습니다.
 
@@ -155,7 +155,7 @@ tags = ["security"]
 [CI/CD 파이프라인] ──> 소스코드에 키가 포함되어 있는지(Secret Scanning) 검사 후 빌드
 ```
 
-이 플로우의 핵심은 아키텍처와 코드를 공개/재사용하되, 그로 인해 파생되는 취약점 업데이트와 자격 증명(키) 노출 방지에 모든 역량을 쏟는다는 점이다. 이런 배치는 취약점이 발견되었을 때 커뮤니티의 패치를 즉각 수용할 수 있는 탄력성을 제공하기 때문이며, 따라서 조직은 독자 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 유지보수하는 막대한 비용을 절감하고 키 관리라는 본질에만 집중할 수 있다. 
+이 플로우의 핵심은 아키텍처와 코드를 공개/재사용하되, 그로 인해 파생되는 취약점 업데이트와 자격 증명(키) 노출 방지에 모든 역량을 쏟는다는 점이다. 이런 배치는 취약점이 발견되었을 때 커뮤니티의 패치를 즉각 수용할 수 있는 탄력성을 제공하기 때문이며, 따라서 조직은 독자 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 유지보수하는 막대한 비용을 절감하고 키 관리라는 본질에만 집중할 수 있다.
 
 📢 **섹션 요약 비유**: 금고의 설계도는 인터넷에서 다운로드해서 쓰되, 그 금고의 '비밀번호'만큼은 절대로 포스트잇에 적어서 금고 문에 붙여두지(하드코딩) 말아야 한다는 원칙입니다.
 

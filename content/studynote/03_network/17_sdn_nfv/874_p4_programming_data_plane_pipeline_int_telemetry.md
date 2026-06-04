@@ -42,7 +42,7 @@ P4 언어의 핵심은 이름에 들어있는 <strong>'<a href="/knowledge-base/
 
 ### 1. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 파이프라인의 백지화 (White-box의 극의)
 - P4 지원 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 칩(Tofino 등)을 사면, 안에는 IP를 읽는 법도, MAC을 읽는 법도 없는 <strong>완벽한 백지상태(Blank)</strong>입니다.
-- 개발자가 P4 코딩 언어로 컴파일러에 키보드를 칩니다. <strong>"야, 패킷 들어오면 앞에서부터 14바이트는 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a> <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소로 읽어(Parser 코딩). 그다음 20바이트는 IP 주소로 읽어. 어? 근데 넌 내 맘대로 만든 새로운 6G용 특수 패킷(MyProtocol)이니까 남은 바이트는 내 맘대로 읽어!"</strong> 
+- 개발자가 P4 코딩 언어로 컴파일러에 키보드를 칩니다. <strong>"야, 패킷 들어오면 앞에서부터 14바이트는 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a> <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소로 읽어(Parser 코딩). 그다음 20바이트는 IP 주소로 읽어. 어? 근데 넌 내 맘대로 만든 새로운 6G용 특수 패킷(MyProtocol)이니까 남은 바이트는 내 맘대로 읽어!"</strong>
 - 패킷을 어떻게 썰고(파싱) 읽어 들일지 그 해부 순서(파이프라인) 자체를 인간이 마음대로 100% 찰흙처럼 빚어버립니다.
 
 ### 2. 인 트래픽 텔레메트리 (INT, In-band Network Telemetry) 🌟

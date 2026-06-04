@@ -58,7 +58,7 @@ tags = ["studynote-network"]
 100원짜리 스티커 바코드(RFID 태그) 안에는 배터리가 1도 없다. 그런데 리더기가 빔을 쏘면 이 스티커가 자신의 ID 번호를 뿜어내며 응답한다. 이 기적의 원리가 바로 <strong>전자기 유도(NFC)</strong>와 <strong>후방 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/">산란</a>(UHF RFID)</strong> 아키텍처다.
 
 1. **리더기의 레이저 발사**: 편의점 결제기(리더기)가 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)로 강한 자기장 빔을 계속 뿜어댄다.
-2. **에너지 흡혈귀 (Energy Harvesting)**: 배터리가 없는 100원짜리 태그 스티커가 리더기 근처 10cm 안에 들어오는 순간! 스티커 안에 동글동글 감겨있는 미세한 구리선([안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 코일)이 허공의 자기장 에너지를 빨아들여 미세한 직류 전기(DC)를 만들어낸다. 
+2. **에너지 흡혈귀 (Energy Harvesting)**: 배터리가 없는 100원짜리 태그 스티커가 리더기 근처 10cm 안에 들어오는 순간! 스티커 안에 동글동글 감겨있는 미세한 구리선([안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 코일)이 허공의 자기장 에너지를 빨아들여 미세한 직류 전기(DC)를 만들어낸다.
 3. **영혼의 응답 (Backscatter)**: 이 공짜로 얻은 미세한 찰나의 전기로 태그 안의 좁쌀만 한 IC 칩이 깨어난다. 태그는 자기 번호(`ID: 1234`)를 담아 리더기가 쏜 전파를 거울처럼 튕겨내서(반사, Backscatter) 리더기로 돌려보내고, 0.1초 만에 다시 깊은 죽음의 잠에 빠진다. 영구 기관의 완성이다.
 
 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)는 이어폰 연결 하나밖에 못 하지만, NFC는 스마트폰 칩셋을 상황에 맞춰 무려 3개의 다중 인격으로 스위칭 시키는 위대한 소프트웨어 아키텍처를 가졌다.
@@ -122,7 +122,7 @@ RFID / NFC [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 1. **상황**: 삼성이 2015년 삼성페이를 내놓으며 전 세계를 휩쓸었다. 당시 애플페이는 전 세계에 도입되고 있었지만, 유독 한국에서는 8년이 넘게 애플페이를 쓸 수가 없어 사용자들이 통곡했다. 한국 편의점에서는 삼성페이만 결제가 됐다.
-2. <strong>원인 (삼성의 <a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/">MST</a> 인프라 해킹 꼼수)</strong>: 당시 식당이나 편의점 결제기 99%는 마그네틱 신용카드(까만 줄)를 긁어서 긁는 소리로 결제하는 구형 기계였다. 애플은 "보안이 완벽한 새로운 NFC 단말기로만 결제해!"라는 완고한 아키텍처를 고집했다(식당 사장님들이 비싼 NFC 기계 20만 원을 사야 함). 
+2. <strong>원인 (삼성의 <a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/">MST</a> 인프라 해킹 꼼수)</strong>: 당시 식당이나 편의점 결제기 99%는 마그네틱 신용카드(까만 줄)를 긁어서 긁는 소리로 결제하는 구형 기계였다. 애플은 "보안이 완벽한 새로운 NFC 단말기로만 결제해!"라는 완고한 아키텍처를 고집했다(식당 사장님들이 비싼 NFC 기계 20만 원을 사야 함).
    - 반면 삼성페이는 폰 뒷면에 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/">MST</a> (Magnetic Secure Transmission)</strong>라는 코일을 박아 넣었다. 삼페를 켜고 구형 카드 결제기에 폰을 갖다 대면, 폰 뒷면이 찌르르 떨리며 <strong>"마치 진짜 플라스틱 카드가 기계 안에서 쓰윽 긁히는 것과 완벽히 똑같은 자기장 전파"</strong>를 뿜어냈다. 기계는 진짜 카드가 긁힌 줄 알고 구형 기계에서도 100% 결제가 뚫려버린 것이다.
 3. **의사결정 및 결과 (결국 표준 NFC로의 글로벌 천하통일)**:
    - 한국에서 삼성페이는 이 꼼수([MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/) 역호환성) 덕분에 99%의 점유율을 독식했다.

@@ -51,7 +51,7 @@ LightGBM (2017, Microsoft)
 ```
 목적 함수:
   Obj = Sum(Loss(yi, y_pred_i)) + Sum(Omega(fk))
-  
+
   Loss: 예측 오류 (회귀: MSE, 분류: LogLoss)
   Omega: 정규화 항 (트리 복잡도 패널티)
 

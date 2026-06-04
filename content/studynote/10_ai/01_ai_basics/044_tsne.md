@@ -30,7 +30,7 @@ SNE (Stochastic Neighbor Embedding):
   t-SNE의 전신
   고차원: 가우시안 분포로 유사도 계산
   저차원: 가우시안 분포로 유사도 계산
-  
+
   문제: 군집 붕괴 (Crowding Problem)
   고차원 중간 거리 점들이 저차원에서 모두 가운데 몰림
 
@@ -42,10 +42,10 @@ t-SNE 개선:
 직관적 이해:
   1. 각 점을 중심으로 "이웃 확률 분포" 계산
      고차원: P(j|i) = 가까울수록 높은 확률
-     
+
   2. 저차원에서 같은 분포 재현 시도
      Q(j|i): t-분포 기반 유사도
-     
+
   3. P와 Q의 차이(KL Divergence) 최소화
      Gradient Descent로 저차원 좌표 최적화
 ```
@@ -61,32 +61,32 @@ t-SNE 알고리즘 상세:
 
 1단계: 고차원 유사도 계산
   입력: N개의 고차원 점 x1, ..., xN
-  
+
   조건부 확률 (가우시안):
   P(j|i) = exp(-||xi-xj||² / 2σi²) / Σk≠i exp(-||xi-xk||² / 2σi²)
-  
+
   σi: 퍼플렉시티(Perplexity)에 의해 결정
   P(ij) = (P(j|i) + P(i|j)) / 2N  ← 대칭화
 
 2단계: 저차원 유사도 계산
   저차원 좌표: y1, ..., yN (초기화: 랜덤 or PCA)
-  
+
   t-분포 기반:
   Q(ij) = (1 + ||yi-yj||²)^(-1) / Σk≠l (1 + ||yk-yl||²)^(-1)
 
 3단계: KL Divergence 최소화
   C = KL(P || Q) = Σij P(ij) log(P(ij)/Q(ij))
-  
+
   Gradient:
   dC/dyi = 4 Σj (P(ij) - Q(ij)) (yi-yj) (1+||yi-yj||²)^(-1)
-  
+
   경사하강법으로 반복 최적화
 
 퍼플렉시티 (Perplexity):
   유효 이웃 수 설정 (5~50, 보통 30)
   낮은 Perplexity: 국소 구조 강조
   높은 Perplexity: 전역 구조 반영
-  
+
   데이터 크기에 따라 조정:
   소규모 (<1,000): Perplexity 5~15
   중간 (1,000~10,000): 20~50
@@ -127,13 +127,13 @@ t-SNE:
 UMAP (Uniform Manifold Approximation and Projection):
   Leland McInnes et al., 2018년
   비선형, 위상수학(Topology) 기반
-  
+
   장점:
     - t-SNE보다 빠름 (O(n) 근사)
     - 전역 구조도 어느 정도 보존
     - 재현성 (random_state)
     - 새 점 추가 변환 가능 (transform 메서드)
-  
+
   단점:
     - 이해하기 어려운 수학 기반
 
@@ -161,20 +161,20 @@ t-SNE 오용 패턴:
    잘못: "클러스터 A와 B가 C보다 더 유사하다"
    이유: t-SNE는 전역 구조 보존 안 함
    → 클러스터 간 거리는 무의미
-   
+
 2. 클러스터 크기 해석:
    잘못: "A 클러스터가 B보다 크다"
    이유: t-SNE 클러스터 크기 ≠ 원래 데이터 밀도
-   
+
 3. Perplexity 기본값 신뢰:
    권장: 여러 Perplexity 값으로 시각화 비교
    Perplexity 5: 매우 타이트한 클러스터 (의도적 분리)
    Perplexity 50: 느슨한 배치 (전체적 경향)
-   
+
 4. 노이즈 클러스터 착시:
    작은 점 하나가 별개 클러스터로 보이는 경우
    → 실제 아웃라이어인지 확인 필요
-   
+
 5. 랜덤 초기화 의존:
    매번 다른 레이아웃
    → 결론 전에 여러 번 실행, 일관된 패턴 확인
@@ -200,23 +200,23 @@ BERT 텍스트 임베딩 t-SNE 시각화:
 데이터:
   20,000개 뉴스 기사
   카테고리: 정치, 경제, 스포츠, 연예, IT, 의학
-  
+
   BERT 임베딩: 각 기사 → 768차원 벡터
 
 t-SNE 적용:
   from sklearn.manifold import TSNE
   import matplotlib.pyplot as plt
-  
+
   # PCA로 사전 압축 (100차원, 속도 향상)
   from sklearn.decomposition import PCA
   pca = PCA(n_components=100)
   X_pca = pca.fit_transform(X_bert)  # (20000, 768) → (20000, 100)
-  
+
   # t-SNE
   tsne = TSNE(n_components=2, perplexity=40,
               n_iter=1000, random_state=42)
   X_tsne = tsne.fit_transform(X_pca)  # (20000, 100) → (20000, 2)
-  
+
   # 시각화
   plt.figure(figsize=(12, 8))
   scatter = plt.scatter(X_tsne[:,0], X_tsne[:,1],
@@ -228,15 +228,15 @@ t-SNE 적용:
   좋은 임베딩:
   - 각 카테고리가 명확히 분리된 클러스터
   - 경계가 선명함
-  
+
   나쁜 임베딩:
   - 카테고리들이 섞임
   - 구분 불가능
-  
+
   발견:
   - 경제 + IT: 부분적 혼합 (경제기술 뉴스 중복)
   - 스포츠: 매우 명확한 분리 (도메인 특화)
-  
+
   활용: 임베딩 방법 비교 (BERT vs RoBERTa vs GPT)
         미세조정(Fine-tuning) 전후 임베딩 품질 비교
 

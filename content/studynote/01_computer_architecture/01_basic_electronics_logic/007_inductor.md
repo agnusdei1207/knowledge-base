@@ -18,7 +18,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-인덕터(기호 $L$)의 단위는 헨리($H$)다. 직류(DC) [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 일정하게 흐를 때는 단순한 도선처럼 아무런 방해를 하지 않지만, 교류([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/))나 갑작스러운 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 변화(스위칭 펄스)가 유입되면 패러데이의 전자기 유도 법칙에 따라 그 변화를 억누르는 방향으로 역기전력(역전압)을 스스로 만들어낸다. 
+인덕터(기호 $L$)의 단위는 헨리($H$)다. 직류(DC) [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 일정하게 흐를 때는 단순한 도선처럼 아무런 방해를 하지 않지만, 교류([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/))나 갑작스러운 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 변화(스위칭 펄스)가 유입되면 패러데이의 전자기 유도 법칙에 따라 그 변화를 억누르는 방향으로 역기전력(역전압)을 스스로 만들어낸다.
 
 컴퓨터에 전원을 공급하는 <strong>SMPS (Switched-Mode <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Supply)</strong>나 보드 전원부는 $12V$의 높은 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 CPU가 사용하는 $1.X V$ 대역으로 효율 좋게 내리기 위해 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 스위칭 기법을 쓴다. 이때 불연속적으로 끊겨 치솟는 충격파를 부드러운 물결(리플 최소화)로 눌러주는 압도적인 맷집이 바로 인덕터의 역할이다.
 
@@ -47,7 +47,7 @@ tags = ["studynote-computer-architecture"]
 └──────────────────────────────────────────────────────────────┘
 ```
 
-스위치가 눈 깜짝할 사이에 켜졌다 꺼지기를 수백만 번 반복할 때, 스위치가 꺼져 $0V$로 끊기는 빙하기 순간에 인덕터($L$)가 품어둔 자기장을 토해내며 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 방어한다. 이 관성의 힘이 없으면 CPU는 전기가 끊겨 즉사한다. 
+스위치가 눈 깜짝할 사이에 켜졌다 꺼지기를 수백만 번 반복할 때, 스위치가 꺼져 $0V$로 끊기는 빙하기 순간에 인덕터($L$)가 품어둔 자기장을 토해내며 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 방어한다. 이 관성의 힘이 없으면 CPU는 전기가 끊겨 즉사한다.
 
 하지만 칩 내부 패키징 관점에서는 의도치 않은 '기생 인덕턴스(Parasitic Inductance)'가 악마로 돌변한다. CPU가 슬립 모드에서 풀로드로 깨어나는 1ns 동안 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 요구량이 $10A$에서 $150A$로 폭발($[di](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/)/dt$)하면, 핀 배선에 숨어있던 극소 인덕턴스라도 $\Delta V = L \cdot [di](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/)/dt$ 공식에 따라 거대한 역전압 장벽을 세워 코어 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 $0.3V$ 이상 깎아내 버리는 무서운 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하 (V-droop)를 일으킨다.
 
@@ -129,7 +129,7 @@ tags = ["studynote-computer-architecture"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 인덕터는 쌩쌩 달리는 전기 자동차들([전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/))을 갑자기 멈추거나 갑자기 튀어나가지 못하게 묵직하게 잡아주는 "고집불통 관성 방패"예요. 
+1. 인덕터는 쌩쌩 달리는 전기 자동차들([전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/))을 갑자기 멈추거나 갑자기 튀어나가지 못하게 묵직하게 잡아주는 "고집불통 관성 방패"예요.
 2. 나쁜 전기 충격 파도가 미친 듯이 들어와도, 이 고집쟁이 방패가 거칠게 막아서 컴퓨터 심장에게는 아주 부드럽고 안전한 에너지만 떠먹여 주는 영웅이랍니다.
 3. 하지만 칩이 빛의 속도로 달리고 싶어 엑셀을 확 밟을 때, 숨어 있던 꼬마 인덕터 무리(기생 인덕턴스)가 멱살을 잡고 끌어내려 컴퓨터를 블루스크린 기절에 빠뜨리는 무서운 장벽 빌런이 되기도 해요!
 

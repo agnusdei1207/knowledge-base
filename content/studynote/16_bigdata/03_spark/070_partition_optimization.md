@@ -109,7 +109,7 @@ AQE (Adaptive Query Execution)는 셔플 후 실제 [데이터](/knowledge-base/
 셔플 후 200개 파티션 → AQE 분석
   파티션 150개: 1 KB 이하 (대부분 비어 있음)
   파티션 50개: 128~256 MB
-  
+
 → AQE 결정: 빈 파티션 자동 병합 → 실제 50개 파티션으로 줄임
 ```
 

@@ -19,7 +19,7 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-딥러닝의 컨볼루션 신경망([CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/))은 수십 개의 층(Layer)으로 이루어져 있다. 첫 번째 층은 선과 윤곽을 보고, 중간 층은 눈과 코를 보고, 마지막 층은 얼굴 전체를 본다고 흔히 말하지만, 사실 그 층 안에는 알아볼 수 없는 숫자로 꽉 찬 매트릭스(Tensor)만 들어있다. 
+딥러닝의 컨볼루션 신경망([CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/))은 수십 개의 층(Layer)으로 이루어져 있다. 첫 번째 층은 선과 윤곽을 보고, 중간 층은 눈과 코를 보고, 마지막 층은 얼굴 전체를 본다고 흔히 말하지만, 사실 그 층 안에는 알아볼 수 없는 숫자로 꽉 찬 매트릭스(Tensor)만 들어있다.
 
 구글(Google)의 엔지니어들은 궁금했다. "도대체 저 숫자 덩어리들이 그림을 어떻게 이해하고 있을까?" 그래서 2015년에 재미있는 장난을 쳤다. 사진을 넣고 개나 고양이를 찾게 한 게 아니라, 반대로 무작위 노이즈 사진을 넣고 신경망에게 <strong>"네가 이 안에서 '강아지 눈' 같은 패턴을 조금이라도 발견하면, 그 부분을 미친 듯이 더 강아지 눈처럼 과장해서 똑같이 그려봐!"</strong>라고 지시한 것이다. 그 결과 신경망은 구름을 보고 강아지 얼굴을 끝없이 덧그리며 소름 끼치고 기괴한 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 이미지를 만들어냈다. 이것이 AI가 꾸는 꿈, <strong>딥 드림 (DeepDream)</strong>의 탄생이다.
 

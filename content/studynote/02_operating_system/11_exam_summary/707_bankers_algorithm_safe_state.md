@@ -19,18 +19,18 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/">안전 상태</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/">Safe State</a>)</strong>: 시스템이 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 일으키지 않고 모든 프로세스에게 자원을 할당할 수 있는 상태.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">불안전 상태</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">Unsafe State</a>)</strong>: 무조건 데드락이 나는 건 아니지만, 데드락이 발생할 '위험성'이 존재하는 벼랑 끝 상태. (데드락은 [불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)의 부분집합이다)
   - <strong>은행원 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>: 프로세스가 자원을 요구할 때, 이 요구를 수락하면 시스템이 [불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)로 넘어가는지 시뮬레이션해 보고, 안전할 때만 자원을 내어주는 동적 상태 검사 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/).
 
-- **필요성 (사전 대출 심사)**: 
+- **필요성 (사전 대출 심사)**:
   - 데드락 예방(Prevention, 4조건 파괴)은 자원 낭비가 너무 심하다. 데드락 무시나 킬(Kill)은 데이터가 날아간다.
   - **해결책**: 은행이 돈을 대출해 줄 때처럼, OS도 자원을 주기 전에 깐깐하게 심사하자. "너한테 자원을 줬다가, 나중에 네가 더 달라고 떼쓰면 우리 금고가 파산(데드락)하진 않을까?"를 미리 시뮬레이션해서, 안전할 때만 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 허락하자.
 
   - **상황**: 은행([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))에 총 100억(자원)이 있다. 3명의 사업가(프로세스)가 각각 최대 60억, 50억, 40억을 빌릴 수 있는 마이너스 통장을 개설했다 (최대 요구량 사전 신고).
   - 현재 은행은 80억을 빌려주고 금고에 <strong>20억(남은 자원)</strong>이 있다.
-  - 사업가 A가 "나 30억 더 줘!"라고 요구한다. 
+  - 사업가 A가 "나 30억 더 줘!"라고 요구한다.
   - 은행원이 계산해 본다. "내가 남은 돈이 20억인데, 얘한테 30억을 주려면 돈이 모자라네. 만약 남은 20억을 B에게 줘서 B가 사업을 끝내고 원금을 갚으면 돈이 넉넉해지겠지만, 혹시나 꼬이면 파산([불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/))이다. A야, 너 대출 거절!" ([자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 거부 및 대기)
 
 - **발전 과정**:

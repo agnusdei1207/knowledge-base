@@ -24,16 +24,16 @@ tags = ["studynote-data-engineering"]
 B-Tree (전통 RDBMS):
   임의 쓰기 (Random Write):
   데이터 → 페이지 탐색 → 디스크 랜덤 위치 쓰기
-  
+
   HDD 랜덤 쓰기: ~150 IOPS (매우 느림)
   SSD 랜덤 쓰기: ~10,000 IOPS
-  
+
 LSM 아이디어:
   임의 쓰기 → 순차 쓰기로 변환
-  
+
   "모든 쓰기를 메모리에 먼저 모은 후
    순차적으로 디스크에 한번에 기록"
-  
+
   HDD 순차 쓰기: ~200 MB/s (랜덤 대비 1,000×)
   SSD 순차 쓰기: ~3,000 MB/s
 
@@ -69,10 +69,10 @@ LSM 트리 구성:
 MemTable (메모리):
   인메모리 정렬된 자료구조
   보통 Red-Black Tree 또는 Skip List
-  
+
   모든 쓰기가 먼저 MemTable에 삽입
   크기 임계값 (예: 64MB) 도달 시 플러시
-  
+
   WAL (Write-Ahead Log):
   장애 복구를 위해 디스크에도 순차 로그
   MemTable 소실 시 WAL로 복구
@@ -81,14 +81,14 @@ SSTable (Sorted String Table):
   MemTable이 플러시될 때 생성
   불변(Immutable): 한번 쓰면 수정 불가
   정렬된 키-값 파일
-  
+
   Level 0 (L0):
   MemTable → L0 SSTable (최신 데이터)
   L0 파일 수 임계값 → L1으로 Compaction
-  
+
   Level 1 (L1):
   키 범위가 겹치지 않도록 정렬
-  
+
   Level N (Ln):
   각 레벨: 이전 레벨 × 10배 크기
   L0: 수MB
@@ -133,7 +133,7 @@ Compaction 유형:
 
 Size-Tiered Compaction (크기 기반):
   비슷한 크기의 SSTable 여러 개 → 하나로 합침
-  
+
   장점: Compaction 적게 발생
   단점: 임시 공간 많이 필요 (1.5~2× 데이터)
   사용: Cassandra 기본
@@ -141,18 +141,18 @@ Size-Tiered Compaction (크기 기반):
 Level Compaction (레벨 기반):
   LevelDB/RocksDB 방식
   L0 → L1으로, L1 → L2로 단계적 합침
-  
+
   각 레벨은 겹치지 않는 키 범위
   읽기: 각 레벨에서 1개 SSTable만 확인
-  
+
   장점: 읽기 성능 좋음, 공간 효율적
   단점: Compaction 자주 발생 (쓰기 증폭)
 
 Bloom Filter (블룸 필터):
   "이 키가 이 SSTable에 없을 가능성 99.9%"를 O(1)에 판단
-  
+
   확률적 자료구조 (False Positive 있지만 False Negative 없음)
-  
+
   읽기 최적화:
   블룸 필터: "이 SSTable에 없음" → 건너뜀
   불필요한 디스크 I/O 90%+ 절감
@@ -178,11 +178,11 @@ B-Tree:
   쓰기: 임의 쓰기 (페이지 탐색 후 수정)
   읽기: 빠름 (트리 경로 = O(log n))
   공간: 페이지 낭비 있음 (~30%)
-  
+
   Write Amp: 낮음 (데이터 한번에 쓰기)
   Read Amp: 낮음
   Space Amp: 중간
-  
+
   최적: 읽기 많은 OLTP
 
 LSM:
@@ -190,16 +190,16 @@ LSM:
   쓰기: 순차 쓰기 (10~1,000× 빠름)
   읽기: 느림 (여러 파일 검색)
   공간: 임시 Compaction 공간 필요
-  
+
   Write Amp: 높음 (Compaction 추가 쓰기)
   Read Amp: 높음 (여러 레벨 검색)
   Space Amp: 높음 (중복 데이터)
-  
+
   최적: 쓰기 집약적 워크로드
 
 RUM Conjecture:
   Read / Update / Memory 트레이드오프
-  
+
   R(읽기 오버헤드) × U(쓰기 오버헤드) × M(공간 오버헤드)
   → 셋 중 둘을 최소화하면 하나는 증가
 
@@ -232,19 +232,19 @@ RocksDB 설정:
   L0 파일 수 트리거: 4
   L1 최대 크기: 256MB
   레벨 배율: 10×
-  
+
   Bloom Filter: 활성화 (False Positive = 1%)
   Compaction: Level Compaction
-  
+
   블록 캐시: 1GB (자주 조회 데이터)
 
 성능 결과:
   쓰기 처리량: 초당 200,000 이상
   (10,000 IoT 포인트 × 20 여유)
-  
+
   P99 쓰기 지연: < 1ms
   P99 읽기 지연: < 5ms (Bloom Filter 덕분)
-  
+
   비교: MySQL InnoDB (B-Tree)
   동일 쓰기 워크로드:
   → 쓰기 처리량: 초당 30,000
@@ -253,7 +253,7 @@ RocksDB 설정:
 
 Compaction 관리:
   TTL Compaction: 2년 지난 데이터 자동 삭제
-  
+
   Compaction 백그라운드:
   쓰기 집중 시간 회피 (일과 후 집중)
   Rate Limiter: 초당 100MB 제한
@@ -263,7 +263,7 @@ Compaction 관리:
   Kafka → Flink → RocksDB 파이프라인
   RocksDB Replication: Leader-Follower
   스냅샷 백업: S3로 주기적 백업
-  
+
   2년 데이터: 약 2TB
   S3 Glacier 아카이브: 연 20만원
 ```

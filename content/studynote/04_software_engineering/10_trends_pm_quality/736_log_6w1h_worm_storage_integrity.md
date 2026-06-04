@@ -19,9 +19,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어 시스템이 복잡해질수록 버그나 해킹 사고는 피할 수 없다. 사고가 났을 때 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)(운영) 팀과 보안팀이 가장 먼저 외치는 말은 "[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 가져와!"다. 
+소프트웨어 시스템이 복잡해질수록 버그나 해킹 사고는 피할 수 없다. 사고가 났을 때 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)(운영) 팀과 보안팀이 가장 먼저 외치는 말은 "[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 가져와!"다.
 
-그런데 막상 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 파일을 열어보면 `[Error] Database Connection Failed`라는 딱 한 줄만 적혀 있는 경우가 태반이다. 이 에러가 오늘 새벽 2시에 터진 건지, 어떤 유저가 결제를 누를 때 터진 건지 알 수가 없다. 
+그런데 막상 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 파일을 열어보면 `[Error] Database Connection Failed`라는 딱 한 줄만 적혀 있는 경우가 태반이다. 이 에러가 오늘 새벽 2시에 터진 건지, 어떤 유저가 결제를 누를 때 터진 건지 알 수가 없다.
 
 이런 쓰레기 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 막기 위해 [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))의 세계 표준으로 자리 잡은 규칙이 <strong>'<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 6하 원칙'</strong>이다. 또한, 똑똑한 내부자(관리자)나 해커가 자신의 범죄 기록을 지우기 위해 `rm -rf /var/log`를 치는 것을 물리적으로 막아버리는 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/590_worm/">WORM</a> 스토리지(<a href="/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/">무결성 보장</a>)</strong> 기술이 현대 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 아키텍처의 필수 요소로 자리 잡았다.
 

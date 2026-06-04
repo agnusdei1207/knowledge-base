@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong>시스템 콜 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/">System Call</a>)</strong>: 유저 모드 프로그램이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 서비스를 요청하는 행위 자체.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 래퍼 (Wrapper)</strong>: 날것([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/))의 시스템 콜을 개발자가 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 편한 일반 함수 형태로 포장해 놓은 코드 조각. 리눅스에서는 `glibc`(GNU C [Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)), 윈도우에서는 `Win32 API (kernel32.dll)`가 이 역할을 담당한다.
 
-- **필요성 (어셈블리의 저주 탈피)**: 
+- **필요성 (어셈블리의 저주 탈피)**:
   - 과거에는 화면에 글자 하나를 출력하려고 해도, 개발자가 직접 CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 번호를 외워서 어셈블리어를 짜야 했다.
   - 이 방식은 CPU가 인텔에서 ARM으로 바뀌거나, OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버전이 올라가 시스템 콜 번호가 바뀌면 프로그램이 즉시 고장 나는 치명적 단점이 있었다.
   - **해결책**: OS 제작자나 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 제작자가 중간에 '통역사(Wrapper)'를 두어, "개발자는 그냥 `write()`라고만 적어라. 인텔 CPU면 인텔 어셈블리로, ARM이면 ARM 어셈블리로 우리가 알아서 번역해서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 쏴줄게"라는 표준화된 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층을 만들었다.

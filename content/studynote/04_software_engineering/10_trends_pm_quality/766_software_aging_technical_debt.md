@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 건축물이나 기계 부품은 시간이 지나면 비바람에 깎이고 마찰에 닳아서 부서진다(하드웨어 노후화). 하지만 소프트웨어는 0과 1로 된 수학적 논리이므로 시간이 100년 지난다고 해서 닳아 없어지지 않는다.
 
-그런데 왜 5년 전 짠 시스템은 점점 느려지고, 버튼 하나 추가하려면 에러가 10개씩 터지는 걸까? 데이비드 파나스(David Parnas)는 이를 <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/032_software_obsolescence/">소프트웨어 노후화</a>(Software <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/">Aging</a>)</strong>라고 불렀다. 
+그런데 왜 5년 전 짠 시스템은 점점 느려지고, 버튼 하나 추가하려면 에러가 10개씩 터지는 걸까? 데이비드 파나스(David Parnas)는 이를 <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/032_software_obsolescence/">소프트웨어 노후화</a>(Software <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/">Aging</a>)</strong>라고 불렀다.
 
 소프트웨어가 늙는 이유는 역설적으로 '계속 고치기' 때문이다. 기획팀은 매일 새로운 요구사항을 던지고, 개발자는 데드라인에 쫓겨 원래의 예쁜 아키텍처(설계도)를 무시한 채 스파게티처럼 코드를 이어 붙인다. 이렇게 쌓인 누더기 코드는 결국 누구도 손댈 수 없는 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">기술 부채</a>(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">Technical Debt</a>)</strong>가 되어 회사의 목을 조른다.
 

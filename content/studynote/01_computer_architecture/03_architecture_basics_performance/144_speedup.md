@@ -94,13 +94,13 @@ Speedup을 제대로 읽으려면 **실행 시간**, <strong><a href="/knowledge
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **기준 workload가 고정되어 있는가?**  
+1. **기준 workload가 고정되어 있는가?**
    입력 크기와 조건이 바뀌면 Speedup 비교 자체가 왜곡된다.
-2. **부분 개선과 전체 개선을 구분했는가?**  
+2. **부분 개선과 전체 개선을 구분했는가?**
    [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 함수 8배 향상이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 전체 8배 향상을 뜻하지는 않는다.
-3. **오버헤드가 포함되어 있는가?**  
+3. **오버헤드가 포함되어 있는가?**
    [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사, 초기화, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 시간을 빼고 측정하면 실제 Speedup보다 과장된다.
-4. **비용 대비 이득이 충분한가?**  
+4. **비용 대비 이득이 충분한가?**
    2배 비싼 장비로 1.1배 Speedup만 얻는다면 구조 개선이 먼저일 수 있다.
 
 ### 실무 판단 예시

@@ -34,7 +34,7 @@ tags = ["devops_sre"]
 
 [과거: 파일 기반 로깅 안티패턴]
 ┌─ Container ──────────────┐
-│ App ─(write)─> app.log   │  ← 컨테이너 종료(Crash) 시 
+│ App ─(write)─> app.log   │  ← 컨테이너 종료(Crash) 시
 └──────────────────────────┘    로그 파일도 함께 삭제(유실)됨!
          (단절)
 
@@ -92,7 +92,7 @@ tags = ["devops_sre"]
 └───────────────────────────────────────────────────────────┘
 ```
 
-이 흐름의 핵심은 [데몬셋](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/089_daemonset_kubernetes_background_node_agent/)([DaemonSet](/knowledge-base/studynote/11_design_supervision/06_exam_summary/334_process/)) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 라우터의 역할이다. Kubelet은 `stdout` 스트림을 노드의 특정 경로에 임시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 덤프한다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 라우터는 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 실시간으로 추적(Tailing)하면서 단순히 텍스트만 보내는 것이 아니라, 어느 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)의 어떤 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)에서 나온 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인지 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a>를 주입(Enrichment)</strong>한다. 이 과정이 없으면 중앙 서버에 쌓인 수백만 줄의 텍스트가 누구의 것인지 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)할 수 없다. 
+이 흐름의 핵심은 [데몬셋](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/089_daemonset_kubernetes_background_node_agent/)([DaemonSet](/knowledge-base/studynote/11_design_supervision/06_exam_summary/334_process/)) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 라우터의 역할이다. Kubelet은 `stdout` 스트림을 노드의 특정 경로에 임시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 덤프한다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 라우터는 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 실시간으로 추적(Tailing)하면서 단순히 텍스트만 보내는 것이 아니라, 어느 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)의 어떤 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)에서 나온 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인지 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a>를 주입(Enrichment)</strong>한다. 이 과정이 없으면 중앙 서버에 쌓인 수백만 줄의 텍스트가 누구의 것인지 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)할 수 없다.
 
 실무 코드 관점에서는, 애플리케이션이 일반 텍스트가 아닌 구조화된 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 형태로 스트림을 내뱉는 것이 가장 중요하다.
 
@@ -109,7 +109,7 @@ tags = ["devops_sre"]
   "user_id": 123,
   "action": "payment",
   "reason": "timeout",
-  "trace_id": "abc-123-def" 
+  "trace_id": "abc-123-def"
 }
 // 앱은 위 JSON을 개행문자(\n)와 함께 stdout으로만 출력하면 된다.
 ```

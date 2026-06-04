@@ -16,7 +16,7 @@ tags = ["enterprise_systems"]
 ---
 
 ## Ⅰ. 개요 및 필요성
-과거의 기업들은 "우리 공장에서 어떻게 싸게 만들까?"에만 집중했다. 그러나 글로벌화가 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)되면서 부품은 중국에서, 조립은 베트남에서, 판매는 미국에서 이루어지는 등 사슬(Chain)이 극도로 길어지고 복잡해졌다. 
+과거의 기업들은 "우리 공장에서 어떻게 싸게 만들까?"에만 집중했다. 그러나 글로벌화가 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)되면서 부품은 중국에서, 조립은 베트남에서, 판매는 미국에서 이루어지는 등 사슬(Chain)이 극도로 길어지고 복잡해졌다.
 
 사슬의 각 참여자가 서로 정보를 공유하지 않고 단절되어 있으면, 말단 소비자의 작은 수요 변화가 상류로 갈수록 왜곡되어 재고가 산더미처럼 쌓이거나 물건이 없어 팔지 못하는 결품 사태가 발생한다(채찍 효과). 이처럼 파편화된 기업 간의 장벽을 허물고, <strong>원자재부터 소비자까지의 모든 과정을 하나의 통합된 장부처럼 연결하여 실시간으로 통제할 필요성</strong>에서 SCM이 등장했다.
 

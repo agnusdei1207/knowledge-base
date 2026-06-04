@@ -41,7 +41,7 @@ tags = ["studynote-operating-system"]
 ```text
     [ Linux Kernel Architecture & User/Kernel Transition ]
     [ 리눅스 커널 아키텍처 및 유저/커널 모드 전환 ]
-    
+
     (유저 공간 / User Space - Ring 3)
     +-------------------------------------------------------+
     |  App 1 (Node.js)  |  App 2 (Python)  |  App 3 (Bash)  |

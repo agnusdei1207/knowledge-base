@@ -66,7 +66,7 @@ tags = ["studynote-network"]
 - **계통 연계 모드 (Grid-Connected)**:
   - 맑은 날 태양광 전기가 남습니다. 캠퍼스 중앙 통제실(EMS)이 한전 서버([스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/))에 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP로 데이터를 쏩니다. "우리 전기 남는데 비싸게 사 가!" 실시간 요금 거래(ToU)를 하며 전기를 수출합니다.
 - **독립 운전 모드 (Island Mode, 고립 모드)** 🌟:
-  - 태풍으로 한전망이 죽는 찰나, GOOSE 메시지가 날아와 한전과 캠퍼스 사이의 연결 스위치를 0.001초 만에 물리적으로 쾅 끊어버립니다. 
+  - 태풍으로 한전망이 죽는 찰나, GOOSE 메시지가 날아와 한전과 캠퍼스 사이의 연결 스위치를 0.001초 만에 물리적으로 쾅 끊어버립니다.
   - 캠퍼스는 무인도로 변신하고, 즉시 지하의 [ESS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/) 배터리가 켜져서 서버실과 중환자실로 전기를 콸콸 밀어 넣어 1초의 불 꺼짐도 없는 완벽한 무중단 생존(Resilience)을 이뤄냅니다.
 
 [마이크로그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/) 통신 규격을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [vCPE](/knowledge-base/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/) [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) 고객 구내 망 통합 전환이 기반 조건을 만든다면, [마이크로그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/) 통신 규격은 그 위에서 핵심 메커니즘을 구현하고, 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [PROFINET](/knowledge-base/studynote/09_security/18_iot_ot_physical/900_profinet/) 망은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.

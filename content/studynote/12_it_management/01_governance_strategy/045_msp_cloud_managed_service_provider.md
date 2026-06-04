@@ -26,7 +26,7 @@ MSP (Managed Service Provider):
   - 특정 IT 작업 대행 (데이터센터 운영)
   - 단순 비용 절감 목적
   - 고정 계약
-  
+
   MSP:
   - 지속적 모니터링·관리
   - 프로액티브(선제적) 운영
@@ -47,7 +47,7 @@ MSP 서비스 범위:
   메가존클라우드 (AWS Premier Partner)
   베스핀글로벌 (멀티클라우드)
   SK C&C, LG CNS (대기업 계열)
-  
+
 글로벌:
   Accenture, Deloitte (컨설팅 겸)
   Rackspace, Cognizant
@@ -67,16 +67,16 @@ Tier 1 — 기초 관리 (Reactive):
   인시던트 대응 (SLA: 1시간 내 대응)
   패치 관리
   기본 백업·복구
-  
+
   대상: 규모 작은 워크로드
 
 Tier 2 — 관리 운영 (Proactive):
-  Tier 1 + 
+  Tier 1 +
   보안 관리 (SIEM, WAF, IAM)
   비용 최적화 리포트
   성능 최적화
   변경 관리
-  
+
   대상: 중요 비즈니스 시스템
 
 Tier 3 — 전략 파트너십:
@@ -86,7 +86,7 @@ Tier 3 — 전략 파트너십:
   DevOps/CI-CD 구축
   FinOps 최적화 (비용 20~30% 절감)
   클라우드 거버넌스
-  
+
   대상: 디지털 전환 파트너
 
 MSP SLA 주요 지표:
@@ -116,13 +116,13 @@ FinOps 3단계:
      비용 가시성 확보
      태깅(Tagging) 전략: 팀·서비스·환경별
      비용 할당 (Cost Allocation)
-     
+
   2. 최적화 (Optimize):
      미사용 리소스 제거 (Idle Resources)
      사이즈 조정 (Right-sizing)
      예약 인스턴스 (RI/Savings Plans)
      스팟 인스턴스 활용
-     
+
   3. 운영 (Operate):
      예산 경보 (Budget Alert)
      자동 스케일링 최적화
@@ -132,11 +132,11 @@ FinOps 3단계:
   진단:
   EC2 c5.4xlarge (8코어, 32GB) × 20대
   실제 CPU 사용률: 평균 12%
-  
+
   최적화:
   Right-sizing → c5.xlarge (4코어, 8GB) × 15대
   예약 인스턴스 (1년) 40% 할인
-  
+
   결과:
   월 $15,000 → $5,500 (63% 절감)
 
@@ -145,7 +145,7 @@ MSP FinOps 도구:
   Azure Cost Management
   CloudHealth (VMware)
   Apptio Cloudability
-  
+
   MSP 자체 대시보드:
   고객별 실시간 비용 모니터링
   이상 지출 자동 알림
@@ -174,7 +174,7 @@ CSP (AWS) 책임:
 
 MSP의 역할:
   고객 책임 영역 대행
-  
+
   CSP 책임 | MSP가 대행하는 고객 책임 | 고객
   ─────────┼──────────────────────────┼─────
   인프라   | OS패치, IAM, 모니터링,   | 비즈니스
@@ -187,10 +187,10 @@ MSP의 역할:
   - 고객 직접 관리 범위
   - 장애 시 에스컬레이션 절차
   - 데이터 접근 권한 범위
-  
+
   주의: "클라우드 관리 다 해주세요" →
   데이터 주권, 보안 책임 소재 불명확
-  
+
 MSSP (Managed Security Service Provider):
   보안 전문 MSP
   SOC (Security Operations Center) 운영
@@ -234,7 +234,7 @@ MSP 서비스 범위:
   가용성: 99.6% → 99.95%
   보안 인시던트 대응: 72시간 → 4시간
   IT 팀 업무: 인프라 운영 → 비즈니스 서비스 개발 전환
-  
+
   ROI: 1.8억/년 절감 + IT 인력 생산성 30% 향상
 
 교훈:

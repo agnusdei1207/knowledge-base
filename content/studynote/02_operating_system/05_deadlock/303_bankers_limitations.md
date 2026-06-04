@@ -19,9 +19,9 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-유토피아를 설계하는 건 쉽다. "모든 시민이 1년 뒤에 먹을 치킨 마릿수를 국가에 미리 정직하게 신고한다면, 국가는 치킨 파동(데드락) 없이 완벽히 분배할 수 있다." 
+유토피아를 설계하는 건 쉽다. "모든 시민이 1년 뒤에 먹을 치킨 마릿수를 국가에 미리 정직하게 신고한다면, 국가는 치킨 파동(데드락) 없이 완벽히 분배할 수 있다."
 
-은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 논리가 딱 이 수준이다. 하지만 현실 컴퓨터는 이렇지 않다. 프로세스는 웹 브라우저에서 유저가 탭을 몇 개나 미친 듯이 생성될지 시작할 땐 자기도 모른다. (Max 선언 불가). 그리고 USB나 디스크는 사용 도중 냅다 뽑혀 날아가 버리기도 한다(총 자원량 불변 불가). 
+은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 논리가 딱 이 수준이다. 하지만 현실 컴퓨터는 이렇지 않다. 프로세스는 웹 브라우저에서 유저가 탭을 몇 개나 미친 듯이 생성될지 시작할 땐 자기도 모른다. (Max 선언 불가). 그리고 USB나 디스크는 사용 도중 냅다 뽑혀 날아가 버리기도 한다(총 자원량 불변 불가).
 
 가장 핵심적인 문제는, 그깟 데드락 한두 개 잡자고 마우스를 클릭할 때마다 은행원의 거대한 엑셀 행렬 시뮬레이션([안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))을 돌리느라 CPU 자율주행률이 절반으로 깎인다는 사실이다. 이론의 완벽함이 실무의 발목을 부러뜨린 <strong>오버엔지니어링(Over-engineering)</strong>의 전형적 한계 사례다.
 
@@ -61,7 +61,7 @@ tags = ["studynote-operating-system"]
 가장 치명적인 아킬레스건은 바로 `Max` 매트릭스 요구 규정이다.
 어플리케이션 개발자가 자기가 만들 프로그램의 사용량을 정확히 추산 못하겠으니 쫄아서 "나 일단 여유있게 메모리 100GB 쓴다고 선언할게(Max 뻥튀기)"라고 잡아버린다.
 
-은행원(OS)은 이 허위 서류를 믿고 바보같이 보수적 안전 모드에 빠진다. 
+은행원(OS)은 이 허위 서류를 믿고 바보같이 보수적 안전 모드에 빠진다.
 실제 그 어플리케이션은 1GB만 쓰고 있는데도, "어이쿠, 쟤가 갑자기 100GB를 달라고 돌변하면 우리 시스템 망해(Unsafe)!" 라고 시뮬레이션을 때리며, 뒤에 기다리는 불쌍한 프로세스들에게 단 10MB조차 승인을 거부해 버린다.
 
 시스템 내 자원은 한가득 대풍년인데, 은행원의 겁쟁이 마인드 탓에 모든 프로세스가 굶어 죽는 극강의 <strong>자원 비효율성(Low Utilization)</strong>이 초래된다.
@@ -102,7 +102,7 @@ tags = ["studynote-operating-system"]
 | 공학적 평가 | 아름답지만 쓸모없는 이데아 | 더럽고 가끔 터지지만 최고 효율 가성비 |
 | 다익스트라의 유산 | 이론적 증명의 토대, 연구자들의 존경 | 실리콘밸리 엔지니어들에 의한 역사적 휴지통행 |
 
-은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 한계의 역설은, "완벽을 추구하는 시스템 설계가 자원 예측 불가능성(Unpredictability)이라는 컴퓨팅의 물리적 런타임 본성 앞에 어떻게 무너지는가"를 시사하는 찬란한 실패기다. 
+은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 한계의 역설은, "완벽을 추구하는 시스템 설계가 자원 예측 불가능성(Unpredictability)이라는 컴퓨팅의 물리적 런타임 본성 앞에 어떻게 무너지는가"를 시사하는 찬란한 실패기다.
 결국 소프트웨어 엔지니어링은 미래(Max)를 억측하고 수만 번 계산(O(n^2))하며 자원을 아끼는 대신, <strong>미래의 사고를 허용하되 사후 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>(탐지 및 복원) 향상에 시스템 인프라를 몰빵</strong>하는 '[회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)(Resilience)' 메타로 진화하게 되었다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.

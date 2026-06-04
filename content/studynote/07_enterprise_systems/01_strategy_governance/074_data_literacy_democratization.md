@@ -127,8 +127,8 @@ Democratization
 
 ## 어린이를 위한 3줄 비유 설명
 
-숫자를 읽을 수 있어야 해요.  
-모두가 배워요.  
+숫자를 읽을 수 있어야 해요.
+모두가 배워요.
 [데이터 리터러시](/knowledge-base/studynote/12_it_management/01_governance_strategy/058_data_literacy/) 민주화는 그런 거예요.
 
 ---

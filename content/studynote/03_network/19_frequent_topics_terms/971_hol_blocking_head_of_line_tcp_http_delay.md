@@ -60,7 +60,7 @@ tags = ["studynote-network"]
 
 ### 2. [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 전송 계층의 원초적 한계 ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) [Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2가 웹의 HOL을 해결했지만, 그 밑에 깔린 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 자체가 가진 원초적 한계는 못 고쳤습니다.
-- **발생**: TCP는 1번, 2번, 3번 패킷을 보냈을 때 수신자가 <strong>반드시 순서대로 조립</strong>해야 합니다. 
+- **발생**: TCP는 1번, 2번, 3번 패킷을 보냈을 때 수신자가 <strong>반드시 순서대로 조립</strong>해야 합니다.
 - 만약 1번 패킷이 공중에서 유실(에러)되었습니다! 2번과 3번 패킷은 수신자 폰에 멀쩡히 잘 도착했습니다.
 - **문제**: TCP는 완벽주의자라 1번 패킷을 다시 재전송받을 때까지([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 대기), 폰에 이미 도착한 2번과 3번 패킷을 브라우저(앱)로 올려보내 주지 않고 램(RAM) 임시 저장소에 꽉 잡고 인질극을 벌입니다. 여기서 앱의 렉이 걸립니다.
 - **해결책**: 이 끔찍한 TCP의 고집을 버리고, 그냥 도착한 놈부터 화면에 띄워버리자며 구글이 만든 차세대 프로토콜이 바로 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 기반의 <a href="/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/">QUIC</a> (972번 문서)</strong>입니다.

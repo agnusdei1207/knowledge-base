@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/470_sstf_disk_scheduling/">SSTF</a> (Shortest <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/">Seek Time</a> First)</strong>: 디스크 큐에 쌓인 요청 중, 현재 헤드 위치에서 물리적으로 가장 가까운(실린더 번호 차이가 가장 적은) 요청을 1순위로 서비스하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/). CPU 스케줄링의 [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/)([Shortest Job First](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/))와 완전히 동일한 철학을 갖는다.
 
-- **필요성 (FCFS의 미친 낭비 극복)**: 
-  - [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [디스크 스케줄링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/468_disk_scheduling_purpose/)인 [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/)(선입선출)는 요청이 들어온 순서대로 헤드를 움직였다. 
+- **필요성 (FCFS의 미친 낭비 극복)**:
+  - [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [디스크 스케줄링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/468_disk_scheduling_purpose/)인 [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/)(선입선출)는 요청이 들어온 순서대로 헤드를 움직였다.
   - 1번 $\rightarrow$ 199번 $\rightarrow$ 2번 $\rightarrow$ 198번. 헤드가 자동차 와이퍼처럼 양 끝을 미친 듯이 왕복하느라, [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/))에만 수 초가 소모되고 물리적 기계 마모도 심각했다.
   - **해결책**: "어차피 모여있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들, 이왕 가는 김에 가까운 애들부터 싹 다 처리하고 넘어가자!"라는 지극히 상식적이고 합리적인 아이디어가 SSTF를 탄생시켰다.
 
@@ -43,7 +43,7 @@ tags = ["studynote-operating-system"]
 
 ### [SSTF](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/470_sstf_disk_scheduling/) 이동 궤적 시뮬레이션
 
-디스크 실린더가 0번부터 199번까지 있다. 
+디스크 실린더가 0번부터 199번까지 있다.
 현재 헤드 위치: **50번**
 요청 큐: `[98, 183, 37, 122, 14, 124, 65, 67]`
 
@@ -85,7 +85,7 @@ tags = ["studynote-operating-system"]
 
 1. 현재 헤드가 <strong>50번</strong>에 있다.
 2. 0번 쪽에 요청 1개가 있고, 40~60번 사이에 요청이 1,000개 쏟아진다.
-3. SSTF는 50번 주변의 1,000개를 0.1초 만에 다 쳐낸다. 
+3. SSTF는 50번 주변의 1,000개를 0.1초 만에 다 쳐낸다.
 4. 이제 0번으로 가려는데, 그 0.1초 사이에 **또다시 40~60번 사이에 1,000개의 요청이 새로 들어왔다.**
 5. SSTF는 "어? 또 가까운 곳에 먹을 게 생겼네!" 하면서 0번으로 가지 않고 다시 40~60번 사이만 미친 듯이 왕복한다.
 6. **결과**: 양 끝단(0번, 199번)에 있는 요청은 시스템이 종료될 때까지 단 한 번도 헤드를 구경하지 못하고 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))으로 터져버린다. 이것이 SSTF의 악명 높은 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">Starvation</a>(기아)</strong>이다.
@@ -124,7 +124,7 @@ tags = ["studynote-operating-system"]
    - **원인 분석**: 웹 서버의 실시간 트래픽([Hot Data](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/))은 주로 디스크의 특정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(가운데)에 집중되어 있었다. 디스크 스케줄러가 <strong>SSTF와 유사한 최단 거리 우선 로직</strong>으로 동작하고 있었기 때문에, 디스크 헤드는 웹 서버의 실시간 요청만 미친 듯이 쳐내느라, 디스크 맨 끝 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 저장된 배치 프로그램의 I/O 요청을 완전히 무시(기아)해 버렸다.
    - **대응 (아키텍처 가이드)**: 기아 현상을 막으려면 <strong>"아무리 멀어도 언젠가는 반드시 간다"</strong>는 보장이 필요하다. 디스크 스케줄러를 무조건 직진하는 `SCAN(Elevator)` [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 교체하여, 헤드가 한 번 스윕(Sweep)할 때 구석에 처박힌 배치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 I/O도 무조건 한 번은 처리하고 넘어가도록 OS 레벨의 정책을 바꿔야 한다.
 
-2. <strong>시나리오 — <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> 환경에서의 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/470_sstf_disk_scheduling/">SSTF</a> 부활 (No <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/">Seek Time</a>)</strong>: 최신 AWS EC2 인스턴스에 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD를 달았다. 
+2. <strong>시나리오 — <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> 환경에서의 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/470_sstf_disk_scheduling/">SSTF</a> 부활 (No <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/">Seek Time</a>)</strong>: 최신 AWS EC2 인스턴스에 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD를 달았다.
    - **기술사적 반전**: SSTF의 기아 현상은 헤드가 플래터의 '물리적인 위치'를 이동할 때 생기는 문제다. 그런데 **SSD는 물리적으로 움직이는 헤드가 없다.**
    - 50번 셀을 읽든, 구석에 있는 199번 셀을 읽든 전자 신호가 도달하는 시간은 똑같이 0.1ms로 동일하다. 즉, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 환경에서는 <strong>"누가 더 가깝냐"는 물리적 거리의 개념(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/">Seek Time</a>) 자체가 완전히 증발</strong>한다.
    - 따라서 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 컨트롤러 내부에서는 OS가 굳이 SCAN으로 궤적을 예쁘게 정렬해주지 않아도, FCFS나 [SSTF](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/470_sstf_disk_scheduling/)(논리적 최적화) 형태의 매우 단순한 큐잉을 통해 비동기로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리(Multi-[queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))하는 방식으로 기술의 역행(회귀)이 일어나고 있다.

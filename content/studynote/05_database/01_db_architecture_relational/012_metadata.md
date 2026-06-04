@@ -43,7 +43,7 @@ tags = ["database"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-메타데이터는 그 성격과 용도에 따라 크게 세 가지 범주(비즈니스, 기술, 운영 메타데이터)로 나뉘며, [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 내부에서는 [시스템 카탈로그](/knowledge-base/studynote/05_database/01_db_architecture_relational/011_system_catalog/)([System Catalog](/knowledge-base/studynote/05_database/01_db_architecture_relational/011_system_catalog/)) 또는 [데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/)([Data Dictionary](/knowledge-base/studynote/05_database/04_transactions_concurrency/509_data_dictionary/))이라는 특수한 테이블 형태로 저장된다. 
+메타데이터는 그 성격과 용도에 따라 크게 세 가지 범주(비즈니스, 기술, 운영 메타데이터)로 나뉘며, [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 내부에서는 [시스템 카탈로그](/knowledge-base/studynote/05_database/01_db_architecture_relational/011_system_catalog/)([System Catalog](/knowledge-base/studynote/05_database/01_db_architecture_relational/011_system_catalog/)) 또는 [데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/)([Data Dictionary](/knowledge-base/studynote/05_database/04_transactions_concurrency/509_data_dictionary/))이라는 특수한 테이블 형태로 저장된다.
 
 | 구성 요소 | 역할 | 내부 동작 | 상호작용 방식 | 비유 |
 |:---|:---|:---|:---|:---|
@@ -123,7 +123,7 @@ DBMS는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attent
 ```text
 [그림 4: 실무 데이터 카탈로그 거버넌스 적용 플로우]
 
-[원천 시스템] (RDBMS, NoSQL) 
+[원천 시스템] (RDBMS, NoSQL)
      │ (1. 기술 메타 자동 추출 / Crawler)
      ▼
 [메타데이터 리포지토리] <── (2. 비즈니스 용어 매핑) ── [데이터 관리자(DA)]
@@ -144,7 +144,7 @@ DBMS는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attent
 | 통제성 | 규제 위반 페널티 위험도 감소 | 리니지 확보를 통한 규제([GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)/[마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/)) [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)의 투명성 |
 | 최적화 | 딕셔너리 캐시 최적화로 하드파싱 50% 감소 | 시스템 파싱 오버헤드 감소로 인한 전체 TPS 증가 |
 
-메타데이터는 단순한 '[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 정보'에서 출발하여, 전사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 의미, 품질, 흐름을 통제하는 <strong>'엔터프라이즈 <a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/">지식 그래프</a>(Enterprise <a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/">Knowledge Graph</a>)'</strong>의 핵심 자산으로 진화하고 있다. 
+메타데이터는 단순한 '[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 정보'에서 출발하여, 전사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 의미, 품질, 흐름을 통제하는 <strong>'엔터프라이즈 <a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/">지식 그래프</a>(Enterprise <a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/">Knowledge Graph</a>)'</strong>의 핵심 자산으로 진화하고 있다.
 향후에는 [대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/)([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))과 [벡터 데이터베이스](/knowledge-base/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/)가 [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 메타데이터와 결합하여, 사용자가 자연어로 질의하면 시스템이 메타데이터를 이해하고 최적의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 셋을 자동으로 조립해 주는 진정한 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)([Data Fabric](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)) 및 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 주도적 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 시대로 나아갈 것이다. 관리되지 않은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 비용이지만, 철저히 관리된 메타데이터는 그 자체로 강력한 비즈니스 경쟁력이 된다.
 
 📢 **섹션 요약 비유**: 과거의 메타데이터가 정적인 '종이 지도'였다면, 미래의 메타데이터는 교통 상황과 사고를 예측해 최적 경로를 계속 재설정해주는 '[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 내비게이션'으로 진화하고 있습니다.

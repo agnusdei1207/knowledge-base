@@ -28,7 +28,7 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-라쏘와 릿지 규제는 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)에 패널티 항을 더하는 방식은 같지만, 패널티의 형태(L1 Norm, L2 Norm)에 따라 제약 조건의 기하학적 형태가 달라진다. 
+라쏘와 릿지 규제는 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)에 패널티 항을 더하는 방식은 같지만, 패널티의 형태(L1 Norm, L2 Norm)에 따라 제약 조건의 기하학적 형태가 달라진다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐

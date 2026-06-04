@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/">RPA</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/">Robotic Process Automation</a>)</strong>: 사람 대신 마우스를 움직이고 키보드를 쳐주는 매크로(Macro) 로봇. 백엔드(DB, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 접근하는 게 아니라, 사람이 보는 앞단 껍데기(UI 화면)를 강제로 긁어서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 훔쳐 오고 버튼을 누르는 UI 기반 자동화 툴 (UiPath, UiPath, Automation Anywhere 등).
 
 - <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 없는 꽉 막힌 레거시 섬의 공포)</strong>: 은행원이 매일 아침 9시에 출근해서 1) 정부 홈택스 사이트 로그인 ➡ 2) 엑셀 100줄 다운 ➡ 3) 20년 된 사내 C++ 낡은 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 시스템 켜서 복붙 엔터 100번 치기 노가다를 3시간씩 했다. 신입 개발자가 "야 이거 파이썬으로 자동화 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 뚫자 ㅋ" 깝쳤다. <strong>"근데 정부 홈택스는 API를 안 열어주고 막아놨네? 사내 20년 된 ERP도 DB 권한 안 주고 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 자체가 세상에 존재하질 않네?! 코딩으로 엮을 구멍이 1도 없잖아 ㅆㅂ!!" (레거시 폐쇄망 딜레마).</strong> "아씨발, API가 없으면 걍 로봇 1마리 띄워서 내 노트북 마우스 뺏은 다음 지가 알아서 클릭 100번 하고 엑셀 복붙 치게 만들면 되잖아!!" 이 극강의 무식하고도 직관적인 돌파구가 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 산업을 10조 원 규모로 폭발시켰다.

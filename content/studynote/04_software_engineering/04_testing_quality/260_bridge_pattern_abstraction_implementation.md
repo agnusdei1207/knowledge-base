@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 - 객체지향 초보들은 기능이 추가될 때마다 부모 클래스 밑에 자식 클래스를 덧붙이는(extends) <strong>'<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a>'</strong>을 미친 듯이 씁니다.
 - **비극의 상황**: `모양(Shape)`이라는 부모가 있습니다. 자식으로 `원`, `네모`가 있습니다. 여기에 `색깔` 기능을 추가하려 합니다.
-- 멍청한 설계: `빨간원`, `파란원`, `빨간네모`, `파란네모`. 기능(모양)과 구현(색깔)이 한 핏줄([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/))로 강하게 얽혀있습니다. 
+- 멍청한 설계: `빨간원`, `파란원`, `빨간네모`, `파란네모`. 기능(모양)과 구현(색깔)이 한 핏줄([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/))로 강하게 얽혀있습니다.
 - 만약 모양에 '세모'가 추가되고 색깔에 '노란색'이 추가되면? `3(모양) x 3(색깔) = 9개`의 클래스 파일이 우수수 떨어집니다. 수정과 확장이 지옥이 됩니다.
 
 - **📢 섹션 요약 비유**: 브리지 (Bridge)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
@@ -78,7 +78,7 @@ tags = ["studynote-software-engineering"]
    - 껍데기 부모인 `Shape`의 뱃속(멤버 변수)에다가, 색깔의 부모인 `Color` 인터페이스를 **변수로 쏙 품어버립니다(이것이 브리지, 합성 Composition 입니다).**
    - 이제 `원`은 자신이 무슨 색깔인지 모릅니다. 그저 색칠할 때가 되면 뱃속에 품고 있는 `Color.칠해라()` 다리 건너편의 스위치를 누릅니다.
 3. **기적의 결과 (독립적 진화)**:
-   - 만약 내일 당장 "초록색"을 추가해야 한다면? 옛날엔 `초록원`, `초록네모` 2개를 짜야 했지만, [브리지 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/384_bridge_pattern_summary/)에서는 그냥 `[색깔]` 가계도 쪽에 `초록` 자식 클래스 딱 1개만 찍어내면 끝납니다!! (확장성 폭발, [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 완벽 준수) 
+   - 만약 내일 당장 "초록색"을 추가해야 한다면? 옛날엔 `초록원`, `초록네모` 2개를 짜야 했지만, [브리지 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/384_bridge_pattern_summary/)에서는 그냥 `[색깔]` 가계도 쪽에 `초록` 자식 클래스 딱 1개만 찍어내면 끝납니다!! (확장성 폭발, [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 완벽 준수)
    - `[모양]` 놈들은 `초록`이 생겼는지 1%도 관심 없이 평생 자기 할 일만 하며 살아갑니다.
 
 - **📢 섹션 요약 비유**: 브리지 (Bridge)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.

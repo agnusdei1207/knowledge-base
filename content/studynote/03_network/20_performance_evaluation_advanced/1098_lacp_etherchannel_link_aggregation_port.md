@@ -38,7 +38,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - <strong>개념 (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 트렁킹/본딩)</strong>: 두 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 사이에 연결된 <strong>여러 개의 얇은 물리적 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(랜선 2~8가닥)들을 소프트웨어 설정으로 꽁꽁 묶어서, 마치 '거대하고 두꺼운 1개의 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 인터페이스(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>)'처럼 행동하게 만드는 마법</strong>입니다.
-- <strong>LACP (Link Aggregation Control <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>, IEEE 802.3ad) 🌟</strong>: 
+- <strong>LACP (Link Aggregation Control <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>, IEEE 802.3ad) 🌟</strong>:
   - [이더채널](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/263_etherchannel_link_aggregation_lacp/)을 묶을 때 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들끼리 서로 "야, 우리 4가닥 선 묶을까?" 하고 동적으로 협상(Handshake)하는 전 세계 공통 국제 표준 프로토콜입니다. (시스코 전용인 PAgP도 있지만 LACP가 천하 통일함)
 
 ```text

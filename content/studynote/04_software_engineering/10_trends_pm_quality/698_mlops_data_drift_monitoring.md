@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-일반적인 소프트웨어는 배포된 순간부터 고장 나지 않는다(코드가 스스로 변하지 않으므로). 하지만 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)) 모델은 배포되는 그 순간부터 서서히 성능이 썩기 시작한다(Model Decay). 
+일반적인 소프트웨어는 배포된 순간부터 고장 나지 않는다(코드가 스스로 변하지 않으므로). 하지만 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)) 모델은 배포되는 그 순간부터 서서히 성능이 썩기 시작한다(Model Decay).
 
 왜냐하면 세상이 변하기 때문이다. 예를 들어, 2019년에 학습된 '신용카드 사기 탐지 모델'은 해외 오프라인 결제를 의심스럽게 봤다. 그런데 코로나19가 터지면서 해외 온라인 직구가 폭증하자, 이 모델은 정상적인 직구 결제를 모조리 사기로 차단하기 시작했다. 이것이 바로 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(과거)와 추론 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(현재)의 분포가 달라지는 <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/">데이터 드리프트</a>(<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/">Data Drift</a>)</strong> 현상이다.
 

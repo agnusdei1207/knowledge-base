@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 
+- **개념**:
   - **라이선스 충돌 (License Conflict)**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 코드는 공짜가 아니다! (MIT, Apache는 착하지만, <strong>GPL</strong>은 "내 코드 1줄 썼어? 그럼 니 회사 코드 100만 줄도 다 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)로 까!"라는 미친 전염성을 가짐). AI가 GPL 코드를 암기했다가 나한테 짜줬는데 내가 그걸 모르고 회사 서버에 올리는 순간 저작권 지옥이 열린다.
   - <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/">환각</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/">Hallucination</a>)</strong>: 챗GPT가 이순신 장군이 거북선으로 레이저 쐈다고 헛소리하는 현상. 코딩에선 더 심각하다. "이 에러는 `react-super-fast` 패키지 깔면 해결됨 ㅋ" 해서 개발자가 깔았는데, 알고 보니 해커가 어제 그 이름으로 올려둔 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 악성 패키지인 끔찍한 공격([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Package [Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/))이다.
 
