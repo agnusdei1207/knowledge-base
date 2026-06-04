@@ -68,6 +68,7 @@ tags = ["work"]
 - [quartz-deployment](/knowledge-base/work/develop/quartz-deployment/) — Quartz 정적 사이트 배포
 - [decap-cms](/knowledge-base/work/develop/decap-cms/) — 웹 마크다운 편집
 - [tarball](/knowledge-base/work/develop/tarball/) — 압축 아카이브 기초
+- [lvm-storage-pool](/knowledge-base/work/develop/lvm-storage-pool/) — 우분투 LVM 외장 하드 풀·무중단 확장
 
 ### Develop · AI/MCP 인프라
 - [claude-code-mcp](/knowledge-base/work/develop/claude-code-mcp/) — Claude Code + MCP 운영안

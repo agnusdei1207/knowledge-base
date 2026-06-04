@@ -64,3 +64,7 @@ tags = ["work"]
 - Claude Code + MCP: [claude-code-mcp](/knowledge-base/work/develop/claude-code-mcp/)
 - 클라이언트 규격: [mcp-client-setup](/knowledge-base/work/develop/mcp-client-setup/)
 - Codex SDK 운영안: [codex-sdk-operations](/knowledge-base/work/develop/codex-sdk-operations/)
+
+## 🗄️ 스토리지 운영 가이드
+
+- [lvm-storage-pool](/knowledge-base/work/develop/lvm-storage-pool/) — 우분투 LVM으로 외장 하드 여러 개를 하나의 스토리지 풀로 묶고 무중단 확장하기
