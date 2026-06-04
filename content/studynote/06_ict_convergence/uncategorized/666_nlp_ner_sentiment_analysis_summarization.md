@@ -24,43 +24,43 @@ tags = ["studynote-ict-convergence"]
 과거에는 **사전기반(Lexicon-based)**, **통계기반(HMM/CRF/SVM)** 방식이 주를 이루었으나, 한국어는 교착어적 특성(조사·어미 변화), 띄어쓰기 오류, 신조어·은어, 장르별 문체 변동이 극심하여 정밀도(F1)가 70%대에 그쳤다. 2018년 **BERT(Bidirectional Encoder Representations from Transformers)** 등장 이후, **사전학습 언어모델(Pre-trained Language Model, PLM)** 기반 Fine-tuning이 표준이 되었고, **KoBERT, KLUE-BERT, KoBigBird, KR-ELECTRA** 등 한국어 특화 모델이 F1 90% 이상의 성능을 보인다. 최근에는 **GPT-4, Claude, LLaMA3, HyperCLOVA X** 같은 LLM의 In-context Learning·Zero-shot 능력을 활용하여 라벨링 비용 없이도 NER/감성/요약을 통합 수행하는 추세로 패러다임이 전환되고 있다.
 
 ```text
-[ 비정형 텍스트 입력 흐름 → 3대 NLP 태스크 통합 파이프라인 ]
+[ 비정형 텍스트 입력 흐름 -> 3대 NLP 태스크 통합 파이프라인 ]
 
-   ┌────────────────────────────────────────────────────────────────┐
-   │  Raw Text Sources (콜센터 transcripts / 뉴스 / 계약서 / SNS)   │
-   └───────────────────────────────┬────────────────────────────────┘
-                                   │ ① 전처리
-                                   ▼
-   ┌────────────────────────────────────────────────────────────────┐
-   │  Preprocessing: 형태소 분석(Mecab/Okt) → 정규화 → 토큰화(BPE)  │
-   │                → 불용어 제거 → Subword Encoding (WordPiece)     │
-   └───────────────────────────────┬────────────────────────────────┘
-                                   │ ② 임베딩 (768~4096d)
-                                   ▼
-   ┌────────────────────────────────────────────────────────────────┐
-   │  Shared Encoder Backbone (KoBERT / KLUE-RoBERTa / BERT-base)   │
-   │   ├─► NER Head (Token Classification + CRF)                   │
-   │   ├─► Sentiment Head (Sequence Classification, ABSA)          │
-   │   └─► Summarization Head (Encoder-Decoder: BART/T5/HSG)       │
-   └───────────────────────────────┬────────────────────────────────┘
-                                   │ ③ 태스크별 출력
-                ┌──────────────────┼──────────────────┐
-                ▼                  ▼                  ▼
-        ┌────────────┐      ┌────────────┐      ┌────────────┐
-        │  NER 출력  │      │ 감성 출력  │      │  요약 출력  │
-        │ [ORG:삼성] │      │ 부정(0.92) │      │ "주요 쟁점 │
-        │ [PER:홍길동│      │ 대상:배터리│      │  3가지로  │
-        │  [LOC:서울]│      │ ABSA 감성  │      │  요약..."  │
-        └────────────┘      └────────────┘      └────────────┘
-                │                  │                  │
-                └──────────────────┼──────────────────┘
-                                   ▼
-   ┌────────────────────────────────────────────────────────────────┐
-   │  Downstream: 지식그래프 / 대시보드 / 알림 / Search Index       │
-   └────────────────────────────────────────────────────────────────┘
+   +----------------------------------------------------------------+
+   |  Raw Text Sources (콜센터 transcripts / 뉴스 / 계약서 / SNS)   |
+   +-------------------------------+--------------------------------+
+                                   | ① 전처리
+                                   v
+   +----------------------------------------------------------------+
+   |  Preprocessing: 형태소 분석(Mecab/Okt) -> 정규화 -> 토큰화(BPE)  |
+   |                -> 불용어 제거 -> Subword Encoding (WordPiece)     |
+   +-------------------------------+--------------------------------+
+                                   | ② 임베딩 (768~4096d)
+                                   v
+   +----------------------------------------------------------------+
+   |  Shared Encoder Backbone (KoBERT / KLUE-RoBERTa / BERT-base)   |
+   |   +-► NER Head (Token Classification + CRF)                   |
+   |   +-► Sentiment Head (Sequence Classification, ABSA)          |
+   |   +-► Summarization Head (Encoder-Decoder: BART/T5/HSG)       |
+   +-------------------------------+--------------------------------+
+                                   | ③ 태스크별 출력
+                +------------------+------------------+
+                v                  v                  v
+        +------------+      +------------+      +------------+
+        |  NER 출력  |      | 감성 출력  |      |  요약 출력  |
+        | [ORG:삼성] |      | 부정(0.92) |      | "주요 쟁점 |
+        | [PER:홍길동|      | 대상:배터리|      |  3가지로  |
+        |  [LOC:서울]|      | ABSA 감성  |      |  요약..."  |
+        +------------+      +------------+      +------------+
+                |                  |                  |
+                +------------------+------------------+
+                                   v
+   +----------------------------------------------------------------+
+   |  Downstream: 지식그래프 / 대시보드 / 알림 / Search Index       |
+   +----------------------------------------------------------------+
 ```
 
-**📢 섹션 요약 비유**: NLP 파이프라인은 마치 **"식당 주방"**과 같다. 손님(원시 텍스트)이 들어오면, 前처리(세미·손질) → 공통 냉장고(임베딩) → 3가지 요리(NER·감성·요약) → 플레이팅(시각화) 순으로 흘러간다. 한 번 손질해 둔 재료(Shared Encoder)를 여러 요리에 재활용하는 것이 모던 NLP의精髓다.
+**📢 섹션 요약 비유**: NLP 파이프라인은 마치 **"식당 주방"**과 같다. 손님(원시 텍스트)이 들어오면, 前처리(세미·손질) -> 공통 냉장고(임베딩) -> 3가지 요리(NER·감성·요약) -> 플레이팅(시각화) 순으로 흘러간다. 한 번 손질해 둔 재료(Shared Encoder)를 여러 요리에 재활용하는 것이 모던 NLP의精髓다.
 
 ---
 
@@ -72,10 +72,10 @@ NER은 문장 내 토큰에 대해 **BIO / BIOES 태깅 스킴**으로 라벨링
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| **Token Embedding** | 토큰별 벡터 변환 | WordPiece(영어), Mecab+OOV(한국어) → 768d 벡터 |
+| **Token Embedding** | 토큰별 벡터 변환 | WordPiece(영어), Mecab+OOV(한국어) -> 768d 벡터 |
 | **Contextual Encoder** | 문맥 반영 양방향 인코딩 | 12-layer Transformer, Multi-Head Self-Attention, [CLS]/[SEP] 포함 |
-| **NER Head (Classifier)** | 각 토큰별 클래스 예측 | `nn.Linear(hidden, num_labels)` → Softmax 또는 CRF |
-| **CRF Layer (선택)** | 라벨 시퀀스 전이 제약 학습 | Viterbi 디코딩으로 `B-PER → I-PER`는 가능, `B-PER → I-LOC`는 차단 |
+| **NER Head (Classifier)** | 각 토큰별 클래스 예측 | `nn.Linear(hidden, num_labels)` -> Softmax 또는 CRF |
+| **CRF Layer (선택)** | 라벨 시퀀스 전이 제약 학습 | Viterbi 디코딩으로 `B-PER -> I-PER`는 가능, `B-PER -> I-LOC`는 차단 |
 | **한국어 특화 모듈** | 형태소 정보 융합 | MeCab-ko + 음절/자모 임베딩 결합, KoSpacing으로 띄어쓰기 보정 |
 
 **핵심 수식 (CRF Loss)**:
@@ -89,13 +89,13 @@ $$P(y|x) = \frac{\exp\left(\sum_i (W_{y_i} h_i + T_{y_{i-1}, y_i})\right)}{Z(x)}
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| **Document-level Classifier** | 문서 전체 감성 판별 | BERT[CLS] → Dense → Softmax (3~5 class) |
+| **Document-level Classifier** | 문서 전체 감성 판별 | BERT[CLS] -> Dense -> Softmax (3~5 class) |
 | **Aspect-Based SA (ABSA)** | 속성별 감성 분리 | Aspect Term Extraction (ATE) + Aspect Sentiment Classification (ASC) |
 | **Lexicon Layer (Hybrid)** | 사전 기반 보조 점수 | KNU 감성사전, SentiWordNet, KOSAC — 도메인 특화 사전 매칭 |
 | **Fine-grained Head** | 5~7단계 강도 회귀 | Ordinal Regression, Sigmoid 출력 + Threshold Tuning |
 | **Multilingual Extension** | 다국어 통합 | XLM-RoBERTa, mBERT, mDeBERTa — 한국어/영어/일본어 통합 |
 
-**ABSA 4-Tuple 태스크**: `{Aspect Category, Opinion Term, Sentiment Polarity, Opinion Holder}` — 예: `"이 노트북의 배터리는 정말 별로다"` → `{배터리, 별로, 부정, 화자}`
+**ABSA 4-Tuple 태스크**: `{Aspect Category, Opinion Term, Sentiment Polarity, Opinion Holder}` — 예: `"이 노트북의 배터리는 정말 별로다"` -> `{배터리, 별로, 부정, 화자}`
 
 ### C. 자동 요약 (Summarization)
 
@@ -103,7 +103,7 @@ $$P(y|x) = \frac{\exp\left(\sum_i (W_{y_i} h_i + T_{y_{i-1}, y_i})\right)}{Z(x)}
 | :--- | :--- | :--- |
 | **Extractive Selector** | 원문에서 핵심 문장 선택 | TextRank(PageRank on Sentence Graph), BERTSumExt (Transformer + Interval Segment Embedding), Lead-3 Baseline |
 | **Abstractive Generator** | 새로운 문장 생성 | Encoder-Decoder(BART, T5, PEGASUS), Pointer-Generator Network with Coverage |
-| **Hybrid Reranker** | 추출+생성 결합 | Candidate Generation (Extractive) → Rerank (Cross-Encoder) → Paraphrase (Seq2Seq) |
+| **Hybrid Reranker** | 추출+생성 결합 | Candidate Generation (Extractive) -> Rerank (Cross-Encoder) -> Paraphrase (Seq2Seq) |
 | **Long-Input Handler** | 긴 문서 처리 | Sparse Attention (Longformer, BigBird), Hierarchical Attention (HSG), Chunk-and-Merge |
 | **Constrained Decoding** | 환각(Hallucination) 억제 | Extractiveness Constraint, Faithfulness Scoring (FactCC, QAGS) |
 
@@ -113,30 +113,30 @@ $$P(y|x) = \frac{\exp\left(\sum_i (W_{y_i} h_i + T_{y_{i-1}, y_i})\right)}{Z(x)}
 [ 통합 아키텍처: Multi-Task Learning (MTL) with Shared Encoder ]
 
                     Input: "삼성전자의 신형 갤럭시 배터리는 훌륭하지만, 가격은 비싸다."
-                                          │
-                          ┌───────────────┴───────────────┐
-                          ▼                                ▼
+                                          |
+                          +---------------+---------------+
+                          v                                v
                   [Mecab 형태소 분석]               [WordPiece Tokenizer]
                   삼성/NNG 전자/NNG ...               ['삼성', '##전자', '##의', ...]
-                          │                                │
-                          └───────────────┬────────────────┘
-                                          ▼
-                  ┌────────────────────────────────────────────┐
-                  │    Shared Transformer Encoder (12 layers)  │
-                  │  KoBERT-large / KLUE-RoBERTa-large         │
-                  │  Hidden=1024, Heads=16, FFN=4096          │
-                  └────────┬──────────┬──────────┬─────────────┘
-                           │          │          │
-              ┌────────────┘          │          └────────────┐
-              ▼                       ▼                        ▼
+                          |                                |
+                          +---------------+----------------+
+                                          v
+                  +--------------------------------------------+
+                  |    Shared Transformer Encoder (12 layers)  |
+                  |  KoBERT-large / KLUE-RoBERTa-large         |
+                  |  Hidden=1024, Heads=16, FFN=4096          |
+                  +--------+----------+----------+-------------+
+                           |          |          |
+              +------------+          |          +------------+
+              v                       v                        v
      [NER Head + CRF]         [Sentiment Head]        [Summarization Decoder]
        BIO Tagging            [CLS] Pooling             (BART Decoder)
-              │                       │                        │
-              ▼                       ▼                        ▼
+              |                       |                        |
+              v                       v                        v
    [B-ORG, I-ORG, O,          logits=[neg:0.05,         "갤럭시 배터리는
     B-PROD, O, O, ...]         neu:0.10, pos:0.85]      우수하나 고가"
-           │                          │                       │
-           ▼                          ▼                       ▼
+           |                          |                       |
+           v                          v                       v
        NER Result              Aspect: 배터리(+),         Summary
        [ORG:삼성전자]          가격(-)                    (Extractive or
        [PROD:갤럭시]            ABSA: Mixed                Abstractive)

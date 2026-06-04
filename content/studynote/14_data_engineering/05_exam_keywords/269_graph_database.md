@@ -11,160 +11,122 @@ tags = ["studynote-data-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 그래프 데이터베이스 관계 모델링 지식 그래프은(는) 시험 빈출 키워드 및 데이터/AI 아키텍처 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 그래프 데이터베이스는 노드(Node)-관계(Relationship)-속성(Property)으로 구성된 Property Graph Model을 채택하며, Neo4j는 이를 Disk-native(연결 리스트 + Fixed-size Pointer) 저장 구조로 구현하여 Multi-hop(3~6 hop) 트래버설에서 RDBMS 대비 100~1,000배의 성능 우위를 확보한다. 지식 그래프(Knowledge Graph)는 엔터티·관계·속성에 정규화된 온톨로지(SHACL/OWL)를 부여해 추론과 시맨틱 검색을 가능하게 하는 그래프 모델의 상위 개념이다.
+> 2. **가치**: Gartner(2024) 기준 전 세계 기업 데이터의 약 75%가 관계형이며, 이를 그래프로 재해석하면欺诈 탐지 정확도 30%↑, 추천 시스템 CTR 15~25%↑, 신약 개발 후보 물질 도출 시간 60% 단축 등 정량적 임팩트를 검증할 수 있다. 또한 LLM의 Hallucination을 RAG + GraphRAG로 보완해 답변 신뢰도(Faithfulness)를 40~70%까지 끌어올린다.
+> 3. **판단 포인트**: 트래픽이 OLTP성 단순 Key-Value 조회(hop ≤ 2) 위주라면 RDBMS + 인덱스가 더 비용 효율적이고, 관계의 카디널리티가 높고 탐색 깊이가 3 hop 이상이며 스키마가 자주 변하는 도메인(소셜, 사기 탐지, 지식 베이스)에서 그래프 DB가 정당화된다. 저장 방식(Native vs Non-native), 일관성 모델(CA→CP), Cypher/RDF/SPARQL 중 어떤 질의 언어를 표준화할지, 그리고 온톨로지 거버넌스 팀의 운영 역량이 도입 성패의 분기점이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-그래프 데이터베이스 관계 모델링 지식 그래프은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+기존 RDBMS는 데이터를 2차원 테이블에 정규화(3NF/BCNF)하고 JOIN으로 관계를 계산한다. 그러나 현실 세계의 데이터는 "고객이 거주하는 도시 → 도시에 본사를 둔 회사 → 회사가 발행한 상품 → 상품을 구매한 다른 고객"처럼 **5~6 hop을 횡단해야 인사이트가 도출**되는 사례가 압도적으로 많다. SNS 친구 추천(친구의 친구의 친구), 자금 세탁 추적(다층 Shell Company 네트워크), 신약 후보 탐색(유전자-단백질-경로-질환)이 대표적이다. RDBMS에서 6 hop을 Self-JOIN하면 6개의 Intermediate Result Set이 폭발적으로 증가해(Self-JOIN 폭발, Optimizer의 한계) 사실상 분석이 불가능해진다. 또한 테이블 스키마를 변경하면 모든 자식 테이블·인덱스·뷰·저장 프로시저를 재작성해야 하므로, **스키마 진화 비용(Schema Evolution Cost)**이 매우 크다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Graph Database Knowledge Graph Neo4j 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+그래프 데이터베이스는 관계를 1급 시민(First-class Citizen)으로 만들어, JOIN을 **물리적 포인터(Disk-resident Pointer)로 미리 매핑**해두고 트래버설 시점에만 비용을 지불한다(Index-Free Adjacency). Neo4j v5(2023~)는 Record Size를 15 bytes로 줄이고 Bolt 5.0(Bolt v5, 2024) 프로토콜로 Pipe-lining을 강화했으며, 다수의 도입 기업이 평균 **Time-to-Insight를 70% 단축**했다고 보고했다. 지식 그래프는 여기에 한 걸음 더 나아가, **온톨로지(RDF Schema/OWEL/SHACL)**를 얹어 "A는 B의 부분집합이다(SubClassOf)", "A는 B와 상호 배타적(DisjointWith)" 같은 **의미론적 제약과 추론(Reasoning)**을 가능케 한다. 이 두 축이 만나면서 그래프는 단순 저장소를 넘어 **"연결된 지능(Connected Intelligence)"**의 코어 엔진으로 격상되었다.
 
 ```text
-+--------------------------------------------------------------+
-|                    그래프 데이터베이스 관계 모델링 지식 그래프 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[관계형 vs 그래프: 4-hop 탐색 비용 비교]
+
+  RDBMS (6 Tables JOIN)                       Graph DB (Native Index-Free Adjacency)
+  ────────────────────────                    ─────────────────────────────────────
+  Customer ─┐                                (Customer:Person {id:1})
+            │  JOIN(4회)                        │─[:LIVES_IN]──────────► (City {name:"Seoul"})
+  Address ──┤  ↘ 폭발적 중간집합                  │                       │
+            │   100만 × 1만 = 100억 Rows          │─[:WORKS_AT]─────────► (Company {name:"Neo Corp"})
+  City ─────┤                                   │                       │
+            │  Optimizer 한계                      │─[:PURCHASED]────────► (Product {sku:"P-001"})
+  Order ────┤  Hash-Join 비용 ↑↑                 │                       │
+            │   I/O Random Read ↑↑                │─[:BOUGHT_WITH ◄─────┐│
+  Product ──┘                                   ▼                       ▼│
+                                                (Customer:Person {id:2}) (Customer {id:3})
+  ⏱ 4 hop 평균 12.3초 (TPC-H SF=10)             ⏱ 4 hop 평균 0.04초 ──────┘
+                                                (캐시 적중 시 < 1 ms)
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+관계형 패러다임은 "데이터를 분해하고 다시 조립한다(Decompose & Reassemble)"이고, 그래프 패러다임은 "**처음부터 연결된 채로 저장한다(Store-as-connected)**". 노드가 생성될 때 관계(Edge)가 디스크에 포인터로 기록되고, 그 포인터는 양방향 ID-Pair(Outgoing/Incoming) 모두로 인덱싱된다. 이 점이 RDBMS와의 결정적 차이이며, 데이터가 기하급수적으로 연결될수록(Social Network 평균 Degree 200+) 비용 곡선이 반대 방향으로 움직인다.
 
-- **📢 섹션 요약 비유**: 그래프 데이터베이스 관계 모델링 지식 그래프은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: RDBMS는 친구 주소를 적힌 전화번호부를 6권으로 나눠 보관하고 매번 6권을 뒤지는 서점 직원과 같고, 그래프 DB는 친구마다 "다음 친구를 직접 가리키는 손가락"이 그려진 분홍색 실타래 지도(Reddit Maps) — 손가락을 따라가기만 하면 곧장 도착한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-그래프 데이터베이스 관계 모델링 지식 그래프의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+Neo4j 5.x의 아키텍처는 **Layered Storage** 위에서 **Causal Cluster**가 Bolt 5.0으로 클라이언트에 서비스를 제공한다. 내부적으로는 페이지 캐시(Page Cache, 기본 Heap의 50% 할당), 라벨/관계 타입별 커서, 트랜잭션 상태 머신(OPTIMISTIC Concurrency + Deadlock Detection by wait-for graph), APOC/AuraDS 같은 Procedure Library로 구성된다.
 
 ```text
-+--------------------------------------------------------------+
-|              Graph Database Knowledge Graph Neo4j 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+                          Neo4j 5.x Causal Cluster Architecture
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │                       Client Driver (Java/Python/JS/Go)              │
+  │                              │ Bolt 5.0 Protocol (TCP/TLS 1.3)      │
+  │                              │ Pipelining + Routing Context          │
+  └──────────────────────────────┼───────────────────────────────────────┘
+                                 ▼
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │   ┌───────────────┐    ┌───────────────┐    ┌───────────────┐        │
+  │   │  Core-1 (LE)  │◄──►│  Core-2       │◄──►│  Core-3 (Foll)│        │
+  │   │ Raft Leader   │    │ Raft Follower │    │ Raft Follower │        │
+  │   └───────┬───────┘    └───────┬───────┘    └───────┬───────┘        │
+  │           │  Tx Replication (Raft, WAL Shipping)    │                │
+  │           ▼                    ▼                    ▼                │
+  │   ┌───────────────┐    ┌───────────────┐    ┌───────────────┐        │
+  │   │  Read Replica │    │  Read Replica │    │  Read Replica │        │
+  │   │   (off-load)  │    │   (off-load)  │    │   (off-load)  │        │
+  │   └───────┬───────┘    └───────┬───────┘    └───────┬───────┘        │
+  │           └────────────────────┼────────────────────┘                │
+  │                                ▼                                     │
+  │   ┌──────────────────────────────────────────────────────────┐       │
+  │   │  Page Cache (Off-heap, Memory-mapped I/O, mmap)          │       │
+  │   │  ─ Label/Type Index ─ Schema Cache ─ Statistics Store    │       │
+  │   └──────────────────────────────────────────────────────────┘       │
+  │                                ▼                                     │
+  │   ┌──────────────────────────────────────────────────────────┐       │
+  │   │  Store Files (per DB)                                    │       │
+  │   │   neostore.nodestore.db      (Fixed 15B/node record)     │       │
+  │   │   neostore.relationshipstore.db (Fixed 33B/rel record)   │       │
+  │   │   neostore.propertystore.db  (Dynamic Property Blocks)   │       │
+  │   │   neostore.labeltokenstore.db / relationship typestore   │       │
+  │   │   neostore.transaction.db    (WAL, 1GB Rolling)          │       │
+  │   │   neostore.counts.db         (Degree-aware Counts)       │       │
+  │   └──────────────────────────────────────────────────────────┘       │
+  └──────────────────────────────────────────────────────────────────────┘
+                                 ▲
+                                 │ Graph Data Science (GDS) — In-memory Graph
+                                 │ APOC 200+ Procedures — Data Integration
+                                 │ Bloom / Browser — Visualization
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Node Store / Relationship Store** | 노드·관계의 Fixed-size Record 저장 | 노드 15B(Next Rel + Next Prop + Label + 1st Rel), 관계 33B(Start/End Node + Type + Prev/Next Rel×2 + 1st Prop). 인접 노드 간 **양방향 포인터**로 저장되어 Index-Free Adjacency 보장. |
+| **Page Cache (Off-heap)** | Hot Page 핫 캐싱, mmap 기반 Zero-copy I/O | Heap 외 영역(Off-heap)에 매핑되어 GC Pause 최소화. 기본 `dbms.memory.pagecache.size=50%` of RAM. 캐시 미스 시 디스크 Random Read 발생. |
+| **Causal Cluster + Raft** | Leader-Follower 합의, Multi-DC Replication | Raft로 Leader Election(1 Core Leader, 나머지 Follower). 모든 쓰기는 Leader 경유, Transaction은 전 Core에 동기 복제(SYNC) 또는 비동기 복제(ASYNC). Read Replica는 최종 일관성(Eventually Consistent). |
+| **Bolt 5.0 Protocol** | 클라이언트-서버 고속 RPC | Binary Frame + Pipelining(다중 쿼리 묶음 전송) + Routing Context(`{address: "neo4j://..."}`). TLS 1.3, Kerberos, SCRAM-SHA-256 인증 지원. RTT < 1 ms LAN, 50+ k req/s 단일 노드 처리. |
+| **Cypher Query Engine** | 패턴 매칭 선언형 질의 | ASCII Art 문법(`(a:PERSON)-[:KNOWS]->(b)`). Logical Plan → Physical Plan 변환 시 Rule-based + Cost-based Optimizer. Cartesian Product 경고 시 `USING INDEX` 힌트 사용. v5부터 `EXPLAIN` / `PROFILE`로 `db.hits` 분석 가능. |
+| **Schema & Statistics** | 라벨/타입/인덱스 메타데이터 | 라벨 토큰(0~2³²) 단위로 분리 저장. Statistics Store는 `dbms.statistics.divergence` 주기(기본 1h)로 갱신되어 Cardinality 추정 정확도 유지. |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**핵심 동작 메커니즘 — Index-Free Adjacency & Multi-hop Traversal**:
+노드 A의 Relationship Record 첫 8바이트에는 A와 연결된 첫 관계의 ID가 저장되어 있다. 쿼리 `MATCH (a)-[*1..6]->(b)` 실행 시 엔진은 (1) 라벨/타입 인덱스로 시작 노드 집합을 좁히고, (2) 시작 노드의 첫 관계 ID로 Hop을 시작, (3) 각 Hop에서 Relationship Record의 `Start Node ID ↔ End Node ID` 포인터로 인접 노드 Record를 O(1)로 Random Read한다. 디스크 Random Read가 발생하긴 하지만, 페이지 캐시 히트 시 Latency는 **마이크로초(μs) 단위**로 떨어진다. RDBMS는 매 Hop마다 Index Lookup + B-Tree Traversal + Hash Join + Materialize가 일어나므로 Latency가 누적된다. 6 hop 기준 RDBMS는 **O(N log N × k)** (k = 평균 Degree), 그래프는 **O(hop × Degree)** 이다.
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+**트랜잭션 모델 (OPTIMISTIC)**:
+기본 Isolation Level은 `READ_COMMITTED`. 쓰기 트랜잭션 시작 시 시작 시점의 Snapshot을 잡고, 커밋 시점에 Lock 충돌을 감지하면 `TransientError`를 던지고 Driver가 자동 재시도(Retry, 기본 3회). `MATCH ... DETACH DELETE`나 깊은 트래버설은 메모리 폭주 위험이 있으므로 `dbms.transaction.concurrent.max_offheap_usage`로 Heap 보호.
+
+- **📢 섹션 요약 비유**: Node Store는 서가의 "책 한 권", Relationship Store는 각 책에 붙은 "다음 책을 가리키는 색인 테이프", Page Cache는 "책상 위 항상 펼쳐두는 사본" — 테이프를 따라가기만 하면 책장 전체를 헤집지 않고도 6권짜리 시리즈를 끝까지 읽을 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-그래프 데이터베이스 관계 모델링 지식 그래프을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 그래프 데이터베이스 관계 모델링 지식 그래프 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 그래프 데이터베이스 관계 모델링 지식 그래프은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 그래프 데이터베이스 관계 모델링 지식 그래프은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 그래프 데이터베이스 관계 모델링 지식 그래프을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-그래프 데이터베이스 관계 모델링 지식 그래프을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 그래프 데이터베이스 관계 모델링 지식 그래프 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 그래프 데이터베이스 관계 모델링 지식 그래프은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 그래프 데이터베이스 관계 모델링 지식 그래프의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 그래프 데이터베이스 관계 모델링 지식 그래프의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-그래프 데이터베이스 관계 모델링 지식 그래프 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 그래프 데이터베이스 관계 모델링 지식 그래프은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| 구분 | **RDBMS (PostgreSQL 16)** | **Document DB (MongoDB 7)** | **Triple Store (RDF/OWL, Stardog)** | **Neo4j 5 (LPG)** |
+| :--- | :--- | :--- | :--- | :--- |
+| **데이터 모델** | 고정 스키마, Table (행/열) | JSON Document, Schema-less | RDF Triple (S-P-O) + Ontology | Labeled Property Graph (노드/관계/속성) |
+| **질의 언어** | SQL (ANSI/PG Dialect) | MQL (Aggregation Pipeline) | SPARQL 1.1 / SPARQL* | Cypher (OpenCypher 5, 2024) |
+| **3 hop 이상 성능** | 매우 느림 (Self-JOIN 폭발) | N/A ($lookup 1~2 level 한계) | 중간 (RDF Index 효율 의존) | 매우 빠름 (Index-Free Adjacency) |
+| **추론(Reasoning)** | 없음 (Trigger로 유사 구현) | 없음 | **내장**(OWL 2 RL/QL, SHACL 검증) | 제한적 (APOC/AuraDS 일부 Procedure) |
+| **스키마 유연성** | 낮음 (Migration 비용 ↑) | 높음 | 중간 (Ontology 강제 가능) | 높음 (Schema Optional, Constraint 가능) |
+| **정합성·트랜잭션** | ACID 완전 지원 | Multi-Document ACID (4.0+) | ACID (DBpedia 일부) | ACID + OPTIMISTIC + Raft |
+| **확장성 모델** | 수직/Read Replica/Partitioning | Sharding (Hash-based) | Sharding (Predicate/Graph) | Causal Cluster (쓰기 Raft, 읽기 Replica) |
+| **적합 워크로드** | OLTP, ERP, 회계 | Catalog, IoT, 사용자 프로파일 | 시맨틱 웹, 신약·온톨로지, Linked Data | 소셜, 사기 탐지, 추천, 지식 그래프, IDD |
+| **Vector / AI 통합** | pgvector (외부) | Atlas Vector Search (내장) | Stardog Voicebox (내장) | **Vector Index (5.11+, 2024)**, GraphRAG, GDS Embeddings |
+| **대표 도입 사례** | 금융 코어 뱅킹 | 전자상거래 카탈로그 | Google Knowledge Graph, BBC, NIH UniProt | Uber
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 269 / 300

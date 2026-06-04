@@ -11,7 +11,7 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 단말로부터 1홉~수십 km 이내의 네트워크 종단(기지국, CO, POP)에 컴퓨팅·스토리지·콘텐츠 캐시를 분산 배치하고, ETSI MEC·3GPP EDGEAPP 표준 기반으로 워크로드를 동적 오케스트레이션하여 중앙 클라우드 대비 RTT를 10~50ms → 1~5ms로 단축하는 **지연시간 최소화형 분산 컴퓨팅 패러다임**입니다.
+> 1. **본질**: 단말로부터 1홉~수십 km 이내의 네트워크 종단(기지국, CO, POP)에 컴퓨팅·스토리지·콘텐츠 캐시를 분산 배치하고, ETSI MEC·3GPP EDGEAPP 표준 기반으로 워크로드를 동적 오케스트레이션하여 중앙 클라우드 대비 RTT를 10~50ms -> 1~5ms로 단축하는 **지연시간 최소화형 분산 컴퓨팅 패러다임**입니다.
 > 2. **가치**: 코어 백홀 대역폭을 30~60% 절감하고, 5G URLLC(uRLLC)·자율주행(20ms 이내), 클라우드 게이밍(10ms 이내), 산업용 TSN(±1μs) 등 **초저지연·대용량 트래픽 요구를 충족**하며, 2026년 기준 전 세계 데이터의 약 50%(약 175ZB 중)가 엣지에서 생성·처리될 것으로 예측됩니다.
 > 3. **판단 포인트**: 엣지 노드 배치 밀도(기지국형 vs CO형 vs Aggregation형), 캐시 일관성 정책(Pull-based vs Push-based vs Hybrid), MEC 호스트 위치 결정(5GC 통합 vs 별도 POP), K8s 기반 경량 오케스트레이터(K3s/KubeEdge/OpenYurt) 선택, UPF Traffic Steering(UL CL·Local Breakout) 설계가 **TCO와 SLA를 결정하는 핵심 트레이드오프**입니다.
 
@@ -40,7 +40,7 @@ tags = ["studynote-ict-convergence"]
       v                                   v
  [EPC/5GC]                         [MEC Host @ CU]
       |                              (UPF, App, Cache)
-      | 코어 전송망                           |  ← 로컬 처리(1~5ms)
+      | 코어 전송망                           |  <- 로컬 처리(1~5ms)
       v                              ↙      ↘
  [집선 라우터]              [Regional MEC]  [Edge CDN POP]
       |                           |              |
@@ -72,36 +72,36 @@ ETSI GS MEC 003 V3.x 표준을 기반으로 한 4계층 참조 아키텍처가 �
 
 ```text
  [ETSI MEC 표준 아키텍처 + 5G 통합]
- ┌────────────────────────────────────────────────────────────┐
- │  L7: MEC Application Layer                                 │
- │  - V2X 서비스, AR/VR 렌더링, 영상 분석, 산업용 AI          │
- │  - 12-factor app + 컨테이너 이미지 (Docker/OCI)           │
- ├────────────────────────────────────────────────────────────┤
- │  L6: MEC Platform Service Layer                            │
- │  - Service Registry, Traffic Rule, DNS Handler             │
- │  - MEC011 Service Mgmt, MEC015 Traffic Influence          │
- │  - Location Service, Bandwidth Mgmt, UE Identity           │
- ├────────────────────────────────────────────────────────────┤
- │  L5: MEC Framework / Virtualization                        │
- │  - Container Runtime: containerd, K3s, KubeEdge runtime    │
- │  - WASM Runtime: WasmEdge, Spin (Fermyon)                  │
- │  - Hypervisor: KVM(보안) / lightweight VM(Firecracker)     │
- ├────────────────────────────────────────────────────────────┤
- │  L4: MEC Host Infrastructure (HW)                          │
- │  - Compute: Intel Xeon D / NVIDIA Jetson AGX / Ampere Altra│
- │  - Storage: NVMe SSD + Tiered Cache(Redis/Memcached)       │
- │  - Network: SR-IOV, DPDK, eBPF, SmartNIC(DPU: BlueField-3) │
- └────────────────────────────────────────────────────────────┘
-           ↑                        ↑
+ +------------------------------------------------------------+
+ |  L7: MEC Application Layer                                 |
+ |  - V2X 서비스, AR/VR 렌더링, 영상 분석, 산업용 AI          |
+ |  - 12-factor app + 컨테이너 이미지 (Docker/OCI)           |
+ +------------------------------------------------------------+
+ |  L6: MEC Platform Service Layer                            |
+ |  - Service Registry, Traffic Rule, DNS Handler             |
+ |  - MEC011 Service Mgmt, MEC015 Traffic Influence          |
+ |  - Location Service, Bandwidth Mgmt, UE Identity           |
+ +------------------------------------------------------------+
+ |  L5: MEC Framework / Virtualization                        |
+ |  - Container Runtime: containerd, K3s, KubeEdge runtime    |
+ |  - WASM Runtime: WasmEdge, Spin (Fermyon)                  |
+ |  - Hypervisor: KVM(보안) / lightweight VM(Firecracker)     |
+ +------------------------------------------------------------+
+ |  L4: MEC Host Infrastructure (HW)                          |
+ |  - Compute: Intel Xeon D / NVIDIA Jetson AGX / Ampere Altra|
+ |  - Storage: NVMe SSD + Tiered Cache(Redis/Memcached)       |
+ |  - Network: SR-IOV, DPDK, eBPF, SmartNIC(DPU: BlueField-3) |
+ +------------------------------------------------------------+
+           ^                        ^
    MEC Orchestrator           MEC Platform Mgr
    (전국/글로벌)              (도메인 단위, 5GC 연동)
-           ↑                        ↑
-   ┌───────┴────────────────────────┴───────┐
-   │  5G Core (5GC) & OSS/BSS                │
-   │  - AMF / SMF / UPF / PCF / NRF          │
-   │  - UPF Local Breakout (UL CL)           │
-   │  - NEF (Network Exposure Function)      │
-   └─────────────────────────────────────────┘
+           ^                        ^
+   +-------+------------------------+-------+
+   |  5G Core (5GC) & OSS/BSS                |
+   |  - AMF / SMF / UPF / PCF / NRF          |
+   |  - UPF Local Breakout (UL CL)           |
+   |  - NEF (Network Exposure Function)      |
+   +-----------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
@@ -113,7 +113,7 @@ ETSI GS MEC 003 V3.x 표준을 기반으로 한 4계층 참조 아키텍처가 �
 | **Edge AI Inference** | 모델 추론을 단말 근처에서 수행 | NVIDIA TensorRT, ONNX Runtime, OpenVINO, TensorFlow Lite, 모델 크기 최적화(Quantization INT8/FP16), NPU(Jetson Orin 100TOPS) 활용 |
 
 **핵심 메커니즘 (3단계)**:
-1. **단말 등록·정책 수신**: UE가 gNB에 Attach → AMF/SMF 통해 PCF가 UE의 **UE Route Selection Policy (URSP)**를 전달 → SMF가 UPF를 선택하고 **Traffic Influence API**(ETSI MEC 015 or 3GPP NEF TRAFFIC_INFLUENCE)를 통해 특정 트래픽을 MEC App으로 Steering
+1. **단말 등록·정책 수신**: UE가 gNB에 Attach -> AMF/SMF 통해 PCF가 UE의 **UE Route Selection Policy (URSP)**를 전달 -> SMF가 UPF를 선택하고 **Traffic Influence API**(ETSI MEC 015 or 3GPP NEF TRAFFIC_INFLUENCE)를 통해 특정 트래픽을 MEC App으로 Steering
 2. **로컬 데이터 네트워크(LDN) 라우팅**: UPF가 N6 인터페이스를 통해 MEC Host의 vLB(virtual Load Balancer)로 트래픽 전달, vLB는 L7(Application Layer) 라우팅(Envoy WASM Filter), 인증(OAuth2/mTLS), 레이트 리밋
 3. **엣지-클라우드 페일오버**: MEC Host CPU 사용률 80% 초과 시 Orchestrator가 **인접 MEC로 워크로드 마이그레이션**(KubeEdge EdgeMesh 기반 서비스 디스커버리), 클라우드 Region은 Cold Standby로 BaaS(Backup as a Service) 제공
 
