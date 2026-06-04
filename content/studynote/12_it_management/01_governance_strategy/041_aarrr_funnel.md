@@ -11,7 +11,7 @@ tags = ["studynote-it-management"]
 
 > **핵심 인사이트**
 > 1. AARRR 퍼널([Pirate Metrics](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/043_aarrr_funnel_pirate_metrics/))은 Dave McClure(500 Startups)가 제안한 고객 여정 5단계 측정 프레임워크로, [Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/)(획득)->Activation(활성화)->[Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/)(유지)->Referral(추천)->Revenue(수익)의 흐름을 정량 지표로 관리한다.
-> 2. [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)([Growth Hacking](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/))은 마케팅·제품·데이터를 통합하여 최소 비용으로 최대 성장을 달성하는 방법론으로, AARRR 퍼널에서 가장 취약한 단계를 찾아 실험(A/B 테스트)으로 빠르게 개선하는 것이 핵심이다.
+> 2. [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/833_growth_hacking/)([Growth Hacking](/knowledge-base/studynote/12_it_management/01_governance_strategy/833_growth_hacking/))은 마케팅·제품·데이터를 통합하여 최소 비용으로 최대 성장을 달성하는 방법론으로, AARRR 퍼널에서 가장 취약한 단계를 찾아 실험(A/B 테스트)으로 빠르게 개선하는 것이 핵심이다.
 > 3. AARRR에서 가장 중요한 단계는 R([Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/))으로, 새 사용자를 끊임없이 획득([Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/))하더라도 유지하지 못하면 "밑 빠진 독에 물 붓기"이며, PMF(Product-Market Fit) 달성 여부가 Retention으로 판별된다.
 
 ---
@@ -54,7 +54,7 @@ AARRR 퍼널 (Pirate Metrics):
 
 ---
 
-## Ⅱ. [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/) 방법론
+## Ⅱ. [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/833_growth_hacking/) 방법론
 
 ```
 그로스 해킹 프레임워크:
@@ -92,7 +92,7 @@ Famous Growth Hacks:
   LinkedIn: 주소록 연동 (Activation + Referral)
 ```
 
-> 📢 **섹션 요약 비유**: [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)은 의사 역할 — AARRR 체크업으로 어느 장기(단계)가 약한지 진단하고, 처방(실험)을 빠르게 적용해 치료.
+> 📢 **섹션 요약 비유**: [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/833_growth_hacking/)은 의사 역할 — AARRR 체크업으로 어느 장기(단계)가 약한지 진단하고, 처방(실험)을 빠르게 적용해 치료.
 
 ---
 
@@ -171,7 +171,7 @@ A/B 테스트 방법론:
 
 ---
 
-## Ⅴ. 실무 시나리오 — [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)
+## Ⅴ. 실무 시나리오 — [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/833_growth_hacking/)
 
 ```
 B2B SaaS A사 그로스 해킹 사례:
@@ -260,7 +260,7 @@ Predictive Churn Prevention
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. AARRR은 손님이 가게에 오는 여정을 5단계로 나눈 것 — 처음 알게 되고([Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/)), 맛보고(Activation), 단골 되고([Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/)), 친구에게 알리고(Referral), 돈 쓰는 것(Revenue)!
-2. [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)은 마치 의사처럼 — 어느 단계가 약한지 데이터로 찾아서(진단), 실험으로 빠르게 고쳐요(치료).
+2. [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/833_growth_hacking/)은 마치 의사처럼 — 어느 단계가 약한지 데이터로 찾아서(진단), 실험으로 빠르게 고쳐요(치료).
 3. 가장 중요한 R은 [Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/) — 새 손님을 계속 데려와도 기존 손님이 떠나면 "밑 빠진 독에 물 붓기"예요!
 
 ---
@@ -269,7 +269,7 @@ Predictive Churn Prevention
 
 **진행 상황**: 73 / 587
 
-<- **이전**: [040. OKR (Objectives and Key Results) — 목표와 핵심 결과](/knowledge-base/studynote/12_it_management/01_governance_strategy/040_okr_objectives_key_results/)
-**다음**: [41. 그로스 해킹 (Growth Hacking)](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/) ->
+<- **이전**: [040. OKR (Objectives and Key Results) — 목표와 핵심 결과](/knowledge-base/studynote/12_it_management/01_governance_strategy/832_okr_objectives_key_results/)
+**다음**: [41. 그로스 해킹 (Growth Hacking)](/knowledge-base/studynote/12_it_management/01_governance_strategy/833_growth_hacking/) ->
 
 ---

@@ -13,7 +13,7 @@ tags = ["studynote-operating-system"]
 
 > 1. **본질**: 단일 인스턴스 환경(각 자원이 오직 1개뿐인 생태계)에서 교착 상태를 예방도 복구도 아닌 "안전 여부 판단 후 승인(회피)"으로 돌파하기 위해, [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))에 미리 짐작하는 <strong>'예약 간선(Claim Edge)'이라는 가상의 점선(미래 요청 화살표)</strong>을 덧대어 그린 위상 수학 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 > 2. **가치**: 프로세스가 "나 저 프린터 나~~중에 필요할 거야"라고 미리 예약(점선 간선)해둔 지도를 토대로, 실제 요청(실선)이 들어왔을 때 이 실선을 그었을 때 <strong>'예약 점선과 꼬여서 전체 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>에 원(Cycle)이 발생(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">Unsafe State</a> 진입)'하는지 O(N^2)의 가벼운 깊이 탐색DFS</strong>로 검사하여 승인 여부를 자른다.
-> 3. **융합**: 복잡한 행렬 계산(뱅커스 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 없이 눈으로 보이는 유향 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Directed [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))에서 오직 '직관적 사이클 탐색'만으로 회피 철학을 100% 명쾌히 증명해 낸 아름다운 초석 모델로 인정받는다.
+> 3. **융합**: 복잡한 행렬 계산(뱅커스 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 없이 눈으로 보이는 유향 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Directed [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/))에서 오직 '직관적 사이클 탐색'만으로 회피 철학을 100% 명쾌히 증명해 낸 아름다운 초석 모델로 인정받는다.
 
 ---
 

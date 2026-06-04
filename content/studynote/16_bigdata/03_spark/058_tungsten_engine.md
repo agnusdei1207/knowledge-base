@@ -19,7 +19,7 @@ tags = ["studynote-bigdata"]
 - **배경**: Spark의 병목 현상이 네트워크/디스크 I/O에서 CPU와 메모리로 이동함에 따라, Java 객체의 높은 메모리 사용량과 GC([Garbage Collection](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)) 부하를 해결하기 위해 등장했다.
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
-- <strong><a href="/knowledge-base/studynote/09_security/uncategorized/610_memory_management/">Memory Management</a> &amp; Binary Processing</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 Java 객체로 변환하지 않고 바이너리 형태로 메모리에 직접 저장한다. Unsafe Row 형식을 사용하여 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 비용을 최소화한다.
+- <strong><a href="/knowledge-base/studynote/09_security/uncategorized/1040_memory_management/">Memory Management</a> &amp; Binary Processing</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 Java 객체로 변환하지 않고 바이너리 형태로 메모리에 직접 저장한다. Unsafe Row 형식을 사용하여 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 비용을 최소화한다.
 - **Cache-aware Computation**: CPU 캐시(L1/L2/L3)의 지역성(Locality)을 고려한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 사용하여 캐시 미스를 줄인다.
 
 ```text

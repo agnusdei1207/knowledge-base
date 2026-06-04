@@ -107,7 +107,7 @@ tags = ["studynote-software-engineering"]
 
 [사이버 레질리언스](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/519_cyber_resilience_architecture/)가 확보된 기업은 [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/) 공격이나 대규모 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 사태 속에서도 최소한의 다운타임으로 비즈니스를 이어감으로써, 멈춰버린 경쟁사들의 고객을 흡수하여 오히려 시장 점유율을 늘리는 전화위복의 기회를 얻는다.
 
-결론적으로 현대의 [소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) 설계는 '어떻게 막을 것인가'에 머무르면 안 된다. 모든 설계의 끝에 항상 <strong>"그래서 이 모듈이 죽으면 어떻게 시스템을 살려낼 것인가?"</strong>를 질문해야 한다. 이것이 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 시대에 시스템 생존성을 보장하는 진정한 아키텍트의 자세다.
+결론적으로 현대의 [소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) 설계는 '어떻게 막을 것인가'에 머무르면 안 된다. 모든 설계의 끝에 항상 <strong>"그래서 이 모듈이 죽으면 어떻게 시스템을 살려낼 것인가?"</strong>를 질문해야 한다. 이것이 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 시대에 시스템 생존성을 보장하는 진정한 아키텍트의 자세다.
 
 - **📢 섹션 요약 비유**: 레질리언스는 터미네이터와 같다. 몸의 일부가 부서지고 팔이 떨어져 나가도, 목표(비즈니스)를 달성하기 위해 멈추지 않고 스스로를 수리하며 전진하는 불사신의 능력이다.
 

@@ -161,7 +161,7 @@ tags = ["studynote-operating-system"]
 | 구분 | [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) 유지 ([호위 효과](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/) 방치) | 선점형/다중 큐 아키텍처 개선 | 개선 효과 |
 |:---|:---|:---|:---|
 | **정량 (평균 대기 시간)**| 긴 작업 뒤에서 수백 배 치솟음 | **수학적으로 일관된 짧은 대기 시간** | P99 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Tail [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 완벽 제어 |
-| **정량 (자원 활용도)**| CPU 또는 I/O가 번갈아 가며 굶음 | CPU와 I/O가 동시에 100% 돌아감 | 하드웨어 인프라 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 극대화 |
+| **정량 (자원 활용도)**| CPU 또는 I/O가 번갈아 가며 굶음 | CPU와 I/O가 동시에 100% 돌아감 | 하드웨어 인프라 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 극대화 |
 | **정성 (UX)** | 앞사람 작업 때문에 내 앱이 멈춤 | 내가 친 키보드가 즉각 반응함 | 대화형(Interactive) 시스템의 본질적 만족 달성 |
 
 ### 미래 전망

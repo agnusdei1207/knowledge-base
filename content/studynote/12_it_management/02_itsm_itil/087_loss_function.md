@@ -131,7 +131,7 @@ tags = ["it_management"]
 
 **진행 상황**: 157 / 587
 
-<- **이전**: [86. OLA (Operational Level Agreement)](/knowledge-base/studynote/12_it_management/02_itsm_itil/086_ola/)
-**다음**: [87. UC (Underpinning Contract)](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) ->
+<- **이전**: [86. OLA (Operational Level Agreement)](/knowledge-base/studynote/12_it_management/02_itsm_itil/870_ola/)
+**다음**: [87. UC (Underpinning Contract)](/knowledge-base/studynote/12_it_management/02_itsm_itil/871_underpinning_contract/) ->
 
 ---

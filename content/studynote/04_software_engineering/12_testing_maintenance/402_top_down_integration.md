@@ -11,7 +11,7 @@ tags = ["studynote-software-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 하향식 통합 (Top-down) - 상위에서 하위로, [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)) 사용은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 1. **본질**: 하향식 통합 (Top-down) - 상위에서 하위로, [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)) 사용은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
 > 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
@@ -25,9 +25,9 @@ tags = ["studynote-software-engineering"]
 메인 메뉴 화면(사용자 UI)이나 핵심 제어(Control) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 1순위로 조립한다. 이렇게 하면 아직 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB) 연결 로직이나 복잡한 계산 알고리즘이 하나도 안 만들어져 있어도, 당장 내일 고객을 불러다가 "자, 로그인 버튼 누르면 이 화면으로 넘어갑니다!"라고 눈으로 보여주는 시연(Demonstration)이 가능해진다.
 
 하지만 큰 문제가 있다. 메인 화면(상위) 코드는 `로그인_확인()`이라는 하위 함수를 호출하게 짜여 있는데, 아직 `로그인_확인()` 함수를 개발하지 못했다면 컴파일조차 되지 않고 뻗어버린다.
-이를 해결하기 위해 껍데기만 있는 <strong>가짜 하위 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">Stub</a>)</strong>을 끼워 넣고 통합을 진행한다.
+이를 해결하기 위해 껍데기만 있는 <strong>가짜 하위 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/">Stub</a>)</strong>을 끼워 넣고 통합을 진행한다.
 
-> 📢 **섹션 요약 비유**: 건물(소프트웨어)을 지을 때 옥상(메인 UI)부터 공중에 띄울 순 없으니 뼈대 철골(제어 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))을 위에서 아래로 먼저 세웁니다. 이때 철골을 받쳐줄 밑바닥 벽돌(하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))이 아직 도착하지 않았다면, 무너지지 않도록 임시 나무토막([스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)/[Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))을 쾅쾅 괴어놓고 공사를 진행하는 아주 우아한 방식입니다.
+> 📢 **섹션 요약 비유**: 건물(소프트웨어)을 지을 때 옥상(메인 UI)부터 공중에 띄울 순 없으니 뼈대 철골(제어 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))을 위에서 아래로 먼저 세웁니다. 이때 철골을 받쳐줄 밑바닥 벽돌(하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))이 아직 도착하지 않았다면, 무너지지 않도록 임시 나무토막([스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)/[Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/))을 쾅쾅 괴어놓고 공사를 진행하는 아주 우아한 방식입니다.
 
 ---
 
@@ -58,13 +58,13 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-하향식 통합 시험을 할 때 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">스텁</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">Stub</a>)</strong>은 절대 없어서는 안 될 필수 요소이자 면접 단골 질문이다.
+하향식 통합 시험을 할 때 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/">스텁</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/">Stub</a>)</strong>은 절대 없어서는 안 될 필수 요소이자 면접 단골 질문이다.
 
-* <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">스텁</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">Stub</a>)이란?</strong>
-  - "내가 짠 상위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 호출할, <strong>아직 안 만들어진 하위 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>의 역할을 흉내 내는 가짜 프로그램(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/">더미</a> 객체)</strong>"
-* <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">스텁</a>의 역할</strong>
-  - 복잡한 로직은 0%다. 메인 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 `DB_조회(회원ID)`를 호출하면, [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)은 DB를 뒤지는 척도 안 하고 그냥 무조건 `return "홍길동";` 이라고 하드코딩된 대답만 앵무새처럼 뱉어준다.
-  - 이 깡통 대답 덕분에, 상위 메인 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 "아, 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이랑 연결이 잘 되었구나!"라고 착각하고 에러 없이 테스트를 마칠 수 있다. 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 개발이 끝나면 [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)을 빼고 진짜 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로 갈아 끼운다(통합).
+* <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/">스텁</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/">Stub</a>)이란?</strong>
+  - "내가 짠 상위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 호출할, <strong>아직 안 만들어진 하위 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>의 역할을 흉내 내는 가짜 프로그램(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/">더미</a> 객체)</strong>"
+* <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/">스텁</a>의 역할</strong>
+  - 복잡한 로직은 0%다. 메인 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 `DB_조회(회원ID)`를 호출하면, [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)은 DB를 뒤지는 척도 안 하고 그냥 무조건 `return "홍길동";` 이라고 하드코딩된 대답만 앵무새처럼 뱉어준다.
+  - 이 깡통 대답 덕분에, 상위 메인 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 "아, 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이랑 연결이 잘 되었구나!"라고 착각하고 에러 없이 테스트를 마칠 수 있다. 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 개발이 끝나면 [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)을 빼고 진짜 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로 갈아 끼운다(통합).
 
 - **📢 섹션 요약 비유**: 하향식 통합 (Top-down)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -88,7 +88,7 @@ tags = ["studynote-software-engineering"]
 
 **[ 단점 (I/O 병목) ]**
 1. **밑바닥 하드웨어/DB 테스트가 너무 늦음**: 실제 키보드 입력, 마우스 클릭, DB 입출력(I/O)은 맨 밑바닥(하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))에서 일어난다. 위에서부터 조립해 내려오므로, 이 중요한 입출력 처리가 프로젝트 최후반부에나 조립된다. 만약 밑바닥 DB [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 설계가 잘못되었다면, 결국 뼈대부터 다 갈아엎어야 하는 대참사가 벌어진다.
-2. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">스텁</a> 작성의 고통</strong>: 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 100개면 [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)도 100개를 짜야 한다. 너무 복잡한 [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)을 짜다 보면 "가짜 부품 만드느라 진짜 부품 만들 시간이 없다"는 본말전도가 일어난다.
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/">스텁</a> 작성의 고통</strong>: 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 100개면 [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)도 100개를 짜야 한다. 너무 복잡한 [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)을 짜다 보면 "가짜 부품 만드느라 진짜 부품 만들 시간이 없다"는 본말전도가 일어난다.
 
 ---
 
@@ -103,7 +103,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 "그림을 그릴 때 윤곽선(스케치)부터 잡는 가장 우아한 조입법."
-하향식 통합(Top-down Integration)은 단순히 코드의 조립 순서를 넘어, 소프트웨어 개발의 '가치 인도(Value Delivery)' 우선순위를 잘 보여주는 전략이다. 고객은 밑바닥의 DB 접속 코드가 얼마나 빠른지보다, 당장 내 눈앞의 화면이 어떻게 넘어가는지에 관심이 많다. [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))이라는 가짜 희생양을 제물로 바쳐 상위 제어 흐름의 뼈대를 빠르게 검증하는 이 기법은, 전체 구조의 안정성을 중시하는 전통적인 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 교과서적 표본이다.
+하향식 통합(Top-down Integration)은 단순히 코드의 조립 순서를 넘어, 소프트웨어 개발의 '가치 인도(Value Delivery)' 우선순위를 잘 보여주는 전략이다. 고객은 밑바닥의 DB 접속 코드가 얼마나 빠른지보다, 당장 내 눈앞의 화면이 어떻게 넘어가는지에 관심이 많다. [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/))이라는 가짜 희생양을 제물로 바쳐 상위 제어 흐름의 뼈대를 빠르게 검증하는 이 기법은, 전체 구조의 안정성을 중시하는 전통적인 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 교과서적 표본이다.
 
 ---
 
@@ -126,7 +126,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 하향식 통합 (Top-down)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

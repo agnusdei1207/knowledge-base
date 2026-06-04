@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 496 / 587
 
-<- **이전**: [327. CDC 변경 데이터 캡처 DB 동기화](/knowledge-base/studynote/12_it_management/05_security_compliance/327_cdc_db/)
-**다음**: [328. 정보시스템 감리 3대 목적 절차 산출물 성과](/knowledge-base/studynote/12_it_management/05_security_compliance/328_information_system_audit_3objectives/) ->
+<- **이전**: [327. CDC 변경 데이터 캡처 DB 동기화](/knowledge-base/studynote/12_it_management/05_security_compliance/968_cdc_db/)
+**다음**: [328. 정보시스템 감리 3대 목적 절차 산출물 성과](/knowledge-base/studynote/12_it_management/05_security_compliance/969_information_system_audit_3objectives/) ->
 
 ---

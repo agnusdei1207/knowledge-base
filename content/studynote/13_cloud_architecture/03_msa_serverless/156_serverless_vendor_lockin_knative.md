@@ -93,7 +93,7 @@ AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>적 락인 허용</strong>: 단일 벤더 올인으로 생산성 극대화, 탈출 비용은 장기 계획에 반영
 - **아키텍처적 격리**: 비즈니스 로직을 벤더 API와 분리 ([헥사고날 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/216_hexagonal_architecture_ports_and_adapters/) 적용)
 - **Knative 하이브리드**: [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)·멀티클라우드 요구 시 Knative로 동일 [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 환경 구현
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/454_portability_test/">이식성 테스트</a></strong>: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인에 다른 환경 실행 테스트 포함
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/846_portability_test/">이식성 테스트</a></strong>: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인에 다른 환경 실행 테스트 포함
 
 **기술사 시험 포인트**
 - 벤더 락인의 세 유형(기술적, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 계약적)을 구분하고 [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 맥락에서 설명
@@ -122,7 +122,7 @@ AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_
 | CloudEvents | [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 이벤트 표준, 벤더 중립 이식성 |
 | OpenFaaS | Knative 대안 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 프레임워크 |
 | [헥사고날 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/216_hexagonal_architecture_ports_and_adapters/) | 비즈니스 로직을 외부 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)에서 격리 |
-| [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) ([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) Computing Foundation) | [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 표준 관리 단체 |
+| [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) ([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) Computing Foundation) | [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 표준 관리 단체 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 벤더 락인은 특정 회사 게임기 전용 게임 — PS5 게임은 Xbox에서 못 해요, 클라우드 함수도 마찬가지예요.

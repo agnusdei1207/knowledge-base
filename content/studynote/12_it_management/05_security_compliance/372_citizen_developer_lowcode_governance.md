@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 584 / 587
 
-<- **이전**: [371. 플랫폼 비즈니스 양면 시장 수수료 모델 아키텍처 IT 거버넌스](/knowledge-base/studynote/12_it_management/05_security_compliance/371_platform_business_two_sided_governance/)
-**다음**: [372. 시민 개발자 로우코드 거버넌스 및 섀도우 IT 양성화 통제 방안](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) ->
+<- **이전**: [371. 플랫폼 비즈니스 양면 시장 수수료 모델 아키텍처 IT 거버넌스](/knowledge-base/studynote/12_it_management/05_security_compliance/1012_platform_business_two_sided_governance/)
+**다음**: [372. 시민 개발자 로우코드 거버넌스 및 섀도우 IT 양성화 통제 방안](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) ->
 
 ---

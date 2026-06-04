@@ -56,11 +56,11 @@ XP는 5가지 가치 위에 12가지 실천을 얹어 품질을 높인다.
 | :-- | :-- |
 | [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) | 테스트 먼저 |
 | [Pair Programming](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/074_pair_programming_driver_navigator/) | 짝 프로그래밍 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) | [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/) |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) | [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/) |
 
 | 특징 | 설명 |
 | :-- | :-- |
-| [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) Feedback | 빠른 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/) Feedback | 빠른 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | [Refactoring](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/) | 개선 |
 
 XP는 스크럼보다 개발 실천에 더 깊게 들어간다.
@@ -84,7 +84,7 @@ XP는 스크럼보다 개발 실천에 더 깊게 들어간다.
 - 가치 없이 실천만 외우는 설계
 - TDD와 단순 테스트를 혼동하는 설계
 - 짝 프로그래밍을 형식으로만 보는 설계
-- [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 없이 XP를 말하는 설계
+- [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 없이 XP를 말하는 설계
 
 기술사 관점에서는 XP를 "기술 실천 중심 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)"로 설명해야 한다.
 

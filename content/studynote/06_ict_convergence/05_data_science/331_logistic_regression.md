@@ -36,7 +36,7 @@ tags = ["studynote-ict-convergence"]
 
 이 그림에서 기억할 점은 이 개념이 단순 기능이 아니라 배경 문제를 운영 가능한 구조로 번역하는 중간 계층이라는 사실이다. 그래서 공부할 때도 정의만 외우기보다, 무엇이 부족했고 이 개념이 그 부족함을 어디서 보완하는지 먼저 잡는 편이 효과적이다.
 
-- **📢 섹션 요약 비유**: 숫자 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)에서 단서를 찾는 탐정과 같다.
+- **📢 섹션 요약 비유**: 숫자 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)에서 단서를 찾는 탐정과 같다.
 
 ---
 

@@ -77,13 +77,13 @@ XP는 5가지 핵심 가치(의사소통, 단순함, 피드백, 용기, 존중)�
 
 ## Ⅲ. 비교 및 연결
 
-애자일을 대표하는 쌍두마차는 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/">스크럼</a>(<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/">Scrum</a>)</strong>과 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/">XP</a>(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/">Extreme Programming</a>)</strong>다. 둘은 완벽한 콤비다.
+애자일을 대표하는 쌍두마차는 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/">스크럼</a>(<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/">Scrum</a>)</strong>과 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/">XP</a>(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/">Extreme Programming</a>)</strong>다. 둘은 완벽한 콤비다.
 
-| 비교 항목 | [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) ([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)) | 익스트림 프로그래밍 ([XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/)) |
+| 비교 항목 | [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) ([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/)) | 익스트림 프로그래밍 ([XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/)) |
 |:---|:---|:---|
-| **핵심 포커스** | <strong>프로젝트 관리 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)</strong> | **기술적 실천 방법 (엔진ering)** |
+| **핵심 포커스** | <strong>프로젝트 관리 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/">Management</a>)</strong> | **기술적 실천 방법 (엔진ering)** |
 | **주요 역할자** | [스크럼 마스터](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/064_scrum_master_sm/), 프로덕트 오너(PO) | 개발자 (엔지니어 중심) |
-| **주요 도구** | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/), 데일리 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/), 회고 | [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/), [페어 프로그래밍](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/074_pair_programming_driver_navigator/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/), [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) |
+| **주요 도구** | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/), 데일리 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/), 회고 | [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/), [페어 프로그래밍](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/074_pair_programming_driver_navigator/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/), [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) |
 | **강점** | "어떻게 일정을 관리하고 회의할 것인가?" | "어떻게 버그 없이 코드를 예쁘게 짤 것인가?" |
 
 실무에서는 <strong>"겉껍데기(회의와 일정 관리)는 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/">스크럼</a>으로 돌리고, 그 안에서 개발자들이 실제로 코드를 짜는 방식은 XP를 쓴다"</strong>는 하이브리드 조합이 전 세계의 표준이다.
@@ -114,7 +114,7 @@ XP의 12가지 실천 방법 중, 한국 기업 문화에서 가장 정착하기
 
 XP를 조직에 완벽하게 내재화하면, 퇴사자가 발생해도 프로젝트가 멈추지 않는다. [페어 프로그래밍](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/074_pair_programming_driver_navigator/)과 코드 공동 소유를 통해 모든 팀원의 머릿속에 시스템 구조가 100% 동기화되어 있기 때문이다([버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 팩터 향상). 또한 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 덕분에 배포 전날에 밤새워 버그를 잡는 일도 영원히 사라진다.
 
-결론적으로 XP는 인간(개발자)의 한계를 철저히 인정한 방법론이다. "인간은 실수한다. 혼자 짜면 버그를 내고, 코드를 묵혀두면 썩는다." 기술 리더는 이 불완전함을 극복하기 위해, 혼자 하지 말고 같이 하고(Pair), 나중에 하지 말고 지금 당장 합치고 테스트하는([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/), [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)) 극한의 규율을 팀에 이식해야 한다.
+결론적으로 XP는 인간(개발자)의 한계를 철저히 인정한 방법론이다. "인간은 실수한다. 혼자 짜면 버그를 내고, 코드를 묵혀두면 썩는다." 기술 리더는 이 불완전함을 극복하기 위해, 혼자 하지 말고 같이 하고(Pair), 나중에 하지 말고 지금 당장 합치고 테스트하는([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/), [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)) 극한의 규율을 팀에 이식해야 한다.
 
 - **📢 섹션 요약 비유**: 시험공부를 한 달 전부터 혼자 도서관에서 하면 꼭 딴짓을 하거나 시험 전날 밤을 새운다. XP는 친구랑 둘이 짝을 지어서(페어), 매일 10분씩 복습하고([지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)), 쪽지시험을 미리 쳐보는([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)) 아주 독하지만 절대 실패하지 않는 기숙학원 공부법이다.
 
@@ -168,6 +168,6 @@ XP 테스트 주도 개발 (TDD) 리팩토링 개념 정립
 **진행 상황**: 831 / 973
 
 <- **이전**: [661. 칸반 WIP (Work In Progress) 제한](/knowledge-base/studynote/04_software_engineering/uncategorized/661_kanban_wip_limit/)
-**다음**: [662. XP 테스트 주도 개발 (TDD) 리팩토링](/knowledge-base/studynote/04_software_engineering/uncategorized/662_xp_tdd_refactoring/) ->
+**다음**: [662. XP 테스트 주도 개발 (TDD) 리팩토링](/knowledge-base/studynote/04_software_engineering/uncategorized/970_xp_tdd_refactoring/) ->
 
 ---

@@ -62,7 +62,7 @@ tags = ["studynote-ai"]
 
 | 연결 기준 | 군집 간 거리 정의 | 특성 | 문제점 |
 |:---|:---|:---|:---|
-| 단순 연결 (Single) | 최소 거리 | 비구형 탐지 가능 | 연쇄 효과([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/)) |
+| 단순 연결 (Single) | 최소 거리 | 비구형 탐지 가능 | 연쇄 효과([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/)) |
 | 완전 연결 (Complete) | 최대 거리 | 컴팩트 구형 군집 | [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 영향 큼 |
 | 평균 연결 (Average) | 평균 거리 | 균형 잡힌 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | - |
 | [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 연결 (Ward) | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 증가 최소화 | 구형, 균일 크기 | [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 민감 |

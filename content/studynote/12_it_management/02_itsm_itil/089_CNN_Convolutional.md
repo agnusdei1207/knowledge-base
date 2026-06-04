@@ -151,7 +151,7 @@ YOLO (실시간 객체 탐지) · ViT (비전 트랜스포머 융합)
 
 **진행 상황**: 161 / 587
 
-<- **이전**: [88. 서비스 카탈로그 (Service Catalog)](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/)
-**다음**: [89. 구성 관리 (Configuration Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) ->
+<- **이전**: [88. 서비스 카탈로그 (Service Catalog)](/knowledge-base/studynote/12_it_management/02_itsm_itil/872_service_catalog/)
+**다음**: [89. 구성 관리 (Configuration Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/873_configuration_management/) ->
 
 ---

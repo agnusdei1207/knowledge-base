@@ -11,14 +11,14 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)([Load Test](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/))의 목적은 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) 위치를 정확히 특정하는 것이며, 단순히 "느리다"는 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 아닌 **CPU·메모리·디스크 I/O·네트워크** 중 어디가 포화 상태인지를 진단해야 한다.
+> 1. **본질**: [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/)([Load Test](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/))의 목적은 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) 위치를 정확히 특정하는 것이며, 단순히 "느리다"는 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 아닌 **CPU·메모리·디스크 I/O·네트워크** 중 어디가 포화 상태인지를 진단해야 한다.
 > 2. **가치**: 병목 위치를 오판하면 비용만 낭비된다. CPU 병목인데 DB 서버를 증설하거나, [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)([Memory Leak](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/))인데 CPU를 업그레이드하는 실수가 실무에서 빈번하다.
-> 3. **판단 포인트**: [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) 중 CPU 사용률 70% 미만, 메모리 점진적 증가, 디스크 I/O Wait 20% 초과, 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) 70% 초과 여부를 지표별로 독립 진단한다.
+> 3. **판단 포인트**: [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/) 중 CPU 사용률 70% 미만, 메모리 점진적 증가, 디스크 I/O Wait 20% 초과, 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) 70% 초과 여부를 지표별로 독립 진단한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
-[부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)([Load Test](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/))는 시스템이 목표 부하 조건에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표를 달성하는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 테스트다. 감리 맥락에서는 단순 "테스트 수행 여부"가 아니라, 테스트 결과를 바탕으로 병목 원인이 명확히 진단되고 조치되었는지를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+[부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/)([Load Test](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/))는 시스템이 목표 부하 조건에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표를 달성하는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 테스트다. 감리 맥락에서는 단순 "테스트 수행 여부"가 아니라, 테스트 결과를 바탕으로 병목 원인이 명확히 진단되고 조치되었는지를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 
 | 병목 유형 | 증상 | 진단 도구 |
 |:---|:---|:---|
@@ -133,11 +133,11 @@ $ netstat -s | grep retransmit      # TCP 재전송 수
 ## Ⅳ. 실무 적용 및 기술사 판단
 | 점검 항목 | [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 방법 | 판정 기준 |
 |:---|:---|:---|
-| 부하 [테스트 시나리오](/knowledge-base/studynote/04_software_engineering/11_testing_validation/442_test_scenario/) 적절성 | 테스트 계획서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 실제 업무 패턴 반영 |
+| 부하 [테스트 시나리오](/knowledge-base/studynote/04_software_engineering/11_testing_validation/834_test_scenario/) 적절성 | 테스트 계획서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 실제 업무 패턴 반영 |
 | 목표 TPS 달성 여부 | 테스트 결과 리포트 | 목표 TPS 이상 |
 | 병목 원인 분석 보고서 | 증빙 문서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 리소스별 지표 포함 |
 | CPU 사용률 | 테스트 중 모니터링 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) | 최대 70% 이하 |
-| [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 여부 | 8시간 [내구성 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/449_endurance_soak_test/) 결과 | 메모리 우상향 없음 |
+| [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 여부 | 8시간 [내구성 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/841_endurance_soak_test/) 결과 | 메모리 우상향 없음 |
 | I/O Wait | iostat [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) | 20% 미만 |
 | 조치 완료 여부 | 재테스트 결과 | 목표치 달성 |
 
@@ -165,14 +165,14 @@ $ netstat -s | grep retransmit      # TCP 재전송 수
 
 확장 방향은 ① [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), ② Continuous [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/), ③ [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), [Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 기반 이상 탐지와 결합하는 것이다.
 
-- **📢 섹션 요약 비유**: [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) 병목 감리는 "운동선수의 신체 검사"다. 심폐 기능(CPU), 체지방(메모리), 관절(디스크), 순환계(네트워크) 중 어디가 약한지를 정확히 찾아야 올바른 훈련 처방이 나온다.
+- **📢 섹션 요약 비유**: [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/) 병목 감리는 "운동선수의 신체 검사"다. 심폐 기능(CPU), 체지방(메모리), 관절(디스크), 순환계(네트워크) 중 어디가 약한지를 정확히 찾아야 올바른 훈련 처방이 나온다.
 
 ---
 
 ### 📌 관련 개념 맵
 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
-| 상위 개념 | [성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/) ([Performance Test](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/)) | [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)의 상위 범주 |
+| 상위 개념 | [성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/837_performance_test_types/) ([Performance Test](/knowledge-base/studynote/04_software_engineering/11_testing_validation/837_performance_test_types/)) | [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/)의 상위 범주 |
 | 상위 개념 | USE 방법론 | 리소스 진단 프레임워크 |
 | 하위 개념 | [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) ([Memory Leak](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)) | 힙 덤프 분석으로 진단 |
 | 하위 개념 | I/O Wait | 디스크 I/O 병목 핵심 지표 |
@@ -181,7 +181,7 @@ $ netstat -s | grep retransmit      # TCP 재전송 수
 | 연관 개념 | GC ([Garbage Collection](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)) | [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 진단의 선행 지표 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-부하 시나리오 -> [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) 병목 진단 -> 원인별 튜닝·재시험
+부하 시나리오 -> [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/) 병목 진단 -> 원인별 튜닝·재시험
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 컴퓨터가 느려질 때는 원인이 CPU(두뇌), 메모리(책상), 디스크(책장), 네트워크(도로) 중 하나인데, 어디가 막혔는지 정확히 찾아야 해.

@@ -11,7 +11,7 @@ tags = ["studynote-database"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 단점은 [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/)(Insert, Update, Delete) 시 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 수정 오버헤드 발생에 초점을 맞춘 개념이다.
+> 1. **본질**: [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 단점은 [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/)(Insert, Update, Delete) 시 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 수정 오버헤드 발생에 초점을 맞춘 개념이다.
 > 2. **가치**: 대용량 질의에서는 같은 SQL도 접근 경로와 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)에 따라 비용이 크게 달라진다.
 > 3. **판단 포인트**: 판단 포인트는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 단점을 어디에 적용해야 효과가 크고, 어떤 비용이나 제약이 따라오는지 함께 보는 데 있다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 단점은 [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/)(Insert, Update, Delete) 시 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 수정 오버헤드 발생에 초점을 맞춘 개념이다. 대용량 질의에서는 같은 SQL도 접근 경로와 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)에 따라 비용이 크게 달라진다. 잘못 쓰면 Full Scan, 정렬, 랜덤 I/O가 한꺼번에 늘어난다.
+[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 단점은 [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/)(Insert, Update, Delete) 시 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 수정 오버헤드 발생에 초점을 맞춘 개념이다. 대용량 질의에서는 같은 SQL도 접근 경로와 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)에 따라 비용이 크게 달라진다. 잘못 쓰면 Full Scan, 정렬, 랜덤 I/O가 한꺼번에 늘어난다.
 
 ```text
 +--------------------------------------------------------------+

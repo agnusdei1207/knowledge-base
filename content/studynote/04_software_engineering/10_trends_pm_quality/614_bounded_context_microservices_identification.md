@@ -28,7 +28,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **모놀리식 모델의 한계**: 거대한 단일 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델에서는 엔티티 (Entity)가 너무 많은 책임을 가지게 된다 (예: God Class). 하나의 'User' 클래스에 배송, 결제, 고객 응대 로직이 모두 집중되면 코드 수정 시 예상치 못한 부작용 (Side-effect)이 발생한다.
   2. **DDD의 도입**: 에릭 에반스 (Eric Evans)는 시스템을 의미적으로 분리하는 [바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) 개념을 제시하여, 각 모델이 자신의 경계 내에서만 유효하도록 설계의 복잡성을 제어했다.
-  3. **MSA와의 결합**: [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경이 발전하면서, [바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) 1개가 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 1개 (또는 소수의 밀접한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 그룹)와 1:1 매핑되는 것이 가장 이상적인 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 설계 패러다임으로 자리 잡았다.
+  3. **MSA와의 결합**: [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경이 발전하면서, [바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) 1개가 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 1개 (또는 소수의 밀접한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 그룹)와 1:1 매핑되는 것이 가장 이상적인 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 설계 패러다임으로 자리 잡았다.
 
 - **📢 섹션 요약 비유**: 큰 병원을 내과, 외과, 소아과로 나누고 각 과마다 전용 차트(언어)와 진료실(경계)을 두어, 다른 과의 업무 방식에 간섭받지 않고 환자를 치료하는 것과 같습니다.
 
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 기준은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

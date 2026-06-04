@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: IAST(상호작용 테스팅)는 '회충 약'이나 '내시경 카메라(에이전트)'를 서버에 먹인 상태로 테스트하는 것이다. 자바(Java) 서버라면 부팅할 때 `-javaagent:iast.jar` 옵션을 달아 띄운다. 그러면 이 에이전트가 서버의 모든 혈관([함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/), DB [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))에 딱 달라붙어 도청을 시작한다. QA 테스터나 자동화 툴이 밖에서 평범하게 앱의 버튼을 클릭하면, 뱃속에 있는 IAST 에이전트가 "어? 방금 들어온 입력값이 `ResultSet` 객체를 뚫고 지나가면서 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 독극물을 퍼뜨렸어! 당장 이 코드 23번 줄이야!"라며 실시간으로 관제탑에 범인을 밀고(Interactive)한다.
+- **개념**: IAST(상호작용 테스팅)는 '회충 약'이나 '내시경 카메라(에이전트)'를 서버에 먹인 상태로 테스트하는 것이다. 자바(Java) 서버라면 부팅할 때 `-javaagent:iast.jar` 옵션을 달아 띄운다. 그러면 이 에이전트가 서버의 모든 혈관([함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/), DB [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))에 딱 달라붙어 도청을 시작한다. QA 테스터나 자동화 툴이 밖에서 평범하게 앱의 버튼을 클릭하면, 뱃속에 있는 IAST 에이전트가 "어? 방금 들어온 입력값이 `ResultSet` 객체를 뚫고 지나가면서 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 독극물을 퍼뜨렸어! 당장 이 코드 23번 줄이야!"라며 실시간으로 관제탑에 범인을 밀고(Interactive)한다.
 
 - **필요성**: 보안팀의 가장 큰 딜레마. "[SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)(코드 읽기)를 돌리면 가짜 경고가 만 개 떠서 개발자가 파업하고, [DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)(밖에서 공격)를 돌리면 에러는 났는데 코드를 못 고치겠대!" 이 지옥 같은 한계를 극복해야 했다. <strong>해커가 진짜 공격(실전)을 날렸을 때의 치명적 팩트(DAST의 장점)</strong>와, **코드 어디를 어떻게 고치면 되는지 명확히 짚어주는 내비게이션(SAST의 장점)**, 이 양극단의 두 마리 토끼를 단 하나의 툴로 포획하기 위해 발명된 신기술이 IAST다.
 
@@ -120,7 +120,7 @@ IAST (Interactive Application [Security](/knowledge-base/studynote/04_software_e
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 IAST (Interactive Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ IAST (Interactive Application Security Testing) 개념 정립
 
 **진행 상황**: 578 / 973
 
-<- **이전**: [493. IAST (Interactive Application Security Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/493_iast/)
-**다음**: [494. RASP (Runtime Application Self-Protection)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/494_rasp/) ->
+<- **이전**: [493. IAST (Interactive Application Security Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/885_iast/)
+**다음**: [494. RASP (Runtime Application Self-Protection)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/886_rasp/) ->
 
 ---

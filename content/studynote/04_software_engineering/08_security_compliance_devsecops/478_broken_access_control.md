@@ -28,9 +28,9 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. <strong>단순 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>의 시대</strong>: 과거엔 ID/PW 뚫는 것 자체가 힘들어, 로그인만 통과하면 내부망은 신뢰(Trust)하는 바보 같은 낭만의 시대였다.
   2. <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/418_idor/">IDOR</a> (안전하지 않은 직접 객체 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>)의 유행</strong>: 2010년대 해커들이 URL 파라미터(`id=1` -> `id=2`)만 바꾸면 남의 정보가 술술 새어 나오는 마법의 꿀통([IDOR](/knowledge-base/studynote/09_security/05_web_app_security/418_idor/))을 발견하고 미친 듯이 털어먹기 시작했다. (웹 해킹의 르네상스)
-  3. **OWASP 부동의 1위 지배 (현재)**: 클라우드와 MSA로 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통신이 수천 개로 폭발하면서, 모든 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 구멍마다 권한([인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))을 깐깐히 체크하는 것을 개발자들이 빼먹기 시작했다. 결국 [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)([Injection](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/))을 밀어내고 2021년 영광의 해킹 수법 1위 왕좌에 등극했다.
+  3. **OWASP 부동의 1위 지배 (현재)**: 클라우드와 MSA로 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통신이 수천 개로 폭발하면서, 모든 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 구멍마다 권한([인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))을 깐깐히 체크하는 것을 개발자들이 빼먹기 시작했다. 결국 [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/)([Injection](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/))을 밀어내고 2021년 영광의 해킹 수법 1위 왕좌에 등극했다.
 
-- **📢 섹션 요약 비유**: 이것은 <strong>'도둑이 아니라 뻔뻔한 위장 손님'</strong>을 막는 일입니다. 창문을 깨고 들어오는 도둑([인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/))은 프레임워크(방범창)가 막아줍니다. 하지만 멀쩡하게 카드를 찍고 들어온 손님이, 갑자기 사장님 의자에 앉아서 금고 비밀번호를 바꾸려 할 때([권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/)), 그 자리에서 멱살을 잡고 끌어내리는 보이지 않는 내부 경호원(접근 제어 로직)이 없으면 회사는 그날로 파산합니다.
+- **📢 섹션 요약 비유**: 이것은 <strong>'도둑이 아니라 뻔뻔한 위장 손님'</strong>을 막는 일입니다. 창문을 깨고 들어오는 도둑([인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/))은 프레임워크(방범창)가 막아줍니다. 하지만 멀쩡하게 카드를 찍고 들어온 손님이, 갑자기 사장님 의자에 앉아서 금고 비밀번호를 바꾸려 할 때([권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/)), 그 자리에서 멱살을 잡고 끌어내리는 보이지 않는 내부 경호원(접근 제어 로직)이 없으면 회사는 그날로 파산합니다.
 
 ---
 
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [Broken Access Control](/knowledge-base/studynote/09_security/05_web_app_security/417_broken_access_control/) ([취약한 접근 제어](/knowledge-base/studynote/09_security/05_web_app_security/417_broken_access_control/))은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ Broken Access Control (취약한 접근 제어) 개념 정립
 
 **진행 상황**: 548 / 973
 
-<- **이전**: [478. Broken Access Control (취약한 접근 제어)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/478_broken_access_control/)
-**다음**: [479. Cryptographic Failures (암호화 실패)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/479_cryptographic_failures/) ->
+<- **이전**: [478. Broken Access Control (취약한 접근 제어)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/870_broken_access_control/)
+**다음**: [479. Cryptographic Failures (암호화 실패)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/871_cryptographic_failures/) ->
 
 ---

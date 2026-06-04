@@ -13,7 +13,7 @@ tags = ["design_supervision"]
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 착수 회의(Kick-off Meeting)는 [정보시스템 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/) 시작 시점에 발주자, 피감리인, 감리법인 3자가 모여 감리의 범위, 일정, 상호 협조 사항을 합의하는 공식적 시작점입니다.
 > 2. **가치**: 감리 중 발생할 수 있는 이견을 사전 차단하고, 피감리인의 수검 부담을 경감시키며, 프로젝트 성공이라는 공통 목표를 향한 파트너십을 구축하는 데 기여합니다.
-> 3. **융합**: 프로젝트 관리(PMP)의 의사소통 관리(Communication [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) 및 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 관리([Stakeholder](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))와 밀접하게 연계되며, [요구사항 추적 매트릭스](/knowledge-base/studynote/04_software_engineering/03_design_architecture/157_requirements_traceability_matrix_rtm/)([RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/))의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)합니다.
+> 3. **융합**: 프로젝트 관리(PMP)의 의사소통 관리(Communication [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/)) 및 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 관리([Stakeholder](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/))와 밀접하게 연계되며, [요구사항 추적 매트릭스](/knowledge-base/studynote/04_software_engineering/03_design_architecture/157_requirements_traceability_matrix_rtm/)([RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/))의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)합니다.
 
 ---
 
@@ -67,7 +67,7 @@ tags = ["design_supervision"]
                      (수검 환경, 인터뷰 일정 조율 피드백)
 ```
 
-이 도식에서 핵심은 감리법인과 피감리인 간의 수평적 상호작용(`<======>`)입니다. 이런 배치는 감리가 일방적인 사찰이 아니라 상호 합의된 품질 보증 활동임을 보장하기 때문입니다. 따라서 착수 회의에서 피감리인의 의견(일정 제약, 시스템 환경 등)이 반영되지 않으면, 실지 감리 시 [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/) 수집에 심각한 병목을 초래하게 됩니다.
+이 도식에서 핵심은 감리법인과 피감리인 간의 수평적 상호작용(`<======>`)입니다. 이런 배치는 감리가 일방적인 사찰이 아니라 상호 합의된 품질 보증 활동임을 보장하기 때문입니다. 따라서 착수 회의에서 피감리인의 의견(일정 제약, 시스템 환경 등)이 반영되지 않으면, 실지 감리 시 [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/628_objective_evidence_collection/) 수집에 심각한 병목을 초래하게 됩니다.
 
 착수 회의의 세부 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 절차는 다음과 같습니다:
 1. **개회 및 참석자 소개**: 프로젝트 관련 주요 인력 상호 인사
@@ -146,7 +146,7 @@ tags = ["design_supervision"]
 | **정성적 효과** | 상호 신뢰 구축, 감리 결과에 대한 피감리인 수용성 증대 | [종료 회의](/knowledge-base/studynote/11_design_supervision/01_audit_framework/019_exit_meeting/) 시 이견/이의 제기 건수 감소 |
 | <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 관리</strong> | 프로젝트 내재 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 조기 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 및 감리 포커싱 조정 | [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)된 고위험 이슈 조기 조치율 |
 
-미래의 감리 착수 회의는 대면 보고 위주에서 벗어나, 아키텍처 정보 포털([EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/))이나 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 대시보드를 띄워놓고 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기반으로 논의하는 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 기반 지능형 착수 회의</strong>로 진화할 것입니다. 이를 통해 산출물 준비라는 피감리인의 행정적 부담은 줄어들고, 실질적인 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) 논의가 시작점부터 가능해질 것입니다.
+미래의 감리 착수 회의는 대면 보고 위주에서 벗어나, 아키텍처 정보 포털([EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/))이나 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인 대시보드를 띄워놓고 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기반으로 논의하는 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 기반 지능형 착수 회의</strong>로 진화할 것입니다. 이를 통해 산출물 준비라는 피감리인의 행정적 부담은 줄어들고, 실질적인 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) 논의가 시작점부터 가능해질 것입니다.
 
 > 📢 **섹션 요약 비유**: 잘 꿰어진 첫 단추(착수 회의)는 옷(전체 감리 프로세스)이 맵시 있게 완성되도록 보장하며, 향후 발생할 구김(이견 분쟁)을 최소화하는 가장 비용 효율적인 다림질입니다.
 
@@ -156,7 +156,7 @@ tags = ["design_supervision"]
 * 과업 대비표 ([Task Traceability Matrix](/knowledge-base/studynote/11_design_supervision/01_audit_framework/025_task_traceability_matrix/)) | 착수 회의 시 주요 점검 기준으로 사용되는 기준 문서
 * [예비 조사](/knowledge-base/studynote/11_design_supervision/01_audit_framework/015_preliminary_survey/) ([Preliminary Survey](/knowledge-base/studynote/11_design_supervision/01_audit_framework/015_preliminary_survey/)) | 착수 회의 전 감리 주안점을 도출하기 위한 사전 활동
 * [종료 회의](/knowledge-base/studynote/11_design_supervision/01_audit_framework/019_exit_meeting/) ([Exit Meeting](/knowledge-base/studynote/11_design_supervision/01_audit_framework/019_exit_meeting/)) | 착수 회의에서 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)된 목표가 어떻게 평가되었는지 최종 확인하는 대칭점
-* 의사소통 관리 (Communication [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) | [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 간 정보 전달 및 기대치 관리를 다루는 PM 영역
+* 의사소통 관리 (Communication [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/)) | [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 간 정보 전달 및 기대치 관리를 다루는 PM 영역
 
 
 ### 📈 관련 키워드 및 발전 흐름도

@@ -90,7 +90,7 @@ tags = ["studynote-cloud-architecture"]
 
 | 지표 | 수동 ML 배포 | [Kubeflow](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/) | 개선 |
 |:---|:---|:---|:---|
-| 모델 배포 주기 | 월 1회 | **일 수회** | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 수준 |
+| 모델 배포 주기 | 월 1회 | **일 수회** | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 수준 |
 | 실험 추적 | 수동 엑셀 | <strong>자동 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> 저장</strong> | 재현성 확보 |
 | HP 튜닝 | 수동 그리드 | **Katib 자동 (Bayesian)** | 최적 파라미터 자동 탐색 |
 

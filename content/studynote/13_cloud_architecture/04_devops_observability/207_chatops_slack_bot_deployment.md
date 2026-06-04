@@ -210,7 +210,7 @@ ChatOps는 DevOps의 "협업" 가치를 가장 가시적으로 구현하는 도�
 |:---|:---|
 | Hubot / Slack Bolt | ChatOps 봇 구현의 핵심 프레임워크 |
 | PagerDuty | 인시던트 알림과 ChatOps 연동의 핵심 도구 |
-| [인시던트 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_incident_management/) | ChatOps가 [인시던트 대응](/knowledge-base/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/) 협력의 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 역할 |
+| [인시던트 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/859_incident_management/) | ChatOps가 [인시던트 대응](/knowledge-base/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/) 협력의 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 역할 |
 | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적 ([Audit Trail](/knowledge-base/studynote/11_design_supervision/01_audit_framework/065_audit_trail_worm_storage_compliance/)) | 채팅 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 자동 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 기록이 되는 핵심 가치 |
 | [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/) | 봇 보안 설계의 핵심 원칙 |
 | 포스트모템 | 채팅 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 포스트모템 타임라인 자료로 활용 |

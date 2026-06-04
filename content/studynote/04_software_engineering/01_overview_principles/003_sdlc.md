@@ -14,7 +14,7 @@ tags = ["software_engineering"]
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 소프트웨어의 탄생(요구사항 수집)부터 폐기까지의 전 과정을 규격화하여, 예측 가능하고 통제 가능한 단계로 분할한 표준 프레임워크.
 > 2. **가치**: 대규모 프로젝트에서 각 단계별 산출물과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 지점을 명확히 함으로써, 품질 저하를 예방하고 비용/일정의 가시성을 확보함.
-> 3. **융합**: SDLC는 개발 방법론(폭포수, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))의 뼈대가 되며, 최근에는 보안을 내재화한 SSDLC([Secure SDLC](/knowledge-base/studynote/04_software_engineering/11_testing_validation/471_secure_sdlc/)) 및 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 파이프라인과 완벽히 융합됨.
+> 3. **융합**: SDLC는 개발 방법론(폭포수, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))의 뼈대가 되며, 최근에는 보안을 내재화한 SSDLC([Secure SDLC](/knowledge-base/studynote/04_software_engineering/11_testing_validation/863_secure_sdlc/)) 및 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 파이프라인과 완벽히 융합됨.
 
 ---
 
@@ -46,7 +46,7 @@ SDLC는 일반적으로 요구사항 분석, 설계, 구현, 테스트, 유지�
 | **1. 요구사항 분석** | 사용자의 'What(무엇을)'을 정의하고 제약 조건을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | 요구사항 명세서 (SRS), Use Case 도출 | 고객의 주문서 작성 |
 | **2. 시스템 설계** | 'How(어떻게)' 구현할지 구조와 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), DB를 설계 | 아키텍처 다이어그램, ERD, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 명세서 | 건축 설계도 작성 |
 | **3. 구현 (Coding)** | 설계도를 바탕으로 실제 작동하는 소스 코드를 작성 | 소스 코드, 모듈별 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 코드 | 시멘트 붓고 벽돌 쌓기 |
-| **4. 테스트 (Test)** | 요구사항과 일치하는지, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 없는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/), [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 보고서, [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) | 안전 점검 및 품질 검사 |
+| **4. 테스트 (Test)** | 요구사항과 일치하는지, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 없는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/), [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 보고서, [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) | 안전 점검 및 품질 검사 |
 | **5. 유지보수 (Maintenance)** | 운영 환경에서 발생하는 버그 수정 및 환경 변화 적응 | 패치 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 릴리즈 노트 | 건물 입주 후 보수 공사 |
 
 ```text
@@ -108,9 +108,9 @@ SDLC를 실무에 적용할 때 가장 주의해야 할 점은 문서 작업 자
 
 | 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) (운영/보안) | 판단 기준 |
 |:---|:---|
-| **보안 내재화 (SSDLC)** | 요구사항 분석 단계부터 보안 [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/)([Threat Modeling](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/))을 수행하는가? |
+| **보안 내재화 (SSDLC)** | 요구사항 분석 단계부터 보안 [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/1041_threat_modeling/)([Threat Modeling](/knowledge-base/studynote/09_security/uncategorized/1041_threat_modeling/))을 수행하는가? |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/">베이스라인</a> 통제</strong> | 각 단계가 끝날 때마다 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) 위원회([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/))의 승인을 거치는가? |
-| **추적성 확보** | [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)가 본래의 요구사항 ID와 완벽하게 맵핑(추적 매트릭스)되는가? |
+| **추적성 확보** | [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/)가 본래의 요구사항 ID와 완벽하게 맵핑(추적 매트릭스)되는가? |
 
 ```text
 [보안이 융합된 실무 SSDLC (Secure SDLC) 흐름도]
@@ -122,7 +122,7 @@ SDLC를 실무에 적용할 때 가장 주의해야 할 점은 문서 작업 자
 (STRIDE)    (아키텍처)  (SAST)     (DAST)      (Patch)
 ```
 **[도식 설명]**
-이 흐름도는 전통적인 SDLC의 각 단계 하단에 보안 활동이 1:1로 결합된 SSDLC(보안 내재화 생명주기)를 보여준다. 과거에는 운영 단계 직전에 모의해킹만 수행했으나, 이는 병목과 엄청난 재작업을 유발한다. 따라서 설계 단계부터 [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/)([STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 등)을 수행하고, 구현 시 [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)([정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/))를 자동화하여 취약점 발생을 원천 차단하는 '[Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)' 전략이 최신 실무의 핵심이다.
+이 흐름도는 전통적인 SDLC의 각 단계 하단에 보안 활동이 1:1로 결합된 SSDLC(보안 내재화 생명주기)를 보여준다. 과거에는 운영 단계 직전에 모의해킹만 수행했으나, 이는 병목과 엄청난 재작업을 유발한다. 따라서 설계 단계부터 [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/1041_threat_modeling/)([STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 등)을 수행하고, 구현 시 [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)([정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/))를 자동화하여 취약점 발생을 원천 차단하는 '[Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)' 전략이 최신 실무의 핵심이다.
 
 📢 **섹션 요약 비유**: 이는 건물을 다 지은 뒤에 소방 점검을 하는 것이 아니라, 설계 단계부터 불연성 자재를 고르고 스프링클러 위치를 도면에 미리 박아넣는 선제적 안전 공학입니다.
 
@@ -135,7 +135,7 @@ SDLC의 확립은 프로젝트의 가시성을 극대화하고 개발 구성원 
 | <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> 가시성</strong> | "거의 다 됐습니다" (블랙박스) | "설계 단계 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) 80% 달성" | 객체적 지표 관리 |
 | **유지보수 용이성** | 원작자 퇴사 시 코드 버림 | 산출물 연계를 통한 인수인계 원활 | 자산화 및 형상관리 |
 
-미래의 SDLC는 DevOps와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인과 완벽히 동기화되어, 분석-설계-구현-테스트가 명확히 분절된 단계가 아니라 하루에도 수십 번씩 톱니바퀴처럼 돌아가는 '지속적 생명주기(Continuous [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))' 형태로 발전하고 있다. 또한 ISO/IEC 12207 (소프트웨어 생명주기 공정 표준)은 조직이 SDLC를 어떻게 테일러링([Tailoring](/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/))하고 성숙시켜야 하는지 글로벌 가이드라인을 제시한다.
+미래의 SDLC는 DevOps와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인과 완벽히 동기화되어, 분석-설계-구현-테스트가 명확히 분절된 단계가 아니라 하루에도 수십 번씩 톱니바퀴처럼 돌아가는 '지속적 생명주기(Continuous [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))' 형태로 발전하고 있다. 또한 ISO/IEC 12207 (소프트웨어 생명주기 공정 표준)은 조직이 SDLC를 어떻게 테일러링([Tailoring](/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/))하고 성숙시켜야 하는지 글로벌 가이드라인을 제시한다.
 
 📢 **섹션 요약 비유**: SDLC는 단순한 족쇄가 아니라, 수많은 톱니바퀴(개발자, 기획자, 테스터)가 엉키지 않고 하나의 거대한 시계탑을 정확하게 굴러가게 만드는 정교한 태엽 장치입니다.
 
@@ -145,7 +145,7 @@ SDLC의 확립은 프로젝트의 가시성을 극대화하고 개발 구성원 
 - [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | SDLC를 관통하는 기본 학문이자 원칙
 - [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/) ([Waterfall Model](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/)) | SDLC를 가장 선형적이고 엄격하게 적용한 고전 모델
 - [애자일 방법론](/knowledge-base/studynote/04_software_engineering/01_overview_principles/012_agile_methodology/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) | SDLC를 짧은 주기로 무한 반복하여 유연성을 극대화한 현대적 접근
-- [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([Configuration Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/)) | [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) 각 단계에서 쏟아지는 산출물과 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)의 변경을 통제
+- [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([Configuration Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/873_configuration_management/)) | [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) 각 단계에서 쏟아지는 산출물과 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)의 변경을 통제
 - 요구공학 ([Requirements 엔진ering](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/)) | SDLC의 첫 단추이자 가장 핵심적인 분석 단계의 전문 분야
 
 ### 📈 관련 키워드 및 발전 흐름도

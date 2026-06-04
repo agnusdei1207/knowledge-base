@@ -141,6 +141,6 @@ tags = ["studynote-it-management"]
 **진행 상황**: 420 / 587
 
 <- **이전**: [286. MECE 논리 트리 중복 누락 배제](/knowledge-base/studynote/12_it_management/05_security_compliance/286_mece_logic_tree/)
-**다음**: [287. PMO 프로젝트 관리 오피스 역할](/knowledge-base/studynote/12_it_management/05_security_compliance/287_pmo_role/) ->
+**다음**: [287. PMO 프로젝트 관리 오피스 역할](/knowledge-base/studynote/12_it_management/05_security_compliance/934_pmo_role/) ->
 
 ---

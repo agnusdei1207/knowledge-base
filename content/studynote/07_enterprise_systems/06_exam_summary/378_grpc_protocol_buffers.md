@@ -48,7 +48,7 @@ tags = ["studynote-enterprise"]
 | :--- | :--- | :--- |
 | [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 버퍼 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 통신 | 요구사항·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·업무 조건을 구조화 | 용어 정의와 책임 주체를 먼저 고정 |
 | [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) [Protocol Buffers](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/535_sync_communication_rest_grpc/) | 실행 절차와 통제 포인트를 연결 | 예외 처리와 승인 기준을 명시 |
-| 운영 지표 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·품질·위험을 측정 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), 비용, 리드타임 등 정량 지표 확보 |
+| 운영 지표 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·품질·위험을 측정 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/), 비용, 리드타임 등 정량 지표 확보 |
 | 운영 피드백 | 재설계 여부를 판단 | 변경 이력과 회고 루프를 남김 |
 
 ```text

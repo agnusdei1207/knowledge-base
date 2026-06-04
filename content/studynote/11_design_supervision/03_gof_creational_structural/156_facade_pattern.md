@@ -49,7 +49,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-파사드 패턴의 핵심 원칙은 최소 지식 원칙([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/110_law_of_demeter/))과 연결된다. 클라이언트가 직접 알아야 하는 클래스 수를 최소화하여 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 낮춘다. 레이어드 아키텍처에서 계층 간 인터페이스로 파사드를 사용하면 계층 간 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)가 감소한다.
+파사드 패턴의 핵심 원칙은 최소 지식 원칙([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/653_law_of_demeter/))과 연결된다. 클라이언트가 직접 알아야 하는 클래스 수를 최소화하여 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 낮춘다. 레이어드 아키텍처에서 계층 간 인터페이스로 파사드를 사용하면 계층 간 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)가 감소한다.
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
@@ -108,7 +108,7 @@ tags = ["studynote-design-supervision"]
 
 한계는 파사드가 모든 기능을 노출하지 않아 고급 사용에 제한이 있을 수 있고, 파사드 자체가 너무 커지면 '신(God) 파사드'가 되어 SRP를 위반할 수 있다.
 
-미래 방향으로는 ① [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/)([Backend for Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/)) 패턴이 마이크로서비스의 파사드로 발전, ② [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway가 외부 클라이언트를 위한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 파사드로 진화하고 있다.
+미래 방향으로는 ① [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/)([Backend for Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/)) 패턴이 마이크로서비스의 파사드로 발전, ② [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway가 외부 클라이언트를 위한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 파사드로 진화하고 있다.
 
 - **📢 섹션 요약 비유**: 리모컨(파사드)은 TV의 복잡한 내부 회로(서브시스템) 없이 사용자(클라이언트)가 TV(서브시스템)를 간단하게 제어하게 해준다.
 
@@ -122,12 +122,12 @@ tags = ["studynote-design-supervision"]
 |:---|:---|
 | [어댑터 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/383_adapter_pattern_summary/) | 인터페이스 변환 (파사드는 단순화) |
 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 | 마이크로서비스의 외부용 파사드 |
-| [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) 패턴 | 클라이언트별 최적화된 파사드 |
-| [Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/110_law_of_demeter/) | 파사드로 달성하는 최소 지식 원칙 |
+| [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/) 패턴 | 클라이언트별 최적화된 파사드 |
+| [Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/653_law_of_demeter/) | 파사드로 달성하는 최소 지식 원칙 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[GoF [Facade](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/) 패턴(1994)] -> [레이어드 아키텍처 계층 파사드] -> API 게이트웨이] -> BFF([Backend for Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/))] -> GraphQL 파사드]
+[GoF [Facade](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/) 패턴(1994)] -> [레이어드 아키텍처 계층 파사드] -> API 게이트웨이] -> BFF([Backend for Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/))] -> GraphQL 파사드]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

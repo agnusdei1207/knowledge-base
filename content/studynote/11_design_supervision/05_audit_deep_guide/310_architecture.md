@@ -117,7 +117,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 378 / 530
 
-<- **이전**: [309. CVE 스캐너 주기 보고 및 결함 조치 지표 (CVE Scanner Reporting Metrics)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/309_metric/)
-**다음**: [310. 마이크로세그멘테이션과 수평 이동 방어 (Micro-Segmentation for Lateral Movement Defense)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/310_microsegmentation_lateral_movement/) ->
+<- **이전**: [309. CVE 스캐너 주기 보고 및 결함 조치 지표 (CVE Scanner Reporting Metrics)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/668_metric/)
+**다음**: [310. 마이크로세그멘테이션과 수평 이동 방어 (Micro-Segmentation for Lateral Movement Defense)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/669_microsegmentation_lateral_movement/) ->
 
 ---

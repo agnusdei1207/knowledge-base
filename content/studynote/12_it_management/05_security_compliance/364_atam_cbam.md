@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 568 / 587
 
-<- **이전**: [363. 마이크로 프론트엔드 배포 독립성 컴포넌트 결합망 진단](/knowledge-base/studynote/12_it_management/05_security_compliance/363_micro_frontend_deployment_independence/)
-**다음**: [364. 아키텍처 평가 ATAM CBAM 상충점 민감도 도출 로직](/knowledge-base/studynote/12_it_management/05_security_compliance/364_atam_cbam_architecture_evaluation/) ->
+<- **이전**: [363. 마이크로 프론트엔드 배포 독립성 컴포넌트 결합망 진단](/knowledge-base/studynote/12_it_management/05_security_compliance/1004_micro_frontend_deployment_independence/)
+**다음**: [364. 아키텍처 평가 ATAM CBAM 상충점 민감도 도출 로직](/knowledge-base/studynote/12_it_management/05_security_compliance/1005_atam_cbam_architecture_evaluation/) ->
 
 ---

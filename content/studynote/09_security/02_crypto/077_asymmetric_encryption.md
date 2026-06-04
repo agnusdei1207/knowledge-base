@@ -44,7 +44,7 @@ tags = ["studynote-software-engineering"]
 서명: 개인키로 생성 ---> 공개키로 검증
 ```
 
-실제 시스템에서는 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) ([Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/984_pki_public_key_infrastructure_ca_ra_certificate/))와 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 공개키의 진짜 주인을 증명한다. [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) ([Rivest-Shamir-Adleman](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)), [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) ([Elliptic Curve Cryptography](/knowledge-base/studynote/09_security/03_network_security/119_ecc_elliptic_curve_cryptography/)) 같은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 서로 다른 수학적 기반을 쓰지만, 키 쌍 구조라는 큰 원리는 같다.
+실제 시스템에서는 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) ([Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/1080_pki_public_key_infrastructure_ca_ra_certificate/))와 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 공개키의 진짜 주인을 증명한다. [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) ([Rivest-Shamir-Adleman](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)), [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) ([Elliptic Curve Cryptography](/knowledge-base/studynote/09_security/03_network_security/119_ecc_elliptic_curve_cryptography/)) 같은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 서로 다른 수학적 기반을 쓰지만, 키 쌍 구조라는 큰 원리는 같다.
 
 📢 섹션 요약 비유: 누구나 볼 수 있는 자물쇠 설명서와, 절대 남에게 주면 안 되는 진짜 열쇠가 따로 있는 구조다.
 
@@ -72,7 +72,7 @@ tags = ["studynote-software-engineering"]
 - 회피: 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 비대칭키로 직접 암호화하는 경우
 - [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
   1. 개인키를 안전하게 저장하고 있는가?
-  2. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서와 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) ([Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/984_pki_public_key_infrastructure_ca_ra_certificate/))가 올바르게 운영되는가?
+  2. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서와 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) ([Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/1080_pki_public_key_infrastructure_ca_ra_certificate/))가 올바르게 운영되는가?
   3. 대칭키와 하이브리드 구조로 성능을 확보했는가?
   4. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 수명과 키 길이 정책이 최신 위협에 맞는가?
 
@@ -92,7 +92,7 @@ tags = ["studynote-software-engineering"]
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | PKC (Public-[Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Cryptography](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)) | 공개키 암호 체계 |
-| [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) ([Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/984_pki_public_key_infrastructure_ca_ra_certificate/)) | 공개키 신뢰 관리 |
+| [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) ([Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/1080_pki_public_key_infrastructure_ca_ra_certificate/)) | 공개키 신뢰 관리 |
 | [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) ([Rivest-Shamir-Adleman](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)) | 대표적인 공개키 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 | [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) ([Elliptic Curve Cryptography](/knowledge-base/studynote/09_security/03_network_security/119_ecc_elliptic_curve_cryptography/)) | 효율적인 공개키 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 | [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) (Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) | 하이브리드 암호 사용 예 |

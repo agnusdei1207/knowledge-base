@@ -100,7 +100,7 @@ tags = ["studynote-design-supervision"]
 |:---|:---|:---|:---|
 | 발생 범위 | 클래스 인스턴스 | 애플리케이션 전역 | 멀티스레드 |
 | 주요 증상 | NPE, 순서 의존 | 테스트 격리 불가 | [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/) ([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)) |
-| 처방 방향 | 지역화 (Localize) | [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/) ([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/)) | 불변성 (Immutability) |
+| 처방 방향 | 지역화 (Localize) | [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/) ([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/)) | 불변성 (Immutability) |
 | 위험도 | 중 | 높음 | 매우 높음 |
 
 임시 필드가 "이 객체가 유효하지 않은 상태"를 표현하는 경우, [널 객체 패턴](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/207_null_object_pattern/) ([Null Object Pattern](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/207_null_object_pattern/)) 또는 옵셔널 (Optional) 패턴으로 해결할 수 있다.

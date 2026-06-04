@@ -46,7 +46,7 @@ tags = ["studynote-algorithm"]
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 - **기대효과:** 디스크 블록 접근 횟수를 최소화하면서도 범위 검색의 효율성을 극대화하여 대규모 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 시스템의 응답 속도를 보장함.
-- **결론:** B+트리는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 아키텍처의 중추이며, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소에서도 기본 원리로 확장 적용되고 있음.
+- **결론:** B+트리는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 아키텍처의 중추이며, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소에서도 기본 원리로 확장 적용되고 있음.
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 - **상위 개념:** [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) family, Multi-way Balanced Tree

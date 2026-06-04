@@ -131,7 +131,7 @@ tags = ["studynote-ai"]
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/">할루시네이션</a> (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/">환각</a>)</strong> | [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 아키텍처가 세상에 태어나고 미친 듯이 3중 필터로 고도화되어야만 했던 유일한 이유이자 영원한 악마. AI가 아는 척하며 거짓말을 뱉는 무서운 병 |
 | **청킹 (Chunking / 단락 쪼개기)** | 수만 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 문서를 통째로 AI에 넣으면 메모리가 터지니까, 500글자씩 깍두기로 썰어서 DB에 넣되 문맥이 안 끊어지게 자르는 고도의 가위질 예술 |
 | <strong>하이브리드 서치 (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/279_rlhf_reinforcement_learning_human_feedback/">Hybrid Search</a>)</strong> | 글자의 모양(BM25)으로 찾는 옛날 방식과 글자의 뜻(Vector)으로 찾는 최신 방식을 수학적 공식(RRF)으로 비벼서 절대 놓치는 문서가 없게 촘촘한 그물망을 던지는 1단계 뜰채 기법 |
-| <strong>재랭킹 (Re-ranking / Cross-<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">encoder</a>)</strong> | 뜰채로 대충 퍼 올린 100장의 문서 쓰레기 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 속에서, 진짜 똑똑하고 무거운 딥러닝 뇌를 한 번 더 켜서 100장을 현미경 검사해 1등부터 5등까지 예쁘게 줄을 다시 세워주는 깐깐한 2단계 면접관 |
+| <strong>재랭킹 (Re-ranking / Cross-<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">encoder</a>)</strong> | 뜰채로 대충 퍼 올린 100장의 문서 쓰레기 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) 속에서, 진짜 똑똑하고 무거운 딥러닝 뇌를 한 번 더 켜서 100장을 현미경 검사해 1등부터 5등까지 예쁘게 줄을 다시 세워주는 깐깐한 2단계 면접관 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

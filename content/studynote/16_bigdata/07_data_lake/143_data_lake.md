@@ -22,7 +22,7 @@ tags = ["studynote-bigdata"]
 ---
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
-[데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 수집(Ingest), 저장(Store), 가공([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)), 소비(Consume)의 4단계 아키텍처를 가진다.
+[데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 수집(Ingest), 저장(Store), 가공([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/)), 소비(Consume)의 4단계 아키텍처를 가진다.
 
 ```text
 [ Data Lake Architecture / 데이터 레이크 아키텍처 ]

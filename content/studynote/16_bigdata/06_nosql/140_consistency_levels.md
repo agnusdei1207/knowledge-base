@@ -118,7 +118,7 @@ Cosmos DB:
   Bounded/Session/Prefix -> 중간 지점
 ```
 
-| [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 수준 | [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 읽기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) |
+| [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 수준 | [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 읽기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) |
 |:---:|:---:|:---:|:---:|
 | Strong | [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) | 높음 | 99.99% |
 | Bounded Staleness | [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) (단일 리전) / [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) | 중간 | 99.99% |

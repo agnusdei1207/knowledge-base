@@ -43,7 +43,7 @@ tags = ["studynote-network"]
 - [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 통신은 데이터를 주고받을 때 순서가 꼬이지 않도록 `Sequence Number(시퀀스 번호, 순서표)`를 사용합니다.
 - 해커는 스니핑을 통해 앨리스와 서버가 주고받는 이 시퀀스 번호의 흐름을 몰래 훔쳐보며 다음에 올 번호를 수학적으로 추정(예측)합니다.
 
-### 2. 공격 시나리오 (RST와 가짜 패킷 [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/))
+### 2. 공격 시나리오 (RST와 가짜 패킷 [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/))
 1. 앨리스와 서버가 한참 즐겁게 통신([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 확립)하고 있습니다.
 2. 해커가 갑자기 앨리스의 컴퓨터로 뜬금없는 리셋 패킷(`RST`)을 던져 앨리스 컴퓨터를 통신 불능 상태(기절)로 만들어버립니다.
 3. 그 찰나의 순간, 해커가 <strong>앨리스의 IP 주소로 위장(IP <a href="/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/">스푸핑</a>)한 뒤, 아까 미리 계산해 둔 '다음 순서표(정확한 시퀀스 번호)'를 달아서 서버에게 악성 패킷을 팍 꽂아 넣습니다.</strong>

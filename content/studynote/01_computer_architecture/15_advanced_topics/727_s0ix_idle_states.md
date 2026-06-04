@@ -55,7 +55,7 @@ S0ix 진입은 한 부품의 의사결정으로 끝나지 않는다. CPU 코어�
 | CPU 패키지/uncore | 패키지 [clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/), fabric, cache 경로 최대한 정지 | 코어 밖 누설 전력을 크게 줄인다 |
 | [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) | self-refresh 또는 [retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/) 유지 | [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 컨텍스트를 잃지 않고 빠르게 복귀한다 |
 | 장치 | D3 계열 저전력 상태 또는 제한적 wake-only 상태 | 장치가 지속적으로 interrupt를 만들지 않게 한다 |
-| PMC ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Controller) | 모든 조건 충족 여부를 감시하고 entry/exit 조정 | 플랫폼 전체를 한 번에 저전력 상태로 묶는다 |
+| PMC ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) Controller) | 모든 조건 충족 여부를 감시하고 entry/exit 조정 | 플랫폼 전체를 한 번에 저전력 상태로 묶는다 |
 
 역사적으로는 S0i1, S0i3처럼 세부 단계 이름이 함께 언급되기도 했다. 얕은 단계는 더 많은 회로를 남겨 두고, 깊은 단계는 더 많은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 꺼서 전력을 아낀다. 오늘날에는 이 세부 단계를 뭉뚱그려 S0ix라고 부르는 경우가 많지만, 공통 원리는 같다. **깊이 내려갈수록 절전 효과는 커지고, 복귀 준비 범위도 커진다.**
 
@@ -124,7 +124,7 @@ S0ix가 잘 구현되면 플랫폼은 화면이 꺼진 동안 수십~수백 밀�
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| PMC ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Controller) | 플랫폼 각 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)의 유휴 조건을 모아 S0ix entry/exit를 조정한다 |
+| PMC ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) Controller) | 플랫폼 각 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)의 유휴 조건을 모아 S0ix entry/exit를 조정한다 |
 | Package C-State | S0ix 달성에 필요한 CPU 패키지 깊은 [idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) residency와 맞닿아 있다 |
 | Device D-State | [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/), [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/), [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 같은 장치가 얼마나 조용해질 수 있는지 결정한다 |
 | [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) Self-Refresh | 메모리 컨텍스트를 유지한 채 빠른 복귀를 가능하게 한다 |

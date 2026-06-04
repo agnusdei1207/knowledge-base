@@ -39,7 +39,7 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅲ~Ⅴ. 결론
 
-[역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 <strong>딥러닝 학습의 유일한 실용적 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>이며, 연쇄 법칙의 효율적 구현(Computational [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))이 PyTorch·TensorFlow의 핵심이다.
+[역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 <strong>딥러닝 학습의 유일한 실용적 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>이며, 연쇄 법칙의 효율적 구현(Computational [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/))이 PyTorch·TensorFlow의 핵심이다.
 
 ---
 
@@ -51,7 +51,7 @@ tags = ["studynote-dataengineering"]
 | **연쇄 법칙** | 합성 함수 미분 |
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/">Vanishing Gradient</a></strong> | 깊은 층에서 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/381_autograd_chain_rule/">AutoGrad</a></strong> | 자동 미분 (PyTorch) |
-| <strong>Computational <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a></strong> | 연산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 기반 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) |
+| <strong>Computational <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/">Graph</a></strong> | 연산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 기반 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

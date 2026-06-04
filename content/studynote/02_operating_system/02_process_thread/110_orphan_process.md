@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 고아 프로세스(Orphan [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))는 부모 프로세스가 자식보다 먼저 종료되었을 때, 부모를 잃은 자식 프로세스를 의미한다. 운영체제는 이러한 고아를 init 프로세스(PID 1) 또는 subreaper가 새 부모로 입양하여 좀비화를 방지한다.
+> 1. **본질**: 고아 프로세스(Orphan [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))는 부모 프로세스가 자식보다 먼저 종료되었을 때, 부모를 잃은 자식 프로세스를 의미한다. 운영체제는 이러한 고아를 init 프로세스(PID 1) 또는 subreaper가 새 부모로 입양하여 좀비화를 방지한다.
 > 2. **가치**: 고아 프로세스는 [좀비 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/)와 달리 시스템에 해가 되지 않는다. init이 주기적으로 wait()를 호출하여 고아의 종료 상태를 수집하므로 PID 자원 누수가 발생하지 않는다.
 > 3. **윙합**: 셸([Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/))에서 백그라운드 작업(예: `명령 &`)을 실행하고 셸을 종료하면 해당 작업 프로세스가 고아가 된다. systemd-subreaper가 현대 리눅스에서 init을 대체하는 역할을 담당한다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 부모 프로세스가 자식보다 먼저 exit()를 호출하거나 시그널에 의해 강제 종료되면, 자식 프로세스는 부모를 잃게 된다. 이 상태의 자식을 고아 프로세스(Orphan [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))라 부르며, PPID ([Parent Process](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/) ID)는 1(init) 또는 subreaper로 변경된다.
+- **개념**: 부모 프로세스가 자식보다 먼저 exit()를 호출하거나 시그널에 의해 강제 종료되면, 자식 프로세스는 부모를 잃게 된다. 이 상태의 자식을 고아 프로세스(Orphan [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))라 부르며, PPID ([Parent Process](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/) ID)는 1(init) 또는 subreaper로 변경된다.
 
 - **필요성**: 부모가 없는 자식은 종료 시 상태를 수집해줄 프로세스가 필요하다. 부모가 없으면 자식이 종료된 후에 PCB가 수집되지 않아 좀비가 될 수 있다. Linux는 고아를 자동으로 init에 입양시켜 이 문제를 해결한다.
 

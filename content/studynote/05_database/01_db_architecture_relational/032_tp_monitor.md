@@ -12,7 +12,7 @@ tags = ["studynote-database"]
 > **핵심 인사이트 3줄**
 > 1. TP [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)([Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))는 대량의 [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 안정적으로 처리하기 위해 미들웨어 계층에서 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 조율·[로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/)·자원 관리를 담당한다.
 > 2. [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/)([Two-Phase Commit](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/))와 XA [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/)의 ACID를 보장하며, 금융·항공·통신 등 미션 크리티컬 시스템의 기반 인프라다.
-> 3. 현대 클라우드 환경에서는 [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)([Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/))·[이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)이 TP [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)의 역할을 대체하지만, 레거시 금융 시스템에서는 CICS·Tuxedo가 여전히 수십억 건/일을 처리한다.
+> 3. 현대 클라우드 환경에서는 [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)([Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/948_saga_pattern/))·[이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)이 TP [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)의 역할을 대체하지만, 레거시 금융 시스템에서는 CICS·Tuxedo가 여전히 수십억 건/일을 처리한다.
 
 ---
 
@@ -127,7 +127,7 @@ TPS = 동시 사용자 수 × (1 / 응답 시간)
 
 TP [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)·2PC는 <strong>강한 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong>을 제공하지만, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경에서는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 높인다.
 
-<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/">사가 패턴</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/">Saga Pattern</a>)</strong>
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/">사가 패턴</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/948_saga_pattern/">Saga Pattern</a>)</strong>
 
 ```
 주문 생성 -> 결제 -> 재고 차감 -> 배송

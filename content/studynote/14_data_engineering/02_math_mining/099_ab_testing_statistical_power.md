@@ -65,7 +65,7 @@ A/B 테스트의 통계적 신뢰성은 4가지 요소([유의 수준](/knowledg
 - **📢 섹션 요약 비유**: 마라톤 코스를 미리 42.195km로 정해놓고 뛰어야지, 뛰다가 자신이 1등일 때 임의로 결승선을 그어버리고 경기를 끝내면(p-hacking) 안 된다.
 
 ## Ⅴ. 기대효과 및 결론
-정교한 검정력 설계는 비즈니스 리소스의 낭비를 막고, '가짜 성과'에 속아 엉뚱한 기능을 개발하는 매몰 비용을 예방한다. 단순히 통계 패키지가 뱉어내는 p-value에 매몰되지 않고, "이 정도 표본이라면 우리가 원하는 변화를 놓치지 않는다"는 확신을 설계하는 것이 [데이터옵스](/knowledge-base/studynote/14_data_engineering/04_mlops/196_dataops_dbt_ci_cd_data_testing/)([DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/)) 환경에서 요구되는 핵심 역량이다. 결국 훌륭한 A/B 테스트는 통계적 수식의 문제가 아니라, 엄격한 실험 규율과 인내심의 문제다.
+정교한 검정력 설계는 비즈니스 리소스의 낭비를 막고, '가짜 성과'에 속아 엉뚱한 기능을 개발하는 매몰 비용을 예방한다. 단순히 통계 패키지가 뱉어내는 p-value에 매몰되지 않고, "이 정도 표본이라면 우리가 원하는 변화를 놓치지 않는다"는 확신을 설계하는 것이 [데이터옵스](/knowledge-base/studynote/14_data_engineering/04_mlops/196_dataops_dbt_ci_cd_data_testing/)([DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/965_dataops/)) 환경에서 요구되는 핵심 역량이다. 결국 훌륭한 A/B 테스트는 통계적 수식의 문제가 아니라, 엄격한 실험 규율과 인내심의 문제다.
 
 - **📢 섹션 요약 비유**: 정확한 나침반(검정력)과 충분한 식량(표본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 미리 계산해서 출발해야만, 가짜 오아시스(거짓 효과)에 속지 않고 목적지에 도착할 수 있다.
 

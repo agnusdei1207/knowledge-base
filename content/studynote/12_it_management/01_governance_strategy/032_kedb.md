@@ -10,15 +10,15 @@ tags = ["studynote-it-management"]
 +++
 
 > **핵심 인사이트 3줄**
-> 1. [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/)([Known Error Database](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/))는 IT [서비스 운영](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_service_operation/) 중 발생한 근본 원인이 확인된 오류와 임시 조치([Workaround](/knowledge-base/studynote/12_it_management/02_itsm_itil/076_workaround_temporary_fix_incident/))를 저장한 [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) [문제 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/077_problem_management/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)다.
+> 1. [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/862_kedb/)([Known Error Database](/knowledge-base/studynote/12_it_management/02_itsm_itil/862_kedb/))는 IT [서비스 운영](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_service_operation/) 중 발생한 근본 원인이 확인된 오류와 임시 조치([Workaround](/knowledge-base/studynote/12_it_management/02_itsm_itil/860_workaround_temporary_fix_incident/))를 저장한 [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/846_itil/) [문제 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/861_problem_management/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)다.
 > 2. 인시던트 발생 시 KEDB를 먼저 조회해 임시 해결책을 즉시 적용함으로써 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)(Mean Time To Repair)을 단축하는 것이 핵심 가치다.
 > 3. KEDB는 [서비스 데스크](/knowledge-base/studynote/12_it_management/02_itsm_itil/072_service_desk/)·[변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)·릴리즈 관리와 연계해 조직 지식 자산으로 관리되어야 한다.
 
 ---
 
-## Ⅰ. KEDB의 정의와 [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) 프로세스 위치
+## Ⅰ. KEDB의 정의와 [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/846_itil/) 프로세스 위치
 
-[KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/)([Known Error Database](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/), 기지 오류 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/))는 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/">ITIL</a> <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/077_problem_management/">문제 관리</a>(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/077_problem_management/">Problem Management</a>) 프로세스</strong>의 산출물로, 근본 원인(Root Cause)이 파악된 문제와 임시 조치 방법을 기록한다.
+[KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/862_kedb/)([Known Error Database](/knowledge-base/studynote/12_it_management/02_itsm_itil/862_kedb/), 기지 오류 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/))는 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/846_itil/">ITIL</a> <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/861_problem_management/">문제 관리</a>(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/861_problem_management/">Problem Management</a>) 프로세스</strong>의 산출물로, 근본 원인(Root Cause)이 파악된 문제와 임시 조치 방법을 기록한다.
 
 ```
 인시던트 관리
@@ -30,7 +30,7 @@ tags = ["studynote-it-management"]
 서비스 데스크: 동일 인시던트 발생 시 KEDB 조회
 ```
 
-### [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) 핵심 용어
+### [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/846_itil/) 핵심 용어
 
 | 용어           | 정의                                    |
 |--------------|----------------------------------------|
@@ -43,9 +43,9 @@ tags = ["studynote-it-management"]
 
 ---
 
-## Ⅱ. [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/) 레코드 구조
+## Ⅱ. [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/862_kedb/) 레코드 구조
 
-### [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/) 레코드 필수 항목
+### [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/862_kedb/) 레코드 필수 항목
 
 | 필드             | 설명                              |
 |---------------|-----------------------------------|
@@ -53,17 +53,17 @@ tags = ["studynote-it-management"]
 | 제목           | 오류 요약                          |
 | 근본 원인      | RCA(Root Cause Analysis) 결과     |
 | 증상           | 인시던트 발생 시 나타나는 현상     |
-| 영향           | 영향받는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)(구성 항목)     |
+| 영향           | 영향받는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)(구성 항목)     |
 | 임시 조치      | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차 (단계별)          |
 | 영구 해결책    | 영구 수정 솔루션 (있는 경우)       |
 | 상태           | 오픈/해결 중/완료                  |
 | 관련 변경 요청  | RFC 번호 (영구 해결 연계)          |
 
-📢 **섹션 요약 비유**: [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/) 레코드는 요리 레시피카드다 — 어떤 오류(재료), 원인(조리법 오류), 임시 조치(응급 대체 방법)가 카드 하나에 정리되어 있다.
+📢 **섹션 요약 비유**: [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/862_kedb/) 레코드는 요리 레시피카드다 — 어떤 오류(재료), 원인(조리법 오류), 임시 조치(응급 대체 방법)가 카드 하나에 정리되어 있다.
 
 ---
 
-## Ⅲ. [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/) 활용 — 인시던트 해결 시간 단축
+## Ⅲ. [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/862_kedb/) 활용 — 인시던트 해결 시간 단축
 
 ```
 인시던트 접수
@@ -79,7 +79,7 @@ KEDB 검색 (증상 키워드 매칭)
 
 ### [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 개선 효과 (사례)
 
-| 상황               | [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/) 없음 | [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/) 있음 |
+| 상황               | [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/862_kedb/) 없음 | [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/862_kedb/) 있음 |
 |------------------|---------|---------|
 | 유사 인시던트 해결  | 4시간   | 30분    |
 | 지식 전수          | 담당자 의존 | 문서화된 절차 |
@@ -89,18 +89,18 @@ KEDB 검색 (증상 키워드 매칭)
 
 ---
 
-## Ⅳ. [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/) 관리와 품질 유지
+## Ⅳ. [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/862_kedb/) 관리와 품질 유지
 
-### [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/) 품질 저하 원인
+### [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/862_kedb/) 품질 저하 원인
 
 | 원인             | 결과                    |
 |----------------|------------------------|
-| 미등록            | 재발 시 [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/) 조회 효과 없음 |
+| 미등록            | 재발 시 [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/862_kedb/) 조회 효과 없음 |
 | 불완전한 임시 조치 | 현장 적용 불가            |
 | 구식 정보 방치    | 잘못된 조치로 피해 확대    |
 | 검색 키워드 부족  | 조회 실패율 증가           |
 
-### [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/) 유지 [관리 프로세스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/018_admin_processes/)
+### [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/862_kedb/) 유지 [관리 프로세스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/018_admin_processes/)
 
 ```
 등록 -> 검토 (정확성 확인) -> 발행 (서비스 데스크 공개)
@@ -108,21 +108,21 @@ KEDB 검색 (증상 키워드 매칭)
 정기 리뷰 <- 폐기 (영구 해결 완료 시)
 ```
 
-📢 **섹션 요약 비유**: [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/) 관리는 냉장고 정리와 같다 — 넣기만 하고 정리를 안 하면 유통기한 지난 음식(구식 정보)이 가득 차 필요한 것을 찾기가 더 어려워진다.
+📢 **섹션 요약 비유**: [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/862_kedb/) 관리는 냉장고 정리와 같다 — 넣기만 하고 정리를 안 하면 유통기한 지난 음식(구식 정보)이 가득 차 필요한 것을 찾기가 더 어려워진다.
 
 ---
 
-## Ⅴ. 현대적 통합 — [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 도구와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연계
+## Ⅴ. 현대적 통합 — [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/) 도구와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연계
 
-### [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 도구 통합
+### [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/) 도구 통합
 
-| 도구           | [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/) 기능                              |
+| 도구           | [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/862_kedb/) 기능                              |
 |-------------|---------------------------------------|
-| ServiceNow  | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 검색, 인시던트-[KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/) 자동 연계       |
-| Jira [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Mgmt | [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/) [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/), [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 연동       |
-| [BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) Remedy  | 엔터프라이즈 [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/), [CMDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/) 연계           |
+| ServiceNow  | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 검색, 인시던트-[KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/862_kedb/) 자동 연계       |
+| Jira [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Mgmt | [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/) [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/862_kedb/), [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 연동       |
+| [BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) Remedy  | 엔터프라이즈 [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/862_kedb/), [CMDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/875_cmdb/) 연계           |
 
-### [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/) 혁신
+### [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/862_kedb/) 혁신
 
 ```
 인시던트 로그 -> NLP 분석 -> 유사 KEDB 자동 추천
@@ -193,7 +193,7 @@ MTTR 단축          임시 조치 -> 영구 해결 -> 변경 관리
 
 **진행 상황**: 55 / 587
 
-<- **이전**: [31. 네트워크 효과 — 사용자가 늘수록 가치가 커지는 법칙](/knowledge-base/studynote/12_it_management/01_governance_strategy/031_network_effect/)
-**다음**: [32. 네트워크 효과 (Network Effect) / 메트칼프의 법칙](/knowledge-base/studynote/12_it_management/01_governance_strategy/032_network_effect/) ->
+<- **이전**: [31. 네트워크 효과 — 사용자가 늘수록 가치가 커지는 법칙](/knowledge-base/studynote/12_it_management/01_governance_strategy/823_network_effect/)
+**다음**: [32. 네트워크 효과 (Network Effect) / 메트칼프의 법칙](/knowledge-base/studynote/12_it_management/01_governance_strategy/824_network_effect/) ->
 
 ---

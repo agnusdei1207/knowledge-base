@@ -123,7 +123,7 @@ WPA3를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 
 해커들의 가장 짜증 나는 장난질 중 하나가 "공유기 행세하기"다. 동네 카페에서 해커가 자기 노트북으로 "야! 나 공유기인데 연결 끊고 나가!(Deauth Frame)"라는 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 뿌리면, 카페 안의 모든 사람들의 폰에서 와이파이가 다 끊어져 버린다([DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) 공격).
 
-- **WPA2의 한계**: WPA2는 사용자의 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(카톡)'는 AES로 암호화했지만, "연결해라, 끊어라, 채널 바꿔라" 같은 '공유기 관리 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)([Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Frame)'는 암호화를 안 하고 평문으로 냅뒀다.
+- **WPA2의 한계**: WPA2는 사용자의 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(카톡)'는 AES로 암호화했지만, "연결해라, 끊어라, 채널 바꿔라" 같은 '공유기 관리 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)([Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) Frame)'는 암호화를 안 하고 평문으로 냅뒀다.
 - **WPA3의 조치**: IEEE 802.11w 표준인 <strong>PMF를 WPA3 환경에서는 "무조건 켜기(Mandatory)"로 법제화</strong>했다. 이제 공유기와 폰이 주고받는 제어/관리 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(Deauth 등)에도 모두 암호화 도장이 찍힌다. 해커가 위조된 로그아웃 명령을 던지면 폰이 "어? 암호 도장 없는 짭새네?"라며 깔끔하게 무시해 버려 튕김 공격이 100% 방어된다.
 
 1. **상황**: 회사 아키텍트가 전 임직원의 쾌적한 인터넷을 위해 최신 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/158_wifi_6e/">Wi-Fi 6E</a> (6GHz 대역)</strong> 공유기 수십 대를 천장에 달았다. 그런데 3년 전 산 구형 노트북이나 바코드 스캐너가 아예 와이파이 이름(SSID)을 못 찾거나 연결 실패를 뿜으며 업무가 마비되었다.

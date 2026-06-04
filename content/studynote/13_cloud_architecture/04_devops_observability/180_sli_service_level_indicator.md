@@ -43,7 +43,7 @@ SLI는 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas
 +--------------------------------------------------------------+
 ```
 
-결국 SLI는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 피라미드의 맨 아래층이다. SLI가 정의되어야 SLO를 세울 수 있고, 그 SLO가 외부 계약으로 올라가면 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))가 된다. 따라서 SLI가 부정확하면 이후의 목표와 계약도 모두 흔들린다.
+결국 SLI는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 피라미드의 맨 아래층이다. SLI가 정의되어야 SLO를 세울 수 있고, 그 SLO가 외부 계약으로 올라가면 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/))가 된다. 따라서 SLI가 부정확하면 이후의 목표와 계약도 모두 흔들린다.
 
 - **📢 섹션 요약 비유**: SLI는 식당 주방 온도가 아니라 손님이 실제로 받은 음식의 맛과 대기 시간을 점수로 적는 표와 같다. 주방 사정이 좋아 보여도 손님 경험이 나쁘면 좋은 식당이라고 할 수 없다.
 
@@ -111,7 +111,7 @@ SLI를 제대로 이해하려면 비슷해 보이는 다른 지표들과 경계�
 
 예를 들어 결제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 외부 합성 테스트로 "결제 화면이 열리는가"를 블랙박스로 보고, 동시에 애플리케이션 내부에서 "승인 요청이 1초 내 성공하는가"를 화이트박스로 볼 수 있다. 둘을 함께 봐야 화면은 열리지만 실제 승인 호출이 느린 상황, 반대로 내부는 정상인데 외부 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) ([Domain Name System](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) 문제가 생긴 상황을 구분할 수 있다.
 
-SLI는 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), Error Budget과도 연속선에 있다. SLI가 **측정값**, SLO가 **내부 목표**, SLA가 <strong>외부 약속</strong>이라면, Error Budget은 "얼마나 실패를 허용할지"를 운영과 배포 속도에 연결하는 장치다. 즉 SLI는 단일 지표가 아니라, [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 거버넌스 전체를 작동시키는 입력값이다.
+SLI는 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/), Error Budget과도 연속선에 있다. SLI가 **측정값**, SLO가 **내부 목표**, SLA가 <strong>외부 약속</strong>이라면, Error Budget은 "얼마나 실패를 허용할지"를 운영과 배포 속도에 연결하는 장치다. 즉 SLI는 단일 지표가 아니라, [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 거버넌스 전체를 작동시키는 입력값이다.
 
 - **📢 섹션 요약 비유**: 시스템 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/), [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/), KPI의 차이는 자동차 계기판·주행 품질·매출 기록의 차이와 같다. 엔진 온도는 원인, 승차감은 품질, 판매량은 사업 결과다. 셋은 모두 중요하지만 같은 질문에 답하지 않는다.
 
@@ -124,7 +124,7 @@ SLI는 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observabi
 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 유형 | 권장 [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) 예시 | 권장 창/기준 | 이유 |
 | :--- | :--- | :--- | :--- |
 | 결제 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | 승인 성공률, p99 승인 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 5분 + 30일, p99 1초 | 실패 비용이 커서 짧은 경보와 장기 계약 둘 다 필요 |
-| Software [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) ([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)) 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 성공률, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 렌더 완료율 | 1분 + 28일 | 사용자 체감과 외부 약속을 함께 봄 |
+| Software [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) ([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/)) 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 성공률, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 렌더 완료율 | 1분 + 28일 | 사용자 체감과 외부 약속을 함께 봄 |
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적재 파이프라인 | 5분 이내 반영 비율, 유실 없는 이벤트 비율 | 15분 + 7일 | 신선도와 완결성이 핵심 |
 | 내부 플랫폼 | 배포 성공률, 환경 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시간 | 1시간 + 30일 | 내부 고객 경험을 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)처럼 측정해야 함 |
 
@@ -146,7 +146,7 @@ SLI는 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observabi
 
 ## Ⅴ. 기대효과 및 결론
 
-SLI가 잘 정의되면 장애 대응과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 개선이 같은 숫자를 바라보게 된다. 온콜은 감으로 심각도를 판단하지 않아도 되고, 제품팀은 새 기능 배포가 Error Budget을 얼마나 쓰는지 이해할 수 있으며, 경영진은 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 논의를 실제 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위에서 할 수 있다. 결국 SLI는 기술 운영과 비즈니스 의사결정을 연결하는 공통 언어가 된다.
+SLI가 잘 정의되면 장애 대응과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 개선이 같은 숫자를 바라보게 된다. 온콜은 감으로 심각도를 판단하지 않아도 되고, 제품팀은 새 기능 배포가 Error Budget을 얼마나 쓰는지 이해할 수 있으며, 경영진은 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 논의를 실제 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위에서 할 수 있다. 결국 SLI는 기술 운영과 비즈니스 의사결정을 연결하는 공통 언어가 된다.
 
 물론 SLI만으로 모든 것을 설명할 수는 없다. 너무 거친 SLI는 국소 장애를 숨기고, 너무 세분화된 SLI는 운영 복잡도만 높인다. 그래서 좋은 운영은 <strong>소수의 사용자 중심 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/">SLI</a></strong>와 <strong>풍부한 진단 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a></strong>을 함께 가져간다. SLI는 전체 품질을 대표하는 전광판이고, 세부 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)은 그 원인을 추적하는 계기판이라고 기억하면 된다.
 
@@ -161,7 +161,7 @@ SLI가 잘 정의되면 장애 대응과 [서비스](/knowledge-base/studynote/1
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/)) | SLI를 바탕으로 정하는 내부 목표치 |
-| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) | SLO가 외부 계약과 보상 조건으로 확장된 형태 |
+| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)) | SLO가 외부 계약과 보상 조건으로 확장된 형태 |
 | [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) | SLI가 목표보다 얼마나 벗어날 수 있는지 계산하는 운영 여유 |
 | [Synthetic Monitoring](/knowledge-base/studynote/15_devops_sre/03_sre_observability/164_synthetic_monitoring_dummy_client/) | 외부 사용자 관점의 블랙박스 [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) 수집 수단 |
 | [Real User Monitoring](/knowledge-base/studynote/15_devops_sre/03_sre_observability/163_rum_real_user_monitoring/) | 실제 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 기반 체감 품질을 보는 [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) 수집 수단 |

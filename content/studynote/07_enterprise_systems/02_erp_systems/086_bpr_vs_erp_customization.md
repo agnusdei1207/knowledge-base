@@ -10,7 +10,7 @@ tags = ["enterprise_systems"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) ([Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/))은 업무를 다시 설계하고, [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))는 표준 프로세스에 맞춰 운영하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
+> 1. **본질**: [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/) ([Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/))은 업무를 다시 설계하고, [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))는 표준 프로세스에 맞춰 운영하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 > 2. **가치**: 시스템에 맞춰 업무를 바꿀지, 업무에 맞춰 시스템을 바꿀지 결정하게 해 준다.
 > 3. **판단 포인트**: 핵심 경쟁력인지, 표준화 가능한지, 업그레이드 비용을 감당할 수 있는지를 먼저 봐야 한다.
 
@@ -30,13 +30,13 @@ tags = ["enterprise_systems"]
   | [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) (현행) | 현재 업무 | 비효율, 중복, 수작업 |
   | TO-BE (목표 상태) | 목표 업무 | 표준화, 자동화 |
   | Fit-Gap | 패키지와 업무의 차이 | 핵심 경쟁력인지 여부 |
-  | [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) | 업무 자체를 재설계 | 표준으로 흡수 가능 여부 |
+  | [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/) | 업무 자체를 재설계 | 표준으로 흡수 가능 여부 |
   | Customization | ERP를 수정 | 규제/산업 특수성 |
   | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) (Total Cost of Ownership) | [총 소유 비용](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/006_tco_total_cost_of_ownership/) | 업그레이드·유지보수 포함 |
 
   +------------ [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) (현행) 업무 ------------+
   v                                           v
-Fit-Gap -----> 표준으로 흡수 가능? -- yes --> [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/)
+Fit-Gap -----> 표준으로 흡수 가능? -- yes --> [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/)
   |
   no
   v
@@ -46,7 +46,7 @@ Customization --> 시스템 수정 --> 운영/업그레이드 영향 검토
 ---
 
 ## Ⅲ. 비교 및 연결
-| 비교 항목 | [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) 선행 | 커스터마이징 선행 | 하이브리드 |
+| 비교 항목 | [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/) 선행 | 커스터마이징 선행 | 하이브리드 |
 |:---|:---|:---|:---|
 | 방향 | 업무를 바꿈 | 시스템을 바꿈 | 핵심만 예외 |
 | 장점 | 표준화, 단순화 | 현업 적합성 | 균형 |
@@ -81,7 +81,7 @@ BPR과 커스터마이징은 경쟁 개념이 아니라 표준과 예외를 나�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) | 업무를 근본적으로 다시 설계한다. |
+| [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/) | 업무를 근본적으로 다시 설계한다. |
 | [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) | 표준 패키지로 전사 프로세스를 통합한다. |
 | 커스터마이징 | 예외 업무를 시스템에 반영한다. |
 | Fit-Gap | 표준과 현업의 차이를 찾는다. |

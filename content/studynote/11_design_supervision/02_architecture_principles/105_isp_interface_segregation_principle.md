@@ -43,7 +43,7 @@ tags = ["studynote-design-supervision"]
 
 | 요소 | 역할 | 설계 포인트 |
 |:---|:---|:---|
-| [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) | 문제를 구조적 관점으로 번역하는 입력 | [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 관심사와 제약을 함께 담아야 함 |
+| [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) | 문제를 구조적 관점으로 번역하는 입력 | [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 관심사와 제약을 함께 담아야 함 |
 | Concern | 핵심 구조 결정을 내리는 축 | 변경 비용과 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 상충점을 함께 봐야 함 |
 | Decision | 경계와 책임을 분리하는 장치 | 의존 방향이 뒤집히면 원칙이 무너짐 |
 | Boundary | 구조 효과를 검증하는 기준 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 보안, [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)처럼 측정 가능한 척도가 필요 |
@@ -103,7 +103,7 @@ tags = ["studynote-design-supervision"]
 |:---|:---|
 | 요구사항 (Requirement) | 구조 결정이 해결해야 할 문제와 제약을 정의한다. |
 | 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) (Quality [Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 보안, [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)처럼 구조 판단 기준을 제공한다. |
-| [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) | [인터페이스 분리 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/358_architecture/)의 경계를 실제 설계 규칙으로 드러내는 대표 개념이다. |
+| [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) | [인터페이스 분리 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/358_architecture/)의 경계를 실제 설계 규칙으로 드러내는 대표 개념이다. |
 | [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) ([Refactoring](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/)) | 원칙이 무너졌을 때 구조를 되돌리는 실천 수단이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도

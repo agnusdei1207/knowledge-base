@@ -10,7 +10,7 @@ tags = ["studynote-security"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: CBC (Cipher Block [Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/)) 모드는 현재 블록의 평문을 암호화하기 직전에, **이전 블록에서 튀어나온 암호문 찌꺼기를 끌어와 XOR(배타적 논리합)로 비벼서 마치 쇠사슬(Chain)처럼 블록들을 엮는** 가장 대중적인 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드다.
+> 1. **본질**: CBC (Cipher Block [Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/)) 모드는 현재 블록의 평문을 암호화하기 직전에, **이전 블록에서 튀어나온 암호문 찌꺼기를 끌어와 XOR(배타적 논리합)로 비벼서 마치 쇠사슬(Chain)처럼 블록들을 엮는** 가장 대중적인 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드다.
 > 2. **가치**: 똑같은 내용의 글자(예: "AAAA")가 여러 번 반복되어 들어오더라도, 매번 이전 블록에서 넘어온 완전히 다른 난수 찌꺼기와 섞이기 때문에, 출력되는 암호문이 매번 달라져 평문의 윤곽선(패턴)을 100% 소멸시킨다.
 > 3. **판단 포인트**: 앞 블록의 암호화가 끝나야만 뒷 블록의 암호화를 시작할 수 있는 <strong>'<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/">직렬</a> 처리 병목(<a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화 불가)'</strong>이라는 치명적 한계 탓에, [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 통신이 필수인 현대 클라우드와 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 표준에서는 퇴출당하는 신세가 되었다.
 
@@ -20,7 +20,7 @@ tags = ["studynote-security"]
 
 파일을 16바이트 도마(블록) 위에서 토막 내어 암호화할 때, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 모델인 ECB 모드는 치명적인 결함이 있었다. 똑같은 평문이 들어가면 똑같은 암호문이 튀어나오는 정직함 때문에, 암호화된 이미지의 픽셀 윤곽선이 그대로 노출되는 대참사(펭귄 이미지 노출)가 벌어졌다.
 
-학자들은 이 '패턴 노출'을 어떻게 없앨지 고민했다. 해답은 "재료가 같아도 그릇에 묻은 이전 양념을 안 닦고 섞어버리면 맛이 달라진다"는 아이디어였다. 이번 블록을 암호화하기 전에, 앞서 끝마친 블록의 암호문 결과물을 가져와 물감처럼 엎어버리고 섞는(XOR) 것이다. 이렇게 블록과 블록을 쇠사슬([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))처럼 서로 묶어서 암호문의 무작위성을 극대화한 것이 바로 CBC 모드다.
+학자들은 이 '패턴 노출'을 어떻게 없앨지 고민했다. 해답은 "재료가 같아도 그릇에 묻은 이전 양념을 안 닦고 섞어버리면 맛이 달라진다"는 아이디어였다. 이번 블록을 암호화하기 전에, 앞서 끝마친 블록의 암호문 결과물을 가져와 물감처럼 엎어버리고 섞는(XOR) 것이다. 이렇게 블록과 블록을 쇠사슬([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/))처럼 서로 묶어서 암호문의 무작위성을 극대화한 것이 바로 CBC 모드다.
 
 - **📢 섹션 요약 비유**: 김밥을 썰 때 1번 김밥을 자른 칼에 묻은 참기름과 밥알(이전 암호문 찌꺼기)을 안 닦고 2번 김밥을 자르는 식이다. 김밥 재료(평문)가 똑같아도 앞 김밥에서 넘어온 얼룩 때문에 매번 미세하게 다른 모양의 김밥(암호문)이 썰려 나온다.
 
@@ -28,7 +28,7 @@ tags = ["studynote-security"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-CBC 모드의 핵심은 이전 블록의 암호문과 현재 평문을 섞는 <strong>연쇄(<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/">Chaining</a>)</strong> 과정과, 아무것도 없는 1번 블록을 위해 투입되는 무작위 난수 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>화 벡터(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">IV</a>, Initialization Vector)</strong>다.
+CBC 모드의 핵심은 이전 블록의 암호문과 현재 평문을 섞는 <strong>연쇄(<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/">Chaining</a>)</strong> 과정과, 아무것도 없는 1번 블록을 위해 투입되는 무작위 난수 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>화 벡터(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">IV</a>, Initialization Vector)</strong>다.
 
 | 과정 | 핵심 작동 원리 | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 여부 |
 | :--- | :--- | :--- |

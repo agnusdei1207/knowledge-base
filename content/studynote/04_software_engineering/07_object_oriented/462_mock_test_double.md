@@ -19,11 +19,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: Mock(모조품)은 텅 빈 합판으로 만든 가짜 세트장이다. [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))이 "100원을 줘라"는 '상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))'에 집착한다면, Mock은 "너 방금 내 배를 찌른 거 맞아? 정확히 찌른 거 확실해?"라며 **상호 작용 행위(Behavior)** 자체를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 개발자가 사전에 입력해 둔 '대본(Expectation)'과 단 1mm라도 다르게 함수가 호출되면, 즉시 빨간불(Fail)을 뿜으며 테스트를 터뜨려버리는 성질 더러운 객체다.
+- **개념**: Mock(모조품)은 텅 빈 합판으로 만든 가짜 세트장이다. [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/))이 "100원을 줘라"는 '상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))'에 집착한다면, Mock은 "너 방금 내 배를 찌른 거 맞아? 정확히 찌른 거 확실해?"라며 **상호 작용 행위(Behavior)** 자체를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 개발자가 사전에 입력해 둔 '대본(Expectation)'과 단 1mm라도 다르게 함수가 호출되면, 즉시 빨간불(Fail)을 뿜으며 테스트를 터뜨려버리는 성질 더러운 객체다.
 
 - **필요성**: 내가 `회원탈퇴(withdraw)` 함수를 짰다. 이 함수 안에서는 `DB에서 유저 삭제` -> `카카오톡으로 작별 문자 발송` 이라는 2가지 외부 함수가 불린다. 문제는 이 탈퇴 함수가 **리턴값이 없다(void)**. 단위 테스트에서 `assertEquals(결과, "탈퇴성공")`을 쓸 수가 없다. 그럼 어떻게 탈퇴 로직이 정상 작동했다고 증명할 것인가? 바로 빈자리에 가짜 `MockDB`와 `MockKakao`를 꽂아두고, <strong>"야, 너네 방금 삭제 명령이랑 카톡 발송 명령 정확히 1번씩 받은 거 맞아?"</strong>라고 다그쳐서 "네! 받았습니다!"라는 자백(행위 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))을 얻어내는 것 말고는 이 우주에 테스트할 방법이 존재하지 않기 때문이다.
 
-- **💡 비유**: Mock은 경찰견 훈련소의 <strong>'폭발물 냄새 묻은 가짜 가방'</strong>과 같습니다. 훈련(테스트)할 때 진짜 폭탄(진짜 DB)을 가방에 넣으면 다 터져 죽습니다. 그래서 가짜 가방(Mock)을 둡니다. 경찰견이 가방을 물어뜯거나([스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)) 결과를 내는 게 중요한 게 아닙니다. 경찰견이 가방 앞에서 <strong>"정확히 짖는 행동(행위 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>)을 딱 3번 했는가?"</strong>라는 대본에 맞는 액션을 취했는지를 훈련 교관(Assert)이 깐깐하게 채점하는 완벽한 행동 통제 시뮬레이션입니다.
+- **💡 비유**: Mock은 경찰견 훈련소의 <strong>'폭발물 냄새 묻은 가짜 가방'</strong>과 같습니다. 훈련(테스트)할 때 진짜 폭탄(진짜 DB)을 가방에 넣으면 다 터져 죽습니다. 그래서 가짜 가방(Mock)을 둡니다. 경찰견이 가방을 물어뜯거나([스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)) 결과를 내는 게 중요한 게 아닙니다. 경찰견이 가방 앞에서 <strong>"정확히 짖는 행동(행위 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>)을 딱 3번 했는가?"</strong>라는 대본에 맞는 액션을 취했는지를 훈련 교관(Assert)이 깐깐하게 채점하는 완벽한 행동 통제 시뮬레이션입니다.
 
 - **등장 배경 및 발전 과정**:
   1. <strong>상태 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>의 한계</strong>: 전통적 TDD는 무조건 결괏값 5가 나오는지만 비교(AssertEquals)했다. 객체들이 거미줄처럼 통신하는 MSA나 거대 엔터프라이즈 환경에서는, 리턴값 없는 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출이 난무하여 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 불능 상태에 빠졌다.
@@ -120,7 +120,7 @@ Mock (목)을(를) 올바르게 적용하면 [소프트웨어 품질](/knowledge
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 Mock (목)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ Mock (목) 개념 정립
 
 **진행 상황**: 516 / 973
 
-<- **이전**: [462. Mock (목)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/)
-**다음**: [463. Fake (페이크)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/) ->
+<- **이전**: [462. Mock (목)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/)
+**다음**: [463. Fake (페이크)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/855_fake_test_double/) ->
 
 ---

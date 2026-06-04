@@ -20,7 +20,7 @@ tags = ["studynote-operating-system"]
 
 컨텍스트(Context)는 <strong>프로세스가 특정 시점에 실행 중인 모든 상태 정보의 집합</strong>이다.
 
-### PCB([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block) 내 컨텍스트 정보
+### PCB([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Control Block) 내 컨텍스트 정보
 
 ```
 +--------------------------------------+

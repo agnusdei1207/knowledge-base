@@ -136,7 +136,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 1024 / 1108
 
-<- **이전**: [933. 패킷 단편화 오프셋 중첩 검증 방화벽 (Packet Fragmentation Offset Overlapping IDS Evasion](/knowledge-base/studynote/09_security/uncategorized/933_packet_fragmentation_offset_overlapping_ids_evasion_defense/)
-**다음**: [934. 라우팅 프로토콜 인증 방어망 (Routing Protocol Authentication Bgp MD5 Tcp Hijacking)](/knowledge-base/studynote/09_security/uncategorized/934_routing_protocol_authentication_bgp_md5_tcp_hijacking/) ->
+<- **이전**: [933. 패킷 단편화 오프셋 중첩 검증 방화벽 (Packet Fragmentation Offset Overlapping IDS Evasion](/knowledge-base/studynote/09_security/uncategorized/1067_packet_fragmentation_offset_overlapping_ids_evasion_defense/)
+**다음**: [934. 라우팅 프로토콜 인증 방어망 (Routing Protocol Authentication Bgp MD5 Tcp Hijacking)](/knowledge-base/studynote/09_security/uncategorized/1068_routing_protocol_authentication_bgp_md5_tcp_hijacking/) ->
 
 ---

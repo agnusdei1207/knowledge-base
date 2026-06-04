@@ -77,7 +77,7 @@ tags = ["studynote-software-engineering"]
 | 평가 방법론 | 약어 의미 | 핵심 초점 (어디에 집중하는가?) |
 |:---|:---|:---|
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/">ATAM</a></strong> | [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Tradeoff Analysis Method | 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(보안, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)) 간의 <strong>트레이드오프와 <a href="/knowledge-base/studynote/09_security/01_intro_principles/027_risk_identification/">위험 식별</a></strong> |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/">CBAM</a></strong> | Cost Benefit Analysis Method | ATAM의 결과물에 <strong>경제적 가치(비용 대비 효과, <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a>)</strong>를 더함 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/">CBAM</a></strong> | Cost Benefit Analysis Method | ATAM의 결과물에 <strong>경제적 가치(비용 대비 효과, <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/">ROI</a>)</strong>를 더함 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/228_saam_software_architecture_analysis_method/">SAAM</a></strong> | [Software Architecture](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) Analysis Method | 아키텍처가 향후 기능 변경에 얼마나 잘 버티는지(**변경 용이성**) 평가 (ATAM의 조상) |
 | **ARID** | [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Reviews for Intermediate Designs| 아직 설계가 <strong>미완성된 중간 단계</strong>에서 핵심 모듈만 빠르게 리뷰함 |
 
@@ -95,7 +95,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-최근 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서는 무거운 회의 방식의 ATAM이 다소 꺼려질 수 있으나, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))를 도입할 때 '트레이드오프' 분석은 생존과 직결된다.
+최근 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경에서는 무거운 회의 방식의 ATAM이 다소 꺼려질 수 있으나, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))를 도입할 때 '트레이드오프' 분석은 생존과 직결된다.
 
 - **📢 섹션 요약 비유**: [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) 트레이드오프 분석 평가 트리은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 

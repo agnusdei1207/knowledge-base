@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 프로세스 상태([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))는 프로세스가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)부터 종료까지 어떤 단계에 있는지 보여 준다.
+> 1. **본질**: 프로세스 상태([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))는 프로세스가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)부터 종료까지 어떤 단계에 있는지 보여 준다.
 > 2. **가치**: Ready, Running, Waiting, Terminated를 이해하면 Scheduler, [Dispatcher](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/), [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switch가 연결된다.
-> 3. **판단 포인트**: PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block)와 대기 큐를 같이 봐야 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)가 정확해진다.
+> 3. **판단 포인트**: PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Control Block)와 대기 큐를 같이 봐야 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)가 정확해진다.
 
 ---
 
@@ -86,7 +86,7 @@ tags = ["studynote-operating-system"]
 | Ready | CPU를 기다리는 줄이다. |
 | Running | 실제로 CPU를 쓰는 순간이다. |
 | Waiting | 입출력 결과를 기다리는 줄이다. |
-| PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block) | 상태를 기억하는 노트다. |
+| PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Control Block) | 상태를 기억하는 노트다. |
 | [Dispatcher](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/) | 준비된 일을 CPU 위에 올린다. |
 
 ### 📈 관련 키워드 및 발전 흐름도

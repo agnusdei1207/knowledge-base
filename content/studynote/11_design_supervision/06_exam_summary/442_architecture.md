@@ -92,7 +92,7 @@ IBN은 전통 네트워킹과 SDN을 대체한다기보다 그 위에 추상화�
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 방식 | 수동 점검 | 일부 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 지속 보증·자가 치유 |
 | 적합 환경 | 소규모·고정형 | [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)·[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) | 대규모 엔터프라이즈·멀티도메인 |
 
-또한 [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/) ([Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/) for IT Operations), [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/), 제로터치 운영과도 자연스럽게 연결된다. 즉 IBN은 네트워크 자동화의 종착점이라기보다, 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 개선으로 연결하는 진화 방향에 가깝다.
+또한 [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) ([Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/) for IT Operations), [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/), 제로터치 운영과도 자연스럽게 연결된다. 즉 IBN은 네트워크 자동화의 종착점이라기보다, 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 개선으로 연결하는 진화 방향에 가깝다.
 
 - **📢 섹션 요약 비유**: 손으로 모든 스위치를 켜는 집, 리모컨으로 조정하는 집, 스스로 생활 패턴을 학습하는 스마트홈은 비슷해 보여도 운영 수준이 다르다.
 
@@ -131,7 +131,7 @@ IBN이 정착되면 네트워크 변경 속도 향상, 구성 오류 감소, [�
 |:---|:---|
 | [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) | 제어 평면 중앙화로 IBN의 기반을 제공 |
 | 텔레메트리 | 보증 루프를 구성하는 실시간 상태 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
-| [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/) | 이상 징후 분석과 예측 기반 최적화를 지원 |
+| [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) | 이상 징후 분석과 예측 기반 최적화를 지원 |
 | [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/) | 의도 기반 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 분리를 구현하는 대표 사례 |
 | 제로터치 운영 | 배포 자동화의 궁극적 적용 방향 |
 

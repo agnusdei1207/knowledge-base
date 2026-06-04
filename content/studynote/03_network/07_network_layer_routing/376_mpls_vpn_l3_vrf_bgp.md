@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 통신사 백본([Provider](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/) Core)에서 [MPLS](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/) 레이블 스위칭과 MP-BGP를 결합하여, 고객([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/))들의 IP 대역이 서로 겹치더라도 안전하게 논리적 전용망([VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))을 제공하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 아키텍처 (RFC 4364).
+- **개념**: 통신사 백본([Provider](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/) Core)에서 [MPLS](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/) 레이블 스위칭과 MP-BGP를 결합하여, 고객([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/))들의 IP 대역이 서로 겹치더라도 안전하게 논리적 전용망([VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))을 제공하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 아키텍처 (RFC 4364).
 - **필요성**: 기업들은 지사 간 통신을 위해 비싼 물리적 전용선을 매달 수천만 원씩 주고 빌렸다. 통신사는 돈을 더 벌고 싶었다. "야, 전국에 깔린 우리 KT 인터넷 백본 하나에다가 삼성, 현대, LG 트래픽을 몽땅 다 태워서 전용선처럼 팔면 돈방석에 앉겠는데?"
 하지만 문제가 생겼다. 삼성도 사설 IP `192.168.0.0`을 쓰고, LG도 `192.168.0.0`을 쓴다. 이 패킷들이 KT 라우터에 같이 들어오면 IP 충돌로 망이 터진다. **"고객들의 IP가 겹쳐도 절대 안 섞이게 완벽히 포장하고 격리할 방법이 없을까?"** ---> 그 답이 L3 [MPLS](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/) VPN이다.
 
@@ -46,7 +46,7 @@ tags = ["studynote-network"]
 이 기술은 3대 장비 라인업과 2대 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(RD, RT)가 톱니바퀴처럼 맞물려 돌아간다.
 
 ### 1. 장비의 3대 직급 (CE, PE, P)
-- <strong>CE (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">C고객</a> Edge)</strong>: 삼성 서울 본사, 부산 지사 등 고객사 구석에 놓인 라우터. 얘는 멍청해서 자기가 VPN을 타는지도 모르고 그냥 IP 패킷을 통신사로 쏜다.
+- <strong>CE (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/">C고객</a> Edge)</strong>: 삼성 서울 본사, 부산 지사 등 고객사 구석에 놓인 라우터. 얘는 멍청해서 자기가 VPN을 타는지도 모르고 그냥 IP 패킷을 통신사로 쏜다.
 - <strong>PE (<a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/">Provider</a> Edge) ★제일 바쁨</strong>: 통신사(KT)의 입구와 출구 문지기. 고객의 평범한 IP를 받아서 VPNv4 주소로 변조하고, [MPLS](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/) 딱지 2개를 겹쳐 붙여(Push) 터널로 던지는 극한 직업. (내부 메모리는 VRF로 수백 개 쪼개져 있다).
 - <strong>P (<a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/">Provider</a> Core)</strong>: 통신사 망 한가운데 있는 알바생들. 알맹이는 쳐다보지도 않고 바깥쪽 딱지(Outer Label)만 보고 미친 듯이 스위칭(Swap)만 한다.
 

@@ -136,7 +136,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 137 / 1108
 
-<- **이전**: [1021. 가시광 통신 (VLC) 라이파이 (Li-Fi)](/knowledge-base/studynote/09_security/uncategorized/1021_vlc_visible_light_communication_lifi_modulation/)
-**다음**: [1022. 저궤도 위성망 (LEO) 스타링크 (Leo Satellite Starlink Mega Constellation 6G)](/knowledge-base/studynote/09_security/uncategorized/1022_leo_satellite_starlink_mega_constellation_6g/) ->
+<- **이전**: [1021. 가시광 통신 (VLC) 라이파이 (Li-Fi)](/knowledge-base/studynote/09_security/uncategorized/1099_vlc_visible_light_communication_lifi_modulation/)
+**다음**: [1022. 저궤도 위성망 (LEO) 스타링크 (Leo Satellite Starlink Mega Constellation 6G)](/knowledge-base/studynote/09_security/uncategorized/1100_leo_satellite_starlink_mega_constellation_6g/) ->
 
 ---

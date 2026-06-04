@@ -28,7 +28,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a>의 남용</strong>: 과거에는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 다양화하기 위해 부모 클래스를 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)받아 자식 클래스에서 메서드를 오버라이딩(Overriding)했다. (예: `Robot` 부모를 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)받은 `WalkingRobot`, `FlyingRobot`) 하지만 이는 기능이 조금만 섞여도 자식 클래스가 기하급수적으로 늘어나는 '클래스 폭발(Class Explosion)' 문제를 낳았다.
   2. **위임(Composition/Delegation)의 부상**: "행위(전략)를 내가 직접 구현하거나 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)받지 말고, 행위를 전문으로 하는 다른 부품 객체에게 맡기자(위임)"는 철학이 대두되었다.
-  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/">의존성 주입</a>(<a href="/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/">DI</a>)과의 결합</strong>: 현대에 와서는 Spring 프레임워크 등에서 런타임에 필요한 전략 객체를 외부에서 꽂아주는 [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)([Dependency Injection](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)) 메커니즘과 완벽히 결합하여 엔터프라이즈 아키텍처의 기본이 되었다.
+  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/">의존성 주입</a>(<a href="/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/">DI</a>)과의 결합</strong>: 현대에 와서는 Spring 프레임워크 등에서 런타임에 필요한 전략 객체를 외부에서 꽂아주는 [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)([Dependency Injection](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)) 메커니즘과 완벽히 결합하여 엔터프라이즈 아키텍처의 기본이 되었다.
 
 - **📢 섹션 요약 비유**: 로봇 장난감을 살 때 날아다니는 로봇, 걸어다니는 로봇을 따로따로 여러 개 사는 것([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/))이 아니라, 몸통은 하나만 사고 등에 꽂는 '날개 팩', '다리 팩'(전략)만 갈아 끼워 다양한 로봇을 만드는 것(위임)과 같습니다.
 
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 전략 (Strategy)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

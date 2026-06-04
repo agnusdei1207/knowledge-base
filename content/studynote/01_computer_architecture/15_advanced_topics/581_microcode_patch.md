@@ -121,7 +121,7 @@ tags = ["studynote-computer-architecture"]
 1. CPU 모델과 스테핑에 맞는 패치가 정확히 적용되었는가?
 2. BIOS/[UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 로딩과 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 조기 로딩 중 무엇이 기준 경로인지 명확한가?
 3. 패치가 노출한 보안 제어 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 하이퍼바이저가 실제로 활성화하는가?
-4. 부팅 전후 [보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/503_security_features_design/) 상태와 마이크로코드 버전을 자산 목록으로 수집하는가?
+4. 부팅 전후 [보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/895_security_features_design/) 상태와 마이크로코드 버전을 자산 목록으로 수집하는가?
 5. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 회귀는 어느 워크로드에서 얼마나 발생하는지 계측했는가?
 6. 패치만으로 부족한 취약점에 대해 컴파일러·[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 우회가 함께 적용되는가?
 

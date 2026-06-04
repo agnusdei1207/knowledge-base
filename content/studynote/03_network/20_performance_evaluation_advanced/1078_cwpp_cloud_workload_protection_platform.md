@@ -90,7 +90,7 @@ CWPP의 가장 위대하고 어려운 기능입니다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- <strong>1042번 <a href="/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/">CASB</a></strong>: 직원들이 구글 드라이브([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)) 쓸 때 기밀문서 못 빼돌리게 하는 문지기.
+- <strong>1042번 <a href="/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/">CASB</a></strong>: 직원들이 구글 드라이브([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/)) 쓸 때 기밀문서 못 빼돌리게 하는 문지기.
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/">CSPM</a> (클라우드 <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/">형상 관리</a>)</strong>: 관리자가 실수로 AWS S3 저장소 비밀번호를 '전체 공개'로 세팅하는 바보짓([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류)을 찾아내는 잔소리꾼.
 - <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/">CWPP</a></strong>: 진짜 서버 뱃속([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)/[PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/))에 들어가서 해커의 바이러스와 쉘 스크립트 난입을 물리적으로 방어하는 칼과 방패. (최근엔 이 세 개를 합쳐서 <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/256_cnapp_cloud_native_application_protection/">CNAPP</a></strong> 이라는 융합 용어로 부릅니다.)
 

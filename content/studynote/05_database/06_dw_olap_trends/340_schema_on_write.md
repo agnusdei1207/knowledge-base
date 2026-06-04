@@ -23,7 +23,7 @@ tags = ["studynote-database"]
 
 시험과 실무에서 `스키마 온 라이트 (Schema-on-write)`를 따로 외우기보다, "무엇을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하거나 최적화하려는가"라는 질문으로 연결해야 오래 남는다. 하루 수십 TB를 적재하는 환경에서는 적재 속도, 변환 위치, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 비용을 함께 최적화해야 한다.
 
-이 주제와 함께 자주 묶이는 약어로는 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)가 있다. 약어를 풀어 읽어야 각 규칙의 역할 차이를 놓치지 않는다.
+이 주제와 함께 자주 묶이는 약어로는 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System)가 있다. 약어를 풀어 읽어야 각 규칙의 역할 차이를 놓치지 않는다.
 
 이 그림은 현재 주제가 입력 조건, 통제 규칙, 결과 보장 사이에서 어떤 위치를 차지하는지 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여 준다.
 

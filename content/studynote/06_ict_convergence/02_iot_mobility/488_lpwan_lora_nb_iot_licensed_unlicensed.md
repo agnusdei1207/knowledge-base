@@ -81,7 +81,7 @@ tags = ["studynote-ict-convergence"]
 |:---|:---:|:---:|
 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용 | 낮음 (자체 구축 가능) | 높음 (통신사 계약) |
 | 간섭 위험 | 있음 (ISM 혼잡) | 없음 ([보호 대역](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/074_보호_대역_Guard_Band/)) |
-| [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 보장 | 미보장 | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 보장 |
+| [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 보장 | 미보장 | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 보장 |
 | 배포 속도 | 빠름 | 통신사 의존 |
 | 이동성 | 낮음 | [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) 지원 |
 

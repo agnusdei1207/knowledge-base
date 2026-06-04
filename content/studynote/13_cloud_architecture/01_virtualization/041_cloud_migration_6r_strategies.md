@@ -11,7 +11,7 @@ tags = ["studynote-cloud-architecture"]
 
 > **핵심 인사이트**
 > 1. 클라우드 마이그레이션 6R [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 AWS가 Gartner의 5Rs를 확장한 클라우드 이전 유형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계로, Retire(폐기)·Retain(유지)·Rehost([리호스트](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/212_rehost_lift_and_shift_migration_strategy/))·Replatform(리플랫폼)·Repurchase(재구매)·[Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)/Re-architect(재설계)의 6가지 경로를 제시한다.
-> 2. 대부분의 기업 클라우드 전환에서 포트폴리오 분석 시 Rehost([Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) & Shift)가 60~70%를 차지하며 가장 빠른 이전이 가능하지만, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 이점 극대화는 Refactor에서만 온전히 실현된다.
+> 2. 대부분의 기업 클라우드 전환에서 포트폴리오 분석 시 Rehost([Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) & Shift)가 60~70%를 차지하며 가장 빠른 이전이 가능하지만, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 이점 극대화는 Refactor에서만 온전히 실현된다.
 > 3. 6R [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택의 핵심 변수는 비즈니스 가치(Value)·기술 복잡도·시간 제약·비용 효율성의 트레이드오프이며, 단일 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 아닌 애플리케이션별 맞춤 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택이 성공적인 클라우드 전환의 원칙이다.
 
 ---

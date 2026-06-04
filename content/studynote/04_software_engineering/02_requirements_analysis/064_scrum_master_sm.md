@@ -10,7 +10,7 @@ tags = ["software_engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 마스터([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/) Master, [SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/))는 팀이 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 원칙과 이벤트를 올바르게 수행하도록 돕는 서번트 리더(Servant Leader)다.
+> 1. **본질**: [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 마스터([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/) Master, [SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/))는 팀이 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 원칙과 이벤트를 올바르게 수행하도록 돕는 서번트 리더(Servant Leader)다.
 > 2. **가치**: SM은 장애물을 제거하고, 팀이 개발에 집중하도록 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)해 생산성과 협업 품질을 높인다.
 > 3. **판단**: PO(Product Owner)와 PM([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Manager)와 역할이 다르며, 팀의 자기조직화를 촉진하는 것이 핵심이다.
 
@@ -40,7 +40,7 @@ Continuous Improvement
 
 | 역할 | 핵심 행동 |
 | :-- | :-- |
-| [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/) Master | [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 실천 지원, 장애 제거 |
+| [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/) Master | [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 실천 지원, 장애 제거 |
 | Product Owner | 백로그와 가치 우선순위 |
 | [Development Team](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/065_development_team_scrum/) | 구현과 기술 품질 |
 
@@ -54,7 +54,7 @@ SM은 데일리 [스크럼](/knowledge-base/studynote/04_software_engineering/02
 
 | 역할 | 초점 | 오해 |
 | :-- | :-- | :-- |
-| [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/) Master | 프로세스와 팀 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 팀장으로 오해 |
+| [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/) Master | 프로세스와 팀 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 팀장으로 오해 |
 | Product Owner | 제품 가치와 우선순위 | 기술 지시자로 오해 |
 | [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Manager | 일정과 자원 관리 | [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 책임자로 오해 |
 

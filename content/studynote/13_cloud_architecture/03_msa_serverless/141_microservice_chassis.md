@@ -12,7 +12,7 @@ tags = ["studynote-cloud-architecture"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Microservice Chassis는 <strong>로깅·<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>·헬스체크·<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a>·보안 등 모든 마이크로서비스에 공통으로 필요한 횡단 관심사(Cross-cutting Concerns)를 프레임워크로 제공</strong>하여 보일러플레이트를 제거하는 패턴이다.
 > 2. **가치**: 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 로깅·트레이싱·[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 로딩을 개별 구현하면 <strong>중복·불일치</strong>가 발생하지만, Chassis가 표준화된 구현을 제공하면 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a>·개발 속도</strong>가 향상된다.
-> 3. **판단 포인트**: Spring Boot(Java)·Go-kit(Go)·Dapr([사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 기반, 언어 무관)이 대표 Chassis이며, [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/))와 역할이 일부 중복된다.
+> 3. **판단 포인트**: Spring Boot(Java)·Go-kit(Go)·Dapr([사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 기반, 언어 무관)이 대표 Chassis이며, [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/))와 역할이 일부 중복된다.
 
 ---
 
@@ -45,7 +45,7 @@ Microservice Chassis는 <strong><a href="/knowledge-base/studynote/01_computer_a
 | **Chassis** | 공통 관심사 프레임워크 |
 | **Spring Boot** | Java Chassis |
 | **Dapr** | [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) Chassis |
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">서비스 메시</a></strong> | 네트워크 레벨 Chassis |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/">서비스 메시</a></strong> | 네트워크 레벨 Chassis |
 | **Cross-cutting** | 횡단 관심사 |
 
 ### 📈 관련 키워드 및 발전 흐름도

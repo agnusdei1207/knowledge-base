@@ -19,18 +19,18 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: Fake는 문자 그대로 '정교한 위조품'이다. [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))은 `find("kim")`을 부르면 무조건 `"kim"`을 뱉는 바보다. 하지만 Fake DB는 내부에 `HashMap`을 갖고 있어서, `save("kim")`을 하면 진짜로 해시맵에 저장하고, 나중에 `find("kim")`을 부르면 해시맵을 뒤져서 `"kim"`을 꺼내준다. 겉에서 보면 진짜 DB와 구분이 안 갈 정도로 똑똑하게 동작하지만, 전원을 끄면 메모리(HashMap)가 날아가 버리므로 실제 라이브(Production) 환경에서는 절대 쓸 수 없는 장난감이다.
+- **개념**: Fake는 문자 그대로 '정교한 위조품'이다. [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/))은 `find("kim")`을 부르면 무조건 `"kim"`을 뱉는 바보다. 하지만 Fake DB는 내부에 `HashMap`을 갖고 있어서, `save("kim")`을 하면 진짜로 해시맵에 저장하고, 나중에 `find("kim")`을 부르면 해시맵을 뒤져서 `"kim"`을 꺼내준다. 겉에서 보면 진짜 DB와 구분이 안 갈 정도로 똑똑하게 동작하지만, 전원을 끄면 메모리(HashMap)가 날아가 버리므로 실제 라이브(Production) 환경에서는 절대 쓸 수 없는 장난감이다.
 
 - **필요성**: TDD를 한답시고 Mock과 Stub으로 외부 DB 통신을 싹 다 가짜 대본으로 막아버렸다(행위 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)). 그런데 오픈 당일, DB에 데이터를 넣는 `INSERT` 쿼리문 스펠링에 오타가 나서 시스템이 와르르 무너졌다. Mock은 내 로직만 검사할 뿐 진짜 DB 쿼리가 맞게 짜였는지는 봐주지 않기 때문이다. 그렇다고 매번 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 1만 개를 돌릴 때마다 진짜 무거운 오라클 DB를 켰다 껐다 하면 테스트가 3시간이 걸려 아무도 안 돌리게 된다. <strong>"진짜처럼 쿼리를 다 받아주면서도, 빛의 속도로 켜지고 꺼지는 깃털 같은 DB"</strong>가 절실히 필요했고, 이것이 Fake의 절대적 존재 이유다.
 
-- **💡 비유**: Fake는 영화 촬영장의 <strong>'가짜 병원 세트장'</strong>과 같습니다. [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))이 그냥 종이에 "병원"이라고 써 붙인 허수아비라면, Fake 병원은 진짜 침대, 링거, 가짜 피(내부 로직)가 완벽하게 갖춰져 있습니다. 배우가 누우면 진짜 병원처럼 완벽하게 연기(테스트)가 가능합니다. 하지만 진짜 의사나 약(Production 기능)은 없기 때문에 실제 환자를 눕히면 큰일 납니다. 촬영(테스트)용도로만 쓰는 완벽한 미니어처입니다.
+- **💡 비유**: Fake는 영화 촬영장의 <strong>'가짜 병원 세트장'</strong>과 같습니다. [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/))이 그냥 종이에 "병원"이라고 써 붙인 허수아비라면, Fake 병원은 진짜 침대, 링거, 가짜 피(내부 로직)가 완벽하게 갖춰져 있습니다. 배우가 누우면 진짜 병원처럼 완벽하게 연기(테스트)가 가능합니다. 하지만 진짜 의사나 약(Production 기능)은 없기 때문에 실제 환자를 눕히면 큰일 납니다. 촬영(테스트)용도로만 쓰는 완벽한 미니어처입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **진짜 DB에 대한 공포**: 옛날엔 테스트 코드 안에 진짜 DB 연결 코드를 박았다. 팀원 5명이 동시에 테스트를 돌리면 DB 데이터가 뒤섞여 테스트가 터지는 환경 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(Flaky Test)에 시달렸다.
-  2. **가짜 저장소 수제작**: 개발자들이 빡쳐서 `interface Repository`를 만들고, 진짜 DB 구현체 옆에 `class FakeRepository implements Repository { Map map; }` 이라는 가짜 메모리 클래스를 수작업으로 짜서 테스트에만 주입([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/))하기 시작했다.
+  2. **가짜 저장소 수제작**: 개발자들이 빡쳐서 `interface Repository`를 만들고, 진짜 DB 구현체 옆에 `class FakeRepository implements Repository { Map map; }` 이라는 가짜 메모리 클래스를 수작업으로 짜서 테스트에만 주입([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/))하기 시작했다.
   3. **H2와 Testcontainers의 대중화 (현재)**: 손으로 맵(Map)을 짜는 것도 귀찮다. 아예 자바 진영에선 JVM 메모리 안에서만 0.1초 만에 떴다 사라지는 `H2 Database (초거대 Fake DB)`가 천하를 통일했고, 최근엔 `Testcontainers(도커 기반 가짜 환경)`로 진화했다.
 
-- **📢 섹션 요약 비유**: Fake 객체는 군대의 <strong>'서바이벌 총(페인트건)'</strong>입니다. 훈련(테스트)할 때 빵야! 하고 입으로 소리 내는 것([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/))은 너무 실전 감각이 떨어지고, 진짜 실탄(Real DB)을 쏘면 아군이 죽습니다. 진짜 총과 무게/격발 느낌이 100% 똑같으면서 맞으면 물감만 터지는 페인트건(Fake)이야말로 부상자 없이 실전 전투력([통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/))을 끌어올리는 최고의 훈련 도구입니다.
+- **📢 섹션 요약 비유**: Fake 객체는 군대의 <strong>'서바이벌 총(페인트건)'</strong>입니다. 훈련(테스트)할 때 빵야! 하고 입으로 소리 내는 것([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/))은 너무 실전 감각이 떨어지고, 진짜 실탄(Real DB)을 쏘면 아군이 죽습니다. 진짜 총과 무게/격발 느낌이 100% 똑같으면서 맞으면 물감만 터지는 페인트건(Fake)이야말로 부상자 없이 실전 전투력([통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/))을 끌어올리는 최고의 훈련 도구입니다.
 
 ---
 
@@ -120,7 +120,7 @@ Fake (페이크)을(를) 올바르게 적용하면 [소프트웨어 품질](/kno
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 Fake (페이크)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ Fake (페이크) 개념 정립
 
 **진행 상황**: 518 / 973
 
-<- **이전**: [463. Fake (페이크)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/)
-**다음**: [464. 서비스 가상화 (Service Virtualization)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/464_service_virtualization/) ->
+<- **이전**: [463. Fake (페이크)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/855_fake_test_double/)
+**다음**: [464. 서비스 가상화 (Service Virtualization)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/856_service_virtualization/) ->
 
 ---

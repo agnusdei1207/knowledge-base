@@ -68,7 +68,7 @@ Plotly/Dash의 핵심은 "차트 렌더링"과 "상태 변화"를 분리하는 �
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
 | Plotly Express | 빠른 고수준 차트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 분석 속도가 중요할 때 유리 |
-| [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) Objects | 세밀한 trace·layout 제어 | 복잡한 커스터마이징에 적합 |
+| [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) Objects | 세밀한 trace·layout 제어 | 복잡한 커스터마이징에 적합 |
 | `dcc.Graph` | Plotly Figure 렌더링 | 클릭, 선택, 줌 이벤트를 다시 입력으로 활용 가능 |
 | Callback | 입력 변화 시 출력 갱신 | 의존 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 복잡해질수록 [Directed Acyclic Graph](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/) ([DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)) 구조 관리 필요 |
 | [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) | 값을 읽되 재실행 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)는 하지 않음 | 폼 제출형 화면에 유용 |
@@ -157,7 +157,7 @@ Plotly/Dash를 잘 도입하면 [데이터](/knowledge-base/studynote/05_databas
 | Plotly.js | 브라우저에서 Figure를 실제 인터랙티브 차트로 렌더링하는 엔진 |
 | Callback [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) | 입력과 출력의 의존 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 표현하는 Dash의 핵심 구조 |
 | Plotly Express | 빠른 고수준 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기, 프로토타이핑에 유리 |
-| [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) Objects | Trace와 Layout을 세밀하게 조정하는 저수준 인터페이스 |
+| [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) Objects | Trace와 Layout을 세밀하게 조정하는 저수준 인터페이스 |
 | [Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) | 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 앱에서 반복 계산을 줄이는 필수 최적화 수단 |
 | BI Dashboard | Dash와 비교되는 표준 리포팅 계층, 도구 선택 기준점 |
 

@@ -74,8 +74,8 @@ AARRR 퍼널의 핵심 원리는 입력 기준, 실행 규칙, 측정 지표, �
 
 | 비교 대상 | 경계 차이 | 판단 포인트 |
 |:---|:---|:---|
-| [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) | '[OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 분석 관점과 질문 구조에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
-| [플랫폼 비즈니스 모델](/knowledge-base/studynote/12_it_management/01_governance_strategy/033_platform_business_model/) | '[플랫폼 비즈니스 모델](/knowledge-base/studynote/12_it_management/01_governance_strategy/033_platform_business_model/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 분석 관점과 질문 구조에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
+| [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/) | '[OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 분석 관점과 질문 구조에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
+| [플랫폼 비즈니스 모델](/knowledge-base/studynote/12_it_management/01_governance_strategy/825_platform_business_model/) | '[플랫폼 비즈니스 모델](/knowledge-base/studynote/12_it_management/01_governance_strategy/825_platform_business_model/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 분석 관점과 질문 구조에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
 | [구독 경제](/knowledge-base/studynote/12_it_management/01_governance_strategy/057_subscription_economy_xaas/)  / XaaS | '[구독 경제](/knowledge-base/studynote/12_it_management/01_governance_strategy/057_subscription_economy_xaas/)  / XaaS' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 분석 관점과 질문 구조에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
 
 따라서 시험 답안에서는 "무엇과 다르며 왜 같이 보아야 하는가"를 짝지어 말하는 것이 중요하다. 실무에서도 현재 문제가 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 정렬인지, 운영 절차인지, 보안 통제인지에 따라 AARRR 퍼널의 사용 위치가 달라진다.
@@ -118,8 +118,8 @@ AARRR 퍼널의 핵심 원리는 입력 기준, 실행 규칙, 측정 지표, �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
-| [플랫폼 비즈니스 모델](/knowledge-base/studynote/12_it_management/01_governance_strategy/033_platform_business_model/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
+| [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
+| [플랫폼 비즈니스 모델](/knowledge-base/studynote/12_it_management/01_governance_strategy/825_platform_business_model/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
 | [구독 경제](/knowledge-base/studynote/12_it_management/01_governance_strategy/057_subscription_economy_xaas/)  / XaaS | 인접 주제로서 범위와 시점을 구분하게 한다. |
 | 의사결정 프레임 | 현재 개념을 의사결정 프레임 관점과 연결해 실무 맥락을 넓힌다. |
 
@@ -148,7 +148,7 @@ AARRR 퍼널의 핵심 원리는 입력 기준, 실행 규칙, 측정 지표, �
 
 **진행 상황**: 75 / 587
 
-<- **이전**: [41. 그로스 해킹 (Growth Hacking)](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)
-**다음**: [042. 그로스 해킹 (Growth Hacking)](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_growth_hacking/) ->
+<- **이전**: [41. 그로스 해킹 (Growth Hacking)](/knowledge-base/studynote/12_it_management/01_governance_strategy/833_growth_hacking/)
+**다음**: [042. 그로스 해킹 (Growth Hacking)](/knowledge-base/studynote/12_it_management/01_governance_strategy/834_growth_hacking/) ->
 
 ---

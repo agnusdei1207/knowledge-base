@@ -110,7 +110,7 @@ DQN(Deep Q-Network)은 "딥러닝(인지)"과 "강화학습(제어)"이라는 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 상위 개념 | 강화학습 ([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/)), 딥러닝 아키텍처 |
+| 상위 개념 | 강화학습 ([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/)), 딥러닝 아키텍처 |
 | 하위 개념 | 경험 리플레이 ([Experience Replay](/knowledge-base/studynote/10_ai/02_dl_architecture_new/169_experience_replay/)), [타겟 네트워크](/knowledge-base/studynote/10_ai/02_dl_architecture_new/170_target_network/) ([Target Network](/knowledge-base/studynote/10_ai/02_dl_architecture_new/170_target_network/)), Q-값 |
 | 연결 개념 | [Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/), 오프 폴리시 ([Off-Policy](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/464_q_learning_off_policy/)), Double DQN (DDQN), 알파고 |
 

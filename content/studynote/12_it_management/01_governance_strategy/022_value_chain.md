@@ -74,7 +74,7 @@ tags = ["studynote-it-management"]
 
 | 비교 대상 | 경계 차이 | 판단 포인트 |
 |:---|:---|:---|
-| [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/) | '[전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 분석 관점과 질문 구조에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
+| [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/815_strategy_map_bsc/) | '[전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/815_strategy_map_bsc/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 분석 관점과 질문 구조에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
 | 5 Forces 모델 | '5 Forces 모델' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 분석 관점과 질문 구조에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
 | [IT BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/020_it_bsc/) | '[IT BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/020_it_bsc/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 분석 관점과 질문 구조에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
 
@@ -118,7 +118,7 @@ tags = ["studynote-it-management"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
+| [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/815_strategy_map_bsc/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
 | 5 Forces 모델 | 인접 주제로서 범위와 시점을 구분하게 한다. |
 | [IT BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/020_it_bsc/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
 | 의사결정 프레임 | 현재 개념을 의사결정 프레임 관점과 연결해 실무 맥락을 넓힌다. |
@@ -148,7 +148,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 37 / 587
 
-<- **이전**: [21. 전략 체계도 (Strategy Map) - BSC 각 관점의 KPI 인과관계를 도식화](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)
-**다음**: [22. 가치 사슬 (Value Chain) - 마이클 포터, 주활동(본원적 활동)과 지원 활동 분류 분석](/knowledge-base/studynote/12_it_management/01_governance_strategy/022_value_chain_analysis_model/) ->
+<- **이전**: [21. 전략 체계도 (Strategy Map) - BSC 각 관점의 KPI 인과관계를 도식화](/knowledge-base/studynote/12_it_management/01_governance_strategy/815_strategy_map_bsc/)
+**다음**: [22. 가치 사슬 (Value Chain) - 마이클 포터, 주활동(본원적 활동)과 지원 활동 분류 분석](/knowledge-base/studynote/12_it_management/01_governance_strategy/816_value_chain_analysis_model/) ->
 
 ---

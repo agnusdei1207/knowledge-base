@@ -92,7 +92,7 @@ tags = ["studynote-bigdata"]
 ### Ozone (차세대 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 스토리지)
 - [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 3.x: [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) ViewFS -> Apache Ozone으로 진화. Ozone은 객체 스토리지 기반으로 수십 억 개 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) 메모리 없이 처리한다.
 
-- **📢 섹션 요약 비유**: Ozone은 HDFS의 한계를 넘는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 스토리지다. 기존 도서관 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 시스템이 수십억 권을 관리할 수 없을 때, 전자 클라우드 도서관으로 업그레이드하는 것과 같다.
+- **📢 섹션 요약 비유**: Ozone은 HDFS의 한계를 넘는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 스토리지다. 기존 도서관 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 시스템이 수십억 권을 관리할 수 없을 때, 전자 클라우드 도서관으로 업그레이드하는 것과 같다.
 
 ---
 
@@ -104,7 +104,7 @@ tags = ["studynote-bigdata"]
 | **투명성** | 기존 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 잡 코드 변경 없이 [Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/) 적용 |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a></strong> | [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) 독립 운영으로 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 제거 |
 
-[HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) ViewFS는 RBF로 진화하고, 궁극적으로 Ozone의 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 객체 스토리지로 대체되는 방향으로 발전 중이다.
+[HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) ViewFS는 RBF로 진화하고, 궁극적으로 Ozone의 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 객체 스토리지로 대체되는 방향으로 발전 중이다.
 
 - **📢 섹션 요약 비유**: [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 진화는 도서관의 발전이다. 수동 카드 목록(단일 [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)) -> 구청별 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 목록([Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/)+ViewFS) -> 클라우드 전자도서관(Ozone)으로 진화한다.
 

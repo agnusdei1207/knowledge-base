@@ -142,7 +142,7 @@ LMAX 디스럽터를 적용하면 잠금 경쟁 없는 초고처리량과 예측
 
 **진행 상황**: 244 / 530
 
-<- **이전**: [186. 스페이스 기반 아키텍처 투플 맵핑 구조 (Space-Based Tuple Mapping)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/186_space_based_tuple_mapping/)
-**다음**: [187. LMAX 디스럽터 패턴 (LMAX Disruptor Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/187_lmax_disruptor_pattern/) ->
+<- **이전**: [186. 스페이스 기반 아키텍처 투플 맵핑 구조 (Space-Based Tuple Mapping)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/657_space_based_tuple_mapping/)
+**다음**: [187. LMAX 디스럽터 패턴 (LMAX Disruptor Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/658_lmax_disruptor_pattern/) ->
 
 ---

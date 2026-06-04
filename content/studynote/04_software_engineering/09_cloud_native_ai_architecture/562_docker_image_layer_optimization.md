@@ -25,13 +25,13 @@ tags = ["studynote-software-engineering"]
   - `RUN rm -rf /var/cache` (3번 레이어: 지웠다고 '표시'만 하는 0MB 셀로판지 얹기 💥)
   - **핵심**: 3번에서 쓰레기를 지워도, 2번 레이어에 이미 구워진 100MB의 물리적 쓰레기 용량은 밑에 깔린 채로 절대로 사라지지 않는다! (삭제의 딜레마).
 
-- **필요성 (2GB짜리 거대 똥 덩어리 이미지의 공포)**: 주니어 개발자가 `Dockerfile`을 짰다. 자바(Java) 코드를 빌드하겠다고 무거운 `JDK(500MB)` 베이스 이미지를 쓰고, Maven으로 빌드하며 `~/.m2` [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 캐시 1GB를 다운받았다. 이미지를 구우니 2GB 괴물이 나왔다! 2GB를 AWS [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)에 배포하려 치면, [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)) 10대가 20GB를 동시에 다운(Pull)받느라 네트워크 대역폭이 뻗어버리고 배포 타임이 3분씩 늘어진다. <strong>"배포 스피드(Agility)가 생명인 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a> 시대에, 뚱뚱한 이미지는 그 자체로 트래픽 병목이자 비용(네트워크 전송료) 폭발의 주범이다!"</strong> 이 똥 덩어리를 50MB짜리 깃털로 깎아내야만 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)의 진정한 미친 속도가 나온다.
+- **필요성 (2GB짜리 거대 똥 덩어리 이미지의 공포)**: 주니어 개발자가 `Dockerfile`을 짰다. 자바(Java) 코드를 빌드하겠다고 무거운 `JDK(500MB)` 베이스 이미지를 쓰고, Maven으로 빌드하며 `~/.m2` [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 캐시 1GB를 다운받았다. 이미지를 구우니 2GB 괴물이 나왔다! 2GB를 AWS [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)에 배포하려 치면, [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)) 10대가 20GB를 동시에 다운(Pull)받느라 네트워크 대역폭이 뻗어버리고 배포 타임이 3분씩 늘어진다. <strong>"배포 스피드(Agility)가 생명인 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/">클라우드 네이티브</a> 시대에, 뚱뚱한 이미지는 그 자체로 트래픽 병목이자 비용(네트워크 전송료) 폭발의 주범이다!"</strong> 이 똥 덩어리를 50MB짜리 깃털로 깎아내야만 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)의 진정한 미친 속도가 나온다.
 
 - **💡 비유**: [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 레이어 구조는 <strong>'투명한 셀로판지 여러 장을 겹쳐서 그림을 그리는 것'</strong>과 같습니다. 1번 셀로판지에 파란색 동그라미(캐시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))를 그렸습니다. 아차! 실수했네! 지우개로 못 지웁니다. 방법은 오직 위에 2번 셀로판지(새 레이어)를 덮고, 거기에 "밑에 있는 파란 동그라미는 없는 걸로 취급해!"(가림막)라고 하얀색을 덧칠하는 수밖에 없습니다. 눈으로 볼 땐 안 보이지만, 두 장을 겹친 전체 두께와 무게(전체 이미지 용량)는 그대로 무겁게 남아있는 잔혹한 덧셈 법칙입니다.
 
 - **등장 배경 및 발전 과정**:
   1. <strong>단일 스테이지 무지성 빌드 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>)</strong>: `FROM ubuntu` 때리고 `RUN` 10줄 치고 끝. 이미지 용량이 2~3GB씩 펑펑 터져 나감.
-  2. <strong>Layer <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/">Chaining</a> 꼼수 (과도기)</strong>: 똑똑한 애들이 `RUN apt-get install && rm -rf ...` 이렇게 한 줄에 `&&`로 엮어서 "1개의 셀로판지 안에서 그리고 지우면 용량 안 남네 ㅋ" 꼼수를 발견함. ([Dockerfile](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/067_dockerfile_container_image_build_script/) 가독성은 개나 줘버림).
+  2. <strong>Layer <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/">Chaining</a> 꼼수 (과도기)</strong>: 똑똑한 애들이 `RUN apt-get install && rm -rf ...` 이렇게 한 줄에 `&&`로 엮어서 "1개의 셀로판지 안에서 그리고 지우면 용량 안 남네 ㅋ" 꼼수를 발견함. ([Dockerfile](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/067_dockerfile_container_image_build_script/) 가독성은 개나 줘버림).
   3. <strong>Multi-stage Build의 등장 (현재, <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a> 17.05~)</strong>: [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 공식 진영이 빡쳐서 흑마법을 발표함. "야 지저분하게 `&&` 쓰지 마! 걍 빌드 전용 깡통 1개, 실행 전용 깡통 1개 두 개 띄워서 쓸만한 알맹이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)만 핀셋으로 쏙 빼와서(Copy) 새 깡통에 넣어!" 전 세계 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 최적화의 1티어 헌법으로 자리 잡음.
 
 - **📢 섹션 요약 비유**: 일반 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 빌드가 <strong>'목수가 커다란 참나무 통나무(100kg) 전체를 트럭에 싣고 고객 집에 가서 조각칼로 깎아 피노키오 인형(1kg)을 만들어주는 미친 배달(배포)'</strong>이라면, 최소화 기법(멀티 스테이지 빌드)은 <strong>'목수 작업장(빌드 스테이지)에서 통나무 쓰레기 99kg을 다 깎아서 톱밥을 버린 뒤, 오직 완성된 1kg짜리 작고 예쁜 피노키오 인형(실행 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>)만 예쁜 작은 상자(실행 스테이지)에 담아 깃털처럼 고객에게 택배 배송'</strong>하는 천재적인 군살 제거술입니다.
@@ -124,7 +124,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) 이미지 계층(Layer) 최소화 기법은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -178,7 +178,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 716 / 973
 
-<- **이전**: [562. 도커(Docker) 이미지 계층(Layer) 최소화 기법](/knowledge-base/studynote/04_software_engineering/11_testing_validation/562_docker_image_layer_minimization/)
-**다음**: [563. 쿠버네티스 (Kubernetes) 오브젝트 아키텍처 (Pod, Service, Deployment, Ingress)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/563_kubernetes_object_architecture/) ->
+<- **이전**: [562. 도커(Docker) 이미지 계층(Layer) 최소화 기법](/knowledge-base/studynote/04_software_engineering/11_testing_validation/954_docker_image_layer_minimization/)
+**다음**: [563. 쿠버네티스 (Kubernetes) 오브젝트 아키텍처 (Pod, Service, Deployment, Ingress)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/955_kubernetes_object_architecture/) ->
 
 ---

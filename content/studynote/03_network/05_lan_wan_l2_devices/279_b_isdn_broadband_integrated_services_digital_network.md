@@ -41,7 +41,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. B-ISDN [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/) ([PRM](/knowledge-base/studynote/12_it_management/03_ea_isp/121_prm_performance_reference_model_it_roi/))
+### 1. B-ISDN [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/) ([PRM](/knowledge-base/studynote/12_it_management/03_ea_isp/905_prm_performance_reference_model_it_roi/))
 B-ISDN은 OSI 7계층과 비슷하지만 멀티미디어 통합에 특화된 독자적인 3차원 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)을 그렸다.
 - **물리 계층**: 광케이블([SONET](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/)/[SDH](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/))로 155.52 Mbps(STM-1) 이상의 엄청난 깡패 대역폭을 제공.
 - <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/">ATM</a> 계층</strong>: 53바이트 셀을 이용해 음성과 데이터를 스위칭하는 실질적 뼈대.

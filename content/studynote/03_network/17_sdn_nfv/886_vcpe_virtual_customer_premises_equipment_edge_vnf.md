@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/411_cpe_inventory_mapping/">CPE</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">C고객</a> Premises Equipment, 가입자 댁내 장치)</strong>: 기업이나 가정에 설치되는 물리적인 라우터, [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/), 셋톱박스, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 기계들을 말합니다.
+- <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/411_cpe_inventory_mapping/">CPE</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/">C고객</a> Premises Equipment, 가입자 댁내 장치)</strong>: 기업이나 가정에 설치되는 물리적인 라우터, [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/), 셋톱박스, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 기계들을 말합니다.
 - **문제점**:
   - **CAPEX 폭발**: 장비(쇳덩어리) 자체가 비쌉니다.
   - **OPEX(유지보수) 지옥**: 고객이 "인터넷이 안 돼요!" 하면 통신사 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 기사가 빵판(트럭)을 몰고 고객 집에 직접 가서(Truck-roll) 기계를 껐다 켜거나 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) USB를 꽂아야 했습니다.

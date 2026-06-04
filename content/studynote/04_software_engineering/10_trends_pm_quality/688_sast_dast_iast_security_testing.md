@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-과거의 보안 테스트는 개발이 다 끝나고 배포하기 직전, 보안팀이 수동으로 모의해킹([Penetration Testing](/knowledge-base/studynote/09_security/13_secops_ir_forensics/676_penetration_testing/))을 수행하는 식이었다. 하지만 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))과 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD의 도입으로 하루에도 수십 번씩 배포가 일어나는 환경에서 수동 검사는 심각한 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))이 되었다.
+과거의 보안 테스트는 개발이 다 끝나고 배포하기 직전, 보안팀이 수동으로 모의해킹([Penetration Testing](/knowledge-base/studynote/09_security/13_secops_ir_forensics/676_penetration_testing/))을 수행하는 식이었다. 하지만 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))과 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD의 도입으로 하루에도 수십 번씩 배포가 일어나는 환경에서 수동 검사는 심각한 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))이 되었다.
 
 이를 해결하기 위해 "보안 검증도 코드로 자동화하자"는 [데브섹옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)([DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)) 철학이 대두되었다. 사람이 직접 코드를 리뷰하는 대신, 도구가 알아서 소스코드를 스캔하고([SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)), 웹사이트를 찔러보며([DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)), 애플리케이션 내부에서 로직을 감시([IAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/493_iast_interactive_analysis/))하는 자동화된 보안 테스팅 툴 체인이 등장하게 된 것이다.
 
@@ -117,7 +117,7 @@ SAST와 DAST는 서로 완벽한 상호 보완 관계다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-도구를 사서 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 파이프라인에 달아놓는다고 보안이 저절로 좋아지지 않는다. 실무에서 가장 큰 벽은 <strong>오탐(False Positive)</strong>과의 전쟁이다.
+도구를 사서 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 파이프라인에 달아놓는다고 보안이 저절로 좋아지지 않는다. 실무에서 가장 큰 벽은 <strong>오탐(False Positive)</strong>과의 전쟁이다.
 
 - **📢 섹션 요약 비유**: [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) / [DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/) / [IAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/493_iast_interactive_analysis/) 보안 테스팅 도구 비교은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -129,7 +129,7 @@ SAST와 DAST는 서로 완벽한 상호 보완 관계다.
 
 ## Ⅴ. 기대효과 및 결론
 
-이러한 자동화 테스팅 툴들을 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인에 잘 결합하면, 코드 커밋 후 몇 분 안에 취약점을 피드백받아 개발자가 코딩한 맥락([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))을 잃어버리기 전에 즉시 수정할 수 있다. 이는 보안 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정에 드는 시간과 비용을 1/[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 이하로 줄여준다.
+이러한 자동화 테스팅 툴들을 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인에 잘 결합하면, 코드 커밋 후 몇 분 안에 취약점을 피드백받아 개발자가 코딩한 맥락([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))을 잃어버리기 전에 즉시 수정할 수 있다. 이는 보안 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정에 드는 시간과 비용을 1/[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 이하로 줄여준다.
 
 결론적으로 현대의 보안은 보안팀만의 독점적 권한이 아니다. [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/), [DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/), IAST는 개발자 스스로가 보안 테스터가 되도록 권한을 위임(Empowerment)하는 도구이며, 이를 엮어내는 [데브섹옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)([DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)) 환경 구축이 엔터프라이즈 아키텍처의 필수 요건이다.
 

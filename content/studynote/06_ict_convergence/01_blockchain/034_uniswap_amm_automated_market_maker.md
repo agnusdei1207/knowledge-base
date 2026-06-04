@@ -47,7 +47,7 @@ CPMM(Constant Product Market Maker): **x × y = k** 공식
 |---------|------|---------------------------------------------|
 | v1       | 2018 | 최초 [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/) ↔ [ERC-20](/knowledge-base/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/) AMM                       |
 | v2       | 2020 | [ERC-20](/knowledge-base/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/) ↔ [ERC-20](/knowledge-base/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/) 직접 교환, 플래시 스왑      |
-| v3       | [2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) | 집중 유동성(Concentrated Liquidity), 다중 수수료 |
+| v3       | [2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/) | 집중 유동성(Concentrated Liquidity), 다중 수수료 |
 | v4       | 2024 | Hooks 아키텍처, 완전 맞춤형 풀               |
 
 ### v3 집중 유동성

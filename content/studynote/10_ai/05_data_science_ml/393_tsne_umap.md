@@ -19,7 +19,7 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-고차원 공간 (수백~수천 차원)은 인간이 직접 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)할 수 없다. 차원의 저주 ([Curse of Dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_curse_of_dimensionality/))로 인해 고차원에서 거리 개념도 무의미해진다. [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 본질 구조를 유지하며 저차원으로 표현하는 것이다.
+고차원 공간 (수백~수천 차원)은 인간이 직접 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)할 수 없다. 차원의 저주 ([Curse of Dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/864_curse_of_dimensionality/))로 인해 고차원에서 거리 개념도 무의미해진다. [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 본질 구조를 유지하며 저차원으로 표현하는 것이다.
 
 [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) ([Principal Component Analysis](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/))는 선형 변환만 수행하므로 비선형 구조(매니폴드)를 잃어버린다. t-SNE와 UMAP은 비선형 매니폴드를 보존한다.
 

@@ -29,7 +29,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-감리의 핵심은 계획 대비 실제를 비교할 수 있는 기준과 기록을 갖추는 것이다. [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)([Work Breakdown Structure](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)), PMIS([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Information System), 변경 요청서가 이 기준을 만든다.
+감리의 핵심은 계획 대비 실제를 비교할 수 있는 기준과 기록을 갖추는 것이다. [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)([Work Breakdown Structure](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)), PMIS([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) Information System), 변경 요청서가 이 기준을 만든다.
 
 ```text
 계약 종료일
@@ -152,7 +152,7 @@ WBS / PMIS
 
 **진행 상황**: 89 / 530
 
-<- **이전**: [58. 고가용성 및 이중화 클러스터 페일오버 시나리오 실지 테스트 참관 (HA Failover Test Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/058_ha_failover_test_audit/)
-**다음**: [59. 보안 장비 정책 룰셋 최적화 상태 점검 (Security Device Ruleset Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/059_security_device_ruleset_audit/) ->
+<- **이전**: [58. 고가용성 및 이중화 클러스터 페일오버 시나리오 실지 테스트 참관 (HA Failover Test Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/630_ha_failover_test_audit/)
+**다음**: [59. 보안 장비 정책 룰셋 최적화 상태 점검 (Security Device Ruleset Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/631_security_device_ruleset_audit/) ->
 
 ---

@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 502 / 587
 
-<- **이전**: [330. 시정 조치 확인 추가 감리 결과서](/knowledge-base/studynote/12_it_management/05_security_compliance/330_corrective_action_confirmation_additional_audit/)
-**다음**: [331. 과업 대비표 요건 충족 대조망](/knowledge-base/studynote/12_it_management/05_security_compliance/331_task_comparison_table_requirements_traceability/) ->
+<- **이전**: [330. 시정 조치 확인 추가 감리 결과서](/knowledge-base/studynote/12_it_management/05_security_compliance/971_corrective_action_confirmation_additional_audit/)
+**다음**: [331. 과업 대비표 요건 충족 대조망](/knowledge-base/studynote/12_it_management/05_security_compliance/972_task_comparison_table_requirements_traceability/) ->
 
 ---

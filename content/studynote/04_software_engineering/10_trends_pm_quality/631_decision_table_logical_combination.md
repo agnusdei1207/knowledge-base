@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로에서 사용하는 [진리표](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/)([Truth Table](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/))를 소프트웨어 테스팅에 그대로 가져온 것이다. 위쪽에는 입력 조건(Condition)들을 적고, 아래쪽에는 그 조건들의 T/F(True/False) 조합에 따라 시스템이 뱉어내야 할 결과(Action)를 매핑한다. 세로로 내려오는 1개의 열(Column)이 곧 1개의 완벽한 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)([Test Case](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/))가 된다.
+- **개념**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로에서 사용하는 [진리표](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/)([Truth Table](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/))를 소프트웨어 테스팅에 그대로 가져온 것이다. 위쪽에는 입력 조건(Condition)들을 적고, 아래쪽에는 그 조건들의 T/F(True/False) 조합에 따라 시스템이 뱉어내야 할 결과(Action)를 매핑한다. 세로로 내려오는 1개의 열(Column)이 곧 1개의 완벽한 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/)([Test Case](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/))가 된다.
 
 - **필요성**: 개발자들은 흔히 `if-else` 문을 중첩해서 짠다. `if (A && B) { ... } else if (C || D) { ... }` 같이 복잡한 룰이 섞여 있을 때, 요구사항 기획서 자체가 모호하거나 서로 충돌하는 경우(모순)가 비일비재하다. 개발자의 머릿속 직관(Ad-hoc)만으로 테스트 코드를 짜면, "A는 참인데 B는 거짓이고 C가 참인" 숨겨진 엣지 케이스(Edge Case)를 100% 빼먹게 된다. 인간의 뇌는 3개 이상의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 조합을 한 번에 검증하지 못하기 때문에, 기계적이고 시각적인 테이블(표)이라는 수학적 도구가 필요했다.
 
@@ -29,7 +29,7 @@ tags = ["studynote-software-engineering"]
 
 - **등장 배경 및 발전 과정**:
   1. **요구사항 모순의 재앙**: 폭포수(Waterfall) 모델에서 기획서의 비즈니스 룰이 너무 복잡해, 개발자가 자기 마음대로 해석해서 코딩하다가 치명적 버그가 터짐.
-  2. **Cause-Effect Graphing의 한계**: [원인-결과 그래프](/knowledge-base/studynote/04_software_engineering/11_testing_validation/419_cause_effect_graphing/) 기법이 나왔으나, 그리기 너무 복잡하고 시간이 오래 걸려 테스터들이 기피함.
+  2. **Cause-Effect Graphing의 한계**: [원인-결과 그래프](/knowledge-base/studynote/04_software_engineering/11_testing_validation/811_cause_effect_graphing/) 기법이 나왔으나, 그리기 너무 복잡하고 시간이 오래 걸려 테스터들이 기피함.
   3. **결정 테이블의 표준화**: 표 형태로 단순화된 결정 테이블이 ISTQB(국제 테스팅 자격)의 블랙박스 기법 핵심으로 자리 잡으며 금융, 통신 등 룰이 복잡한 엔터프라이즈 시스템 검증의 바이블이 됨.
 
 - **📢 섹션 요약 비유**: 복잡한 미로(비즈니스 로직)에 갇혔을 때 감으로 길을 찾는 게 아니라, 출발지부터 목적지까지 갈 수 있는 모든 교차로의 우회전/좌회전 경우의 수(조합)를 지도에 싹 다 그려놓고, 안 가본 길이 1곳도 없도록 완벽하게 훑어내는 전술입니다.
@@ -122,7 +122,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 결정 테이블 (Decision Table) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 조합은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

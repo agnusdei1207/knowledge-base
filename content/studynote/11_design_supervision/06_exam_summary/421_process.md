@@ -11,9 +11,9 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 사이클로매틱 복잡도는 제어 흐름 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) ([Control Flow](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/) [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/), CFG) 상의 독립 경로 수를 나타내는 지표로, [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)을 통해 테스트 난이도와 유지보수 위험을 조기에 드러낸다.
+> 1. **본질**: 사이클로매틱 복잡도는 제어 흐름 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) ([Control Flow](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/) [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/), CFG) 상의 독립 경로 수를 나타내는 지표로, [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)을 통해 테스트 난이도와 유지보수 위험을 조기에 드러낸다.
 > 2. **가치**: 복잡도 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 두면 “코드가 돌아가느냐”를 넘어 “변경 가능한 구조인가”를 지속적으로 관리할 수 있다.
-> 3. **판단 포인트**: 복잡도 수치 자체보다 왜 높아졌는지, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 수와 리뷰 비용에 어떤 영향을 주는지, [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 초과 시 어떤 조치를 취하는지가 더 중요하다.
+> 3. **판단 포인트**: 복잡도 수치 자체보다 왜 높아졌는지, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) 수와 리뷰 비용에 어떤 영향을 주는지, [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 초과 시 어떤 조치를 취하는지가 더 중요하다.
 
 ---
 
@@ -40,7 +40,7 @@ tags = ["studynote-design-supervision"]
 +--------------+   +--------------+   +--------------+   +--------------+
 ```
 
-복잡도는 보통 `M = E - N + 2P`로 표현한다. 여기서 `E`는 간선 수, `N`은 노드 수, `P`는 연결 요소 수다. 시험에서는 수식을 길게 전개하기보다 “독립 경로 수를 나타내며, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 최소 수와 밀접하다”는 의미를 정확히 쓰는 편이 실전적이다.
+복잡도는 보통 `M = E - N + 2P`로 표현한다. 여기서 `E`는 간선 수, `N`은 노드 수, `P`는 연결 요소 수다. 시험에서는 수식을 길게 전개하기보다 “독립 경로 수를 나타내며, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) 최소 수와 밀접하다”는 의미를 정확히 쓰는 편이 실전적이다.
 
 | 핵심 요소 | 설명 | 기술사 포인트 |
 | :--- | :--- | :--- |
@@ -75,7 +75,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 함수 단위로 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 두고, [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 결과를 코드 리뷰와 [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)) 파이프라인에 연결하는 방식이 일반적이다. 예를 들어 일반 업무 로직은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 이하, 핵심 계산 모듈은 15 이하처럼 기준을 두고, 초과 시 빌드 경고·리뷰 강화·테스트 보강을 요구할 수 있다. 중요한 것은 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 수치보다 <strong>예외 승인 절차와 후속 조치</strong>다.
+실무에서는 함수 단위로 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 두고, [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 결과를 코드 리뷰와 [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)) 파이프라인에 연결하는 방식이 일반적이다. 예를 들어 일반 업무 로직은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 이하, 핵심 계산 모듈은 15 이하처럼 기준을 두고, 초과 시 빌드 경고·리뷰 강화·테스트 보강을 요구할 수 있다. 중요한 것은 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 수치보다 <strong>예외 승인 절차와 후속 조치</strong>다.
 
 복잡도 개선의 대표 방법으로는 메서드 분리, 조건식 명명, [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/) 적용, 조기 반환, 상태 객체 분리 등이 있다. 다만 수치만 낮추려다 함수만 잘게 쪼개고 문맥 이해는 더 어려워지는 경우도 있으므로, [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)과 책임 분리가 함께 좋아졌는지 반드시 확인해야 한다.
 
@@ -83,7 +83,7 @@ tags = ["studynote-design-supervision"]
 
 1. 함수·메서드 단위 복잡도 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)가 문서화되어 있는가?
 2. [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 초과 시 리뷰 강화 또는 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 절차가 있는가?
-3. 복잡도 높은 코드에 대응하는 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 수가 충분한가?
+3. 복잡도 높은 코드에 대응하는 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) 수가 충분한가?
 4. 예외 승인 모듈이라면 사유와 대체 통제가 기록되는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)

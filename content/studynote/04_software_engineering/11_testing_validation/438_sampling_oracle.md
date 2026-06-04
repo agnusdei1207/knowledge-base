@@ -78,13 +78,13 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-샘플링 오라클은 [참 오라클](/knowledge-base/studynote/04_software_engineering/11_testing_validation/437_true_oracle/)보다 현실적이고, [휴리스틱 오라클](/knowledge-base/studynote/04_software_engineering/11_testing_validation/439_heuristic_oracle/)보다 덜 주관적일 수 있다. 대신 전체 보장은 약하다.
+샘플링 오라클은 [참 오라클](/knowledge-base/studynote/04_software_engineering/11_testing_validation/437_true_oracle/)보다 현실적이고, [휴리스틱 오라클](/knowledge-base/studynote/04_software_engineering/11_testing_validation/831_heuristic_oracle/)보다 덜 주관적일 수 있다. 대신 전체 보장은 약하다.
 
 | 구분 | 장점 | 한계 |
 |:---|:---|:---|
 | [참 오라클](/knowledge-base/studynote/04_software_engineering/11_testing_validation/437_true_oracle/) | 정확함 | 비현실적 |
 | 샘플링 오라클 | 비용 절감 | 전체 보장 약함 |
-| [휴리스틱 오라클](/knowledge-base/studynote/04_software_engineering/11_testing_validation/439_heuristic_oracle/) | 빠름 | 주관성 큼 |
+| [휴리스틱 오라클](/knowledge-base/studynote/04_software_engineering/11_testing_validation/831_heuristic_oracle/) | 빠름 | 주관성 큼 |
 
 회귀 테스트나 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 테스트처럼 많은 입력을 다 보기 어려운 경우에 유용하다.
 

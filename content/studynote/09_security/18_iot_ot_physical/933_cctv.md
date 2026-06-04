@@ -136,7 +136,7 @@ CCTV (폐쇄 회로텔레비전)를 제대로 이해하면 개념 하나를 외�
 
 **진행 상황**: 1022 / 1108
 
-<- **이전**: [932. 물리적 보안 3대 요소 (Sniffing Detection Arp Ping Promiscuous Mode)](/knowledge-base/studynote/09_security/uncategorized/932_sniffing_detection_arp_ping_promiscuous_mode/)
-**다음**: [933. 패킷 단편화 오프셋 중첩 검증 방화벽 (Packet Fragmentation Offset Overlapping IDS Evasion](/knowledge-base/studynote/09_security/uncategorized/933_packet_fragmentation_offset_overlapping_ids_evasion_defense/) ->
+<- **이전**: [932. 물리적 보안 3대 요소 (Sniffing Detection Arp Ping Promiscuous Mode)](/knowledge-base/studynote/09_security/uncategorized/1066_sniffing_detection_arp_ping_promiscuous_mode/)
+**다음**: [933. 패킷 단편화 오프셋 중첩 검증 방화벽 (Packet Fragmentation Offset Overlapping IDS Evasion](/knowledge-base/studynote/09_security/uncategorized/1067_packet_fragmentation_offset_overlapping_ids_evasion_defense/) ->
 
 ---

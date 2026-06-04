@@ -145,6 +145,6 @@ Policy-driven Placement / DR / Lock-in Mitigation
 **진행 상황**: 349 / 373
 
 <- **이전**: [348. FinOps 스팟 인스턴스·RI 클라우드 비용 효율 조직 (Cloud Financial Operations)](/knowledge-base/studynote/15_devops_sre/05_devsecops/348_finops_ri/)
-**다음**: [350. 엣지 컴퓨팅 분산 지연·스토리지 (Edge Computing)](/knowledge-base/studynote/12_it_management/05_security_compliance/350_process/) ->
+**다음**: [350. 엣지 컴퓨팅 분산 지연·스토리지 (Edge Computing)](/knowledge-base/studynote/12_it_management/05_security_compliance/991_process/) ->
 
 ---

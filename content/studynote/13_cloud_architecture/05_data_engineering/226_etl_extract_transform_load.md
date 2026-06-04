@@ -117,7 +117,7 @@ ETL은 1990년대 [데이터 웨어하우스](/knowledge-base/studynote/12_it_ma
 | 유형 | 처리 방식 | 적용 예시 |
 |:---|:---|:---|
 | <strong><a href="/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/">SCD</a> Type 1</strong> | 현재 값으로 덮어쓰기 | 고객 주소 변경 (이력 불필요) |
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/315_scd_type_2/">SCD Type 2</a></strong> | 새 행 추가 + 유효기간 관리 | 직원 부서 이동 (이력 필요) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/957_scd_type_2/">SCD Type 2</a></strong> | 새 행 추가 + 유효기간 관리 | 직원 부서 이동 (이력 필요) |
 | <strong><a href="/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/">SCD</a> Type 3</strong> | 이전 값 별도 컬럼 보관 | 제품 카테고리 변경 (1회 이력) |
 
 📢 **섹션 요약 비유**: ETL과 ELT의 차이는 세탁 방식 차이다. ETL은 세탁기([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 서버)에서 완전히 빨고 나서 옷장([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))에 넣는 것, ELT는 세탁 전 옷을 일단 옷장에 집어넣고 나중에 옷장 안에서 정리하는 것이다.

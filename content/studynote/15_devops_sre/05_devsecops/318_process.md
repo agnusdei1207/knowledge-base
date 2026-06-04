@@ -68,7 +68,7 @@ SRE는 Overhead는 줄이되, 제거하는 것이 목표인 Toil에 집중한다
 3단계 접근:
 
 1. **Measure**: [Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 양을 측정 (주 단위 시간 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))
-2. **Prioritize**: [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 기준 우선순위 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) (자동화 비용 vs 절감 시간)
+2. **Prioritize**: [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 기준 우선순위 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) (자동화 비용 vs 절감 시간)
 3. **Eliminate**: 자동화 또는 문제 근원 제거
 
 실무 도구:

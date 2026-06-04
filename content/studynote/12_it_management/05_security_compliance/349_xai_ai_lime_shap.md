@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 538 / 587
 
-<- **이전**: [348. MLOps 드리프트 탐지 파이프라인 모니터링 감사](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops_drift_detection_pipeline/)
-**다음**: [349. XAI 설명 가능한 AI 판단 로직 (LIME/SHAP) 근거 증빙](/knowledge-base/studynote/12_it_management/05_security_compliance/349_xai_explainable_ai_lime_shap/) ->
+<- **이전**: [348. MLOps 드리프트 탐지 파이프라인 모니터링 감사](/knowledge-base/studynote/12_it_management/05_security_compliance/989_mlops_drift_detection_pipeline/)
+**다음**: [349. XAI 설명 가능한 AI 판단 로직 (LIME/SHAP) 근거 증빙](/knowledge-base/studynote/12_it_management/05_security_compliance/990_xai_explainable_ai_lime_shap/) ->
 
 ---

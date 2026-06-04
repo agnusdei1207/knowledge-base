@@ -11,7 +11,7 @@ tags = ["studynote-devops"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 선언적 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 Jenkinsfile로 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 흐름을 코드로 정의하는 방식이다.
+> 1. **본질**: 선언적 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 Jenkinsfile로 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 흐름을 코드로 정의하는 방식이다.
 > 2. **가치**: 빌드/테스트/배포를 표준화하고 재현성을 높인다.
 > 3. **판단**: 선언적 구문과 단계적 실행 구조를 이해해야 한다.
 
@@ -58,7 +58,7 @@ Stages / Steps
 | 관련 | 의미 |
 | :-- | :-- |
 | [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) | 코드화 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD | 자동화 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD | 자동화 |
 
 선언적 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 운영 표준과 협업에 유리하다.
 
@@ -83,7 +83,7 @@ Stages / Steps
 - [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 문서처럼만 보는 설계
 - [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)를 무질서하게 쓰는 설계
 
-기술사 관점에서는 선언적 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 "코드로 정의된 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 표준"으로 설명해야 한다.
+기술사 관점에서는 선언적 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 "코드로 정의된 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 표준"으로 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 순서를 코드로 써 둔 자동 공정표다.
 

@@ -109,7 +109,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 핫 스탠바이 도입 여부는 기술 취향이 아니라 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 등급과 손실 비용으로 판단해야 한다. 수 초의 중단이 곧 매출 손실, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) 위반, 안전 사고로 이어지는 시스템이라면 핫 스탠바이가 정당화된다. 반대로 내부 배치, 통계, 비핵심 관리 시스템처럼 중단 허용 폭이 큰 환경에서는 웜 또는 [콜드 스탠바이](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/458_cold_standby/)가 더 합리적일 수 있다.
+실무에서 핫 스탠바이 도입 여부는 기술 취향이 아니라 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 등급과 손실 비용으로 판단해야 한다. 수 초의 중단이 곧 매출 손실, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)) 위반, 안전 사고로 이어지는 시스템이라면 핫 스탠바이가 정당화된다. 반대로 내부 배치, 통계, 비핵심 관리 시스템처럼 중단 허용 폭이 큰 환경에서는 웜 또는 [콜드 스탠바이](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/458_cold_standby/)가 더 합리적일 수 있다.
 
 특히 자동 절체를 도입할 때는 "장애를 빨리 감지하는 것"보다 "잘못 절체하지 않는 것"이 더 중요하다. 네트워크 분리 때문에 Active가 살아 있는데도 Standby가 자신을 승격하면 [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/)이 발생한다. 이를 막기 위해 fencing, quorum, witness 노드 같은 장치를 두어 기존 Active를 확실히 배제해야 한다. 즉 자동화는 편의 기능이 아니라 안전장치까지 포함한 설계 문제다.
 

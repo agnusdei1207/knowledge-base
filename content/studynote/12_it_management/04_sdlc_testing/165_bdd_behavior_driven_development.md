@@ -31,7 +31,7 @@ BDD는 "무엇을 만들어야 하는가"를 먼저 언어로 명확히 한 뒤 
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-BDD의 핵심은 자연어 명세와 자동화 테스트를 끊지 않고 연결하는 것이다. 보통 기능 요구를 발견하고, 시나리오로 공식화하고, 이를 스텝 정의 (Step Definition) 코드에 연결한 뒤, [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/[지속적 전달](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/020_continuous_delivery/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD) 파이프라인에서 반복 실행한다.
+BDD의 핵심은 자연어 명세와 자동화 테스트를 끊지 않고 연결하는 것이다. 보통 기능 요구를 발견하고, 시나리오로 공식화하고, 이를 스텝 정의 (Step Definition) 코드에 연결한 뒤, [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/[지속적 전달](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/020_continuous_delivery/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD) 파이프라인에서 반복 실행한다.
 
 아래 흐름은 BDD가 단순 문서 작성이 아니라 협업, 자동화, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 이어지는 구조임을 보여준다.
 
@@ -113,7 +113,7 @@ BDD의 핵심 협업 방식으로는 쓰리 아미고스 (Three Amigos) 회의�
 2. Given이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전제를 충분히 드러내는가?
 3. When이 UI 조작이 아닌 사용자 의도를 표현하는가?
 4. Then이 관찰 가능한 결과를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는가?
-5. 자동화 후 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD에서 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)로 계속 실행되는가?
+5. 자동화 후 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD에서 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)로 계속 실행되는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 

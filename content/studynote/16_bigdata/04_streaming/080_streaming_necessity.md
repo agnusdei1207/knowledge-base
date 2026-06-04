@@ -13,7 +13,7 @@ tags = ["studynote-bigdata"]
 
 - **본질**: 스트리밍 처리(Streaming Processing)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되는 즉시 처리하여 밀리초~초 단위의 의사결정을 가능하게 하는 패러다임으로, [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)([Batch Processing](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/))의 수 시간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 비즈니스 가치를 소멸시키는 영역(사기 탐지, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 이상 감지, 주식 거래)에서 필수적이다.
 - **가치**: 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라도 "1분 뒤"가 아닌 "지금 이 순간" 처리하는 것이 결과의 비즈니스 가치를 결정하는 영역이 있다. 신용카드 사기는 거래 후 수 초 안에 탐지해야 하고, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 이상은 발생 즉시 경보해야 하며, 재고 최적화는 실시간 수요 변동에 즉각 반응해야 한다.
-- **판단 포인트**: 스트리밍과 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 선택의 핵심은 <strong>허용 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a> <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a>)</strong>이다. 수 초 이내가 필요하면 스트리밍, 수십 분~수 시간이 허용되면 마이크로배치, 하루 이상이면 배치가 적합하며 스트리밍은 배치보다 인프라 복잡도와 비용이 높다.
+- **판단 포인트**: 스트리밍과 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 선택의 핵심은 <strong>허용 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a> <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/">SLA</a>)</strong>이다. 수 초 이내가 필요하면 스트리밍, 수십 분~수 시간이 허용되면 마이크로배치, 하루 이상이면 배치가 적합하며 스트리밍은 배치보다 인프라 복잡도와 비용이 높다.
 
 ---
 
@@ -154,7 +154,7 @@ Step 4: 운영 역량 및 비용 검토
 
 ### 2. 스트리밍 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-- [ ] [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 문서화 (비즈니스 요구사항 기반)
+- [ ] [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 문서화 (비즈니스 요구사항 기반)
 - [ ] 초당 이벤트 수(EPS) 피크 추정
 - [ ] 상태 저장 연산(집계, 조인) 필요 여부 판단
 - [ ] Exactly-Once vs At-Least-Once 선택 (비용-[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 트레이드오프)

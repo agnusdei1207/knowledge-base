@@ -136,7 +136,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 668 / 1108
 
-<- **이전**: [607. 안전한 세션 관리 (Secure Session Management)](/knowledge-base/studynote/09_security/uncategorized/607_secure_session_management/)
-**다음**: [608. 오류 처리와 로깅 보안 (Error Handling & Logging Security)](/knowledge-base/studynote/09_security/uncategorized/608_error_handling_logging/) ->
+<- **이전**: [607. 안전한 세션 관리 (Secure Session Management)](/knowledge-base/studynote/09_security/uncategorized/1038_secure_session_management/)
+**다음**: [608. 오류 처리와 로깅 보안 (Error Handling & Logging Security)](/knowledge-base/studynote/09_security/uncategorized/1039_error_handling_logging/) ->
 
 ---

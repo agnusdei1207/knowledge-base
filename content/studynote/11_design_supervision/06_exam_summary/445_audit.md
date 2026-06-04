@@ -106,7 +106,7 @@ tags = ["studynote-design-supervision"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) | 모든 요청을 가로채 전환 경계를 제어하는 전면 통제 지점 |
+| [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/) | 모든 요청을 가로채 전환 경계를 제어하는 전면 통제 지점 |
 | [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)) | 신구 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성을 유지하는 핵심 메커니즘 |
 | [Canary Deployment](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) | 점진 전환 시 장애 반경을 줄이는 운영 기법 |
 | [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Decomposition | 어떤 기능부터 떼어낼지 결정하는 설계 출발점 |

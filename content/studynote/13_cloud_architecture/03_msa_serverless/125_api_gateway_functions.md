@@ -54,7 +54,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) | [Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/) |
+| 비교 | [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/) | [Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/) |
 |:---|:---|:---|
 | **위치** | 외부->내부 | **내부->내부** |
 | **기능** | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·[라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)·Rate Limit | 트래픽 관리·[mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) |
@@ -82,7 +82,7 @@ tags = ["studynote-cloud-architecture"]
 |:---|:---|
 | <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/">Rate Limiting</a></strong> | Token Bucket / Sliding Window |
 | <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/">JWT</a></strong> | Gateway에서 검증하는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 토큰 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/">BFF</a></strong> | 클라이언트별 맞춤 Gateway |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/">BFF</a></strong> | 클라이언트별 맞춤 Gateway |
 | <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/">Service Mesh</a></strong> | 내부 통신 인프라 (Gateway 보완) |
 | <strong>Smart Gateway <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong> | Gateway에 비즈니스 로직 금지 |
 

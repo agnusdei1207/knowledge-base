@@ -137,6 +137,6 @@ Searchable Encryption (검색 가능 암호)를 제대로 이해하면 개념 �
 **진행 상황**: 135 / 1108
 
 <- **이전**: [1020. Functional Encryption (함수 암호)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1020_functional_encryption/)
-**다음**: [1021. 가시광 통신 (VLC) 라이파이 (Li-Fi)](/knowledge-base/studynote/09_security/uncategorized/1021_vlc_visible_light_communication_lifi_modulation/) ->
+**다음**: [1021. 가시광 통신 (VLC) 라이파이 (Li-Fi)](/knowledge-base/studynote/09_security/uncategorized/1099_vlc_visible_light_communication_lifi_modulation/) ->
 
 ---

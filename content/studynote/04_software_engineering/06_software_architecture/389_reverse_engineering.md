@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 리버스 엔지니어링은 원래적산품나 시스템의 동작을 분석하여 그 산출물을 다시 만드는 것이 아니라,분석과리해하여동등한 기능을구현하거나 개선하는 기법이다. 소프트웨어에서는 크게 두 가지 방향으로 활용된다. 첫째, <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a> 목적</strong>: 다른 플랫폼이나 시스템에서 동작하는 호환 소프트웨어 개발(예: Linux에서 Windows 전용 애플리케이션 실행). 둘째, **분석 목적**: Malware 분석, 보안 취약점 탐지, 레거시 시스템 이해 등이다.
 
-- **필요성**: 다음과 같은 상황에서 리버스 엔지니어링이 필요하다. 첫째, **소스코드 부재**: 벤더가 문서화를거부하거나 폐업한 경우. 둘째, <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a> 필요</strong>: 특정 플랫폼에서만 동작하는 소프트웨어를 다른 환경에서 사용해야 하는 경우. 셋째, <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/">보안 감사</a></strong>: 내부적으로 동작하는 로직을 파악하여 보안 취약점을 탐지해야 하는 경우. 넷째, **레거시 현대화**: 오래된 시스템의 기능을 새로운 플랫폼으로 이전해야 하는 경우이다.
+- **필요성**: 다음과 같은 상황에서 리버스 엔지니어링이 필요하다. 첫째, **소스코드 부재**: 벤더가 문서화를거부하거나 폐업한 경우. 둘째, <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a> 필요</strong>: 특정 플랫폼에서만 동작하는 소프트웨어를 다른 환경에서 사용해야 하는 경우. 셋째, <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/919_security_audit_trail/">보안 감사</a></strong>: 내부적으로 동작하는 로직을 파악하여 보안 취약점을 탐지해야 하는 경우. 넷째, **레거시 현대화**: 오래된 시스템의 기능을 새로운 플랫폼으로 이전해야 하는 경우이다.
 
 - **💡 비유**: 리버스 엔지니어링은 <strong>'자동차 분해 분석'</strong>과 같다. 경쟁사 자동차를 세세하게 분해하여 엔진 구조, 섀시 구성, 전자 제어 장치 등을 분석하고, 이를 참고하여 자신만의 자동차를설계한다. 물론patent [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 범위 내의 행위인지 legal 검토가 필요하지만, 기본 설계 원리를 분석하는 것은 합법적이다. 소프트웨어에서도 바이너리를 분해하여 동작 원리를 이해하고, 이를 참고하여겸용성산품나 개선된 제품을 개발할 수 있다.
 
@@ -122,7 +122,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 리버스 엔지니어링 ([Reverse 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/)) 툴을 통한 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/) 코드 분석은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

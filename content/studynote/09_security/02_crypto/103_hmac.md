@@ -140,7 +140,7 @@ JWT 서명 / AWS API 인증 · 현대 웹/클라우드 환경의 표준 인증 �
 
 **진행 상황**: 156 / 1108
 
-<- **이전**: [1030. 시그폭스 (SigFox) 협대역 통신 (Sigfox Lpwan Ultra Narrow Band IOT)](/knowledge-base/studynote/09_security/uncategorized/1030_sigfox_lpwan_ultra_narrow_band_iot/)
+<- **이전**: [1030. 시그폭스 (SigFox) 협대역 통신 (Sigfox Lpwan Ultra Narrow Band IOT)](/knowledge-base/studynote/09_security/uncategorized/1108_sigfox_lpwan_ultra_narrow_band_iot/)
 **다음**: [104. NMAC (Nested MAC)](/knowledge-base/studynote/09_security/02_crypto/104_nmac/) ->
 
 ---

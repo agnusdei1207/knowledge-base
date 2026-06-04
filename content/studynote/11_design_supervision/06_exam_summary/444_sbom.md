@@ -21,7 +21,7 @@ tags = ["studynote-design-supervision"]
 
 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 소프트웨어 구성 명세 취약 방어는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 시대의 필수 통제다. 오늘날 대부분의 소프트웨어는 직접 작성한 코드보다 외부 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)와 하위 의존성이 더 많기 때문에, 어떤 부품이 포함되어 있는지 모르면 취약점 공지나 라이선스 이슈가 발생했을 때 즉시 대응할 수 없다. [Log4Shell](/knowledge-base/studynote/09_security/05_web_app_security/452_log4shell/) 사태가 대표적 사례다.
 
-따라서 SBOM은 단순 문서가 아니라 "우리 제품 안에 무엇이 들어 있는가"를 증명하는 디지털 재고 목록이다. 기술사 답안에서는 정의만 쓰지 말고, 왜 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/))에서 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해야 하는지, 왜 서명과 취약점 연계가 필요한지까지 연결해 써야 한다.
+따라서 SBOM은 단순 문서가 아니라 "우리 제품 안에 무엇이 들어 있는가"를 증명하는 디지털 재고 목록이다. 기술사 답안에서는 정의만 쓰지 말고, 왜 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/))에서 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해야 하는지, 왜 서명과 취약점 연계가 필요한지까지 연결해 써야 한다.
 
 ```text
 +-------------+      +-------------+      +-------------+      +-------------+
@@ -76,14 +76,14 @@ SBOM의 핵심 원리는 인벤토리, 의존성, 출처의 세 가지를 함께
 
 SBOM은 취약점 스캐너와 비슷해 보이지만 역할이 다르다. 어떤 도구가 무엇을 해 주는지 구분해야 실무 설계가 흔들리지 않는다.
 
-| 비교 축 | [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) | [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) ([Software Composition Analysis](/knowledge-base/studynote/04_software_engineering/11_testing_validation/495_sca_software_composition_analysis/)) | [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) (Static Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing) |
+| 비교 축 | [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) | [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) ([Software Composition Analysis](/knowledge-base/studynote/04_software_engineering/11_testing_validation/887_sca_software_composition_analysis/)) | [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) (Static Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing) |
 |:---|:---|:---|:---|
 | 주된 질문 | 무엇이 들어 있는가 | 알려진 취약점이 있는가 | 우리가 짠 코드에 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 있는가 |
 | 산출물 | 구성 명세서, 의존성 정보 | 취약점 리포트, 패치 권고 | 소스코드 취약점 리포트 |
 | 강점 | [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 투명성, 납품 증빙, 영향 분석 | [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) 기반 빠른 조치 | 구현 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지 |
 | 한계 | 단독으로 위험도 판단은 어려움 | 인벤토리 품질에 의존 | 외부 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 구성 파악은 약함 |
 
-따라서 실무에서는 SBOM이 기반 데이터가 되고, [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) ([Software Composition Analysis](/knowledge-base/studynote/04_software_engineering/11_testing_validation/495_sca_software_composition_analysis/))가 취약점 대조를 수행하며, VEX가 실제 악용 가능성을 줄여 주는 식으로 함께 작동한다.
+따라서 실무에서는 SBOM이 기반 데이터가 되고, [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) ([Software Composition Analysis](/knowledge-base/studynote/04_software_engineering/11_testing_validation/887_sca_software_composition_analysis/))가 취약점 대조를 수행하며, VEX가 실제 악용 가능성을 줄여 주는 식으로 함께 작동한다.
 
 - **📢 섹션 요약 비유**: 장바구니 목록, 유통기한 검사, 조리 실수 검사는 모두 다르듯, SBOM과 보안 도구도 맡은 일이 각각 다르다.
 
@@ -95,7 +95,7 @@ SBOM은 취약점 스캐너와 비슷해 보이지만 역할이 다르다. 어�
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인에서 SBOM이 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되며, 직접·전이 의존성이 빠짐없이 포함되는가?
+1. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인에서 SBOM이 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되며, 직접·전이 의존성이 빠짐없이 포함되는가?
 2. SPDX 또는 CycloneDX 같은 표준 형식을 사용해 외부 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)·고객·도구와 상호운용 가능한가?
 3. [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 산출물에 디지털 서명과 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시점 정보가 포함되어 위변조 여부를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있는가?
 4. [취약점 스캔](/knowledge-base/studynote/09_security/13_secops_ir_forensics/675_vulnerability_scanning/), VEX, 패치 우선순위, 납품 검수까지 SBOM이 실제 운영 절차와 연결되는가?

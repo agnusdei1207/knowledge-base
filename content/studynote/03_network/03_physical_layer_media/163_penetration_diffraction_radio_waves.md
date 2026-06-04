@@ -12,7 +12,7 @@ tags = ["studynote-network"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 전파가 장애물을 만나면 일부는 물질을 통과하며 약해지고, 일부는 모서리를 따라 휘어지며 뒤쪽으로 퍼지는데, 전자를 투과, 후자를 회절이라 한다.
-> 2. **가치**: 이 두 성질은 무선망의 커버리지, 실내 수신 품질, 기지국 간격, 주파수 선택을 결정하므로 단순 물리 현상이 아니라 [서비스 설계](/knowledge-base/studynote/12_it_management/02_itsm_itil/065_service_design/) 변수다.
+> 2. **가치**: 이 두 성질은 무선망의 커버리지, 실내 수신 품질, 기지국 간격, 주파수 선택을 결정하므로 단순 물리 현상이 아니라 [서비스 설계](/knowledge-base/studynote/12_it_management/02_itsm_itil/849_service_design/) 변수다.
 > 3. **판단 포인트**: 일반적으로 파장이 긴 저주파 전파는 회절과 건물 침투가 유리하고, 고주파 전파는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 크지만 차폐와 감쇠에 민감하므로 용량과 커버리지의 교환관계를 함께 봐야 한다.
 
 ---

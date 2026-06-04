@@ -54,7 +54,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[페트리 넷](/knowledge-base/studynote/04_software_engineering/03_design_architecture/176_petri_net_concurrent_system_specification/)은 방향성이 있는 이분 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Bipartite [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))로, 딱 4가지 핵심 요소만으로 모든 복잡성을 표현한다.
+[페트리 넷](/knowledge-base/studynote/04_software_engineering/03_design_architecture/176_petri_net_concurrent_system_specification/)은 방향성이 있는 이분 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Bipartite [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/))로, 딱 4가지 핵심 요소만으로 모든 복잡성을 표현한다.
 
 - **📢 섹션 요약 비유**: [페트리 넷](/knowledge-base/studynote/04_software_engineering/03_design_architecture/176_petri_net_concurrent_system_specification/) 병행/비동기 시스템 정형 명세은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 

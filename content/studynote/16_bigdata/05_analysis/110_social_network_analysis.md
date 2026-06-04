@@ -100,7 +100,7 @@ SNA와 [그래프 분석](/knowledge-base/studynote/16_bigdata/05_analysis/114_g
 | **Gephi** | [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 특화, 인터랙티브 | 수십만 노드 |
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/">Apache Spark</a> GraphX</strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리, Pregel [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | 수십억 노드 |
 | **TigerGraph** | 실시간 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) DB | 수십억 노드, 실시간 |
-| **Amazon Neptune** | 관리형 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB (RDF+Property [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) | 클라우드 스케일 |
+| **Amazon Neptune** | 관리형 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB (RDF+Property [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/)) | 클라우드 스케일 |
 
 - **📢 섹션 요약 비유**: 수억 명의 소셜 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 노트북으로 분석하려는 것은 자동차로 태평양을 건너려는 것과 같다. 규모에 맞는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 플랫폼 선택이 [SNA](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/) 프로젝트의 성패를 가른다.
 
@@ -126,7 +126,7 @@ SNA는 개인이 아닌 [관계](/knowledge-base/studynote/05_database/02_modeli
 
 | 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|
-| [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 이론 ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) Theory) | SNA의 수학적 기반 |
+| [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 이론 ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) Theory) | SNA의 수학적 기반 |
 | 중심성 지표 ([Centrality](/knowledge-base/studynote/06_ict_convergence/05_data_science/383_graph_mining_centrality_metrics/) Measures) | 노드 중요도 측정 핵심 도구 |
 | 커뮤니티 탐지 (Community [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) | 숨겨진 집단 구조 발굴 |
 | PageRank | 고유벡터 중심성의 실용적 응용 (구글 검색) |

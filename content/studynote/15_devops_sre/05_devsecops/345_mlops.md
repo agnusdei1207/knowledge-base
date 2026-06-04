@@ -58,7 +58,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅲ. 비교 및 연결
 
-MLOps는 전통적 소프트웨어 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD와 닮았지만, 입력이 코드만이 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라는 점에서 차이가 크다. 애플리케이션은 코드가 같으면 비슷하게 동작하지만, 모델은 코드가 같아도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 달라지면 결과가 달라진다.
+MLOps는 전통적 소프트웨어 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD와 닮았지만, 입력이 코드만이 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라는 점에서 차이가 크다. 애플리케이션은 코드가 같으면 비슷하게 동작하지만, 모델은 코드가 같아도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 달라지면 결과가 달라진다.
 
 | 항목 | 일반 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) |
 | :--- | :--- | :--- |
@@ -66,7 +66,7 @@ MLOps는 전통적 소프트웨어 [CI](/knowledge-base/studynote/12_it_manageme
 | 품질 기준 | 테스트 통과, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 정확도, 편향, 드리프트, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 |
 | 주요 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) | 배포 실패 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변화, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 불일치 |
 
-또한 MLOps는 [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/), [Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/), [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Governance와 연결된다. 최근에는 LLMOps와도 통합되며, 프롬프트·[RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)·평가셋 관리까지 MLOps의 범위에 포함되는 추세다.
+또한 MLOps는 [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/965_dataops/), [Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/), [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Governance와 연결된다. 최근에는 LLMOps와도 통합되며, 프롬프트·[RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)·평가셋 관리까지 MLOps의 범위에 포함되는 추세다.
 
 - **📢 섹션 요약 비유**: 일반 DevOps가 자동차 조립 자동화라면, MLOps는 날씨에 따라 조리법이 바뀌는 빵 공장을 안정적으로 운영하는 일에 가깝다.
 

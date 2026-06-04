@@ -82,12 +82,12 @@ tags = ["software_engineering"]
 
 ### 1. 실무 의사결정 포인트
 - <strong>조직 규모 확장 (Scaling <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a>)</strong>: [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀이 3~5개를 넘어가면서 중복 작업이 발생하고 개발자 간 기술 편차가 벌어질 때, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 확장의 강력한 프레임워크([SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/), [LeSS](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/) 등) 대안으로 도입을 검토해야 한다.
-- **인프라 독립성 확보**: 스쿼드가 자율적으로 움직이려면 남의 팀 코드를 건드리지 않고 독립적으로 배포할 수 있는 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/">마이크로서비스 아키텍처</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)</strong>와 강력한 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인이 물리적으로 선행되어야 한다. [모놀리식 아키텍처](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/121_monolithic_architecture/) 환경에서는 조직만 쪼개봐야 병목이 그대로 남는다.
+- **인프라 독립성 확보**: 스쿼드가 자율적으로 움직이려면 남의 팀 코드를 건드리지 않고 독립적으로 배포할 수 있는 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/">마이크로서비스 아키텍처</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)</strong>와 강력한 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인이 물리적으로 선행되어야 한다. [모놀리식 아키텍처](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/121_monolithic_architecture/) 환경에서는 조직만 쪼개봐야 병목이 그대로 남는다.
 
 ### 2. [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 직급 체계는 그대로 둔 채 "오늘부터 너희는 1팀이 아니라 스쿼드다"라고 이름표만 바꿔 달고, 여전히 본부장의 결재를 받아야 배포할 수 있게 만드는 가짜 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) in Name Only) 현상.
 
-- **📢 섹션 요약 비유**: 자동차 부품([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 인프라)은 경운기인데, 레이서들에게 F1 팀복(스쿼드, 트라이브 명찰)만 입힌다고 갑자기 레이싱카처럼 빨라지지 않는 것과 같은 치명적인 착각이다.
+- **📢 섹션 요약 비유**: 자동차 부품([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD, [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 인프라)은 경운기인데, 레이서들에게 F1 팀복(스쿼드, 트라이브 명찰)만 입힌다고 갑자기 레이싱카처럼 빨라지지 않는 것과 같은 치명적인 착각이다.
 
 ---
 
@@ -105,7 +105,7 @@ tags = ["software_engineering"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a>) 및 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/">스크럼</a> (<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/">Scrum</a>)</strong> | 스포티파이 스쿼드의 철학적 근간. 변화에 빠르게 대응하는 소규모 반복 개발론 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a>) 및 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/">스크럼</a> (<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/">Scrum</a>)</strong> | 스포티파이 스쿼드의 철학적 근간. 변화에 빠르게 대응하는 소규모 반복 개발론 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/">마이크로서비스 아키텍처</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)</strong> | 스쿼드가 완전히 독립적으로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(기능)를 개발하고 배포할 수 있게 해주는 필수 물리적 인프라 |
 | **매트릭스 조직 (Matrix Organization)** | 목적(프로젝트)과 직무(기능)를 교차시켜 직원들이 두 명 이상의 관리자/멘토를 갖게 만드는 현대적 조직 뼈대 |
 

@@ -10,7 +10,7 @@ tags = ["studynote-algorithm-stats"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/070_union_find/) (또는 Disjoint Set Union, [DSU](/knowledge-base/studynote/03_network/03_physical_layer_media/145_dsu_csu_digital_service_unit/))는 여러 원소들을 서로소 집합(Disjoint Set)으로 관리하며, Union(두 집합 합치기)과 Find(원소의 소속 집합 루트 찾기) 연산을 효율적으로 지원하는 자료구조다.
+> 1. **본질**: [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/854_union_find/) (또는 Disjoint Set Union, [DSU](/knowledge-base/studynote/03_network/03_physical_layer_media/145_dsu_csu_digital_service_unit/))는 여러 원소들을 서로소 집합(Disjoint Set)으로 관리하며, Union(두 집합 합치기)과 Find(원소의 소속 집합 루트 찾기) 연산을 효율적으로 지원하는 자료구조다.
 > 2. **가치**: Union-Find는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 연결 요소(Connected Components) 판별, [크루스칼](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/042_kruskal/)([Kruskal](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/042_kruskal/)) [MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/) (Minimum Spanning Tree, [최소 신장 트리](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 사이클 검출에 핵심 역할을 한다. 경로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)(Path [Compression](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/))과 랭크 기반 합집합(Union by Rank)을 적용하면 거의 상수 시간(아커만 함수의 역함수, α(n)≈4)에 각 연산을 처리한다.
 > 3. **판단 포인트**: 두 노드가 같은 집합에 속하는지 판별하는 Find 연산이 O(α(n))≈O(1)에 수행되어, 동적으로 변하는 네트워크에서의 연결성 검사에 매우 효율적이다. [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)/DFS가 정적 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 연결성 검사라면, Union-Find는 동적 간선 추가 시 연결성 유지에 최적화되어 있다.
 
@@ -58,7 +58,7 @@ def union(parent, rank, x, y):
     if rank[rx] == rank[ry]: rank[rx] += 1
 ```
 
-### [크루스칼](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/042_kruskal/) MST에서의 [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/070_union_find/) 활용
+### [크루스칼](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/042_kruskal/) MST에서의 [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/854_union_find/) 활용
 
 ```text
 간선을 가중치 오름차순 정렬
@@ -78,7 +78,7 @@ def union(parent, rank, x, y):
 
 ## Ⅲ. 비교 및 연결
 
-| 연산 | [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/070_union_find/) | [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)/[DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) |
+| 연산 | [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/854_union_find/) | [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)/[DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) |
 |:---|:---|:---|
 | **사용 목적** | 동적 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 연결성, [MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/) 사이클 검출 | 정적 [그래프 탐색](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/), 경로 찾기 |
 | <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/">시간 복잡도</a></strong> | O(α(n)) per op ≈ O(1) | O(V+E) per traversal |
@@ -110,7 +110,7 @@ def is_connected(u, v):
 
 #### 코딩 테스트 활용 패턴
 - **사이클 검출**: [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에 간선 추가 시 Union-Find로 O(α(n))에 사이클 판별
-- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/">MST</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/042_kruskal/">크루스칼</a>)</strong>: 간선 정렬 + [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/070_union_find/) -> O(E log E)
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/">MST</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/042_kruskal/">크루스칼</a>)</strong>: 간선 정렬 + [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/854_union_find/) -> O(E log E)
 - **최소 간선 연결**: N개 노드를 N-1개 간선으로 연결 + 사이클 없음 = Spanning Tree
 
 - **📢 섹션 요약 비유**: Union-Find는 SNS의 팔로우 네트워크에서 두 사람이 같은 커뮤니티에 속하는지 즉시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것이다. 친구 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(간선)가 새로 생겨도 Union 한 번으로 업데이트하고, isConnected 한 번으로 같은 그룹인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있다.

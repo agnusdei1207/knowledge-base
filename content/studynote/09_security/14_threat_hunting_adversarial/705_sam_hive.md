@@ -136,7 +136,7 @@ SAM [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544
 
 **진행 상황**: 778 / 1108
 
-<- **이전**: [705. Kerberos 인증 (Kerberos Authentication)](/knowledge-base/studynote/09_security/uncategorized/705_kerberos_authentication/)
+<- **이전**: [705. Kerberos 인증 (Kerberos Authentication)](/knowledge-base/studynote/09_security/uncategorized/1050_kerberos_authentication/)
 **다음**: [706. Kerberoasting (SPN Ticket Hash Extraction)](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/706_kerberoasting/) ->
 
 ---

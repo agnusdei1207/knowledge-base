@@ -43,7 +43,7 @@ tags = ["studynote-network"]
 
 ### 1. 일반 공유기에서 접속이 실패하는 시나리오 (Hairpin 미지원)
 - 집 노트북(`192.168.0.10`) ---> `myhome.com (211.x.x.x 공인IP)` 접속 시도.
-- 공유기는 이를 받아 통신사 게이트웨이([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))로 일단 던진다.
+- 공유기는 이를 받아 통신사 게이트웨이([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))로 일단 던진다.
 - 통신사 라우터가 받아보니 "뭐야, 목적지 IP(`211.x.x.x`)가 아까 이거 보낸 공유기 본인이잖아?" 라며 IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)(위조) 해킹 공격으로 간주하거나 멍청한 패킷이라 욕하며 버려버린다(Drop).
 
 ### 2. Hairpin [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) ([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) Loopback) 활성화 시 시나리오

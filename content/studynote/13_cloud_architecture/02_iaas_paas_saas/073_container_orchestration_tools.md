@@ -59,7 +59,7 @@ Service
 
 | 개념 | 의미 |
 | :-- | :-- |
-| [Service Discovery](/knowledge-base/studynote/12_it_management/05_security_compliance/303_service_discovery/) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 찾기 |
+| [Service Discovery](/knowledge-base/studynote/12_it_management/05_security_compliance/946_service_discovery/) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 찾기 |
 | [Load Balancing](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/) | 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
 
 오케스트레이션은 런타임 위에서 시스템 전체를 조율한다.

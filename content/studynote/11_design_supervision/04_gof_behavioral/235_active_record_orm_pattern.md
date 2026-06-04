@@ -88,7 +88,7 @@ JPA의 `@Entity` 는 [액티브](/knowledge-base/studynote/03_network/09_applica
 |:---|:---|:---|
 | [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) 메서드 위치 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 클래스 내부 | Repository (외부) |
 | 패턴 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Record | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Mapper |
-| 테스트 | 어려움 (DB 의존) | 용이 ([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) Repository) |
+| 테스트 | 어려움 (DB 의존) | 용이 ([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Repository) |
 
 - **📢 섹션 요약 비유**: [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 레코드는 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 식당이다. 손님(객체)이 직접 식판을 들고 가서 음식([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 담고 반납한다.
 

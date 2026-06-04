@@ -10,9 +10,9 @@ tags = ["studynote-enterprise-systems"]
 +++
 
 > **핵심 인사이트**
-> 1. [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)([Network Effect](/knowledge-base/studynote/12_it_management/01_governance_strategy/032_network_effect/))는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 사용자가 증가할수록 각 사용자의 가치가 증가하는 현상으로, [플랫폼 비즈니스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/072_platform_business_two_sided_market/)가 독점적 지위를 확보하는 핵심 메커니즘이다.
+> 1. [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)([Network Effect](/knowledge-base/studynote/12_it_management/01_governance_strategy/824_network_effect/))는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 사용자가 증가할수록 각 사용자의 가치가 증가하는 현상으로, [플랫폼 비즈니스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/072_platform_business_two_sided_market/)가 독점적 지위를 확보하는 핵심 메커니즘이다.
 > 2. 메칼프의 법칙(Metcalfe's Law)은 네트워크의 가치가 연결 노드 수의 제곱(n^)에 비례한다고 주장하며, 이는 플랫폼이 임계 질량(Critical Mass)을 넘으면 기하급수적 성장을 하는 이유를 설명한다.
-> 3. 양면 [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)(Two-Sided [Network Effect](/knowledge-base/studynote/12_it_management/01_governance_strategy/032_network_effect/))는 플랫폼이 두 사용자 그룹(공급자·소비자) 모두를 동시에 확장해야 효과가 발생하며, 닭-달걀 문제(Chicken-and-Egg Problem)를 극복하는 것이 플랫폼 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 핵심이다.
+> 3. 양면 [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)(Two-Sided [Network Effect](/knowledge-base/studynote/12_it_management/01_governance_strategy/824_network_effect/))는 플랫폼이 두 사용자 그룹(공급자·소비자) 모두를 동시에 확장해야 효과가 발생하며, 닭-달걀 문제(Chicken-and-Egg Problem)를 극복하는 것이 플랫폼 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 핵심이다.
 
 ---
 

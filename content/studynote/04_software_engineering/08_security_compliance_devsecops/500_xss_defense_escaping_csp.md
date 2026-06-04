@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/)([Cross-Site Scripting](/knowledge-base/studynote/09_security/05_web_app_security/470_xss/))는 해커가 내 웹사이트 게시판이나 댓글 창에 악성 자바스크립트 코드(`<script>내 쿠키를 해커서버로 보내라!</script>`)를 써놓는 것이다. 내 서버(DB)는 이걸 그냥 글씨인 줄 알고 저장한다. 문제는 다른 착한 사용자가 그 게시글을 클릭하는 순간, 사용자의 브라우저가 저 글씨를 '[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))'로 찰떡같이 알아듣고 실행시켜 버려서 사용자의 영혼([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))을 해커에게 날름 바치는 환장할 사태다.
 
-- **필요성**: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)(480번)이 내 서버의 심장(DB)을 찌르는 거라면, XSS는 내 사이트를 놀이터로 삼아 <strong>내 손님들의 주머니(브라우저 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>)를 터는 범죄</strong>다. 손님은 "난 네이버(내 사이트)에 들어왔는데 왜 네이버가 내 돈을 털어가?"라며 회사를 고소한다. 개발자가 `input.replace("<script>", "")` 처럼 블랙리스트로 꼼수를 부리려 해봤자, 해커들은 `<img src="x" onerror="해킹">` 같은 수만 가지의 우회 스크립트 기법으로 필터를 비웃으며 뚫어냈다. <strong>블랙리스트의 오만을 쓰레기통에 처박고, 렌더링 단계에서 모든 특수문자를 물리적으로 거세해 버리는(Escaping) 무자비한 전역 아키텍처</strong>가 절대적으로 필요했다.
+- **필요성**: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/)(480번)이 내 서버의 심장(DB)을 찌르는 거라면, XSS는 내 사이트를 놀이터로 삼아 <strong>내 손님들의 주머니(브라우저 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>)를 터는 범죄</strong>다. 손님은 "난 네이버(내 사이트)에 들어왔는데 왜 네이버가 내 돈을 털어가?"라며 회사를 고소한다. 개발자가 `input.replace("<script>", "")` 처럼 블랙리스트로 꼼수를 부리려 해봤자, 해커들은 `<img src="x" onerror="해킹">` 같은 수만 가지의 우회 스크립트 기법으로 필터를 비웃으며 뚫어냈다. <strong>블랙리스트의 오만을 쓰레기통에 처박고, 렌더링 단계에서 모든 특수문자를 물리적으로 거세해 버리는(Escaping) 무자비한 전역 아키텍처</strong>가 절대적으로 필요했다.
 
 - **💡 비유**: [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 해킹은 식당 게시판에 <strong>'최면술 편지'</strong>를 붙여놓는 것과 같습니다. 해커가 "이 글을 읽는 자, 지갑을 해커에게 바쳐라"라는 최면 편지를 붙입니다. 식당 주인(서버)은 글을 못 읽어서 그냥 냅둡니다. 밥 먹으러 온 순진한 손님(브라우저)이 그 편지를 읽는 순간, 최면에 걸려 지갑을 해커에게 던집니다. [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 방어(이스케이프)는 주인이 그 편지 위에 <strong>'빨간 펜으로 낙서를 쫙쫙 그어버리는 것'</strong>입니다. 손님이 편지를 보긴 보는데, 글씨가 찌그러져(치환됨) 있어서 "뭐야 이 낙서는?" 하고 그냥 지나가 버리게 만들어 최면(실행) 발동을 원천적으로 깨버리는 위대한 소독 작업입니다.
 
@@ -30,7 +30,7 @@ tags = ["studynote-software-engineering"]
   2. **필터링의 헛발질과 이스케이프의 정립**: 개발자들이 특수문자를 정규식으로 지우려다(블랙리스트) 다 뚫리자, "지우지 마! 그냥 `<`를 `&lt;` 로 바꿔서 브라우저를 멍청하게 만들어!"라는 출력 인코딩 패러다임이 전 세계 국룰로 자리 잡았다.
   3. **현대 프레임워크와 CSP의 융합 (현재)**: 요즘은 개발자가 손으로 이스케이프를 치지 않는다. React, Vue, Spring 템플릿(Thymeleaf)이 출력할 때 알아서 100% 특수문자를 치환해 버린다(Auto-Escaping). 여기에 더해 브라우저 헤더에 <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/475_csp/">CSP</a>(<a href="/knowledge-base/studynote/09_security/05_web_app_security/475_csp/">Content Security Policy</a>)</strong>를 박아, "우리 허락 없는 남의 집 스크립트는 원천 차단!"이라는 이중 잠금장치 시대가 열렸다.
 
-- **📢 섹션 요약 비유**: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)이 은행 금고(DB)에 다이너마이트를 던지는 거라면, XSS는 은행 로비에 <strong>'독가스 풍선(악성 스크립트)'</strong>을 몰래 달아놓고 도망간 것입니다. 은행 직원은 멀쩡하지만, 로비에 들어온 선량한 고객들이 그 풍선 옆을 지나가다 쓰러집니다. 고객이 쓰러져도 은행(우리 회사)이 물어내야 하므로, 풍선을 터뜨려 내용물(공기)을 무해하게 바꿔버리는 공기청정기(이스케이핑)가 필수입니다.
+- **📢 섹션 요약 비유**: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/)이 은행 금고(DB)에 다이너마이트를 던지는 거라면, XSS는 은행 로비에 <strong>'독가스 풍선(악성 스크립트)'</strong>을 몰래 달아놓고 도망간 것입니다. 은행 직원은 멀쩡하지만, 로비에 들어온 선량한 고객들이 그 풍선 옆을 지나가다 쓰러집니다. 고객이 쓰러져도 은행(우리 회사)이 물어내야 하므로, 풍선을 터뜨려 내용물(공기)을 무해하게 바꿔버리는 공기청정기(이스케이핑)가 필수입니다.
 
 ---
 
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 크로스 사이트 스크립팅 ([XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/)) 방어은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 592 / 973
 
-<- **이전**: [500. 크로스 사이트 스크립팅 (XSS) 방어](/knowledge-base/studynote/04_software_engineering/11_testing_validation/500_xss_defense/)
-**다음**: [501. XSS 유형 (Reflected, Stored, DOM-based)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/501_xss_types/) ->
+<- **이전**: [500. 크로스 사이트 스크립팅 (XSS) 방어](/knowledge-base/studynote/04_software_engineering/11_testing_validation/892_xss_defense/)
+**다음**: [501. XSS 유형 (Reflected, Stored, DOM-based)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/893_xss_types/) ->
 
 ---

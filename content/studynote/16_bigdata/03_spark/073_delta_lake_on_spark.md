@@ -42,7 +42,7 @@ tags = ["studynote-bigdata"]
 이 모든 문제는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(`_delta_log/`) 하나로 해결된다. 모든 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업이 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 기록되고, 원자적으로 커밋되므로 ACID 보장이 가능해진다.
 
 **📢 섹션 요약 비유**
-> 기존 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 "책상 위 메모지 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)"다 — 누가 언제 추가했는지 기억이 없다. Delta Lake는 "공증 사무실의 거래 장부" — 모든 변경이 날짜·서명과 함께 순서대로 기록된다.
+> 기존 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 "책상 위 메모지 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)"다 — 누가 언제 추가했는지 기억이 없다. Delta Lake는 "공증 사무실의 거래 장부" — 모든 변경이 날짜·서명과 함께 순서대로 기록된다.
 
 ---
 

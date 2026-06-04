@@ -176,7 +176,7 @@ tags = ["ict_convergence"]
 
 퍼블릭 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 중앙 기구의 승인이나 개입 없이도 글로벌 인터넷 상에서 익명의 개인들이 서로 가치를 주고받으며 신뢰할 수 있게 만든 인류 역사상 최초의 시스템이다.
 
-| 구분 | 중앙화 플랫폼 중심 (Web 2.0) | 퍼블릭 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 중심 (Web 3.0) | 기대 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 및 파급 효과 |
+| 구분 | 중앙화 플랫폼 중심 (Web 2.0) | 퍼블릭 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 중심 (Web 3.0) | 기대 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 및 파급 효과 |
 |:---|:---|:---|:---|
 | **소유권 및 자산** | 플랫폼 기업이 DB를 소유 및 통제 | 사용자가 개인 키로 자산을 직접 통제 | 진정한 디지털 자산 소유권(NFT) 보장 |
 | **상호 운용성** | 폐쇄적 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 기업 간 연동 어려움 | 오픈 소스 및 공개 원장, 블록 장난감처럼 결합 | 디앱 간 강력한 시너지 (머니 레고) |

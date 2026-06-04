@@ -66,11 +66,11 @@ tags = ["studynote-network"]
 4. **브라우저의 바보 같은 성질**: 웹 브라우저는 코드를 읽자마자 A 은행에 송금 요청 패킷을 던집니다. 이때, 브라우저는 아까 저장해 둔 <strong>"A 은행의 살아있는 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>(로그인 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서)"를 너무나도 친절하게 찰싹 붙여서 같이 쏴버립니다.</strong>
 5. A 은행 서버는 요청을 받습니다. "어? 송금 요청에 앨리스 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)가 딱 붙어있네? 앨리스 본인이 요청한 거 확실하구만! 다스 계좌로 100만 원 쏴!" (게임 오버)
 
-CSRF [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 권한 도용을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)이 기반 조건을 만든다면, CSRF [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 권한 도용은 그 위에서 핵심 메커니즘을 구현하고, 크로스 사이트 요청 위조는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+CSRF [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 권한 도용을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/)이 기반 조건을 만든다면, CSRF [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 권한 도용은 그 위에서 핵심 메커니즘을 구현하고, 크로스 사이트 요청 위조는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)의 기반 정리 | CSRF [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 권한 도용의 핵심 동작 | 크로스 사이트 요청 위조의 확장 적용 |
+| 초점 | SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/)의 기반 정리 | CSRF [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 권한 도용의 핵심 동작 | 크로스 사이트 요청 위조의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 탐지 가능성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
@@ -104,7 +104,7 @@ CSRF [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
 | 공격 표면 (Attack Surface) | 위협이 침투할 수 있는 노출 지점을 뜻한다. |
 | [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) ([Anomaly Detection](/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/)) | 정상 패턴과 다른 징후를 찾아낸다. |
 | 크로스 사이트 요청 위조 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
@@ -121,7 +121,7 @@ CSRF [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/
     +---> [확장 B: 예측형 위협 대응]
 ```
 
-CSRF [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 권한 도용는 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)에서 출발해 현재 메커니즘을 정교화하고, 이후 크로스 사이트 요청 위조와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+CSRF [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 권한 도용는 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/)에서 출발해 현재 메커니즘을 정교화하고, 이후 크로스 사이트 요청 위조와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

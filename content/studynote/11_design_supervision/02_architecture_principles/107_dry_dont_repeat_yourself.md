@@ -148,6 +148,6 @@ DRY는 단순히 "코드 줄이기"가 아니라 "지식의 단일 표현을 보
 **진행 상황**: 156 / 530
 
 <- **이전**: [106. DIP (Dependency Inversion Principle, 의존성 역전 원칙)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/106_dip_dependency_inversion_principle/)
-**다음**: [107. DRY 원칙 (Don't Repeat Yourself) - 코드 중복 방지 (데이터 일관성 보장)](/knowledge-base/studynote/11_design_supervision/09_design_principles/107_dry_principle/) ->
+**다음**: [107. DRY 원칙 (Don't Repeat Yourself) - 코드 중복 방지 (데이터 일관성 보장)](/knowledge-base/studynote/11_design_supervision/09_design_principles/650_dry_principle/) ->
 
 ---

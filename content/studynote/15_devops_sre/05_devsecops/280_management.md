@@ -19,7 +19,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-[양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) ([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/)) 마이그레이션 클라우드 인프라 키 관리 체계는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)/[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 환경에서 반복되는 운영 문제를 구조적으로 다루기 위해 등장한 개념이다. 빠른 배포만 강조하면 취약점은 더 빨리 전파되므로, 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 속도를 늦추는 장벽이 아니라 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 내부 제어가 되어야 한다. 핵심은 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/) 환경에서도 안전성을 유지하도록 설계된 차세대 공개키 암호 체계에 있다. 이 관점에서 보면, 이 주제는 단순 기술 소개가 아니라 속도와 안정성을 동시에 맞추기 위한 운영 설계 기준에 가깝다.
+[양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) ([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/)) 마이그레이션 클라우드 인프라 키 관리 체계는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)/[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 환경에서 반복되는 운영 문제를 구조적으로 다루기 위해 등장한 개념이다. 빠른 배포만 강조하면 취약점은 더 빨리 전파되므로, 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 속도를 늦추는 장벽이 아니라 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 내부 제어가 되어야 한다. 핵심은 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/) 환경에서도 안전성을 유지하도록 설계된 차세대 공개키 암호 체계에 있다. 이 관점에서 보면, 이 주제는 단순 기술 소개가 아니라 속도와 안정성을 동시에 맞추기 위한 운영 설계 기준에 가깝다.
 
 수동 점검과 perimeter-only 보안은 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/), 런타임, 아이덴티티 공격을 제때 막기 어렵다. 따라서 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 마이그레이션 클라우드 인프라 키 관리 체계를 이해할 때는 "무엇을 자동화하는가"보다 "어떤 실패와 편차를 줄이려는가"를 먼저 붙잡아야 한다.
 
@@ -73,7 +73,7 @@ Reference Architecture
 | 위험 | [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 약하면 기대효과가 줄어듦 | 확장성·가시성·자동화 한계가 빨리 드러남 |
 | 적합한 상황 | [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/), [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 의존성, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 플랫폼처럼 공격면이 넓은 환경에서 특히 중요하다. | 변화가 적거나 단순한 환경 |
 
-또한 이 주제는 NIST [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/), [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Migration, 출시 직전 수동 보안 점검처럼 주변 개념과 강하게 연결된다. 기술사 관점에서는 개별 정의보다도 이런 연결 구조를 설명해야 답안의 깊이가 생긴다.
+또한 이 주제는 NIST [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/), [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Migration, 출시 직전 수동 보안 점검처럼 주변 개념과 강하게 연결된다. 기술사 관점에서는 개별 정의보다도 이런 연결 구조를 설명해야 답안의 깊이가 생긴다.
 
 - **📢 섹션 요약 비유**: 식품 원산지 표기처럼 재료 구성과 유통 경로가 보여야 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 위험을 통제할 수 있다.
 
@@ -114,10 +114,10 @@ Reference Architecture
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| NIST [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) | [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 마이그레이션 클라우드 인프라 키 관리 체계를 이해할 때 직접 연결되는 기반 개념 |
+| NIST [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) | [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 마이그레이션 클라우드 인프라 키 관리 체계를 이해할 때 직접 연결되는 기반 개념 |
 | [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Migration | [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 마이그레이션 클라우드 인프라 키 관리 체계의 설계·운영 판단 기준을 보완하는 개념 |
 | 출시 직전 수동 보안 점검 | [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 마이그레이션 클라우드 인프라 키 관리 체계를 자동화·확장 측면에서 연결하는 개념 |
-| [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) ([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/)) 마이그레이션 클라우드 인프라 키 관리 체계 | [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 마이그레이션 클라우드 인프라 키 관리 체계 적용 후 후속 발전 방향을 설명하는 개념 |
+| [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) ([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/)) 마이그레이션 클라우드 인프라 키 관리 체계 | [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 마이그레이션 클라우드 인프라 키 관리 체계 적용 후 후속 발전 방향을 설명하는 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -136,7 +136,7 @@ Reference Architecture
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 마이그레이션 클라우드 인프라 키 관리 체계는 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
-2. NIST [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 같은 친구들과 같이 움직여야 더 잘 작동해요.
+2. NIST [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
 
 ---

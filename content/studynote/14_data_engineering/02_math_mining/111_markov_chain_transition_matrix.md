@@ -11,7 +11,7 @@ tags = ["studynote-dataengineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/)([Markov Chain](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/))은 <strong>"미래 상태는 오직 현재 상태에만 의존하고 과거 경로와 무관하다"</strong>는 [마르코프 성질](/knowledge-base/studynote/08_algorithm_stats/08_stats/141_markov_property/)([Markov Property](/knowledge-base/studynote/08_algorithm_stats/08_stats/141_markov_property/), 무기억성)을 만족하는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 모델이다.
-> 2. **가치**: 전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 행렬(Transition Matrix) $P$를 정의하면, $\[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) P = \[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/)$를 만족하는 <strong>정상 분포(Stationary Distribution)</strong>로 수렴하는 장기 균형 상태를 예측할 수 있어 PageRank·날씨 예측·금융 모델링의 수학적 기반이 된다.
+> 2. **가치**: 전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 행렬(Transition Matrix) $P$를 정의하면, $\[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/) P = \[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/)$를 만족하는 <strong>정상 분포(Stationary Distribution)</strong>로 수렴하는 장기 균형 상태를 예측할 수 있어 PageRank·날씨 예측·금융 모델링의 수학적 기반이 된다.
 > 3. **판단 포인트**: 이산 시간·유한 상태의 기본 [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/)에서 출발하여, 연속 시간(CTMC)·은닉 상태(HMM)·[마르코프 결정 과정](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/)([MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/), 강화학습 기초)으로 확장된다.
 
 ---
@@ -54,7 +54,7 @@ tags = ["studynote-dataengineering"]
 | <strong>상태 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)</strong> | 시스템이 취할 수 있는 값 | 날씨(맑음/비) |
 | <strong>전이 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a></strong> | 상태 i -> j로 이동할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) $P_{ij}$ | 주사위 눈금 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) |
 | **전이 행렬 (P)** | 모든 전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 행렬로 정리 | 주사위 설계도 |
-| **정상 분포 (π)** | $\[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) P = \[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/)$, 장기 균형 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | 주사위를 무한 번 굴린 결과 |
+| **정상 분포 (π)** | $\[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/) P = \[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/)$, 장기 균형 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | 주사위를 무한 번 굴린 결과 |
 
 ### 수렴 조건
 1. **비주기적(Aperiodic)**: 상태로 돌아오는 주기가 고정되지 않음.
@@ -99,7 +99,7 @@ tags = ["studynote-dataengineering"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **전이 행렬** | [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/)의 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 |
-| **정상 분포** | 장기 균형 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/), $\[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) P = \[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/)$ |
+| **정상 분포** | 장기 균형 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/), $\[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/) P = \[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/)$ |
 | **PageRank** | 웹 그래프를 [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/)으로 모델링 |
 | **HMM** | 은닉 상태 + 마르코프 전이 (음성 인식) |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/">MDP</a></strong> | 행동 선택 + 마르코프 전이 (강화학습) |

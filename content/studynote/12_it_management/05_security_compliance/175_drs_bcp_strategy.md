@@ -152,7 +152,7 @@ DRS와 함께 자주 언급되는 개념으로 [백업](/knowledge-base/studynot
 | [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) ([Recovery Point Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/)) | 허용 가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실 시점을 정의한다. |
 | MTPD (Maximum Tolerable Period of Disruption) | 비즈니스가 버틸 수 있는 절대 중단 한계를 설정한다. |
 | High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) | 평상시 장애 흡수 구조로 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 상호 보완 관계다. |
-| [ISO 22301](/knowledge-base/studynote/09_security/17_framework_compliance/845_iso_22301_bcms/) | 업무 연속성 관리 체계([BCMS](/knowledge-base/studynote/09_security/17_framework_compliance/845_iso_22301_bcms/), Business Continuity [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)의 대표 표준이다. |
+| [ISO 22301](/knowledge-base/studynote/09_security/17_framework_compliance/845_iso_22301_bcms/) | 업무 연속성 관리 체계([BCMS](/knowledge-base/studynote/09_security/17_framework_compliance/845_iso_22301_bcms/), Business Continuity [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System)의 대표 표준이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

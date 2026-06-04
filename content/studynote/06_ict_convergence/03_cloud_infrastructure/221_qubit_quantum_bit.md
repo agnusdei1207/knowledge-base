@@ -86,7 +86,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 보통 애플리케이션 노드 약 70대를 운영하면서 배포를 하루 15회 이상 수행해야 하는 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 환경에서 이 개념을 검토한다. 이때 중요한 것은 "좋은 기술인가"가 아니라 "어떤 요구사항에서 이 방식이 합리적인가"를 설명하는 일이다. 즉, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·운영·보안·비용의 우선순위를 먼저 정한 뒤, 이 개념이 그 우선순위를 실제로 만족시키는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
+실무에서는 보통 애플리케이션 노드 약 70대를 운영하면서 배포를 하루 15회 이상 수행해야 하는 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 환경에서 이 개념을 검토한다. 이때 중요한 것은 "좋은 기술인가"가 아니라 "어떤 요구사항에서 이 방식이 합리적인가"를 설명하는 일이다. 즉, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·운영·보안·비용의 우선순위를 먼저 정한 뒤, 이 개념이 그 우선순위를 실제로 만족시키는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
 
 ### 적용 판단 체크포인트
 
@@ -109,7 +109,7 @@ tags = ["studynote-ict-convergence"]
 
 이 개념을 올바르게 적용하면 배포 속도 향상과 자원 활용률 개선를 기대할 수 있다. 더 중요한 점은 구조가 분명해질수록 자동화, 표준화, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝, 장애 분석의 기준점도 함께 선명해진다는 것이다. 즉, 이 개념의 가치는 기능 하나보다도 시스템을 설명 가능한 형태로 바꿔 준다는 데 있다.
 
-물론 이 개념이 만능은 아니다. 입력 품질이 낮거나 운영 정책이 비어 있거나, 조직 역량보다 과한 복잡도를 도입하면 오히려 관리 비용만 늘어난다. 앞으로는 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)와 [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/)·[AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/) 방향으로 더 진화하겠지만, 그 출발점은 여전히 기본 원리와 적용 경계를 정확히 이해하는 데 있다.
+물론 이 개념이 만능은 아니다. 입력 품질이 낮거나 운영 정책이 비어 있거나, 조직 역량보다 과한 복잡도를 도입하면 오히려 관리 비용만 늘어난다. 앞으로는 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)와 [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/)·[AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) 방향으로 더 진화하겠지만, 그 출발점은 여전히 기본 원리와 적용 경계를 정확히 이해하는 데 있다.
 
 정리하면 이 개념은 "무엇인가"보다 "언제, 왜, 어떤 조건에서 써야 하는가"로 기억해야 한다. 그래야 시험에서도 비교형 답안을 안정적으로 쓸 수 있고, 실무에서도 기술 도입 우선순위를 흔들림 없이 정할 수 있다.
 

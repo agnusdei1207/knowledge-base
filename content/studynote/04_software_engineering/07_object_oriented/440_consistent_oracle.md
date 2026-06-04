@@ -27,7 +27,7 @@ tags = ["studynote-software-engineering"]
 
 - **등장 배경 및 발전 과정**:
   1. **1990년대**: [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)(Regression Testing)에서 기존 동작 보존 개념 정립
-  2. **2000년대**: 자동화된 빌드 시스템과 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/))의 확산으로 자동 비교 기반 테스트 증가
+  2. **2000년대**: 자동화된 빌드 시스템과 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/))의 확산으로 자동 비교 기반 테스트 증가
   3. **현재**: [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/), 블루/그린 배포 환경에서 실시간 비교 오라클로 활용 확대
 
 - **📢 섹션 요약 비유**: [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 오라클은 <strong>'반병아리 키 맞추기'</strong>와 같다. 실험전후에동일한조건을 맞춘 후계의성장을측정하듯이, 소프트웨어도 변경 전후의 동일한 입력에 대해 출력이 일관되게 유지되는지를 검증한다.계의체중변화처럼 시스템 출력도 예기치 않은 변화가 있으면문제맹아으로 판단하는 것이다.
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 오라클 (Consistent [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 472 / 973
 
-<- **이전**: [440. 일관성 오라클 (Consistent Oracle)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/440_consistent_oracle/)
-**다음**: [441. 테스트 케이스 (Test Case)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) ->
+<- **이전**: [440. 일관성 오라클 (Consistent Oracle)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/832_consistent_oracle/)
+**다음**: [441. 테스트 케이스 (Test Case)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) ->
 
 ---

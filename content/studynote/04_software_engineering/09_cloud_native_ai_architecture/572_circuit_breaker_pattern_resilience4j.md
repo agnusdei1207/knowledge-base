@@ -30,7 +30,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **Netflix Hystrix 의 전설 (2012)**: 넷플릭스가 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 찢다가 100대 도미노 폭파를 처맞고 피눈물 흘리며 자바 오픈소스로 세상에 공개함. 전 세계 스프링 개발자들의 구세주 바이블이 됨.
   2. **Resilience4j 세대교체 (현재)**: RxJava 의존성 등 뚱뚱한 Hystrix가 관짝에 들어가고, 자바 8 함수형 [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)([Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)) 문법으로 극강 다이어트를 한 얄팍한 Resilience4j가 1티어 퓨즈 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 권력을 장악함.
-  3. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">Istio</a> <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/">Service Mesh</a> 탈코드화 (Next-Gen)</strong>: "야 퓨즈 껍데기 왜 자바에 박아놔 ㅋ K8s [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)(Envoy) 인프라 밑바닥으로 아예 끌어내려!" 소스코드를 1줄도 안 더럽히고 YAML로 퓨즈 컷오프를 때려버리는 진정한 제로-터치 인프라 시대로 고공 진화 중.
+  3. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/">Istio</a> <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/">Service Mesh</a> 탈코드화 (Next-Gen)</strong>: "야 퓨즈 껍데기 왜 자바에 박아놔 ㅋ K8s [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)(Envoy) 인프라 밑바닥으로 아예 끌어내려!" 소스코드를 1줄도 안 더럽히고 YAML로 퓨즈 컷오프를 때려버리는 진정한 제로-터치 인프라 시대로 고공 진화 중.
 
 - **📢 섹션 요약 비유**: 이 혁명은 전염병 방역(K-방역)과 100% 같습니다. B 도시(서버)에 전염병(에러)이 돌았습니다. 모놀리식 시절엔 손잡고 다 같이 감염돼 나라 전체가 마비(셧다운)됐습니다. [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) 방역술은 에러율(확진자 수)이 5%를 넘는 순간 0.1초 만에 <strong>'B 도시 전체 도로 봉쇄령(차단기 Open)'</strong>을 때리는 겁니다. B 도시는 고립되지만([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 불가), 나라 전체 A, C 도시는 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 하나 안 묻고 멀쩡하게 경제(트래픽)를 100% 가동하는 피도 눈물도 없는 완벽한 꼬리 자르기 생존술입니다.
 
@@ -122,7 +122,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) ([Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -176,7 +176,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 736 / 973
 
-<- **이전**: [572. 서킷 브레이커 (Circuit Breaker) - 상태(Closed, Open, Half-Open) 기반 장애 확산 차단 (Resilience4j)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/572_circuit_breaker/)
-**다음**: [573. 타임아웃 (Timeout) 및 재시도 (Retry) 백오프(Backoff) 전략](/knowledge-base/studynote/04_software_engineering/11_testing_validation/573_timeout_retry_backoff/) ->
+<- **이전**: [572. 서킷 브레이커 (Circuit Breaker) - 상태(Closed, Open, Half-Open) 기반 장애 확산 차단 (Resilience4j)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/964_circuit_breaker/)
+**다음**: [573. 타임아웃 (Timeout) 및 재시도 (Retry) 백오프(Backoff) 전략](/knowledge-base/studynote/04_software_engineering/11_testing_validation/965_timeout_retry_backoff/) ->
 
 ---

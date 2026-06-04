@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 564 / 587
 
-<- **이전**: [361. 다차원 분석 큐브 몰랩 롤랩 (MOLAP ROLAP) 구조 진단](/knowledge-base/studynote/12_it_management/05_security_compliance/361_multidimensional_analysis_molap_rolap/)
-**다음**: [362. 서드파티 락인 (Lock-in) 멀티 클라우드 전환 컨테이너 이식성(Portability) 확보 전략](/knowledge-base/studynote/12_it_management/05_security_compliance/362_multi_cloud_portability_strategy/) ->
+<- **이전**: [361. 다차원 분석 큐브 몰랩 롤랩 (MOLAP ROLAP) 구조 진단](/knowledge-base/studynote/12_it_management/05_security_compliance/1002_multidimensional_analysis_molap_rolap/)
+**다음**: [362. 서드파티 락인 (Lock-in) 멀티 클라우드 전환 컨테이너 이식성(Portability) 확보 전략](/knowledge-base/studynote/12_it_management/05_security_compliance/1003_multi_cloud_portability_strategy/) ->
 
 ---

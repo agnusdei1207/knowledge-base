@@ -60,9 +60,9 @@ DevOps를 평가하는 가장 유명한 프레임워크인 CALMS의 첫 두 기�
    - DevOps는 툴체인이 아니라 사람의 문제다. 배포 중 장애가 발생했을 때 "누가 코드를 잘못 짰어?"라고 추궁(Blame)하는 대신, "우리 파이프라인의 어떤 테스트가 이 버그를 놓쳤지?"라며 시스템과 프로세스를 개선하는 '비난 없는 사후 분석 ([Blameless Post-Mortem](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/206_postmortem_blameless_devops_culture/))' 문화가 핵심이다.
    - [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 장벽을 허물기 위해 Cross-functional 팀(기획, 개발, 테스트, 운영이 한 팀에 소속)을 구성한다.
 
-2. <strong>Automation (자동화 - <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD 인프라 코드화)</strong>:
+2. <strong>Automation (자동화 - <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD 인프라 코드화)</strong>:
    - 인간의 수작업은 필연적으로 휴먼 에러(Human Error)를 낳고 속도를 지연시킨다.
-   - [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/) / [Continuous Deployment](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/)) 파이프라인을 구축하여 빌드, 테스트, 배포를 파이프라인 컨베이어 벨트에 태운다.
+   - [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/) / [Continuous Deployment](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/)) 파이프라인을 구축하여 빌드, 테스트, 배포를 파이프라인 컨베이어 벨트에 태운다.
    - 인프라 스트럭처 애즈 코드 ([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) - [Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/)) 도구([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/))를 통해 서버 세팅 자체를 코드로 작성하고 자동 생성하여 환경 불일치(내 PC에서는 되는데요?) 문제를 원천 차단한다.
 
 ```text

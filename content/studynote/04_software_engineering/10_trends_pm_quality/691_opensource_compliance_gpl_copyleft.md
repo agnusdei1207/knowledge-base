@@ -76,7 +76,7 @@ tags = ["studynote-software-engineering"]
 |:---|:---|:---|
 | **Strong Copyleft** (GPL) | **강함** | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)를 정적(Static)/동적(Dynamic) 링크로 연결하기만 해도 <strong>전체 프로그램 소스코드를 다 공개</strong>해야 함. |
 | **Weak Copyleft** (LGPL) | 중간 | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)를 수정한 부분만 공개. 내 코드를 단순히 **동적 링크(Dynamic Link, .dll/.so)로만 가져다 쓰면 내 코드는 비공개 가능.** |
-| **Network Copyleft** (AGPL) | **극상 (최악)** | 코드를 배포하지 않고 <strong>클라우드 서버(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/">SaaS</a>)에 올려서 서비스만 제공해도</strong> 사용자가 접속하면 서버의 소스코드를 몽땅 공개해야 함. |
+| **Network Copyleft** (AGPL) | **극상 (최악)** | 코드를 배포하지 않고 <strong>클라우드 서버(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/">SaaS</a>)에 올려서 서비스만 제공해도</strong> 사용자가 접속하면 서버의 소스코드를 몽땅 공개해야 함. |
 
 특히 <strong>AGPL(Affero GPL)</strong>은 클라우드 시대를 겨냥해 만들어진 가장 무서운 라이선스다. [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/), [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 같은 유명 DB들이 클라우드 대기업(AWS 등)이 자기들 코드로 돈만 벌고 기여하지 않는 것을 막기 위해 라이선스를 AGPL(또는 SSPL)로 변경한 바 있다.
 

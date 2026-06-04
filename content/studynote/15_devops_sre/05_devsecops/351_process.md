@@ -12,7 +12,7 @@ tags = ["studynote-devops-sre"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)([Quantum Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/))은 중첩과 얽힘을 이용해 특정 문제를 고전 컴퓨터와 다른 방식으로 풀며, 특히 쇼어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Shor's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 대수적 구조를 이용하는 기존 공개키 암호를 위협한다.
-> 2. **가치**: 이 변화는 단순한 연구 주제가 아니라, 장기 보관 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/)([Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/984_pki_public_key_infrastructure_ca_ra_certificate/)) 체계 전반을 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/), [Post-Quantum Cryptography](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/))로 점진 전환해야 하는 실무 과제로 이어진다.
+> 2. **가치**: 이 변화는 단순한 연구 주제가 아니라, 장기 보관 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/)([Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/1080_pki_public_key_infrastructure_ca_ra_certificate/)) 체계 전반을 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/), [Post-Quantum Cryptography](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/))로 점진 전환해야 하는 실무 과제로 이어진다.
 > 3. **판단 포인트**: 지금 당장 모든 시스템을 교체하는 것보다, 암호 자산 인벤토리·[Crypto Agility](/knowledge-base/studynote/09_security/03_network_security/153_crypto_agility/)·하이브리드 전환 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 먼저 갖추는 것이 현실적이다.
 
 ---
@@ -29,13 +29,13 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-양자 위협 대응의 핵심은 `암호 자산 식별 -> 위험 분류 -> PQC 후보 적용 -> 하이브리드 검증 -> 점진 전환`이다. 실제 전환은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체만이 아니라, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 체인, [HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/)([Hardware Security Module](/knowledge-base/studynote/09_security/03_network_security/157_hsm_hardware_security_module/)), [KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/)([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)), [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/), [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)까지 함께 봐야 한다.
+양자 위협 대응의 핵심은 `암호 자산 식별 -> 위험 분류 -> PQC 후보 적용 -> 하이브리드 검증 -> 점진 전환`이다. 실제 전환은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체만이 아니라, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 체인, [HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/)([Hardware Security Module](/knowledge-base/studynote/09_security/03_network_security/157_hsm_hardware_security_module/)), [KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/)([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)), [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/), [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)까지 함께 봐야 한다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
 | Crypto Inventory | 사용 중인 암호 자산 파악 | [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/), [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/), [code signing](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/), [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) |
 | [Crypto Agility](/knowledge-base/studynote/09_security/03_network_security/153_crypto_agility/) Layer | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체 유연성 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 기반 전환, [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 표준화 |
-| [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) Algorithms | 양자 내성 후보 | Kyber, Dilithium, Falcon 등 |
+| [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) Algorithms | 양자 내성 후보 | Kyber, Dilithium, Falcon 등 |
 | Hybrid [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) | 기존+신규 병행 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/), [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 키 크기 |
 
 ```text
@@ -50,7 +50,7 @@ tags = ["studynote-devops-sre"]
 +--------------+              +--------------+              +--------------+
 ```
 
-핵심 원리는 기존 공개키 체계가 유지되는 동안에도 교체 가능성을 내장하는 Crypto Agility다. 예를 들어 TLS에서 하이브리드 키 교환을 시험하거나, [코드 서명](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/) 체계에 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 추가하는 식이다. [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)는 키/서명 크기가 커지고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 특성이 달라질 수 있으므로, 단순 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)만 아니라 네트워크와 저장 비용까지 함께 평가해야 한다.
+핵심 원리는 기존 공개키 체계가 유지되는 동안에도 교체 가능성을 내장하는 Crypto Agility다. 예를 들어 TLS에서 하이브리드 키 교환을 시험하거나, [코드 서명](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/) 체계에 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 추가하는 식이다. [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)는 키/서명 크기가 커지고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 특성이 달라질 수 있으므로, 단순 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)만 아니라 네트워크와 저장 비용까지 함께 평가해야 한다.
 
 - **📢 섹션 요약 비유**: 비 오는 날을 대비해 우산만 사는 게 아니라, 현관에 우산꽂이와 장화를 놓을 공간까지 미리 준비하는 것과 같다.
 
@@ -81,12 +81,12 @@ tags = ["studynote-devops-sre"]
 1. 조직 내 공개키 사용 지점을 인벤토리화했는가?
 2. 장기 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)가 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 단기 [세션 키](/knowledge-base/studynote/09_security/03_network_security/140_session_key/)를 구분해 우선순위를 세웠는가?
 3. 하이브리드 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/), [코드 서명](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/), [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/), [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 체인에 대한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)럿 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 있는가?
-4. 공급업체와 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 의존성이 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 지원 로드맵을 갖고 있는가?
+4. 공급업체와 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 의존성이 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) 지원 로드맵을 갖고 있는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 양자 위협을 “아직 먼 미래”로만 보고 장기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 세우지 않는 경우
-- [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 단일 정답처럼 결정해 [Crypto Agility](/knowledge-base/studynote/09_security/03_network_security/153_crypto_agility/) 없이 고정하는 경우
+- [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 단일 정답처럼 결정해 [Crypto Agility](/knowledge-base/studynote/09_security/03_network_security/153_crypto_agility/) 없이 고정하는 경우
 - 키/서명 크기 증가와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향을 무시하고 기존 시스템에 그대로 끼워 넣는 경우
 
 기술사 답안에서는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 이름 암기보다 “인벤토리-우선순위-하이브리드 전환”의 운영 로드맵을 제시하는 것이 중요하다.
@@ -99,7 +99,7 @@ tags = ["studynote-devops-sre"]
 
 양자 대비 체계를 갖추면 장기 보안 자산의 불확실성을 줄이고, 규제 변화나 표준 전환이 올 때 더 빠르게 대응할 수 있다. 또한 암호 자산 인벤토리와 교체 유연성을 확보하는 과정 자체가 현재 보안 운영 성숙도를 끌어올린다.
 
-반대로 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 도입을 단번에 끝낼 수 있는 프로젝트로 보면 실패한다. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 표준, 제품 지원, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 계속 바뀌기 때문이다. 따라서 이 주제는 “[양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)의 미래”가 아니라 “[암호 민첩성](/knowledge-base/studynote/09_security/19_ai_advanced_security/988_crypto_agility/)을 갖춘 현재 시스템 운영”으로 기억해야 한다.
+반대로 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) 도입을 단번에 끝낼 수 있는 프로젝트로 보면 실패한다. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 표준, 제품 지원, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 계속 바뀌기 때문이다. 따라서 이 주제는 “[양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)의 미래”가 아니라 “[암호 민첩성](/knowledge-base/studynote/09_security/19_ai_advanced_security/988_crypto_agility/)을 갖춘 현재 시스템 운영”으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 튼튼한 집은 태풍이 올 때 급히 지붕을 올리는 것이 아니라, 평소에 보강재와 배수로를 준비해 두는 집이다.
 
@@ -110,7 +110,7 @@ tags = ["studynote-devops-sre"]
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | Shor's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 기존 공개키 암호에 대한 대표적 양자 위협 |
-| [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) | 양자 공격을 견디도록 설계된 암호군 |
+| [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) | 양자 공격을 견디도록 설계된 암호군 |
 | [Crypto Agility](/knowledge-base/studynote/09_security/03_network_security/153_crypto_agility/) | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 유연하게 교체하는 설계 원칙 |
 | [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서와 신뢰 체계 전환의 핵심 기반 |
 
@@ -129,7 +129,7 @@ PQC Standardization
 Crypto Agility + Hybrid Migration
 ```
 
-이 흐름은 “기존 공개키 의존 -> 양자 위험 인식 -> [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 표준화 -> 운영 전환”으로 보안 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 성숙하는 방향을 보여준다.
+이 흐름은 “기존 공개키 의존 -> 양자 위험 인식 -> [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) 표준화 -> 운영 전환”으로 보안 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 성숙하는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -143,7 +143,7 @@ Crypto Agility + Hybrid Migration
 
 **진행 상황**: 351 / 373
 
-<- **이전**: [350. 엣지 컴퓨팅 분산 지연·스토리지 (Edge Computing)](/knowledge-base/studynote/12_it_management/05_security_compliance/350_process/)
-**다음**: [352. 동형 암호 데이터 프라이버시 클린 룸 (Homomorphic Encryption)](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/) ->
+<- **이전**: [350. 엣지 컴퓨팅 분산 지연·스토리지 (Edge Computing)](/knowledge-base/studynote/12_it_management/05_security_compliance/991_process/)
+**다음**: [352. 동형 암호 데이터 프라이버시 클린 룸 (Homomorphic Encryption)](/knowledge-base/studynote/12_it_management/05_security_compliance/993_process/) ->
 
 ---

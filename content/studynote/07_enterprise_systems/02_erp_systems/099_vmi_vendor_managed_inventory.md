@@ -59,7 +59,7 @@ VMI를 기존 재고 관리 기법들과 비교하면 책임의 주체가 어떻
 | **정보의 흐름** | 단절됨 (주문서로만 소통) | 실시간 양방향 공유 (POS [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오픈) |
 | **채찍 효과 방지** | 취약함 (수요 왜곡 발생) | 강력함 (실제 소비자 수요 직결) |
 
-기능적으로 VMI는 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))의 하위 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이며, 이를 더 확장하여 소매점과 공급자가 아예 신제품 기획부터 프로모션까지 공동으로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하는 수준으로 발전하면 **CPFR (Collaborative Planning, Forecasting, and Replenishment)** 단계로 진화한다.
+기능적으로 VMI는 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/))의 하위 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이며, 이를 더 확장하여 소매점과 공급자가 아예 신제품 기획부터 프로모션까지 공동으로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하는 수준으로 발전하면 **CPFR (Collaborative Planning, Forecasting, and Replenishment)** 단계로 진화한다.
 
 - **📢 섹션 요약 비유**: 전통적 방식이 눈을 가리고 운전석(소매점)에서 지시하는 대로 뒷좌석(제조사)에서 페달을 밟는 것이라면, VMI는 아예 앞이 잘 보이는 제조사가 운전석에 앉아 브레이크와 엑셀을 직접 통제하는 것이다.
 
@@ -69,7 +69,7 @@ VMI를 기존 재고 관리 기법들과 비교하면 책임의 주체가 어떻
 
 ### 판단 포인트 (의사결정)
 1. **도입 적합성**: 수요 변동이 심각하고 유통기한이 짧은 소비재(FMCG) 산업이거나, 부품 하나가 없으면 공장이 멈추는 자동차/전자제품 조립 산업에 최우선으로 채택한다.
-2. **책임과 소유권 명확화**: 물건이 소매점 창고에 들어간 시점에 소유권이 넘어가는지, 아니면 소비자가 물건을 구매할 때(Consignment, 위탁 재고) 비로소 소유권이 넘어가는지 계약([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))을 명확히 해야 법적 분쟁을 막을 수 있다.
+2. **책임과 소유권 명확화**: 물건이 소매점 창고에 들어간 시점에 소유권이 넘어가는지, 아니면 소비자가 물건을 구매할 때(Consignment, 위탁 재고) 비로소 소유권이 넘어가는지 계약([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/))을 명확히 해야 법적 분쟁을 막을 수 있다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - IT 시스템(EDI 연동)만 뚫어놓고, 소매점이 공급자의 배송 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)을 믿지 못해 몰래 자체 창고에 추가 안전 재고를 숨겨두는 행위 (VMI 효과 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/)).

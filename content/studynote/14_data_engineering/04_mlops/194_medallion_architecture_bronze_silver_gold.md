@@ -12,7 +12,7 @@ tags = ["studynote-data-engineering"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 메달리온 아키텍처(Medallion [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))는 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Bronze) -> 정제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Silver) -> 비즈니스 집계(Gold) 3계층으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질을 점진적으로 향상하는 [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/) 설계 패턴이다.
 > 2. **가치**: Delta Lake의 ACID [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), Time Travel, [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Evolution 기능과 결합하여 신뢰할 수 있는 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)를 구성하고, 계층별 접근 권한 분리로 보안과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 동시에 달성한다.
-> 3. **판단 포인트**: [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/311_inmon/) [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)), [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/) DM([스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [볼트](/knowledge-base/studynote/15_devops_sre/05_devsecops/236_vault_dynamic_secrets_ttl/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/)) 대비 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 유연성과 원본 보존이 강점이며, 빠르게 변하는 비즈니스 요구에 민첩하게 대응한다.
+> 3. **판단 포인트**: [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/953_inmon/) [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)), [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/954_kimball/) DM([스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [볼트](/knowledge-base/studynote/15_devops_sre/05_devsecops/236_vault_dynamic_secrets_ttl/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/)) 대비 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 유연성과 원본 보존이 강점이며, 빠르게 변하는 비즈니스 요구에 민첩하게 대응한다.
 
 ---
 
@@ -173,7 +173,7 @@ Silver [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ### 3.1 메달리온 vs 전통 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 아키텍처 비교
 
-| 항목 | [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/311_inmon/) [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) | [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/) DM | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/) | 메달리온 |
+| 항목 | [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/953_inmon/) [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) | [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/954_kimball/) DM | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/) | 메달리온 |
 |:---|:---|:---|:---|:---|
 | 설계 원칙 | [3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/) [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) | [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/) | [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)-Satellite | 계층별 품질 향상 |
 | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 유연성 | 낮음 | 중간 | 높음 | 매우 높음 |
@@ -183,7 +183,7 @@ Silver [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 | 재처리 용이성 | 어려움 | 어려움 | 중간 | 쉬움(Bronze 재처리) |
 | 주요 도구 | Teradata, [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) | Redshift, [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) | [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), dbt | [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/), Delta |
 
-### 3.2 계층별 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)
+### 3.2 계층별 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)
 
 ```
 데이터 접근 권한 계층화
@@ -211,7 +211,7 @@ Silver [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 | Silver | [Structured Streaming](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/) + Trigger.Once |
 | Gold | Micro-batch 집계 (5분~1시간 윈도우) |
 
-📢 **섹션 요약 비유**: 메달리온 vs [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/311_inmon/)/Kimball은 현대식 공장 vs 전통 공장의 차이다. 전통 공장은 설계도([스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/))를 먼저 완벽히 만들어야 하지만, 메달리온은 일단 원재료(Bronze)를 쌓아두고 필요에 따라 가공하는 유연한 공장이다.
+📢 **섹션 요약 비유**: 메달리온 vs [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/953_inmon/)/Kimball은 현대식 공장 vs 전통 공장의 차이다. 전통 공장은 설계도([스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/))를 먼저 완벽히 만들어야 하지만, 메달리온은 일단 원재료(Bronze)를 쌓아두고 필요에 따라 가공하는 유연한 공장이다.
 
 ---
 
@@ -282,8 +282,8 @@ Silver [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 | 비교 항목 | 선택 기준 |
 |:---|:---|
 | 메달리온 선택 | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 불확실, [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 많음, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 환경 |
-| [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/) 선택 | 안정적 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 패턴, [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최우선 |
-| [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/311_inmon/) 선택 | 대기업 표준화, 복잡한 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) |
+| [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/954_kimball/) 선택 | 안정적 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 패턴, [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최우선 |
+| [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/953_inmon/) 선택 | 대기업 표준화, 복잡한 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) |
 | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/) 선택 | 이력 관리 최우선, 규제 산업 |
 
 📢 **섹션 요약 비유**: 메달리온 아키텍처 도입은 도서관 정리 시스템을 도입하는 것이다. 처음에는 기증받은 책(Bronze)을 모두 받아두고, 사서([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어)가 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)·정리(Silver)한 후, 독자(사용자)가 찾기 쉬운 추천 목록(Gold)을 만든다.
@@ -331,8 +331,8 @@ Feature Store (Databricks / Feast)
 |:---|:---|:---|
 | 아키텍처 패턴 | Medallion [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) (메달리온) | Bronze/Silver/Gold 3계층 품질 향상 |
 | 스토리지 엔진 | [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) | ACID + Time Travel + [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Evolution |
-| 비교 | [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/311_inmon/) [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) | [3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/) [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 기반 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) |
-| 비교 | [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/) DM | [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/) 기반 DM |
+| 비교 | [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/953_inmon/) [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) | [3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/) [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 기반 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) |
+| 비교 | [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/954_kimball/) DM | [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/) 기반 DM |
 | 비교 | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/) | [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)-Satellite 이력 관리 |
 | 플랫폼 | [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) [Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) | 메달리온 표준 구현 환경 |
 | 품질 관리 | Great Expectations | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 프레임워크 |

@@ -173,7 +173,7 @@ tags = ["studynote-bigdata"]
 [서버리스 빅데이터 (EMR Serverless·Dataproc Serverless) — 클러스터 없이 Spark·Hive 실행]
 ```
 
-이 흐름은 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)의 운영 부담을 [클라우드 매니지드 서비스](/knowledge-base/studynote/12_it_management/01_governance_strategy/045_msp_managed_service_provider/)로 해소하고, 컴퓨팅-스토리지 분리로 비용 효율을 높이며, Spot [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 활용을 거쳐 클러스터 없이 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 실행하는 [서버리스 빅데이터](/knowledge-base/studynote/16_bigdata/09_platform/182_serverless_bigdata/) 분석으로 진화하는 클라우드 빅데이터 아키텍처의 핵심 계보를 보여준다.
+이 흐름은 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)의 운영 부담을 [클라우드 매니지드 서비스](/knowledge-base/studynote/12_it_management/01_governance_strategy/837_msp_managed_service_provider/)로 해소하고, 컴퓨팅-스토리지 분리로 비용 효율을 높이며, Spot [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 활용을 거쳐 클러스터 없이 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 실행하는 [서버리스 빅데이터](/knowledge-base/studynote/16_bigdata/09_platform/182_serverless_bigdata/) 분석으로 진화하는 클라우드 빅데이터 아키텍처의 핵심 계보를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 클라우드 빅데이터 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 요리사(Spark) 팀을 필요할 때만 빌려주는 파견 업체예요.

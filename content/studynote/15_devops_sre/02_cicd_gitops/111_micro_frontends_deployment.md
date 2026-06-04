@@ -103,7 +103,7 @@ Host([Shell](/knowledge-base/studynote/02_operating_system/01_overview_architect
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/557_webpack_module_federation/">Module Federation</a></strong> | Webpack 5 런타임 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 공유 기술 |
 | **Single-SPA** | 프레임워크 혼용 마이크로 FE 오케스트레이터 |
 | **Design System** | UX [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 보장하는 공유 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/">BFF</a> (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/">Backend for Frontend</a>)</strong> | 마이크로 FE별 전용 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 패턴 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/">BFF</a> (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/">Backend for Frontend</a>)</strong> | 마이크로 FE별 전용 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 패턴 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

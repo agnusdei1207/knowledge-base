@@ -21,13 +21,13 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 조건 커버리지는 분기문의 복합 조건을 구성하는 각 개별 조건식이 독립적으로 참(True)/거짓(False) 값을 갖는지를 측정하는 지표이다. 예를 들어 "if (A > 0 and B > 0)"이라는 복합 조건에서 A > 0과 B > 0이 각각 독립적으로 참/거짓을 한 번씩 가져야 한다.
 
-- **필요성**: [결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/)는 복합 조건 전체의 결과(참/거짓)만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지만, 개별 조건의독립적인 영향은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지 않는다. 예를 들어 A > 0 and B > 0에서 A만 false이고 B는 true인 경우, 전체 조건은 false가 되지만, A > 0 조건 자체가 false일 때의 동작은 이미 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 것이다. 조건 커버리지를 통해 각 개별 조건의 참/거짓을 모두 테스트할 수 있다.
+- **필요성**: [결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/815_decision_coverage/)는 복합 조건 전체의 결과(참/거짓)만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지만, 개별 조건의독립적인 영향은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지 않는다. 예를 들어 A > 0 and B > 0에서 A만 false이고 B는 true인 경우, 전체 조건은 false가 되지만, A > 0 조건 자체가 false일 때의 동작은 이미 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 것이다. 조건 커버리지를 통해 각 개별 조건의 참/거짓을 모두 테스트할 수 있다.
 
 - **조건(Condition)과 결정(Decision)의 구분**:
   - **조건(Condition)**: 더 이상 분할할 수 없는 단일 부울 식 (예: A > 0, B == 0)
   - **결정(Decision)**: 하나 이상의 조건을 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산자로 결합한 것 (예: A > 0 and B == 0)
 
-- **비유**: 조건 커버리지는 <strong>'화합물 각 성분 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>'</strong>과 같다. 화합물이 성분 A, B, C로 구성되어 있을 때, 전체 화합물의 특성(결정)을 보는 것([결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/))뿐만 아니라 각 성분 A, B, C가 단독으로 어떠한 특성을 갖는지(조건 커버리지)도 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
+- **비유**: 조건 커버리지는 <strong>'화합물 각 성분 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>'</strong>과 같다. 화합물이 성분 A, B, C로 구성되어 있을 때, 전체 화합물의 특성(결정)을 보는 것([결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/815_decision_coverage/))뿐만 아니라 각 성분 A, B, C가 단독으로 어떠한 특성을 갖는지(조건 커버리지)도 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
 
 - **등장 배경 및 발전 과정**:
   1. **1980년대**: 소프트웨어 테스트 학계에서 조건 커버리지 개념 체계화
@@ -126,7 +126,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 조건 커버리지 (Condition Coverage)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -180,7 +180,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 440 / 973
 
-<- **이전**: [424. 조건 커버리지 (Condition Coverage)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/)
-**다음**: [425. 조건/결정 커버리지 (Condition/Decision Coverage)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/425_condition_decision_coverage/) ->
+<- **이전**: [424. 조건 커버리지 (Condition Coverage)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/816_condition_coverage/)
+**다음**: [425. 조건/결정 커버리지 (Condition/Decision Coverage)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/817_condition_decision_coverage/) ->
 
 ---

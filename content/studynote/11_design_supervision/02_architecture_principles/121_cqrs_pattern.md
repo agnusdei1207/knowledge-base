@@ -58,7 +58,7 @@ CQRS의 핵심 흐름은 세 단계다. ① 클라이언트가 [Command](/knowle
 |:---|:---|:---|
 | [Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Model | 상태 변경 처리, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 비즈니스 규칙 | 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) |
 | Query Model | 빠른 조회를 위한 비정규화 뷰 | 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 높은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) |
-| [Event Bus](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/) | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)->읽기 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 채널 | 비동기, 내구성 |
+| [Event Bus](/knowledge-base/studynote/04_software_engineering/11_testing_validation/931_event_bus_stream_processing/) | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)->읽기 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 채널 | 비동기, 내구성 |
 | Projection | 이벤트에서 읽기 모델 재구성 | 유연한 뷰 재생성 |
 
 ```text

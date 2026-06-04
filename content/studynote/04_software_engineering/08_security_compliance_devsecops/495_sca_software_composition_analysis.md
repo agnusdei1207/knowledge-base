@@ -30,7 +30,7 @@ tags = ["studynote-software-engineering"]
   2. **라이선스 소송의 피눈물**: 초창기 [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/)(Black Duck)는 해킹 방어용이 아니었다. [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)를 공짜인 줄 알고 썼다가, "코드 공개 의무(GPL 라이선스)"에 걸려 회사의 소스코드를 강제로 다 까발려야 하는 끔찍한 법적 지뢰를 밟고 소송에 털리자, 이를 막기 위해 '라이선스 분석용'으로 등장했다.
   3. <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">공급망</a> 보안의 대세 (현재)</strong>: 라이선스는 기본이고, 솔라윈즈(SolarWinds) 사태 이후 해커들이 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)를 집중 타격하는 <strong><a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/">공급망 공격</a>(<a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/">Supply Chain Attack</a>)</strong>이 대유행하자, 취약점([CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/)) 스캔이 SCA의 메인 엔진으로 자리 잡으며 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 보안의 심장이 되었다.
 
-- **📢 섹션 요약 비유**: [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)([정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/))가 <strong>'내 성벽의 돌에 금이 갔는지 살피는 것'</strong>이라면, SCA는 <strong>'성문을 지키려고 외부에서 고용한 용병(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a>) 중에 적군의 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/">스파이</a>(취약점/라이선스 위반)가 섞여 있는지 신원 조회를 하는 것'</strong>입니다. 용병의 숫자가 90%인 현대 전쟁에서, 용병의 뒷조사를 안 하는 성은 무조건 안에서부터 털리게 됩니다.
+- **📢 섹션 요약 비유**: [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)([정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/))가 <strong>'내 성벽의 돌에 금이 갔는지 살피는 것'</strong>이라면, SCA는 <strong>'성문을 지키려고 외부에서 고용한 용병(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a>) 중에 적군의 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/">스파이</a>(취약점/라이선스 위반)가 섞여 있는지 신원 조회를 하는 것'</strong>입니다. 용병의 숫자가 90%인 현대 전쟁에서, 용병의 뒷조사를 안 하는 성은 무조건 안에서부터 털리게 됩니다.
 
 ---
 
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) (Software Composition Analysis)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ SCA (Software Composition Analysis) 개념 정립
 
 **진행 상황**: 582 / 973
 
-<- **이전**: [495. SCA (Software Composition Analysis)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/495_sca_software_composition_analysis/)
+<- **이전**: [495. SCA (Software Composition Analysis)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/887_sca_software_composition_analysis/)
 **다음**: [496. SBOM (Software Bill of Materials) 포맷 - SPDX, CycloneDX](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/496_sbom_format_spdx_cyclonedx/) ->
 
 ---

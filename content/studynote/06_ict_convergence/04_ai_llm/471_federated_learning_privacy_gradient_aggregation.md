@@ -81,7 +81,7 @@ tags = ["studynote-ict-convergence"]
 |:---:|:---:|:---:|:---:|
 | [차분 프라이버시](/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/)(DP-SGD) | 그래디언트에 가우시안 노이즈 추가 | 수학적 ε-DP 보장 | 중간~높음 |
 | 보안 집계(Secure Aggregation) | 암호화된 그래디언트만 서버 수신 | 높음 | 통신 비용^ |
-| [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/)([Homomorphic Encryption](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/)) | 암호화 상태로 집계 연산 | 매우 높음 | 매우 높음 |
+| [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/)([Homomorphic Encryption](/knowledge-base/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/)) | 암호화 상태로 집계 연산 | 매우 높음 | 매우 높음 |
 | 그래디언트 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)(Gradient [Compression](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/)) | 스파스 통신으로 정보 노출 최소화 | 낮음 | 낮음 |
 
 - **📢 섹션 요약 비유**: 그래디언트는 요리 결과가 아닌 레시피 조각인데, 이 조각들을 모으면 원본 식재료([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 추론할 수 있어 DP 노이즈로 재료를 흐릿하게 만든다.

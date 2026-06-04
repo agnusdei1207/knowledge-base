@@ -107,7 +107,7 @@ PFF는 워킹 셋의 "정확한 내용물(어떤 [페이지](/knowledge-base/stu
    - **아키텍트 조치**: C++ 게임 클라이언트를 짤 때 `SetProcessWorkingSetSize()` API를 써서 "내 게임은 무조건 최소 4GB는 보장해 줘!"라고 OS에 하드코딩 결박을 걸면, 윈도우가 아무리 메모리가 부족해도 내 게임의 워킹 셋을 건드리지 않아 프레임 드랍(Jitter)을 방어할 수 있다.
 2. **K8s JVM (Java) 애플리케이션의 워킹 셋 웜업 (Warm-up)**: 클라우드 파드가 새로 떴을 때 첫 1분 동안은 유저 요청을 받으면 안 된다.
    - **원인**: JVM이 처음 뜨면 [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) 컴파일러가 바이트코드를 기계어로 번역하고 메모리에 객체를 적재하는 초기화 기간이 필요하다. 이때 OS 입장에서는 이 프로세스의 '워킹 셋'이 아직 텅 비어있거나 형성되는 중이다. 이 타이밍에 초당 1만 건의 트래픽을 때리면 워킹 셋이 급격히 팽창하며 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault가 폭주해 서버가 즉사한다.
-   - **아키텍트 결단**: 로드밸런서(LB)에 파드를 연결하기 전, 가짜 트래픽([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) Request)을 수천 번 쏴서 JVM의 주요 로직과 DB 커넥션 코드들을 **물리적 램 위(Working Set)에 완전히 안착시키는 웜업(Warm-up)** 단계를 강제해야 한다. 워킹 셋이 완성된 후에야 진짜 트래픽을 넣어야 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 없는 안정적인 서비스가 가능하다.
+   - **아키텍트 결단**: 로드밸런서(LB)에 파드를 연결하기 전, 가짜 트래픽([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) Request)을 수천 번 쏴서 JVM의 주요 로직과 DB 커넥션 코드들을 **물리적 램 위(Working Set)에 완전히 안착시키는 웜업(Warm-up)** 단계를 강제해야 한다. 워킹 셋이 완성된 후에야 진짜 트래픽을 넣어야 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 없는 안정적인 서비스가 가능하다.
 
 ```text
   +-------------------------------------------------------------------------------+

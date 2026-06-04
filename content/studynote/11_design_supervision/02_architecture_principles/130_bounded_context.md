@@ -19,7 +19,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어에서 하나의 단어가 여러 의미를 가지면 모호성이 발생한다. '고객([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/))'은 주문 시스템에서는 '배송 주소를 가진 구매자'이고, 마케팅 시스템에서는 '구매 이력을 가진 세그먼트 대상'이며, [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 시스템에서는 '담당 영업사원과 연결된 계정'이다.
+소프트웨어에서 하나의 단어가 여러 의미를 가지면 모호성이 발생한다. '고객([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/))'은 주문 시스템에서는 '배송 주소를 가진 구매자'이고, 마케팅 시스템에서는 '구매 이력을 가진 세그먼트 대상'이며, [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 시스템에서는 '담당 영업사원과 연결된 계정'이다.
 
 [바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)는 이 모호성을 해결한다. 각 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)는 자신만의 언어와 모델을 갖고, [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 경계 밖에서는 그 모델이 의미 없거나 다른 의미를 가진다고 명시적으로 선언한다.
 
@@ -43,7 +43,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 맵([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Map)은 [바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) 간의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 시각화한다. 주요 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 패턴은 다음과 같다. ① 공유 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(Shared [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)): 두 BC가 작은 공통 모델을 함께 소유·유지, ② 고객-공급자([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)-Supplier): 상류 BC가 하류 BC를 위한 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 제공, ③ 준수자(Conformist): 하류 BC가 상류 BC 모델을 그대로 따름, ④ [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)(Anti-Corruption Layer): 외부 모델을 변환하는 방어 레이어.
+[컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 맵([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Map)은 [바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) 간의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 시각화한다. 주요 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 패턴은 다음과 같다. ① 공유 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(Shared [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)): 두 BC가 작은 공통 모델을 함께 소유·유지, ② 고객-공급자([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/)-Supplier): 상류 BC가 하류 BC를 위한 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 제공, ③ 준수자(Conformist): 하류 BC가 상류 BC 모델을 그대로 따름, ④ [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)(Anti-Corruption Layer): 외부 모델을 변환하는 방어 레이어.
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
@@ -75,8 +75,8 @@ tags = ["studynote-design-supervision"]
 
 | 비교 축 | A | B |
 |:---|:---|:---|
-| 모델 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | 전체 앱에서 하나의 [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) | BC마다 독립된 [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) 모델 |
-| 변경 영향 | [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) 변경이 전체 영향 | 해당 BC 내에서만 영향 |
+| 모델 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | 전체 앱에서 하나의 [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/) | BC마다 독립된 [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/) 모델 |
+| 변경 영향 | [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/) 변경이 전체 영향 | 해당 BC 내에서만 영향 |
 | 팀 자율성 | 낮음 | 높음 |
 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용 | 낮음 | 높음 (경계 설계 필요) |
 

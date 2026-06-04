@@ -42,13 +42,13 @@ tags = ["studynote-enterprise"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-개념 탄소 인지 컴퓨팅을 설계할 때는 기준 수립, 실행 절차, 피드백 지표의 세 축을 함께 봐야 한다. 입력 축은 탄소 인지 컴퓨팅로, 범위와 입력 조건을 정리한다. 실행 축은 [Carbon-Aware](/knowledge-base/studynote/12_it_management/05_security_compliance/359_esg_carbon_aware_pue/) Computing로, 실제 절차와 협업 구조를 연결한다. 피드백 축은 PUE로, 결과를 측정하고 다시 교정한다. 이 세 가지가 분리되어 보이면 현장은 빨라 보여도 품질과 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 무너지기 쉽다.
+개념 탄소 인지 컴퓨팅을 설계할 때는 기준 수립, 실행 절차, 피드백 지표의 세 축을 함께 봐야 한다. 입력 축은 탄소 인지 컴퓨팅로, 범위와 입력 조건을 정리한다. 실행 축은 [Carbon-Aware](/knowledge-base/studynote/12_it_management/05_security_compliance/1000_esg_carbon_aware_pue/) Computing로, 실제 절차와 협업 구조를 연결한다. 피드백 축은 PUE로, 결과를 측정하고 다시 교정한다. 이 세 가지가 분리되어 보이면 현장은 빨라 보여도 품질과 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 무너지기 쉽다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
 | 탄소 인지 컴퓨팅 | 요구사항·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·업무 조건을 구조화 | 용어 정의와 책임 주체를 먼저 고정 |
 | [Carbon-Aware Computing](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/238_carbon_aware_computing_green_it/) | 실행 절차와 통제 포인트를 연결 | 예외 처리와 승인 기준을 명시 |
-| [PUE](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/237_pue_power_usage_effectiveness_datacenter_metric/) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·품질·위험을 측정 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), 비용, 리드타임 등 정량 지표 확보 |
+| [PUE](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/237_pue_power_usage_effectiveness_datacenter_metric/) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·품질·위험을 측정 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/), 비용, 리드타임 등 정량 지표 확보 |
 | 운영 피드백 | 재설계 여부를 판단 | 변경 이력과 회고 루프를 남김 |
 
 ```text
@@ -78,7 +78,7 @@ tags = ["studynote-enterprise"]
 | 의사결정 | 담당자 경험 의존 | [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)와 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 활용 | 지표 기반 최적화 |
 | 위험 | 누락과 재작업 | 통제 가능 수준으로 축소 | 확장 시 복잡도 관리 필요 |
 
-또한 이 주제는 주변 개념과 분리되어 존재하지 않는다. 탄소 인지 컴퓨팅이 입력을 만들고, [Carbon-Aware](/knowledge-base/studynote/12_it_management/05_security_compliance/359_esg_carbon_aware_pue/) Computing가 실행 구조를 만들며, PUE이 품질 또는 확장 축으로 이어진다. 기술사 답안에서는 이러한 연결 문장을 함께 제시해야 단편 암기가 아니라 시스템 사고로 읽힌다.
+또한 이 주제는 주변 개념과 분리되어 존재하지 않는다. 탄소 인지 컴퓨팅이 입력을 만들고, [Carbon-Aware](/knowledge-base/studynote/12_it_management/05_security_compliance/1000_esg_carbon_aware_pue/) Computing가 실행 구조를 만들며, PUE이 품질 또는 확장 축으로 이어진다. 기술사 답안에서는 이러한 연결 문장을 함께 제시해야 단편 암기가 아니라 시스템 사고로 읽힌다.
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구라도 망치와 드라이버는 쓰는 순간이 다르다. 모양보다 어떤 재료를 어떤 힘으로 다루는지가 선택 기준이다.
 
@@ -91,7 +91,7 @@ tags = ["studynote-enterprise"]
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 탄소 인지 컴퓨팅의 정의 범위와 책임 주체가 문서로 합의되었는가?
-2. [Carbon-Aware](/knowledge-base/studynote/12_it_management/05_security_compliance/359_esg_carbon_aware_pue/) Computing가 실제 프로세스·시스템·도구와 연결되어 있는가?
+2. [Carbon-Aware](/knowledge-base/studynote/12_it_management/05_security_compliance/1000_esg_carbon_aware_pue/) Computing가 실제 프로세스·시스템·도구와 연결되어 있는가?
 3. PUE를 측정할 수 있는 지표와 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 남는가?
 4. 변경 요청이나 예외 상황이 발생할 때 승인 경로가 분명한가?
 

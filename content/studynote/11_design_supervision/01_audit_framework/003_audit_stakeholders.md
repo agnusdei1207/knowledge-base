@@ -64,7 +64,7 @@ tags = ["design_supervision"]
 | **영문 명칭** | Client, Procuring Entity | Auditee, Contractor | Auditor, [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) Firm |
 | **주요 정의** | 감리 서비스를 요청하고 비용을 지급하는 기관 | 감리 대상 사업의 주무기관 또는 사업자 | 감리를 수행하는 독립된 제3자 전문 기관 |
 | **핵심 역할** | 감리 범위/일정 승인, 예산 확보, 최종 판정 수납 | 감리 협조 (문서/인테뷰 제공), 지적 사항 조치, 이의 제기 | [감리 계획 수립](/knowledge-base/studynote/11_design_supervision/01_audit_framework/014_audit_planning/), 실지 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 수행, 보고서 작성 |
-| **권한/의무** | 감리 결과 수령, 시정 조치 요구, 최종 사업 승인 | [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/) 제공 의무, 감리 지적 수용 의무 | 독립적 [감리 수행](/knowledge-base/studynote/11_design_supervision/01_audit_framework/017_audit_execution/), 객관적 판정, 비밀 유지 의무 |
+| **권한/의무** | 감리 결과 수령, 시정 조치 요구, 최종 사업 승인 | [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/628_objective_evidence_collection/) 제공 의무, 감리 지적 수용 의무 | 독립적 [감리 수행](/knowledge-base/studynote/11_design_supervision/01_audit_framework/017_audit_execution/), 객관적 판정, 비밀 유지 의무 |
 | <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong> | 감리 결과 불인정 시 예산 손실, 시스템 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 유턴 | 감리 지적 미이행 시 계약 위반, 법적 책임 | 감리 결과에 대한 법적 책임, 독립성 상실 시 명망 손실 |
 
 감리 과정에서 3자 간에 오가는 문서와 데이터의 흐름을 시각화하면 다음과 같다.
@@ -109,7 +109,7 @@ tags = ["design_supervision"]
 | 갈등 유형 | 발생 시나리오 | 감리법인의 중재 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 |:---|:---|:---|
 | **발주자 vs 피감리인: 요구사항 해석 충돌** | 발주자가 "반드시 시스템 오픈 전에 보안 진단을 완료하라"고 했고, 피감리인은 "내부 테스트로 충분하다"고 주장 | 감리법인은 RFP 원문과 과업대비표([Task Traceability Matrix](/knowledge-base/studynote/11_design_supervision/01_audit_framework/025_task_traceability_matrix/))를 대조하여쌍방적 합의 기준을 명확히 하고, 전자정부법 및 보안 약점 진단 기준을 제시 |
-| **피감리인 vs 감리법인: 지적 강도 불일치** | 피감리인이 "이 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)은 Minor인데 Major로 과장했다"고 항의 | 감리법인은 [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/)(Evidence)를 기반으로 판단 근거를 상세히 기재하고, 소급근거([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))를 명시 |
+| **피감리인 vs 감리법인: 지적 강도 불일치** | 피감리인이 "이 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)은 Minor인데 Major로 과장했다"고 항의 | 감리법인은 [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/628_objective_evidence_collection/)(Evidence)를 기반으로 판단 근거를 상세히 기재하고, 소급근거([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))를 명시 |
 | **발주자 vs 감리법인: 비용 증감 분쟁** | 감리 과정에서 예상치 못한 대규모 취약점이 발견되어 추가는리가 필요해졌고, 발주자가 비용 증액에 불만을 표현 | 감리법인은 감리 계획서 사전 정의된 범위([Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/)) 변경 프로토콜에 따라 추가 감리 비용을 투명하게 산정하고 합리성을 입증 |
 
 감리법인의 독립성을 위협하는 3대 위험 요소([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Triangle)를 살펴보면 다음과 같다.
@@ -155,7 +155,7 @@ tags = ["design_supervision"]
  5. 거절 사유 부적정 -> [감리 수행 불가] 판정 + 발주자 보고
 ```
 
-이 의사결정 플로우의 핵심은 감리법인이 어떠한 압력에도 굴하지 않고 [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/)에 기반한 판정을 고수해야 한다는 점이다. 발주자의 압력에사로 직권으로 범위를 줄이거나, 피감리인의 압력에 떠나서 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 은폐하면 감리법인으로서의 존립 이유가 사라진다.
+이 의사결정 플로우의 핵심은 감리법인이 어떠한 압력에도 굴하지 않고 [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/628_objective_evidence_collection/)에 기반한 판정을 고수해야 한다는 점이다. 발주자의 압력에사로 직권으로 범위를 줄이거나, 피감리인의 압력에 떠나서 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 은폐하면 감리법인으로서의 존립 이유가 사라진다.
 
 📢 **섹션 요약 비유**: 감리법인의 결단은 <strong>'법원의 호주제(陪審制)'</strong>와 같습니다. 12명의 호주위원은 피고 또는 검사적 whatsoever한 영향을 받지 않고 증거만으로 판결을 내리며,일단 수령을 받으면 그 판결에는법적 구속력이 있습니다.
 

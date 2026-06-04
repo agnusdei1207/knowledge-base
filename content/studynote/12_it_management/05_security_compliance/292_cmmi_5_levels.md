@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 429 / 587
 
-<- **이전**: [291. EVM 획득 가치 (PV, EV, AC, SPI, CPI)](/knowledge-base/studynote/12_it_management/05_security_compliance/291_evm_review/)
-**다음**: [292. CMMI 성숙도 5단계 (초기, 관리, 정의, 정량, 최적화)](/knowledge-base/studynote/12_it_management/05_security_compliance/292_cmmi_maturity_levels/) ->
+<- **이전**: [291. EVM 획득 가치 (PV, EV, AC, SPI, CPI)](/knowledge-base/studynote/12_it_management/05_security_compliance/937_evm_review/)
+**다음**: [292. CMMI 성숙도 5단계 (초기, 관리, 정의, 정량, 최적화)](/knowledge-base/studynote/12_it_management/05_security_compliance/938_cmmi_maturity_levels/) ->
 
 ---

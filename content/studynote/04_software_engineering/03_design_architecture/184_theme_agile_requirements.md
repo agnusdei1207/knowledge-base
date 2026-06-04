@@ -47,7 +47,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-테마의 핵심 원리는 <strong>상위 목표를 하위 실행 항목으로 분해하되, 의미의 축을 잃지 않는 것</strong>이다. 일반적으로 제품 비전이나 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) (Objectives and [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Results) 같은 상위 목표가 있고, 그 아래에 테마가 놓이며, 각 테마 아래에 여러 [에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/)과 스토리가 연결된다. 이렇게 하면 조직은 "무엇을 만들까"와 "왜 만드는가"를 같은 구조 안에서 추적할 수 있다.
+테마의 핵심 원리는 <strong>상위 목표를 하위 실행 항목으로 분해하되, 의미의 축을 잃지 않는 것</strong>이다. 일반적으로 제품 비전이나 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/) (Objectives and [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Results) 같은 상위 목표가 있고, 그 아래에 테마가 놓이며, 각 테마 아래에 여러 [에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/)과 스토리가 연결된다. 이렇게 하면 조직은 "무엇을 만들까"와 "왜 만드는가"를 같은 구조 안에서 추적할 수 있다.
 
 | 수준 | 주로 답하는 질문 | 기간/범위 | 예시 |
 | :--- | :--- | :--- | :--- |
@@ -82,14 +82,14 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-테마를 제대로 쓰려면 <strong>Theme, <a href="/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/">Epic</a>, Story, Initiative/<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/">OKR</a></strong> 의 경계를 분명히 해야 한다. Theme는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 방향을 묶는 축이고, Epic은 큰 기능 묶음이며, Story는 사용자가 느끼는 개별 가치 조각이다. OKR은 조직 수준의 측정 목표이고, Theme는 그 목표를 [제품 백로그](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/) 구조로 번역한 형태에 가깝다.
+테마를 제대로 쓰려면 <strong>Theme, <a href="/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/">Epic</a>, Story, Initiative/<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/">OKR</a></strong> 의 경계를 분명히 해야 한다. Theme는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 방향을 묶는 축이고, Epic은 큰 기능 묶음이며, Story는 사용자가 느끼는 개별 가치 조각이다. OKR은 조직 수준의 측정 목표이고, Theme는 그 목표를 [제품 백로그](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/) 구조로 번역한 형태에 가깝다.
 
 | 구분 | 핵심 질문 | 산출물 성격 | 흔한 오류 |
 | :--- | :--- | :--- | :--- |
 | Theme | 왜 중요한가? | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 방향·결과 묶음 | 너무 추상적 슬로건 |
 | [Epic](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/) | 무엇을 크게 만들까? | 큰 기능/업무 묶음 | 테마와 구분 없이 혼용 |
 | Story | 사용자가 무엇을 할까? | 작은 가치 단위 | 내부 작업을 스토리로 착각 |
-| [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) | 어떤 수치 결과를 낼까? | 조직 목표와 측정치 | [제품 백로그](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/)와 단절 |
+| [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/) | 어떤 수치 결과를 낼까? | 조직 목표와 측정치 | [제품 백로그](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/)와 단절 |
 
 또한 테마는 [유저 스토리 맵](/knowledge-base/studynote/04_software_engineering/03_design_architecture/183_user_story_mapping/) ([User Story Mapping](/knowledge-base/studynote/04_software_engineering/03_design_architecture/183_user_story_mapping/)), [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) ([Minimum Viable Product](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)), 로드맵과도 자연스럽게 연결된다. 테마가 상위 방향을 정하면, 스토리 맵은 그 테마 아래의 사용자 흐름을 정리하고, MVP는 그중 가장 먼저 전달할 얇은 가치 묶음을 자른다. 따라서 테마는 단독 문서가 아니라 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> -> 백로그 -> 릴리스 계획</strong>을 이어 주는 허브다.
 
@@ -146,11 +146,11 @@ tags = ["studynote-software-engineering"]
 | :--- | :--- |
 | [Epic](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/) | 테마 아래에서 구체적인 큰 기능 묶음으로 분해된다 |
 | [User Story](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/) | [에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/)을 더 작은 사용자 가치 단위로 나눈 결과다 |
-| [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) (Objectives and [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Results) | 테마의 상위 목적과 측정 지표를 제공한다 |
+| [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/) (Objectives and [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Results) | 테마의 상위 목적과 측정 지표를 제공한다 |
 | Product Roadmap | 테마별 투자 우선순위와 시기를 정리한다 |
 | [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) ([Minimum Viable Product](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)) | 테마 아래에서 가장 먼저 전달할 최소 가치 범위를 정한다 |
 | [User Story Mapping](/knowledge-base/studynote/04_software_engineering/03_design_architecture/183_user_story_mapping/) | 테마에 속한 스토리를 사용자 흐름 위에 재배열한다 |
-| Portfolio [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) | 여러 테마 간 예산과 인력 배분을 다룬다 |
+| Portfolio [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) | 여러 테마 간 예산과 인력 배분을 다룬다 |
 | [Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/) | 스토리에서 테마까지 연결되는 [요구사항 추적성](/knowledge-base/studynote/04_software_engineering/03_design_architecture/156_requirements_traceability_vertical_horizontal/)을 만든다 |
 
 ### 📈 관련 키워드 및 발전 흐름도

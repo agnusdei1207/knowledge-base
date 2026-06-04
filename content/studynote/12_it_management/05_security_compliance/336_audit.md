@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 512 / 587
 
-<- **이전**: [335. 개인정보 영향 평가 (PIA) 감리 연계](/knowledge-base/studynote/12_it_management/05_security_compliance/335_privacy_impact_assessment_pia_audit_linkage/)
-**다음**: [336. 망연계 물리적 논리적 분리 통제 구조 점검](/knowledge-base/studynote/12_it_management/05_security_compliance/336_network_separation_physical_logical/) ->
+<- **이전**: [335. 개인정보 영향 평가 (PIA) 감리 연계](/knowledge-base/studynote/12_it_management/05_security_compliance/976_privacy_impact_assessment_pia_audit_linkage/)
+**다음**: [336. 망연계 물리적 논리적 분리 통제 구조 점검](/knowledge-base/studynote/12_it_management/05_security_compliance/977_network_separation_physical_logical/) ->
 
 ---

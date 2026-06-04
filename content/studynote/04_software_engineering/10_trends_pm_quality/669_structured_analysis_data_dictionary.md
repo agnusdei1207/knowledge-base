@@ -78,7 +78,7 @@ tags = ["studynote-software-engineering"]
 |:---|:---|:---|
 | <strong>자료 흐름도 (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/">DFD</a>)</strong> | [Data Flow Diagram](/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디서 나와서 어디로 흘러가는지 그리는 **전체 지도 (거시적/동적)**. |
 | <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/">데이터 사전</a> (<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/769_architecture/">DD</a>)</strong> | [Data Dictionary](/knowledge-base/studynote/05_database/04_transactions_concurrency/509_data_dictionary/) | DFD에 나오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 정확히 어떻게 생겼는지 적어둔 **단어장 (미시적/정적)**. |
-| <strong>소명세서 (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/145_1_mini_spec/">Mini-Spec</a>)</strong>| [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) [Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/) | [DFD](/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/) 안의 동그라미(프로세스/함수) 내부에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떻게 가공되는지 적어둔 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 명세 (<a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>)</strong>. |
+| <strong>소명세서 (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/145_1_mini_spec/">Mini-Spec</a>)</strong>| [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) [Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/) | [DFD](/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/) 안의 동그라미(프로세스/함수) 내부에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떻게 가공되는지 적어둔 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 명세 (<a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>)</strong>. |
 
 이 세 가지가 완벽하게 일치해야 [구조적 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/)이 끝난다. DFD에 그리지 않은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 DD에 적어두면 오류(사각지대)가 발생한 것이다.
 
@@ -161,7 +161,7 @@ DFD 자료 흐름도 4요소 개념 정립
 
 **진행 상황**: 841 / 973
 
-<- **이전**: [669. DFD 자료 흐름도 4요소](/knowledge-base/studynote/04_software_engineering/uncategorized/669_dfd_data_flow_diagram/)
+<- **이전**: [669. DFD 자료 흐름도 4요소](/knowledge-base/studynote/04_software_engineering/uncategorized/972_dfd_data_flow_diagram/)
 **다음**: [670. 유스케이스 포함(Include) 확장(Extend)](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/) ->
 
 ---

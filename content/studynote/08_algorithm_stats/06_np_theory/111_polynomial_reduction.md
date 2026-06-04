@@ -12,7 +12,7 @@ tags = ["studynote-algorithm-stats"]
 > **핵심 인사이트**
 > 1. 다항 시간 환산([Polynomial](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) Reduction, A ≤_p B)은 "문제 A를 문제 B로 변환할 수 있고, B를 다항 시간에 풀 수 있으면 A도 다항 시간에 풀린다"는 원리로 — NP-완전 증명의 핵심 도구이며, Cook-Levin 정리에서 SAT이 NP-완전임을 보인 방법이다.
 > 2. A ≤_p B의 방향성이 핵심 — "A가 B로 환산된다" = "B가 A보다 적어도 같거나 더 어렵다" = B가 A의 상한(upper bound), 이 방향을 혼동하면 복잡도 이론 전체가 뒤집힌다.
-> 3. 3-[SAT](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/) ≤_p 3-Color ≤_p Clique ≤_p 독립 집합 ≤_p 정점 커버처럼 환산 체인을 구성하면 모든 NP-완전 문제가 서로 등가임을 증명할 수 있어 — 하나를 풀면 모두를 풀 수 있다는 NP-완전의 연대를 보여준다.
+> 3. 3-[SAT](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/) ≤_p 3-Color ≤_p Clique ≤_p 독립 집합 ≤_p 정점 커버처럼 환산 체인을 구성하면 모든 NP-완전 문제가 서로 등가임을 증명할 수 있어 — 하나를 풀면 모두를 풀 수 있다는 NP-완전의 연대를 보여준다.
 
 ---
 
@@ -53,7 +53,7 @@ A ≤_p B의 복잡도 의미:
 
 ---
 
-## Ⅱ. Cook-Levin 정리와 [SAT](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/)
+## Ⅱ. Cook-Levin 정리와 [SAT](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/)
 
 ```
 Cook-Levin 정리 (1971/1973):

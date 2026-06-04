@@ -105,7 +105,7 @@ A08. [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_i
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/) | 웹 취약점 다수는 [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/)과 인코딩 실패에서 시작된다. |
+| [입력 검증](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/) | 웹 취약점 다수는 [입력 검증](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/)과 인코딩 실패에서 시작된다. |
 | [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)·토큰 관리 | 웹 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 문제는 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)·[쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)·토큰 수명주기와 묶여 있다. |
 | 보안 헤더 | 브라우저 보안 모델은 헤더와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 보완된다. |
 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 | 대규모 서비스는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 속도 제한, 로깅을 중앙화해 관리한다. |

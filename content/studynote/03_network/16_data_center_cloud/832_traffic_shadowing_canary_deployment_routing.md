@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **개념**: 광부들이 탄광에 독가스가 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하려고 예민한 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)아 새를 먼저 들여보냈던 것에서 유래한 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)입니다.
 - **네트워크 라우팅의 예술**:
   - 옛날엔 L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/))로 그냥 50% 대 50%로 트래픽을 뿌렸습니다.
-  - 현대의 L7 라우터([Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/))나 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/))는 트래픽 비율을 소수점 단위로 미세 조절합니다.
+  - 현대의 L7 라우터([Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/))나 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/))는 트래픽 비율을 소수점 단위로 미세 조절합니다.
   - 신버전(V2) 서버를 켜두고, 처음엔 **전체 트래픽의 딱 1%만 V2로 꺾어버립니다.** 에러가 안 터지는 걸 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하면 5%, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%, 100%로 밸브를 서서히 열어 V1을 자연스럽게 멸망시킵니다.
   - **A/B 테스트와의 차이**: [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)는 "이 코드가 에러를 뿜는지 안 뿜는지(안정성)"가 목적이고, A/B 테스트는 "파란 버튼과 빨간 버튼 중 어떤 게 매출이 높은지(비즈니스 가치)"가 목적입니다.
 
@@ -65,7 +65,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- <strong>완벽한 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/">부하 테스트</a> (Real-world <a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/267_load_testing_ci_jmeter_k6/">Load Testing</a>)</strong>: 아무리 QA팀이 가짜 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)) 데이터를 만들어 부하를 걸어봐야, 금요일 저녁 진짜 유저들이 뿜어내는 예측 불허의 실전 트래픽 폭풍(버스트)을 재현할 수는 없습니다. 섀도잉은 <strong>'가짜 유저가 아닌 100% 진짜 유저 트래픽'</strong>으로 V2 서버의 맷집을 한 치의 오차 없이 검증해 냅니다.
+- <strong>완벽한 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/">부하 테스트</a> (Real-world <a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/267_load_testing_ci_jmeter_k6/">Load Testing</a>)</strong>: 아무리 QA팀이 가짜 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)) 데이터를 만들어 부하를 걸어봐야, 금요일 저녁 진짜 유저들이 뿜어내는 예측 불허의 실전 트래픽 폭풍(버스트)을 재현할 수는 없습니다. 섀도잉은 <strong>'가짜 유저가 아닌 100% 진짜 유저 트래픽'</strong>으로 V2 서버의 맷집을 한 치의 오차 없이 검증해 냅니다.
 - **영향도 0% (Zero-Impact)**: [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)는 재수 없게 1%의 손님에 걸린 유저가 에러를 맛볼 수 있지만, 섀도잉은 응답을 버리기 때문에 사용자의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 체감 영향도가 0%입니다. 완벽하게 격리된 '안전지대 샌드박스 테스트'입니다.
 
 [트래픽 섀도잉](/knowledge-base/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/) 및 [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 신뢰 통신 양방향…가 기반 조건을 만든다면, [트래픽 섀도잉](/knowledge-base/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/) 및 [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)는 그 위에서 핵심 메커니즘을 구현하고, [로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -83,7 +83,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 엄청난 주의가 필요합니다! [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)된 트래픽을 받은 V2 서버가 진짜 결제 DB에 붙어서 결제 승인 버튼을 두 번 눌러버리면 큰일 납니다.
-- 그래서 섀도잉 망을 짤 때는, V2 서버가 바라보는 DB도 반드시 껍데기만 남은 가짜([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)) 테스트 DB를 바라보도록 격리망(Mocking)을 철저히 설계해야 합니다.
+- 그래서 섀도잉 망을 짤 때는, V2 서버가 바라보는 DB도 반드시 껍데기만 남은 가짜([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)) 테스트 DB를 바라보도록 격리망(Mocking)을 철저히 설계해야 합니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 

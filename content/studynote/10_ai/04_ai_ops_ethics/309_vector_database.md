@@ -67,8 +67,8 @@ tags = ["studynote-ai"]
 
 | 벡터 DB | 특징 | 주요 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) |
 |:---|:---|:---|
-| Pinecone | 완전 관리형 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) | [HNSW](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/) |
-| Weaviate | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) + [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/), [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/) | [HNSW](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/) |
+| Pinecone | 완전 관리형 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) | [HNSW](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/) |
+| Weaviate | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) + [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/), [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/) | [HNSW](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/) |
 | ChromaDB | 로컬 개발 최적화, Python 친화 | [HNSW](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/) |
 | [Milvus](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/320_gnn_vector_db_recommendation/) | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/), 대용량 스케일 | IVF-[PQ](/knowledge-base/studynote/03_network/07_network_layer_routing/391_qos_queuing_pq_cq_wfq_cbwfq_llq/), [HNSW](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/) |
 | [pgvector](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/) | PostgreSQL 확장, SQL 통합 | IVFFlat, [HNSW](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/) |

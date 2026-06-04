@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 체크리스트 기반 테스팅은 "무엇을 볼지"를 먼저 정한 뒤 점검하는 방식이다. 즉흥적으로 훑는 대신, 미리 만든 항목을 따라가며 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 
-이 방식은 사람이 자주 놓치는 실수를 줄인다. [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/), 권한, 예외 처리, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 배포 설정처럼 반복 점검이 필요한 곳에 잘 맞는다.
+이 방식은 사람이 자주 놓치는 실수를 줄인다. [입력 검증](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/), 권한, 예외 처리, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 배포 설정처럼 반복 점검이 필요한 곳에 잘 맞는다.
 
 - **📢 섹션 요약 비유**: 여행 전에 짐 목록을 적어 두고 하나씩 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것과 같다.
 
@@ -79,15 +79,15 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-체크리스트 기반 테스팅은 경험을 구조화한다. [탐색적 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/433_exploratory_testing/)처럼 유연하지만, [오류 추정](/knowledge-base/studynote/04_software_engineering/11_testing_validation/434_error_guessing/)처럼 직관만 의존하지는 않는다.
+체크리스트 기반 테스팅은 경험을 구조화한다. [탐색적 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/825_exploratory_testing/)처럼 유연하지만, [오류 추정](/knowledge-base/studynote/04_software_engineering/11_testing_validation/826_error_guessing/)처럼 직관만 의존하지는 않는다.
 
 | 구분 | 장점 | 한계 |
 |:---|:---|:---|
 | 체크리스트 | 반복성과 표준화 | 항목 밖 문제는 놓칠 수 있음 |
-| [탐색적 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/433_exploratory_testing/) | 발견력 높음 | 재현성 약할 수 있음 |
-| [오류 추정](/knowledge-base/studynote/04_software_engineering/11_testing_validation/434_error_guessing/) | 빠른 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지 | 개인 경험 의존 |
+| [탐색적 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/825_exploratory_testing/) | 발견력 높음 | 재현성 약할 수 있음 |
+| [오류 추정](/knowledge-base/studynote/04_software_engineering/11_testing_validation/826_error_guessing/) | 빠른 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지 | 개인 경험 의존 |
 
-[정적 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/430_static_testing/), [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/), 운영 점검표와도 자연스럽게 연결된다.
+[정적 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/822_static_testing/), [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/), 운영 점검표와도 자연스럽게 연결된다.
 
 - **📢 섹션 요약 비유**: 요리할 때 레시피만 믿지 말고 재료표도 같이 보는 것이다.
 
@@ -173,7 +173,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 461 / 973
 
-<- **이전**: [434. 오류 추정 (Error Guessing) - 테스터의 경험을 바탕으로 결함이 발생할 만한 곳을 추정하여 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/434_error_guessing/)
+<- **이전**: [434. 오류 추정 (Error Guessing) - 테스터의 경험을 바탕으로 결함이 발생할 만한 곳을 추정하여 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/826_error_guessing/)
 **다음**: [435. 체크리스트 (Checklist) 기반 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) ->
 
 ---

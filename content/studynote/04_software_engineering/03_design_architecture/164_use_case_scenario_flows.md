@@ -77,7 +77,7 @@ tags = ["software_engineering"]
 +--------------------------------------------------------------+
 ```
 
-대안 흐름과 예외 흐름의 경계는 "목표 달성 여부"로 판단하면 가장 명확하다. 예를 들어 로그인에서 비밀번호 대신 일회용 비밀번호 (One-Time Password, [OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/))로 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)해도 최종적으로 로그인에 성공하면 대안 흐름이다. 반면 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 5회 실패로 계정이 잠기고 로그인 자체가 끝나지 못하면 예외 흐름이다. 이 구분이 명확해야 개발 로직과 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)도 흔들리지 않는다.
+대안 흐름과 예외 흐름의 경계는 "목표 달성 여부"로 판단하면 가장 명확하다. 예를 들어 로그인에서 비밀번호 대신 일회용 비밀번호 (One-Time Password, [OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/))로 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)해도 최종적으로 로그인에 성공하면 대안 흐름이다. 반면 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 5회 실패로 계정이 잠기고 로그인 자체가 끝나지 못하면 예외 흐름이다. 이 구분이 명확해야 개발 로직과 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/)도 흔들리지 않는다.
 
 - **📢 섹션 요약 비유**: 기본 흐름은 정문으로 들어가 목적지에 도착하는 길이고, 대안 흐름은 공사 중이라 옆문으로 돌아가도 결국 도착하는 길이다. 예외 흐름은 문이 잠겨서 오늘 일정 자체를 포기해야 하는 상황이다.
 
@@ -85,19 +85,19 @@ tags = ["software_engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-유스케이스 시나리오는 [사용자 스토리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/) ([User Story](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/))보다 상세하고, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) ([Test Case](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/))보다는 상위 수준의 문서다. [사용자 스토리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/)가 "누가 왜 이 기능을 원하는가"를 짧게 정리한다면, 시나리오는 그 요구를 구현 가능한 단계로 분해한다. [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)는 여기서 더 내려가 입력값·기대 결과·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 데이터를 붙여 실제 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 절차로 바꾼다.
+유스케이스 시나리오는 [사용자 스토리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/) ([User Story](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/))보다 상세하고, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) ([Test Case](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/))보다는 상위 수준의 문서다. [사용자 스토리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/)가 "누가 왜 이 기능을 원하는가"를 짧게 정리한다면, 시나리오는 그 요구를 구현 가능한 단계로 분해한다. [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/)는 여기서 더 내려가 입력값·기대 결과·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 데이터를 붙여 실제 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 절차로 바꾼다.
 
 | 문서 유형 | 질문 | 강점 | 한계 |
 | :-- | :-- | :-- | :-- |
 | [사용자 스토리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/) | 왜 필요한가? | 빠른 공유, 우선순위 정리 | 분기와 예외가 부족할 수 있음 |
 | 유스케이스 시나리오 | 어떻게 상호작용하는가? | 흐름·경계·예외 명확화 | 작성 비용 증가 |
-| [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) | 무엇을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 것인가? | 실행 가능, 품질 추적 용이 | 요구 맥락 설명은 약함 |
+| [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) | 무엇을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 것인가? | 실행 가능, 품질 추적 용이 | 요구 맥락 설명은 약함 |
 
 또 유스케이스 시나리오는 [행위 주도 개발](/knowledge-base/studynote/11_design_supervision/06_exam_summary/412_process/) ([Behavior-Driven Development](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/126_bdd_behavior_driven_development_given_when_then/), [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/))과도 잘 연결된다. 사전 조건·행동·결과 구조는 `Given-When-Then` 형식과 자연스럽게 대응되며, 기본/대안/예외 흐름은 각각 정상 테스트, 우회 성공 테스트, 실패 테스트로 매핑된다. 즉 시나리오를 잘 쓰면 요구사항 문서가 테스트 자산으로 이어진다.
 
 다만 모든 프로젝트가 같은 깊이의 시나리오를 요구하는 것은 아니다. 규제 산업, 의료, 금융처럼 오류 비용이 큰 분야는 상세 시나리오가 필요하지만, 빠른 실험이 핵심인 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 프로토타입은 [사용자 스토리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/)와 핵심 예외 몇 가지만으로도 충분할 수 있다. 중요한 것은 문서 두께가 아니라, 실패 비용에 맞는 명세 깊이다.
 
-- **📢 섹션 요약 비유**: [사용자 스토리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/)가 "무엇을 요리할지" 적은 주문서라면, 유스케이스 시나리오는 조리 순서서이고, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)는 완성된 음식 맛을 확인하는 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)다.
+- **📢 섹션 요약 비유**: [사용자 스토리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/)가 "무엇을 요리할지" 적은 주문서라면, 유스케이스 시나리오는 조리 순서서이고, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/)는 완성된 음식 맛을 확인하는 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)다.
 
 ---
 
@@ -126,7 +126,7 @@ tags = ["software_engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-잘 작성된 유스케이스 시나리오는 요구사항을 구현 가능한 단위로 정리해 준다. 그 결과 개발자는 분기와 예외를 예상한 설계를 할 수 있고, QA는 빠짐없는 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)를 만들 수 있으며, 프로젝트 관리자는 기능 범위와 완료 기준을 더 명확히 볼 수 있다. 즉 시나리오는 문서가 아니라 팀의 공통 실행 언어가 된다.
+잘 작성된 유스케이스 시나리오는 요구사항을 구현 가능한 단위로 정리해 준다. 그 결과 개발자는 분기와 예외를 예상한 설계를 할 수 있고, QA는 빠짐없는 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/)를 만들 수 있으며, 프로젝트 관리자는 기능 범위와 완료 기준을 더 명확히 볼 수 있다. 즉 시나리오는 문서가 아니라 팀의 공통 실행 언어가 된다.
 
 물론 지나치게 세밀한 시나리오는 유지보수 비용을 키울 수 있다. 화면 문구 하나 바뀔 때마다 문서를 다시 고쳐야 한다면 오히려 팀이 문서를 버리게 된다. 따라서 핵심 상호작용, 분기 조건, 상태 변화, 종료 조건에 집중하고, 구현 세부는 설계 문서나 코드에 맡기는 균형이 필요하다.
 
@@ -140,7 +140,7 @@ tags = ["software_engineering"]
 | :-- | :-- |
 | [유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/) ([Use Case Diagram](/knowledge-base/studynote/04_software_engineering/03_design_architecture/147_use_case_diagram/)) | 시나리오가 상세화하는 상위 요구 표현 |
 | 사전 조건 / 후행 조건 | 시작 가능 상태와 종료 후 보장 상태를 규정 |
-| [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) ([Test Case](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)) | 시나리오 단계가 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 절차로 전환되는 지점 |
+| [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) ([Test Case](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/)) | 시나리오 단계가 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 절차로 전환되는 지점 |
 | [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) ([Behavior-Driven Development](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/126_bdd_behavior_driven_development_given_when_then/)) | 시나리오를 `Given-When-Then`으로 연결해 자동화 가능 |
 | [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservice Architecture](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/365_msa_microservice_architecture/)) | 단계별 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 책임과 연동 경계를 분리할 때 활용 |
 

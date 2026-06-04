@@ -77,7 +77,7 @@ CSPM이 클라우드의 '껍데기([설정](/knowledge-base/studynote/15_devops_
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 헷갈리는 세 가지 용어를 정리해 드립니다.
-1. <strong><a href="/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/">CASB</a> (741번)</strong>: 직원이 밖에서 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)(구글 드라이브 등)를 **'접속하고 쓸 때'** [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 유출을 막는 '문지기'.
+1. <strong><a href="/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/">CASB</a> (741번)</strong>: 직원이 밖에서 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/)(구글 드라이브 등)를 **'접속하고 쓸 때'** [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 유출을 막는 '문지기'.
 2. <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/">CSPM</a></strong>: 회사의 [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)(AWS 등) 인프라 <strong>'껍데기 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>, 권한)'</strong>을 올바르게 했는지 감시하는 '안전 점검관'.
 3. <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/">CWPP</a></strong>: 인프라 위에서 도는 <strong>'알맹이 앱(가상 머신, <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>)'</strong> 속에 바이러스가 침투했는지 잡아내는 '내과 의사'.
 

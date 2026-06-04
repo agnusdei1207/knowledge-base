@@ -48,7 +48,7 @@ tags = ["studynote-enterprise"]
 | :--- | :--- | :--- |
 | [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/) 잠재 공간 노이즈 역산 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) | 요구사항·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·업무 조건을 구조화 | 용어 정의와 책임 주체를 먼저 고정 |
 | [Diffusion Model](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/) | 실행 절차와 통제 포인트를 연결 | 예외 처리와 승인 기준을 명시 |
-| Latent Diffusion | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·품질·위험을 측정 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), 비용, 리드타임 등 정량 지표 확보 |
+| Latent Diffusion | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·품질·위험을 측정 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/), 비용, 리드타임 등 정량 지표 확보 |
 | 운영 피드백 | 재설계 여부를 판단 | 변경 이력과 회고 루프를 남김 |
 
 ```text

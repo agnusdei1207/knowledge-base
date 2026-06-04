@@ -11,7 +11,7 @@ tags = ["studynote-software-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 모델 기반 테스팅 (MBT, Model-Based Testing) - 시스템 모델([UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 등)에서 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 자동 생성은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 1. **본질**: 모델 기반 테스팅 (MBT, Model-Based Testing) - 시스템 모델([UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 등)에서 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) 자동 생성은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
 > 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
@@ -23,14 +23,14 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 은행 계좌 이체 시스템을 짰다. 경우의 수가 "휴일 이체, 한도 초과, 수수료 부족, VIP 면제" 등 500가지로 쪼개진다. QA 직원이 엑셀에 500줄의 시나리오를 손으로 적는다. 사람이 치는 거라 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%는 누락(Human Error)되고, 나중에 기획이 바뀌어 "VIP 수수료 면제 취소"가 되면 엑셀 500줄 중 어디를 고쳐야 할지 몰라 테스트가 폐기된다. <strong>인간의 두뇌 용량 한계와 끔찍한 유지보수 비용(Maintenance Hell)을 기계의 압도적인 수학적 경로 탐색(Path Finding) 알고리즘으로 대체</strong>하기 위해 탄생한 것이 MBT다.
 
-- **💡 비유**: MBT는 <strong>'내비게이션 자동 경로 생성기'</strong>와 같습니다. 옛날(수동 테스팅)에는 서울에서 부산 가는 길을 사람이 지도책을 보고 "직진, 우회전, 좌회전" 100줄짜리 종이에 적어서 줬습니다. 골목길 하나 막히면 종이를 처음부터 다시 써야 하죠. MBT는 그냥 내비게이션에 <strong>'전국 지도(모델)'</strong>를 딱 하나 칩으로 꽂아주는 것입니다. 그러면 내비게이션(툴)이 알아서 고속도로, 국도, 샛길 등 부산으로 가는 10만 개의 완벽한 경로([테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/))를 1초 만에 쫙 뽑아내고, 길이 막히면 지도만 살짝 고치면 알아서 새 경로를 토해냅니다.
+- **💡 비유**: MBT는 <strong>'내비게이션 자동 경로 생성기'</strong>와 같습니다. 옛날(수동 테스팅)에는 서울에서 부산 가는 길을 사람이 지도책을 보고 "직진, 우회전, 좌회전" 100줄짜리 종이에 적어서 줬습니다. 골목길 하나 막히면 종이를 처음부터 다시 써야 하죠. MBT는 그냥 내비게이션에 <strong>'전국 지도(모델)'</strong>를 딱 하나 칩으로 꽂아주는 것입니다. 그러면 내비게이션(툴)이 알아서 고속도로, 국도, 샛길 등 부산으로 가는 10만 개의 완벽한 경로([테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/))를 1초 만에 쫙 뽑아내고, 길이 막히면 지도만 살짝 고치면 알아서 새 경로를 토해냅니다.
 
 - **등장 배경 및 발전 과정**:
   1. **요구사항과 테스트의 붕괴**: 기획서([Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/))와 테스트 코드(Java)가 따로 놀다 보니, 기획이 바뀌면 테스트가 다 터져버리는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 지옥이 펼쳐졌다.
   2. **UML의 부상과 수학적 모델링**: 90년대 객체지향 붐과 함께 [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)(통합 모델링 언어)이 뜨면서, 시스템을 '상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))'와 '전이(Transition)'라는 수학적 맵으로 그리는 철학이 완성되었다.
   3. **MBT 툴의 상용화 (현재)**: 그림을 기계가 읽게 하려면 복잡한 수학(정형 기법, Formal Methods)이 필요해 우주, 항공 등 돈 많은 곳에서만 썼다. 하지만 최근 ModelJUnit, GraphWalker 같은 오픈소스와 결합하며 대중적인 비즈니스 로직(쇼핑몰, 금융)에도 기계가 테스트 대본을 찍어주는 시대가 열렸다.
 
-- **📢 섹션 요약 비유**: 수동 테스트 작성이 <strong>수제 구두 장인이 가죽을 한 땀 한 땀 바느질해서 만드는 것</strong>이라면, MBT는 3D 프린터에 **'완벽한 3D 도면(모델)'** [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나만 입력 엔터(Enter) 쳐서, 똑같은 품질의 신발 1만 켤레([테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/))를 1시간 만에 쾅쾅 찍어내 버리는 완벽한 공장 자동화입니다.
+- **📢 섹션 요약 비유**: 수동 테스트 작성이 <strong>수제 구두 장인이 가죽을 한 땀 한 땀 바느질해서 만드는 것</strong>이라면, MBT는 3D 프린터에 **'완벽한 3D 도면(모델)'** [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나만 입력 엔터(Enter) 쳐서, 똑같은 품질의 신발 1만 켤레([테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/))를 1시간 만에 쾅쾅 찍어내 버리는 완벽한 공장 자동화입니다.
 
 ---
 
@@ -59,7 +59,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-모델 기반 테스팅 (MBT, Model-Based Testing) - 시스템 모델([UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 등)에서 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 자동 생성의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
+모델 기반 테스팅 (MBT, Model-Based Testing) - 시스템 모델([UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 등)에서 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) 자동 생성의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 모델 기반 테스팅 (MBT, Model-Based Testing)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 530 / 973
 
-<- **이전**: [469. 모델 기반 테스팅 (MBT, Model-Based Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/469_model_based_testing_mbt/)
-**다음**: [470. TDD (Test Driven Development) 생명주기](/knowledge-base/studynote/04_software_engineering/11_testing_validation/470_tdd_lifecycle/) ->
+<- **이전**: [469. 모델 기반 테스팅 (MBT, Model-Based Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/861_model_based_testing_mbt/)
+**다음**: [470. TDD (Test Driven Development) 생명주기](/knowledge-base/studynote/04_software_engineering/11_testing_validation/862_tdd_lifecycle/) ->
 
 ---

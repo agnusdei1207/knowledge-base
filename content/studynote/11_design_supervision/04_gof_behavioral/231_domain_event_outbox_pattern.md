@@ -95,7 +95,7 @@ CREATE TABLE outbox_events (
 | 패턴 | 목적 | [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/) 보장 | 복잡도 |
 |:---|:---|:---:|:---:|
 | Outbox Pattern | 이벤트 발행 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) | ✅ DB [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) | 중간 |
-| [Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/) (Choreography) | [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 조율 | [보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/) | 높음 |
+| [Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/948_saga_pattern/) (Choreography) | [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 조율 | [보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/) | 높음 |
 | Transactional Messaging | MQ 내장 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) | MQ 지원 시 ✅ | 낮음 |
 | [Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/) | 상태를 이벤트 스트림으로 저장 | ✅ 이벤트가 원천 | 매우 높음 |
 
@@ -151,7 +151,7 @@ Outbox 패턴 도입의 정량적 효과:
 | 상위 개념 | Eventually Consistent (최종 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)) | Outbox가 달성하는 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 모델 |
 | 하위 개념 | [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)) | Outbox 릴레이의 실시간 구현체 |
 | 하위 개념 | Idempotent Consumer (멱등 소비자) | Outbox의 중복 발행을 수신 측에서 처리 |
-| 연관 개념 | [Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/) | [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 조율에 Outbox와 함께 사용 |
+| 연관 개념 | [Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/948_saga_pattern/) | [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 조율에 Outbox와 함께 사용 |
 | 연관 개념 | [Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/) ([이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)) | 이벤트를 원천 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 사용하는 심화 패턴 |
 
 ### 📈 관련 키워드 및 발전 흐름도

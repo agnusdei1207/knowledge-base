@@ -120,7 +120,7 @@ Java에서 [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_ex
 
 ### 📌 관련 개념 맵
 
-[조건 분기 코드 문제] -> [전략 패턴] -> OCP 달성] -> [함수형 고차 함수] -> [스프링 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 주입]
+[조건 분기 코드 문제] -> [전략 패턴] -> OCP 달성] -> [함수형 고차 함수] -> [스프링 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 주입]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -131,7 +131,7 @@ Java에서 [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_ex
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[GoF [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(1994)] -> OCP 달성] -> [Java 함수형 인터페이스+람다] -> [스프링 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 맵] -> [함수형 프로그래밍 [고차 함수](/knowledge-base/studynote/04_software_engineering/06_software_architecture/325_higher_order_function_closure/) 대체]
+[GoF [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(1994)] -> OCP 달성] -> [Java 함수형 인터페이스+람다] -> [스프링 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 맵] -> [함수형 프로그래밍 [고차 함수](/knowledge-base/studynote/04_software_engineering/06_software_architecture/325_higher_order_function_closure/) 대체]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

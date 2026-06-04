@@ -39,7 +39,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 전송할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 본문(Payload) 안에 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)(`01111110`)와 동일한 패턴이 우연히 발생하여 수신자가 프레임의 끝으로 오인하는 것을 방지하기 위해, <strong>송신 측이 강제로 특정 위치에 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/">더미</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>(0)를 쑤셔 넣고(Stuffing), 수신 측이 이를 다시 뽑아내어(Destuffing) 원본 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 투명성을 보장하는 기술</strong>입니다.
+- **개념**: 전송할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 본문(Payload) 안에 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)(`01111110`)와 동일한 패턴이 우연히 발생하여 수신자가 프레임의 끝으로 오인하는 것을 방지하기 위해, <strong>송신 측이 강제로 특정 위치에 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/">더미</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>(0)를 쑤셔 넣고(Stuffing), 수신 측이 이를 다시 뽑아내어(Destuffing) 원본 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 투명성을 보장하는 기술</strong>입니다.
 
 ```text
 [자동 재전송 요구 선택적/GBN]

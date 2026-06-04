@@ -51,7 +51,7 @@ Master Key -> Word Split -> RotWord -> SubWord(S-box) -> Rcon XOR -> Round Keys
 
 ## Ⅲ. 비교 및 연결
 
-키 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)은 [KDF](/knowledge-base/studynote/09_security/03_network_security/144_hkdf_tls_1_3/) ([Key Derivation Function](/knowledge-base/studynote/04_software_engineering/11_testing_validation/505_password_storage_kdf_salt/))와 다르다. KDF는 비밀번호나 공유 비밀로부터 새 키를 안전하게 뽑는 절차이고, [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 키 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)은 이미 정해진 암호 키를 라운드용으로 전개하는 절차다. 즉 하나는 "입력 비밀을 키로 바꾸는 일"이고, 다른 하나는 "키를 라운드별로 나누는 일"이다.
+키 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)은 [KDF](/knowledge-base/studynote/09_security/03_network_security/144_hkdf_tls_1_3/) ([Key Derivation Function](/knowledge-base/studynote/04_software_engineering/11_testing_validation/897_password_storage_kdf_salt/))와 다르다. KDF는 비밀번호나 공유 비밀로부터 새 키를 안전하게 뽑는 절차이고, [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 키 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)은 이미 정해진 암호 키를 라운드용으로 전개하는 절차다. 즉 하나는 "입력 비밀을 키로 바꾸는 일"이고, 다른 하나는 "키를 라운드별로 나누는 일"이다.
 
 또한 단순 반복 키와 달리 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 키 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)은 S-box (Substitution box)의 비선형성을 끼워 넣어 회로적 규칙성을 줄인다. 그래서 구현자는 "암호화 함수만 맞으면 된다"고 생각하면 안 되고, 키 확장 테스트 벡터까지 확인해야 한다.
 
@@ -93,7 +93,7 @@ Master Key -> Word Split -> RotWord -> SubWord(S-box) -> Rcon XOR -> Round Keys
 | [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Schedule | 마스터 키를 라운드 키로 확장 |
 | S-box (Substitution box) | 비선형 치환으로 패턴 완화 |
 | Rcon | 라운드별 상수 주입 |
-| [KDF](/knowledge-base/studynote/09_security/03_network_security/144_hkdf_tls_1_3/) ([Key Derivation Function](/knowledge-base/studynote/04_software_engineering/11_testing_validation/505_password_storage_kdf_salt/)) | 키 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)과 구분해야 하는 외부 절차 |
+| [KDF](/knowledge-base/studynote/09_security/03_network_security/144_hkdf_tls_1_3/) ([Key Derivation Function](/knowledge-base/studynote/04_software_engineering/11_testing_validation/897_password_storage_kdf_salt/)) | 키 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)과 구분해야 하는 외부 절차 |
 | [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI ([Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) [New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) Instructions) | 하드웨어 가속 경로 |
 
 ### 📈 관련 키워드 및 발전 흐름도

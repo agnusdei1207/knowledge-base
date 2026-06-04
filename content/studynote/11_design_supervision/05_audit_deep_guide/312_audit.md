@@ -117,7 +117,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 382 / 530
 
-<- **이전**: [311. 스마트 컨트랙트 재진입 방지 패턴 감리 (Smart Contract Reentrancy Defense Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/311_smart_contract_reentrancy_audit/)
-**다음**: [312. 네트워크 장비 펌웨어 백도어 모니터링 (Network Firmware Backdoor Monitoring Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/312_network_firmware_backdoor_monitoring/) ->
+<- **이전**: [311. 스마트 컨트랙트 재진입 방지 패턴 감리 (Smart Contract Reentrancy Defense Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/670_smart_contract_reentrancy_audit/)
+**다음**: [312. 네트워크 장비 펌웨어 백도어 모니터링 (Network Firmware Backdoor Monitoring Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/671_network_firmware_backdoor_monitoring/) ->
 
 ---

@@ -72,7 +72,7 @@ tags = ["studynote-network"]
 ### 2. DTE와 DCE의 경계점 (Demarcation Point)
 네트워크 장비 장애 시 "이게 우리 회사 장비 고장이야, 아니면 통신사 선로 고장이야?"를 두고 싸우는 기준선이 바로 <strong>분계점(Demarc, Demarcation Point)</strong>이다.
 - 이 분계점은 통상적으로 사무실 벽면의 랜 단자(또는 통신사 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 장비)를 기준으로 한다.
-- 이 선을 기준으로 고객 쪽을 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/411_cpe_inventory_mapping/">CPE</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">C고객</a> Premises Equipment)</strong>라 하고, 통신사 쪽 선로를 <strong>Local Loop</strong>라고 부른다.
+- 이 선을 기준으로 고객 쪽을 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/411_cpe_inventory_mapping/">CPE</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/">C고객</a> Premises Equipment)</strong>라 하고, 통신사 쪽 선로를 <strong>Local Loop</strong>라고 부른다.
 
 - **📢 섹션 요약 비유**: <strong> 로컬 루프는 수자원 공사 정수장에서 맑은 물(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)을 만들어 내더라도, 결국 우리 집 싱크대까지 연결된 </strong>"마지막 100미터짜리 낡은 녹물 수도관"**을 새것(광케이블)으로 갈지 않으면 우리가 맑은 물을 마실 수 없게 만드는 통신 품질의 최전선입니다.
 

@@ -92,7 +92,7 @@ tags = ["studynote-enterprise-systems"]
 
 | 지표 | 분석 [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 미도입 | 분석 [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 도입 | 개선 |
 |:---|:---|:---|:---|
-| 마케팅 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) | 측정 불가 | <strong>캠페인별 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a> 정량화</strong> | 투명성 |
+| 마케팅 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) | 측정 불가 | <strong>캠페인별 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/">ROI</a> 정량화</strong> | 투명성 |
 | 이탈률 | 월 5% | **월 3.5%** | 30% 감소 |
 | 교차 판매 매출 | 기본 | **+15% 객단가** | 매출 증대 |
 

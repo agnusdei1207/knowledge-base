@@ -10,13 +10,13 @@ tags = ["studynote-design-supervision"]
 +++
 
 > **핵심 인사이트**
-> 1. [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/)([Objective Evidence](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/))는 사실에 기반하고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 정보로, 감리/[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)의 발견 사항(Finding)이 법적 효력을 가지려면 주관적 판단이 아닌 구체적이고 반박하기 어려운 증거로 뒷받침되어야 한다.
+> 1. [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/628_objective_evidence_collection/)([Objective Evidence](/knowledge-base/studynote/11_design_supervision/01_audit_framework/628_objective_evidence_collection/))는 사실에 기반하고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 정보로, 감리/[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)의 발견 사항(Finding)이 법적 효력을 가지려면 주관적 판단이 아닌 구체적이고 반박하기 어려운 증거로 뒷받침되어야 한다.
 > 2. 증거 수집의 세 가지 핵심 방법 — 인터뷰(Interview), 문서 검토([Documentation](/knowledge-base/studynote/04_software_engineering/06_software_architecture/378_software_documentation/) [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/)), 현장 관찰(Observation) — 은 서로 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)(Triangulation)될 때 증거의 신뢰성이 극대화된다.
 > 3. 증거의 충분성(Sufficiency)과 적합성(Appropriateness)이 증거 품질의 핵심 — "많이 모았다"가 아니라 "발견 사항을 합리적으로 지지하는 증거를 정확하게 모았는가"가 기준이다.
 
 ---
 
-## I. [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/)의 특성
+## I. [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/628_objective_evidence_collection/)의 특성
 
 ```
 증거의 요건 (ISO 19011 감사 원칙):
@@ -219,7 +219,7 @@ AI 기반 이상 탐지 증거 활용
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/)는 재판에서 "제 생각에는..."이 아니라 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/), 지문, 목격자 진술처럼 누구나 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있는 사실이에요.
+1. [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/628_objective_evidence_collection/)는 재판에서 "제 생각에는..."이 아니라 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/), 지문, 목격자 진술처럼 누구나 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있는 사실이에요.
 2. 감리사는 인터뷰(물어보기), 문서 검토(기록 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)), 현장 관찰(직접 보기) 세 가지로 증거를 모아 서로 맞는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해요.
 3. 세 가지 방법이 모두 같은 문제를 가리키면 증거로서 힘이 훨씬 강해져서 누구도 반박하기 어려워요!
 
@@ -229,7 +229,7 @@ AI 기반 이상 탐지 증거 활용
 
 **진행 상황**: 52 / 530
 
-<- **이전**: [37. PMO (Project Management Office)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/037_pmo_project_management_office/)
-**다음**: [38. PMO와 감리의 차이 (PMO vs Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/038_pmo_vs_audit_difference/) ->
+<- **이전**: [37. PMO (Project Management Office)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/614_pmo_project_management_office/)
+**다음**: [38. PMO와 감리의 차이 (PMO vs Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/615_pmo_vs_audit_difference/) ->
 
 ---

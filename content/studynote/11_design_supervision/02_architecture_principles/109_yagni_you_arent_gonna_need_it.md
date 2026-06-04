@@ -118,7 +118,7 @@ YAGNI는 [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance
 
 YAGNI를 일관되게 실천하면 [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/)가 현재 실제 요구사항에 정확하게 맞는 형태로 유지되어 이해하기 쉽고 변경하기 쉬운 상태가 지속된다. 개발팀의 집중력이 현재 가치 창출에 집중되어 출시 속도가 빨라지고, 불필요한 기능 유지에 드는 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([technical debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))가 축적되지 않는다.
 
-한계는 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)이 전제가 된다는 점이다. YAGNI를 실천하면 나중에 구조 변경이 필요해지는 상황이 자주 생기므로, 이를 빠르게 수행할 수 있는 자동화된 테스트와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/), [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/배포) 파이프라인이 반드시 갖춰져야 한다. 이 환경 없이 YAGNI만 적용하면 나중에 큰 수정이 필요할 때 위험해진다.
+한계는 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)이 전제가 된다는 점이다. YAGNI를 실천하면 나중에 구조 변경이 필요해지는 상황이 자주 생기므로, 이를 빠르게 수행할 수 있는 자동화된 테스트와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/), [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/배포) 파이프라인이 반드시 갖춰져야 한다. 이 환경 없이 YAGNI만 적용하면 나중에 큰 수정이 필요할 때 위험해진다.
 
 미래 방향으로는 ① [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 요구사항 분석을 통한 실제 필요 기능 예측 정확도 향상, ② 기능 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)([Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/))를 활용한 YAGNI와 미래 준비 절충, ③ 아키텍처 적합성 테스트([Fitness](/knowledge-base/studynote/06_ict_convergence/05_data_science/395_genetic_algorithm_ga_operators/) Function)를 통한 [YAGNI](/knowledge-base/studynote/11_design_supervision/06_exam_summary/362_yagni/) 위반 자동 감지가 발전하고 있다.
 
@@ -141,7 +141,7 @@ XP([Extreme Programming](/knowledge-base/studynote/04_software_engineering/02_re
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[오버엔지니어링 문제 인식] -> XP([Extreme Programming](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/)) 방법론] -> YAGNI 원칙 정립] -> TDD·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 기반 안전한 리팩토링] -> [린 스타트업·[MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)] -> [기능 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 기반 점진적 출시]
+[오버엔지니어링 문제 인식] -> XP([Extreme Programming](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/)) 방법론] -> YAGNI 원칙 정립] -> TDD·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 기반 안전한 리팩토링] -> [린 스타트업·[MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)] -> [기능 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 기반 점진적 출시]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -155,7 +155,7 @@ XP([Extreme Programming](/knowledge-base/studynote/04_software_engineering/02_re
 
 **진행 상황**: 161 / 530
 
-<- **이전**: [109. YAGNI 원칙 (You Aren't Gonna Need It)](/knowledge-base/studynote/11_design_supervision/09_design_principles/109_yagni_principle/)
-**다음**: [110. 최소 지식의 원칙 (Law of Demeter)](/knowledge-base/studynote/11_design_supervision/09_design_principles/110_law_of_demeter/) ->
+<- **이전**: [109. YAGNI 원칙 (You Aren't Gonna Need It)](/knowledge-base/studynote/11_design_supervision/09_design_principles/652_yagni_principle/)
+**다음**: [110. 최소 지식의 원칙 (Law of Demeter)](/knowledge-base/studynote/11_design_supervision/09_design_principles/653_law_of_demeter/) ->
 
 ---

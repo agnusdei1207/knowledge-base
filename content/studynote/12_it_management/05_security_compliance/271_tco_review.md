@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 391 / 587
 
-<- **이전**: [270. ROI, NPV, IRR, PP 타당성 분석 지표](/knowledge-base/studynote/12_it_management/05_security_compliance/270_roi_npv_irr_pp_review/)
+<- **이전**: [270. ROI, NPV, IRR, PP 타당성 분석 지표](/knowledge-base/studynote/12_it_management/05_security_compliance/920_roi_npv_irr_pp_review/)
 **다음**: [272. 섀도우 IT 리스크](/knowledge-base/studynote/12_it_management/05_security_compliance/272_shadow_it_risk/) ->
 
 ---

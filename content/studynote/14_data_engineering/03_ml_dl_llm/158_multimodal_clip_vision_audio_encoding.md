@@ -34,7 +34,7 @@ tags = ["studynote-data-engineering"]
 
 | 항목 | 설명 |
 |:---|:---|
-| 개발 | OpenAI, [2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) |
+| 개발 | OpenAI, [2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/) |
 | 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 4억 개 이미지-텍스트 쌍 (인터넷 크롤링) |
 | 이미지 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) | ViT (Vision [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)) 또는 [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) |
 | 텍스트 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) | [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) |
@@ -83,7 +83,7 @@ Linear Projection (차원 맞춤)
 
 | 모델 | 기관 | 모달리티 | 특징 |
 |:---|:---|:---|:---|
-| [CLIP](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/)) | OpenAI | 이미지+텍스트 | 대조 학습 |
+| [CLIP](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/)) | OpenAI | 이미지+텍스트 | 대조 학습 |
 | Flamingo (2022) | DeepMind | 이미지+텍스트 | Few-Shot 멀티모달 |
 | GPT-4V (2023) | OpenAI | 이미지+텍스트 | 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
 | Gemini (2023) | Google | 텍스트+이미지+오디오+비디오 | 네이티브 멀티모달 |

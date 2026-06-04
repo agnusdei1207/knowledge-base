@@ -294,7 +294,7 @@ COVID-19는 전례 없는 Sudden Drift를 유발했다. 항공·숙박·소매 �
 | 항목 | 미대응 | 대응 | 개선 |
 |:---|:---|:---|:---|
 | <strong>모델 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 유지</strong> | 드리프트 후 급락 | 자동 감지 + [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 하락폭 60% 감소 |
-| **비즈니스 손실** | 수주간 잘못된 예측 | 수시간 내 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 개선 |
+| **비즈니스 손실** | 수주간 잘못된 예측 | 수시간 내 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 개선 |
 | **레이블 효율** | 전체 재레이블링 | 의심 샘플만 레이블링 | 레이블링 비용 70% 절감 |
 | **감지 속도** | 고객 불만 후 인지 | DDM/ADWIN 조기 감지 | 1~4주 조기 대응 |
 

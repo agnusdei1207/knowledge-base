@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 504 / 587
 
-<- **이전**: [331. 과업 대비표 요건 충족 대조망](/knowledge-base/studynote/12_it_management/05_security_compliance/331_task_comparison_table_requirements_traceability/)
-**다음**: [332. 베이스라인 형상 통제 검증](/knowledge-base/studynote/12_it_management/05_security_compliance/332_baseline_configuration_control_verification/) ->
+<- **이전**: [331. 과업 대비표 요건 충족 대조망](/knowledge-base/studynote/12_it_management/05_security_compliance/972_task_comparison_table_requirements_traceability/)
+**다음**: [332. 베이스라인 형상 통제 검증](/knowledge-base/studynote/12_it_management/05_security_compliance/973_baseline_configuration_control_verification/) ->
 
 ---

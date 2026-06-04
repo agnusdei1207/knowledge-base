@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 498 / 587
 
-<- **이전**: [328. 정보시스템 감리 3대 목적 절차 산출물 성과](/knowledge-base/studynote/12_it_management/05_security_compliance/328_information_system_audit_3objectives/)
-**다음**: [329. 감리 프레임워크 3단계 (요구, 설계, 종료)](/knowledge-base/studynote/12_it_management/05_security_compliance/329_audit_framework_3phases_requirements_design_closing/) ->
+<- **이전**: [328. 정보시스템 감리 3대 목적 절차 산출물 성과](/knowledge-base/studynote/12_it_management/05_security_compliance/969_information_system_audit_3objectives/)
+**다음**: [329. 감리 프레임워크 3단계 (요구, 설계, 종료)](/knowledge-base/studynote/12_it_management/05_security_compliance/970_audit_framework_3phases_requirements_design_closing/) ->
 
 ---

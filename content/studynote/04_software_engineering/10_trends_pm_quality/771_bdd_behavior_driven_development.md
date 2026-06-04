@@ -108,7 +108,7 @@ BDD의 이론은 환상적이지만, 실무에서 Cucumber를 도입했다가 1�
 
 ## Ⅴ. 기대효과 및 결론
 
-[BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) 프레임워크를 조직에 이식하는 데 성공하면, 비즈니스 부서와 개발팀 사이의 통역사가 필요 없어진다. 기획자가 쓴 문장이 바로 테스트 코드가 되어 실서버 배포([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)의 최종 문지기 역할을 하기 때문에, "고객이 원하지 않은 기능"이 실서버로 나가는 일은 물리적으로 불가능해진다.
+[BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) 프레임워크를 조직에 이식하는 데 성공하면, 비즈니스 부서와 개발팀 사이의 통역사가 필요 없어진다. 기획자가 쓴 문장이 바로 테스트 코드가 되어 실서버 배포([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD)의 최종 문지기 역할을 하기 때문에, "고객이 원하지 않은 기능"이 실서버로 나가는 일은 물리적으로 불가능해진다.
 
 결론적으로 기술 리더는 TDD의 기술적 한계(비즈니스와의 단절)를 인식하고, [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 최종 목표인 '고객 가치 전달'을 위해 BDD를 도입해야 한다. BDD는 단순한 테스팅 툴이 아니라, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 조직 전체를 하나의 언어([Ubiquitous Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/))로 묶어주는 가장 위대한 의사소통 아키텍처다.
 

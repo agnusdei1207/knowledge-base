@@ -32,7 +32,7 @@ tags = ["studynote-software-engineering"]
 
 - **등장 배경 및 발전 과정**:
   1. **순서 의존적 버그의 폭발**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) GUI 시스템과 웹이 발전하면서 사용자가 뒤로가기, 새로고침, 창 닫기를 마음대로 누름에 따라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 꼬임 현상이 속출했다.
-  2. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/">UML</a> 상태 다이어그램의 차용</strong>: 객체지향 설계([UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))의 Statechart Diagram이 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 설계 도구로 차용되며 블랙박스 기법으로 정립되었다.
+  2. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/">UML</a> 상태 다이어그램의 차용</strong>: 객체지향 설계([UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))의 Statechart Diagram이 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) 설계 도구로 차용되며 블랙박스 기법으로 정립되었다.
   3. **N-Switch 커버리지로의 진화**: 단순히 A에서 B로 가는 것(0-Switch)을 넘어, "A->B->C로 갔다가 다시 A로 돌아오는" N번 연속된 상태 변화(N-Switch Coverage)까지 수학적으로 커버하는 고급 기법으로 고도화되었다.
 
 - **📢 섹션 요약 비유**: 상태 전이 다이어그램은 롤플레잉 게임(RPG)에서 퀘스트 지도를 그리는 것과 같습니다. 유저가 "검을 먼저 줍고(상태 1), 마을 촌장에게 말을 걸어야만(이벤트)" 숨겨진 던전 문이 열리는데, 순서를 어기거나 엉뚱한 행동을 했을 때 게임이 튕기지 않고 안전하게 안내 메시지를 주는지 모든 갈림길을 걸어가 보는 꼼꼼한 모험입니다.
@@ -125,7 +125,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 상태 전이 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Transition) 다이어그램은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

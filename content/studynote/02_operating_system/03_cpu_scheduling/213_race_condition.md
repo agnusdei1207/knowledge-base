@@ -95,7 +95,7 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|
 | **재현성 (Reproducibility)**| `NullPointerException`처럼 100번 실행하면 100번 똑같이 터짐 | 10만 번 돌리면 멀쩡하다가, <strong>운 나쁘게 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>가 딱 그 1줄 사이에 터지는 1번만 에러 발생</strong>. |
 | **디버깅 방식** | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Log)나 브레이크포인트(Breakpoint)를 찍으면 바로 원인이 보임 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 찍는 행위(I/O [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 자체가 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 타이밍을 바꿔버려 **에러가 숨어버림 (Heisenbug 현상)** |
-| **해결 난이도** | 쉬움 (원인 코드를 수정하면 끝) | **지옥** ([스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/), [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 덤프 덤프 분석, 코드 아키텍처 전면 재검토 필요) |
+| **해결 난이도** | 쉬움 (원인 코드를 수정하면 끝) | **지옥** ([스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/839_stress_test/), [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 덤프 덤프 분석, 코드 아키텍처 전면 재검토 필요) |
 
 물리학의 '하이젠베르크 불확정성 원리'에서 따온 <strong>하이젠버그(Heisenbug)</strong>라는 용어는, "관측하려고(디버깅) 시도하면 그 성질이 변해서 사라져 버리는 벌레(Bug)"를 뜻하며, 경쟁 조건의 극악무도함을 가장 잘 표현하는 단어다.
 

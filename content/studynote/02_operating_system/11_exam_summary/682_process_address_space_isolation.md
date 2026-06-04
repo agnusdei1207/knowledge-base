@@ -98,7 +98,7 @@ tags = ["studynote-operating-system"]
 
 프로세스와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 가장 결정적인 차이는 이 '주소 공간 분리' 여부에 있다.
 
-| 구분 | 프로세스 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)) | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) |
+| 구분 | 프로세스 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/)) | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) |
 |:---|:---|:---|
 | **주소 공간** | 각자 독립적인 [가상 주소 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/) (CR3가 다름) | <strong>하나의 <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/">가상 주소 공간</a>을 공유함</strong> |
 | **메모리 침범** | OS의 MMU가 완벽하게 차단 (안전) | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B의 데이터를 덮어쓸 수 있음 (위험) |

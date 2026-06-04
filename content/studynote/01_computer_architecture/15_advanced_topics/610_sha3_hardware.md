@@ -21,7 +21,7 @@ tags = ["studynote-computer-architecture"]
 
 [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/) 하드웨어는 메시지 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)용 해시를 전용 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)로 처리하는 보안 가속기다. 미국 국립표준기술연구소 (National Institute of Standards and Technology, NIST)는 SHA-2 이후의 구조적 다양성을 확보하기 위해 공개 경쟁을 진행했고, 그 결과 Keccak이 [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/) 표준으로 채택되었다. 핵심은 머클-담고르드 (Merkle-Damgård)형 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 함수가 아니라, 하나의 큰 상태를 계속 섞는 스펀지 구조라는 점이다.
 
-왜 전용 회로가 필요할까. 보안 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), 저장장치, 네트워크 장비, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 노드, 포스트 양자 암호 ([Post-Quantum Cryptography](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/), [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/)) 프로토콜은 짧은 메시지부터 긴 스트림까지 반복적으로 해시해야 한다. 범용 중앙처리장치 (Central Processing Unit, CPU)도 해시를 계산할 수는 있지만, 고속 링크에서 패킷마다 해시를 붙이거나 SHAKE 기반 키 파생을 대량 수행할 때는 지연과 전력 예측성이 떨어진다.
+왜 전용 회로가 필요할까. 보안 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), 저장장치, 네트워크 장비, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 노드, 포스트 양자 암호 ([Post-Quantum Cryptography](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/), [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/)) 프로토콜은 짧은 메시지부터 긴 스트림까지 반복적으로 해시해야 한다. 범용 중앙처리장치 (Central Processing Unit, CPU)도 해시를 계산할 수는 있지만, 고속 링크에서 패킷마다 해시를 붙이거나 SHAKE 기반 키 파생을 대량 수행할 때는 지연과 전력 예측성이 떨어진다.
 
 특히 SHA-3는 같은 순열 코어를 공유한 채 SHA3-224/256/384/512와 SHAKE 같은 확장 출력 함수 (eXtendable-Output Function, XOF) 계열을 함께 지원할 수 있어, 하드웨어 재사용성이 높다. 즉 한 번 잘 만든 코어가 여러 보안 기능의 공통 엔진이 된다.
 
@@ -50,7 +50,7 @@ SHA-3의 내부 상태는 1600비트이며, `rate + capacity = 1600` 관계를 �
 | :--- | :--- | :--- |
 | Theta | 열 패리티를 이용한 확산 | XOR 트리 중심이라 배선과 팬아웃 관리가 중요하다 |
 | Rho | 각 레인의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 회전 | 회전 상수가 고정되어 배선 최적화에 유리하다 |
-| [Pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) | 레인 위치 재배치 | 실질적으로 permutation wiring이라 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 깊이가 거의 없다 |
+| [Pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/) | 레인 위치 재배치 | 실질적으로 permutation wiring이라 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 깊이가 거의 없다 |
 | Chi | 비선형 혼합 | `A XOR ((NOT B) AND C)`로 임계 경로가 되기 쉽다 |
 | Iota | 라운드 상수 주입 | 작은 상수 XOR로 대칭성을 깨뜨린다 |
 
@@ -89,7 +89,7 @@ SHA-3는 해시 하나로 끝나지 않는다. 같은 [Keccak](/knowledge-base/s
 1. **초소형 기기**: 면적과 전력이 우선이면 반복형 또는 부분 언롤드 구조가 유리하다.
 2. **고속 패킷 처리**: 10GbE 이상 네트워크라면 다중 버퍼, [직접 메모리 접근](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/), [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)), 파이프라인 구조를 함께 설계해야 한다.
 3. <strong>보안 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a></strong>: 사이드채널 저항성이 중요하면 마스킹, 듀얼 레일, 클록 균형화처럼 회로 수준 방어가 필요하다.
-4. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/">PQC</a> 연동</strong>: SHAKE 기반 키 확장이 많다면 고정 길이 해시보다 확장 출력 최적화가 더 중요하다.
+4. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/">PQC</a> 연동</strong>: SHAKE 기반 키 확장이 많다면 고정 길이 해시보다 확장 출력 최적화가 더 중요하다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -101,7 +101,7 @@ SHA-3는 해시 하나로 끝나지 않는다. 같은 [Keccak](/knowledge-base/s
 ### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 쓰기만으로 코어를 먹여 살리려는 구조
-- [Pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) 단계를 실제 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)로 구현해 배선 장점을 잃는 구조
+- [Pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/) 단계를 실제 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)로 구현해 배선 장점을 잃는 구조
 - 암호 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)인데도 전력 파형 노출을 고려하지 않는 구조
 
 - **📢 섹션 요약 비유**: [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/) 가속기 설계는 고속도로를 까는 일과 같다. 톨게이트(순열)만 넓히면 끝이 아니라, 진입로와 출구와 교통량까지 같이 맞춰야 진짜 속도가 난다.

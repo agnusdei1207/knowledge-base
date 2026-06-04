@@ -136,7 +136,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 1036 / 1108
 
-<- **이전**: [939. Faraday Cage (Faraday Cage)](/knowledge-base/studynote/09_security/uncategorized/939_honeypot_deception_technology_cyber_decoy_system/)
+<- **이전**: [939. Faraday Cage (Faraday Cage)](/knowledge-base/studynote/09_security/uncategorized/1073_honeypot_deception_technology_cyber_decoy_system/)
 **다음**: [941. AI 보안 (AI Security)](/knowledge-base/studynote/09_security/19_ai_advanced_security/941_ai_security/) ->
 
 ---

@@ -31,7 +31,7 @@ BRE는 기업의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-BRE의 기본 흐름은 규칙 작성, 저장, 실행, 설명 가능성으로 나뉜다. 현업 또는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 담당자는 비즈니스 룰 관리 시스템 (BRMS, Business Rule [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)에서 규칙을 작성하고 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 관리한다. 애플리케이션은 고객 등급, 주문 금액, 위험 점수 같은 사실 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 결정 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 전달하고, 추론 엔진은 규칙 집합을 평가해 최종 결과를 반환한다.
+BRE의 기본 흐름은 규칙 작성, 저장, 실행, 설명 가능성으로 나뉜다. 현업 또는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 담당자는 비즈니스 룰 관리 시스템 (BRMS, Business Rule [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System)에서 규칙을 작성하고 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 관리한다. 애플리케이션은 고객 등급, 주문 금액, 위험 점수 같은 사실 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 결정 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 전달하고, 추론 엔진은 규칙 집합을 평가해 최종 결과를 반환한다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :-- | :-- | :-- |
@@ -87,7 +87,7 @@ BRE는 규칙이 자주 바뀌고, 변경 이력과 설명 책임이 중요한 �
 
 1. 규칙 변경 주기와 배포 주기가 분리되어야 하는가?
 2. 결정 결과에 대해 "왜 이런 결과가 나왔는가"를 설명해야 하는가?
-3. 규칙 수가 많아 코드 분기와 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)가 폭발하고 있는가?
+3. 규칙 수가 많아 코드 분기와 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/)가 폭발하고 있는가?
 4. 규칙 승인, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리, 시뮬레이션 체계를 함께 갖출 수 있는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -116,7 +116,7 @@ BRE를 제대로 도입하면 [정책](/knowledge-base/studynote/10_ai/02_dl_arc
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| BRMS (Business Rule [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) | 규칙 작성·승인·[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리의 운영 도구 |
+| BRMS (Business Rule [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System) | 규칙 작성·승인·[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리의 운영 도구 |
 | 추론 엔진 (Inference 엔진) | 사실 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 규칙을 매칭해 결과를 산출 |
 | 의사결정표 ([Decision Table](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/)) | 복잡한 조건 조합을 표 형태로 관리하는 표현 방식 |
 | DMN (Decision Model and Notation) | 의사결정 모델을 표준화하는 표기 체계 |

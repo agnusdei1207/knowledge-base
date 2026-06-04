@@ -124,7 +124,7 @@ tags = ["studynote-cloud-architecture"]
 
 **진행 상황**: 350 / 371
 
-<- **이전**: [350. 액침 냉각 PUE 탄소 배출 저감 쿨링 데이터센터 혁신 (Immersion Cooling)](/knowledge-base/studynote/12_it_management/05_security_compliance/350_process/)
+<- **이전**: [350. 액침 냉각 PUE 탄소 배출 저감 쿨링 데이터센터 혁신 (Immersion Cooling)](/knowledge-base/studynote/12_it_management/05_security_compliance/991_process/)
 **다음**: [352. DORA 메트릭스 조직 배포 속도 안정 측정 지표 (DORA)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/352_dora/) ->
 
 ---

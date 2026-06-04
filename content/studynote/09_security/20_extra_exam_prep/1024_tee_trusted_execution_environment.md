@@ -137,6 +137,6 @@ tags = ["studynote-security"]
 **진행 상황**: 141 / 1108
 
 <- **이전**: [1023. Secure Enclave (TrustZone/SGX)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1023_secure_enclave/)
-**다음**: [1024. V2X (Vehicle to Everything)](/knowledge-base/studynote/09_security/uncategorized/1024_v2x_vehicle_to_everything_connected_car/) ->
+**다음**: [1024. V2X (Vehicle to Everything)](/knowledge-base/studynote/09_security/uncategorized/1102_v2x_vehicle_to_everything_connected_car/) ->
 
 ---

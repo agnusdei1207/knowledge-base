@@ -9,7 +9,7 @@ tags = ["ai"]
 [extra]
 tags = ["ai"]
 +++
-# [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). 후향 추론 (Backward [Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))
+# [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). 후향 추론 (Backward [Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/))
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 목표(Goal)나 가설을 먼저 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하고, 이를 증명하기 위해 필요한 조건(Premise)을 규칙 베이스에서 역으로 탐색하는 목표 주도(Goal-Driven) 추론 메커니즘.
 > 2. **가치**: 증명하고자 하는 가설과 관련 없는 규칙의 탐색을 배제하여 연산 효율을 극대화하며, 왜 그런 결론이 도출되었는지 설명(Explanation)하기 용이.
@@ -18,7 +18,7 @@ tags = ["ai"]
 ---
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
-[전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)([Expert System](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/))은 인간 전문가의 지식을 규칙(Rule) 형태로 저장하고 이를 통해 결론을 도출한다. 이때 방대한 [지식 베이스](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/)([Knowledge Base](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/))에서 결론을 찾는 방법론 중 하나가 바로 후향 추론(Backward [Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))이다.
+[전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)([Expert System](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/))은 인간 전문가의 지식을 규칙(Rule) 형태로 저장하고 이를 통해 결론을 도출한다. 이때 방대한 [지식 베이스](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/)([Knowledge Base](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/))에서 결론을 찾는 방법론 중 하나가 바로 후향 추론(Backward [Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/))이다.
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템은 주어진 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바탕으로 결론을 도출하는 [전향 추론](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)([Forward Chaining](/knowledge-base/studynote/10_ai/01_ai_basics/010_forward_chaining/))을 사용했다. 그러나 [전향 추론](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많을 경우, 목표와 무관한 수많은 중간 결론까지 도출하며 컴퓨팅 자원을 낭비하는 문제(Rule Explosion)가 있었다.
 이를 해결하기 위해 등장한 후향 추론은, "A라는 가설이 참인가?"라는 명확한 목표를 먼저 세운 뒤, A가 참이 되기 위한 조건 B와 C를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 다시 B와 C의 조건을 역으로 추적하는 방식을 취한다. 이는 특정 질병을 의심하고 그 증상이 있는지 역으로 문진하는 의사의 진단 과정과 동일하다.
 
@@ -75,7 +75,7 @@ tags = ["ai"]
 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템의 추론 방식을 설계할 때 가장 큰 고민은 [전향 추론](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)과 후향 추론 중 무엇을 선택할 것인가이다. 이는 문제의 공간적 형태에 따라 결정된다.
 
 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">전향 추론</a> vs 후향 추론 비교 매트릭스</strong>
-| 비교 항목 | [전향 추론](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) ([Forward Chaining](/knowledge-base/studynote/10_ai/01_ai_basics/010_forward_chaining/)) | 후향 추론 (Backward [Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/)) | 판단 포인트 |
+| 비교 항목 | [전향 추론](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) ([Forward Chaining](/knowledge-base/studynote/10_ai/01_ai_basics/010_forward_chaining/)) | 후향 추론 (Backward [Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/)) | 판단 포인트 |
 |:---|:---|:---|:---|
 | **시작점** | 알려진 사실 (Facts) | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 가설 (Goal) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많은가 vs 목표가 명확한가 |
 | **탐색 방식** | 상향식 ([Bottom-Up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/)), 너비 우선 | 하향식 ([Top-Down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/)), 깊이 우선 | 모든 결과 예측 vs 단일 가설 증명 |

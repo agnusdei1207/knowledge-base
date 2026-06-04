@@ -11,7 +11,7 @@ tags = ["studynote-devops-sre"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)([Service Level Indicator](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/))는 <strong>사용자 경험 관점에서 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 품질을 정량적으로 측정</strong>하는 지표이며, "좋은 이벤트 수 / 전체 이벤트 수"의 <strong>비율(0~100%)</strong>로 표현된다.
-> 2. **가치**: "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 잘 돌아가고 있다"를 주관이 아닌 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>로 판단</strong>할 수 있으며, [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)->[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)(목표)->[Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)(허용 범위)->[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)(계약)의 계층적 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 관리 체계의 출발점이다.
+> 2. **가치**: "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 잘 돌아가고 있다"를 주관이 아닌 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>로 판단</strong>할 수 있으며, [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)->[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)(목표)->[Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)(허용 범위)->[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)(계약)의 계층적 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 관리 체계의 출발점이다.
 > 3. **판단 포인트**: [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)(성공 요청/전체)·레이턴시(p99 < 200ms 요청/전체)·에러율(5xx 에러/전체)이 3대 SLI이며, <strong>사용자에게 의미 있는 지표</strong>를 선택하는 것이 핵심이다.
 
 ---
@@ -59,7 +59,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) | [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) |
+| 비교 | [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) | [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) |
 |:---|:---|:---|:---|
 | **정의** | 측정 지표 | <strong>목표 <a href="/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a></strong> | 계약 |
 | **주체** | 엔지니어 | 팀 합의 | **고객 계약** |
@@ -89,7 +89,7 @@ SLI는 <strong>SRE의 모든 판단의 출발점</strong>이며, 올바른 [SLI]
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/">SLI</a></strong> | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 측정 (비율) |
 | <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a></strong> | SLI의 목표 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/">Error Budget</a></strong> | 100% - [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) |
-| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a></strong> | [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 기반 고객 계약 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/">SLA</a></strong> | [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 기반 고객 계약 |
 | **OpenSLO** | [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)/[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) YAML 표준 |
 
 ### 📈 관련 키워드 및 발전 흐름도

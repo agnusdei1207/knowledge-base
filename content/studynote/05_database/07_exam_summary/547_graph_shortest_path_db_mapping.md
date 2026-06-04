@@ -114,7 +114,7 @@ tags = ["studynote-database"]
 | :--- | :--- |
 | 공간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 기하 연산 [MBR](/knowledge-base/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/) 근접 분석 기술 구조 | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
 | [데이터 레이크하우스 스키마 온 리드 융합 엔진 구성 기초 분석](/knowledge-base/studynote/05_database/07_exam_summary/548_data_lakehouse_schema_on_read_fusion/) | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
-| [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
+| [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
 | [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) | 운영·설계 판단을 연결해 주는 주변 개념이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도

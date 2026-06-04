@@ -11,7 +11,7 @@ tags = ["studynote-software-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방어 - Prepared Statement (파라미터화된 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)), ORM 프레임워크 사용은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 1. **본질**: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 방어 - Prepared Statement (파라미터화된 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)), ORM 프레임워크 사용은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
 > 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)은 해커가 입력창에 특수문자(`'`, `--`)를 교묘하게 섞어 서버의 SQL 문법을 변조하는 해킹이다. 이를 막으려면 해커의 입력값이 SQL의 '[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조'를 건드리지 못하게 묶어야 한다. `PreparedStatement`는 미리 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 틀(문법)을 짜놓고 값만 나중에 끼워 넣는(Bind) 기술이며, ORM은 아예 SQL 대신 자바 객체(Object)를 다루면 프레임워크가 알아서 안전한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 번역해 주는 기술이다.
+- **개념**: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/)은 해커가 입력창에 특수문자(`'`, `--`)를 교묘하게 섞어 서버의 SQL 문법을 변조하는 해킹이다. 이를 막으려면 해커의 입력값이 SQL의 '[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조'를 건드리지 못하게 묶어야 한다. `PreparedStatement`는 미리 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 틀(문법)을 짜놓고 값만 나중에 끼워 넣는(Bind) 기술이며, ORM은 아예 SQL 대신 자바 객체(Object)를 다루면 프레임워크가 알아서 안전한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 번역해 주는 기술이다.
 
 - **필요성**: 2000년대 은행과 포털 사이트들은 개발자들이 `String query = "SELECT * FROM users WHERE id = '" + userInput + "'"` 라고 `+` 기호로 문자열을 더해서(Concatenation) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 짜는 낭만에 젖어있었다. 이 한 줄 때문에 전 국민의 주민번호가 다크웹에 굴러다녔다. 정규식([Regex](/knowledge-base/studynote/08_algorithm_stats/05_string/104_regex/))으로 막으려 해봤자 해커들의 우회 기법은 수만 가지였다. <strong>인간의 "나쁜 글자를 걸러내겠다"는 오만을 포기하고, "구조적으로 명령어와 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 영원히 분리해 버리겠다"는 패러다임의 혁명</strong>이 필요했다.
 
@@ -27,14 +27,14 @@ tags = ["studynote-software-engineering"]
 
 - **등장 배경 및 발전 과정**:
   1. **Statement의 저주**: 초창기 JDBC의 `Statement` 객체는 들어오는 문자를 그대로 SQL 엔진에 밀어 넣었다. 해커의 놀이터였다.
-  2. **PreparedStatement의 구원**: DB 벤더([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), MySQL)들이 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 먼저 파싱(Parsing)하고 값은 나중에 바인딩(Binding)하는 컴파일 구조를 제공하며 [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)이 멸종 위기를 맞았다.
+  2. **PreparedStatement의 구원**: DB 벤더([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), MySQL)들이 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 먼저 파싱(Parsing)하고 값은 나중에 바인딩(Binding)하는 컴파일 구조를 제공하며 [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/)이 멸종 위기를 맞았다.
   3. **ORM의 대통일 (현재)**: `PreparedStatement`도 귀찮다! 아예 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 짜지 말자! JPA, Hibernate 같은 ORM 기술이 표준이 되면서, 개발자가 자바 코드로 `user.save()`만 호출하면 프레임워크가 뒤에서 가장 완벽하고 안전한 파라미터 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 100% 자동 변환해 쏘는 시대로 진화했다.
 
 - **📢 섹션 요약 비유**: 블랙리스트 필터링이 **"이 파티에 '나쁜 놈'은 절대 들어오지 마!"** 라며 얼굴을 대조하는 지치는 싸움이라면, PreparedStatement는 아예 <strong>"누가 들어오든 수갑을 채우고 방탄유리 방(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> 공간)에 가둬버려!"</strong> 라는 구조적 감금입니다. 도둑이 들어오든 착한 사람이 들어오든 아무 사고도 칠 수 없습니다.
 
 ---
 
-다음은 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방어의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 방어의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 +-------------------------------------------------------------+
@@ -49,7 +49,7 @@ tags = ["studynote-software-engineering"]
 +-------------------------------------------------------------+
 ```
 
-이 다이어그램은 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방어가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 방어가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -59,7 +59,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방어 - Prepared Statement (파라미터화된 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)), ORM 프레임워크 사용의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
+SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 방어 - Prepared Statement (파라미터화된 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)), ORM 프레임워크 사용의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
@@ -68,9 +68,9 @@ SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_val
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방어의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 방어의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
-- **📢 섹션 요약 비유**: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방어의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
+- **📢 섹션 요약 비유**: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 방어의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
 ---
 
@@ -80,18 +80,18 @@ SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_val
 
 ## Ⅲ. 비교 및 연결
 
-SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방어을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
+SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 방어을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
 
-| 비교 항목 | SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방어 | 유사 대안 |
+| 비교 항목 | SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 방어 | 유사 대안 |
 | :--- | :--- | :--- |
 | 핵심 목적 | 체계적 품질·생산성 향상 | 임시 방편적 해결 |
 | 적용 규모 | 중·대규모 프로젝트에서 효과적 | 소규모에서는 오버헤드 발생 가능 |
 | 조직 요건 | 팀 전체의 공통 이해와 훈련 필요 | 개인 역량 의존 |
 | 측정 가능성 | 정량적 지표로 성과 측정 가능 | 주관적 판단에 의존 |
 
-다른 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 개념과의 연결을 보면, SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방어은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))와 긴밀하게 연계된다.
+다른 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 개념과의 연결을 보면, SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 방어은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))와 긴밀하게 연계된다.
 
-- **📢 섹션 요약 비유**: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방어과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
+- **📢 섹션 요약 비유**: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 방어과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
 
 ---
 
@@ -101,9 +101,9 @@ SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_val
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방어을(를) 실무에 적용할 때는 다음 판단 기준을 참고한다.
+SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 방어을(를) 실무에 적용할 때는 다음 판단 기준을 참고한다.
 
-- **📢 섹션 요약 비유**: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방어은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 방어은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -111,7 +111,7 @@ SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_val
 
 ## Ⅴ. 기대효과 및 결론
 
-SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방어을(를) 올바르게 적용하면 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 방어을(를) 올바르게 적용하면 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
@@ -120,12 +120,12 @@ SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_val
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
-SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방어은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
+SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 방어은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방어의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 방어의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -137,10 +137,10 @@ SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_val
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방어의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방어은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방어 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방어에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 방어의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 방어은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 방어 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 방어에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -164,7 +164,7 @@ SQL 인젝션 방어 개념 정립
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방어은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 방어은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
@@ -174,7 +174,7 @@ SQL 인젝션 방어 개념 정립
 
 **진행 상황**: 589 / 973
 
-<- **이전**: [498. 입력 데이터 검증 및 표현 (Input Validation) 원칙](/knowledge-base/studynote/04_software_engineering/11_testing_validation/498_input_validation_principles/)
-**다음**: [499. SQL 인젝션 방어 - Prepared Statement, ORM](/knowledge-base/studynote/04_software_engineering/11_testing_validation/499_sql_injection_defense_prepared_statement_orm/) ->
+<- **이전**: [498. 입력 데이터 검증 및 표현 (Input Validation) 원칙](/knowledge-base/studynote/04_software_engineering/11_testing_validation/890_input_validation_principles/)
+**다음**: [499. SQL 인젝션 방어 - Prepared Statement, ORM](/knowledge-base/studynote/04_software_engineering/11_testing_validation/891_sql_injection_defense_prepared_statement_orm/) ->
 
 ---

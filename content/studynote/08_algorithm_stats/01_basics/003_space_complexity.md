@@ -131,8 +131,8 @@ tags = ["algorithm_stats"]
 ```
 
 - **관찰**: 퀵 정렬의 공간 복잡도가 O(log N)인 이유는 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 호출 깊이가 트리의 높이(log N)에 해당하기 때문이다.
-- **원인**: [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)을 기준으로 분할할 때마다 두 개의 하위 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 중 하나만 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 처리하면 호출 깊이가 로그가 된다.
-- **결과**: 최악의 경우(매번 가장 큰/작은 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택)에는 O(N)까지 증가할 수 있다.
+- **원인**: [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/)을 기준으로 분할할 때마다 두 개의 하위 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 중 하나만 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 처리하면 호출 깊이가 로그가 된다.
+- **결과**: 최악의 경우(매번 가장 큰/작은 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/) 선택)에는 O(N)까지 증가할 수 있다.
 - **판단**: 메모리 제약 환경(임베디드, 모바일)에서는 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)(O(1))이나 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)(O(1))이 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)(O(N))보다 공간적으로 유리하다.
 
 📢 **섹션 요약 비유**: 공간 복잡도는 식당 주방의 작업태 크기와 같습니다. 조리사 한 명이 간단한 요리(N=작은 입력)할 때는 작은 작업대면 충분하지만(N=1, O(1)), 대규모 뷔페(N=대형 입력)를 위해 작업대를 늘려야 하면(입력 증가에 따른 공간 요구 증가),작업대설치 공간의 한계가 됩니다.

@@ -183,7 +183,7 @@ LLM API / 추론 레이어
 | [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) ([Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/)) | 그럴듯한 오정보 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/), 팩트 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | 편향 ([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)) | 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 편향 반영 | [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/), 헌법적 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) |
 | [저작권](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/) | 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포함 저작물 | 라이선스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사용 |
-| 보안 | [프롬프트 인젝션 공격](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/302_prompt_injection_jailbreak/) | [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/), 가드레일 |
+| 보안 | [프롬프트 인젝션 공격](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/302_prompt_injection_jailbreak/) | [입력 검증](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/), 가드레일 |
 | 비용 | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 추론 비용 | [모델 양자화](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/312_quantization/), [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) |
 
 📢 **섹션 요약 비유**: [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/) 배포는 강력한 인턴 고용과 같다. 엄청난 지식을 가졌지만(능력), 때로 자신감 있게 틀린 말을 하고([환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)), 과거 경험의 편견이 있을 수 있어(편향) 항상 감독이 필요하다.
@@ -208,7 +208,7 @@ LLM API / 추론 레이어
 
 ### 기술사 시험 핵심 포인트
 
-1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/">파운데이션 모델</a> 정의</strong>: Stanford [2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/), 범용 기반 모델
+1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/">파운데이션 모델</a> 정의</strong>: Stanford [2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/), 범용 기반 모델
 2. <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/266_self_supervised_learning/">자기 지도 학습</a> 방법</strong>: [MLM](/knowledge-base/studynote/10_ai/02_dl_architecture_new/138_mlm_learning/), 다음 토큰 예측, 디노이징
 3. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a> 법칙</strong>: 파라미터·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·연산 균형 스케일
 4. <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/265_emergent_abilities/">창발성</a> 특징</strong>: 임계점 이상에서 갑작스러운 능력 출현

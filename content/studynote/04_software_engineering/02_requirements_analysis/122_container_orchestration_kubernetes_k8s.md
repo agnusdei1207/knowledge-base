@@ -75,7 +75,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-K8s는 <strong>클라우드 네이티브의 운영 체제</strong>이며, [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 생태계([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)·ArgoCD·[Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/)·[Cilium](/knowledge-base/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/))와 결합하여 현대 인프라의 사실상 표준이다.
+K8s는 <strong>클라우드 네이티브의 운영 체제</strong>이며, [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 생태계([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)·ArgoCD·[Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/)·[Cilium](/knowledge-base/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/))와 결합하여 현대 인프라의 사실상 표준이다.
 
 ---
 

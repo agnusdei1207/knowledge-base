@@ -149,7 +149,7 @@ tags = ["it_management"]
 
 **진행 상황**: 151 / 587
 
-<- **이전**: [83. DML (Definitive Media Library)](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/)
-**다음**: [84. 서비스 수준 관리 (SLM, Service Level Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/084_service_level_management/) ->
+<- **이전**: [83. DML (Definitive Media Library)](/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/)
+**다음**: [84. 서비스 수준 관리 (SLM, Service Level Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/868_service_level_management/) ->
 
 ---

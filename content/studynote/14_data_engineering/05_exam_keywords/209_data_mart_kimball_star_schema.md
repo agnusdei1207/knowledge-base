@@ -10,7 +10,7 @@ tags = ["studynote-data-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 마트([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Mart)는 특정 부서나 비즈니스 도메인을 위해 최적화된 분석 전용 소규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소이며, [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/) 방법론의 [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)([Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/))가 핵심 설계 패턴이다.
+> 1. **본질**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 마트([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Mart)는 특정 부서나 비즈니스 도메인을 위해 최적화된 분석 전용 소규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소이며, [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/954_kimball/) 방법론의 [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)([Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/))가 핵심 설계 패턴이다.
 > 2. **가치**: [팩트 테이블](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/)([Fact Table](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/)) 중심의 비정규화 [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)는 복잡한 조인 없이 빠른 집계 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 가능하게 하여, 비즈니스 분석가가 SQL만으로 다차원 분석을 수행할 수 있다.
 > 3. **판단 포인트**: 독립형 마트(Independent Mart)는 부서별 신속 구축에 유리하지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 문제를 야기하므로, 콘포밍 차원([Conformed Dimension](/knowledge-base/studynote/05_database/06_dw_olap_trends/574_conformed_dimension/))으로 전사 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 확보하는 설계가 필수다.
 
@@ -26,9 +26,9 @@ tags = ["studynote-data-engineering"]
 - **인사 마트**: 직원 성과·이직률·채용 비용 분석
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">공급망</a> 마트</strong>: 재고·납품 시간·공급업체 분석
 
-### [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/) 방법론의 핵심 원칙
+### [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/954_kimball/) 방법론의 핵심 원칙
 
-랄프 킴볼(Ralph [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/))이 주창한 [차원 모델링](/knowledge-base/studynote/05_database/02_modeling_normalization/118_dimensional_modeling_star_schema/)([Dimensional Modeling](/knowledge-base/studynote/05_database/02_modeling_normalization/118_dimensional_modeling_star_schema/))의 4원칙:
+랄프 킴볼(Ralph [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/954_kimball/))이 주창한 [차원 모델링](/knowledge-base/studynote/05_database/02_modeling_normalization/118_dimensional_modeling_star_schema/)([Dimensional Modeling](/knowledge-base/studynote/05_database/02_modeling_normalization/118_dimensional_modeling_star_schema/))의 4원칙:
 1. **비즈니스 프로세스 선택**: 분석 대상 프로세스 확정 (예: 판매 주문)
 2. **세분성(Grain) 정의**: [팩트 테이블](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/)의 행 하나가 나타내는 단위 확정 (예: 개별 주문 라인)
 3. **차원 결정**: 분석 축 정의 (날짜, 고객, 제품, 지역 등)
@@ -88,7 +88,7 @@ tags = ["studynote-data-engineering"]
 
 여러 마트에서 <strong>동일한 <a href="/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/">차원 테이블</a>을 공유</strong>하여 부서 간 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 확보:
 - 날짜 차원(Date Dimension): 모든 마트에서 동일한 날짜 기준 사용
-- 고객 차원([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) Dimension): 판매 마트·[CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 마트·[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 마트 공유
+- 고객 차원([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/) Dimension): 판매 마트·[CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 마트·[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 마트 공유
 
 📢 **섹션 요약 비유**: [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)는 <strong>별자리 지도</strong>와 같다. 중앙의 팩트(별)를 여러 차원(행성)이 둘러싸는 구조로, 각 행성이 분석의 관점이 된다.
 
@@ -96,9 +96,9 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-### [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/311_inmon/) vs [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/) 방법론
+### [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/953_inmon/) vs [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/954_kimball/) 방법론
 
-| 관점 | [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/311_inmon/) | [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/) |
+| 관점 | [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/953_inmon/) | [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/954_kimball/) |
 |:---|:---|:---|
 | 접근 방향 | [Top-Down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/) (EDW 우선) | [Bottom-Up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/) (마트 우선) |
 | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) | [3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/) [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) | 비정규화 스타/스노우플레이크 |
@@ -109,7 +109,7 @@ tags = ["studynote-data-engineering"]
 ### [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/) vs [스노우플레이크 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/335_snowflake_schema/)
 
 - <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/">스타 스키마</a></strong>: [차원 테이블](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/) 비정규화 -> 조인 수 최소화, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능 우수](/knowledge-base/studynote/05_database/07_exam_summary/484_elt_extract_load_transform/)
-- <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/335_snowflake_schema/">스노우플레이크 스키마</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/313_snowflake_schema/">Snowflake Schema</a>)</strong>: [차원 테이블](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/) [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) -> 저장 공간 절약, 유지보수 용이
+- <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/335_snowflake_schema/">스노우플레이크 스키마</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/955_snowflake_schema/">Snowflake Schema</a>)</strong>: [차원 테이블](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/) [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) -> 저장 공간 절약, 유지보수 용이
 
 📢 **섹션 요약 비유**: Inmon은 **먼저 도시 전체 설계도 그리기**, Kimball은 <strong>각 동네부터 빠르게 개발하기</strong>다. 어느 쪽이 맞다기보다 상황에 따라 다르다.
 
@@ -148,7 +148,7 @@ tags = ["studynote-data-engineering"]
 
 ### 결론
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 마트와 Kimball의 [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)는 <strong>분석의 민주화</strong>를 실현하는 핵심 도구다. 비정규화된 차원 모델은 복잡한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 없이도 비즈니스 사용자가 다차원 분석을 수행할 수 있게 한다. 그러나 콘포밍 차원과 전사 거버넌스 없이는 마트 증식이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치로 이어지므로, [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/) 방법론의 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 아키텍처([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) 원칙 준수가 필수다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 마트와 Kimball의 [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)는 <strong>분석의 민주화</strong>를 실현하는 핵심 도구다. 비정규화된 차원 모델은 복잡한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 없이도 비즈니스 사용자가 다차원 분석을 수행할 수 있게 한다. 그러나 콘포밍 차원과 전사 거버넌스 없이는 마트 증식이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치로 이어지므로, [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/954_kimball/) 방법론의 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 아키텍처([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) 원칙 준수가 필수다.
 
 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 마트의 [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)는 <strong>각 팀 전용 분석 대시보드</strong>다. 공통 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(콘포밍 차원)를 공유하면서도 각 팀이 원하는 분석 뷰를 쉽게 만들 수 있다.
 
@@ -158,7 +158,7 @@ tags = ["studynote-data-engineering"]
 
 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
-| 설계 방법론 | [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/) [차원 모델링](/knowledge-base/studynote/05_database/02_modeling_normalization/118_dimensional_modeling_star_schema/) | [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/) 기반 [Bottom-Up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/) 접근 |
+| 설계 방법론 | [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/954_kimball/) [차원 모델링](/knowledge-base/studynote/05_database/02_modeling_normalization/118_dimensional_modeling_star_schema/) | [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/) 기반 [Bottom-Up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/) 접근 |
 | 핵심 구조 | [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/) | 팩트+차원 비정규화 구조 |
 | 확장 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) | [스노우플레이크 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/335_snowflake_schema/) | 차원 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) |
 | 핵심 테이블 | [팩트 테이블](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/) | 측정값·집계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |

@@ -24,10 +24,10 @@ tags = ["studynote-software-engineering"]
   - <strong>모바일 앱</strong>이 코어 백엔드 10군데를 찌르려면 통신 10번 하느라 폰이 느려진다. 그래서 중간에 <strong>'모바일 전용 BFF 서버'</strong>를 둔다. 모바일 앱이 BFF한테 1번만 찌르면, BFF가 뒤돌아 10곳을 찔러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 뭉친 뒤 딱 모바일 화면에 예쁘게 맞는 얇은 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 1개로 포장해서 쏴준다.
   - <strong>웹 브라우저</strong>도 자기만의 넓은 화면용 <strong>'웹 전용 BFF 서버'</strong>를 따로 하나 파서 쓴다.
 
-- **필요성**: [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 뽕에 취해서 1개의 거대한 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/">API Gateway</a> (One-Size-Fits-All)</strong>를 세웠다. 그런데 모바일 프론트엔드 개발자가 와서 징징댄다. "[API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) 팀장님! 우리 모바일은 화면 좁아서 컬럼 3개만 필요해요. 코어 서버가 주는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 100개 너무 무거워요. Gateway 쪽에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 깎아내는 로직 3줄만 넣어주세요!" 웹 개발자도 온다. "우린 넓어서 100개 다 띄울 건데요? 저희 용으로 로직 또 짜주세요!" 1년 뒤, <strong>중앙 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/">API Gateway</a> 소스코드 안에 모바일 예외 로직, 웹 예외 로직이 100만 줄 스파게티처럼 섞여서 Gateway를 수정하려면 전사 개발팀 100명이 충돌 나는 끔찍한 제2의 모놀리식(Monolithic) 지옥</strong>이 열렸다. 이 중앙 통제의 멱살을 끊어내고 각자도생하기 위해 BFF로 잘게 찢은 것이다.
+- **필요성**: [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 뽕에 취해서 1개의 거대한 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/">API Gateway</a> (One-Size-Fits-All)</strong>를 세웠다. 그런데 모바일 프론트엔드 개발자가 와서 징징댄다. "[API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/) 팀장님! 우리 모바일은 화면 좁아서 컬럼 3개만 필요해요. 코어 서버가 주는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 100개 너무 무거워요. Gateway 쪽에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 깎아내는 로직 3줄만 넣어주세요!" 웹 개발자도 온다. "우린 넓어서 100개 다 띄울 건데요? 저희 용으로 로직 또 짜주세요!" 1년 뒤, <strong>중앙 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/">API Gateway</a> 소스코드 안에 모바일 예외 로직, 웹 예외 로직이 100만 줄 스파게티처럼 섞여서 Gateway를 수정하려면 전사 개발팀 100명이 충돌 나는 끔찍한 제2의 모놀리식(Monolithic) 지옥</strong>이 열렸다. 이 중앙 통제의 멱살을 끊어내고 각자도생하기 위해 BFF로 잘게 찢은 것이다.
 
 - **💡 비유**:
-  - <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/">API Gateway</a> (과거)</strong>는 마트의 <strong>'공용 대형 믹서기 1대'</strong>입니다. 아기(모바일) 엄마, 보디빌더(웹), 노인(워치) 모두가 1대뿐인 믹서기에 줄을 서서 자기 과일을 갈아 달라고 합니다. 믹서기가 막히고 과일 맛이 다 섞여버립니다(병목, 결합 지옥).
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/">API Gateway</a> (과거)</strong>는 마트의 <strong>'공용 대형 믹서기 1대'</strong>입니다. 아기(모바일) 엄마, 보디빌더(웹), 노인(워치) 모두가 1대뿐인 믹서기에 줄을 서서 자기 과일을 갈아 달라고 합니다. 믹서기가 막히고 과일 맛이 다 섞여버립니다(병목, 결합 지옥).
   - <strong>BFF (현재)</strong>는 손님마다 <strong>'개인 전용 맞춤형 휴대용 믹서기'</strong>를 하나씩 사주는 것입니다. 아기 엄마는 아기용 부드러운 믹서기(모바일 BFF)로 사과 1쪽만 갈고, 보디빌더는 대용량 믹서기(웹 BFF)로 닭가슴살 10조각을 팍팍 갑니다. 아무도 줄을 안 서고 자기가 원하는 입맛([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 규격)대로 가장 빠르고 완벽한 주스를 만들어 먹는 극강의 커스텀 서비스입니다.
 
 - **등장 배경 및 발전 과정**:
@@ -35,7 +35,7 @@ tags = ["studynote-software-engineering"]
   2. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> Gateway의 대통일과 한계 (2010s)</strong>: 모바일 앱 시대가 오고 서버가 MSA로 찢어지자 1개의 만능 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway를 세웠다. 그러나 플랫폼(iOS, Android, Web) 파편화로 인해 게이트웨이 코드가 스파게티 병목 지점([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))으로 타락했다.
   3. **사운드클라우드(SoundCloud)와 BFF 명명 (현재)**: 샘 뉴먼(Sam Newman) 형님과 사운드클라우드 엔지니어들이 빡쳐서 선언했다. "야! 게이트웨이 1통으로 묶지 마! iOS팀은 니들 전용 iOS BFF 백엔드 서버 하나 파서 맘대로 쓰고, 웹팀은 웹 BFF 하나 파서 니들 맘대로 통신해!" BFF 패턴이 탄생하며 클라이언트의 완전한 자유가 선포되었다.
 
-- **📢 섹션 요약 비유**: 이 진화는 기성복 정장 <strong>'프리사이즈 105(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/">API Gateway</a>)'</strong> 하나를 만들고 키 작은 사람, 뚱뚱한 사람 모두에게 억지로 입으라고 우기다가 망한 뒤, 아예 치수별로 **'S, M, L, XL 맞춤형 정장(BFF 4대)'** 4개를 쪼개서 걸어두고 자기 몸(플랫폼)에 딱 맞는 옷만 입게 만든 위대한 맞춤 공학입니다.
+- **📢 섹션 요약 비유**: 이 진화는 기성복 정장 <strong>'프리사이즈 105(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/">API Gateway</a>)'</strong> 하나를 만들고 키 작은 사람, 뚱뚱한 사람 모두에게 억지로 입으라고 우기다가 망한 뒤, 아예 치수별로 **'S, M, L, XL 맞춤형 정장(BFF 4대)'** 4개를 쪼개서 걸어두고 자기 몸(플랫폼)에 딱 맞는 옷만 입게 만든 위대한 맞춤 공학입니다.
 
 ---
 
@@ -125,7 +125,7 @@ BFF (Backend For Frontend)을(를) 올바르게 적용하면 [소프트웨어 �
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 BFF (Backend For Frontend)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -179,7 +179,7 @@ BFF (Backend For Frontend) 개념 정립
 
 **진행 상황**: 678 / 973
 
-<- **이전**: [543. BFF (Backend For Frontend) - 모바일, 웹 등 클라이언트 전용 맞춤형 게이트웨이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/)
+<- **이전**: [543. BFF (Backend For Frontend) - 모바일, 웹 등 클라이언트 전용 맞춤형 게이트웨이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/)
 **다음**: [544. 외부화된 구성 관리 (Externalized Configuration) - Config Server (Spring Cloud](/knowledge-base/studynote/04_software_engineering/11_testing_validation/544_externalized_configuration/) ->
 
 ---

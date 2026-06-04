@@ -10,7 +10,7 @@ tags = ["enterprise_systems"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: TMS (Transportation [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)는 물류 창고에서 출고된 화물이 최종 목적지에 도달하기까지의 배차, 경로 최적화, 운송 추적, 운임 정산의 전 과정을 통제하는 물류 관제 플랫폼이다.
+> 1. **본질**: TMS (Transportation [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System)는 물류 창고에서 출고된 화물이 최종 목적지에 도달하기까지의 배차, 경로 최적화, 운송 추적, 운임 정산의 전 과정을 통제하는 물류 관제 플랫폼이다.
 > 2. **가치**: 수많은 차량과 목적지가 얽힌 복잡한 [외판원 문제](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) ([TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/), Traveling Salesperson Problem)를 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 풀어내어 유류비, 인건비 등 핵심 물류 비용을 획기적으로 절감한다.
 > 3. **판단 포인트**: 창고 내부의 재고와 위치는 [WMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/) ([Warehouse Management System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/))로 관리하지만, 문 밖을 나서는 순간부터의 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 노선 비효율) 통제는 반드시 TMS와 GPS, 지도 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동을 통해 해결해야 한다.
 
@@ -18,7 +18,7 @@ tags = ["enterprise_systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-TMS (Transportation [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)는 기업의 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 관리 ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))에서 '이동'의 효율성을 책임지는 핵심 소프트웨어다. 화물이 출발지에서 목적지까지 이동할 때 어떤 수단(트럭, 선박, 항공)을 이용하고, 어떤 경로를 거치는 것이 가장 경제적인지 결정한다.
+TMS (Transportation [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System)는 기업의 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 관리 ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/))에서 '이동'의 효율성을 책임지는 핵심 소프트웨어다. 화물이 출발지에서 목적지까지 이동할 때 어떤 수단(트럭, 선박, 항공)을 이용하고, 어떤 경로를 거치는 것이 가장 경제적인지 결정한다.
 
 과거에는 수백 개의 배송지를 담당자들의 감과 수기(Excel)에 의존해 배차했다. 이로 인해 트럭이 텅 빈 채로 돌아오는 공차율 증가, 비효율적인 우회 경로 탑승, 기사와의 운임 정산 분쟁 등 막대한 숨은 비용이 발생했다. 전자상거래의 폭발적 성장으로 당일 배송, 새벽 배송 등 다빈도 소량 운송이 일상화되면서 인간의 두뇌로는 수천 대 트럭의 배차 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 감당할 수 없게 되었고, 이를 자동화하는 TMS의 도입은 생존 필수가 되었다.
 
@@ -66,7 +66,7 @@ TMS는 계획, 실행, 정산의 3단계 [파이프](/knowledge-base/studynote/0
 
 물류의 흐름 속에서 시스템의 통제 범위를 기준으로 WMS와 TMS를 명확히 비교해야 단절 없는 연동을 설계할 수 있다. 이 둘은 서로를 보완하며 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))라는 큰 우산 아래 연동된다.
 
-| 비교 항목 | [WMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/) ([Warehouse Management System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/)) | TMS (Transportation [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) |
+| 비교 항목 | [WMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/) ([Warehouse Management System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/)) | TMS (Transportation [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System) |
 | :--- | :--- | :--- |
 | **통제 공간** | 창고 **내부** (입고, 보관, 피킹, 출고) | 창고 **외부** (도로망, 해운, 항로 등) |
 | **핵심 목표** | 재고 정확도 100%, 공간 최적화, 피킹 동선 단축 | 유류비 및 운임 절감, 정시 도착(납기) 준수 |
@@ -110,7 +110,7 @@ TMS 도입의 가장 큰 기대효과는 <strong>운송비 절감</strong>과 <s
 | :--- | :--- |
 | <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/">WMS</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/">Warehouse Management System</a>)</strong> | TMS가 일하기 전, 창고 내 재고를 관리하고 트럭에 실을 준비를 마치는 선행 시스템 |
 | <strong>VRP (Vehicle <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a> Problem)</strong> | 여러 대의 차량이 여러 목적지를 방문할 때 총 비용을 최소화하는 경로를 찾는 수학적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
-| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/">SCM</a> (<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">Supply Chain</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)</strong> | 원자재부터 최종 소비자까지의 전체 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)을 관리하는 상위 개념 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/">SCM</a> (<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">Supply Chain</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/">Management</a>)</strong> | 원자재부터 최종 소비자까지의 전체 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)을 관리하는 상위 개념 |
 | <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/101_3pl_third_party_logistics_4pl/">3PL</a> (Third-Party Logistics)</strong> | 기업의 물류 부문을 전문 물류업체에 아웃소싱하는 것, 이들과의 정산에 TMS가 필수 |
 
 ### 📈 관련 키워드 및 발전 흐름도

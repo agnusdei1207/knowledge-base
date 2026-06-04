@@ -114,7 +114,7 @@ tags = ["studynote-database"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) 부서용 [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/) 상향식 | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
+| [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) 부서용 [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/954_kimball/) 상향식 | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
 | [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) 비정규화 읽기 다차원 | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
 | [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) ([Data Warehouse](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/)) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
 | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) (Extract, Transform, Load) | 운영·설계 판단을 연결해 주는 주변 개념이다. |

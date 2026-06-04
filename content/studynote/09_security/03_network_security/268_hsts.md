@@ -136,7 +136,7 @@ HSTS ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email
 
 **진행 상황**: 322 / 1108
 
-<- **이전**: [268. HSTS (HTTP Strict Transport Security)](/knowledge-base/studynote/09_security/05_web_app_security/268_hsts/)
+<- **이전**: [268. HSTS (HTTP Strict Transport Security)](/knowledge-base/studynote/09_security/05_web_app_security/1031_hsts/)
 **다음**: [269. HTTP Public Key Pinning (HPKP, Deprecated)](/knowledge-base/studynote/09_security/03_network_security/269_hpkp_deprecated/) ->
 
 ---

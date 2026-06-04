@@ -41,7 +41,7 @@ merge to main
 | :-- | :-- |
 | Branch | 변경 분리 |
 | [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) | 품질 검토 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) | 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) | 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | Merge | 본선 반영 |
 
 PR은 사람의 판단과 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 만나는 지점이다.
@@ -75,7 +75,7 @@ PR은 코드 품질뿐 아니라 팀 학습에도 도움이 된다.
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 리뷰 규칙이 있는가?
-2. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 통과 후 머지하는가?
+2. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 통과 후 머지하는가?
 3. 작은 단위로 PR을 내는가?
 4. 승인 책임이 분명한가?
 5. 변경 이력이 추적되는가?

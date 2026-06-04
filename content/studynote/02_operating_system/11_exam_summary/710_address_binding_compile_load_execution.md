@@ -109,7 +109,7 @@ tags = ["studynote-operating-system"]
 
 2. <strong>시나리오 — 동적 링킹(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/">Dynamic Linking</a> / .so, .dll)과 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/326_load_time_binding/">Load Time</a> Binding의 결합</strong>: 게임을 다운받았는데 실행할 때 `d3dx9_43.dll이 없어 프로그램을 시작할 수 없습니다` 에러가 뜬다.
    - **원인 분석**: 게임을 만들 때 용량을 줄이기 위해 DirectX [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 코드를 게임 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(.exe) 안에 구워 넣지 않고, 컴파일 바인딩을 보류했다(동적 링킹).
-   - **아키텍처 동작**: 이 게임은 실행을 위해 메모리에 올라가는 순간([Load Time](/knowledge-base/studynote/02_operating_system/06_memory_management/326_load_time_binding/)), 윈도우 OS의 로더가 C드라이브에서 `d3dx9_43.dll`을 찾아서 메모리의 빈 공간에 올리고, 게임 코드의 빈칸([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))에 그 DLL의 시작 주소를 바인딩해 준다. DLL [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 없으니 바인딩이 실패해서 에러가 난 것이다.
+   - **아키텍처 동작**: 이 게임은 실행을 위해 메모리에 올라가는 순간([Load Time](/knowledge-base/studynote/02_operating_system/06_memory_management/326_load_time_binding/)), 윈도우 OS의 로더가 C드라이브에서 `d3dx9_43.dll`을 찾아서 메모리의 빈 공간에 올리고, 게임 코드의 빈칸([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/))에 그 DLL의 시작 주소를 바인딩해 준다. DLL [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 없으니 바인딩이 실패해서 에러가 난 것이다.
 
 ### 의사결정 및 튜닝 플로우
 

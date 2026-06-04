@@ -136,7 +136,7 @@ Protected Users 그룹 (Protected Users Group)를 제대로 이해하면 개념 
 
 **진행 상황**: 666 / 1108
 
-<- **이전**: [606. CSRF (Cross-Site Request Forgery)](/knowledge-base/studynote/09_security/uncategorized/606_csrf/)
-**다음**: [607. 안전한 세션 관리 (Secure Session Management)](/knowledge-base/studynote/09_security/uncategorized/607_secure_session_management/) ->
+<- **이전**: [606. CSRF (Cross-Site Request Forgery)](/knowledge-base/studynote/09_security/uncategorized/1037_csrf/)
+**다음**: [607. 안전한 세션 관리 (Secure Session Management)](/knowledge-base/studynote/09_security/uncategorized/1038_secure_session_management/) ->
 
 ---

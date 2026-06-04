@@ -96,7 +96,7 @@ ERP는 재무, 구매, 생산, 인사 같은 핵심 업무를 하나의 흐름�
 | 개념 | 연결 포인트 |
 | --- | --- |
 | [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)) | 전사 통합 업무 플랫폼 |
-| Fit-Gap | 표준 기능과 예외의 [차이 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/107_gap_analysis_task_identification/) |
+| Fit-Gap | 표준 기능과 예외의 [차이 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/891_gap_analysis_task_identification/) |
 | UAT (User [Acceptance Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/)) | 현업 승인 단계 |
 | Cutover | 전환 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) |
 | Hypercare | go-live 직후 집중 안정화 |

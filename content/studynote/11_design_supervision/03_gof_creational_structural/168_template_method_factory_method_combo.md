@@ -115,7 +115,7 @@ tags = ["studynote-design-supervision"]
 1. 공통 절차의 순서를 상위 클래스가 반드시 통제해야 하는가?
 2. 달라지는 핵심이 "객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)"[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/), 아니면 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 전체인가?
 3. 런타임에 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 교체가 필요한가, 아니면 컴파일 타임 확장으로 충분한가?
-4. 테스트에서 가짜 제품([Fake](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/) Product) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)으로 흐름 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 가능한가?
+4. 테스트에서 가짜 제품([Fake](/knowledge-base/studynote/04_software_engineering/11_testing_validation/855_fake_test_double/) Product) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)으로 흐름 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 가능한가?
 
 ### 대표 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 

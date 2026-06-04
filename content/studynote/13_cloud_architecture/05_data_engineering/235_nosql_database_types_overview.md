@@ -116,7 +116,7 @@ Row Key: "sensor:IoT-001:2024-01-15:00:00"
 
 ### [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 4가지 유형 종합 비교
 
-| 비교 항목 | Key-Value | [Document](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/) | Wide-Column | [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) |
+| 비교 항목 | Key-Value | [Document](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/) | Wide-Column | [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) |
 |:---|:---:|:---:|:---:|:---:|
 | **읽기 속도** | ★★★★★ | ★★★★ | ★★★ | ★★ |
 | <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a></strong> | ★★★★★ | ★★★ | ★★★★★ | ★★ |

@@ -11,9 +11,9 @@ tags = ["studynote-design"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [CBAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/) (Cost Benefit Analysis Method)은 아키텍처 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 제공하는 기술적 효용(Benefit)과 이를 구현하는 데 드는 비용(Cost)을 바탕으로 경제적 가치([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))를 평가하는 프레임워크다.
+> 1. **본질**: [CBAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/) (Cost Benefit Analysis Method)은 아키텍처 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 제공하는 기술적 효용(Benefit)과 이를 구현하는 데 드는 비용(Cost)을 바탕으로 경제적 가치([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/))를 평가하는 프레임워크다.
 > 2. **가치**: 기술적 완벽함만을 추구하는 오버엔지니어링(Over-engineering)을 방지하고, 한정된 예산 내에서 비즈니스 목표에 가장 부합하는 최적의 아키텍처 타협점을 도출한다.
-> 3. **판단 포인트**: 설계 대안들의 경제성을 비교할 때 단순히 비용이 싼 것을 고르는 것이 아니라, 효용 점수, [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/), 그리고 소요 비용을 종합한 [투자수익률](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/005_it_investment_metrics/) ([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/), [Return On Investment](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))이 가장 높은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 채택한다.
+> 3. **판단 포인트**: 설계 대안들의 경제성을 비교할 때 단순히 비용이 싼 것을 고르는 것이 아니라, 효용 점수, [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/), 그리고 소요 비용을 종합한 [투자수익률](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/005_it_investment_metrics/) ([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/), [Return On Investment](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/))이 가장 높은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 채택한다.
 
 ---
 
@@ -32,7 +32,7 @@ tags = ["studynote-design"]
 CBAM은 후보 아키텍처 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(Architectural Strategies)들을 나열하고, 각 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 비용, 효용, [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 계량화하여 최종 ROI를 산출하는 정량적 프로세스로 동작한다.
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/">CBAM</a> 핵심 수식 및 도출 과정:</strong>
-$$ \text{[ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) ([투자수익률](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/005_it_investment_metrics/))} = \frac{\text{효용 (Benefit)} \times (1 - \text{[Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)})}{\text{비용 (Cost)}} $$
+$$ \text{[ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) ([투자수익률](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/005_it_investment_metrics/))} = \frac{\text{효용 (Benefit)} \times (1 - \text{[Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)})}{\text{비용 (Cost)}} $$
 
 | 평가 항목 | 의미 | 도출 방법 |
 | :--- | :--- | :--- |
@@ -54,7 +54,7 @@ $$ \text{[ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy
 
 이 다이어그램은 설계 도면이 어떻게 경제적 숫자로 변환되는지 보여준다. 효용 점수가 아무리 높아도 분모인 비용(C)이 천문학적이라면 해당 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 ROI는 급락하여 탈락한다.
 
-- **📢 섹션 요약 비유**: [CBAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/) 공식은 자동차 옵션 가성비 계산기와 같다. 제로백 2초의 스포츠카 엔진(효용 100)이 1억 원이라면, 제로백 5초지만 1천만 원인 대중차 엔진(효용 70)이 가성비([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))에서 압승하는 수학 게임이다.
+- **📢 섹션 요약 비유**: [CBAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/) 공식은 자동차 옵션 가성비 계산기와 같다. 제로백 2초의 스포츠카 엔진(효용 100)이 1억 원이라면, 제로백 5초지만 1천만 원인 대중차 엔진(효용 70)이 가성비([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/))에서 압승하는 수학 게임이다.
 
 ---
 
@@ -106,7 +106,7 @@ CBAM을 적용하면 엔지니어의 막연한 기술적 주장에 브레이크�
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Trade-off Analysis Method) | [CBAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/) 평가의 입력물(대안 아키텍처 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))을 제공하는 선행 기술 평가 |
-| [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) ([Return On Investment](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)) | CBAM에서 최종 의사결정을 내리기 위한 핵심 지표 ([투자수익률](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/005_it_investment_metrics/)) |
+| [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) ([Return On Investment](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/)) | CBAM에서 최종 의사결정을 내리기 위한 핵심 지표 ([투자수익률](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/005_it_investment_metrics/)) |
 | 유틸리티 트리 (Utility Tree) | 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 요구사항을 구체적인 시나리오로 분해하여 효용 점수를 매기는 기초 자료 |
 | 오버엔지니어링 (Over-engineering) | CBAM이 가장 철저하게 막아내고자 하는, 낭비적 기술 과잉 상태 |
 

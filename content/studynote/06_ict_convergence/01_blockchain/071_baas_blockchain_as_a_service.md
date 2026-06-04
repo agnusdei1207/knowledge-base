@@ -42,7 +42,7 @@ Application
 | :-- | :-- |
 | Managed Nodes | 관리형 노드 |
 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) / Console | 사용 인터페이스 |
-| [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) | 키 관리 |
+| [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) | 키 관리 |
 
 BaaS는 배포, 확장, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 모니터링을 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 제공한다. 사용자는 비즈니스 로직에 집중할 수 있다.
 

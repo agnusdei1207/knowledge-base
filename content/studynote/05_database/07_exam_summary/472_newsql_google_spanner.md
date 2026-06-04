@@ -115,7 +115,7 @@ tags = ["studynote-database"]
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | [컨시스턴트 해싱 링 토폴로지](/knowledge-base/studynote/05_database/07_exam_summary/471_consistent_hashing_ring/) | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
-| [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/311_inmon/) 전사 통합 | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
+| [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/953_inmon/) 전사 통합 | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
 | [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) ([Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)) | 운영·설계 판단을 연결해 주는 주변 개념이다. |
 

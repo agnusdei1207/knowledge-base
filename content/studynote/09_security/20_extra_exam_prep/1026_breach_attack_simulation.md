@@ -42,7 +42,7 @@ tags = ["studynote-security"]
 
 | 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| [BAS](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/687_bas/) | 침해 시뮬레이션 (Breach & Attack Simulation (Breach Attack Simulation)에서 공격자가 먼저 노리는 진입 조건 또는 노출 면 | [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/)·권한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·표면 축소가 우선이다. |
+| [BAS](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/687_bas/) | 침해 시뮬레이션 (Breach & Attack Simulation (Breach Attack Simulation)에서 공격자가 먼저 노리는 진입 조건 또는 노출 면 | [입력 검증](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/)·권한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·표면 축소가 우선이다. |
 | [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) | 취약 상태를 실제 영향으로 연결하는 실행 단계 | 정상 흐름과 다른 이벤트를 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·탐지 규칙으로 남겨야 한다. |
 | 영향 | [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/), [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 가운데 실제 피해가 나타나는 지점 | 격리와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차를 함께 준비해야 한다. |
 
@@ -69,7 +69,7 @@ tags = ["studynote-security"]
 | :--- | :--- | :--- |
 | 발생 전제 | 침해 시뮬레이션 (Breach & Attack Simulation (Breach Attack Simulation)는 취약한 입력, 과도한 신뢰, 상태 불일치가 있을 때 성립한다. | 단순 운영 장애는 악의적 조작 없이도 발생할 수 있다. |
 | 주요 영향 | 권한 확대, 정보 노출, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 교란처럼 공격자가 의도한 결과를 만든다. | 오구성은 비의도적 노출이 많아 교정 방식이 다르다. |
-| 방어 방식 | [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/), 최소 권한, 격리, 탐지 규칙을 함께 사용한다. | 패치나 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 수정만으로 끝나는 경우보다 운영 감시가 더 중요하다. |
+| 방어 방식 | [입력 검증](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/), 최소 권한, 격리, 탐지 규칙을 함께 사용한다. | 패치나 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 수정만으로 끝나는 경우보다 운영 감시가 더 중요하다. |
 
 시험 대비 심화 개념 관점에서는 침해 시뮬레이션 (Breach & Attack Simulation (Breach Attack Simulation)가 상위 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 하위 구현, 관측 지표와 어떻게 이어지는지까지 함께 설명해야 한다. 이 연결이 보여야 단순 정의 암기에서 벗어나 실제 설계 언어가 된다.
 
@@ -137,6 +137,6 @@ tags = ["studynote-security"]
 **진행 상황**: 145 / 1108
 
 <- **이전**: [1025. 보안 카오스 공학 (Security Chaos 엔진ering, SCE)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1025_security_chaos_engineering/)
-**다음**: [1026. 스마트 그리드 통신 인프라망 (Smart Grid Ami Two Way Communication Energy)](/knowledge-base/studynote/09_security/uncategorized/1026_smart_grid_ami_two_way_communication_energy/) ->
+**다음**: [1026. 스마트 그리드 통신 인프라망 (Smart Grid Ami Two Way Communication Energy)](/knowledge-base/studynote/09_security/uncategorized/1104_smart_grid_ami_two_way_communication_energy/) ->
 
 ---

@@ -112,7 +112,7 @@ KISS는 또한 소프트웨어 감리(Software [Audit](/knowledge-base/studynote
 
 ## Ⅴ. 기대효과 및 결론
 
-KISS를 지속적으로 적용하면 코드베이스의 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)([cognitive load](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/))가 줄어들고 신규 팀원의 온보딩 속도가 빨라진다. 버그 발생 시 원인 추적 시간이 단축되고, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 작성이 쉬워진다. 유지보수 비용의 70% 이상이 코드 이해에서 발생한다는 연구 결과를 고려하면, KISS의 직접적 경제 효과는 상당하다.
+KISS를 지속적으로 적용하면 코드베이스의 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)([cognitive load](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/))가 줄어들고 신규 팀원의 온보딩 속도가 빨라진다. 버그 발생 시 원인 추적 시간이 단축되고, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) 작성이 쉬워진다. 유지보수 비용의 70% 이상이 코드 이해에서 발생한다는 연구 결과를 고려하면, KISS의 직접적 경제 효과는 상당하다.
 
 한계는 단순성과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 간의 트레이드오프다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화를 위한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 조작, 캐시 계층 추가, 비동기 처리는 코드를 복잡하게 만들지만 필수적인 경우가 많다. 이때는 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표를 위한 필수 복잡성"으로 문서화하여 본질적 복잡성으로 분류해야 한다.
 
@@ -151,7 +151,7 @@ KISS는 "영리함의 [억제](/knowledge-base/studynote/09_security/13_secops_i
 
 **진행 상황**: 158 / 530
 
-<- **이전**: [107. DRY 원칙 (Don't Repeat Yourself) - 코드 중복 방지 (데이터 일관성 보장)](/knowledge-base/studynote/11_design_supervision/09_design_principles/107_dry_principle/)
-**다음**: [108. KISS 원칙 (Keep It Simple, Stupid)](/knowledge-base/studynote/11_design_supervision/09_design_principles/108_kiss_principle/) ->
+<- **이전**: [107. DRY 원칙 (Don't Repeat Yourself) - 코드 중복 방지 (데이터 일관성 보장)](/knowledge-base/studynote/11_design_supervision/09_design_principles/650_dry_principle/)
+**다음**: [108. KISS 원칙 (Keep It Simple, Stupid)](/knowledge-base/studynote/11_design_supervision/09_design_principles/651_kiss_principle/) ->
 
 ---

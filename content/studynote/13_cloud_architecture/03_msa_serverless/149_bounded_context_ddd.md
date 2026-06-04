@@ -18,7 +18,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-대규모 소프트웨어 시스템에서는 "고객([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/))"이라는 단어 하나가 영업 팀에서는 잠재 리드를 뜻하고, 배송 팀에서는 수취인을, 청구 팀에서는 납부 주체를 의미한다. 이처럼 같은 용어가 맥락에 따라 다른 개념을 가리킬 때 하나의 통합 모델로 모든 의미를 담으려 하면 클래스는 비대해지고 결합도는 폭발적으로 늘어난다.
+대규모 소프트웨어 시스템에서는 "고객([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/))"이라는 단어 하나가 영업 팀에서는 잠재 리드를 뜻하고, 배송 팀에서는 수취인을, 청구 팀에서는 납부 주체를 의미한다. 이처럼 같은 용어가 맥락에 따라 다른 개념을 가리킬 때 하나의 통합 모델로 모든 의미를 담으려 하면 클래스는 비대해지고 결합도는 폭발적으로 늘어난다.
 
 [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/))의 [바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) ([Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))는 이 문제를 "모델이 유효한 경계를 명시적으로 선언"함으로써 해결한다. 경계 안에서는 [유비쿼터스 언어](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/) ([Ubiquitous Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/))가 일관되게 유지되며, 경계 바깥과는 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 맵 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Map)으로 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 맺는다.
 
@@ -77,7 +77,7 @@ tags = ["studynote-cloud-architecture"]
 
 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 맵 패턴 종류:
 - <strong>Shared <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a></strong>: 두 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)가 작은 모델 일부를 공유, 변경 시 협의 필수.
-- <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">C고객</a>/Supplier</strong>: 업스트림이 다운스트림 요구를 충족해야 함.
+- <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/">C고객</a>/Supplier</strong>: 업스트림이 다운스트림 요구를 충족해야 함.
 - <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/">ACL</a> (Anti-Corruption Layer)</strong>: 외부 모델을 내부 모델로 변환하는 번역 계층.
 - <strong>Open Host <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a></strong>: 퍼블릭 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 형태로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 노출.
 

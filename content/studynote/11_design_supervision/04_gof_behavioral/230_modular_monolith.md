@@ -178,7 +178,7 @@ Phase 3: 선택적 MSA 전환
 
 **기대효과**:
 - **개발 생산성**: 단일 프로세스로 디버깅 단순 ([분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/) 불필요)
-- **배포 단순성**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 1개, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 단순
+- **배포 단순성**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인 1개, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 단순
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 준비</strong>: 경계가 명확하여 필요 시 점진적 분리 가능
 - <strong>일관된 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a></strong>: ACID [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 적용 가능 (MSA의 [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 불필요)
 
@@ -204,7 +204,7 @@ Phase 3: 선택적 MSA 전환
 | 진화 후 단계 | [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservice Architecture](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/365_msa_microservice_architecture/)) | 독립 배포, 다중 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
 | 핵심 기반 개념 | [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) [Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) | [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 경계의 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 방법 |
 | 경계 강제 도구 | ArchUnit | Java 아키텍처 테스트 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) |
-| 전환 패턴 | [Strangler Fig Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/308_strangler_fig_pattern/) | 모놀리스에서 MSA로 점진적 전환 |
+| 전환 패턴 | [Strangler Fig Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/950_strangler_fig_pattern/) | 모놀리스에서 MSA로 점진적 전환 |
 | 성공 사례 | Shopify, [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) | 대규모 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 모놀리스 운영 사례 |
 
 ### 📈 관련 키워드 및 발전 흐름도

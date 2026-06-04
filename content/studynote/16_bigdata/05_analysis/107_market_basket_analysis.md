@@ -128,7 +128,7 @@ tags = ["studynote-bigdata"]
 | 재고 최적화 | 함께 팔리는 상품의 재고를 연동 관리 |
 | 고객 경험 개선 | 맥락에 맞는 추천으로 [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/) 단축 |
 | 매장 운영 효율 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 진열로 시행착오 비용 절감 |
-| 프로모션 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 향상 | 연관 상품 번들 캠페인의 전환율 개선 |
+| 프로모션 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 향상 | 연관 상품 번들 캠페인의 전환율 개선 |
 
 장바구니 분석은 단순해 보이지만 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 말하게 하는" 가장 직관적이고 설명 가능한 분석이다. 딥러닝 기반 블랙박스 추천과 달리 비즈니스 담당자가 결과를 이해하고 의사결정에 직접 연결할 수 있다는 것이 최대 강점이다. 빅데이터 환경에서는 Spark FPGrowth로 수천만 거래를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리하면서도 실시간에 가까운 분석이 가능해졌다.
 

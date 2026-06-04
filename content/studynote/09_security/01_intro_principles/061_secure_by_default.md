@@ -71,7 +71,7 @@ Secure by Default는 사용자가 아무것도 바꾸지 않아도 안전하게 
 | :-- | :-- |
 | S3 버킷 | Block Public Access |
 | 공유기 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비밀번호 강제 변경 |
-| [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) (Identity and Access [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) | 최소 권한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기본화 |
+| [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) (Identity and Access [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/)) | 최소 권한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기본화 |
 | 프레임워크 | [CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/), CORS, 비밀키 비노출 기본값 |
 
 Secure by Default는 사용자 편의성을 해치지 않으면서도, 위험을 사용자가 직접 선택하게 만드는 구조다. 결과적으로 보안 사고의 절반 이상을 차지하는 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 실수를 줄인다.

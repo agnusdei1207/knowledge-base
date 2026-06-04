@@ -99,7 +99,7 @@ FPIF (Fixed Price Incentive Fee)는 기술사 시험에서 자주 묻는 유형�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-기술사 답안이나 현업 제안 평가에서 중요한 것은 유형 정의보다 선택 논리다. 예를 들어 패키지 구축처럼 범위와 인수 조건이 명확한 사업은 FFP가 유리하다. 반대로 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 모델 탐색, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 개선, 신기술 프로토타입은 산출물보다 학습과 실험 비중이 커서 CPFF나 T&M이 현실적이다. 운영 유지보수는 장애 건수와 작업량이 월별로 달라지므로 T&M에 상한액 (NTE, Not To Exceed)과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약 ([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), [Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))을 붙이는 경우가 많다.
+기술사 답안이나 현업 제안 평가에서 중요한 것은 유형 정의보다 선택 논리다. 예를 들어 패키지 구축처럼 범위와 인수 조건이 명확한 사업은 FFP가 유리하다. 반대로 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 모델 탐색, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 개선, 신기술 프로토타입은 산출물보다 학습과 실험 비중이 커서 CPFF나 T&M이 현실적이다. 운영 유지보수는 장애 건수와 작업량이 월별로 달라지므로 T&M에 상한액 (NTE, Not To Exceed)과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약 ([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/), [Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/))을 붙이는 경우가 많다.
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -119,7 +119,7 @@ FPIF (Fixed Price Incentive Fee)는 기술사 시험에서 자주 묻는 유형�
 ### 실무 선택 예시
 
 - **법규 준수형 시스템 구축**: 명확한 요구와 [인수 기준](/knowledge-base/studynote/04_software_engineering/03_design_architecture/165_acceptance_criteria_definition/) -> FFP
-- **장기 운영/헬프데스크**: 월별 티켓량 변동 큼 -> T&M + NTE + [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)
+- **장기 운영/헬프데스크**: 월별 티켓량 변동 큼 -> T&M + NTE + [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)
 - <strong>연구개발·PoC (Proof of <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/">Concept</a>)</strong>: 결과보다 탐색이 중요 -> CPFF
 - **원가 절감이 핵심인 대형 구축**: 비용 절감 동기 필요 -> FPIF 또는 CPIF
 

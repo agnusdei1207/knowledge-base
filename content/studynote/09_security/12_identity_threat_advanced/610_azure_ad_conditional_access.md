@@ -137,6 +137,6 @@ Azure AD 조건부 액세스 (Conditional Access)를 제대로 이해하면 개�
 **진행 상황**: 672 / 1108
 
 <- **이전**: [609. 원격 데스크톱 게이트웨이 (Remote Desktop Gateway)](/knowledge-base/studynote/09_security/12_identity_threat_advanced/609_remote_desktop_gateway/)
-**다음**: [610. 메모리 관리 보안 (Memory Management Security)](/knowledge-base/studynote/09_security/uncategorized/610_memory_management/) ->
+**다음**: [610. 메모리 관리 보안 (Memory Management Security)](/knowledge-base/studynote/09_security/uncategorized/1040_memory_management/) ->
 
 ---

@@ -137,6 +137,6 @@ tags = ["studynote-security"]
 **진행 상황**: 1020 / 1108
 
 <- **이전**: [931. 위성 통신 보안 (Satellite Security)](/knowledge-base/studynote/09_security/18_iot_ot_physical/931_satellite_security/)
-**다음**: [932. 물리적 보안 3대 요소 (Sniffing Detection Arp Ping Promiscuous Mode)](/knowledge-base/studynote/09_security/uncategorized/932_sniffing_detection_arp_ping_promiscuous_mode/) ->
+**다음**: [932. 물리적 보안 3대 요소 (Sniffing Detection Arp Ping Promiscuous Mode)](/knowledge-base/studynote/09_security/uncategorized/1066_sniffing_detection_arp_ping_promiscuous_mode/) ->
 
 ---

@@ -101,7 +101,7 @@ tags = ["ict_convergence"]
 
 ### [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 관리
 
-블록체인의 불변성과투명성은 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 관리([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))에 유용하게 활용된다. Walmart는 식품 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 추적에 블록체인을 도입하여, 한일부 오염 식품의 출처를수초 만에추종할 수 있게 되었다.이왕는 확인하는 데 최대 7일이나 걸렸다. 다이아몬드업계에서는 블록체인을 통해 광산에서 최종 소비자까지 다이아몬드의 출처와 품질을 투명하게추종할 수 있다(예: De Beers의 Tracr 플랫폼).
+블록체인의 불변성과투명성은 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 관리([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/))에 유용하게 활용된다. Walmart는 식품 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 추적에 블록체인을 도입하여, 한일부 오염 식품의 출처를수초 만에추종할 수 있게 되었다.이왕는 확인하는 데 최대 7일이나 걸렸다. 다이아몬드업계에서는 블록체인을 통해 광산에서 최종 소비자까지 다이아몬드의 출처와 품질을 투명하게추종할 수 있다(예: De Beers의 Tracr 플랫폼).
 
 ### 디지털 신원증명 및 전자정부
 

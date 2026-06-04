@@ -12,7 +12,7 @@ tags = ["studynote-cloud-architecture"]
 ## 핵심 인사이트 (3줄 요약)
 
 > **본질**: Pod는 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) (K8s)에서 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링·배포되는 가장 작은 단위이며, 하나 이상의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 묶어 같은 네트워크와 저장소를 공유하게 만든다.
-> **가치**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 실행 단위이고, Pod는 운영 단위다. 이 차이를 알아야 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)([Sidecar](/knowledge-base/studynote/04_software_engineering/11_testing_validation/546_sidecar_proxy_pattern/)), 초기화 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), 공유 볼륨을 올바르게 설계할 수 있다.
+> **가치**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 실행 단위이고, Pod는 운영 단위다. 이 차이를 알아야 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)([Sidecar](/knowledge-base/studynote/04_software_engineering/11_testing_validation/938_sidecar_proxy_pattern/)), 초기화 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), 공유 볼륨을 올바르게 설계할 수 있다.
 > **판단 포인트**: 서로 강하게 결합된 프로세스만 한 Pod에 넣고, 느슨한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 분리해야 Pod가 "작은 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)"으로 오해되지 않는다.
 
 ---
@@ -42,7 +42,7 @@ Pod
 | 구성 요소 | 역할 |
 | --- | --- |
 | App [Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) | 핵심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 실행 |
-| [Sidecar](/knowledge-base/studynote/04_software_engineering/11_testing_validation/546_sidecar_proxy_pattern/) | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/), 보조 기능 |
+| [Sidecar](/knowledge-base/studynote/04_software_engineering/11_testing_validation/938_sidecar_proxy_pattern/) | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/), 보조 기능 |
 | Init [Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) | 시작 전 준비 작업 |
 | Shared [Volume](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/) | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 간 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유 |
 

@@ -16,7 +16,7 @@ tags = ["studynote-operating-system"]
 
 ---
 
-## Ⅰ. OS 회계 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Accounting)
+## Ⅰ. OS 회계 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Accounting)
 
 ```
 프로세스 회계 (Process Accounting):

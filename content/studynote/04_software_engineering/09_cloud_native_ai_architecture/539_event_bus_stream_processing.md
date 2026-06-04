@@ -124,7 +124,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 이벤트 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (Event [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) 및 스트림 프로세싱은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -178,7 +178,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 670 / 973
 
-<- **이전**: [539. 이벤트 버스 및 스트림 프로세싱](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/)
-**다음**: [540. 서비스 디스커버리 (Service Discovery) - 동적 IP/Port 레지스트리 (Eureka, Consul)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/540_service_discovery/) ->
+<- **이전**: [539. 이벤트 버스 및 스트림 프로세싱](/knowledge-base/studynote/04_software_engineering/11_testing_validation/931_event_bus_stream_processing/)
+**다음**: [540. 서비스 디스커버리 (Service Discovery) - 동적 IP/Port 레지스트리 (Eureka, Consul)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/932_service_discovery/) ->
 
 ---

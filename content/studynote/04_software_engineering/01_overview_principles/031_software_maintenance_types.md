@@ -11,7 +11,7 @@ tags = ["studynote-software-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 소프트웨어 유지보수(Software Maintenance)는 ISO/IEC 14764에 따라 수정([Corrective](/knowledge-base/studynote/04_software_engineering/06_software_architecture/380_maintenance_types/))·적응(Adaptive)·완전화(Perfective)·예방(Preventive)의 4가지 유형으로 분류된다. 운영 중인 소프트웨어에 가해지는 모든 변경이 이 네 유형 중 하나다.
-> 2. **가치**: 현실에서 유지보수가 전체 소프트웨어 비용의 60~80%를 차지한다. 유지보수 유형 분류는 변경 요청(Change Request)의 우선순위·자원 배분·[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) 결정의 기준이 된다.
+> 2. **가치**: 현실에서 유지보수가 전체 소프트웨어 비용의 60~80%를 차지한다. 유지보수 유형 분류는 변경 요청(Change Request)의 우선순위·자원 배분·[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)) 결정의 기준이 된다.
 > 3. **판단 포인트**: 완전화 유지보수(Perfective)가 실제 비용의 가장 큰 비중(약 50%)을 차지한다. 사용자 요구 기능 추가·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선이 버그 수정보다 더 많은 자원을 소모한다.
 
 ---
@@ -43,7 +43,7 @@ tags = ["studynote-software-engineering"]
 
 | 유형 | [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) | 예시 |
 |:---|:---|:---|
-| **수정** | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견 | NullPointer 오류 수정, SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 패치 |
+| **수정** | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견 | NullPointer 오류 수정, SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 패치 |
 | **적응** | 환경 변화 | Java 17 마이그레이션, [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 법 개정 반영 |
 | **완전화** | 사용자 요청 | 검색 필터 추가, 응답 속도 개선 |
 | **예방** | [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) | 레거시 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/), 코드 문서화 |
@@ -79,7 +79,7 @@ tags = ["studynote-software-engineering"]
 |:---|:---|:---|:---|:---|
 | 긴급도 | 높음 | 중간 | 낮음 | 낮음 |
 | 비용 | 낮음 | 중간 | 높음 | 중간 |
-| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) | 즉시~24시간 | 계획 | 릴리즈 주기 | 백로그 |
+| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) | 즉시~24시간 | 계획 | 릴리즈 주기 | 백로그 |
 | 발생 빈도 | 지속적 | 주기적 | 요청 시 | 계획 시 |
 
 - **📢 섹션 요약 비유**: 4유형 우선순위는 병원 응급실 분류다. 수정(응급실 즉시 처치), 적응(예약 진료), 완전화(선택 수술), 예방(건강 검진) 순으로 긴급도와 우선순위가 달라진다.
@@ -107,7 +107,7 @@ tags = ["studynote-software-engineering"]
   - 의존성: 자동 업데이트 (Dependabot)
 ```
 
-- **📢 섹션 요약 비유**: [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) 향상은 정리정돈된 집 관리다. 물건 정리([응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)·[결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)), 라벨 부착(문서화), 청소 자동화([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)로 집(소프트웨어)을 쉽게 관리할 수 있게 한다.
+- **📢 섹션 요약 비유**: [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) 향상은 정리정돈된 집 관리다. 물건 정리([응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)·[결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)), 라벨 부착(문서화), 청소 자동화([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD)로 집(소프트웨어)을 쉽게 관리할 수 있게 한다.
 
 ---
 
@@ -116,7 +116,7 @@ tags = ["studynote-software-engineering"]
 | 기대효과 | 내용 |
 |:---|:---|
 | **비용 관리** | 유형별 자원 배분 최적화 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a> 준수</strong> | 유형별 대응 시간 차별화 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/">SLA</a> 준수</strong> | 유형별 대응 시간 차별화 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">기술 부채</a> 관리</strong> | 예방 유지보수로 장기 품질 유지 |
 
 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 자동 유지보수가 등장하고 있다. GitHub Copilot·Amazon CodeWhisperer가 버그 자동 수정을 제안하고, Dependabot이 의존성 자동 업데이트 PR을 생성하며, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드 리뷰가 예방 유지보수를 자동화하는 방향으로 발전하고 있다.
@@ -132,7 +132,7 @@ tags = ["studynote-software-engineering"]
 | **ISO/IEC 14764** | 유지보수 4유형 표준 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/">변경 관리</a> (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/">CCB</a>)</strong> | 유지보수 변경 승인 프로세스 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">기술 부채</a></strong> | 예방 유지보수의 대상 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a></strong> | 유형별 대응 시간 기준 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/">SLA</a></strong> | 유형별 대응 시간 기준 |
 | **Dependabot** | 적응 유지보수 자동화 도구 |
 
 ### 📈 관련 키워드 및 발전 흐름도

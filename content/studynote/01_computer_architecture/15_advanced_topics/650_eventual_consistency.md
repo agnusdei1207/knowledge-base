@@ -89,7 +89,7 @@ tags = ["studynote-computer-architecture"]
 1. 오래된 값을 몇 초까지 허용할 수 있는가?
 2. 충돌이 발생했을 때 기계적으로 병합 가능한가, 아니면 사람이 의미를 판단해야 하는가?
 3. 사용자가 방금 쓴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 곧바로 다시 봐야 하는가?
-4. 수렴 지연이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약 ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))에 어떤 영향을 주는가?
+4. 수렴 지연이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약 ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/))에 어떤 영향을 주는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 

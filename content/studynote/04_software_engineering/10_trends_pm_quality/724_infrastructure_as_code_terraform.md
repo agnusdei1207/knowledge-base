@@ -72,7 +72,7 @@ IaC의 대명사인 <strong><a href="/knowledge-base/studynote/15_devops_sre/05_
 
 ## Ⅲ. 비교 및 연결
 
-[IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 도구들은 크게 <strong>'서버를 찍어내는 도구(<a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">Provisioning</a>)'</strong>와 <strong>'서버 안의 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>을 맞추는 도구(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/">Configuration Management</a>)'</strong>로 나뉜다.
+[IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 도구들은 크게 <strong>'서버를 찍어내는 도구(<a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">Provisioning</a>)'</strong>와 <strong>'서버 안의 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>을 맞추는 도구(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/873_configuration_management/">Configuration Management</a>)'</strong>로 나뉜다.
 
 | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 주요 목적 | 대표 도구 | 특징 |
 |:---|:---|:---|:---|

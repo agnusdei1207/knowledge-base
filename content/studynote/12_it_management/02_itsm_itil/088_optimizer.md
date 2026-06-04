@@ -142,7 +142,7 @@ Adam / AdamW : 관성과 적응형 보폭을 결합한 현대적 표준
 
 **진행 상황**: 159 / 587
 
-<- **이전**: [87. UC (Underpinning Contract)](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/)
-**다음**: [88. 서비스 카탈로그 (Service Catalog)](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/) ->
+<- **이전**: [87. UC (Underpinning Contract)](/knowledge-base/studynote/12_it_management/02_itsm_itil/871_underpinning_contract/)
+**다음**: [88. 서비스 카탈로그 (Service Catalog)](/knowledge-base/studynote/12_it_management/02_itsm_itil/872_service_catalog/) ->
 
 ---

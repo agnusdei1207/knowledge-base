@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 438 / 587
 
-<- **이전**: [296. EAI 허브 앤 스포크 포인트 투 포인트](/knowledge-base/studynote/12_it_management/05_security_compliance/296_process/)
+<- **이전**: [296. EAI 허브 앤 스포크 포인트 투 포인트](/knowledge-base/studynote/12_it_management/05_security_compliance/941_process/)
 **다음**: [298. ESB 엔터프라이즈 서비스 버스 라우팅](/knowledge-base/studynote/12_it_management/05_security_compliance/298_esb_enterprise_service_bus/) ->
 
 ---

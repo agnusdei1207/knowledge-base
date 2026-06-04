@@ -105,7 +105,7 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 소프트웨어 관점의 100% 분리 독립 (하드웨어 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 탈출 독립 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 표)
+### 소프트웨어 관점의 100% 분리 독립 (하드웨어 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 탈출 독립 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 표)
 
 | 앱 프로그래머의 상황 한계 | 디바이스 드라이버 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 레이어가 파편 붕괴/없었을 때 ([DOS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) 멸망 시절) | 현대의 드라이버 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 계층 스펙이 우아하게 감싸 덮을 때 | 도입 인터페이스 효과 포팅 |
 |:---|:---|:---|:---|

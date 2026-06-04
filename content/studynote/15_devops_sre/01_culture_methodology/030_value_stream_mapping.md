@@ -43,13 +43,13 @@ VSM 소프트웨어 전달 예시:
 
 | 기호/개념 | 의미 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a> Box</strong> | 실제 작업 단계 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/">Process</a> Box</strong> | 실제 작업 단계 |
 | **Push 화살표** | 이전 단계가 밀어주는 흐름 |
 | **Pull 화살표** | 다음 단계가 당기는 흐름 |
 | **재고 삼각형** | 작업 대기 중인 항목 수 |
 | **작업 시간(PT)** | 실제 가치 창출 시간 |
 | **대기 시간(WT)** | 다음 단계로 이동 대기 |
-| **PCE** | [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Cycle Efficiency = PT/(PT+WT) |
+| **PCE** | [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Cycle Efficiency = PT/(PT+WT) |
 
 ### 린 낭비 8가지 ([TIM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/737_thermal_paste_tim/) WOODS)
 
@@ -70,7 +70,7 @@ S: Skills — 인재 미활용
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | VSM | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) | [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) |
+| 비교 | VSM | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) | [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/) |
 |:---|:---|:---|:---|
 | 초점 | 현재 흐름 분석 | 성과 측정 | 목표·결과 추적 |
 | 산출물 | 시각적 맵 | 4대 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) | 분기 목표 |

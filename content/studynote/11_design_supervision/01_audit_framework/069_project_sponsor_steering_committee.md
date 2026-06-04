@@ -13,7 +13,7 @@ tags = ["studynote-design-supervision"]
 
 > 1. **본질**: 프로젝트 스폰서 및 추진 위원회 의사 결정 평가는 기준, 증거, 조치의 연결을 관리하는 감리·통제 주제로서, [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)과 실행 결과 사이의 편차를 재현 가능한 형태로 드러내는 데 목적이 있다.
 > 2. **가치**: 문서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)을 실제 통제 판단으로 바꾸어 일정, 품질, 보안, 책임 분쟁을 조기에 줄인다.
-> 3. **판단 포인트**: [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/), 시정조치가 닫힌 고리로 이어졌는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 실효성이 생긴다.
+> 3. **판단 포인트**: [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/628_objective_evidence_collection/), 시정조치가 닫힌 고리로 이어졌는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 실효성이 생긴다.
 
 ---
 
@@ -44,7 +44,7 @@ tags = ["studynote-design-supervision"]
 | 요소 | 역할 | 설계/감리 포인트 |
 |:---|:---|:---|
 | 프로젝트 스폰서 | 우선 식별해야 할 핵심 통제 대상 | 기준 문서와 실제 산출물이 같은 의미로 연결되는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
-| [Steering Committee](/knowledge-base/studynote/11_design_supervision/01_audit_framework/069_project_sponsor_steering_committee_decision/) | 실행 또는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계의 중심 축 | 수기 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 아니라 재현 가능한 원본 증거가 남아야 함 |
+| [Steering Committee](/knowledge-base/studynote/11_design_supervision/01_audit_framework/638_project_sponsor_steering_committee_decision/) | 실행 또는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계의 중심 축 | 수기 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 아니라 재현 가능한 원본 증거가 남아야 함 |
 | 69. 프로젝트 스폰서 | 판정 결과가 모이는 지점 | 영향도와 우선순위를 함께 제시해야 시정조치가 움직임 |
 | 추진 위원회 의사 결정 평가 | 후속 조치를 닫는 장치 | 조치 완료 선언이 아니라 재시험·재점검까지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 
@@ -65,7 +65,7 @@ tags = ["studynote-design-supervision"]
 | 책임 경계 | 누가 무엇을 보완해야 하는지 명확해진다 | 문제는 발견돼도 주체가 모호해질 수 있다 |
 | 운영 연결 | 재검증을 통해 품질·보안·일정 리스크를 닫는다 | 다음 단계로 위험이 이월될 가능성이 크다 |
 
-또한 프로젝트 스폰서 및 추진 위원회 의사 결정 평가는 형상관리, 품질보증(QA), 보안 점검과도 연결된다. 같은 항목을 보더라도 감리는 독립성과 [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/)를 전제로 하고, 운영 조직은 실행 책임을 진다는 점에서 역할이 구분된다.
+또한 프로젝트 스폰서 및 추진 위원회 의사 결정 평가는 형상관리, 품질보증(QA), 보안 점검과도 연결된다. 같은 항목을 보더라도 감리는 독립성과 [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/628_objective_evidence_collection/)를 전제로 하고, 운영 조직은 실행 책임을 진다는 점에서 역할이 구분된다.
 
 - **📢 섹션 요약 비유**: 운전면허 채점처럼, 같은 실수라도 어떤 기준에서 감점되는지 알아야 판정 경계가 선명해진다.
 
@@ -80,7 +80,7 @@ tags = ["studynote-design-supervision"]
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 기준 문서와 운영 산출물이 같은 의미 체계를 공유하는가?
-2. 인터뷰·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·테스트 결과 중 최소 두 종류 이상의 [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/)가 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되는가?
+2. 인터뷰·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·테스트 결과 중 최소 두 종류 이상의 [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/628_objective_evidence_collection/)가 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되는가?
 3. 지적사항마다 책임자, 기한, 재검증 방식이 함께 정의되어 있는가?
 
 - **📢 섹션 요약 비유**: 병원 검사실처럼, 측정값을 남기고 재검증까지 해야 결과가 치료 결정으로 이어진다.
@@ -102,7 +102,7 @@ tags = ["studynote-design-supervision"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) ([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)) | 감리 판단의 시작점으로, 어떤 편차를 부적합으로 볼지 결정한다. |
-| [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/) ([Objective Evidence](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/)) | 문서, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 테스트 결과처럼 판정을 재현 가능하게 만든다. |
+| [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/628_objective_evidence_collection/) ([Objective Evidence](/knowledge-base/studynote/11_design_supervision/01_audit_framework/628_objective_evidence_collection/)) | 문서, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 테스트 결과처럼 판정을 재현 가능하게 만든다. |
 | 프로젝트 스폰서 | 프로젝트 스폰서 및 추진 위원회 의사 결정 평가에서 가장 먼저 통제하거나 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 할 핵심 축이다. |
 | 시정조치 ([Corrective](/knowledge-base/studynote/04_software_engineering/06_software_architecture/380_maintenance_types/) Action) | 지적사항을 실제 개선으로 닫아 재발 방지까지 연결한다. |
 
@@ -135,7 +135,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 106 / 530
 
-<- **이전**: [68. 소프트웨어 접근성 (Software Accessibility) 점검](/knowledge-base/studynote/11_design_supervision/01_audit_framework/068_software_accessibility_ui_ux_audit/)
-**다음**: [69. 프로젝트 스폰서 및 추진 위원회 (Steering Committee) 의사 결정](/knowledge-base/studynote/11_design_supervision/01_audit_framework/069_project_sponsor_steering_committee_decision/) ->
+<- **이전**: [68. 소프트웨어 접근성 (Software Accessibility) 점검](/knowledge-base/studynote/11_design_supervision/01_audit_framework/637_software_accessibility_ui_ux_audit/)
+**다음**: [69. 프로젝트 스폰서 및 추진 위원회 (Steering Committee) 의사 결정](/knowledge-base/studynote/11_design_supervision/01_audit_framework/638_project_sponsor_steering_committee_decision/) ->
 
 ---

@@ -38,12 +38,12 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 트러스트 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) ([Trust Relationship](/knowledge-base/studynote/09_security/11_iam_access_control/544_trust_relationship/)) 악용 우회 공격
-- **목적**: 시스템 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이나 관리자 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 우회하여 몰래 침투([인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/))하기 위함입니다.
+- **목적**: 시스템 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이나 관리자 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 우회하여 몰래 침투([인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/))하기 위함입니다.
 - **시나리오**:
   1. 해커가 털고자 하는 서버 B가 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 쳐두고, 오직 사내망에 있는 특정 서버 A(신뢰받는 IP)의 접속만 허용(Trust)해 두었습니다.
   2. 해커는 진짜 서버 A를 디도스(DDoS) 공격 등으로 기절시켜 응답하지 못하게 만듭니다.
   3. 해커는 자신의 노트북 IP를 기절한 서버 A의 IP로 변장(IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))시킵니다.
-  4. 그리고 서버 B로 당당하게 접속 요청 패킷을 던지면, 서버 B의 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 "오! 믿을 수 있는 서버 A가 보낸 거네?" 하고 성문을 활짝 열어줍니다. 해커는 무혈입성하여 악성 코드를 [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)(주입)합니다.
+  4. 그리고 서버 B로 당당하게 접속 요청 패킷을 던지면, 서버 B의 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 "오! 믿을 수 있는 서버 A가 보낸 거네?" 하고 성문을 활짝 열어줍니다. 해커는 무혈입성하여 악성 코드를 [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/)(주입)합니다.
 
 ### 2. DDoS 공격의 추적 회피 및 반사(Reflection) 무기화
 - 해커가 타겟 서버에 엄청난 양의 쓰레기 패킷(DDoS)을 쏟아부을 때, 경찰이 자신의 진짜 IP를 역추적해 잡으러 올 것을 두려워합니다. 그래서 패킷의 출발지 IP를 수만 개의 가짜 IP로 [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)해서 던져 경찰 수사를 마비시킵니다.

@@ -40,7 +40,7 @@ tags = ["studynote-network"]
 
 사용자([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))와 동네 라우터 사이의 대화 룰입니다.
 
-- <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/">IGMP</a> (Internet Group <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>: PC가 동네 라우터에게 "저 224.1.1.1번 채널(킹덤 방송) 그룹에 가입할게요!"라고 손을 들고 신청서를 내는([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 프로토콜입니다.
+- <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/">IGMP</a> (Internet Group <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/">Management</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>: PC가 동네 라우터에게 "저 224.1.1.1번 채널(킹덤 방송) 그룹에 가입할게요!"라고 손을 들고 신청서를 내는([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 프로토콜입니다.
 - **Leave (탈퇴)**: 채널을 돌리면 PC가 "저 이제 탈퇴합니다!"라고 라우터에 알립니다.
 - **라우터의 감시 (Query)**: 동네 라우터는 주기적으로 방송을 때립니다. "야! 224.1.1.1번 채널 아직도 보는 사람 있어?" 한 명이라도 "저 아직 봐요!(Report)"라고 응답하면 라우터는 방송 송출을 유지합니다. 아무도 대답을 안 하면 그 즉시 서울 본사에서 내려오는 영상 파이프를 딱! 끊어버려 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비를 0%로 통제합니다.
 

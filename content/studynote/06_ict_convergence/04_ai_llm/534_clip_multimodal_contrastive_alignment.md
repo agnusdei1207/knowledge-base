@@ -21,7 +21,7 @@ tags = ["studynote-ict-convergence"]
 
 전통적 이미지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델([CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/), ViT)은 고정된 클래스 레이블을 학습하므로 새로운 클래스 추가 시 재훈련이 필요하다. CLIP은 자연어 설명을 활용해 이 한계를 극복했다.
 
-<strong>OpenAI <a href="/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/">CLIP</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/">2021</a>) 혁신 포인트</strong>
+<strong>OpenAI <a href="/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/">CLIP</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/">2021</a>) 혁신 포인트</strong>
 - 4억 쌍의 (이미지, 텍스트) 쌍으로 대조 학습
 - 이미지 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)(ViT-L/14)와 텍스트 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)(GPT-스타일 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))를 함께 학습
 - 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 없던 1,000 ImageNet 클래스에서 제로샷으로 76.2% 정확도 달성

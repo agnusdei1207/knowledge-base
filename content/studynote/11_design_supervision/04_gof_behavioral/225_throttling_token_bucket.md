@@ -26,7 +26,7 @@ tags = ["studynote-design-supervision"]
 <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/">Rate Limiting</a> (속도 제한) 적용 목적</strong>:
 - 공정한 자원 배분 (Fair Usage)
 - [DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/)/DDoS 방어
-- [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 안정성 보장 ([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))
+- [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 안정성 보장 ([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/))
 - 요금 과금 기준 (유료 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 플랜)
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 특징 | 버스트 허용 | 구현 복잡도 |
@@ -195,7 +195,7 @@ public class RateLimitFilter extends OncePerRequestFilter {
 |:---|:---|:---|:---|
 | 무료 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) | 50 | 기본 공정 사용 보장 |
 | 유료 기본 플랜 | 100 | 500 | 대부분 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 적합 |
-| 엔터프라이즈 | 1,000+ | 5,000+ | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 계약에 따라 |
+| 엔터프라이즈 | 1,000+ | 5,000+ | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 계약에 따라 |
 | 관리자 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) | 20 | 민감 엔드포인트 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -239,7 +239,7 @@ Token Bucket 기반 Rate Limiting은 [API](/knowledge-base/studynote/02_operatin
 | 연관 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | Fixed/Sliding Window | 다른 [Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/) 구현 방식 |
 | 구현 도구 | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) + Lua Script | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 원자적 [Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/) |
 | 구현 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) | Bucket4j | Java 토큰 버킷 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) |
-| 연관 인프라 | AWS [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 레벨 [Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/) 기본 내장 |
+| 연관 인프라 | AWS [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 레벨 [Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/) 기본 내장 |
 | 연관 개념 | [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/) | Rate Limit 초과 + 장애 복합 대응 |
 
 ### 📈 관련 키워드 및 발전 흐름도

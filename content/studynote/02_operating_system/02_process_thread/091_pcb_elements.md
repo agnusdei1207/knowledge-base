@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block)의 내부 요소들은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 개별 프로세스를 식별하고 제어하기 위해 유지하는 방대한 C 언어 구조체의 필드들이다.
+> 1. **본질**: PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Control Block)의 내부 요소들은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 개별 프로세스를 식별하고 제어하기 위해 유지하는 방대한 C 언어 구조체의 필드들이다.
 > 2. **가치**: [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))와 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 상태는 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 시 실행의 연속성을 보장하며, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 (FD)와 메모리 맵 포인터는 자원의 고립과 정확한 회수를 가능하게 한다.
 > 3. **판단 포인트**: PCB 요소들은 [프로세스 생성](/knowledge-base/studynote/02_operating_system/02_process_thread/104_process_creation/), [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/), [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 등 모든 생명주기 이벤트의 단서이므로, 시스템 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이나 권한 문제 발생 시 PCB 내 특정 필드의 갱신 한계점을 우선적으로 분석해야 한다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block)는 단순한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록이 아니라, 프로세스 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/), 하드웨어 문맥, 메모리 관리 구조, 스케줄링 파라미터 등 수많은 메타데이터가 집약된 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스다. 리눅스에서는 `task_struct`라는 거대한 구조체로 표현된다.
+PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Control Block)는 단순한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록이 아니라, 프로세스 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/), 하드웨어 문맥, 메모리 관리 구조, 스케줄링 파라미터 등 수많은 메타데이터가 집약된 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스다. 리눅스에서는 `task_struct`라는 거대한 구조체로 표현된다.
 
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 시스템 내 수많은 프로세스의 상태를 동시에 추적하고 제어해야 한다. 특정 프로세스에게 CPU를 언제 할당할지, 이 프로세스가 어떤 메모리 영역에 접근할 수 있는지, 열어둔 네트워크 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)은 몇 개인지를 정확히 파악해야만 다중 프로그래밍이 성립한다. 이 모든 의사결정의 논리적 근거가 PCB 내의 개별 필드에 저장되기 때문에, PCB 요소가 없거나 손상되면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 프로세스를 통제할 능력을 즉시 상실한다.
 

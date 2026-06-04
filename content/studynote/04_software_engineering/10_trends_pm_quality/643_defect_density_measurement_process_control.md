@@ -30,7 +30,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 코드 라인 수(LOC) 측정 (1970년대)</strong>: S/W 공학 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/), 생산성을 그저 "하루에 코드 몇 줄 짰냐"로 계산하던 시절, 버그도 단순 LOC 대비 비율로 측정하기 시작함.
   2. <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/">기능 점수</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/">FP</a>)의 편입 (1980년대)</strong>: 자바 1줄과 어셈블리어 1줄은 밀도가 다르다! 언어에 종속되지 않는 진정한 크기 측정법인 '[기능 점수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/)([Function Point](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/))'가 [결함 밀도](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/) 공모의 분모로 차용되며 정밀해짐.
-  3. <strong>통계적 프로세스 통제(<a href="/knowledge-base/studynote/09_security/04_endpoint_security/203_spc_signed_public_key_challenge/">SPC</a>) 시대 (현재)</strong>: [결함 밀도](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/) 지표가 식스시그마([Six Sigma](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/))나 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 품질 게이트(Quality Gate)의 자동 통과 커트라인으로 융합되어 인간의 감정 개입 없는 자동화된 릴리스 판독기로 진화.
+  3. <strong>통계적 프로세스 통제(<a href="/knowledge-base/studynote/09_security/04_endpoint_security/203_spc_signed_public_key_challenge/">SPC</a>) 시대 (현재)</strong>: [결함 밀도](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/) 지표가 식스시그마([Six Sigma](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/))나 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 품질 게이트(Quality Gate)의 자동 통과 커트라인으로 융합되어 인간의 감정 개입 없는 자동화된 릴리스 판독기로 진화.
 
 - **📢 섹션 요약 비유**: 수박에 씨(버그)가 100개 있는 것과 포도알에 씨가 10개 있는 것을 비교할 때, 수박이 씨가 더 많다고 버리기엔 수박의 크기(코드)가 훨씬 큽니다. 과일의 부피 대비 씨앗이 얼마나 징그럽게 박혀있는지 정밀하게 계산해 포도알(위험한 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))을 뱉어내는 과일 품질 감별 공식입니다.
 
@@ -122,7 +122,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [결함 밀도](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/) 측정 및 프로세스 통제은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

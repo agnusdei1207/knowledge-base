@@ -14,7 +14,7 @@ tags = ["it_management"]
 
 > 1. **본질**: Naive Bayes는 Bayes theorem과 조건부 독립 가정을 이용한 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기다.
 > 2. **가치**: 희소한 텍스트나 작은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서도 빠르고 설명 가능한 기준선을 만든다.
-> 3. **판단 포인트**: [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) ([IT Service Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_itsm/))과 [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) (Information Technology Infrastructure [Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))에서는 티켓 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 스팸 필터, 태깅에 특히 잘 맞는다.
+> 3. **판단 포인트**: [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/) ([IT Service Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/845_itsm/))과 [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/846_itil/) (Information Technology Infrastructure [Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))에서는 티켓 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 스팸 필터, 태깅에 특히 잘 맞는다.
 
 ---
 
@@ -69,7 +69,7 @@ Naive Bayes는 [생성](/knowledge-base/studynote/02_operating_system/02_process
 
 1. 클래스 prior와 likelihood가 충분히 학습됐는가?
 2. Laplace smoothing이 적용됐는가?
-3. [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 프로세스와 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 결과가 연결되는가?
+3. [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/) 프로세스와 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 결과가 연결되는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -99,7 +99,7 @@ Naive Bayes는 복잡한 모델이 나오기 전에도 빠른 자동화를 가�
 | Likelihood | 특징이 주어졌을 때의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이다 |
 | Posterior | 최종 판단 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이다 |
 | [Laplace smoothing](/knowledge-base/studynote/10_ai/05_data_science_ml/350_laplace_smoothing/) | 희소성 때문에 생기는 0 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 막는다 |
-| [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) / [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) | 운영 티켓 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)와 잘 맞는다 |
+| [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/) / [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/846_itil/) | 운영 티켓 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)와 잘 맞는다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -131,7 +131,7 @@ route to class
 
 **진행 상황**: 139 / 587
 
-<- **이전**: [77. 문제 관리 (Problem Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/077_problem_management/)
-**다음**: [78. KEDB (Known Error Database)](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/) ->
+<- **이전**: [77. 문제 관리 (Problem Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/861_problem_management/)
+**다음**: [78. KEDB (Known Error Database)](/knowledge-base/studynote/12_it_management/02_itsm_itil/862_kedb/) ->
 
 ---

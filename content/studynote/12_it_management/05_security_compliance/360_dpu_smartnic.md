@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 560 / 587
 
-<- **이전**: [359. ESG 경영 탄소 인지 (Carbon-Aware) 데이터센터 PUE 에너지 평가](/knowledge-base/studynote/12_it_management/05_security_compliance/359_esg_carbon_aware_pue/)
-**다음**: [360. 클라우드 인프라 DPU/SmartNIC 오프로딩 가속망 효율 분석](/knowledge-base/studynote/12_it_management/05_security_compliance/360_dpu_smartnic_offloading_acceleration/) ->
+<- **이전**: [359. ESG 경영 탄소 인지 (Carbon-Aware) 데이터센터 PUE 에너지 평가](/knowledge-base/studynote/12_it_management/05_security_compliance/1000_esg_carbon_aware_pue/)
+**다음**: [360. 클라우드 인프라 DPU/SmartNIC 오프로딩 가속망 효율 분석](/knowledge-base/studynote/12_it_management/05_security_compliance/1001_dpu_smartnic_offloading_acceleration/) ->
 
 ---

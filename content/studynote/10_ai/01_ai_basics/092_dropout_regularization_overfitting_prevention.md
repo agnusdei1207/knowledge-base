@@ -12,7 +12,7 @@ tags = ["studynote-ai"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/) ([Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/))은 딥러닝 모델의 훈련 과정에서 매번 무작위로 일부 뉴런을 비활성화하여, 신경망이 특정 뉴런에만 의존하는 과적합 ([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/)) 현상을 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)하는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Regularization](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)) 기법이다.
-> 2. **가치**: 특정 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)에 대한 뉴런들의 상호 적응 (Co-adaptation)을 방지하고, 모든 뉴런이 독립적이고 강건한 특징 (Robust Features)을 학습하도록 강제하여 실전 [테스트 데이터](/knowledge-base/studynote/04_software_engineering/11_testing_validation/444_test_data_management/)에 대한 일반화 (Generalization) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화한다.
+> 2. **가치**: 특정 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)에 대한 뉴런들의 상호 적응 (Co-adaptation)을 방지하고, 모든 뉴런이 독립적이고 강건한 특징 (Robust Features)을 학습하도록 강제하여 실전 [테스트 데이터](/knowledge-base/studynote/04_software_engineering/11_testing_validation/836_test_data_management/)에 대한 일반화 (Generalization) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화한다.
 > 3. **판단 포인트**: 훈련 ([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/)) 시에는 임의의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 뉴런을 꺼버리지만, 실전 추론 (Inference) 시에는 모든 뉴런을 활성화하되 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 보정하여 마치 수많은 미니 신경망들의 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) ([Ensemble](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)) 결과를 내는 것과 같은 효과를 얻을 수 있을 때 채택한다.
 
 ---
@@ -94,7 +94,7 @@ tags = ["studynote-ai"]
 
 미래의 딥러닝은 단순 무작위 드롭을 넘어, 중요도에 따라 끄는 비율을 조절하거나(Targeted [Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/)) 시간 흐름을 고려한 [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) 전용 기법(Variational [Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/)) 등으로 진화하고 있다. 결론적으로 [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)은 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위해 의도적으로 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 주입하는 완벽한 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 설계"로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 완벽한 온실 속 화초는 작은 바람에도 꺾이지만, 비바람(무작위 셧다운)을 맞고 자란 잡초는 어떤 환경([테스트 데이터](/knowledge-base/studynote/04_software_engineering/11_testing_validation/444_test_data_management/))에서도 살아남는다.
+- **📢 섹션 요약 비유**: 완벽한 온실 속 화초는 작은 바람에도 꺾이지만, 비바람(무작위 셧다운)을 맞고 자란 잡초는 어떤 환경([테스트 데이터](/knowledge-base/studynote/04_software_engineering/11_testing_validation/836_test_data_management/))에서도 살아남는다.
 
 ---
 

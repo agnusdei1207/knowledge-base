@@ -11,8 +11,8 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/) ([테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/))은 외부 의존성(DB, 네트워크, 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))을 가짜([Fake](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/)) 객체로 대체하여, 테스트 대상 코드(SUT, System Under Test)만을 순수하게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)([Unit Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)) 격리 기법이다.
-> 2. **가치**: 외부 시스템 없이도 빠르고(ms 단위) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있는 테스트를 실행할 수 있어, [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)([Test-Driven Development](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/))와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인의 기반이 된다.
+> 1. **본질**: [Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/850_test_double/) ([테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/1008_test_double_isolation/))은 외부 의존성(DB, 네트워크, 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))을 가짜([Fake](/knowledge-base/studynote/04_software_engineering/11_testing_validation/855_fake_test_double/)) 객체로 대체하여, 테스트 대상 코드(SUT, System Under Test)만을 순수하게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)([Unit Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)) 격리 기법이다.
+> 2. **가치**: 외부 시스템 없이도 빠르고(ms 단위) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있는 테스트를 실행할 수 있어, [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)([Test-Driven Development](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/))와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인의 기반이 된다.
 > 3. **판단 포인트**: Stub은 "반환 값을 미리 지정", Mock은 "호출 여부/인수를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)" — 두 개념의 차이를 명확히 구분하는 것이 테스트 설계의 핵심이다.
 
 ---
@@ -35,7 +35,7 @@ OrderService.createOrder()
   - 이메일 실제 발송 -> 테스트 부작용
 ```
 
-해결: 의존성을 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/">Test Double</a></strong>로 교체하여 격리.
+해결: 의존성을 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/850_test_double/">Test Double</a></strong>로 교체하여 격리.
 
 ```
         /\
@@ -59,18 +59,18 @@ OrderService.createOrder()
 +--------------+    +--------------+    +--------------+
 ```
 
-- **📢 섹션 요약 비유**: [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/)은 영화 촬영의 스턴트맨 — 진짜 배우(실제 DB, 외부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 대신 특정 장면(테스트)에서 대역([Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/))을 써서, 안전하고 빠르게 촬영(테스트)한다.
+- **📢 섹션 요약 비유**: [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/1008_test_double_isolation/)은 영화 촬영의 스턴트맨 — 진짜 배우(실제 DB, 외부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 대신 특정 장면(테스트)에서 대역([Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/850_test_double/))을 써서, 안전하고 빠르게 촬영(테스트)한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 | 유형 | 설명 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 여부 | 사용 목적 | 예시 |
 |:---|:---|:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/">Dummy</a></strong> ([더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)) | 전달만 되고 사용 안 됨 | ✗ | 파라미터 채우기 | `null`, 빈 객체 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">Stub</a></strong> ([스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)) | 미리 정해진 값 반환 | ✗ | 간접 입력 제공 | `when(repo.find()).thenReturn(user)` |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/">Spy</a></strong> ([스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/)) | 실제 객체이지만 일부 호출 기록 | ○ 일부 | 호출 사실 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | `@Spy` (Mockito) |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/">Mock</a></strong> (목) | 호출 예상(Expectation) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) + [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | ✓ | 상호작용 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | `verify(emailSvc, times(1)).send(any())` |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/">Fake</a></strong> ([페이크](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/)) | 실제 구현의 단순화 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) | ✗ | 경량 실제 구현 | `InMemoryRepository` |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/">Dummy</a></strong> ([더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)) | 전달만 되고 사용 안 됨 | ✗ | 파라미터 채우기 | `null`, 빈 객체 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/">Stub</a></strong> ([스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)) | 미리 정해진 값 반환 | ✗ | 간접 입력 제공 | `when(repo.find()).thenReturn(user)` |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/">Spy</a></strong> ([스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/)) | 실제 객체이지만 일부 호출 기록 | ○ 일부 | 호출 사실 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | `@Spy` (Mockito) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/">Mock</a></strong> (목) | 호출 예상(Expectation) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) + [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | ✓ | 상호작용 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | `verify(emailSvc, times(1)).send(any())` |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/855_fake_test_double/">Fake</a></strong> ([페이크](/knowledge-base/studynote/04_software_engineering/11_testing_validation/855_fake_test_double/)) | 실제 구현의 단순화 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) | ✗ | 경량 실제 구현 | `InMemoryRepository` |
 
 ```
 테스트에서 의존성을 어떻게 다룰까?
@@ -140,7 +140,7 @@ void 주문_생성_시_이메일_발송된다() {
 | 항목 | [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) (Unit) | [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) (Integration) | [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 테스트 |
 |:---|:---|:---|:---|
 | 범위 | 클래스/메서드 단위 | [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)/[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 | 전체 시스템 |
-| 외부 의존성 | [Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/) 사용 | 실제 DB/서버 일부 사용 | 모두 실제 |
+| 외부 의존성 | [Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/850_test_double/) 사용 | 실제 DB/서버 일부 사용 | 모두 실제 |
 | 실행 속도 | ms 단위 | 초 단위 | 분 단위 |
 | [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) | 낮음 (격리됨) | 중간 | 높음 |
 | 작성 비용 | 낮음 | 중간 | 높음 |
@@ -209,7 +209,7 @@ class OrderServiceTest {
 3. 테스트·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·운영 가시성이 확보되는가?
 4. 팀이 이 구조를 일관되게 유지할 수 있는가?
 
-- **📢 섹션 요약 비유**: 테스트하기 좋은 코드는 레고 — 부품(의존성)을 끼웠다 뺄 수 있어서 부품 하나만 따로 검사([Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/) 교체)할 수 있다. 반대로 고정 접착([new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 직접 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))은 부품을 분리해 검사할 수 없다.
+- **📢 섹션 요약 비유**: 테스트하기 좋은 코드는 레고 — 부품(의존성)을 끼웠다 뺄 수 있어서 부품 하나만 따로 검사([Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/850_test_double/) 교체)할 수 있다. 반대로 고정 접착([new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 직접 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))은 부품을 분리해 검사할 수 없다.
 
 ---
 
@@ -218,20 +218,20 @@ class OrderServiceTest {
 
 **기대효과**:
 - **빠른 피드백**: 외부 의존성 없이 ms 내 실행
-- <strong>안정적인 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD</strong>: 환경 의존 없이 일관된 결과
+- <strong>안정적인 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD</strong>: 환경 의존 없이 일관된 결과
 - <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">리팩토링</a> 안전망</strong>: 코드 변경 시 회귀 방지
 - **설계 개선 유도**: 테스트 어렵다 -> 결합도가 높다는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)
 
 **한계와 주의**:
-- 지나친 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) 사용 -> 구현 세부사항에 결합된 취약한 테스트
+- 지나친 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) 사용 -> 구현 세부사항에 결합된 취약한 테스트
 - Stub과 Mock의 혼동 -> 상태 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)인지 행동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)인지 목적 불명확
 - [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)만으로는 통합 문제 미탐지 -> 피라미드 균형 유지 필수
 
-기술사 시험에서는 <strong>5가지 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/">Test Double</a> 비교표</strong>, <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">Stub</a> vs Mock의 차이</strong>, <strong>테스트 피라미드</strong>를 명확히 서술하는 것이 핵심이다.
+기술사 시험에서는 <strong>5가지 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/850_test_double/">Test Double</a> 비교표</strong>, <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/">Stub</a> vs Mock의 차이</strong>, <strong>테스트 피라미드</strong>를 명확히 서술하는 것이 핵심이다.
 
 확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
 
-- **📢 섹션 요약 비유**: [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)는 자동차 공장의 부품별 품질 검사 — 엔진(핵심 로직)이 정상인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하기 위해 차체(DB, 네트워크) 없이 엔진만 꺼내서 검사대([Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/))에 올려놓고 가동해본다.
+- **📢 섹션 요약 비유**: [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)는 자동차 공장의 부품별 품질 검사 — 엔진(핵심 로직)이 정상인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하기 위해 차체(DB, 네트워크) 없이 엔진만 꺼내서 검사대([Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/850_test_double/))에 올려놓고 가동해본다.
 
 ---
 
@@ -239,10 +239,10 @@ class OrderServiceTest {
 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
 | 상위 개념 | [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) ([Test-Driven Development](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/)) | 테스트 먼저 작성하는 개발 방법론 |
-| 핵심 기법 | [Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/) | [Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)/[Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)/[Spy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/)/[Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/)/Fake의 총칭 |
-| 구현 도구 | Mockito | Java 대표 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) 프레임워크 |
+| 핵심 기법 | [Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/850_test_double/) | [Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)/[Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)/[Spy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/)/[Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/)/Fake의 총칭 |
+| 구현 도구 | Mockito | Java 대표 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) 프레임워크 |
 | 구현 도구 | JUnit5 | Java 표준 테스트 프레임워크 |
-| 연관 개념 | [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/) ([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/)) | [Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/) 교체를 가능하게 하는 설계 |
+| 연관 개념 | [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/) ([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/)) | [Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/850_test_double/) 교체를 가능하게 하는 설계 |
 | 연관 도구 | Testcontainers | 실제 컨테이너를 이용한 [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) |
 | 연관 개념 | 테스트 피라미드 | Unit/Integration/[E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 비율 가이드 |
 

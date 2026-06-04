@@ -72,9 +72,9 @@ RAD 모델은 고속 진행을 위해 표준화된 4단계의 아키텍처 생�
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-RAD는 훌륭한 고속 개발 방법론이지만 만능은 아닙니다. 요구사항이 명확할 때 쓰는 폭포수, 불명확할 때 쓰는 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/), 그리고 현대의 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/))과 어떻게 다른지 비교해야 합니다.
+RAD는 훌륭한 고속 개발 방법론이지만 만능은 아닙니다. 요구사항이 명확할 때 쓰는 폭포수, 불명확할 때 쓰는 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/), 그리고 현대의 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/))과 어떻게 다른지 비교해야 합니다.
 
-| 비교 항목 | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) - [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)) | RAD (Rapid Application Development) |
+| 비교 항목 | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) - [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/)) | RAD (Rapid Application Development) |
 |:---|:---|:---|
 | **개발 속도 달성 철학** | 작업의 범위([Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/))를 줄여서 빠르게 배포 | 도구(CASE)와 재사용을 통해 물리적 제작 시간을 단축 |
 | **팀 구성 및 소통** | 자율적인 교차 기능 팀 (Cross-functional) | 비즈니스-IT 연합 워크숍(JAD)과 고도의 도구 숙련자 중심 |

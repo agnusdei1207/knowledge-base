@@ -176,7 +176,7 @@ tags = ["ict_convergence"]
 
 프라이빗 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 기업들이 투명성과 보안이라는 양립 불가능해 보였던 가치를 B2B 협업망에 동시에 구현할 수 있게 해 준 강력한 혁신 인프라이다.
 
-| 구분 | 도입 전 (기업 간 개별 원장) | 도입 후 (프라이빗 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 공유 원장) | 기대 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 및 효과 |
+| 구분 | 도입 전 (기업 간 개별 원장) | 도입 후 (프라이빗 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 공유 원장) | 기대 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 및 효과 |
 |:---|:---|:---|:---|
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 대사 비용</strong> | 기업 간 매월 수동 대사(Reconciliation) 수행 | 실시간 단일 진실의 공급원(SSOT) 확보 | 회계/[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)/분쟁 해결 비용 80% 이상 획기적 절감 |
 | <strong>보안 및 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a></strong> | 내부자 조작 및 해킹으로 인한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변조 | 해시 체인 및 암호학적 서명으로 위변조 원천 차단 | 규제 준수 및 완벽한 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적성([Audit Trail](/knowledge-base/studynote/11_design_supervision/01_audit_framework/065_audit_trail_worm_storage_compliance/)) 확보 |

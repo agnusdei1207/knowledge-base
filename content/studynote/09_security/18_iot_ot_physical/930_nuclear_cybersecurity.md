@@ -137,6 +137,6 @@ tags = ["studynote-security"]
 **진행 상황**: 1017 / 1108
 
 <- **이전**: [929. NERC CIP (NERC CIP)](/knowledge-base/studynote/09_security/18_iot_ot_physical/929_nerc_cip/)
-**다음**: [931. EMP 방호 통신망 (전자기 펄스 쉴딩 시스템)](/knowledge-base/studynote/09_security/uncategorized/931_emp_protection_faraday_cage_optical_fiber_shielding/) ->
+**다음**: [931. EMP 방호 통신망 (전자기 펄스 쉴딩 시스템)](/knowledge-base/studynote/09_security/uncategorized/1065_emp_protection_faraday_cage_optical_fiber_shielding/) ->
 
 ---

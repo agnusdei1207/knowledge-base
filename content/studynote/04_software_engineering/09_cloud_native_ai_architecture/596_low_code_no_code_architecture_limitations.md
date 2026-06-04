@@ -30,7 +30,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **워드프레스 / 제로보드 시대 (조상님)**: 템플릿([테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/)) 사서 텍스트만 틱 갈아 끼우면 홈페이지 하나가 뚝딱 런칭되던 마법.
   2. <strong><a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/">BPM</a> / 사내 엑셀 VBA (과도기)</strong>: "홈페이지 말고 사내 업무 로직도 자동화하자!" 드래그 앤 드롭 결재 도면(Flowchart) 툴 등장. 개발자 없이 비즈니스 로직([BPMN](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/))만 그리면 전산망이 돌아감.
-  3. <strong>클라우드 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/">SaaS</a> No-Code 폭발 (현재)</strong>: 인프라가 미쳤다. Airtable, Retool, Bubble 같은 놈들이 나타났다. 기획자가 화면 박스만 대충 쓱쓱 그리면 뒷단 AWS 서버 오토스케일링, SSL 암호화 인증서 발급, DB 백업까지 툴([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 벤더)이 인프라 0.1초 컷으로 공짜로 덤핑 쳐주는 신의 강림.
+  3. <strong>클라우드 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/">SaaS</a> No-Code 폭발 (현재)</strong>: 인프라가 미쳤다. Airtable, Retool, Bubble 같은 놈들이 나타났다. 기획자가 화면 박스만 대충 쓱쓱 그리면 뒷단 AWS 서버 오토스케일링, SSL 암호화 인증서 발급, DB 백업까지 툴([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 벤더)이 인프라 0.1초 컷으로 공짜로 덤핑 쳐주는 신의 강림.
 
 - **📢 섹션 요약 비유**: 이 혁명은 <strong>'수제 양복점'</strong>에서 <strong>'유니클로/ZARA 기성복 매장'</strong>으로의 전환입니다. 내 몸 치수를 하나하나 다 재서 3달 걸려 맞춤 정장(쌩 코딩)을 입으면 완벽한 핏이 나오죠. 하지만 내일 당장 미팅(시장 런칭)에 가야 한다면? 그냥 1만 원 주고 기성복 매장 들어가서 L 사이즈 티셔츠 1장(노코드 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)) 빼 입고 1초 만에 뛰어나가 딜(비즈니스)을 따오는 게 진짜 똑똑하고 돈 버는 사장님(아키텍트)의 생존 전술입니다.
 
@@ -122,7 +122,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 로우코드/노코드 (Low-Code / No-Code) 플랫폼 아키텍처 한계와 확장성 제어은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

@@ -136,7 +136,7 @@ LLM04: Model DoS를 제대로 이해하면 개념 하나를 외우는 데서 끝
 
 **진행 상황**: 1077 / 1108
 
-<- **이전**: [979. IPSec 터널/수송 모드 (Ipsec Tunnel Transport Mode VPN Encapsulation)](/knowledge-base/studynote/09_security/uncategorized/979_ipsec_tunnel_transport_mode_vpn_encapsulation/)
-**다음**: [980. AH (Authentication Header)](/knowledge-base/studynote/09_security/uncategorized/980_ah_authentication_header_ipsec_integrity_no_encryption/) ->
+<- **이전**: [979. IPSec 터널/수송 모드 (Ipsec Tunnel Transport Mode VPN Encapsulation)](/knowledge-base/studynote/09_security/uncategorized/1075_ipsec_tunnel_transport_mode_vpn_encapsulation/)
+**다음**: [980. AH (Authentication Header)](/knowledge-base/studynote/09_security/uncategorized/1076_ah_authentication_header_ipsec_integrity_no_encryption/) ->
 
 ---

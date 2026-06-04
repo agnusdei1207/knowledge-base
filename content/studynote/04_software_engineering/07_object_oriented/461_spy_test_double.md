@@ -11,7 +11,7 @@ tags = ["studynote-software-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Spy (스파이) - [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/) 역할 + 호출 정보 기록은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 1. **본질**: Spy (스파이) - [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/) 역할 + 호출 정보 기록은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
 > 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
@@ -19,11 +19,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: Spy(스파이)는 현실 세계의 간첩과 똑같다. 평소에는 일반 시민(진짜 객체)처럼 굴거나 주어진 대답([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))만 충실히 한다. 하지만 속으로는 자기를 부른 놈을 감시한다. `orderService.order()`를 실행했을 때, 테스트 코드는 결과가 없다(void). 그래서 Spy로 심어둔 `EmailSender`에게 조용히 묻는다. "야 스파이, 너 아까 불렸어? 파라미터로 'kim@mail.com' 들고 온 거 맞지?" 스파이는 수첩을 까서 증거를 제출한다.
+- **개념**: Spy(스파이)는 현실 세계의 간첩과 똑같다. 평소에는 일반 시민(진짜 객체)처럼 굴거나 주어진 대답([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/))만 충실히 한다. 하지만 속으로는 자기를 부른 놈을 감시한다. `orderService.order()`를 실행했을 때, 테스트 코드는 결과가 없다(void). 그래서 Spy로 심어둔 `EmailSender`에게 조용히 묻는다. "야 스파이, 너 아까 불렸어? 파라미터로 'kim@mail.com' 들고 온 거 맞지?" 스파이는 수첩을 까서 증거를 제출한다.
 
 - **필요성**: 함수를 짰다. `public int add(1, 2)`는 `3`이 리턴되니까, 테스트 코드에서 `assertEquals(3, result)`로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(상태 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))하면 끝이다. 그런데 <strong>리턴값이 없는 허공의 메아리(void) 함수</strong>는 어떻게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 것인가? 예를 들어 `pushNotification()` (푸시 알람 쏘기) 함수가 있다. 로직을 탔는데 화면엔 아무 변화가 없다. 진짜 알람이 나갔는지 테스트 코드 입장에서는 장님이다. 이때 푸시 알람 객체 자리에 '스파이(Spy)'를 꽂아두면, "네! 저 방금 1번 호출됐습니다!"라고 자백을 받아냄으로써 로직이 빵꾸 나지 않고 정상적으로 흘렀음을 완벽하게 증명해 낼 수 있다.
 
-- **💡 비유**: Spy는 레스토랑의 <strong>'비밀 미스터리 쇼퍼(손님 위장 알바)'</strong>와 같습니다. 매니저(테스트)가 주방장(로직)을 칭찬해야 할지 혼내야 할지 알고 싶습니다. 그래서 비밀 알바생(스파이)을 손님으로 투입시킵니다. 주방장은 알바생을 진짜 손님인 줄 알고 요리([함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/))를 내어줍니다. 알바생은 요리를 먹으면서([스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/) 역할) 몰래 수첩에 "주방장이 소금을 2스푼 넣음, 요리 나오는 데 10분 걸림"을 싹 다 기록해서 나중에 매니저에게 넘깁니다(행위 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)). 주방장은 자기가 감시당한 줄도 모릅니다.
+- **💡 비유**: Spy는 레스토랑의 <strong>'비밀 미스터리 쇼퍼(손님 위장 알바)'</strong>와 같습니다. 매니저(테스트)가 주방장(로직)을 칭찬해야 할지 혼내야 할지 알고 싶습니다. 그래서 비밀 알바생(스파이)을 손님으로 투입시킵니다. 주방장은 알바생을 진짜 손님인 줄 알고 요리([함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/))를 내어줍니다. 알바생은 요리를 먹으면서([스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/) 역할) 몰래 수첩에 "주방장이 소금을 2스푼 넣음, 요리 나오는 데 10분 걸림"을 싹 다 기록해서 나중에 매니저에게 넘깁니다(행위 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)). 주방장은 자기가 감시당한 줄도 모릅니다.
 
 - **등장 배경 및 발전 과정**:
   1. **Void 함수의 저주**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 시절, 리턴값이 있는 함수는 테스트하기 쉬웠지만, DB 저장(`save`), 메일 발송(`send`) 같은 Void 함수는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 길이 없어 눈으로 콘솔 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Print)를 찍어보며 노가다를 했다.
@@ -59,7 +59,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-Spy (스파이) - [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/) 역할 + 호출 정보 기록의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
+Spy (스파이) - [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/) 역할 + 호출 정보 기록의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
@@ -120,7 +120,7 @@ Spy (스파이)을(를) 올바르게 적용하면 [소프트웨어 품질](/know
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 Spy (스파이)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ Spy (스파이) 개념 정립
 
 **진행 상황**: 514 / 973
 
-<- **이전**: [461. Spy (스파이)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/)
-**다음**: [462. Mock (목)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) ->
+<- **이전**: [461. Spy (스파이)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/)
+**다음**: [462. Mock (목)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) ->
 
 ---

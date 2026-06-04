@@ -108,7 +108,7 @@ CISO는 ISO/IEC 27001, [ISMS](/knowledge-base/studynote/09_security/17_framework
 2. CIO와의 협업은 유지하되, 이해상충 시 별도 에스컬레이션 경로가 있는가?
 3. 보안 예산, 핵심 인력, 외부 진단, [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/) 훈련을 요구할 권한이 있는가?
 4. [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) ([Key Performance Indicator](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/020_kpi/))와 KRI ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Indicator)를 함께 관리하고 있는가?
-5. 클라우드, 위탁 운영, [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) (Software [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)까지 책임 범위가 확장되어 있는가?
+5. 클라우드, 위탁 운영, [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) (Software [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)까지 책임 범위가 확장되어 있는가?
 
 ### 적용 시나리오
 

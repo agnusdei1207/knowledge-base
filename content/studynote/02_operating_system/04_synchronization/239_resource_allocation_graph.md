@@ -19,8 +19,8 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 시스템의 상태를 꼭짓점(Vertex)과 간선(Edge)으로 나타내는 방향성 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Directed [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))다. 꼭짓점은 프로세스 $P$와 자원 $R$로 나뉘며, 간선은 프로세스가 자원을 요청하는 "요청 간선($P \to R$)"과 자원이 프로세스에게 할당된 "할당 간선($R \to P$)"으로 구성된다.
-- **필요성**: 수백 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 수천 개의 [뮤텍스 락](/knowledge-base/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/)([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 잡고 대기하는 복잡한 서버 환경에서, "누가 누구를 기다려서 전체 시스템이 멈췄는가?"를 텍스트 로그만으로 파악하는 것은 불가능에 가깝다. 얽히고설킨 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))의 의존성 관계를 인간과 기계가 직관적으로 파악하고 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 등)으로 1초 만에 데드락을 탐지하기 위해 '[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 이론([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) Theory)'을 도입할 필요가 있었다.
+- **개념**: 시스템의 상태를 꼭짓점(Vertex)과 간선(Edge)으로 나타내는 방향성 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Directed [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/))다. 꼭짓점은 프로세스 $P$와 자원 $R$로 나뉘며, 간선은 프로세스가 자원을 요청하는 "요청 간선($P \to R$)"과 자원이 프로세스에게 할당된 "할당 간선($R \to P$)"으로 구성된다.
+- **필요성**: 수백 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 수천 개의 [뮤텍스 락](/knowledge-base/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/)([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 잡고 대기하는 복잡한 서버 환경에서, "누가 누구를 기다려서 전체 시스템이 멈췄는가?"를 텍스트 로그만으로 파악하는 것은 불가능에 가깝다. 얽히고설킨 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))의 의존성 관계를 인간과 기계가 직관적으로 파악하고 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 등)으로 1초 만에 데드락을 탐지하기 위해 '[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 이론([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) Theory)'을 도입할 필요가 있었다.
 
 - **등장 배경**: [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 예방(Prevention)하거나 무시(Ostrich)하는 대신, "실제로 터졌는지 감시하자"는 탐지([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 연구가 활발해지면서, 시스템 상태를 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)([Snapshot](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/))으로 찍어 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 자료구조로 메모리에 올리는 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 기법이 1970년대 이후 OS 교과서의 표준으로 정립되었다.
 
@@ -68,7 +68,7 @@ tags = ["studynote-operating-system"]
   +-----------------------------------------------------------------------+
 ```
 
-#### 시나리오 2: 데드락 아님 (다중 인스턴스 환경에서의 [페이크](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/) 사이클)
+#### 시나리오 2: 데드락 아님 (다중 인스턴스 환경에서의 [페이크](/knowledge-base/studynote/04_software_engineering/11_testing_validation/855_fake_test_double/) 사이클)
 자원의 개수가 2개 이상일 때는 사이클이 보여도 섣불리 데드락이라고 단정 지으면 안 된다.
 
 ```text

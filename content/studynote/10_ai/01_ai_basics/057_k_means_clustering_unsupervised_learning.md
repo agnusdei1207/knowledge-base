@@ -23,7 +23,7 @@ K-Means는 정답이 없는 [데이터](/knowledge-base/studynote/05_database/01
 
 고객 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 문서 묶기, 이미지 색상 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)처럼 비슷한 것끼리 모으는 문제에 자주 쓰인다.
 
-- **📢 섹션 요약 비유**: 색종이 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)를 비슷한 색끼리 자동으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 기계다.
+- **📢 섹션 요약 비유**: 색종이 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)를 비슷한 색끼리 자동으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 기계다.
 
 ---
 

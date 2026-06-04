@@ -145,7 +145,7 @@ A 방식(YARN)은 철저히 '[하둡](/knowledge-base/studynote/03_network/16_da
                  |
                  +--> 회수한 자원을 VIP A큐에 즉시 할당하여 서비스 지연 방지
 ```
-이 흐름의 핵심은 제한된 자원 하에서 '공평함(Fairness)'을 수리적으로 강제한다는 점입니다. 이 선점 기능이 없으면 무거운 배치 잡 하나가 끝날 때까지 전체 클러스터가 먹통이 되는 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠집니다. 따라서 실무 관리자는 큐의 깊이(Depth)와 우선순위 가중치를 어떻게 세팅하느냐에 따라 클러스터의 투자 대비 효용([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))을 2배 이상 끌어올릴 수 있습니다.
+이 흐름의 핵심은 제한된 자원 하에서 '공평함(Fairness)'을 수리적으로 강제한다는 점입니다. 이 선점 기능이 없으면 무거운 배치 잡 하나가 끝날 때까지 전체 클러스터가 먹통이 되는 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠집니다. 따라서 실무 관리자는 큐의 깊이(Depth)와 우선순위 가중치를 어떻게 세팅하느냐에 따라 클러스터의 투자 대비 효용([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/))을 2배 이상 끌어올릴 수 있습니다.
 
 📢 **섹션 요약 비유**: 왕복 2차선 도로(자원)에서 평소에는 화물차(마케팅 배치)가 2차선을 다 막고 달려도 놔두지만, 구급차(VIP 사이언스 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))가 등장하면 사이렌(Preemption)을 울려 화물차를 갓길로 쫓아내고 길을 터주는 스마트 교통 통제 시스템입니다.
 
@@ -157,7 +157,7 @@ YARN의 도입은 [하둡](/knowledge-base/studynote/03_network/16_data_center_c
 
 | 정성적 효과 | 정량적 지표 및 변화 |
 |:---|:---|
-| **클러스터 활용률 극대화** | 주야간 워크로드 혼합 배치로 서버 유휴 시간 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) ([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 2배 상승) |
+| **클러스터 활용률 극대화** | 주야간 워크로드 혼합 배치로 서버 유휴 시간 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) ([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 2배 상승) |
 | **다양한 연산 엔진 생태계 폭발** | Spark, Tez, Flink, Storm 등이 단일 [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 위에서 동시 공존 실행 가능 |
 | <strong>무한한 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/">스케일 아웃</a> 확보</strong> | JobTracker의 단일 병목 소멸로 노드 한계가 4,000대에서 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000대 이상으로 돌파 |
 

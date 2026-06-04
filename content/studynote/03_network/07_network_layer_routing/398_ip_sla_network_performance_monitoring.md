@@ -24,7 +24,7 @@ tags = ["studynote-network"]
 
 - **💡 비유**: IP SLA는 탄광에 데리고 들어가는 <strong>"카나리아(새)"</strong>와 같습니다.
   - 내 눈앞의 갱도(물리적 링크)가 아무리 멀쩡해 보여도, 저 멀리 갱도 끝에서 독가스(L3 장애)가 새어 나오면 광부(라우터)는 눈치채지 못하고 죽습니다.
-  - 광부는 카나리아(IP [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) Ping)를 계속 새장 안에 두고 관찰합니다. 만약 카나리아가 찍! 하고 죽어버리면(Ping Fail), 광부는 눈앞의 길이 멀쩡해도 즉시 발길을 돌려 <strong>비상 탈출구(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>)</strong>로 대피하여 생명을 구합니다.
+  - 광부는 카나리아(IP [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) Ping)를 계속 새장 안에 두고 관찰합니다. 만약 카나리아가 찍! 하고 죽어버리면(Ping Fail), 광부는 눈앞의 길이 멀쩡해도 즉시 발길을 돌려 <strong>비상 탈출구(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>)</strong>로 대피하여 생명을 구합니다.
 
 ```text
 [GLBP]
@@ -43,8 +43,8 @@ tags = ["studynote-network"]
 
 이 시나리오는 네트워크 엔지니어 실무 1년 차가 가장 많이 세팅하는 통신망 이중화의 꽃이다.
 
-### 1. 센서 만들기 (IP [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 세팅)
-라우터에 1번 감시 카메라([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))를 단다.
+### 1. 센서 만들기 (IP [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 세팅)
+라우터에 1번 감시 카메라([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/))를 단다.
 - 임무: `구글 DNS(8.8.8.8)`를 향해 5초마다 한 번씩 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Echo(Ping)를 쏜다.
 - 조건: 2초 안에 대답이 안 오면 [Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)(실패)으로 간주한다.
 
@@ -63,9 +63,9 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 카메라가 찍은 결과물(성공/실패)을 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 전원처럼 똑딱거리는 트랙(Track) 번호로 매핑한다.
+[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 카메라가 찍은 결과물(성공/실패)을 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 전원처럼 똑딱거리는 트랙(Track) 번호로 매핑한다.
 - `track 1 ip sla 1 reachability`
-- (해석: "[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 1번이 핑 쳐서 성공하면 트랙 1번 불(Up) 켜고, 핑 끊기면 불(Down) 꺼라!")
+- (해석: "[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 1번이 핑 쳐서 성공하면 트랙 1번 불(Up) 켜고, 핑 끊기면 불(Down) 꺼라!")
 
 ### 3. [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 조작 (Static Route 묶기)
 이게 마법의 마무리다. 관리자가 쳐둔 Static 룰 뒤에 아까 만든 트랙 1번의 운명을 걸어버린다.
@@ -101,7 +101,7 @@ IP SLA는 단순 핑뿐만 아니라 훨씬 고차원적인 진단을 할 수 �
 - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> Jitter 탐지</strong>: 목적지 라우터까지 가상 VoIP 패킷을 날려보고 "아, 지연이 15ms고 패킷 유실률이 2%네. 이 회선 통화 품질 개판이네"라고 점수([MOS](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/909_mos_mean_opinion_score_qoe_emodel/))를 매겨 관리자에게 리포팅해 준다.
 - <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 탐지</strong>: "저쪽 웹서버 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 80번에 접속해 보고 로그인 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 잘 뜨는지 10초마다 확인해!"라는 L7(애플리케이션) 레벨의 정찰도 가능하다.
 
-- **📢 섹션 요약 비유**: <strong> IP <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a> + Track 연동 기술은 자동차의 </strong>"스마트 크루즈 컨트롤 + 긴급 제동(AEB)"**입니다. 운전자가 페달을 밟지 않아도([정적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/340_static_routing_default_route_0_0_0_0/)), 센서(IP [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))가 끊임없이 앞차와의 거리를 계산하다가 사고가 감지되는 순간 0.1초 만에 브레이크를 밟고 핸들을 꺾어(Track 연동) 탑승객의 목숨을 구합니다.
+- **📢 섹션 요약 비유**: <strong> IP <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/">SLA</a> + Track 연동 기술은 자동차의 </strong>"스마트 크루즈 컨트롤 + 긴급 제동(AEB)"**입니다. 운전자가 페달을 밟지 않아도([정적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/340_static_routing_default_route_0_0_0_0/)), 센서(IP [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/))가 끊임없이 앞차와의 거리를 계산하다가 사고가 감지되는 순간 0.1초 만에 브레이크를 밟고 핸들을 꺾어(Track 연동) 탑승객의 목숨을 구합니다.
 
 ---
 

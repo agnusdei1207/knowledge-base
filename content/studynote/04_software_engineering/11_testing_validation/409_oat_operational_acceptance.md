@@ -11,7 +11,7 @@ tags = ["studynote-software-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/) ([Operational Acceptance Testing](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/409_operational_acceptance_testing_oat/))은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 1. **본질**: [OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/) ([Operational Acceptance Testing](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/801_operational_acceptance_testing_oat/))은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
 > 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
@@ -22,7 +22,7 @@ tags = ["studynote-software-engineering"]
 소프트웨어 릴리즈 직전, 개발팀과 현업 부서(비즈니스 사용자)는 UAT(User Acceptance Testing)를 통해 화면이 잘 나오고 계산이 맞는지를 확인하며 환호합니다.
 하지만 IT 운영팀(Infra/Ops)의 표정은 다릅니다. 이들은 "새벽 3시에 서버 전원 코드가 뽑혀 이중화가 넘어가야 할 때", 혹은 "랜섬웨어에 걸려 어제 날짜로 DB를 긴급 복원해야 할 때" 시스템이 매뉴얼대로 작동할지를 더 우려합니다.
 
-<strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/">OAT</a>(<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/409_operational_acceptance_testing_oat/">Operational Acceptance Testing</a>, <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/">운영 인수 테스트</a>)</strong>는 바로 이 운영자([Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/))들을 만족시키기 위한 테스트입니다.
+<strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/">OAT</a>(<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/801_operational_acceptance_testing_oat/">Operational Acceptance Testing</a>, <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/">운영 인수 테스트</a>)</strong>는 바로 이 운영자([Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/))들을 만족시키기 위한 테스트입니다.
 애플리케이션을 살아 숨 쉬는 '생물'로 보고, 이 생물이 데이터센터라는 척박한 환경에서 버티기 위한 <strong>인프라 적합성, 모니터링 연동성, 재난 복원력</strong>을 검증하는 매우 차갑고 기계적인 테스트입니다.
 
 ```text
@@ -69,7 +69,7 @@ OAT는 [비기능 요구사항](/knowledge-base/studynote/04_software_engineerin
 
 | 항목 | 설명 | 비고 |
 | :--- | :--- | :--- |
-| 핵심 특성 | [OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/) ([Operational Acceptance Testing](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/409_operational_acceptance_testing_oat/))의 핵심 특성과 동작 방식 | 필수 이해 요소 |
+| 핵심 특성 | [OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/) ([Operational Acceptance Testing](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/801_operational_acceptance_testing_oat/))의 핵심 특성과 동작 방식 | 필수 이해 요소 |
 | 적용 범위 | 어떤 프로젝트·상황에서 활용하는지 | 선택 기준 |
 | 제약 조건 | 적용 시 주의해야 할 전제·한계 | 트레이드오프 |
 
@@ -133,10 +133,10 @@ OAT는 흔히 프로젝트 막바지에 "시간 부족"을 이유로 생략하�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/) ([Operational Acceptance Testing](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/409_operational_acceptance_testing_oat/))의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/) ([Operational Acceptance Testing](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/409_operational_acceptance_testing_oat/))은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | [OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/) ([Operational Acceptance Testing](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/409_operational_acceptance_testing_oat/)) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/) ([Operational Acceptance Testing](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/409_operational_acceptance_testing_oat/))에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/) ([Operational Acceptance Testing](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/801_operational_acceptance_testing_oat/))의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/) ([Operational Acceptance Testing](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/801_operational_acceptance_testing_oat/))은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | [OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/) ([Operational Acceptance Testing](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/801_operational_acceptance_testing_oat/)) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/) ([Operational Acceptance Testing](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/801_operational_acceptance_testing_oat/))에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -160,7 +160,7 @@ OAT (Operational Acceptance Testing) 개념 정립
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/) ([Operational Acceptance Testing](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/409_operational_acceptance_testing_oat/))은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. [OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/) ([Operational Acceptance Testing](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/801_operational_acceptance_testing_oat/))은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
@@ -171,6 +171,6 @@ OAT (Operational Acceptance Testing) 개념 정립
 **진행 상황**: 409 / 973
 
 <- **이전**: [408. 베타 테스트 (Beta Test) - 실제 환경에서 다수 사용자 수행 (필드 테스트)](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/408_beta_test/)
-**다음**: [409. OAT (Operational Acceptance Testing) - 운영 인수 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/409_operational_acceptance_testing_oat/) ->
+**다음**: [409. OAT (Operational Acceptance Testing) - 운영 인수 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/801_operational_acceptance_testing_oat/) ->
 
 ---

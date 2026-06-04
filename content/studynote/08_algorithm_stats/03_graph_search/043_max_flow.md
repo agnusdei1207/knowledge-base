@@ -11,7 +11,7 @@ tags = ["studynote-algorithm"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 최대 유량 (Max Flow) 문제는 소스 (Source)에서 싱크 (Sink)까지 흘릴 수 있는 최대 흐름량을 구하는 문제로, 잔여 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Residual [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))와 증가 경로 (Augmenting Path)를 이용해 해결한다.
+> 1. **본질**: 최대 유량 (Max Flow) 문제는 소스 (Source)에서 싱크 (Sink)까지 흘릴 수 있는 최대 흐름량을 구하는 문제로, 잔여 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Residual [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/))와 증가 경로 (Augmenting Path)를 이용해 해결한다.
 > 2. **가치**: Ford-Fulkerson, Edmonds-Karp [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), [이분 매칭](/knowledge-base/studynote/08_algorithm_stats/12_graph_algorithms/172_bipartite_matching/) ([Bipartite Matching](/knowledge-base/studynote/08_algorithm_stats/12_graph_algorithms/172_bipartite_matching/)), 프로젝트 선택 등 다양한 문제를 최대 유량 문제로 환원하여 해결한다.
 > 3. **판단 포인트**: Edmonds-Karp ([BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) 기반 Ford-Fulkerson)는 O(VE^)으로 정수 용량에서 항상 종료하며, 최대 유량 = [최소 컷](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/045_min_cut/) (Max-Flow Min-Cut 정리)은 핵심 정리다.
 
@@ -32,13 +32,13 @@ tags = ["studynote-algorithm"]
 - 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 최대화 (인터넷 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))
 - [이분 매칭](/knowledge-base/studynote/08_algorithm_stats/12_graph_algorithms/172_bipartite_matching/) (구직자-회사, 학생-기숙사 배정)
 - 프로젝트 선택 문제 (손익 최대화)
-- 이미지 세분화 ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) Cut)
+- 이미지 세분화 ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) Cut)
 
 📢 **섹션 요약 비유**: 최대 유량은 수도관 네트워크에서 수원지(소스)에서 도시(싱크)까지 흘릴 수 있는 최대 물의 양을 구하는 것이다. 각 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)의 지름(용량)이 흐름을 제한한다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 잔여 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Residual [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))
+### 잔여 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Residual [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/))
 
 ```
 원본 간선 (u->v, 용량 c, 현재 흐름 f):
@@ -152,7 +152,7 @@ Max-Flow = Min-Cut 용량
 
 | 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
-| 잔여 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Residual [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) | 핵심 개념 | 남은 용량 + 역방향 간선 |
+| 잔여 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Residual [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/)) | 핵심 개념 | 남은 용량 + 역방향 간선 |
 | 증가 경로 (Augmenting Path) | 핵심 개념 | s->t 경로 탐색 |
 | Max-Flow Min-Cut 정리 | 핵심 정리 | 최대 유량 = [최소 컷](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/045_min_cut/) |
 | [이분 매칭](/knowledge-base/studynote/08_algorithm_stats/12_graph_algorithms/172_bipartite_matching/) | 응용 | 최대 유량으로 환원 |

@@ -119,7 +119,7 @@ MRC의 패러다임은 고객의 니즈에 따라 팩트 추출(Extractive) 방�
 
 현재도 기업 내부망([On-premise](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)) 환경에서는 보안 유출 우려 때문에 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)(OpenAI)를 쓸 수 없거나 값비싼 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 랙을 살 돈이 없는 수많은 스타트업과 공공기관이 존재한다. 이 극한의 가성비와 보안, 그리고 "절대 거짓말을 하지 않는다"는 100% 추출형 팩트 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 결합 된 환경에서, MRC는 가장 빠르고 가벼우며 절대 실패하지 않는 B2B 지식 검색의 백엔드 수호신으로 영원히 현역에서 군림할 것이다.
 
-- **📢 섹션 요약 비유**: 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))이 우주의 지식을 다 아는 화려하고 비싼 '만능 교수님'이라면, 기계 독해(MRC)는 내 책상 위에 올려진 책 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 속에서 내가 원하는 문장 딱 1줄만 1초 만에 형광펜으로 그어주는 극강의 가성비 '조교'다. 교수님을 모실 돈이 없거나, 교수님이 가끔 헛소리하는 게 치명적으로 무서운 회사라면, 묵묵하고 정확하게 책 안에서만 답을 찾는 이 가벼운 조교가 훨씬 더 위대하고 든든한 일꾼이다.
+- **📢 섹션 요약 비유**: 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))이 우주의 지식을 다 아는 화려하고 비싼 '만능 교수님'이라면, 기계 독해(MRC)는 내 책상 위에 올려진 책 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) 속에서 내가 원하는 문장 딱 1줄만 1초 만에 형광펜으로 그어주는 극강의 가성비 '조교'다. 교수님을 모실 돈이 없거나, 교수님이 가끔 헛소리하는 게 치명적으로 무서운 회사라면, 묵묵하고 정확하게 책 안에서만 답을 찾는 이 가벼운 조교가 훨씬 더 위대하고 든든한 일꾼이다.
 
 ---
 

@@ -116,7 +116,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 설계: [Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/) vs [Snowflake Schema](/knowledge-base/studynote/12_it_management/05_security_compliance/313_snowflake_schema/)
+### [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 설계: [Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/) vs [Snowflake Schema](/knowledge-base/studynote/12_it_management/05_security_compliance/955_snowflake_schema/)
 
 ```
 [Star Schema - 팩트 중심 비정규화]

@@ -10,15 +10,15 @@ tags = ["studynote-enterprise"]
 +++
 
 > **핵심 인사이트 3줄**
-> 1. [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/)(Political·Economic·Social·Technological) 분석은 기업 외부 거시 환경을 체계적으로 스캔해 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립의 맥락을 제공하는 프레임워크다.
+> 1. [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/)(Political·Economic·Social·Technological) 분석은 기업 외부 거시 환경을 체계적으로 스캔해 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립의 맥락을 제공하는 프레임워크다.
 > 2. STEEP은 PEST에 Environmental(환경) 요인을 추가해 ESG·탄소중립 이슈를 포함하며, PESTLE은 Legal(법적) 요인을 별도로 분리한다.
 > 3. PEST는 산업 분석(Porter 5 Forces)·경쟁 분석(SWOT)과 연계해 외부->산업->기업 순서로 분석 레이어를 쌓는 것이 핵심이다.
 
 ---
 
-## Ⅰ. [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 분석의 정의와 구성 요소
+## Ⅰ. [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 분석의 정의와 구성 요소
 
-[PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 분석은 Francis Aguilar(1967)가 제안한 <strong>거시환경(Macro-<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/">environment</a>) 분석 도구</strong>다.
+[PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 분석은 Francis Aguilar(1967)가 제안한 <strong>거시환경(Macro-<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/">environment</a>) 분석 도구</strong>다.
 
 | 요인          | 핵심 변수                                    |
 |-------------|---------------------------------------------|
@@ -38,7 +38,7 @@ PEST 분석 프레임
 +--------------+--------------+
 ```
 
-📢 **섹션 요약 비유**: [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 분석은 항해 전 기상 예보와 같다 — 바람(정치), 조류(경제), 파도(사회), 선박 기술(기술) 네 가지를 파악해야 항로를 결정할 수 있다.
+📢 **섹션 요약 비유**: [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 분석은 항해 전 기상 예보와 같다 — 바람(정치), 조류(경제), 파도(사회), 선박 기술(기술) 네 가지를 파악해야 항로를 결정할 수 있다.
 
 ---
 
@@ -51,7 +51,7 @@ PEST 분석 프레임
 | Environmental | 기후변화·탄소 규제·ESG           | 탄소 세금·RE100 강제  |
 | Legal        | 노동법·공정거래법·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)보호법    | [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)·[개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)법        |
 
-<strong>PESTLE = <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/">PEST</a> + Environmental + Legal</strong>
+<strong>PESTLE = <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/">PEST</a> + Environmental + Legal</strong>
 
 ### [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 시대 추가 고려 요인
 
@@ -63,7 +63,7 @@ PEST 분석 프레임
 
 ---
 
-## Ⅲ. [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 분석 수행 방법
+## Ⅲ. [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 분석 수행 방법
 
 ### 분석 프로세스
 
@@ -83,7 +83,7 @@ PEST 분석 프레임
 | 탄소세 도입  |    3      |     4      |   12    |  위협    |
 | [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)  |    5      |     5      |   25    |  기회    |
 
-📢 **섹션 요약 비유**: [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 영향 매트릭스는 보험 위험 평가와 같다 — 사고 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)과 피해 규모를 곱해 가장 주의해야 할 위험을 골라낸다.
+📢 **섹션 요약 비유**: [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 영향 매트릭스는 보험 위험 평가와 같다 — 사고 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)과 피해 규모를 곱해 가장 주의해야 할 위험을 골라낸다.
 
 ---
 
@@ -101,7 +101,7 @@ SWOT 통합 분석
 전략 수립 (SO·ST·WO·WT 전략)
 ```
 
-### IT 기업 [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 예시
+### IT 기업 [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 예시
 
 | 요인 | 내용                          | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 시사점               |
 |------|------------------------------|--------------------------|
@@ -110,7 +110,7 @@ SWOT 통합 분석
 | S   | MZ세대 원격근무 선호           | 리모트-퍼스트 HR [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)      |
 | T   | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 도입 가속            | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 제품 차별화        |
 
-📢 **섹션 요약 비유**: [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/)->Porter->SWOT 연계는 지도-나침반-GPS를 순서대로 쓰는 것과 같다 — 큰 지형([PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/))을 보고, 경쟁 도로(Porter)를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 현재 위치(SWOT)를 파악해야 목적지 경로가 나온다.
+📢 **섹션 요약 비유**: [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/)->Porter->SWOT 연계는 지도-나침반-GPS를 순서대로 쓰는 것과 같다 — 큰 지형([PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/))을 보고, 경쟁 도로(Porter)를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 현재 위치(SWOT)를 파악해야 목적지 경로가 나온다.
 
 ---
 
@@ -123,7 +123,7 @@ SWOT 통합 분석
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 계획 수립</strong>: 3~5년 로드맵에 거시 트렌드 반영
 - **ESG 보고서**: Environmental 요인 위험·기회 공시
 
-### [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 한계와 보완
+### [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 한계와 보완
 
 | 한계          | 내용                         | 보완                    |
 |-------------|------------------------------|------------------------|
@@ -182,9 +182,9 @@ Porter 5 Forces -> 산업 경쟁 분석 -> 포지셔닝 전략
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 분석은 소풍 전 날씨 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이다 — 비(정치), 더위(경제), 친구들 분위기(사회), 새 운동화(기술)를 모두 체크해야 즐거운 소풍이 된다.
+1. [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 분석은 소풍 전 날씨 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이다 — 비(정치), 더위(경제), 친구들 분위기(사회), 새 운동화(기술)를 모두 체크해야 즐거운 소풍이 된다.
 2. STEEP은 PEST에 환경 지킴이를 추가한 것이다 — 요즘은 탄소발자국(E)도 기업 성적표에 들어간다.
-3. [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/)->SWOT 연계는 수능 모의고사다 — 외부 환경(시험 난이도)을 분석한 뒤, 내 강점·약점과 연결해 공부 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 세운다.
+3. [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/)->SWOT 연계는 수능 모의고사다 — 외부 환경(시험 난이도)을 분석한 뒤, 내 강점·약점과 연결해 공부 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 세운다.
 
 ---
 

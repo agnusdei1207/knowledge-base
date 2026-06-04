@@ -11,7 +11,7 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Promise / Future (프로미스/퓨처)는 "아직 완료되지 않은 비동기 연산의 미래 결과"를 나타내는 객체로, 콜백 지옥(Callback Hell)을 탈피하고 비동기 연산을 체이닝([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))으로 표현하는 비동기 패턴이다.
+> 1. **본질**: Promise / Future (프로미스/퓨처)는 "아직 완료되지 않은 비동기 연산의 미래 결과"를 나타내는 객체로, 콜백 지옥(Callback Hell)을 탈피하고 비동기 연산을 체이닝([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/))으로 표현하는 비동기 패턴이다.
 > 2. **가치**: Promise 상태 기계(Pending -> Fulfilled/Rejected)와 `.then()/.catch()` 체이닝으로 다단계 비동기 흐름을 선형 코드로 표현할 수 있어 가독성과 에러 처리가 획기적으로 개선된다.
 > 3. **판단 포인트**: `async/await`는 Promise의 문법적 설탕(Syntactic Sugar) — Promise 위에서 동작하며, `await`는 Promise가 완료될 때까지 현재 함수를 일시 중단하되 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 블로킹하지 않는다.
 

@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 프로파일링(Profiling)은 프로그램 실행 중 함수별 CPU 시간·호출 횟수·호출 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))를 수집하여 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목(핫스팟, Hotspot)을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 기법이며, Gprof(GNU Profiler)는 컴파일러 계측(-pg [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))과 OS 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)(Sigprof)를 결합하여 동작한다.
-> 2. **가치**: Gprof의 호출 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 분석으로 "전체 실행 시간의 80%를 차지하는 핵심 함수 2~3개"를 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)할 수 있어, 최적화 투자 대비 효과([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))를 극대화하는 80/20 법칙 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝이 가능하다.
+> 1. **본질**: 프로파일링(Profiling)은 프로그램 실행 중 함수별 CPU 시간·호출 횟수·호출 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/))를 수집하여 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목(핫스팟, Hotspot)을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 기법이며, Gprof(GNU Profiler)는 컴파일러 계측(-pg [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))과 OS 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)(Sigprof)를 결합하여 동작한다.
+> 2. **가치**: Gprof의 호출 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 분석으로 "전체 실행 시간의 80%를 차지하는 핵심 함수 2~3개"를 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)할 수 있어, 최적화 투자 대비 효과([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/))를 극대화하는 80/20 법칙 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝이 가능하다.
 > 3. **융합**: Gprof(정적 프로파일링) -> perf(동적 샘플링) -> [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/)(#615, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 트레이싱)로 이어지는 프로파일링 진화의 출발점이며, [성능 모니터링](/knowledge-base/studynote/02_operating_system/10_security/609_performance_monitoring/)(#609) 체계의 핵심 구성요소다.
 
 ---
@@ -176,7 +176,7 @@ bpftrace -e 'profile:hz:99 { @[ustack] = count(); }'
 | 항목 | 도입 전 | 도입 후 |
 |:---|:---|:---|
 | 병목 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | 추측 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 |
-| 최적화 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) | 낮음 | 80/20 법칙 적용 |
+| 최적화 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) | 낮음 | 80/20 법칙 적용 |
 | 디버깅 시간 | 일 단위 | 시간 단위 |
 
 - **📢 섹션 요약 비유**: 프로파일링은 시스템의 "지도"를 그리는 작업입니다. 지도가 있어야 가장 빠른 길(최적화)을 찾을 수 있습니다.

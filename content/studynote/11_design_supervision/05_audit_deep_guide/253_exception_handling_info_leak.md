@@ -24,7 +24,7 @@ tags = ["studynote-design-supervision"]
 |:---|:---|:---|
 | [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 트레이스 | `NullPointerException at com.app.UserDAO:45` | 패키지 구조, 클래스 명, 라인 번호 파악 |
 | DB 오류 메시지 | `Table 'users' doesn't exist` | 테이블명, DB 종류 파악 |
-| SQL 구문 노출 | `Syntax error in SQL: SELECT * FROM user WHERE id=` | SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 공격 포인트 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| SQL 구문 노출 | `Syntax error in SQL: SELECT * FROM user WHERE id=` | SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 공격 포인트 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 | 서버 경로 | `/usr/local/tomcat/webapps/app/WEB-INF/` | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 업로드 경로 추측 |
 | 프레임워크 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) | `Apache Struts 2.3.5` | 알려진 취약점([CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/)) 적용 |
 

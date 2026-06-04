@@ -96,7 +96,7 @@ tags = ["studynote-operating-system"]
 
 사용자 수준 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 OS와 시스템 아키텍처에 얽매이지 않고 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 프로그래밍을 구현할 수 있는 탁월한 이식성과 가벼움을 제공한다. [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 크기를 극한으로 줄여 레이턴시를 1/50 수준으로 단축하고 병행 처리량을 100배로 늘리는 혁신적 성능은 KLT 모델로는 불가능한 성과다.
 
-순수 N:1 매핑의 시대는 끝났지만, 그 유산은 <strong>M:N 하이브리드 모델</strong>이라는 형태로 현대 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 애플리케이션의 핵심 동력으로 부활했다. 개발자는 이제 무거운 OS 프로세스/[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 구조에 끌려다니지 않고, 애플리케이션의 논리적 요구에 맞게 무한한 가상 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 찍어내며 비즈니스 로직에 집중할 수 있게 되었다.
+순수 N:1 매핑의 시대는 끝났지만, 그 유산은 <strong>M:N 하이브리드 모델</strong>이라는 형태로 현대 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 애플리케이션의 핵심 동력으로 부활했다. 개발자는 이제 무거운 OS 프로세스/[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 구조에 끌려다니지 않고, 애플리케이션의 논리적 요구에 맞게 무한한 가상 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 찍어내며 비즈니스 로직에 집중할 수 있게 되었다.
 
 - **📢 섹션 요약 비유**: 무겁고 승인 절차가 복잡한 정규군([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) 대신, 매우 빠르고 날렵한 특공대(사용자 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))들이 자체 지휘관 아래 초고속으로 진지를 점령해 나가는 현대전의 고기동 전술과 같다.
 

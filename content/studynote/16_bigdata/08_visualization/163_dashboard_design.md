@@ -165,7 +165,7 @@ tags = ["studynote-bigdata"]
 
 ### 결론
 
-대시보드 설계는 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">데이터 거버넌스</a>의 최전선</strong>이다. 아무리 좋은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 분석이 있어도, 의사결정자가 쉽고 빠르게 인사이트를 얻지 못하면 가치가 없다. 5초 규칙, F-패턴 레이아웃, [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) 계층 구조, 적절한 인터랙티비티, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 5가지 요소를 통합적으로 설계할 수 있는 것이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 아키텍트의 역량이다.
+대시보드 설계는 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/">데이터 거버넌스</a>의 최전선</strong>이다. 아무리 좋은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 분석이 있어도, 의사결정자가 쉽고 빠르게 인사이트를 얻지 못하면 가치가 없다. 5초 규칙, F-패턴 레이아웃, [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) 계층 구조, 적절한 인터랙티비티, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 5가지 요소를 통합적으로 설계할 수 있는 것이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 아키텍트의 역량이다.
 
 **📢 섹션 요약 비유**: 잘 설계된 대시보드는 <strong>응급실 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a></strong>와 같다. 의사가 복잡한 조작 없이 환자의 생명 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)([KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/))를 즉각 파악하고, 이상이 감지되면 경보가 울리며, 상세 검사는 클릭 한 번으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있어야 한다.
 
@@ -176,7 +176,7 @@ tags = ["studynote-bigdata"]
 | 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 대시보드 | 유형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | C-Suite 대상, 월간 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) |
-| 운영 대시보드 | 유형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 실시간 알림, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 |
+| 운영 대시보드 | 유형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 실시간 알림, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 |
 | 분석 대시보드 | 유형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 드릴다운, 탐색적 분석 |
 | F-패턴 | 레이아웃 원칙 | 시선 이동 패턴 기반 중요도 배치 |
 | 크로스 필터링 | 인터랙션 패턴 | 차트 A 선택 -> 차트 B 필터 자동 반영 |

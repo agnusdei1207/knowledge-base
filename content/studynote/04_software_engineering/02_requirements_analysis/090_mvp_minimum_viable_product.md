@@ -18,7 +18,7 @@ tags = ["software_engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-최소 존립 제품 ([MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/), [Minimum Viable Product](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/))은 [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/) ([Lean Startup](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/)) 방법론의 핵심 도구로, 최소한의 노력과 개발 시간으로 고객의 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)(만들기-측정-학습)를 완성할 수 있는 버전을 의미한다.
+최소 존립 제품 ([MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/), [Minimum Viable Product](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/))은 [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/827_lean_startup/) ([Lean Startup](/knowledge-base/studynote/12_it_management/01_governance_strategy/827_lean_startup/)) 방법론의 핵심 도구로, 최소한의 노력과 개발 시간으로 고객의 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)(만들기-측정-학습)를 완성할 수 있는 버전을 의미한다.
 
 전통적인 소프트웨어 공학은 모든 요구사항을 완벽히 수집하고 1년에 걸쳐 거대한 시스템([폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/))을 만든 뒤 런칭했다. 그러나 출시 후 "아무도 이 제품을 원하지 않는다"는 치명적인 사실을 깨닫는 경우가 부지기수였다. 이 거대한 낭비를 막기 위해, 핵심 가설만을 담은 아주 뼈대뿐인 제품을 시장에 먼저 던져서 "사람들이 진짜 이걸 원하는가?"를 데이터로 증명하는 생존 테스트 도구가 필요해졌다.
 
@@ -60,7 +60,7 @@ MVP를 구축하는 방법은 꼭 애플리케이션 코딩일 필요조차 없�
 
 | [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) 유형 | 작동 방식 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 포인트 | 대표 사례 |
 | :--- | :--- | :--- | :--- |
-| <strong>비디오 (Video) <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">MVP</a></strong> | 실제 제품 없이 동작하는 듯한 시연 영상만 제작 | "이 문제가 해결된다면 쓸 것인가?" (수요 입증) | 드롭박스 (Dropbox)의 3분 [페이크](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/) 영상 |
+| <strong>비디오 (Video) <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">MVP</a></strong> | 실제 제품 없이 동작하는 듯한 시연 영상만 제작 | "이 문제가 해결된다면 쓸 것인가?" (수요 입증) | 드롭박스 (Dropbox)의 3분 [페이크](/knowledge-base/studynote/04_software_engineering/11_testing_validation/855_fake_test_double/) 영상 |
 | <strong>컨시어지 (Concierge) <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">MVP</a></strong>| 뒷단의 자동화 없이 사람이 직접 1:1 수동 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공 | "고객이 돈을 내고 이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 살 것인가?" | 자포스 (Zappos)의 수동 신발 구매 배송 |
 | **오즈의 마법사 (Wizard of Oz)** | 겉은 자동화된 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 같으나, 뒤에서 사람이 수동 처리 | "제품의 UI/UX 흐름이 고객을 설득하는가?" | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 카드 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
 | <strong>랜딩 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> (Landing <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a>)</strong> | 기능 설명과 '사전 예약' 버튼만 있는 단일 웹페이지 | "마케팅 메시지가 구매 전환율로 이어지는가?" | 수많은 모바일 앱 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 티저 |
@@ -90,7 +90,7 @@ MVP를 구축하는 방법은 꼭 애플리케이션 코딩일 필요조차 없�
 
 MVP는 실패의 비용을 극단적으로 낮춰주는 가장 강력한 보험이다.
 
-소프트웨어 공학에서 가장 슬픈 일은 '일정을 못 맞추는 것'이 아니라 '일정에 맞춰 완벽하게 만들었는데 아무도 안 쓰는 것'이다. MVP는 낭비를 줄이고, 시장의 진짜 목소리를 코드에 반영하게 만들며, [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/), 사업 방향 전환)을 빠르게 결단할 수 있는 데이터를 제공한다. 궁극적으로 MVP는 개발 방법론을 넘어, 고객의 마음을 겸허히 확인하는 비즈니스 철학이자 과학적 실험 절차로 기억되어야 한다.
+소프트웨어 공학에서 가장 슬픈 일은 '일정을 못 맞추는 것'이 아니라 '일정에 맞춰 완벽하게 만들었는데 아무도 안 쓰는 것'이다. MVP는 낭비를 줄이고, 시장의 진짜 목소리를 코드에 반영하게 만들며, [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/)([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/), 사업 방향 전환)을 빠르게 결단할 수 있는 데이터를 제공한다. 궁극적으로 MVP는 개발 방법론을 넘어, 고객의 마음을 겸허히 확인하는 비즈니스 철학이자 과학적 실험 절차로 기억되어야 한다.
 
 - **📢 섹션 요약 비유**: 낯선 정글에서 생존할 때, 거대한 성을 짓느라 체력을 다 쓰는 대신, 일단 나뭇가지 몇 개로 비바람만 피할 작은 텐트([MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/))를 쳐서 이곳이 살 만한 터전인지 하룻밤 자보는 현명한 생존법이다.
 
@@ -100,9 +100,9 @@ MVP는 실패의 비용을 극단적으로 낮춰주는 가장 강력한 보험�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/">린 스타트업</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/">Lean Startup</a>)</strong> | 낭비를 최소화하고 극단적으로 빠른 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를 돌린다는, MVP를 잉태한 상위 경영 철학 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/827_lean_startup/">린 스타트업</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/827_lean_startup/">Lean Startup</a>)</strong> | 낭비를 최소화하고 극단적으로 빠른 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를 돌린다는, MVP를 잉태한 상위 경영 철학 |
 | <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a>) 방법론</strong> | MVP의 빠른 출시와 지속적 개선([Sprint](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/))을 뒷받침하는 소프트웨어 개발 프로세스 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/">피벗</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/">Pivot</a>)</strong> | [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) 테스트 결과, 가설이 틀렸음을 데이터로 확인하고 제품 방향을 틀어버리는 전략적 결단 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/">피벗</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/">Pivot</a>)</strong> | [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) 테스트 결과, 가설이 틀렸음을 데이터로 확인하고 제품 방향을 틀어버리는 전략적 결단 |
 | **PMF (Product-Market Fit)** | MVP가 시장의 강렬한 요구와 완벽히 맞아떨어져 성장하기 시작하는 궤도 진입 상태 |
 
 ### 📈 관련 키워드 및 발전 흐름도

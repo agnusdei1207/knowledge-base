@@ -124,7 +124,7 @@ tags = ["it_management"]
 
 **진행 상황**: 155 / 587
 
-<- **이전**: [85. SLA (Service Level Agreement)](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)
-**다음**: [86. OLA (Operational Level Agreement)](/knowledge-base/studynote/12_it_management/02_itsm_itil/086_ola/) ->
+<- **이전**: [85. SLA (Service Level Agreement)](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)
+**다음**: [86. OLA (Operational Level Agreement)](/knowledge-base/studynote/12_it_management/02_itsm_itil/870_ola/) ->
 
 ---

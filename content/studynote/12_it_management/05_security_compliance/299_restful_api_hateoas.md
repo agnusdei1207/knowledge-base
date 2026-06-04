@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 441 / 587
 
-<- **이전**: [298. ESB 엔터프라이즈 서비스 버스 라우팅](/knowledge-base/studynote/12_it_management/05_security_compliance/298_process/)
+<- **이전**: [298. ESB 엔터프라이즈 서비스 버스 라우팅](/knowledge-base/studynote/12_it_management/05_security_compliance/942_process/)
 **다음**: [300. 마이크로서비스 MSA 독립 배포](/knowledge-base/studynote/12_it_management/05_security_compliance/300_microservices_msa/) ->
 
 ---

@@ -31,7 +31,7 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### Superset [기술 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/)
+### Superset [기술 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/890_ta_as_is_analysis/)
 
 ```
 +-------------------------------------------------------------+
@@ -157,7 +157,7 @@ Superset 보안 계층:
 |:---|:---|
 | **개발/소규모** | [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Compose (단일 서버) |
 | **프로덕션** | [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) ([Helm Chart](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/056_helm_chart/)), 별도 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/)·DB |
-| **관리형** | Apache Preset (클라우드 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)) |
+| **관리형** | Apache Preset (클라우드 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/)) |
 
 **📢 섹션 요약 비유**: Superset의 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 배포는 <strong>프랜차이즈 레스토랑 확장</strong>과 같다. 맛이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 레시피(Superset)를 여러 도시(서버)에 표준화된 방식([Helm Chart](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/056_helm_chart/))으로 확장한다.
 
@@ -190,7 +190,7 @@ Apache Superset은 <strong>기술 팀 주도 <a href="/knowledge-base/studynote/
 | Apache Druid | 통합 DB | 서브초 실시간 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) 분석 |
 | ClickHouse | 통합 DB | 초고성능 컬럼형 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) |
 | Celery | 백그라운드 처리 | 비동기 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 실행·캐시 갱신 |
-| Apache Preset | 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | Superset의 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 클라우드 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) |
+| Apache Preset | 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | Superset의 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 클라우드 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) |
 | Metabase | 비교 제품 | 비기술 사용자 친화적 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) BI |
 | [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/) | 보안 모델 | 역할 기반 접근 제어 + RLS |
 

@@ -112,9 +112,9 @@ tags = ["studynote-database"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/) DB 질의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계 극복 가속화 연구망 설계 | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
+| [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/) DB 질의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계 극복 가속화 연구망 설계 | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
 | 다차원 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) K-d 트리 공간/다변량 질의 처리망 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 분석 | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
-| [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
+| [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
 | [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) | 운영·설계 판단을 연결해 주는 주변 개념이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도

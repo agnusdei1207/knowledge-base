@@ -114,7 +114,7 @@ tags = ["studynote-database"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 에러/타임베이스 블라인드 주입 체계망 | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
+| SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 에러/타임베이스 블라인드 주입 체계망 | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
 | 공간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 기하 연산 [MBR](/knowledge-base/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/) 근접 분석 기술 구조 | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
 | 암호화 (Encryption) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
 | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) ([Auditing](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)) | 운영·설계 판단을 연결해 주는 주변 개념이다. |

@@ -12,7 +12,7 @@ tags = ["BizDevOps", "DevOps", "OKR", "business alignment", "continuous feedback
 
 > **핵심 인사이트 3줄**
 > 1. BizDevOps는 DevOps의 개발-운영 협업에 비즈니스 팀(기획·마케팅·영업)을 통합하여 IT와 비즈니스 목표를 단일 가치 흐름으로 연결하는 문화·방법론이다.
-> 2. DevOps가 "빠른 배포"에 집중했다면 BizDevOps는 "올바른 것을 빠르게 배포"로 진화하며, [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/)(Objective & [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Results) 기반의 목표 정렬이 핵심이다.
+> 2. DevOps가 "빠른 배포"에 집중했다면 BizDevOps는 "올바른 것을 빠르게 배포"로 진화하며, [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/)(Objective & [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Results) 기반의 목표 정렬이 핵심이다.
 > 3. [가치 흐름 매핑](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/224_vsm_value_stream_mapping/)([VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/), [Value Stream Mapping](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/088_value_stream_mapping_vsm/))으로 아이디어에서 운영까지의 낭비를 가시화하고, 비즈니스 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 직접 통합한다.
 
 ---
@@ -43,9 +43,9 @@ BizDevOps:
 
 ---
 
-## Ⅱ. [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 기반 정렬
+## Ⅱ. [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/) 기반 정렬
 
-### 2.1 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 구조
+### 2.1 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/) 구조
 
 ```
 Company OKR:
@@ -61,7 +61,7 @@ Company OKR:
 
 ### 2.2 OKR과 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 연결
 
-| [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) KR                | 관련 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)           |
+| [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/) KR                | 관련 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)           |
 |----------------------|------------------------------|
 | NPS 70점 이상        | 기능 출시 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)           |
 | 앱 충돌률 0.1% 미만  | [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/), 배포 실패율             |
@@ -145,9 +145,9 @@ else:
 |--------------------|-----------------------------------------|
 | 비즈니스팀 기술 이해 부족 | [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 교육, 공통 대시보드 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)      |
 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) 충돌 (속도 vs 안정) | OKR로 공통 우선순위 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)               |
-| 비즈니스 변동성 과다 | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 내 변경 금지 룰 + 분기 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 고정 |
+| 비즈니스 변동성 과다 | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 내 변경 금지 룰 + 분기 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/) 고정 |
 
-📢 **섹션 요약 비유**: BizDevOps 구현의 최대 적은 "각자 다른 성적표" — 팀 전체가 같은 목표([OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/))를 보게 만드는 것이 핵심이다.
+📢 **섹션 요약 비유**: BizDevOps 구현의 최대 적은 "각자 다른 성적표" — 팀 전체가 같은 목표([OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/))를 보게 만드는 것이 핵심이다.
 
 ---
 
@@ -191,7 +191,7 @@ Product-Led Growth + BizDevOps (2020s)
 AI-Driven BizDevOps (현재~)
 ```
 
-**핵심 키워드**: [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/), [가치 흐름 매핑](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/224_vsm_value_stream_mapping/), [Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/), [지속적 피드백](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/022_continuous_feedback_telemetry/), 크로스펑셔널 팀, [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/)
+**핵심 키워드**: [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/), [가치 흐름 매핑](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/224_vsm_value_stream_mapping/), [Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/), [지속적 피드백](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/022_continuous_feedback_telemetry/), 크로스펑셔널 팀, [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/)
 
 ---
 

@@ -29,7 +29,7 @@ TDD는 레드-그린-리팩터 (Red-Green-[Refactor](/knowledge-base/studynote/0
 - **📢 섹션 요약 비유**: 퍼즐 그림을 먼저 보고 조각을 맞추면 어디가 비었는지 빨리 알 수 있다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-TDD의 핵심 원리는 짧은 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/), 자동화된 회귀 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 그리고 설계 단순화다. 테스트가 통과하지 못하면 구현이 끝난 것이 아니며, 테스트가 과하게 복잡하면 설계가 틀어졌다는 신호로 읽어야 한다. 실무에서는 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) ([Unit Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)), [목 객체](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/399_mock_object/), [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/) ([Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/)), 연속적 통합 ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))과 함께 운영된다.
+TDD의 핵심 원리는 짧은 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/), 자동화된 회귀 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 그리고 설계 단순화다. 테스트가 통과하지 못하면 구현이 끝난 것이 아니며, 테스트가 과하게 복잡하면 설계가 틀어졌다는 신호로 읽어야 한다. 실무에서는 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) ([Unit Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)), [목 객체](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/399_mock_object/), [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/1008_test_double_isolation/) ([Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/850_test_double/)), 연속적 통합 ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/))과 함께 운영된다.
 
 | 단계 | 핵심 활동 | 기술사 답안 포인트 |
 |:---|:---|:---|
@@ -77,7 +77,7 @@ TDD는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalizati
 - **📢 섹션 요약 비유**: 연필로 먼저 스케치를 그려 두면 지우고 고치기가 쉬워 큰 그림을 망치지 않는다.
 
 ## Ⅴ. 기대효과 및 결론
-TDD를 정착시키면 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견 시점이 앞당겨지고, 설계가 작은 책임 단위로 정리되며, 변경 시 회귀 위험이 낮아진다. 결과적으로 코드 품질뿐 아니라 개발팀의 의사결정 속도와 자신감도 높아진다. 특히 조직 차원에서는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 기반 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 문화와 결합될 때 효과가 극대화된다.
+TDD를 정착시키면 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견 시점이 앞당겨지고, 설계가 작은 책임 단위로 정리되며, 변경 시 회귀 위험이 낮아진다. 결과적으로 코드 품질뿐 아니라 개발팀의 의사결정 속도와 자신감도 높아진다. 특히 조직 차원에서는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 기반 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 문화와 결합될 때 효과가 극대화된다.
 
 결론적으로 기술사 답안의 핵심은 “TDD가 코드를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다”가 아니라 “TDD가 설계를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능하게 만든다”는 문장에 있다. 테스트 작성 비용과 유지 비용도 인정하되, 장기 총비용 절감 효과를 균형 있게 제시하는 것이 바람직하다.
 - **📢 섹션 요약 비유**: 건물 모형을 먼저 검토하고 본공사에 들어가면 큰 실수를 훨씬 줄일 수 있다.
@@ -86,12 +86,12 @@ TDD를 정착시키면 [결함](/knowledge-base/studynote/04_software_engineerin
 - [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) -> 실패 테스트 -> 요구사항 명세화
 - 실패 테스트 -> 최소 구현 -> 과잉 설계 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)
 - 테스트 자동화 -> 회귀 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) -> [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 안전망
-- [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 파이프라인 -> 빠른 피드백 -> 품질 문화 정착
+- [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 파이프라인 -> 빠른 피드백 -> 품질 문화 정착
 
 ### 📈 관련 키워드 및 발전 흐름도
-수동 테스트 -> [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 자동화 -> [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) -> [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 연계 -> 테스트 피라미드 최적화 -> [지속적 전달](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/020_continuous_delivery/) 기반 품질관리
+수동 테스트 -> [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 자동화 -> [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) -> [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 연계 -> 테스트 피라미드 최적화 -> [지속적 전달](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/020_continuous_delivery/) 기반 품질관리
 
-- 핵심 키워드: Red-Green-[Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/), [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/), [목 객체](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/399_mock_object/), [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/), 설계 단순화
+- 핵심 키워드: Red-Green-[Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/), [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/), [목 객체](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/399_mock_object/), [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/1008_test_double_isolation/), 설계 단순화
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 레고를 만들기 전에 설명서 그림 한 칸을 먼저 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 게 TDD예요.

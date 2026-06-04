@@ -108,7 +108,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅴ. 기대효과 및 결론
 
 [클린 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/)를 완벽하게 구축하면 얻는 가장 위대한 보상은 <strong>"독립적인 테스트(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/285_testability_tactics/">Testability</a>)"</strong>다.
-웹 서버(Tomcat)를 띄울 필요도 없고, DB(MySQL)를 켤 필요도 없다. 외부 인터페이스에 가짜([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/)) 객체만 주입하면, 수만 줄의 핵심 비즈니스 로직을 0.1초 만에 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)([Unit Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/))로 완벽히 검증할 수 있다.
+웹 서버(Tomcat)를 띄울 필요도 없고, DB(MySQL)를 켤 필요도 없다. 외부 인터페이스에 가짜([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/)) 객체만 주입하면, 수만 줄의 핵심 비즈니스 로직을 0.1초 만에 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)([Unit Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/))로 완벽히 검증할 수 있다.
 
 결론적으로 기술 리더에게 [클린 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/)는 '선택'이 아니라 <strong>'소프트웨어 부패(Software Rot)에 맞서는 백신'</strong>이다. 유행하는 웹 프레임워크나 최신 DB 기술은 5년마다 바뀌지만, 회사의 돈을 벌어다 주는 '비즈니스 룰'은 10년이 가도 변하지 않는다. 변하는 것들로부터 변하지 않는 것을 철저히 격리해 내는 칼잡이가 되어야 한다.
 

@@ -39,7 +39,7 @@ tags = ["studynote-network"]
 
 ### 1. 완벽한 이동성 (Mobility) 지원
 - NB-IoT는 셀 기지국을 넘어갈 때 통신을 부드럽게 이어주는 '[핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)([Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/))' 기능이 없어서 고정된 센서에만 쓸 수 있습니다.
-- <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a>-M은 100% <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a>를 지원</strong>합니다. 시속 수십 km로 달리는 자동차나 물류 트럭에 부착해도 통신이 끊기지 않아 '차량 관제 시스템(Fleet [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))'이나 어린이/반려견 안심 트래커에 완벽하게 부합합니다.
+- <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a>-M은 100% <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a>를 지원</strong>합니다. 시속 수십 km로 달리는 자동차나 물류 트럭에 부착해도 통신이 끊기지 않아 '차량 관제 시스템(Fleet [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/))'이나 어린이/반려견 안심 트래커에 완벽하게 부합합니다.
 
 ### 2. 음성 통화 ([VoLTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/758_volte_voice_over_lte_sip_qos/)) 지원
 - 1Mbps의 속도를 낼 수 있으므로 데이터를 넘어 사람의 목소리까지 깨끗하게 전송할 수 있습니다.

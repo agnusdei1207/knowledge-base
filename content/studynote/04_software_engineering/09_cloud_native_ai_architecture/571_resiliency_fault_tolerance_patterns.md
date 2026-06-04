@@ -30,7 +30,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **Monolithic (고가용성 환상)**: DB 이중화만 해놓고 "우리 서버는 완벽해!" 자위하던 99.99% 업타임(Uptime) 사상.
   2. **넷플릭스 Hystrix의 구원 (2012)**: 넷플릭스가 AWS 클라우드로 이사가서 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 찢다 다 터져 죽을 뻔했다. "클라우드는 쓰레기장이야! 네트워크는 무조건 끊겨!" 깨달음을 얻고 자바 코드 뱃속에 `Timeout`, `Circuit Breaker` 코드를 덕지덕지 발라내는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)(Hystrix)를 전 세계에 유행시킴.
-  3. <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/">Service Mesh</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">Istio</a>) 무혈입성 (현재)</strong>: "개발자한테 일일이 넷플릭스 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 임포트해서 짜라고 하니까 코드 개더러워지네 ㅋ" 빡친 아키텍트들이 K8s 인프라 바닥([사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))으로 퓨즈 기능을 100% 뽑아 내려서, 개발자 코드 1바이트 훼손 없이 0.01초 만에 네트워크 목줄을 끊어내는 갓-인프라 시대([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/))로 승천함.
+  3. <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/">Service Mesh</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/">Istio</a>) 무혈입성 (현재)</strong>: "개발자한테 일일이 넷플릭스 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 임포트해서 짜라고 하니까 코드 개더러워지네 ㅋ" 빡친 아키텍트들이 K8s 인프라 바닥([사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))으로 퓨즈 기능을 100% 뽑아 내려서, 개발자 코드 1바이트 훼손 없이 0.01초 만에 네트워크 목줄을 끊어내는 갓-인프라 시대([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/))로 승천함.
 
 - **📢 섹션 요약 비유**: 이 사상적 변화는 운전 습관의 진화입니다. 옛날(모놀리스)엔 <strong>"차가 절대 안 고장 나게 튼튼한 벤츠를 사서 1년마다 엔진오일 갈고 정비(고가용성 관리)"</strong>했습니다. 클라우드 시대(탄력성)엔 <strong>"차는 언제든 도로 한가운데서 뻗고 바퀴가 빠진다(<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 인정). 중요한 건 차가 뻗었을 때 1초 만에 뒤에 렉카차(에러 방어)가 와서 빼주고 렌터카(새 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/">파드</a>/<a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/">폴백</a>)를 쏴줘서 10초 만에 다시 엑셀 밟고 출근할 수 있게 만드는 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a>력(<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a>)"</strong>에 올인하는 것입니다. 실패를 막는 게 아니라, 실패를 부드럽게 감싸는 미학입니다.
 
@@ -122,7 +122,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 탄력성 (Resiliency) 및 [결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/) ([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/)) 패턴은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -176,7 +176,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 734 / 973
 
-<- **이전**: [571. 탄력성 (Resiliency) 및 결함 허용 (Fault Tolerance) 패턴](/knowledge-base/studynote/04_software_engineering/11_testing_validation/571_resiliency_and_fault_tolerance_patterns/)
-**다음**: [572. 서킷 브레이커 (Circuit Breaker) - 상태(Closed, Open, Half-Open) 기반 장애 확산 차단 (Resilience4j)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/572_circuit_breaker/) ->
+<- **이전**: [571. 탄력성 (Resiliency) 및 결함 허용 (Fault Tolerance) 패턴](/knowledge-base/studynote/04_software_engineering/11_testing_validation/963_resiliency_and_fault_tolerance_patterns/)
+**다음**: [572. 서킷 브레이커 (Circuit Breaker) - 상태(Closed, Open, Half-Open) 기반 장애 확산 차단 (Resilience4j)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/964_circuit_breaker/) ->
 
 ---

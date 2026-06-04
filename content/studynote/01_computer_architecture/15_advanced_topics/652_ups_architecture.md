@@ -51,7 +51,7 @@ UPS의 핵심 구조는 정류기, 직류 [버스](/knowledge-base/studynote/01_
 | :--- | :--- | :--- |
 | 정류기 ([Rectifier](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/012_rectifier/)) | 교류를 직류로 변환하고 배터리를 충전 | 입력 고조파와 역률 관리 |
 | 직류 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (DC [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) | 인버터와 배터리가 만나는 공통 에너지 경로 | [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 안정성과 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 운전 |
-| 배터리 / 배터리 관리 시스템 (Battery [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System, BMS) | 정전 시 저장 에너지 제공 | 온도, 열폭주, 열화 추적 |
+| 배터리 / 배터리 관리 시스템 (Battery [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System, BMS) | 정전 시 저장 에너지 제공 | 온도, 열폭주, 열화 추적 |
 | 인버터 (Inverter) | 직류를 안정된 교류로 재생성 | 출력 파형 품질과 과부하 내성 |
 | 정적 바이패스 (Static Bypass) | UPS 고장이나 정비 시 우회 공급 | 절체 조건과 선택 협조 |
 
@@ -120,7 +120,7 @@ UPS를 적절히 설계하면 전력 이상이 곧 [서비스](/knowledge-base/s
 | 정류기 ([Rectifier](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/012_rectifier/)) | 입력 전력을 직류로 바꿔 UPS 내부 에너지 경로를 만든다. |
 | 인버터 (Inverter) | 저장된 직류를 서버가 쓸 수 있는 안정된 교류로 재생한다. |
 | 정적 바이패스 (Static Bypass) | UPS 고장 또는 정비 중에도 부하를 우회 공급하게 해 준다. |
-| 배터리 관리 시스템 (Battery [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System, BMS) | 배터리 상태, 온도, 수명, 안전을 감시한다. |
+| 배터리 관리 시스템 (Battery [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System, BMS) | 배터리 상태, 온도, 수명, 안전을 감시한다. |
 | 전력 분배 장치 ([Power Distribution Unit](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/651_server_rack_pdu/), PDU) | UPS 출력 전력을 랙 단위로 분배하는 하위 계층이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도

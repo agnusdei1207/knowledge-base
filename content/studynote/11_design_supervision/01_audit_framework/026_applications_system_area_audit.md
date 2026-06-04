@@ -12,7 +12,7 @@ tags = ["studynote-design-supervision"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 응용 시스템 영역 감리는 정보시스템 감리에서 업무 처리를 위한 응용 소프트웨어(Application Software)의 개발·운영 품질을 검토하는 영역으로, 요구사항 충족도·기능 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)·인터페이스 표준 준수·[사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/)·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 종합 평가한다.
 > 2. **가치**: 응용 시스템 감리는 "시스템이 실제로 사용자 요구사항을 올바르게 구현했는가?"를 객관적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 핵심 품질 보증 활동이다. 감리 없이 납품된 시스템은 기능 누락·오류가 검수 후에 발견되어 막대한 재작업 비용이 발생한다.
-> 3. **판단 포인트**: 응용 시스템 감리의 핵심 점검 항목은 ①요구사항 추적 가능성([RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)), ②입출력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/), ③인터페이스 오류 처리, ④[배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 정합성, ⑤[보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/503_security_features_design/)(접근통제, 암호화)의 5가지다. 감리보고서에서 이 5가지 중 미흡 항목이 발견되면 조치 요구사항(Action Item)으로 기록된다.
+> 3. **판단 포인트**: 응용 시스템 감리의 핵심 점검 항목은 ①요구사항 추적 가능성([RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)), ②입출력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/), ③인터페이스 오류 처리, ④[배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 정합성, ⑤[보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/895_security_features_design/)(접근통제, 암호화)의 5가지다. 감리보고서에서 이 5가지 중 미흡 항목이 발견되면 조치 요구사항(Action Item)으로 기록된다.
 
 ---
 
@@ -75,7 +75,7 @@ tags = ["studynote-design-supervision"]
 |:---|:---|
 | **착수 감리** | [요구사항 명세](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/) 완전성, 인터페이스 설계 검토 |
 | **중간 감리** | 구현 진도 대비 품질, 주요 기능 동작 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
-| **준공 감리** | [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 완전성, [성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/) 결과, 운영 이관 준비 |
+| **준공 감리** | [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 완전성, [성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/837_performance_test_types/) 결과, 운영 이관 준비 |
 
 - **📢 섹션 요약 비유**: 감리 3단계는 건물 건축의 설계 심의(착수) -> 철근 검사(중간) -> 준공 검사(준공)이다. 단계마다 다른 시각으로 품질을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 
@@ -153,6 +153,6 @@ tags = ["studynote-design-supervision"]
 **진행 상황**: 28 / 530
 
 <- **이전**: [25. 작업 추적 매트릭스 (Task Traceability Matrix) — 요구사항 추적 가능성 보장](/knowledge-base/studynote/11_design_supervision/01_audit_framework/025_task_traceability_matrix/)
-**다음**: [026. 베이스라인 검증 (Baseline Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/026_baseline_verification/) ->
+**다음**: [026. 베이스라인 검증 (Baseline Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/603_baseline_verification/) ->
 
 ---

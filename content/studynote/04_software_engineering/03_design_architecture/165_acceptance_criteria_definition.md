@@ -13,7 +13,7 @@ tags = ["studynote-software-engineering"]
 
 > 1. **본질**: 인수 기준 (Acceptance Criteria)은 기능이나 [사용자 스토리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/) ([User Story](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/))가 "완료되었다"고 인정받기 위해 반드시 충족해야 하는 관찰 가능하고 측정 가능한 조건이다.
 > 2. **가치**: 인수 기준이 있어야 기획 의도, 개발 구현, 품질 보증 (Quality Assurance, QA) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 같은 합격선으로 묶여, "다 만들었는데 기대와 다르다"는 분쟁을 줄일 수 있다.
-> 3. **판단 포인트**: 좋은 인수 기준은 요구사항 요약이 아니라 테스트 가능한 경계 조건이며, 완료의 정의 (Definition of Done, DoD)나 상세 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)와 혼동하지 않는 것이 핵심이다.
+> 3. **판단 포인트**: 좋은 인수 기준은 요구사항 요약이 아니라 테스트 가능한 경계 조건이며, 완료의 정의 (Definition of Done, DoD)나 상세 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/)와 혼동하지 않는 것이 핵심이다.
 
 ---
 
@@ -76,9 +76,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-인수 기준은 요구사항, DoD, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)와 닮았지만 역할이 다르다. 요구사항은 기능의 목적과 범위를 설명하고, 인수 기준은 그 기능을 수용할 조건을 정하며, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)는 이를 실제 입력값과 절차로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. DoD는 특정 기능이 아니라 팀 전체의 공통 완료 기준이라는 점에서 더 상위 개념이다.
+인수 기준은 요구사항, DoD, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/)와 닮았지만 역할이 다르다. 요구사항은 기능의 목적과 범위를 설명하고, 인수 기준은 그 기능을 수용할 조건을 정하며, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/)는 이를 실제 입력값과 절차로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. DoD는 특정 기능이 아니라 팀 전체의 공통 완료 기준이라는 점에서 더 상위 개념이다.
 
-| 구분 | 요구사항 | 인수 기준 | [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) | DoD |
+| 구분 | 요구사항 | 인수 기준 | [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) | DoD |
 | :-- | :-- | :-- | :-- | :-- |
 | 질문 | 무엇이 필요한가? | 언제 합격인가? | 어떻게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할까? | 팀 차원에서 무엇이 끝인가? |
 | 범위 | 기능/업무 관점 | 개별 기능의 수용 조건 | 실행 절차와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 모든 작업 공통 품질 기준 |
@@ -88,7 +88,7 @@ tags = ["studynote-software-engineering"]
 
 또한 인수 기준은 [유스케이스 시나리오](/knowledge-base/studynote/04_software_engineering/03_design_architecture/164_use_case_scenario_flows/), [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) 시나리오, 회귀 테스트와 자연스럽게 연결된다. 시나리오 문서에서 기본/예외 흐름을 정리한 뒤, 각 갈림길을 인수 기준으로 고정하면 이후 자동화 테스트 자산으로 재사용하기 좋다.
 
-- **📢 섹션 요약 비유**: 요구사항이 집을 왜 지을지 정한 설계 의도라면, 인수 기준은 준공 검사 항목이고, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)는 실제 줄자를 들고 치수를 재는 절차다. 셋은 이어지지만 같은 문서는 아니다.
+- **📢 섹션 요약 비유**: 요구사항이 집을 왜 지을지 정한 설계 의도라면, 인수 기준은 준공 검사 항목이고, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/)는 실제 줄자를 들고 치수를 재는 절차다. 셋은 이어지지만 같은 문서는 아니다.
 
 ---
 
@@ -131,7 +131,7 @@ tags = ["studynote-software-engineering"]
 | [사용자 스토리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/) ([User Story](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/)) | 인수 기준이 구체화하는 상위 요구 표현 |
 | 완료의 정의 (Definition of Done, DoD) | 팀 공통 품질 기준으로, 인수 기준과 범위가 다름 |
 | [행위 주도 개발](/knowledge-base/studynote/11_design_supervision/06_exam_summary/412_process/) ([BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/)) | 인수 기준을 `Given-When-Then`으로 실행형 시나리오화 |
-| [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) ([Test Case](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)) | 인수 기준을 실제 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 절차로 전환 |
+| [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) ([Test Case](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/)) | 인수 기준을 실제 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 절차로 전환 |
 | 품질 보증 (QA) | 인수 기준을 기반으로 승인 또는 반려 판단 |
 
 ### 📈 관련 키워드 및 발전 흐름도

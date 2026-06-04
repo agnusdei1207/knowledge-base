@@ -141,7 +141,7 @@ LOD / 데이터 생태계
 
 **진행 상황**: 91 / 530
 
-<- **이전**: [59. 보안 장비 정책 룰셋 최적화 상태 점검 (Security Device Ruleset Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/059_security_device_ruleset_audit/)
+<- **이전**: [59. 보안 장비 정책 룰셋 최적화 상태 점검 (Security Device Ruleset Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/631_security_device_ruleset_audit/)
 **다음**: [61. 재해 복구 (DR) 모의 훈련 참관 - RTO/RPO 달성 점검](/knowledge-base/studynote/11_design_supervision/01_audit_framework/061_dr_mock_drill_rto_rpo_audit/) ->
 
 ---

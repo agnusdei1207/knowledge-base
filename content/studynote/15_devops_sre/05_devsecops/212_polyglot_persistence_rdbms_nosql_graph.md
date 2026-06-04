@@ -116,7 +116,7 @@ Reference Architecture
 |:---|:---|
 | RDBMS | [폴리글랏 퍼시스턴스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/)를 이해할 때 직접 연결되는 기반 개념 |
 | [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) | [폴리글랏 퍼시스턴스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/)의 설계·운영 판단 기준을 보완하는 개념 |
-| [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) | [폴리글랏 퍼시스턴스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/)를 자동화·확장 측면에서 연결하는 개념 |
+| [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) | [폴리글랏 퍼시스턴스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/)를 자동화·확장 측면에서 연결하는 개념 |
 | 단일 서버/단일 애플리케이션 중심 운영 | [폴리글랏 퍼시스턴스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/) 적용 후 후속 발전 방향을 설명하는 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도

@@ -45,7 +45,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-우선순위 스케줄링의 핵심은 <strong>우선순위 부여 -> 최고 우선순위 탐색 -> CPU 배정 -> 필요 시 선점</strong>의 반복이다. 우선순위는 정적으로 부여될 수도 있고, 대기 시간이나 I/O (Input/Output) 특성에 따라 동적으로 바뀔 수도 있다. 실제 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 값을 PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block)나 스케줄링 엔티티에 기록해 둔다.
+우선순위 스케줄링의 핵심은 <strong>우선순위 부여 -> 최고 우선순위 탐색 -> CPU 배정 -> 필요 시 선점</strong>의 반복이다. 우선순위는 정적으로 부여될 수도 있고, 대기 시간이나 I/O (Input/Output) 특성에 따라 동적으로 바뀔 수도 있다. 실제 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 값을 PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Control Block)나 스케줄링 엔티티에 기록해 둔다.
 
 | 요소 | 역할 | 판단 포인트 |
 | :--- | :--- | :--- |

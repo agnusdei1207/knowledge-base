@@ -11,160 +11,151 @@ tags = ["studynote-it-management"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 요구사항 관리 추적 변경 제어은(는) 보안 컴플라이언스 및 IT 경영 관리 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 요구사항 관리(Requirements Management)는 IEEE 29148, BABOK v3, CMMI-DEV v2.0 기반으로 요구사항의 식별(Elicitation)->명세(Specification)->검증(Validation)->추적(Traceability)->변경통제(Change Control) 전生命周期(Lifecycle)을 통제하는 엔지니어링 Discipline이며, 추적성(Traceability)은 Pre-Trace(역추적: 요구사항↔원천), Forward-Trace(순추적: 요구사항↔설계↔코드↔테스트), Backward-Trace(역추적: 산출물↔요구사항)의 3축 매트릭스(RTM: Requirements Traceability Matrix)로 구현된다.
+> 2. **가치**: 통계적으로 결함의 56%는 요구사항 단계에서 유발되며(Standish Group CHAOS Report 2020), RTM 자동화 시 회귀 테스트 케이스 도출 시간이 평균 73% 단축, 변경 영향 분석(Impact Analysis) 소요시간이 40~60% 감소하며, 감리인증(ISMS-P, SW감리) 시 추적성 부재는 1차 부적격 판정 사유 1위(약 38% 차지, NIPA 통계).
+> 3. **판단 포인트**: 추적성 링크의 세분화 수준(Granularity: 단일 End-to-End vs. Fine-grained Object-level), 도구 종속성(Jama, DOORS NG, Polarion ALM, Azure DevOps, JIRA+Zephyr Scale 등 도입 시 Lock-in vs. ReqIF 기반 상호운용성), 형상관리 연동 방식(SVN/Git Tag ↔ 요구사항 Baseline), 그리고 CCB(Change Control Board) 운영 주기(반복주기 vs. Continuous Baselines) 간의 Trade-off가 핵심 의사결정 사안이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-요구사항 관리 추적 변경 제어은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+소프트웨어 개발 프로젝트에서 발생하는 재작업(Rework)의 약 50~80%는 요구사항의 모호성, 누락, 불일치에서 기인한다. IEEE 830-1998을 계승한 **ISO/IEC/IEEE 29148:2018** 표준은 요구사항 공학(Requirements Engineering)을 *Stakeholder Needs Definition Process*와 *System/Software Requirements Analysis Process*로 분리하여 정의하며, 각 단계에서 **추적성(Traceability)** 을 통해 요구사항의 출처(Source)와 도출 경로(Derivation)를 식별 가능한 형태로 유지하도록 명시한다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Requirements Management Traceability 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+특히 한국 정보시스템 감리(행정안전부 고시 제2023-5호)와 SW 품질인증(KOLAS), ISMS-P 인증 심사에서는 **RTM(요구사항 추적 매트릭스) 미수립 시 1차 부적격 처리**가 관행화되어 있으며, 발주처의 변경 요구사항을 체계적으로 통제하지 못해 발생한 계약 분쟁(예: 2022년 공공기관 SW사업 변경관리 분쟁 사례 약 142건, 국가계약법 분쟁조정위원회 통계)이 매년 증가 추세에 있어 변경 통제 프로세스의 형상관리적 접근이 필수적이다.
 
 ```text
-+--------------------------------------------------------------+
-|                    요구사항 관리 추적 변경 제어 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
++--------------------------------------------------------------------+
+|        요구사항 관리·추적·변경 통제 체계 (V-Model 기반)            |
++--------------------------------------------------------------------+
+
+  발주처(Stakeholder)        사업수행조직(System Integrator)
+  ----------------            --------------------------
+        |                              |
+        | ① 요구사항 도출(Elicitation)  |
+        |<------------------------------->| Interviews, Workshops
+        |                              | Questionnaires, Prototypes
+        |                              v
+        |                    +------------------+
+        |                    | BRS / URS / SRS  | <- IEEE 29148 / IEEE 830
+        |                    | (Baseline v1.0)  |
+        |                    +--------+---------+
+        |                             |
+        |                             v
+        |                    +------------------+
+        |   ② 검토/승인       |  CCB(Change Ctrl)| <- 형상관리위원회 운영
+        |<---------------------|  Baseline 고정   |
+        |   (Sign-off)        +--------+---------+
+        |                             |
+        |   ③ 변경 요청(CR/ECR)       | RFC #001~#N
+        |------------------------------>|
+        |                             v
+        |                    +------------------+
+        |                    | Impact Analysis  | <- RTM 기반 전/후방 추적
+        |                    |  - 비용/일정/품질 |
+        |                    |  - 위험평가       |
+        |                    +--------+---------+
+        |                             |
+        |                             v
+        |                    +------------------+
+        |   ④ 변경 승인/반려 |  새 Baseline v1.1| <- SVN/Git Tag 연동
+        |<---------------------|  결재/통보        |
+        |                    +--------+---------+
+        |                             |
+        |                             v
+        |                    +------------------+
+        |                    |   추적성 검증     | <- Audit Trail
+        |                    | (Traceability    |   DOORS/Jama Export
+        |                    |   Verification)  |
+        |                    +------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+과거 폭포수(Waterfall) 모델에서는 요구사항 명세서(SRS)가 승인되면 변경을 최소화하는 '동결(Freeze)' 방식을 취했으나, 애자일(Agile)·DevOps 환경에서는 **Living Requirements Document** 개념이 도입되어, 요구사항이 코드·테스트와 함께 Continuously Evolve 된다. 이에 따라 **도구 기반 자동 추적성(Automated Traceability)** 이 필수적으로 요구되며, ReqIF(Requirements Interchange Format) 1.2 표준을 통한 도구 간 호환성 확보가 글로벌 추세다.
 
-- **📢 섹션 요약 비유**: 요구사항 관리 추적 변경 제어은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 요구사항 관리는 마치 **건축물의 설계 변경 대장(Change Log)** 과 같다. 건물을 짓기 시작하면 벽을 허물기 어렵듯, 코드가 작성된 후 요구사항을 바꾸는 비용은 요구사항 단계의 20~200배(IBM Systems Sciences Institute, Barry Boehm 곡선)에 달하므로, 변경 대장과 설계 도면을 정확히 연결(추적성)해 두지 않으면 리모델링 시 어떤 벽이 구조벽인지 알 수 없어 무너진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-요구사항 관리 추적 변경 제어의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+요구사항 관리 시스템의 핵심은 **RDBMS(Relational DB) 기반의 이력 관리 + 도메인 특화 워크플로우 엔진 + 외부 형상관리/CI/CD 연동** 의 3-Layer 구조다. 국제 표준인 **ISO/IEC/IEEE 29148:2018** 은 요구사항의 속성(Attribute) 최소 14종(Identifier, Version, Source, Rationale, Owner, Priority, Status, Stability, Verification Method, Allocation, Type, Risk, Cost, Target Release)을 정의하며, 이 중 변경 통제와 직접 관련된 핵심 속성은 *Version, Status, Stability, Rationale, Owner* 다.
 
 ```text
-+--------------------------------------------------------------+
-|              Requirements Management Traceability 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
++------------------------------------------------------------------+
+|   요구사항 추적성 매트릭스 (RTM) - 3축 링크 구조                |
++------------------------------------------------------------------+
+
+  Layer ① 원천추적 (Pre-Traceability: Why-Trace)
+  +----------------------------------------------------------+
+  | Stakeholder Need ---> Business Requirement --+            |
+  |   (관심사/Needs)     (BRS의 Req. ID)        |            |
+  +---------------------------------------------+------------+
+                                                |
+  Layer ② 시스템·소프트웨어 추적                 v
+  +----------------------------------------------------------+
+  | System Req. (SyRS) ---> S/W Req. (SRS) ---> S/W Design  |
+  |   Sys-FN-001            SW-FN-001            SW-DS-014  |
+  |   Sys-NF-005 (성능)     SW-NF-005            SW-DS-015  |
+  +----------------------------------------------------------+
+                                                |
+  Layer ③ 후방추적 (Forward/Backward-Trace: What-Trace)        |
+                                                v
+  +----------------------------------------------------------+
+  | Implementation ---> Unit Test ---> Integration ---> UAT    |
+  |   Module.java         UT-014         IT-007        TC-203|
+  |   commit: a1b2c3d                                     (User |
+  |   branch: feature/REQ-123                            Acceptance)|
+  +----------------------------------------------------------+
+
+  ※ 누락된 링크(=Orphan)는 Coverage Gap으로 자동 식별되며
+     Impact Analysis 시 양방향 그래프 순회(Traversal)로 활용
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **요구사항 저장소 (Doors/Database)** | 요구사항·속성·이력의 단일 진실 공급원(SSOT: Single Source of Truth) | Polarion, Jama Connect, IBM DOORS NG, Siemens Teamcenter, Azure DevOps Work Items, ReqIF 1.2 / RIF 표준; RDBMS(PostgreSQL/Oracle) + Revision Tag(SVN)/Commit Hash(Git) 매핑 |
+| **추적성 엔진 (Traceability Engine)** | 요구사항↔설계↔코드↔테스트 간 링크의 생성·검증·탐색 | Link Type(Satisfies, Verifies, Refines, DerivesFrom, Conflicts) 기반 그래프 DB(Neo4j, ArangoDB) 또는 내장 관계 테이블; 순방향·역방향 자동화(IR-Tools, NLP 기반 Traceability Recovery: AnJuSeA, Taras) |
+| **변경 통제 워크플로우 (CCB Process)** | ECR(Engineering Change Request) 접수->검토->승인->Baseline 업데이트 | ITIL v4 Change Management, IEEE 1028-2008 Review 표준, GitOps PR(Pull Request) + Code Owner 정책 연동; 4-Eyes Principle(검토자≠승인자) |
+| **기반선 관리자 (Baseline & Configuration Manager)** | 승인된 요구사항 집합의 버전 고정과 배포 통제 | SVN Tagging, Git Branching(GitFlow/Trunk-Based), Semantic Versioning(SemVer), Artifactory/Nexus Binary Repository 연동; Baselines: α(내부)->β(고객)->GA(General Availability) |
+| **영향 분석 도구 (Impact Analyzer)** | 변경 요구사항의 도메인 전파 효과(파급경로) 시각화 | 의존성 그래프(Dependency Graph) 알고리즘: BFS/DFS, PageRank, Betweenness Centrality; 비용·일정·리스크 산정(EVM: Earned Value Management) |
+| **감사 추적기 (Audit Trail Logger)** | 누가, 언제, 무엇을, 왜 변경했는지 21 CFR Part 11 / ISO 9001 준수 기록 | Immutable Append-only Log(블록체인 옵션), WORM(Write Once Read Many) 스토리지, E-Signature 통합 |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+핵심 메커니즘은 **추적성 링크의 무결성(Link Integrity)** 이다. IEEE 29148:2018 §6.4.4에서는 "추적성은 요구사항의 출처, 정당성(Rationale), 도출 경로, 구현, 검증 방법을 식별할 수 있어야 한다"고 명시하며, 이를 위해 다음 4가지 핵심 매개변수를 관리한다:
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+1. **Link Cardinality**: 1:1, 1:N, M:N 매핑. 일반적으로 다대다(M:N)를 허용하되, Orphan/Cyclic Link는 무결성 규칙(Integrity Rule)으로 차단.
+2. **Granularity Level**: Requirement-to-Requirement(Coarse-grained, 빠르지만 부정확) ↔ Object-to-Object(Fine-grained, 정확하지만 비용^). 안전필수(Safety-Critical: DO-178C Level A) 시스템은 Fine-grained, 일반 행정시스템은 Coarse-grained.
+3. **Coverage Metric**: % Coverage = (Linked Artifacts / Total Artifacts) × 100. SW감리 합격 기준 통상 ≥95% (Forward), ≥90% (Backward).
+4. **Suspicion Index**: NLP(자연어처리) 기반 Trace Recovery 시 후보 링크의 신뢰도(0~1). 임계값 0.75 이상만 자동 채택, 이하는 수동 검토 큐로 라우팅.
+
+**변경 통제의 수학적 모델**:
+변경 요청 CR_i의 우선순위는 다속성 의사결정(MADM: Multi-Attribute Decision Making) 기법인 AHP(Analytic Hierarchy Process)로 산정한다:
+
+$$P(CR_i) = w_1 \cdot Impact_i + w_2 \cdot Urgency_i + w_3 \cdot Cost_i^{-1} + w_4 \cdot Risk_i$$
+
+여기서 ∑w_k = 1, w_k는 CCB에서 합의된 가중치. ISO/IEC 14764(S/W 유지보수) §6.4.2의 Change Priority 산정 모델과 동일.
+
+- **📢 섹션 요약 비유**: 추적성 매트릭스(RTM)는 마치 **도서관의 교차 색인 시스템** 과 같다. 책(요구사항)을 저자별, 주제별, 출판연도별로 여러 번 분류해 두면, 한 권이 훼손됐을 때 "이 책에 의존한 다른 책들은 무엇인가?"를 즉시 찾을 수 있다. 만약 색인이 없으면 사서(개발자)가 모든 서가를 뒤져야 하듯, 변경 시 영향을 받는 코드를 찾기 위해 전체 코드베이스를 스캔해야 한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-요구사항 관리 추적 변경 제어을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+| 구분 | 수동 추적성 (Manual RTM, Excel/Word) | 도구 기반 자동 추적성 (DOORS/Jama/Polarion) | 애자일/리빙 문서 (User Story Map + JIRA) |
+| :--- | :--- | :--- | :--- |
+| **데이터 일관성** | 낮음 (중복 입력, 버전 충돌 빈번) | 높음 (SSOT, ACID 트랜잭션 보장) | 중간 (도구 간 동기화 필요) |
+| **변경 영향 분석 시간** | 평균 16~24시간 (수작업 링크 갱신) | 평균 1~3시간 (그래프 자동 순회) | 30분~1시간 (Epic->Story->Task->Test 자동) |
+| **감리/인증 대응** | 매우 어려움 (증적 부족) | 우수 (Audit Trail, 전자서명 내장) | 보통 (스크린샷·수동 Export 필요) |
+| **초기 도입 비용** | 낮음 (Office 라이선스만) | 높음 (Seat License, 구축비, 교육) | 중간 (도구 종속) |
+| **확장성(Scalability)** | 100개 Req 이하 소규모 한정 | 10,000개 Req 이상 대규모 가능 | Sprint 단위 (250~500 Story 적정) |
+| **표준 준수** | IEEE 830/29148 부분 준수 | IEEE 29148, ISO 26262, DO-178C, IEC 62304 완전 준수 | BDD/TDD 결합 시 부분 준수 |
+| **Lock-in 위험** | 없음 (파일 기반) | 높음 (벤더 종속, ReqIF로 부분 해소) | 중간 (Atlassian 생태계 종속) |
+| **적합한 환경** | 1회성 소규모 SI, 프로토타입 | 국방/항공/의료/금융/원자력(안전필수) | SaaS, 모바일 앱, 스타트업 |
 
-| 구분 | 전통적 접근 | 요구사항 관리 추적 변경 제어 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+**연계 시스템과의 통합 포인트**:
 
-관련 기술 영역과의 연결점도 중요하다. 요구사항 관리 추적 변경 제어은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 요구사항 관리 추적 변경 제어은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 요구사항 관리 추적 변경 제어을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-요구사항 관리 추적 변경 제어을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 요구사항 관리 추적 변경 제어 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 요구사항 관리 추적 변경 제어은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 요구사항 관리 추적 변경 제어의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 요구사항 관리 추적 변경 제어의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-요구사항 관리 추적 변경 제어 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 요구사항 관리 추적 변경 제어은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+- **형상관리(Git/SVN)**: `git commit -m "[REQ-123] 결제모듈 timeout 처리"`처럼 Commit Message에 Req ID를 강제 매핑. GitLab/GitHub Webhook으로 Polarion/Jama에 자동 링크 생성. 정책: Commitizen + Commitlint + Husky로 pre-commit hook 강제화.
+- **CI/CD 파이프라인(Jenkins/GitHub Actions)**: PR(Pull Request) 생성 시 해당 PR의 Commit Message에서 Req ID를 파싱(Regex: `\[REQ-\d+\]`) -> RTM 자동 업데이트 -> Coverage < 95% 시 PR Block 정책 적용.
+- **테스트 관리(Zephyr Scale, TestRail, qTest)**: Test Case의 *Trace* 필드에 Req ID 매핑 -> 자동 회귀 테스트 세트 도출 -> JUnit/XML Report를 Req Coverage Dashboard에 피드백.
+- **이슈
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 435 / 800

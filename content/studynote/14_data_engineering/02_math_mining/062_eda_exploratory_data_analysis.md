@@ -11,7 +11,7 @@ tags = ["studynote-data-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 탐색적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/), [Exploratory Data Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/))은 모델을 바로 돌리기 전에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 분포, 결측, [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/), 관계를 먼저 훑어보는 발견 단계다.
+> 1. **본질**: 탐색적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/), [Exploratory Data Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/))은 모델을 바로 돌리기 전에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 분포, 결측, [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/), 관계를 먼저 훑어보는 발견 단계다.
 > 2. **가치**: EDA를 하면 잘못된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 편향된 샘플, 숨은 이상 패턴을 초기에 잡아내어 "쓰레기 입력, 쓰레기 출력"을 막을 수 있다.
 > 3. **판단**: 단변량·이변량·다변량 분석과 시각화를 함께 써야 하며, EDA는 가설을 증명하기보다 가설을 만드는 데 초점을 둔다.
 

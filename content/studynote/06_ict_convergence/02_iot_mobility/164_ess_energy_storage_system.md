@@ -46,7 +46,7 @@ ESS가 중요해진 배경에는 재생에너지 확대와 부하 변동성 증�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-배터리형 ESS는 보통 셀 (Cell) -> [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) ([Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) -> 랙 (Rack) -> [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 단위로 확장되며, 그 위에 전력변환장치 ([PCS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/191_thread_scheduling_pcs_scs/), [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Conversion System), 배터리 관리 시스템 (BMS, Battery [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System), 에너지 관리 시스템 (EMS, Energy [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)이 결합된다. BMS는 셀 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)·온도·전류를 감시하고, PCS는 교류/직류를 변환하며, EMS는 언제 충전·방전할지 상위 전략을 결정한다. 이 세 층이 맞물려야 ESS가 단순 저장소가 아니라 운영 가능한 전력 자산이 된다.
+배터리형 ESS는 보통 셀 (Cell) -> [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) ([Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) -> 랙 (Rack) -> [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 단위로 확장되며, 그 위에 전력변환장치 ([PCS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/191_thread_scheduling_pcs_scs/), [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Conversion System), 배터리 관리 시스템 (BMS, Battery [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System), 에너지 관리 시스템 (EMS, Energy [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System)이 결합된다. BMS는 셀 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)·온도·전류를 감시하고, PCS는 교류/직류를 변환하며, EMS는 언제 충전·방전할지 상위 전략을 결정한다. 이 세 층이 맞물려야 ESS가 단순 저장소가 아니라 운영 가능한 전력 자산이 된다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :-------- | :--- | :---------- |
@@ -137,9 +137,9 @@ ESS를 제대로 보려면 [UPS](/knowledge-base/studynote/01_computer_architect
 
 | 개념 | 연결 포인트 |
 | :--- | :---------- |
-| BMS (Battery [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) | 셀 상태 감시와 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 담당하는 안전 핵심 |
+| BMS (Battery [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System) | 셀 상태 감시와 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 담당하는 안전 핵심 |
 | [PCS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/191_thread_scheduling_pcs_scs/) ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Conversion System) | 교류/직류 변환과 계통 연계를 담당 |
-| EMS (Energy [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) | 충방전 전략과 경제성 최적화를 담당 |
+| EMS (Energy [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System) | 충방전 전략과 경제성 최적화를 담당 |
 | FR (Frequency Regulation) | 빠른 출력 조정으로 계통 주파수 안정화 |
 | VPP (Virtual [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Plant) | 여러 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 자원을 묶어 하나의 발전 자원처럼 운용 |
 

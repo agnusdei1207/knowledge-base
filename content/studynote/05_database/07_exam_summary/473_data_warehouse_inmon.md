@@ -11,7 +11,7 @@ tags = ["studynote-database"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/311_inmon/) 전사 통합는 분석·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 관점에서 자주 쓰이는 분석 플랫폼 개념이다.
+> 1. **본질**: [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/953_inmon/) 전사 통합는 분석·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 관점에서 자주 쓰이는 분석 플랫폼 개념이다.
 > 2. **가치**: 의사결정 속도, 이력 분석, 대용량 조회 효율을 높일 수 있다. 특히 `데이터 웨어하우스 Inmon 전사 통합`는 `분석·데이터 플랫폼 맥락에서 역할과 경계를 판단해야 하는 주제`를 설계 판단으로 연결해 준다.
 > 3. **판단 포인트**: 모델을 잘못 잡으면 배치 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 중복 적재, 지표 불일치가 누적된다. 따라서 무엇을 우선 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)할지와 어느 비용을 감수할지를 함께 봐야 한다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-[데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/311_inmon/) 전사 통합는 분석·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 관점에서 자주 쓰이는 분석 플랫폼 개념이다. 이 주제가 필요한 이유는 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 분석 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 같은 방식으로 다루면 집계 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 조회 비용이 커지기 때문이다. 특히 `NewSQL 구글 스패너 글로벌 일관성`에서 드러난 한계를 줄이고 `데이터 마트 부서용 Kimball 상향식` 같은 후속 판단의 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 세울 때 현재 개념이 중심축이 된다.
+[데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/953_inmon/) 전사 통합는 분석·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 관점에서 자주 쓰이는 분석 플랫폼 개념이다. 이 주제가 필요한 이유는 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 분석 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 같은 방식으로 다루면 집계 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 조회 비용이 커지기 때문이다. 특히 `NewSQL 구글 스패너 글로벌 일관성`에서 드러난 한계를 줄이고 `데이터 마트 부서용 Kimball 상향식` 같은 후속 판단의 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 세울 때 현재 개념이 중심축이 된다.
 
 시험과 실무에서 `데이터 웨어하우스 Inmon 전사 통합`를 따로 외우기보다, "무엇을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하거나 최적화하려는가"라는 질문으로 연결해야 오래 남는다. 하루 수십 TB를 적재하는 환경에서는 적재 속도, 변환 위치, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 비용을 함께 최적화해야 한다.
 
@@ -113,7 +113,7 @@ tags = ["studynote-database"]
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | [NewSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/) [구글 스패너](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/291_ods/) 글로벌 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
-| [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) 부서용 [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/) 상향식 | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
+| [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) 부서용 [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/954_kimball/) 상향식 | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
 | [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) ([Data Warehouse](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/)) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
 | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) (Extract, Transform, Load) | 운영·설계 판단을 연결해 주는 주변 개념이다. |
 

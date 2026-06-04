@@ -13,7 +13,7 @@ tags = ["studynote-database"]
 
 > 1. **본질**: [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)맵 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (Bitmap [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))는 컬럼 값마다 행 존재 여부를 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 기록해, 저카디널리티 조건을 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 연산으로 합성하는 분석형 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)다.
 > 2. **가치**: `성별='F' AND 지역='서울' AND 등급='VIP'`처럼 여러 조건을 동시에 거는 질의에서, [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 단위 `AND/OR` 계산으로 후보 행을 빠르게 줄여 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)에 특히 강하다.
-> 3. **판단 포인트**: 읽기 위주 환경에서는 강력하지만, [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) ([Data Manipulation Language](/knowledge-base/studynote/05_database/01_db_architecture_relational/021_dml/))이 잦은 [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) (Online [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing) 테이블에 쓰면 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 갱신 비용과 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 저하 때문에 오히려 병목이 된다.
+> 3. **판단 포인트**: 읽기 위주 환경에서는 강력하지만, [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/) ([Data Manipulation Language](/knowledge-base/studynote/05_database/01_db_architecture_relational/021_dml/))이 잦은 [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) (Online [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing) 테이블에 쓰면 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 갱신 비용과 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 저하 때문에 오히려 병목이 된다.
 
 ---
 
@@ -73,7 +73,7 @@ tags = ["studynote-database"]
 | :--- | :--- | :--- | :--- |
 | 강한 질의 유형 | 범위 검색, 정렬 | 동등 검색 | 다중 조건 분석 검색 |
 | 유리한 카디널리티 | 높음 | 높음 | 낮음 |
-| [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) 적합성 | 높음 | 보통 | 낮음 |
+| [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/) 적합성 | 높음 | 보통 | 낮음 |
 | 대표 환경 | [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) | 키 기반 조회 | [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) ([Online Analytical Processing](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/211_olap_drill_down_roll_up_surrogate_key/)) |
 
 이 차이는 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)링에도 영향을 준다. [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/) ([Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/))의 [팩트 테이블](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/)은 `성별`, `상품군`, `지역`, `캠페인`처럼 반복 값이 많은 차원 키를 자주 필터링하므로 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)맵 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)와 궁합이 좋다. 반대로 주문 처리 시스템처럼 상태가 계속 바뀌는 테이블은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 유지 비용이 커져, [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)맵 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 이점이 상쇄된다.
@@ -94,7 +94,7 @@ tags = ["studynote-database"]
 
 1. 컬럼 카디널리티가 충분히 낮고 반복 값이 많은가?
 2. 질의가 단건 조회보다 다중 조건 집계·분석 중심인가?
-3. 테이블이 배치 적재 위주이고 실시간 [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) 비중이 낮은가?
+3. 테이블이 배치 적재 위주이고 실시간 [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/) 비중이 낮은가?
 4. [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로는 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 한계 때문에 이점이 작았는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)

@@ -12,7 +12,7 @@ tags = ["ict_convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 믹싱(mixing)은 블록체인의 공개 거래 경로를 흐려 입금 주소와 출금 주소의 직접 연결을 끊는 프라이버시 기술이다.
-> 2. **가치**: 개인 정보 보호에는 도움이 될 수 있지만, AML (Anti-Money Laundering)과 KYC (Know Your [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) 규제와 충돌할 수 있다.
+> 2. **가치**: 개인 정보 보호에는 도움이 될 수 있지만, AML (Anti-Money Laundering)과 KYC (Know Your [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/)) 규제와 충돌할 수 있다.
 > 3. **판단 포인트**: 수탁 여부, 증명 방식, 제재 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/), 법적 사용 맥락을 함께 봐야 한다.
 
 ---
@@ -86,7 +86,7 @@ Tornado Cash 계열의 핵심 아이디어는 예치 시 남긴 약속(commitmen
 | Mixer / Tumbler | 주소 연결 약화 |
 | [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) ([Zero-Knowledge Proof](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/)) | 권리 증명과 [정보 은닉](/knowledge-base/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/) |
 | AML (Anti-Money Laundering) | 자금세탁 방지 |
-| KYC (Know Your [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | 사용자 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 규제 |
+| KYC (Know Your [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/)) | 사용자 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 규제 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

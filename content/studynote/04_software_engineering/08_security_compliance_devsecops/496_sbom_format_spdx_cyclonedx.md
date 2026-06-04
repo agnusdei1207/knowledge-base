@@ -28,7 +28,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **라이선스 소송의 피눈물 (과거)**: 초창기엔 해킹 때문이 아니었다. [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)(GPL) 썼다가 소스코드를 강제 공개 당하는 법적 소송(License [Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/))을 피하려고, 변호사들이 "개발자들 무슨 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 쓰는지 엑셀로 다 적어 놔!"라며 손으로 만든 수동 장부였다.
   2. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a>의 폭발과 수동 관리의 한계</strong>: 의존성이 수백 개로 꼬리를 물고 다운받아지는(NPM, Maven) 시대가 오자, 인간의 엑셀 타이핑으로는 절대 추적(Transitive Dependency)이 불가능해졌다.
-  3. **표준 규격의 탄생과 자동화 (현재)**: "기계가 뽑고 기계가 읽게 포맷을 통일하자!"라며 Linux 재단의 <strong><code>SPDX</code></strong>와 OWASP 재단의 <strong><code>CycloneDX</code></strong>라는 글로벌 양대 산맥 포맷이 탄생했다. 이제 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))에서 빌드할 때 스캐너가 자동으로 1초 만에 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 족보를 뱉어내는 완벽한 자동화 시대로 진입했다.
+  3. **표준 규격의 탄생과 자동화 (현재)**: "기계가 뽑고 기계가 읽게 포맷을 통일하자!"라며 Linux 재단의 <strong><code>SPDX</code></strong>와 OWASP 재단의 <strong><code>CycloneDX</code></strong>라는 글로벌 양대 산맥 포맷이 탄생했다. 이제 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/))에서 빌드할 때 스캐너가 자동으로 1초 만에 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 족보를 뱉어내는 완벽한 자동화 시대로 진입했다.
 
 - **📢 섹션 요약 비유**: 옛날 소프트웨어는 <strong>'마녀의 가마솥 짬뽕 수프'</strong>였습니다. 맛(기능)은 기가 막힌데, 주방장도 안에 뱀 허물(취약점)이 들어갔는지 개구리 다리(라이선스 위반)가 들어갔는지 기억을 못 합니다. 먹고 탈 나면 위장을 다 까봐야 알죠. SBOM은 그 마녀의 수프 레시피를 <strong>'전 세계 공용 바코드 스티커'</strong>로 예쁘게 찍어서 냄비 겉면에 딱 붙여버리는 투명성의 마법입니다.
 
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) (Software [Bill of Materials](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)) 포맷은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ SBOM (Software Bill of Materials) 포맷 개념 정립
 
 **진행 상황**: 583 / 973
 
-<- **이전**: [495. SCA (Software Composition Analysis) - 오픈소스 라이브러리 취약점 및 라이선스 스캔](/knowledge-base/studynote/04_software_engineering/11_testing_validation/495_sca_software_composition_analysis/)
-**다음**: [496. SBOM (Software Bill of Materials) 포맷](/knowledge-base/studynote/04_software_engineering/11_testing_validation/496_sbom_software_bill_of_materials_formats/) ->
+<- **이전**: [495. SCA (Software Composition Analysis) - 오픈소스 라이브러리 취약점 및 라이선스 스캔](/knowledge-base/studynote/04_software_engineering/11_testing_validation/887_sca_software_composition_analysis/)
+**다음**: [496. SBOM (Software Bill of Materials) 포맷](/knowledge-base/studynote/04_software_engineering/11_testing_validation/888_sbom_software_bill_of_materials_formats/) ->
 
 ---

@@ -81,7 +81,7 @@ Cloud A / Cloud B
 
 1. 벤더 전용 기능을 어디까지 쓸지 기준이 있는가?
 2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 내보내기와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차를 정기적으로 점검하는가?
-3. IaC와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD로 재현 가능한 배포를 하는가?
+3. IaC와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD로 재현 가능한 배포를 하는가?
 4. 관측, 보안, 네트워크 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 표준화되어 있는가?
 5. Exit plan과 전환 비용을 미리 계산하는가?
 

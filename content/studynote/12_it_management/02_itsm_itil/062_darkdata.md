@@ -42,7 +42,7 @@ Dark Data
 | Technical | 레거시 시스템에 묶여 접근이 어려움 | 오래된 메인프레임 덤프 | 이관 또는 폐기 |
 | Organizational | 부서 안에만 남아 공유되지 않음 | 영업팀 메모, 운영팀 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) | [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 등록 |
 | Regulatory | 규제 때문에 보존은 하지만 활용은 적음 | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 의료 기록 | 보존·익명화 |
-| Temporary | 중간 산출물, [테스트 데이터](/knowledge-base/studynote/04_software_engineering/11_testing_validation/444_test_data_management/) | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 임시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) | 자동 삭제 |
+| Temporary | 중간 산출물, [테스트 데이터](/knowledge-base/studynote/04_software_engineering/11_testing_validation/836_test_data_management/) | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 임시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) | 자동 삭제 |
 
 다크 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리는 저장 공간을 비우는 일이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 의미와 책임을 다시 부여하는 일이다. 어디에 있는지, 누가 쓰는지, 언제 버릴지 정해야만 자산이 된다.
 
@@ -156,7 +156,7 @@ Dark Data
 
 **진행 상황**: 107 / 587
 
-<- **이전**: [61. ITSM (IT Service Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_itsm/)
-**다음**: [62. ITIL (IT Infrastructure Library)](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) ->
+<- **이전**: [61. ITSM (IT Service Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/845_itsm/)
+**다음**: [62. ITIL (IT Infrastructure Library)](/knowledge-base/studynote/12_it_management/02_itsm_itil/846_itil/) ->
 
 ---

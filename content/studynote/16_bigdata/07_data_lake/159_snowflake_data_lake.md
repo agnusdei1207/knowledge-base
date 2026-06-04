@@ -18,7 +18,7 @@ tags = ["studynote-bigdata"]
 
 ## Ⅰ. 개요 및 필요성
 
-Snowflake는 2012년 Amazon Redshift를 대체할 완전 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) DW로 출발했다. 스토리지와 컴퓨팅을 분리하고, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)량에 따라 Virtual Warehouse를 독립적으로 조정하는 혁신적 아키텍처로 시장을 장악했다.
+Snowflake는 2012년 Amazon Redshift를 대체할 완전 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) DW로 출발했다. 스토리지와 컴퓨팅을 분리하고, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)량에 따라 Virtual Warehouse를 독립적으로 조정하는 혁신적 아키텍처로 시장을 장악했다.
 
 그러나 [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/) 패러다임이 부상하면서 Snowflake는 객체 스토리지의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)하는 External Table, 오픈 포맷인 Iceberg Table, 그리고 Python 코드를 [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) 내에서 실행하는 Snowpark를 출시하여 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 기능을 보강하고 있다.
 
@@ -26,7 +26,7 @@ Snowflake는 2012년 Amazon Redshift를 대체할 완전 [클라우드 네이티
 |:---|:---|:---|
 | 1세대 (2014~) | Virtual Warehouse, Time Travel | Cloud [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) |
 | 2세대 (2018~) | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Sharing, Secure [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Exchange |
-| 3세대 ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/)~) | Snowpark, External Table | Analytics Platform |
+| 3세대 ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/)~) | Snowpark, External Table | Analytics Platform |
 | 4세대 (2023~) | Iceberg Table, Arctic ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) | [Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) + [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) |
 
 > 📢 **섹션 요약 비유**: Snowflake의 진화는 식당이 배달 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 밀키트까지 확장하는 것이다. 원래 레스토랑([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))에서 시작했지만 이제는 다른 냉장고(레이크) 안의 재료도 직접 요리([쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))할 수 있게 됐다.

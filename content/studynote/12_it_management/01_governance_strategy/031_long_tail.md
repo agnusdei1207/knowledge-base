@@ -149,6 +149,6 @@ tags = ["studynote-it-management"]
 **진행 상황**: 53 / 587
 
 <- **이전**: [30. 와해성 혁신 — 시장 판도를 뒤집는 파괴적 기술](/knowledge-base/studynote/12_it_management/01_governance_strategy/030_disruptive_innovation/)
-**다음**: [31. 네트워크 효과 — 사용자가 늘수록 가치가 커지는 법칙](/knowledge-base/studynote/12_it_management/01_governance_strategy/031_network_effect/) ->
+**다음**: [31. 네트워크 효과 — 사용자가 늘수록 가치가 커지는 법칙](/knowledge-base/studynote/12_it_management/01_governance_strategy/823_network_effect/) ->
 
 ---

@@ -11,7 +11,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Argo CD는 <strong>Git 레포지토리를 단일 진실 원천(Single Source of Truth)</strong>으로 삼아, Git의 매니페스트와 K8s 클러스터 상태를 <strong>실시간 비교(Diff)하고 자동 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(Sync)</strong>하는 [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 졸업 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) CD 도구다.
-> 2. **가치**: 전통 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/))가 "Push 기반(파이프라인이 클러스터에 적용)"이라면, Argo CD는 <strong>"Pull 기반(클러스터가 Git을 감시하여 스스로 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>)"</strong>하므로, 클러스터 접근 권한을 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 시스템에 노출하지 않아 <strong>보안이 강화</strong>된다.
+> 2. **가치**: 전통 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/))가 "Push 기반(파이프라인이 클러스터에 적용)"이라면, Argo CD는 <strong>"Pull 기반(클러스터가 Git을 감시하여 스스로 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>)"</strong>하므로, 클러스터 접근 권한을 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 시스템에 노출하지 않아 <strong>보안이 강화</strong>된다.
 > 3. **판단 포인트**: Argo CD는 K8s 매니페스트(YAML/[Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)/[Kustomize](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/))를 관리하며, Argo Rollouts와 결합하여 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/">카나리</a>·블루/그린 배포를 선언적으로</strong> 수행한다.
 
 ---
@@ -87,7 +87,7 @@ tags = ["studynote-cloud-architecture"]
 | 상태 드리프트 감지 | 불가 | **실시간 Diff** | 즉시 감지 |
 | [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) | 파이프라인 재실행 | **Git Revert -> 자동 Sync** | 30초 |
 
-Argo CD는 멀티클러스터 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)·Argo Workflows([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)) 통합으로 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD 전체를 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a> 패러다임</strong>으로 통합하는 방향으로 진화하고 있다.
+Argo CD는 멀티클러스터 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)·Argo Workflows([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)) 통합으로 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD 전체를 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a> 패러다임</strong>으로 통합하는 방향으로 진화하고 있다.
 
 ---
 

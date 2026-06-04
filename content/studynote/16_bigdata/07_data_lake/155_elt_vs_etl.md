@@ -69,7 +69,7 @@ tags = ["studynote-bigdata"]
 | Model | SQL SELECT로 변환 정의 | 선언적, 재사용 가능 |
 | Test | `not_null`, `unique`, `accepted_values` | 변환 결과 자동 품질 검사 |
 | [Documentation](/knowledge-base/studynote/04_software_engineering/06_software_architecture/378_software_documentation/) | `description` 필드로 컬럼 문서화 | 자동 [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
-| Lineage [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) | 모델 간 의존성 자동 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) | 영향 분석 즉시 파악 |
+| Lineage [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) | 모델 간 의존성 자동 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) | 영향 분석 즉시 파악 |
 | Materialization | Table / [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) / Incremental / Ephemeral | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·비용 트레이드오프 선택 |
 | Seed | CSV로 정적 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 | 코드와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 함께 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 |
 
@@ -103,7 +103,7 @@ WHERE status != 'cancelled'
 | 도구 | 실행 위치 | 특징 | 적합 환경 |
 |:---|:---|:---|:---|
 | dbt Core | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)/[레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 내부 | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/), SQL 선언적 | [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/), [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) |
-| dbt Cloud | 관리형 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) | IDE + [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) + 협업 | 팀 규모 조직 |
+| dbt Cloud | 관리형 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) | IDE + [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) + 협업 | 팀 규모 조직 |
 | [Spark SQL](/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/) | [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) | Python/Scala 병행 | 대규모 배치 변환 |
 | Dataflow | GCP 관리형 | Apache Beam 기반 | GCP 생태계 |
 | Glue | AWS 관리형 | Spark 기반, S3 통합 | AWS 생태계 |
@@ -125,7 +125,7 @@ WHERE status != 'cancelled'
 - [ ] dbt 프로젝트 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 및 소스 등록 (`dbt source freshness` [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))
 - [ ] Silver 모델: `materialized='incremental'` + `unique_key` [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 - [ ] Gold 모델: `materialized='table'` + [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
-- [ ] `dbt test` 실행 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 통합
+- [ ] `dbt test` 실행 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 통합
 
 **기술사 답안 포인트**
 

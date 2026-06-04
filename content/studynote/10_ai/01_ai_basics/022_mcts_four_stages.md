@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 # [몬테카를로 트리 탐색](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/) ([MCTS](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/))의 4단계 라이프사이클
 
-> ⚠️ 이 문서는 무한대에 가까운 경우의 수를 가진 탐색 공간에서, 딥러닝과 결합하여 강화학습([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/))의 정점인 알파고(AlphaGo)를 탄생시킨 핵심 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)인 MCTS의 '선택-확장-시뮬레이션-[역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)' 4단계 메커니즘을 심층 분석합니다.
+> ⚠️ 이 문서는 무한대에 가까운 경우의 수를 가진 탐색 공간에서, 딥러닝과 결합하여 강화학습([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/))의 정점인 알파고(AlphaGo)를 탄생시킨 핵심 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)인 MCTS의 '선택-확장-시뮬레이션-[역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)' 4단계 메커니즘을 심층 분석합니다.
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: MCTS의 4단계는 거대한 검색 트리에서 유망한 노드를 고르는 **선택(Selection)**, 새로운 가능성을 추가하는 **확장(Expansion)**, 끝까지 무작위로 가상 플레이를 돌려보는 **시뮬레이션(Simulation)**, 그리고 그 승패 결과를 조상 노드들에 업데이트하는 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">Backpropagation</a>)</strong>의 무한 루프이다.
@@ -102,7 +102,7 @@ tags = ["studynote-ai"]
 | 고려 사항 | 세부 내용 | 주요 아키텍처 의사결정 |
 |:---|:---|:---|
 | **도입 환경** | 기존 레거시 시스템과의 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 분석 | 마이그레이션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 및 단계별 전환 계획 수립 |
-| <strong>비용(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a>)</strong> | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구축 비용(CAPEX) 및 운영 비용(OPEX) | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 관점의 장기적 효율성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| <strong>비용(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/">ROI</a>)</strong> | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구축 비용(CAPEX) 및 운영 비용(OPEX) | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 관점의 장기적 효율성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | **보안/위험** | 컴플라이언스 준수 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/) | [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 기반 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)/[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 체계 연계 |
 
 *(추가 실무 적용 가이드 - 언제 MCTS를 아키텍처에 채택하는가?)*

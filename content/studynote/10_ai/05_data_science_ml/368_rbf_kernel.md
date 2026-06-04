@@ -69,7 +69,7 @@ tags = ["studynote-ai"]
 
 ## Ⅲ. 비교 및 연결
 
-Mercer 정리(Mercer's Theorem): [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수가 양 정치(Positive Semi-Definite, PSD) 조건을 만족하면 대응하는 특성 공간 φ가 존재한다. RBF [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 PSD이므로 Mercer 정리를 만족한다. 이론적으로 RBF SVM은 충분한 C와 γ 조합에서 어떤 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 완벽히 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)할 수 있지만 과적합 위험이 있다. 가우시안 프로세스(Gaussian [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))는 RBF [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 공분산 함수로 사용하는 베이즈 비모수 회귀 모델이다.
+Mercer 정리(Mercer's Theorem): [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수가 양 정치(Positive Semi-Definite, PSD) 조건을 만족하면 대응하는 특성 공간 φ가 존재한다. RBF [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 PSD이므로 Mercer 정리를 만족한다. 이론적으로 RBF SVM은 충분한 C와 γ 조합에서 어떤 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 완벽히 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)할 수 있지만 과적합 위험이 있다. 가우시안 프로세스(Gaussian [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))는 RBF [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 공분산 함수로 사용하는 베이즈 비모수 회귀 모델이다.
 
 | 구분 | 핵심 초점 | 적용 상황 |
 |:---|:---|:---|

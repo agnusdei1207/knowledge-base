@@ -82,7 +82,7 @@ Intel VT-x와 AMD-V는 동작 철학이 비슷하지만, 제어 구조체 이름
 ### 실무 시나리오
 
 - [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/), ESXi, Hyper-V 같은 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 기본 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기반
-- Nested Virtualization이 필요한 테스트/[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 환경
+- Nested Virtualization이 필요한 테스트/[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 환경
 - 가상 머신 탈출 방지, 권한 격리 강화
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)

@@ -107,7 +107,7 @@ DCT는 8×8 블록 경계에서 [아티팩트](/knowledge-base/studynote/15_devo
 | 변환 | DCT (블록) | 웨이블릿 (전체) |
 | 블록 현상 | 심함 | 없음 |
 | 무손실 지원 | ❌ | ✅ |
-| [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 지원 | ❌ | ✅ |
+| [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 지원 | ❌ | ✅ |
 | 처리 속도 | 빠름 | 느림 |
 
 📢 **섹션 요약 비유**: JPEG DCT는 "퍼즐을 8×8 조각으로 쪼개 각 조각 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)"이고, JPEG 2000 웨이블릿은 "퍼즐 전체를 여러 해상도로 동시에 보면서 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)"이다 — 후자가 경계선에서 더 자연스럽다.
@@ -177,7 +177,7 @@ B-프레임 (Bidirectional): 앞뒤 프레임 참조
 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 아카이브 | Zstandard | 고속 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 랜덤 접근 |
 | 사진 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | WebP / AVIF | JPEG 대비 30~50% 크기 감소 |
 | 동영상 스트리밍 | H.265 / AV1 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 절감 (H.264 대비 40~50%) |
-| 의료 영상 | JPEG 2000 / PNG | 무손실 또는 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 손실 허용 |
+| 의료 영상 | JPEG 2000 / PNG | 무손실 또는 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 손실 허용 |
 | ML 모델 배포 | GZIP + [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) + [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) | 추론 속도 + 크기 동시 최적화 |
 
 ### [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) vs 품질 트레이드오프 계산

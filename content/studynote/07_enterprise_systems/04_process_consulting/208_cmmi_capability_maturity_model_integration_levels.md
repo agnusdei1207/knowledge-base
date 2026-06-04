@@ -116,8 +116,8 @@ CMMI를 제대로 적용하면 요구사항 누락 감소, 일정 편차 축소,
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | 품질보증 (QA, Quality Assurance) | 프로세스 준수와 품질 활동을 조직 차원에서 정착시킴 |
-| 형상관리 ([Configuration Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/)) | 변경 이력과 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 통제를 통해 반복 가능성을 높임 |
-| 정량적 관리 (Quantitative [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) | Level 4에서 핵심 지표 기반 통제를 수행함 |
+| 형상관리 ([Configuration Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/873_configuration_management/)) | 변경 이력과 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 통제를 통해 반복 가능성을 높임 |
+| 정량적 관리 (Quantitative [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/)) | Level 4에서 핵심 지표 기반 통제를 수행함 |
 | 원인 분석과 해결 (CAR, Causal Analysis and Resolution) | Level 5에서 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 재발 방지를 구조화함 |
 | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) / [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) | 개발 방식은 달라도 재현성과 측정 체계라는 관리 기반과 연결됨 |
 

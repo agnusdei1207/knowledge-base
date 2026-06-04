@@ -182,7 +182,7 @@ tags = ["devops_sre"]
 | <strong>비동기 <a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>징</strong> | 워커 프로세스가 백그라운드 작업 처리 | 요청/응답과후태작업 분리 |
 | **이벤트구동 아키텍처** | 이벤트에 따라 처리 인스턴스 동적 조절 | 트래픽 패턴에맞는 확장이 가능 |
 
-동시성 원칙과 오토스케일링의 결합은 현대 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서 가장 강력한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 패턴이다.
+동시성 원칙과 오토스케일링의 결합은 현대 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경에서 가장 강력한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 패턴이다.
 
 ```text
 [동시성 + 오토스케일링: 트래픽 변화에 유연하게 대응]
@@ -272,8 +272,8 @@ tags = ["devops_sre"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **12팩터 앱 (Twelve-Factor App)** | [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 애플리케이션 설계 원칙 12가지 중 제8원칙이 동시성 |
-| <strong>프로세스 매니저 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a> Manager)</strong> | systemd / Procfile 기반으로 프로세스 타입·수량을 선언적으로 관리 |
+| **12팩터 앱 (Twelve-Factor App)** | [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 애플리케이션 설계 원칙 12가지 중 제8원칙이 동시성 |
+| <strong>프로세스 매니저 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/">Process</a> Manager)</strong> | systemd / Procfile 기반으로 프로세스 타입·수량을 선언적으로 관리 |
 | <strong>수평 확장 (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/">Scale-Out</a>)</strong> | 프로세스 인스턴스를 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 선형적으로 늘리는 확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">서버리스</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">Serverless</a> / <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/">FaaS</a>)</strong> | 함수 단위 자동 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 확장, 동시성 원칙의 궁극적 진화 형태 |
 
@@ -295,7 +295,7 @@ tags = ["devops_sre"]
 [서버리스 (Serverless / FaaS) — 함수 단위 무한 병렬 확장, 동시성 극한 구현]
 ```
 
-이 흐름은 12팩터 앱의 동시성 원칙에서 출발해 프로세스 매니저로 수명을 관리하고, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)을 거쳐 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)의 무한 자동 확장으로 진화하는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 확장성 아키텍처의 계보를 보여준다.
+이 흐름은 12팩터 앱의 동시성 원칙에서 출발해 프로세스 매니저로 수명을 관리하고, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)을 거쳐 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)의 무한 자동 확장으로 진화하는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 확장성 아키텍처의 계보를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

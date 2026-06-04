@@ -28,7 +28,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **절차적 늪과 산탄총 수술(Shotgun Surgery)**: 과거에는 UI 로직, 비즈니스 로직, DB 접속 로직이 한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(JSP, PHP)에 섞여 있어, DB 칼럼 하나를 추가하면 수십 개의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 찾아다니며 고쳐야 했다.
   2. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>화와 관심사 분리(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/">SoC</a>)</strong>: MVC 패턴, 계층형(Layered) 아키텍처가 등장하며 화면은 화면끼리, DB는 DB끼리 폴더를 나누어 변경의 여파(Ripple Effect)를 차단하기 시작했다.
-  3. **의존성 역전과 동적 바인딩**: 최근에는 아예 컴파일 타임의 코드 의존성마저 끊어버리고, [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/)([의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)) 컨테이너나 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway를 통해 런타임에 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)들을 느슨하게 조립하는 플러그인(Plug-in) 아키텍처로 완성되었다.
+  3. **의존성 역전과 동적 바인딩**: 최근에는 아예 컴파일 타임의 코드 의존성마저 끊어버리고, [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/)([의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)) 컨테이너나 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway를 통해 런타임에 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)들을 느슨하게 조립하는 플러그인(Plug-in) 아키텍처로 완성되었다.
 
 - **📢 섹션 요약 비유**: 이사 갈 때 콘센트 플러그만 뽑아서 세탁기를 가져가는 것(변경용이성 높음)과, 벽 안의 전선 뭉치를 니퍼로 끊고 테이프로 새로 감아야 하는 것(변경용이성 낮음)의 차이입니다.
 
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)/변경용이성 (Modifiability)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

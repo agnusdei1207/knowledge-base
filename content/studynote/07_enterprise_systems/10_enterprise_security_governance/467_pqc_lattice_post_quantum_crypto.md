@@ -11,7 +11,7 @@ tags = ["studynote-enterprise"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 개념인 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 격자 기반은 엔터프라이즈 환경에서 보안·복원력·거버넌스를 설계 단계부터 내재화하기 위해 쓰이는 핵심 기준이며, 특히 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 격자 기반, [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/), Post-[Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Cryptography의 경계를 분명히 만드는 데 의미가 있다.
+> 1. **본질**: 개념인 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 격자 기반은 엔터프라이즈 환경에서 보안·복원력·거버넌스를 설계 단계부터 내재화하기 위해 쓰이는 핵심 기준이며, 특히 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 격자 기반, [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/), Post-[Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Cryptography의 경계를 분명히 만드는 데 의미가 있다.
 > 2. **가치**: 이 개념을 제대로 이해하면 사후 대응만으로는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 규제 대응이 약해지는 상황을 줄이고, 의사결정 기준·책임 분담·운영 자동화를 같은 체계 안에서 연결할 수 있다.
 > 3. **판단 포인트**: 기술사 답안과 실무 설계에서는 정의 암기보다 적용 범위, 측정 지표, 예외 처리 조건을 어디까지 설계했는지가 더 중요하다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅰ. 개요 및 필요성
 
-개념인 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 격자 기반은 복잡한 업무·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·기술 흐름을 한 번에 설명하기 위한 엔터프라이즈 기준이다. 이름은 길어 보여도 현장에서는 결국 "무엇을 표준화하고 무엇을 유연하게 둘 것인가"라는 질문으로 귀결된다. 특히 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 격자 기반과 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 동시에 등장하는 장면에서는 담당자별 해석 차이가 생기기 쉬워, 공통 언어와 판단 기준을 먼저 세우는 일이 중요하다.
+개념인 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 격자 기반은 복잡한 업무·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·기술 흐름을 한 번에 설명하기 위한 엔터프라이즈 기준이다. 이름은 길어 보여도 현장에서는 결국 "무엇을 표준화하고 무엇을 유연하게 둘 것인가"라는 질문으로 귀결된다. 특히 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 격자 기반과 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) 동시에 등장하는 장면에서는 담당자별 해석 차이가 생기기 쉬워, 공통 언어와 판단 기준을 먼저 세우는 일이 중요하다.
 
 이 개념이 필요한 이유는 엔터프라이즈 환경이 늘 다부서·다시스템·다정책 구조이기 때문이다. 기준 없이 도입하면 사후 대응만으로는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 규제 대응이 약해지는 상황이 생기고, 그 여파가 일정·품질·비용으로 동시에 퍼진다. 따라서 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 격자 기반은 단순 용어가 아니라 복잡성을 운영 가능한 수준으로 정리하는 설계 기준으로 이해해야 한다.
 
@@ -47,8 +47,8 @@ tags = ["studynote-enterprise"]
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
 | [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 격자 기반 | 요구사항·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·업무 조건을 구조화 | 용어 정의와 책임 주체를 먼저 고정 |
-| [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) | 실행 절차와 통제 포인트를 연결 | 예외 처리와 승인 기준을 명시 |
-| [Post-Quantum Cryptography](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·품질·위험을 측정 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), 비용, 리드타임 등 정량 지표 확보 |
+| [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) | 실행 절차와 통제 포인트를 연결 | 예외 처리와 승인 기준을 명시 |
+| [Post-Quantum Cryptography](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·품질·위험을 측정 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/), 비용, 리드타임 등 정량 지표 확보 |
 | 운영 피드백 | 재설계 여부를 판단 | 변경 이력과 회고 루프를 남김 |
 
 ```text
@@ -120,7 +120,7 @@ tags = ["studynote-enterprise"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 격자 기반 | [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 격자 기반의 선행 개념 또는 입력 축 |
-| [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) | 설계·운영 단계에서 함께 검토해야 하는 핵심 축 |
+| [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) | 설계·운영 단계에서 함께 검토해야 하는 핵심 축 |
 | [Post-Quantum Cryptography](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) | 품질·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 판단을 구체화하는 확장 요소 |
 | 지속적 컴플라이언스 | [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 격자 기반를 전사 체계로 확장할 때 연결되는 주제 |
 

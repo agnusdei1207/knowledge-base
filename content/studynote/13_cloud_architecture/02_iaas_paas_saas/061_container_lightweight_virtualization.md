@@ -64,7 +64,7 @@ tags = ["studynote-cloud"]
 | 오버헤드 | 큼 | 작음 | 중간 |
 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공유 | 아님 | 함 | 최소화 |
 
-[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서 특히 강하다. 반면 강한 보안 경계가 필요한 경우에는 microVM이나 추가 샌드박스를 같이 고려해야 한다.
+[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경에서 특히 강하다. 반면 강한 보안 경계가 필요한 경우에는 microVM이나 추가 샌드박스를 같이 고려해야 한다.
 
 - **📢 섹션 요약 비유**: 단독주택, 아파트 원룸, 경비가 더 붙은 보안 원룸의 차이다.
 

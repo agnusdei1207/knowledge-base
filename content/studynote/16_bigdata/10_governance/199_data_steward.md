@@ -41,7 +41,7 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 [데이터 스튜어드 역할](/knowledge-base/studynote/12_it_management/01_governance_strategy/053_data_stewardship_role/) 구조
+### 2.1 [데이터 스튜어드 역할](/knowledge-base/studynote/12_it_management/01_governance_strategy/843_data_stewardship_role/) 구조
 
 ```
 +-----------------------------------------------------------------+

@@ -137,6 +137,6 @@ LLM07: Plugin Abuse를 제대로 이해하면 개념 하나를 외우는 데서 
 **진행 상황**: 1082 / 1108
 
 <- **이전**: [981. LLM06: Sensitive Information Disclosure (LLM06: Sensitive Information](/knowledge-base/studynote/09_security/19_ai_advanced_security/981_llm06_sensitive_information_disclosure/)
-**다음**: [982. SSL/TLS 핸드셰이크 (Ssl TLS Handshake Session Key Exchange Https)](/knowledge-base/studynote/09_security/uncategorized/982_ssl_tls_handshake_session_key_exchange_https/) ->
+**다음**: [982. SSL/TLS 핸드셰이크 (Ssl TLS Handshake Session Key Exchange Https)](/knowledge-base/studynote/09_security/uncategorized/1078_ssl_tls_handshake_session_key_exchange_https/) ->
 
 ---

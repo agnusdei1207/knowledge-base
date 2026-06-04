@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 508 / 587
 
-<- **이전**: [333. 시큐어 코딩 47개 취약점 진단 점검](/knowledge-base/studynote/12_it_management/05_security_compliance/333_secure_coding_47_vulnerabilities_inspection/)
-**다음**: [334. 웹 접근성 KWCAG 장애 차별 금지](/knowledge-base/studynote/12_it_management/05_security_compliance/334_web_accessibility_kwcag_disability_discrimination/) ->
+<- **이전**: [333. 시큐어 코딩 47개 취약점 진단 점검](/knowledge-base/studynote/12_it_management/05_security_compliance/974_secure_coding_47_vulnerabilities_inspection/)
+**다음**: [334. 웹 접근성 KWCAG 장애 차별 금지](/knowledge-base/studynote/12_it_management/05_security_compliance/975_web_accessibility_kwcag_disability_discrimination/) ->
 
 ---

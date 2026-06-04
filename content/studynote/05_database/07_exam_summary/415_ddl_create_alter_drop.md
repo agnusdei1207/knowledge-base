@@ -113,7 +113,7 @@ tags = ["studynote-database"]
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | [외부 조인](/knowledge-base/studynote/05_database/07_exam_summary/414_outer_join/) ([Outer Join](/knowledge-base/studynote/05_database/07_exam_summary/414_outer_join/) + 표시 / 기준 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) 보존) | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
-| [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) (INSERT, UPDATE, DELETE [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 가능) | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
+| [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/) (INSERT, UPDATE, DELETE [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 가능) | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
 | [릴레이션 스키마](/knowledge-base/studynote/05_database/07_exam_summary/391_relation_schema_intension/) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
 | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)) | 운영·설계 판단을 연결해 주는 주변 개념이다. |
 

@@ -136,7 +136,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 1029 / 1108
 
-<- **이전**: [936. DNS 싱크홀 (DNS Sinkhole Botnet Cnc Blocking Kisa)](/knowledge-base/studynote/09_security/uncategorized/936_dns_sinkhole_botnet_cnc_blocking_kisa/)
+<- **이전**: [936. DNS 싱크홀 (DNS Sinkhole Botnet Cnc Blocking Kisa)](/knowledge-base/studynote/09_security/uncategorized/1070_dns_sinkhole_botnet_cnc_blocking_kisa/)
 **다음**: [937. 환경 통제 (Environmental Control)](/knowledge-base/studynote/09_security/18_iot_ot_physical/937_environmental_control/) ->
 
 ---

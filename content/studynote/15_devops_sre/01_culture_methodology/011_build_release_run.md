@@ -12,7 +12,7 @@ tags = ["devops_sre"]
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 빌드, 릴리스, 실행 원칙은 코드를 프로덕션에 배포하는 과정을 세 개의 엄격히 분리된 단계로 나누어야 한다는 12팩터 앱의 제5원칙이다. 빌드 단계에서 소스코드를 실행 가능한 바이너리로 변환하고, 릴리스 단계에서 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)과 결합하여 배포 가능한 패키지를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하며, 실행 단계에서 그 패키지를 런타임에서 실행한다.
 > 2. **가치**: 이 세 단계를 분리하면 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이 특정 단계로 한정되어 신속 정확해지고, 각 단계의 책임이 명확해져 운영 효율성과 시스템 안정성이 향상된다.
-> 3. **융합**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 이 원칙은 명시적 단계 분리로 구현되고, GitOps에서는 빌드/릴리스/실행이 자동화된 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 연결된다.
+> 3. **융합**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 이 원칙은 명시적 단계 분리로 구현되고, GitOps에서는 빌드/릴리스/실행이 자동화된 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 연결된다.
 
 ---
 
@@ -78,15 +78,15 @@ tags = ["devops_sre"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-세 단계가 어떻게 구현되고, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 어떻게 활용되는지 상세히 분석한다.
+세 단계가 어떻게 구현되고, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 어떻게 활용되는지 상세히 분석한다.
 
 | 단계 | 입력 | 출력 | 담당 | 핵심 특성 |
 |:---|:---|:---|:---|:---|
-| **빌드 (Build)** | 소스코드 (Git Commit) | 실행 가능한 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) (바이너리/이미지) | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 | 불변성 (같은 입력 = 같은 출력) |
+| **빌드 (Build)** | 소스코드 (Git Commit) | 실행 가능한 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) (바이너리/이미지) | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 | 불변성 (같은 입력 = 같은 출력) |
 | **릴리스 (Release)** | [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) + 환경 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 배포 가능한 패키지 | CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 | 추적 가능성 ([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) + [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 조합) |
 | **실행 (Run)** | 배포 패키지 | 런타임 프로세스 | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 오케스트레이터 | [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) (재실행해도 동일 결과) |
 
-아래는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서의 빌드/릴리스/실행 단계를 보여주는 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램이다.
+아래는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서의 빌드/릴리스/실행 단계를 보여주는 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램이다.
 
 ```text
 [CI/CD 파이프라인에서의 빌드/릴리스/실행]
@@ -148,7 +148,7 @@ tags = ["devops_sre"]
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a></strong> | 빌드 -> Git Commit, 릴리스 -> Git Tag, 실행 -> ArgoCD Sync | 변경 이력 완벽 추적 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a></strong> | 빌드 = 코드 컴파일, 릴리스 = 인프라 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/), 실행 = 인프라 가동 | 인프라도 동일한 원칙 적용 |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a></strong> | 빌드 = [Dockerfile](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/067_dockerfile_container_image_build_script/) 빌드, 릴리스 = 이미지 + [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 실행 = [docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) run | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 불변성 보장 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD</strong> | 각 단계가 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 Stage로 구현 | 자동화된 빌드/릴리스/실행 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD</strong> | 각 단계가 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 Stage로 구현 | 자동화된 빌드/릴리스/실행 |
 | <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/193_rolling_update_deployment_kubernetes/">롤링 배포</a></strong> | 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 빌드 -> 새 릴리스 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> 점진적 실행 전환 | 무중단 업데이트 |
 
 특히 GitOps와의 결합은 빌드/릴리스/실행 원칙의 추적 가능성을 완벽하게 한다. Git Repo의 커밋 히스토리가 빌드 이력이 되고, 릴리스 태그가 실행 환경을 결정하며, ArgoCD나 FluxCD가 실행 단계를 자동화한다.
@@ -243,7 +243,7 @@ Git Repository
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong>12팩터 앱 (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/200_12_factor_app_cloud_native_principles/">12-Factor App</a>)</strong> | 빌드/릴리스/실행 분리가 5번째 원칙으로 명시된 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 방법론 |
+| <strong>12팩터 앱 (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/200_12_factor_app_cloud_native_principles/">12-Factor App</a>)</strong> | 빌드/릴리스/실행 분리가 5번째 원칙으로 명시된 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 방법론 |
 | <strong>불변 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/">아티팩트</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/">Immutable</a> <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/">Artifact</a>)</strong> | 빌드 단계에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 후 변경되지 않는 배포 단위 |
 | <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 외부화 (Externalized <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">Config</a>)</strong> | 환경별 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) 외부에서 주입하는 릴리스 단계의 핵심 원칙 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/">Container</a>)</strong> | 불변 이미지 기반의 일회용 실행 환경으로 실행 단계를 구현하는 기술 |

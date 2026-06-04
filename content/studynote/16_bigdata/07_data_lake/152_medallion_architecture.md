@@ -25,7 +25,7 @@ tags = ["studynote-bigdata"]
 | 구분 | 개념 | [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 구현 |
 |:---|:---|:---|
 | Bronze | 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보존 | AutoLoader + Delta append-only |
-| Silver | 정제·조인·이력 | MERGE INTO + [SCD Type 2](/knowledge-base/studynote/12_it_management/05_security_compliance/315_scd_type_2/) |
+| Silver | 정제·조인·이력 | MERGE INTO + [SCD Type 2](/knowledge-base/studynote/12_it_management/05_security_compliance/957_scd_type_2/) |
 | Gold | 집계·[KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) | [Spark SQL](/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/) + dbt + [DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/) |
 | [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) | 계층 간 의존성 | [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) Workflows / [DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/) |
 
@@ -76,7 +76,7 @@ tags = ["studynote-bigdata"]
 |:---|:---|:---|
 | Bronze 수집 | AutoLoader | `cloudFiles` 소스, 자동 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 추론 |
 | Bronze 수집 (배치) | COPY INTO | [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) 보장 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 적재 |
-| Silver 변환 | MERGE INTO | upsert + [SCD Type 2](/knowledge-base/studynote/12_it_management/05_security_compliance/315_scd_type_2/) |
+| Silver 변환 | MERGE INTO | upsert + [SCD Type 2](/knowledge-base/studynote/12_it_management/05_security_compliance/957_scd_type_2/) |
 | 품질 검사 | [DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/) Expectations | `@dlt.expect`, `@dlt.expect_or_drop` |
 | Gold 집계 | dbt / [Spark SQL](/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/) | 선언적 SQL 변환 |
 | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 관리 | Delta Live Tables | 의존성 자동 해결, 재처리 지원 |
@@ -110,7 +110,7 @@ tags = ["studynote-bigdata"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-<strong>Silver 계층 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/315_scd_type_2/">SCD Type 2</a> 구현 패턴</strong>
+<strong>Silver 계층 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/957_scd_type_2/">SCD Type 2</a> 구현 패턴</strong>
 ```sql
 MERGE INTO silver.customers AS target
 USING bronze.customers_cdc AS source
@@ -146,7 +146,7 @@ WHEN NOT MATCHED THEN
 | 품질 가시성 | [DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/) Expectations 대시보드로 계층별 품질 지표 실시간 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 |
 | 운영 효율 | AutoLoader 자동 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)으로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수 증가에도 무중단 운영 |
 
-[메달리온 아키텍처](/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/)는 [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 플랫폼의 베스트 프랙티스로 공식화되었으며, 비 [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 환경에서도 동일한 원칙을 [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) + Iceberg/Hudi로 구현하는 사례가 늘고 있다. 기술사 시험에서는 **AutoLoader vs COPY INTO 차이**, <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/315_scd_type_2/">SCD Type 2</a> MERGE 패턴</strong>, <strong><a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/">DLT</a> Expectations 품질 관리</strong>가 핵심 논점이다.
+[메달리온 아키텍처](/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/)는 [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 플랫폼의 베스트 프랙티스로 공식화되었으며, 비 [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 환경에서도 동일한 원칙을 [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) + Iceberg/Hudi로 구현하는 사례가 늘고 있다. 기술사 시험에서는 **AutoLoader vs COPY INTO 차이**, <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/957_scd_type_2/">SCD Type 2</a> MERGE 패턴</strong>, <strong><a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/">DLT</a> Expectations 품질 관리</strong>가 핵심 논점이다.
 
 > 📢 **섹션 요약 비유**: 메달리온은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 올림픽 선발 시스템이다. 지역(Bronze)에서 전국(Silver)으로, 전국에서 국가 대표(Gold)로 올라가는 각 단계에서 심사(품질 검사)를 통과한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 최종 무대에 선다.
 
@@ -158,9 +158,9 @@ WHEN NOT MATCHED THEN
 |:---|:---|:---|
 | AutoLoader | Bronze 수집 | `cloudFiles` 기반 자동 증분 적재 |
 | COPY INTO | Bronze 배치 수집 | [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) 보장 명령 |
-| MERGE INTO | Silver 변환 | upsert + [SCD Type 2](/knowledge-base/studynote/12_it_management/05_security_compliance/315_scd_type_2/) 구현 |
+| MERGE INTO | Silver 변환 | upsert + [SCD Type 2](/knowledge-base/studynote/12_it_management/05_security_compliance/957_scd_type_2/) 구현 |
 | [DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/) | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 관리 | 의존성 자동 해결, 품질 기대값 |
-| [SCD Type 2](/knowledge-base/studynote/12_it_management/05_security_compliance/315_scd_type_2/) | 이력 관리 | valid_from/valid_to/is_current 패턴 |
+| [SCD Type 2](/knowledge-base/studynote/12_it_management/05_security_compliance/957_scd_type_2/) | 이력 관리 | valid_from/valid_to/is_current 패턴 |
 | dbt | Gold 집계 | SQL 선언적 변환 도구 |
 
 ---

@@ -117,7 +117,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 380 / 530
 
-<- **이전**: [310. 마이크로세그멘테이션과 수평 이동 방어 (Micro-Segmentation for Lateral Movement Defense)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/310_microsegmentation_lateral_movement/)
-**다음**: [311. 스마트 컨트랙트 재진입 방지 패턴 감리 (Smart Contract Reentrancy Defense Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/311_smart_contract_reentrancy_audit/) ->
+<- **이전**: [310. 마이크로세그멘테이션과 수평 이동 방어 (Micro-Segmentation for Lateral Movement Defense)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/669_microsegmentation_lateral_movement/)
+**다음**: [311. 스마트 컨트랙트 재진입 방지 패턴 감리 (Smart Contract Reentrancy Defense Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/670_smart_contract_reentrancy_audit/) ->
 
 ---

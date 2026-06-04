@@ -11,7 +11,7 @@ tags = ["studynote-devops-sre"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Terraform은 선언형으로 인프라 자원을 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)하고, Ansible은 절차형으로 서버 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)과 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/)를 자동화한다.
+> 1. **본질**: Terraform은 선언형으로 인프라 자원을 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)하고, Ansible은 절차형으로 서버 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)과 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/873_configuration_management/)를 자동화한다.
 > 2. **가치**: Terraform은 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))와 계획(Plan)으로 인프라 변경을 예측 가능하게 만들고, Ansible은 기존 서버에 빠르게 적용하기 쉽다.
 > 3. **판단**: 두 도구는 경쟁 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 아니라 보완 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)이며, 인프라 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)과 구성 적용을 분리하면 운영 품질이 올라간다.
 
@@ -40,7 +40,7 @@ Inventory -> Playbook -> Task -> Host Change
 | 개념 | [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) | [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/) |
 | :-- | :-- | :-- |
 | 스타일 | 선언형 | 절차형 |
-| 주 역할 | 인프라 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) | [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) |
+| 주 역할 | 인프라 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) | [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/873_configuration_management/) |
 | 상태 관리 | [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 필수 | 실행 시점 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 중심 |
 | 강점 | 변경 예측, [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 배포, 운영 자동화 |
 | 대표 입력 | HCL | YAML |

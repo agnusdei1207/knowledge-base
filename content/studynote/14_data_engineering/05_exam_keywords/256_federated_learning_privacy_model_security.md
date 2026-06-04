@@ -11,7 +11,7 @@ tags = ["studynote-data-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 연합 학습(Federated [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))은 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중앙 서버에 모으지 않고, 각 디바이스에서 로컬 훈련 후 그래디언트(Gradient)만 집계하여 전역 모델(Global Model)을 개선하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) ML 패러다임이다.
-> 2. **가치**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), 규제 준수([GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)·[HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/)), 낮은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 비용을 동시에 달성하며 의료·금융·모바일 키보드 등 민감 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영역의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습을 가능하게 한다.
+> 2. **가치**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), 규제 준수([GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)·[HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/1058_hipaa/)), 낮은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 비용을 동시에 달성하며 의료·금융·모바일 키보드 등 민감 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영역의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습을 가능하게 한다.
 > 3. **판단 포인트**: 그래디언트 역전(Gradient Inversion) 공격으로 그래디언트에서 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복원할 수 있으므로, [차등 프라이버시](/knowledge-base/studynote/16_bigdata/10_governance/209_differential_privacy/)([Differential Privacy](/knowledge-base/studynote/09_security/16_data_privacy/817_differential_privacy/))·안전 집계(Secure Aggregation) 추가 계층이 필수이다.
 
 ---
@@ -24,7 +24,7 @@ tags = ["studynote-data-engineering"]
 
 | 시나리오 | 문제 |
 |:---|:---|
-| 병원 간 환자 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/) | [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/) 위반 |
+| 병원 간 환자 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/) | [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/1058_hipaa/) 위반 |
 | 스마트폰 타이핑 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 침해 |
 | 은행 간 사기 탐지 모델 공유 | 금융 정보 유출 |
 | 자동차 제조사 주행 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 영업 비밀 노출 |
@@ -193,7 +193,7 @@ W_k: 클라이언트 k의 로컬 모델 파라미터
 
 | 기대효과 | 세부 내용 |
 |:---|:---|
-| <strong>프라이버시 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong> | 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 없음, [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)·[HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/) 준수 |
+| <strong>프라이버시 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong> | 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 없음, [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)·[HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/1058_hipaa/) 준수 |
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 확장성</strong> | 단일 기관 불가능한 희귀 사례 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합 학습 |
 | **통신 비용 절감** | 모델 파라미터만 전송 (원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 대비 수십~수백배 감소) |
 | **온디바이스 개인화** | 각 클라이언트 로컬 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 개인화 모델 미세조정 |

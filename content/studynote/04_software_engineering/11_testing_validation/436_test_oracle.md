@@ -87,7 +87,7 @@ tags = ["studynote-software-engineering"]
 |:---|:---|:---|
 | 명세 오라클 | 요구사항 | 가장 정석 |
 | [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 오라클 | 기준 시스템 | 비교 대상 필요 |
-| [휴리스틱 오라클](/knowledge-base/studynote/04_software_engineering/11_testing_validation/439_heuristic_oracle/) | 경험 | 빠르지만 주관적 |
+| [휴리스틱 오라클](/knowledge-base/studynote/04_software_engineering/11_testing_validation/831_heuristic_oracle/) | 경험 | 빠르지만 주관적 |
 
 좋은 테스트는 좋은 입력뿐 아니라 좋은 오라클도 필요하다.
 

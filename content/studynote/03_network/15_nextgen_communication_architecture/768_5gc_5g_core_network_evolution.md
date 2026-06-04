@@ -20,7 +20,7 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) Release 15에서 정의된, 오직 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/">Standalone</a> (<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/">SA</a>, 단독 모드) 망에서만 진정한 힘을 발휘하는 5세대의 심장부이자 백본(Backbone) 시스템</strong>입니다.
-- 기존 4G 코어망인 EPC를 폐기하고, 아예 처음부터 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a>(Cloud-Native), <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/">NFV</a>/<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a>), <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 처리</strong>에 완벽하게 최적화되도록 밑바닥부터 새로 설계한 혁명적인 아키텍처입니다.
+- 기존 4G 코어망인 EPC를 폐기하고, 아예 처음부터 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/">클라우드 네이티브</a>(Cloud-Native), <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/">NFV</a>/<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a>), <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 처리</strong>에 완벽하게 최적화되도록 밑바닥부터 새로 설계한 혁명적인 아키텍처입니다.
 
 ```text
 [SA 풀 전환 클라우드 네이티브 슬라이싱 전…]
@@ -73,13 +73,13 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - 이처럼 모든 부품이 잘게 쪼개진 소프트웨어 블록(Network Function)이 되었기 때문에, 마법이 일어납니다.
-- 공장에 특화된 5G망(슬라이싱)을 만들고 싶으면, 서울 중앙 서버의 [AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/) 블록 1개와, 공장 지하실에 UPF 블록 1개, 보안(AUSF) 블록 1개를 소프트웨어로 복사해서 설치(Instantiating)해주면 그날로 수십억짜리 독립된 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 미니 통신망이 뚝딱 만들어집니다. 이것이 5GC [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)의 진정한 위력입니다.
+- 공장에 특화된 5G망(슬라이싱)을 만들고 싶으면, 서울 중앙 서버의 [AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/) 블록 1개와, 공장 지하실에 UPF 블록 1개, 보안(AUSF) 블록 1개를 소프트웨어로 복사해서 설치(Instantiating)해주면 그날로 수십억짜리 독립된 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 미니 통신망이 뚝딱 만들어집니다. 이것이 5GC [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)의 진정한 위력입니다.
 
-5GC를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전…가 기반 조건을 만든다면, 5GC는 그 위에서 핵심 메커니즘을 구현하고, SBA는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+5GC를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 슬라이싱 전…가 기반 조건을 만든다면, 5GC는 그 위에서 핵심 메커니즘을 구현하고, SBA는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전…의 기반 정리 | 5GC의 핵심 동작 | SBA의 확장 적용 |
+| 초점 | [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 슬라이싱 전…의 기반 정리 | 5GC의 핵심 동작 | SBA의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 유연성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
@@ -89,7 +89,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 5GC를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전… 수준의 기본 대책으로 충분한지, 아니면 5GC가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 SBA와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 5GC를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 슬라이싱 전… 수준의 기본 대책으로 충분한지, 아니면 5GC가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 SBA와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -100,7 +100,7 @@ tags = ["studynote-network"]
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 5GC의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전…와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 슬라이싱 전…와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: 5GC를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -118,7 +118,7 @@ tags = ["studynote-network"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 슬라이싱 전… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 기반 구조 (Service-Based [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) | 기능을 느슨하게 결합해 유연성을 높인다. |
 | [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/) ([Network Slicing](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 요구사항을 논리적으로 분리한다. |
 | [SBA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
@@ -135,7 +135,7 @@ tags = ["studynote-network"]
     +---> [확장 B: AI 기반 네트워크 최적화]
 ```
 
-5GC는 [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전…에서 출발해 현재 메커니즘을 정교화하고, 이후 SBA와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+5GC는 [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 슬라이싱 전…에서 출발해 현재 메커니즘을 정교화하고, 이후 SBA와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -80,7 +80,7 @@ tags = ["studynote-design-supervision"]
 ### 자동화 DB 감리 도구
 - <strong>Toad for <a href="/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a> / DBeaver</strong>: [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 비교, [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 분석.
 - <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/">SonarQube</a> DB Analyzer</strong>: SQL 코드 품질 분석.
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/">DAST</a> (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/">동적 분석</a>)</strong>: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 취약점 자동 탐지.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/">DAST</a> (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/">동적 분석</a>)</strong>: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 취약점 자동 탐지.
 
 ### [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 관리 (DQM) 연계
 - DB 감리에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 기준(완전성·[정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)·[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))을 정량 측정.
@@ -144,7 +144,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 30 / 530
 
-<- **이전**: [026. 베이스라인 검증 (Baseline Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/026_baseline_verification/)
-**다음**: [27. 사업 관리 영역 감리 (Project Management Area Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/027_pm_area_audit/) ->
+<- **이전**: [026. 베이스라인 검증 (Baseline Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/603_baseline_verification/)
+**다음**: [27. 사업 관리 영역 감리 (Project Management Area Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/604_pm_area_audit/) ->
 
 ---

@@ -118,6 +118,6 @@ tags = ["studynote-design-supervision"]
 **진행 상황**: 385 / 530
 
 <- **이전**: [313. 모바일 통신 구간 인증서 핀닝 (Certificate Pinning)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/313_certificate_pinning/)
-**다음**: [314. IoT 디바이스 변조 저항성 진단 (IoT Device Tamper Resistance Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/314_iot_tamper_resistance/) ->
+**다음**: [314. IoT 디바이스 변조 저항성 진단 (IoT Device Tamper Resistance Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/672_iot_tamper_resistance/) ->
 
 ---

@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: OMA(Open Mobile Alliance)에서 제정한 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">사물인터넷</a>(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a>) 기기를 위한 '원격 장치 관리(Device <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)' 표준 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>입니다.
+- **개념**: OMA(Open Mobile Alliance)에서 제정한 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">사물인터넷</a>(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a>) 기기를 위한 '원격 장치 관리(Device <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/">Management</a>)' 표준 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>입니다.
 - **필요성**: MQTT나 CoAP가 기기들 간에 "온도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"를 주고받는 대화(메시징)에 치중했다면, LwM2M은 기기 자체의 <strong>"배터리가 얼마나 남았는지, 오류는 없는지, <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/">펌웨어</a> 버전은 몇인지"</strong> 기기의 '건강 상태와 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)'을 중앙에서 관리하기 위해 만들어졌습니다.
 
 ```text
@@ -77,7 +77,7 @@ LwM2M은 전 세계 모든 [IoT](/knowledge-base/studynote/06_ict_convergence/02
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 1. <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/">Bootstrapping</a> (<a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>)</strong>: 기기 박스를 뜯어 전원을 처음 켰을 때, 중앙 서버 주소와 보안 키를 자동으로 내려받아 즉시 세팅합니다.
-2. <strong>Device <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a> (제어)</strong>: 기기 재부팅, 공장 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화, 배터리 상태 읽어오기 등을 원격으로 수행합니다.
+2. <strong>Device <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/">Management</a> (제어)</strong>: 기기 재부팅, 공장 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화, 배터리 상태 읽어오기 등을 원격으로 수행합니다.
 3. **Information Reporting (관찰 보고)**: 센서가 자고 있다가 "배터리가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 이하로 떨어졌을 때만 서버로 보고하라"는 식의 이벤트 기반 관찰(Observe) 기능.
 4. <strong>FOTA (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/">Firmware</a> Over The Air)</strong>: 버그가 생겼을 때 무선으로 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 파일을 밀어 넣어 업데이트하는 핵심 기능.
 

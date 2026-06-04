@@ -10,7 +10,7 @@ tags = ["studynote-data-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 강화 학습([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/))은 시행착오(Trial-and-Error)를 통해 누적 보상(Cumulative Reward)을 최대화하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 스스로 학습하는 패러다임이다.
+> 1. **본질**: 강화 학습([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/))은 시행착오(Trial-and-Error)를 통해 누적 보상(Cumulative Reward)을 최대화하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 스스로 학습하는 패러다임이다.
 > 2. **가치**: [MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/)([Markov Decision Process](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/314_mdp_rl/)) 수학적 프레임워크와 Q러닝([Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/))·[DQN](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/)([Deep Q-Network](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/))은 게임·로봇 제어·금융 트레이딩 등 순차적 의사결정 문제를 자동화한다.
 > 3. **판단 포인트**: 탐색([Exploration](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/))과 활용(Exploitation)의 균형, 보상 설계(Reward Shaping)의 품질, 샘플 효율성(Sample Efficiency)이 강화 학습 시스템의 성패를 가른다.
 
@@ -207,7 +207,7 @@ AlphaGo 학습 파이프라인:
 
 ### 5.2 결론
 
-강화 학습은 [MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) 프레임워크와 [벨만 방정식](/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/)이라는 수학적 기반 위에 딥러닝(Deep [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))을 결합한 DQN으로 복잡한 현실 문제에 적용 가능해졌다. [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) from Human Feedback)는 ChatGPT와 같은 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 정렬(Alignment)에 핵심적으로 사용되며, 강화 학습은 이제 단순 게임 AI를 넘어 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 안전성의 핵심 기술로 자리 잡았다.
+강화 학습은 [MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) 프레임워크와 [벨만 방정식](/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/)이라는 수학적 기반 위에 딥러닝(Deep [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))을 결합한 DQN으로 복잡한 현실 문제에 적용 가능해졌다. [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/) from Human Feedback)는 ChatGPT와 같은 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 정렬(Alignment)에 핵심적으로 사용되며, 강화 학습은 이제 단순 게임 AI를 넘어 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 안전성의 핵심 기술로 자리 잡았다.
 
 📢 **섹션 요약 비유**: 강화 학습은 인류의 진화 방식을 압축한 것이다. 수백만 년의 시행착오 대신, 컴퓨터 시뮬레이션 안에서 수백만 번의 경험을 압축하여 며칠 안에 전문가 수준에 도달한다. 알파고가 바둑 역사를 하룻밤에 배운 것처럼.
 

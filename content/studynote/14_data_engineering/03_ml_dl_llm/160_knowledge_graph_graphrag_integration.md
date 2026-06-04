@@ -10,7 +10,7 @@ tags = ["studynote-data-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 지식 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Knowledge [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))는 엔티티(Entity)와 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)([Relation](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/))를 삼중쌍(Triple: 주어-술어-목적어)으로 구조화한 지식 저장 체계이며, GraphRAG는 이를 LLM과 결합해 구조적 추론을 수행한다.
+> 1. **본질**: 지식 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Knowledge [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/))는 엔티티(Entity)와 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)([Relation](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/))를 삼중쌍(Triple: 주어-술어-목적어)으로 구조화한 지식 저장 체계이며, GraphRAG는 이를 LLM과 결합해 구조적 추론을 수행한다.
 > 2. **가치**: 단순 벡터 검색([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))이 "관련 문서 검색"에 그치는 반면, GraphRAG는 지식 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 다단계 추론(Multi-hop Reasoning)으로 "A의 상사의 동료의 연락처"같은 복잡한 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 질의를 처리한다.
 > 3. **판단 포인트**: 구조화된 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식(의료, 법률, 기업 조직)에는 GraphRAG가 강하고, 비정형 최신 정보에는 표준 RAG가 효율적이다 — 두 가지를 하이브리드로 결합하는 것이 최선이다.
 
@@ -18,7 +18,7 @@ tags = ["studynote-data-engineering"]
 
 "삼성전자 CEO의 전 직장 동료의 현재 직책은?" 같은 다단계 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 질의는 벡터 검색 RAG로는 처리가 어렵다. 지식 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 이런 복잡한 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 구조적으로 탐색한다.
 
-대표적 지식 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/): Google Knowledge [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/), Wikidata, DBpedia, 기업 내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) KG
+대표적 지식 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/): Google Knowledge [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/), Wikidata, DBpedia, 기업 내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) KG
 
 <strong>지식 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> 기본 구성</strong>
 - 엔티티 (Entity): 노드 — 사람, 조직, 제품, 개념
@@ -95,7 +95,7 @@ GraphRAG (Microsoft):
 | TransE | h + r ≈ t | 단순, 1:1 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 | TransR | h + Mr ≈ t | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)별 공간 |
 | RotatE | h ∘ r = t | 회전 연산, 역관계 |
-| Knowledge [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) | [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 기반 | 풍부한 표현 |
+| Knowledge [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) | [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 기반 | 풍부한 표현 |
 
 📢 **섹션 요약 비유**: GraphRAG는 "이 사람은 누구야?"라는 질문에 단순히 이름을 말하는 게 아니라, [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)망 전체를 탐색해서 "이 사람은 A의 동료이고, B의 상사이며, C의 동창"이라고 설명한다.
 
@@ -155,7 +155,7 @@ Microsoft GraphRAG는 2024년 오픈소스로 공개되어 기업 내 문서를 
 ### 📌 관련 개념 맵
 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
-| 기반 | 지식 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Knowledge [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) | 삼중쌍 구조 지식 |
+| 기반 | 지식 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Knowledge [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/)) | 삼중쌍 구조 지식 |
 | 구성 | 엔티티 (Entity) | [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 노드 |
 | 구성 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) ([Relation](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)) | [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 엣지 |
 | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) | SPARQL | KG 질의 언어 |

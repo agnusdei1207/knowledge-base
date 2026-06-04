@@ -12,7 +12,7 @@ tags = ["studynote-data-engineering"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 마이닝은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)만 돌리는 일이 아니라, 문제 정의부터 배포까지 이어지는 프로세스다.
-> 2. **구조**: [KDD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/225_kdd_t_test_anova_statistical_analysis/) (Knowledge Discovery in Databases)는 학문적 5단계 절차이고, CRISP-DM (Cross-Industry Standard [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) for [Data Mining](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/))은 비즈니스 중심 6단계 표준이다.
+> 2. **구조**: [KDD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/225_kdd_t_test_anova_statistical_analysis/) (Knowledge Discovery in Databases)는 학문적 5단계 절차이고, CRISP-DM (Cross-Industry Standard [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) for [Data Mining](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/))은 비즈니스 중심 6단계 표준이다.
 > 3. **판단**: 좋은 결과는 모델보다 [데이터 정제](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/266_data_cleansing/), 비즈니스 이해, 평가와 배포에서 더 많이 결정된다.
 
 ---

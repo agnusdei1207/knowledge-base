@@ -162,7 +162,7 @@ After:   A -> B -> C
 | 큐 ([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) | 단일/이중 연결 리스트로 구현 |
 | [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 캐시 | 이중 연결 리스트 + 해시맵 |
 | [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) ([Hash Table](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)) | 체이닝 시 버킷을 연결 리스트로 |
-| 건너뜀 리스트 ([Skip List](/knowledge-base/studynote/12_it_management/03_ea_isp/110_skip_list/)) | 다층 연결 리스트 |
+| 건너뜀 리스트 ([Skip List](/knowledge-base/studynote/12_it_management/03_ea_isp/894_skip_list/)) | 다층 연결 리스트 |
 
 ---
 
@@ -184,7 +184,7 @@ After:   A -> B -> C
 [해시 테이블 (Hash Table)]
 ```
 
-이 흐름도는 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) ([Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))에서 출발해 건너뜀 리스트 ([Skip List](/knowledge-base/studynote/12_it_management/03_ea_isp/110_skip_list/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
+이 흐름도는 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) ([Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))에서 출발해 건너뜀 리스트 ([Skip List](/knowledge-base/studynote/12_it_management/03_ea_isp/894_skip_list/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

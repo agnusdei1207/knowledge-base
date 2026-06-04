@@ -153,7 +153,7 @@ BCG 매트릭스는 50년이 지났지만 여전히 [전략](/knowledge-base/stu
 
 **진행 상황**: 49 / 587
 
-<- **이전**: [27. 7S 모델 (맥킨지)](/knowledge-base/studynote/12_it_management/01_governance_strategy/027_seven_s_model/)
+<- **이전**: [27. 7S 모델 (맥킨지)](/knowledge-base/studynote/12_it_management/01_governance_strategy/821_seven_s_model/)
 **다음**: [29. IT 포트폴리오 관리 (IT Portfolio Management)](/knowledge-base/studynote/12_it_management/01_governance_strategy/029_it_portfolio_management/) ->
 
 ---

@@ -35,7 +35,7 @@ Kafka Topic "orders":
 
 ### 2. Consumer Lag이 중요한 이유
 
-- <strong>실시간 처리 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a></strong>: Lag이 크면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신선도([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Freshness)가 낮아짐
+- <strong>실시간 처리 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/">SLA</a></strong>: Lag이 크면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신선도([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Freshness)가 낮아짐
 - **장애 예측**: Lag 급증 -> 처리 병목 -> 잠재적 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)/장애 전조
 - <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a></strong>: 지속적인 Lag 증가 = Consumer 추가 또는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 최적화 필요
 
@@ -69,7 +69,7 @@ kafka-consumer-groups.sh \
 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) CLI (`kafka-consumer-groups.sh`) | 기본 제공, 실시간 조회 | 개발/디버깅 |
 | Burrow (LinkedIn [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)) | 트렌드 분석, 알림, 슬라이딩 윈도우 판단 | 프로덕션 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 |
 | JMX [Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/) | `kafka.consumer.fetch-manager-metrics` | [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/)/[Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/) 통합 |
-| [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) UI / [Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) Control Center | [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 대시보드 | 운영 가시성 |
+| [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) UI / [Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/) Control Center | [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 대시보드 | 운영 가시성 |
 | AWS MSK Console (MSK 사용 시) | 관리형 클러스터 내장 | AWS 환경 |
 
 ### 3. Burrow의 Lag 판단 로직
@@ -171,7 +171,7 @@ KEDA / Custom HPA -> Consumer Pod 스케일아웃
 | 효과 | 설명 |
 |:---|:---|
 | 장애 조기 예방 | Lag 증가 추세로 병목 사전 감지 |
-| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 보장 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신선도([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Freshness) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 |
+| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 보장 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신선도([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Freshness) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 |
 | 비용 최적화 | Lag 기반 오토스케일링으로 불필요한 과잉 Consumer 방지 |
 
 ### 2. 결론

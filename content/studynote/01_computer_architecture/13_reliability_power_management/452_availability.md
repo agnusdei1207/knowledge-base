@@ -38,7 +38,7 @@ tags = ["studynote-computer-architecture"]
 +---------------+------------------------------+---------------+
 ```
 
-즉 가용성은 "안 멈추는 시스템"이라는 추상 구호가 아니라, 허용 가능한 중단 시간을 얼마나 엄격하게 관리할 것인지에 대한 계약이자 설계 목표다. 여기서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약인 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))가 등장하며, 운영팀은 이 수치를 지키기 위해 구조적 대비를 해야 한다.
+즉 가용성은 "안 멈추는 시스템"이라는 추상 구호가 아니라, 허용 가능한 중단 시간을 얼마나 엄격하게 관리할 것인지에 대한 계약이자 설계 목표다. 여기서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약인 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/))가 등장하며, 운영팀은 이 수치를 지키기 위해 구조적 대비를 해야 한다.
 
 - **📢 섹션 요약 비유**: 가용성은 병원의 응급실과 같다. 의사가 한 번도 쉬지 않는 것이 핵심이 아니라, 환자가 언제 와도 바로 치료받을 수 있게 교대 인력과 예비 장비가 준비되어 있어야 한다.
 
@@ -135,7 +135,7 @@ Availability = \frac{[MTBF](/knowledge-base/studynote/01_computer_architecture/1
 
 ## Ⅴ. 기대효과 및 결론
 
-가용성이 잘 설계된 시스템은 단순히 장애가 적은 시스템이 아니라, 장애가 사업 중단으로 번지지 않는 시스템이 된다. 사용자 입장에서는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 신뢰도가 올라가고, 운영팀 입장에서는 장애 대응이 예측 가능해지며, 기업 입장에서는 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 위반 비용과 평판 손실을 줄일 수 있다. 즉 가용성은 기술적 미덕이면서 동시에 경영 지표다.
+가용성이 잘 설계된 시스템은 단순히 장애가 적은 시스템이 아니라, 장애가 사업 중단으로 번지지 않는 시스템이 된다. 사용자 입장에서는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 신뢰도가 올라가고, 운영팀 입장에서는 장애 대응이 예측 가능해지며, 기업 입장에서는 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 위반 비용과 평판 손실을 줄일 수 있다. 즉 가용성은 기술적 미덕이면서 동시에 경영 지표다.
 
 다만 가용성 향상에는 분명한 전제조건이 있다. 첫째, [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)는 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 함께 설계되어야 하며, 둘째, 자동화는 충분한 테스트와 모니터링이 뒷받침되어야 하고, 셋째, 높은 가용성 목표는 그에 맞는 운영 성숙도를 요구한다. 장비만 많이 사는 것으로는 고가용성이 완성되지 않는다.
 
@@ -154,7 +154,7 @@ Availability = \frac{[MTBF](/knowledge-base/studynote/01_computer_architecture/1
 | [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) (Single Point of Failure) | 하나만 고장 나도 전체 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 멈추는 구조적 약점 |
 | HA (High Availability) | [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)와 자동 전환으로 높은 가용성을 구현하는 운영 구조 |
 | 장애 허용성 ([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/)) | 장애가 발생한 순간에도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 없이 계속 동작하게 하는 상위 개념 |
-| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) | 가용성을 계약과 운영 목표로 수치화한 기준 |
+| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)) | 가용성을 계약과 운영 목표로 수치화한 기준 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

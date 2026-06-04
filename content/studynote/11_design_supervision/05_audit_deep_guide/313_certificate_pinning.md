@@ -117,7 +117,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 384 / 530
 
-<- **이전**: [312. 네트워크 장비 펌웨어 백도어 모니터링 (Network Firmware Backdoor Monitoring Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/312_network_firmware_backdoor_monitoring/)
+<- **이전**: [312. 네트워크 장비 펌웨어 백도어 모니터링 (Network Firmware Backdoor Monitoring Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/671_network_firmware_backdoor_monitoring/)
 **다음**: [314. IoT 디바이스 변조 저항성 진단 (IoT Device Tamper Resistance Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/314_audit/) ->
 
 ---

@@ -10,7 +10,7 @@ tags = ["studynote-devops-sre"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Ephemeral [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) Runner는 <strong>빌드마다 새로운 러너(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>/<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>)를 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>하고, 빌드 완료 후 즉시 삭제</strong>하는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 실행 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로, 이전 빌드의 잔여물(캐시·[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)·프로세스)이 다음 빌드에 영향을 주지 않는 <strong>완전 격리(Clean Room)</strong>를 보장한다.
+> 1. **본질**: Ephemeral [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) Runner는 <strong>빌드마다 새로운 러너(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>/<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>)를 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>하고, 빌드 완료 후 즉시 삭제</strong>하는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 실행 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로, 이전 빌드의 잔여물(캐시·[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)·프로세스)이 다음 빌드에 영향을 주지 않는 <strong>완전 격리(Clean Room)</strong>를 보장한다.
 > 2. **가치**: 영구 러너(Persistent Runner)는 이전 빌드의 `node_modules`·악성 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)·[환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)가 남아 <strong>빌드 오염(Build Pollution)·보안 침해</strong>를 유발하지만, Ephemeral 러너는 매번 깨끗한 상태에서 시작한다.
 > 3. **판단 포인트**: GitHub Actions(기본 Ephemeral)·GitLab Runner([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) executor)·[Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)(K8s [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) agent)가 대표 구현이며, <strong>빌드 시간 vs 격리 보안</strong>의 트레이드오프(캐시 활용 어려움)를 관리해야 한다.
 
@@ -40,9 +40,9 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 도구별 Ephemeral 구현
+### [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 도구별 Ephemeral 구현
 
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 도구 | 구현 방식 | 기본 모드 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 도구 | 구현 방식 | 기본 모드 |
 |:---|:---|:---|
 | **GitHub Actions** | 매 워크플로마다 새 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) | **Ephemeral (기본)** |
 | **GitLab Runner** | [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) executor | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 필요 |
@@ -86,9 +86,9 @@ tags = ["studynote-devops-sre"]
 |:---|:---|:---|:---|
 | 빌드 오염 | 빈번 | **0건** | 완전 제거 |
 | [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 유출 | [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/) | **삭제 보장** | 보안 강화 |
-| 재현성 | 환경 의존 | **100%** | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 신뢰 |
+| 재현성 | 환경 의존 | **100%** | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 신뢰 |
 
-Ephemeral Runner는 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD 보안의 기본 원칙</strong>이며, SLSA Level 3 이상에서는 격리된 빌드 환경이 필수 요구 사항이다.
+Ephemeral Runner는 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD 보안의 기본 원칙</strong>이며, SLSA Level 3 이상에서는 격리된 빌드 환경이 필수 요구 사항이다.
 
 ---
 

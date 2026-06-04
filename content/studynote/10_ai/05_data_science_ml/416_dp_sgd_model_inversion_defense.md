@@ -12,7 +12,7 @@ tags = ["studynote-ai"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 모델 역산 공격 ([Model Inversion](/knowledge-base/studynote/09_security/19_ai_advanced_security/951_model_inversion/) Attack)은 모델 출력이나 학습 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에서 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 민감 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 거꾸로 추정하는 공격이며, DP-SGD (Differentially Private [Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/241_optimizer_sgd_minibatch_adam_momentum_adaptive/))는 <strong>기울기 민감도 상한 + 노이즈 주입</strong>으로 이 누출 가능성을 수학적으로 제한한다.
-> 2. **가치**: 의료, 금융, [생체 인증](/knowledge-base/studynote/09_security/uncategorized/702_biometric_authentication/)처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 민감도가 높은 환경에서는 정확도만 높은 모델보다 <strong>개별 레코드가 드러나지 않도록 보장된 모델</strong>이 더 중요하다.
+> 2. **가치**: 의료, 금융, [생체 인증](/knowledge-base/studynote/09_security/uncategorized/1047_biometric_authentication/)처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 민감도가 높은 환경에서는 정확도만 높은 모델보다 <strong>개별 레코드가 드러나지 않도록 보장된 모델</strong>이 더 중요하다.
 > 3. **판단 포인트**: 클리핑 임계값 `C`, 노이즈 배수 `σ`, 프라이버시 예산 `(ε, δ)`의 균형이 핵심이며, 노이즈를 과도하게 넣으면 모델 효용이 급락하므로 공격 위험도와 규제 수준을 함께 고려해야 한다.
 
 ---

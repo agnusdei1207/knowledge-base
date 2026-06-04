@@ -123,7 +123,7 @@ tags = ["studynote-design"]
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) ([Unified Modeling Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)) | 아키텍처 뷰를 그리는 표현 도구 |
-| Use Case ([UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/)) | 4+1의 시나리오 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 축 |
+| Use Case ([UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/871_underpinning_contract/)) | 4+1의 시나리오 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 축 |
 | C4 Model | 구조 중심의 보완적 표현 |
 | [Architecture Decision Record](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/) ([ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/)) | 설계 결정을 추적하는 기록 |
 | [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) | 실행 뷰와 물리 뷰를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |

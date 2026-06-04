@@ -118,7 +118,7 @@ tags = ["studynote-network"]
 1. <strong>레인보우 테이블 공격 (<a href="/knowledge-base/studynote/09_security/02_crypto/107_rainbow_table/">Rainbow Table</a> Attack)</strong>: 해커가 미리 "123456", "password" 등 수십억 개의 비밀번호를 SHA-256으로 돌려놓고 해시값과 평문의 매핑 테이블을 만들어둔다. DB가 털리면 해커는 테이블과 매칭해 평문을 1초 만에 찾아낸다.
 2. **무차별 대입 공격 (Brute-force)**: SHA-256은 하드웨어([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 가속을 받으면 초당 수백억 번 계산이 가능하므로, 해커가 무작위로 문자를 대입해 해시값을 찾는 속도가 너무 빠르다.
 
-이를 막기 위해 고안된 것이 [KDF](/knowledge-base/studynote/09_security/03_network_security/144_hkdf_tls_1_3/) ([Key Derivation Function](/knowledge-base/studynote/04_software_engineering/11_testing_validation/505_password_storage_kdf_salt/)), 즉 [키 스트레칭](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/)과 솔팅 기법이다.
+이를 막기 위해 고안된 것이 [KDF](/knowledge-base/studynote/09_security/03_network_security/144_hkdf_tls_1_3/) ([Key Derivation Function](/knowledge-base/studynote/04_software_engineering/11_testing_validation/897_password_storage_kdf_salt/)), 즉 [키 스트레칭](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/)과 솔팅 기법이다.
 
 ```text
   +-----------------------------------------------------------+

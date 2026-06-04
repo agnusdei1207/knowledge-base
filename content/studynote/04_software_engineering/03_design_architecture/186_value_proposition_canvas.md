@@ -46,11 +46,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-VPC는 크게 고객 프로필 ([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) Profile)과 가치 맵 (Value Map) 두 영역으로 나뉘고, 각각 세 요소를 가진다. 고객 프로필은 고객이 해야 하는 일 (Jobs), 그 일을 하며 겪는 고통 (Pains), 기대하는 이익 (Gains)으로 이루어진다. 가치 맵은 제품/[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) (Products & Services), 고통 완화 요소 (Pain Relievers), 이익 창출 요소 (Gain Creators)로 이루어진다.
+VPC는 크게 고객 프로필 ([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/) Profile)과 가치 맵 (Value Map) 두 영역으로 나뉘고, 각각 세 요소를 가진다. 고객 프로필은 고객이 해야 하는 일 (Jobs), 그 일을 하며 겪는 고통 (Pains), 기대하는 이익 (Gains)으로 이루어진다. 가치 맵은 제품/[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) (Products & Services), 고통 완화 요소 (Pain Relievers), 이익 창출 요소 (Gain Creators)로 이루어진다.
 
 | 영역 | 구성 요소 | 질문 |
 | :--- | :--- | :--- |
-| 고객 프로필 | [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) Jobs | 고객은 무엇을 해내려 하는가? |
+| 고객 프로필 | [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/) Jobs | 고객은 무엇을 해내려 하는가? |
 | 고객 프로필 | Pains | 그 과정에서 무엇이 느리고 비싸고 불안한가? |
 | 고객 프로필 | Gains | 무엇이 더 쉬워지거나 더 좋아지길 원하는가? |
 | 가치 맵 | Products & Services | 우리가 제공하는 핵심 수단은 무엇인가? |
@@ -85,11 +85,11 @@ VPC의 핵심 원리는 완성된 적합성 선언이 아니라 <strong>가설�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 VPC를 잘 쓰려면 먼저 고객 인터뷰, VOC (Voice of [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)), 행동 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 같은 증거를 모은 뒤, 고객 프로필을 우선순위 기반으로 정리해야 한다. 이후 제품 팀은 각 Pain과 Gain에 대응하는 기능이나 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 요소를 매핑하면서, 대응이 약한 부분은 기능 추가가 아니라 가설 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 항목으로 남겨야 한다. 이 과정이 빠지면 캔버스는 그럴듯한 포스터가 되고 만다.
+실무에서 VPC를 잘 쓰려면 먼저 고객 인터뷰, VOC (Voice of [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/)), 행동 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 같은 증거를 모은 뒤, 고객 프로필을 우선순위 기반으로 정리해야 한다. 이후 제품 팀은 각 Pain과 Gain에 대응하는 기능이나 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 요소를 매핑하면서, 대응이 약한 부분은 기능 추가가 아니라 가설 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 항목으로 남겨야 한다. 이 과정이 빠지면 캔버스는 그럴듯한 포스터가 되고 만다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) Jobs가 기능 요구가 아니라 고객의 실제 맥락과 목적 언어로 적혀 있는가?
+1. [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/) Jobs가 기능 요구가 아니라 고객의 실제 맥락과 목적 언어로 적혀 있는가?
 2. Pains와 Gains가 팀 추측이 아니라 인터뷰·관찰·데이터로 뒷받침되는가?
 3. 각 Pain Reliever와 Gain Creator가 어느 고객 항목에 대응하는지 명시되어 있는가?
 4. 상위 20% 핵심 Pain에 집중했는가, 아니면 중요도가 낮은 기능으로 칸만 채웠는가?
@@ -124,7 +124,7 @@ VPC의 핵심 원리는 완성된 적합성 선언이 아니라 <strong>가설�
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | 제품-시장 적합성 (PMF) | VPC가 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하려는 핵심 상태 |
-| 고객 세그먼트 ([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/)) | 캔버스를 나눠 그려야 하는 기준 집단 |
+| 고객 세그먼트 ([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/) [Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/)) | 캔버스를 나눠 그려야 하는 기준 집단 |
 | [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) ([Minimum Viable Product](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)) | 상위 Pain/Gain을 빠르게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하기 위한 최소 해법 |
 | [린 캔버스](/knowledge-base/studynote/04_software_engineering/03_design_architecture/185_lean_canvas_business_model/) ([Lean Canvas](/knowledge-base/studynote/04_software_engineering/03_design_architecture/185_lean_canvas_business_model/)) | 사업 가설 전체 맥락에서 VPC를 감싸는 상위 도구 |
 | [디자인 씽킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/040_design_thinking/) ([Design Thinking](/knowledge-base/studynote/12_it_management/01_governance_strategy/040_design_thinking/)) | 고객 공감과 문제 정의 데이터를 [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/) 입력으로 제공 |

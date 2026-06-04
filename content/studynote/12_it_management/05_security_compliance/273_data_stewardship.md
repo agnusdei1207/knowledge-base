@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 394 / 587
 
-<- **이전**: [272. 섀도우 IT 리스크](/knowledge-base/studynote/12_it_management/05_security_compliance/272_shadow_it_risk_review/)
-**다음**: [273. 데이터 스튜어드십](/knowledge-base/studynote/12_it_management/05_security_compliance/273_data_stewardship_review/) ->
+<- **이전**: [272. 섀도우 IT 리스크](/knowledge-base/studynote/12_it_management/05_security_compliance/921_shadow_it_risk_review/)
+**다음**: [273. 데이터 스튜어드십](/knowledge-base/studynote/12_it_management/05_security_compliance/922_data_stewardship_review/) ->
 
 ---

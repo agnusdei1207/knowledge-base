@@ -12,7 +12,7 @@ tags = ["studynote-algorithm"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 시간 복잡도는 입력 크기 n에 따른 연산 횟수 증가율을 수학적으로 표현하며, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 성능의 언어다.
 > 2. **가치**: Big-O(최악), Ω(최선), Θ(평균) 표기법을 통해 다양한 환경에서 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 동작을 예측하고 비교한다.
-> 3. **판단 포인트**: 실무에서는 Big-O 최악 케이스가 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 보장의 기준이 되며, 분할정복 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 마스터 정리로 정확한 복잡도를 도출해야 한다.
+> 3. **판단 포인트**: 실무에서는 Big-O 최악 케이스가 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 보장의 기준이 되며, 분할정복 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 마스터 정리로 정확한 복잡도를 도출해야 한다.
 
 ---
 
@@ -32,7 +32,7 @@ tags = ["studynote-algorithm"]
 
 ### 분석 방법론
 
-1. **최악 케이스 분석 (Worst-Case)**: 입력이 가장 불리할 때 — 보수적 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 설계의 기준
+1. **최악 케이스 분석 (Worst-Case)**: 입력이 가장 불리할 때 — 보수적 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 설계의 기준
 2. **최선 케이스 분석 (Best-Case)**: 입력이 가장 유리할 때 — [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 잠재력 파악
 3. **평균 케이스 분석 (Average-Case)**: 입력 분포를 가정한 [기댓값](/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/) — 확률적 분석 필요
 
@@ -175,7 +175,7 @@ tags = ["studynote-algorithm"]
 
 1. **설계 단계에서 병목 예측**: 코드를 작성하기 전에 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 확장성을 수학적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
 2. <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/">코드 리뷰</a> 기준</strong>: O(n^) 이상의 루프 중첩을 발견하면 개선 필요성을 즉각 판단
-3. <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a> 수치화</strong>: "99.9% 응답시간 100ms 이하" 목표와 복잡도를 연결해 최대 입력 크기 설계
+3. <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/">SLA</a> 수치화</strong>: "99.9% 응답시간 100ms 이하" 목표와 복잡도를 연결해 최대 입력 크기 설계
 
 ### 실무 복잡도 한계선
 

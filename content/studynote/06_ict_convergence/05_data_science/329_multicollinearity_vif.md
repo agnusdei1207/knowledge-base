@@ -80,7 +80,7 @@ tags = ["studynote-ict-convergence"]
 
 또한 [결정 계수](/knowledge-base/studynote/14_data_engineering/02_math_mining/098_coefficient_of_determination_r_squared/)는 왜 이 주제가 등장했는지 보여 주는 선행 개념이고, [더미 변수](/knowledge-base/studynote/06_ict_convergence/05_data_science/330_dummy_variable/)는 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 확장 또는 세부 기술로 이어지는 인접 개념이다. 시험 답안에서는 이런 연결선을 함께 말해야 현재 개념의 위치가 살아난다.
 
-- **📢 섹션 요약 비유**: 숫자 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)에서 단서를 찾는 탐정과 같다.
+- **📢 섹션 요약 비유**: 숫자 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)에서 단서를 찾는 탐정과 같다.
 
 ---
 

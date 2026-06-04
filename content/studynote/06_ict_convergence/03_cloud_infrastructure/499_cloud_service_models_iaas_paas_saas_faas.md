@@ -13,7 +13,7 @@ tags = ["studynote-ict-convergence"]
 
 > 1. **본질**: [클라우드 서비스 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/201_cloud_service_models_iaas_paas_saas/)은 '제어권 vs 관리 부담'의 트레이드오프로, 위로 갈수록([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)->[FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/)) 관리할 것은 줄고 제어권도 줄어든다.
 > 2. **가치**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델을 올바르게 선택하면 운영 비용 절감과 개발 속도 향상을 동시에 달성할 수 있다.
-> 3. **판단 포인트**: 레거시 이전은 [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/), 빠른 개발은 [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/), 완제품 구독은 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/), 이벤트 기반 경량 로직은 FaaS로 판단한다.
+> 3. **판단 포인트**: 레거시 이전은 [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/), 빠른 개발은 [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/), 완제품 구독은 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/), 이벤트 기반 경량 로직은 FaaS로 판단한다.
 
 ---
 
@@ -24,13 +24,13 @@ tags = ["studynote-ict-convergence"]
 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 모델 스펙트럼</strong>:
 - [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)(Infrastructure [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)): CPU, 메모리, 스토리지, 네트워크 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 제공
 - [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)(Platform [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)): 런타임, 미들웨어, DB, 배포 파이프라인 제공
-- [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)(Software [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)): 완성된 애플리케이션을 구독 방식으로 제공
+- [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/)(Software [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)): 완성된 애플리케이션을 구독 방식으로 제공
 - [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/)(Function [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)): 함수 단위의 실행 환경 — [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/))의 핵심
 - [BaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/186_baas_backend_as_a_service_firebase/)(Backend [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)): [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 푸시, DB 등 백엔드 기능을 API로 제공
 
 기업이 클라우드를 도입할 때 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델 선택은 아키텍처, 비용, 보안 책임 범위를 결정짓는 핵심 판단이다.
 
-- **📢 섹션 요약 비유**: 레스토랑 선택과 같다 — 식재료만 받는 밀키트([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)), 반조리 음식([PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)), 완성 도시락([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)), 한 입짜리 스낵([FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/)). 더 편할수록 내 취향은 덜 반영된다.
+- **📢 섹션 요약 비유**: 레스토랑 선택과 같다 — 식재료만 받는 밀키트([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)), 반조리 음식([PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)), 완성 도시락([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/)), 한 입짜리 스낵([FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/)). 더 편할수록 내 취향은 덜 반영된다.
 
 ---
 
@@ -57,7 +57,7 @@ tags = ["studynote-ict-convergence"]
 |:---|:---:|:---:|:---|:---|
 | [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) | 높음 | 높음 | AWS EC2, Azure [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) | 레거시 [Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) & Shift |
 | [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/) | 중간 | 중간 | Heroku, GCP App 엔진 | 웹 앱 개발 |
-| [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) | 낮음 | 낮음 | Salesforce, Google Workspace | 사무 생산성 |
+| [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) | 낮음 | 낮음 | Salesforce, Google Workspace | 사무 생산성 |
 | [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) | 낮음 | 매우 낮음 | AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/), Azure Functions | 이벤트 처리 |
 | [BaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/186_baas_backend_as_a_service_firebase/) | 낮음 | 낮음 | Firebase, AWS Amplify | 모바일 앱 |
 
@@ -86,9 +86,9 @@ FaaS는 요청이 없을 때 비용이 발생하지 않는 **이벤트 드리븐
 2. 책임 공유 모델에서 보안 책임 범위를 명확히 기술한다 — IaaS는 OS 패치가 고객 책임.
 3. 비용 모델 차이: IaaS는 시간 단위 과금, FaaS는 호출 수 + 실행 시간 × 메모리.
 
-**실무 시나리오**: 금융사 시스템 클라우드 전환 시 — 핵심 OLTP는 [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)(제어권 확보), 개발/테스트 환경은 [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)(속도), 이메일/협업은 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/), 배치 리포트는 [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/)(야간 5분 실행)로 혼합 적용.
+**실무 시나리오**: 금융사 시스템 클라우드 전환 시 — 핵심 OLTP는 [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)(제어권 확보), 개발/테스트 환경은 [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)(속도), 이메일/협업은 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/), 배치 리포트는 [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/)(야간 5분 실행)로 혼합 적용.
 
-- **📢 섹션 요약 비유**: 올바른 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델 선택은 음식점 선택과 같다 — 데이트엔 레스토랑([PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)), 혼밥엔 편의점([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)), 파티엔 케이터링([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)), 출출할 때 자판기([FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/)).
+- **📢 섹션 요약 비유**: 올바른 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델 선택은 음식점 선택과 같다 — 데이트엔 레스토랑([PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)), 혼밥엔 편의점([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/)), 파티엔 케이터링([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)), 출출할 때 자판기([FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/)).
 
 ---
 
@@ -124,7 +124,7 @@ FaaS는 요청이 없을 때 비용이 발생하지 않는 **이벤트 드리븐
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 레고 블록([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/))을 직접 조립하거나, 반쯤 완성된 세트([PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/))를 사거나, 완성된 장난감([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))을 살 수 있어요.
+1. 레고 블록([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/))을 직접 조립하거나, 반쯤 완성된 세트([PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/))를 사거나, 완성된 장난감([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/))을 살 수 있어요.
 2. 버튼 한 번에 동작하는 자판기 음식([FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/))은 기다리지 않아도 되지만, 내 입맛대로 바꾸기는 어려워요.
 3. 편할수록 내가 조절할 수 있는 건 줄어들지만, 신경 써야 할 것도 함께 줄어든답니다.
 

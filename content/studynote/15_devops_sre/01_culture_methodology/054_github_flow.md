@@ -12,7 +12,7 @@ tags = ["studynote-devops-sre"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: GitHub Flow는 `main` 브랜치를 항상 배포 가능하게 유지하고, feature branch를 짧게 쓰는 단순한 브랜치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
-> 2. **가치**: [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) ([Pull Request](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)), [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)), 빠른 배포와 잘 맞는다.
+> 2. **가치**: [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) ([Pull Request](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)), [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)), 빠른 배포와 잘 맞는다.
 > 3. **판단 포인트**: feature flag와 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)된 main 브랜치가 함께 있어야 안전하다.
 
 ---
@@ -41,7 +41,7 @@ feature -------●----●---------
 | :--- | :--- | :--- |
 | Branch | 기능 분리 | 짧게 유지 |
 | [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) | 리뷰 | 품질 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) | 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 테스트/빌드 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) | 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 테스트/빌드 |
 | Merge | 통합 | main [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
 
 핵심은 main이 항상 배포 가능해야 한다는 점이다. 그래서 브랜치 수명은 짧을수록 좋다.
@@ -68,7 +68,7 @@ feature flag를 쓰면 main에 코드를 빨리 합치면서도 사용자 노출
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 브랜치 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 규칙, 최소 리뷰 수, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 실패 시 머지 금지, 작은 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 유지가 중요하다. 배포는 main에서 직접 가능한 상태를 유지해야 한다.
+실무에서는 브랜치 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 규칙, 최소 리뷰 수, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 실패 시 머지 금지, 작은 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 유지가 중요하다. 배포는 main에서 직접 가능한 상태를 유지해야 한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -81,7 +81,7 @@ feature flag를 쓰면 main에 코드를 빨리 합치면서도 사용자 노출
 
 - feature branch를 오래 끌고 가는 경우
 - 리뷰 없이 main에 직접 머지하는 경우
-- [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 실패를 무시하는 경우
+- [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 실패를 무시하는 경우
 
 기술사 관점에서는 GitHub Flow가 개발 속도와 안전성을 함께 추구하는 단순한 운영 규칙이라는 점을 설명해야 한다.
 
@@ -106,7 +106,7 @@ GitHub Flow는 협업을 단순하게 만들고, 배포를 빠르게 한다. 작
 | main | 배포 가능 브랜치 |
 | feature branch | 기능 개발 |
 | [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) | 리뷰 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) | 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) | 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | [feature flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) | 안전한 노출 |
 
 ### 📈 관련 키워드 및 발전 흐름도

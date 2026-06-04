@@ -19,7 +19,7 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-강화학습 ([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/))은 보상이 명확해야 잘 작동하지만, 자율주행처럼 "무엇이 좋은 운전인가"를 수학적으로 정의하기가 쉽지 않다. 이때 모방 학습은 전문가 운전자의 행동을 직접 보고 배운다.
+강화학습 ([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/))은 보상이 명확해야 잘 작동하지만, 자율주행처럼 "무엇이 좋은 운전인가"를 수학적으로 정의하기가 쉽지 않다. 이때 모방 학습은 전문가 운전자의 행동을 직접 보고 배운다.
 
 행동 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)는 상태-행동 쌍을 모아 지도학습처럼 학습하는 가장 직관적인 방식이다. 즉, "사람이 브레이크를 밟는 상황"을 보고 모델도 같은 판단을 하게 만드는 것이다.
 

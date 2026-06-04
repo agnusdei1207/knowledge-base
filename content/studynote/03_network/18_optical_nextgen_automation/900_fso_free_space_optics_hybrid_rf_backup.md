@@ -100,7 +100,7 @@ tags = ["studynote-network"]
 
 ## Ⅴ. 기대효과 및 결론
 
-무선 광통신은 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 전송 용량 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/), 의미 기반 통신 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의미 기반 통신 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+무선 광통신은 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 전송 용량 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/), 의미 기반 통신 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의미 기반 통신 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 무선 광통신은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -113,7 +113,7 @@ tags = ["studynote-network"]
 | [다크 파이버](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/899_dark_fiber_unlit_infrastructure_lease/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
 | 광 전송 (Optical Transport) | [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 백본의 기본 전달 수단이다. |
 | 텔레메트리 (Telemetry) | 실시간 상태 측정과 제어 피드백을 가능하게 한다. |
-| [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

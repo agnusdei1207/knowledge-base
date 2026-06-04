@@ -38,7 +38,7 @@ tags = ["studynote-design-supervision"]
 - **📢 섹션 요약 비유**: 도시락을 한 종류만 파는 가게가 아니라, 밥·반찬·국을 따로 고르게 해서 손님마다 다른 도시락을 바로 조합해 주는 식당과 같다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-컴포저블 아키텍처의 핵심 원리는 업무 의미가 있는 PBS를 독립 단위로 설계하고, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 우선([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)-First) 계약으로 연결하며, 조합 계층이 채널별 경험을 빠르게 엮도록 만드는 것이다. 이때 조합은 단순 호출 집합이 아니라 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 권한, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 계약([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))까지 포함하는 운영 구조여야 한다.
+컴포저블 아키텍처의 핵심 원리는 업무 의미가 있는 PBS를 독립 단위로 설계하고, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 우선([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)-First) 계약으로 연결하며, 조합 계층이 채널별 경험을 빠르게 엮도록 만드는 것이다. 이때 조합은 단순 호출 집합이 아니라 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 권한, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 계약([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/))까지 포함하는 운영 구조여야 한다.
 
 | 구성 요소 | 핵심 원리 | 감리 포인트 |
 | --- | --- | --- |
@@ -83,13 +83,13 @@ tags = ["studynote-design-supervision"]
 - 각 PBS의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권과 [마스터 데이터 관리](/knowledge-base/studynote/12_it_management/01_governance_strategy/051_mdm_master_data_management/) 기준이 명확한가?
 - 외부 벤더 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)까지 포함한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준과 책임 경계가 계약으로 관리되는가?
 
-기술사 답안에서는 “민첩성 향상”만 쓰지 말고 “API와 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 없이는 복잡성 폭증”까지 함께 기술해야 균형 잡힌 판단이 된다. 또한 조직이 업무를 조합 단위로 생각하는 역량을 갖추지 못했다면 구조만 도입해도 효과가 제한적이라고 적으면 좋다.
+기술사 답안에서는 “민첩성 향상”만 쓰지 말고 “API와 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) 없이는 복잡성 폭증”까지 함께 기술해야 균형 잡힌 판단이 된다. 또한 조직이 업무를 조합 단위로 생각하는 역량을 갖추지 못했다면 구조만 도입해도 효과가 제한적이라고 적으면 좋다.
 - **📢 섹션 요약 비유**: 반찬 가게 재료가 많아도 냉장고 정리와 메뉴판이 없으면 오히려 주문이 꼬이듯, 조합형 구조일수록 규칙이 더 중요하다.
 
 ## Ⅴ. 기대효과 및 결론
 기대효과는 업무 민첩성, 채널 확장 속도, 벤더 유연성, 기능 재사용성 향상이다. 새 상품이나 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 등장했을 때 기존 PBS를 다시 엮어 빠르게 시범 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 내놓을 수 있고, 특정 영역만 교체해도 전체를 재구축하지 않아도 된다.
 
-결론적으로 컴포저블 아키텍처는 시스템을 기술 기능의 집합이 아니라 재조합 가능한 비즈니스 블록의 집합으로 바라보게 만든다. 시험에서는 PBS 단위, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 우선, 조합 계층, [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/), 조건부 채택 판단을 함께 쓰면 실무형 답안이 완성된다.
+결론적으로 컴포저블 아키텍처는 시스템을 기술 기능의 집합이 아니라 재조합 가능한 비즈니스 블록의 집합으로 바라보게 만든다. 시험에서는 PBS 단위, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 우선, 조합 계층, [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/), 조건부 채택 판단을 함께 쓰면 실무형 답안이 완성된다.
 - **📢 섹션 요약 비유**: 같은 재료 상자에서 오늘은 김밥을, 내일은 비빔밥을 만드는 것처럼 블록을 다시 조합해 다른 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 빠르게 만들 수 있다.
 
 ### 📌 관련 개념 맵

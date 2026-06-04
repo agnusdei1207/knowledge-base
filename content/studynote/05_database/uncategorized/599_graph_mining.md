@@ -114,7 +114,7 @@ tags = ["studynote-database"]
 | :--- | :--- |
 | 정보보안 암호화 DB [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)/Plug-in/[TDE](/knowledge-base/studynote/09_security/04_endpoint_security/403_tde_transparent_data_encryption/)) 혼합 구성 인프라망 구조 체계 검토 | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
 | [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/) 대응 포스트 퀀텀 암호화 DB [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 서명 보안 체계 적용 방안 연구 동향 | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
-| [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
+| [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
 | [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) | 운영·설계 판단을 연결해 주는 주변 개념이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도

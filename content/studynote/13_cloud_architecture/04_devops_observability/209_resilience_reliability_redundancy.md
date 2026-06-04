@@ -154,7 +154,7 @@ RPO < 24시간       백업 + 복구 프로세스
 |:---|:---|
 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연속성 | 단일 인프라 장애에 의한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 방지 |
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) 달성으로 비즈니스 크리티컬 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
-| 고객 신뢰 | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 준수로 고객 신뢰 유지 |
+| 고객 신뢰 | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 준수로 고객 신뢰 유지 |
 | 규제 준수 | 금융·의료 등 고가용성 규정 충족 |
 
 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)와 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 설계는 "장애가 발생하지 않도록 하는 것"이 목표가 아니다. 장애는 반드시 발생한다(Failure is inevitable). 목표는 "장애가 발생했을 때 비즈니스가 허용하는 시간과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 범위 내에서 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)되는 것"이다.

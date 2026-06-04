@@ -101,8 +101,8 @@ tags = ["studynote-design-supervision"]
 ## Ⅲ. 비교 및 연결
 | [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/) | 핵심 처방 | 보조 처방 | 영향 원칙 |
 |:---|:---|:---|:---|
-| 롱 메서드 (Long Method) | 메서드 분리 (Extract Method) | 조건부 분리 | [SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) |
-| 라지 클래스 (Large Class) | 클래스 분리 (Extract Class) | 슈퍼클래스 분리 | [SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/), [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) |
+| 롱 메서드 (Long Method) | 메서드 분리 (Extract Method) | 조건부 분리 | [SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) |
+| 라지 클래스 (Large Class) | 클래스 분리 (Extract Class) | 슈퍼클래스 분리 | [SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/), [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) |
 | 프리미티브 강박 (Primitive Obsession) | 값 객체 도입 | 타입 코드 교체 | 표현력, 타입 안전 |
 | 샷건 수술 (Shotgun Surgery) | 메서드/필드 이동 | 클래스 합병 | [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) ([Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)) |
 | [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔비 (Feature Envy) | 메서드 이동 (Move Method) | 함수 추출 후 이동 | [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/), [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) |

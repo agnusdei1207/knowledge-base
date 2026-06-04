@@ -12,7 +12,7 @@ tags = ["studynote-design-supervision"]
 > **핵심 인사이트**
 > 1. [데이터 품질 진단](/knowledge-base/studynote/11_design_supervision/01_audit_framework/041_contractor_late_penalty/)은 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)·완전성·[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·유효성·최신성·유일성의 6대 품질 차원을 기준으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 결함을 체계적으로 측정하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정의 신뢰성을 보장하는 활동이다.
 > 2. "쓰레기 입력, 쓰레기 출력(GIGO: Garbage In, Garbage Out)" — 아무리 정교한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·분석 모델도 품질이 낮은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 학습하면 잘못된 결과를 낸다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질은 디지털 전환의 기반이다.
-> 3. 행정안전부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질관리 지침([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/))과 ISO 8000 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 표준이 공공·민간 분야의 [데이터 품질 진단](/knowledge-base/studynote/11_design_supervision/01_audit_framework/041_contractor_late_penalty/) 기준이며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 감리의 핵심 점검 항목이다.
+> 3. 행정안전부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질관리 지침([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/))과 ISO 8000 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 표준이 공공·민간 분야의 [데이터 품질 진단](/knowledge-base/studynote/11_design_supervision/01_audit_framework/041_contractor_late_penalty/) 기준이며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 감리의 핵심 점검 항목이다.
 
 ---
 
@@ -112,7 +112,7 @@ SQL 예시:
 |-----------|-------------|------------------------|
 | NULL 비율  | 필수 < 1%   | 수집 프로세스 개선       |
 | 중복 비율  | 0%          | 중복 제거 배치 수행      |
-| 형식 오류  | < 0.1%      | [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/) 강화           |
+| 형식 오류  | < 0.1%      | [입력 검증](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/) 강화           |
 | [참조 무결성](/knowledge-base/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/)| 100%        | FK 제약 조건 추가        |
 
 > 📢 **섹션 요약 비유**: [데이터 프로파일링](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/267_data_profiling/)은 혈액검사 — 표면만 보지 않고 항목별 수치로 정확히 어디가 문제인지 찾아낸다.
@@ -231,7 +231,7 @@ Feature Store, Data Contract 등장
 
 **진행 상황**: 50 / 530
 
-<- **이전**: [036. 클라우드 기반 감리 (Cloud-Based Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/036_cloud_based_audit/)
-**다음**: [37. PMO (Project Management Office)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/037_pmo_project_management_office/) ->
+<- **이전**: [036. 클라우드 기반 감리 (Cloud-Based Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/613_cloud_based_audit/)
+**다음**: [37. PMO (Project Management Office)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/614_pmo_project_management_office/) ->
 
 ---

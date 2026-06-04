@@ -12,7 +12,7 @@ tags = ["studynote-database"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: MDM은 고객·상품·조직·자산 등 <strong>핵심 마스터 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 단일 골든 레코드(Golden Record)를 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>·유지</strong>하여, 전사 시스템([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)·[CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)·[DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)) 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)과 품질을 보장하는 관리 체계다.
 > 2. **가치**: 마스터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 시스템마다 다르면(고객명이 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)="홍길동", [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)="길동 홍") <strong>보고서 불일치·중복 마케팅·재고 오류</strong>가 발생하며, MDM이 <strong>단일 진실 원천(Single Source of Truth)</strong>을 제공한다.
-> 3. **판단 포인트**: [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)형)·Consolidation(통합형)·Centralized(중앙 집중형)·Coexistence(공존형)의 4가지 구현 스타일을 구분하고, [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)와의 연계가 핵심이다.
+> 3. **판단 포인트**: [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)형)·Consolidation(통합형)·Centralized(중앙 집중형)·Coexistence(공존형)의 4가지 구현 스타일을 구분하고, [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)와의 연계가 핵심이다.
 
 ---
 
@@ -76,7 +76,7 @@ tags = ["studynote-database"]
 
 ## Ⅴ. 기대효과 및 결론
 
-MDM은 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">데이터 거버넌스</a>의 기술적 구현체</strong>이며, [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/)·[데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질의 기반이 된다.
+MDM은 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/">데이터 거버넌스</a>의 기술적 구현체</strong>이며, [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/)·[데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질의 기반이 된다.
 
 ---
 
@@ -85,7 +85,7 @@ MDM은 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **골든 레코드** | MDM의 핵심 산출물 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">데이터 거버넌스</a></strong> | MDM의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·조직 프레임워크 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/">데이터 거버넌스</a></strong> | MDM의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·조직 프레임워크 |
 | <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/">CDP</a></strong> | 고객 마스터의 마케팅 특화 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) |
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질</strong> | MDM이 보장하는 핵심 가치 |
 | <strong><a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/067_data_steward_data_quality/">데이터 스튜어드</a></strong> | [MDM](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) 운영 책임자 |

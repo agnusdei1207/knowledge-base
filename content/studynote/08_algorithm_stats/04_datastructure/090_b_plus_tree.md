@@ -24,7 +24,7 @@ tags = ["studynote-algorithm"]
 | 내부 노드 용도  | [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)           | [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 키만                   |
 | 범위 검색       | 트리 순회 필요 (느림)     | 리프 체인 스캔 O(k) (빠름)   |
 | 내부 노드 용량  | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포함으로 적음      | 키만 있어 더 많은 키 보유     |
-| 삭제 복잡도     | 복잡 (내부 노드 처리)     | 리프만 처리, 내부는 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 키   |
+| 삭제 복잡도     | 복잡 (내부 노드 처리)     | 리프만 처리, 내부는 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) 키   |
 
 ```
 B+트리 구조:
@@ -126,7 +126,7 @@ InnoDB B+트리 리프 노드:
            부모에 25(복사) 올라감  <- B-트리와 차이: B+트리는 복사(copy), B-트리는 이동(move)
 ```
 
-### 삭제 — 내부 노드 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 키 유지
+### 삭제 — 내부 노드 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) 키 유지
 
 ```
 B+트리 특성:

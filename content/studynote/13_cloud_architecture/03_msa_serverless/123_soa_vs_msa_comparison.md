@@ -42,7 +42,7 @@ tags = ["studynote-cloud-architecture"]
 
 | 비교 | [SOA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/) | [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) |
 |:---|:---|:---|
-| **통합** | <strong><a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/">ESB</a> (중앙)</strong> | [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) + 직접 |
+| **통합** | <strong><a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/">ESB</a> (중앙)</strong> | [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/) + 직접 |
 | <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 크기</strong> | 대형 | <strong>소형 (단일 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>)</strong> |
 | **DB** | 공유 가능 | <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>별 독립</strong> |
 | **거버넌스** | 중앙 | <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a></strong> |
@@ -67,13 +67,13 @@ tags = ["studynote-cloud-architecture"]
 
 ### 선택 기준
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/">SOA</a></strong>: 레거시 시스템 통합, 이기종 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 변환 필요 시.
-- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a></strong>: [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/), 빠른 배포, 팀 자율성 필요 시.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a></strong>: [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/), 빠른 배포, 팀 자율성 필요 시.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[SOA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/)->MSA는 <strong>"중앙 집중(<a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/">ESB</a>) -> <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 자율(Smart Endpoints)"</strong>의 패러다임 전환이며, 현대 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서는 MSA가 표준이지만, 레거시 통합에는 [SOA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/) 접근이 여전히 유효하다.
+[SOA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/)->MSA는 <strong>"중앙 집중(<a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/">ESB</a>) -> <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 자율(Smart Endpoints)"</strong>의 패러다임 전환이며, 현대 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경에서는 MSA가 표준이지만, 레거시 통합에는 [SOA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/) 접근이 여전히 유효하다.
 
 ---
 
@@ -82,7 +82,7 @@ tags = ["studynote-cloud-architecture"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | <strong><a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/">ESB</a></strong> | SOA의 핵심 통합 미들웨어 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/">API Gateway</a></strong> | MSA의 외부 진입점 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/">API Gateway</a></strong> | MSA의 외부 진입점 |
 | <strong><a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/153_soap_simple_object_access_protocol/">SOAP</a>/XML</strong> | SOA의 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
 | <strong><a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/">REST</a>/<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/">gRPC</a></strong> | MSA의 경량 통신 |
 | <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/">Service Mesh</a></strong> | MSA의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신 인프라 |
@@ -107,7 +107,7 @@ tags = ["studynote-cloud-architecture"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. SOA는 <strong>교환원(<a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/">ESB</a>)</strong>이 모든 전화를 연결해주는 거예요. 교환원이 바쁘면 전화가 안 돼요.
-2. MSA는 교환원 없이 <strong>직접 전화</strong>하는 거예요. 더 빠르지만 전화번호부([Service Discovery](/knowledge-base/studynote/12_it_management/05_security_compliance/303_service_discovery/))가 필요해요.
+2. MSA는 교환원 없이 <strong>직접 전화</strong>하는 거예요. 더 빠르지만 전화번호부([Service Discovery](/knowledge-base/studynote/12_it_management/05_security_compliance/946_service_discovery/))가 필요해요.
 3. 요즘은 <strong>직접 전화(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)가 대세</strong>지만, 옛날 전화기(레거시)는 교환원([SOA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/))이 필요할 때도 있어요!
 
 ---

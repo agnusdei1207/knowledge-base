@@ -44,7 +44,7 @@ tags = ["studynote-cloud-architecture"]
 | **Client-side** | 클라이언트가 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 조회 + LB | **Eureka** |
 | **Server-side** | LB가 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 조회 | <strong>K8s <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a></strong> |
 
-### K8s [Service Discovery](/knowledge-base/studynote/12_it_management/05_security_compliance/303_service_discovery/)
+### K8s [Service Discovery](/knowledge-base/studynote/12_it_management/05_security_compliance/946_service_discovery/)
 - [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> kube-dns에 자동 등록.
 - `order-svc.default.svc.cluster.local`로 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 조회.
 
@@ -54,7 +54,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 하드코딩 | [Service Discovery](/knowledge-base/studynote/12_it_management/05_security_compliance/303_service_discovery/) |
+| 비교 | 하드코딩 | [Service Discovery](/knowledge-base/studynote/12_it_management/05_security_compliance/946_service_discovery/) |
 |:---|:---|:---|
 | **IP 변경** | 코드 수정 | **자동 갱신** |
 | <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a></strong> | 수동 | **동적 등록** |
@@ -65,7 +65,7 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 대표 도구
-- **Consul** (HashiCorp): [Service Discovery](/knowledge-base/studynote/12_it_management/05_security_compliance/303_service_discovery/) + [Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/).
+- **Consul** (HashiCorp): [Service Discovery](/knowledge-base/studynote/12_it_management/05_security_compliance/946_service_discovery/) + [Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/).
 - **Eureka** (Netflix): Client-side, Spring Cloud.
 - <strong>K8s <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a></strong>: Server-side, [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 기반.
 - <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/">etcd</a></strong>: K8s의 상태 저장소.

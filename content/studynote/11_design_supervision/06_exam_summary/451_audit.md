@@ -66,7 +66,7 @@ tags = ["studynote-design-supervision"]
 | 감리 증적 연결 | 부족 | 가능 | 자연스러움 |
 | 실무 설명력 | 단편적 | 구조적 | 설득력 높음 |
 
-이 연결망은 [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/), [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/), [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/), 품질보증, 보안통제, 운영관리, [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 같은 넓은 주제를 하나의 프레임으로 묶는 데 유용하다. 즉 “무슨 용어인가”에 멈추지 말고 “어디에 배치되는가”를 같이 말해야 고득점형 답안이 된다.
+이 연결망은 [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/), [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/), [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/), 품질보증, 보안통제, 운영관리, [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) 같은 넓은 주제를 하나의 프레임으로 묶는 데 유용하다. 즉 “무슨 용어인가”에 멈추지 말고 “어디에 배치되는가”를 같이 말해야 고득점형 답안이 된다.
 - **📢 섹션 요약 비유**: 단어 카드만 들고 있는 것보다, 카드끼리 실로 연결한 거미줄 지도를 들고 있으면 길을 잃지 않는다.
 
 ---

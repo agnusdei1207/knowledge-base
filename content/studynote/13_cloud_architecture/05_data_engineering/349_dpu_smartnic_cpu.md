@@ -125,6 +125,6 @@ tags = ["studynote-cloud-architecture"]
 **진행 상황**: 348 / 371
 
 <- **이전**: [348. CXL 칩렛 인터커넥트 메모리 풀 다차원 클라우드 H/W (CXL H/W)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/348_cxl_h_w/)
-**다음**: [350. 액침 냉각 PUE 탄소 배출 저감 쿨링 데이터센터 혁신 (Immersion Cooling)](/knowledge-base/studynote/12_it_management/05_security_compliance/350_process/) ->
+**다음**: [350. 액침 냉각 PUE 탄소 배출 저감 쿨링 데이터센터 혁신 (Immersion Cooling)](/knowledge-base/studynote/12_it_management/05_security_compliance/991_process/) ->
 
 ---

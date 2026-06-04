@@ -43,7 +43,7 @@ K 값은 너무 작으면 잡음에 민감하고, 너무 크면 경계가 무뎌
 
 K-NN은 학습 시간은 거의 없지만, 예측할 때 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 비교해야 해서 비용이 커진다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많을수록 느려지고, 차원이 높아질수록 거리의 의미도 약해진다.
 
-이 문제가 바로 차원의 저주([curse of dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_curse_of_dimensionality/))다. 변수가 늘어나면 가까움과 멂의 차이가 희미해져, 이웃을 찾는 이점이 줄어든다.
+이 문제가 바로 차원의 저주([curse of dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/864_curse_of_dimensionality/))다. 변수가 늘어나면 가까움과 멂의 차이가 희미해져, 이웃을 찾는 이점이 줄어든다.
 
 ```text
 학습 데이터 저장

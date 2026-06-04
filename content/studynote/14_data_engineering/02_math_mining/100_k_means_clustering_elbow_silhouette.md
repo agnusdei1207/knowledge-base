@@ -94,7 +94,7 @@ K-Means [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/00
 
 K-Means와 두 가지 평가 지표의 결합은 정답이 없는 미지의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 가장 논리적이고 설명 가능한 군집 모델을 뽑아내게 해준다. 이를 통해 비즈니스 현장에서는 근거 있는 타겟 마케팅이나 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)([Anomaly Detection](/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/))를 수행할 수 있다.
 
-다만, K-Means는 차원이 높아질수록 거리 계산의 변별력이 떨어지는 '차원의 저주([Curse of Dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_curse_of_dimensionality/))'에 취약하다. 따라서 미래의 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/) 파이프라인은 PCA나 [오토인코더](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/)([Autoencoder](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/))를 통한 차원 축소가 먼저 수행된 뒤, 그 압축된 공간 위에서 K값을 최적화하는 심층 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/) 모델로 확장되어야 한다.
+다만, K-Means는 차원이 높아질수록 거리 계산의 변별력이 떨어지는 '차원의 저주([Curse of Dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/864_curse_of_dimensionality/))'에 취약하다. 따라서 미래의 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/) 파이프라인은 PCA나 [오토인코더](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/)([Autoencoder](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/))를 통한 차원 축소가 먼저 수행된 뒤, 그 압축된 공간 위에서 K값을 최적화하는 심층 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/) 모델로 확장되어야 한다.
 
 - **📢 섹션 요약 비유**: 어두운 창고에서 물건을 분류할 때, 엘보우와 실루엣 지표는 무작정 상자를 열어보지 않고 가장 알맞은 정리함의 개수와 크기를 정확히 짚어주는 똑똑한 가이드다.
 

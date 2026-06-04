@@ -55,7 +55,7 @@ tags = ["studynote-software-engineering"]
 현대 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)에서는 단순히 사람이 감으로 찍는 것을 넘어(이건 위험합니다), 과학에 기반해 스위트(커다란 묶음) 크기를 줄입니다.
 
 1. <strong>테스트 선택 (Test <a href="/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/">Selection</a>)</strong>
-   - 방금 바뀐 소스코드의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름([Control Flow](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/))과 함수 엮임망([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))을 컴파일러가 역추적하여, "이 코드를 1% 라도 스쳐 지나가는 테스트들" 교집합만 기계적으로 필터링해 냅니다.
+   - 방금 바뀐 소스코드의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름([Control Flow](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/))과 함수 엮임망([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/))을 컴파일러가 역추적하여, "이 코드를 1% 라도 스쳐 지나가는 테스트들" 교집합만 기계적으로 필터링해 냅니다.
 2. **테스트 최소화 (Test Minimization)**
    - 스위트 안에 "로그인 화면 A에서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)", "로그인 B에서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)" 등 중복된 코드 커버리지를 가진 잉여 테스트가 많습니다. 같은 기능을 1번만 덮게끔 중복(Redundant) 케이스를 영구 삭제하여 뼈대만 남깁니다.
 3. **테스트 우선순위화 (Test Prioritization)**
@@ -169,6 +169,6 @@ tags = ["studynote-software-engineering"]
 **진행 상황**: 413 / 973
 
 <- **이전**: [410. 회귀 테스트 (Regression Test) - 사이드 이펙트 검증](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)
-**다음**: [411. 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/411_regression_test_strategy/) ->
+**다음**: [411. 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/803_regression_test_strategy/) ->
 
 ---

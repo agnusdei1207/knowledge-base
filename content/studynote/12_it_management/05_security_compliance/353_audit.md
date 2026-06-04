@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 546 / 587
 
-<- **이전**: [352. 동형 암호 클라우드 암호화 연산 보장성](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/)
-**다음**: [353. 블록체인 스마트 컨트랙트 정형 검증 재진입 취약 차단](/knowledge-base/studynote/12_it_management/05_security_compliance/353_blockchain_smart_contract_reentrancy/) ->
+<- **이전**: [352. 동형 암호 클라우드 암호화 연산 보장성](/knowledge-base/studynote/12_it_management/05_security_compliance/993_process/)
+**다음**: [353. 블록체인 스마트 컨트랙트 정형 검증 재진입 취약 차단](/knowledge-base/studynote/12_it_management/05_security_compliance/994_blockchain_smart_contract_reentrancy/) ->
 
 ---

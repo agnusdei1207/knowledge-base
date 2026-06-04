@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 심리학에서 유래한 '인지 부하' 개념을 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)에 본격적으로 도입한 것은 매슈 스켈톤과 마누엘 파이스의 저서 《팀 토폴로지(Team Topologies)》다.
 
-과거 모놀리식 환경에서는 코딩만 잘하면 됐다. 하지만 현대의 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서는 개발자가 비즈니스 로직([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식)뿐만 아니라, [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/), 장애 알람 설정까지 전부 알아야 배포가 가능해졌다. 사람의 뇌는 한 번에 처리할 수 있는 정보량에 명확한 한계가 있으므로, 이 한계를 초과하면 생산성은 수직 낙하하고 코드는 스파게티가 되며 직원은 퇴사한다.
+과거 모놀리식 환경에서는 코딩만 잘하면 됐다. 하지만 현대의 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경에서는 개발자가 비즈니스 로직([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식)뿐만 아니라, [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/), 장애 알람 설정까지 전부 알아야 배포가 가능해졌다. 사람의 뇌는 한 번에 처리할 수 있는 정보량에 명확한 한계가 있으므로, 이 한계를 초과하면 생산성은 수직 낙하하고 코드는 스파게티가 되며 직원은 퇴사한다.
 
 따라서 최신 [소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) 설계는 단순히 서버와 DB를 쪼개는 것을 넘어, <strong>"팀이 감당할 수 있는 인지 부하의 크기에 맞춰 소프트웨어의 경계와 조직 구조를 함께 쪼개는 작업"</strong>으로 진화했다.
 
@@ -76,7 +76,7 @@ tags = ["studynote-software-engineering"]
 
 | 기존 접근법 (문제점) | 팀 토폴로지 접근법 (해결책) |
 |:---|:---|
-| **Full-stack 맹신**: "[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 니까 개발자가 AWS, K8s, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD까지 다 알아서 해!" | **인지 부하 기반 설계**: "인간의 한계를 인정하라. 인프라는 플랫폼 팀이 추상화해서 제공한다." |
+| **Full-stack 맹신**: "[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 니까 개발자가 AWS, K8s, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD까지 다 알아서 해!" | **인지 부하 기반 설계**: "인간의 한계를 인정하라. 인프라는 플랫폼 팀이 추상화해서 제공한다." |
 | <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">사일로</a> 조직</strong>: 기획팀 $\rightarrow$ 개발팀 $\rightarrow$ QA팀 $\rightarrow$ 운영팀 | **스트림 정렬**: 하나의 비즈니스 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 책임지는 다기능 팀(Cross-functional Team) 중심 구성. |
 | **소통 만능주의**: "타 부서와 무조건 소통을 많이 해라." | **소통 최소화 원칙**: 팀 간의 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동 외에는 불필요한 소통(의존성)을 끊어 인지 부하를 줄인다. |
 

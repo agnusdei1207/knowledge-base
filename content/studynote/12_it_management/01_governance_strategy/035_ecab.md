@@ -10,13 +10,13 @@ tags = ["studynote-it-management"]
 +++
 
 > **핵심 인사이트**
-> 1. [ECAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/) (Emergency Change Advisory Board)는 [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/) 체계에서 긴급 변경(Emergency Change)을 신속하게 승인·검토하는 소규모·권한 위임 위원회로, 전체 [CAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/) (Change Advisory Board)를 소집할 시간이 없을 때 대안적 거버넌스를 제공한다.
+> 1. [ECAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/865_feature_engineering/) (Emergency Change Advisory Board)는 [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/846_itil/) [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/) 체계에서 긴급 변경(Emergency Change)을 신속하게 승인·검토하는 소규모·권한 위임 위원회로, 전체 [CAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/) (Change Advisory Board)를 소집할 시간이 없을 때 대안적 거버넌스를 제공한다.
 > 2. 긴급 변경은 일반 변경 절차를 우회하지만 완전히 생략하는 것이 아니라, 사후 검토(Post-Implementation [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/))를 통해 정식 변경 기록으로 등록해야 한다.
 > 3. ECAB의 핵심 가치는 속도(Speed)와 통제(Control)의 균형 — 비즈니스 중단을 최소화하면서도 승인 없는 무단 변경(Unauthorized Change)을 방지한다.
 
 ---
 
-## I. [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/) 체계에서의 [ECAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/) 위치
+## I. [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/846_itil/) [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/) 체계에서의 [ECAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/865_feature_engineering/) 위치
 
 ```
 변경 관리 체계
@@ -36,13 +36,13 @@ tags = ["studynote-it-management"]
 |------------|------------|----------|---------|
 | 표준 변경   | 사전 승인    | 즉시      | 최소    |
 | 일반 변경   | [CAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/)       | 수일~수주  | 완전    |
-| **긴급 변경** | <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/">ECAB</a></strong> | **수시간** | 사후 완전|
+| **긴급 변경** | <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/865_feature_engineering/">ECAB</a></strong> | **수시간** | 사후 완전|
 
 > 📢 **섹션 요약 비유**: 국회가 일반 법안은 상임위->본회의를 거치지만, 계엄 해제는 긴급회의로 빠르게 결정 — ECAB는 IT판 긴급회의.
 
 ---
 
-## II. [ECAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/) 구성과 역할
+## II. [ECAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/865_feature_engineering/) 구성과 역할
 
 ```
 ECAB 구성원 (소규모, 권한 위임):
@@ -55,10 +55,10 @@ ECAB 구성원 (소규모, 권한 위임):
 
 | 역할           | 책임                              |
 |--------------|-----------------------------------|
-| [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)자    | [ECAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/) 소집, 승인/거부 결정          |
+| [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)자    | [ECAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/865_feature_engineering/) 소집, 승인/거부 결정          |
 | 기술 전문가   | 기술적 타당성 검토, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 계획 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)  |
 | 비즈니스 대표 | 비즈니스 영향도 평가               |
-| [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 소유자  | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 영향도, 커뮤니케이션 계획 승인  |
+| [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 소유자  | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 영향도, 커뮤니케이션 계획 승인  |
 
 > 📢 **섹션 요약 비유**: 응급실의 의료진 팀처럼 — 환자([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애)가 위급할 때 소수 전문가가 빠른 결정을 내린다.
 
@@ -112,7 +112,7 @@ PIR (Post-Implementation Review)
 
 | 구분       | 긴급 변경               | 무단 변경          |
 |-----------|-------------------------|--------------------|
-| 승인       | [ECAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/) 승인 있음           | 승인 없음           |
+| 승인       | [ECAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/865_feature_engineering/) 승인 있음           | 승인 없음           |
 | 기록       | RFC + PIR               | 없음 (사후 추적)   |
 | 결과       | 통제된 위험              | 예상 못한 장애 유발 |
 | 책임       | 명확한 책임자            | 책임자 불분명      |
@@ -126,10 +126,10 @@ PIR (Post-Implementation Review)
 | 상황         | 내용                                         |
 |-------------|----------------------------------------------|
 | 발생         | 프로덕션 DB [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 손상으로 주문 처리 0%      |
-| [ECAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/) 소집    | [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)자 + [DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/) + [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 소유자 전화 회의  |
+| [ECAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/865_feature_engineering/) 소집    | [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)자 + [DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/) + [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 소유자 전화 회의  |
 | 검토         | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 재생성 SQL 스크립트 검토 (10분)       |
 | [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 계획    | [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 복원 절차 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) (5분)                    |
-| 승인         | [ECAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/) 구두 승인 + 이메일 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)                 |
+| 승인         | [ECAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/865_feature_engineering/) 구두 승인 + 이메일 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)                 |
 | 구현         | [DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 재생성 실행 (20분)               |
 | PIR          | 24시간 내 인시던트 리포트 + RFC 공식 등록    |
 
@@ -195,7 +195,7 @@ Change Advisory Board -> Feature Toggle
 
 **진행 상황**: 61 / 587
 
-<- **이전**: [플랫폼 비즈니스 모델 (Platform Business Model)](/knowledge-base/studynote/12_it_management/01_governance_strategy/034_platform_business_model/)
-**다음**: [35. 린 스타트업 (Lean Startup)](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/) ->
+<- **이전**: [플랫폼 비즈니스 모델 (Platform Business Model)](/knowledge-base/studynote/12_it_management/01_governance_strategy/826_platform_business_model/)
+**다음**: [35. 린 스타트업 (Lean Startup)](/knowledge-base/studynote/12_it_management/01_governance_strategy/827_lean_startup/) ->
 
 ---

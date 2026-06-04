@@ -118,6 +118,6 @@ tags = ["studynote-design-supervision"]
 **진행 상황**: 429 / 530
 
 <- **이전**: [350. CBAM 경제성 관점 확장 (Cost Benefit Analysis Method)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/350_cbam/)
-**다음**: [352. 품질 속성 시나리오 (Quality Attribute Scenario)](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/) ->
+**다음**: [352. 품질 속성 시나리오 (Quality Attribute Scenario)](/knowledge-base/studynote/12_it_management/05_security_compliance/993_process/) ->
 
 ---

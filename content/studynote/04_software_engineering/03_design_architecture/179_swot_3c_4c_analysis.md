@@ -10,7 +10,7 @@ tags = ["software_engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SWOT (Strength, Weakness, Opportunity, Threat) 분석은 조직의 내부 역량과 외부 환경을 교차해 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 방향을 잡고, 3C (Company, [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/), Competitor) / 4C (Company, [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/), Competitor, Channel/Circumstance) 분석은 그 방향이 시장과 실행 현실에 맞는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
+> 1. **본질**: SWOT (Strength, Weakness, Opportunity, Threat) 분석은 조직의 내부 역량과 외부 환경을 교차해 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 방향을 잡고, 3C (Company, [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/), Competitor) / 4C (Company, [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/), Competitor, Channel/Circumstance) 분석은 그 방향이 시장과 실행 현실에 맞는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 > 2. **가치**: 이 두 분석을 요구공학에 연결하면 "무엇을 만들 것인가"가 아니라 "왜 이 기능이 지금 비즈니스적으로 필요한가"를 설명할 수 있어, 요구사항의 우선순위와 투자 논리가 선명해진다.
 > 3. **판단 포인트**: 분석 결과가 슬로건으로 끝나지 않으려면 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 과제를 역량(Capability), 기능 요구, 비기능 요구, [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) ([Key Performance Indicator](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/020_kpi/))로 차례차례 변환해야 하며, 그렇지 않으면 발표용 프레임만 남는다.
 
@@ -61,7 +61,7 @@ SWOT에서 많이 쓰는 교차 관점은 다음과 같다.
 | 관점 | 던져야 할 질문 | 요구사항에 미치는 영향 |
 | :--- | :--- | :--- |
 | Company | 우리가 잘하는 것과 부족한 것은 무엇인가? | 내재화 범위, 재사용 자산, 현실적 구현 범위 |
-| [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) | 고객의 불편, 기대, 구매 맥락은 무엇인가? | 핵심 기능, [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 |
+| [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/) | 고객의 불편, 기대, 구매 맥락은 무엇인가? | 핵심 기능, [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 |
 | Competitor | 경쟁사는 무엇으로 차별화하고 있는가? | 차별 포인트, 필수 대응 기능 |
 | Channel/Circumstance | 어떤 채널과 제약 속에서 제공되는가? | 모바일 우선, 법규, 운영 절차, 연계 시스템 |
 
@@ -73,14 +73,14 @@ SWOT에서 많이 쓰는 교차 관점은 다음과 같다.
 
 ## Ⅲ. 비교 및 연결
 
-이 분석을 잘 쓰려면 각 프레임의 역할 경계를 분명히 해야 한다. SWOT과 3C/4C는 요구사항을 <strong>직접 써 주는 도구</strong>가 아니라, 어떤 요구가 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적으로 중요한지 판단하게 해 주는 상위 분석 틀이다. 반면 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) / TO-BE 분석은 현재 운영 구조와 목표 구조의 간극을 정리하고, [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) ([Return on Investment](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)) 분석은 경제성을 설명하며, MoSCoW 같은 우선순위 기법은 산출된 요구를 정렬한다.
+이 분석을 잘 쓰려면 각 프레임의 역할 경계를 분명히 해야 한다. SWOT과 3C/4C는 요구사항을 <strong>직접 써 주는 도구</strong>가 아니라, 어떤 요구가 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적으로 중요한지 판단하게 해 주는 상위 분석 틀이다. 반면 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) / TO-BE 분석은 현재 운영 구조와 목표 구조의 간극을 정리하고, [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) ([Return on Investment](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/)) 분석은 경제성을 설명하며, MoSCoW 같은 우선순위 기법은 산출된 요구를 정렬한다.
 
 | 도구 | 주된 질문 | 산출물 성격 | 한계 |
 | :--- | :--- | :--- | :--- |
 | SWOT | 어떤 기회와 위협, 강점과 약점이 있는가? | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 과제 후보 | 실행 세부안은 부족 |
 | 3C/4C | 시장, 고객, 경쟁, 채널에서 무엇이 중요한가? | 시장 적합성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 내부 운영 간극은 부족 |
 | [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) / TO-BE | 현재와 목표 사이에 무엇이 비어 있는가? | 변화 과제, Gap 목록 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 우선순위 근거는 약할 수 있음 |
-| [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) ([Return on Investment](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)) / [Business Case](/knowledge-base/studynote/04_software_engineering/03_design_architecture/172_business_case_roi_analysis/) | 왜 투자해야 하는가? | 경제성, 경영진 설득 근거 | 요구 상세 정의는 못 함 |
+| [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) ([Return on Investment](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/)) / [Business Case](/knowledge-base/studynote/04_software_engineering/03_design_architecture/172_business_case_roi_analysis/) | 왜 투자해야 하는가? | 경제성, 경영진 설득 근거 | 요구 상세 정의는 못 함 |
 
 따라서 좋은 요구 도출은 보통 다음 순서로 이어진다. <strong>SWOT으로 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 방향을 잡고 -> 3C/4C로 시장 적합성을 확인하고 -> <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/">AS-IS</a> / TO-BE로 운영 간극을 구체화하고 -> 우선순위와 KPI로 실행 계획을 만든다.</strong> 이 연결이 끊기면 두 가지 실패가 나온다. 하나는 내부 강점만 믿고 고객이 원하지 않는 기능을 만드는 것이고, 다른 하나는 시장 트렌드만 따라가다 자사 역량이 감당 못 하는 프로젝트를 시작하는 것이다.
 
@@ -153,8 +153,8 @@ SWOT과 3C/4C를 연계한 요구 도출의 가장 큰 효과는 **시스템 요
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | SWOT (Strength, Weakness, Opportunity, Threat) | 내부·외부 환경을 교차해 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 과제를 도출한다 |
-| 3C (Company, [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/), Competitor) | 시장 참여자 관점에서 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 타당성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다 |
-| 4C (Company, [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/), Competitor, Channel/Circumstance) | 채널과 환경 조건까지 포함해 요구의 현실성을 높인다 |
+| 3C (Company, [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/), Competitor) | 시장 참여자 관점에서 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 타당성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다 |
+| 4C (Company, [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/), Competitor, Channel/Circumstance) | 채널과 환경 조건까지 포함해 요구의 현실성을 높인다 |
 | Capability | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문장을 시스템이 제공해야 할 능력으로 변환한 중간 산출물이다 |
 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) ([Key Performance Indicator](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/020_kpi/)) | 요구사항이 실제 사업 효과로 이어졌는지 측정하는 기준이다 |
 | [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) / TO-BE | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석 결과를 운영 구조 변화와 연결하는 다음 단계다 |

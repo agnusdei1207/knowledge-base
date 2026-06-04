@@ -94,7 +94,7 @@ SRE와의 연결도 중요하다. 다중 가용 영역 (Multi-AZ) 구성은 비�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 FinOps를 성공시키는 첫 단추는 태그 표준화다. `team`, `service`, `environment`, `owner`, `cost_center` 같은 공통 태그가 없으면 어느 팀이 비용을 만들었는지조차 알 수 없다. AWS (Amazon Web Services) Cost and Usage Report, Azure Cost [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/), Google Cloud Billing Export, Kubecost, OpenCost, Infracost 같은 도구는 결국 이 할당 체계가 있어야 힘을 발휘한다.
+실무에서 FinOps를 성공시키는 첫 단추는 태그 표준화다. `team`, `service`, `environment`, `owner`, `cost_center` 같은 공통 태그가 없으면 어느 팀이 비용을 만들었는지조차 알 수 없다. AWS (Amazon Web Services) Cost and Usage Report, Azure Cost [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/), Google Cloud Billing Export, Kubecost, OpenCost, Infracost 같은 도구는 결국 이 할당 체계가 있어야 힘을 발휘한다.
 
 예를 들어 전자상거래 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서 야간 트래픽은 줄었는데 비용은 오히려 35% 증가했다면, 다음 순서로 판단한다.
 

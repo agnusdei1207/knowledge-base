@@ -146,7 +146,7 @@ P(정답) = c + -----------------
 
 **기술사 핵심 판단**:
 - **윤리적 낙인 위험**: "위험 학생" 라벨이 차별로 이어지지 않도록 개입 절차 비공개 설계.
-- <strong><a href="/knowledge-base/studynote/09_security/17_framework_compliance/867_ferpa/">FERPA</a>/COPPA 준수</strong>: 미성년 학습자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)자 동의·정보 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 강화.
+- <strong><a href="/knowledge-base/studynote/09_security/17_framework_compliance/1062_ferpa/">FERPA</a>/COPPA 준수</strong>: 미성년 학습자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)자 동의·정보 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 강화.
 - **편향 검사**: 특정 인구 집단이 체계적으로 고위험으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)되는지 정기 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/).
 
 > 📢 **섹션 요약 비유**: 이탈 예측 시스템은 "학생이 학교를 떠나기 전에 선생님이 먼저 손을 내미는 것"이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 누가 도움이 필요한지 조용히 귀띔해준다.

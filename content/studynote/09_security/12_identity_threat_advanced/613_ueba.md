@@ -136,7 +136,7 @@ UEBA (User Entity Behavior Analytics)를 제대로 이해하면 개념 하나를
 
 **진행 상황**: 679 / 1108
 
-<- **이전**: [613. 정적 분석과 동적 분석 (SAST & DAST)](/knowledge-base/studynote/09_security/uncategorized/613_static_dynamic_analysis/)
+<- **이전**: [613. 정적 분석과 동적 분석 (SAST & DAST)](/knowledge-base/studynote/09_security/uncategorized/1043_static_dynamic_analysis/)
 **다음**: [614. 애드혹 Identity (Ad-hoc Identity)](/knowledge-base/studynote/09_security/12_identity_threat_advanced/614_ad_hoc_identity/) ->
 
 ---

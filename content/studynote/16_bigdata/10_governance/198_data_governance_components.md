@@ -11,7 +11,7 @@ tags = ["studynote-bigdata"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-- **본질**: [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))·표준(Standard)·역할(Role)·프로세스([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))·도구(Tool)의 5대 기둥으로 구성되며, 이 다섯 요소가 균형을 이룰 때 실효성 있는 거버넌스가 완성된다.
+- **본질**: [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))·표준(Standard)·역할(Role)·프로세스([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))·도구(Tool)의 5대 기둥으로 구성되며, 이 다섯 요소가 균형을 이룰 때 실효성 있는 거버넌스가 완성된다.
 - **가치**: 각 구성 요소가 RACI (Responsible, Accountable, Consulted, Informed) 매트릭스로 연결되어 책임이 명확해지고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관련 분쟁·품질 문제를 체계적으로 해소할 수 있다.
 - **판단 포인트**: 운영 모델(중앙집중·연방·하이브리드)과 성숙도 단계(CMM 1~5)에 따라 5대 구성 요소의 비중과 적용 방식을 달리해야 한다.
 
@@ -21,7 +21,7 @@ tags = ["studynote-bigdata"]
 
 ### 1.1 왜 5대 구성 요소인가?
 
-[데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)를 "[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)만 만들면 끝"이라고 오해하는 조직이 많다. 그러나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(What)이 있어도 이를 실행할 역할(Who), 절차(How), 도구(With What)가 없으면 선언에 그친다. [DAMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/117_dama/) DMBOK이 제시하는 5대 구성 요소는 이 간극을 메운다:
+[데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)를 "[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)만 만들면 끝"이라고 오해하는 조직이 많다. 그러나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(What)이 있어도 이를 실행할 역할(Who), 절차(How), 도구(With What)가 없으면 선언에 그친다. [DAMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/117_dama/) DMBOK이 제시하는 5대 구성 요소는 이 간극을 메운다:
 
 ```
 정책 ---> 무엇을 해야 하는가?
@@ -38,7 +38,7 @@ tags = ["studynote-bigdata"]
 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관련 의사결정 원칙·허용/금지 기준 | [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 접근은 업무 필요 원칙 적용 |
 | 표준(Standard) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형식·명명·[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)의 일관된 기준 | 날짜 형식 YYYY-MM-[DD](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/769_architecture/), 테이블명 snake_case |
 | 역할(Role) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관련 책임·권한을 가진 역할 정의 | [Data Owner](/knowledge-base/studynote/16_bigdata/10_governance/200_data_owner/), [Data Steward](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/067_data_steward_data_quality/), [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Custodian |
-| 프로세스([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)) | 거버넌스 의사결정·문제해결·변경 절차 | 접근 신청 승인, 품질 이슈 해결 워크플로 |
+| 프로세스([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/)) | 거버넌스 의사결정·문제해결·변경 절차 | 접근 신청 승인, 품질 이슈 해결 워크플로 |
 | 도구(Tool) | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·표준·프로세스를 실행·자동화하는 시스템 | [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/), 품질 검사 툴, [MDM](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) 시스템 |
 
 **📢 섹션 요약 비유**: 5대 구성 요소는 <strong>레스토랑 운영 시스템</strong>과 같다. 메뉴판([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)), 레시피(표준), 셰프·웨이터 역할(역할), 주문 처리 절차(프로세스), 주방 기기(도구)가 모두 갖춰져야 맛있는 요리([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 나온다.
@@ -119,7 +119,7 @@ tags = ["studynote-bigdata"]
 | 프레임워크 | 연계 내용 |
 |:---|:---|
 | [Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/) | 연방형 거버넌스 모델을 아키텍처 원칙으로 채택 |
-| [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) | 거버넌스 프로세스(품질 검사, 접근 제어)를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 자동화 |
+| [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/965_dataops/) | 거버넌스 프로세스(품질 검사, 접근 제어)를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 자동화 |
 | [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) | 거버넌스 접근 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 보안 모델과 연계 |
 | ISO 8000 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 표준 — 거버넌스 품질 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 기준 |
 
@@ -169,7 +169,7 @@ Step 5: 도구 도입 --> 데이터 카탈로그, 품질 도구 도입
 
 ### 5.2 결론
 
-[데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)의 5대 구성 요소는 단독으로 존재할 수 없고 <strong>유기적으로 연결</strong>되어야 한다. 조직의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 성숙도를 진단하고(현재 레벨 파악), 부족한 요소부터 우선순위를 정해 점진적으로 고도화하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 현실적이다. 기술사는 각 구성 요소의 설계 방법과 도구 선택 기준을 명확히 제시할 수 있어야 한다.
+[데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)의 5대 구성 요소는 단독으로 존재할 수 없고 <strong>유기적으로 연결</strong>되어야 한다. 조직의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 성숙도를 진단하고(현재 레벨 파악), 부족한 요소부터 우선순위를 정해 점진적으로 고도화하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 현실적이다. 기술사는 각 구성 요소의 설계 방법과 도구 선택 기준을 명확히 제시할 수 있어야 한다.
 
 **📢 섹션 요약 비유**: 5대 구성 요소는 <strong>오케스트라의 파트</strong>다. 바이올린([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))만 잘 해도 전체 연주는 엉망이 된다. 지휘자([CDO](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/068_cdo_cio_role_separation_governance/))가 모든 파트를 조화시켜야 아름다운 음악(신뢰할 수 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 나온다.
 
@@ -207,7 +207,7 @@ Step 5: 도구 도입 --> 데이터 카탈로그, 품질 도구 도입
 [데이터 메시 (Data Mesh) — 연방형 거버넌스]
 ```
 
-[데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)가 역할 정의에서 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·표준·[카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 거쳐 조직 전체의 연방형 자율 관리로 발전한 흐름이다.
+[데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)가 역할 정의에서 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·표준·[카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 거쳐 조직 전체의 연방형 자율 관리로 발전한 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

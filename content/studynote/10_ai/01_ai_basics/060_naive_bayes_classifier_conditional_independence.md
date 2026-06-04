@@ -70,7 +70,7 @@ P(C) × Π P(xi|C)
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-스팸 필터, 뉴스 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/) 같은 텍스트 작업에서 강하다. 하지만 월급/연봉처럼 강한 상관관계가 있는 [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/)에서는 과대평가가 생길 수 있다.
+스팸 필터, 뉴스 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/) 같은 텍스트 작업에서 강하다. 하지만 월급/연봉처럼 강한 상관관계가 있는 [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/)에서는 과대평가가 생길 수 있다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 

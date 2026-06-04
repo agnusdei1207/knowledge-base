@@ -125,7 +125,7 @@ OrderService                  OrderService
 
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/">응집도</a>와 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">결합도</a></strong>: 위임은 클래스 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) ([Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)) 를 높이고 클래스 간 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) ([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)) 를 낮추는 핵심 수단임을 수치로 표현
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">Microservices</a>)</strong>: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신이 메시지 패싱이며, 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 단일 책임 ([SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/)) 을 가져야 함을 논거로 활용
-- **테스트 용이성**: 위임 대상 객체를 목([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/)) 으로 교체해 격리 테스트 가능
+- **테스트 용이성**: 위임 대상 객체를 목([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/)) 으로 교체해 격리 테스트 가능
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 해결하려는 변화 축이 분명한가?
@@ -142,7 +142,7 @@ OrderService                  OrderService
 |:---|:---:|:---:|
 | 런타임 동작 교체 가능 여부 | 불가 | 가능 ([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 교체) |
 | [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 깊이 (최대) | 5~7단 | 1~2단 |
-| [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 격리 용이성 | 낮음 | 높음 ([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) 주입) |
+| [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 격리 용이성 | 낮음 | 높음 ([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) 주입) |
 | 새 기능 추가 수정 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수 | 많음 | 적음 (위임 객체 1개) |
 
 메시지 패싱 ([Message Passing](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)) 과 위임 (Delegation) 은 객체지향 설계의 <strong>두 기둥</strong>이다. 메시지 패싱은 객체 간 협력의 언어이고, 위임은 책임을 적합한 전문가에게 분배하는 조직 원리다. "[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)보다 구성, 직접 처리보다 위임"이라는 GoF (Gang of Four) 의 격언은 지금도 유효하며, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)와 [이벤트 주도 아키텍처](/knowledge-base/studynote/11_design_supervision/06_exam_summary/367_architecture/) ([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/)) 시대에 더욱 중요해지고 있다.

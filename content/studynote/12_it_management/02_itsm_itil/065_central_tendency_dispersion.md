@@ -143,7 +143,7 @@ Spark의 셔플도 그런 옮기기예요.
 
 **진행 상황**: 113 / 587
 
-<- **이전**: [64. 서비스 전략 (Service Strategy)](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_service_strategy/)
-**다음**: [65. 서비스 설계 (Service Design)](/knowledge-base/studynote/12_it_management/02_itsm_itil/065_service_design/) ->
+<- **이전**: [64. 서비스 전략 (Service Strategy)](/knowledge-base/studynote/12_it_management/02_itsm_itil/848_service_strategy/)
+**다음**: [65. 서비스 설계 (Service Design)](/knowledge-base/studynote/12_it_management/02_itsm_itil/849_service_design/) ->
 
 ---

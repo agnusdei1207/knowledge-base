@@ -11,7 +11,7 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 변수 ([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) Variable): 범주형 -> 이진(0, 1) 변환를 이해하는 핵심 개념으로, 흩어진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.
+> 1. **본질**: [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) 변수 ([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) Variable): 범주형 -> 이진(0, 1) 변환를 이해하는 핵심 개념으로, 흩어진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.
 > 2. **가치**: 이 주제를 제대로 잡으면 정량 근거 확보, 예측 정확도 향상, 운영 최적화뿐 아니라 [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/), 안정적 메시지 교환, 운영 표준화까지 한 번에 연결해서 설명할 수 있다.
 > 3. **판단 포인트**: 기술사 답안에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, 편향, 신선도, 재현성, 해석 가능성과 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)·오류 처리·보안을 함께 제시해야 하며, 정의보다 적용 경계를 말할 수 있어야 한다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-[더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 변수 ([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) Variable): 범주형 -> 이진(0, 1) 변환를 다루는 개념이다. 이 주제가 중요한 이유는 흩어진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 단순한 선언이 아니라 실제 설계 항목으로 바꾸기 때문이다. 다시 말해, "왜 필요한가"를 묻는 순간 이 개념은 문제를 구조화하는 언어가 된다.
+[더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) 변수 ([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) Variable): 범주형 -> 이진(0, 1) 변환를 다루는 개념이다. 이 주제가 중요한 이유는 흩어진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 단순한 선언이 아니라 실제 설계 항목으로 바꾸기 때문이다. 다시 말해, "왜 필요한가"를 묻는 순간 이 개념은 문제를 구조화하는 언어가 된다.
 
 현업에서 이 개념이 빠지면 보통 클래식 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) (Classic [Bluetooth](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/))에 기대게 된다. 그 방식은 출발은 쉽지만 규모가 커질수록 병목, 수작업, 책임 불분명 같은 문제가 누적되기 쉽다. 반대로 이 개념을 기준으로 보면 문제의 위치와 제어 지점을 분리해서 설명할 수 있어, 설계와 운영 모두에서 판단이 선명해진다.
 
@@ -42,11 +42,11 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 변수의 핵심은 입력, 처리, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 결과의 흐름을 한 세트로 보는 데 있다. 구현 기술이 달라도 결국 범주형 -> 이진(0, 1) 변환를 안정적으로 수행하려면 어떤 입력이 들어오고, 어떤 규칙으로 처리되며, 어떤 제어 지점에서 품질을 보장하는지가 정리되어야 한다. 이 메커니즘을 이해해야 실제 시스템에서 튜닝 포인트를 잡을 수 있다.
+[더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) 변수의 핵심은 입력, 처리, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 결과의 흐름을 한 세트로 보는 데 있다. 구현 기술이 달라도 결국 범주형 -> 이진(0, 1) 변환를 안정적으로 수행하려면 어떤 입력이 들어오고, 어떤 규칙으로 처리되며, 어떤 제어 지점에서 품질을 보장하는지가 정리되어야 한다. 이 메커니즘을 이해해야 실제 시스템에서 튜닝 포인트를 잡을 수 있다.
 
 | 구성 관점 | 해당 기술에서 보는 의미 | 설계 포인트 |
 | :--- | :--- | :--- |
-| 역할 분리 | [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 변수에서 송신자, 수신자, 중간 제어자의 역할을 나눈다. | 누가 연결을 시작하고 누가 정책을 가진지 분명히 한다. |
+| 역할 분리 | [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) 변수에서 송신자, 수신자, 중간 제어자의 역할을 나눈다. | 누가 연결을 시작하고 누가 정책을 가진지 분명히 한다. |
 | 메시지 흐름 | 발견·연결·전송·[확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 순서로 절차를 구성한다. | 재시도와 예외 처리를 미리 정의한다. |
 | 제어 지점 | 보안, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 품질 관리가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우한다. | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, 편향, 신선도, 재현성, 해석 가능성을 함께 맞춘다. |
 | 현장 제약 | 전파 환경, 장치 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 수가 실제 품질을 제한한다. | 실험실 결과와 현장 수치를 분리해 본다. |
@@ -63,15 +63,15 @@ tags = ["studynote-ict-convergence"]
 
 핵심은 어느 한 단계만 좋아서는 전체 품질이 좋아지지 않는다는 점이다. 입력 조건이 흔들리면 뒤 단계가 좋아도 결과는 불안정하고, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 지점이 없으면 일시적으로 빠르게 보여도 운영 안정성이 무너진다. 따라서 이 개념은 개별 기능이 아니라 흐름 전체를 맞추는 설계 문제로 이해해야 한다.
 
-- **📢 섹션 요약 비유**: 숫자 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)에서 단서를 찾는 탐정과 같다.
+- **📢 섹션 요약 비유**: 숫자 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)에서 단서를 찾는 탐정과 같다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 변수의 경계를 드러내려면 <strong>클래식 <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/">블루투스</a> (Classic <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/">Bluetooth</a>)</strong> 과 비교하는 것이 가장 빠르다. 클래식 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) (Classic [Bluetooth](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/))이 익숙함과 단순성을 제공한다면, 이 개념은 정량 근거 확보, 예측 정확도 향상, 운영 최적화 같은 가치와 [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/), 안정적 메시지 교환, 운영 표준화를 얻기 위해 구조적 통제를 더 가져가는 쪽에 가깝다. 차이는 기술 이름보다도 어떤 제약을 우선 해결하려는지에서 생긴다.
+[더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) 변수의 경계를 드러내려면 <strong>클래식 <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/">블루투스</a> (Classic <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/">Bluetooth</a>)</strong> 과 비교하는 것이 가장 빠르다. 클래식 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) (Classic [Bluetooth](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/))이 익숙함과 단순성을 제공한다면, 이 개념은 정량 근거 확보, 예측 정확도 향상, 운영 최적화 같은 가치와 [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/), 안정적 메시지 교환, 운영 표준화를 얻기 위해 구조적 통제를 더 가져가는 쪽에 가깝다. 차이는 기술 이름보다도 어떤 제약을 우선 해결하려는지에서 생긴다.
 
-| 비교 항목 | [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 변수 | 클래식 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) (Classic [Bluetooth](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)) |
+| 비교 항목 | [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) 변수 | 클래식 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) (Classic [Bluetooth](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)) |
 | :--- | :--- | :--- |
 | 설계 초점 | 범주형 -> 이진(0, 1) 변환를 체계적으로 다루는 구조 | 익숙한 방식으로 빠르게 구현하는 구조 |
 | 강점 | 정량 근거 확보, 예측 정확도 향상, 운영 최적화 같은 가치와 [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/), 안정적 메시지 교환, 운영 표준화 확보에 유리 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 진입과 단순 운영에 유리 |
@@ -122,7 +122,7 @@ tags = ["studynote-ict-convergence"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | [다중 공선성](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/) | 현재 개념이 등장하게 된 배경 또는 선행 개념이다. |
-| [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 변수 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)사이언스 맥락에서 현재 설계 판단의 중심 개념이다. |
+| [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) 변수 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)사이언스 맥락에서 현재 설계 판단의 중심 개념이다. |
 | [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/) | 현재 개념을 다음 응용 단계로 연결하는 인접 개념이다. |
 | 실시간 분석 | 현재 개념 이후의 고도화 방향을 보여 준다. |
 

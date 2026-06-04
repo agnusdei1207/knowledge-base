@@ -11,7 +11,7 @@ tags = ["studynote-design-supervision"]
 
 > **핵심 인사이트**
 > 1. [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)([Requirements Traceability Matrix](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/), [요구사항 추적성](/knowledge-base/studynote/04_software_engineering/03_design_architecture/156_requirements_traceability_vertical_horizontal/) 매트릭스)은 요구사항에서 설계, 구현, 테스트까지 각 산출물 간의 추적 관계를 매핑하는 문서로 — 단순한 표가 아니라 "변경 영향 분석"과 "요구사항 누락 탐지"를 위한 감리의 핵심 증거 도구이다.
-> 2. 양방향 추적성(Bidirectional [Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))이 중요한 이유는 "이 요구사항이 어디서 구현됐나"(순방향)와 "이 코드가 어느 요구사항을 만족하나"(역방향) 두 질문 모두 답할 수 있어야 — 시스템 변경 시 영향 범위를 정확히 파악하고 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 완전성을 검증할 수 있기 때문이다.
+> 2. 양방향 추적성(Bidirectional [Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))이 중요한 이유는 "이 요구사항이 어디서 구현됐나"(순방향)와 "이 코드가 어느 요구사항을 만족하나"(역방향) 두 질문 모두 답할 수 있어야 — 시스템 변경 시 영향 범위를 정확히 파악하고 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) 완전성을 검증할 수 있기 때문이다.
 > 3. [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 자동화 도구(IBM DOORS, Jama, Azure [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))는 요구사항-설계-코드-테스트 링크를 자동 유지하고 변경 시 영향 분석을 자동화하며 — ISO 26262(자동차), DO-178C(항공), IEC 62304(의료기기) 같은 기능안전 표준에서 RTM은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 필수 증거이다.
 
 ---
@@ -283,7 +283,7 @@ LLM으로 요구사항 -> 테스트 케이스 자동 생성
 
 **진행 상황**: 62 / 530
 
-<- **이전**: [042. 객관적 증거 수집 원칙 (Objective Evidence Collection)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/042_test_plan_result_verification/)
-**다음**: [43. 샘플링 감리 기법 (Sampling Audit Technique)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/043_sampling_audit_technique/) ->
+<- **이전**: [042. 객관적 증거 수집 원칙 (Objective Evidence Collection)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/619_test_plan_result_verification/)
+**다음**: [43. 샘플링 감리 기법 (Sampling Audit Technique)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/620_sampling_audit_technique/) ->
 
 ---

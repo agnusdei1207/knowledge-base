@@ -63,11 +63,11 @@ tags = ["studynote-network"]
 - **최소 비용, 최고 속도 구축**: 통신사는 수십조 원을 들여 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어 서버를 새로 지을 필요가 없습니다. 그냥 건물 옥상에 올라가서 기존 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 철탑 옆에 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 무선 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)만 덜렁 달아놓고 랜선만 꼽으면 즉시 그 동네를 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 존으로 만들 수 있었습니다. 전 세계 통신사들이 열광하며 이 방식을 택했습니다.
 - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 끊김 없는 커버리지 보장</strong>: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 전파가 닿지 않는 골목길에 들어가도 걱정 없습니다. 베이스가 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 망이므로 자연스럽게 LTE로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 1초 만에 넘어가며 끊김이 발생하지 않습니다.
 
-NSA를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. FR2 주파수가 기반 조건을 만든다면, NSA는 그 위에서 핵심 메커니즘을 구현하고, [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+NSA를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. FR2 주파수가 기반 조건을 만든다면, NSA는 그 위에서 핵심 메커니즘을 구현하고, [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 슬라이싱 전…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | FR2 주파수의 기반 정리 | NSA의 핵심 동작 | [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전…의 확장 적용 |
+| 초점 | FR2 주파수의 기반 정리 | NSA의 핵심 동작 | [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 슬라이싱 전…의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 유연성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
@@ -93,7 +93,7 @@ NSA를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ## Ⅴ. 기대효과 및 결론
 
-NSA는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 유연성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전…, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+NSA는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 유연성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 슬라이싱 전…, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: NSA는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -106,7 +106,7 @@ NSA는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주�
 | FR2 주파수 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 기반 구조 (Service-Based [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) | 기능을 느슨하게 결합해 유연성을 높인다. |
 | [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/) ([Network Slicing](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 요구사항을 논리적으로 분리한다. |
-| [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전… | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 슬라이싱 전… | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -120,7 +120,7 @@ NSA는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주�
     +---> [확장 B: AI 기반 네트워크 최적화]
 ```
 
-NSA는 FR2 주파수에서 출발해 현재 메커니즘을 정교화하고, 이후 [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+NSA는 FR2 주파수에서 출발해 현재 메커니즘을 정교화하고, 이후 [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 슬라이싱 전…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

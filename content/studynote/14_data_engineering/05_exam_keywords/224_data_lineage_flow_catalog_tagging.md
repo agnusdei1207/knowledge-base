@@ -61,7 +61,7 @@ rpt_executive_dashboard.revenue_kpi
 | 구성 요소 | 설명 |
 |:---|:---|
 | [Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) Repository ([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 저장소) | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)·통계·소유자·태그 저장 |
-| Lineage [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) (리니지 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 방향성 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) |
+| Lineage [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) (리니지 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 방향성 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) |
 | Business Glossary (비즈니스 용어집) | 기술 용어 ↔ 비즈니스 용어 매핑 |
 | Tag & [Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/) (태그·[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)) | PII·SENSITIVE·PUBLIC 등 레이블 |
 | Search & Discovery (검색·탐색) | 풀텍스트 검색, 추천 |
@@ -155,7 +155,7 @@ raw_products -+         ^                                    |
 
 ## Ⅴ. 기대효과 및 결론
 
-[데이터 리니지](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/)는 단순한 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 도구가 아니라, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a>(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Trust)의 근간</strong>이다. 리니지가 없으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 문제의 근본 원인을 찾지 못하고, 컴플라이언스 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)에서 증거를 제출하지 못한다.
+[데이터 리니지](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/)는 단순한 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) 도구가 아니라, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a>(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Trust)의 근간</strong>이다. 리니지가 없으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 문제의 근본 원인을 찾지 못하고, 컴플라이언스 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)에서 증거를 제출하지 못한다.
 
 ### [핵심 성과 지표](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)
 

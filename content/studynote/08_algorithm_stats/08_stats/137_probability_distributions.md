@@ -70,7 +70,7 @@ E[X] = λ,   Var[X] = λ   (평균 = 분산!)
 
 **단위 시간·공간에서 희귀 사건이 λ번 발생할 때** 사용.
 
-<strong>포아송 과정 (Poisson <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a>) 가정</strong>:
+<strong>포아송 과정 (Poisson <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/">Process</a>) 가정</strong>:
 1. 사건은 독립적으로 발생
 2. 단위 시간당 평균 발생 횟수 = λ
 3. 두 사건이 동시에 발생할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) = 0

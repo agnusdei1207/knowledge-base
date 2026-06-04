@@ -162,7 +162,7 @@ GDS (Graph Data Science) - PageRank·커뮤니티 탐지
 GNN + Neo4j 하이브리드 - AI 기반 사기 예측
 ```
 
-> **키워드**: Neo4j, [Graph Database](/knowledge-base/studynote/14_data_engineering/01_infrastructure/039_graph_db/), [Cypher Query](/knowledge-base/studynote/16_bigdata/06_nosql/134_cypher_query/), Fraud [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/), GDS, [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) Traversal, Community [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/), [GNN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/)
+> **키워드**: Neo4j, [Graph Database](/knowledge-base/studynote/14_data_engineering/01_infrastructure/039_graph_db/), [Cypher Query](/knowledge-base/studynote/16_bigdata/06_nosql/134_cypher_query/), Fraud [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/), GDS, [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) Traversal, Community [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/), [GNN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

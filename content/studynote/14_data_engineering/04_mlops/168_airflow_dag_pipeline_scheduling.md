@@ -236,7 +236,7 @@ with DAG(
 |:---|:---|:---|
 | **Amazon MWAA** | AWS | EKS 기반, [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) 통합 |
 | **Cloud Composer** | GCP | GKE 기반, GCP [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 완전 통합 |
-| **Astronomer** | Astronomer | 전문 Airflow 관리형 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) |
+| **Astronomer** | Astronomer | 전문 Airflow 관리형 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) |
 
 📢 **섹션 요약 비유**: Airflow vs Prefect/Dagster는 전통 지도(Airflow)와 내비게이션 앱(Prefect/Dagster)의 차이다. 전통 지도는 넓은 생태계와 검증된 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)이 있지만, 내비게이션은 실시간 경로 변경(동적 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/))과 더 나은 UX를 제공한다.
 

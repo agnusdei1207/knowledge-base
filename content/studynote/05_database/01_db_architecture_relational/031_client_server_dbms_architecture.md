@@ -71,7 +71,7 @@ N-Tier (MSA):
 | **ORM** | 객체-[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 매핑 (Hibernate, JPA) |
 | **커넥션 풀** | 연결 재사용 (HikariCP, DBCP) |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a></strong> | 연결 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)·[캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) (ProxySQL, PgBouncer) |
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">서비스 메시</a></strong> | [MSA DB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/284_msa_db/) 연결 관리 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/">서비스 메시</a></strong> | [MSA DB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/284_msa_db/) 연결 관리 |
 
 - **📢 섹션 요약 비유**: 커넥션 풀은 택시 대기소다. 항상 10대의 택시(DB 연결)가 대기하고 있어서 손님(요청)이 오면 즉시 배차(연결 제공)한다. 매번 새 택시를 불러오는 것(새 연결 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))보다 훨씬 빠르다.
 

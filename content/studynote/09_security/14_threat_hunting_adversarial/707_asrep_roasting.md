@@ -136,7 +136,7 @@ AS-REP Roasting를 제대로 이해하면 개념 하나를 외우는 데서 끝�
 
 **진행 상황**: 781 / 1108
 
-<- **이전**: [706. OAuth와 SAML (OAuth 2.0 & SAML 2.0)](/knowledge-base/studynote/09_security/uncategorized/706_oauth_saml/)
+<- **이전**: [706. OAuth와 SAML (OAuth 2.0 & SAML 2.0)](/knowledge-base/studynote/09_security/uncategorized/1051_oauth_saml/)
 **다음**: [708. DCSync (DCSync)](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/708_dcsync/) ->
 
 ---

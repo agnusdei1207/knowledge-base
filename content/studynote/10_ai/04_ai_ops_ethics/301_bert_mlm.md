@@ -98,7 +98,7 @@ BERT는 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keyw
 - 질의응답(QA): 질문+지문을 입력으로 정답 시작/끝 위치 예측
 - 자연어 추론(NLI): 두 문장 쌍을 입력해 함의/모순/중립 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
-**한국어 BERT**: KoBERT (SKT), KoELECTRA (monologg), KlueRoBERTa가 한국어 NLP [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)의 표준 사전 학습 모델로 활용된다. 기술사 시험 채점 시스템, 법률 문서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 금융 뉴스 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/) 등 실무 응용이 넓다.
+**한국어 BERT**: KoBERT (SKT), KoELECTRA (monologg), KlueRoBERTa가 한국어 NLP [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)의 표준 사전 학습 모델로 활용된다. 기술사 시험 채점 시스템, 법률 문서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 금융 뉴스 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/) 등 실무 응용이 넓다.
 
 - **📢 섹션 요약 비유**: BERT [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)은 법학대학원 졸업생(사전 학습된 BERT)에게 "이번에는 특허 법원 일을 하자"라고 전문 직무 교육([파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))을 시키는 것이다. 법학 기본 지식은 이미 갖춰져 있으니, 특허 관련 판례 1만 건만 더 학습하면 특허 전문 변호사가 된다.
 

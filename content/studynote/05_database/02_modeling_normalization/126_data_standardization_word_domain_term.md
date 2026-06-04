@@ -74,7 +74,7 @@ tags = ["studynote-database"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표준화는 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">데이터 거버넌스</a>·<a href="/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/">MDM</a>·<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">DW</a> 구축의 기초</strong>이며, 표준 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합은 모래 위의 건물이다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표준화는 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/">데이터 거버넌스</a>·<a href="/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/">MDM</a>·<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">DW</a> 구축의 기초</strong>이며, 표준 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합은 모래 위의 건물이다.
 
 ---
 
@@ -86,7 +86,7 @@ tags = ["studynote-database"]
 | <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a></strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입·형식 규칙 |
 | **용어** | 단어 조합의 비즈니스 명칭 |
 | <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/">데이터 사전</a></strong> | 표준 관리 저장소 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">데이터 거버넌스</a></strong> | 표준화의 상위 관리 체계 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/">데이터 거버넌스</a></strong> | 표준화의 상위 관리 체계 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

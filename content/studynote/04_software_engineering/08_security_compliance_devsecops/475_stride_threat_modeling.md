@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 세상의 모든 소프트웨어 해킹 기법은 수만 가지(SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/), [패킷 스니핑](/knowledge-base/studynote/09_security/03_network_security/272_packet_sniffing/) 등)가 있지만, 그 뼈대(목적)를 추려보면 결국 딱 6가지로 귀결된다. 이 6가지 카테고리의 앞 글자를 딴 것이 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/">STRIDE</a></strong>다.
+- **개념**: 세상의 모든 소프트웨어 해킹 기법은 수만 가지(SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/), [패킷 스니핑](/knowledge-base/studynote/09_security/03_network_security/272_packet_sniffing/) 등)가 있지만, 그 뼈대(목적)를 추려보면 결국 딱 6가지로 귀결된다. 이 6가지 카테고리의 앞 글자를 딴 것이 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/">STRIDE</a></strong>다.
   `S(신분 위조) / T(데이터 변조) / R(오리발 내밀기) / I(정보 훔쳐보기) / D(서버 터뜨리기) / E(권한 빼앗기)`
 
 - **필요성**: 개발자들에게 "이 결제 시스템에서 일어날 수 있는 위협을 찾아봐!"라고 하면 1시간 내내 회의해도 "DB 털리면 어떡하죠?", "디도스 오면 어떡하죠?" 2개만 찾고 끝난다. 인간의 상상력에는 한계가 있다. 하지만 칠판에 `STRIDE` 6글자를 띄워놓고 강제로 1글자씩 대입해 보게 하면? "아, R(Repudiation)을 생각해보니 고객이 결제해 놓고 나중에 안 했다고 우기면 증명할 방법이 없네?"라며 **평소엔 절대 상상하지 못했던 '논리적 맹점'을 강제로 쥐어짜 내게** 만들어준다.
@@ -121,7 +121,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 모델은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -175,7 +175,7 @@ STRIDE 모델 개념 정립
 
 **진행 상황**: 542 / 973
 
-<- **이전**: [475. STRIDE 모델 (STRIDE Model)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/475_stride_model/)
-**다음**: [476. DREAD 모델 (DREAD Model)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/476_dread_model/) ->
+<- **이전**: [475. STRIDE 모델 (STRIDE Model)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/867_stride_model/)
+**다음**: [476. DREAD 모델 (DREAD Model)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/868_dread_model/) ->
 
 ---

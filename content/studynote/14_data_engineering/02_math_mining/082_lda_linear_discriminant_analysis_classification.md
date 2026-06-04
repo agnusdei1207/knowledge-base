@@ -83,7 +83,7 @@ LDA는 통계학과 패턴 인식 분야에서 가장 역사 깊고 견고한 �
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-* **상위 개념**: [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)([Supervised Learning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)), [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)([Dimensionality Reduction](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_dimensionality_reduction/))
+* **상위 개념**: [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)([Supervised Learning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)), [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)([Dimensionality Reduction](/knowledge-base/studynote/12_it_management/02_itsm_itil/863_dimensionality_reduction/))
 * **핵심 수학**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 행렬(Scatter Matrix), [고유값 분해](/knowledge-base/studynote/10_ai/05_data_science_ml/341_eigenvalue_decomposition/)(Eigen Decomposition)
 * **비교/응용 기법**: [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)([주성분 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/)), QDA(이차 판별 분석), 대조 학습(Contrastive [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))
 

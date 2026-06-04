@@ -28,7 +28,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **CSRF의 유행과 쇠퇴**: 과거엔 해커들이 클라이언트(브라우저)를 속이는 CSRF에 미쳐있었다. 그러나 브라우저 벤더들이 `SameSite` [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 정책을 강제하며 CSRF는 멸종 위기에 처했다.
   2. <strong>클라우드의 등장 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> 털기)</strong>: 해커들이 타겟을 서버로 돌렸다. 특히 AWS EC2 인스턴스 내부에 존재하는 마법의 IP(`169.254.169.254`)를 SSRF로 찌르면, EC2에 부여된 <strong>최고 관리자 탈취 키(<a href="/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/">IAM</a> Token)</strong>가 평문으로 줄줄 쏟아져 나온다는 사실이 발견되며 전 세계 클라우드가 발칵 뒤집혔다 (2019년 캐피털 원(Capital One) 해킹 사태).
-  3. <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/">OWASP Top 10</a> 신규 진입 (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/">2021</a>)</strong>: 클라우드 파멸의 주범으로 찍히며 당당히 10위로 신설 진입, "서버 밖으로 나가는 모든 URL 호출(Outbound)을 통제하라"는 새로운 시대정신을 알렸다.
+  3. <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/">OWASP Top 10</a> 신규 진입 (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/">2021</a>)</strong>: 클라우드 파멸의 주범으로 찍히며 당당히 10위로 신설 진입, "서버 밖으로 나가는 모든 URL 호출(Outbound)을 통제하라"는 새로운 시대정신을 알렸다.
 
 - **📢 섹션 요약 비유**: 해커가 성벽 밖에서 돌을 던지는 게 아니라, 성문 앞에 서 있는 <strong>경비병(웹 서버)에게 최면(<a href="/knowledge-base/studynote/09_security/05_web_app_security/468_ssrf/">SSRF</a>)을 걸어</strong> "가서 너네 왕의 목을 따오라"고 조종하는 가장 악랄하고 완벽한 내부자 공격의 우회술입니다.
 
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [SSRF](/knowledge-base/studynote/09_security/05_web_app_security/468_ssrf/) (Server-Side Request Forgery)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ SSRF (Server-Side Request Forgery) 개념 정립
 
 **진행 상황**: 566 / 973
 
-<- **이전**: [487. SSRF (Server-Side Request Forgery)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/487_ssrf/)
-**다음**: [488. CWE (Common Weakness Enumeration)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/488_cwe/) ->
+<- **이전**: [487. SSRF (Server-Side Request Forgery)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/879_ssrf/)
+**다음**: [488. CWE (Common Weakness Enumeration)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/880_cwe/) ->
 
 ---

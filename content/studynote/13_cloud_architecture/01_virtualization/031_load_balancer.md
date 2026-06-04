@@ -75,15 +75,15 @@ L7 (Application Layer):
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | L4 LB | L7 LB | [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) |
+| 비교 | L4 LB | L7 LB | [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) |
 |:---|:---|:---|:---|
 | 레이어 | [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/[HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) | 앱 레이어 |
 | [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 기준 | IP·[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) | URL·헤더 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) ID |
 | 속도 | 매우 빠름 | 빠름 | 중간 |
 | 기능 | 단순 | 풍부 | 가장 풍부 |
-| 예시 | NLB | ALB, Nginx | [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) |
+| 예시 | NLB | ALB, Nginx | [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) |
 
-- **📢 섹션 요약 비유**: LB·[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 교통 시스템 진화다. L4 LB([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등), L7 LB(스마트 내비게이션), [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)(자율주행 교통 관제)로 지능화되고 기능이 풍부해진다.
+- **📢 섹션 요약 비유**: LB·[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)는 교통 시스템 진화다. L4 LB([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등), L7 LB(스마트 내비게이션), [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)(자율주행 교통 관제)로 지능화되고 기능이 풍부해진다.
 
 ---
 
@@ -147,7 +147,7 @@ GLB (Gateway Load Balancer):
 | **Round Robin / LC** | [로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 | **L4 / L7** | OSI 계층별 로드 밸런서 |
 | **헬스 체크** | 서버 상태 자동 감지·제외 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">서비스 메시</a></strong> | [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 LB |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/">서비스 메시</a></strong> | [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 LB |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a></strong> | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨 고성능 패킷 처리 |
 
 ### 📈 관련 키워드 및 발전 흐름도

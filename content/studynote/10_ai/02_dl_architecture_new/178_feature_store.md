@@ -122,7 +122,7 @@ tags = ["studynote-ai"]
 
 1. 같은 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 정의가 학습과 추론 양쪽에서 실제로 재사용되는가?
 2. Point-in-Time Join과 미래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누수 방지 로직이 준비되어 있는가?
-3. 온라인 스토어의 최신성 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))와 오프라인 스토어의 재현성 요구를 분리해 관리하는가?
+3. 온라인 스토어의 최신성 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/))와 오프라인 스토어의 재현성 요구를 분리해 관리하는가?
 4. [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)마다 소유 팀, [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경 규칙, 폐기 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 있는가?
 5. 백필, 재계산, 누락값 처리, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 전환 시 장애 없이 운영할 수 있는가?
 
@@ -154,7 +154,7 @@ tags = ["studynote-ai"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/) | 원천 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모델 입력 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)로 바꾸는 과정이며 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)의 출발점이다. |
+| [Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/865_feature_engineering/) | 원천 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모델 입력 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)로 바꾸는 과정이며 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)의 출발점이다. |
 | Offline Store | 과거 시점 기준 학습·백필 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 제공해 재현성을 보장한다. |
 | Online Store | 실시간 추론에서 최신 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)를 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 제공한다. |
 | Point-in-Time [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) | 미래 정보 누수를 막고 학습 시점 정합성을 보장하는 핵심 기능이다. |

@@ -29,7 +29,7 @@ tags = ["studynote-software-engineering"]
   1. **1980년대**: 공식 테스트 문서화 표준( military, aerospace)에서 테스트 절차 개념 정립
   2. **1990년대**: WinRunner, QuickTest Professional 등의 상용 테스트 자동화 도구 등장
   3. **2000년대**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 자동화 프레임워크(Selenium, JUnit) 대중화
-  4. **현재**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서 테스트 자동화가 표준으로 정착
+  4. **현재**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD, [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서 테스트 자동화가 표준으로 정착
 
 - **📢 섹션 요약 비유**: 테스트 절차는 <strong>'평행우는길 찾기 내비게이션'</strong>과 같다. 내비게이션은 "500m 직진 -> 신호가 있는 교차로에서 우회전 -> 1km 후 좌회전"처럼 단계별로 정확한 길을 안내한다. 소프트웨어 테스트 절차도 마찬가지로 "①로그인 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 접속 -> ②사용자명 입력 -> ③비밀번호 입력 -> ④로그인 버튼 클릭"과 같이 정확한 단계별 지침을 제공하여, 사용자(테스터)들이 동일한 목적지(테스트 결과)에 도달할 수 있게 한다.
 
@@ -121,7 +121,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 테스트 절차 (Test Procedure) / 테스트 스크립트 (Test Script)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -175,7 +175,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 477 / 973
 
-<- **이전**: [442. 테스트 시나리오 (Test Scenario) - 테스트 케이스들을 흐름에 따라 묶은 집합](/knowledge-base/studynote/04_software_engineering/11_testing_validation/442_test_scenario/)
-**다음**: [443. 테스트 절차 (Test Procedure) / 테스트 스크립트 (Test Script)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/443_test_procedure_test_script/) ->
+<- **이전**: [442. 테스트 시나리오 (Test Scenario) - 테스트 케이스들을 흐름에 따라 묶은 집합](/knowledge-base/studynote/04_software_engineering/11_testing_validation/834_test_scenario/)
+**다음**: [443. 테스트 절차 (Test Procedure) / 테스트 스크립트 (Test Script)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/835_test_procedure_test_script/) ->
 
 ---

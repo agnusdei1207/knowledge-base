@@ -60,16 +60,16 @@ Lean의 핵심은 "더 열심히"가 아니라 "더 늦지 않게 배우는 구�
 
     ## Ⅲ. 비교 및 연결
 
-    Lean은 [Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/), [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/), DevOps와 겹치지만 초점이 다르다.
+    Lean은 [Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/), [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/), DevOps와 겹치지만 초점이 다르다.
 
 | 구분 | 초점 | 대표 포인트 |
 | :-- | :-- | :-- |
 | Lean | 낭비 제거와 흐름 최적화 | 가치 흐름, WIP 제한 |
 | [Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) | 변화 수용과 반복 학습 | 짧은 반복, 고객 협업 |
-| [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/) | 팀 운영 프레임 | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/), 백로그, 회고 |
+| [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/) | 팀 운영 프레임 | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/), 백로그, 회고 |
 | [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | 개발·운영 통합 | 자동화, 배포, 관측성 |
 
-Lean은 Scrum의 규칙보다 더 넓은 경영·프로세스 관점에서 작동한다. 따라서 [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) ([Kanban](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)) 보드나 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)) 자동화도 Lean의 실행 수단으로 연결될 수 있다.
+Lean은 Scrum의 규칙보다 더 넓은 경영·프로세스 관점에서 작동한다. 따라서 [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) ([Kanban](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)) 보드나 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)) 자동화도 Lean의 실행 수단으로 연결될 수 있다.
 
     - **📢 섹션 요약 비유**: 먼저 다 만들고 나중에 고치기보다, 한 조각씩 보내며 방향을 확인하는 배달 방식이다.
 
@@ -111,7 +111,7 @@ Lean은 Scrum의 규칙보다 더 넓은 경영·프로세스 관점에서 작�
 | Toyota Production System | Lean의 기원 |
 | WIP ([Work In Progress](/knowledge-base/studynote/04_software_engineering/uncategorized/661_kanban_wip_limit/)) | 처리 중 작업 수 제한 |
 | [Kanban](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) | 흐름 시각화와 pull 방식 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)) | 작은 배치의 빠른 전달 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)) | 작은 배치의 빠른 전달 |
 | [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | 개발·운영 협업과 자동화 |
 
     ### 📈 관련 키워드 및 발전 흐름도

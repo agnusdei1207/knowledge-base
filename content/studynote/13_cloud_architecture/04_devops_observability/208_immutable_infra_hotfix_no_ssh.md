@@ -13,7 +13,7 @@ tags = ["studynote-cloud-architecture"]
 
 > 1. **본질**: [불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)([Immutable Infrastructure](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)) 원칙은 운영 중인 서버에 직접 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 접속하여 변경하는 것을 금지하고, 모든 변경은 코드->빌드->배포 파이프라인을 통해서만 적용하여 Configuration Drift를 원천 차단한다.
 > 2. **가치**: 모든 서버가 Git 코드와 동일한 상태임을 보장하면, 인프라 상태를 언제든지 재현할 수 있고 "이 서버만 특이하게 동작하는" 스노우플레이크([Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)) 서버 문제가 사라진다.
-> 3. **판단 포인트**: 긴급 핫픽스 압박 상황에서 불변 원칙을 지키려면 "코드 수정->빠른 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD->배포"가 30분 이내에 완료되는 파이프라인 속도가 뒷받침되어야 한다.
+> 3. **판단 포인트**: 긴급 핫픽스 압박 상황에서 불변 원칙을 지키려면 "코드 수정->빠른 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD->배포"가 30분 이내에 완료되는 파이프라인 속도가 뒷받침되어야 한다.
 
 ---
 
@@ -100,7 +100,7 @@ tags = ["studynote-cloud-architecture"]
 | 긴급 보안 패치 | ✅ | 30분 이내 Fast-path 파이프라인 필요 |
 | 프로덕션 즉각 장애 | ⚠️ [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 우선 | 이전 이미지로 즉시 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) |
 
-📢 **섹션 요약 비유**: 불변 원칙과 빠른 파이프라인의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 공장 라인과 품질 검사 속도의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)다. 품질 검사([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)를 너무 느리게 하면 긴급 상황에서 "이번 한 번만 검사 건너뛰자"는 유혹이 생긴다. 파이프라인을 빠르게 만드는 것이 원칙을 지키는 실질적 조건이다.
+📢 **섹션 요약 비유**: 불변 원칙과 빠른 파이프라인의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 공장 라인과 품질 검사 속도의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)다. 품질 검사([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD)를 너무 느리게 하면 긴급 상황에서 "이번 한 번만 검사 건너뛰자"는 유혹이 생긴다. 파이프라인을 빠르게 만드는 것이 원칙을 지키는 실질적 조건이다.
 
 ---
 

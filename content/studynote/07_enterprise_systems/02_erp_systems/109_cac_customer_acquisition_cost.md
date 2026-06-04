@@ -10,7 +10,7 @@ tags = ["studynote-enterprise-systems"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: CAC([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) Cost)는 특정 기간 동안 투입한 <strong>총 마케팅·영업 비용을 해당 기간 신규 고객 수로 나눈 값</strong>으로, 고객 1명을 획득하는 데 드는 평균 비용이다.
+> 1. **본질**: CAC([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/) [Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) Cost)는 특정 기간 동안 투입한 <strong>총 마케팅·영업 비용을 해당 기간 신규 고객 수로 나눈 값</strong>으로, 고객 1명을 획득하는 데 드는 평균 비용이다.
 > 2. **가치**: [LTV](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/)([고객 생애 가치](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/))와의 비율 `LTV > 3×CAC`가 <strong>벤처 투자·사업 존속 여부를 결정하는 절대 공식</strong>이며, 이 비율이 역전되면 매출이 늘수록 적자가 심화되는 구조적 함정에 빠진다.
 > 3. **판단 포인트**: CAC 절감의 핵심은 바이럴/추천(Referral) 엔진 설계와 오가닉 유입(SEO·콘텐츠 마케팅) 비중 확대이며, 유료 광고(Paid) 의존도가 높을수록 CAC 상승 압력이 가중된다.
 
@@ -56,7 +56,7 @@ tags = ["studynote-enterprise-systems"]
 
 ### [Payback Period](/knowledge-base/studynote/12_it_management/01_governance_strategy/015_payback_period/) (회수 기간)
 
-CAC를 투입한 뒤 고객이 해당 금액만큼 매출을 발생시키는 데 걸리는 기간. [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 업계 기준 <strong>12개월 이내 회수</strong>가 건전한 사업 모델의 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이다.
+CAC를 투입한 뒤 고객이 해당 금액만큼 매출을 발생시키는 데 걸리는 기간. [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 업계 기준 <strong>12개월 이내 회수</strong>가 건전한 사업 모델의 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이다.
 
 - **📢 섹션 요약 비유**: CAC는 씨앗값이고, LTV는 수확량이다. 씨앗값보다 수확량이 3배 이상이어야 농사(사업)를 지을 가치가 있다.
 
@@ -75,7 +75,7 @@ CAC를 투입한 뒤 고객이 해당 금액만큼 매출을 발생시키는 데
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### CAC 절감 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) ([그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/))
+### CAC 절감 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) ([그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/833_growth_hacking/))
 1. **바이럴/추천 (Referral)**: "친구 초대 시 양쪽 5천 포인트" -> CAC를 1/5로 절감 (토스·드롭박스 사례).
 2. **오가닉 유입 강화**: SEO·콘텐츠 마케팅으로 유료 광고 의존도를 낮춘다.
 3. **채널별 CAC 분리 측정**: 인스타 CAC 7만 원 vs 블로그 CAC 1만 원 -> 비효율 채널 예산 재배분.
@@ -105,7 +105,7 @@ CAC와 LTV의 [관계](/knowledge-base/studynote/05_database/02_modeling_normali
 | <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/">LTV</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/">고객 생애 가치</a>)</strong> | CAC와 비교하여 사업 [지속 가능성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/386_sustainability_green_coding/)을 판단하는 짝꿍 지표 |
 | **ARPU (사용자당 평균 매출)** | [LTV](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/) 계산의 핵심 변수 (ARPU × 고객 수명) |
 | **Churn Rate (이탈률)** | LTV를 깎아먹는 역방향 지표 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/">그로스 해킹</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/">Growth Hacking</a>)</strong> | CAC 절감과 바이럴 계수 극대화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/833_growth_hacking/">그로스 해킹</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/833_growth_hacking/">Growth Hacking</a>)</strong> | CAC 절감과 바이럴 계수 극대화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 | **Unit Economics** | CAC·[LTV](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/)·Payback을 통합하는 단위 경제 분석 프레임워크 |
 
 ### 📈 관련 키워드 및 발전 흐름도

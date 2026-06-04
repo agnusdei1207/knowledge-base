@@ -137,6 +137,6 @@ LLM03: [Training](/knowledge-base/studynote/04_software_engineering/09_cloud_nat
 **진행 상황**: 1075 / 1108
 
 <- **이전**: [977. LLM02: Insecure Output (LLM02: Insecure Output)](/knowledge-base/studynote/09_security/19_ai_advanced_security/977_llm02_insecure_output/)
-**다음**: [979. IPSec 터널/수송 모드 (Ipsec Tunnel Transport Mode VPN Encapsulation)](/knowledge-base/studynote/09_security/uncategorized/979_ipsec_tunnel_transport_mode_vpn_encapsulation/) ->
+**다음**: [979. IPSec 터널/수송 모드 (Ipsec Tunnel Transport Mode VPN Encapsulation)](/knowledge-base/studynote/09_security/uncategorized/1075_ipsec_tunnel_transport_mode_vpn_encapsulation/) ->
 
 ---

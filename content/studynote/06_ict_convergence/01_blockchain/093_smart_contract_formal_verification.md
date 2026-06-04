@@ -79,7 +79,7 @@ tags = ["ict_convergence"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 강력하지만 '은통알(Silver Bullet)'은 아니다. 실무에서는 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 한계점과 비용([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))을 냉정하게 판단해야 한다.
+정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 강력하지만 '은통알(Silver Bullet)'은 아니다. 실무에서는 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 한계점과 비용([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/))을 냉정하게 판단해야 한다.
 
 ### 실무 판단 가이드
 

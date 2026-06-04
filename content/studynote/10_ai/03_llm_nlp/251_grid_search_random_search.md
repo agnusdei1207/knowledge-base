@@ -202,7 +202,7 @@ tags = ["studynote-ai"]
 | 하이퍼파라미터 | [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/), 트리 깊이, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 계수 / 사람이 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하는 모델 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값 |
 | 그리드 서치 | 완전 탐색, 데카르트 곱 / 하이퍼파라미터 탐색 기법 |
 | 랜덤 서치 | 무작위 샘플링, 넓은 탐색 / 하이퍼파라미터 탐색 기법 |
-| 베이지안 최적화 | Gaussian [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/), 획득 함수 / 지능적 하이퍼파라미터 탐색 |
+| 베이지안 최적화 | Gaussian [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/), 획득 함수 / 지능적 하이퍼파라미터 탐색 |
 | K-Fold [CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/) | [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/), [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 추정 / 각 후보 평가에 함께 사용 |
 | 파라미터 | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/), [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 학습 / 하이퍼파라미터와 대비 |
 

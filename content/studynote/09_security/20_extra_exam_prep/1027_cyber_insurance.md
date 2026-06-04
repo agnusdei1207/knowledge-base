@@ -136,7 +136,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 147 / 1108
 
-<- **이전**: [1026. 스마트 그리드 통신 인프라망 (Smart Grid Ami Two Way Communication Energy)](/knowledge-base/studynote/09_security/uncategorized/1026_smart_grid_ami_two_way_communication_energy/)
-**다음**: [1027. 수중 음파 통신망 라우팅/MAC (Uwsn Mac Routing Depth Based Protocol)](/knowledge-base/studynote/09_security/uncategorized/1027_uwsn_mac_routing_depth_based_protocol/) ->
+<- **이전**: [1026. 스마트 그리드 통신 인프라망 (Smart Grid Ami Two Way Communication Energy)](/knowledge-base/studynote/09_security/uncategorized/1104_smart_grid_ami_two_way_communication_energy/)
+**다음**: [1027. 수중 음파 통신망 라우팅/MAC (Uwsn Mac Routing Depth Based Protocol)](/knowledge-base/studynote/09_security/uncategorized/1105_uwsn_mac_routing_depth_based_protocol/) ->
 
 ---

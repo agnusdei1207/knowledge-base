@@ -12,7 +12,7 @@ tags = ["studynote-data-engineering"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 컨슈머 랙([Consumer Lag](/knowledge-base/studynote/16_bigdata/04_streaming/089_consumer_lag/))은 <strong>프로듀서(Producer)의 최신 오프셋(Log End Offset)과 컨슈머(Consumer)의 현재 오프셋(<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/">Current</a> Offset) 차이</strong>로, 메시지 처리 지연의 핵심 지표이자 스트리밍 파이프라인 건전성의 척도다.
-> 2. **가치**: Consumer Lag를 [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) + [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/) + AlertManager로 실시간 모니터링하고, 임계값 초과 시 자동으로 컨슈머 그룹을 스케일아웃하면 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 수준 협약) 위반을 선제적으로 방지</strong>할 수 있다.
+> 2. **가치**: Consumer Lag를 [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) + [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/) + AlertManager로 실시간 모니터링하고, 임계값 초과 시 자동으로 컨슈머 그룹을 스케일아웃하면 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/">SLA</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 수준 협약) 위반을 선제적으로 방지</strong>할 수 있다.
 > 3. **판단 포인트**: Lag 증가 원인 분석—처리 로직 병목 vs [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 불균형 vs 외부 의존성 장애—을 구분하는 것이 핵심이며, 무조건 컨슈머 수 증가가 해결책이 아니라 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수가 상한선임을 기억해야 한다.
 
 ---
@@ -265,7 +265,7 @@ spec:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 4.1 [Consumer Lag](/knowledge-base/studynote/16_bigdata/04_streaming/089_consumer_lag/) [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 설계 가이드
+### 4.1 [Consumer Lag](/knowledge-base/studynote/16_bigdata/04_streaming/089_consumer_lag/) [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 설계 가이드
 
 ```
 SLA 기반 Lag 임계값 설계:
@@ -329,7 +329,7 @@ Kafka Consumer Lag 모니터링 설계 시 필수 언급:
 | 효과 | 정량 지표 |
 |:---|:---|
 | 장애 선제 감지 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 전 평균 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~30분 전 경보 |
-| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 위반 감소 | 프로액티브 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)으로 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 준수율 99.9% |
+| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 위반 감소 | 프로액티브 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)으로 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 준수율 99.9% |
 | 운영 비용 절감 | Auto Scaling으로 야간 수동 모니터링 제거 |
 | RCA 시간 단축 | Lag 패턴 + [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 연계로 5분 내 원인 분석 |
 

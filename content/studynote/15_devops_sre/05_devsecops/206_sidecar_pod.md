@@ -12,14 +12,14 @@ tags = ["studynote-devops-sre"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 주 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 옆에 보조 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 붙여 공통 기능을 분리하는 패턴.
-> 2. **가치**: 로깅, [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/), [보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/503_security_features_design/)을 애플리케이션과 느슨하게 결합한다.
+> 2. **가치**: 로깅, [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/), [보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/895_security_features_design/)을 애플리케이션과 느슨하게 결합한다.
 > 3. **판단 포인트**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 수 증가에 따른 자원 비용과 운영 복잡도를 고려해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) ([Sidecar](/knowledge-base/studynote/04_software_engineering/11_testing_validation/546_sidecar_proxy_pattern/)) 패턴은 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)/[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 환경에서 반복되는 운영 문제를 구조적으로 다루기 위해 등장한 개념이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수가 늘고 배포 빈도가 높아지면 애플리케이션 코드와 운영 제어를 분리하는 플랫폼 계층이 필요하다. 핵심은 주 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 옆에 보조 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 붙여 공통 기능을 분리하는 패턴에 있다. 이 관점에서 보면, 이 주제는 단순 기술 소개가 아니라 속도와 안정성을 동시에 맞추기 위한 운영 설계 기준에 가깝다.
+[사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) ([Sidecar](/knowledge-base/studynote/04_software_engineering/11_testing_validation/938_sidecar_proxy_pattern/)) 패턴은 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)/[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 환경에서 반복되는 운영 문제를 구조적으로 다루기 위해 등장한 개념이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수가 늘고 배포 빈도가 높아지면 애플리케이션 코드와 운영 제어를 분리하는 플랫폼 계층이 필요하다. 핵심은 주 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 옆에 보조 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 붙여 공통 기능을 분리하는 패턴에 있다. 이 관점에서 보면, 이 주제는 단순 기술 소개가 아니라 속도와 안정성을 동시에 맞추기 위한 운영 설계 기준에 가깝다.
 
 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 확장, 보안, 저장소를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별로 제각각 구현하면 운영 복잡도가 기하급수적으로 늘어난다. 따라서 [사이드카 패턴](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/182_sidecar_pattern_proxy_container/)을 이해할 때는 "무엇을 자동화하는가"보다 "어떤 실패와 편차를 줄이려는가"를 먼저 붙잡아야 한다.
 
@@ -69,7 +69,7 @@ Reference Architecture
 | 비교 축 | [사이드카 패턴](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/182_sidecar_pattern_proxy_container/) | 단일 프로세스 내 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 통합 |
 |:---|:---|:---|
 | 중심 목표 | [사이드카 패턴](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/182_sidecar_pattern_proxy_container/)의 목적에 맞춘 제어와 자동화 | 더 전통적이거나 대안적인 운영 방식 |
-| 강점 | 로깅, [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/), [보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/503_security_features_design/)을 애플리케이션과 느슨하게 결합한다. | 구조가 단순하거나 도입 장벽이 낮음 |
+| 강점 | 로깅, [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/), [보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/895_security_features_design/)을 애플리케이션과 느슨하게 결합한다. | 구조가 단순하거나 도입 장벽이 낮음 |
 | 위험 | [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 약하면 기대효과가 줄어듦 | 확장성·가시성·자동화 한계가 빨리 드러남 |
 | 적합한 상황 | 여러 팀이 공통 플랫폼 위에서 독립적으로 릴리스하고 확장해야 하는 조직에 적합하다. | 변화가 적거나 단순한 환경 |
 

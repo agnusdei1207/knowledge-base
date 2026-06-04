@@ -11,7 +11,7 @@ tags = ["studynote-bigdata"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-- **본질**: 스트리밍 SQL (Streaming SQL)은 무한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트림에 지속적으로 실행되는 SQL [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로, 표준 SQL에 윈도우 함수·[워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)·스트림-테이블 조인 등 스트리밍 고유 연산이 추가된 형태이며, ksqlDB ([Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/)), Flink SQL ([Apache Flink](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/)), [Spark Structured Streaming](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/) SQL이 3대 주요 엔진이다.
+- **본질**: 스트리밍 SQL (Streaming SQL)은 무한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트림에 지속적으로 실행되는 SQL [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로, 표준 SQL에 윈도우 함수·[워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)·스트림-테이블 조인 등 스트리밍 고유 연산이 추가된 형태이며, ksqlDB ([Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/)), Flink SQL ([Apache Flink](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/)), [Spark Structured Streaming](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/) SQL이 3대 주요 엔진이다.
 - **가치**: 스트리밍 처리를 위해 Java/Python API를 배우지 않아도 SQL 한 줄로 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 스트림 집계·필터·조인을 구현할 수 있어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어의 진입 장벽을 낮추고, 선언적 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 자동 최적화한다.
 - **판단 포인트**: ksqlDB는 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)-native로 운영이 단순하지만 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 생태계에 종속되고, Flink SQL은 ANSI SQL 완전성과 이벤트 시간 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)가 가장 높으며, Spark SQL은 기존 Spark 인프라를 그대로 활용하는 마이크로배치 방식으로 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)이 수 초 이상이다.
 
@@ -51,7 +51,7 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. ksqlDB ([Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/))
+### 1. ksqlDB ([Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/))
 
 ```sql
 -- ksqlDB: Kafka 토픽에서 직접 SQL 실행

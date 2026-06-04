@@ -10,8 +10,8 @@ tags = ["studynote-enterprise-systems"]
 +++
 
 > **핵심 인사이트**
-> 1. [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)([Minimum Viable Product](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/), 최소 기능 제품)는 Eric Ries의 [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/)([Lean Startup](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/)) 핵심 개념으로, 최소한의 기능으로 고객 가설을 빠르게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Validated [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))하는 제품 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이며, "완성된 제품"이 아닌 "학습 도구"임을 이해하는 것이 핵심이다.
-> 2. MVP의 목적은 Build-Measure-Learn(BML) [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를 최대한 짧게 돌리는 것으로, 빠른 실패(Fail Fast)와 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)) 또는 인내(Persevere) 결정이 MVP가 달성해야 하는 실질적 성과다.
+> 1. [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)([Minimum Viable Product](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/), 최소 기능 제품)는 Eric Ries의 [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/827_lean_startup/)([Lean Startup](/knowledge-base/studynote/12_it_management/01_governance_strategy/827_lean_startup/)) 핵심 개념으로, 최소한의 기능으로 고객 가설을 빠르게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Validated [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))하는 제품 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이며, "완성된 제품"이 아닌 "학습 도구"임을 이해하는 것이 핵심이다.
+> 2. MVP의 목적은 Build-Measure-Learn(BML) [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를 최대한 짧게 돌리는 것으로, 빠른 실패(Fail Fast)와 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/)([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/)) 또는 인내(Persevere) 결정이 MVP가 달성해야 하는 실질적 성과다.
 > 3. 기업 환경에서 MVP는 단순히 스타트업 기법이 아니라, 불확실성이 높은 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)([DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/)) 프로젝트에서 대규모 선행 투자 없이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 후 확대(Start Small, Scale Fast) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 채택되고 있다.
 
 ---
@@ -76,7 +76,7 @@ MVP 유형 비교:
 
 ---
 
-## Ⅲ. BML 루프와 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)
+## Ⅲ. BML 루프와 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/)
 
 ```
 Build-Measure-Learn 루프:
@@ -231,7 +231,7 @@ MVP -> MLP (Minimum Lovable Product)
 
 1. MVP는 자동차를 만들기 전에 먼저 킥보드를 만들어 "사람들이 새로운 이동 수단을 원하는지" [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 방법이에요.
 2. "완벽한 제품"을 오래 만들다가 아무도 안 쓰는 것보다, 단순한 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 빨리 만들어 실제 반응을 보는 것이 훨씬 현명해요.
-3. 피드백을 받아 "계속 이 방향으로 가자(Persevere)"거나 "방향을 바꾸자([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))"를 결정하는 것이 MVP의 진짜 목적이에요!
+3. 피드백을 받아 "계속 이 방향으로 가자(Persevere)"거나 "방향을 바꾸자([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/))"를 결정하는 것이 MVP의 진짜 목적이에요!
 
 ---
 

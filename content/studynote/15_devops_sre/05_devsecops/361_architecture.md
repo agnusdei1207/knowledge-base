@@ -21,7 +21,7 @@ tags = ["studynote-devops-sre"]
 
 1968년 멜빈 컨웨이(Melvin Conway)는 "시스템을 설계하는 조직은 그 조직의 커뮤니케이션 구조를 모사한 설계를 만들어낸다"고 주장했다. 즉, 4개 팀이 컴파일러를 만들면 4패스(Pass) 컴파일러가 나온다는 것이다.
 
-이 법칙은 모놀리식(Monolithic) 시스템이 단일 팀에 의해 만들어지는 이유와, [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)화(Siloed)된 조직이 강하게 결합된(Tightly Coupled) 시스템을 만드는 이유를 설명한다. [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)로 전환하려면 기술 변화뿐 아니라 팀 구조 변화가 선행되어야 한다. 팀 구조가 바뀌지 않으면 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)도 결국 [분산 모놀리스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/537_distributed_monolith_antipattern/)([Distributed Monolith](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/537_anti_pattern_distributed_monolith/))가 된다.
+이 법칙은 모놀리식(Monolithic) 시스템이 단일 팀에 의해 만들어지는 이유와, [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)화(Siloed)된 조직이 강하게 결합된(Tightly Coupled) 시스템을 만드는 이유를 설명한다. [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)로 전환하려면 기술 변화뿐 아니라 팀 구조 변화가 선행되어야 한다. 팀 구조가 바뀌지 않으면 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)도 결국 [분산 모놀리스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/929_distributed_monolith_antipattern/)([Distributed Monolith](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/537_anti_pattern_distributed_monolith/))가 된다.
 
 브룩스의 법칙(Brooks' Law)에 따르면 "[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 소프트웨어 프로젝트에 인력을 추가하면 더 늦어진다"는 것도 커뮤니케이션 오버헤드에서 비롯된다. N명의 팀은 N(N-1)/2개의 커뮤니케이션 채널이 생겨 조율 비용이 폭증한다. 팀 크기를 Amazon의 "Two-Pizza Team"(6~10명)으로 제한하는 것도 이 원리의 응용이다.
 
@@ -71,7 +71,7 @@ tags = ["studynote-devops-sre"]
 | 컨웨이의 법칙 적용 | 팀 경계 = 레이어 경계              | 팀 경계 = [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계              |
 | [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)          | 높음 (전체 시스템 이해 필요)      | 낮음 (담당 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 범위만)          |
 
-역 컨웨이 조작을 실행할 때 주의할 점은 팀 재구성이 기술 변화보다 선행되어야 한다는 것이다. 팀은 그대로 두고 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)만 선언하면 팀 간 의존성이 코드 의존성으로 그대로 복사된다([분산 모놀리스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/537_distributed_monolith_antipattern/)).
+역 컨웨이 조작을 실행할 때 주의할 점은 팀 재구성이 기술 변화보다 선행되어야 한다는 것이다. 팀은 그대로 두고 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)만 선언하면 팀 간 의존성이 코드 의존성으로 그대로 복사된다([분산 모놀리스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/929_distributed_monolith_antipattern/)).
 
 - 📢 섹션 요약 비유: 컨웨이의 법칙은 건물 설계와 입주자 배치의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)다. 사무실 칸막이(팀 경계)가 없으면 모두 같은 공간에서 일하고, 칸막이가 많으면 팀별로 나뉜다. 칸막이 없이 역할만 나누면 혼란이 발생한다.
 
@@ -89,10 +89,10 @@ tags = ["studynote-devops-sre"]
 **판단 기준**
 - [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 전환 시: 팀 재구성 -> [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 설계 -> 코드 분리 순서 준수
 - 모놀리스가 적합한 경우: 팀 규모 소규모(10명 이하), [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 단순, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 스타트업
-- [분산 모놀리스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/537_distributed_monolith_antipattern/) 탈출: 팀 경계와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계가 일치하는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
+- [분산 모놀리스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/929_distributed_monolith_antipattern/) 탈출: 팀 경계와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계가 일치하는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
-- "[마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 도입"을 기술 과제로만 추진, 팀 구조 유지 -> [분산 모놀리스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/537_distributed_monolith_antipattern/)
+- "[마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 도입"을 기술 과제로만 추진, 팀 구조 유지 -> [분산 모놀리스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/929_distributed_monolith_antipattern/)
 - 플랫폼 팀이 스트림 팀에 "게이트키퍼"처럼 통제 -> 개발 속도 병목
 - 인에이블링 팀이 장기화되어 의존 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 형성 -> 스트림 팀 자립 실패
 
@@ -119,7 +119,7 @@ tags = ["studynote-devops-sre"]
 | 역 컨웨이 조작 (Inverse Conway Maneuver)       | 원하는 아키텍처에 맞게 팀 구조를 의도적으로 설계          |
 | Team Topologies                               | 4가지 팀 유형 + 3가지 인터랙션 모드 실무 프레임워크        |
 | [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/) ([Cognitive Load](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/))                     | 팀 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계 결정 기준, 초과 시 분리 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)               |
-| [분산 모놀리스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/537_distributed_monolith_antipattern/) ([Distributed Monolith](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/537_anti_pattern_distributed_monolith/))           | 컨웨이 법칙 무시 시 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 전환 실패의 전형        |
+| [분산 모놀리스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/929_distributed_monolith_antipattern/) ([Distributed Monolith](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/537_anti_pattern_distributed_monolith/))           | 컨웨이 법칙 무시 시 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 전환 실패의 전형        |
 | Brooks's Law                                  | 인력 추가 시 커뮤니케이션 오버헤드 증폭, 팀 규모 한계      |
 | [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) ([Internal Developer Platform](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/200_internal_developer_platform_backstage/))             | 플랫폼 팀의 산출물, 스트림 팀 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/) 절감              |
 

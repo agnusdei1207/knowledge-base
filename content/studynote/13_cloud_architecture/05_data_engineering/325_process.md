@@ -125,6 +125,6 @@ tags = ["studynote-cloud-architecture"]
 **진행 상황**: 324 / 371
 
 <- **이전**: [324. 엣지 컴퓨팅 분산 지연 최적화 포그 컴퓨팅 (Cloud Architecture Concept)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/324_process/)
-**다음**: [326. 스팟 인스턴스 남는 자원 저렴 배치 워크로드 (Cloud Architecture Concept)](/knowledge-base/studynote/12_it_management/05_security_compliance/326_process/) ->
+**다음**: [326. 스팟 인스턴스 남는 자원 저렴 배치 워크로드 (Cloud Architecture Concept)](/knowledge-base/studynote/12_it_management/05_security_compliance/967_process/) ->
 
 ---

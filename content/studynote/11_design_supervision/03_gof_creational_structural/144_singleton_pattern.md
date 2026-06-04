@@ -13,7 +13,7 @@ tags = ["studynote-design-supervision"]
 
 > 1. **본질**: 싱글턴 패턴 ([Singleton](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) Pattern)은 GoF [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) 중 하나로, 클래스의 인스턴스가 오직 하나만 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되도록 보장하고, 그 인스턴스에 대한 전역 접근점(Global [Access Point](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))을 제공하는 패턴이다.
 > 2. **가치**: [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 관리자(Configuration Manager), 로거(Logger), 커넥션 풀(Connection Pool), [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀처럼 시스템 전체에서 단일 공유 자원이 필요한 경우 인스턴스 중복 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)을 방지하고 일관된 상태를 보장한다.
-> 3. **판단 포인트**: 싱글턴은 '전역 상태(Global [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))'를 도입하므로, 단위 테스트에서 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) 대체가 어렵고 숨겨진 의존성을 만든다. 스프링(Spring) 프레임워크처럼 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 싱글턴 생명주기를 관리하는 환경에서는 직접 싱글턴 구현 대신 DI를 활용하는 것이 권장된다.
+> 3. **판단 포인트**: 싱글턴은 '전역 상태(Global [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))'를 도입하므로, 단위 테스트에서 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) 대체가 어렵고 숨겨진 의존성을 만든다. 스프링(Spring) 프레임워크처럼 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 싱글턴 생명주기를 관리하는 환경에서는 직접 싱글턴 구현 대신 DI를 활용하는 것이 권장된다.
 
 ---
 
@@ -79,30 +79,30 @@ tags = ["studynote-design-supervision"]
 ---
 ## Ⅲ. 비교 및 연결
 
-싱글턴의 가장 큰 문제는 단위 테스트다. 싱글턴은 전역 상태이므로 테스트 간 상태가 공유되어 테스트가 서로 영향을 준다. [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/))으로 싱글턴을 주입하면 테스트에서 Mock으로 교체할 수 있어 이 문제를 해결한다.
+싱글턴의 가장 큰 문제는 단위 테스트다. 싱글턴은 전역 상태이므로 테스트 간 상태가 공유되어 테스트가 서로 영향을 준다. [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/))으로 싱글턴을 주입하면 테스트에서 Mock으로 교체할 수 있어 이 문제를 해결한다.
 
 | 비교 축 | A | B |
 |:---|:---|:---|
-| 테스트 용이성 | 낮음 (전역 상태) | 높음 ([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) 주입 가능) |
+| 테스트 용이성 | 낮음 (전역 상태) | 높음 ([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) 주입 가능) |
 | 의존성 명시성 | 낮음 (숨겨진 의존) | 높음 ([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 주입 명시) |
-| 생명주기 관리 | 직접 구현 | [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 자동 관리 |
-| 멀티스레드 안전 | 직접 구현 필요 | [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 보장 |
+| 생명주기 관리 | 직접 구현 | [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 자동 관리 |
+| 멀티스레드 안전 | 직접 구현 필요 | [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 보장 |
 
-- **📢 섹션 요약 비유**: 싱글턴을 직접 만드는 것(DIY 대통령)보다 헌법([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))으로 단일 대통령 제도를 보장하는 것이 더 체계적이고 안전하다.
+- **📢 섹션 요약 비유**: 싱글턴을 직접 만드는 것(DIY 대통령)보다 헌법([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))으로 단일 대통령 제도를 보장하는 것이 더 체계적이고 안전하다.
 
 ---
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-스프링(Spring) 프레임워크에서 `@Bean`은 기본적으로 싱글턴 스코프로 관리된다. [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 싱글턴 생명주기를 보장하므로, 직접 싱글턴 패턴을 구현할 필요가 없다. 대신 `@Bean`으로 등록하고 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 주입으로 사용하면 테스트 가능성과 싱글턴 보장을 동시에 달성한다.
+스프링(Spring) 프레임워크에서 `@Bean`은 기본적으로 싱글턴 스코프로 관리된다. [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 싱글턴 생명주기를 보장하므로, 직접 싱글턴 패턴을 구현할 필요가 없다. 대신 `@Bean`으로 등록하고 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 주입으로 사용하면 테스트 가능성과 싱글턴 보장을 동시에 달성한다.
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 싱글턴이 정말 필요한가? 단 하나의 인스턴스여야 하는 비즈니스적 이유가 있는가?
-2. [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(스프링 등)가 있다면 직접 싱글턴 구현 대신 DI를 사용하는가?
+2. [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(스프링 등)가 있다면 직접 싱글턴 구현 대신 DI를 사용하는가?
 3. 멀티스레드 환경에서 Bill Pugh 또는 Enum 방식의 [스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/) 구현을 사용하는가?
 4. 싱글턴이 전역 변경 가능한 상태를 갖는가? (갖는다면 [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)과 테스트 문제 위험)
 5. 단위 테스트에서 싱글턴을 Mock으로 대체할 수 있는 구조인가?
 
-- **📢 섹션 요약 비유**: 공용 인터넷 공유기(싱글턴)는 집에서 하나면 충분하지만, 각 방에서 독립적으로 테스트(인터넷 차단)하려면 방별 공유기([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) 주입)가 필요하다.
+- **📢 섹션 요약 비유**: 공용 인터넷 공유기(싱글턴)는 집에서 하나면 충분하지만, 각 방에서 독립적으로 테스트(인터넷 차단)하려면 방별 공유기([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) 주입)가 필요하다.
 
 ---
 
@@ -110,11 +110,11 @@ tags = ["studynote-design-supervision"]
 
 싱글턴 패턴은 공유 자원의 단일 접근점을 보장하여 불필요한 인스턴스 중복을 방지하고 자원 효율성을 높인다. [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 로거, 커넥션 풀 같은 시스템 전체 공유 자원에 자연스럽게 적용된다.
 
-한계는 전역 상태 도입으로 인한 테스트 어려움, 숨겨진 의존성, 멀티스레드 구현 복잡성이다. 현대 개발에서는 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 싱글턴 패턴을 대체하여 이러한 문제를 해결한다.
+한계는 전역 상태 도입으로 인한 테스트 어려움, 숨겨진 의존성, 멀티스레드 구현 복잡성이다. 현대 개발에서는 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 싱글턴 패턴을 대체하여 이러한 문제를 해결한다.
 
-미래 방향으로는 ① 모든 현대 프레임워크(스프링, Guice, Angular)가 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)로 싱글턴을 관리, ② Kotlin의 object 키워드로 간결한 싱글턴 표현이 발전하고 있다.
+미래 방향으로는 ① 모든 현대 프레임워크(스프링, Guice, Angular)가 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)로 싱글턴을 관리, ② Kotlin의 object 키워드로 간결한 싱글턴 표현이 발전하고 있다.
 
-- **📢 섹션 요약 비유**: 싱글턴은 공중화장실처럼 모두가 공유하지만, 각자 테스트(청소 점검)를 위해서는 개인 화장실([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/))이 필요하다.
+- **📢 섹션 요약 비유**: 싱글턴은 공중화장실처럼 모두가 공유하지만, 각자 테스트(청소 점검)를 위해서는 개인 화장실([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/))이 필요하다.
 
 ---
 
@@ -124,8 +124,8 @@ tags = ["studynote-design-supervision"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) ([Dependency Injection](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)) | 싱글턴의 테스트 문제를 해결하는 현대적 대안 |
-| 스프링 @Bean | [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기반 싱글턴 관리 |
+| [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) ([Dependency Injection](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)) | 싱글턴의 테스트 문제를 해결하는 현대적 대안 |
+| 스프링 @Bean | [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기반 싱글턴 관리 |
 | Bill Pugh 패턴 | Java 싱글턴의 권장 [스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/) 구현 |
 | Enum [Singleton](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) | Java에서 직렬화 안전한 싱글턴 구현 |
 

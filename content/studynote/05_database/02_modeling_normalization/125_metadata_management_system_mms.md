@@ -72,7 +72,7 @@ tags = ["studynote-database"]
 
 ## Ⅴ. 기대효과 및 결론
 
-MMS/[데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)는 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">데이터 거버넌스</a>의 기술적 핵심</strong>이며, [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 아키텍처에서 셀프서비스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼의 기반이 된다.
+MMS/[데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)는 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/">데이터 거버넌스</a>의 기술적 핵심</strong>이며, [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 아키텍처에서 셀프서비스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼의 기반이 된다.
 
 ---
 
@@ -84,7 +84,7 @@ MMS/[데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_secur
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/">데이터 카탈로그</a></strong> | 현대적 MMS |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/">데이터 리니지</a></strong> | 출처->변환->목적지 추적 |
 | <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/">데이터 사전</a></strong> | 용어·정의 표준 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">데이터 거버넌스</a></strong> | MMS의 상위 관리 체계 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/">데이터 거버넌스</a></strong> | MMS의 상위 관리 체계 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

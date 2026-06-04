@@ -20,7 +20,7 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 엔터프라이즈 기업 망이나 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 아키텍처에서, <strong>외부 인터넷 사용자(<a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a>)와 <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a> 내부의 애플리케이션 서버 간에 발생하는 수직적(상/하)인 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름</strong>을 의미합니다.
-- [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 다이어그램을 그릴 때 보통 윗부분(North)에 인터넷 망([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))을 그리고 아랫부분(South)에 서버를 그리기 때문에 이런 이름이 붙었습니다.
+- [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 다이어그램을 그릴 때 보통 윗부분(North)에 인터넷 망([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))을 그리고 아랫부분(South)에 서버를 그리기 때문에 이런 이름이 붙었습니다.
 
 ```text
 [Clos 네트워크]

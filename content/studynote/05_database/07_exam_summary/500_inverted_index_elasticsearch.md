@@ -113,7 +113,7 @@ tags = ["studynote-database"]
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | ORM 객체 매핑 JPA N+1 질의 문제 | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
-| 스토리지 컴퓨팅 분리 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 특장점 | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
+| 스토리지 컴퓨팅 분리 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 특장점 | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
 | [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) ([Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/)) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
 | [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) ([Execution Plan](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)) | 운영·설계 판단을 연결해 주는 주변 개념이다. |
 

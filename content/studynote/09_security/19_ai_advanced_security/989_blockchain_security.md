@@ -136,7 +136,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 1096 / 1108
 
-<- **이전**: [988. 전자 서명 (Digital Signature)](/knowledge-base/studynote/09_security/uncategorized/988_digital_signature_non_repudiation_integrity_hash_private_key/)
-**다음**: [989. 서비스 거부 공격 (DoS/DDoS)](/knowledge-base/studynote/09_security/uncategorized/989_dos_ddos_denial_of_service_drdos_amplification_reflection/) ->
+<- **이전**: [988. 전자 서명 (Digital Signature)](/knowledge-base/studynote/09_security/uncategorized/1084_digital_signature_non_repudiation_integrity_hash_private_key/)
+**다음**: [989. 서비스 거부 공격 (DoS/DDoS)](/knowledge-base/studynote/09_security/uncategorized/1085_dos_ddos_denial_of_service_drdos_amplification_reflection/) ->
 
 ---

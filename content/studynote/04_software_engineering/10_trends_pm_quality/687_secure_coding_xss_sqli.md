@@ -19,9 +19,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어 개발에서 가장 빈번하게 발생하는 취약점은 해커의 정교한 암호 해독이 아니라, 개발자의 사소한 코딩 습관에서 발생한다. OWASP Top 10에 수십 년간 1, 2위를 다투는 취약점이 바로 [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)([Injection](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/))과 XSS다.
+소프트웨어 개발에서 가장 빈번하게 발생하는 취약점은 해커의 정교한 암호 해독이 아니라, 개발자의 사소한 코딩 습관에서 발생한다. OWASP Top 10에 수십 년간 1, 2위를 다투는 취약점이 바로 [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/)([Injection](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/))과 XSS다.
 
-입력값 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([Input Validation](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/))이 누락되면, 사용자가 입력창에 평범한 이름 대신 악성 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 쿼리문이나 자바스크립트 실행 코드를 밀어 넣을 때 시스템은 이를 명령어로 착각하여 얌전히 실행해 버린다. 이를 막기 위해 설계 단계부터 보안을 고려하고, 안전한 함수와 코딩 패턴을 사용하는 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/">시큐어 코딩</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/">Secure Coding</a>)</strong>이 법적/제도적으로 의무화(전자정부 SW 개발 등)되었다.
+입력값 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([Input Validation](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/))이 누락되면, 사용자가 입력창에 평범한 이름 대신 악성 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 쿼리문이나 자바스크립트 실행 코드를 밀어 넣을 때 시스템은 이를 명령어로 착각하여 얌전히 실행해 버린다. 이를 막기 위해 설계 단계부터 보안을 고려하고, 안전한 함수와 코딩 패턴을 사용하는 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/">시큐어 코딩</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/">Secure Coding</a>)</strong>이 법적/제도적으로 의무화(전자정부 SW 개발 등)되었다.
 
 - **📢 섹션 요약 비유**: 모르는 사람이 주는 음료수를 의심 없이 마시면(입력값 무검증) 배탈이 나는 것과 같다. [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)은 외부에서 들어온 모든 음료의 성분을 분석기([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 로직)에 넣고 독을 걸러낸 뒤에만 마시는 습관이다.
 
@@ -105,7 +105,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-입력값 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 정제라는 [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)의 기본 원칙만 철저히 지켜도 전체 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 해킹 사고의 80% 이상을 차지하는 [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 계열 공격을 근원적으로 차단할 수 있다. 이는 고가의 보안 장비([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/))를 도입하는 것보다 훨씬 저렴하고 확실한 투자다.
+입력값 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 정제라는 [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)의 기본 원칙만 철저히 지켜도 전체 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 해킹 사고의 80% 이상을 차지하는 [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 계열 공격을 근원적으로 차단할 수 있다. 이는 고가의 보안 장비([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/))를 도입하는 것보다 훨씬 저렴하고 확실한 투자다.
 
 미래의 소프트웨어 개발에서는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(GitHub Copilot 등)가 코드를 짜주는 시대가 되었지만, AI가 짜준 코드조차 취약성을 내포할 수 있다. 따라서 개발자는 "입력값은 절대 믿지 않는다"는 제1원칙을 코딩의 호흡처럼 내재화하여, 구조적으로 안전한(Secure by Design) 시스템을 축조해야 한다.
 

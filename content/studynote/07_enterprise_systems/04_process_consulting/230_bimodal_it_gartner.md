@@ -38,7 +38,7 @@ tags = ["studynote-enterprise"]
 | 핵심 목표 | 안정성, [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), 규제 준수 | 속도, 학습, 시장 반응 |
 | 대표 시스템 | [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/), 원장, 결제, 핵심 DB | 모바일 앱, 디지털 채널, 실험 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
 | 선호 방식 | 워터폴, 엄격한 변경관리 | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/), [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/), 빠른 배포 |
-| 아키텍처 성향 | 레거시, 모놀리식, 강한 통제 | [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/), [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) |
+| 아키텍처 성향 | 레거시, 모놀리식, 강한 통제 | [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/), [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) |
 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) 예시 | 가동률, 장애 건수, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 통과 | 배포 빈도, 실험 속도, 고객 전환 |
 
 아래 그림은 바이모달 IT를 시스템 구조에 연결한 페이스 레이어드 아키텍처 (Pace-[Layered Architecture](/knowledge-base/studynote/04_software_engineering/04_testing_quality/205_layered_architecture_separation_of_concerns/))의 개념을 보여준다.
@@ -82,7 +82,7 @@ tags = ["studynote-enterprise"]
 | 약점 | 조직 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)와 계급감 유발 가능 | 설계 복잡도 증가 | 코어 현대화 비용이 큼 |
 | 적합 상황 | 레거시 비중 큰 대기업의 과도기 | 복합 시스템이 공존하는 대기업 | 디지털 네이티브 또는 충분한 현대화 이후 |
 
-또한 DevOps와 [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) ([Information Technology Infrastructure Library](/knowledge-base/studynote/09_security/17_framework_compliance/880_itil/))은 바이모달 IT와 충돌하기보다 보완 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)다. ITIL은 Mode 1의 통제와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 체계를, DevOps는 Mode 2의 속도와 자동화를 강화한다. 실제 현장에서는 두 프레임을 상황에 맞게 섞어 쓴다.
+또한 DevOps와 [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/846_itil/) ([Information Technology Infrastructure Library](/knowledge-base/studynote/09_security/17_framework_compliance/880_itil/))은 바이모달 IT와 충돌하기보다 보완 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)다. ITIL은 Mode 1의 통제와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 체계를, DevOps는 Mode 2의 속도와 자동화를 강화한다. 실제 현장에서는 두 프레임을 상황에 맞게 섞어 쓴다.
 
 중요한 점은 바이모달 IT가 섀도우 IT를 합리화하는 개념이 아니라는 것이다. Mode 2도 거버넌스 밖의 무질서가 아니라, 다른 규칙 안의 민첩성이다.
 
@@ -133,8 +133,8 @@ tags = ["studynote-enterprise"]
 | :-- | :-- |
 | Pace-[Layered Architecture](/knowledge-base/studynote/04_software_engineering/04_testing_quality/205_layered_architecture_separation_of_concerns/) | 변화 속도별 시스템 분리 원리 |
 | [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | Mode 2의 빠른 배포와 자동화 기반 |
-| [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) | Mode 1의 통제·안정성 운영 체계 |
-| [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) | 두 모드 사이의 안전한 인터페이스 계층 |
+| [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/846_itil/) | Mode 1의 통제·안정성 운영 체계 |
+| [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/) | 두 모드 사이의 안전한 인터페이스 계층 |
 | [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) | 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 분리를 통한 코어 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 패턴 |
 | Multi-speed IT | 바이모달을 확장한 연속체 개념 |
 

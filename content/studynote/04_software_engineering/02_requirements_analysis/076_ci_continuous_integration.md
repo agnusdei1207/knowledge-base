@@ -10,7 +10,7 @@ tags = ["software_engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/), 지속적 통합)는 작은 변경을 자주 합치고 자동으로 빌드·테스트해 통합의 지옥(Integration Hell)을 막는 실천이다.
+> 1. **본질**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/), 지속적 통합)는 작은 변경을 자주 합치고 자동으로 빌드·테스트해 통합의 지옥(Integration Hell)을 막는 실천이다.
 > 2. **가치**: 빨리 깨지는 파이프라인은 빨리 고칠 수 있으므로, 문제를 한 달 뒤가 아니라 몇 분 안에 발견하게 해 준다.
 > 3. **판단 포인트**: CI는 "자동화된 빌드가 돈다"가 아니라 "main 브랜치가 항상 신뢰 가능한 상태로 유지된다"까지 봐야 완성이다.
 
@@ -36,7 +36,7 @@ CI가 필요한 이유는 코드가 합쳐질수록 문제 원인을 찾기 어�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 파이프라인은 commit, build, test, report, [artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) publish의 순서로 움직인다. 핵심은 자동화와 반복성이다. 사람이 기억으로 판단하는 단계가 많을수록 CI는 느려지고 흔들린다.
+[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 파이프라인은 commit, build, test, report, [artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) publish의 순서로 움직인다. 핵심은 자동화와 반복성이다. 사람이 기억으로 판단하는 단계가 많을수록 CI는 느려지고 흔들린다.
 
 | 단계 | 역할 | 실패 의미 |
 | :-- | :-- | :-- |
@@ -65,7 +65,7 @@ CI의 철학은 Fail Fast다. 빨리 실패하면 빨리 고칠 수 있다. 그�
 
 CI는 CD([Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)/[Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/))와 자주 묶이지만 같지 않다. CI는 통합과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 초점이 있고, CD는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과를 다음 단계로 넘기는 데 초점이 있다.
 
-| 구분 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) | CD |
+| 구분 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) | CD |
 | :-- | :-- | :-- |
 | 목적 | 통합 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 배포 자동화 |
 | 시작점 | 커밋/[PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) |
@@ -113,7 +113,7 @@ CI는 문제를 조기에 발견하고, 통합 비용을 낮추며, 릴리스 �
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)) | 잦은 통합과 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)) | 잦은 통합과 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | CD([Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)/[Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/)) | 다음 단계 자동화 |
 | Build | 컴파일/패키징 |
 | Test | 회귀 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |

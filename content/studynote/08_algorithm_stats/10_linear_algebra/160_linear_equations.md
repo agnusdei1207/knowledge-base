@@ -82,11 +82,11 @@ LU 분해 후 Ax = b 풀기:
 
 **장점**: A가 같고 b만 바뀌면 2단계만 O(n^) — 반복 풀이에 효율적!
 
-### 수치 안정성과 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)팅
+### 수치 안정성과 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/)팅
 
-가우스 소거에서 대각 원소 ([피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)) 가 0이거나 매우 작으면 수치 오류 급증.
+가우스 소거에서 대각 원소 ([피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/)) 가 0이거나 매우 작으면 수치 오류 급증.
 
-<strong>부분 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/">피벗</a>팅 (Partial Pivoting)</strong>: 각 단계에서 절댓값 최대 행을 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 행으로 교환.
+<strong>부분 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/">피벗</a>팅 (Partial Pivoting)</strong>: 각 단계에서 절댓값 최대 행을 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/) 행으로 교환.
 
 ```
 소거 전:                    피벗팅 후:
@@ -122,7 +122,7 @@ LU 분해 후 Ax = b 풀기:
 
 | 방법 | 복잡도 | 안정성 | 용도 |
 |:---|:---:|:---:|:---|
-| 가우스 소거 ([피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)) | O(n³) | 중간 | 일반 Dense 행렬 |
+| 가우스 소거 ([피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/)) | O(n³) | 중간 | 일반 Dense 행렬 |
 | LU 분해 | O(n³) 분해 + O(n^) 풀이 | 좋음 | 반복 풀이 |
 | QR 분해 | O(n³) | 매우 좋음 | 최소제곱 문제 |
 | 켤레 기울기법 (CG) | O(kn^) | 좋음 | 대칭 양정치 Sparse 행렬 |
@@ -163,7 +163,7 @@ det = 2×3 - (-1)×(-1) = 5 ≠ 0 -> 유일해 존재
 ### 기술사 판단 포인트
 
 1. **"n×n 선형 시스템 풀이 시간은?"** -> 가우스 소거 O(n³), LU 분해 후 O(n^)
-2. **"수치 불안정할 때 대응 방법은?"** -> [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)팅, QR 분해, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)
+2. **"수치 불안정할 때 대응 방법은?"** -> [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/)팅, QR 분해, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)
 3. **"희소 행렬(Sparse Matrix) 시스템 효율적 풀이는?"** -> 켤레 기울기법 (CG)
 
 📢 **섹션 요약 비유**: 컴퓨터 그래픽스의 행렬 변환은 "레시피 미리 합치기"다 — 이동, 회전, 스케일을 각각 적용하는 대신, 미리 하나의 행렬로 합쳐서 모든 정점에 한 번에 적용한다.
@@ -191,7 +191,7 @@ det = 2×3 - (-1)×(-1) = 5 ≠ 0 -> 유일해 존재
 | 가우스 소거 | O(n³), 행 계단형 | LU 분해의 기초 |
 | LU 분해 | A = LU, 반복 풀이 O(n^) | 수치 선형대수 |
 | 조건수 κ(A) | 수치 안정성 지표 | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 판단 |
-| 부분 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)팅 | 수치 안정화 | 실용 가우스 소거 |
+| 부분 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/)팅 | 수치 안정화 | 실용 가우스 소거 |
 
 ---
 

@@ -12,7 +12,7 @@ tags = ["studynote-database"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: <strong>단순 뷰(Simple <a href="/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a>)</strong>는 오직 1개의 쌩 테이블에서 컬럼이나 로우(Row)만 핀셋으로 도려낸(가공 없는) 1:1 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 껍데기이며, <strong>복합 뷰(Complex <a href="/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a>)</strong>는 2개 이상의 테이블을 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))하거나 `SUM`, `AVG` 같은 믹서기(집계)를 돌려 비빔밥처럼 뭉개놓은 [다대일](/knowledge-base/studynote/02_operating_system/02_process_thread/098_many_to_one_model/)(N:1) 융합 껍데기다.
-> 2. **가치**: 이 둘을 가르는 가장 치명적이고 뼈 때리는 기준은 <strong>'<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/">DML</a>(Insert/Update/Delete) 관통성'</strong>이다. 단순 뷰는 엑셀로 숫자를 고치면 뒤에 숨은 진짜 테이블로 마법처럼 쑥 뚫고 들어가 값이 수정되지만, 복합 뷰는 뭉개진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리라 어디를 고쳐야 할지 역산(Inverse)을 못해 수정이 100% 불가능하다(오직 Read-only).
+> 2. **가치**: 이 둘을 가르는 가장 치명적이고 뼈 때리는 기준은 <strong>'<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/">DML</a>(Insert/Update/Delete) 관통성'</strong>이다. 단순 뷰는 엑셀로 숫자를 고치면 뒤에 숨은 진짜 테이블로 마법처럼 쑥 뚫고 들어가 값이 수정되지만, 복합 뷰는 뭉개진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리라 어디를 고쳐야 할지 역산(Inverse)을 못해 수정이 100% 불가능하다(오직 Read-only).
 > 3. **판단 포인트**: 실무 아키텍트는 단순 뷰를 통해 개발자에게 CRUD(삽입/삭제) 권한을 우회적으로 열어주면서 민감한 컬럼(주민번호)만 도려내는 <strong>'보안(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>) 융합 방패'</strong>로 쓰고, 복합 뷰는 1,000줄짜리 스파게티 조인 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 단 한 단어로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하여 초보 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석가에게 던져주는 <strong>'마법의 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/">OLAP</a>(통계) 블랙박스'</strong>로 융합 타격한다.
 
 ---
@@ -21,7 +21,7 @@ tags = ["studynote-database"]
 
 뷰([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 물리적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 갖지 않고 SQL([SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/)) 텍스트 껍데기만 가진 가상 테이블이다. 이때 그 `SELECT` 텍스트의 뱃속에 테이블 1개만 깔끔하게 들어있으면 <strong>단순 뷰(Simple <a href="/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a>)</strong>, 테이블 2개를 엮거나([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 더하기/평균 내기([Group By](/knowledge-base/studynote/05_database/04_transactions_concurrency/522_group_by/)) 등 믹서기가 들어있으면 <strong>복합 뷰(Complex <a href="/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a>)</strong>로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한다.
 
-뷰를 왜 2가지로 쪼개어 부를까? 단순히 이름표 장난이 아니다. 개발자가 <strong>"뷰를 통해 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 쑤셔 넣을 수 있는가(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/">DML</a> Updates)"</strong>라는 시스템 아키텍처의 생사가 걸린 문제 때문이다.
+뷰를 왜 2가지로 쪼개어 부를까? 단순히 이름표 장난이 아니다. 개발자가 <strong>"뷰를 통해 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 쑤셔 넣을 수 있는가(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/">DML</a> Updates)"</strong>라는 시스템 아키텍처의 생사가 걸린 문제 때문이다.
 인사팀 알바생이 쓸 `영업부직원_VIEW` (단순 뷰) 화면을 띄워줬다. 알바생이 영업부 직원의 전화번호를 뷰 화면에서 고쳤다. 뷰는 가짜지만, 그 뒤에 1:1로 이어진 진짜 '사원 테이블'의 전화번호 칸으로 슉 뚫고 들어가 완벽하게 덮어써 진다(최고의 편의성과 보안의 공존).
 그런데 사장님 대시보드용으로 만든 `부서별_평균급여_VIEW` (복합 뷰)에서 사장님이 '평균 급여 500만 원' 글씨를 '1,000만 원'으로 쓱 고쳤다. 시스템은 터진다. "평균을 고치면, 그 평균을 만든 100명의 사원 월급을 각각 얼마씩 찢어서 올려줘야 하는데요?" 역산(역방향 수학)이 불가능하기 때문이다. 이처럼 목적이 극단적으로 갈리는 두 우주를 통제하기 위해 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 잣대가 필요했다.
 
@@ -31,7 +31,7 @@ tags = ["studynote-database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 기술사 시험에서 [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/)(Insert/Update/Delete) 가능 여부를 묻는 핵심 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조다.
+[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 기술사 시험에서 [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/)(Insert/Update/Delete) 가능 여부를 묻는 핵심 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조다.
 
 ```text
 +-------------------------------------------------------------+
@@ -72,10 +72,10 @@ tags = ["studynote-database"]
 
 단순 뷰라고 무조건 Insert/Update가 다 뚫리는 건 아니다. 테이블 1개만 썼더라도 아래 꼼수들을 쓰면 갑자기 복합 뷰 취급을 받으며 업데이트가 막힌다(Read-only 강제 락).
 
-| [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) 관통을 막는 예외 조건 (단순 뷰의 덫 💥) | 아키텍트의 파멸과 팩폭 🪓 |
+| [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/) 관통을 막는 예외 조건 (단순 뷰의 덫 💥) | 아키텍트의 파멸과 팩폭 🪓 |
 |:---|:---|
-| **ROWNUM, ROWNUMBER() 윈도우 함수 떡칠** | 1번, 2번 등수를 매기는 가상 컬럼이 껴들어가면 원본 역산 좌표가 깨져서 [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) 튕김 파국 터짐. |
-| **DISTINCT 중복 제거 마법** | 중복을 제거하며 여러 줄을 1개로 뭉개버렸기(합성) 때문에 어떤 놈이 진짜 원본인지 역추적 좌표 증발 ➔ [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) 영구 락킹 불가. |
+| **ROWNUM, ROWNUMBER() 윈도우 함수 떡칠** | 1번, 2번 등수를 매기는 가상 컬럼이 껴들어가면 원본 역산 좌표가 깨져서 [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/) 튕김 파국 터짐. |
+| **DISTINCT 중복 제거 마법** | 중복을 제거하며 여러 줄을 1개로 뭉개버렸기(합성) 때문에 어떤 놈이 진짜 원본인지 역추적 좌표 증발 ➔ [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/) 영구 락킹 불가. |
 | **NOT NULL 컬럼 누락 (Insert 한정 💀)** | 원본에 `주민번호` 칸이 빈칸 절대 금지(NOT NULL)다. 뷰 만들 때 `이름`만 있는 뷰를 깎아줬다. 알바생이 뷰에 `INSERT` 치면? ➔ 뷰는 원본 테이블로 내려갔는데 원본이 "야 빈칸 안 된다고!" 멱살 잡고 제약조건(Constraint) 에러 뿜음. |
 
 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">복합 뷰의 구세주: INSTEAD OF [트리거</a> (우회 관통술 ✨)]</strong>
@@ -97,7 +97,7 @@ tags = ["studynote-database"]
 | 항목 | 관통을 방치한 단순 뷰 (재앙 💀) | `WITH CHECK OPTION` 융합 방패막 (안전 ✨) |
 |:---|:---|:---|
 | <strong>상황 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong> | `서울사원_뷰` (조건: 지역='서울') 만 깎아서 서울 지사 알바생한테 던져줌. | 아키텍트가 뷰 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)문 꼬다리에 `WITH CHECK OPTION` 족쇄 코드를 딱 채워둠. |
-| <strong>알바생의 미친 짓 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/">DML</a>)</strong>| `UPDATE 서울사원_뷰 SET 지역='부산' WHERE 사번=100;` ➔ 서울 놈을 부산으로 이사 보내는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 침! | 동일하게 `지역='부산'`으로 수정하는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)([DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/))를 쏨. |
+| <strong>알바생의 미친 짓 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/">DML</a>)</strong>| `UPDATE 서울사원_뷰 SET 지역='부산' WHERE 사번=100;` ➔ 서울 놈을 부산으로 이사 보내는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 침! | 동일하게 `지역='부산'`으로 수정하는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)([DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/))를 쏨. |
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>의 결론</strong> | 💥 <strong>관통 성공 (<a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 증발)</strong>: 부산으로 진짜 업데이트됨! 그 순간 사번 100번 사원은 `서울사원_뷰` 화면(조건: 서울)에서 영원히 허공으로 사라짐! 내가 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조작해 스스로 뷰 밖으로 던져버린 귀신 헬리콥터 현상! | 🛡️ **방어 성공 (에러 튕겨냄)**: DB 엔진이 뷰의 탄생 조건(`지역='서울'`)을 검사함. "어? 네가 부산으로 고치면 이 뷰의 조건(서울)에 안 맞게 되잖아? 튕겨!" ➔ 수정(Update) 거부 에러를 뿜으며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성을 완벽하게 사수함! |
 
 ### 과목 융합 관점
@@ -113,7 +113,7 @@ tags = ["studynote-database"]
 
 단순 뷰와 복합 뷰는 RDBMS가 개발자들을 위해 쳐놓은 가장 다정하고 우아한 방어막(Encapsulation)이다. 수억 건의 지저분한 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 수십 개의 테이블이 실타래처럼 엉킨 더러운 공사장(물리적 디스크) 바닥을 ➔ 매끈하고 예쁜 은빛 유리창 껍데기(뷰)로 덮어주어, 초보 코더도 1줄짜리 가벼운 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 구경할 수 있게 만들어주는 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)의 끝판왕 예술.
 
-비록 뷰의 뱃속에 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))과 집계(SUM) 믹서기를 잔뜩 쑤셔 넣는 순간 [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) 업데이트라는 엑셀 페달이 뽑혀 나가고, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 풀스캔(Full Scan)의 비명을 지르는 무서운 트레이드오프(Trade-off)가 도사리고 있지만!!
+비록 뷰의 뱃속에 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))과 집계(SUM) 믹서기를 잔뜩 쑤셔 넣는 순간 [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/) 업데이트라는 엑셀 페달이 뽑혀 나가고, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 풀스캔(Full Scan)의 비명을 지르는 무서운 트레이드오프(Trade-off)가 도사리고 있지만!!
 이 투명한 가상 인터페이스 벽이 없다면 클라우드 시대의 미친듯한 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경 속도와 숨 막히는 보안 통제([개인정보보호](/knowledge-base/studynote/09_security/16_data_privacy/803_privacy_law_comparison/))를 버텨낼 엔터프라이즈 시스템은 모래성처럼 단 하루 만에 무너져 내릴 것이다.
 아키텍트는 이 뷰의 껍데기 기만술을 완벽히 통제하여, <strong>앱 소스코드는 단 1줄도 수정하지 않은 채 밑바닥 쇳덩이 테이블을 수십 번 뜯어고쳐 갈아엎는 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/">데이터 독립성</a>(Logical <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/504_data_independence/">Data Independence</a>)의 우주 무정단 생존 쾌속 질주</strong>를 영구 달성해 낼 것이다 🚀.
 

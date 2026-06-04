@@ -79,7 +79,7 @@ tags = ["studynote-network"]
 - L1/L2 통역사 라우터는 L1 꼬맹이들을 위해 <strong>ATT(Attached) <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a></strong>라는 특수 딱지를 L1 엽서에 딱 붙여서 동네에 뿌린다. "야 꼬맹이들아, 나 바깥 세상(L2)이랑 연결(Attached)된 능력자니까 모르는 길 있으면 다 나한테 쏴!"
 - 이 엽서를 받은 꼬맹이(L1)들은 0.1초 만에 `0.0.0.0/0 (디폴트 라우트)`를 통역사 쪽으로 쫙 그어버린다. 동네 라우터의 메모리(RIB)가 미친 듯이 가벼워지는 기적이다.
 
-- **📢 섹션 요약 비유**: ** IS-IS의 Area 분할법은 OSPF가 양다리를 걸치는 **"박쥐 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/)(ABR)"**를 두는 것이라면, IS-IS는 완벽히 다른 두 나라(Area)의 **"국경 검문소(L1/L2)끼리 맞대고 대사관을 연결"**하여 각자의 국적(Area 소속감)을 100% 잃지 않게 하는 깔끔한 행정 분리 체계입니다.
+- **📢 섹션 요약 비유**: ** IS-IS의 Area 분할법은 OSPF가 양다리를 걸치는 **"박쥐 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/)(ABR)"**를 두는 것이라면, IS-IS는 완벽히 다른 두 나라(Area)의 **"국경 검문소(L1/L2)끼리 맞대고 대사관을 연결"**하여 각자의 국적(Area 소속감)을 100% 잃지 않게 하는 깔끔한 행정 분리 체계입니다.
 
 ---
 

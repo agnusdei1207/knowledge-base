@@ -67,7 +67,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅲ. 비교 및 연결
 
-<strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/513_container_security/">컨테이너 보안</a></strong>:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/905_container_security/">컨테이너 보안</a></strong>:
 - **이미지 서명(Image Signing)**: [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Content Trust(DCT), Cosign — 위변조된 이미지 실행 방지
 - **취약점 스캐닝**: Trivy, Snyk — [Dockerfile](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/067_dockerfile_container_image_build_script/) 빌드 시 알려진 [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/)(Common Vulnerabilities and Exposures) 검출
 - <strong>루트리스 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>(Rootless <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/">Container</a>)</strong>: Podman — root 권한 없이 실행하여 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 탈출(Escape) 위험 감소
@@ -75,7 +75,7 @@ tags = ["studynote-ict-convergence"]
 <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> vs 마이크로VM(Firecracker)</strong>:
 AWS Lambda와 Fargate는 각 함수 실행을 Firecracker 마이크로VM으로 격리 -> [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 수준 속도 + [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 수준 보안 경계 달성.
 
-- **📢 섹션 요약 비유**: [컨테이너 보안](/knowledge-base/studynote/04_software_engineering/11_testing_validation/513_container_security/)은 아파트 현관문 잠금장치다. 기본 잠금([Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 격리)만으론 부족할 수 있으니, [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/)(이미지 스캐닝)와 [방문자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(이미지 서명)도 함께 갖춰야 한다.
+- **📢 섹션 요약 비유**: [컨테이너 보안](/knowledge-base/studynote/04_software_engineering/11_testing_validation/905_container_security/)은 아파트 현관문 잠금장치다. 기본 잠금([Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 격리)만으론 부족할 수 있으니, [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/)(이미지 스캐닝)와 [방문자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(이미지 서명)도 함께 갖춰야 한다.
 
 ---
 
@@ -86,7 +86,7 @@ AWS Lambda와 Fargate는 각 함수 실행을 Firecracker 마이크로VM으로 �
 2. 이미지 레이어 공유로 인한 디스크 효율성과 빌드 캐시 활용을 언급한다.
 3. 보안 측면에서 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지 서명과 취약점 스캐닝을 반드시 포함한다.
 
-**실무 시나리오**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인에서 Dockerfile로 이미지를 빌드할 때, 멀티 스테이지 빌드(Multi-Stage Build)를 적용하면 최종 이미지에 컴파일러나 빌드 도구가 포함되지 않아 이미지 크기와 공격 표면(Attack Surface)을 동시에 줄인다. 예: Go 앱 빌드 이미지 1.2GB -> 최종 실행 이미지 15MB.
+**실무 시나리오**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인에서 Dockerfile로 이미지를 빌드할 때, 멀티 스테이지 빌드(Multi-Stage Build)를 적용하면 최종 이미지에 컴파일러나 빌드 도구가 포함되지 않아 이미지 크기와 공격 표면(Attack Surface)을 동시에 줄인다. 예: Go 앱 빌드 이미지 1.2GB -> 최종 실행 이미지 15MB.
 
 - **📢 섹션 요약 비유**: 멀티 스테이지 빌드는 케이크 만들기와 같다 — 오븐(빌드 환경)과 그릇(실행 환경)을 분리하면, 오븐은 손님 테이블에 올리지 않아도 된다.
 
@@ -97,10 +97,10 @@ AWS Lambda와 Fargate는 각 함수 실행을 Firecracker 마이크로VM으로 �
 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기술을 도입하면:
 - <strong>배포 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong>: 환경 차이로 인한 장애 80% 이상 감소 경험치
 - **자원 효율**: 동일 서버에 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 대비 5~10배 많은 인스턴스 실행
-- <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD 가속</strong>: 이미지 레이어 캐시로 빌드 시간 단축
+- <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD 가속</strong>: 이미지 레이어 캐시로 빌드 시간 단축
 - **이식성**: [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) 표준으로 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) ↔ [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 자유 이동
 
-[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 현대 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 아키텍처의 기본 단위이며, [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 모두 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 전제로 설계된다.
+[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 현대 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 아키텍처의 기본 단위이며, [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인 모두 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 전제로 설계된다.
 
 - **📢 섹션 요약 비유**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 표준화된 화물 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(ISO [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))와 같다. 어떤 배, 트럭, 기차에 실어도 동일하게 운반된다 — 클라우드가 바뀌어도 앱은 동일하게 동작한다.
 

@@ -13,7 +13,7 @@ tags = ["software_engineering"]
 # ISO/IEC 15504 ([SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/))
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/)(Software [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Improvement and Capability dEtermination)로 널리 알려진 ISO/IEC 15504는 조직의 소프트웨어 프로세스가 얼마나 잘 수행되고 있는지를 객관적으로 평가(Assessment)하기 위한 국제 심사 표준이다.
+> 1. **본질**: [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/)(Software [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Improvement and Capability dEtermination)로 널리 알려진 ISO/IEC 15504는 조직의 소프트웨어 프로세스가 얼마나 잘 수행되고 있는지를 객관적으로 평가(Assessment)하기 위한 국제 심사 표준이다.
 > 2. **가치**: 프로세스가 무엇인지 정의한 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)(12207 등)을 가로축으로, 그 프로세스를 얼마나 잘하는지 평가하는 능력 수준(레벨 0~5)을 세로축으로 하는 <strong>2차원 심사 모델</strong>을 채택하여 평가의 유연성과 독립성을 극대화했다.
 > 3. **융합**: 자동차 산업의 안전성을 검증하는 Automotive [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/)(A-[SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/)), 의료기기 산업의 Medi [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) 등 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 심사 모델의 근간이 되며, 현대 융합 산업에서 소프트웨어 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)의 신뢰성을 입증하는 핵심 라이선스로 작용한다.
 
@@ -53,8 +53,8 @@ tags = ["software_engineering"]
 
 [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/)(ISO/IEC 15504)의 가장 독창적이고 위대한 아키텍처는 <strong>2차원 모델(Two-Dimensional Model)</strong>이다. 평가 대상을 '어떤 프로세스를 하는가'와 '그 프로세스를 얼마나 잘하는가'로 직교 분리하였다.
 
-1. <strong>프로세스 차원 (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/121_prm_performance_reference_model_it_roi/">PRM</a>, <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a> <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/">Reference Model</a>)</strong>: X축. 평가 대상이 되는 프로세스들의 목록. 일반적으로 ISO/IEC 12207을 그대로 가져다 쓴다. (무엇을 하는가)
-2. <strong>능력 차원 (<a href="/knowledge-base/studynote/09_security/11_iam_access_control/564_pam/">PAM</a>, <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a> Assessment Model)</strong>: Y축. 해당 프로세스를 얼마나 성숙하고 완벽하게 수행하는지를 0~5단계로 평가. (얼마나 잘 하는가)
+1. <strong>프로세스 차원 (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/905_prm_performance_reference_model_it_roi/">PRM</a>, <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/">Process</a> <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/">Reference Model</a>)</strong>: X축. 평가 대상이 되는 프로세스들의 목록. 일반적으로 ISO/IEC 12207을 그대로 가져다 쓴다. (무엇을 하는가)
+2. <strong>능력 차원 (<a href="/knowledge-base/studynote/09_security/11_iam_access_control/564_pam/">PAM</a>, <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/">Process</a> Assessment Model)</strong>: Y축. 해당 프로세스를 얼마나 성숙하고 완벽하게 수행하는지를 0~5단계로 평가. (얼마나 잘 하는가)
 
 능력 차원의 6단계 (0~5 레벨) 수준은 다음과 같다.
 
@@ -88,7 +88,7 @@ tags = ["software_engineering"]
 
 이 매트릭스의 핵심은 <strong>프로세스별로 성숙도가 다를 수 있다는 현실을 반영</strong>했다는 점이다. 어떤 회사는 '요구 분석'은 기가 막히게 잘해서 레벨 3이지만, '코딩' 절차는 개발자 개인기라 레벨 1일 수 있다. SPICE는 조직 전체에 하나의 레벨을 퉁쳐서 부여하는 대신, 이렇게 각 프로세스별 능력 프로파일(Capability Profile)을 그려준다. 이를 통해 조직은 "우리가 형상 관리는 잘하는데 코딩 프로세스 관리가 약하구나"를 핀포인트로 식별하고 예산을 집중 투자할 수 있다.
 
-심사 평가는 각 레벨에 도달하기 위한 <strong>프로세스 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a>(PA, <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">Attribute</a>)</strong>을 N, P, L, F (Not, Partially, Largely, Fully achieved) 4등급 척도로 세밀하게 채점하여 산출한다.
+심사 평가는 각 레벨에 도달하기 위한 <strong>프로세스 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a>(PA, <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/">Process</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">Attribute</a>)</strong>을 N, P, L, F (Not, Partially, Largely, Fully achieved) 4등급 척도로 세밀하게 채점하여 산출한다.
 
 📢 **섹션 요약 비유**: 학교 성적표를 매길 때 "너는 전체 평균 70점짜리 학생이야"라고 뭉뚱그려 말하는 대신, "국어는 90점(레벨3), 수학은 40점(레벨1)이니 수학 학원에 더 집중하자"라고 상세한 과목별 진단서를 주는 방식입니다.
 
@@ -130,7 +130,7 @@ tags = ["software_engineering"]
 #### 1. Automotive [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/)(A-[SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/)) 실무 적용 시나리오
 유럽의 완성차 업체(벤츠, BMW 등)는 부품 납품 조건으로 "A-[SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) 레벨 2 이상"을 강제한다.
 - **상황**: 하청업체가 브레이크 제어 모듈을 개발한다. 개발자는 코딩만 열심히 해서 완벽히 작동하는 모듈을 납품했다.
-- <strong>A-<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/">SPICE</a> 심사관의 개입</strong>: 작동 여부는 관심사가 아니다. 심사관은 "요구사항 명세서와 소스코드, 그리고 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 사이에 양방향 추적성([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))이 있는가?"를 검증한다. 요구사항 #1에 대해 어떤 소스코드가 구현되었고, 어떤 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)가 수행되었는지 링크가 끊어져 있다면 가차 없이 '레벨 0'이 부여되어 납품이 취소된다.
+- <strong>A-<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/">SPICE</a> 심사관의 개입</strong>: 작동 여부는 관심사가 아니다. 심사관은 "요구사항 명세서와 소스코드, 그리고 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) 사이에 양방향 추적성([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))이 있는가?"를 검증한다. 요구사항 #1에 대해 어떤 소스코드가 구현되었고, 어떤 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/)가 수행되었는지 링크가 끊어져 있다면 가차 없이 '레벨 0'이 부여되어 납품이 취소된다.
 
 #### 2. [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) 기반 V-모델 매핑 (A-[SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) HIS [SCOPE](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/) 예시)
 
@@ -163,7 +163,7 @@ tags = ["software_engineering"]
 | 기대효과 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 상세 내용 | 비즈니스 임팩트 |
 |:---|:---|:---|
 | **정량적 효과** | - 납품 후 필드 [클레임](/knowledge-base/studynote/09_security/11_iam_access_control/539_claims/) 및 리콜 발생률 50% 이상 감소<br>- 개발 프로세스 병목 식별을 통한 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 예측 정확도 향상 | 글로벌 자동차/의료기기 벤더의 공식 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 진입(Tier-1/2 자격 획득)으로 인한 매출 보장 |
-| **정성적 효과** | - 주먹구구식 코딩 문화에서 체계적인 공학 기반 문화로의 DNA 전환<br>- 개인의 역량(Hero Developer)에 의존하지 않는 시스템적 품질 보장 | 담당자 퇴사 시에도 흔들리지 않는 지식 자산([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Asset)의 내재화 |
+| **정성적 효과** | - 주먹구구식 코딩 문화에서 체계적인 공학 기반 문화로의 DNA 전환<br>- 개인의 역량(Hero Developer)에 의존하지 않는 시스템적 품질 보장 | 담당자 퇴사 시에도 흔들리지 않는 지식 자산([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Asset)의 내재화 |
 
 **미래 전망**: ISO/IEC 15504는 구조적 개편을 거쳐 최신 규격인 <strong>ISO/IEC 330xx 시리즈</strong>로 진화 및 대체되었다. 330xx 시리즈는 단순히 소프트웨어 개발(12207)뿐만 아니라 정보보안 관리, IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리 프로세스까지 모든 영역에 2차원 평가 모델을 갖다 붙일 수 있도록 메타 구조를 극대화했다. 향후에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템 개발 프로세스의 안전성을 평가하는 '[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/)'나 클라우드 운영 역량을 측정하는 방향으로 확장되며 융합 산업 품질 심사의 글로벌 패권을 유지할 것이다.
 

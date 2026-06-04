@@ -10,7 +10,7 @@ tags = ["studynote-it-management"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 환경 분석 (Environmental Analysis)의 본질은 거시 환경([PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/)), 산업 환경(5 Forces), 내부 역량([Value Chain](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)) 분석을 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.
+> 1. **본질**: 환경 분석 (Environmental Analysis)의 본질은 거시 환경([PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/)), 산업 환경(5 Forces), 내부 역량([Value Chain](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)) 분석을 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.
 > 2. **가치**: 현행 구조, 목표 구조, 전환 과제의 추적성이 확보되어야 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 실제 투자와 아키텍처 변화로 이어진다.
 > 3. **판단 포인트**: 환경 분석 (Environmental Analysis)는 도입 자체보다 범위, 책임, 측정 기준을 어떻게 연결하느냐에 따라 성과가 달라진다.
 
@@ -18,9 +18,9 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. 개요 및 필요성
 
-환경 분석 (Environmental Analysis)는 조직이 당면한 요구를 반복 가능하고 설명 가능한 운영 체계로 바꾸기 위해 사용하는 핵심 관리 개념이다. 실무 초점은 거시 환경([PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/)), 산업 환경(5 Forces), 내부 역량([Value Chain](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)) 분석에 놓이며, 핵심은 현행 구조, 목표 구조, 전환 과제의 추적성이 확보되어야 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 실제 투자와 아키텍처 변화로 이어진다.
+환경 분석 (Environmental Analysis)는 조직이 당면한 요구를 반복 가능하고 설명 가능한 운영 체계로 바꾸기 위해 사용하는 핵심 관리 개념이다. 실무 초점은 거시 환경([PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/)), 산업 환경(5 Forces), 내부 역량([Value Chain](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)) 분석에 놓이며, 핵심은 현행 구조, 목표 구조, 전환 과제의 추적성이 확보되어야 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 실제 투자와 아키텍처 변화로 이어진다.
 
-이 개념이 중요한 이유는 현장의 속도와 통제가 자주 충돌하기 때문이다. 기준이 없으면 부서별로 다른 판단이 누적되어 중복 투자, 운영 공백, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 리스크가 커지고, 반대로 지나치게 경직된 통제는 변화 대응 속도를 떨어뜨린다. 실무에서는 보통 [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/), 5 Forces, [Value Chain](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 같은 세부 축이 함께 굴러가야 관리 체계가 실제 효과를 낸다.
+이 개념이 중요한 이유는 현장의 속도와 통제가 자주 충돌하기 때문이다. 기준이 없으면 부서별로 다른 판단이 누적되어 중복 투자, 운영 공백, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 리스크가 커지고, 반대로 지나치게 경직된 통제는 변화 대응 속도를 떨어뜨린다. 실무에서는 보통 [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/), 5 Forces, [Value Chain](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 같은 세부 축이 함께 굴러가야 관리 체계가 실제 효과를 낸다.
 
 ```text
 +--------------------------------------------------------------+
@@ -42,7 +42,7 @@ tags = ["studynote-it-management"]
 
 | 구성 축 | 설명 | 판단 포인트 |
 |:---|:---|:---|
-| [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 범위와 기준선이 흔들리면 후속 통제도 불안정해진다. |
+| [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 범위와 기준선이 흔들리면 후속 통제도 불안정해진다. |
 | 5 Forces | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 책임 경계와 운영 절차가 연결돼야 재현성이 생긴다. |
 | [Value Chain](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 측정 가능한 산출물과 증적이 있어야 설명 가능성이 높아진다. |
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 시사점 | 대상과 문제 경계를 분명히 해 기준선을 세운다. | 변화·예외를 다시 체계에 반영해야 장기적으로 유지된다. |
@@ -67,9 +67,9 @@ tags = ["studynote-it-management"]
 
 | 비교 대상 | 차이점 | 연결 포인트 |
 |:---|:---|:---|
-| [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 정보화 방향을 정렬한다 | 현재 주제는 그 구조를 구체 설계·전환하는 세부 축 |
+| [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 정보화 방향을 정렬한다 | 현재 주제는 그 구조를 구체 설계·전환하는 세부 축 |
 | [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) | 전사 관점의 기준 구조를 제공한다 | 현재 주제는 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 산출물 또는 방법론의 일부로 연결 |
-| [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) | 개별 사업의 상세 실행 설계를 다룬다 | 현재 주제는 사업 이전 단계의 정합성 확보에 기여 |
+| [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) | 개별 사업의 상세 실행 설계를 다룬다 | 현재 주제는 사업 이전 단계의 정합성 확보에 기여 |
 
 실무에서는 환경 분석 (Environmental Analysis)를 단독 프레임워크로 보기보다, 정책-운영-[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)-자동화 사이를 연결하는 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 개념으로 이해하는 편이 정확하다. 특히 조직 규모가 커질수록 사람의 기억보다 표준과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 의존하는 운영이 중요해진다.
 
@@ -83,7 +83,7 @@ tags = ["studynote-it-management"]
 
 ### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 적용 범위와 제외 범위가 명확하며 [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 관점의 경계가 실제 운영에 반영되어 있는가?
+1. 적용 범위와 제외 범위가 명확하며 [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 관점의 경계가 실제 운영에 반영되어 있는가?
 2. 5 Forces와 관련된 책임자, 승인권자, 실행 주체가 충돌 없이 정의되어 있는가?
 3. [Value Chain](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 결과를 보여 주는 증적과 지표가 정기적으로 축적되는가?
 4. [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 시사점 결과가 다음 변경·투자·교육 계획으로 환류되는가?
@@ -111,7 +111,7 @@ tags = ["studynote-it-management"]
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
+| [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
 | 5 Forces | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
 | [Value Chain](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 시사점 | 대상과 문제 경계를 분명히 해 기준선을 세운다 |
@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 187 / 587
 
-<- **이전**: [101. 정보화 전략 계획 (ISP) 수행 4단계 절차](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)
-**다음**: [102. 환경 분석 - 거시 환경(PEST), 산업 환경(5 Forces), 내부 역량](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) ->
+<- **이전**: [101. 정보화 전략 계획 (ISP) 수행 4단계 절차](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)
+**다음**: [102. 환경 분석 - 거시 환경(PEST), 산업 환경(5 Forces), 내부 역량](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) ->
 
 ---

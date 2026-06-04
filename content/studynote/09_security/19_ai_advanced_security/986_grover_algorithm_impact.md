@@ -136,7 +136,7 @@ Grover's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_
 
 **진행 상황**: 1090 / 1108
 
-<- **이전**: [985. X.509 인증서 (X509 Certificate PKI Digital Signature Format)](/knowledge-base/studynote/09_security/uncategorized/985_x509_certificate_pki_digital_signature_format/)
-**다음**: [986. Grover 알고리즘 (Symmetric Asymmetric Key Cryptography Rsa Aes)](/knowledge-base/studynote/09_security/uncategorized/986_symmetric_asymmetric_key_cryptography_rsa_aes/) ->
+<- **이전**: [985. X.509 인증서 (X509 Certificate PKI Digital Signature Format)](/knowledge-base/studynote/09_security/uncategorized/1081_x509_certificate_pki_digital_signature_format/)
+**다음**: [986. Grover 알고리즘 (Symmetric Asymmetric Key Cryptography Rsa Aes)](/knowledge-base/studynote/09_security/uncategorized/1082_symmetric_asymmetric_key_cryptography_rsa_aes/) ->
 
 ---

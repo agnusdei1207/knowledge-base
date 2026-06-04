@@ -16,7 +16,7 @@ tags = ["studynote-design-supervision"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: ISACA는 IT 시스템이 기업의 비즈니스 목표에 부합하도록 통제하고 위험을 관리하기 위한 글로벌 지식 체계와 자격 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([CISA](/knowledge-base/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/), CISM 등)을 제공하는 국제 정보시스템 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 통제 협회이다.
 > 2. **가치**: 단순히 기술적 버그를 찾아내는 'IT [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)'를 넘어, IT 투자의 가치(Value)를 증명하고 전사적 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 통제하는 'IT 거버넌스([IT Governance](/knowledge-base/studynote/12_it_management/01_governance_strategy/001_it_governance/))'라는 거시적 패러다임을 확립하여 C레벨 임원들의 의사결정을 돕는다.
-> 3. **융합**: ISACA의 철학이 집대성된 [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 프레임워크는 ISO/IEC 38500(IT 거버넌스 국제 표준), [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리), [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/)(프로젝트 관리) 등 타 프레임워크들과 상호 융합([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))되어, 빈틈없는 엔터프라이즈 아키텍처([EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/)) 및 감리 체계의 사실상 표준(De facto standard)으로 작용한다.
+> 3. **융합**: ISACA의 철학이 집대성된 [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 프레임워크는 ISO/IEC 38500(IT 거버넌스 국제 표준), [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/846_itil/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리), [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/)(프로젝트 관리) 등 타 프레임워크들과 상호 융합([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))되어, 빈틈없는 엔터프라이즈 아키텍처([EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/)) 및 감리 체계의 사실상 표준(De facto standard)으로 작용한다.
 
 ---
 
@@ -79,7 +79,7 @@ ISACA가 배포하는 가장 핵심적인 무기입니다. 전사적 IT 환경�
 | 프레임워크 | 주관 기구 | 핵심 포커스 (What to do?) | [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/)(ISACA)과의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 역할 분담 |
 | :--- | :--- | :--- | :--- |
 | <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/">COBIT</a></strong> | **ISACA** | **IT 거버넌스 & 통제 (What)** | IT 전체의 '무엇(What)을 통제할 것인가'를 정의하는 우산(Umbrella) 프레임워크. |
-| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/">ITIL</a></strong> | AXELOS | <strong>IT <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 관리 (How)</strong> | COBIT이 '장애 [관리 프로세스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/018_admin_processes/)'를 구축하라고 지시하면, ITIL은 '[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 기반 헬프데스크 운영'이라는 '방법(How)'을 제공함. |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/846_itil/">ITIL</a></strong> | AXELOS | <strong>IT <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 관리 (How)</strong> | COBIT이 '장애 [관리 프로세스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/018_admin_processes/)'를 구축하라고 지시하면, ITIL은 '[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 기반 헬프데스크 운영'이라는 '방법(How)'을 제공함. |
 | <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/">PMBOK</a></strong> | PMI | **프로젝트 관리 (How)** | 신규 시스템 도입 프로젝트 시 일정/비용 관리를 위한 도구로 COBIT의 조달 통제 항목과 결합됨. |
 | **ISO 27001**| ISO | **정보보안 경영 (How)** | COBIT의 보안 통제 영역을 국제 표준 보안 관리 체계([ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 수준으로 구체화시킴. |
 
@@ -96,7 +96,7 @@ ISACA의 표준은 글로벌 최고 수준의 완벽성을 자랑하지만, 이�
 | 고려 사항 | 세부 내용 | 주요 아키텍처 의사결정 |
 |:---|:---|:---|
 | **도입 환경** | 기존 레거시 시스템과의 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 분석 | 마이그레이션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 및 단계별 전환 계획 수립 |
-| <strong>비용(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a>)</strong> | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구축 비용(CAPEX) 및 운영 비용(OPEX) | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 관점의 장기적 효율성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| <strong>비용(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/">ROI</a>)</strong> | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구축 비용(CAPEX) 및 운영 비용(OPEX) | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 관점의 장기적 효율성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | **보안/위험** | 컴플라이언스 준수 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/) | [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 기반 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)/[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 체계 연계 |
 
 *(추가 실무 적용 가이드 - 공공/금융 부문 감리 적용)*
@@ -172,7 +172,7 @@ ISACA는 [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strate
 
 **진행 상황**: 23 / 530
 
-<- **이전**: [20. 조치 결과 확인 (시정조치 확인 보고서 발행)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_follow_up_action_verification/)
+<- **이전**: [20. 조치 결과 확인 (시정조치 확인 보고서 발행)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/602_follow_up_action_verification/)
 **다음**: [22. CISA (Certified Information Systems Auditor) - 국제 공인 정보시스템 감사사](/knowledge-base/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/) ->
 
 ---

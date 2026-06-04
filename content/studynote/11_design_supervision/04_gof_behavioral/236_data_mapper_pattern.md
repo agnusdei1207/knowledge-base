@@ -113,7 +113,7 @@ public class UserJpaRepository implements UserRepository {
 |:---|:---|:---|
 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 순수성 | ✅ 완전 분리 | ❌ DB 메서드 포함 |
 | 구현 코드량 | 많음 | 적음 |
-| 테스트 용이성 | ✅ [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) Repository | ❌ DB 필요 |
+| 테스트 용이성 | ✅ [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Repository | ❌ DB 필요 |
 | [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) 적합성 | ✅ | ❌ |
 | 복잡 매핑 지원 | ✅ ([Aggregate](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 등) | 제한적 |
 | 학습 곡선 | 높음 | 낮음 |

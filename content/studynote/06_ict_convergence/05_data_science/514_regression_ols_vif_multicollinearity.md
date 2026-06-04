@@ -82,7 +82,7 @@ VIF < 5   VIF > 10
 | [Elastic Net](/knowledge-base/studynote/06_ict_convergence/05_data_science/374_elastic_net_regression/) | α·L1 + (1-α)·L2 | 두 방법의 혼합 | 균형적 |
 
 **다중공선성 vs 과적합 구분**:
-- 다중공선성: 독립변수 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 문제 -> 계수 불안정, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 넓어짐.
+- 다중공선성: 독립변수 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 문제 -> 계수 불안정, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 넓어짐.
 - 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/)): 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 너무 맞춤 -> 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하.
 
 - **📢 섹션 요약 비유**: Ridge는 팀원 모두의 역할을 조금씩 줄이는 것이고, Lasso는 기여도가 낮은 팀원을 아예 팀에서 빼버리는 거야. 중복된 역할의 팀원(다중공선성)이 있을 때 Lasso가 더 깔끔하게 정리해줘.

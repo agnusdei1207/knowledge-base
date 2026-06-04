@@ -19,7 +19,7 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. 개요 및 필요성
 
-[PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) ([Process Innovation](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/))는 점진적이고 지속적인 프로세스 혁신를 다루는 주제다. 이 개념이 필요한 이유는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위를 같은 언어로 맞추지 못하면 각 부서가 서로 다른 성공 기준으로 움직이기 쉽기 때문이다. 특히 IT 거버넌스 및 IT 경영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (80개) 영역에서는 용어를 아는 것보다도 어떤 상황에서 이 개념을 꺼내야 하는지 아는 편이 더 중요하다.
+[PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/) ([Process Innovation](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/))는 점진적이고 지속적인 프로세스 혁신를 다루는 주제다. 이 개념이 필요한 이유는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위를 같은 언어로 맞추지 못하면 각 부서가 서로 다른 성공 기준으로 움직이기 쉽기 때문이다. 특히 IT 거버넌스 및 IT 경영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (80개) 영역에서는 용어를 아는 것보다도 어떤 상황에서 이 개념을 꺼내야 하는지 아는 편이 더 중요하다.
 
 실무에서는 이 개념을 단순 정의로 외우기보다 조직이 무엇을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)·개선·정렬하려는지에 맞춰 읽어야 한다. 그래서 기술사 답안에서도 배경, 필요성, 실패 시 위험을 먼저 말하고 나서 구조와 지표를 붙여 주는 편이 설득력이 높다.
 
@@ -37,7 +37,7 @@ tags = ["studynote-it-management"]
 +--------------------+
 ```
 
-이 흐름은 '[PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/)'이라는 개념이 기술 하나를 설명하는 용어가 아니라, 경영 요구와 운영 통제를 잇는 중간 다리라는 점을 보여 준다.
+이 흐름은 '[PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/)'이라는 개념이 기술 하나를 설명하는 용어가 아니라, 경영 요구와 운영 통제를 잇는 중간 다리라는 점을 보여 준다.
 
 - **📢 섹션 요약 비유**: 나침반 없이 배를 몰면 방향은 맞는 것 같아도 항로가 계속 흔들린다.
 
@@ -74,9 +74,9 @@ PI은 인접 프레임, 지표, 프로세스와 함께 볼 때 경계가 더 선
 
 | 비교 대상 | 경계 차이 | 판단 포인트 |
 |:---|:---|:---|
-| [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) | '[BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
-| [정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) | '[정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
-| [정보화 전략 계획](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) | '[정보화 전략 계획](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
+| [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/) | '[BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
+| [정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) | '[정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
+| [정보화 전략 계획](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) | '[정보화 전략 계획](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
 
 따라서 시험 답안에서는 "무엇과 다르며 왜 같이 보아야 하는가"를 짝지어 말하는 것이 중요하다. 실무에서도 현재 문제가 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 정렬인지, 운영 절차인지, 보안 통제인지에 따라 PI의 사용 위치가 달라진다.
 
@@ -118,9 +118,9 @@ PI을 제대로 적용하면 [전략](/knowledge-base/studynote/04_software_engi
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
-| [정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
-| [정보화 전략 계획](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
+| [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
+| [정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
+| [정보화 전략 계획](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
 | IT 거버넌스 | 현재 개념을 IT 거버넌스 관점과 연결해 실무 맥락을 넓힌다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -148,7 +148,7 @@ PI을 제대로 적용하면 [전략](/knowledge-base/studynote/04_software_engi
 
 **진행 상황**: 13 / 587
 
-<- **이전**: [8. BPR (Business Process Reengineering)](/knowledge-base/studynote/12_it_management/01_governance_strategy/008_bpr_business_process_reengineering/)
-**다음**: [9. PI (Process Innovation) - 점진적이고 지속적인 프로세스 혁신](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) ->
+<- **이전**: [8. BPR (Business Process Reengineering)](/knowledge-base/studynote/12_it_management/01_governance_strategy/804_bpr_business_process_reengineering/)
+**다음**: [9. PI (Process Innovation) - 점진적이고 지속적인 프로세스 혁신](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/) ->
 
 ---

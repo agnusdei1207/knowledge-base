@@ -63,7 +63,7 @@ tags = ["studynote-design-supervision"]
 +--------------------------------------------------------------+
 ```
 
-실무에서는 네트워크 장비만으로 해결되지 않는다. 애플리케이션 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/), [서비스 계정](/knowledge-base/studynote/15_devops_sre/05_devsecops/275_iam_role_for_service_accounts/) 관리, 태그 기반 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) NetworkPolicy, [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/), [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/) 같은 상위 통제와 결합해야 실제 효과가 나온다.
+실무에서는 네트워크 장비만으로 해결되지 않는다. 애플리케이션 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/), [서비스 계정](/knowledge-base/studynote/15_devops_sre/05_devsecops/275_iam_role_for_service_accounts/) 관리, 태그 기반 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) NetworkPolicy, [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/), [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/980_ztna/) 같은 상위 통제와 결합해야 실제 효과가 나온다.
 
 - **📢 섹션 요약 비유**: 아파트 단지 정문 경비만 강화하는 것이 아니라, 동별 출입문과 층별 카드키까지 나눠서 이동 범위를 줄이는 것과 같다.
 
@@ -80,7 +80,7 @@ tags = ["studynote-design-supervision"]
 | 방어 대상 | 북-남(North-South) 트래픽 | 일부 내부 구간 | 동서(East-West) 이동 포함 |
 | 실무 효과 | 외부 침입 차단엔 강함 | 구간 분리에는 유효 | 침해 확산 억제와 최소 권한 구현에 강함 |
 
-또한 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/), [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/), [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) NetworkPolicy와도 연결된다. [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)는 큰 원칙이고, 이들 기술은 이를 네트워크·클라우드·애플리케이션 각 계층에서 구현하는 구체 수단이다.
+또한 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/), [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/980_ztna/), [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) NetworkPolicy와도 연결된다. [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)는 큰 원칙이고, 이들 기술은 이를 네트워크·클라우드·애플리케이션 각 계층에서 구현하는 구체 수단이다.
 
 - **📢 섹션 요약 비유**: 대문 하나만 지키는 경비 방식과, 방마다 카드키를 따로 두는 호텔 보안 방식의 차이로 이해하면 쉽다.
 
@@ -121,7 +121,7 @@ tags = ["studynote-design-supervision"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/) | 사용자와 애플리케이션 간 접근을 요청 단위로 제어한다 |
+| [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/980_ztna/) | 사용자와 애플리케이션 간 접근을 요청 단위로 제어한다 |
 | [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/)/[MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) | [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)의 신원 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기반을 제공한다 |
 | Microsegmentation | 워크로드 간 허용 경로를 세밀하게 나눈다 |
 | East-West Traffic Control | 내부 수평 이동 방어의 핵심 관점이다 |

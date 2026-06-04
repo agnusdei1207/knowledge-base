@@ -38,7 +38,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 화웨이, TM 포럼 등이 주도하여 만든 네트워크 운영의 완전 자동화 아키텍처입니다.
-- **개념**: 1054번 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/)(의도 기반), 1058번 [스트리밍 텔레메트리](/knowledge-base/studynote/03_network/17_sdn_nfv/879_streaming_telemetry_grpc_push_based_monitoring/) 빅데이터, 그리고 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/">AIOps</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a> 운영)</strong> 엔진을 하나로 융합하여, <strong>네트워크의 설계, 구축, 운영, 장애 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 전 과정을 인간의 개입(Zero-Touch) 없이 AI가 스스로 인지, 분석, 결정, 조치하는 자율 신경 통제망</strong>입니다.
+- **개념**: 1054번 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/)(의도 기반), 1058번 [스트리밍 텔레메트리](/knowledge-base/studynote/03_network/17_sdn_nfv/879_streaming_telemetry_grpc_push_based_monitoring/) 빅데이터, 그리고 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/">AIOps</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a> 운영)</strong> 엔진을 하나로 융합하여, <strong>네트워크의 설계, 구축, 운영, 장애 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 전 과정을 인간의 개입(Zero-Touch) 없이 AI가 스스로 인지, 분석, 결정, 조치하는 자율 신경 통제망</strong>입니다.
 
 ```text
 [Massive MIMO 빔 관리 시스템]

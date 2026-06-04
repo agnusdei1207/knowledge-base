@@ -11,7 +11,7 @@ tags = ["studynote-software-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 요구사항 관리 (Requirements [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))는 확정된 요구사항을 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) ([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))으로 고정하고, 이후의 변경 요청을 평가·승인·기록하며 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 관리하는 통제 활동이다.
+> 1. **본질**: 요구사항 관리 (Requirements [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/))는 확정된 요구사항을 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) ([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))으로 고정하고, 이후의 변경 요청을 평가·승인·기록하며 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 관리하는 통제 활동이다.
 > 2. **가치**: 이 체계가 있어야 범위 팽창 ([Scope Creep](/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/)), 근거 없는 기능 추가, 테스트 누락, 계약 분쟁을 줄이고 요구사항과 구현의 정합성을 유지할 수 있다.
 > 3. **판단 포인트**: 좋은 요구사항 관리는 무조건 문서를 많이 만드는 것이 아니라, 변경 속도와 통제 강도의 균형을 잡아 필요한 추적성·[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)성·승인 흐름을 살아 있게 유지하는 것이다.
 
@@ -39,7 +39,7 @@ tags = ["studynote-software-engineering"]
 | [Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) | 특정 시점 합의본 동결 | 어떤 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 기준으로 개발하는지 명확화 |
 | Change Request | 변경 요청 공식화 | 구두 지시와 비공식 변경 차단 |
 | Impact Analysis | 영향 범위 평가 | 비용, 일정, 설계, 테스트 영향 판단 |
-| Version [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) | `v1.0 -> v1.1` 이력 관리 | 현재 유효본과 과거 이력 구분 |
+| Version [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) | `v1.0 -> v1.1` 이력 관리 | 현재 유효본과 과거 이력 구분 |
 | Approval / [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) | 승인 여부 결정 | 가치 대비 비용과 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 판단 |
 
 아래 그림은 요구사항 변경 통제가 어떤 흐름으로 돌아가는지 보여 준다.
@@ -73,7 +73,7 @@ tags = ["studynote-software-engineering"]
 
 요구사항 관리는 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)나 [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) ([Requirements Traceability Matrix](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/))과 밀접하지만 역할은 다르다.
 
-| 구분 | 요구사항 관리 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([Configuration Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/)) | [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) ([Requirements Traceability Matrix](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)) |
+| 구분 | 요구사항 관리 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([Configuration Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/873_configuration_management/)) | [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) ([Requirements Traceability Matrix](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)) |
 | :--- | :--- | :--- | :--- |
 | 주 대상 | 요구사항 자체와 그 변경 | 코드, 문서, 빌드, 배포 산출물 | 요구사항과 산출물 간 연결 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 | 핵심 질문 | 무엇이 현재 요구인가? | 무엇이 현재 배포 대상인가? | 이 요구는 어디까지 구현·검증됐는가? |
@@ -125,7 +125,7 @@ tags = ["studynote-software-engineering"]
 | 변경 요청 (Change Request) | 요구사항 수정의 공식 입력 채널 |
 | [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) (Change Control Board) | 변경 승인 여부를 판단하는 의사결정 조직 |
 | [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) ([Requirements Traceability Matrix](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)) | 요구사항이 설계·코드·테스트로 이어졌는지 추적 |
-| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([Configuration Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/)) | 변경된 요구를 실제 산출물 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)과 연결 |
+| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([Configuration Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/873_configuration_management/)) | 변경된 요구를 실제 산출물 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)과 연결 |
 | [ALM](/knowledge-base/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/) ([Application Lifecycle Management](/knowledge-base/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/)) | 요구사항, 개발, 테스트 도구를 통합하는 운영 환경 |
 
 ### 📈 관련 키워드 및 발전 흐름도

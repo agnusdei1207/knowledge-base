@@ -130,7 +130,7 @@ tags = ["studynote-design-supervision"]
 | 패킹 (Packing) | [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) | 높음 | 실행 시 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 해제 | 높음 |
 | 루트/탈옥 감지 | 보안 우회 환경 탐지 | 보조적 | 없음 | 무료 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) |
 
-| 기준 | [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/) ([Obfuscation](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)) | [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/) (Digital Rights [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) |
+| 기준 | [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/) ([Obfuscation](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)) | [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/903_drm_data_reference_model_standard/) (Digital Rights [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/)) |
 |:---|:---|:---|
 | 목적 | 코드 역분석 방지 | 콘텐츠 불법 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 방지 |
 | 적용 대상 | 소스코드/바이너리 | 음악, 영상, 문서 |
@@ -189,7 +189,7 @@ tags = ["studynote-design-supervision"]
 | 하위 개념 | ProGuard / R8 / DexGuard | Android [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/) 도구 |
 | 하위 개념 | [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) ([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) Check) | 앱 위변조 탐지 |
 | 하위 개념 | 루트 감지 (Root [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) | 위험 실행 환경 탐지 |
-| 연관 개념 | [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/) (Digital Rights [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) | 콘텐츠 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 기술 |
+| 연관 개념 | [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/903_drm_data_reference_model_standard/) (Digital Rights [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/)) | 콘텐츠 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 기술 |
 | 연관 개념 | [RASP](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/) ([Runtime Application Self-Protection](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/)) | 런타임 자기 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도

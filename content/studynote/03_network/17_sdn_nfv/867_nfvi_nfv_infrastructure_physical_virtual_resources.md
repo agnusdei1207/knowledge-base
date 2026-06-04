@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 ETSI(유럽통신표준협회)가 정의한 NFV의 뼈대는 크게 3층으로 나뉩니다.
 1. <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/">VNF</a> (<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/">가상 네트워크 기능</a>)</strong>: 맨 위에서 도는 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어 앱 (소프트웨어).
 2. <strong>NFVI (<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/">NFV</a> Infrastructure)</strong>: [VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/) 앱들이 도는 밑바닥 흙과 영양분 (하드웨어 + [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)). **(현재 문서)**
-3. <strong>MANO (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a> and <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">Orchestration</a>)</strong>: 이 둘을 관리하는 신(God) 같은 총사령부 (868번 문서).
+3. <strong>MANO (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/">Management</a> and <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">Orchestration</a>)</strong>: 이 둘을 관리하는 신(God) 같은 총사령부 (868번 문서).
 
 ```text
 [VNF]

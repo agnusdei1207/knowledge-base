@@ -47,7 +47,7 @@ tags = ["it_management"]
 
 | 구성 요소 | 역할 | 내부 동작 메커니즘 | 실무 판단 포인트 | 비유 |
 |:---|:---|:---|:---|:---|
-| **균등 현금흐름 시 PP** | 일정한 수익 모델 계산 | $PP = \frac{[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자비용}{연간 순현금유입액}$ | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 구독료 등 안정적 수익일 때 | 매달 고정 월급 받기 |
+| **균등 현금흐름 시 PP** | 일정한 수익 모델 계산 | $PP = \frac{[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자비용}{연간 순현금유입액}$ | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 구독료 등 안정적 수익일 때 | 매달 고정 월급 받기 |
 | **불균등 현금흐름 시 PP** | 변동 수익 모델 계산 | 누적 현금흐름이 최초로 0 이상이 되는 연도 산출 | 개발 후 점진적 마케팅 수익 | 장사로 매일 다르게 벌기 |
 | **목표 회수기간** | 합격/불합격의 잣대 | 경영진이 허용하는 최대 회수 인내 기간 | 시스템 물리적 수명보다 짧아야 함 | 인내심의 한계선 |
 | **할인 투자회수기간 (DPP)** | PP의 단점 보완 | 매년 현금을 '할인율'로 삭감한 뒤 누적합을 구함 | 이자/물가 상승분까지 쳐서 회수 | 이자까지 쳐서 본전 뽑기 |
@@ -80,7 +80,7 @@ $PP = (누적 현금흐름이 음수(+)로 넘어가기 직전 연도) + \frac{�
 
 PP는 극도의 직관성을 자랑하지만, NPV나 IRR과 달리 투자의 전체 그림을 보지 못하는 치명적인 근시안적 단점을 내포하고 있다.
 
-| 비교 항목 | PP (회수기간법) | [NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/) (순현재가치) / [IRR](/knowledge-base/studynote/12_it_management/01_governance_strategy/014_irr_internal_rate_of_return/) |
+| 비교 항목 | PP (회수기간법) | [NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/) (순현재가치) / [IRR](/knowledge-base/studynote/12_it_management/01_governance_strategy/809_irr_internal_rate_of_return/) |
 |:---|:---|:---|
 | **평가의 목적** | 자금의 **유동성(Liquidity)** 확보와 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 타임 단축 | 투자의 절대적/상대적 **수익성(Profitability)** 극대화 |
 | **회수 이후의 현금흐름** | **완전히 무시함** (본전 뽑은 뒤의 대박 수익은 알 바 아님) | 수명 주기 전체의 모든 수익을 영혼까지 끌어모아 계산 |
@@ -117,7 +117,7 @@ PP는 극도의 직관성을 자랑하지만, NPV나 IRR과 달리 투자의 전
 
 실무에서 PP를 단독 의사결정 지표로 사용하면 우량 프로젝트를 기각하거나 악성 프로젝트를 통과시키는 심각한 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이 발생한다.
 
-1. <strong>꼬리표 수익의 무시 (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a>)</strong>: 플랫폼 비즈니스나 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 모델 투자는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 대규모 서버와 마케팅 비용이 들고, 임계점을 넘은 뒤(J-Curve 효과) 4~5년 차부터 막대한 이익을 거둬들인다. PP만 기준으로 삼으면 이러한 미래의 캐시카우(Cash [Cow](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)) 투자는 '원금 회수가 너무 느리다'는 이유로 모조리 기각되고, 1년짜리 소규모 유지보수 계약만 수주하는 단기 성과주의에 조직이 매몰된다.
+1. <strong>꼬리표 수익의 무시 (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a>)</strong>: 플랫폼 비즈니스나 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 모델 투자는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 대규모 서버와 마케팅 비용이 들고, 임계점을 넘은 뒤(J-Curve 효과) 4~5년 차부터 막대한 이익을 거둬들인다. PP만 기준으로 삼으면 이러한 미래의 캐시카우(Cash [Cow](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)) 투자는 '원금 회수가 너무 느리다'는 이유로 모조리 기각되고, 1년짜리 소규모 유지보수 계약만 수주하는 단기 성과주의에 조직이 매몰된다.
 2. **목표 회수기간의 자의성**: "왜 우리 회사의 목표 PP는 3년인가?"라는 질문에 이론적 근거가 없다. 경영진의 직관이나 보수적 성향에 의해 주먹구구식 정해지는 경우가 많아, 투자의 일관성이 훼손된다.
 3. **기술 수명(Lifespan)과의 연계 방어선**: 하드웨어 서버 장비 도입은 보통 5년 후 폐기(감가상각 완료)되므로 PP는 반드시 5년 미만이어야 한다. 이처럼 도입하는 IT 자산의 물리적/논리적 생명 주기보다 PP가 길게 나온다면 그 프로젝트는 무조건 기각해야 하는 훌륭한 1차 방어선이 된다.
 
@@ -140,7 +140,7 @@ PP는 극도의 직관성과 보수성으로 인해 IT 거버넌스 체계에서
 | **유동성 맵 제공** | 자금이 묶여 있는([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/)) 기간을 시각화하여 다음 IT 후속 투자를 위한 재원 마련 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 연계 가능 |
 | **경영진의 심리적 안정** | 복잡한 수식을 거부하는 최고경영진에게 "2년 반이면 본전 뺍니다"라는 가장 강력한 설득 무기 제공 |
 
-오늘날 극도로 불확실한 VUKA(Volatility, Uncertainty, Complexity, Ambiguity) 시대에는 미래를 예측하기 어렵다. 따라서 화려한 10년 치 시나리오를 바탕으로 한 NPV보다, 1~2년 안에 빠르게 원금을 회수하고 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))할 수 있는 '빠른 회수(Fast Payback)' 모델이 [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/)([Lean Startup](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/))이나 [애자일 경영](/knowledge-base/studynote/12_it_management/01_governance_strategy/034_agile_management/) 철학과 맞아떨어지며 그 중요성이 다시 부각되고 있다.
+오늘날 극도로 불확실한 VUKA(Volatility, Uncertainty, Complexity, Ambiguity) 시대에는 미래를 예측하기 어렵다. 따라서 화려한 10년 치 시나리오를 바탕으로 한 NPV보다, 1~2년 안에 빠르게 원금을 회수하고 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/)([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/))할 수 있는 '빠른 회수(Fast Payback)' 모델이 [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/827_lean_startup/)([Lean Startup](/knowledge-base/studynote/12_it_management/01_governance_strategy/827_lean_startup/))이나 [애자일 경영](/knowledge-base/studynote/12_it_management/01_governance_strategy/034_agile_management/) 철학과 맞아떨어지며 그 중요성이 다시 부각되고 있다.
 
 📢 **섹션 요약 비유**: 투자회수기간은 깊은 동굴에 들어갈 때 들고 가는 산소통과 같다. 아무리 동굴 끝에 금은보화([NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/))가 많더라도, 내 산소통(자본 유동성)이 버틸 수 있는 시간(PP) 내에 돌아오지 못하면 아무 소용이 없음을 알려주는 생명줄이다.
 
@@ -184,7 +184,7 @@ PP는 극도의 직관성과 보수성으로 인해 IT 거버넌스 체계에서
 
 **진행 상황**: 24 / 587
 
-<- **이전**: [14. IRR (Internal Rate of Return, 내부수익률)](/knowledge-base/studynote/12_it_management/01_governance_strategy/014_irr_internal_rate_of_return/)
-**다음**: [15. PP (Payback Period, 투자회수기간)](/knowledge-base/studynote/12_it_management/01_governance_strategy/015_pp_payback_period/) ->
+<- **이전**: [14. IRR (Internal Rate of Return, 내부수익률)](/knowledge-base/studynote/12_it_management/01_governance_strategy/809_irr_internal_rate_of_return/)
+**다음**: [15. PP (Payback Period, 투자회수기간)](/knowledge-base/studynote/12_it_management/01_governance_strategy/810_pp_payback_period/) ->
 
 ---

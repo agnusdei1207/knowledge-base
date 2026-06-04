@@ -12,8 +12,8 @@ tags = ["studynote-ai"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 독립 변수(Independent Variable) 또는 피처(Feature)는 모델의 입력이고, 종속 변수(Dependent Variable) 또는 라벨(Label)/타깃(Target)은 예측해야 할 출력이다.
-> 2. **가치**: 피처의 품질이 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결정하며, 피처 공학([Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/))은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식을 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델에 주입하는 핵심 프로세스다.
-> 3. **판단 포인트**: [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)([Principal Component Analysis](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/), [주성분 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/))는 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)([Dimensionality Reduction](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_dimensionality_reduction/))를 통해 불필요한 특성을 제거하면서 정보 손실을 최소화하는 대표적 피처 처리 기법이다.
+> 2. **가치**: 피처의 품질이 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결정하며, 피처 공학([Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/865_feature_engineering/))은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식을 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델에 주입하는 핵심 프로세스다.
+> 3. **판단 포인트**: [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)([Principal Component Analysis](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/), [주성분 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/))는 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)([Dimensionality Reduction](/knowledge-base/studynote/12_it_management/02_itsm_itil/863_dimensionality_reduction/))를 통해 불필요한 특성을 제거하면서 정보 손실을 최소화하는 대표적 피처 처리 기법이다.
 
 ---
 
@@ -76,7 +76,7 @@ tags = ["studynote-ai"]
 +---------------------------------------------------------+
 ```
 
-### 2.2 피처 공학 ([Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/)) 유형
+### 2.2 피처 공학 ([Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/865_feature_engineering/)) 유형
 
 | 유형 | 기법 | 예시 |
 |:---|:---|:---|
@@ -132,7 +132,7 @@ PCA는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 | [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) (SHapley Additive exPlanation) | 게임 이론 기반 기여도 | 모델 독립 |
 | 퍼뮤테이션 중요도 | 피처 섞었을 때 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 변화 | 모델 독립 |
 
-### 3.3 차원의 저주 ([Curse of Dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_curse_of_dimensionality/))
+### 3.3 차원의 저주 ([Curse of Dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/864_curse_of_dimensionality/))
 피처 수가 너무 많아지면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공간이 희소(Sparse)해져 모델 학습이 어려워지는 현상. [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)([PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 등)로 완화한다.
 
 - **📢 섹션 요약 비유**: 피처가 너무 많으면 큰 창고에 물건이 너무 드문드문 흩어져 있어 패턴을 찾기 어려운 것과 같다. PCA는 창고를 작게 만들되 핵심 물건은 모아두는 창고 재배치 작업이다.

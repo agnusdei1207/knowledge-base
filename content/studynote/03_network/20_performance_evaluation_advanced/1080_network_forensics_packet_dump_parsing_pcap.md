@@ -63,7 +63,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-거대한 쓰레기 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)(PCAP)에서 해커의 지문을 분리해 내는 스무고개 좁히기입니다.
+거대한 쓰레기 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)(PCAP)에서 해커의 지문을 분리해 내는 스무고개 좁히기입니다.
 
 - 1TB짜리 PCAP [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 도구(Wireshark, [Zeek](/knowledge-base/studynote/09_security/05_web_app_security/241_zeek_bro_network_traffic_metadata_analysis/))에 넣고 통계 그래프를 쫙 뽑습니다.
 - "어? 평소엔 중국으로 나가는 트래픽이 0이었는데, 새벽 2시에 딱 1분 동안 특정 중국 IP로 100GB짜리 트래픽(Outbound)이 폭발했네? 이놈이 도둑놈 IP(출발지/목적지)다!"

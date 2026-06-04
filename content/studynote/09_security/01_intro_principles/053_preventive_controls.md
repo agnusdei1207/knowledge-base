@@ -12,7 +12,7 @@ tags = ["studynote-security"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 예방 통제 (Preventive Controls)는 사고가 나기 전에 위협의 발생이나 확산을 막는 보안 통제다.
-> 2. **가치**: [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/), [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/), 패치, 암호화, 분리 설계가 대표적인 예방 수단이다.
+> 2. **가치**: [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/), [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [입력 검증](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/), 패치, 암호화, 분리 설계가 대표적인 예방 수단이다.
 > 3. **판단 포인트**: 예방만으로는 충분하지 않다. [탐지 통제](/knowledge-base/studynote/09_security/01_intro_principles/054_detective_controls/)와 [교정 통제](/knowledge-base/studynote/09_security/01_intro_principles/055_corrective_controls/)를 함께 배치해야 방어가 완성된다.
 
 ---
@@ -39,7 +39,7 @@ Threat -> Preventive Control -> Block / Limit
 | :--- | :--- | :--- |
 | Identity | [MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/), [least privilege](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/) | 계정 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
 | Network | [Firewall](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) | 경로 차단 |
-| App | [Input validation](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/) | 코드 공격 차단 |
+| App | [Input validation](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/) | 코드 공격 차단 |
 | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | Encryption, masking | 유출 방지 |
 | Physical | Badge, [lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) | 출입 통제 |
 
@@ -60,7 +60,7 @@ Threat -> Preventive Control -> Block / Limit
 | [Corrective](/knowledge-base/studynote/04_software_engineering/06_software_architecture/380_maintenance_types/) | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 패치, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) |
 | Deterrent | [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) | 경고문, 배너 |
 
-예방 통제는 특히 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 권한, [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/), 네트워크 경계, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)에서 중요하다. 하지만 오탐/미탐을 고려해 탐지와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 반드시 결합해야 한다.
+예방 통제는 특히 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 권한, [입력 검증](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/), 네트워크 경계, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)에서 중요하다. 하지만 오탐/미탐을 고려해 탐지와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 반드시 결합해야 한다.
 
 - **📢 섹션 요약 비유**: 예방은 우산, 탐지는 비 오는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 교정은 젖은 옷을 말리는 일이다.
 
@@ -73,7 +73,7 @@ Threat -> Preventive Control -> Block / Limit
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 모든 계정에 MFA가 적용되는가?
-2. [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/)과 권한 검사가 둘 다 있는가?
+2. [입력 검증](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/)과 권한 검사가 둘 다 있는가?
 3. 중요 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 암호화되는가?
 4. 네트워크와 시스템이 분리되어 있는가?
 

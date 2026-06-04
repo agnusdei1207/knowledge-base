@@ -87,7 +87,7 @@ tags = ["studynote-it-management"]
 | 경영 설득 | "코드가 더러워요" 수준 | "결제 변경 리드타임 30% 증가"처럼 수치화 |
 | 장기 효과 | 리팩터링 누락 또는 과잉 | 일정과 품질의 균형 유지 |
 
-또 다른 비교 축은 "리팩터링"과 "재작성 (Rewrite)"이다. 리팩터링은 외부 동작을 유지한 채 내부 구조를 개선하는 것이고, 재작성은 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 자체를 새로 설계하는 선택이다. 매트릭스는 부채 항목이 어느 수준까지 악화됐는지 보여 주므로, 단순 리팩터링으로 충분한지 아니면 [스트랭글러 피그 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/) ([Strangler Fig Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/308_strangler_fig_pattern/)) 같은 점진 교체가 필요한지 판단하는 근거가 된다.
+또 다른 비교 축은 "리팩터링"과 "재작성 (Rewrite)"이다. 리팩터링은 외부 동작을 유지한 채 내부 구조를 개선하는 것이고, 재작성은 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 자체를 새로 설계하는 선택이다. 매트릭스는 부채 항목이 어느 수준까지 악화됐는지 보여 주므로, 단순 리팩터링으로 충분한지 아니면 [스트랭글러 피그 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/) ([Strangler Fig Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/950_strangler_fig_pattern/)) 같은 점진 교체가 필요한지 판단하는 근거가 된다.
 
 - **📢 섹션 요약 비유**: [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 통제 매트릭스는 "청소가 필요한 방"과 "기둥이 흔들리는 집"을 구분하게 해 주는 도면과 같다. 둘 다 손봐야 하지만 대응 방식은 완전히 다르다.
 
@@ -103,7 +103,7 @@ tags = ["studynote-it-management"]
 
 1. 부채 항목을 코드·설계·테스트·인프라·문서 부채로 나누었는가.
 2. 사업 영향도와 변경 빈도를 함께 평가했는가.
-3. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/) / [Continuous Deployment](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/)) 파이프라인에서 신규 부채 유입을 차단하는가.
+3. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/) / [Continuous Deployment](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/)) 파이프라인에서 신규 부채 유입을 차단하는가.
 4. 상환 계획이 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 용량, 릴리스 일정, 책임자와 연결되어 있는가.
 5. 즉시 상환 대상에 보안 취약점, 규제 위반, 반복 장애 항목이 포함되는가.
 
@@ -135,7 +135,7 @@ tags = ["studynote-it-management"]
 | 리팩터링 ([Refactoring](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/)) | 통제 매트릭스에서 계획 상환의 대표 실행 수단 |
 | 재작성 (Rewrite) | 부채가 구조적 한계를 넘었을 때 고려하는 고비용 대응 |
 | [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) / SQALE | 부채 규모와 유지보수성을 정량화하는 측정 도구·방법론 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD | 신규 부채 유입을 조기에 차단하는 운영 통제 지점 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD | 신규 부채 유입을 조기에 차단하는 운영 통제 지점 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

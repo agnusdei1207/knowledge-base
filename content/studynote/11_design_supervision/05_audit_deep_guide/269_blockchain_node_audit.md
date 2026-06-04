@@ -11,14 +11,14 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 노드 아키텍처 감리는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)([Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)) 네트워크의 노드 아키텍처와 운영 통제에서 합의 노드(Consensus Node), 키 관리([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)), 최종성([Finality](/knowledge-base/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/))의 정합성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.
+> 1. **본질**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 노드 아키텍처 감리는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)([Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)) 네트워크의 노드 아키텍처와 운영 통제에서 합의 노드(Consensus Node), 키 관리([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/)), 최종성([Finality](/knowledge-base/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/))의 정합성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.
 > 2. **가치**: 합의 노드와 키 관리를 실행 가능한 기준으로 연결하면 숨은 리스크를 조기에 찾고 비용이 큰 재작업을 줄일 수 있다.
 > 3. **판단 포인트**: 감리인은 문서 존재 여부보다 최종성까지 닫힌 증적이 남는지, 그리고 책임자·임계값·예외 승인 흐름이 작동하는지 확인해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
-[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 노드 아키텍처 감리는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)([Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)) 네트워크의 노드 아키텍처와 운영 통제를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)와 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템이 확산되면서 문서상 구조와 실제 배포 구조를 함께 추적하는 능력이 중요해졌다. 특히 합의 노드가 기준선으로 정리되지 않으면 키 관리는 사람 의존 절차로 흩어지고, 최종적으로 최종성이 남지 않아 의사결정이 감각에 의존하게 된다. 추적성이 약하면 이식성 저하, 장애 전파, 유지보수 단절이 동시에 나타난다.
+[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 노드 아키텍처 감리는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)([Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)) 네트워크의 노드 아키텍처와 운영 통제를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)와 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템이 확산되면서 문서상 구조와 실제 배포 구조를 함께 추적하는 능력이 중요해졌다. 특히 합의 노드가 기준선으로 정리되지 않으면 키 관리는 사람 의존 절차로 흩어지고, 최종적으로 최종성이 남지 않아 의사결정이 감각에 의존하게 된다. 추적성이 약하면 이식성 저하, 장애 전파, 유지보수 단절이 동시에 나타난다.
 
 ```text
 +------------------+
@@ -96,10 +96,10 @@ tags = ["studynote-design-supervision"]
 ---
 
 ### 📌 관련 개념 맵
-- 상위 개념: 엔터프라이즈 아키텍처([Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/))
+- 상위 개념: 엔터프라이즈 아키텍처([Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/806_ea_enterprise_architecture/))
 - 핵심 통제: 합의 노드, 키 관리
 - [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적: 최종성과 운영 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·테스트 결과
-- 확장 개념: [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 확장([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) Expansion)
+- 확장 개념: [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 확장([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) Expansion)
 
 ### 📈 관련 키워드 및 발전 흐름도
 [합의 노드] -> [블록체인 노드 아키텍처 감리] -> [클라우드 네이티브 확장([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) Expansion)]

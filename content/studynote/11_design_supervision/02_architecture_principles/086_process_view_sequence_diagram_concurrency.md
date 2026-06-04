@@ -11,14 +11,14 @@ tags = ["studynote-design"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 프로세스 뷰([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 실행 중인 프로세스와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))의 동시 동작을 설명하는 동적 설계 관점이다.
+> 1. **본질**: 프로세스 뷰([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 실행 중인 프로세스와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))의 동시 동작을 설명하는 동적 설계 관점이다.
 > 2. **가치**: 경합, [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/), 병목을 미리 보게 해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 안정성을 같이 설계할 수 있다.
-> 3. **판단 포인트**: 프로세스, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/), [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) (Inter-[Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Communication)를 구분해 부하 기준으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
+> 3. **판단 포인트**: 프로세스, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/), [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) (Inter-[Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Communication)를 구분해 부하 기준으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
-프로세스 뷰([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 Kruchten의 4+1 [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) Model에서 실행 시점의 구조를 보여 준다. 정적 다이어그램만으로는 보이지 않는 입출력(I/O, Input/Output) 대기, 자원 경합, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 협업을 드러내기 때문에 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 중심 시스템에서 중요하다.
+프로세스 뷰([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 Kruchten의 4+1 [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) Model에서 실행 시점의 구조를 보여 준다. 정적 다이어그램만으로는 보이지 않는 입출력(I/O, Input/Output) 대기, 자원 경합, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 협업을 드러내기 때문에 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 중심 시스템에서 중요하다.
 
 즉, 이 뷰는 “무엇이 존재하는가”가 아니라 “무엇이 동시에 움직이는가”를 묻는다.
 - **📢 섹션 요약 비유**: 사람이 많은 복도는 출입문과 동선까지 봐야 이해된다.
@@ -31,11 +31,11 @@ tags = ["studynote-design"]
 | 프로세스 | 자원 경계와 격리 단위 | 장애 격리 |
 | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) | 실행 흐름 | 공유 상태 경합 |
 | [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | [mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) ([mutual exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)), [semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) |
-| [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) (Inter-[Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Communication) | [프로세스 간 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 직렬화 비용 |
+| [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) (Inter-[Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Communication) | [프로세스 간 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 직렬화 비용 |
 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표 | 처리량과 응답시간 | 큐 길이, 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
 
 +---------+ request +------------------+
-| [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)  |-------->|   [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) A      |
+| [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)  |-------->|   [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) A      |
 +---------+        |  +------------+  |
                    |  | [Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) |  |
                    |  +--+----+----+  |
@@ -58,13 +58,13 @@ tags = ["studynote-design"]
 ---
 
 ## Ⅲ. 비교 및 연결
-| 비교 항목 | [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) | [Logical View](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/085_logical_view_class_diagram_functional_requirements/) | Development [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) | Physical [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) |
+| 비교 항목 | [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) | [Logical View](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/085_logical_view_class_diagram_functional_requirements/) | Development [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) | Physical [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) |
 |:---|:---|:---|:---|:---|
 | 주 질문 | 동시에 무엇이 실행되는가 | 기능이 무엇인가 | 어떤 모듈로 나뉘는가 | 어디에 배치되는가 |
 | 위험 | 경합, 교착, 과부하 | 요구 누락 | [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 증가 | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 장애 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) |
-| [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/), [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 덤프 | 시나리오 검토 | 의존성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 배치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/), [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 덤프 | 시나리오 검토 | 의존성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 배치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 
-[Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) View는 다른 뷰를 대체하지 않고, 실행 문제를 보완한다.
+[Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) View는 다른 뷰를 대체하지 않고, 실행 문제를 보완한다.
 - **📢 섹션 요약 비유**: 정적 설계와 실행 설계는 역할이 다르다.
 
 ---
@@ -73,7 +73,7 @@ tags = ["studynote-design"]
 - [ ] [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수를 CPU (Central Processing Unit) 코어 수와 단순 1:1로 보지 않는다.
 - [ ] 공유 상태는 소유자와 수명 주기를 먼저 정한다.
 - [ ] 입출력(I/O) 대기, [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 재시도 정책을 함께 설계한다.
-- [ ] [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)에서 평균뿐 아니라 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 큐 길이를 본다.
+- [ ] [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/)에서 평균뿐 아니라 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 큐 길이를 본다.
 - [ ] [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)와 기아가 재현되는 시나리오를 만든다.
 
 - ❌ 하나의 거대한 mutex로 전체 요청을 잠그는 설계
@@ -95,7 +95,7 @@ tags = ["studynote-design"]
 |:---|:---|
 | 프로세스 뷰 | 실행 중 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)의 전체 그림이다. |
 | [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) | 요청을 나눠 처리량을 높인다. |
-| [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) (Inter-[Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Communication) | 프로세스 간 협력 비용을 드러낸다. |
+| [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) (Inter-[Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Communication) | 프로세스 간 협력 비용을 드러낸다. |
 | [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 공유 자원 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)와 경합 제어를 맡는다. |
 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표 | 병목이 어디서 생기는지 알려 준다. |
 

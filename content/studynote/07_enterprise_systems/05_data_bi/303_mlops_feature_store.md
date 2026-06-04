@@ -17,13 +17,13 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-ML 모델 개발에서 가장 많은 시간을 소비하는 단계는 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링([Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/))이다.
+ML 모델 개발에서 가장 많은 시간을 소비하는 단계는 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링([Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/865_feature_engineering/))이다.
 각 팀이 동일한 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)를 독립적으로 구현하면, 학습 시 사용한 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 계산 로직과 서빙 시 계산 로직이 미묘하게 달라져 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 저하된다. 이를 [Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/)-Serving Skew라 한다.
 
 [Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) ([피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/))는 이 문제를 해결하기 위한 중앙화된 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 저장소·관리 플랫폼이다.
 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)를 한 번 정의하면 오프라인 학습과 온라인 서빙 양측에서 동일한 계산 결과를 보장한다.
 
-주요 제품: Feast ([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)), Tecton (상용 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)), Hopsworks ([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)+상용), AWS SageMaker [Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)
+주요 제품: Feast ([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)), Tecton (상용 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/)), Hopsworks ([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)+상용), AWS SageMaker [Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)
 
 📢 **섹션 요약 비유**: Feature Store는 공용 식자재 창고다. 각 요리사(팀)가 자기 냉장고에 따로 재료를 보관하면 유통기한이 달라지지만, 공용 창고를 쓰면 모두 같은 신선도의 재료로 요리한다.
 
@@ -70,7 +70,7 @@ ML 모델 개발에서 가장 많은 시간을 소비하는 단계는 [피처](/
 
 | 항목 | Feast | Tecton | Hopsworks |
 |:---|:---|:---|:---|
-| 유형 | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) | 상용 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)+상용 |
+| 유형 | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) | 상용 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)+상용 |
 | 실시간 변환 | 미지원 | 지원 (Streaming) | 지원 |
 | 온라인 스토어 | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/), [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) | 자체 | RonDB |
 | [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 | 제한적 | 강력 | 강력 |
@@ -94,7 +94,7 @@ ML 모델 개발에서 가장 많은 시간을 소비하는 단계는 [피처](/
 ### [Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 - [ ] 현재 팀 간 동일 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)가 중복 구현되고 있는가? (2팀 이상이면 도입 정당화)
-- [ ] Online Store 읽기 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) <10ms 충족 가능한 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 클러스터 확보 여부
+- [ ] Online Store 읽기 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) <10ms 충족 가능한 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 클러스터 확보 여부
 - [ ] Point-in-Time Correct [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 지원 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
 - [ ] [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) [버저닝](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/317_versioning_data_model_design/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 수립 (메이저/마이너 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리)
 - [ ] [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링: 드리프트 감지 (PSI >0.2 알람)
@@ -156,7 +156,7 @@ Feature Store 등장 - 피처 재사용·공유 플랫폼
 MLOps 통합 - 피처->모델->서빙 자동화 파이프라인
 ```
 
-> **키워드**: [Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/), [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/), [Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/), Online Store, Offline Store, Feast, [Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/)-Serving Skew
+> **키워드**: [Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/), [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/), [Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/865_feature_engineering/), Online Store, Offline Store, Feast, [Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/)-Serving Skew
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

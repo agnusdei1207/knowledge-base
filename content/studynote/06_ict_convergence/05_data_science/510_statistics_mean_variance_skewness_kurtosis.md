@@ -103,7 +103,7 @@ Anscombe이 만든 4개 [데이터](/knowledge-base/studynote/05_database/01_db_
 
 [기술 통계](/knowledge-base/studynote/16_bigdata/05_analysis/100_descriptive_statistics/)의 완전한 이해는 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석의 출발점이다. 중심·산포·형태를 동시에 파악하고 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)로 검증할 때 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 문제와 분포 특성을 조기에 발견할 수 있다.
 
-- <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/">EDA</a>(<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/">Exploratory Data Analysis</a>) 효율 향상</strong>: 이상값·편향 조기 발견으로 모델 학습 전 [데이터 정제](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/266_data_cleansing/) 시간 단축.
+- <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/">EDA</a>(<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/">Exploratory Data Analysis</a>) 효율 향상</strong>: 이상값·편향 조기 발견으로 모델 학습 전 [데이터 정제](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/266_data_cleansing/) 시간 단축.
 - **적절한 모델 선택**: 분포 형태에 따라 파라미터 검정 vs 비모수 검정을 올바르게 선택.
 - <strong>의사 결정 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 제고</strong>: 요약 통계와 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)를 함께 보고하여 이해관계자의 오해를 방지.
 

@@ -35,7 +35,7 @@ tags = ["studynote-devops-sre"]
 | :--- | :--- | :--- |
 | Device / Sensor | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발생 | [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), 보안, 전력 제약 |
 | Edge Node | 즉시 처리와 임시 저장 | [latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/), local cache, autonomy |
-| Regional [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) / Cloud | 장기 분석과 통합 | fleet [management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/), model distribution |
+| Regional [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) / Cloud | 장기 분석과 통합 | fleet [management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/), model distribution |
 | Sync Layer | 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | [offline-first](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/579_offline_first_pwa_service_worker/), conflict handling |
 
 ```text

@@ -12,7 +12,7 @@ tags = ["studynote-data-engineering"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)([Data Catalog](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/))는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 중앙에서 관리하는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 도서관 목록 시스템"이며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보([Data Lineage](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/))는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 원천부터 소비까지 흐름을 추적한다.
 > 2. **가치**: [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)/[CCPA](/knowledge-base/studynote/09_security/16_data_privacy/800_ccpa/) 규정 준수를 위한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주체 권리(삭제권, 이동권) 이행 시, 계보 추적으로 영향받는 모든 시스템을 자동으로 식별하고 대응할 수 있다.
-> 3. **판단 포인트**: 자동 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 수집(OpenLineage 표준)과 태그 기반 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) 연계가 핵심이며, [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 성숙도에 따라 도구 선택이 달라진다.
+> 3. **판단 포인트**: 자동 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 수집(OpenLineage 표준)과 태그 기반 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) 연계가 핵심이며, [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) 성숙도에 따라 도구 선택이 달라진다.
 
 ---
 
@@ -249,7 +249,7 @@ DataHub 아키텍처 (LinkedIn 오픈소스)
 +------------------------------------------------------+
 ```
 
-### 4.2 기술사 관점: [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 프레임워크
+### 4.2 기술사 관점: [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) 프레임워크
 
 | 거버넌스 요소 | [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 역할 |
 |:---|:---|
@@ -305,7 +305,7 @@ columns:
       - rule: "matches_regex: ^[\\w.+-]+@[\\w-]+\\.[\\w.]+$"
 ```
 
-📢 **섹션 요약 비유**: [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 프레임워크는 병원의 의무기록 관리 시스템과 같다. 누가 어떤 기록을 언제 봤는지([감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)), 기록의 원본 출처(계보), 누가 볼 수 있는지(접근 권한), 정보 삭제 요청(삭제권)을 모두 관리한다.
+📢 **섹션 요약 비유**: [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) 프레임워크는 병원의 의무기록 관리 시스템과 같다. 누가 어떤 기록을 언제 봤는지([감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)), 기록의 원본 출처(계보), 누가 볼 수 있는지(접근 권한), 정보 삭제 요청(삭제권)을 모두 관리한다.
 
 ---
 
@@ -341,7 +341,7 @@ AI 강화 데이터 카탈로그 기능
 
 ### 5.3 결론 요약
 
-[데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)와 계보는 현대 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)의 핵심 인프라이며, [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)/[CCPA](/knowledge-base/studynote/09_security/16_data_privacy/800_ccpa/) 규정 준수와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 확보를 위한 필수 요소다. 기술사 관점에서는 <strong>OpenLineage 표준 기반 자동 계보 수집, 태그 기반 <a href="/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/">ABAC</a> <a href="/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/">보안 정책</a>, <a href="/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/">GDPR</a> 삭제권 이행과 계보의 연계 방법</strong>을 명확히 설명할 수 있어야 한다.
+[데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)와 계보는 현대 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)의 핵심 인프라이며, [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)/[CCPA](/knowledge-base/studynote/09_security/16_data_privacy/800_ccpa/) 규정 준수와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 확보를 위한 필수 요소다. 기술사 관점에서는 <strong>OpenLineage 표준 기반 자동 계보 수집, 태그 기반 <a href="/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/">ABAC</a> <a href="/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/">보안 정책</a>, <a href="/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/">GDPR</a> 삭제권 이행과 계보의 연계 방법</strong>을 명확히 설명할 수 있어야 한다.
 
 📢 **섹션 요약 비유**: [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)는 기업 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 "GPS + 사용설명서 + 출입 카드 시스템"이다. 어디에 있는지(GPS), 어떻게 사용하는지(사용설명서), 누가 접근할 수 있는지(출입 카드)를 통합 관리한다.
 

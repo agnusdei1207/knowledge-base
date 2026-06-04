@@ -151,7 +151,7 @@ tags = ["studynote-bigdata"]
 
 ### 기술사 핵심 판단 포인트
 
-- <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">데이터 거버넌스</a></strong>: 부처 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연계 시 법적 근거 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) ([개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/) 제17조 제3자 제공 요건).
+- <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/">데이터 거버넌스</a></strong>: 부처 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연계 시 법적 근거 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) ([개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/) 제17조 제3자 제공 요건).
 - **편향 관리**: 복지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 특정 지역·집단을 낙인찍지 않도록 정기 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/).
 - **시민 참여**: 공공 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 결정에 이의제기 절차 마련 필수.
 

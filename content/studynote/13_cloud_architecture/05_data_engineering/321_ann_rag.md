@@ -124,7 +124,7 @@ tags = ["studynote-cloud-architecture"]
 
 **진행 상황**: 320 / 371
 
-<- **이전**: [320. 프라이버시 클린 룸 데이터 안전 연합 연산 (Cloud Architecture Concept)](/knowledge-base/studynote/12_it_management/05_security_compliance/320_process/)
+<- **이전**: [320. 프라이버시 클린 룸 데이터 안전 연합 연산 (Cloud Architecture Concept)](/knowledge-base/studynote/12_it_management/05_security_compliance/961_process/)
 **다음**: [322. 클라우드 마이그레이션 6R (Rehost, Refactor 중심)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/322_6r_rehost_refactor/) ->
 
 ---

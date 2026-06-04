@@ -10,7 +10,7 @@ tags = ["enterprise_systems"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: WMS (Warehouse [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)는 물류 센터 내에서 자재의 입고, 보관(Location), 피킹, 출고에 이르는 모든 물리적 흐름과 작업자의 동선을 실시간으로 최적화하고 통제하는 두뇌 시스템이다.
+> 1. **본질**: WMS (Warehouse [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System)는 물류 센터 내에서 자재의 입고, 보관(Location), 피킹, 출고에 이르는 모든 물리적 흐름과 작업자의 동선을 실시간으로 최적화하고 통제하는 두뇌 시스템이다.
 > 2. **가치**: 단순 재고 기록을 넘어 3D 공간 제어와 경로 최적화를 통해, 창고 내 이동 거리를 최소화하고 선입선출 ([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/)) 규칙을 강제하여 물류 처리 속도와 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 극대화한다.
 > 3. **판단 포인트**: 현대의 WMS는 고정된 구역에 물건을 보관하는 것을 넘어, AI를 활용해 빈 공간 어디에나 무작위로 적재하는 '다이나믹 로케이션'을 구현할 수 있느냐가 핵심 경쟁력으로 작용한다.
 
@@ -61,7 +61,7 @@ WMS는 작업자에게 "무엇을 가져오라"고 종이로 주지 않는다. "
 
 WMS를 이해하려면 더 상위 개념인 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)(전사적 자원 관리)와 하위 물리 제어인 WCS(창고 제어 시스템)와의 경계를 명확히 해야 한다.
 
-| 구분 | [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)) | WMS (Warehouse [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) | WCS (Warehouse Control System) |
+| 구분 | [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)) | WMS (Warehouse [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System) | WCS (Warehouse Control System) |
 | :--- | :--- | :--- | :--- |
 | **관리 영역** | 기업 전체의 재무, 회계, 전체 재고 총액 | 특정 물류센터 내부의 실물 이동과 좌표 | 컨베이어 벨트, 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기, 로봇 제어 |
 | **시간 단위** | 일(Day) / 월(Month) 단위 집계 | 분(Minute) / 초(Second) 단위 실시간 | 밀리초(ms) 단위 기계 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 제어 |

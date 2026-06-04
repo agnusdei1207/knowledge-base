@@ -67,7 +67,7 @@ tags = ["studynote-it-management"]
 
 | 비교 대상 | 차이점 | 연결 포인트 |
 |:---|:---|:---|
-| [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) | 정책과 책임 구조를 정의한다 | 현재 주제는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름의 실행 메커니즘을 담당 |
+| [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) | 정책과 책임 구조를 정의한다 | 현재 주제는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름의 실행 메커니즘을 담당 |
 | 분석 플랫폼 | 저장·처리·[시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 기능을 제공한다 | 현재 주제는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용 기반을 세분화 |
 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 활용 | 고급 분석과 자동화를 추구한다 | 현재 주제는 신뢰 가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반을 공급 |
 
@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 475 / 587
 
-<- **이전**: [316. OLAP 드릴다운 롤업 다이스 분석](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap_operations/)
+<- **이전**: [316. OLAP 드릴다운 롤업 다이스 분석](/knowledge-base/studynote/12_it_management/05_security_compliance/958_olap_operations/)
 **다음**: [318. 데이터 레이크 스키마 온 리드 구조](/knowledge-base/studynote/12_it_management/05_security_compliance/318_architecture/) ->
 
 ---

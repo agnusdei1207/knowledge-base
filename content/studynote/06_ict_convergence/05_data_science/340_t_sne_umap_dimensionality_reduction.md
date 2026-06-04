@@ -11,7 +11,7 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: t-SNE / UMAP (T SNE UMAP [Dimensionality Reduction](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_dimensionality_reduction/)): 고차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 비선형적 이웃 관계를 저차원에 보존하는 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 특화 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) 기법를 이해하는 핵심 개념으로, 흩어진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.
+> 1. **본질**: t-SNE / UMAP (T SNE UMAP [Dimensionality Reduction](/knowledge-base/studynote/12_it_management/02_itsm_itil/863_dimensionality_reduction/)): 고차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 비선형적 이웃 관계를 저차원에 보존하는 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 특화 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) 기법를 이해하는 핵심 개념으로, 흩어진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.
 > 2. **가치**: 이 주제를 제대로 잡으면 정량 근거 확보, 예측 정확도 향상, 운영 최적화뿐 아니라 설계 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 재사용성, 운영 가시성까지 한 번에 연결해서 설명할 수 있다.
 > 3. **판단 포인트**: 기술사 답안에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, 편향, 신선도, 재현성, 해석 가능성과 범위·전제·운영 정책을 함께 제시해야 하며, 정의보다 적용 경계를 말할 수 있어야 한다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-t-SNE / UMAP (T SNE UMAP [Dimensionality Reduction](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_dimensionality_reduction/)): 고차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 비선형적 이웃 관계를 저차원에 보존하는 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 특화 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) 기법를 다루는 개념이다. 이 주제가 중요한 이유는 흩어진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 단순한 선언이 아니라 실제 설계 항목으로 바꾸기 때문이다. 다시 말해, "왜 필요한가"를 묻는 순간 이 개념은 문제를 구조화하는 언어가 된다.
+t-SNE / UMAP (T SNE UMAP [Dimensionality Reduction](/knowledge-base/studynote/12_it_management/02_itsm_itil/863_dimensionality_reduction/)): 고차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 비선형적 이웃 관계를 저차원에 보존하는 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 특화 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) 기법를 다루는 개념이다. 이 주제가 중요한 이유는 흩어진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 단순한 선언이 아니라 실제 설계 항목으로 바꾸기 때문이다. 다시 말해, "왜 필요한가"를 묻는 순간 이 개념은 문제를 구조화하는 언어가 된다.
 
 현업에서 이 개념이 빠지면 보통 정적 리포트·수동 분석에 기대게 된다. 그 방식은 출발은 쉽지만 규모가 커질수록 병목, 수작업, 책임 불분명 같은 문제가 누적되기 쉽다. 반대로 이 개념을 기준으로 보면 문제의 위치와 제어 지점을 분리해서 설명할 수 있어, 설계와 운영 모두에서 판단이 선명해진다.
 

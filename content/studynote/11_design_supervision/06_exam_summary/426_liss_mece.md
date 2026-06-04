@@ -75,7 +75,7 @@ tags = ["studynote-design-supervision"]
 | 피시본 다이어그램 | 원인군을 빠르게 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한다 | 가지 간 중복 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 약하다 | 품질 이슈 원인 정리 |
 | 브레인스토밍 | 참여자의 다양한 관점을 끌어낸다 | 구조화되지 않으면 실행안으로 연결이 약하다 | 워크숍, 초안 도출 |
 
-또한 [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/), [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 분할, 아키텍처 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 분해와도 연결된다. 결국 "잘 나눈다"는 사고는 분석 단계에서 끝나는 것이 아니라 설계와 운영까지 이어진다.
+또한 [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/), [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) 분할, 아키텍처 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 분해와도 연결된다. 결국 "잘 나눈다"는 사고는 분석 단계에서 끝나는 것이 아니라 설계와 운영까지 이어진다.
 
 - **📢 섹션 요약 비유**: 서랍장이 많다고 정리가 잘되는 것이 아니라, 어떤 물건을 어느 서랍에 넣을지 규칙이 있어야 정리가 되는 것과 같다.
 

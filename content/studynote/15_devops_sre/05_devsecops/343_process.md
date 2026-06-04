@@ -78,7 +78,7 @@ tags = ["studynote-devops-sre"]
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)마다 오너, 설명, [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)/SLO가 명시되어 있는가?
+1. [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)마다 오너, 설명, [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)/SLO가 명시되어 있는가?
 2. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀이 직접 배포하되 공통 거버넌스 검사를 자동으로 통과해야 하는 구조인가?
 3. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소비자가 셀프서비스로 찾고 요청할 수 있는 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)가 있는가?
 4. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 자율성과 보안/품질 최소 표준이 충돌할 때 조정 메커니즘이 있는가?

@@ -137,6 +137,6 @@ CVE (Common Vulnerabilities and Exposures)를 제대로 이해하면 개념 하�
 **진행 상황**: 463 / 1108
 
 <- **이전**: [408. CVSS 구성 (Base / Temporal / Environmental Metrics)](/knowledge-base/studynote/09_security/04_endpoint_security/408_cvss_metrics/)
-**다음**: [410. SQL 인젝션 (A0X Injection Overview)](/knowledge-base/studynote/09_security/05_web_app_security/410_a0x_injection_overview/) ->
+**다음**: [410. SQL 인젝션 (A0X Injection Overview)](/knowledge-base/studynote/09_security/05_web_app_security/1032_a0x_injection_overview/) ->
 
 ---

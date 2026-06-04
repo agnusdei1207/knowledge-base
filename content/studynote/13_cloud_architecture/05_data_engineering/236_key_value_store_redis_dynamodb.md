@@ -124,7 +124,7 @@ DAX: DynamoDB용 인메모리 캐시 클러스터
 | **자료구조** | 풍부 (Hash, ZSet, List…) | 단순 (Item 기반) |
 | <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a></strong> | 제한적 (MULTI/EXEC) | ACID (같은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)) |
 | **관리** | 직접 관리 or [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Cloud | 완전 관리형 ([서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)) |
-| **적합 사례** | 캐시, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/), 리더보드 | 대규모 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 앱, 완전 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) |
+| **적합 사례** | 캐시, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/), 리더보드 | 대규모 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 앱, 완전 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) |
 
 ### 캐시 패턴 비교
 

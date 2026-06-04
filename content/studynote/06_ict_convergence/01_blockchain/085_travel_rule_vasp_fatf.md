@@ -56,7 +56,7 @@ tags = ["ict_convergence"]
 | 비교 대상 | 차이점 |
 | --- | --- |
 | 은행 송금 | 메시지망이 실명 정보를 기본 포함 |
-| KYC (Know Your [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | 거래 전 고객 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 절차 |
+| KYC (Know Your [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/)) | 거래 전 고객 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 절차 |
 | 온체인 분석 | 지갑 패턴 추정은 가능하지만 실명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 불가 |
 | 셀프 호스티드 지갑(Self-hosted Wallet) | 상대방 VASP가 없을 수 있어 추가 위험 평가가 필요 |
 

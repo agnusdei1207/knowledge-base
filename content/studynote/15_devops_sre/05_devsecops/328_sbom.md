@@ -122,7 +122,7 @@ SBOM의 본질은 <strong>알 권리의 자동화</strong>다. 내가 사용하�
 | SPDX (Software Package [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Exchange) | ISO 표준 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 형식 |
 | CycloneDX | OWASP 주도 보안 중심 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 형식 |
 | VEX (Vulnerability Exploitability eXchange) | [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) + [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) 악용 가능성 표명 |
-| [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) ([Software Composition Analysis](/knowledge-base/studynote/04_software_engineering/11_testing_validation/495_sca_software_composition_analysis/)) | [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 프로세스 |
+| [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) ([Software Composition Analysis](/knowledge-base/studynote/04_software_engineering/11_testing_validation/887_sca_software_composition_analysis/)) | [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 프로세스 |
 | SLSA ([Supply chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) Levels for Software Artifacts) | 빌드 출처 보증 프레임워크 |
 
 ### 📈 관련 키워드 및 발전 흐름도

@@ -28,7 +28,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **Test-Last의 비극**: 개발자에게 "다 짜고 테스트 짜"라고 하면, 이미 뇌의 에너지를 100% 써버려서 대충 `assertTrue(true)` 같은 쓰레기 허수아비 테스트만 만들고 퇴근했다.
   2. **켄트 벡의 선언 (1990s)**: "코딩을 하기 전에 무조건 테스트부터 짜라! 닭이 먼저가 아니라 알이 먼저다!"라며 xUnit 프레임워크(JUnit의 조상)와 함께 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 사이클(Red-Green-[Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/))을 종교처럼 전파했다.
-  3. **클린 아키텍처의 도구 (현재)**: 단순히 버그를 잡는 툴이 아니라, 외부와 단절된 객체를 만들도록([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/)) 강제하는 '최고의 객체지향 설계(Design) 유도 장치'로 그 철학적 위상이 격상되었다.
+  3. **클린 아키텍처의 도구 (현재)**: 단순히 버그를 잡는 툴이 아니라, 외부와 단절된 객체를 만들도록([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/)) 강제하는 '최고의 객체지향 설계(Design) 유도 장치'로 그 철학적 위상이 격상되었다.
 
 - **📢 섹션 요약 비유**: TDD가 아닌 방식은 <strong>'과녁판 없이 일단 활부터 쏘고, 나중에 화살이 꽂힌 곳 주변에 과녁을 그리는 꼼수'</strong>입니다(백발백중처럼 보임). TDD는 <strong>'빈 벽에 과녁(테스트 코드)을 뚜렷하게 먼저 그려놓고, 화살(프로덕션 코드)이 정확히 정중앙에 꽂힐 때까지 끝없이 영점 조절(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">리팩토링</a>)을 하는 저격수의 훈련법'</strong>입니다. 과녁을 먼저 그려야만 명중을 증명할 수 있습니다.
 
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) (Test Driven Development) 생명주기은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ TDD (Test Driven Development) 생명주기 개념 정립
 
 **진행 상황**: 532 / 973
 
-<- **이전**: [470. TDD (Test Driven Development) 생명주기](/knowledge-base/studynote/04_software_engineering/11_testing_validation/470_tdd_lifecycle/)
-**다음**: [471. 소프트웨어 개발 보안 (Secure SDLC)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/471_secure_sdlc/) ->
+<- **이전**: [470. TDD (Test Driven Development) 생명주기](/knowledge-base/studynote/04_software_engineering/11_testing_validation/862_tdd_lifecycle/)
+**다음**: [471. 소프트웨어 개발 보안 (Secure SDLC)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/863_secure_sdlc/) ->
 
 ---

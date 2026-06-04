@@ -11,7 +11,7 @@ tags = ["studynote-enterprise"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SWOT-AHP는 SWOT (Strengths, Weaknesses, Opportunities, Threats)의 정성 분석을 AHP (Analytic Hierarchy [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))의 계층 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 계산으로 수치화해 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 우선순위를 도출하는 방식이다.
+> 1. **본질**: SWOT-AHP는 SWOT (Strengths, Weaknesses, Opportunities, Threats)의 정성 분석을 AHP (Analytic Hierarchy [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))의 계층 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 계산으로 수치화해 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 우선순위를 도출하는 방식이다.
 > 2. **가치**: [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 회의에서 자주 발생하는 직급·선호·정치 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 줄이고, 어떤 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)안이 더 중요한지 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 있는 근거와 함께 설명할 수 있게 해 준다.
 > 3. **판단 포인트**: 핵심은 예쁜 SWOT 표를 만드는 데 있지 않고, 요인 계층을 잘 설계하고 쌍대 비교 결과의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 비율을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해 실제 의사결정에 쓸 수 있는 점수로 바꾸는 데 있다.
 
@@ -76,7 +76,7 @@ SWOT-AHP를 이해하려면 단독 SWOT, 단독 AHP와 구분해서 보는 것�
 | AHP | 다기준 우선순위 계산 | 평가 기준 설계 부담 | 투자안 비교, 대안 선택 |
 | SWOT-AHP | [환경 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/102_environmental_analysis_pest_5forces_value_chain/)과 우선순위 계산 결합 | 설문 품질과 계층 설계 의존 | IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 정렬 |
 
-이 기법은 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 관리, IT 거버넌스, [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/)) 투자 심사와도 연결된다. 예를 들어 클라우드 전환이 기회 요인 점수는 높지만 내부 역량 약점이 심하면, 전면 전환보다 단계적 전환이 더 높은 최종 점수를 받을 수 있다. 즉 SWOT-AHP는 "좋아 보이는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"을 고르는 기법이 아니라, 조직 현실과 시장 압력을 함께 반영해 "지금 우리에게 맞는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"을 고르는 도구다.
+이 기법은 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 관리, IT 거버넌스, [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/806_ea_enterprise_architecture/)) 투자 심사와도 연결된다. 예를 들어 클라우드 전환이 기회 요인 점수는 높지만 내부 역량 약점이 심하면, 전면 전환보다 단계적 전환이 더 높은 최종 점수를 받을 수 있다. 즉 SWOT-AHP는 "좋아 보이는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"을 고르는 기법이 아니라, 조직 현실과 시장 압력을 함께 반영해 "지금 우리에게 맞는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"을 고르는 도구다.
 
 - **📢 섹션 요약 비유**: SWOT이 운동장에 선수 명단을 세우는 일이라면, AHP는 그 선수들의 포지션별 중요도를 계산하는 일이고, SWOT-AHP는 결국 어떤 선수를 선발할지 최종 라인업을 짜는 감독의 전술판과 같다.
 
@@ -109,7 +109,7 @@ SWOT-AHP의 가장 큰 효과는 [전략](/knowledge-base/studynote/04_software_
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | SWOT | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 환경을 내부·외부 요인으로 구조화하는 출발점 |
-| AHP (Analytic Hierarchy [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)) | 계층 구조 기반 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 계산과 대안 평가 수행 |
+| AHP (Analytic Hierarchy [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/)) | 계층 구조 기반 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 계산과 대안 평가 수행 |
 | 쌍대 비교 ([Pairwise](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) Comparison) | 두 요소씩 비교하여 상대 중요도를 산정 |
 | CR ([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) Ratio) | 비교 판단의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | 민감도 분석 (Sensitivity Analysis) | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 변화 시 최종 순위의 안정성을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |

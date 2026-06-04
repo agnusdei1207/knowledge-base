@@ -31,7 +31,7 @@ tags = ["studynote-bigdata"]
 
 ### 1.2 [DAMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/117_dama/) 6차원 개요
 
-[DAMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/117_dama/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Association) DMBOK이 정의한 6대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 차원:
+[DAMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/117_dama/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) Association) DMBOK이 정의한 6대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 차원:
 
 | 차원 | 영문 | 핵심 질문 |
 |:---|:---|:---|
@@ -114,7 +114,7 @@ DQS = (W1×Completeness + W2×Accuracy + W3×Consistency
 
 | 차원 | 대표 문제 | 주요 원인 |
 |:---|:---|:---|
-| 완전성 | 고객 이메일 30% NULL | 필수 [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/) 미적용, 레거시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 마이그레이션 |
+| 완전성 | 고객 이메일 30% NULL | 필수 [입력 검증](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/) 미적용, 레거시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 마이그레이션 |
 | [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/) | 주소가 실제와 다름 | 입력 오류, 이사 후 업데이트 미실시 |
 | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) vs [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 고객 수 불일치 | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 오류, 실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
 | 적시성 | 전날 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 오늘 의사결정 | [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 오류 |
@@ -125,7 +125,7 @@ DQS = (W1×Completeness + W2×Accuracy + W3×Consistency
 
 | 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질(DQ) vs [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) | 거버넌스의 목표 중 하나가 DQ 확보 |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질(DQ) vs [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) | 거버넌스의 목표 중 하나가 DQ 확보 |
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 vs [데이터 정제](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/266_data_cleansing/)(Cleansing) | 정제는 DQ 향상을 위한 활동 |
 | DQ 차원 vs DQ 규칙 | 차원은 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계, 규칙은 세부 검사 기준 |
 
@@ -194,7 +194,7 @@ FROM customers;
 
 ### 5.2 결론
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 6차원은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 얼마나 좋은가"를 다각도에서 측정하는 <strong>표준 언어</strong>다. 조직마다 비즈니스 우선순위에 따라 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 다르게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하되, 모든 차원을 지속적으로 측정하고 개선하는 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질 관리 체계(DQM, <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/">Data Quality</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)</strong>를 구축해야 한다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 6차원은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 얼마나 좋은가"를 다각도에서 측정하는 <strong>표준 언어</strong>다. 조직마다 비즈니스 우선순위에 따라 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 다르게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하되, 모든 차원을 지속적으로 측정하고 개선하는 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질 관리 체계(DQM, <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/">Data Quality</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/">Management</a>)</strong>를 구축해야 한다.
 
 **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 관리는 <strong>지속적인 운동 습관</strong>과 같다. 한 번 좋아진다고 끝이 아니라, 꾸준히 측정하고 관리해야 오래 건강(품질)을 유지할 수 있다.
 
@@ -209,7 +209,7 @@ FROM customers;
 | AWS Deequ | 측정 도구 | Spark 기반 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 검사 |
 | [MDM](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) | 연계 기술 | 유일성·[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 확보를 위한 [마스터 데이터 관리](/knowledge-base/studynote/12_it_management/01_governance_strategy/051_mdm_master_data_management/) |
 | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) | 적용 위치 | DQ 검사가 삽입되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 |
-| [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) | 방법론 연계 | DQ 검사를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD에 통합한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 운영 방식 |
+| [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/965_dataops/) | 방법론 연계 | DQ 검사를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD에 통합한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 운영 방식 |
 | Completeness | 6차원 중 하나 | 결측값 없는 완전한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 
 ---

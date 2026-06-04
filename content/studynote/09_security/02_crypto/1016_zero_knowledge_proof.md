@@ -136,7 +136,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 128 / 1108
 
-<- **이전**: [1016. Zero Knowledge Proof (ZKP)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1016_zero_knowledge_proof/)
+<- **이전**: [1016. Zero Knowledge Proof (ZKP)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1097_zero_knowledge_proof/)
 **다음**: [1017. Commitment Scheme (약속 기법)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1017_commitment_scheme/) ->
 
 ---

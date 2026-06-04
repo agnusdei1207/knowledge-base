@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 가치 함수 (Value Function)는 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) ([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/)) 에이전트가 어떤 상태나 행동이 장기적으로 얼마나 유리한지 숫자로 표현한 미래 기대 보상 지도다.
+> 1. **본질**: 가치 함수 (Value Function)는 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) ([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/)) 에이전트가 어떤 상태나 행동이 장기적으로 얼마나 유리한지 숫자로 표현한 미래 기대 보상 지도다.
 > 2. **가치**: 즉시 보상 ([Immediate](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/) Reward)만 보면 보이지 않는 우회 경로, 희소 보상 (Sparse Reward), [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 보상 (Delayed Reward) 문제를 가치 함수가 연결해 주기 때문에 장기 최적화가 가능해진다.
 > 3. **판단 포인트**: 상태 가치 함수 $V$와 행동 가치 함수 $Q$ 중 무엇을 학습할지, 그리고 표 기반 (Tabular)으로 둘지 함수 근사 (Function Approximation)로 확장할지는 상태 공간 크기와 행동 선택 방식에 따라 달라진다.
 
@@ -31,7 +31,7 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-가치 함수는 할인율 (Discount Factor) $\gamma$를 사용해 미래 보상을 현재 시점으로 환산한다. 상태 가치 함수 $V^\[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/)(s)$는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) $\[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/)$를 따를 때 상태 $s$의 장기 가치를, 행동 가치 함수 $Q^\[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/)(s, a)$는 상태 $s$에서 행동 $a$를 했을 때의 장기 가치를 뜻한다. 핵심은 "현재 가치 = 지금 보상 + 다음 상태 가치의 할인 합"이라는 [벨만 방정식](/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/) ([Bellman Equation](/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/))이다.
+가치 함수는 할인율 (Discount Factor) $\gamma$를 사용해 미래 보상을 현재 시점으로 환산한다. 상태 가치 함수 $V^\[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/)(s)$는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) $\[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/)$를 따를 때 상태 $s$의 장기 가치를, 행동 가치 함수 $Q^\[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/)(s, a)$는 상태 $s$에서 행동 $a$를 했을 때의 장기 가치를 뜻한다. 핵심은 "현재 가치 = 지금 보상 + 다음 상태 가치의 할인 합"이라는 [벨만 방정식](/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/) ([Bellman Equation](/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/))이다.
 
 | 구분 | 질문 | 주 용도 | 대표 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 | :--- | :--- | :--- | :--- |
@@ -78,7 +78,7 @@ tags = ["studynote-ai"]
 
 또 상태 가치 함수 $V$는 상태 자체의 수준을 보고, 행동 가치 함수 $Q$는 행동별 차이를 본다. 그래서 행동 공간이 명확한 이산 문제에서는 $Q$ 기반 방법이 직관적이고, 연속 제어처럼 행동이 매우 많은 문제에서는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반이나 [액터-크리틱](/knowledge-base/studynote/10_ai/02_dl_architecture_new/172_actor_critic/) 구조가 더 자연스럽다. 액터는 행동을 만들고, 크리틱은 가치 함수를 계산해 액터를 교정한다.
 
-즉 가치 함수는 독립 개념이 아니라 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)의 다른 부품들과 맞물려 동작한다. 모델 기반 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) (Model-Based [Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/))에서는 환경 예측 모델과 결합해 계획을 세우고, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)에서는 학습 방향을 안정화하는 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 역할을 한다.
+즉 가치 함수는 독립 개념이 아니라 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)의 다른 부품들과 맞물려 동작한다. 모델 기반 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) (Model-Based [Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/))에서는 환경 예측 모델과 결합해 계획을 세우고, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)에서는 학습 방향을 안정화하는 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 역할을 한다.
 
 - **📢 섹션 요약 비유**: 보상은 한 끼 식사 평가표, 가치 함수는 맛집 평점 누적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 오늘 어디로 갈지 정하는 선택 리스트와 같다.
 
@@ -111,7 +111,7 @@ tags = ["studynote-ai"]
 
 가치 함수가 잘 학습되면 에이전트는 단기 유혹보다 장기 성과를 우선하는 결정을 할 수 있다. 이는 탐색 효율 향상, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 개선 가속, 희소 보상 문제 완화로 이어진다. 특히 [액터-크리틱](/knowledge-base/studynote/10_ai/02_dl_architecture_new/172_actor_critic/) 계열에서는 가치 함수가 학습의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 줄이는 안전장치 역할까지 맡는다.
 
-다만 가치 함수는 어디까지나 추정치다. 함수 근사 오차, 분포 이동 (Distribution Shift), 보상 설계 오류가 있으면 잘못된 미래를 자신 있게 예측할 수 있다. 그래서 최근에는 분포형 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) (Distributional [Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/)), 불확실성 추정, 오프라인 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 같은 방향으로 가치 추정의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 높이고 있다.
+다만 가치 함수는 어디까지나 추정치다. 함수 근사 오차, 분포 이동 (Distribution Shift), 보상 설계 오류가 있으면 잘못된 미래를 자신 있게 예측할 수 있다. 그래서 최근에는 분포형 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) (Distributional [Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/)), 불확실성 추정, 오프라인 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 같은 방향으로 가치 추정의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 높이고 있다.
 
 정리하면 가치 함수는 "미래를 숫자로 접어 넣은 요약본"으로 기억하면 좋다. [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)의 성패는 보상을 얼마나 잘 주느냐만이 아니라, 그 보상이 미래 전체와 어떻게 연결되는지를 가치 함수로 얼마나 안정적으로 학습하느냐에 달려 있다.
 

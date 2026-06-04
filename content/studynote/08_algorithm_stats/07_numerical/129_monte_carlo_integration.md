@@ -12,7 +12,7 @@ tags = ["studynote-algorithm"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 몬테카를로 수치적분(Monte Carlo Integration)은 무작위 표본 추출(Random [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/))로 적분값을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 추정하는 방법으로, 오차가 O(1/√n) — 차원에 무관한 수렴 속도가 핵심이다.
-> 2. **가치**: 고차원 적분(금융 파생상품 가격, 물리 시뮬레이션)에서 결정론적 방법(수치 구적법)이 차원의 저주([Curse of Dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_curse_of_dimensionality/))로 무너질 때 몬테카를로가 유일한 실용 방법이다.
+> 2. **가치**: 고차원 적분(금융 파생상품 가격, 물리 시뮬레이션)에서 결정론적 방법(수치 구적법)이 차원의 저주([Curse of Dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/864_curse_of_dimensionality/))로 무너질 때 몬테카를로가 유일한 실용 방법이다.
 > 3. **판단 포인트**: 수렴 속도 O(1/√n)은 차원 d와 무관 — 결정론적 구적법이 O(n^(-k/d)) (k: 적분 차수, d: 차원)에서 d가 커질수록 급격히 비효율화되는 것과 대비된다.
 
 ---

@@ -23,7 +23,7 @@ tags = ["studynote-enterprise"]
 
 이 방식이 필요한 이유는 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)이 대부분의 시간을 낭비하기 때문이다. 예를 들어 결제 상태를 3초마다 조회하면, 실제 결제가 발생하지 않은 대부분의 요청은 의미 없는 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 작업에 그친다. 반면 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)은 상태 변화가 생긴 순간에만 호출하므로 공급자와 소비자 모두 네트워크 부하와 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간을 줄일 수 있다.
 
-특히 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) ([Software as a Service](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/185_saas_software_as_a_service/)) 연동에서는 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)의 가치가 크다. GitHub, Stripe, Slack, Jira 같은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 내부 이벤트를 외부 시스템으로 흘려보내야 생태계가 확장되는데, 이때 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)은 가장 단순하고 널리 호환되는 전달 수단이 된다.
+특히 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) ([Software as a Service](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/185_saas_software_as_a_service/)) 연동에서는 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)의 가치가 크다. GitHub, Stripe, Slack, Jira 같은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 내부 이벤트를 외부 시스템으로 흘려보내야 생태계가 확장되는데, 이때 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)은 가장 단순하고 널리 호환되는 전달 수단이 된다.
 
 - **📢 섹션 요약 비유**: [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)은 택배가 왔는지 매분 경비실에 전화하는 방식이 아니라, 택배가 도착하면 경비실이 바로 인터폰을 눌러 주는 알림 방식과 같다.
 
@@ -70,11 +70,11 @@ tags = ["studynote-enterprise"]
 | :--- | :--- | :--- | :--- |
 | 통신 방향 | 공급자 -> 소비자 푸시 | 소비자 -> 공급자 반복 조회 | 양방향 상시 연결 |
 | 연결 특성 | 요청 단위 단발 호출 | 주기적 요청 반복 | 장기 연결 유지 |
-| 적합 사례 | 결제 완료, 배포 이벤트, [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 연동 | 단순 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 레거시 호환 | 채팅, 협업, 게임 |
+| 적합 사례 | 결제 완료, 배포 이벤트, [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 연동 | 단순 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 레거시 호환 | 채팅, 협업, 게임 |
 | 장점 | 단순 구현, 이벤트 즉시성 | [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 친화적, 제어 단순 | 실시간 상호작용 우수 |
 | 약점 | 중복/순서/보안 고려 필요 | 불필요한 조회 낭비 | 연결 관리와 확장 복잡 |
 
-또한 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)은 [이벤트 기반 아키텍처](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/538_event_driven_architecture_eda/) ([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/), [Event Driven Architecture](/knowledge-base/studynote/04_software_engineering/11_testing_validation/538_event_driven_architecture/))와도 연결된다. 외부 시스템에는 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)으로 사건을 알리고, 내부 시스템에서는 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐나 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/)로 후속 처리하는 하이브리드 구조가 흔하다. 즉 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)은 전체 비동기 아키텍처의 한 끝단이지, 모든 이벤트 전달 문제를 단독으로 해결하는 만능 솔루션은 아니다.
+또한 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)은 [이벤트 기반 아키텍처](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/538_event_driven_architecture_eda/) ([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/), [Event Driven Architecture](/knowledge-base/studynote/04_software_engineering/11_testing_validation/930_event_driven_architecture/))와도 연결된다. 외부 시스템에는 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)으로 사건을 알리고, 내부 시스템에서는 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐나 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/931_event_bus_stream_processing/)로 후속 처리하는 하이브리드 구조가 흔하다. 즉 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)은 전체 비동기 아키텍처의 한 끝단이지, 모든 이벤트 전달 문제를 단독으로 해결하는 만능 솔루션은 아니다.
 
 - **📢 섹션 요약 비유**: [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)은 매 시간 우체통을 열어 보는 일이고, [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)은 우체부가 벨을 눌러 주는 일이며, WebSocket은 전화기를 계속 붙들고 실시간으로 대화하는 일과 같다.
 
@@ -94,7 +94,7 @@ tags = ["studynote-enterprise"]
 
 ### 채택 판단
 
-- **적합**: 결제 승인, 코드 푸시 알림, 주문 상태 변경, [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 간 느슨한 서버-서버 연동
+- **적합**: 결제 승인, 코드 푸시 알림, 주문 상태 변경, [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 간 느슨한 서버-서버 연동
 - **보완 필요**: 사내망만 허용되어 외부에서 들어오는 호출을 받기 어려운 환경
 - **부적합**: 초저지연 양방향 상호작용, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 유지가 중요한 대화형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)
 

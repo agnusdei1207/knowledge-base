@@ -172,6 +172,6 @@ SBA의 기대효과는 [초고속](/knowledge-base/studynote/06_ict_convergence/
 **진행 상황**: 242 / 530
 
 <- **이전**: [185. 피어투피어 아키텍처 (Peer-to-Peer Architecture)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/185_peer_to_peer_architecture/)
-**다음**: [186. 스페이스 기반 아키텍처 투플 맵핑 구조 (Space-Based Tuple Mapping)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/186_space_based_tuple_mapping/) ->
+**다음**: [186. 스페이스 기반 아키텍처 투플 맵핑 구조 (Space-Based Tuple Mapping)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/657_space_based_tuple_mapping/) ->
 
 ---

@@ -83,7 +83,7 @@ IP 코어에서 IP는 지식 재산 (Intellectual Property)을 뜻한다. 즉 IP
 | 지원 방식 | 벤더 중심 | 커뮤니티 + 자체 역량 중심 |
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 책임 | 벤더와 계약에 크게 의존 | 최종 통합 책임은 사용자에게 더 크게 남음 |
 
-오픈 소스 IP 코어는 오픈타이탄 ([OpenTitan](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/802_opentitan/)) 같은 보안 프로젝트와도 연결된다. OpenTitan은 신뢰의 뿌리 ([Root of Trust](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/487_root_of_trust/), RoT) 블록을 공개해, 하드웨어 보안의 핵심부를 검토 가능하게 만든 대표 사례다. 반대로 프로세스 설계 키트 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Design Kit, PDK)나 특정 고속 인터페이스 물리 계층처럼 아직 닫힌 층도 많으므로, 오픈 코어를 쓴다고 해서 칩 개발 전 과정이 자동으로 완전 개방되는 것은 아니다.
+오픈 소스 IP 코어는 오픈타이탄 ([OpenTitan](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/802_opentitan/)) 같은 보안 프로젝트와도 연결된다. OpenTitan은 신뢰의 뿌리 ([Root of Trust](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/487_root_of_trust/), RoT) 블록을 공개해, 하드웨어 보안의 핵심부를 검토 가능하게 만든 대표 사례다. 반대로 프로세스 설계 키트 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Design Kit, PDK)나 특정 고속 인터페이스 물리 계층처럼 아직 닫힌 층도 많으므로, 오픈 코어를 쓴다고 해서 칩 개발 전 과정이 자동으로 완전 개방되는 것은 아니다.
 
 결국 중요한 것은 오픈 소스 IP 코어가 폐쇄형 IP의 완전 대체재인지보다, <strong>어느 부분에서 비용과 투명성 이득을 얻고, 어느 부분은 여전히 자체 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>과 벤더 협력이 필요한지</strong>를 구분하는 것이다.
 
@@ -110,7 +110,7 @@ IP 코어에서 IP는 지식 재산 (Intellectual Property)을 뜻한다. 즉 IP
 - 기능 시뮬레이션만 통과하면 끝이라고 보고 타이밍, 전력, 테스트 용이성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 건너뛰는 개발
 - 오픈이니까 자동으로 안전하다고 믿고, 보안 리뷰와 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 생략하는 태도
 
-기술사 답안에서는 오픈 소스 IP 코어를 "무료 코어" 정도로 쓰면 부족하다. <strong>오픈 ISA와 오픈 구현의 차이, <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 책임의 이동, 라이선스와 silicon-proven 여부, <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/">보안 감사</a> 가능성</strong>까지 함께 써야 실무 판단력이 드러난다.
+기술사 답안에서는 오픈 소스 IP 코어를 "무료 코어" 정도로 쓰면 부족하다. <strong>오픈 ISA와 오픈 구현의 차이, <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 책임의 이동, 라이선스와 silicon-proven 여부, <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/919_security_audit_trail/">보안 감사</a> 가능성</strong>까지 함께 써야 실무 판단력이 드러난다.
 
 - **📢 섹션 요약 비유**: 공개 설계도로 집을 짓는 것은 자재비를 아끼는 데 도움이 되지만, 구조 계산과 시공 검사는 여전히 내 책임이다. 설계도가 열려 있다고 해서 집이 저절로 튼튼해지지는 않는다.
 
@@ -136,7 +136,7 @@ IP 코어에서 IP는 지식 재산 (Intellectual Property)을 뜻한다. 즉 IP
 | [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 전송 수준 ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) Transfer Level, RTL) | 코어의 실제 동작이 공개되는 핵심 표현 계층이다. |
 | 개방형 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조 ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)) | RISC-V처럼 ISA가 열려 있어도 구현 코어가 자동으로 오픈되는 것은 아니라는 비교 축을 제공한다. |
 | 오픈타이탄 ([OpenTitan](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/802_opentitan/)) | 보안 핵심 블록까지 공개 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 오픈 하드웨어 사례다. |
-| 프로세스 설계 키트 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Design Kit, PDK) | 오픈 코어를 실제 공정에 내릴 때 여전히 닫혀 있을 수 있는 하위 계층이다. |
+| 프로세스 설계 키트 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Design Kit, PDK) | 오픈 코어를 실제 공정에 내릴 때 여전히 닫혀 있을 수 있는 하위 계층이다. |
 | silicon-proven | 실제 칩 생산과 동작 경험이 있어 제품 적용 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 낮추는 중요한 성숙도 지표다. |
 
 ### 📈 관련 키워드 및 발전 흐름도

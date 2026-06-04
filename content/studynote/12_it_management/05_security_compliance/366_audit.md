@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 572 / 587
 
-<- **이전**: [365. 객체지향 5원칙 SOLID 위배 코드 냄새(Code Smell) 리팩토링 검증](/knowledge-base/studynote/12_it_management/05_security_compliance/365_solid_principles_code_smell/)
-**다음**: [366. 디자인 패턴 퍼사드, 전략, 옵저버 패턴 강결합 해소 구조 감사](/knowledge-base/studynote/12_it_management/05_security_compliance/366_design_pattern_audit/) ->
+<- **이전**: [365. 객체지향 5원칙 SOLID 위배 코드 냄새(Code Smell) 리팩토링 검증](/knowledge-base/studynote/12_it_management/05_security_compliance/1006_solid_principles_code_smell/)
+**다음**: [366. 디자인 패턴 퍼사드, 전략, 옵저버 패턴 강결합 해소 구조 감사](/knowledge-base/studynote/12_it_management/05_security_compliance/1007_design_pattern_audit/) ->
 
 ---

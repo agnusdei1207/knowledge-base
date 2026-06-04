@@ -110,7 +110,7 @@ SAN (Storage Area Network)은(는) [NAS](/knowledge-base/studynote/02_operating_
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 아키텍처 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 및 통합 지표 체계
+### 아키텍처 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 및 통합 지표 체계
 
 | 시스템 운영 아키텍처 레이어 | [NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) 기반 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) RDB 구축시 한계 | SAN 백플레인 무결점 융합 시 | 도입 [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 기대 파장 |
 |:---|:---|:---|:---|

@@ -48,7 +48,7 @@ ML 시스템 구성 요소:
 |:---|:---|:---|
 | **Level 0** | 수동 훈련·배포 | 없음 |
 | **Level 1** | ML 파이프라인 자동화, [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)([Continuous Training](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)) | 부분 |
-| **Level 2** | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD/[CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 완전 자동화, [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/), 모니터링 | 완전 |
+| **Level 2** | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD/[CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 완전 자동화, [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/), 모니터링 | 완전 |
 
 📢 **섹션 요약 비유**: [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 없는 ML은 자동차를 만들어 놓고 정비소가 없는 것과 같다. 처음엔 잘 달리지만 시간이 지나면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 떨어지고, 문제가 생겨도 언제 어디서 망가졌는지 알 수 없다.
 
@@ -139,11 +139,11 @@ PSI 해석 기준: PSI < 0.1 (안정), 0.1~0.2 (경고), > 0.2 (재훈련 필요
 
 ## Ⅲ. 비교 및 연결
 
-### 3.1 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD/[CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 파이프라인 비교
+### 3.1 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD/[CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 파이프라인 비교
 
 | 개념 | 의미 | ML 맥락 |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/">Continuous Integration</a>)</strong> | 코드 지속 통합·테스트 | [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 코드·훈련 코드 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/">Continuous Integration</a>)</strong> | 코드 지속 통합·테스트 | [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 코드·훈련 코드 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) |
 | <strong>CD(<a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/">Continuous Delivery</a>)</strong> | 자동 배포 준비 | 검증된 모델 스테이징 자동 배포 |
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/">CT</a>(<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/">Continuous Training</a>)</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변화 시 자동 재훈련 | 드리프트 탐지 -> 재훈련 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) |
 
@@ -205,7 +205,7 @@ PSI 해석 기준: PSI < 0.1 (안정), 0.1~0.2 (경고), > 0.2 (재훈련 필요
 
 ### 5.2 결론
 
-MLOps는 ML을 연구 프로젝트에서 신뢰할 수 있는 비즈니스 인프라로 격상시키는 운영 철학이다. [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)·드리프트 모니터링·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD/[CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 파이프라인의 삼각 구도가 완성될 때, ML 시스템은 자가 치유(Self-healing)에 가까운 자동화된 생명 주기를 갖추게 된다.
+MLOps는 ML을 연구 프로젝트에서 신뢰할 수 있는 비즈니스 인프라로 격상시키는 운영 철학이다. [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)·드리프트 모니터링·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD/[CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 파이프라인의 삼각 구도가 완성될 때, ML 시스템은 자가 치유(Self-healing)에 가까운 자동화된 생명 주기를 갖추게 된다.
 
 📢 **섹션 요약 비유**: [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 완성은 자율주행 자동차와 같다. 처음엔 사람이 직접 운전했고(수동 ML), 다음엔 GPS·브레이크 보조 장치가 생겼고(Level 1 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/)), 완전 자율주행(Level 2 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/))에서는 차가 스스로 경로를 수정하고 정비소를 예약한다.
 
@@ -215,7 +215,7 @@ MLOps는 ML을 연구 프로젝트에서 신뢰할 수 있는 비즈니스 인�
 
 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
-| 핵심 패러다임 | [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/)([Machine Learning Operations](/knowledge-base/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/)) | ML [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD/[CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 자동화 |
+| 핵심 패러다임 | [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/)([Machine Learning Operations](/knowledge-base/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/)) | ML [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD/[CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 자동화 |
 | 문제 탐지 | [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)([Data Drift](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)) | 입력 분포 P(X) 변화 |
 | 문제 탐지 | [컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/)([Concept Drift](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/)) | 입력-출력 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) P(Y\|X) 변화 |
 | 탐지 지표 | PSI([Population Stability Index](/knowledge-base/studynote/06_ict_convergence/05_data_science/417_mlops_data_drift_psi/)) | 분포 안정성 수치화 |

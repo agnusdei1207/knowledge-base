@@ -144,7 +144,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 197 / 587
 
-<- **이전**: [106. 기술 아키텍처 (TA) 현황 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/)
-**다음**: [107. 차이 분석 (Gap Analysis)](/knowledge-base/studynote/12_it_management/03_ea_isp/107_gap_analysis_task_identification/) ->
+<- **이전**: [106. 기술 아키텍처 (TA) 현황 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/890_ta_as_is_analysis/)
+**다음**: [107. 차이 분석 (Gap Analysis)](/knowledge-base/studynote/12_it_management/03_ea_isp/891_gap_analysis_task_identification/) ->
 
 ---

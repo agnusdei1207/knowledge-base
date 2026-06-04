@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/) ([Diffusion Model](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/))은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 가우시안 노이즈를 점진적으로 추가하는 순방향 과정 ([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))과 노이즈에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복원하는 역방향 과정 (Reverse [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))을 [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/)으로 정의하며, 신경망이 역방향 전이 분포를 학습한다.
+> 1. **본질**: [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/) ([Diffusion Model](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/))은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 가우시안 노이즈를 점진적으로 추가하는 순방향 과정 ([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))과 노이즈에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복원하는 역방향 과정 (Reverse [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))을 [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/)으로 정의하며, 신경망이 역방향 전이 분포를 학습한다.
 > 2. **가치**: DDPM (Denoising Diffusion Probabilistic Models)의 핵심 통찰은 역방향 단계에서 추가된 노이즈 ε을 예측하면 수학적으로 다루기 쉬운 학습 목표가 도출된다는 것이다.
 > 3. **판단 포인트**: 노이즈 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) (β [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)), 샘플링 가속 (DDIM의 비마르코프 결정론적 샘플링), UNet 아키텍처의 어텐션 통합이 현대 [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)의 핵심 설계 요소다.
 
@@ -38,7 +38,7 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 순방향 과정 ([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))
+### 순방향 과정 ([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))
 
 ```
 T단계에 걸쳐 가우시안 노이즈 추가:
@@ -51,7 +51,7 @@ q(xₜ|x₀) = N(xₜ; √ᾱₜ·x₀, (1-ᾱₜ)I)
 xₜ = √ᾱₜ·x₀ + √(1-ᾱₜ)·ε,  ε ~ N(0,I)
 ```
 
-### 역방향 과정 (Reverse [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))
+### 역방향 과정 (Reverse [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))
 
 ```
 학습 목표: 역전이 분포 pθ(xₜ₋₁|xₜ) 추정

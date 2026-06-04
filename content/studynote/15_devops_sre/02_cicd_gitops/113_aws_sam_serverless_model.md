@@ -10,7 +10,7 @@ tags = ["studynote-devops-sre"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: AWS SAM([Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) Application Model)은 <strong>CloudFormation의 확장 문법</strong>으로, [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)·[API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/)·[DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/)·Step Functions 등 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 리소스를 <strong>간결한 YAML로 선언</strong>하고 `sam deploy`로 배포하는 AWS 공식 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 도구다.
+> 1. **본질**: AWS SAM([Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) Application Model)은 <strong>CloudFormation의 확장 문법</strong>으로, [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)·[API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/)·[DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/)·Step Functions 등 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 리소스를 <strong>간결한 YAML로 선언</strong>하고 `sam deploy`로 배포하는 AWS 공식 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 도구다.
 > 2. **가치**: CloudFormation으로 Lambda를 배포하면 50+ 줄 YAML이 필요하지만, SAM은 `AWS::Serverless::Function` 매크로로 <strong>10줄로 축약</strong>하며, `sam local invoke`로 <strong>로컬에서 Lambda를 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a> 에뮬레이션</strong>하여 배포 전 테스트가 가능하다.
 > 3. **판단 포인트**: SAM은 AWS 전용([벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/))이지만 CloudFormation 네이티브이므로 <strong>기존 CF <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>과 완벽 호환</strong>되며, [Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) Framework(멀티클라우드)·SST(TypeScript 네이티브)와 비교하여 AWS 올인 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에서 가장 자연스러운 선택이다.
 
@@ -51,7 +51,7 @@ CloudFormation으로 [Lambda](/knowledge-base/studynote/14_data_engineering/05_e
 | SAM 타입 | 확장 대상 | 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 리소스 |
 |:---|:---|:---|
 | `AWS::Serverless::Function` | [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) | [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) Role, CloudWatch [Logs](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) |
-| `AWS::Serverless::Api` | [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) | RestApi, Stage, [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) |
+| `AWS::Serverless::Api` | [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/) | RestApi, Stage, [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) |
 | `AWS::Serverless::SimpleTable` | [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) | 단일 키 테이블 |
 | `AWS::Serverless::StateMachine` | Step Functions | 상태 머신 |
 
@@ -62,7 +62,7 @@ CloudFormation으로 [Lambda](/knowledge-base/studynote/14_data_engineering/05_e
 | `sam init` | 프로젝트 스캐폴딩 |
 | `sam build` | [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 설치 + 패키징 |
 | `sam local invoke` | <strong>로컬 Docker에서 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/">Lambda</a> 실행</strong> |
-| `sam local start-api` | 로컬에서 [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) 에뮬레이션 |
+| `sam local start-api` | 로컬에서 [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/) 에뮬레이션 |
 | `sam deploy --guided` | CloudFormation [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 배포 |
 
 - **📢 섹션 요약 비유**: `sam local invoke`는 요리를 손님에게 내기 전 <strong>주방에서 맛보기</strong>하는 것이다.
@@ -82,7 +82,7 @@ CloudFormation으로 [Lambda](/knowledge-base/studynote/14_data_engineering/05_e
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 통합
+### [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 통합
 ```yaml
 # GitHub Actions 예시
 - run: sam build
@@ -112,7 +112,7 @@ SAM은 AWS의 공식 [서버리스](/knowledge-base/studynote/12_it_management/0
 |:---|:---|
 | **CloudFormation** | SAM의 기반, SAM 템플릿은 CF로 변환됨 |
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/">Lambda</a></strong> | SAM이 관리하는 핵심 컴퓨팅 리소스 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/">API Gateway</a></strong> | SAM Events로 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 엔드포인트 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/">API Gateway</a></strong> | SAM Events로 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 엔드포인트 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">Serverless</a> Framework</strong> | 멀티클라우드 경쟁 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 도구 |
 | **CDK** | SAM과 통합하여 프로그래밍 언어로 인프라 정의 |
 

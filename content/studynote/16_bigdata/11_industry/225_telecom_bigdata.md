@@ -19,7 +19,7 @@ tags = ["studynote-bigdata"]
 
 ## Ⅰ. 개요 및 필요성
 
-통신 산업은 수억 명의 고객이 24시간 발생시키는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간으로 처리해야 하는 극한 환경이다. 네트워크 장애 1분이 수천만 원의 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) 위약금과 고객 신뢰 손실로 이어진다.
+통신 산업은 수억 명의 고객이 24시간 발생시키는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간으로 처리해야 하는 극한 환경이다. 네트워크 장애 1분이 수천만 원의 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)) 위약금과 고객 신뢰 손실로 이어진다.
 
 ### 통신 빅데이터 4대 영역
 
@@ -155,9 +155,9 @@ Cox Proportional Hazard 모델:
 | 효과 | 수치 예시 |
 |:---|:---|
 | 네트워크 장애 감소 | 예측 기반 예방으로 장애 발생 30~50% 감소 |
-| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 위약금 절감 | 장애 예방으로 연간 수십억 원 절감 |
+| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 위약금 절감 | 장애 예방으로 연간 수십억 원 절감 |
 | 고객 이탈 감소 | 선제 개입으로 이탈율 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~20% 감소 |
-| 마케팅 효율 | 타겟 오퍼로 캠페인 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 3~5배 향상 |
+| 마케팅 효율 | 타겟 오퍼로 캠페인 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 3~5배 향상 |
 
 **결론**: 통신 빅데이터는 네트워크 운영 효율화와 [고객 생애 가치](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/) 극대화를 동시에 추구한다. CDR의 적절한 활용과 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)의 균형, 그리고 실시간 스트리밍 처리 역량이 통신사 빅데이터 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 3대 축이다.
 

@@ -133,7 +133,7 @@ DB 서버 레이어:
 | **ACID** | [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/) |
 | <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/">RBAC</a></strong> | 역할 기반 [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/) 표준 |
 | <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/">GDPR</a></strong> | [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 보안·[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 법규 |
-| <strong>SQL <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/">인젝션</a></strong> | DB 보안 주요 위협 |
+| <strong>SQL <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/">인젝션</a></strong> | DB 보안 주요 위협 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/">데이터 메시</a></strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)·보안 패러다임 |
 
 ### 📈 관련 키워드 및 발전 흐름도

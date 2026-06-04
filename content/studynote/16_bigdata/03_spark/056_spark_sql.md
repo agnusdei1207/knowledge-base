@@ -122,7 +122,7 @@ result = spark.sql("SELECT * FROM hive_db.sales WHERE year = 2024")
 
 | 비교 항목 | [Apache Hive](/knowledge-base/studynote/14_data_engineering/01_infrastructure/028_apache_hive/) | Spark SQL |
 |:---|:---|:---|
-| 실행 엔진 | [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) / Tez | [Spark RDD](/knowledge-base/studynote/12_it_management/05_security_compliance/325_spark_rdd/) (인메모리) |
+| 실행 엔진 | [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) / Tez | [Spark RDD](/knowledge-base/studynote/12_it_management/05_security_compliance/966_spark_rdd/) (인메모리) |
 | [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) | 수 분~수십 분 | 수 초~수 분 |
 | 처리 방식 | 배치 전용 | 배치 + 인터랙티브 + 스트리밍 |
 | SQL 표준 | HQL (확장 SQL) | ANSI SQL (3.x+에서 강화) |

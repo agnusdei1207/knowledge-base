@@ -11,7 +11,7 @@ tags = ["studynote-design"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 리스크 (Risk)와 비리스크 (Non-risk)는 [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Trade-off Analysis Method) 등 아키텍처 평가에서, 설계 결정이 요구되는 [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/)를 달성하는 데 미치는 위협의 정도를 분류한 결과물이다.
+> 1. **본질**: 리스크 (Risk)와 비리스크 (Non-risk)는 [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Trade-off Analysis Method) 등 아키텍처 평가에서, 설계 결정이 요구되는 [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/993_process/)를 달성하는 데 미치는 위협의 정도를 분류한 결과물이다.
 > 2. **가치**: 코딩이 시작되기 전인 설계 단계에서 치명적인 실패 요인을 조기에 적발하여([Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)), 천문학적인 재설계 비용을 예방하고 프로젝트의 생존을 보장한다.
 > 3. **판단 포인트**: 특정 설계 방식(전술)이 비즈니스 목표를 무너뜨린다면 리스크로 규정하여 즉시 수정하고, 수용 가능한 한계 내에 있거나 긍정적이면 비리스크로 문서화하여 책임을 명확히 한다.
 
@@ -56,7 +56,7 @@ tags = ["studynote-design"]
 
 | 구분 | 리스크 (Risk) | 비리스크 (Non-risk) |
 | :--- | :--- | :--- |
-| **정의** | [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/) 달성을 위협하는 설계 결정 | 현재 시나리오 하에서 수용 가능하거나 긍정적인 결정 |
+| **정의** | [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/993_process/) 달성을 위협하는 설계 결정 | 현재 시나리오 하에서 수용 가능하거나 긍정적인 결정 |
 | **조치 방향** | 즉각적인 아키텍처 수정 및 완화([Mitigation](/knowledge-base/studynote/09_security/12_identity_threat_advanced/605_golden_silver_ticket_mitigation/)) 계획 수립 | 아키텍처 결정 문서(AD)에 기록하고 모니터링 유지 |
 | **비즈니스 영향** | 방치 시 프로젝트 실패 및 막대한 금전적 손실 유발 | 현재 목표 달성에 기여, 혹은 무해한 상태 |
 | **변화 가능성** | 재설계를 통해 비리스크로 전환되어야 함 | 요구사항 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 초과 시 미래에 리스크로 돌변 가능 |
@@ -97,7 +97,7 @@ tags = ["studynote-design"]
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/">ATAM</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a> Trade-off Analysis Method)</strong> | 리스크와 비리스크를 도출하는 카네기멜론 대학의 아키텍처 평가 표준 |
 | <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/">민감도점</a> (<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/">Sensitivity Point</a>)</strong> | 특정 아키텍처 결정이 특정 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)에 크게 영향을 미치는 지점 |
 | <strong>타협점 (<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/">Trade-off Point</a>)</strong> | 여러 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 간의 충돌이 발생하여 균형을 맞춰야 하는 지점 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/">품질 속성 시나리오</a> (QA Scenario)</strong> | 리스크인지 아닌지를 판정하는 절대적인 측정 기준 (예: 응답시간, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/993_process/">품질 속성 시나리오</a> (QA Scenario)</strong> | 리스크인지 아닌지를 판정하는 절대적인 측정 기준 (예: 응답시간, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

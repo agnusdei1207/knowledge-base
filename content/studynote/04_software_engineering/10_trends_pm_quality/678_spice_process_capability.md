@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어 품질을 높이려면 결과물(Product)을 검사하는 것만으로는 부족하다. "좋은 결과물은 좋은 과정([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))에서 나온다"는 철학 하에, 개발 과정 자체를 평가하려는 시도들이 있었다. 초기에 CMM, ISO 9001, Trillium 등 수많은 프로세스 평가 모델이 난립하자, 이를 국제 표준 하나로 통합하기 위해 등장한 것이 바로 <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/">SPICE</a> (ISO/IEC 15504)</strong>이다. (현재는 ISO/IEC 33000 시리즈로 개정 중)
+소프트웨어 품질을 높이려면 결과물(Product)을 검사하는 것만으로는 부족하다. "좋은 결과물은 좋은 과정([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))에서 나온다"는 철학 하에, 개발 과정 자체를 평가하려는 시도들이 있었다. 초기에 CMM, ISO 9001, Trillium 등 수많은 프로세스 평가 모델이 난립하자, 이를 국제 표준 하나로 통합하기 위해 등장한 것이 바로 <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/">SPICE</a> (ISO/IEC 15504)</strong>이다. (현재는 ISO/IEC 33000 시리즈로 개정 중)
 
 CMMI가 조직 전체의 성숙도를 하나의 레벨(예: "우리 회사는 레벨 3")로 묶어버리는 바람에, "코딩은 레벨 5인데 요구사항 관리는 레벨 1"인 조직의 현실을 제대로 반영하지 못하는 문제가 있었다. SPICE는 이러한 한계를 극복하기 위해 <strong>어떤 프로세스(What)</strong>를 <strong>얼마나 잘하는지(How well)</strong>를 2차원 매트릭스로 쪼개어 세밀하게 진단할 필요성에서 출발했다.
 

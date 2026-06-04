@@ -18,7 +18,7 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-과거 전통적인 오프라인 쇼핑몰이나 일회성 판매 위주의 기업들은 매출을 "오늘 홍길동이 와서 만 원짜리 물건을 하나 샀네. 만 원 벌었다!"라는 단기적 공식으로만 계산했다. 그러나 넷플릭스, 쿠팡, 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))와 같은 현대의 [구독 경제](/knowledge-base/studynote/12_it_management/01_governance_strategy/057_subscription_economy_xaas/) 기업들의 뇌 구조는 완전히 다르다.
+과거 전통적인 오프라인 쇼핑몰이나 일회성 판매 위주의 기업들은 매출을 "오늘 홍길동이 와서 만 원짜리 물건을 하나 샀네. 만 원 벌었다!"라는 단기적 공식으로만 계산했다. 그러나 넷플릭스, 쿠팡, 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/))와 같은 현대의 [구독 경제](/knowledge-base/studynote/12_it_management/01_governance_strategy/057_subscription_economy_xaas/) 기업들의 뇌 구조는 완전히 다르다.
 
 이들은 "방금 첫 달 5천 원을 결제한 홍길동은 평균 36개월 동안 우리 구독을 유지할 것이고, 매달 쇼핑으로 2만 원의 추가 마진을 남겨줄 것이므로, 이 사람은 5천 원짜리가 아니라 <strong>평생 90만 원을 벌어다 줄 VIP</strong>다"라고 셈을 한다.
 고객이 이탈하지 않고 오래 머물수록([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/)), 그리고 자주 결제할수록 누적되는 총가치가 기하급수적으로 커지는 구조에서, 고객 1명의 '진짜 몸값'을 미래 가치까지 끌어와 정량화한 수치가 바로 LTV다. 이것이 없다면 회사는 마케팅 광고비를 얼마나 써야 적자인지 흑자인지 판별할 수 없어 장님처럼 경영을 하게 된다.
@@ -64,7 +64,7 @@ LTV는 단일 공식이라기보다는, 회사가 수익을 창출하는 세 가
 
 ## Ⅲ. 비교 및 연결
 
-기업의 재무 건전성은 LTV와 짝꿍 지표인 CAC([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) Cost, [고객 획득 비용](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/109_cac_customer_acquisition_cost/))의 저울질로 판가름 난다.
+기업의 재무 건전성은 LTV와 짝꿍 지표인 CAC([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/) [Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) Cost, [고객 획득 비용](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/109_cac_customer_acquisition_cost/))의 저울질로 판가름 난다.
 
 | 비교 지표 | LTV (고객 생애 가치) | CAC ([고객 획득 비용](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/109_cac_customer_acquisition_cost/)) |
 | :--- | :--- | :--- |
@@ -109,7 +109,7 @@ LTV를 경영의 핵심 나침반으로 채택하면, 회사의 [전략](/knowle
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| <strong>CAC (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">C고객</a> <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/">Acquisition</a> Cost)</strong> | 고객 한 명을 획득하는 데 드는 마케팅 비용으로, LTV와 항상 쌍으로 비교되어 기업의 흑자/적자 구조를 판가름하는 저울의 반대편 추. |
+| <strong>CAC (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/">C고객</a> <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/">Acquisition</a> Cost)</strong> | 고객 한 명을 획득하는 데 드는 마케팅 비용으로, LTV와 항상 쌍으로 비교되어 기업의 흑자/적자 구조를 판가름하는 저울의 반대편 추. |
 | **Churn Rate (이탈률)** | 기존 고객이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구독을 해지하거나 떠나는 비율로, 이 숫자가 높아질수록 LTV의 핵심 축인 '고객 수명'이 깎여나가 치명상을 입힘. |
 | <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/">CRM</a> (고객 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a> 관리)</strong> | 이탈률을 방어하고 업셀링을 유도하여 1인당 LTV를 극대화하기 위해 실행하는 IT 인프라 및 마케팅 오토메이션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/). |
 | **코호트 분석 (Cohort Analysis)** | 가입 시기나 특성이 같은 집단끼리 묶어, 어느 집단의 LTV가 가장 우수한지(어느 마케팅 채널이 황금어장인지) 추적하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 기법. |

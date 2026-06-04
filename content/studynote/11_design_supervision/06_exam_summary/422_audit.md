@@ -23,7 +23,7 @@ tags = ["studynote-design-supervision"]
 
 중요한 것은 “메모리를 많이 쓴다”와 “메모리가 새고 있다”를 구분하는 일이다. 캐시가 의도적으로 커지는 경우, 순간 트래픽 급증으로 힙이 일시 상승하는 경우, 배치 작업이 끝나면 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)되는 경우는 누수가 아닐 수 있다. 반면 GC 이후에도 점유율이 계속 높고, 동일 유형 객체가 계속 살아남는다면 누수를 의심해야 한다.
 
-감리·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)진단 관점에서는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 부하시험 결과, 힙 덤프, [프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/) 결과를 <strong><a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/">객관적 증거</a></strong>로 묶어 설명해야 한다. 단순 체감이나 모니터링 화면 한 장만으로는 원인 진단이 어렵기 때문이다.
+감리·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)진단 관점에서는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 부하시험 결과, 힙 덤프, [프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/) 결과를 <strong><a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/628_objective_evidence_collection/">객관적 증거</a></strong>로 묶어 설명해야 한다. 단순 체감이나 모니터링 화면 한 장만으로는 원인 진단이 어렵기 때문이다.
 
 - **📢 섹션 요약 비유**: 물통에 물을 쓰고도 배수구가 막혀 있으면 조금씩 넘치듯, 프로그램도 해제가 안 되면 겉으론 멀쩡해 보여도 결국 넘쳐 버린다.
 
@@ -66,7 +66,7 @@ tags = ["studynote-design-supervision"]
 | 운영 영향 | 예측 가능 | 장시간 후 장애 유발 | 순간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 가능 |
 | 대응 방법 | 용량 계획·만료 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 제거·자원 해제 | 부하 완화·튜닝 |
 
-이 주제는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/), [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/), GC 튜닝, 장애 분석 체계와도 연결된다. 특히 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)는 단순 튜닝으로 가려지기도 한다. 힙 크기를 키우면 당장은 버티지만, 누수 자체는 더 늦게 폭발할 뿐이다. 따라서 기술사 답안에서는 “증상 완화”와 “근본 원인 제거”를 구분하는 문장이 중요하다.
+이 주제는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/), [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/), GC 튜닝, 장애 분석 체계와도 연결된다. 특히 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)는 단순 튜닝으로 가려지기도 한다. 힙 크기를 키우면 당장은 버티지만, 누수 자체는 더 늦게 폭발할 뿐이다. 따라서 기술사 답안에서는 “증상 완화”와 “근본 원인 제거”를 구분하는 문장이 중요하다.
 
 - **📢 섹션 요약 비유**: 배수구가 막힌 집에서 더 큰 양동이를 놓는다고 문제가 해결되는 것은 아니다. 넘치는 시점을 늦출 뿐, 막힌 곳은 그대로다.
 
@@ -109,7 +109,7 @@ tags = ["studynote-design-supervision"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) | 누수 재현을 위한 시작점 |
+| [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/) | 누수 재현을 위한 시작점 |
 | 애플리케이션 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관리 ([APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)) | [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)·메모리 지표의 실시간 관찰 |
 | GC [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/) | [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 여부와 정지 시간 판단 |
 | 힙 덤프 ([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) Dump) | 누수 객체와 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 경로 증빙 |

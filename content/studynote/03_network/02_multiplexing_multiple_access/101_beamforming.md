@@ -80,7 +80,7 @@ tags = ["network"]
 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 망 설계 및 기지국 파라미터 튜닝 시, 엔지니어는 빔포밍의 빛과 그림자를 모두 통제해야 한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 판단 기준
-1. <strong>빔 관리 (Beam <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>) 및 추적 로직 최적화</strong>: [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) 환경의 도심지에서는 가로수나 트럭 한 대만 지나가도 직접파(LOS)가 끊겨 통신 품질이 급락한다. 설계자는 단말이 기지국과 통신할 때 하나의 메인 빔(Serving Beam)만 믿지 말고, 주변 건물에 반사되는 간접파 경로를 예비 빔(Candidate Beam)으로 백그라운드 탐색하도록 빔 스위칭 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 오버헤드를 튜닝해야 한다.
+1. <strong>빔 관리 (Beam <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/">Management</a>) 및 추적 로직 최적화</strong>: [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) 환경의 도심지에서는 가로수나 트럭 한 대만 지나가도 직접파(LOS)가 끊겨 통신 품질이 급락한다. 설계자는 단말이 기지국과 통신할 때 하나의 메인 빔(Serving Beam)만 믿지 말고, 주변 건물에 반사되는 간접파 경로를 예비 빔(Candidate Beam)으로 백그라운드 탐색하도록 빔 스위칭 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 오버헤드를 튜닝해야 한다.
 2. **널 스티어링 (Null Steering) 기반 간섭 제어**: 빔을 원하는 사용자에게 조준하는 것만큼이나, 다른 사용자에게 '상쇄 간섭(Null)'을 유도하여 전파가 아예 도달하지 못하게 깎아내는 기술이 핵심이다. 셀(Cell) 경계 지역에서 인접 기지국과 협력하여 타겟 단말을 방해하는 파동의 역위상을 쏘아 간섭을 0으로 만드는 빔포밍 협력 기법을 적용해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)

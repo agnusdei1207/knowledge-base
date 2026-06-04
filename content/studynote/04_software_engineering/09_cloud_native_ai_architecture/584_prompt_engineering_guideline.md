@@ -28,7 +28,7 @@ tags = ["studynote-software-engineering"]
 - **💡 비유**: 프롬프트 없는 멍청한 질문은, 식당 알바생한테 <strong>"야 맛있는 거 아무거나 하나 줘 봐"</strong>라고 툭 던지는 짓입니다. 알바생이 매운 짬뽕을 가져오면 "나 매운 거 못 먹는데? 멍청하네!" 하고 욕하죠([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 탓). 훌륭한 [프롬프트 엔지니어링](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/)은 <strong>"나는 해산물 알러지가 있고(제약 조건), 매운 건 못 먹어(금지 사항). 고기가 들어간 달콤한 파스타 류(명확한 목표)로 2만 원 안쪽에서(포맷) 메뉴 3개 추천해 줘(출력 형식)"</strong>라고 완벽하게 주문서를 들이미는 것입니다. 이러면 알바생([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))이 0.1초 만에 100% 완벽한 취향 저격 음식을 가져올 수밖에 없는 절대 통제의 미학입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. <strong>Zero-Shot 원시 시대 (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/">2021</a>)</strong>: 챗GPT 처음 나왔을 때. 그냥 쌩으로 질문 1줄 치고 신기해함. [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)(거짓말) 쩔어서 실무에선 장난감 취급받음.
+  1. <strong>Zero-Shot 원시 시대 (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/">2021</a>)</strong>: 챗GPT 처음 나왔을 때. 그냥 쌩으로 질문 1줄 치고 신기해함. [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)(거짓말) 쩔어서 실무에선 장난감 취급받음.
   2. **Few-Shot & 페르소나 부여 (2022)**: "야! AI한테 '넌 10년 차 천재 아키텍트야' 라고 최면 걸고 예시 2개 던져주니까 대답 퀄리티가 미친 듯이 떡상하네?!" 조련의 흑마법이 발견됨.
   3. <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/">Chain-of-Thought</a> (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/">CoT</a>) 와 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a> 융합 (현재)</strong>: "AI한테 수능 수학 문제 풀게 하려면 '단계별로 쪼개서 논리적으로 생각해 봐(Step-by-step)' 1줄 덧붙여라!" AI의 잠재 지능을 폭발시키는 구조적 프롬프팅이 엔터프라이즈의 표준 코딩 가이드라인으로 안착함.
 
@@ -122,7 +122,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [프롬프트 엔지니어링](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/) ([Prompt 엔진ering](/knowledge-base/studynote/12_it_management/05_security_compliance/224_prompt_engineering_guideline/)) 가이드라인 설계은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

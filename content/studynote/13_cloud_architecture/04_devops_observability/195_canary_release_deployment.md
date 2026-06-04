@@ -130,7 +130,7 @@ spec:
        Fail -> 자동 롤백 + PagerDuty 알림
 ```
 
-<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">Istio</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">서비스 메시</a> 활용</strong>:
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/">Istio</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/">서비스 메시</a> 활용</strong>:
 ```yaml
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -176,7 +176,7 @@ spec:
 | 개념 | 연결 포인트 |
 |:---|:---|
 | Argo Rollouts | [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)·블루그린 Progressive Delivery 자동화 [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 도구 |
-| [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) VirtualService | [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) 기반 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 트래픽 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제어 |
+| [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) VirtualService | [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) 기반 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 트래픽 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제어 |
 | [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) | [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 분석 지표(에러율·응답시간) 수집 및 판정 |
 | [Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) | [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)와 결합하면 특정 사용자 세그먼트에 기능 노출 |
 | [DORA Metrics](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/201_dora_metrics_devops_performance/) | [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)는 변경 실패율([CFR](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/)) 감소에 직접 기여 |

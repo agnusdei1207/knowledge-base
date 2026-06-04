@@ -84,7 +84,7 @@ Execution
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 모든 시스템을 Rehost로만 옮기는 설계
-- [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 대체가 가능한데도 유지하는 설계
+- [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 대체가 가능한데도 유지하는 설계
 - 재설계가 필요한데 그대로 복사하는 설계
 - 비용과 조직 변화를 고려하지 않는 설계
 

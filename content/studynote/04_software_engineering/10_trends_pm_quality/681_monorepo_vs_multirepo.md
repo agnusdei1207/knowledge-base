@@ -82,7 +82,7 @@ tags = ["studynote-software-engineering"]
 +--------------------------------------------------------------+
 ```
 
-모노레포의 핵심 원리는 <strong>의존성 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>(Dependency <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a>)</strong> 분석이다. `ui-components`가 수정되면 빌드 시스템은 전체 코드를 다 빌드하는 것이 아니라, 의존성 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 분석해 영향을 받는 `web-client`와 `admin-page`만 똑똑하게 부분 빌드(Incremental Build)하고 캐싱한다.
+모노레포의 핵심 원리는 <strong>의존성 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>(Dependency <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/">Graph</a>)</strong> 분석이다. `ui-components`가 수정되면 빌드 시스템은 전체 코드를 다 빌드하는 것이 아니라, 의존성 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 분석해 영향을 받는 `web-client`와 `admin-page`만 똑똑하게 부분 빌드(Incremental Build)하고 캐싱한다.
 
 - **📢 섹션 요약 비유**: 멀티레포는 공통 부품을 수정할 때마다 포장해서 택배로 각 공장에 보내야 하지만, 모노레포는 한 지붕 아래에 부품 창고와 공장이 다 있어서 필요한 부품을 바로 옆방에서 꺼내 쓰면 된다.
 
@@ -104,7 +104,7 @@ tags = ["studynote-software-engineering"]
 | **결과물** | 하나의 거대한 단일 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) (Single Binary) | 독립적으로 배포되는 N개의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) ([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 가능) |
 | **목적** | 아키텍처의 단순화 | 소스코드 의존성 및 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리의 단순화 |
 
-즉, <strong>"저장소는 모노레포(1개)로 쓰면서, 배포는 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a>(100개)로 하는 것"</strong>이 최신 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 기업들의 표준적인 엔지니어링 조합이다.
+즉, <strong>"저장소는 모노레포(1개)로 쓰면서, 배포는 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a>(100개)로 하는 것"</strong>이 최신 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 기업들의 표준적인 엔지니어링 조합이다.
 
 - **📢 섹션 요약 비유**: 모놀리스는 모든 음식을 큰 솥 하나에 다 끓이는 '부대찌개'이고, 모노레포는 냉장고 하나(저장소)를 같이 쓰지만 요리(배포)는 스테이크, 파스타로 따로따로 예쁘게 접시에 담아내는 '파인다이닝'이다.
 
@@ -132,7 +132,7 @@ tags = ["studynote-software-engineering"]
 
 모노레포 환경이 정착되면, 전사적인 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(예: 사내 공통 디자인 시스템, 로깅 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))의 배포와 적용이 실시간으로 이루어진다. "우리 팀은 구버전을 쓰고 저 팀은 신버전을 쓴다"는 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 파편화가 사라지고, 전사 코드가 항상 유일한 최신 상태(Single Source of Truth)를 유지하게 된다.
 
-결론적으로 멀티레포는 '팀의 독립성'을 극대화하는 모델이고, 모노레포는 '코드의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)'을 극대화하는 모델이다. 조직의 크기, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 인프라 역량, 그리고 코드 공유의 빈도에 따라 모노레포 전환 여부를 신중히 타진해야 한다.
+결론적으로 멀티레포는 '팀의 독립성'을 극대화하는 모델이고, 모노레포는 '코드의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)'을 극대화하는 모델이다. 조직의 크기, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 인프라 역량, 그리고 코드 공유의 빈도에 따라 모노레포 전환 여부를 신중히 타진해야 한다.
 
 - **📢 섹션 요약 비유**: 모노레포는 모든 직원이 같은 공간에 모여 일하는 거대한 오픈 오피스다. 소통(코드 공유)은 엄청나게 빨라지지만, 규칙(빌드 시스템)이 없으면 시장바닥처럼 시끄러워진다.
 

@@ -232,7 +232,7 @@ ApplicationEventPublisher publisher = isTest
 | NPE 완전 제거 | null [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 자체를 없앰 |
 | 코드 간결성 | `if (x != null)` 방어 코드 제거 |
 | 일관된 인터페이스 | null 여부 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)없이 동일하게 호출 |
-| 테스트 용이 | NullObject로 의존성 제거 ([테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/)) |
+| 테스트 용이 | NullObject로 의존성 제거 ([테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/1008_test_double_isolation/)) |
 
 - 오류 상황을 <strong>조용히 무시</strong>할 수 있음 -> 중요한 에러가 숨겨질 위험
 - 디버깅 시 "왜 아무 일도 일어나지 않는지" 파악 어려울 수 있음

@@ -11,15 +11,15 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 실시간 프로세스 (Real-time [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))은 프로세스와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·실행·협력에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.
+> 1. **본질**: 실시간 프로세스 (Real-time [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))은 프로세스와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·실행·협력에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.
 > 2. **가치**: 이 개념을 이해하면 자원 효율, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 안정성 사이의 균형을 더 정확하게 설명할 수 있고, [스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/) ([Thread-safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)) 함수 및 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)로 이어지는 이유도 자연스럽게 파악된다.
-> 3. **판단 포인트**: NUMA-인식 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링과의 관계를 함께 봐야 실시간 프로세스 (Real-time [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))을 단순 정의가 아니라 실제 설계·운영 판단 기준으로 사용할 수 있다.
+> 3. **판단 포인트**: NUMA-인식 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링과의 관계를 함께 봐야 실시간 프로세스 (Real-time [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))을 단순 정의가 아니라 실제 설계·운영 판단 기준으로 사용할 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-실시간 프로세스 (Real-time [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))은 프로세스와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·실행·협력을 설명할 때 빠지지 않는 핵심 개념이다. 특히 NUMA-인식 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링에서 출발해 현재 구조가 왜 필요해졌는지를 이해하면, 이 개념이 단순 용어가 아니라 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 설계의 배경이라는 점이 분명해진다. 이 개념이 없으면 자원 배분 기준이 흔들리거나 시스템 동작이 예측 불가능해져 성능과 안정성 모두 악화된다.
+실시간 프로세스 (Real-time [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))은 프로세스와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·실행·협력을 설명할 때 빠지지 않는 핵심 개념이다. 특히 NUMA-인식 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링에서 출발해 현재 구조가 왜 필요해졌는지를 이해하면, 이 개념이 단순 용어가 아니라 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 설계의 배경이라는 점이 분명해진다. 이 개념이 없으면 자원 배분 기준이 흔들리거나 시스템 동작이 예측 불가능해져 성능과 안정성 모두 악화된다.
 
 ```text
 [배경 문제]
@@ -37,7 +37,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-실시간 프로세스 (Real-time [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))의 핵심 원리는 입력, 처리, 상태 변화, 결과의 네 단계로 정리할 수 있다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 이 과정에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 자료구조와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 로직을 함께 사용해 [스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/) ([Thread-safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)) 함수 및 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)을 안정적으로 수행한다. 구현 세부는 환경마다 다르지만, 중요한 것은 어느 지점에서 비용이 발생하고 어떤 조건에서 병목이 생기는지를 읽는 것이다.
+실시간 프로세스 (Real-time [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))의 핵심 원리는 입력, 처리, 상태 변화, 결과의 네 단계로 정리할 수 있다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 이 과정에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 자료구조와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 로직을 함께 사용해 [스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/) ([Thread-safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)) 함수 및 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)을 안정적으로 수행한다. 구현 세부는 환경마다 다르지만, 중요한 것은 어느 지점에서 비용이 발생하고 어떤 조건에서 병목이 생기는지를 읽는 것이다.
 
 | 구성 요소 | 역할 | 핵심 포인트 |
 |:---|:---|:---|
@@ -55,9 +55,9 @@ tags = ["studynote-operating-system"]
 
 ## Ⅲ. 비교 및 연결
 
-실시간 프로세스 (Real-time [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))은(는) NUMA-인식 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링, [스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/) ([Thread-safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)) 함수 및 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)과 비교할 때 경계가 선명해진다. 같은 범주에 속하더라도 목표가 성능인지, 격리인지, 단순성인지에 따라 선택 기준이 달라진다. 따라서 이 개념은 독립적으로 외우기보다 앞뒤 개념과 함께 묶어 이해해야 시험과 실무에서 흔들리지 않는다.
+실시간 프로세스 (Real-time [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))은(는) NUMA-인식 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링, [스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/) ([Thread-safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)) 함수 및 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)과 비교할 때 경계가 선명해진다. 같은 범주에 속하더라도 목표가 성능인지, 격리인지, 단순성인지에 따라 선택 기준이 달라진다. 따라서 이 개념은 독립적으로 외우기보다 앞뒤 개념과 함께 묶어 이해해야 시험과 실무에서 흔들리지 않는다.
 
-| 비교 축 | NUMA-인식 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링 | 실시간 프로세스 (Real-time [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)) | [스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/) ([Thread-safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)) 함수 및 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) |
+| 비교 축 | NUMA-인식 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링 | 실시간 프로세스 (Real-time [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/)) | [스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/) ([Thread-safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)) 함수 및 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) |
 |:---|:---|:---|:---|
 | 초점 | 기반 조건 | 현재 판단 기준 | 확장/세분화 방향 |
 | 운영 관점 | 준비 단계 | 핵심 제어 단계 | 후속 최적화 단계 |
@@ -68,10 +68,10 @@ tags = ["studynote-operating-system"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 실시간 프로세스 (Real-time [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))을 도입하거나 조정할 때 평균 성능만 보지 않고 실패 시 영향 범위와 운영 복잡도까지 함께 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다. 예를 들어 트래픽 급증, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 보안 격리 같은 상황에서는 실시간 프로세스 (Real-time [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))이 어떤 보호막을 제공하는지, 반대로 어떤 오버헤드를 유발하는지 판단해야 한다. 따라서 모니터링 지표와 운영 절차를 함께 설계하는 것이 기술사 관점의 핵심이다.
+실무에서는 실시간 프로세스 (Real-time [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))을 도입하거나 조정할 때 평균 성능만 보지 않고 실패 시 영향 범위와 운영 복잡도까지 함께 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다. 예를 들어 트래픽 급증, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 보안 격리 같은 상황에서는 실시간 프로세스 (Real-time [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))이 어떤 보호막을 제공하는지, 반대로 어떤 오버헤드를 유발하는지 판단해야 한다. 따라서 모니터링 지표와 운영 절차를 함께 설계하는 것이 기술사 관점의 핵심이다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. 현재 워크로드가 실시간 프로세스 (Real-time [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))의 장점을 실제로 활용하는가?
+1. 현재 워크로드가 실시간 프로세스 (Real-time [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))의 장점을 실제로 활용하는가?
 2. 병목이 생길 경우 [스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/) ([Thread-safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)) 함수 및 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 수준에서 보완할 여지가 있는가?
 3. 장애나 보안 이슈가 발생했을 때 영향 범위를 빠르게 격리할 수 있는가?
 
@@ -81,7 +81,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅴ. 기대효과 및 결론
 
-실시간 프로세스 (Real-time [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))은 프로세스와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·실행·협력을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 [스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/) ([Thread-safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)) 함수 및 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
+실시간 프로세스 (Real-time [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))은 프로세스와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·실행·협력을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 [스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/) ([Thread-safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)) 함수 및 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -112,9 +112,9 @@ tags = ["studynote-operating-system"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 실시간 프로세스 (Real-time [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))은 컴퓨터가 여러 일을 나눠서 처리하고 서로 기다리게 하는 약속이에요.
-2. 먼저 NUMA-인식 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링을 이해하면 실시간 프로세스 (Real-time [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 실시간 프로세스 (Real-time [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))을 잘 알면 나중에 [스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/) ([Thread-safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)) 함수 및 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)도 훨씬 쉽게 배울 수 있어요.
+1. 실시간 프로세스 (Real-time [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))은 컴퓨터가 여러 일을 나눠서 처리하고 서로 기다리게 하는 약속이에요.
+2. 먼저 NUMA-인식 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링을 이해하면 실시간 프로세스 (Real-time [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 실시간 프로세스 (Real-time [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))을 잘 알면 나중에 [스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/) ([Thread-safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)) 함수 및 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)도 훨씬 쉽게 배울 수 있어요.
 
 ---
 

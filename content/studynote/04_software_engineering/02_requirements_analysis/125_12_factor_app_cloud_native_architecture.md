@@ -10,7 +10,7 @@ tags = ["studynote-software-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 12 Factor App은 Heroku 공동창업자가 정리한 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/">SaaS</a>/<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a> 애플리케이션 설계의 12가지 <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/">Best Practice</a></strong>이며, 이식성·확장성·개발-운영 일관성을 보장한다.
+> 1. **본질**: 12 Factor App은 Heroku 공동창업자가 정리한 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/">SaaS</a>/<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/">클라우드 네이티브</a> 애플리케이션 설계의 12가지 <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/">Best Practice</a></strong>이며, 이식성·확장성·개발-운영 일관성을 보장한다.
 > 2. **가치**: 12 Factor를 따르지 않은 앱은 <strong>환경 의존성·<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 하드코딩·<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 직접 관리</strong> 등으로 클라우드 배포 시 문제가 발생하지만, 12 Factor를 따르면 <strong>어떤 <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/">PaaS</a>/K8s에서도 동일하게 동작</strong>한다.
 > 3. **판단 포인트**: 특히 <strong>III. <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">Config</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/">환경 변수</a>)·VI. Processes(<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a>)·XI. <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">Logs</a>(stdout 스트림)</strong>가 가장 자주 위반되며, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경에서 12 Factor 준수가 필수이다.
 
@@ -78,7 +78,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-12 Factor App은 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a> 설계의 기본 교과서</strong>이며, K8s·[Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 환경에서 필수 준수 사항이다.
+12 Factor App은 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/">클라우드 네이티브</a> 설계의 기본 교과서</strong>이며, K8s·[Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 환경에서 필수 준수 사항이다.
 
 ---
 
@@ -89,7 +89,7 @@ tags = ["studynote-software-engineering"]
 | <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">Config</a></strong> | [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 분리 |
 | <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a></strong> | 프로세스 무상태 원칙 |
 | <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/015_disposability/">Disposability</a></strong> | 빠른 시작·우아한 종료 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a></strong> | 12 Factor의 상위 패러다임 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/">클라우드 네이티브</a></strong> | 12 Factor의 상위 패러다임 |
 | **K8s** | 12 Factor 구현의 최적 플랫폼 |
 
 ### 📈 관련 키워드 및 발전 흐름도

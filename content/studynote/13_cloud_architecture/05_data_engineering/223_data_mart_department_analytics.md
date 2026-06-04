@@ -68,7 +68,7 @@ tags = ["studynote-cloud-architecture"]
          구축 속도 빠름, 일관성 위험
 ```
 
-### [Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/) vs [Snowflake Schema](/knowledge-base/studynote/12_it_management/05_security_compliance/313_snowflake_schema/)
+### [Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/) vs [Snowflake Schema](/knowledge-base/studynote/12_it_management/05_security_compliance/955_snowflake_schema/)
 
 ```
 [Star Schema]                    [Snowflake Schema]
@@ -85,7 +85,7 @@ tags = ["studynote-cloud-architecture"]
 BI 분석에 적합                복잡 집계에 적합
 ```
 
-| 비교 항목 | [Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/) | [Snowflake Schema](/knowledge-base/studynote/12_it_management/05_security_compliance/313_snowflake_schema/) |
+| 비교 항목 | [Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/) | [Snowflake Schema](/knowledge-base/studynote/12_it_management/05_security_compliance/955_snowflake_schema/) |
 |:---|:---|:---|
 | <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">JOIN</a> 복잡도</strong> | 낮음 (1단계) | 높음 (다단계) |
 | <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 우수 | 보통 |
@@ -113,7 +113,7 @@ BI 분석에 적합                복잡 집계에 적합
 | 부서 | [팩트 테이블](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/) | 주요 차원 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) |
 |:---|:---|:---|:---|
 | **영업** | fact_sales | 날짜, 상품, 고객, 지역, 영업사원 | 매출액, 성장률, 달성률 |
-| **재무** | fact_finance | 날짜, 계정, 부서, 비용센터 | 순이익, 비용률, [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) |
+| **재무** | fact_finance | 날짜, 계정, 부서, 비용센터 | 순이익, 비용률, [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) |
 | **마케팅** | fact_campaign | 날짜, 채널, 캠페인, 고객 세그먼트 | [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/), CAC, ROAS |
 | **물류** | fact_logistics | 날짜, 창고, 상품, 운송사 | 리드타임, 재고회전율 |
 
@@ -150,7 +150,7 @@ BI 분석에 적합                복잡 집계에 적합
 
 **기술사 핵심 판단**: [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) 설계 시 "왜 종속형인가/독립형인가"를 비즈니스 요건([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) vs 민첩성)으로 정당화하고, [Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/) 선택 이유([OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화)를 논리적으로 서술한다.
 
-📢 **섹션 요약 비유**: [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) 구축은 지점 개설과 같다. 본사([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))의 통합 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기반으로 각 지역 특성에 맞는 상품을 구성하지만, 본사 가격 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/))을 따라야 브랜드 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))이 유지된다.
+📢 **섹션 요약 비유**: [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) 구축은 지점 개설과 같다. 본사([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))의 통합 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기반으로 각 지역 특성에 맞는 상품을 구성하지만, 본사 가격 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/))을 따라야 브랜드 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))이 유지된다.
 
 ---
 

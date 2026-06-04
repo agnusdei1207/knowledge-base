@@ -11,7 +11,7 @@ tags = ["studynote-software-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: BPMN (Business [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Model and Notation)은 사람이 수행하는 업무와 시스템이 수행하는 처리를 같은 흐름도 위에서 표준 기호로 표현하는 비즈니스 프로세스 모델링 언어다.
+> 1. **본질**: BPMN (Business [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Model and Notation)은 사람이 수행하는 업무와 시스템이 수행하는 처리를 같은 흐름도 위에서 표준 기호로 표현하는 비즈니스 프로세스 모델링 언어다.
 > 2. **가치**: 이 표기법은 부서 간 책임, 예외 처리, 승인 경로를 한눈에 드러내어 요구사항 오해와 누락을 줄이고, 비즈니스와 IT (Information Technology)가 같은 그림으로 대화하게 만든다.
 > 3. **판단 포인트**: BPMN은 모든 문제를 그리는 만능 도구가 아니므로, 사람·부서·시스템 간 흐름과 예외가 핵심일 때 쓰고, 단일 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 세부 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설명에는 [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) ([Unified Modeling Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)) 활동 다이어그램이나 코드 수준 모델이 더 적합하다.
 

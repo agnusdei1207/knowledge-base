@@ -74,7 +74,7 @@ TMMi는 CMMI와 동일하게 1단계(최악)부터 5단계(최고)까지의 성�
 
 테스트와 관련된 평가 모델에는 TMMi 외에도 TPI Next가 있다.
 
-| 비교 항목 | TMMi (Test [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/) integration) | TPI Next (Test [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Improvement) |
+| 비교 항목 | TMMi (Test [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/) integration) | TPI Next (Test [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Improvement) |
 |:---|:---|:---|
 | **설계 뼈대** | <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/">CMMI</a></strong> 기반 (조직적/단계적) | 독자적 비즈니스 중심 프레임워크 (연속적) |
 | **평가 방식** | 1~5단계의 **'단계적(Staged)'** 심사 통과 위주 | 16개 핵심 영역별로 자유롭게 개선점 도출 |

@@ -10,7 +10,7 @@ tags = ["studynote-enterprise-systems"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 CRM은 운영·분석·협업 CRM에 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>/ML 엔진을 내장</strong>하여, 리드 스코어링·이탈 예측·자동 응답·[감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)을 **실시간·자동으로** 수행하는 차세대 CRM이다.
+> 1. **본질**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 CRM은 운영·분석·협업 CRM에 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>/ML 엔진을 내장</strong>하여, 리드 스코어링·이탈 예측·자동 응답·[감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)을 **실시간·자동으로** 수행하는 차세대 CRM이다.
 > 2. **가치**: Salesforce Einstein이 대표적이며, "이 거래가 성사될 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 85%", "이 고객은 다음 달 이탈 위험 72%"와 같은 <strong>예측 인사이트를 <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/">CRM</a> 화면에 자동 표시</strong>한다.
 > 3. **판단 포인트**: [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)) 결합으로 <strong>상담 요약 자동 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>·이메일 초안 작성·고객 질문 자동 응답</strong>이 가능해졌으며, 이는 CRM의 패러다임을 "도구"에서 "[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트"로 전환시키고 있다.
 
@@ -44,7 +44,7 @@ tags = ["studynote-enterprise-systems"]
 |:---|:---|:---|
 | **리드 스코어링** | ML로 가망->계약 전환 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 예측 | 영업 우선순위 자동 정렬 |
 | **이탈 예측** | XGBoost로 해지 위험 고객 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | 선제적 리텐션 캠페인 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/">감성 분석</a></strong> | NLP로 이메일·전화 감정 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 불만 고객 즉시 에스컬레이션 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/">감성 분석</a></strong> | NLP로 이메일·전화 감정 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 불만 고객 즉시 에스컬레이션 |
 | **상담 요약** | GenAI로 통화 내용 자동 요약 | 상담원 후처리 시간 80% 감소 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 에이전트</strong> | 고객 질문에 자동 응답·주문 처리 | CS 인건비 30% 절감 |
 

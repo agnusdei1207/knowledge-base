@@ -11,7 +11,7 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 데메테르 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/110_law_of_demeter/), LoD)은 객체가 직접 아는 협력자와만 대화하게 만들어 최소 지식만 사용하도록 하는 설계 원칙이다.
+> 1. **본질**: 데메테르 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/653_law_of_demeter/), LoD)은 객체가 직접 아는 협력자와만 대화하게 만들어 최소 지식만 사용하도록 하는 설계 원칙이다.
 > 2. **가치**: 캡슐화와 변경 은닉 수준을 높여 구조 개편을 쉽게 만든다.
 > 3. **판단 포인트**: 체인 호출의 길이보다 호출부가 내부 구조를 알고 있는지 여부를 기준으로 위반 여부를 판단해야 한다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 개요 및 필요성
 
-데메테르 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/110_law_of_demeter/), LoD)은 객체가 직접 아는 협력자와만 대화하게 만들어 최소 지식만 사용하도록 하는 설계 원칙이다. 객체 내부 구조를 따라 깊게 탐색하는 코드는 구조 변경 때마다 연쇄 수정의 원인이 된다. 이 개념이 필요한 이유는 협력 범위를 가까운 이웃으로 제한하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 한 객체의 내부 변경이 멀리 떨어진 호출부까지 깨뜨리는 숨은 결합이 생긴다.
+데메테르 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/653_law_of_demeter/), LoD)은 객체가 직접 아는 협력자와만 대화하게 만들어 최소 지식만 사용하도록 하는 설계 원칙이다. 객체 내부 구조를 따라 깊게 탐색하는 코드는 구조 변경 때마다 연쇄 수정의 원인이 된다. 이 개념이 필요한 이유는 협력 범위를 가까운 이웃으로 제한하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 한 객체의 내부 변경이 멀리 떨어진 호출부까지 깨뜨리는 숨은 결합이 생긴다.
 
 아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
@@ -37,7 +37,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-데메테르 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/110_law_of_demeter/), LoD)의 핵심 원리는 "협력 범위를 가까운 이웃으로 제한하는 일"을 구현 규칙으로 고정하는 데 있다. 실제 설계에서는 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) 책임을 내부 객체에 맡기고 탐색 체인을 줄여 캡슐화를 지킨다. 동시에 무조건 위임 메서드만 늘리면 얇은 포워딩 코드가 많아져 가독성이 떨어질 수 있다.
+데메테르 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/653_law_of_demeter/), LoD)의 핵심 원리는 "협력 범위를 가까운 이웃으로 제한하는 일"을 구현 규칙으로 고정하는 데 있다. 실제 설계에서는 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) 책임을 내부 객체에 맡기고 탐색 체인을 줄여 캡슐화를 지킨다. 동시에 무조건 위임 메서드만 늘리면 얇은 포워딩 코드가 많아져 가독성이 떨어질 수 있다.
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
@@ -61,7 +61,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅲ. 비교 및 연결
 
-기술사 답안에서는 데메테르 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/110_law_of_demeter/), LoD)을 단독 정의보다 대안 구조와 함께 써야 경계가 살아난다. 여기서는 **원칙 준수 구조** 와 **원칙 무시 구조** 를 대비해 핵심 차이를 정리한다.
+기술사 답안에서는 데메테르 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/653_law_of_demeter/), LoD)을 단독 정의보다 대안 구조와 함께 써야 경계가 살아난다. 여기서는 **원칙 준수 구조** 와 **원칙 무시 구조** 를 대비해 핵심 차이를 정리한다.
 
 | 비교 축 | A | B |
 |:---|:---|:---|
@@ -77,7 +77,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 데메테르 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/110_law_of_demeter/), LoD)을 무조건 채택하기보다 체인 호출의 길이보다 호출부가 내부 구조를 알고 있는지 여부를 기준으로 위반 여부를 판단해야 한다. 아래 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)는 설계 감리 시 최소한으로 확인해야 할 질문이다.
+실무에서는 데메테르 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/653_law_of_demeter/), LoD)을 무조건 채택하기보다 체인 호출의 길이보다 호출부가 내부 구조를 알고 있는지 여부를 기준으로 위반 여부를 판단해야 한다. 아래 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)는 설계 감리 시 최소한으로 확인해야 할 질문이다.
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 변경 이유를 한 문장으로 설명할 수 있는가?
@@ -93,7 +93,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅴ. 기대효과 및 결론
 
-데메테르 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/110_law_of_demeter/), LoD)의 기대효과는 분명하다. 캡슐화와 변경 은닉 수준을 높여 구조 개편을 쉽게 만든다. 다만 무조건 위임 메서드만 늘리면 얇은 포워딩 코드가 많아져 가독성이 떨어질 수 있다. 결국 기억할 관점은 협력 범위를 가까운 이웃으로 제한하는 일을 구조 규칙으로 만드는 데 있다는 점이다.
+데메테르 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/653_law_of_demeter/), LoD)의 기대효과는 분명하다. 캡슐화와 변경 은닉 수준을 높여 구조 개편을 쉽게 만든다. 다만 무조건 위임 메서드만 늘리면 얇은 포워딩 코드가 많아져 가독성이 떨어질 수 있다. 결국 기억할 관점은 협력 범위를 가까운 이웃으로 제한하는 일을 구조 규칙으로 만드는 데 있다는 점이다.
 
 - **📢 섹션 요약 비유**: 반복해서 꺼내 보는 사용 설명서처럼, 오래 갈 설계일수록 핵심 규칙이 짧고 분명해야 한다.
 
@@ -103,16 +103,16 @@ tags = ["studynote-design-supervision"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 캡슐화 | 데메테르 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/110_law_of_demeter/), LoD)을 설계하고 감리할 때 함께 보는 연관 개념 |
-| [정보 은닉](/knowledge-base/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/) | 데메테르 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/110_law_of_demeter/), LoD)을 설계하고 감리할 때 함께 보는 연관 개념 |
-| 객체 협력 | 데메테르 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/110_law_of_demeter/), LoD)을 설계하고 감리할 때 함께 보는 연관 개념 |
-| 리팩터링 | 데메테르 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/110_law_of_demeter/), LoD)을 설계하고 감리할 때 함께 보는 연관 개념 |
+| 캡슐화 | 데메테르 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/653_law_of_demeter/), LoD)을 설계하고 감리할 때 함께 보는 연관 개념 |
+| [정보 은닉](/knowledge-base/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/) | 데메테르 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/653_law_of_demeter/), LoD)을 설계하고 감리할 때 함께 보는 연관 개념 |
+| 객체 협력 | 데메테르 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/653_law_of_demeter/), LoD)을 설계하고 감리할 때 함께 보는 연관 개념 |
+| 리팩터링 | 데메테르 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/653_law_of_demeter/), LoD)을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 [탐색형 호출] -> [LoD 적용] -> [메시지 중심 협력]
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 데메테르 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/110_law_of_demeter/), LoD)은 친구의 친구 서랍까지 직접 뒤지지 않고 주인에게 부탁하는 예절처럼 약속을 먼저 정하는 거예요.
+1. 데메테르 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/653_law_of_demeter/), LoD)은 친구의 친구 서랍까지 직접 뒤지지 않고 주인에게 부탁하는 예절처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 협력 범위를 가까운 이웃으로 제한하는 일이 더 중요해져요.
 

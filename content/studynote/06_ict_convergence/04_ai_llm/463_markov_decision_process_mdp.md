@@ -20,7 +20,7 @@ tags = ["studynote-ict-convergence"]
 ## Ⅰ. 개요 및 필요성
 
 강아지에게 "앉아"라고 훈련을 시킨다. 강아지가 앉으면 간식(보상)을 주고, 서 있으면 아무것도 안 준다(벌). 강아지는 과거에 자기가 했던 행동의 결과를 바탕으로 "아, 주인이 이 표정(상태)일 때, 내가 앉으면(행동) 맛있는 걸(보상) 주는구나!"라는 법칙을 깨닫게 된다.
-이것이 인간과 동물이 세상을 살아가는 방식, <strong>강화학습(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/">Reinforcement Learning</a>)</strong>이다.
+이것이 인간과 동물이 세상을 살아가는 방식, <strong>강화학습(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/">Reinforcement Learning</a>)</strong>이다.
 
 "그럼 이 <strong>[상황 -> 행동 -> 결과]</strong>라는 연속된 인생의 과정을 컴퓨터가 계산할 수 있게 수학 공식으로 바꿀 순 없을까?"
 수학자 마르코프(Markov)가 고안한 "과거는 잊고 현재만 봐라"라는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 모델에, 어떤 행동을 할지 선택(Decision)하는 과정을 결합하여 만든 5가지 변수의 완벽한 수학 모형이 바로 <strong>MDP</strong>다.
@@ -58,7 +58,7 @@ MDP는 기계(Agent)와 세상([Environment](/knowledge-base/studynote/15_devops
 ```
 
 1. <strong>마르코프성 (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/141_markov_property/">Markov Property</a>)</strong>: $P[S_{t+1} | S_t] = P[S_{t+1} | S_1, S_2, \dots, S_t]$. 내일 날씨(상태)를 맞출 때, 오늘 날씨 하나만 보나 어제, 그제 날씨 100일 치를 다 보나 똑같이 정확하다는 뜻이다. 오직 "[현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)" 안에 과거의 모든 정보가 다 농축되어 있다고 믿는 극한의 쿨가이 마인드다. 이 룰이 없으면 로봇은 1보 걸을 때마다 자기가 태어난 날부터의 모든 기록을 다 계산해야 해서 메모리가 터진다.
-2. **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), $\[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/)$)**: MDP를 푸는 최종 목적지다. "어느 상태(S)에서는 무조건 이 행동(A)을 해라!"라고 기계의 뇌 속에 콱 박아주는 완벽한 지침서(매뉴얼)다.
+2. **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), $\[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/)$)**: MDP를 푸는 최종 목적지다. "어느 상태(S)에서는 무조건 이 행동(A)을 해라!"라고 기계의 뇌 속에 콱 박아주는 완벽한 지침서(매뉴얼)다.
 
 - **📢 섹션 요약 비유**: 게임 <슈퍼 마리오>를 할 때, 마리오가 지금 서 있는 위치(S), 마리오가 누르는 점프 버튼(A), 동전을 먹었을 때 오르는 점수(R), 점프했는데 미끄러질 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(P), 그리고 게임이 끝나기 전에 빨리 동전을 먹어야 하는 조급함($\gamma$)을 합친 완벽한 게임 엔진이다.
 
@@ -112,8 +112,8 @@ MDP는 기계(Agent)와 세상([Environment](/knowledge-base/studynote/15_devops
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 상위 개념 | 강화학습 ([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/)) |
-| 하위 개념 | 상태(S), 행동(A), 보상(R), 전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(P), 할인율($\gamma$), [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)($\[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/)$) |
+| 상위 개념 | 강화학습 ([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/)) |
+| 하위 개념 | 상태(S), 행동(A), 보상(R), 전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(P), 할인율($\gamma$), [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)($\[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/)$) |
 | 연결 개념 | [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/), [벨만 방정식](/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/), [Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/), [DQN](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/), [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) |
 
 ### 📈 관련 키워드 및 발전 흐름도

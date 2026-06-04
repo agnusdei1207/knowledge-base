@@ -28,7 +28,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 우주 및 군사 공학</strong>: 버그 하나가 로켓 폭발(수천억 원 증발)로 이어지는 NASA나 군사 록히드 마틴 등에서, 천재 프로그래머의 감에 의존하지 않고 수학적으로 완벽함을 증명(정형 기법)하는 방향으로 발달했다.
   2. **코딩 표준의 제정**: 자동차 제어 장치(ECU)가 급발진하는 것을 막기 위해, C언어에서 위험한 문법(`goto` 문, 동적 메모리 할당 `malloc` 등)을 아예 쓰지 못하게 법으로 금지하는 MISRA C 등의 가이드라인이 탄생했다.
-  3. <strong>현대 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD 파이프라인의 린트(Lint)</strong>: 오늘날 일반적인 웹 개발에서도 [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) 같은 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구가 `if`문 안에 괄호가 빠지면 빌드 자체를 실패(Fail)하게 만들어, 개발자의 실수를 코드 저장소 입구에서 막아내는 대중적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 회피 전술로 정착했다.
+  3. <strong>현대 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD 파이프라인의 린트(Lint)</strong>: 오늘날 일반적인 웹 개발에서도 [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) 같은 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구가 `if`문 안에 괄호가 빠지면 빌드 자체를 실패(Fail)하게 만들어, 개발자의 실수를 코드 저장소 입구에서 막아내는 대중적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 회피 전술로 정착했다.
 
 - **📢 섹션 요약 비유**: [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 회피는 수술실에 들어가기 전에 의사가 손을 30분 동안 박박 씻고, 세균을 99.9% 죽이는 소독실을 거치는 과정입니다. 수술 중 감염(버그)이 일어난 뒤에 항생제(디버깅)를 쏟아붓는 짓을 피하기 위한 고도의 결벽증입니다.
 
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 회피 (Fault Avoidance) 기법은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

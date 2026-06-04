@@ -68,7 +68,7 @@ A사 데이터 -- hash/token --\
 B사 데이터 -- hash/token --/
 ```
 
-클린 룸은 보통 Hashing, [Tokenization](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/), HE ([Homomorphic Encryption](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/)), MPC (Multi-Party Computation) 같은 기술을 조합해 원본을 숨긴다. [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 허용되지만, 결과는 작은 표본을 숨기고 집계만 내보내도록 설계한다.
+클린 룸은 보통 Hashing, [Tokenization](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/), HE ([Homomorphic Encryption](/knowledge-base/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/)), MPC (Multi-Party Computation) 같은 기술을 조합해 원본을 숨긴다. [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 허용되지만, 결과는 작은 표본을 숨기고 집계만 내보내도록 설계한다.
 
 - **📢 섹션 요약 비유**: 서로 열쇠를 바꾸지 않고도, 비밀 방 안에서 숫자만 세어 보는 안전한 공동 작업실이다.
 

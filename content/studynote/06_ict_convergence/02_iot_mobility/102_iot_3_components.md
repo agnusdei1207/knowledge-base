@@ -63,7 +63,7 @@ IoT의 핵심 원리는 [데이터](/knowledge-base/studynote/05_database/01_db_
 | :--- | :--- | :--- |
 | **디바이스 (Device)** | [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/)(배터리) vs 연산 능력 | 저전력 온디바이스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), TinyML 도입으로 엣지 단에서 1차 판단 수행 |
 | **네트워크 (Network)** | 전송 속도 vs 도달 거리 vs 비용 | [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 및 [위성 통신](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/)(NTN; Non-Terrestrial Network) 융합으로 음영지역 해소 |
-| **플랫폼 (Platform)** | 엄청난 트래픽 처리 vs 실시간 분석 | [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)([Digital Twin](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)) 및 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 기반 자율 운영 |
+| **플랫폼 (Platform)** | 엄청난 트래픽 처리 vs 실시간 분석 | [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)([Digital Twin](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)) 및 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 기반 자율 운영 |
 
 이러한 발전은 플랫폼에 집중되던 부하를 디바이스와 네트워크 엣지로 분산시킴으로써 지연시간을 줄이고 통신 비용을 최적화하는 융합을 만들어낸다.
 

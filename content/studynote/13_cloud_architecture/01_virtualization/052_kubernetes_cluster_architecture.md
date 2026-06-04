@@ -21,7 +21,7 @@ tags = ["studynote-cloud-architecture"]
 
 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)는 수많은 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 사람이 직접 관리하기 어렵기 때문에 등장했다. 클러스터 아키텍처는 이러한 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 묶어 배치, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 확장을 자동화하는 구조다. 핵심은 사용자가 원하는 최종 상태를 선언하면 시스템이 그 상태를 계속 유지한다는 점이다.
 
-[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 자주 바뀌고 트래픽도 요동친다. 그래서 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)처럼 자동화된 클러스터 관리가 필요하다.
+[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경에서는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 자주 바뀌고 트래픽도 요동친다. 그래서 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)처럼 자동화된 클러스터 관리가 필요하다.
 
 - **📢 섹션 요약 비유**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터는 항만 관제 시스템과 같다. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 화물선이고, 클러스터는 이 선박들을 자동으로 배치하는 항구다.
 
@@ -98,7 +98,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터는 현대 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 운영의 표준이다. 배포, 확장, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 자동화해 운영 효율을 크게 높이고, 애플리케이션 팀이 코드에 집중하게 만든다.
+[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터는 현대 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 운영의 표준이다. 배포, 확장, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 자동화해 운영 효율을 크게 높이고, 애플리케이션 팀이 코드에 집중하게 만든다.
 
 하지만 자동화가 강할수록 설계와 관측이 중요해진다. 결국 클러스터 아키텍처는 "어떻게 빨리 띄우는가"보다 "어떻게 안정적으로 오래 돌리는가"의 문제다.
 

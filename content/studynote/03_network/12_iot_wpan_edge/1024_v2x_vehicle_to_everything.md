@@ -119,7 +119,7 @@ V2X는 자동차를 단순한 이동 수단에서 '바퀴 달린 거대한 스�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [위성 통신 핸드오버](/knowledge-base/studynote/09_security/uncategorized/1023_isl_inter_satellite_link_low_earth_orbit_routing/) ([ISL](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [위성 통신 핸드오버](/knowledge-base/studynote/09_security/uncategorized/1101_isl_inter_satellite_link_low_earth_orbit_routing/) ([ISL](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
 | 저전력 통신 (Low [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Communication) | 배터리 수명과 직접 연결된다. |
 | [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/) (Sensor Network) | 수많은 단말의 연결 구조를 결정한다. |
 | [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) / [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 제어 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
@@ -136,7 +136,7 @@ V2X는 자동차를 단순한 이동 수단에서 '바퀴 달린 거대한 스�
     +---> [확장 B: 자율형 엣지 협업]
 ```
 
-V2X는 [위성 통신 핸드오버](/knowledge-base/studynote/09_security/uncategorized/1023_isl_inter_satellite_link_low_earth_orbit_routing/) (ISL에서 출발해 현재 메커니즘을 정교화하고, 이후 [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) / [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 제어와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+V2X는 [위성 통신 핸드오버](/knowledge-base/studynote/09_security/uncategorized/1101_isl_inter_satellite_link_low_earth_orbit_routing/) (ISL에서 출발해 현재 메커니즘을 정교화하고, 이후 [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) / [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 제어와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

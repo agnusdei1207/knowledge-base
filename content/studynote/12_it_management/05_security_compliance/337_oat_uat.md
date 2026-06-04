@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 514 / 587
 
-<- **이전**: [336. 망연계 물리적 논리적 분리 통제 구조 점검](/knowledge-base/studynote/12_it_management/05_security_compliance/336_network_separation_physical_logical/)
-**다음**: [337. OAT / UAT 인수 테스트 승인 확인](/knowledge-base/studynote/12_it_management/05_security_compliance/337_oat_uat_acceptance_testing/) ->
+<- **이전**: [336. 망연계 물리적 논리적 분리 통제 구조 점검](/knowledge-base/studynote/12_it_management/05_security_compliance/977_network_separation_physical_logical/)
+**다음**: [337. OAT / UAT 인수 테스트 승인 확인](/knowledge-base/studynote/12_it_management/05_security_compliance/978_oat_uat_acceptance_testing/) ->
 
 ---

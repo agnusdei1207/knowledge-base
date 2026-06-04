@@ -120,7 +120,7 @@ spec:
 |:---|:---|:---|
 | 목적 | [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 보안 프로파일 적용 | 커스텀 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 강제 |
 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 언어 | 내장 프로파일 | Rego 언어 |
-| 적용 범위 | [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)/[컨테이너 보안](/knowledge-base/studynote/04_software_engineering/11_testing_validation/513_container_security/) | 모든 K8s 리소스 |
+| 적용 범위 | [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)/[컨테이너 보안](/knowledge-base/studynote/04_software_engineering/11_testing_validation/905_container_security/) | 모든 K8s 리소스 |
 | 복잡도 | 낮음 | 높음 (강력함) |
 | 권장 사용 | 기본 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 보안 | 조직 커스텀 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) |
 
@@ -161,7 +161,7 @@ spec:
 
 **기술사 판단 포인트**:
 - PSA는 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 레벨 적용이므로, 시스템 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)(kube-system)와 일반 워크로드를 별도 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)에 분리해야 한다.
-- Restricted 프로파일 적용 시 기존 [Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) 차트나 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) 등)가 위반할 수 있으므로 사전 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)가 필수다.
+- Restricted 프로파일 적용 시 기존 [Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) 차트나 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) 등)가 위반할 수 있으므로 사전 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)가 필수다.
 - [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/) Gatekeeper나 Kyverno를 함께 사용하면 이미지 태그 latest 금지, 리소스 제한 강제 등 PSA 이상의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 적용 가능하다.
 
 📢 **섹션 요약 비유**: PSA를 enforce 모드로 바로 적용하면 기존 서비스가 갑자기 배포 불가 상태가 될 수 있다. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 모드로 시작해서 위반 목록을 만들고 하나씩 고치는 것이 현명한 접근이다.

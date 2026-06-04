@@ -99,7 +99,7 @@ DPA는 같은 전력 계열 공격 안에서도 SPA, [CPA](/knowledge-base/study
 
 방어 기술도 계층적으로 연결된다. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 수준에서는 마스킹(Masking), 셔플링(Shuffling), constant-time 구현이 중요하고, 회로 수준에서는 듀얼 레일(Dual-Rail), 균형 배선(Balanced [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)), [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 평탄화가 필요하다. 즉 DPA는 단순한 측정 기술이 아니라, 암호 구현 전체의 누설 구조를 검사하는 관점이다.
 
-특히 파일명에도 남아 있는 DPA 내성 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)(DPA Resistant Logic)는 DPA를 방어하기 위해 등장한 대표 회로 철학이다. 공격을 이해해야 왜 듀얼 레일 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/), 균형 배선, [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 스위칭이 필요한지도 자연스럽게 설명된다.
+특히 파일명에도 남아 있는 DPA 내성 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)(DPA Resistant Logic)는 DPA를 방어하기 위해 등장한 대표 회로 철학이다. 공격을 이해해야 왜 듀얼 레일 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/), 균형 배선, [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) 스위칭이 필요한지도 자연스럽게 설명된다.
 
 - **📢 섹션 요약 비유**: SPA가 육안 관찰이라면 DPA는 여러 장의 사진을 겹쳐 숨은 그림을 찾아내는 방식이고, CPA는 거기에 자와 계산기까지 들고 와서 가장 잘 맞는 윤곽선을 찾는 방식이다.
 

@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 벨만 방정식(Bellman Equation)은 강화학습([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/))에서 "[현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)의 가치 = 즉각 보상 + 미래 최적 가치의 할인합"이라는 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적(Recursive) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)로 최적 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(Optimal [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 수식화한다.
+> 1. **본질**: 벨만 방정식(Bellman Equation)은 강화학습([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/))에서 "[현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)의 가치 = 즉각 보상 + 미래 최적 가치의 할인합"이라는 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적(Recursive) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)로 최적 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(Optimal [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 수식화한다.
 > 2. **가치**: Q-러닝([Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/)) 업데이트 Q(s,a) <- Q(s,a) + α[R + γ·max_a'Q(s',a') - Q(s,a)]는 벨만 최적 방정식의 반복적 근사로, 모델(환경 동역학) 없이도 최적 행동 [가치 함수](/knowledge-base/studynote/10_ai/02_dl_architecture_new/163_value_function/)(Optimal Action-[Value Function](/knowledge-base/studynote/10_ai/02_dl_architecture_new/163_value_function/))를 학습한다.
 > 3. **판단 포인트**: 할인 인수(Discount Factor) γ는 미래 보상의 현재 가치를 결정하며, γ = 1이면 미래와 현재를 동등하게 보고(무한 수평선 문제), γ = 0이면 즉각 보상만 고려한다. [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)-착취 균형([Exploration](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)-Exploitation Tradeoff)은 Q-러닝 수렴의 전제 조건이다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-강화학습(RL, [Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/))의 목표는 에이전트(Agent)가 환경([Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))과 상호작용하며 누적 보상(Cumulative Reward)을 최대화하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) π를 학습하는 것이다.
+강화학습(RL, [Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/))의 목표는 에이전트(Agent)가 환경([Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))과 상호작용하며 누적 보상(Cumulative Reward)을 최대화하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) π를 학습하는 것이다.
 
 핵심 문제는 <strong>신용 할당(Credit Assignment Problem)</strong>이다. 체스 게임에서 최종 승리(보상 +1)가 어떤 수(행동)의 기여인지 알 수 없다. 게임이 끝날 때까지 수백 수를 두고 나서야 보상이 주어지기 때문이다.
 

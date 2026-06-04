@@ -15,10 +15,10 @@ tags = ["cloud_architecture"]
 - **운영 안정성 및 보안 강화:** 모든 변경 이력이 Git [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 남으므로 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이 즉각적이며, 사용자가 직접 인프라에 접속할 필요가 없어 보안 사고 리스크가 줄어든다.
 
 ### Ⅰ. 개요 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Background)
-깃옵스([GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/))는 위브웍스(Weaveworks)가 2017년 제안한 개념으로, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경(특히 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/))에서 인프라와 배포를 관리하는 최신 방식이다. DevOps의 핵심 원칙인 '자동화'와 '선언적 인프라([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/))'를 Git 워크플로우와 결합하여 배포의 민첩성과 운영의 안정성을 동시에 확보한다.
+깃옵스([GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/))는 위브웍스(Weaveworks)가 2017년 제안한 개념으로, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경(특히 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/))에서 인프라와 배포를 관리하는 최신 방식이다. DevOps의 핵심 원칙인 '자동화'와 '선언적 인프라([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/))'를 Git 워크플로우와 결합하여 배포의 민첩성과 운영의 안정성을 동시에 확보한다.
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
-GitOps는 푸시(Push) 기반의 기존 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD와 달리 풀(Pull) 기반의 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 메커니즘을 지향한다.
+GitOps는 푸시(Push) 기반의 기존 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD와 달리 풀(Pull) 기반의 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 메커니즘을 지향한다.
 
 ```text
 [ Architecture of GitOps Pipeline ]
@@ -48,10 +48,10 @@ GitOps는 푸시(Push) 기반의 기존 [CI](/knowledge-base/studynote/12_it_man
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-| 비교 항목 | 전통적 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD (Push 기반) | [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) (Pull 기반) |
+| 비교 항목 | 전통적 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD (Push 기반) | [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) (Pull 기반) |
 | :--- | :--- | :--- |
-| **작동 원리** | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 툴에서 클러스터로 직접 명령 실행 | 클러스터 내 에이전트가 Git을 감시하여 가져옴 |
-| **보안** | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 툴에 클러스터 접근 권한(Kubeconfig) 필요 | 클러스터 밖으로 권한을 노출하지 않음 |
+| **작동 원리** | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 툴에서 클러스터로 직접 명령 실행 | 클러스터 내 에이전트가 Git을 감시하여 가져옴 |
+| **보안** | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 툴에 클러스터 접근 권한(Kubeconfig) 필요 | 클러스터 밖으로 권한을 노출하지 않음 |
 | <strong>장애 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong> | 수동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 또는 재실행 필요 | Git 이전 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 Revert 시 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
 | **가시성** | 배포 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 중심 | 현재 운영 상태(Sync status) 중심 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) |
 

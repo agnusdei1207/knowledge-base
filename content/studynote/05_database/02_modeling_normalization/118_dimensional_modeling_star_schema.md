@@ -46,7 +46,7 @@ tags = ["studynote-database"]
 |:---|:---|:---|
 | **내용** | 측정값 (매출, 수량) | 분석 축 (날짜, 상품, 고객) |
 | **행 수** | 매우 많음 (수억) | 적음 (수천~수만) |
-| **키** | FK (디멘전 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)) | PK ([Surrogate Key](/knowledge-base/studynote/12_it_management/05_security_compliance/314_surrogate_key/)) |
+| **키** | FK (디멘전 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)) | PK ([Surrogate Key](/knowledge-base/studynote/12_it_management/05_security_compliance/956_surrogate_key/)) |
 | **변경** | 추가만 (Append) | [SCD](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/) (Slowly Changing) |
 
 ### 스타 vs 스노우플레이크
@@ -89,7 +89,7 @@ tags = ["studynote-database"]
 | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 속도 | 느림 (다단 [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) | <strong>빠름 (1단 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">JOIN</a>)</strong> | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~100× |
 | 사용자 이해 | 어려움 | **직관적** | 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) BI |
 
-차원 모델링은 [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/) 방법론의 핵심이며, 현대 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/), [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/))에서도 [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)가 표준으로 사용된다.
+차원 모델링은 [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/954_kimball/) 방법론의 핵심이며, 현대 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/), [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/))에서도 [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)가 표준으로 사용된다.
 
 ---
 
@@ -101,7 +101,7 @@ tags = ["studynote-database"]
 | **디멘전 테이블** | 분석 축(날짜·상품·고객) |
 | <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/">스타 스키마</a></strong> | 팩트 중심 1단계 [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) |
 | <strong><a href="/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/">SCD</a></strong> | 디멘전 변경 이력 관리 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/">Kimball</a> 방법론</strong> | 차원 모델링의 이론적 기반 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/954_kimball/">Kimball</a> 방법론</strong> | 차원 모델링의 이론적 기반 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

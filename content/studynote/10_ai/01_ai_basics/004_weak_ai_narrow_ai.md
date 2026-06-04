@@ -93,7 +93,7 @@ tags = ["ai"]
 | 확장 비용 | 룰 추가 시 유지보수 기하급수 증가 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 바뀌면 처음부터 재학습(비용 큼) | 한 번 훈련되면 제로 비용으로 전이 |
 | 실무 안정성 | 완벽히 통제 가능 (100% 신뢰) | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 오차 존재 (99% 신뢰) | 의도 이탈 및 통제 불능 위험 존재 |
 
-다음은 비즈니스 요구사항 변동에 따른 [기술 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/)의 적합성을 나타내는 비교 매트릭스이다.
+다음은 비즈니스 요구사항 변동에 따른 [기술 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/890_ta_as_is_analysis/)의 적합성을 나타내는 비교 매트릭스이다.
 
 ```text
 비즈니스 복잡도 증가 -->

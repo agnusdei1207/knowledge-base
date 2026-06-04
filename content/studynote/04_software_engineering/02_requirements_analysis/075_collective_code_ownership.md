@@ -34,13 +34,13 @@ issue -> any dev -> tests / review -> merge -> shared knowledge
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-공동 소유를 받쳐 주는 것은 자동화 테스트, [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/), 일관된 스타일, 작은 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/), 빠른 피드백이다. 여기에 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/))와 feature flag가 더해지면 변경 위험이 크게 줄어든다.
+공동 소유를 받쳐 주는 것은 자동화 테스트, [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/), 일관된 스타일, 작은 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/), 빠른 피드백이다. 여기에 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/))와 feature flag가 더해지면 변경 위험이 크게 줄어든다.
 
 | 구성 요소 | 역할 | 왜 필요한가 |
 | :--- | :--- | :--- |
 | Automated Tests | 회귀 방지 | 누구나 고쳐도 안전 |
 | [Code Review](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) | 품질 점검 | 숨은 영향 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) | 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 통합 실패 조기 발견 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) | 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 통합 실패 조기 발견 |
 | Style / Convention | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 확보 | 문맥 비용 감소 |
 | [Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) | 안전한 출시 | 점진적 노출 |
 
@@ -96,7 +96,7 @@ issue -> any dev -> tests / review -> merge -> shared knowledge
 | :--- | :--- |
 | Shared [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) | 팀 자산 |
 | Tests | 안전망 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) | 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) | 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) | 품질 필터 |
 | [Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) | 점진적 출시 |
 

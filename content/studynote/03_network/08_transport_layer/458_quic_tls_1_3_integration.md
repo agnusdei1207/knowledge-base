@@ -78,7 +78,7 @@ QUIC이 처음 방문한 서버(구글)와 암호화 터널을 뚫는 과정이�
  +-------------------------------------------------------------+
 ```
 
-### 3. 통신사([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))들의 절망: 페이로드의 완전한 암호화
+### 3. 통신사([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))들의 절망: 페이로드의 완전한 암호화
 앞서 배운 것처럼, QUIC은 겉면의 8바이트 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 깡통([포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/))만 빼고 <strong>그 안에 들어있는 모든 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(심지어 ACK 번호표, 윈도우 사이즈, 패킷 번호까지!)를 100% <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 1.3으로 흑색 잉크 칠(암호화)</strong>해 버린다.
 과거엔 통신사가 "어? 얘 토렌트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 받네? [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) ACK가 미친 듯이 날아가네? 속도 확 꺾어버려([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 제어)!"라고 횡포를 부렸다.
 이제는 통신사 방화벽이 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) 패킷을 열어봐도 내용이 완전히 까매서 얘가 동영상을 보는지, 토렌트를 받는지, 접속을 끊으려는지 아예 판독을 할 수가 없다. 통신망 중립성을 강제로 지켜버린 기술적 쾌거다.

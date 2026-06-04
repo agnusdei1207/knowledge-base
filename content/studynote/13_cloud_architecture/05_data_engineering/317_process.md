@@ -124,7 +124,7 @@ tags = ["studynote-cloud-architecture"]
 
 **진행 상황**: 316 / 371
 
-<- **이전**: [316. CDC 트랜잭션 로그 기반 데이터 실시간 변경 캡처 (CDC)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/316_process/)
+<- **이전**: [316. CDC 트랜잭션 로그 기반 데이터 실시간 변경 캡처 (CDC)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/674_process/)
 **다음**: [318. 데이터 패브릭 가상화 메타 기반 융합 (Cloud Architecture Concept)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/318_process/) ->
 
 ---

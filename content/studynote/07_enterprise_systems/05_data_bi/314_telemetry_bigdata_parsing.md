@@ -110,7 +110,7 @@ tags = ["studynote-enterprise-systems"]
 | 비용 | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) (수집) + 백엔드 비용 | 고가 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 볼륨 과금) |
 | 기능 완성도 | 계속 성장 중 | 성숙, 올인원 |
 | 다중 백엔드 | 가능 | 단일 (자사 플랫폼) |
-| 엔터프라이즈 지원 | 커뮤니티 | 공식 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) |
+| 엔터프라이즈 지원 | 커뮤니티 | 공식 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) |
 
 📢 **섹션 요약 비유**: OTel은 표준 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), Datadog은 독자 규격 충전기다. USB는 어디서나 쓰지만 충전 속도는 독자 규격이 더 빠를 수 있다.
 

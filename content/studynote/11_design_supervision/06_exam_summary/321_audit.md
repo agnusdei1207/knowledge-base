@@ -117,7 +117,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 399 / 530
 
-<- **이전**: [320. IT 감리 논술 답안 구조 총정리 (IT Audit Essay Structure Summary)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/320_summary/)
+<- **이전**: [320. IT 감리 논술 답안 구조 총정리 (IT Audit Essay Structure Summary)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/678_summary/)
 **다음**: [322. 3단계 감리 (Three-Stage Audit)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/) ->
 
 ---

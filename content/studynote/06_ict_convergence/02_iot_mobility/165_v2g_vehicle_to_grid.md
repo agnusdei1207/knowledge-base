@@ -45,7 +45,7 @@ V2G가 주목받는 이유는 두 가지다. 첫째, 태양광·풍력 비중이
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-V2G가 작동하려면 차량, 충전기, 운영 플랫폼, 전력망이 한 세트로 움직여야 한다. 차량 내부에서는 배터리 관리 시스템 (BMS, Battery [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)이 상태충전율 ([SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/), [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) of Charge)과 온도를 감시하고, 외부에서는 양방향 전력변환장치가 교류와 직류를 바꾼다. 그 위에서 에너지 관리 시스템 (EMS, Energy [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)이나 집합사업자 (Aggregator)가 요금, 계통 수요, 차량 출발 예정 시간을 고려해 충방전 시점을 조정한다.
+V2G가 작동하려면 차량, 충전기, 운영 플랫폼, 전력망이 한 세트로 움직여야 한다. 차량 내부에서는 배터리 관리 시스템 (BMS, Battery [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System)이 상태충전율 ([SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/), [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) of Charge)과 온도를 감시하고, 외부에서는 양방향 전력변환장치가 교류와 직류를 바꾼다. 그 위에서 에너지 관리 시스템 (EMS, Energy [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System)이나 집합사업자 (Aggregator)가 요금, 계통 수요, 차량 출발 예정 시간을 고려해 충방전 시점을 조정한다.
 
 | 구성 요소 | 역할 | 핵심 설계 포인트 |
 | :--- | :--- | :--- |

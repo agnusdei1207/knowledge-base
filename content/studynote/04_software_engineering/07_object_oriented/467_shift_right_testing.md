@@ -27,7 +27,7 @@ tags = ["studynote-software-engineering"]
 
 - **등장 배경 및 발전 과정**:
   1. **샌드박스의 한계**: 과거엔 라이브 서버에서 테스트를 돌리면 미친놈 취급을 받았다. 하지만 Staging 환경은 진짜 Production 환경을 100% 흉내 낼 수 없다는 것이 드러났다.
-  2. **클라우드의 도래와 인프라 격리**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)와 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/))가 발전하면서, 운영 서버 안에서도 트래픽을 1%만 쪼개어 특정 방([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))으로만 보내는 '안전한 실전 테스트([Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/))'가 가능해졌다.
+  2. **클라우드의 도래와 인프라 격리**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)와 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)([Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/))가 발전하면서, 운영 서버 안에서도 트래픽을 1%만 쪼개어 특정 방([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))으로만 보내는 '안전한 실전 테스트([Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/))'가 가능해졌다.
   3. <strong>관측성(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">Observability</a>)의 폭발</strong>: Datadog, [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) 같은 툴이 나오면서, 시스템 내부를 엑스레이처럼 24시간 까볼 수 있게 되자, 모니터링 자체가 가장 위대한 '운영 테스트'로 격상되었다.
 
 - **📢 섹션 요약 비유**: [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)가 격투기 선수의 <strong>'방어 가드 올리기 훈련'</strong>이라면, 시프트 라이트는 <strong>'실전 스파링(맷집 테스트)'</strong>입니다. 샌드백을 치며 완벽하게 연습했더라도 링 위(운영 서버)에 올라가 진짜 사람(유저 트래픽)에게 턱을 한 대 맞아봐야(장애), 내 가드가 어디가 허술했는지 알고 실시간으로 방어 폼(복원력)을 수정할 수 있습니다.
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 시프트 라이트 테스팅 (Shift-Right Testing)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 526 / 973
 
-<- **이전**: [467. 시프트 라이트 테스팅 (Shift-Right Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/467_shift_right_testing/)
-**다음**: [468. 운영 환경 테스트 (Testing in Production / TiP)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/468_testing_in_production/) ->
+<- **이전**: [467. 시프트 라이트 테스팅 (Shift-Right Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/859_shift_right_testing/)
+**다음**: [468. 운영 환경 테스트 (Testing in Production / TiP)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/860_testing_in_production/) ->
 
 ---

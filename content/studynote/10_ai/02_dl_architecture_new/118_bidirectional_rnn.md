@@ -12,7 +12,7 @@ tags = ["studynote-ai"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 양방향 [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)(Bi-[RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/))은 시퀀스를 <strong>순방향(좌->우)과 역방향(우->좌) 두 개의 RNN으로 동시에 처리</strong>하여, 각 시간 단계에서 <strong>과거+미래 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a>를 모두 활용</strong>하는 시퀀스 모델이다.
 > 2. **가치**: [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) RNN은 "I went to the bank to deposit ___"에서 `bank`를 `deposit`(미래 단어) 없이 해석해야 하지만, Bi-RNN은 **뒤의 deposit을 이미 보고** bank를 "은행"으로 정확히 판단한다.
-> 3. **판단 포인트**: Bi-RNN은 <strong>전체 시퀀스가 주어진 경우(<a href="/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/">NER</a>·기계 번역 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">인코더</a>·<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/">감성 분석</a>)</strong>에 적합하지만, <strong>실시간 스트리밍(음성 인식 실시간·자동 완성)</strong>에서는 미래 정보가 없으므로 사용 불가하다.
+> 3. **판단 포인트**: Bi-RNN은 <strong>전체 시퀀스가 주어진 경우(<a href="/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/">NER</a>·기계 번역 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">인코더</a>·<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/">감성 분석</a>)</strong>에 적합하지만, <strong>실시간 스트리밍(음성 인식 실시간·자동 완성)</strong>에서는 미래 정보가 없으므로 사용 불가하다.
 
 ---
 
@@ -67,7 +67,7 @@ tags = ["studynote-ai"]
 
 ### 적합 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)
 1. <strong><a href="/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/">NER</a> (<a href="/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/">개체명 인식</a>)</strong>: "Apple은 회사? 과일?" -> 뒤의 단어로 판단.
-2. <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/">감성 분석</a></strong>: 문장 전체를 보고 긍·부정 판단.
+2. <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/">감성 분석</a></strong>: 문장 전체를 보고 긍·부정 판단.
 3. <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/245_seq2seq_context_vector_attention_dynamic_weight/">Seq2Seq</a> <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">인코더</a></strong>: 번역 모델의 입력 인코딩.
 
 ### 부적합 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)

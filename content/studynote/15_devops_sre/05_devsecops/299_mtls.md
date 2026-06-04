@@ -146,6 +146,6 @@ Reference Architecture
 **진행 상황**: 299 / 373
 
 <- **이전**: [298. 서비스 메시 Istio 사이드카 트래픽 보안 (Istio)](/knowledge-base/studynote/15_devops_sre/05_devsecops/298_istio/)
-**다음**: [300. 서비스 디스커버리 동적 IP 라우팅 (Process)](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) ->
+**다음**: [300. 서비스 디스커버리 동적 IP 라우팅 (Process)](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) ->
 
 ---

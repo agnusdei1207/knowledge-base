@@ -197,7 +197,7 @@ AWS (컴퓨팅)  Azure (AI)  GCP (데이터)
 
 **진행 상황**: 49 / 371
 
-<- **이전**: [049. 클라우드 섀도 IT — Cloud Shadow IT](/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it_risk_management/)
+<- **이전**: [049. 클라우드 섀도 IT — Cloud Shadow IT](/knowledge-base/studynote/12_it_management/01_governance_strategy/840_shadow_it_risk_management/)
 **다음**: [51. 벤더 종속 (Vendor Lock-in) - 클라우드 아키텍처의 함정](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/) ->
 
 ---

@@ -61,7 +61,7 @@ tags = ["enterprise_systems"]
 | 차별화 | 제한적 | 높음 |
 | 업그레이드 | 패키지 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에 종속 | 자율적이지만 비용 큼 |
 
-ERP는 [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) ([Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/))과 함께 가야 한다. 기존 일을 그대로 소프트웨어에 옮기려 하면 커스터마이징이 늘고, 패키지의 표준화 이점이 사라진다. 따라서 ERP는 업무를 패키지에 맞추는 선택이 아니라, 업무를 다시 설계하는 계기로 봐야 한다.
+ERP는 [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/) ([Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/))과 함께 가야 한다. 기존 일을 그대로 소프트웨어에 옮기려 하면 커스터마이징이 늘고, 패키지의 표준화 이점이 사라진다. 따라서 ERP는 업무를 패키지에 맞추는 선택이 아니라, 업무를 다시 설계하는 계기로 봐야 한다.
 
     - **📢 섹션 요약 비유**: 모든 집에 같은 부엌을 강제로 넣으면 불편해지듯, 무리한 커스터마이징은 손해다.
 
@@ -101,9 +101,9 @@ ERP는 [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_busine
     | 개념 | 연결 포인트 |
 | :-- | :-- |
 | [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)) | 기업 자원 통합 패키지 |
-| [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) ([Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/)) | 업무를 패키지에 맞게 재설계 |
+| [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/) ([Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/)) | 업무를 패키지에 맞게 재설계 |
 | Master [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 공통 기준 정보 |
-| Fit-[Gap Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/107_gap_analysis_task_identification/) | 표준과 요구의 [차이 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/107_gap_analysis_task_identification/) |
+| Fit-[Gap Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/891_gap_analysis_task_identification/) | 표준과 요구의 [차이 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/891_gap_analysis_task_identification/) |
 | Upgradeability | 패키지 장점 유지의 핵심 조건 |
 
     ### 📈 관련 키워드 및 발전 흐름도
@@ -117,7 +117,7 @@ ERP는 [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_busine
 표준 프로세스 내재화
     |
     v
-fit-gap / [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) / 업그레이드 관리
+fit-gap / [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/) / 업그레이드 관리
 
     ### 👶 어린이를 위한 3줄 비유 설명
 

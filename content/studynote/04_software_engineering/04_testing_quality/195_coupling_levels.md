@@ -79,7 +79,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-현대 소프트웨어에서는 제어 결합도나 내용 결합도를 끊어내기 위해 **인터페이스(Interface)** 를 두고 통신하거나, Spring 프레임워크처럼 외부에서 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 끼워 넣어주는 <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/">의존성 주입</a>(<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/">Dependency Injection</a>, <a href="/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/">DI</a>)</strong> 기법을 사용하여 결합도를 강제로 낮춥니다.
+현대 소프트웨어에서는 제어 결합도나 내용 결합도를 끊어내기 위해 **인터페이스(Interface)** 를 두고 통신하거나, Spring 프레임워크처럼 외부에서 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 끼워 넣어주는 <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/">의존성 주입</a>(<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/">Dependency Injection</a>, <a href="/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/">DI</a>)</strong> 기법을 사용하여 결합도를 강제로 낮춥니다.
 
 > 📢 **섹션 요약 비유**: 회사 동료에게 일을 시킬 때, 그 직원의 다이어리(내부 변수)를 내가 맘대로 훔쳐보고 고치면 내용 결합도(최악)입니다. 대신 깔끔한 회사 양식(인터페이스)에 '이름'과 '금액'(자료 결합도)만 딱 적어서 넘겨주고 그 직원이 알아서 일하게 냅두는 것이 최고의 업무 효율(최저 결합도)을 냅니다.
 
@@ -98,7 +98,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 결합도 (Coupling)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

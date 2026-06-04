@@ -140,7 +140,7 @@ Salary: [50K, 60K, 55K]
 | [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)  | 버퍼 미스 횟수                  | 최소화        |
 | 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)  | 수정됐지만 미플러시 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 비율  | < 20%        |
 
-📢 **섹션 요약 비유**: 버퍼 풀은 책상 위 책 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)다 — 자주 보는 책(핫 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))은 책상(메모리)에 올려두고, 오래 안 본 책(콜드 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))은 책장(디스크)에 돌려보낸다.
+📢 **섹션 요약 비유**: 버퍼 풀은 책상 위 책 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)다 — 자주 보는 책(핫 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))은 책상(메모리)에 올려두고, 오래 안 본 책(콜드 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))은 책장(디스크)에 돌려보낸다.
 
 ---
 
@@ -218,7 +218,7 @@ Salary: [50K, 60K, 55K]
 
 1. 힙 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 물건을 그냥 던져넣는 서랍이다 — 찾기 어렵지만 넣기는 빠르다.
 2. 열 지향 저장은 키·몸무게·나이를 각각 별도 리스트로 관리하는 것이다 — "모든 학생의 키 평균"을 구할 때 키 리스트만 읽으면 된다.
-3. 버퍼 풀은 책상 위 책 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)다 — 자주 읽는 책은 책상(메모리)에 두고, 오래 안 본 책은 책장(디스크)에 돌려놓는다.
+3. 버퍼 풀은 책상 위 책 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)다 — 자주 읽는 책은 책상(메모리)에 두고, 오래 안 본 책은 책장(디스크)에 돌려놓는다.
 
 ---
 

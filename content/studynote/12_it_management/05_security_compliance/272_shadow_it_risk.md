@@ -141,6 +141,6 @@ tags = ["studynote-it-management"]
 **진행 상황**: 392 / 587
 
 <- **이전**: [271. TCO 총 소유 비용](/knowledge-base/studynote/12_it_management/05_security_compliance/271_tco_review/)
-**다음**: [272. 섀도우 IT 리스크](/knowledge-base/studynote/12_it_management/05_security_compliance/272_shadow_it_risk_review/) ->
+**다음**: [272. 섀도우 IT 리스크](/knowledge-base/studynote/12_it_management/05_security_compliance/921_shadow_it_risk_review/) ->
 
 ---

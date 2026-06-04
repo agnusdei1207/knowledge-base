@@ -72,7 +72,7 @@ TensorFlow.js는 상위 레벨의 Layers API와 하위 레벨의 Core API로 구
 
 **최적화 기술**:
 - **Model Conversion**: Python에서 학습된 모델(`.h5`, `SavedModel`)을 웹용 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)/Binary 형식으로 변환 및 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)
-- <strong><a href="/knowledge-base/studynote/09_security/uncategorized/610_memory_management/">Memory Management</a></strong>: [가비지 컬렉터](/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/)가 즉시 회수하지 못하는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리를 관리하기 위해 `tf.tidy()` 및 `dispose()` 활용
+- <strong><a href="/knowledge-base/studynote/09_security/uncategorized/1040_memory_management/">Memory Management</a></strong>: [가비지 컬렉터](/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/)가 즉시 회수하지 못하는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리를 관리하기 위해 `tf.tidy()` 및 `dispose()` 활용
 
 - **📢 섹션 요약 비유**: 주방 도구([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))가 아무리 좋아도 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)레인지(Backend)가 강력해야 요리가 빠르다. WebGL은 고화력 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)레인지 역할을 하여 대량의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Tensor)를 순식간에 익혀낸다.
 
@@ -96,7 +96,7 @@ TensorFlow.js는 13_cloud_architecture의 <strong><a href="/knowledge-base/study
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 고려 사항
-1. **모델 크기**: 브라우저 로딩 속도를 위해 모델 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기를 최소화해야 한다. ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) Optimization, [Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 필수)
+1. **모델 크기**: 브라우저 로딩 속도를 위해 모델 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기를 최소화해야 한다. ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) Optimization, [Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 필수)
 2. **비동기 처리**: 모델 로딩 및 추론 과정이 브라우저의 메인 UI [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 방해하지 않도록 `async/await`와 Web Workers를 적절히 사용해야 한다.
 3. **가속도 지원**: 사용자의 브라우저 환경에 따라 WebGL 지원 여부가 다르므로, [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/)) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)([WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/)/CPU)을 마련해야 한다.
 

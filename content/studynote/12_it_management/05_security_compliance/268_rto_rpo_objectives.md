@@ -141,6 +141,6 @@ tags = ["studynote-it-management"]
 **진행 상황**: 385 / 587
 
 <- **이전**: [267. BIA 업무 영향 분석](/knowledge-base/studynote/12_it_management/05_security_compliance/267_bia_business_impact_analysis/)
-**다음**: [268. RTO 복구 시간 RPO 복구 시점](/knowledge-base/studynote/12_it_management/05_security_compliance/268_rto_rpo_recovery_objectives/) ->
+**다음**: [268. RTO 복구 시간 RPO 복구 시점](/knowledge-base/studynote/12_it_management/05_security_compliance/918_rto_rpo_recovery_objectives/) ->
 
 ---

@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)) 는 연쇄 법칙 (Chain Rule) 을 계산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Computational [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) 에 적용해, [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)의 각 파라미터에 대한 편미분 ∂L/∂w 를 출력층에서 입력층 방향으로 효율적으로 계산하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+> 1. **본질**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)) 는 연쇄 법칙 (Chain Rule) 을 계산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Computational [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/)) 에 적용해, [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)의 각 파라미터에 대한 편미분 ∂L/∂w 를 출력층에서 입력층 방향으로 효율적으로 계산하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 > 2. **가치**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 없이는 파라미터 수가 수십억 개인 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 의 학습이 불가능하며, 자동 미분 ([Autograd](/knowledge-base/studynote/06_ict_convergence/05_data_science/381_autograd_chain_rule/)) 엔진 (PyTorch, TensorFlow) 은 모두 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)를 자동화한 것이다.
 > 3. **판단 포인트**: 수치 미분 (Numerical Gradient) 은 O(d) 번 [순전파](/knowledge-base/studynote/10_ai/03_llm_nlp/271_forward_propagation/)가 필요해 O(d) 비용이지만, [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 단 한 번의 역방향 패스로 모든 편미분을 O(1) 비율로 계산한다는 계산 복잡도 차이를 명시해야 한다.
 
@@ -64,7 +64,7 @@ tags = ["studynote-ai"]
                 = loss'(a) · σ'(z) · x
 ```
 
-### 계산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Computational [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) 와 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)
+### 계산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Computational [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/)) 와 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)
 
 ```
   순전파 (Forward Pass): 좌 -> 우

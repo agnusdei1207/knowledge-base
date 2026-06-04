@@ -125,6 +125,6 @@ tags = ["studynote-cloud-architecture"]
 **진행 상황**: 314 / 371
 
 <- **이전**: [314. ETL 적재 전 변환 vs ELT 클라우드 내부 변환 (ETL ELT)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/314_etl_vs_elt/)
-**다음**: [316. CDC 트랜잭션 로그 기반 데이터 실시간 변경 캡처 (CDC)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/316_process/) ->
+**다음**: [316. CDC 트랜잭션 로그 기반 데이터 실시간 변경 캡처 (CDC)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/674_process/) ->
 
 ---

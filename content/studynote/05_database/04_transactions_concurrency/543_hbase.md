@@ -113,7 +113,7 @@ DB [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/6
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | [데이터 마스킹](/knowledge-base/studynote/09_security/16_data_privacy/819_data_masking/) 부분 비식별화 암호화 비교 체계 | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
-| SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 에러/타임베이스 블라인드 주입 체계망 | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
+| SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 에러/타임베이스 블라인드 주입 체계망 | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
 | 암호화 (Encryption) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
 | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) ([Auditing](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)) | 운영·설계 판단을 연결해 주는 주변 개념이다. |
 

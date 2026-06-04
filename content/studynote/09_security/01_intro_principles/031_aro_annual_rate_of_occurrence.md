@@ -81,7 +81,7 @@ ALE 계산:
 |:---|:---|:---|
 | ARO | 숫자로 표현 | 높음/중간/낮음 |
 | [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존 | 전문가 주관 |
-| [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 계산 | 가능 | 어려움 |
+| [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 계산 | 가능 | 어려움 |
 | 소통 | 경영진에게 설득력 | 직관적 이해 |
 
 - **📢 섹션 요약 비유**: 정량적·정성적 위험 분석은 날씨 예보 방식이다. 정량적("강수 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 70%")은 정확하지만 계산이 필요하고, 정성적("비 올 것 같다")은 직관적이지만 부정확할 수 있다.

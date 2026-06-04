@@ -136,7 +136,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 659 / 1108
 
-<- **이전**: [601. 입력 검증 (Input Validation)](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/)
-**다음**: [603. 버퍼 오버플로우 (Buffer Overflow)](/knowledge-base/studynote/09_security/uncategorized/603_buffer_overflow/) ->
+<- **이전**: [601. 입력 검증 (Input Validation)](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/)
+**다음**: [603. 버퍼 오버플로우 (Buffer Overflow)](/knowledge-base/studynote/09_security/uncategorized/1035_buffer_overflow/) ->
 
 ---

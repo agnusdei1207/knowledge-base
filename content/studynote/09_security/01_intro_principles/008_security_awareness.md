@@ -91,7 +91,7 @@ tags = ["studynote-software-engineering"]
 | **대상별 심화 교육** | 역할별 시나리오, 실습 | 전문성 향상 |
 | <strong><a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/">피싱</a> 시뮬레이션</strong> | 실제 유사 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 이메일 발송 | 실무 감수성 향상 |
 | **지속적 알림** | 월간 보안 팁, 위협 동향 공유 | 경각심 유지 |
-| **효과 측정** | 사후 평가, 행동 변화 측정 | [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 입증, 개선 도출 |
+| **효과 측정** | 사후 평가, 행동 변화 측정 | [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 입증, 개선 도출 |
 
 ### [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 시뮬레이션의 구조와 효과
 
@@ -211,7 +211,7 @@ NIST NICE (National Initiative for Cybersecurity Education) 프레임워크는 �
   +--------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 보안 인식 교육의 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 계산은 경영진에게 교육 투자를 설득하는 데 중요하다. 핵심은 "사고 방지로 인한 비용 절감"을 구체적인 숫자로 환산하는 것이다. 평균 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 사고 비용과 연간 예상 사고 건수를고산하여, 교육 전후의 클릭률 차이를 적용하면 예상 비용 절감액을 산출할 수 있다. 물론 이러한 계산에는가설요소가 많지만, conservative한 가정하에서도보안 교육의 ROI는 통상 긍정적이며, 이는 투자 결정의 중요한 근거가 된다.
+**[다이어그램 해설]** 보안 인식 교육의 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 계산은 경영진에게 교육 투자를 설득하는 데 중요하다. 핵심은 "사고 방지로 인한 비용 절감"을 구체적인 숫자로 환산하는 것이다. 평균 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 사고 비용과 연간 예상 사고 건수를고산하여, 교육 전후의 클릭률 차이를 적용하면 예상 비용 절감액을 산출할 수 있다. 물론 이러한 계산에는가설요소가 많지만, conservative한 가정하에서도보안 교육의 ROI는 통상 긍정적이며, 이는 투자 결정의 중요한 근거가 된다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 

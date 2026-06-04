@@ -26,7 +26,7 @@ tags = ["studynote-software-engineering"]
 - **💡 비유**: 마트에서 '1+1 세일'이라고 크게 적힌 푯말 아래에 아주 작은 글씨로 '(교차 증정 불가)'라고 적어두어 계산대에서 제값을 다 내게 만드는 얄팍한 상술과 같습니다. 당장 물건은 하나 더 팔 수 있겠지만, 그 손님은 두 번 다시 그 마트에 오지 않습니다.
 
 - **등장 배경 및 발전 과정**:
-  1. <strong>A/B 테스트와 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/">그로스 해킹</a>(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/">Growth Hacking</a>)의 부작용</strong>: 데이터를 기반으로 전환율(Conversion Rate)을 높이려는 테스트가 반복되면서, 사람들을 가장 잘 속이는 UI가 통계적으로 채택되는 역기능이 발생했다.
+  1. <strong>A/B 테스트와 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/833_growth_hacking/">그로스 해킹</a>(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/833_growth_hacking/">Growth Hacking</a>)의 부작용</strong>: 데이터를 기반으로 전환율(Conversion Rate)을 높이려는 테스트가 반복되면서, 사람들을 가장 잘 속이는 UI가 통계적으로 채택되는 역기능이 발생했다.
   2. **눈속임(Deceptive Design)의 만연**: 아마존(Amazon), 라이언에어 등 글로벌 대기업들조차 구독 해지를 방해하는 '로치 모텔(Roach Motel)' 방식을 쓰며 다크 패턴이 업계의 관행처럼 번졌다.
   3. **규제와 법제화**: 유럽의 [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/), 미국의 FTC 규제에 이어 한국 공정거래위원회도 다크 패턴을 기만행위로 규정하고 과징금을 부과하는 등 법적 제재가 본격화되었다.
 
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 다크 패턴 (Dark Pattern) 회피 설계은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

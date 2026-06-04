@@ -11,14 +11,14 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/)([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Tradeoff Analysis Method) 아키텍처 트레이드오프 평가는 [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/), 민감점, [상충점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/)를 한 체계로 묶어 판단하는 설계·감리 주제다.
+> 1. **본질**: [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/)([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Tradeoff Analysis Method) 아키텍처 트레이드오프 평가는 [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/993_process/), 민감점, [상충점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/)를 한 체계로 묶어 판단하는 설계·감리 주제다.
 > 2. **가치**: 기준 문서와 현장 증거를 연결해 보고서가 실제 개선과 의사결정으로 이어지게 한다.
 > 3. **판단 포인트**: 범위 정의, 실행 증거, 후속 조치가 끝까지 닫혔는지를 확인하는 것이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
-[ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/)([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Tradeoff Analysis Method) 아키텍처 트레이드오프 평가는 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)과 의사결정을 구조적으로 다루는 설계 주제다. 최근 환경에서는 [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/), 민감점, [상충점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/)가 따로 놀면 형식상 적합과 실제 품질 사이의 간극이 커지므로, 설계와 운영을 한 문장으로 설명할 수 있는 구조가 필요하다.
+[ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/)([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Tradeoff Analysis Method) 아키텍처 트레이드오프 평가는 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)과 의사결정을 구조적으로 다루는 설계 주제다. 최근 환경에서는 [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/993_process/), 민감점, [상충점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/)가 따로 놀면 형식상 적합과 실제 품질 사이의 간극이 커지므로, 설계와 운영을 한 문장으로 설명할 수 있는 구조가 필요하다.
 특히 [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) 아키텍처 트레이드오프 평가은 문서만 맞는지 보는 수준을 넘어서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 테스트, 산출물, 인터뷰 증거가 같은 방향을 가리키는지 확인해야 한다. 그래야 감리 결과가 일회성 지적이 아니라 재현 가능한 개선 기준이 된다.
 
 ```text
@@ -40,11 +40,11 @@ tags = ["studynote-design-supervision"]
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-[ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) 아키텍처 트레이드오프 평가의 핵심 원리는 [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/)로 범위를 고정하고, 민감점로 구조를 설계하며, [상충점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/)로 결과를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 것이다. 이때 속도·비용·통제강도 중 무엇을 우선할지 정해야 트레이드오프가 선명해지고, 기술사 답안에서도 단순 나열이 아니라 판단이 드러난다.
+[ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) 아키텍처 트레이드오프 평가의 핵심 원리는 [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/993_process/)로 범위를 고정하고, 민감점로 구조를 설계하며, [상충점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/)로 결과를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 것이다. 이때 속도·비용·통제강도 중 무엇을 우선할지 정해야 트레이드오프가 선명해지고, 기술사 답안에서도 단순 나열이 아니라 판단이 드러난다.
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
-| 관점 정의 | [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/)을 중심으로 뷰와 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 정리한다. | 무엇을 우선할지 먼저 합의해야 한다. |
+| 관점 정의 | [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/993_process/)을 중심으로 뷰와 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 정리한다. | 무엇을 우선할지 먼저 합의해야 한다. |
 | 평가 시나리오 | 민감점와 연결된 상충·변화 시나리오를 설계한다. | 기능보다 운영 상황을 보아야 한다. |
 | 결정 추적 | [상충점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/)을 근거로 선택안과 파급효과를 기록한다. | 나중에 다시 설명할 수 있어야 한다. |
 
@@ -77,7 +77,7 @@ tags = ["studynote-design-supervision"]
 실무에서는 [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) 아키텍처 트레이드오프 평가를 도입했는가보다 어떤 조건에서 효과가 나는가를 먼저 봐야 한다. 기술사 답안도 '무조건 적용'이 아니라 범위, 증거, 예외, 비용을 함께 써야 설득력이 생긴다.
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. 핵심 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/) 기준으로 시나리오화되었는가?
+1. 핵심 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/993_process/) 기준으로 시나리오화되었는가?
 2. 민감점 관련 [상충점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/)이 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)와 합의되었는가?
 3. [상충점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/) 결정이 문서와 변경 이력으로 추적되는가?
 4. 평가 결과가 투자·운영·보안 전략에 연결되는가?
@@ -96,14 +96,14 @@ tags = ["studynote-design-supervision"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/) | [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) 아키텍처 트레이드오프 평가의 출발점이 되는 핵심 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이다. |
+| [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/993_process/) | [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) 아키텍처 트레이드오프 평가의 출발점이 되는 핵심 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이다. |
 | 민감점 | 실제 설계·운영·관리 메커니즘으로 이어지는 연결 축이다. |
 | [상충점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/) | 판정과 재검증의 신뢰도를 높이는 증거 축이다. |
 | 의사결정 추적성 | 개별 활동을 거버넌스와 지속 개선으로 확장하는 축이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-- 관련 키워드: [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/), 민감점, [상충점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/), 의사결정 추적성
+- 관련 키워드: [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/993_process/), 민감점, [상충점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/), 의사결정 추적성
 [전문가 직관 평가] -> ATAM 워크숍] -> [자동 시뮬레이션 연계]
 
 ### 👶 어린이를 위한 3줄 비유 설명

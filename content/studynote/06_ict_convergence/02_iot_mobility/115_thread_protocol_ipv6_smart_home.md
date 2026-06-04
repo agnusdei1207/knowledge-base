@@ -44,7 +44,7 @@ tags = ["studynote-ict-convergence"]
 | 역할 | 기능 |
 |:---|:---|
 | **Border Router** | [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) ↔ Wi-Fi/[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 연결, [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) |
-| **Leader** | 네트워크 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) (자동 선출) |
+| **Leader** | 네트워크 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/873_configuration_management/) (자동 선출) |
 | **Router** | [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 상시 전원 |
 | **End Device (Sleepy)** | 배터리 센서, Sleep->Wake 간헐 전송 |
 

@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 단위 테스트가 '엔진'을 깎는 것이고 [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)가 '엔진과 바퀴'를 연결하는 것이라면, <strong>시스템 테스트(System Test)</strong>는 완성된 자동차를 테스트 트랙에 올리고 시속 200km로 밟아보는 과정이다.
 
-지금까지 개발자들은 각자의 노트북(로컬 환경)이나 가짜 객체([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/)) 위에서 코드를 돌려보며 "내 코드는 완벽해!"라고 외쳤다.
+지금까지 개발자들은 각자의 노트북(로컬 환경)이나 가짜 객체([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/)) 위에서 코드를 돌려보며 "내 코드는 완벽해!"라고 외쳤다.
 하지만 진짜 리눅스 서버에 올리고, 진짜 오라클 DB와 연동하고, 진짜 인터넷 망을 타는 순간 예상치 못한 일들이 터진다.
 * "로컬에서는 로그인 버튼 누르면 0.1초 만에 넘어갔는데, 실서버에선 3초나 걸리네요?" ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제)
 * "비밀번호에 특수문자 넣었더니 DB가 터졌어요!" (보안 문제)
@@ -118,7 +118,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 시스템 테스트 (System Test)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

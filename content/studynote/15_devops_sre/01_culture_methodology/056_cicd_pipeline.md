@@ -11,7 +11,7 @@ tags = ["studynote-devops-sre"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)) / CD ([Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/))는 코드 변경을 자동으로 빌드, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 배포까지 연결하는 배포 자동화 체계다.
+> 1. **본질**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)) / CD ([Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/))는 코드 변경을 자동으로 빌드, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 배포까지 연결하는 배포 자동화 체계다.
 > 2. **가치**: 수동 배포의 인적 오류를 줄이고, [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)([Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/))을 짧게 만들어 변경을 빠르게 고객 가치로 바꾼다.
 > 3. **판단 포인트**: [파이프라인 단계](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/219_pipeline_stages/), 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 보안 통제, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 가능성을 함께 봐야 운영이 안정적이다.
 
@@ -21,15 +21,15 @@ tags = ["studynote-devops-sre"]
 
 과거 배포는 느리고 위험했다. 개발, 테스트, 운영이 분리되어 있을수록 코드가 손에 너무 많이 타고, 그만큼 실수도 늘어난다.
 
-[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 코드를 넣는 순간부터 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 배포를 자동으로 이어 주어, 작은 변경을 자주 안전하게 반영하게 한다.
+[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD는 코드를 넣는 순간부터 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 배포를 자동으로 이어 주어, 작은 변경을 자주 안전하게 반영하게 한다.
 
-- **📢 섹션 요약 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 사람이 일일이 손으로 들고 가던 물건을 자동 컨베이어 벨트로 옮기는 일이다.
+- **📢 섹션 요약 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD는 사람이 일일이 손으로 들고 가던 물건을 자동 컨베이어 벨트로 옮기는 일이다.
 
 ---
 
 ## Ⅱ. [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 구조와 단계
 
-[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 보통 다음 순서로 움직인다.
+[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 보통 다음 순서로 움직인다.
 
 ```text
 Commit
@@ -70,7 +70,7 @@ Verify / Observe
 
 ## Ⅳ. 보안과 운영 거버넌스
 
-[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD가 빠르다고 해서 아무 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 없이 내보내면 안 된다. 자동화는 속도를 올리지만, 통제가 없으면 위험도 같이 빨라진다.
+[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD가 빠르다고 해서 아무 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 없이 내보내면 안 된다. 자동화는 속도를 올리지만, 통제가 없으면 위험도 같이 빨라진다.
 
 실무에서는 다음을 함께 넣는다.
 
@@ -98,7 +98,7 @@ Verify / Observe
 - 관측성([observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))으로 배포 후 상태를 본다.
 - `IaC (Infrastructure as Code)`와 함께 환경 차이를 줄인다.
 
-반대로 빌드가 느리고, 테스트가 부실하고, 배포 승인만 남발하면 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD의 장점이 사라진다.
+반대로 빌드가 느리고, 테스트가 부실하고, 배포 승인만 남발하면 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD의 장점이 사라진다.
 
 - **📢 섹션 요약 비유**: 잘 닦인 도로는 빨라지지만, 표지판이 없으면 더 위험해질 수도 있다.
 
@@ -121,7 +121,7 @@ Verify / Observe
 ## 관련 키워드 및 발전 흐름도
 
 1. 수동 배포 -> 인적 오류와 긴 배포 시간
-2. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)) -> 잦은 통합과 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
+2. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)) -> 잦은 통합과 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
 3. CD ([Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)) -> 언제든 배포 가능한 상태 유지
 4. GitOps와 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) ([Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/)) -> 선언적 운영 확장
 5. Progressive Delivery -> [Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/), [Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/), 점진 배포로 발전
@@ -130,7 +130,7 @@ Verify / Observe
 
 ## 어린이를 위한 3줄 비유 설명
 
-[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 장난감을 만드는 공장이 자동으로 움직이는 것과 같아요.
+[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD는 장난감을 만드는 공장이 자동으로 움직이는 것과 같아요.
 부품이 들어오면 검사하고, 조립하고, 포장해서 바로 내보내요.
 그래서 사람이 놓치는 실수를 줄이고 더 빨리 보낼 수 있어요.
 

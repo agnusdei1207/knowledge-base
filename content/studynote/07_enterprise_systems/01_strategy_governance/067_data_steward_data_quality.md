@@ -18,7 +18,7 @@ tags = ["enterprise_systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-[데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)만으로 끝나지 않는다. 현업 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 실제로 만들어지고 수정되는 자리에서 품질을 관리해야 한다.
+[데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)만으로 끝나지 않는다. 현업 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 실제로 만들어지고 수정되는 자리에서 품질을 관리해야 한다.
 
 그 역할이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스튜어드다.
 
@@ -64,7 +64,7 @@ Trusted Data
 | 정의 | 통일 |
 | 이력 | 추적 |
 
-스튜어드가 있어야 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)가 조직 전체에서 실제로 작동한다.
+스튜어드가 있어야 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)가 조직 전체에서 실제로 작동한다.
 
 - **📢 섹션 요약 비유**: 규칙을 쓰는 사람과, 현장에서 지키게 하는 사람이 다르다.
 

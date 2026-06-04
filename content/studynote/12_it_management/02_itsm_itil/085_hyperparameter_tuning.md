@@ -57,7 +57,7 @@ HPO (Hyperparameter Optimization)는 후보 설정을 만들고, 학습과 [검�
 | --- | --- |
 | Parameter | 학습으로 업데이트되는 값 |
 | Hyperparameter | 학습 전에 정하는 설정값 |
-| [Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/) | 입력 표현을 바꾸는 일 |
+| [Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/865_feature_engineering/) | 입력 표현을 바꾸는 일 |
 | [AutoML](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/) | 탐색·모델 선택까지 자동화 |
 
 따라서 튜닝은 "모델을 더 크게 만드는 일"이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 계산 자원 사이의 균형을 찾는 의사결정이다.
@@ -131,7 +131,7 @@ HPO (Hyperparameter Optimization)는 후보 설정을 만들고, 학습과 [검�
 
 **진행 상황**: 153 / 587
 
-<- **이전**: [84. 서비스 수준 관리 (SLM, Service Level Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/084_service_level_management/)
-**다음**: [85. SLA (Service Level Agreement)](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ->
+<- **이전**: [84. 서비스 수준 관리 (SLM, Service Level Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/868_service_level_management/)
+**다음**: [85. SLA (Service Level Agreement)](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) ->
 
 ---

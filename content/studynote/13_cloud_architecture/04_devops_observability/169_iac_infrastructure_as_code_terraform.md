@@ -12,7 +12,7 @@ tags = ["studynote-cloud-architecture"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)([Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/))는 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), 네트워크, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 같은 인프라를 손으로 콘솔에서 클릭하는 대신 코드 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 정의하고 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리하는 방식이다.
 > 2. **가치**: 인프라 변경 이력이 Git에 남아 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)·롤백이 가능해지고, 동일 환경을 수십 번 반복 재현할 수 있어 "눈송이 서버([Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) Server)" 문제를 근본적으로 해결한다.
-> 3. **판단 포인트**: [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/))과 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/)([Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/))는 역할이 다르며, 두 도구를 조합하는 것이 실무 표준이다.
+> 3. **판단 포인트**: [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/))과 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/873_configuration_management/)([Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/))는 역할이 다르며, 두 도구를 조합하는 것이 실무 표준이다.
 
 ---
 
@@ -60,10 +60,10 @@ IaC의 핵심 가치는 인프라의 "재현 가능성"과 "검토 가능성"이
 | 도구 | 주요 용도 | 방식 | 언어 | 특징 |
 |:---|:---|:---|:---|:---|
 | [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) | 인프라 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) | 선언형 | HCL | [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/), [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 관리 |
-| [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/) | [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/)·배포 | 선언형(주) | YAML | 에이전트리스, [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) |
+| [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/) | [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/873_configuration_management/)·배포 | 선언형(주) | YAML | 에이전트리스, [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) |
 | Pulumi | 인프라 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) | 선언형 | Python/TS | 범용 언어 사용 가능 |
 | CloudFormation | AWS 전용 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) | 선언형 | YAML/[JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) | AWS 네이티브 |
-| Chef/Puppet | [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) | 선언형 | Ruby DSL | 에이전트 필요 |
+| Chef/Puppet | [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/873_configuration_management/) | 선언형 | Ruby DSL | 에이전트 필요 |
 
 **선언형 vs 명령형**:
 - 선언형: `resource "aws_instance" "web" { instance_type = "t3.micro" }` -> 결과 정의
@@ -108,7 +108,7 @@ IaC를 도입하면 인프라 변경 리드타임이 주 단위에서 분 단위
 | [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) | [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 코드를 Git으로 관리하면 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 실현 |
 | [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) | [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 반복 실행의 안전성 보장 원칙 |
 | [불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/) | IaC로 새 이미지 배포가 더 쉬워짐 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD | 파이프라인에서 [terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) plan/apply 자동 실행 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD | 파이프라인에서 [terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) plan/apply 자동 실행 |
 | [Configuration Drift](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/) | IaC로 코드와 실제 인프라 상태 일치 유지 |
 | [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | IaC는 개발-운영 협업의 핵심 도구 |
 

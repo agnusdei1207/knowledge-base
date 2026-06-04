@@ -20,7 +20,7 @@ tags = ["studynote-it-management"]
 
 CMMI (Capability [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/) Integration) 5단계 모델은 조직이 당면한 요구를 반복 가능하고 설명 가능한 운영 체계로 바꾸기 위해 사용하는 핵심 관리 개념이다. 실무 초점은 소프트웨어 개발 조직의 프로세스 성숙도 평가 국제 표준에 놓이며, 핵심은 요구사항, 산출물, 품질 게이트, 일정·원가 지표가 한 흐름으로 연결되어야 프로젝트 통제가 가능하다.
 
-이 개념이 중요한 이유는 현장의 속도와 통제가 자주 충돌하기 때문이다. 기준이 없으면 부서별로 다른 판단이 누적되어 중복 투자, 운영 공백, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 리스크가 커지고, 반대로 지나치게 경직된 통제는 변화 대응 속도를 떨어뜨린다. 실무에서는 보통 영웅 중심(Hero-driven) 개발의 한계:, CMMI의 탄생 철학 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Focus):, Level 1: Initial ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) / 원시인 단계): 같은 세부 축이 함께 굴러가야 관리 체계가 실제 효과를 낸다.
+이 개념이 중요한 이유는 현장의 속도와 통제가 자주 충돌하기 때문이다. 기준이 없으면 부서별로 다른 판단이 누적되어 중복 투자, 운영 공백, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 리스크가 커지고, 반대로 지나치게 경직된 통제는 변화 대응 속도를 떨어뜨린다. 실무에서는 보통 영웅 중심(Hero-driven) 개발의 한계:, CMMI의 탄생 철학 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Focus):, Level 1: Initial ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) / 원시인 단계): 같은 세부 축이 함께 굴러가야 관리 체계가 실제 효과를 낸다.
 
 ```text
 +--------------------------------------------------------------+
@@ -43,9 +43,9 @@ CMMI (Capability [Maturity Model](/knowledge-base/studynote/12_it_management/01_
 | 구성 축 | 설명 | 판단 포인트 |
 |:---|:---|:---|
 | 영웅 중심(Hero-driven) 개발의 한계: | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 범위와 기준선이 흔들리면 후속 통제도 불안정해진다. |
-| CMMI의 탄생 철학 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Focus): | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 책임 경계와 운영 절차가 연결돼야 재현성이 생긴다. |
+| CMMI의 탄생 철학 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Focus): | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 책임 경계와 운영 절차가 연결돼야 재현성이 생긴다. |
 | Level 1: Initial ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) / 원시인 단계): | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 측정 가능한 산출물과 증적이 있어야 설명 가능성이 높아진다. |
-| 상태: 룰([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))이 아예 없다. 그냥 코딩부터 친다 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 변화·예외를 다시 체계에 반영해야 장기적으로 유지된다. |
+| 상태: 룰([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))이 아예 없다. 그냥 코딩부터 친다 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 변화·예외를 다시 체계에 반영해야 장기적으로 유지된다. |
 
 ```text
 +--------------------------------------------------------------+
@@ -84,9 +84,9 @@ CMMI (Capability [Maturity Model](/knowledge-base/studynote/12_it_management/01_
 ### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 적용 범위와 제외 범위가 명확하며 영웅 중심(Hero-driven) 개발의 한계: 관점의 경계가 실제 운영에 반영되어 있는가?
-2. CMMI의 탄생 철학 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Focus):와 관련된 책임자, 승인권자, 실행 주체가 충돌 없이 정의되어 있는가?
+2. CMMI의 탄생 철학 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Focus):와 관련된 책임자, 승인권자, 실행 주체가 충돌 없이 정의되어 있는가?
 3. Level 1: Initial ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) / 원시인 단계): 결과를 보여 주는 증적과 지표가 정기적으로 축적되는가?
-4. 상태: 룰([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))이 아예 없다. 그냥 코딩부터 친다 결과가 다음 변경·투자·교육 계획으로 환류되는가?
+4. 상태: 룰([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))이 아예 없다. 그냥 코딩부터 친다 결과가 다음 변경·투자·교육 계획으로 환류되는가?
 
 ### 자주 발생하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -112,9 +112,9 @@ CMMI (Capability [Maturity Model](/knowledge-base/studynote/12_it_management/01_
 | 개념 | 연결 포인트 |
 |:---|:---|
 | 영웅 중심(Hero-driven) 개발의 한계: | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
-| CMMI의 탄생 철학 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Focus): | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
+| CMMI의 탄생 철학 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Focus): | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
 | Level 1: Initial ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) / 원시인 단계): | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
-| 상태: 룰([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))이 아예 없다. 그냥 코딩부터 친다 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
+| 상태: 룰([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))이 아예 없다. 그냥 코딩부터 친다 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
@@ -127,7 +127,7 @@ CMMI (Capability [Maturity Model](/knowledge-base/studynote/12_it_management/01_
     +---> [Level 1: Initial (초기 / 원시인 단계):]
 ```
 
-이 흐름은 선행 요구를 기준으로 CMMI (Capability [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/) Integration) 5단계 모델을 정착시키고, 이후 CMMI의 탄생 철학 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Focus):와 Level 1: Initial ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) / 원시인 단계): 같은 확장 축으로 고도화하는 전개를 보여 준다.
+이 흐름은 선행 요구를 기준으로 CMMI (Capability [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/) Integration) 5단계 모델을 정착시키고, 이후 CMMI의 탄생 철학 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Focus):와 Level 1: Initial ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) / 원시인 단계): 같은 확장 축으로 고도화하는 전개를 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. CMMI (Capability [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/) Integration) 5단계 모델은 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.

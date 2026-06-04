@@ -25,7 +25,7 @@ tags = ["studynote-software-engineering"]
 
 이러한 '특정 놈의 독식'과 '순간적인 트래픽 폭발'로부터 서버를 지키기 위해, <strong>"1분에 100번 넘게 찌르는 요청은 무조건 튕겨낸다"</strong>라는 규칙을 세우는 것이 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 스로틀링(Throttling)</strong>이다. 자동차 엔진에 들어가는 기름을 조절하는 스로틀 밸브(Throttle Valve)에서 유래한 말이다.
 
-- **📢 섹션 요약 비유**: 뷔페에 가서 한 사람이 고기를 100접시 퍼가면 다른 사람들은 굶어야 한다. 스로틀링은 주방장([API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/))이 "1인당 고기는 한 번에 2접시까지만!"이라고 제한을 걸어, 모든 손님이 골고루 고기를 먹을 수 있게 지켜주는 규칙이다.
+- **📢 섹션 요약 비유**: 뷔페에 가서 한 사람이 고기를 100접시 퍼가면 다른 사람들은 굶어야 한다. 스로틀링은 주방장([API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/))이 "1인당 고기는 한 번에 2접시까지만!"이라고 제한을 걸어, 모든 손님이 골고루 고기를 먹을 수 있게 지켜주는 규칙이다.
 
 ---
 
@@ -54,7 +54,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-스로틀링은 일반적으로 클라이언트와 백엔드 서버 사이의 가장 앞단, 즉 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/">API Gateway</a></strong>나 **로드밸런서** 계층에서 수행된다.
+스로틀링은 일반적으로 클라이언트와 백엔드 서버 사이의 가장 앞단, 즉 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/">API Gateway</a></strong>나 **로드밸런서** 계층에서 수행된다.
 
 - **📢 섹션 요약 비유**: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 스로틀링 Rate Limit DDoS 방어은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -77,7 +77,7 @@ tags = ["studynote-software-engineering"]
 | 개념 | 차단 주체 및 위치 | 목적 | 응답 형태 |
 |:---|:---|:---|:---|
 | <strong>DDoS 방어 (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/">WAF</a>/<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/">CDN</a>)</strong> | 클라우드 경계 (Cloudflare, AWS Shield) | L3/L4/L7 네트워크의 악의적 대량 좀비 트래픽 원천 차단. | 봇 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(캡챠) 또는 접속 끊김 |
-| <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/">Rate Limiting</a> (속도 제한)</strong>| [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) | 정상 유저지만 정해진 [할당량](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)([Quota](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)) 초과 시 차단. | <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 429</strong> (Too Many Requests) |
+| <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/">Rate Limiting</a> (속도 제한)</strong>| [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/) | 정상 유저지만 정해진 [할당량](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)([Quota](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)) 초과 시 차단. | <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 429</strong> (Too Many Requests) |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/">Circuit Breaker</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/">서킷 브레이커</a>)</strong>| [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 내부 통신 | 뒷단 서버가 아프면 앞단 서버가 스스로 호출을 멈추고 우회함. | [Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/) (기본 화면) |
 
 Rate Limiting은 "네가 너무 많이 달라고 해서 안 줘!"이고, Circuit Breaker는 "내 뒷단 친구가 아파서 지금은 못 줘!"라는 차이다.

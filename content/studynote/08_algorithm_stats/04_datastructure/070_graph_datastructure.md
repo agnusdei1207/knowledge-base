@@ -11,7 +11,7 @@ tags = ["studynote-algorithm"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 그래프 ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))는 G = (V, E)로 정의되며, 정점(Vertex)과 간선(Edge)의 집합으로 복잡한 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)와 연결성을 표현하는 비선형 자료구조다.
+> 1. **본질**: 그래프 ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/))는 G = (V, E)로 정의되며, 정점(Vertex)과 간선(Edge)의 집합으로 복잡한 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)와 연결성을 표현하는 비선형 자료구조다.
 > 2. **가치**: 소셜 네트워크의 친구 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/), 지도의 도로, 소프트웨어 의존성 등 현실의 모든 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)망이 그래프로 모델링되므로, [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)·[DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/)·최단 경로·[위상 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/039_topological_sort/) 등 그래프 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 실무 핵심이다.
 > 3. **판단 포인트**: 정점 수 V와 간선 수 E의 비율로 희소 그래프(E ≪ V^)는 인접 리스트, 밀집 그래프(E ≈ V^)는 인접 행렬로 표현하는 것이 공간·시간 효율에 유리하다.
 
@@ -89,7 +89,7 @@ tags = ["studynote-algorithm"]
 - **차수 (Degree)**: 정점에 연결된 간선 수 (방향 그래프: 진입차수 in-degree, 진출차수 out-degree)
 - **핸드셰이킹 보조정리 (Handshaking Lemma)**: 무방향 그래프에서 모든 정점 차수의 합 = 2|E|
 - <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/">Directed Acyclic Graph</a>)</strong>: 방향 그래프 + 사이클 없음 -> [위상 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/039_topological_sort/)([Topological Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/039_topological_sort/)) 가능
-- <strong>이분 그래프 (Bipartite <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a>)</strong>: 정점을 두 집합으로 나눠 모든 간선이 집합 간에만 존재 -> 2-채색 가능
+- <strong>이분 그래프 (Bipartite <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/">Graph</a>)</strong>: 정점을 두 집합으로 나눠 모든 간선이 집합 간에만 존재 -> 2-채색 가능
 - <strong>연결 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">컴포넌트</a> (Connected <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">Component</a>)</strong>: 서로 도달 가능한 정점들의 최대 부분 그래프
 
 📢 **섹션 요약 비유**: 핸드셰이킹 보조정리는 파티에서 모든 악수 횟수를 세는 원리—각 사람이 한 악수 수를 합하면 실제 악수 횟수의 두 배가 된다.
@@ -168,7 +168,7 @@ tags = ["studynote-algorithm"]
 | [Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) | 가중 그래프 최단 경로 |
 | [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) ([Directed Acyclic Graph](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/)) | [위상 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/039_topological_sort/)의 전제 조건 |
 | [MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/) (Minimum Spanning Tree) | 그래프의 최소 비용 연결 구조 |
-| 유니온-파인드 ([Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/070_union_find/)) | 연결 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 판단 |
+| 유니온-파인드 ([Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/854_union_find/)) | 연결 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 판단 |
 | 이분 그래프 (Bipartite) | 2-채색 가능한 특수 그래프 |
 
 ---

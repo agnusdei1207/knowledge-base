@@ -10,15 +10,15 @@ tags = ["studynote-enterprise"]
 +++
 
 > **핵심 인사이트 3줄**
-> 1. [맥킨지](/knowledge-base/studynote/12_it_management/01_governance_strategy/027_seven_s_model/) 7S 모델은 조직 변화를 단순히 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·구조만이 아닌 7가지 상호 의존적 요소([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·Structure·Systems·Shared Values·Style·Staff·Skills)로 분석하는 프레임워크다.
+> 1. [맥킨지](/knowledge-base/studynote/12_it_management/01_governance_strategy/821_seven_s_model/) 7S 모델은 조직 변화를 단순히 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·구조만이 아닌 7가지 상호 의존적 요소([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·Structure·Systems·Shared Values·Style·Staff·Skills)로 분석하는 프레임워크다.
 > 2. 핵심은 Shared Values(공유 가치)가 중심에 위치해 나머지 6개 요소를 연결한다는 점으로, 조직 문화가 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 실행의 성패를 결정한다.
 > 3. IT 시스템 전환·디지털 변혁·M&A 통합 시 7S 정렬 진단이 실패 예방의 핵심 도구로 활용된다.
 
 ---
 
-## Ⅰ. [맥킨지](/knowledge-base/studynote/12_it_management/01_governance_strategy/027_seven_s_model/) 7S 모델의 개요
+## Ⅰ. [맥킨지](/knowledge-base/studynote/12_it_management/01_governance_strategy/821_seven_s_model/) 7S 모델의 개요
 
-[맥킨지](/knowledge-base/studynote/12_it_management/01_governance_strategy/027_seven_s_model/) 7S 모델은 <strong>Tom Peters와 Robert Waterman(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/027_seven_s_model/">맥킨지</a>)이 1980년대 제안한 조직 분석·변화 관리 프레임워크</strong>다.
+[맥킨지](/knowledge-base/studynote/12_it_management/01_governance_strategy/821_seven_s_model/) 7S 모델은 <strong>Tom Peters와 Robert Waterman(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/821_seven_s_model/">맥킨지</a>)이 1980년대 제안한 조직 분석·변화 관리 프레임워크</strong>다.
 
 ```
             Strategy (전략)
@@ -109,7 +109,7 @@ tags = ["studynote-enterprise"]
 |---------------|------------------------|--------------------------|------------------------|
 | [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)      | 오프라인 중심 판매        | 디지털 채널 50% 이상      | 채널 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 전환         |
 | Structure     | 계층형 4단계             | 스쿼드 기반 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 팀     | 조직 구조 재편          |
-| Systems       | 레거시 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)              | 클라우드 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 전환        | 시스템 마이그레이션     |
+| Systems       | 레거시 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)              | 클라우드 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 전환        | 시스템 마이그레이션     |
 | Shared Values | "안정·정확"             | "혁신·속도"              | 문화 변화 프로그램      |
 | Style         | 지시·통제형             | 임파워먼트·자율           | 리더십 개발             |
 | Staff         | IT 인력 부족            | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어 10명 확보  | 채용·재교육             |

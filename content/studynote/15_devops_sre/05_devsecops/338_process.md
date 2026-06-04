@@ -12,14 +12,14 @@ tags = ["studynote-devops-sre"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Platform 엔진ering은 개발자가 인프라, 배포, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링을 직접 다루지 않고도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 빠르게 개발·운영할 수 있는 자기 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Self-[service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 플랫폼을 구축하는 엔지니어링 분야다.
-> 2. **IDP와 Golden Path**: [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) ([Internal Developer Platform](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/200_internal_developer_platform_backstage/), [내부 개발자 플랫폼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/110_idp_internal_developer_platform_backstage/))는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, 관측성 도구를 통합한 플랫폼이고, Golden Path는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 최선의 개발 경로로 보안과 컴플라이언스가 내재화된 템플릿이다.
+> 2. **IDP와 Golden Path**: [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) ([Internal Developer Platform](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/200_internal_developer_platform_backstage/), [내부 개발자 플랫폼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/110_idp_internal_developer_platform_backstage/))는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD, 관측성 도구를 통합한 플랫폼이고, Golden Path는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 최선의 개발 경로로 보안과 컴플라이언스가 내재화된 템플릿이다.
 > 3. **판단 포인트**: Platform 엔진ering의 성공 기준은 개발자가 플랫폼을 쓰고 싶어하는가이다. 강제보다 더 나은 [DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/) (Developer Experience, [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/))가 자연스러운 채택을 이끌어야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-DevOps가 보편화되면서 모든 개발자가 인프라를 이해하고 운영해야 한다는 높은 진입 장벽이 문제가 되었다. 개발자가 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) YAML 작성, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 대시보드 구성까지 직접 해야 한다면 실제 비즈니스 로직 개발에 집중할 수 없다.
+DevOps가 보편화되면서 모든 개발자가 인프라를 이해하고 운영해야 한다는 높은 진입 장벽이 문제가 되었다. 개발자가 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) YAML 작성, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 대시보드 구성까지 직접 해야 한다면 실제 비즈니스 로직 개발에 집중할 수 없다.
 
 Gartner는 2026년까지 엔지니어링 조직의 80%가 Platform 엔진ering을 도입할 것으로 예측했다. Spotify의 Backstage, Netflix의 [Conductor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/) 같은 사례가 Platform 엔진ering의 가치를 증명했다.
 
@@ -67,7 +67,7 @@ Gartner는 2026년까지 엔지니어링 조직의 80%가 Platform 엔진ering�
 | 항목 | 전통 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | [Platform 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) |
 |:---|:---|:---|
 | 인프라 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 개발팀이 직접 | Platform Team이 자동화 |
-| 진입 장벽 | 높음 (K8s, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 모두 학습) | 낮음 (포털에서 Self-[service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) |
+| 진입 장벽 | 높음 (K8s, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 모두 학습) | 낮음 (포털에서 Self-[service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) |
 | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | 팀마다 다름 | Golden Path로 표준화 |
 | 보안 내재화 | 개발팀 책임 | 플랫폼에 내장 |
 
@@ -83,13 +83,13 @@ Team Topologies: Platform Team이 [Stream](/knowledge-base/studynote/03_network/
 
 1. **현황 파악**: 개발팀이 가장 많이 겪는 인프라 고통 파악 (설문, 인터뷰)
 2. **골든 패스 정의**: 가장 일반적인 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 타입([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버, [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/))부터 템플릿 작성
-3. **포털 구축**: Backstage 기반 [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/), 템플릿, 문서 통합
+3. **포털 구축**: Backstage 기반 [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/872_service_catalog/), 템플릿, 문서 통합
 4. **점진적 확장**: 팀 피드백 기반으로 기능 추가, 자발적 채택 유도
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 새 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 코드 한 줄 없이 포털에서 30분 안에 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)할 수 있는가?
-2. Golden Path 템플릿에 보안 스캔, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링이 기본 포함되는가?
+2. Golden Path 템플릿에 보안 스캔, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링이 기본 포함되는가?
 3. 개발자 NPS (Net Promoter Score) 등 [DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/) 지표를 측정하고 있는가?
 
 > �� **섹션 요약 비유**: Platform 엔진ering의 성공 지표는 개발자가 플랫폼을 좋아하는가이다. 강제로 쓰게 해도 불편하면 회피 방법을 찾는다.
@@ -111,7 +111,7 @@ Platform 엔진ering의 본질은 <strong>"개발자가 비즈니스에 집중�
 | 개념 | 연결 포인트 |
 |:---|:---|
 | [Platform 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) | 개발자 자기 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 플랫폼 구축 |
-| [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) ([Internal Developer Platform](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/200_internal_developer_platform_backstage/)) | 통합 개발자 플랫폼, K8s+[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD+관측성 |
+| [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) ([Internal Developer Platform](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/200_internal_developer_platform_backstage/)) | 통합 개발자 플랫폼, K8s+[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD+관측성 |
 | Golden Path | 보안 내재화된 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 개발 경로 |
 | Backstage | Spotify [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 개발자 포털 |
 | [DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/) (Developer Experience) | [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/) 지표 |

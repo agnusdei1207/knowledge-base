@@ -32,7 +32,7 @@ tags = ["studynote-software-engineering"]
   2. **Copilot 대유행 (과도기)**: 에디터 뱃속에서 `Tab` 키 한 방에 100줄이 꽂히니, 개발자의 뇌가 마비되어 출처를 의심하는 '검증의 시간([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 1초)'조차 0.001초로 삭제되었다. 맹신(Blind Trust)의 파국.
   3. <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a> 보안 소송 터짐 (현재)</strong>: 뉴욕타임스, 깃헙 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 진영이 OpenAI(MS)를 상대로 "우리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 허락 없이 학습해서 돈 버네? 소송 100억!" 단체 소송을 걸고, 삼성이 ChatGPT에 사내 코드 넣었다가 털린 사태가 터지며 '엔터프라이즈 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 보안/법무 규제'가 1티어 안건으로 떡상했다.
 
-- **📢 섹션 요약 비유**: 이 재앙은 <strong>'가짜 뉴스(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/">Fake</a> News)'</strong>의 공포와 100% 같습니다. 옛날엔 신문을 읽을 때 기자의 이름과 신문사 마크(출처)를 보고 믿을지 말지 판단했습니다. AI는 출처 마크를 싹 다 지워버리고, 정말 아나운서처럼 진지하고 완벽한 말투(그럴싸한 코드)로 "저게 정답입니다"라고 가스라이팅을 칩니다. 인간의 뇌는 그 매끄러운 말투에 속아 넘어가는 치명적인 인지적 오류(Automation [Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))를 겪게 되며 시스템 방어막이 통째로 뚫립니다.
+- **📢 섹션 요약 비유**: 이 재앙은 <strong>'가짜 뉴스(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/855_fake_test_double/">Fake</a> News)'</strong>의 공포와 100% 같습니다. 옛날엔 신문을 읽을 때 기자의 이름과 신문사 마크(출처)를 보고 믿을지 말지 판단했습니다. AI는 출처 마크를 싹 다 지워버리고, 정말 아나운서처럼 진지하고 완벽한 말투(그럴싸한 코드)로 "저게 정답입니다"라고 가스라이팅을 칩니다. 인간의 뇌는 그 매끄러운 말투에 속아 넘어가는 치명적인 인지적 오류(Automation [Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))를 겪게 되며 시스템 방어막이 통째로 뚫립니다.
 
 ---
 
@@ -122,7 +122,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 어시스턴트 코드 산출물의 라이선스 충돌(저작권) 이슈 및 보안 위협 ([Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/) 버그)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

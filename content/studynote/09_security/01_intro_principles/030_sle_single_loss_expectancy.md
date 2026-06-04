@@ -11,7 +11,7 @@ tags = ["studynote-security"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SLE(Single Loss Expectancy, 단일 손실 기대값)은 보안 사고 한 번 발생 시 예상 손실액이고, [ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/)(Annual Loss Expectancy, 연간 손실 기대값)은 연간 기대 손실액이다. [정량적 위험 분석](/knowledge-base/studynote/09_security/01_intro_principles/028_quantitative_risk_analysis/)의 핵심 계산식이다.
-> 2. **가치**: [ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) = SLE × ARO(Annual Rate of Occurrence, 연간 발생 빈도)로 계산된다. ALE가 보안 통제 비용보다 크면 투자가 정당화된다. 이것이 보안 투자 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 계산의 기반이다.
+> 2. **가치**: [ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) = SLE × ARO(Annual Rate of Occurrence, 연간 발생 빈도)로 계산된다. ALE가 보안 통제 비용보다 크면 투자가 정당화된다. 이것이 보안 투자 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 계산의 기반이다.
 > 3. **판단 포인트**: SLE = 자산가치([AV](/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/), Asset Value) × 노출 인자(EF, Exposure Factor). EF는 0~1 사이 비율로 사고 발생 시 자산의 몇 %가 손실되는지를 나타낸다.
 
 ---
@@ -73,7 +73,7 @@ tags = ["studynote-security"]
 | 비교 | 정량적 분석 | 정성적 분석 |
 |:---|:---|:---|
 | 도구 | SLE·[ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/), [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)·금액 | 위험 매트릭스, 색상 등급 |
-| 장점 | 객관적·[ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 계산 | 빠른 분석·전문가 직관 |
+| 장점 | 객관적·[ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 계산 | 빠른 분석·전문가 직관 |
 | 단점 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 어려움 | 주관적·비교 어려움 |
 | 적합 | 대규모 인프라 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)·소규모 |
 
@@ -115,11 +115,11 @@ FAIR = 현대화된 정량적 위험 분석 표준
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **투자 정당화** | [ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) 기반 보안 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 산출 |
+| **투자 정당화** | [ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) 기반 보안 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 산출 |
 | **우선순위 결정** | [ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) 높은 위험 먼저 처리 |
 | **경영진 소통** | 금액으로 표현해 경영진 설득 |
 
-[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 위험 정량화 플랫폼이 등장하고 있다. 사고 사례 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)·인더스트리 벤치마크·실시간 위협 인텔리전스를 자동 분석하여 ALE를 동적으로 산출하고, 보안 투자 포트폴리오 최적화까지 제안하는 CTEM(Continuous Threat Exposure [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) 플랫폼이 발전하고 있다.
+[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 위험 정량화 플랫폼이 등장하고 있다. 사고 사례 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)·인더스트리 벤치마크·실시간 위협 인텔리전스를 자동 분석하여 ALE를 동적으로 산출하고, 보안 투자 포트폴리오 최적화까지 제안하는 CTEM(Continuous Threat Exposure [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/)) 플랫폼이 발전하고 있다.
 
 - **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 위험 정량화는 자율주행 보험 동적 프리미엄이다. 실시간 운전 습관·도로 상황·날씨를 분석해 매 순간 보험료([ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/))를 재계산하는 것처럼, AI가 실시간 위협 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 보안 위험값을 업데이트한다.
 
@@ -133,7 +133,7 @@ FAIR = 현대화된 정량적 위험 분석 표준
 | **FAIR** | 현대 [정량적 위험 분석](/knowledge-base/studynote/09_security/01_intro_principles/028_quantitative_risk_analysis/) 표준 |
 | **위험 매트릭스** | [정성적 위험 분석](/knowledge-base/studynote/09_security/01_intro_principles/029_qualitative_risk_analysis/) 도구 |
 | **CTEM** | 지속적 위협 노출 관리 플랫폼 |
-| <strong>보안 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a></strong> | [ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) 기반 투자 타당성 계산 |
+| <strong>보안 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/">ROI</a></strong> | [ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) 기반 투자 타당성 계산 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

@@ -84,7 +84,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-| 항목 | [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) | 전통 재해복구([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)) 훈련 | [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) |
+| 항목 | [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) | 전통 재해복구([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)) 훈련 | [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/) |
 |:---|:---|:---|:---|
 | 환경 | 프로덕션 우선 | 스테이징/[DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 사이트 | 스테이징 |
 | 장애 유형 | 임의적·다양 | 시나리오 기반 | 트래픽 과부하 |
@@ -98,7 +98,7 @@ tags = ["studynote-cloud-architecture"]
 |:---|:---|:---:|
 | LitmusChaos | [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) Sandbox, K8s 네이티브 | ✅ |
 | Chaos [Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) | [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) Incubating, [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) UI | ✅ |
-| Gremlin | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/), 엔터프라이즈 지원 | ✅ |
+| Gremlin | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/), 엔터프라이즈 지원 | ✅ |
 | AWS FIS | AWS [Fault Injection](/knowledge-base/studynote/02_operating_system/10_security/670_fault_injection_chaos_testing_kernel/) Simulator | AWS 전용 |
 
 📢 **섹션 요약 비유**: 전통 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 훈련이 "대본이 있는 연극 리허설"이라면, [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)은 "대본 없이 무작위 상황을 던지는 즉흥극"이다. 실전은 항상 즉흥극이다.

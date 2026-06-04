@@ -11,25 +11,25 @@ tags = ["studynote-enterprise"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)은 정보시스템에 남은 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 이용해 실제 업무 흐름을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 재구성하는 분석 기법이다.
+> 1. **본질**: [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)은 정보시스템에 남은 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 이용해 실제 업무 흐름을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 재구성하는 분석 기법이다.
 > 2. **가치**: 인터뷰나 매뉴얼이 놓치기 쉬운 재작업, 우회 경로, 병목을 실측 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 드러내어 개선 우선순위를 정확히 잡게 한다.
-> 3. **판단 포인트**: 좋은 [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)의 출발점은 화려한 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)가 아니라 Case ID, Activity, Timestamp가 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있게 수집된 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 품질에 있다.
+> 3. **판단 포인트**: 좋은 [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)의 출발점은 화려한 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)가 아니라 Case ID, Activity, Timestamp가 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있게 수집된 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 품질에 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/) ([Process Mining](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/))은 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) ([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)), 그룹웨어, 티켓 시스템 등에 남은 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 분석해 실제 프로세스 흐름을 발견하고 평가하는 기법이다. 전통적인 프로세스 분석은 인터뷰와 워크숍에 크게 의존했기 때문에, 예외 처리나 반복 루프처럼 현장이 체감하지 못하는 흐름을 놓치기 쉬웠다. 반면 [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)은 시스템이 남긴 흔적을 기반으로 하므로, "문서상 절차"가 아니라 "실제 수행 절차"를 드러내는 데 강하다.
+[프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/) ([Process Mining](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/))은 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) ([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/)), 그룹웨어, 티켓 시스템 등에 남은 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 분석해 실제 프로세스 흐름을 발견하고 평가하는 기법이다. 전통적인 프로세스 분석은 인터뷰와 워크숍에 크게 의존했기 때문에, 예외 처리나 반복 루프처럼 현장이 체감하지 못하는 흐름을 놓치기 쉬웠다. 반면 [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)은 시스템이 남긴 흔적을 기반으로 하므로, "문서상 절차"가 아니라 "실제 수행 절차"를 드러내는 데 강하다.
 
-이 기법이 중요해진 이유는 디지털 업무가 대부분 시스템 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 남기기 때문이다. 주문, 승인, 발송, 환불처럼 반복적 프로세스는 클릭과 상태 변경이 누적되므로, 이를 연결하면 실제 흐름과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 구간을 역으로 복원할 수 있다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 풍부한 조직일수록 [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)은 인터뷰보다 더 빠르고 정밀한 진단 도구가 된다.
+이 기법이 중요해진 이유는 디지털 업무가 대부분 시스템 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 남기기 때문이다. 주문, 승인, 발송, 환불처럼 반복적 프로세스는 클릭과 상태 변경이 누적되므로, 이를 연결하면 실제 흐름과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 구간을 역으로 복원할 수 있다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 풍부한 조직일수록 [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)은 인터뷰보다 더 빠르고 정밀한 진단 도구가 된다.
 
-- **📢 섹션 요약 비유**: [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)은 사람들이 길을 어떻게 갔다고 말하는 것을 믿는 대신, 휴대전화 GPS 기록을 모아 진짜 이동 경로를 그려 보는 것과 같다.
+- **📢 섹션 요약 비유**: [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)은 사람들이 길을 어떻게 갔다고 말하는 것을 믿는 대신, 휴대전화 GPS 기록을 모아 진짜 이동 경로를 그려 보는 것과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)의 최소 입력은 Case ID, Activity, Timestamp다. Case ID는 어떤 업무 건인지, Activity는 어떤 단계가 수행되었는지, Timestamp는 그 일이 언제 일어났는지를 뜻한다. 여기에 Resource, Cost, Channel 같은 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 추가되면 담당자별 병목, 채널별 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 비용 편차까지 분석할 수 있다.
+[프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)의 최소 입력은 Case ID, Activity, Timestamp다. Case ID는 어떤 업무 건인지, Activity는 어떤 단계가 수행되었는지, Timestamp는 그 일이 언제 일어났는지를 뜻한다. 여기에 Resource, Cost, Channel 같은 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 추가되면 담당자별 병목, 채널별 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 비용 편차까지 분석할 수 있다.
 
 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) | 의미 | 왜 중요한가 |
 | :--- | :--- | :--- |
@@ -55,30 +55,30 @@ tags = ["studynote-enterprise"]
 
 핵심 원리는 관찰된 이벤트 순서를 바탕으로 프로세스 모델을 추정하는 것이다. 이때 단순히 가장 많이 발생한 경로만 보면 예외 흐름이 사라지고, 모든 이벤트를 그대로 그리면 스파게티 맵이 된다. 그래서 필터링, 변형(Variant) 분석, 빈도·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표를 함께 사용해 "중요한 흐름"과 "문제 흐름"을 구분하는 것이 중요하다.
 
-- **📢 섹션 요약 비유**: [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)은 흙 묻은 발자국을 모아서 누가 어디로 다녔는지 지도를 그리는 일과 같다. 발자국이 많을수록 진짜 길과 샛길이 함께 드러난다.
+- **📢 섹션 요약 비유**: [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)은 흙 묻은 발자국을 모아서 누가 어디로 다녔는지 지도를 그리는 일과 같다. 발자국이 많을수록 진짜 길과 샛길이 함께 드러난다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)은 일반 BI (Business Intelligence) 리포팅과 비슷해 보이지만 분석 단위가 다르다. BI가 보통 건수, 매출, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 같은 집계 결과를 보여 준다면, [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)은 이벤트 간 순서와 시간 차이를 기반으로 흐름 자체를 복원한다. 그래서 "승인 건수가 많다"보다 "어떤 경로를 거쳐 승인되었고 어디서 반복되었는가"를 설명하는 데 적합하다.
+[프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)은 일반 BI (Business Intelligence) 리포팅과 비슷해 보이지만 분석 단위가 다르다. BI가 보통 건수, 매출, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 같은 집계 결과를 보여 준다면, [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)은 이벤트 간 순서와 시간 차이를 기반으로 흐름 자체를 복원한다. 그래서 "승인 건수가 많다"보다 "어떤 경로를 거쳐 승인되었고 어디서 반복되었는가"를 설명하는 데 적합하다.
 
-| 항목 | BI 대시보드 | [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/) | [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 마이닝 |
+| 항목 | BI 대시보드 | [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/) | [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 마이닝 |
 | :--- | :--- | :--- | :--- |
 | 분석 대상 | 집계 지표 | 프로세스 흐름 | 사용자 화면/행동 세부 작업 |
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원천 | 요약 테이블 | 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) | 데스크톱 활동 기록 |
 | 강점 | 경영 현황 파악 | 병목·재작업·변형 분석 | 세부 작업 자동화 후보 발굴 |
 | 한계 | 흐름 맥락 부족 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 품질 의존 | [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)·과잉 감시 이슈 |
 
-[프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)은 [적합성 검사](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/206_conformance_checking_process_mining_deviation_audit/), [모델 향상](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/207_model_enhancement_process_mining_simulation/), [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) ([Robotic Process Automation](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/)) 선정과도 긴밀히 이어진다. Discovery로 현재 흐름을 찾고, Conformance Checking으로 규정 위반을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하며, Enhancement로 개선안을 도출하는 식이다. 따라서 [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)은 독립 도구라기보다, 프로세스 개선 생태계의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 진단 층으로 보는 것이 적절하다.
+[프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)은 [적합성 검사](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/206_conformance_checking_process_mining_deviation_audit/), [모델 향상](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/207_model_enhancement_process_mining_simulation/), [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) ([Robotic Process Automation](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/)) 선정과도 긴밀히 이어진다. Discovery로 현재 흐름을 찾고, Conformance Checking으로 규정 위반을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하며, Enhancement로 개선안을 도출하는 식이다. 따라서 [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)은 독립 도구라기보다, 프로세스 개선 생태계의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 진단 층으로 보는 것이 적절하다.
 
-- **📢 섹션 요약 비유**: BI가 도시의 총 교통량 표라면, [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)은 차들이 실제로 어느 길에서 꼬였는지 보여 주는 도로 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 분석이다.
+- **📢 섹션 요약 비유**: BI가 도시의 총 교통량 표라면, [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)은 차들이 실제로 어느 길에서 꼬였는지 보여 주는 도로 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 분석이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)은 주문-출고, 청구-수납, 사고 접수-보상처럼 거래 건이 많고 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 풍부한 프로세스에서 효과가 크다. 병목 구간의 체류 시간, 반려 후 재작업 횟수, 변형별 처리 편차를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하면 자동화나 조직 재배치의 우선순위를 세우기 쉽다. 특히 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 후보를 찾을 때 반복 횟수와 대기시간을 동시에 볼 수 있어 투자 타당성을 높일 수 있다.
+실무에서 [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)은 주문-출고, 청구-수납, 사고 접수-보상처럼 거래 건이 많고 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 풍부한 프로세스에서 효과가 크다. 병목 구간의 체류 시간, 반려 후 재작업 횟수, 변형별 처리 편차를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하면 자동화나 조직 재배치의 우선순위를 세우기 쉽다. 특히 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 후보를 찾을 때 반복 횟수와 대기시간을 동시에 볼 수 있어 투자 타당성을 높일 수 있다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -93,17 +93,17 @@ tags = ["studynote-enterprise"]
 - [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 정제 없이 도구에 바로 투입해 잘못된 결론을 내리는 경우
 - 병목이 조직 승인 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 때문인데 RPA만 투입하는 경우
 
-- **📢 섹션 요약 비유**: [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)은 병원 MRI처럼 먼저 정확히 찍어 보는 단계다. 사진도 안 보고 수술부터 하면 돈도 쓰고 문제도 못 고친다.
+- **📢 섹션 요약 비유**: [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)은 병원 MRI처럼 먼저 정확히 찍어 보는 단계다. 사진도 안 보고 수술부터 하면 돈도 쓰고 문제도 못 고친다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)의 가장 큰 효과는 조직이 실제 흐름을 감이 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 보게 된다는 점이다. 숨어 있던 재작업, 예외 비율, 우회 경로가 드러나면 개선 논의가 구체적 행동과 수치 중심으로 바뀐다. 또한 규정 위반 탐지, 자동화 대상 선정, 성과 비교 같은 후속 활동의 기반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 활용할 수 있다.
+[프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)의 가장 큰 효과는 조직이 실제 흐름을 감이 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 보게 된다는 점이다. 숨어 있던 재작업, 예외 비율, 우회 경로가 드러나면 개선 논의가 구체적 행동과 수치 중심으로 바뀐다. 또한 규정 위반 탐지, 자동화 대상 선정, 성과 비교 같은 후속 활동의 기반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 활용할 수 있다.
 
-다만 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 품질이 나쁘면 분석 결과도 왜곡된다. 시스템 간 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)가 맞지 않거나 타임스탬프가 불완전하면, 매우 정교한 도구를 써도 잘못된 프로세스가 그려질 수 있다. 따라서 [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)은 "예쁜 흐름 그림"보다 "신뢰 가능한 이벤트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 기반한 운영 진단"으로 기억해야 한다.
+다만 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 품질이 나쁘면 분석 결과도 왜곡된다. 시스템 간 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)가 맞지 않거나 타임스탬프가 불완전하면, 매우 정교한 도구를 써도 잘못된 프로세스가 그려질 수 있다. 따라서 [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)은 "예쁜 흐름 그림"보다 "신뢰 가능한 이벤트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 기반한 운영 진단"으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 좋은 [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)은 흐릿한 소문 지도가 아니라, 시간과 위치가 정확히 찍힌 블랙박스 기록을 보는 것과 같다.
+- **📢 섹션 요약 비유**: 좋은 [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)은 흐릿한 소문 지도가 아니라, 시간과 위치가 정확히 찍힌 블랙박스 기록을 보는 것과 같다.
 
 ---
 
@@ -139,7 +139,7 @@ RPA · Digital Twin of Process
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 컴퓨터는 사람들이 무슨 일을 했는지 발자국처럼 기록을 남겨요.
-2. [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)은 그 발자국을 이어서 모두가 실제로 어떤 길로 다녔는지 찾는 거예요.
+2. [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)은 그 발자국을 이어서 모두가 실제로 어떤 길로 다녔는지 찾는 거예요.
 3. 그래서 어디가 막히고 어디서 돌아갔는지 금방 알 수 있어요.
 
 ---

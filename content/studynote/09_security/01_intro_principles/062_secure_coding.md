@@ -12,7 +12,7 @@ tags = ["studynote-security"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)([Secure Coding](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/))은 입력을 검증하고 출력과 오류를 안전하게 처리해 취약점을 원천 차단하는 코딩 원칙이다.
-> 2. **가치**: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/), 경로 조작, [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 같은 대표 취약점을 코드 단계에서 줄인다.
+> 2. **가치**: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/), 경로 조작, [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 같은 대표 취약점을 코드 단계에서 줄인다.
 > 3. **융합**: [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/), [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) (Static Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing), DevSecOps와 결합해 개발 파이프라인에 보안을 녹인다.
 
 ---
@@ -35,7 +35,7 @@ tags = ["studynote-security"]
 
 | 원칙 | 의미 |
 | :-- | :-- |
-| [Input Validation](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/) | 들어오는 값을 반드시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| [Input Validation](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/) | 들어오는 값을 반드시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 | Output Encoding | 화면 출력 시 악성 문자 무력화 |
 | [Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) Error Handling | 내부 정보 노출 금지 |
 | Prepared Statement | SQL 구조와 값 분리 |

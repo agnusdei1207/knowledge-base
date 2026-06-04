@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 245 / 587
 
-<- **이전**: [130. 디지털 비즈니스 혁신 (Digital Business Transformation) 아키텍처 전환망 설계 (모놀리식 -> 클라우드/MSA](/knowledge-base/studynote/12_it_management/03_ea_isp/130_digital_business_transformation_monolithic_to_msa_strangler_fig/)
+<- **이전**: [130. 디지털 비즈니스 혁신 (Digital Business Transformation) 아키텍처 전환망 설계 (모놀리식 -> 클라우드/MSA](/knowledge-base/studynote/12_it_management/03_ea_isp/914_digital_business_transformation_monolithic_to_msa_strangler_fig/)
 **다음**: [132. V 모델 (V-Model)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/132_v_model_sdlc_verification_validation_testing/) ->
 
 ---

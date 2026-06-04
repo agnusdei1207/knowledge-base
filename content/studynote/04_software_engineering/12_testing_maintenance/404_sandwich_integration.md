@@ -80,7 +80,7 @@ tags = ["studynote-software-engineering"]
 2. **조기 시연 + 기반 안정성 보장**: 하향식과 상향식의 치명적 단점을 서로가 완벽하게 덮어준다. 일찍부터 화면을 보여주어 고객을 안심시키면서도, 밑바닥 DB 에러를 초반에 확실히 다 잡고 갈 수 있다. 대형 프로젝트(대규모 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 등)의 기본 전략이다.
 
 **[ 단점 (미친듯한 복잡도) ]**
-1. **가짜 객체의 남발**: [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))과 드라이버(Driver)를 양쪽에서 다 짜야 한다! 테스트 코드를 짜고 유지보수하는 데 엄청난 인력과 낭비가 발생한다.
+1. **가짜 객체의 남발**: [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/))과 드라이버(Driver)를 양쪽에서 다 짜야 한다! 테스트 코드를 짜고 유지보수하는 데 엄청난 인력과 낭비가 발생한다.
 2. **관리의 어려움 (중간 조립의 혼돈)**: 양쪽에서 공사를 잘 해왔어도, 정작 중간 계층(샌드위치 패티)에서 만나는 날 아귀가 안 맞아서 대공사가 벌어질 수 있다. 이를 방지하려면 사전에 깐깐한 인터페이스([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 명세서) 설계가 필수적이다.
 
 ---
@@ -96,7 +96,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 "모든 전략의 타협점이자, 대규모 프로젝트를 이끄는 최선의 오케스트라."
-하향식은 너무 가볍고, 상향식은 너무 답답하다. 샌드위치 통합(Sandwich Integration)은 이 극단적인 양극단을 융합하여, 사용자 경험(UX)과 시스템의 물리적 인프라 검증을 동시에 병행하는 현대적 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 총아다. 비록 두 종류의 테스트 대역([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/), Driver)을 모두 양산해 내야 하는 코딩 오버헤드가 발생하지만, 수십 수백 명의 개발자가 하나의 거대한 시스템을 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 매끄럽게 엮어내기 위해서는 반드시 감수해야 할 아름다운 복잡성이다.
+하향식은 너무 가볍고, 상향식은 너무 답답하다. 샌드위치 통합(Sandwich Integration)은 이 극단적인 양극단을 융합하여, 사용자 경험(UX)과 시스템의 물리적 인프라 검증을 동시에 병행하는 현대적 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 총아다. 비록 두 종류의 테스트 대역([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/), Driver)을 모두 양산해 내야 하는 코딩 오버헤드가 발생하지만, 수십 수백 명의 개발자가 하나의 거대한 시스템을 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 매끄럽게 엮어내기 위해서는 반드시 감수해야 할 아름다운 복잡성이다.
 
 ---
 
@@ -119,7 +119,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 샌드위치 통합 (Sandwich / Hybrid Integration)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

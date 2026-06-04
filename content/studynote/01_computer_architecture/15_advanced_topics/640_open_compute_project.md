@@ -48,7 +48,7 @@ OCP는 2011년 페이스북이 자사 [데이터센터](/knowledge-base/studynot
 | Rack / Mechanical | Open Rack 규격, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 삽입 방식 통일 | 장비 혼합 배치와 정비 단순화 |
 | [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) | 랙 단위 전원 공급, 고효율 배전 | 변환 손실 감소, 전원부 중복 축소 |
 | Serviceability | Tool-less 교체, 전면 정비성 강화 | [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 감소, 현장 작업 시간 단축 |
-| [Firmware](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) / [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) | 개방형 관리 인터페이스와 자동화 | [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/) 완화, 대규모 운영 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
+| [Firmware](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) / [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) | 개방형 관리 인터페이스와 자동화 | [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/) 완화, 대규모 운영 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
 
 ```text
 +--------------------------------------------------------------+

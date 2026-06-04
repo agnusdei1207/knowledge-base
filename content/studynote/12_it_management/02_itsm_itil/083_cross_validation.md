@@ -146,7 +146,7 @@ K-Fold Cross Validation
 
 **진행 상황**: 149 / 587
 
-<- **이전**: [82. 릴리스 및 배포 관리 (Release and Deployment Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_release_deployment_management/)
-**다음**: [83. DML (Definitive Media Library)](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) ->
+<- **이전**: [82. 릴리스 및 배포 관리 (Release and Deployment Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/866_release_deployment_management/)
+**다음**: [83. DML (Definitive Media Library)](/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/) ->
 
 ---

@@ -47,7 +47,7 @@ tags = ["studynote-database"]
 | **개념적 설계** | E-R 다이어그램 작성 | ERD, 엔티티 정의서 |
 | <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 설계</strong> | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 도출 | 테이블 정의서, ERD |
 | **물리적 설계** | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 결정 | 물리 설계서, [DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/) |
-| **검토** | 설계 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/) | 설계 검토 보고서 |
+| **검토** | 설계 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/837_performance_test_types/) | 설계 검토 보고서 |
 
 ### [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) vs. [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/) 판단
 

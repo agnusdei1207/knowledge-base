@@ -64,8 +64,8 @@ tags = ["studynote-operating-system"]
 | 도구 | 방식 | 오버헤드 | 탐지 항목 | 적용 시기 |
 |:---|:---|:---|:---|:---|
 | **Valgrind Memcheck** | DBI 시뮬레이션 | 20~50x 느림 | 누수, [use-after-free](/knowledge-base/studynote/09_security/04_endpoint_security/351_use_after_free/), 미초기화 | 개발/테스트 |
-| **AddressSanitizer** | 컴파일러 계측 | 2x 느림, 3x 메모리 | [use-after-free](/knowledge-base/studynote/09_security/04_endpoint_security/351_use_after_free/), [buffer overflow](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD |
-| **LeakSanitizer** | ASan + 누수 전용 | 2x 느림 | 힙 누수만 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD |
+| **AddressSanitizer** | 컴파일러 계측 | 2x 느림, 3x 메모리 | [use-after-free](/knowledge-base/studynote/09_security/04_endpoint_security/351_use_after_free/), [buffer overflow](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD |
+| **LeakSanitizer** | ASan + 누수 전용 | 2x 느림 | 힙 누수만 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> memleak</strong> | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 트레이싱 | <5% | 할당/해제 추적 | 프로덕션 |
 | **perf record** | 샘플링 | <1% | 간접적 (할당 패턴) | 프로덕션 |
 
@@ -147,7 +147,7 @@ tags = ["studynote-operating-system"]
 | **메모리** | ~2x | ~3x |
 | **탐지 범위** | 누수, 미초기화, 접근 오류 | 접근 오류, 누수(LSan) |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 버그</strong> | 제한적 | TSan 별도 필요 |
-| **적용** | 개발 전용 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 통합 가능 |
+| **적용** | 개발 전용 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 통합 가능 |
 
 - **📢 섹션 요약 비유**: Valgrind는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 희생하더라도 모든 것을 검사하는 종합 검진이고, ASan은 빠르고 효율적인 정기 검진입니다.
 
@@ -163,7 +163,7 @@ valgrind --leak-check=full --show-leak-kinds=all ./myserver
 ```
 -> 종료 시 LEAK SUMMARY에서 definitely lost 추적
 
-<strong>시나리오 2: <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD에 ASan 통합</strong>
+<strong>시나리오 2: <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD에 ASan 통합</strong>
 ```bash
 gcc -fsanitize=address -g -O1 test.c && ./a.out
 ```

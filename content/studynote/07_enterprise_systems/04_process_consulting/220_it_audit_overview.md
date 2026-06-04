@@ -13,7 +13,7 @@ tags = ["studynote-enterprise"]
 
 > 1. **본질**: 정보 시스템 감리 ([IT Audit](/knowledge-base/studynote/12_it_management/01_governance_strategy/054_it_audit/))는 독립된 제3자가 정보시스템의 기획·개발·운영 전 과정을 점검해 효과성 (Effectiveness), 효율성 (Efficiency), 안전성 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)/[Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 통제 활동이다.
 > 2. **가치**: 발주자와 개발사 사이의 정보 비대칭을 줄이고, 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·품질 저하·보안 취약점 같은 고비용 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 조기에 발견해 프로젝트 실패 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 낮춘다.
-> 3. **판단 포인트**: 좋은 감리는 문서 체크에 그치지 않고, 위험이 큰 영역에 집중해 시정 조치와 [확인 감리](/knowledge-base/studynote/11_design_supervision/01_audit_framework/013_follow_up_audit/)까지 닫힌 루프(Closed Loop)로 운영될 때 효과가 크다.
+> 3. **판단 포인트**: 좋은 감리는 문서 체크에 그치지 않고, 위험이 큰 영역에 집중해 시정 조치와 [확인 감리](/knowledge-base/studynote/11_design_supervision/01_audit_framework/601_follow_up_audit/)까지 닫힌 루프(Closed Loop)로 운영될 때 효과가 크다.
 
 ---
 
@@ -94,7 +94,7 @@ IT 감리는 QA (Quality Assurance), 내부 통제, 컴플라이언스 점검과
 1. 요구사항과 과업 범위가 추적 가능하게 정의되어 있는가?
 2. 감리 조직의 계약·비용 구조가 독립성을 보장하는가?
 3. 필수 시정 조치와 권고 사항이 구분되어 있는가?
-4. 결과 보고 후 [확인 감리](/knowledge-base/studynote/11_design_supervision/01_audit_framework/013_follow_up_audit/) 절차가 남아 있는가?
+4. 결과 보고 후 [확인 감리](/knowledge-base/studynote/11_design_supervision/01_audit_framework/601_follow_up_audit/) 절차가 남아 있는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 

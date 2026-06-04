@@ -76,7 +76,7 @@ tags = ["studynote-it-management"]
 |:---|:---|:---|
 | [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)  / 메트칼프의 법칙 | '[네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)  / 메트칼프의 법칙' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
 | [롱테일 법칙](/knowledge-base/studynote/12_it_management/05_security_compliance/252_long_tail_law/) | '[롱테일 법칙](/knowledge-base/studynote/12_it_management/05_security_compliance/252_long_tail_law/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
-| [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) | '[피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
+| [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/) | '[피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
 
 따라서 시험 답안에서는 "무엇과 다르며 왜 같이 보아야 하는가"를 짝지어 말하는 것이 중요하다. 실무에서도 현재 문제가 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 정렬인지, 운영 절차인지, 보안 통제인지에 따라 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 경영의 사용 위치가 달라진다.
 
@@ -120,7 +120,7 @@ tags = ["studynote-it-management"]
 |:---|:---|
 | [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)  / 메트칼프의 법칙 | 인접 주제로서 범위와 시점을 구분하게 한다. |
 | [롱테일 법칙](/knowledge-base/studynote/12_it_management/05_security_compliance/252_long_tail_law/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
-| [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
+| [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
 | IT 거버넌스 | 현재 개념을 IT 거버넌스 관점과 연결해 실무 맥락을 넓힌다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -148,7 +148,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 59 / 587
 
-<- **이전**: [33. 플랫폼 비즈니스 모델 (Platform Business Model)](/knowledge-base/studynote/12_it_management/01_governance_strategy/033_platform_business_model/)
-**다음**: [플랫폼 비즈니스 모델 (Platform Business Model)](/knowledge-base/studynote/12_it_management/01_governance_strategy/034_platform_business_model/) ->
+<- **이전**: [33. 플랫폼 비즈니스 모델 (Platform Business Model)](/knowledge-base/studynote/12_it_management/01_governance_strategy/825_platform_business_model/)
+**다음**: [플랫폼 비즈니스 모델 (Platform Business Model)](/knowledge-base/studynote/12_it_management/01_governance_strategy/826_platform_business_model/) ->
 
 ---

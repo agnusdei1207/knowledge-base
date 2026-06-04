@@ -136,7 +136,7 @@ Responsible Disclosure (책임 있는 공개)를 제대로 이해하면 개념 �
 
 **진행 상황**: 152 / 1108
 
-<- **이전**: [1029. LPWAN 로라 (LoRa)](/knowledge-base/studynote/09_security/uncategorized/1029_lora_lpwan_chirp_spread_spectrum_iot/)
+<- **이전**: [1029. LPWAN 로라 (LoRa)](/knowledge-base/studynote/09_security/uncategorized/1107_lora_lpwan_chirp_spread_spectrum_iot/)
 **다음**: [102. BLAKE2/BLAKE3 — 빠른 성능 해시, AES 대체](/knowledge-base/studynote/09_security/02_crypto/102_blake2_blake3/) ->
 
 ---

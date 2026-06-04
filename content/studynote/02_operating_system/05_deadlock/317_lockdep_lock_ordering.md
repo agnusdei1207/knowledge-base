@@ -67,7 +67,7 @@ Lockdep은 "실제 데드락이 터지게 놔두지 않고, 평소에 락 잡고
 
 락이 수만 개라 매번 검사하면 서버가 타 죽는다. Lockdep은 '단일 락 인스턴스'가 아니라 **'락의 논리적 클래스(코드 라인 종류)'** 단위로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 검사한다.
 
-1. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/">Lock Hierarchy</a> <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a> (락 계층 구조도)</strong>:
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/">Lock Hierarchy</a> <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/">Graph</a> (락 계층 구조도)</strong>:
    - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내의 락을 획득할 때마다 노드(락 클래스)와 간선(순서)을 매트릭스에 캐싱한다.
    - 획득 이벤트가 발생할 때마다, 이 매트릭스 백그라운드를 순회하여 `Cycle(닫힌 원)`이 조립되는지를 $O(N)$ [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 알고리즘으로 즉석 스캔한다.
 2. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a> &amp; SoftIRQ <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a> 분리</strong>:

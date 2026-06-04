@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 486 / 587
 
-<- **이전**: [322. 데이터 카탈로그 검색 태깅 인프라](/knowledge-base/studynote/12_it_management/05_security_compliance/322_process/)
-**다음**: [323. 데이터 리니지 흐름 추적 무결성](/knowledge-base/studynote/12_it_management/05_security_compliance/323_data_lineage/) ->
+<- **이전**: [322. 데이터 카탈로그 검색 태깅 인프라](/knowledge-base/studynote/12_it_management/05_security_compliance/963_process/)
+**다음**: [323. 데이터 리니지 흐름 추적 무결성](/knowledge-base/studynote/12_it_management/05_security_compliance/964_data_lineage/) ->
 
 ---

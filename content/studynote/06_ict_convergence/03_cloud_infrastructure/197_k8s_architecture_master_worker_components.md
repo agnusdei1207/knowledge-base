@@ -109,7 +109,7 @@ K8s [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_p
 
 이 개념을 올바르게 적용하면 자원 밀도 향상과 운영 표준화를 기대할 수 있다. 더 중요한 점은 구조가 분명해질수록 자동화, 표준화, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝, 장애 분석의 기준점도 함께 선명해진다는 것이다. 즉, 이 개념의 가치는 기능 하나보다도 시스템을 설명 가능한 형태로 바꿔 준다는 데 있다.
 
-물론 이 개념이 만능은 아니다. 입력 품질이 낮거나 운영 정책이 비어 있거나, 조직 역량보다 과한 복잡도를 도입하면 오히려 관리 비용만 늘어난다. 앞으로는 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)와 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 자동화 방향으로 더 진화하겠지만, 그 출발점은 여전히 기본 원리와 적용 경계를 정확히 이해하는 데 있다.
+물론 이 개념이 만능은 아니다. 입력 품질이 낮거나 운영 정책이 비어 있거나, 조직 역량보다 과한 복잡도를 도입하면 오히려 관리 비용만 늘어난다. 앞으로는 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)와 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 자동화 방향으로 더 진화하겠지만, 그 출발점은 여전히 기본 원리와 적용 경계를 정확히 이해하는 데 있다.
 
 정리하면 이 개념은 "무엇인가"보다 "언제, 왜, 어떤 조건에서 써야 하는가"로 기억해야 한다. 그래야 시험에서도 비교형 답안을 안정적으로 쓸 수 있고, 실무에서도 기술 도입 우선순위를 흔들림 없이 정할 수 있다.
 

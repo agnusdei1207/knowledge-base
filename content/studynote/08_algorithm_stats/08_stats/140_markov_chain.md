@@ -19,7 +19,7 @@ tags = ["studynote-algorithm"]
 
 ## Ⅰ. 마르코프 체인의 정의
 
-<strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/">SP</a>(Stochastic <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a>, <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 과정)</strong>란 시간에 따라 변화하는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수의 수열 {X₀, X₁, X₂, ...}이다. 이 중 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/141_markov_property/">마르코프 성질</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/141_markov_property/">Markov Property</a>)</strong>을 만족하는 것이 마르코프 체인이다.
+<strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/">SP</a>(Stochastic <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/">Process</a>, <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 과정)</strong>란 시간에 따라 변화하는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수의 수열 {X₀, X₁, X₂, ...}이다. 이 중 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/141_markov_property/">마르코프 성질</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/141_markov_property/">Markov Property</a>)</strong>을 만족하는 것이 마르코프 체인이다.
 
 ```
 P(X_{t+1} = j | X_t = i, X_{t-1}, ..., X_0) = P(X_{t+1} = j | X_t = i)

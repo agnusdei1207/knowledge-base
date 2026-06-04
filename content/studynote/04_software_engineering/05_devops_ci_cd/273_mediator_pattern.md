@@ -28,7 +28,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **Spaghetti Dependencies의 비극**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 객체 지향 프로그래밍에서 '객체 간의 협력'을 강조하다 보니, 객체들이 서로의 참조를 너무 많이 가지는 M:N 메시지 지옥이 발생했다.
   2. <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a> 앤 스포크 (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">Hub</a> and Spoke) 패러다임 도입</strong>: 거미줄 구조 대신 바퀴살(Spoke)처럼 중앙([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))에 중재자를 두어 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 O(N^2)에서 O(N)으로 낮추는 설계가 탄생했다.
-  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/">이벤트 버스</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/">Event Bus</a>)로의 진화</strong>: 현대 웹과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에 이르러서는 단순한 중재자 객체를 넘어, 완전 비동기 방식의 Pub/Sub을 지원하는 [Message Broker](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 등)나 프론트엔드의 상태 관리소(Redux Store) 형태로 진화했다.
+  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/931_event_bus_stream_processing/">이벤트 버스</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/931_event_bus_stream_processing/">Event Bus</a>)로의 진화</strong>: 현대 웹과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에 이르러서는 단순한 중재자 객체를 넘어, 완전 비동기 방식의 Pub/Sub을 지원하는 [Message Broker](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 등)나 프론트엔드의 상태 관리소(Redux Store) 형태로 진화했다.
 
 - **📢 섹션 요약 비유**: 교실에서 30명의 학생이 서로 직접 떠들며 회의하면 아수라장이 되지만, 학생들은 무조건 반장(중재자)에게만 손을 들고 말하고 반장이 이를 칠판에 정리하면 평화로운 회의가 되는 것과 같습니다.
 
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 중재자 (Mediator)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

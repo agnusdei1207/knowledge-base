@@ -28,7 +28,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. <strong>가상머신(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>)과 클라우드의 탄생 (2000년대 후반)</strong>: AWS가 하드웨어를 가상으로 쪼개 팔기 시작했다. 이때는 그냥 낡은 코드를 서버만 빌려서 올렸다([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)). 비효율의 극치였다.
   2. <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/200_12_factor_app_cloud_native_principles/">12-Factor App</a> 헌법 제정 (2011)</strong>: Heroku 엔지니어들이 "클라우드에서 앱이 예쁘게 돌려면 이 12개 룰([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 분리, 무상태 등)을 무조건 지키며 코딩해라!"라고 선포하며 클라우드 최적화 코딩의 바이블을 세웠다.
-  3. <strong><a href="/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/">CNCF</a>(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/">Cloud Native</a> Computing Foundation) 결성 (2015)</strong>: 구글이 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))를 지휘하는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)를 오픈소스로 풀면서, 전 세계 기업들이 "모든 시스템을 쪼개고([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 컨테이너로 감싸서 배포([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)하는 생태계"로 천하를 통일했다.
+  3. <strong><a href="/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/">CNCF</a>(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/">Cloud Native</a> Computing Foundation) 결성 (2015)</strong>: 구글이 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))를 지휘하는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)를 오픈소스로 풀면서, 전 세계 기업들이 "모든 시스템을 쪼개고([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 컨테이너로 감싸서 배포([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD)하는 생태계"로 천하를 통일했다.
 
 - **📢 섹션 요약 비유**: 클라우드 네이티브는 <strong>'레고 블록(Lego)으로 성벽 쌓기'</strong>입니다. 옛날 성(모놀리식)은 시멘트를 부어서 통째로 굳혔기 때문에, 대포를 맞아 벽 한쪽이 깨지면 성을 다 부수고 처음부터 다시 지어야 했습니다. 클라우드 네이티브 성은 작은 레고 조각([마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)) 수만 개로 끼워져 있어서, 대포를 맞아 조각 100개가 날아가도, 로봇(K8s)이 똑같은 레고 조각 100개를 가져와 1초 만에 그 자리에 끼워 넣어(Auto-healing) 언제나 완벽한 성의 모습을 유지하는 미친 회복력의 마술입니다.
 
@@ -174,7 +174,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 654 / 973
 
-<- **이전**: [531. 클라우드 네이티브 (Cloud Native) 아키텍처 철학](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)
-**다음**: [532. 마이크로서비스 (Microservices) 분해 패턴](/knowledge-base/studynote/04_software_engineering/11_testing_validation/532_microservices_decomposition/) ->
+<- **이전**: [531. 클라우드 네이티브 (Cloud Native) 아키텍처 철학](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)
+**다음**: [532. 마이크로서비스 (Microservices) 분해 패턴](/knowledge-base/studynote/04_software_engineering/11_testing_validation/924_microservices_decomposition/) ->
 
 ---

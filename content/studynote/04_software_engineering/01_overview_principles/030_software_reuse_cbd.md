@@ -29,7 +29,7 @@ tags = ["studynote-software-engineering"]
   코드 복사   <- Copy-Paste (재사용 최하위)
 ```
 
-- **📢 섹션 요약 비유**: 소프트웨어 재사용 수준은 레고 블록 조립 방식이다. 기성 완성품([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)) 구매부터 큰 레고 세트(프레임워크) 활용, 개별 블록([컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)) 조립까지 다양한 수준이 있다.
+- **📢 섹션 요약 비유**: 소프트웨어 재사용 수준은 레고 블록 조립 방식이다. 기성 완성품([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/)) 구매부터 큰 레고 세트(프레임워크) 활용, 개별 블록([컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)) 조립까지 다양한 수준이 있다.
 
 ---
 

@@ -182,7 +182,7 @@ tags = ["studynote-ai"]
 
 ### 5.1 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 향상의 기대효과
 - **스팸 필터**: 중요 이메일 차단율 감소 -> 사용자 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 향상
-- **광고 시스템**: 클릭률([CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/), Click-Through Rate) 향상 -> [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 개선
+- **광고 시스템**: 클릭률([CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/), Click-Through Rate) 향상 -> [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 개선
 - <strong>의료 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 보조 진단</strong>: 의사 추가 검토 부담 감소 -> 업무 효율 향상
 - **자동화 품질 검사**: 정상 제품 폐기 비용 절감
 

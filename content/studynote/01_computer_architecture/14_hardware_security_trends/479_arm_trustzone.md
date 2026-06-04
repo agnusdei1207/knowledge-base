@@ -12,7 +12,7 @@ tags = ["studynote-computer-architecture"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ARM TrustZone은 ARM 프로세서와 시스템 버스에 Secure/Non-secure 구분을 도입해, 하나의 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) ([System on Chip](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/)) 안에서 보안 세계와 일반 세계를 하드웨어 수준으로 분리하는 플랫폼 격리 기술이다.
-> 2. **가치**: 별도 보안 칩 없이도 모바일 결제, [생체 인증](/knowledge-base/studynote/09_security/uncategorized/702_biometric_authentication/), 안전한 부팅, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기 키 저장을 구현할 수 있어 ARM 생태계의 사실상 표준 [TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/) ([Trusted Execution Environment](/knowledge-base/studynote/09_security/19_ai_advanced_security/972_tee_based_ml/)) 기반이 되었다.
+> 2. **가치**: 별도 보안 칩 없이도 모바일 결제, [생체 인증](/knowledge-base/studynote/09_security/uncategorized/1047_biometric_authentication/), 안전한 부팅, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기 키 저장을 구현할 수 있어 ARM 생태계의 사실상 표준 [TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/) ([Trusted Execution Environment](/knowledge-base/studynote/09_security/19_ai_advanced_security/972_tee_based_ml/)) 기반이 되었다.
 > 3. **판단 포인트**: TrustZone의 강점은 시스템 전반 분리에 있지만, Secure World가 비대해지면 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 부담도 커지므로 Secure [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)·보안 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)·주변기기 배치를 최소화해야 한다.
 
 ---
@@ -82,7 +82,7 @@ TrustZone의 핵심 제어점은 NS (Non-Secure) [비트](/knowledge-base/studyn
 +----------------------------------------------------------------------------+
 ```
 
-이 구조 덕분에 지문 센서, 키 저장소, [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/) 경로처럼 반드시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)해야 할 자원은 Secure World에만 연결할 수 있다. 반대로 일반 앱은 Rich OS를 통해 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 요청하되, 실제 비밀 데이터에는 닿지 못한다. 그래서 TrustZone은 TEE를 구현하는 대표 수단이 된다.
+이 구조 덕분에 지문 센서, 키 저장소, [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/903_drm_data_reference_model_standard/) 경로처럼 반드시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)해야 할 자원은 Secure World에만 연결할 수 있다. 반대로 일반 앱은 Rich OS를 통해 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 요청하되, 실제 비밀 데이터에는 닿지 못한다. 그래서 TrustZone은 TEE를 구현하는 대표 수단이 된다.
 
 - **📢 섹션 요약 비유**: TrustZone의 NS [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 건물 출입증 색깔과 같다. 파란 출입증은 일반 구역만, 빨간 출입증은 보안 구역까지 들어가게 해 주며, 문과 엘리베이터가 그 색을 보고 통과 여부를 정한다.
 
@@ -97,7 +97,7 @@ TrustZone은 [Intel SGX](/knowledge-base/studynote/01_computer_architecture/14_h
 | 격리 단위 | 시스템 수준의 두 세계 | 프로세스 수준 [Enclave](/knowledge-base/studynote/09_security/04_endpoint_security/390_enclave/) | 별도 보안 칩 |
 | 장점 | 모바일/임베디드 통합이 쉽다 | 세밀한 애플리케이션 격리 | 물리 분리가 강하다 |
 | 약점 | Secure World 코드 기반이 커지기 쉽다 | [EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/) 제약, 인터페이스 복잡성 | 비용·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·연동 부담 |
-| 대표 용도 | 결제, [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/), [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 보안 | [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/) | 카드, eSIM, 키 저장 |
+| 대표 용도 | 결제, [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/903_drm_data_reference_model_standard/), [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 보안 | [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/) | 카드, eSIM, 키 저장 |
 
 TrustZone은 Secure Boot와도 강하게 엮인다. Secure Boot가 Secure Monitor와 보안 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 정상 서명본인지 확인해야 보안 세계 자체가 신뢰를 얻는다. 또한 PSA (Platform [Security Architecture](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/))나 OP-[TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/) (Open Portable [Trusted Execution Environment](/knowledge-base/studynote/09_security/19_ai_advanced_security/972_tee_based_ml/)) 같은 생태계 요소는 TrustZone을 실제 제품 설계 언어로 바꿔 주는 역할을 한다.
 
@@ -133,7 +133,7 @@ TrustZone은 Secure Boot와도 강하게 엮인다. Secure Boot가 Secure Monito
 
 ## Ⅴ. 기대효과 및 결론
 
-TrustZone의 가장 큰 효과는 범용 SoC에서 보안 전용 기능을 실용적으로 구현할 수 있게 했다는 점이다. 덕분에 스마트폰, 스마트카드 대체 결제, 셋톱박스 [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/), 자동차 ECU, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 게이트웨이까지 하나의 프로세서 안에서 비용과 보안을 균형 있게 맞출 수 있었다. 즉 TrustZone은 ARM 기반 기기에서 "보안을 옵션이 아니라 기본 기능"으로 만드는 데 큰 역할을 했다.
+TrustZone의 가장 큰 효과는 범용 SoC에서 보안 전용 기능을 실용적으로 구현할 수 있게 했다는 점이다. 덕분에 스마트폰, 스마트카드 대체 결제, 셋톱박스 [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/903_drm_data_reference_model_standard/), 자동차 ECU, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 게이트웨이까지 하나의 프로세서 안에서 비용과 보안을 균형 있게 맞출 수 있었다. 즉 TrustZone은 ARM 기반 기기에서 "보안을 옵션이 아니라 기본 기능"으로 만드는 데 큰 역할을 했다.
 
 하지만 한계도 분명하다. Secure World는 하나뿐인 경우가 많아 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 같은 신뢰 경계를 공유하게 되고, 벤더 구현 품질에 따라 공격면이 달라진다. 또한 사이드 채널, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입, 취약한 Trusted Application은 여전히 현실적인 위협이다. 최근 [ARM CCA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/799_arm_cca/) ([Confidential Compute Architecture](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/799_arm_cca/))가 Realm 같은 더 세분화된 영역을 제안하는 것도 이러한 한계를 보완하기 위해서다.
 

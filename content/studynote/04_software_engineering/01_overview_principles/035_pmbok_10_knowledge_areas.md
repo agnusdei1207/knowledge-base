@@ -10,9 +10,9 @@ tags = ["studynote-software-engineering"]
 +++
 
 > **핵심 인사이트**
-> 1. [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) ([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Body of Knowledge) 10대 지식 영역은 프로젝트 관리의 전 영역을 통합·범위·일정·원가·품질·자원·의사소통·위험·조달·[이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)로 구조화한 국제 표준 프레임워크다.
+> 1. [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) ([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) Body of Knowledge) 10대 지식 영역은 프로젝트 관리의 전 영역을 통합·범위·일정·원가·품질·자원·의사소통·위험·조달·[이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)로 구조화한 국제 표준 프레임워크다.
 > 2. 각 지식 영역은 착수·계획·실행·감시통제·종료의 5개 [프로세스 그룹](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/)과 교차되어 49개 프로세스를 구성한다([PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 6th).
-> 3. [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 시대에 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 방법론이 확산됨에 따라 [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 7th([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/))는 12개 원칙과 8개 성과 영역으로 패러다임이 전환되었지만, 6th의 10대 지식 영역은 여전히 PMP 시험의 기반이다.
+> 3. [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 시대에 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 방법론이 확산됨에 따라 [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 7th([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/))는 12개 원칙과 8개 성과 영역으로 패러다임이 전환되었지만, 6th의 10대 지식 영역은 여전히 PMP 시험의 기반이다.
 
 ---
 

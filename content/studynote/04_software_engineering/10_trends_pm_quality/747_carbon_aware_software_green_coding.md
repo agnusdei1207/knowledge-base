@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 그 결과 데이터센터가 뿜어내는 탄소 배출량은 항공 산업 전체의 배출량을 넘어섰다. 이에 마이크로소프트, GitHub 등이 주도하여 <strong>그린 소프트웨어 재단(GSF, Green Software Foundation)</strong>을 설립했다.
 
-<strong>"개발자가 코드를 한 줄 고치면, 지구 반대편의 빙하 녹는 속도를 늦출 수 있다"</strong>는 모토 아래, 전력망의 탄소 집약도(Carbon Intensity)를 인식하고 스스로 에너지 소비를 최적화하는 <strong>탄소 인지적(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/359_esg_carbon_aware_pue/">Carbon-Aware</a>) 아키텍처</strong>와 <strong>그린 코딩</strong>이 탄생했다.
+<strong>"개발자가 코드를 한 줄 고치면, 지구 반대편의 빙하 녹는 속도를 늦출 수 있다"</strong>는 모토 아래, 전력망의 탄소 집약도(Carbon Intensity)를 인식하고 스스로 에너지 소비를 최적화하는 <strong>탄소 인지적(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/1000_esg_carbon_aware_pue/">Carbon-Aware</a>) 아키텍처</strong>와 <strong>그린 코딩</strong>이 탄생했다.
 
 - **📢 섹션 요약 비유**: 옛날엔 물건을 공장(서버)에서 무조건 빨리 만들어 달라고만 했다. 그린 코딩은 공장장(아키텍트)이 "오늘은 공장에 전기가 많이 드니까, 급하지 않은 주문은 전깃값이 싸고 친환경적인 내일 낮에 만들자"라고 똑똑하게 작업 스케줄을 조절하는 것이다.
 

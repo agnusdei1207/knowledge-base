@@ -63,7 +63,7 @@ IBN을 이해하는 가장 완벽한 열쇠는 How(어떻게)와 What(무엇을)
 
 ## Ⅲ. 비교 및 연결
 
-- 앞서 배운 791번 문서의 [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/)([인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 운영)와 IBN은 찰떡궁합입니다. IBN의 '의도 번역'과 '자가 치유' 판단력을 인간 프로그래머가 아닌 거대한 딥러닝 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델(생성형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))이 맡기 시작하면서, 진정한 의미의 '말만 하면 다 해주는' 클라우드 자율망 통제 시대가 도달하고 있습니다.
+- 앞서 배운 791번 문서의 [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)([인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 운영)와 IBN은 찰떡궁합입니다. IBN의 '의도 번역'과 '자가 치유' 판단력을 인간 프로그래머가 아닌 거대한 딥러닝 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델(생성형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))이 맡기 시작하면서, 진정한 의미의 '말만 하면 다 해주는' 클라우드 자율망 통제 시대가 도달하고 있습니다.
 
 IBN를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) Flow Table가 기반 조건을 만든다면, IBN는 그 위에서 핵심 메커니즘을 구현하고, SDDC는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 

@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 95 / 587
 
-<- **이전**: [52. 데이터 거버넌스 (Data Governance)](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)
-**다음**: [53. 데이터 스튜어드 역할 (Data Stewardship Role)](/knowledge-base/studynote/12_it_management/01_governance_strategy/053_data_stewardship_role/) ->
+<- **이전**: [52. 데이터 거버넌스 (Data Governance)](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)
+**다음**: [53. 데이터 스튜어드 역할 (Data Stewardship Role)](/knowledge-base/studynote/12_it_management/01_governance_strategy/843_data_stewardship_role/) ->
 
 ---

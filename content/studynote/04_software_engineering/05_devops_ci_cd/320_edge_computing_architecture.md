@@ -27,7 +27,7 @@ tags = ["studynote-software-engineering"]
 
 - **등장 배경 및 발전 과정**:
   1. <strong>클라우드의 한계 도달 (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a> &amp; <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong>: 모든 기기가 인터넷에 연결되는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 시대가 도림하며 1초에 수백 기가의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쏟아지자, 이를 모두 클라우드로 보내는 네트워크 비용이 회사 예산을 파탄 냈다.
-  2. **모바일 기기와 반도체의 발전**: 스마트폰과 라즈베리 파이(Raspberry [Pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/)), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)(신경망 처리 장치) 등 손바닥만 한 기기의 연산 능력이 옛날 슈퍼컴퓨터 급으로 발전하여 "굳이 서버로 안 보내고 여기서 연산해도 되겠는데?"라는 기반이 마련되었다.
+  2. **모바일 기기와 반도체의 발전**: 스마트폰과 라즈베리 파이(Raspberry [Pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/)), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)(신경망 처리 장치) 등 손바닥만 한 기기의 연산 능력이 옛날 슈퍼컴퓨터 급으로 발전하여 "굳이 서버로 안 보내고 여기서 연산해도 되겠는데?"라는 기반이 마련되었다.
   3. <strong>5G와 <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/">MEC</a> (Mobile <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">Edge Computing</a>) 상용화</strong>: 통신사들이 아예 동네 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 바로 옆에 클라우드 서버 랙([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/))을 설치하여, 스마트폰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 유선 인터넷망을 타기 직전에 기지국 단에서 연산을 끝내버리는 극한의 아키텍처를 상용화했다.
 
 - **📢 섹션 요약 비유**: [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 쓰레기([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 무조건 시외의 거대한 쓰레기 매립장(클라우드)까지 트럭으로 보내지 않고, 아파트 단지 내 분리수거장(엣지)에서 압축하고 재활용할 건 처리해서 트럭 이동 비용을 90% 이상 팍 줄이는 마법입니다.
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) ([Edge Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처 설계은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

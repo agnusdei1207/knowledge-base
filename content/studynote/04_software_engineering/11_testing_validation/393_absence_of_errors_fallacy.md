@@ -20,7 +20,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 오류 부재의 궤변은 시스템 빌드 및 내부 로직 테스팅에서 오류(Error/Bug)가 '0'으로 수렴되었음을 증명했다 할지라도, 그 시스템이 애초에 사용자가 원하지 않았던 기능을 구현했거나 비즈니스 가치를 상실한 형태라면 프로젝트 전체가 오류(실패)임을 시사하는 품질 철학적 명제다.
-- **필요성**: 개발 산출물이 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)([Test Case](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/))의 100% 커버리지를 통과할 때, 개발팀은 흔히 "품질이 완벽하다"고 착각하기 쉽다. 이때 요구사항의 불일치를 감지하지 못하면 릴리즈 시점에 전면 재개발이라는 막대한 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))와 비용(Sunk Cost) 낭비로 이어지기 때문에 프로젝트 관리 차원에서 이를 방지할 판단 근거가 필요하다.
+- **필요성**: 개발 산출물이 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/)([Test Case](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/))의 100% 커버리지를 통과할 때, 개발팀은 흔히 "품질이 완벽하다"고 착각하기 쉽다. 이때 요구사항의 불일치를 감지하지 못하면 릴리즈 시점에 전면 재개발이라는 막대한 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))와 비용(Sunk Cost) 낭비로 이어지기 때문에 프로젝트 관리 차원에서 이를 방지할 판단 근거가 필요하다.
 - **💡 비유**: 최상급 엔진을 달고 아무 고장 없이 최고 시속으로 달리는 KTX 기차가 있다고 하자. 기술적으로는 완벽한 기차지만 탑승객이 가고자 하는 역이 '부산'인데 '목포'를 향해 전속력으로 달리고 있다면, 그 기차는 승객에게 쓸모가 없다.
 
 - **등장 배경**:
@@ -117,7 +117,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 오류 부재의 궤변 (Absence of Errors Fallacy)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

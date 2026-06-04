@@ -107,9 +107,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)의 본질을 이해한 조직은 '완벽한 예측'이라는 환상을 버린다. 대신 요구사항은 언제든 변할 수 있음을 겸허히 수용하고, 지속적인 통합([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))과 배포(CD) 파이프라인을 통해 작은 실패를 자주 겪고(Fail-Fast) 빠르게 교정하는 건강한 개발 문화를 정착시킨다.
+[소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)의 본질을 이해한 조직은 '완벽한 예측'이라는 환상을 버린다. 대신 요구사항은 언제든 변할 수 있음을 겸허히 수용하고, 지속적인 통합([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/))과 배포(CD) 파이프라인을 통해 작은 실패를 자주 겪고(Fail-Fast) 빠르게 교정하는 건강한 개발 문화를 정착시킨다.
 
-결론적으로 '[소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)'는 끝나지 않았다. 클라우드와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시대가 되면서 시스템의 규모는 과거와 비교할 수 없을 만큼 거대해졌다. 기술 리더는 아무리 도구가 좋아져도 <strong>"소프트웨어는 사람이 사람을 위해 짜는 복잡한 의사소통의 결과물"</strong>이라는 사실을 잊지 말고, 기술(Tech)보다 프로세스([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))와 사람(People)을 관리하는 데 힘을 쏟아야 한다.
+결론적으로 '[소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)'는 끝나지 않았다. 클라우드와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시대가 되면서 시스템의 규모는 과거와 비교할 수 없을 만큼 거대해졌다. 기술 리더는 아무리 도구가 좋아져도 <strong>"소프트웨어는 사람이 사람을 위해 짜는 복잡한 의사소통의 결과물"</strong>이라는 사실을 잊지 말고, 기술(Tech)보다 프로세스([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))와 사람(People)을 관리하는 데 힘을 쏟아야 한다.
 
 - **📢 섹션 요약 비유**: 자동차가 시속 300km로 빨라졌다고 해서 교통사고([소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/))가 없어지는 게 아니다. 오히려 더 큰 대형 사고가 날 수 있다. 차가 좋아진 만큼 신호등(프로세스), 안전벨트(테스트), 그리고 훌륭한 운전자(엔지니어)를 양성하는 것이 위기를 막는 유일한 방법이다.
 

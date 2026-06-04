@@ -31,7 +31,7 @@ AMD 프리시전 부스트는 Ryzen 세대에서 본격화된, <strong>센서 �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost의 핵심은 Ryzen 내부의 SMU (System [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Unit)와 다수의 센서가 만드는 폐루프 제어다. 센서는 코어 온도, 패키지 전력, [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/), 활성 코어 수, 부하 성격 같은 정보를 계속 수집하고, SMU는 그 값을 바탕으로 다음 순간에 허용 가능한 주파수와 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 결정한다. 중요한 점은 이것이 단순한 온도 스위치가 아니라, 여러 제약 조건을 동시에 만족시키는 <strong>다변수 최적화 문제</strong>라는 것이다.
+[Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost의 핵심은 Ryzen 내부의 SMU (System [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) Unit)와 다수의 센서가 만드는 폐루프 제어다. 센서는 코어 온도, 패키지 전력, [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/), 활성 코어 수, 부하 성격 같은 정보를 계속 수집하고, SMU는 그 값을 바탕으로 다음 순간에 허용 가능한 주파수와 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 결정한다. 중요한 점은 이것이 단순한 온도 스위치가 아니라, 여러 제약 조건을 동시에 만족시키는 <strong>다변수 최적화 문제</strong>라는 것이다.
 
 AMD 플랫폼에서 자주 보는 제약어는 다음과 같다.
 
@@ -132,7 +132,7 @@ AMD 플랫폼에서 자주 보는 제약어는 다음과 같다.
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| SMU (System [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Unit) | Ryzen 내부에서 센서 값을 읽고 부스트 결정을 수행하는 제어기다. |
+| SMU (System [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) Unit) | Ryzen 내부에서 센서 값을 읽고 부스트 결정을 수행하는 제어기다. |
 | PPT / TDC / EDC | [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost의 전력·[전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 한계를 구체적으로 규정하는 핵심 지표다. |
 | CPPC (Collaborative Processor [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Control) | [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 CPU가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 우선 코어 선택과 힌트를 주고받는 협업 메커니즘이다. |
 | PBO ([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost Overdrive) | 기본 [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost의 한계값을 확장해 추가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 노리는 기능이다. |

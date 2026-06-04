@@ -177,7 +177,7 @@ X_T    ->    X_{T-1}    ->  ...  ->  X_0
 |:---|:---|
 | **소비자 기기** | 오프라인 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 어시스턴트, 프라이버시 보장 |
 | **자동차** | [V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) 없이도 실시간 자율주행 판단 |
-| **의료기기** | [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/) 준수 로컬 진단 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) |
+| **의료기기** | [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/1058_hipaa/) 준수 로컬 진단 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) |
 | <strong>산업 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a></strong> | 네트워크 단절 환경에서도 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론 |
 | **에너지 절감** | 클라우드 전송 불필요 -> 탄소 감소 |
 

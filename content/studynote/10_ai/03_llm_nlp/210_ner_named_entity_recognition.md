@@ -41,7 +41,7 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-NER은 단순히 단어가 긍정인지 부정인지 1개로 찍는 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)과 다르다. 문장의 모든 글자 덩어리(Token) 하나하나마다 "너의 신분이 무엇이냐"라고 수십 번 연속으로 묻고 대답하는 **시퀀스 라벨링 (Sequence Labeling)** 아키텍처를 따른다.
+NER은 단순히 단어가 긍정인지 부정인지 1개로 찍는 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)과 다르다. 문장의 모든 글자 덩어리(Token) 하나하나마다 "너의 신분이 무엇이냐"라고 수십 번 연속으로 묻고 대답하는 **시퀀스 라벨링 (Sequence Labeling)** 아키텍처를 따른다.
 
 ```text
 +--------------------------------------------------------------+

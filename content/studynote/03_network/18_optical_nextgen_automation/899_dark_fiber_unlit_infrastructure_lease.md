@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 통신 사업자([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))나 케이블 매설 업체가 미래의 트래픽 수요 증가를 대비해 땅속에 선제적으로 매설해 두었으나, <strong>현재 빛 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)를 쏘지 않고 연결 단자만 방치해 둔 '가동되지 않는(Dark) 잉여 상태의 물리적 예비 광섬유(Fiber)' 자산 인프라</strong>입니다. (Unlit Fiber라고도 합니다.)
+- **개념**: 통신 사업자([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))나 케이블 매설 업체가 미래의 트래픽 수요 증가를 대비해 땅속에 선제적으로 매설해 두었으나, <strong>현재 빛 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)를 쏘지 않고 연결 단자만 방치해 둔 '가동되지 않는(Dark) 잉여 상태의 물리적 예비 광섬유(Fiber)' 자산 인프라</strong>입니다. (Unlit Fiber라고도 합니다.)
 
 ```text
 [NG-PON2 표준 광통신 파장 동적 분할…]
@@ -66,7 +66,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - <strong>규제 및 보수 공사 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong>:
-  - 통신사가 다크 파이버를 빌려줄 때 "케이블 관리(포크레인 단선 방어)는 우리가 해주지만, 케이블 껍데기 외에 네가 쏜 빛 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 끊기는 건 우리가 책임 못 져!" ([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 보장 한계)라고 선을 긋습니다.
+  - 통신사가 다크 파이버를 빌려줄 때 "케이블 관리(포크레인 단선 방어)는 우리가 해주지만, 케이블 껍데기 외에 네가 쏜 빛 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 끊기는 건 우리가 책임 못 져!" ([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 보장 한계)라고 선을 긋습니다.
   - 결국 유지보수를 할 자체 네트워크 엔지니어링 팀을 갖춘 대기업이나 금융권만이 다크 파이버를 사서 직접 조립하고 운용(DIY)할 자격이 됩니다.
 - **국가 인프라 자산 규제**: 땅을 함부로 팔 수 없듯, 국가 기간망인 광케이블 자산의 임대 시장 개방과 가격 상한을 정부가 어느 정도 규제하며 벤처기업들이 저렴하게 망을 깔 수 있도록 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)적으로 개입하기도 합니다.
 

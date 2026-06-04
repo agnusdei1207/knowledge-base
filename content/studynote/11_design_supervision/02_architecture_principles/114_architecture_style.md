@@ -97,7 +97,7 @@ tags = ["studynote-design-supervision"]
 | **운영 복잡도** | 낮음 | 높음 ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 관리) |
 | **적합 규모** | 소·중규모, 스타트업 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) | 대규모, 다팀 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 개발 |
 
-아키텍처 스타일 선택은 시스템의 현재 규모뿐 아니라 예상 성장 경로와 팀 구성에 따라 달라진다. 스타트업 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 단순한 계층형으로 시작하고, 성장하면 [스트랭글러 피그 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/)([Strangler Fig Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/308_strangler_fig_pattern/))으로 MSA로 점진적 전환하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 현실적이다.
+아키텍처 스타일 선택은 시스템의 현재 규모뿐 아니라 예상 성장 경로와 팀 구성에 따라 달라진다. 스타트업 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 단순한 계층형으로 시작하고, 성장하면 [스트랭글러 피그 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/)([Strangler Fig Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/950_strangler_fig_pattern/))으로 MSA로 점진적 전환하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 현실적이다.
 
 - **📢 섹션 요약 비유**: 혼자 사는 원룸은 주방·침실·거실이 한 공간이면 충분하다(계층형). 하지만 대가족이 함께 살면 방을 분리하고 독립 공간을 만들어야 한다([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)). 처음부터 대저택을 지을 필요는 없다.
 
@@ -123,7 +123,7 @@ tags = ["studynote-design-supervision"]
 
 한계는 순수한 단일 스타일이 실제 시스템에서는 드물다는 점이다. 대부분의 시스템은 여러 스타일이 혼합된 복합 구조를 가진다. 이 혼합이 의도적이고 문서화된 트레이드오프에 기반하면 괜찮지만, 우연히 섞이면 어떤 스타일의 장점도 제대로 얻지 못하는 최악의 상황이 된다.
 
-미래 방향으로는 ① [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 요구사항 분석을 통한 최적 아키텍처 스타일 추천, ② 아키텍처 피트니스 함수([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) [Fitness](/knowledge-base/studynote/06_ict_convergence/05_data_science/395_genetic_algorithm_ga_operators/) Function)를 통한 스타일 준수 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), ③ [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 환경에서 새로운 하이브리드 스타일의 등장이 예상된다.
+미래 방향으로는 ① [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 요구사항 분석을 통한 최적 아키텍처 스타일 추천, ② 아키텍처 피트니스 함수([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) [Fitness](/knowledge-base/studynote/06_ict_convergence/05_data_science/395_genetic_algorithm_ga_operators/) Function)를 통한 스타일 준수 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), ③ [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 환경에서 새로운 하이브리드 스타일의 등장이 예상된다.
 
 아키텍처 스타일은 "구조적 선택의 언어"다. 스타일을 알고 선택하는 것과 모르고 만들어지는 것 사이의 차이가 10년 후 시스템의 생존을 결정한다.
 

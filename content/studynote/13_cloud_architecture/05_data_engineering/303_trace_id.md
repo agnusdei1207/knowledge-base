@@ -43,7 +43,7 @@ tags = ["studynote-cloud-architecture"]
 | 계층 | 역할 | 대표 포인트 |
 |:---|:---|:---|
 | 소스 기준 | 선언형 상태와 변경 이력 보관 | Git, manifest, [pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) |
-| 자동화 계층 | 빌드·테스트·배포 수행 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, [policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), scan |
+| 자동화 계층 | 빌드·테스트·배포 수행 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD, [policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), scan |
 | 피드백 계층 | 지표·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·회고로 개선 | [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/), [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/), [observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) |
 
 ```text
@@ -125,6 +125,6 @@ tags = ["studynote-cloud-architecture"]
 **진행 상황**: 302 / 371
 
 <- **이전**: [302. 옵저버빌리티 관측성 로그 메트릭 분산 추적 (Cloud Architecture Concept)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/302_audit/)
-**다음**: [304. 블루/그린 배포 무중단 롤백 용이 (Blue-Green Deployment)](/knowledge-base/studynote/12_it_management/05_security_compliance/304_process/) ->
+**다음**: [304. 블루/그린 배포 무중단 롤백 용이 (Blue-Green Deployment)](/knowledge-base/studynote/12_it_management/05_security_compliance/947_process/) ->
 
 ---

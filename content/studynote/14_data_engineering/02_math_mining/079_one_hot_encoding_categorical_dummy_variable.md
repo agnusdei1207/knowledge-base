@@ -9,14 +9,14 @@ tags = ["studynote-data-engineering"]
 tags = ["studynote-data-engineering"]
 +++
 
-# 79. 원-핫 인코딩 (One-hot Encoding) - 범주형 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 변수화
+# 79. 원-핫 인코딩 (One-hot Encoding) - 범주형 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) 변수화
 
 > ⚠️ 이 문서는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))은 오직 '숫자'만 씹어먹고 소화할 수 있는데, 엑셀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 "직업: 학생, 직장인, 백수" 또는 "지역: 서울, 부산, 대전"처럼 더하기 빼기가 불가능한 '글자(문자열)'가 잔뜩 들어있을 때, <strong>이 문자를 단순히 1, 2, 3 같은 숫자로 치환하면 AI가 "3번(대전)이 1번(서울)보다 3배 더 큰 가치를 지녔구나!"라고 멍청한 오해를 하는 대참사를 막기 위해, 컬럼을 가로로 쫙 찢어발겨 오직 <code>0</code>과 <code>1</code>이라는 평등한 희소 벡터(Sparse Vector)로 변환해 주는 마취제 같은 필수 전처리 기법인 '원-핫 인코딩'</strong>을 다룹니다.
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 문자를 숫자로 바꾸되, 숫자의 크기(크고 작음)나 서열(Order)의 의미를 100% 거세해버리고, 오직 "이 칸의 성질을 가졌냐(`1`), 아니냐(`0`)"라는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 형태로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 펑튀기(차원 확장) 시키는 조작술이다.
 > 2. **가치**: [회귀 분석](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)(Regression)이나 신경망(Deep [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))에 명목형(Nominal) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쑤셔 넣을 때 필수적인 과정이다. 이걸 안 해주면 AI는 모델링 중에 "서울 + 부산 = 대전" 같은 미친 수학적 오류를 범하며 엉터리 예측 모델을 뱉어낸다.
-> 3. **기술 체계**: '지역' 컬럼에 서울, 부산, 대전이 있다면 컬럼을 아예 3개로 늘려버린다([더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 변수화). 서울 사람은 `[1, 0, 0]`, 부산 사람은 `[0, 1, 0]`이 된다. 단점은 컬럼이 미친 듯이 늘어나 엑셀이 터지는 <strong>'차원의 저주(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/080_curse_of_dimensionality/">Curse of Dimensionality</a>)'</strong>가 발생한다는 점이다.
+> 3. **기술 체계**: '지역' 컬럼에 서울, 부산, 대전이 있다면 컬럼을 아예 3개로 늘려버린다([더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) 변수화). 서울 사람은 `[1, 0, 0]`, 부산 사람은 `[0, 1, 0]`이 된다. 단점은 컬럼이 미친 듯이 늘어나 엑셀이 터지는 <strong>'차원의 저주(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/864_curse_of_dimensionality/">Curse of Dimensionality</a>)'</strong>가 발생한다는 점이다.
 
 ---
 
@@ -40,7 +40,7 @@ tags = ["studynote-data-engineering"]
 ### Ⅱ. 원-핫 인코딩의 마법: 평등한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [0, 1]의 세계
 서열을 없애려면, 모든 종류마다 전용 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(컬럼)를 만들어줘라.
 
-1. <strong>컬럼의 폭발적 찢기 (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/">Dummy</a> Variables)</strong>:
+1. <strong>컬럼의 폭발적 찢기 (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/">Dummy</a> Variables)</strong>:
    - 천재 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어는 엑셀의 `[과일]` 컬럼 1개를 전기톱으로 잘라내 쓰레기통에 버린다.
    - 대신 엑셀 오른쪽에 <strong>새로운 컬럼 3개</strong>를 쫙 만든다. `[과일_사과]`, `[과일_바나나]`, `[과일_포도]`.
 2. **희소 행렬 (Sparse Matrix)의 탄생**:
@@ -58,7 +58,7 @@ tags = ["studynote-data-engineering"]
 ### Ⅲ. 치명적 저주와 극복: 다중공선성과 차원의 저주
 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 너무 많이 만들면 엑셀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 터지고 메모리가 터진다.
 
-1. <strong>차원의 저주 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/080_curse_of_dimensionality/">Curse of Dimensionality</a>)</strong>:
+1. <strong>차원의 저주 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/864_curse_of_dimensionality/">Curse of Dimensionality</a>)</strong>:
    - 만약 고객 `[주소]` 컬럼이 "서울, 부산..."이 아니라 대한민국의 "동/읍/면" 이름 5,000개가 들어있다고 쳐보자.
    - 원-핫 인코딩을 돌리는 순간? 엑셀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 가로(컬럼) 길이가 무려 <strong>5,000개</strong>로 쫙 찢어지며 팽창해 버린다.
    - AI가 5,000개의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(차원)를 다 쳐다보고 계산하느라 램(RAM)이 펑 터져버리거나, 5,000개 칸 중에 4,999칸이 `0`으로 가득 찬 쓸데없는 허공(희소 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), Sparse) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 때문에 학습이 수렁에 빠져 모델 성능이 나락으로 간다.
@@ -67,7 +67,7 @@ tags = ["studynote-data-engineering"]
    - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 3개 다 만들면 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델(특히 선형 회귀) 안쪽 깊은 곳에서 수학적 함정이 터진다.
    - `[사과, 바나나, 포도]` 3개 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 있을 때, 내가 `[사과]=0, [바나나]=0` 인 걸 보면 굳이 마지막 칸을 안 봐도 무조건 `[포도]=1` 이라는 정답을 맞출 수 있다. (변수 간의 완벽한 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/))
    - 이러면 선형 회귀 알고리즘이 멘붕에 빠져 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬 계산을 터뜨려버린다.
-   - <strong>해결책 (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/">더미</a> 변수화의 국룰)</strong>: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 3개를 만들지 말고, **마지막 1개(포도)는 가차 없이 엑셀에서 삭제해 버린다(Drop First, n-1 원칙).** `[0, 0]` 이 나오면 기계가 "아, 2개 다 0이니까 얘는 숨겨진 '포도'구나!"라고 역추산할 수 있게 만들어 행렬 폭파를 막아주는 수학의 꼼수다.
+   - <strong>해결책 (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/">더미</a> 변수화의 국룰)</strong>: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 3개를 만들지 말고, **마지막 1개(포도)는 가차 없이 엑셀에서 삭제해 버린다(Drop First, n-1 원칙).** `[0, 0]` 이 나오면 기계가 "아, 2개 다 0이니까 얘는 숨겨진 '포도'구나!"라고 역추산할 수 있게 만들어 행렬 폭파를 막아주는 수학의 꼼수다.
 
 📢 섹션 요약 비유: 과일 10만 종류가 있는 마트(차원의 저주)에서 원-핫 인코딩을 하면, 손님 영수증 하나당 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장부를 10만 줄이나 그려서 99,999줄에 '0(안 샀음)'을 적어야 하는 미친 용지 낭비가 발생합니다. 게다가 남/녀 2가지 성별 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 만들 때, `[남자 스위치]`와 `[여자 스위치]` 두 개를 다 만들면 바보입니다(다중공선성). `[남자 스위치]` 딱 1개만 만들고(n-1), 남자가 `0(False)`이면 무조건 여자라는 뜻이 되므로 불필요한 중복 힌트를 제거하여 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 형사의 머리를 가볍게 만들어주는 똑똑한 전처리 조율법입니다.
 

@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 431 / 587
 
-<- **이전**: [292. CMMI 성숙도 5단계 (초기, 관리, 정의, 정량, 최적화)](/knowledge-base/studynote/12_it_management/05_security_compliance/292_cmmi_maturity_levels/)
-**다음**: [293. 기능 점수 (FP) 내부논리파일 외부연계 외부입력 출력](/knowledge-base/studynote/12_it_management/05_security_compliance/293_function_point_analysis/) ->
+<- **이전**: [292. CMMI 성숙도 5단계 (초기, 관리, 정의, 정량, 최적화)](/knowledge-base/studynote/12_it_management/05_security_compliance/938_cmmi_maturity_levels/)
+**다음**: [293. 기능 점수 (FP) 내부논리파일 외부연계 외부입력 출력](/knowledge-base/studynote/12_it_management/05_security_compliance/939_function_point_analysis/) ->
 
 ---

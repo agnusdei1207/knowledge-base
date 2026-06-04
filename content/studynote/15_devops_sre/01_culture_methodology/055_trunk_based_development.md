@@ -42,7 +42,7 @@ trunk/main -●-●-●-●-●
 | Trunk | 메인 라인 | 항상 안정 |
 | Short-lived branch | 짧은 작업 | 빠른 merge |
 | [Feature flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) | 기능 분리 | 미완성 숨김 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) | 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 빠른 피드백 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) | 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 빠른 피드백 |
 
 핵심은 통합을 미루지 않는 것이다. 미루면 충돌과 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 커진다.
 
@@ -68,7 +68,7 @@ Trunk-Based는 테스트 자동화와 배포 자동화가 성숙할수록 효과
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 변경 크기를 작게 유지하고, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 실패 시 빠르게 되돌린다. feature flag를 통해 배포와 공개를 분리하는 것이 중요하다.
+실무에서는 변경 크기를 작게 유지하고, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 실패 시 빠르게 되돌린다. feature flag를 통해 배포와 공개를 분리하는 것이 중요하다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -106,7 +106,7 @@ Trunk-Based Development는 빠른 통합, 낮은 충돌, 지속 배포에 유리
 | trunk | 메인 브랜치 |
 | short-lived branch | 짧은 작업 |
 | [feature flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) | 미완성 숨김 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) | 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) | 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | merge | 잦은 통합 |
 
 ### 📈 관련 키워드 및 발전 흐름도

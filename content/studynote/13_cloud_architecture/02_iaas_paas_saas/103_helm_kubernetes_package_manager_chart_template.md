@@ -83,7 +83,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [헬름](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)은 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Deployment](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/)) 파이프라인 구축의 핵심 요소다. [깃옵스](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/167_gitops/) ([GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)) 도구인 아고시디 (ArgoCD)나 플럭스 (Flux)와 결합하여 배포 자동화를 완성한다.
+실무에서 [헬름](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)은 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Deployment](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/)) 파이프라인 구축의 핵심 요소다. [깃옵스](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/167_gitops/) ([GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)) 도구인 아고시디 (ArgoCD)나 플럭스 (Flux)와 결합하여 배포 자동화를 완성한다.
 
 ### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 

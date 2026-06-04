@@ -12,7 +12,7 @@ tags = ["studynote-cloud-architecture"]
 > **핵심 인사이트**
 > 1. 클라우드 마이그레이션 6R은 Rehost([리호스트](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/212_rehost_lift_and_shift_migration_strategy/))·Replatform(리플랫폼)·Repurchase(리퍼채스)·[Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)(리팩터)·Retire(리타이어)·Retain(리테인)으로 구성된 워크로드별 마이그레이션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 프레임워크다.
 > 2. 모든 워크로드에 동일한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 적용하는 것이 아니라 비즈니스 가치·기술적 복잡성·[TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/)(Total Cost of Ownership)를 기준으로 각 애플리케이션에 적합한 R을 선택해야 한다.
-> 3. 대부분의 기업은 Rehost(리프트앤시프트)로 빠른 마이그레이션을 시작하고, 이후 Replatform·Refactor로 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 최적화를 진행하는 2단계 접근을 취한다.
+> 3. 대부분의 기업은 Rehost(리프트앤시프트)로 빠른 마이그레이션을 시작하고, 이후 Replatform·Refactor로 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 최적화를 진행하는 2단계 접근을 취한다.
 
 ---
 
@@ -35,7 +35,7 @@ tags = ["studynote-cloud-architecture"]
 |-----------|---------|-----|------------|------|
 | Rehost    | 없음    | 빠름 | 낮음       | 낮음 |
 | Replatform| 최소    | 중간 | 중간       | 중간 |
-| Repurchase| 교체    | 빠름 | 높음 ([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))| 구독 |
+| Repurchase| 교체    | 빠름 | 높음 ([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/))| 구독 |
 | [Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)  | 완전    | 느림 | 최고       | 높음 |
 | Retire    | -       | 즉시 | -          | 절약 |
 | Retain    | -       | -    | 없음       | 현행 |
@@ -84,7 +84,7 @@ tags = ["studynote-cloud-architecture"]
 
 ---
 
-## III. [Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) — [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 재설계
+## III. [Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) — [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 재설계
 
 ```
 기존: 모놀리식 Java EE 애플리케이션

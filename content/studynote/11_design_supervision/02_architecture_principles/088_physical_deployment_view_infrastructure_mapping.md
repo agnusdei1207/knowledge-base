@@ -67,7 +67,7 @@ tags = ["studynote-design"]
 | 핵심 표현 요소 | 클래스, 패키지, [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) | 서버, 라우터, 클라우드 인스턴스, 통신망 |
 | 타깃 독자 | 주로 개발자와 소프트웨어 아키텍트 | 시스템 엔지니어, 네트워크 관리자, 인프라 운영자 |
 
-현대 IT 환경에서는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 아키텍처가 발전하면서 배포 뷰의 성격이 진화하고 있다. 물리적인 베어메탈 서버를 그리는 대신, `IaaS (Infrastructure as a Service)` 인스턴스, `VPC (Virtual Private Cloud)`, [컨테이너 오케스트레이션](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 등) 단위의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 인프라 경계를 묘사하는 것이 더 실효성 있는 배포 뷰로 인정받는다.
+현대 IT 환경에서는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 아키텍처가 발전하면서 배포 뷰의 성격이 진화하고 있다. 물리적인 베어메탈 서버를 그리는 대신, `IaaS (Infrastructure as a Service)` 인스턴스, `VPC (Virtual Private Cloud)`, [컨테이너 오케스트레이션](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 등) 단위의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 인프라 경계를 묘사하는 것이 더 실효성 있는 배포 뷰로 인정받는다.
 
 - **📢 섹션 요약 비유**: [구현 뷰](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/087_implementation_view_component_diagram_packaging/)가 요리의 레시피와 재료 목록이라면, 배포 뷰는 주방의 가스레인지 위치와 조리대의 동선을 짜놓은 설계도다.
 

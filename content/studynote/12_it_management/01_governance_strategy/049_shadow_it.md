@@ -10,7 +10,7 @@ tags = ["studynote-it-management"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 섀도우 IT (Shadow IT)의 본질은 정보보안/IT 부서 모르게 현업 부서가 무단 사용하는 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)/소프트웨어 (통제 사각지대)를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델, 자동화, 책임 분담 기준으로 실현하는 데 있다.
+> 1. **본질**: 섀도우 IT (Shadow IT)의 본질은 정보보안/IT 부서 모르게 현업 부서가 무단 사용하는 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/)/소프트웨어 (통제 사각지대)를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델, 자동화, 책임 분담 기준으로 실현하는 데 있다.
 > 2. **가치**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델, 자동화, 비용·보안 책임, 운영 관측성이 함께 설계되어야 클라우드 도입 효과가 지속된다.
 > 3. **판단 포인트**: 섀도우 IT (Shadow IT)는 도입 자체보다 범위, 책임, 측정 기준을 어떻게 연결하느냐에 따라 성과가 달라진다.
 
@@ -18,7 +18,7 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. 개요 및 필요성
 
-섀도우 IT (Shadow IT)는 조직이 당면한 요구를 반복 가능하고 설명 가능한 운영 체계로 바꾸기 위해 사용하는 핵심 관리 개념이다. 실무 초점은 정보보안/IT 부서 모르게 현업 부서가 무단 사용하는 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)/소프트웨어 (통제 사각지대)에 놓이며, 핵심은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델, 자동화, 비용·보안 책임, 운영 관측성이 함께 설계되어야 클라우드 도입 효과가 지속된다.
+섀도우 IT (Shadow IT)는 조직이 당면한 요구를 반복 가능하고 설명 가능한 운영 체계로 바꾸기 위해 사용하는 핵심 관리 개념이다. 실무 초점은 정보보안/IT 부서 모르게 현업 부서가 무단 사용하는 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/)/소프트웨어 (통제 사각지대)에 놓이며, 핵심은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델, 자동화, 비용·보안 책임, 운영 관측성이 함께 설계되어야 클라우드 도입 효과가 지속된다.
 
 이 개념이 중요한 이유는 현장의 속도와 통제가 자주 충돌하기 때문이다. 기준이 없으면 부서별로 다른 판단이 누적되어 중복 투자, 운영 공백, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 리스크가 커지고, 반대로 지나치게 경직된 통제는 변화 대응 속도를 떨어뜨린다. 실무에서는 보통 현업 수요, 비공식 도입, 통제 공백 같은 세부 축이 함께 굴러가야 관리 체계가 실제 효과를 낸다.
 
@@ -141,6 +141,6 @@ tags = ["studynote-it-management"]
 **진행 상황**: 88 / 587
 
 <- **이전**: [048. 컴플라이언스 애즈 코드 — Compliance as Code](/knowledge-base/studynote/12_it_management/01_governance_strategy/048_compliance_as_code/)
-**다음**: [049. 섀도 IT 리스크 관리 — Shadow IT Risk](/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it_risk_management/) ->
+**다음**: [049. 섀도 IT 리스크 관리 — Shadow IT Risk](/knowledge-base/studynote/12_it_management/01_governance_strategy/840_shadow_it_risk_management/) ->
 
 ---

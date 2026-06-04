@@ -39,7 +39,7 @@ Manipulated Consensus
 | 요소 | 의미 |
 | :-- | :-- |
 | Identity | 노드 신원 |
-| [Fake](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/) Node | 가짜 참여자 |
+| [Fake](/knowledge-base/studynote/04_software_engineering/11_testing_validation/855_fake_test_double/) Node | 가짜 참여자 |
 | Consensus | 합의 왜곡 |
 
 시빌 공격은 노드 수가 많아 보이면 신뢰가 올라가는 시스템의 약점을 이용한다.

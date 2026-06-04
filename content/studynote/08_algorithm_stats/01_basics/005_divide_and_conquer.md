@@ -117,10 +117,10 @@ tags = ["algorithm_stats"]
 +------------------------------------------------------+
 ```
 
-- **관찰**: 동일한 분할 정복 패러다임이라도 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택([퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/))에 따라 평균 O(N log N)과 최악 O(N^)이라는 극단적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이가 발생한다.
-- **원인**: [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택의 운에 따라 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 트리의 깊이가 달라지기 때문이다.
+- **관찰**: 동일한 분할 정복 패러다임이라도 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/) 선택([퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/))에 따라 평균 O(N log N)과 최악 O(N^)이라는 극단적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이가 발생한다.
+- **원인**: [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/) 선택의 운에 따라 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 트리의 깊이가 달라지기 때문이다.
 - **결과**: 따라서 분할 정복 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 구현의 세밀함에 크게 좌우된다.
-- **판단**: [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)에서 중앙값 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)(Median-of-Three)이나 3-way 파티셔닝을 사용하는 것이 이러한 이유 때문이다.
+- **판단**: [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)에서 중앙값 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/)(Median-of-Three)이나 3-way 파티셔닝을 사용하는 것이 이러한 이유 때문이다.
 
 📢 **섹션 요약 비유**: 분할 정복의 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 5살 아이에게 큰 수 10개를 설명할 때, "5와 5로분성하면" 것과 같습니다. "5는 3과 2로분성"하는 식으로 문제를 자연스러운 깊이까지 나누다 보면, 정합할 때 자연스럽게 답에 도달합니다.
 

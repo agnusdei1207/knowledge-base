@@ -347,7 +347,7 @@ LLM 기반 정책 생성
 
 **진행 상황**: 87 / 587
 
-<- **이전**: [047. IT 컴플라이언스 — GDPR·SOX·통제 프레임워크](/knowledge-base/studynote/12_it_management/01_governance_strategy/047_it_compliance_gdpr_sox_control_framework/)
+<- **이전**: [047. IT 컴플라이언스 — GDPR·SOX·통제 프레임워크](/knowledge-base/studynote/12_it_management/01_governance_strategy/839_it_compliance_gdpr_sox_control_framework/)
 **다음**: [49. 섀도우 IT (Shadow IT)](/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it/) ->
 
 ---

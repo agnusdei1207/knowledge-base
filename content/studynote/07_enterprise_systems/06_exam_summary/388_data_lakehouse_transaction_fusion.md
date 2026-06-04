@@ -48,7 +48,7 @@ tags = ["studynote-enterprise"]
 | :--- | :--- | :--- |
 | [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 융합 | 요구사항·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·업무 조건을 구조화 | 용어 정의와 책임 주체를 먼저 고정 |
 | [Data Lakehouse](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/) | 실행 절차와 통제 포인트를 연결 | 예외 처리와 승인 기준을 명시 |
-| 운영 지표 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·품질·위험을 측정 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), 비용, 리드타임 등 정량 지표 확보 |
+| 운영 지표 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·품질·위험을 측정 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/), 비용, 리드타임 등 정량 지표 확보 |
 | 운영 피드백 | 재설계 여부를 판단 | 변경 이력과 회고 루프를 남김 |
 
 ```text

@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 전통적인 IT 보안은 <strong>'경계 기반 보안(Perimeter-based <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)'</strong>이었다. 회사(사내망)와 외부(인터넷) 사이에 거대한 성벽([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))을 치고, 성벽 밖은 위험하지만 성문을 통과해 성벽 안에 들어온 사람(사내망 IP)은 모두 착한 사람이라고 100% 신뢰(Trust)했다.
 
-하지만 현대의 업무 환경은 클라우드([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))를 쓰고, 카페에서 노트북을 열며, 스마트폰으로 업무를 본다. 성벽 자체가 사라진 것이다. 게다가 해커가 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 메일로 직원의 노트북(내부망 기기)을 장악하면, 그 노트북은 이미 '신뢰받는 기기'이므로 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 내부에서 마음껏 다른 서버들을 해킹(Lateral Movement, 측면 이동)할 수 있었다.
+하지만 현대의 업무 환경은 클라우드([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/))를 쓰고, 카페에서 노트북을 열며, 스마트폰으로 업무를 본다. 성벽 자체가 사라진 것이다. 게다가 해커가 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 메일로 직원의 노트북(내부망 기기)을 장악하면, 그 노트북은 이미 '신뢰받는 기기'이므로 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 내부에서 마음껏 다른 서버들을 해킹(Lateral Movement, 측면 이동)할 수 있었다.
 
 이러한 참사를 막기 위해 2010년 포레스터 리서치(Forrester Research)의 존 킨더버그가 제안한 개념이 <strong>"신뢰하지 말고, 항상 검증하라(<a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">Zero Trust</a>)"</strong>다. 내부망이든 외부망이든 위치에 따른 신뢰를 완전히 제거하자는 선언이다.
 
@@ -107,7 +107,7 @@ tags = ["studynote-software-engineering"]
 
 [제로 트러스트 아키텍처](/knowledge-base/studynote/12_it_management/05_security_compliance/184_zero_trust_architecture/)를 내재화하면, 직원의 노트북이 랜섬웨어에 감염되어도 사내망 전체가 마비되는 대참사(Blast [Radius](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/))를 단일 기기 수준에서 격리할 수 있다. 또한 직원들은 복잡한 VPN을 켜지 않고도 전 세계 어디서나 안전하고 빠르게 사내 업무망에 접속할 수 있어 업무 생산성이 극적으로 향상된다.
 
-[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 시대에 '신뢰'는 보안의 가장 큰 약점이다. 기술 리더는 "우리 내부망은 안전하다"는 환상에서 깨어나, 사용자, 기기, 네트워크, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모든 계층에서 매 순간 의심하고 증명하도록 요구하는 철저한 [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)을 아키텍처의 기본(Default)으로 삼아야 한다.
+[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 시대에 '신뢰'는 보안의 가장 큰 약점이다. 기술 리더는 "우리 내부망은 안전하다"는 환상에서 깨어나, 사용자, 기기, 네트워크, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모든 계층에서 매 순간 의심하고 증명하도록 요구하는 철저한 [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)을 아키텍처의 기본(Default)으로 삼아야 한다.
 
 - **📢 섹션 요약 비유**: [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)는 아무도 믿지 못하는 '의심병'이 아니라, 진짜 자격이 있는 사람에게만 가장 안전하게 문을 열어주는 '최고의 환대 시스템'이다.
 

@@ -10,9 +10,9 @@ tags = ["studynote-enterprise-systems"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: MBO ([Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) by Objectives, 목표 관리)는 피터 드러커(Peter Drucker)가 1954년 《경영의 실제(The Practice of [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))》에서 제시한 경영 방식으로, 조직 목표와 개인 목표를 일치시키고 목표 달성 결과를 기반으로 성과를 평가하는 참여적 목표 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 프로세스다.
+> 1. **본질**: MBO ([Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) by Objectives, 목표 관리)는 피터 드러커(Peter Drucker)가 1954년 《경영의 실제(The Practice of [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/))》에서 제시한 경영 방식으로, 조직 목표와 개인 목표를 일치시키고 목표 달성 결과를 기반으로 성과를 평가하는 참여적 목표 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 프로세스다.
 > 2. **가치**: MBO는 "무엇을 할 것인가(What)"를 명확히 하여 구성원 자율성을 높이고 상향식 몰입을 이끌어내지만, [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) ([Key Performance Indicator](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/020_kpi/), [핵심 성과 지표](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)) 측정에 집중하여 "어떻게(How)"를 무시하거나 단기 지표만 추구하는 부작용이 있다.
-> 3. **판단 포인트**: MBO는 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) ([Objectives and Key Results](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/), 목표 및 핵심 결과)의 전신이다. OKR은 MBO의 구조(목표+측정)를 유지하면서 분기 단위 민첩성, 공개적 공유, 70% 달성을 성공으로 보는 도전적 목표 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)으로 진화했다. 기술사 시험에서 두 개념의 차이점을 묻는 문제가 자주 출제된다.
+> 3. **판단 포인트**: MBO는 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/) ([Objectives and Key Results](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/), 목표 및 핵심 결과)의 전신이다. OKR은 MBO의 구조(목표+측정)를 유지하면서 분기 단위 민첩성, 공개적 공유, 70% 달성을 성공으로 보는 도전적 목표 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)으로 진화했다. 기술사 시험에서 두 개념의 차이점을 묻는 문제가 자주 출제된다.
 
 ---
 
@@ -39,7 +39,7 @@ SMART 목표 기준: **S**pecific(구체적) · **M**easurable(측정 가능) ·
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### MBO vs [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 비교
+### MBO vs [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/) 비교
 
 ```text
 +---------------------------------------------------------+
@@ -73,7 +73,7 @@ SMART 목표 기준: **S**pecific(구체적) · **M**easurable(측정 가능) ·
 
 ## Ⅲ. 비교 및 연결
 
-| 항목 | MBO | [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) | [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) |
+| 항목 | MBO | [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/) | [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) |
 |:---|:---|:---|:---|
 | **기원** | 드러커, 1954 | Grove(인텔), 도어(구글) | 카플란·노턴, 1992 |
 | **주기** | 연간 | 분기 | 연간/반기 |
@@ -86,9 +86,9 @@ SMART 목표 기준: **S**pecific(구체적) · **M**easurable(측정 가능) ·
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오: IT 기업의 MBO -> [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 전환
+### 실무 시나리오: IT 기업의 MBO -> [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/) 전환
 1. 기존 MBO 문제: 연간 목표가 경영 환경 변화에 맞지 않고, 개인 평가 연동으로 구성원이 쉬운 목표만 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/).
-2. [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 전환: 분기별 목표 재설정, 전사 공개로 투명성 확보, 평가 연동 분리로 도전적 목표 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 유도.
+2. [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/) 전환: 분기별 목표 재설정, 전사 공개로 투명성 확보, 평가 연동 분리로 도전적 목표 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 유도.
 3. 결과: 구성원의 목표 도전성 지수 40% 향상, 분기 핵심 지표 달성률 15% 개선.
 
 ### MBO 실패 원인 Top 3
@@ -108,9 +108,9 @@ SMART 목표 기준: **S**pecific(구체적) · **M**easurable(측정 가능) ·
 | **방향 정렬** | 조직-부서-개인 목표 일치 |
 | **성과 명확화** | 정량적 목표 기반 공정한 평가 |
 
-MBO는 현대에도 여전히 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) 기반 성과 관리, 인사 평가의 기반 철학으로 활용된다. [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/), [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/), [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 목표 관리 등의 진화적 방법론도 결국 MBO의 "목표 명확화 + 성과 측정" 원칙을 계승·발전시킨 것이다.
+MBO는 현대에도 여전히 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) 기반 성과 관리, 인사 평가의 기반 철학으로 활용된다. [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/), [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/), [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 목표 관리 등의 진화적 방법론도 결국 MBO의 "목표 명확화 + 성과 측정" 원칙을 계승·발전시킨 것이다.
 
-- **📢 섹션 요약 비유**: MBO는 경영학의 기초 체력 훈련이다. [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/)·[BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) 같은 현대 도구들이 더 세련되었지만, 목표를 세우고 결과를 측정한다는 기본 원리는 MBO에서 나왔다.
+- **📢 섹션 요약 비유**: MBO는 경영학의 기초 체력 훈련이다. [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/)·[BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) 같은 현대 도구들이 더 세련되었지만, 목표를 세우고 결과를 측정한다는 기본 원리는 MBO에서 나왔다.
 
 ---
 
@@ -118,7 +118,7 @@ MBO는 현대에도 여전히 [KPI](/knowledge-base/studynote/12_it_management/0
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/">OKR</a></strong> | MBO의 분기형 도전적 목표 진화 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/">OKR</a></strong> | MBO의 분기형 도전적 목표 진화 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/">BSC</a></strong> | 4관점 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표 체계; MBO와 상호보완 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/">KPI</a></strong> | MBO 목표 측정 수단 |
 | **SMART 목표** | MBO 목표 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)의 품질 기준 |

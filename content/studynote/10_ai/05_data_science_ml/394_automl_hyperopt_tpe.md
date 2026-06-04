@@ -52,7 +52,7 @@ Expected Improvement: EI(x) = E[max(f(x)-f*, 0)]
 
 ### TPE (Tree-structured Parzen Estimator)
 
-표준 GP (Gaussian [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)) BO와 달리, TPE는 p(x|y)를 모델링:
+표준 GP (Gaussian [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/)) BO와 달리, TPE는 p(x|y)를 모델링:
 
 ```
 y* = 좋은 성능의 임계값 (예: 상위 γ=25%)

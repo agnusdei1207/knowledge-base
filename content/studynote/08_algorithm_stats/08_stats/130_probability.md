@@ -171,7 +171,7 @@ P(A∪B) = P(A) + P(B) - P(A∩B)
 - 각 노드 P(Xᵢ | 부모 노드들) 형태의 [조건부 확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/132_conditional_probability/) 테이블 보유
 - 의료 진단, 자연어 처리 (NLP, Natural Language Processing), 추천 시스템에 활용
 
-### 강화학습 ([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/)) 에서의 확률
+### 강화학습 ([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/)) 에서의 확률
 
 - 환경 전이 확률 (Transition Probability): `P(s'|s, a)` — 상태 s 에서 행동 a 후 s' 로 이동할 확률
 - [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)): `π(a|s)` — 상태 s 에서 행동 a 를 선택할 확률

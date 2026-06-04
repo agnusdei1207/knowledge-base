@@ -55,9 +55,9 @@ tags = ["studynote-software-engineering"]
 
 | 도구 | 유형 | 특징 |
 |:---|:---|:---|
-| **LaunchDarkly** | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) | 타겟팅·A/B·실시간 |
+| **LaunchDarkly** | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) | 타겟팅·A/B·실시간 |
 | **Unleash** | [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) | 자체 호스팅, 무료 |
-| **Flagsmith** | [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)/[SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) | 멀티플랫폼 |
+| **Flagsmith** | [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)/[SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) | 멀티플랫폼 |
 
 - **📢 섹션 요약 비유**: Release Toggle은 영화 개봉 전 시사회 초대권이고, Experiment Toggle은 신메뉴 시식 이벤트며, Ops Toggle은 비상시 전원 차단기다.
 

@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 계약([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))에 따라 네트워크의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 사용량을 제어하기 위해, 초과된 트래픽을 폐기(Policing)하거나 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)(Shaping)하여 트래픽의 프로파일(모양)을 맞추는 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 제어 메커니즘.
+- **개념**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 계약([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/))에 따라 네트워크의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 사용량을 제어하기 위해, 초과된 트래픽을 폐기(Policing)하거나 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)(Shaping)하여 트래픽의 프로파일(모양)을 맞추는 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 제어 메커니즘.
 - **필요성**: 회사가 KT로부터 100Mbps 선을 빌려 쓰는데, 사실 꽂혀있는 랜선은 물리적으로 1Gbps짜리 선이다. 직원이 1Gbps 속도로 데이터를 와다다다 쏴버리면 KT 쪽 라우터가 "어? 계약은 100M인데 1G가 들어오네?" 하면서 900M어치 패킷을 무참히 쏴 죽여버린다(Drop). 데이터가 날아가면 재전송하느라 망이 더 느려진다. <strong>"우리 회사 라우터에서 나갈 때 알아서 100M 속도로 딱 맞춰서 부드럽게 깎아서(Shaping) 내보내자! 그래야 KT한테 안 썰리지!"</strong>라는 방어적 목적으로 주로 쓰인다.
 
 - **💡 비유**: 고속도로 톨게이트를 통과하는 차량 흐름을 제어하는 방식입니다.
@@ -76,7 +76,7 @@ tags = ["studynote-network"]
  +-------------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: ** 실무에서 쉐이핑과 폴리싱은 창과 방패입니다. 고객사(내 라우터)는 패킷이 통신사 방패에 부딪혀 깨지는 걸 막기 위해 **"쉐이핑"<strong>이라는 쿠션으로 패킷을 예쁘게 다듬어 던지고, 통신사(<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/">ISP</a>)는 계약을 어기고 들어오는 과도한 트래픽을 막기 위해 </strong>"폴리싱"**이라는 칼을 들고 입구에서 대기합니다.
+- **📢 섹션 요약 비유**: ** 실무에서 쉐이핑과 폴리싱은 창과 방패입니다. 고객사(내 라우터)는 패킷이 통신사 방패에 부딪혀 깨지는 걸 막기 위해 **"쉐이핑"<strong>이라는 쿠션으로 패킷을 예쁘게 다듬어 던지고, 통신사(<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/">ISP</a>)는 계약을 어기고 들어오는 과도한 트래픽을 막기 위해 </strong>"폴리싱"**이라는 칼을 들고 입구에서 대기합니다.
 
 ---
 

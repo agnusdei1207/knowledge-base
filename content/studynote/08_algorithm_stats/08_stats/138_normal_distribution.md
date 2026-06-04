@@ -182,7 +182,7 @@ Var[X] = (exp(σ^)-1) · exp(2μ+σ^)
 
 ## Ⅴ. 응용 — [SPC](/knowledge-base/studynote/09_security/04_endpoint_security/203_spc_signed_public_key_challenge/)·[가설 검정](/knowledge-base/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/)·오차 분석
 
-### [SPC](/knowledge-base/studynote/09_security/04_endpoint_security/203_spc_signed_public_key_challenge/) (Statistical [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control, [통계적 공정 관리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/368_spc/))
+### [SPC](/knowledge-base/studynote/09_security/04_endpoint_security/203_spc_signed_public_key_challenge/) (Statistical [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Control, [통계적 공정 관리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/368_spc/))
 
 ```
 관리도 (Control Chart) 설계:

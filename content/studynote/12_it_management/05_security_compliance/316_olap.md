@@ -67,7 +67,7 @@ OLAP 드릴다운 [롤업](/knowledge-base/studynote/06_ict_convergence/01_block
 
 | 비교 대상 | 차이점 | 연결 포인트 |
 |:---|:---|:---|
-| [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치와 고객 경험을 중심에 둔다 | 현재 주제는 ITSM을 실행하는 구체 절차나 역할 |
+| [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치와 고객 경험을 중심에 둔다 | 현재 주제는 ITSM을 실행하는 구체 절차나 역할 |
 | [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | 배포 속도와 협업을 강화한다 | 현재 주제는 통제와 안정성 기준을 보완 |
 | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) | 신뢰성과 자동화 운영을 강조한다 | 현재 주제는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지원과 책임 모델을 정리 |
 
@@ -140,7 +140,7 @@ OLAP 드릴다운 [롤업](/knowledge-base/studynote/06_ict_convergence/01_block
 
 **진행 상황**: 473 / 587
 
-<- **이전**: [315. SCD 데이터 이력 유지 방식 (Type 2 로우 추가)](/knowledge-base/studynote/12_it_management/05_security_compliance/315_scd_type_2/)
-**다음**: [316. OLAP 드릴다운 롤업 다이스 분석](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap_operations/) ->
+<- **이전**: [315. SCD 데이터 이력 유지 방식 (Type 2 로우 추가)](/knowledge-base/studynote/12_it_management/05_security_compliance/957_scd_type_2/)
+**다음**: [316. OLAP 드릴다운 롤업 다이스 분석](/knowledge-base/studynote/12_it_management/05_security_compliance/958_olap_operations/) ->
 
 ---

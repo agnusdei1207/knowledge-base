@@ -49,9 +49,9 @@ tags = ["software_engineering"]
 - **📢 섹션 요약 비유**: 한 달 용돈([에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/))이 10만 원이다. 이번 주에 밥값이 9만 원(SLI 성공률)밖에 안 들었다면 목표([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))를 지켰으니 남은 만 원으로 PC방(신규 기능 배포)을 갈 수 있는 권리가 생긴다.
 
 ## Ⅲ. 비교 및 연결
-[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 개념을 헷갈리지 않으려면 내부 목표([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))와 외부 계약([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))의 경계를 그어야 한다.
+[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 개념을 헷갈리지 않으려면 내부 목표([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))와 외부 계약([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/))의 경계를 그어야 한다.
 
-| 구분 | SLI (지표) | [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) (목표) | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) (계약) |
+| 구분 | SLI (지표) | [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) (목표) | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) (계약) |
 |:---|:---|:---|:---|
 | **역할** | [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 측정 수치 (Fact) | 사내 팀 간 달성 목표 (Target) | 외부 고객과의 법적 계약 (Contract) |
 | **비유** | 체중계 75kg 숫자 | 다이어트 목표 70kg 이하 | 관장님과 맺은 벌금 내기 80kg 이하 |
@@ -60,7 +60,7 @@ tags = ["software_engineering"]
 
 SLA는 돈과 소송이 걸려 있으므로, 기업은 항상 <strong>SLO를 SLA보다 훨씬 빡빡하게(보수적으로) 잡아 안전 쿠션</strong>을 둔다. 사내 목표([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))인 99.9%가 무너지더라도 고객과 약속한 SLA인 99.0% 방어선은 지켜서 위약금을 물어주지 않도록 하기 위함이다.
 
-- **📢 섹션 요약 비유**: SLO는 시험에서 "나 스스로 90점 이상 맞겠다"는 결심이고, SLA는 "만약 80점 밑으로 떨어지면 엄마한테 용돈을 깎이겠다"는 구두 계약이다. 결심([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))이 흔들려도 계약([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) 방어선은 지켜야 산다.
+- **📢 섹션 요약 비유**: SLO는 시험에서 "나 스스로 90점 이상 맞겠다"는 결심이고, SLA는 "만약 80점 밑으로 떨어지면 엄마한테 용돈을 깎이겠다"는 구두 계약이다. 결심([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))이 흔들려도 계약([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)) 방어선은 지켜야 산다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 실무에서 SLO를 도입할 때 겪는 가장 흔한 실패는 100% 완벽함을 추구하는 것이다.
@@ -83,7 +83,7 @@ SLI와 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observabi
 | 개념 | 연결 포인트 |
 |:---|:---|
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/">Error Budget</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/">에러 예산</a>)</strong> | 100%에서 SLO를 뺀 나머지 공간. 이 예산 안에서 개발팀은 장애를 감수하며 빠른 배포를 태울 수 있다. |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">Site Reliability 엔진ering</a>)</strong> | SLI, [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 체계를 고안하여 소프트웨어 공학의 접근법으로 IT 운영 문제를 해결하는 구글의 조직 철학. |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">Site Reliability 엔진ering</a>)</strong> | SLI, [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 체계를 고안하여 소프트웨어 공학의 접근법으로 IT 운영 문제를 해결하는 구글의 조직 철학. |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a> (Mean Time To <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a>)</strong> | 장애 발생 후 복구까지 걸리는 시간. 이 수치를 극단적으로 줄이면 SLI가 방어되어 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 달성에 성공한다. |
 
 ### 📈 관련 키워드 및 발전 흐름도

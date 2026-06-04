@@ -137,6 +137,6 @@ LSASS 메모리 추출 ([Mimikatz](/knowledge-base/studynote/09_security/12_iden
 **진행 상황**: 775 / 1108
 
 <- **이전**: [703. UAC Bypass (User Account Control 우회)](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/703_uac_bypass/)
-**다음**: [704. 다요소 인증 (Multi-Factor Authentication, MFA)](/knowledge-base/studynote/09_security/uncategorized/704_mfa_authentication/) ->
+**다음**: [704. 다요소 인증 (Multi-Factor Authentication, MFA)](/knowledge-base/studynote/09_security/uncategorized/1049_mfa_authentication/) ->
 
 ---

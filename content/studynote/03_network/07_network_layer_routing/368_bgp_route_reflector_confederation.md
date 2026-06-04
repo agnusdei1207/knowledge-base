@@ -43,7 +43,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. Route Reflector ([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/), 경로 반사기)의 3대 전파 룰
-통신사 망([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))에서 99% 쓴다. (가장 대중적이다).
+통신사 망([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))에서 99% 쓴다. (가장 대중적이다).
 망 안에 반장([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))을 지정하고, 나머지를 쫄따구([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)), 반장과 친구인 다른 반장을 비쫄따구(Non-[Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))라 부른다.
 
 1. 반장([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))이 <strong>쫄따구</strong>한테 받은 엽서 ---> 다른 **쫄따구** + <strong>비쫄따구</strong>에게 전부 다 반사(Reflect)해 준다! (원래 iBGP에선 금지된 짓이지만 RR의 권력으로 가능).

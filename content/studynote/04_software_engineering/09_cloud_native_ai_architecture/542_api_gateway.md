@@ -28,7 +28,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **모놀리식의 정문 (과거)**: 서버가 1통짜리였을 땐 `Apache`나 `Nginx`로 L4 로드밸런싱(단순 트래픽 쪼개기)만 해주면 끝났다. [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 껍데기는 필요 없었다.
   2. **넷플릭스 Zuul의 영광 (2010s)**: 넷플릭스가 서버를 500개로 찢으면서 "야, 앱에서 500군데 찌르는 건 미친 짓이야!"라며 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway `Zuul`을 만들었다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 중앙 1곳에서 자바 코드로 씹어 먹는 1세대 게이트웨이 전성기가 열렸다.
-  3. <strong>비동기 논블로킹(Non-blocking)과 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a> 대통일 (현재)</strong>: Zuul 1세대는 동기식(1요청 1스레드)이라 트래픽이 폭주하면 뻗어버렸다. 스프링 진영은 아예 뼈대를 비동기(WebFlux)로 뜯어고친 `Spring Cloud Gateway`를 내놓았고, 인프라 진영은 `Kong`, `AWS API Gateway` 같은 극강의 상용 C/Go 기반 초음속 톨게이트를 내놓아 현재 클라우드의 심장부를 점령했다.
+  3. <strong>비동기 논블로킹(Non-blocking)과 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/">클라우드 네이티브</a> 대통일 (현재)</strong>: Zuul 1세대는 동기식(1요청 1스레드)이라 트래픽이 폭주하면 뻗어버렸다. 스프링 진영은 아예 뼈대를 비동기(WebFlux)로 뜯어고친 `Spring Cloud Gateway`를 내놓았고, 인프라 진영은 `Kong`, `AWS API Gateway` 같은 극강의 상용 C/Go 기반 초음속 톨게이트를 내놓아 현재 클라우드의 심장부를 점령했다.
 
 - **📢 섹션 요약 비유**: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway는 50개의 복잡한 마이크로서비스라는 지저분한 주방의 내장을, 예쁜 메뉴판 딱 하나로 가려주는 <strong>'식당의 깔끔한 홀(Hall)'</strong>입니다. 손님(모바일 앱)은 주방에서 웍이 날아다니고 불이 나는 끔찍한 과정([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 복잡성)을 1도 알 필요 없이, 그냥 예쁜 메뉴판([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 주소) 하나만 보고 우아하게 밥을 시켜 먹으면 되는 압도적 편의성([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))의 완성입니다.
 
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ API 게이트웨이 (API Gateway) 개념 정립
 
 **진행 상황**: 676 / 973
 
-<- **이전**: [542. API 게이트웨이 (API Gateway) - 인증, 라우팅, 로드밸런싱, 통합(Aggregation)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/)
-**다음**: [543. BFF (Backend For Frontend) - 모바일, 웹 등 클라이언트 전용 맞춤형 게이트웨이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) ->
+<- **이전**: [542. API 게이트웨이 (API Gateway) - 인증, 라우팅, 로드밸런싱, 통합(Aggregation)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/)
+**다음**: [543. BFF (Backend For Frontend) - 모바일, 웹 등 클라이언트 전용 맞춤형 게이트웨이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/) ->
 
 ---

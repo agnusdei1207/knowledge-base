@@ -137,6 +137,6 @@ FTK / EnCase (Forensic Tools)를 제대로 이해하면 개념 하나를 외우�
 **진행 상황**: 769 / 1108
 
 <- **이전**: [700. MD5/SHA-256 해시 (Evidence Integrity Hash)](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/700_evidence_integrity_hash/)
-**다음**: [701. 비밀번호 인증 (Password Authentication)](/knowledge-base/studynote/09_security/uncategorized/701_password_authentication/) ->
+**다음**: [701. 비밀번호 인증 (Password Authentication)](/knowledge-base/studynote/09_security/uncategorized/1046_password_authentication/) ->
 
 ---

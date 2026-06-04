@@ -99,7 +99,7 @@ IND-CCA2 방어력은 가상의 '스무고개 게임(Game)'을 통해 증명된�
 
 IND-CCA2를 달성한 암호 시스템은 공격자가 시스템의 약점을 파고들어 실시간 피드백 루프를 돌리는 것을 원천 차단한다. 이는 단순히 수학적 완전성을 넘어, 실제 서비스에서 빈번하게 발생하는 중간자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변조나 오라클 찌르기를 통한 대규모 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 유출을 공학적으로 막아내는 최후의 보루다.
 
-결론적으로 IND-CCA2는 "암호문은 결코 서버와 대화할 수 없어야 한다"는 단호한 철학의 결정체다. 다가올 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/))를 비롯한 어떤 미래 암호 체계도 이 IND-CCA2의 관문을 통과하지 못하면 표준으로 상용화될 수 없음을 기억해야 한다.
+결론적으로 IND-CCA2는 "암호문은 결코 서버와 대화할 수 없어야 한다"는 단호한 철학의 결정체다. 다가올 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/))를 비롯한 어떤 미래 암호 체계도 이 IND-CCA2의 관문을 통과하지 못하면 표준으로 상용화될 수 없음을 기억해야 한다.
 
 - **📢 섹션 요약 비유**: IND-CCA2는 적의 어떠한 속임수 질문에도 절대 대답하지 않는 완벽한 포커페이스다. 적이 아무리 흔들어대도 표정(에러)을 숨기기 때문에 결국 적은 공격을 포기하게 된다.
 

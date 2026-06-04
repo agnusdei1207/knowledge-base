@@ -141,7 +141,7 @@ tags = ["studynote-software-engineering"]
 
 - <strong>기업 지배구조 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/003_corporate_governance_it_governance/">Corporate Governance</a>)</strong>: 보안 거버넌스는 기업 지배구조의 일부로서, 이사회와 경영진의 수탁 책임 (Fiduciary Duty)에 포함된다.
 - <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 관리 (Enterprise <a href="/knowledge-base/studynote/09_security/17_framework_compliance/841_iso_27005_risk_management/">Risk Management</a>)</strong>: 정보보안 위험은기업풍험관리체계의 일부이며, 보안 거버넌스는 ERM 프레임워크와 통합되어 운영된다.
-- <strong>컴플라이언스 (<a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/">Compliance</a>)</strong>: [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/), [PCI](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) DSS, [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/) 등 다양한 규제에서 보안 거버넌스의 특정 요소들을 요구하며, 이는보안 거버넌스 구축의외부적 동기가 된다.
+- <strong>컴플라이언스 (<a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/">Compliance</a>)</strong>: [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/), [PCI](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) DSS, [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/1058_hipaa/) 등 다양한 규제에서 보안 거버넌스의 특정 요소들을 요구하며, 이는보안 거버넌스 구축의외부적 동기가 된다.
 
 ---
 
@@ -185,7 +185,7 @@ tags = ["studynote-software-engineering"]
   +--------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 효과적인 보안 거버넌스는 측정 가능한 KPIs에 기반해야 한다. 그러나 중요한 것은 "측정하는 것"만이 아니라 "올바른 것을 측정하는 것"이다. 운영 KPIs (패치 시간, 대응 시간)는 보안 팀의일상 활동에 유용하지만, 경영진에게는관리 KPIs ([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) 적용률, 교육 이수율)와 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) KPIs (사고 감소율, [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))가 더 Relevantsms이다. 이 비율을 통해 보안 투자가 실제로 бизнес개치에 기여하는지를 보여줄 수 있다. NIST CSF는 이런 KPIs와 측정 방법을정의하는 데 도움 되는 프레임워크다.
+**[다이어그램 해설]** 효과적인 보안 거버넌스는 측정 가능한 KPIs에 기반해야 한다. 그러나 중요한 것은 "측정하는 것"만이 아니라 "올바른 것을 측정하는 것"이다. 운영 KPIs (패치 시간, 대응 시간)는 보안 팀의일상 활동에 유용하지만, 경영진에게는관리 KPIs ([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) 적용률, 교육 이수율)와 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) KPIs (사고 감소율, [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/))가 더 Relevantsms이다. 이 비율을 통해 보안 투자가 실제로 бизнес개치에 기여하는지를 보여줄 수 있다. NIST CSF는 이런 KPIs와 측정 방법을정의하는 데 도움 되는 프레임워크다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 

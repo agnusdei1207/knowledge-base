@@ -99,7 +99,7 @@ tags = ["studynote-ict-convergence"]
 
 - **자율주행**: STOP 표지판에 물리적 스티커 부착 -> 인식 오류 -> 사고 위험
 - **악성코드 탐지**: 악성코드에 정상 코드 패턴 삽입 -> [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 탐지기 우회(블랙박스 이베이전)
-- <strong><a href="/knowledge-base/studynote/09_security/uncategorized/702_biometric_authentication/">생체 인증</a></strong>: 얼굴 인식기에 적대적 안경 착용으로 잠금 해제
+- <strong><a href="/knowledge-base/studynote/09_security/uncategorized/1047_biometric_authentication/">생체 인증</a></strong>: 얼굴 인식기에 적대적 안경 착용으로 잠금 해제
 
 **기술사 판단 포인트**
 

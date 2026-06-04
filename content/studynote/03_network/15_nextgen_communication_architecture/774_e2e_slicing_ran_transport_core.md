@@ -20,7 +20,7 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 가입자의 스마트폰에서 시작하여 무선 기지국(RAN), 중간 전송망(Transport), 최종 심장부인 코어망(Core)에 이르는 <strong>통신망의 처음부터 끝까지 전체 경로(종단 간)를, 단절 없이 하나의 완벽한 가상 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/">슬라이스</a>(독립된 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>)로 꿰뚫어서 맵핑하고 격리를 보장하는 아키텍처</strong>입니다.
-- **필요성**: 어느 한 구간이라도 쪼개져 있지 않고 섞여서 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))이 생기면, '초저지연 1ms 보장'이라는 슬라이싱의 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약)가 와르르 무너지기 때문입니다.
+- **필요성**: 어느 한 구간이라도 쪼개져 있지 않고 섞여서 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))이 생기면, '초저지연 1ms 보장'이라는 슬라이싱의 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약)가 와르르 무너지기 때문입니다.
 
 ```text
 [네트워크 슬라이싱]

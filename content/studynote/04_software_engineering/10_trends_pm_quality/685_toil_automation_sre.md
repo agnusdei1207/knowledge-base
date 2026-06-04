@@ -97,7 +97,7 @@ tags = ["studynote-software-engineering"]
 | 비교 항목 | 전통적 운영 (Traditional Ops) | [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) |
 |:---|:---|:---|:---|
 | **핵심 철학** | 안정성(안 바뀌는 것)이 최고다 | 개발과 운영의 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)(장벽) 타파 | **DevOps의 구체적이고 정량적인 구현체** |
-| **토일 대응** | 인력을 충원하여 수동으로 해결 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 등 툴 체인으로 자동화 권장 | **토일을 50% 이하로 통제하는 명시적 규정 존재** |
+| **토일 대응** | 인력을 충원하여 수동으로 해결 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 등 툴 체인으로 자동화 권장 | **토일을 50% 이하로 통제하는 명시적 규정 존재** |
 | **장애 접근법**| 절대 장애가 나면 안 된다 | 빠른 배포와 빠른 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/">에러 예산</a>(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/">Error Budget</a>)</strong> 내에서의 장애는 허용 |
 
 SRE는 "데브옵스라는 추상적인 인터페이스를 자바(Java)의 구체적인 클래스로 구현한 것"이라고 불릴 만큼, 토일 제거와 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 확보를 정량적 규칙(50% 룰, [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 등)으로 강제한다.

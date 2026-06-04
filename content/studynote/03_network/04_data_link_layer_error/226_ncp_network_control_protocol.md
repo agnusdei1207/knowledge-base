@@ -83,7 +83,7 @@ NCP는 프레임 단위의 전달, 오류 검출, 재전송 제어를 다루는 
 
 ### 2. IPCP (IP Control [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 동작 방식
 가장 대표적인 NCP인 IPCP(RFC 1332)의 주요 기능은 다음과 같다.
-- **IP 주소 할당**: 다이얼업이나 PPPoE 연결 시 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 서버가 클라이언트에게 동적 IP를 부여한다.
+- **IP 주소 할당**: 다이얼업이나 PPPoE 연결 시 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 서버가 클라이언트에게 동적 IP를 부여한다.
 - <strong>헤더 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 협상</strong>: Van Jacobson [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 등을 사용할지 협상하여 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 효율을 높인다.
 
 ### 3. 멀티프로토콜 지원 ([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))

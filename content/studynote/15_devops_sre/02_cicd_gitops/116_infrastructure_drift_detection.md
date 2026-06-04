@@ -48,7 +48,7 @@ tags = ["studynote-devops-sre"]
 | <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/">terraform</a> plan</strong> | [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) vs 실제 비교 | 기본, 수동/크론 실행 |
 | **Driftctl** | [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 미관리 리소스 탐지 | [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/), 커버리지 높음 |
 | **CloudFormation Drift** | CF [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) vs 실제 비교 | AWS 네이티브 |
-| **Spacelift** | 자동 드리프트 스캔 + 알림 | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) |
+| **Spacelift** | 자동 드리프트 스캔 + 알림 | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) |
 
 ### 드리프트 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 

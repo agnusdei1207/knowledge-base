@@ -20,7 +20,7 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 센서, 로봇, [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/)(제어기)부터 공장 상위의 클라우드, [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)(전사적 자원 관리) 서버까지 <strong>기종과 운영체제에 상관없이 안전하고 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 있게 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 교환할 수 있도록 만들어진 차세대 산업용 통신 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 표준</strong>입니다. (IEC 62541)
-- **배경**: 과거 OLE for [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control(Classic OPC)은 오직 윈도우(Windows) OS에서만 돌아가는 치명적인 단점이 있었습니다. 이를 극복하기 위해 OS 독립성(리눅스, 안드로이드 등)과 강력한 보안을 갖춘 통합(Unified) 아키텍처로 진화했습니다.
+- **배경**: 과거 OLE for [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Control(Classic OPC)은 오직 윈도우(Windows) OS에서만 돌아가는 치명적인 단점이 있었습니다. 이를 극복하기 위해 OS 독립성(리눅스, 안드로이드 등)과 강력한 보안을 갖춘 통합(Unified) 아키텍처로 진화했습니다.
 
 ```text
 [산업용 이더넷 표준]

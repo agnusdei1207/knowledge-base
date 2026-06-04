@@ -10,7 +10,7 @@ tags = ["studynote-it-management"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [맥킨지](/knowledge-base/studynote/12_it_management/01_governance_strategy/027_seven_s_model/) 7S 모델(McKinsey 7S Framework)은 조직의 내부 역량을 7가지 요소([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·Structure·Systems·Shared Values·Style·Staff·Skills)로 분석하는 프레임워크로, 조직 변화 관리·[디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)·IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립 시 내부 정합성(Alignment)을 점검하는 데 활용된다.
+> 1. **본질**: [맥킨지](/knowledge-base/studynote/12_it_management/01_governance_strategy/821_seven_s_model/) 7S 모델(McKinsey 7S Framework)은 조직의 내부 역량을 7가지 요소([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·Structure·Systems·Shared Values·Style·Staff·Skills)로 분석하는 프레임워크로, 조직 변화 관리·[디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)·IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립 시 내부 정합성(Alignment)을 점검하는 데 활용된다.
 > 2. **가치**: 7S 모델의 핵심 통찰은 "7가지 요소가 서로 정렬(Aligned)될 때 조직이 효과적으로 작동한다"는 것이다. [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)만 바꾸고 구조·시스템·역량이 따라오지 않으면 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)은 실패한다.
 > 3. **판단 포인트**: DT 맥락에서 7S 분석의 핵심 체크포인트는 Systems(IT 시스템)와 나머지 6S의 정합성이다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·클라우드를 도입(Systems 변경)하면 Skill([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 역량), Staff([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이언티스트), Structure([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 드리븐 조직), Style(실험적 의사결정)이 함께 변해야 한다.
 
@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 47 / 587
 
-<- **이전**: [26. 3C 분석 (C고객)](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)
-**다음**: [27. 7S 모델 (맥킨지)](/knowledge-base/studynote/12_it_management/01_governance_strategy/027_seven_s_model/) ->
+<- **이전**: [26. 3C 분석 (C고객)](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/)
+**다음**: [27. 7S 모델 (맥킨지)](/knowledge-base/studynote/12_it_management/01_governance_strategy/821_seven_s_model/) ->
 
 ---

@@ -115,7 +115,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 370 / 530
 
-<- **이전**: [305. 4+1 뷰 미비와 유지보수 추적 단절 (4 Plus 1 View Traceability Gap Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/305_four_plus_one_view_traceability_gap/)
-**다음**: [306. 웹셸 업로드 필터 다중방어 감리 (Web Shell Upload Filter Defense Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/306_web_shell_upload_filter/) ->
+<- **이전**: [305. 4+1 뷰 미비와 유지보수 추적 단절 (4 Plus 1 View Traceability Gap Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/664_four_plus_one_view_traceability_gap/)
+**다음**: [306. 웹셸 업로드 필터 다중방어 감리 (Web Shell Upload Filter Defense Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/665_web_shell_upload_filter/) ->
 
 ---

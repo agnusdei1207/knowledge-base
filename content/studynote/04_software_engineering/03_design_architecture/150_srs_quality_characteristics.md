@@ -13,7 +13,7 @@ tags = ["software_engineering"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 요구사항 명세서(SRS)의 품질 특성은 IEEE 830 표준에서 정의한, 산문형(자연어) 요구사항 문장이 개발과 테스트의 기준이 되는 '엔지니어링 잣대'로 기능하기 위한 절대적 채점 기준(Criteria)이다.
 > 2. **가치**: "정확하고 명확하며 빠짐없이 완전해야 하고(내용적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)), 앞뒤가 일관되어 모순이 없어야 하며(논리적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)), QA가 테스트로 O/X 채점([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능성)하고 소스코드까지 꼬리표가 이어져야(추적 가능성)" 프로젝트의 폭망을 막을 수 있다.
-> 3. **판단 포인트**: 이 6가지 철칙은 현대 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 생태계에서도 죽지 않고, 유저 스토리([User Story](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/))가 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 개발에 착수되기 위해 통과해야 하는 <strong>DoR (Definition of Ready)</strong>과 [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/)(Given-When-Then) 자동화 [테스트 시나리오](/knowledge-base/studynote/04_software_engineering/11_testing_validation/442_test_scenario/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 뼈대로 완벽하게 융합되어 살아 숨 쉰다.
+> 3. **판단 포인트**: 이 6가지 철칙은 현대 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 생태계에서도 죽지 않고, 유저 스토리([User Story](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/))가 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 개발에 착수되기 위해 통과해야 하는 <strong>DoR (Definition of Ready)</strong>과 [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/)(Given-When-Then) 자동화 [테스트 시나리오](/knowledge-base/studynote/04_software_engineering/11_testing_validation/834_test_scenario/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 뼈대로 완벽하게 융합되어 살아 숨 쉰다.
 
 ---
 
@@ -96,7 +96,7 @@ tags = ["software_engineering"]
    `When` 결제 버튼을 클릭할 때
    `Then` 최종 배송비는 0원이 떨어져야 한다 (명확성 🔍)
    `And` 청구액은 4만 5천 원이어야 한다 ([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능성 수치화 100% 록온 ✅)
-   - **아키텍트 쾌속 팩폭**: "이 Gherkin 텍스트 자체가 곧바로 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 빌드 서버에서 JUnit 테스트 코드로 1초 만에 자동 변환 렌더링 쳐져서 기계가 O/X를 채점한다 쾅!! 자연어가 코드와 동기화되는 기적(Single Source of Truth)이 완성된 거다 🚀!!"
+   - **아키텍트 쾌속 팩폭**: "이 Gherkin 텍스트 자체가 곧바로 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 빌드 서버에서 JUnit 테스트 코드로 1초 만에 자동 변환 렌더링 쳐져서 기계가 O/X를 채점한다 쾅!! 자연어가 코드와 동기화되는 기적(Single Source of Truth)이 완성된 거다 🚀!!"
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **구현 방식(How)의 하드코딩 침범 오지랖 파국 💀**: 기획자가 명세서에 "메인 화면은 가로 스와이프로 넘기고, 백엔드는 Spring Boot랑 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 캐시를 써서 1초 안에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏴라"라고 기술 스택을 못 박아버리는 오만함.

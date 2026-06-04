@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 > **핵심 인사이트**
 > 1. [DBSCAN](/knowledge-base/studynote/06_ict_convergence/05_data_science/351_dbscan_density_based_clustering/)([Density-Based Spatial Clustering](/knowledge-base/studynote/10_ai/05_data_science_ml/357_dbscan/) of Applications with Noise)은 밀도가 높은 지역을 군집으로 인식하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) — k-means와 달리 군집 수(k)를 사전에 지정할 필요 없고, 임의 형태의 군집과 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)(Noise)를 자동으로 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)한다.
-> 2. 핵심 매개변수 ε(엡실론)과 minPts — ε(이웃 반경)과 minPts(최소 이웃 점 수)의 조합이 군집 품질을 결정하며, k-거리 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(k-distance [graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))로 최적 ε을 찾는 방법이 실무에서 널리 사용된다.
+> 2. 핵심 매개변수 ε(엡실론)과 minPts — ε(이웃 반경)과 minPts(최소 이웃 점 수)의 조합이 군집 품질을 결정하며, k-거리 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(k-distance [graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/))로 최적 ε을 찾는 방법이 실무에서 널리 사용된다.
 > 3. DBSCAN의 한계: 고차원·가변 밀도 군집 — 차원이 높아질수록 거리 계산 의미 감소(차원의 저주)하고, 밀도가 다른 군집이 혼재할 때 단일 ε로 모든 군집을 적절히 잡기 어렵다. HDBSCAN이 이 한계를 개선한다.
 
 ---

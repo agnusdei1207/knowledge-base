@@ -42,7 +42,7 @@ tags = ["studynote-software-engineering"]
 | **Mid-Fi** | 와이어프레임 |
 | **Hi-Fi** | 인터랙티브 목업 |
 | **Figma** | 프로토타이핑 도구 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/451_usability_test/">사용성 테스트</a></strong> | Hi-Fi로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/843_usability_test/">사용성 테스트</a></strong> | Hi-Fi로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

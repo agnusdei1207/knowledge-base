@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 범위 크리프는 프로젝트가 진행되는 동안 승인된 요구사항 범위가 비공식적으로 조금씩 넓어지는 현상이다. 대개는 "이것도 같이 되면 좋겠다"는 작은 요청에서 시작하지만, 일정과 비용 조정 없이 누적되면 원래 약속한 산출물의 경계가 흐려진다. 즉 범위 크리프의 핵심은 요구사항이 늘었다는 사실보다, 늘어난 요구가 통제 체계 밖에서 들어왔다는 점이다.
 
-이 개념이 중요한 이유는 소프트웨어의 변경 파급효과가 겉보기보다 크기 때문이다. 화면 문구 한 줄 수정처럼 보여도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)), [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/), 운영 문서, 인수 기준까지 영향을 줄 수 있다. 그런데 이런 추가가 메신저 대화나 회의 중 구두 합의 수준으로 흘러 들어오면, 팀은 실제로는 더 많은 일을 하면서도 계획상으로는 같은 약속을 지키라고 압박받게 된다.
+이 개념이 중요한 이유는 소프트웨어의 변경 파급효과가 겉보기보다 크기 때문이다. 화면 문구 한 줄 수정처럼 보여도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)), [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/), 운영 문서, 인수 기준까지 영향을 줄 수 있다. 그런데 이런 추가가 메신저 대화나 회의 중 구두 합의 수준으로 흘러 들어오면, 팀은 실제로는 더 많은 일을 하면서도 계획상으로는 같은 약속을 지키라고 압박받게 된다.
 
 범위 크리프를 방치하면 일정 지연과 예산 초과뿐 아니라 품질 저하도 커진다. 급하게 끼워 넣은 기능은 추적성과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 약해지기 쉽고, 무엇이 원래 범위였는지조차 불명확해져 고객과 공급자 모두 불만을 가지게 된다. 그래서 요구사항 관리에서는 변경 수용 능력과 통제 능력을 동시에 갖추는 것이 중요하다.
 

@@ -65,7 +65,7 @@ MTBF는 보통 고장률이 비교적 안정적인 구간에서 의미가 크다
 +--------------------------------------------------------------+
 ```
 
-[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약인 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) 관점에서는 보통 `Availability ≈ MTBF / (MTBF + MTTR)` 형태로 직관적으로 설명한다. 예를 들어 MTBF가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000시간이고 MTTR이 1시간이면 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)은 매우 높지만, MTBF가 100,000시간이라도 MTTR이 24시간이면 고객 체감 품질은 크게 흔들릴 수 있다.
+[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약인 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)) 관점에서는 보통 `Availability ≈ MTBF / (MTBF + MTTR)` 형태로 직관적으로 설명한다. 예를 들어 MTBF가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000시간이고 MTTR이 1시간이면 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)은 매우 높지만, MTBF가 100,000시간이라도 MTTR이 24시간이면 고객 체감 품질은 크게 흔들릴 수 있다.
 
 📢 섹션 요약 비유: MTBF는 병에 잘 안 걸리는 체질이고, MTTR은 아팠을 때 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 속도다. 튼튼한 사람도 한 번 앓으면 오래 누워 있으면 문제고, 자주 아파도 금방 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)하면 일상 유지가 가능하다.
 

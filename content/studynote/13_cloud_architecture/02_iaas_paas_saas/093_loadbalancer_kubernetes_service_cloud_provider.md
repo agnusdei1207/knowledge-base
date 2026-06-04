@@ -94,9 +94,9 @@ LoadBalancer는 외부 L4 장비와의 단순 연결을 담당하지만, URL 패
 
 ## Ⅴ. 기대효과 및 결론
 
-LoadBalancer는 복잡한 인프라 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 작업을 K8s 매니페스트 (Manifest) 한 줄로 통합하여 진정한 의미의 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) ([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 자동화를 완성했다. 이를 통해 개발자는 네트워크 장비의 CLI를 몰라도 글로벌 스케일의 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)기를 즉시 확보할 수 있다.
+LoadBalancer는 복잡한 인프라 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 작업을 K8s 매니페스트 (Manifest) 한 줄로 통합하여 진정한 의미의 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) ([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 자동화를 완성했다. 이를 통해 개발자는 네트워크 장비의 CLI를 몰라도 글로벌 스케일의 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)기를 즉시 확보할 수 있다.
 
-하지만 1:1 결합 구조가 낳는 비용과 확장성 한계는 분명하다. 따라서 LoadBalancer는 "K8s와 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)가 만나는 최초의 물리적 접점"으로 이해해야 하며, 이 접점을 어떻게 효율적으로 공유 ([Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/), [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/))할 것인지가 아키텍트의 최종 과제로 남게 된다.
+하지만 1:1 결합 구조가 낳는 비용과 확장성 한계는 분명하다. 따라서 LoadBalancer는 "K8s와 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)가 만나는 최초의 물리적 접점"으로 이해해야 하며, 이 접점을 어떻게 효율적으로 공유 ([Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/), [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/))할 것인지가 아키텍트의 최종 과제로 남게 된다.
 
 - **📢 섹션 요약 비유**: 훌륭한 자동문(LoadBalancer)은 설치하기 쉽고 손님을 잘 맞이하지만, 문이 너무 많으면 유지보수비가 건물 렌트비를 넘어선다.
 

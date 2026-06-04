@@ -77,7 +77,7 @@ tags = ["studynote-devops-sre"]
 
 ### 엔지니어링 리더십 활용
 1. **Efficiency & Flow**: 회의 최소화, 딥 워크 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 시간 블록.
-2. **Communication**: [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 리뷰 2일 내 처리 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/).
+2. **Communication**: [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 리뷰 2일 내 처리 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/).
 3. **Satisfaction**: 분기별 eNPS 조사 -> 번아웃 조기 감지.
 
 ### GenAI 도구 도입 효과 측정
@@ -86,7 +86,7 @@ tags = ["studynote-devops-sre"]
   - Efficiency: 보일러플레이트 코드 시간 40% 감소.
   - Satisfaction: 반복 작업 감소로 만족도 향상.
 
-- **📢 섹션 요약 비유**: GenAI 도입 SPACE 측정은 자동화 설비 투자 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 분석이다. 기계([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))가 단순 작업을 대신하면 직원(개발자) 활동 패턴, 만족도, 성과가 어떻게 변하는지 5차원으로 측정한다.
+- **📢 섹션 요약 비유**: GenAI 도입 SPACE 측정은 자동화 설비 투자 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 분석이다. 기계([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))가 단순 작업을 대신하면 직원(개발자) 활동 패턴, 만족도, 성과가 어떻게 변하는지 5차원으로 측정한다.
 
 ---
 
@@ -96,7 +96,7 @@ tags = ["studynote-devops-sre"]
 |:---|:---|
 | **번아웃 예방** | Satisfaction 조기 경고로 개발자 유지 |
 | **진정한 생산성** | 활동 수 아닌 결과·흐름 기반 측정 |
-| <strong>도구 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> | GenAI·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 도구 도입 효과 정량화 |
+| <strong>도구 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/">ROI</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> | GenAI·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 도구 도입 효과 정량화 |
 
 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코딩 어시스턴트(GitHub Copilot, Cursor) 등장으로 SPACE의 Activity·Efficiency 차원이 급격히 변화하면서, "AI와 협력하는 개발자 생산성"을 새롭게 정의하는 SPACE 2.0 논의가 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중이다.
 

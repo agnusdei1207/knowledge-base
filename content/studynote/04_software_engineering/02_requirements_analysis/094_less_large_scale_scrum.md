@@ -9,7 +9,7 @@ tags = ["software_engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: LeSS (Large-Scale [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/))는 2~8개의 복수 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 팀이 단일 제품 (Product)을 개발할 때, SAFe처럼 관료제적 계층을 덧붙이지 않고 원래 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) ([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/))의 본질을 그대로 뻥튀기(Scaling)하여 적용하는 가장 미니멀한 [대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/) 프레임워크다.
+> 1. **본질**: LeSS (Large-Scale [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/))는 2~8개의 복수 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 팀이 단일 제품 (Product)을 개발할 때, SAFe처럼 관료제적 계층을 덧붙이지 않고 원래 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) ([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/))의 본질을 그대로 뻥튀기(Scaling)하여 적용하는 가장 미니멀한 [대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/) 프레임워크다.
 > 2. **가치**: "규칙과 역할을 더 추가하지 마라(Do Less)"는 철학에 따라, 오직 1명의 진짜 [제품 책임자](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/) (PO), 1개의 [제품 백로그](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/), 1개의 공통 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)라는 '완벽한 단일화(1-1-1 구조)'를 강제하여 조직의 복잡성을 타파한다.
 > 3. **판단 포인트**: 여러 팀이 [스프린트 계획 회의](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/068_sprint_planning/)([Sprint Planning](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/068_sprint_planning/))를 할 때 대표자만 모여 거시적 일감을 배분하는 1부와, 팀별로 흩어져 작업 단위([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))를 쪼개고 타 팀과 즉석 의존성을 푸는 2부로 영리하게 분업시켜 시장통의 혼란을 막았다.
 
@@ -17,7 +17,7 @@ tags = ["software_engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-LeSS (Large-Scale [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/))는 "조직이 커질수록 룰은 더 단순해져야(LeSS) [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 민첩성이 살아난다"는 크레이그 라만 (Craig Larman)의 철학에서 출발한 대규모 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 프레임워크다.
+LeSS (Large-Scale [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/))는 "조직이 커질수록 룰은 더 단순해져야(LeSS) [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 민첩성이 살아난다"는 크레이그 라만 (Craig Larman)의 철학에서 출발한 대규모 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 프레임워크다.
 
 대기업들은 규모가 커지면 자꾸 중간 관리자([PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/))를 두고 포트폴리오 관리 같은 무거운 결재 라인을 만든다([SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) 방식). 하지만 이러한 관료주의는 결국 빠른 적응이라는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 본질을 죽인다. 만약 8개의 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀이 각자의 PO ([제품 책임자](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/))를 두고, 각자의 백로그(일감 리스트)를 들고 각기 다른 날짜에 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)를 시작한다면, 거대한 하나의 제품(예: 은행 앱)의 통일성은 산산조각이 나버린다. LeSS는 기존 10페이지짜리 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 가이드 룰을 최대한 유지하면서 오직 '참여하는 팀의 개수'만 늘릴 수 있도록 최소한의 안전장치만 부여하여 이 혼돈을 막아낸다.
 
@@ -31,7 +31,7 @@ LeSS의 뼈대는 철저하고 완벽한 단일화 구조인 '1-1-1 아키텍처
 
 1. <strong>단 하나의 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/">제품 책임자</a> (One Product Owner, PO)</strong>
    - 8개 팀에 8명의 가짜 PO([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) PO)를 두는 것을 엄격히 금지한다.
-   - 전체 팀을 통틀어 오직 1명의 진짜 PO만이 전체 제품의 비전과 투자 수익률([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)), 일감의 최상위 우선순위를 결정한다.
+   - 전체 팀을 통틀어 오직 1명의 진짜 PO만이 전체 제품의 비전과 투자 수익률([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/)), 일감의 최상위 우선순위를 결정한다.
 2. <strong>단 하나의 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/">제품 백로그</a> (One <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/">Product Backlog</a>)</strong>
    - 팀별로 To-Do 리스트를 따로 관리하지 않는다. 8개 팀 전체가 쳐다보는 거대한 마스터 '[제품 백로그](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/)'는 오직 1개뿐이다.
    - [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)가 시작할 때, 모든 팀이 이 하나의 게시판 앞에 모여 자기가 이번 2주 동안 소화할 일감을 각자의 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 백로그 ([Sprint](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) Backlog)로 가져간다.
@@ -73,12 +73,12 @@ LeSS의 뼈대는 철저하고 완벽한 단일화 구조인 '1-1-1 아키텍처
 
 [대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/) 도입을 고민할 때 실무에서 가장 크게 부딪히는 두 진영이 바로 LeSS와 SAFe다.
 
-| 비교 기준 | LeSS (Large-Scale [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)) | [SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) ([Scaled Agile Framework](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)) |
+| 비교 기준 | LeSS (Large-Scale [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/)) | [SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) ([Scaled Agile Framework](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)) |
 |:---|:---|:---|
 | **철학과 방향성** | 룰을 최소화하여 민첩성 극대화 (미니멀리즘) | 기존 엔터프라이즈 구조 포용을 위한 계층 추가 |
 | **적용 규모의 한계** | 2~8개 팀 (약 50~100명 내외) 최적 | 수백~수천 명의 거대 조직도 가능 |
 | <strong>PO (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/">제품 책임자</a>)</strong> | 수개 팀을 1명의 진짜 PO가 통제 | 팀별 PO와 그 위를 덮는 PM, [Epic](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/) Owner 등 계층화 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">스프린트</a> 계획 구조</strong> | 단일 백로그를 기반으로 대표자 분업 기반 회의 | [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) (Program Increment) Planning이라는 거대 기차 탑승 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">스프린트</a> 계획 구조</strong> | 단일 백로그를 기반으로 대표자 분업 기반 회의 | [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/) (Program Increment) Planning이라는 거대 기차 탑승 |
 
 조직이 유연한 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 문화를 이미 뼛속까지 이해하고 있다면 LeSS가 압도적인 속도를 내지만, 기존 대기업의 계층과 예산 승인 절차를 무시하기 어렵다면 관리의 안정감을 주는 SAFe를 선택할 수밖에 없다. LeSS는 개발자 중심적이고 본질 지향적인 반면 도입의 허들이 높다.
 

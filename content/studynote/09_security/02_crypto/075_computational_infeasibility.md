@@ -76,7 +76,7 @@ infeasible과 impossible은 다르다. 전자는 자원이 부족해 못 푸는 
 체크 포인트는 다음과 같다.
 - 충분한 [security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) margin이 있는가.
 - [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체 가능성이 열려 있는가.
-- [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) ([Post-Quantum Cryptography](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)) 전환 계획이 있는가.
+- [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) ([Post-Quantum Cryptography](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)) 전환 계획이 있는가.
 
 안티패턴은 보안 강도를 현재 하드웨어 성능에만 기대는 것이다. 계산 자원은 계속 늘고, 공격 도구도 계속 발전한다.
 
@@ -102,7 +102,7 @@ computational infeasibility는 암호학의 현실주의를 보여 준다. 보�
 | [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Space | 공격 비용의 원천 |
 | [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Margin | 미래 대비 여유 |
 | [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Threat | 계산 모델 변화 |
-| [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) | 전환 대비 |
+| [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) | 전환 대비 |
 
 ### 관련 키워드 및 발전 흐름도
 

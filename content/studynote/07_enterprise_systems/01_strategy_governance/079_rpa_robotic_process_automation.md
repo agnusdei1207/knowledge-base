@@ -12,7 +12,7 @@ tags = ["studynote-enterprise-systems"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/)([Robotic Process Automation](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/))는 기계 팔(Robot)이 아니라 컴퓨터에 깔리는 <strong>소프트웨어 봇(Bot)</strong>으로, 사람이 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 화면을 보고 마우스 클릭과 키보드 타이핑을 하는 <strong>반복적인 규칙 기반(Rule-based) 업무를 100% 똑같이 흉내 내는 자동화 아키텍처</strong>다.
 > 2. **가치**: 레거시 시스템(SAP, 엑셀, 사내 인트라넷)의 코드를 단 한 줄도 뜯어고치거나 비싼 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동 개발을 할 필요 없이, 프론트엔드 UI(User Interface) 껍데기 위에서 작동하므로 개발 비용과 적용 시간이 압도적으로 저렴하고 빠르다.
-> 3. **판단 포인트**: 사람의 판단력이나 창의성이 필요한 예외 상황(Exception)을 처리하지 못하는 무식한 매크로에 불과했지만, 최근 OCR(문자인식)과 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))이 융합된 <strong>IPA (Intelligent <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a> Automation)</strong>로 진화하며 인간의 뇌 기능까지 대체하는 지능형 자동화로 도약하고 있다.
+> 3. **판단 포인트**: 사람의 판단력이나 창의성이 필요한 예외 상황(Exception)을 처리하지 못하는 무식한 매크로에 불과했지만, 최근 OCR(문자인식)과 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))이 융합된 <strong>IPA (Intelligent <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/">Process</a> Automation)</strong>로 진화하며 인간의 뇌 기능까지 대체하는 지능형 자동화로 도약하고 있다.
 
 ---
 
@@ -69,7 +69,7 @@ RPA는 백엔드 DB나 소스 코드에 손대지 않고(비침습적), 철저�
 |:---|:---|:---|
 | **통합 계층** | **백엔드 (DB, 소스 코드 레벨 연동)** | **프론트엔드 (UI 껍데기 레벨)** |
 | **시스템 개조 여부**| 기존 시스템 소스 코드를 뜯어고쳐야 함 (침습적) | **기존 시스템 개조 0% (비침습적, Non-invasive)** |
-| **개발 기간/비용** | 수개월 ~ 수년 (거대 SI 프로젝트) | <strong>수일 ~ 수주 (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a> 달성)</strong> |
+| **개발 기간/비용** | 수개월 ~ 수년 (거대 SI 프로젝트) | <strong>수일 ~ 수주 (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/">ROI</a> 달성)</strong> |
 | **변화 적응성** | DB 구조가 바뀌지 않는 한 안 터짐 | **화면 UI 버튼 위치가 바뀌면 봇이 즉시 뻗어버림(에러)** |
 
 기존 IT 자동화가 "로봇의 뇌(DB)와 내 뇌(DB)를 전선으로 직결([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))"하는 수술이라면, RPA는 "로봇의 뇌를 못 여니까 로봇의 눈([모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))에 카메라를 대고 로봇의 손(마우스)을 원격으로 조종"하는 임시방편이다. 하지만 현실 기업에는 소스코드를 잃어버리거나 남의 회사(관공서 등)라 맘대로 개조할 수 없는 시스템이 99%이므로, RPA라는 가성비 최강의 우회로가 전 세계 기업 시장을 집어삼킨 것이다.

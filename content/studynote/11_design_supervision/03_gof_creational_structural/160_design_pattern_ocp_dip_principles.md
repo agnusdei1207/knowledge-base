@@ -80,7 +80,7 @@ OCP와 DIP는 함께 언급되지만 질문이 다르다. OCP는 "변경을 어�
 | 대표 위반 징후 | 타입 분기 if-else 증가 | `new ConcreteClass()` 남발 |
 | 연결 패턴 | [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), [Decorator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/), [Template Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) | Factory, [Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/), [Dependency Injection](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/) |
 
-또한 [SOLID](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) (Single Responsibility, Open-Closed, Liskov Substitution, Interface Segregation, Dependency Inversion)의 다른 원칙과도 연결된다. OCP를 지키려면 변경 이유를 분리하는 [SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) ([Single Responsibility Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/), [단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/))가 함께 필요하고, DIP를 지키려면 지나치게 큰 인터페이스를 쪼개는 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) ([Interface Segregation Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/246_isp_interface_segregation_principle/), [인터페이스 분리 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/358_architecture/))가 따라와야 한다. 즉 패턴은 원칙 하나만 만족하는 고립된 도구가 아니라 여러 원칙이 만나는 구조적 접점이다.
+또한 [SOLID](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) (Single Responsibility, Open-Closed, Liskov Substitution, Interface Segregation, Dependency Inversion)의 다른 원칙과도 연결된다. OCP를 지키려면 변경 이유를 분리하는 [SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) ([Single Responsibility Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/), [단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/))가 함께 필요하고, DIP를 지키려면 지나치게 큰 인터페이스를 쪼개는 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) ([Interface Segregation Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/246_isp_interface_segregation_principle/), [인터페이스 분리 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/358_architecture/))가 따라와야 한다. 즉 패턴은 원칙 하나만 만족하는 고립된 도구가 아니라 여러 원칙이 만나는 구조적 접점이다.
 
 - **📢 섹션 요약 비유**: OCP는 증축 설계도이고, DIP는 배선을 표준 규격으로 빼 두는 일이다. 증축만 잘해도 배선이 얽히면 고장 나고, 배선만 표준이어도 방을 늘릴 자리가 없으면 확장이 어렵다.
 
@@ -101,7 +101,7 @@ OCP와 DIP는 함께 언급되지만 질문이 다르다. OCP는 "변경을 어�
 
 - 작은 변화도 모두 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 계층으로 해결해 조합 폭발을 만드는 경우
 - 테스트 편의만 위해 실사용 교체 가능성 없는 인터페이스를 남발하는 경우
-- [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) ([Dependency Injection](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/), [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)) 프레임워크가 있으니 자동으로 DIP가 지켜진다고 착각하는 경우
+- [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) ([Dependency Injection](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/), [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)) 프레임워크가 있으니 자동으로 DIP가 지켜진다고 착각하는 경우
 
 - **📢 섹션 요약 비유**: 좋은 설계는 자주 갈아끼우는 부품만 모듈화하고, 뼈대는 안정적으로 유지한다. 나사를 풀 일도 없는데 모든 곳에 분리형 커넥터를 다는 것은 오히려 관리 부담만 키운다.
 
@@ -126,7 +126,7 @@ OCP와 DIP를 패턴과 연결해 적용하면 변경 비용, 테스트 비용, 
 | [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 패턴 | 변하는 알고리즘을 교체 가능한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 분리 |
 | [Abstract Factory](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/) 패턴 | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 로직을 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)해 구현체 교체를 쉽게 함 |
 | [Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 패턴 | 추상부와 구현부를 별도 축으로 분리 |
-| [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) | DIP를 런타임 구성으로 실현하는 대표 메커니즘 |
+| [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) | DIP를 런타임 구성으로 실현하는 대표 메커니즘 |
 
 ### 관련 키워드 및 발전 흐름도
 

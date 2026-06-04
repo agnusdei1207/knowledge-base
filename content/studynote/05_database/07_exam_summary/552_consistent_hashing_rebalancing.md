@@ -113,7 +113,7 @@ tags = ["studynote-database"]
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 노드 작업 셔플/소트 단계 | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
-| [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/) DB 질의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계 극복 가속화 연구망 설계 | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
+| [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/) DB 질의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계 극복 가속화 연구망 설계 | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
 | [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) ([Not Only SQL](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/274_nosql/)) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
 | [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) ([Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/)) | 운영·설계 판단을 연결해 주는 주변 개념이다. |
 

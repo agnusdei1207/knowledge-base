@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 보안성은 시스템이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)([Confidentiality](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)), [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)), [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))이라는 3대 보안 원칙([CIA Triad](/knowledge-base/studynote/09_security/01_intro_principles/001_cia_triad/))을 얼마나 잘 유지하는가를 측정하는 품질 속성이다.
 
-- **필요성**: 회원 수 1천만 명의 이커머스 앱을 만들었다고 치자. 성능이 빨라서 0.1초 만에 응답하지만, 해커가 파라미터 1개를 조작했더니([SQL Injection](/knowledge-base/studynote/09_security/uncategorized/604_sql_injection/)) 1천만 명의 개인정보가 통째로 빠져나갔다. 이 시스템은 잘 만든 시스템인가? 아무리 기능이 화려해도, 내 집의 문을 아무나 열고 들어올 수 있다면 그 집은 폐가나 다름없다. 성능이나 사용성이 좀 떨어지더라도, 절대로 타협해서는 안 되는 <strong>아키텍처의 철창(Steel Wall)</strong>이 필요했다.
+- **필요성**: 회원 수 1천만 명의 이커머스 앱을 만들었다고 치자. 성능이 빨라서 0.1초 만에 응답하지만, 해커가 파라미터 1개를 조작했더니([SQL Injection](/knowledge-base/studynote/09_security/uncategorized/1036_sql_injection/)) 1천만 명의 개인정보가 통째로 빠져나갔다. 이 시스템은 잘 만든 시스템인가? 아무리 기능이 화려해도, 내 집의 문을 아무나 열고 들어올 수 있다면 그 집은 폐가나 다름없다. 성능이나 사용성이 좀 떨어지더라도, 절대로 타협해서는 안 되는 <strong>아키텍처의 철창(Steel Wall)</strong>이 필요했다.
 
 - **💡 비유**: 은행 금고와 같습니다. 도둑이 금고에 접근하지 못하도록 <strong>1차로 지문인식 문(방어)</strong>을 설치하고, 만약 문을 부수면 <strong>2차로 사이렌(탐지)</strong>이 울리며, 그래도 돈을 털어갔다면 지폐 다발에서 <strong>3차로 파란색 잉크가 터져 돈을 못 쓰게(<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>/무효화)</strong> 만드는 3중 보안 시스템이 바로 보안성 설계입니다.
 
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 보안성 (Security)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

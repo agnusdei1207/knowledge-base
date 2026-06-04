@@ -98,7 +98,7 @@ tags = ["studynote-operating-system"]
 
 결론적으로 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 영역은 호출 규약과 메모리 안정성의 교차점이다. 기술사 답변에서는 [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/), [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/), 호출 프레임, 오버플로 위험을 함께 설명하면 탄탄하다.
 
-- 📢 섹션 요약 비유: 접시 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)
+- 📢 섹션 요약 비유: 접시 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)
 
 ### 📌 관련 개념 맵
 

@@ -84,7 +84,7 @@ Rootkit은 [백도어](/knowledge-base/studynote/03_network/14_network_security_
 |:---|:---|
 | <strong>FIM (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a> <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">Integrity</a> Monitoring)</strong> | 주요 시스템 파일의 해시 값을 주기적으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 | **Network Traffic Analysis** | 비정상적인 아웃바운드 연결 탐지 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a> Monitoring</strong> | 비정상적인 프로세스 활동 탐지 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/">Process</a> Monitoring</strong> | 비정상적인 프로세스 활동 탐지 |
 | <strong><a href="/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/">로그 분석</a></strong> | 비정상적인 접근 패턴 탐지 |
 
 ### 3.2 대응 방안

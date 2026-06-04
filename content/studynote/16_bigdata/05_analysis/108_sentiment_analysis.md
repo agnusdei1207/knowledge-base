@@ -10,7 +10,7 @@ tags = ["studynote-bigdata"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/) ([Sentiment Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/))은 텍스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 필자의 감정·태도·의견을 자동으로 추출·[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 NLP (Natural Language Processing) 기법으로, 제품 리뷰·SNS 포스트·뉴스 기사 등에서 긍정/부정/중립을 판별한다.
+> 1. **본질**: [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/) ([Sentiment Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/))은 텍스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 필자의 감정·태도·의견을 자동으로 추출·[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 NLP (Natural Language Processing) 기법으로, 제품 리뷰·SNS 포스트·뉴스 기사 등에서 긍정/부정/중립을 판별한다.
 > 2. **가치**: 수백만 건의 고객 피드백을 실시간으로 분석하여 제품 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 조기 감지, 브랜드 평판 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에 대한 여론 추적이 가능하며, 전통적 설문 조사 대비 훨씬 빠르고 저렴하다.
 > 3. **판단 포인트**: 사전 기반 (Lexicon-based) 방법은 빠르지만 맥락 이해가 부족하고, [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)/RoBERTa 기반 딥러닝은 정확하지만 학습 비용이 크다. 한국어는 조사·어미 변화로 인한 형태소 분석이 필수다.
 
@@ -18,11 +18,11 @@ tags = ["studynote-bigdata"]
 
 ## Ⅰ. 개요 및 필요성
 
-"이 제품 진짜 최고예요!"와 "이 제품 최고인 척하는군요"는 단어는 비슷하지만 의미가 정반대다. 인간은 문맥으로 구분하지만, 기계는 이 미묘한 차이를 학습 없이는 파악하지 못한다. [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)은 이 간극을 메우는 기술이다.
+"이 제품 진짜 최고예요!"와 "이 제품 최고인 척하는군요"는 단어는 비슷하지만 의미가 정반대다. 인간은 문맥으로 구분하지만, 기계는 이 미묘한 차이를 학습 없이는 파악하지 못한다. [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)은 이 간극을 메우는 기술이다.
 
-트위터·쿠팡·네이버 리뷰에 하루 수백만 건의 텍스트가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되는 지금, 브랜드는 실시간으로 소비자 반응을 수집하고 해석해야 한다. [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)은 이 방대한 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)를 [비즈니스 인텔리전스](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/282_business_intelligence_bi_technology_framework/)로 전환하는 핵심 기술이다.
+트위터·쿠팡·네이버 리뷰에 하루 수백만 건의 텍스트가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되는 지금, 브랜드는 실시간으로 소비자 반응을 수집하고 해석해야 한다. [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)은 이 방대한 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)를 [비즈니스 인텔리전스](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/282_business_intelligence_bi_technology_framework/)로 전환하는 핵심 기술이다.
 
-- **📢 섹션 요약 비유**: [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)은 수백만 명이 동시에 보낸 편지의 감정 온도를 자동으로 측정하는 청력계다.
+- **📢 섹션 요약 비유**: [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)은 수백만 명이 동시에 보낸 편지의 감정 온도를 자동으로 측정하는 청력계다.
 
 ---
 
@@ -73,22 +73,22 @@ tags = ["studynote-bigdata"]
 - **형태소 분석 필수**: KoNLPy (Okt, Komoran), Mecab-Ko 활용
 - **신조어·줄임말**: "갓제품", "레전드", "극혐" 등 감성 사전 지속 업데이트 필요
 
-- **📢 섹션 요약 비유**: [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/) 모델을 고르는 것은 번역사를 고르는 것과 같다. 사전 기반은 단어장만 외운 번역사고, BERT는 문학을 깊이 읽은 번역사다. 빠른 처리가 필요하면 전자, 뉘앙스가 중요하면 후자.
+- **📢 섹션 요약 비유**: [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/) 모델을 고르는 것은 번역사를 고르는 것과 같다. 사전 기반은 단어장만 외운 번역사고, BERT는 문학을 깊이 읽은 번역사다. 빠른 처리가 필요하면 전자, 뉘앙스가 중요하면 후자.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 항목 | [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/) | 텍스트 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) (일반) | [개체명 인식](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/) ([NER](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/)) |
+| 항목 | [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/) | 텍스트 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) (일반) | [개체명 인식](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/) ([NER](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/)) |
 |:---|:---|:---|:---|
 | **목적** | 감정/태도 판별 | 주제/카테고리 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 인물/장소/조직 추출 |
 | **레이블** | 긍정/부정/중립 | 임의 카테고리 | BIO 태그 (시퀀스) |
 | **난이도** | 부정어·반어 처리 어려움 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 의존성 | 띄어쓰기·복합명사 어려움 |
 | **대표 모델** | KoBERT, klue-[bert](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) | 분야별 파인튜닝 [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) | klue-[bert](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) [NER](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/) |
 
-[감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/) 결과는 [토픽 모델링](/knowledge-base/studynote/16_bigdata/05_analysis/116_topic_modeling/) ([Topic Modeling](/knowledge-base/studynote/16_bigdata/05_analysis/116_topic_modeling/))과 결합하면 "어떤 주제에 대해 얼마나 긍정적인가"를 측정할 수 있어, 상품 리뷰의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)별 개선 포인트 추출에 강력하다.
+[감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/) 결과는 [토픽 모델링](/knowledge-base/studynote/16_bigdata/05_analysis/116_topic_modeling/) ([Topic Modeling](/knowledge-base/studynote/16_bigdata/05_analysis/116_topic_modeling/))과 결합하면 "어떤 주제에 대해 얼마나 긍정적인가"를 측정할 수 있어, 상품 리뷰의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)별 개선 포인트 추출에 강력하다.
 
-- **📢 섹션 요약 비유**: [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/) 단독으로는 "좋아요/싫어요"만 알지만, [토픽 모델링](/knowledge-base/studynote/16_bigdata/05_analysis/116_topic_modeling/)과 합치면 "배송은 싫고, 품질은 좋다"는 세분화된 목소리를 들을 수 있다.
+- **📢 섹션 요약 비유**: [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/) 단독으로는 "좋아요/싫어요"만 알지만, [토픽 모델링](/knowledge-base/studynote/16_bigdata/05_analysis/116_topic_modeling/)과 합치면 "배송은 싫고, 품질은 좋다"는 세분화된 목소리를 들을 수 있다.
 
 ---
 
@@ -107,7 +107,7 @@ tags = ["studynote-bigdata"]
 2. 부정어 처리 (`not good = negative`)가 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 포함됐는가?
 3. 중립 클래스의 임계값 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 적절한가? (중립을 너무 작게 잡으면 노이즈 증가)
 4. 한국어의 경우 형태소 분석 품질이 전체 정확도의 30~40%를 결정함
-5. ABSA (Aspect-Based [Sentiment Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)) 적용 시 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 레이블 설계가 비즈니스 질문과 일치하는가?
+5. ABSA (Aspect-Based [Sentiment Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)) 적용 시 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 레이블 설계가 비즈니스 질문과 일치하는가?
 
 - **📢 섹션 요약 비유**: "이 가게 최악이에요, 안 아프게 해줘서 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)해요"처럼 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 맥락이 중요하다. 의료 리뷰의 "아프지 않았어요"는 긍정이지만, 놀이공원 리뷰라면 부정일 수 있다.
 
@@ -123,9 +123,9 @@ tags = ["studynote-bigdata"]
 | 위기 조기 감지 | 부정 감성 급증 시 즉각 알림으로 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 위기 대응 |
 | 경쟁 인텔리전스 | 경쟁사 리뷰 감성 비교로 포지셔닝 인사이트 도출 |
 
-[감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)은 비정형 텍스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 비즈니스 인사이트로 전환하는 가장 강력한 도구 중 하나다. [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 기반 모델이 한국어를 포함한 다국어에서 높은 정확도를 달성하면서, 리테일·미디어·금융·공공 분야 모두에서 실무 도입이 가속화되고 있다. [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)의 미래는 단순 긍부정을 넘어 감정의 강도, 의도, [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)별 세분화로 진화하고 있다.
+[감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)은 비정형 텍스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 비즈니스 인사이트로 전환하는 가장 강력한 도구 중 하나다. [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 기반 모델이 한국어를 포함한 다국어에서 높은 정확도를 달성하면서, 리테일·미디어·금융·공공 분야 모두에서 실무 도입이 가속화되고 있다. [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)의 미래는 단순 긍부정을 넘어 감정의 강도, 의도, [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)별 세분화로 진화하고 있다.
 
-- **📢 섹션 요약 비유**: [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)은 수백만 명의 목소리를 온도계로 재는 것이다. 온도를 알아야 옷을 고를 수 있듯, 고객 감정을 알아야 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 세울 수 있다.
+- **📢 섹션 요약 비유**: [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)은 수백만 명의 목소리를 온도계로 재는 것이다. 온도를 알아야 옷을 고를 수 있듯, 고객 감정을 알아야 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 세울 수 있다.
 
 ---
 
@@ -133,13 +133,13 @@ tags = ["studynote-bigdata"]
 
 | 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|
-| NLP (Natural Language Processing) | [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)의 상위 기술 분야 |
-| [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) ([Bidirectional Encoder Representations from Transformers](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)) | 최신 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)의 핵심 모델 |
-| [TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) ([Term Frequency-Inverse Document Frequency](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/)) | 전통 ML 기반 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)의 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) |
+| NLP (Natural Language Processing) | [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)의 상위 기술 분야 |
+| [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) ([Bidirectional Encoder Representations from Transformers](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)) | 최신 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)의 핵심 모델 |
+| [TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) ([Term Frequency-Inverse Document Frequency](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/)) | 전통 ML 기반 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)의 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) |
 | KoNLPy / Mecab | 한국어 형태소 분석 도구 |
-| ABSA (Aspect-Based [Sentiment Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)) | [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 단위 세분화 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/) |
+| ABSA (Aspect-Based [Sentiment Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)) | [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 단위 세분화 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/) |
 | [토픽 모델링](/knowledge-base/studynote/16_bigdata/05_analysis/116_topic_modeling/) ([Topic Modeling](/knowledge-base/studynote/16_bigdata/05_analysis/116_topic_modeling/)) | 주제와 감성을 결합한 심층 분석 |
-| VoC (Voice of [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)의 핵심 비즈니스 응용 |
+| VoC (Voice of [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/)) | [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)의 핵심 비즈니스 응용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -159,10 +159,10 @@ tags = ["studynote-bigdata"]
 [BERT/LLM 기반 감성 분석]
 ```
 
-[감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)은 규칙 기반에서 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기를 거쳐 BERT와 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 분석으로 발전한다.
+[감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)은 규칙 기반에서 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기를 거쳐 BERT와 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 분석으로 발전한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-- [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)은 컴퓨터가 글을 읽고 "이 사람 기쁜지, 화났는지, 그냥 평범한지"를 알아내는 거예요.
+- [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)은 컴퓨터가 글을 읽고 "이 사람 기쁜지, 화났는지, 그냥 평범한지"를 알아내는 거예요.
 - "이 장난감 정말 최악이에요!"를 읽으면 컴퓨터는 "화났구나!"라고 판단해요.
 - 수백만 명의 리뷰를 사람이 다 읽을 수 없으니, 컴퓨터가 대신 감정을 세어주는 역할을 해요!
 

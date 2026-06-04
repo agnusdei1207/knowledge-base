@@ -67,7 +67,7 @@ RPG 게임을 3년 동안 만들었다. 개발팀과 QA팀은 매일 게임을 �
    - 테스터가 블랙박스 관점에서 화면을 꾹꾹 누르다가 에러 창이 뜬다.
    - 바로 등 뒤에 있던 개발자는 "오케이, 거기 멈춰!" 하고 즉시 옆 모니터로 DB 로그와 디버깅 툴을 까서(화이트박스적 접근) 에러가 터진 101번 라인의 버그를 실시간으로 잡아낸다.
 3. **불완전성 용인**
-   - 알파 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)은 아직 기능이 100% 다 만들어지지 않은 상태(기능 동결 전)일 수 있다. [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 텍스트(Lorem Ipsum)나 미완성 그래픽이 섞여 있어도 일단 치명적인 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)과 흐름을 보기 위해 강행한다.
+   - 알파 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)은 아직 기능이 100% 다 만들어지지 않은 상태(기능 동결 전)일 수 있다. [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) 텍스트(Lorem Ipsum)나 미완성 그래픽이 섞여 있어도 일단 치명적인 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)과 흐름을 보기 위해 강행한다.
 
 ```text
 +------------------------------------------------------------------------------+
@@ -149,7 +149,7 @@ RPG 게임을 3년 동안 만들었다. 개발팀과 QA팀은 매일 게임을 �
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 알파 테스트 ([Alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) Test)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

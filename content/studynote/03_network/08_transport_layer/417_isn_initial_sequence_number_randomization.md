@@ -35,7 +35,7 @@ tags = ["studynote-network"]
     +---> [TCP 4-Way Handshake]
 ```
 
-- **📢 섹션 요약 비유**: ** ISN을 0번부터 시작하지 않는 것은 책을 읽을 때마다 **"매번 랜덤한 쪽수에서 이야기를 시작하는 암호 책"**을 쓰는 것과 같습니다. [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/)(해커)가 몰래 "다음 장 내용은 이거야"라며 위조된 페이지를 끼워 넣으려 해도, 오늘 우리가 몇 쪽부터 읽기 시작했는지(ISN) 모르면 절대 위조 페이지를 끼워 넣을 수 없습니다.
+- **📢 섹션 요약 비유**: ** ISN을 0번부터 시작하지 않는 것은 책을 읽을 때마다 **"매번 랜덤한 쪽수에서 이야기를 시작하는 암호 책"**을 쓰는 것과 같습니다. [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/)(해커)가 몰래 "다음 장 내용은 이거야"라며 위조된 페이지를 끼워 넣으려 해도, 오늘 우리가 몇 쪽부터 읽기 시작했는지(ISN) 모르면 절대 위조 페이지를 끼워 넣을 수 없습니다.
 
 ---
 

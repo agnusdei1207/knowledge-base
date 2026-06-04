@@ -11,8 +11,8 @@ tags = ["studynote-network"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전…는 차세대 통신 아키텍처에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전…를 이해하면 유연성과 확장성 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 슬라이싱 전…는 차세대 통신 아키텍처에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 슬라이싱 전…를 이해하면 유연성과 확장성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
@@ -31,13 +31,13 @@ tags = ["studynote-network"]
     +---> [5GC]
 ```
 
-- **📢 섹션 요약 비유**: SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 슬라이싱 전…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-단순히 서버 성능만 빨라진 것이 아닙니다. [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어망([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/))은 그 내부 소프트웨어 구조를 아예 실리콘 밸리의 IT 기업들처럼 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a>(Cloud-Native)</strong>로 완전히 뜯어고쳤습니다. ([SBA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/) 아키텍처 도입, 769번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
+단순히 서버 성능만 빨라진 것이 아닙니다. [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어망([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/))은 그 내부 소프트웨어 구조를 아예 실리콘 밸리의 IT 기업들처럼 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/">클라우드 네이티브</a>(Cloud-Native)</strong>로 완전히 뜯어고쳤습니다. ([SBA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/) 아키텍처 도입, 769번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 
 1. **하드웨어 깡통 탈피**: 옛날 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 서버는 [MME](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/) 장비, S-GW 장비처럼 덩치 큰 쇳덩어리 기계를 통신사 전산실에 쌓아두었습니다.
 2. <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/">NFV</a> (<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/">네트워크 기능 가상화</a>)와 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a></strong>: [5G SA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/) 모드의 코어망 서버([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/))는 쇳덩어리 하드웨어가 없습니다. 그냥 AWS 같은 클라우드 서버에 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 띄워서 그 안에서 소프트웨어 앱(App) 형태로 통신망 기능을 쌩쌩 돌립니다.
@@ -52,7 +52,7 @@ tags = ["studynote-network"]
     +---> [5GC]
 ```
 
-- **📢 섹션 요약 비유**: SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
+- **📢 섹션 요약 비유**: SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 슬라이싱 전…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
 ---
 
@@ -67,15 +67,15 @@ tags = ["studynote-network"]
 ### 2. 진정한 1ms 초저지연 ([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 완벽 연동)
 - [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 장비를 거치지 않고, 제어와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 최적화된 최단 경로(UPF 엣지 라우터)를 타고 곧바로 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/))으로 꽂힙니다. 이 SA망이 완성되어야 자율주행, 원격 수술, 로봇 팩토리의 명령이 0.001초 만에 흔들림 없이 도달합니다.
 
-SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. NSA가 기반 조건을 만든다면, SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전…는 그 위에서 핵심 메커니즘을 구현하고, 5GC는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 슬라이싱 전…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. NSA가 기반 조건을 만든다면, SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 슬라이싱 전…는 그 위에서 핵심 메커니즘을 구현하고, 5GC는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | NSA의 기반 정리 | SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전…의 핵심 동작 | 5GC의 확장 적용 |
+| 초점 | NSA의 기반 정리 | SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 슬라이싱 전…의 핵심 동작 | 5GC의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 유연성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전…는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 슬라이싱 전…는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
@@ -96,9 +96,9 @@ SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_
 
 ## Ⅴ. 기대효과 및 결론
 
-SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전…는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 유연성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 슬라이싱 전…는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 유연성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전…는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 슬라이싱 전…는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -123,7 +123,7 @@ SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_
     +---> [확장 B: AI 기반 네트워크 최적화]
 ```
 
-SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전…는 NSA에서 출발해 현재 메커니즘을 정교화하고, 이후 5GC와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 슬라이싱 전…는 NSA에서 출발해 현재 메커니즘을 정교화하고, 이후 5GC와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

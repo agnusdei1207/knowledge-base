@@ -10,15 +10,15 @@ tags = ["studynote-data-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: DataOps는 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)에 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, 자동화, 테스팅) 원칙을 적용해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질과 배포 속도를 동시에 향상하는 방법론이다.
-> 2. **가치**: dbt([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Build Tool)는 SQL 기반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환을 코드로 관리하고, 테스트·문서화·계보를 내장하여 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링의 Git+[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD"를 실현한다.
+> 1. **본질**: DataOps는 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)에 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD, 자동화, 테스팅) 원칙을 적용해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질과 배포 속도를 동시에 향상하는 방법론이다.
+> 2. **가치**: dbt([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Build Tool)는 SQL 기반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환을 코드로 관리하고, 테스트·문서화·계보를 내장하여 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링의 Git+[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD"를 실현한다.
 > 3. **판단 포인트**: [데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)([Data Contract](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)) 도입으로 생산자(파이프라인)와 소비자(분석가) 간 인터페이스를 명시적으로 보장하고, 품질 저하를 조기에 감지한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1.1 [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) 정의 및 배경
+### 1.1 [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/965_dataops/) 정의 및 배경
 
 DataOps는 Gartner(2019)가 정의한 방법론으로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링·분석·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 파이프라인에 <strong>DevOps의 민첩성과 품질 보증 문화</strong>를 이식한다.
 
@@ -32,7 +32,7 @@ DataOps는 Gartner(2019)가 정의한 방법론으로, [데이터](/knowledge-ba
 | 의존성 불명확 | 상위 테이블 변경 시 하위 영향 알 수 없음 |
 | 환경 불일치 | 개발/스테이징/운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치 |
 
-### 1.3 [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) 핵심 원칙
+### 1.3 [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/965_dataops/) 핵심 원칙
 
 ```
 DataOps 4대 원칙
@@ -144,7 +144,7 @@ models:
               expression: ">= 0"   # 음수 금액 불가
 ```
 
-### 2.3 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 아키텍처
+### 2.3 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인 아키텍처
 
 ```
 GitHub Actions + dbt Cloud CI/CD 파이프라인
@@ -182,7 +182,7 @@ GitHub Actions + dbt Cloud CI/CD 파이프라인
 | `dbt run` | SQL 모델 실행 및 테이블 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 | `dbt test` | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 테스트 실행 |
 | `dbt docs generate` | 자동 문서화 사이트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
-| `dbt snapshot` | [SCD Type 2](/knowledge-base/studynote/12_it_management/05_security_compliance/315_scd_type_2/) 이력 테이블 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
+| `dbt snapshot` | [SCD Type 2](/knowledge-base/studynote/12_it_management/05_security_compliance/957_scd_type_2/) 이력 테이블 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 | `dbt source freshness` | 소스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신선도 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 | `dbt compile` | SQL 컴파일 (실행 없이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) |
 | `dbt seed` | CSV [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) -> 테이블 적재 |
@@ -193,17 +193,17 @@ GitHub Actions + dbt Cloud CI/CD 파이프라인
 
 ## Ⅲ. 비교 및 연결
 
-### 3.1 [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) vs [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 매핑
+### 3.1 [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/965_dataops/) vs [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 매핑
 
-| [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 개념 | [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) 대응 |
+| [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 개념 | [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/965_dataops/) 대응 |
 |:---|:---|
 | 소스 코드 | SQL 변환 로직 (dbt 모델) |
 | [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) | dbt [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 테스트 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 | dbt Cloud + GitHub Actions |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인 | dbt Cloud + GitHub Actions |
 | 모니터링/Alerting | Monte Carlo, Bigeye [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관측 |
 | [인프라 코드](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) ([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)) | [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) + Airflow [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) |
 | 블루/그린 배포 | dbt 환경 분리 (dev/staging/prod) |
-| [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) | SQL [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 리뷰 (dbt Slim [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)) |
+| [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) | SQL [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 리뷰 (dbt Slim [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)) |
 
 ### 3.2 [데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/) ([Data Contract](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)) 패턴
 
@@ -304,7 +304,7 @@ Level 4: 데이터 계약 + 관측가능성
   +- 이상 감지 자동 알림
 ```
 
-### 4.2 dbt Slim [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) (변경 영향 범위 최소화)
+### 4.2 dbt Slim [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) (변경 영향 범위 최소화)
 
 ```bash
 # 전체 모델 테스트 (느림, O(N) 시간)
@@ -320,14 +320,14 @@ dbt test --select state:modified+
 Slim CI:    3분 (PR 당 93% 절감)
 ```
 
-### 4.3 실무 [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 구성
+### 4.3 실무 [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/965_dataops/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 구성
 
 | 역할 | 도구 | 비고 |
 |:---|:---|:---|
 | 변환 관리 | dbt Core / dbt Cloud | SQL 모델 관리 |
 | [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) | [Apache Airflow](/knowledge-base/studynote/14_data_engineering/04_mlops/168_airflow_dag_pipeline_scheduling/) | [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 스케줄링 |
 | 소스 제어 | GitHub / GitLab | [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD | GitHub Actions | 자동 테스트·배포 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD | GitHub Actions | 자동 테스트·배포 |
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관측 | Monte Carlo | 이상 감지 |
 | [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) | DataHub / Collibra | [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/) |
 | 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | Great Expectations | 복잡한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
@@ -336,18 +336,18 @@ Slim CI:    3분 (PR 당 93% 절감)
 
 | 논점 | 핵심 내용 |
 |:---|:---|
-| [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) vs [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | 원칙은 동일, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 특성(볼륨·[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변화) 적용 |
+| [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/965_dataops/) vs [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | 원칙은 동일, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 특성(볼륨·[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변화) 적용 |
 | dbt 도입 효과 | SQL 표준화, 자동 계보, 테스트 내재화 |
 | [Data Contract](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/) | 생산자-소비자 인터페이스 명시로 신뢰 확보 |
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관측가능성 | 5대 기둥(신선도·볼륨·[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)·분포·계보) |
 
-📢 **섹션 요약 비유**: dbt [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 자동차 생산 라인의 품질 검사 게이트다. 각 조립 단계(SQL 모델)마다 자동으로 검사(테스트)하고, 불량품(오류 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 발견되면 다음 단계로 넘어가지 않는다.
+📢 **섹션 요약 비유**: dbt [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD는 자동차 생산 라인의 품질 검사 게이트다. 각 조립 단계(SQL 모델)마다 자동으로 검사(테스트)하고, 불량품(오류 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 발견되면 다음 단계로 넘어가지 않는다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-### 5.1 [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) 도입 정량 효과
+### 5.1 [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/965_dataops/) 도입 정량 효과
 
 | 효과 | 도입 전 | 도입 후 |
 |:---|:---|:---|
@@ -357,7 +357,7 @@ Slim CI:    3분 (PR 당 93% 절감)
 | 문서화 커버리지 | 20% | 90%+ (자동화) |
 | 테스트 커버리지 | 0% | 80%+ |
 
-### 5.2 [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) 성공 요소
+### 5.2 [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/965_dataops/) 성공 요소
 
 ```
 DataOps 성공 3요소
@@ -379,7 +379,7 @@ DataOps 성공 3요소
 
 ### 5.3 결론 요약
 
-DataOps는 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 품질과 속도를 동시에 개선하는 방법론이며, dbt는 그 기술적 구현의 핵심 도구다. 기술사 관점에서는 <strong>dbt 계층화 모델(staging/intermediate/marts), <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD 자동화 파이프라인, <a href="/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/">데이터 계약</a>의 역할</strong>을 이해하고, 조직 내 [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) 성숙도 향상 로드맵을 제시할 수 있어야 한다.
+DataOps는 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 품질과 속도를 동시에 개선하는 방법론이며, dbt는 그 기술적 구현의 핵심 도구다. 기술사 관점에서는 <strong>dbt 계층화 모델(staging/intermediate/marts), <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD 자동화 파이프라인, <a href="/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/">데이터 계약</a>의 역할</strong>을 이해하고, 조직 내 [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/965_dataops/) 성숙도 향상 로드맵을 제시할 수 있어야 한다.
 
 📢 **섹션 요약 비유**: DataOps는 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 "제조업 QC(품질 관리) 시스템"이다. 과거에는 완성품에서 불량을 발견했다면, DataOps는 각 공정 단계에서 실시간으로 품질을 검사해 불량이 다음 단계로 전파되는 것을 막는다.
 
@@ -389,15 +389,15 @@ DataOps는 [데이터 파이프라인](/knowledge-base/studynote/01_computer_arc
 
 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
-| 방법론 | [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) | [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 적용 |
+| 방법론 | [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/965_dataops/) | [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 적용 |
 | 도구 | dbt ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Build Tool) | SQL 기반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환 프레임워크 |
 | 패턴 | [Data Contract](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/) ([데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)) | 생산자-소비자 인터페이스 계약 |
 | 모니터링 | [Data Observability](/knowledge-base/studynote/16_bigdata/13_intro_trends/255_data_observability/) ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관측가능성) | 5대 기둥 기반 품질 모니터링 |
 | 테스트 | dbt Tests | not_null, unique, accepted_values |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD | GitHub Actions | 자동 테스트·배포 워크플로우 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD | GitHub Actions | 자동 테스트·배포 워크플로우 |
 | [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) | [Apache Airflow](/knowledge-base/studynote/14_data_engineering/04_mlops/168_airflow_dag_pipeline_scheduling/) | [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 기반 파이프라인 스케줄링 |
 | 변환 패턴 | [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) (Extract-Load-Transform) | dbt가 담당하는 Transform 단계 |
-| 최적화 | Slim [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) | 변경 영향 모델만 선택 테스트 |
+| 최적화 | Slim [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) | 변경 영향 모델만 선택 테스트 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

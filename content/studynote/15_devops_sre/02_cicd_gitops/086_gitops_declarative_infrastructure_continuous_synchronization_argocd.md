@@ -45,14 +45,14 @@ GitOps는 배포 명령이 아니라 원하는 상태 선언을 중심에 둔다
 ---
 
 ## Ⅲ. 비교 및 연결
-| 비교 항목 | [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) | 수동 [kubectl](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/077_kube_api_server_k8s_hub/)/apply | 전통적 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 푸시 |
+| 비교 항목 | [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) | 수동 [kubectl](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/077_kube_api_server_k8s_hub/)/apply | 전통적 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 푸시 |
 |:---|:---|:---|:---|
 | 진실의 원천 | Git | 사람 기억 | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 결과 |
 | 변경 방식 | 선언형 | 명령형 | 배포 명령 중심 |
 | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)/추적 | 매우 강함 | 약함 | 중간 |
 | 드리프트 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 자동 | 수동 | 부분 자동 |
 
-GitOps는 IaC와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD를 묶되, 운영 기준을 Git에 고정한다.
+GitOps는 IaC와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD를 묶되, 운영 기준을 Git에 고정한다.
 - **📢 섹션 요약 비유**: 수동 배포와 달리 기록이 남는다.
 
 ---

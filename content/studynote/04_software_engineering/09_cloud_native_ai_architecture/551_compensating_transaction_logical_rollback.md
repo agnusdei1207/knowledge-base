@@ -123,7 +123,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 보상 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) (Compensating [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -177,7 +177,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 694 / 973
 
-<- **이전**: [551. 보상 트랜잭션 (Compensating Transaction) - 롤백을 논리적으로 수행하는 역방향 연산](/knowledge-base/studynote/04_software_engineering/11_testing_validation/551_compensating_transaction/)
-**다음**: [552. 오케스트레이션 사가 (Orchestration Saga) - 중앙 통제기가 흐름 제어](/knowledge-base/studynote/04_software_engineering/11_testing_validation/552_orchestration_saga/) ->
+<- **이전**: [551. 보상 트랜잭션 (Compensating Transaction) - 롤백을 논리적으로 수행하는 역방향 연산](/knowledge-base/studynote/04_software_engineering/11_testing_validation/943_compensating_transaction/)
+**다음**: [552. 오케스트레이션 사가 (Orchestration Saga) - 중앙 통제기가 흐름 제어](/knowledge-base/studynote/04_software_engineering/11_testing_validation/944_orchestration_saga/) ->
 
 ---

@@ -223,7 +223,7 @@ LightGCN 아키텍처:
 | FAISS (Facebook) | IVF, [HNSW](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/), [PQ](/knowledge-base/studynote/03_network/07_network_layer_routing/391_qos_queuing_pq_cq_wfq_cbwfq_llq/) | 10억 개 벡터도 수ms 검색 |
 | ScaNN (Google) | 비등방성 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) | Google 검색·YouTube 사용 |
 | Annoy (Spotify) | 랜덤 프로젝션 트리 | 정적 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 빠른 로드 |
-| [Milvus](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/320_gnn_vector_db_recommendation/) | [HNSW](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/), IVF | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 벡터 DB, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) |
+| [Milvus](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/320_gnn_vector_db_recommendation/) | [HNSW](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/), IVF | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 벡터 DB, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) |
 
 ### 4.3 기술사 답안 핵심 포인트
 

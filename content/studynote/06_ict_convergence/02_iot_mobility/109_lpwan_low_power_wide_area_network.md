@@ -74,7 +74,7 @@ tags = ["studynote-ict-convergence"]
 
 1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 빈도</strong>: 하루 1~수회 -> [LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)/[Sigfox](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/) / 실시간 -> [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/)/[LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/)
 2. **이동성**: 고정 -> [LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) / 이동 자산 -> [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/)
-3. <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a></strong>: Best Effort 허용 -> 비면허 / [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 필요 -> 면허
+3. <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a></strong>: Best Effort 허용 -> 비면허 / [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 필요 -> 면허
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상을 LPWAN으로 전송 -> 수 Mbps 필요한 영상을 수백 bps에 싣는 설계 오류.
 

@@ -101,7 +101,7 @@ tags = ["studynote-bigdata"]
 
 | 모델              | 내용                                |
 |-----------------|-------------------------------------|
-| 자산 통합 관리    | PFM (Personal Financial [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) |
+| 자산 통합 관리    | PFM (Personal Financial [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/)) |
 | 개인화 추천       | 맞춤 금융상품·보험 추천             |
 | 신용 평가        | 대안 신용 평가 (통신·쇼핑 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))   |
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 마켓플레이스 | 개인 동의 기반 익명화 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 판매  |

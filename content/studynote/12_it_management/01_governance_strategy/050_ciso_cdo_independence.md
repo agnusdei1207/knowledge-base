@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 90 / 587
 
-<- **이전**: [049. 섀도 IT 리스크 관리 — Shadow IT Risk](/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it_risk_management/)
-**다음**: [CISO·CDO 독립성과 역할 (CISO & CDO Independence)](/knowledge-base/studynote/12_it_management/01_governance_strategy/050_ciso_cdo_independence_role/) ->
+<- **이전**: [049. 섀도 IT 리스크 관리 — Shadow IT Risk](/knowledge-base/studynote/12_it_management/01_governance_strategy/840_shadow_it_risk_management/)
+**다음**: [CISO·CDO 독립성과 역할 (CISO & CDO Independence)](/knowledge-base/studynote/12_it_management/01_governance_strategy/841_ciso_cdo_independence_role/) ->
 
 ---

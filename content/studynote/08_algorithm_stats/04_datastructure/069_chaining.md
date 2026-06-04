@@ -11,7 +11,7 @@ tags = ["studynote-algorithm"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 체인법 ([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))은 [해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) 시 동일 버킷의 원소들을 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)(또는 트리)로 연결하여 여러 키를 같은 슬롯에 공존시키는 분리 연결(Separate [Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/)) 방식이다.
+> 1. **본질**: 체인법 ([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/))은 [해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) 시 동일 버킷의 원소들을 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)(또는 트리)로 연결하여 여러 키를 같은 슬롯에 공존시키는 분리 연결(Separate [Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/)) 방식이다.
 > 2. **가치**: 부하 계수 α가 1을 초과해도 동작하며, 삭제가 간단하고 최악 검색은 O(α)로 예측 가능하다. Java HashMap이 이 방식으로 동작한다.
 > 3. **판단 포인트**: 부하 계수가 높거나 삭제가 빈번하면 체인법, 메모리 캐시 효율과 포인터 오버헤드를 줄이려면 오픈 어드레싱([Open Addressing](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/))을 선택한다.
 

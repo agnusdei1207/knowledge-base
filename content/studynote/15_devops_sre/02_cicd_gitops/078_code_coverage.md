@@ -33,13 +33,13 @@ JaCoCo (Java [Code](/knowledge-base/studynote/02_operating_system/02_process_thr
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 커버리지 도구는 보통 계측, 실행, 수집, 보고의 순서로 동작한다. 테스트가 코드를 지나갈 때마다 카운트가 쌓이고, 그 결과가 보고서로 바뀐다.
-중요한 점은 "몇 %를 덮었는가"보다 "어디를 못 봤는가"다. 그래서 라인 커버리지보다 분기와 [조건 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/)가 더 많은 정보를 줄 수 있다.
+중요한 점은 "몇 %를 덮었는가"보다 "어디를 못 봤는가"다. 그래서 라인 커버리지보다 분기와 [조건 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/816_condition_coverage/)가 더 많은 정보를 줄 수 있다.
 | 지표 | 보는 것 | 남는 빈틈 |
 | --- | --- | --- |
-| [Statement coverage](/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/) | 실행된 문장 비율 | 분기 미실행 |
+| [Statement coverage](/knowledge-base/studynote/04_software_engineering/11_testing_validation/814_statement_coverage/) | 실행된 문장 비율 | 분기 미실행 |
 | Branch coverage | if/else 경로 비율 | 조건 조합 미확인 |
-| [Condition coverage](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/) | 개별 조건의 참/거짓 | 조건 조합 전체 |
-| MC/DC (Modified Condition/[Decision Coverage](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/)) | 결정에 영향을 준 조건 | 안전성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 고급 기준 |
+| [Condition coverage](/knowledge-base/studynote/04_software_engineering/11_testing_validation/816_condition_coverage/) | 개별 조건의 참/거짓 | 조건 조합 전체 |
+| MC/DC (Modified Condition/[Decision Coverage](/knowledge-base/studynote/04_software_engineering/11_testing_validation/815_decision_coverage/)) | 결정에 영향을 준 조건 | 안전성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 고급 기준 |
 
 - **📢 섹션 요약 비유**: 계측과 보고를 통해 테스트의 시야를 숫자로 본다.
 
@@ -49,7 +49,7 @@ JaCoCo (Java [Code](/knowledge-base/studynote/02_operating_system/02_process_thr
 
 커버리지는 품질 그 자체가 아니라 테스트의 시야를 보여 준다. 그래서 높은 커버리지와 높은 품질은 동의어가 아니다.
 라인 커버리지는 빠르게 보기 좋고, 분기 커버리지는 더 깊은 분기를 드러내며, mutation testing은 실제 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)력이 있는지를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
-| 비교축 | 커버리지 | [Mutation testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/456_mutation_testing/) |
+| 비교축 | 커버리지 | [Mutation testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/848_mutation_testing/) |
 | --- | --- | --- |
 | 목적 | 어디를 실행했는지 본다 | 테스트가 진짜 잡는지 본다 |
 | 장점 | 빠르고 직관적이다 | 테스트 품질을 더 잘 드러낸다 |
@@ -94,8 +94,8 @@ JaCoCo (Java [Code](/knowledge-base/studynote/02_operating_system/02_process_thr
 | --- | --- |
 | [Unit test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) | 커버리지의 기본 실행 단위다 |
 | Branch coverage | 분기 경로를 보여 준다 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) | 자동으로 게이트를 적용한다 |
-| [Mutation testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/456_mutation_testing/) | 테스트의 진짜 힘을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) | 자동으로 게이트를 적용한다 |
+| [Mutation testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/848_mutation_testing/) | 테스트의 진짜 힘을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다 |
 | Quality gate | 배포 허용 기준을 정한다 |
 | Diff coverage | 변경된 코드만 집중해서 본다 |
 

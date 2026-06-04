@@ -121,7 +121,7 @@ SPV 클라이언트(예: 모바일비특잡지갑)는 전체 블록을 다운로
 
 ### 📢 비유 요약
 
-머클 루트의 실무 활용은중요 문서의 [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/)(디지털 [저작권](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/) 관리)과 같다. PDF [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 DRM을 적용하면, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내용 중 일부가 바뀌면 DRM이 무효가 된다. 머클 루트도 마찬가지로, 거래 내용 중 일부가 바뀌면 머클 루트가 달라져서 해당 블록 전체가 무효 처리된다. 이를 통해변조된 거래가 포함된 블록은 네트워크에서자동적에배척된다.
+머클 루트의 실무 활용은중요 문서의 [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/903_drm_data_reference_model_standard/)(디지털 [저작권](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/) 관리)과 같다. PDF [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 DRM을 적용하면, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내용 중 일부가 바뀌면 DRM이 무효가 된다. 머클 루트도 마찬가지로, 거래 내용 중 일부가 바뀌면 머클 루트가 달라져서 해당 블록 전체가 무효 처리된다. 이를 통해변조된 거래가 포함된 블록은 네트워크에서자동적에배척된다.
 
 ---
 

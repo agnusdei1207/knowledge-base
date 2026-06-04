@@ -123,7 +123,7 @@ L₂ 민감도: Δ₂f = max ||f(D) - f(D')||₂
 
 **Apple/Google의 DP**: 로컬 DP로 사용자 통계 수집 (ε=1~4)
 **TensorFlow Privacy**: DP-SGD 구현체
-<strong>의료 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>: ε<[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)으로 [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/) 준수 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 학습
+<strong>의료 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>: ε<[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)으로 [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/1058_hipaa/) 준수 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 학습
 
 기술사 포인트: ε-DP 정의, 라플라스 메커니즘 수식 (노이즈 = Lap(Δf/ε)), ε 예산 소모 개념을 체계적으로 설명.
 

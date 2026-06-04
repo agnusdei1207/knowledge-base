@@ -71,7 +71,7 @@ tags = ["studynote-database"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[Zachman](/knowledge-base/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/) Framework는 <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/">EA</a>(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/">Enterprise Architecture</a>)의 원조 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 체계</strong>로서, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·프로세스·네트워크·조직 등 모든 아키텍처 산출물을 체계적으로 관리하는 데 필수적이다.
+[Zachman](/knowledge-base/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/) Framework는 <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/">EA</a>(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/806_ea_enterprise_architecture/">Enterprise Architecture</a>)의 원조 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 체계</strong>로서, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·프로세스·네트워크·조직 등 모든 아키텍처 산출물을 체계적으로 관리하는 데 필수적이다.
 
 ---
 

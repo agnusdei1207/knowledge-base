@@ -10,7 +10,7 @@ tags = ["studynote-database"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: SQL(Structured Query Language)은 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>형 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>를 정의(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/">DDL</a>)·조작(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/">DML</a>)·제어(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/022_dcl/">DCL</a>)</strong>하는 ANSI/ISO 국제 표준 언어이며, SQL-86부터 SQL:2023까지 지속 발전하고 있다.
+> 1. **본질**: SQL(Structured Query Language)은 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>형 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>를 정의(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/">DDL</a>)·조작(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/">DML</a>)·제어(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/022_dcl/">DCL</a>)</strong>하는 ANSI/ISO 국제 표준 언어이며, SQL-86부터 SQL:2023까지 지속 발전하고 있다.
 > 2. **가치**: 표준 SQL 덕분에 [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)·MySQL·PostgreSQL 등 <strong>서로 다른 DBMS에서도 기본 문법이 동일</strong>하여 이식성이 보장된다. 단, 각 벤더의 확장(PL/SQL, T-SQL)은 호환되지 않는다.
 > 3. **판단 포인트**: SQL:1999([OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/), CTE), SQL:2003([Window Function](/knowledge-base/studynote/05_database/03_relational_model/139_window_function_analytics/)), SQL:2016([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)), SQL:2023([그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 패턴 매칭)의 주요 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)별 추가 기능을 파악해야 한다.
 
@@ -50,7 +50,7 @@ SQL 표준은 <strong>50년간 진화하며 여전히 <a href="/knowledge-base/s
 | 개념 | 연결 포인트 |
 |:---|:---|
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/">DDL</a></strong> | 구조 정의 (CREATE) |
-| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/">DML</a></strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조작 ([SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/)) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/">DML</a></strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조작 ([SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/)) |
 | <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/139_window_function_analytics/">Window Function</a></strong> | SQL:2003 핵심 |
 | **CTE** | [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)·서브쿼리 대체 |
 | **SQL:2023** | [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 패턴 매칭 |

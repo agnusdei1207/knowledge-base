@@ -229,7 +229,7 @@ K-Means를 올바르게 활용하면:
 3. **준지도 학습 지원**: 클러스터 레이블을 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 레이블로 활용 -> 적은 레이블로 [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)
 4. <strong><a href="/knowledge-base/studynote/07_enterprise_systems/05_data_bi/300_realtime_data_streaming_kafka_cdc/">실시간 데이터 스트리밍</a></strong>: Mini-Batch K-Means로 온라인 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/) 가능
 
-K-Means는 단순하지만, **올바른 전처리 + K 선택 + 결과 해석** [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 구축하면 강력한 [탐색적 데이터 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/062_eda_exploratory_data_analysis/)([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/), [Exploratory Data Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)) 도구가 된다.
+K-Means는 단순하지만, **올바른 전처리 + K 선택 + 결과 해석** [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 구축하면 강력한 [탐색적 데이터 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/062_eda_exploratory_data_analysis/)([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/), [Exploratory Data Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)) 도구가 된다.
 
 - **📢 섹션 요약 비유**: K-Means는 "지도 없이 낯선 도시에서 주민들이 자연스럽게 모이는 동네를 찾는 것"이다. 처음엔 무작위로 동네 중심을 잡지만, 주민들이 모이고 중심이 이동하기를 반복하면 자연스러운 생활권(클러스터)이 드러난다.
 

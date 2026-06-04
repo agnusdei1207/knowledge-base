@@ -158,7 +158,7 @@ Cat 6 방식은 저렴하게 1Gbps를 구성할 수 있으나, 향후 10Gbps로 
 | 지표 | 도입 전 (Legacy Cat 5e 위주) | 도입 후 (Cat 6a / Cat 8 활용) |
 |:---|:---|:---|
 | <strong>내부망 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a></strong> | 1 Gbps 병목으로 대용량 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [전송 지연](/knowledge-base/studynote/03_network/01_data_communication/017_전송_지연/) | 10G/40G 인프라로 원활한 클라우드 및 스토리지 접근 |
-| <strong>설비 수명 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a>)</strong> | 3~5년 후 케이블 재포설 비용 발생 | 10년 이상 추가 공사 없이 네트워크 장비만 교체하여 업그레이드 |
+| <strong>설비 수명 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/">ROI</a>)</strong> | 3~5년 후 케이블 재포설 비용 발생 | 10년 이상 추가 공사 없이 네트워크 장비만 교체하여 업그레이드 |
 | <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/265_poe_power_over_ethernet/">PoE</a> <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a></strong> | 고전력 장비(PTZ 카메라, 최신 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)) 발열 문제 | 굵은 심선을 통한 안정적인 전력 공급([PoE](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/265_poe_power_over_ethernet/)++) 및 장애율 감소 |
 
 **미래 전망**

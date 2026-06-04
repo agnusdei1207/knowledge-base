@@ -140,7 +140,7 @@ BCP 업무 연속성 계획이 정착되면 조직은 속도와 통제를 동시
 
 **진행 상황**: 382 / 587
 
-<- **이전**: [265. 변경 관리 CAB 위원회 승인](/knowledge-base/studynote/12_it_management/05_security_compliance/265_change_management_cab_approval/)
-**다음**: [266. BCP 업무 연속성 계획](/knowledge-base/studynote/12_it_management/05_security_compliance/266_bcp_business_continuity_plan/) ->
+<- **이전**: [265. 변경 관리 CAB 위원회 승인](/knowledge-base/studynote/12_it_management/05_security_compliance/916_change_management_cab_approval/)
+**다음**: [266. BCP 업무 연속성 계획](/knowledge-base/studynote/12_it_management/05_security_compliance/917_bcp_business_continuity_plan/) ->
 
 ---

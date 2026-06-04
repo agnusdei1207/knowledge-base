@@ -143,7 +143,7 @@ Approximate Query
 
 **진행 상황**: 115 / 587
 
-<- **이전**: [65. 서비스 설계 (Service Design)](/knowledge-base/studynote/12_it_management/02_itsm_itil/065_service_design/)
-**다음**: [66. 서비스 전환 (Service Transition)](/knowledge-base/studynote/12_it_management/02_itsm_itil/066_service_transition/) ->
+<- **이전**: [65. 서비스 설계 (Service Design)](/knowledge-base/studynote/12_it_management/02_itsm_itil/849_service_design/)
+**다음**: [66. 서비스 전환 (Service Transition)](/knowledge-base/studynote/12_it_management/02_itsm_itil/850_service_transition/) ->
 
 ---

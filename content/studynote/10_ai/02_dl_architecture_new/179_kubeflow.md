@@ -99,7 +99,7 @@ tags = ["studynote-ai"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[쿠브플로우](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/) 도입은 기술 선택이면서 동시에 조직 선택이다. 팀이 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 운영 경험이 부족하면 설치보다 업그레이드와 장애 대응에서 더 크게 흔들린다. [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 스토리지, 네트워크 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 플러그인, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, 멀티테넌시가 함께 얽히기 때문이다.
+[쿠브플로우](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/) 도입은 기술 선택이면서 동시에 조직 선택이다. 팀이 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 운영 경험이 부족하면 설치보다 업그레이드와 장애 대응에서 더 크게 흔들린다. [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 스토리지, 네트워크 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 플러그인, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, 멀티테넌시가 함께 얽히기 때문이다.
 
 | 도입 시나리오 | 적합도 | 판단 이유 |
 | :--- | :--- | :--- |

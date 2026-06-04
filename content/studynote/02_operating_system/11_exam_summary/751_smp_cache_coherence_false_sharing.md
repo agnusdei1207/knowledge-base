@@ -186,7 +186,7 @@ tags = ["studynote-operating-system"]
 
 | 구분 | [False Sharing](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/) 방치 시 | [Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 및 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 최적화 적용 시 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량 (확장성, Scaling)**| 코어를 16개 늘려도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 1개일 때보다 낮음 | 코어 수에 정비례하여 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 선형(Linear) 증가 | 멀티코어 하드웨어 투자([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)) 100% 회수 |
+| **정량 (확장성, Scaling)**| 코어를 16개 늘려도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 1개일 때보다 낮음 | 코어 수에 정비례하여 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 선형(Linear) 증가 | 멀티코어 하드웨어 투자([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/)) 100% 회수 |
 | **정량 (캐시 미스율)**| L1 캐시 미스율 80% 이상 폭증 | L1 캐시 히트율 99% 달성 | 캐시 라인 핑퐁에 의한 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 트래픽 증발 |
 | **정성 (아키텍처 지식)** | 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 문제로만 오해해 쓸데없는 로직 수정 | 하드웨어-소프트웨어 상호작용의 심연 이해 | 시스템 아키텍트의 극저지연(Low-[Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 설계 역량 증명 |
 

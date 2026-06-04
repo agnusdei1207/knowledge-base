@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 1980년대 IBM의 존 잭맨(John [Zachman](/knowledge-base/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/))은 비행기를 만들 때의 설계도를 보고 충격을 받았다. 비행기 하나를 만들기 위해 사장님이 보는 돈/일정 도면, 공학자가 보는 뼈대 도면, 부품 공장이 보는 나사못 도면이 완벽하게 분리되어 톱니바퀴처럼 맞물려 있었기 때문이다.
 
-반면 당시 소프트웨어는 개발자가 짠 알 수 없는 코드 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 하나뿐이었다. 사장님은 시스템이 어떻게 돌아가는지 몰랐고, 개발자는 이 시스템이 왜 필요한지 비즈니스 목적을 몰랐다.
+반면 당시 소프트웨어는 개발자가 짠 알 수 없는 코드 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) 하나뿐이었다. 사장님은 시스템이 어떻게 돌아가는지 몰랐고, 개발자는 이 시스템이 왜 필요한지 비즈니스 목적을 몰랐다.
 
 잭맨은 <strong>"건축이나 비행기 제조처럼, 소프트웨어도 보는 사람의 관점(<a href="/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a>)과 시스템의 본질(What, How, Where 등)에 따라 설계도를 완벽하게 쪼개서 관리해야 한다"</strong>고 주장하며, 가로 세로 6칸짜리 거대한 표(Matrix)를 세상에 내놓았다. 이것이 오늘날 모든 엔터프라이즈 아키텍처([EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/))의 조상 격인 <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/">잭맨 프레임워크</a></strong>다.
 

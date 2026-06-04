@@ -28,7 +28,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **1990년대 전통적 리포트**: 주간/월간 품질 리포트 인쇄물 형식으로배포
   2. **2000년대 BI 도구**: Business Intelligence 도구로Dashboard 구현
-  3. **현재**: 실시간 모니터링 대시보드 ([Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/), Datadog 등) + [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 통합
+  3. **현재**: 실시간 모니터링 대시보드 ([Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/), Datadog 등) + [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 통합
 
 - **📢 섹션 요약 비유**: 품질 대시보드는 <strong>'군대 작전실 상황판'</strong>과 같다. 작전실에는 적군 위치, 아군 배치, 보급 상황 등이 상황판에 나타나며, 지휘관은 이를 보고 작전 의사결정을 내린다. 품질 대시보드도 품질 문제를 신속하게 파악하고 대응하기 위한 "소프트웨어 프로젝트의 상황판" 역할을 한다.
 
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 품질 대시보드 (Quality Dashboard) 구축은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

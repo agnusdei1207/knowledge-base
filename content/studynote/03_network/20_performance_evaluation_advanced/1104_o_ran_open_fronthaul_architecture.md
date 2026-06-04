@@ -51,7 +51,7 @@ tags = ["studynote-network"]
 ### 2. 하드웨어와 소프트웨어 분리 (vRAN / 베어메탈)
 - 1055번 화이트박스 스위치의 기지국 버전입니다.
 - DU(두뇌)와 CU(통제) 장비를 노키아의 전용 쇳덩어리로 사지 않습니다. 그냥 용산에서 파는 <strong>인텔 x86 깡통 서버(HP, 델)</strong>를 수백 대 사서 데이터센터에 쌓아둡니다(베어메탈).
-- 그 위에 클라우드 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(CaaS)를 깔고 기지국 소프트웨어(vRAN)를 앱처럼 다운받아 실행합니다. 통신 장비가 '소프트웨어 앱'으로 전락([클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/))한 것입니다.
+- 그 위에 클라우드 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(CaaS)를 깔고 기지국 소프트웨어(vRAN)를 앱처럼 다운받아 실행합니다. 통신 장비가 '소프트웨어 앱'으로 전락([클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/))한 것입니다.
 
 ### 3. RIC (RAN Intelligent Controller) - 기지국의 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 뇌
 - 기지국을 조립식으로 만들었으니 이걸 똑똑하게 조종할 중앙 통제탑이 필요합니다.

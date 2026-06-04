@@ -55,7 +55,7 @@ tags = ["database"]
 | 비교 포인트 | [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 비식별 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 | :-- | :-- | :-- |
 | 대표 예 | 주문-주문항목 | 고객-주소록 |
-| 키 설계 | 복합 PK | 대리키([surrogate key](/knowledge-base/studynote/12_it_management/05_security_compliance/314_surrogate_key/)) 가능 |
+| 키 설계 | 복합 PK | 대리키([surrogate key](/knowledge-base/studynote/12_it_management/05_security_compliance/956_surrogate_key/)) 가능 |
 | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 관점 | 부모 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)이 핵심 | 자식 독립성이 중요 |
 | 변경 유연성 | 낮음 | 높음 |
 

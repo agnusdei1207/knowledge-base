@@ -13,7 +13,7 @@ tags = ["studynote-security"]
 # 정보보안 (Information [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 키워드 목록
 
 정보통신기술사·컴퓨터응용시스템기술사 대비 보안 전 영역 기술사 수준 핵심 키워드
-> ⚡ 기술사 보안 문제는 단순 지식이 아닌 <strong><a href="/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/">위협 모델링</a> -> 아키텍처 설계 -> 법적·제도적 대응</strong>까지 통합 서술을 요구함
+> ⚡ 기술사 보안 문제는 단순 지식이 아닌 <strong><a href="/knowledge-base/studynote/09_security/uncategorized/1041_threat_modeling/">위협 모델링</a> -> 아키텍처 설계 -> 법적·제도적 대응</strong>까지 통합 서술을 요구함
 
 ---
 
@@ -674,21 +674,21 @@ tags = ["studynote-security"]
 598. [NTLMv2](/knowledge-base/studynote/09_security/12_identity_threat_advanced/598_ntlmv2/) — [HMAC](/knowledge-base/studynote/09_security/12_identity_threat_advanced/598_ntlmv2/)-[MD5](/knowledge-base/studynote/09_security/12_identity_threat_advanced/598_ntlmv2/) 기반 강화 [버전](/knowledge-base/studynote/09_security/12_identity_threat_advanced/598_ntlmv2/)
 599. [NetNTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/599_netntlm/) — 네트워크 상에서만 사용되는 [NTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/599_netntlm/)
 600. [MS-CHAPv2](/knowledge-base/studynote/09_security/12_identity_threat_advanced/600_ms_chapv2/) — [PPP](/knowledge-base/studynote/09_security/12_identity_threat_advanced/600_ms_chapv2/)/[EAP](/knowledge-base/studynote/09_security/12_identity_threat_advanced/600_ms_chapv2/) 내부의 [NTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/600_ms_chapv2/) 변형
-601. [Credential Dumping](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/) — LSASS 메모리/ [SAM hive](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/) 추출
+601. [Credential Dumping](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/) — LSASS 메모리/ [SAM hive](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/) 추출
 602. [Mimikatz](/knowledge-base/studynote/09_security/12_identity_threat_advanced/602_mimikatz/) — 크리덴셜 추출 도구
-603. [WDigest](/knowledge-base/studynote/09_security/uncategorized/603_buffer_overflow/) — 평문 비밀번호 [캐싱](/knowledge-base/studynote/09_security/uncategorized/603_buffer_overflow/) ([레지스트리](/knowledge-base/studynote/09_security/uncategorized/603_buffer_overflow/) [설정](/knowledge-base/studynote/09_security/uncategorized/603_buffer_overflow/))
-604. [SSP](/knowledge-base/studynote/09_security/uncategorized/604_sql_injection/) ([Security Support Provider](/knowledge-base/studynote/09_security/uncategorized/604_sql_injection/)) — [인증](/knowledge-base/studynote/09_security/uncategorized/604_sql_injection/) 공급자 DLL
+603. [WDigest](/knowledge-base/studynote/09_security/uncategorized/1035_buffer_overflow/) — 평문 비밀번호 [캐싱](/knowledge-base/studynote/09_security/uncategorized/1035_buffer_overflow/) ([레지스트리](/knowledge-base/studynote/09_security/uncategorized/1035_buffer_overflow/) [설정](/knowledge-base/studynote/09_security/uncategorized/1035_buffer_overflow/))
+604. [SSP](/knowledge-base/studynote/09_security/uncategorized/1036_sql_injection/) ([Security Support Provider](/knowledge-base/studynote/09_security/uncategorized/1036_sql_injection/)) — [인증](/knowledge-base/studynote/09_security/uncategorized/1036_sql_injection/) 공급자 DLL
 605. Golden/[Silver Ticket](/knowledge-base/studynote/09_security/12_identity_threat_advanced/605_golden_silver_ticket_mitigation/) [mitigation](/knowledge-base/studynote/09_security/12_identity_threat_advanced/605_golden_silver_ticket_mitigation/) — KRBTGT 비밀번호 주월적 교체
-606. Protected Users 그룹 — [Kerberos](/knowledge-base/studynote/09_security/uncategorized/606_csrf/) 전용 [인증](/knowledge-base/studynote/09_security/uncategorized/606_csrf/)
-607. [Smart Card](/knowledge-base/studynote/09_security/uncategorized/607_secure_session_management/) — [인증](/knowledge-base/studynote/09_security/uncategorized/607_secure_session_management/)서 기반 [MFA](/knowledge-base/studynote/09_security/uncategorized/607_secure_session_management/)
-608. [PKINIT](/knowledge-base/studynote/09_security/uncategorized/608_error_handling_logging/) — Kerberos에서 공개키 [인증](/knowledge-base/studynote/09_security/uncategorized/608_error_handling_logging/) 사용
+606. Protected Users 그룹 — [Kerberos](/knowledge-base/studynote/09_security/uncategorized/1037_csrf/) 전용 [인증](/knowledge-base/studynote/09_security/uncategorized/1037_csrf/)
+607. [Smart Card](/knowledge-base/studynote/09_security/uncategorized/1038_secure_session_management/) — [인증](/knowledge-base/studynote/09_security/uncategorized/1038_secure_session_management/)서 기반 [MFA](/knowledge-base/studynote/09_security/uncategorized/1038_secure_session_management/)
+608. [PKINIT](/knowledge-base/studynote/09_security/uncategorized/1039_error_handling_logging/) — Kerberos에서 공개키 [인증](/knowledge-base/studynote/09_security/uncategorized/1039_error_handling_logging/) 사용
 609. [Remote Desktop Gateway](/knowledge-base/studynote/09_security/12_identity_threat_advanced/609_remote_desktop_gateway/) — RDG, [HTTPS](/knowledge-base/studynote/09_security/12_identity_threat_advanced/609_remote_desktop_gateway/) 기반 원격접속
-610. Azure AD조건부 액세스 — [정책](/knowledge-base/studynote/09_security/uncategorized/610_memory_management/) 기반 접근 제어
-611. [조건부 액세스 신호](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/) — 사용자/위험/디바이스/위치
-612. [Identity Protection](/knowledge-base/studynote/09_security/uncategorized/612_dependency_management/) — Azure AD ID [보호](/knowledge-base/studynote/09_security/uncategorized/612_dependency_management/)
-613. [UEBA](/knowledge-base/studynote/09_security/uncategorized/613_static_dynamic_analysis/) (User Entity Behavior Analytics) — 행동 기반 [이상 탐지](/knowledge-base/studynote/09_security/uncategorized/613_static_dynamic_analysis/)
-614. [애드혹 identity](/knowledge-base/studynote/09_security/uncategorized/614_cryptographic_implementation/) — 임시/외부 사용자 관리
-615. [Federated Identity](/knowledge-base/studynote/09_security/uncategorized/615_api_security/) — SAML/[OIDC](/knowledge-base/studynote/09_security/uncategorized/615_api_security/) 기반 연합
+610. Azure AD조건부 액세스 — [정책](/knowledge-base/studynote/09_security/uncategorized/1040_memory_management/) 기반 접근 제어
+611. [조건부 액세스 신호](/knowledge-base/studynote/09_security/uncategorized/1041_threat_modeling/) — 사용자/위험/디바이스/위치
+612. [Identity Protection](/knowledge-base/studynote/09_security/uncategorized/1042_dependency_management/) — Azure AD ID [보호](/knowledge-base/studynote/09_security/uncategorized/1042_dependency_management/)
+613. [UEBA](/knowledge-base/studynote/09_security/uncategorized/1043_static_dynamic_analysis/) (User Entity Behavior Analytics) — 행동 기반 [이상 탐지](/knowledge-base/studynote/09_security/uncategorized/1043_static_dynamic_analysis/)
+614. [애드혹 identity](/knowledge-base/studynote/09_security/uncategorized/1044_cryptographic_implementation/) — 임시/외부 사용자 관리
+615. [Federated Identity](/knowledge-base/studynote/09_security/uncategorized/1045_api_security/) — SAML/[OIDC](/knowledge-base/studynote/09_security/uncategorized/1045_api_security/) 기반 연합
 616. [Identity Bridge](/knowledge-base/studynote/09_security/12_identity_threat_advanced/616_identity_bridge/) — AD FS, [Azure AD Connect](/knowledge-base/studynote/09_security/12_identity_threat_advanced/616_identity_bridge/) [Federation](/knowledge-base/studynote/09_security/12_identity_threat_advanced/616_identity_bridge/)
 617. SCIM 2.0 — 자동 사용자 [프로비저닝](/knowledge-base/studynote/09_security/12_identity_threat_advanced/617_scim_2_0/) [프로토콜](/knowledge-base/studynote/09_security/12_identity_threat_advanced/617_scim_2_0/)
 618. [JIT](/knowledge-base/studynote/09_security/12_identity_threat_advanced/618_jit_provisioning/) [프로비저닝](/knowledge-base/studynote/09_security/12_identity_threat_advanced/618_jit_provisioning/) — [Just-In-Time](/knowledge-base/studynote/09_security/12_identity_threat_advanced/618_jit_provisioning/), On-Demand [프로비저닝](/knowledge-base/studynote/09_security/12_identity_threat_advanced/618_jit_provisioning/)
@@ -785,11 +785,11 @@ tags = ["studynote-security"]
 699. [포렌식 이미지](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/699_forensic_image/) — [DD](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/699_forensic_image/), FTK Imager
 700. [MD5](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/700_evidence_integrity_hash/)/SHA-256 해시 — 증거 [무결성](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/700_evidence_integrity_hash/) [검증](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/700_evidence_integrity_hash/)
 701. FTK / EnCase — 포렌식 도구
-702. [AXIOM](/knowledge-base/studynote/09_security/uncategorized/702_biometric_authentication/) — [Magnet Forensics](/knowledge-base/studynote/09_security/uncategorized/702_biometric_authentication/) 포렌식
+702. [AXIOM](/knowledge-base/studynote/09_security/uncategorized/1047_biometric_authentication/) — [Magnet Forensics](/knowledge-base/studynote/09_security/uncategorized/1047_biometric_authentication/) 포렌식
 703. UAC요과 — 사용자 계정 컨트롤 우회
-704. LSASS 추출 — [Mimikatz](/knowledge-base/studynote/09_security/uncategorized/704_mfa_authentication/), procdump
-705. [SAM hive](/knowledge-base/studynote/09_security/uncategorized/705_kerberos_authentication/) 추출 — [reg save](/knowledge-base/studynote/09_security/uncategorized/705_kerberos_authentication/) HKLM\SAM
-706. [Kerberoasting](/knowledge-base/studynote/09_security/uncategorized/706_oauth_saml/) — SPN 요청 티켓 hash 추출
+704. LSASS 추출 — [Mimikatz](/knowledge-base/studynote/09_security/uncategorized/1049_mfa_authentication/), procdump
+705. [SAM hive](/knowledge-base/studynote/09_security/uncategorized/1050_kerberos_authentication/) 추출 — [reg save](/knowledge-base/studynote/09_security/uncategorized/1050_kerberos_authentication/) HKLM\SAM
+706. [Kerberoasting](/knowledge-base/studynote/09_security/uncategorized/1051_oauth_saml/) — SPN 요청 티켓 hash 추출
 707. [AS-REP Roasting](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/707_asrep_roasting/) — 사전 [인증](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/707_asrep_roasting/) 미사용 계정 공격
 708. [DCSync](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/708_dcsync/) — DC에서 크리덴셜Replication 요청
 709. NTDS.dit 추출 — DC [데이터베이스](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/709_ntds_dit/) 직접 추출
@@ -955,19 +955,19 @@ tags = ["studynote-security"]
 854. [NIST SP 800-63C](/knowledge-base/studynote/09_security/17_framework_compliance/854_nist_sp_800_63c/) — [Federation](/knowledge-base/studynote/09_security/17_framework_compliance/854_nist_sp_800_63c/) and Assertions
 855. [SOC 2](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/) — AICPA [서비스](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/) 조직 통제 보고서
 856. [SOC 2](/knowledge-base/studynote/09_security/17_framework_compliance/856_soc_2_trust_service_criteria/) Trust [Service](/knowledge-base/studynote/09_security/17_framework_compliance/856_soc_2_trust_service_criteria/) Criteria — 보안/[가용성](/knowledge-base/studynote/09_security/17_framework_compliance/856_soc_2_trust_service_criteria/)/처리 [무결성](/knowledge-base/studynote/09_security/17_framework_compliance/856_soc_2_trust_service_criteria/)/궤밀성/은사
-857. [SOC 2](/knowledge-base/studynote/09_security/17_framework_compliance/857_soc_2_type_i_ii/) Type I/II — 설계 적정성/운영 효과성
-858. [SOC 3](/knowledge-base/studynote/09_security/17_framework_compliance/858_soc_3/) — 공용 [버전](/knowledge-base/studynote/09_security/17_framework_compliance/858_soc_3/) [SOC 2](/knowledge-base/studynote/09_security/17_framework_compliance/858_soc_3/)
-859. [PCI](/knowledge-base/studynote/09_security/17_framework_compliance/859_pci_dss_v4_0/) DSS v4.0 — Payment Card Industry [Data](/knowledge-base/studynote/09_security/17_framework_compliance/859_pci_dss_v4_0/) [Security](/knowledge-base/studynote/09_security/17_framework_compliance/859_pci_dss_v4_0/) Standard
-860. [PCI](/knowledge-base/studynote/09_security/17_framework_compliance/860_pci_dss_12_requirements/) DSS 12개 요구사항 — [방화벽](/knowledge-base/studynote/09_security/17_framework_compliance/860_pci_dss_12_requirements/)/비밀번호/[데이터](/knowledge-base/studynote/09_security/17_framework_compliance/860_pci_dss_12_requirements/) [보호](/knowledge-base/studynote/09_security/17_framework_compliance/860_pci_dss_12_requirements/) 등
-861. [PCI](/knowledge-base/studynote/09_security/17_framework_compliance/861_pci_dss_compliance_levels/) DSS 수준 —merchant/[service provider](/knowledge-base/studynote/09_security/17_framework_compliance/861_pci_dss_compliance_levels/) 등급
-862. [PA-DSS](/knowledge-base/studynote/09_security/17_framework_compliance/862_pa_dss/) — Payment Application [Data](/knowledge-base/studynote/09_security/17_framework_compliance/862_pa_dss/) [Security](/knowledge-base/studynote/09_security/17_framework_compliance/862_pa_dss/) Standard
-863. [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/) — 미국 의료정보 [보호](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/)법
-864. [PHI](/knowledge-base/studynote/09_security/17_framework_compliance/864_phi/) ([Protected Health Information](/knowledge-base/studynote/09_security/17_framework_compliance/864_phi/)) — [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/864_phi/) 적용 정보
-865. [HITECH](/knowledge-base/studynote/09_security/17_framework_compliance/865_hitech/) — 미국 의료기술법, 위반 시 책임 강화
-866. [GLBA](/knowledge-base/studynote/09_security/17_framework_compliance/866_glba/) ([Gramm-Leach-Bliley Act](/knowledge-base/studynote/09_security/17_framework_compliance/866_glba/)) — 미국 금융정보보호
-867. [FERPA](/knowledge-base/studynote/09_security/17_framework_compliance/867_ferpa/) — 미국 교육 기록 프라이버시
-868. [CMMC](/knowledge-base/studynote/09_security/17_framework_compliance/868_cmmc/) (Cybersecurity [Maturity Model](/knowledge-base/studynote/09_security/17_framework_compliance/868_cmmc/) Certification) — 미국 방위산업
-869. [CMMC](/knowledge-base/studynote/09_security/17_framework_compliance/869_cmmc_levels/) 5단계 — Level 1~5 점진적 [인증](/knowledge-base/studynote/09_security/17_framework_compliance/869_cmmc_levels/)
+857. [SOC 2](/knowledge-base/studynote/09_security/17_framework_compliance/1052_soc_2_type_i_ii/) Type I/II — 설계 적정성/운영 효과성
+858. [SOC 3](/knowledge-base/studynote/09_security/17_framework_compliance/1053_soc_3/) — 공용 [버전](/knowledge-base/studynote/09_security/17_framework_compliance/1053_soc_3/) [SOC 2](/knowledge-base/studynote/09_security/17_framework_compliance/1053_soc_3/)
+859. [PCI](/knowledge-base/studynote/09_security/17_framework_compliance/1054_pci_dss_v4_0/) DSS v4.0 — Payment Card Industry [Data](/knowledge-base/studynote/09_security/17_framework_compliance/1054_pci_dss_v4_0/) [Security](/knowledge-base/studynote/09_security/17_framework_compliance/1054_pci_dss_v4_0/) Standard
+860. [PCI](/knowledge-base/studynote/09_security/17_framework_compliance/1055_pci_dss_12_requirements/) DSS 12개 요구사항 — [방화벽](/knowledge-base/studynote/09_security/17_framework_compliance/1055_pci_dss_12_requirements/)/비밀번호/[데이터](/knowledge-base/studynote/09_security/17_framework_compliance/1055_pci_dss_12_requirements/) [보호](/knowledge-base/studynote/09_security/17_framework_compliance/1055_pci_dss_12_requirements/) 등
+861. [PCI](/knowledge-base/studynote/09_security/17_framework_compliance/1056_pci_dss_compliance_levels/) DSS 수준 —merchant/[service provider](/knowledge-base/studynote/09_security/17_framework_compliance/1056_pci_dss_compliance_levels/) 등급
+862. [PA-DSS](/knowledge-base/studynote/09_security/17_framework_compliance/1057_pa_dss/) — Payment Application [Data](/knowledge-base/studynote/09_security/17_framework_compliance/1057_pa_dss/) [Security](/knowledge-base/studynote/09_security/17_framework_compliance/1057_pa_dss/) Standard
+863. [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/1058_hipaa/) — 미국 의료정보 [보호](/knowledge-base/studynote/09_security/17_framework_compliance/1058_hipaa/)법
+864. [PHI](/knowledge-base/studynote/09_security/17_framework_compliance/1059_phi/) ([Protected Health Information](/knowledge-base/studynote/09_security/17_framework_compliance/1059_phi/)) — [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/1059_phi/) 적용 정보
+865. [HITECH](/knowledge-base/studynote/09_security/17_framework_compliance/1060_hitech/) — 미국 의료기술법, 위반 시 책임 강화
+866. [GLBA](/knowledge-base/studynote/09_security/17_framework_compliance/1061_glba/) ([Gramm-Leach-Bliley Act](/knowledge-base/studynote/09_security/17_framework_compliance/1061_glba/)) — 미국 금융정보보호
+867. [FERPA](/knowledge-base/studynote/09_security/17_framework_compliance/1062_ferpa/) — 미국 교육 기록 프라이버시
+868. [CMMC](/knowledge-base/studynote/09_security/17_framework_compliance/1063_cmmc/) (Cybersecurity [Maturity Model](/knowledge-base/studynote/09_security/17_framework_compliance/1063_cmmc/) Certification) — 미국 방위산업
+869. [CMMC](/knowledge-base/studynote/09_security/17_framework_compliance/1064_cmmc_levels/) 5단계 — Level 1~5 점진적 [인증](/knowledge-base/studynote/09_security/17_framework_compliance/1064_cmmc_levels/)
 870. [FISMA](/knowledge-base/studynote/09_security/17_framework_compliance/870_fisma/) — 미국 연방 정보 보안 법
 871. [FedRAMP](/knowledge-base/studynote/09_security/17_framework_compliance/871_fedramp/) — 미국 정부 클라우드 보안 [인증](/knowledge-base/studynote/09_security/17_framework_compliance/871_fedramp/)
 872. [FedRAMP](/knowledge-base/studynote/09_security/17_framework_compliance/872_fedramp_impact_levels/) Moderate/High — 영향 수준별 기준
@@ -1034,15 +1034,15 @@ tags = ["studynote-security"]
 928. [스마트 그리드 보안](/knowledge-base/studynote/09_security/18_iot_ot_physical/928_smart_grid_security/) — [AMI](/knowledge-base/studynote/09_security/18_iot_ot_physical/928_smart_grid_security/) 보안
 929. [NERC CIP](/knowledge-base/studynote/09_security/18_iot_ot_physical/929_nerc_cip/) — 북미 전력 [신뢰성](/knowledge-base/studynote/09_security/18_iot_ot_physical/929_nerc_cip/) Corporation
 930. [원자력 사이버보안](/knowledge-base/studynote/09_security/18_iot_ot_physical/930_nuclear_cybersecurity/) — IAEA 안전기준
-931. [위성 통신 보안](/knowledge-base/studynote/09_security/uncategorized/931_emp_protection_faraday_cage_optical_fiber_shielding/) —，항ジャミング/[스푸핑](/knowledge-base/studynote/09_security/uncategorized/931_emp_protection_faraday_cage_optical_fiber_shielding/)
-932. 물리적 보안 3대 요소 —위섭/ Delay/ [Detection](/knowledge-base/studynote/09_security/uncategorized/932_sniffing_detection_arp_ping_promiscuous_mode/)
-933. [CCTV](/knowledge-base/studynote/09_security/uncategorized/933_packet_fragmentation_offset_overlapping_ids_evasion_defense/) (폐쇄 회로텔레비전) — 영상 감시
+931. [위성 통신 보안](/knowledge-base/studynote/09_security/uncategorized/1065_emp_protection_faraday_cage_optical_fiber_shielding/) —，항ジャミング/[스푸핑](/knowledge-base/studynote/09_security/uncategorized/1065_emp_protection_faraday_cage_optical_fiber_shielding/)
+932. 물리적 보안 3대 요소 —위섭/ Delay/ [Detection](/knowledge-base/studynote/09_security/uncategorized/1066_sniffing_detection_arp_ping_promiscuous_mode/)
+933. [CCTV](/knowledge-base/studynote/09_security/uncategorized/1067_packet_fragmentation_offset_overlapping_ids_evasion_defense/) (폐쇄 회로텔레비전) — 영상 감시
 934. 접근 제어 시스템 — 카드/RFID/바이오메트릭
-935. [Mantrap](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) — 이중 문으로 인적 격리
-936. [주변 보안](/knowledge-base/studynote/09_security/uncategorized/936_dns_sinkhole_botnet_cnc_blocking_kisa/) — 담장/감시/순사
-937. [환경 통제](/knowledge-base/studynote/09_security/uncategorized/937_hybrid_cryptography_symmetric_asymmetric_ssl_pgp/) — 온도/습도/소화기
-938. [서버실 보안](/knowledge-base/studynote/09_security/uncategorized/938_file_carving_network_forensics_pcap_signature_recovery/) — Tier 1~4수거중심분급
-939. [Faraday Cage](/knowledge-base/studynote/09_security/uncategorized/939_honeypot_deception_technology_cyber_decoy_system/) — 전자기 차폐
+935. [Mantrap](/knowledge-base/studynote/09_security/uncategorized/1069_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) — 이중 문으로 인적 격리
+936. [주변 보안](/knowledge-base/studynote/09_security/uncategorized/1070_dns_sinkhole_botnet_cnc_blocking_kisa/) — 담장/감시/순사
+937. [환경 통제](/knowledge-base/studynote/09_security/uncategorized/1071_hybrid_cryptography_symmetric_asymmetric_ssl_pgp/) — 온도/습도/소화기
+938. [서버실 보안](/knowledge-base/studynote/09_security/uncategorized/1072_file_carving_network_forensics_pcap_signature_recovery/) — Tier 1~4수거중심분급
+939. [Faraday Cage](/knowledge-base/studynote/09_security/uncategorized/1073_honeypot_deception_technology_cyber_decoy_system/) — 전자기 차폐
 940. 금속 탐지기/ X-ray — 물리적협위 탐지
 
 ---
@@ -1084,36 +1084,36 @@ tags = ["studynote-security"]
 973. [Responsible AI](/knowledge-base/studynote/09_security/19_ai_advanced_security/973_responsible_ai/) — 공정성/설명가능성/투명성/ privacy
 974. [AI](/knowledge-base/studynote/09_security/19_ai_advanced_security/974_ai_incident_database/) Incident — [AI](/knowledge-base/studynote/09_security/19_ai_advanced_security/974_ai_incident_database/) 관련 보안 사고DB
 975. OWASP [LLM](/knowledge-base/studynote/09_security/19_ai_advanced_security/975_owasp_llm_top10/) Top [10](/knowledge-base/studynote/09_security/19_ai_advanced_security/975_owasp_llm_top10/) — [LLM](/knowledge-base/studynote/09_security/19_ai_advanced_security/975_owasp_llm_top10/) 보안 취약점
-976. LLM01: [Prompt Injection](/knowledge-base/studynote/09_security/uncategorized/976_dns_spoofing_cache_poisoning_dnssec_arp/) — 프롬프트 조작
+976. LLM01: [Prompt Injection](/knowledge-base/studynote/09_security/uncategorized/1074_dns_spoofing_cache_poisoning_dnssec_arp/) — 프롬프트 조작
 977. LLM02: Insecure Output — 출력 [검증](/knowledge-base/studynote/09_security/19_ai_advanced_security/977_llm02_insecure_output/) 없이 신뢰
 978. LLM03: [Training](/knowledge-base/studynote/09_security/19_ai_advanced_security/978_llm03_training_data_poisoning/) [Data Poisoning](/knowledge-base/studynote/09_security/19_ai_advanced_security/978_llm03_training_data_poisoning/) — 훈련 [데이터](/knowledge-base/studynote/09_security/19_ai_advanced_security/978_llm03_training_data_poisoning/) 오염
-979. LLM04: Model Denial of [Service](/knowledge-base/studynote/09_security/uncategorized/979_ipsec_tunnel_transport_mode_vpn_encapsulation/) — 비용거대적 입력 유발
-980. LLM05: [Supply Chain](/knowledge-base/studynote/09_security/uncategorized/980_ah_authentication_header_ipsec_integrity_no_encryption/) — [공급망](/knowledge-base/studynote/09_security/uncategorized/980_ah_authentication_header_ipsec_integrity_no_encryption/) 취약점
-981. LLM06: [Sensitive Information](/knowledge-base/studynote/09_security/uncategorized/981_esp_encapsulating_security_payload_ipsec_confidentiality/) Disclosure — 훈련 [데이터](/knowledge-base/studynote/09_security/uncategorized/981_esp_encapsulating_security_payload_ipsec_confidentiality/) 유출
+979. LLM04: Model Denial of [Service](/knowledge-base/studynote/09_security/uncategorized/1075_ipsec_tunnel_transport_mode_vpn_encapsulation/) — 비용거대적 입력 유발
+980. LLM05: [Supply Chain](/knowledge-base/studynote/09_security/uncategorized/1076_ah_authentication_header_ipsec_integrity_no_encryption/) — [공급망](/knowledge-base/studynote/09_security/uncategorized/1076_ah_authentication_header_ipsec_integrity_no_encryption/) 취약점
+981. LLM06: [Sensitive Information](/knowledge-base/studynote/09_security/uncategorized/1077_esp_encapsulating_security_payload_ipsec_confidentiality/) Disclosure — 훈련 [데이터](/knowledge-base/studynote/09_security/uncategorized/1077_esp_encapsulating_security_payload_ipsec_confidentiality/) 유출
 982. LLM07: Plugin Abuse — 플러그인 악용
 983. LLM08: Autonomous Agent — 자가 실행 에이전트 위험
-984. [양자 컴퓨팅](/knowledge-base/studynote/09_security/uncategorized/984_pki_public_key_infrastructure_ca_ra_certificate/) — [양자 중첩](/knowledge-base/studynote/09_security/uncategorized/984_pki_public_key_infrastructure_ca_ra_certificate/)/얽힘으로 계산 혁신
-985. 양자 위협 — [RSA](/knowledge-base/studynote/09_security/uncategorized/985_x509_certificate_pki_digital_signature_format/)/[ECC](/knowledge-base/studynote/09_security/uncategorized/985_x509_certificate_pki_digital_signature_format/) 깨뜨릴 Shor [알고리즘](/knowledge-base/studynote/09_security/uncategorized/985_x509_certificate_pki_digital_signature_format/)
-986. [Grover](/knowledge-base/studynote/09_security/uncategorized/986_symmetric_asymmetric_key_cryptography_rsa_aes/) [알고리즘](/knowledge-base/studynote/09_security/uncategorized/986_symmetric_asymmetric_key_cryptography_rsa_aes/) — 대칭키 강도반감
-987. NIST [PQC](/knowledge-base/studynote/09_security/uncategorized/987_hash_function_one_way_integrity_avalanche_sha256/) 표준 — Kyber/Dilithium/Falcon/[SPHINCS](/knowledge-base/studynote/09_security/uncategorized/987_hash_function_one_way_integrity_avalanche_sha256/)+
-988. [crypto agility](/knowledge-base/studynote/09_security/uncategorized/988_digital_signature_non_repudiation_integrity_hash_private_key/) — [알고리즘](/knowledge-base/studynote/09_security/uncategorized/988_digital_signature_non_repudiation_integrity_hash_private_key/) 교체 능력
-989. 블록체인 보안 — 51% 공격, 이중지불, [스마트 컨트랙트](/knowledge-base/studynote/09_security/uncategorized/989_dos_ddos_denial_of_service_drdos_amplification_reflection/)
-990. Reentrancy 공격 — [스마트 컨트랙트](/knowledge-base/studynote/09_security/uncategorized/990_botnet_cnc_zombie_pc_ddos_infrastructure/) 재진입취약점
+984. [양자 컴퓨팅](/knowledge-base/studynote/09_security/uncategorized/1080_pki_public_key_infrastructure_ca_ra_certificate/) — [양자 중첩](/knowledge-base/studynote/09_security/uncategorized/1080_pki_public_key_infrastructure_ca_ra_certificate/)/얽힘으로 계산 혁신
+985. 양자 위협 — [RSA](/knowledge-base/studynote/09_security/uncategorized/1081_x509_certificate_pki_digital_signature_format/)/[ECC](/knowledge-base/studynote/09_security/uncategorized/1081_x509_certificate_pki_digital_signature_format/) 깨뜨릴 Shor [알고리즘](/knowledge-base/studynote/09_security/uncategorized/1081_x509_certificate_pki_digital_signature_format/)
+986. [Grover](/knowledge-base/studynote/09_security/uncategorized/1082_symmetric_asymmetric_key_cryptography_rsa_aes/) [알고리즘](/knowledge-base/studynote/09_security/uncategorized/1082_symmetric_asymmetric_key_cryptography_rsa_aes/) — 대칭키 강도반감
+987. NIST [PQC](/knowledge-base/studynote/09_security/uncategorized/1083_hash_function_one_way_integrity_avalanche_sha256/) 표준 — Kyber/Dilithium/Falcon/[SPHINCS](/knowledge-base/studynote/09_security/uncategorized/1083_hash_function_one_way_integrity_avalanche_sha256/)+
+988. [crypto agility](/knowledge-base/studynote/09_security/uncategorized/1084_digital_signature_non_repudiation_integrity_hash_private_key/) — [알고리즘](/knowledge-base/studynote/09_security/uncategorized/1084_digital_signature_non_repudiation_integrity_hash_private_key/) 교체 능력
+989. 블록체인 보안 — 51% 공격, 이중지불, [스마트 컨트랙트](/knowledge-base/studynote/09_security/uncategorized/1085_dos_ddos_denial_of_service_drdos_amplification_reflection/)
+990. Reentrancy 공격 — [스마트 컨트랙트](/knowledge-base/studynote/09_security/uncategorized/1086_botnet_cnc_zombie_pc_ddos_infrastructure/) 재진입취약점
 
 ---
 
 ## 20. 보안 추가 키워드 / 시험 대비 — 40개
 
-991. [Evil Maid Attack](/knowledge-base/studynote/09_security/uncategorized/991_arp_spoofing_man_in_the_middle_cache_poisoning/) — 물리적 접근 후 [백도어](/knowledge-base/studynote/09_security/uncategorized/991_arp_spoofing_man_in_the_middle_cache_poisoning/) 설치
-992. [Cold Boot Attack](/knowledge-base/studynote/09_security/uncategorized/992_stateful_inspection_firewall_session_state_table/) — [메모리 잔상 읽기](/knowledge-base/studynote/09_security/uncategorized/992_stateful_inspection_firewall_session_state_table/)
-993. [DMA](/knowledge-base/studynote/09_security/uncategorized/993_waf_web_application_firewall_l7_sql_injection/) 공격 — [Thunderbolt](/knowledge-base/studynote/09_security/uncategorized/993_waf_web_application_firewall_l7_sql_injection/)/[PCIe](/knowledge-base/studynote/09_security/uncategorized/993_waf_web_application_firewall_l7_sql_injection/) [Direct Memory Access](/knowledge-base/studynote/09_security/uncategorized/993_waf_web_application_firewall_l7_sql_injection/)
-994. [Firewire](/knowledge-base/studynote/09_security/uncategorized/994_ids_ips_intrusion_detection_prevention_false_positive/) 공격 — IEEE 1394 [DMA](/knowledge-base/studynote/09_security/uncategorized/994_ids_ips_intrusion_detection_prevention_false_positive/) 활용
-995. [Thunderbolt Security](/knowledge-base/studynote/09_security/uncategorized/995_network_slicing_5g_sdn_nfv_qos_isolation/) — [DMA](/knowledge-base/studynote/09_security/uncategorized/995_network_slicing_5g_sdn_nfv_qos_isolation/) 방어를 위한 레벨 [설정](/knowledge-base/studynote/09_security/uncategorized/995_network_slicing_5g_sdn_nfv_qos_isolation/)
-996. [USB_BAD](/knowledge-base/studynote/09_security/uncategorized/996_nfv_vnf_virtual_network_function_cnf/) — [USB](/knowledge-base/studynote/09_security/uncategorized/996_nfv_vnf_virtual_network_function_cnf/) 키보드 emulation
-997. [Rubber Ducky](/knowledge-base/studynote/09_security/uncategorized/997_sdn_data_control_plane_separation_architecture/) — [USB](/knowledge-base/studynote/09_security/uncategorized/997_sdn_data_control_plane_separation_architecture/) 키보드 emulation 도구
-998. [Bash Bunny](/knowledge-base/studynote/09_security/uncategorized/998_openflow_protocol_sdn_southbound_flow_table/) — 다목적 [USB](/knowledge-base/studynote/09_security/uncategorized/998_openflow_protocol_sdn_southbound_flow_table/) 공격 도구
-999. [OMG Cable](/knowledge-base/studynote/09_security/uncategorized/999_mec_mobile_edge_computing_local_breakout_5g/) — 변형된 [USB](/knowledge-base/studynote/09_security/uncategorized/999_mec_mobile_edge_computing_local_breakout_5g/) 케이블
-1000. _entropy — 난수 [생성](/knowledge-base/studynote/09_security/uncategorized/1000_cloud_native_network_cni_kubernetes_pod_overlay/) 품질
+991. [Evil Maid Attack](/knowledge-base/studynote/09_security/uncategorized/1087_arp_spoofing_man_in_the_middle_cache_poisoning/) — 물리적 접근 후 [백도어](/knowledge-base/studynote/09_security/uncategorized/1087_arp_spoofing_man_in_the_middle_cache_poisoning/) 설치
+992. [Cold Boot Attack](/knowledge-base/studynote/09_security/uncategorized/1088_stateful_inspection_firewall_session_state_table/) — [메모리 잔상 읽기](/knowledge-base/studynote/09_security/uncategorized/1088_stateful_inspection_firewall_session_state_table/)
+993. [DMA](/knowledge-base/studynote/09_security/uncategorized/1089_waf_web_application_firewall_l7_sql_injection/) 공격 — [Thunderbolt](/knowledge-base/studynote/09_security/uncategorized/1089_waf_web_application_firewall_l7_sql_injection/)/[PCIe](/knowledge-base/studynote/09_security/uncategorized/1089_waf_web_application_firewall_l7_sql_injection/) [Direct Memory Access](/knowledge-base/studynote/09_security/uncategorized/1089_waf_web_application_firewall_l7_sql_injection/)
+994. [Firewire](/knowledge-base/studynote/09_security/uncategorized/1090_ids_ips_intrusion_detection_prevention_false_positive/) 공격 — IEEE 1394 [DMA](/knowledge-base/studynote/09_security/uncategorized/1090_ids_ips_intrusion_detection_prevention_false_positive/) 활용
+995. [Thunderbolt Security](/knowledge-base/studynote/09_security/uncategorized/1091_network_slicing_5g_sdn_nfv_qos_isolation/) — [DMA](/knowledge-base/studynote/09_security/uncategorized/1091_network_slicing_5g_sdn_nfv_qos_isolation/) 방어를 위한 레벨 [설정](/knowledge-base/studynote/09_security/uncategorized/1091_network_slicing_5g_sdn_nfv_qos_isolation/)
+996. [USB_BAD](/knowledge-base/studynote/09_security/uncategorized/1092_nfv_vnf_virtual_network_function_cnf/) — [USB](/knowledge-base/studynote/09_security/uncategorized/1092_nfv_vnf_virtual_network_function_cnf/) 키보드 emulation
+997. [Rubber Ducky](/knowledge-base/studynote/09_security/uncategorized/1093_sdn_data_control_plane_separation_architecture/) — [USB](/knowledge-base/studynote/09_security/uncategorized/1093_sdn_data_control_plane_separation_architecture/) 키보드 emulation 도구
+998. [Bash Bunny](/knowledge-base/studynote/09_security/uncategorized/1094_openflow_protocol_sdn_southbound_flow_table/) — 다목적 [USB](/knowledge-base/studynote/09_security/uncategorized/1094_openflow_protocol_sdn_southbound_flow_table/) 공격 도구
+999. [OMG Cable](/knowledge-base/studynote/09_security/uncategorized/1095_mec_mobile_edge_computing_local_breakout_5g/) — 변형된 [USB](/knowledge-base/studynote/09_security/uncategorized/1095_mec_mobile_edge_computing_local_breakout_5g/) 케이블
+1000. _entropy — 난수 [생성](/knowledge-base/studynote/09_security/uncategorized/1096_cloud_native_network_cni_kubernetes_pod_overlay/) 품질
 1001. [CSPRNG](/knowledge-base/studynote/09_security/20_extra_exam_prep/1001_csprng_random_generator/) (Cryptographically Secure PRNG) — [암호학](/knowledge-base/studynote/09_security/20_extra_exam_prep/1001_csprng_random_generator/)적으로 안전한 난수
 1002. [RDRAND](/knowledge-base/studynote/09_security/20_extra_exam_prep/1002_rdrand_intel_hardware_rng/) (Intel) — 하드웨어 난수 [생성](/knowledge-base/studynote/09_security/20_extra_exam_prep/1002_rdrand_intel_hardware_rng/)
 1003. /dev/urandom — Linux 난수 장치
@@ -1134,16 +1134,16 @@ tags = ["studynote-security"]
 1018. [Secure Multi-Party Computation](/knowledge-base/studynote/09_security/20_extra_exam_prep/1018_secure_multi_party_computation/) ([SMPC](/knowledge-base/studynote/09_security/20_extra_exam_prep/1018_secure_multi_party_computation/)) — 안전한 다자간 계산
 1019. [동형 암호](/knowledge-base/studynote/09_security/02_crypto/1019_homomorphic_encryption/) ([Homomorphic Encryption](/knowledge-base/studynote/09_security/02_crypto/1019_homomorphic_encryption/)) — 암호문 상태 연산
 1020. [Functional Encryption](/knowledge-base/studynote/09_security/20_extra_exam_prep/1020_functional_encryption/) — [함수 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1020_functional_encryption/)
-1021. [Searchable Encryption](/knowledge-base/studynote/09_security/uncategorized/1021_vlc_visible_light_communication_lifi_modulation/) — [검색 가능 암호](/knowledge-base/studynote/09_security/uncategorized/1021_vlc_visible_light_communication_lifi_modulation/)
-1022. [방변조 하드웨어](/knowledge-base/studynote/09_security/uncategorized/1022_leo_satellite_starlink_mega_constellation_6g/) — [Anti-tamper](/knowledge-base/studynote/09_security/uncategorized/1022_leo_satellite_starlink_mega_constellation_6g/) Hardware ([TPM](/knowledge-base/studynote/09_security/uncategorized/1022_leo_satellite_starlink_mega_constellation_6g/)/[HSM](/knowledge-base/studynote/09_security/uncategorized/1022_leo_satellite_starlink_mega_constellation_6g/))
-1023. [Secure Enclave](/knowledge-base/studynote/09_security/uncategorized/1023_isl_inter_satellite_link_low_earth_orbit_routing/) — TrustZone/[SGX](/knowledge-base/studynote/09_security/uncategorized/1023_isl_inter_satellite_link_low_earth_orbit_routing/) 격리 영역
-1024. [TEE](/knowledge-base/studynote/09_security/uncategorized/1024_v2x_vehicle_to_everything_connected_car/) ([Trusted Execution Environment](/knowledge-base/studynote/09_security/uncategorized/1024_v2x_vehicle_to_everything_connected_car/)) — [신뢰 실행 환경](/knowledge-base/studynote/09_security/uncategorized/1024_v2x_vehicle_to_everything_connected_car/)
-1025. [Security Chaos 엔진ering](/knowledge-base/studynote/09_security/uncategorized/1025_security_chaos_engineering/) — 보안 [카오스 엔지니어링](/knowledge-base/studynote/09_security/uncategorized/1025_security_chaos_engineering/)
-1026. [침해 시뮬레이션](/knowledge-base/studynote/09_security/uncategorized/1026_smart_grid_ami_two_way_communication_energy/) ([BAS](/knowledge-base/studynote/09_security/uncategorized/1026_smart_grid_ami_two_way_communication_energy/)) — Breach & Attack Simulation
-1027. [사이버 보험](/knowledge-base/studynote/09_security/uncategorized/1027_uwsn_mac_routing_depth_based_protocol/) — [Cyber Insurance](/knowledge-base/studynote/09_security/uncategorized/1027_uwsn_mac_routing_depth_based_protocol/)
-1028. [Bug Bounty](/knowledge-base/studynote/09_security/uncategorized/1028_wban_mac_duty_cycle_healthcare_sleep_mode/) — [버그 바운티](/knowledge-base/studynote/09_security/uncategorized/1028_wban_mac_duty_cycle_healthcare_sleep_mode/)
-1029. [Responsible Disclosure](/knowledge-base/studynote/09_security/uncategorized/1029_lora_lpwan_chirp_spread_spectrum_iot/) — [책임 있는 공개](/knowledge-base/studynote/09_security/uncategorized/1029_lora_lpwan_chirp_spread_spectrum_iot/)
-1030. [Coordinated Disclosure](/knowledge-base/studynote/09_security/uncategorized/1030_sigfox_lpwan_ultra_narrow_band_iot/) — [협력적 공개](/knowledge-base/studynote/09_security/uncategorized/1030_sigfox_lpwan_ultra_narrow_band_iot/)
+1021. [Searchable Encryption](/knowledge-base/studynote/09_security/uncategorized/1099_vlc_visible_light_communication_lifi_modulation/) — [검색 가능 암호](/knowledge-base/studynote/09_security/uncategorized/1099_vlc_visible_light_communication_lifi_modulation/)
+1022. [방변조 하드웨어](/knowledge-base/studynote/09_security/uncategorized/1100_leo_satellite_starlink_mega_constellation_6g/) — [Anti-tamper](/knowledge-base/studynote/09_security/uncategorized/1100_leo_satellite_starlink_mega_constellation_6g/) Hardware ([TPM](/knowledge-base/studynote/09_security/uncategorized/1100_leo_satellite_starlink_mega_constellation_6g/)/[HSM](/knowledge-base/studynote/09_security/uncategorized/1100_leo_satellite_starlink_mega_constellation_6g/))
+1023. [Secure Enclave](/knowledge-base/studynote/09_security/uncategorized/1101_isl_inter_satellite_link_low_earth_orbit_routing/) — TrustZone/[SGX](/knowledge-base/studynote/09_security/uncategorized/1101_isl_inter_satellite_link_low_earth_orbit_routing/) 격리 영역
+1024. [TEE](/knowledge-base/studynote/09_security/uncategorized/1102_v2x_vehicle_to_everything_connected_car/) ([Trusted Execution Environment](/knowledge-base/studynote/09_security/uncategorized/1102_v2x_vehicle_to_everything_connected_car/)) — [신뢰 실행 환경](/knowledge-base/studynote/09_security/uncategorized/1102_v2x_vehicle_to_everything_connected_car/)
+1025. [Security Chaos 엔진ering](/knowledge-base/studynote/09_security/uncategorized/1103_security_chaos_engineering/) — 보안 [카오스 엔지니어링](/knowledge-base/studynote/09_security/uncategorized/1103_security_chaos_engineering/)
+1026. [침해 시뮬레이션](/knowledge-base/studynote/09_security/uncategorized/1104_smart_grid_ami_two_way_communication_energy/) ([BAS](/knowledge-base/studynote/09_security/uncategorized/1104_smart_grid_ami_two_way_communication_energy/)) — Breach & Attack Simulation
+1027. [사이버 보험](/knowledge-base/studynote/09_security/uncategorized/1105_uwsn_mac_routing_depth_based_protocol/) — [Cyber Insurance](/knowledge-base/studynote/09_security/uncategorized/1105_uwsn_mac_routing_depth_based_protocol/)
+1028. [Bug Bounty](/knowledge-base/studynote/09_security/uncategorized/1106_wban_mac_duty_cycle_healthcare_sleep_mode/) — [버그 바운티](/knowledge-base/studynote/09_security/uncategorized/1106_wban_mac_duty_cycle_healthcare_sleep_mode/)
+1029. [Responsible Disclosure](/knowledge-base/studynote/09_security/uncategorized/1107_lora_lpwan_chirp_spread_spectrum_iot/) — [책임 있는 공개](/knowledge-base/studynote/09_security/uncategorized/1107_lora_lpwan_chirp_spread_spectrum_iot/)
+1030. [Coordinated Disclosure](/knowledge-base/studynote/09_security/uncategorized/1108_sigfox_lpwan_ultra_narrow_band_iot/) — [협력적 공개](/knowledge-base/studynote/09_security/uncategorized/1108_sigfox_lpwan_ultra_narrow_band_iot/)
 
 ---
 

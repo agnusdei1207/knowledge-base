@@ -56,7 +56,7 @@ tags = ["studynote-cloud-architecture"]
 |:---|:---|:---|
 | 로컬 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) | 개인 프로젝트 | 팀 충돌, 유실 |
 | <strong>S3 + <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/">DynamoDB</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a></strong> | **프로덕션** | 없음 (표준) |
-| [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) Cloud | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 선호 팀 | 비용 |
+| [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) Cloud | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 선호 팀 | 비용 |
 
 - **📢 섹션 요약 비유**: State는 건축 대장(현재 건물 상태 기록)이다. 대장을 잃어버리면 Terraform이 "이 건물이 내가 지은 건지 모르겠다"며 혼란에 빠진다.
 
@@ -68,7 +68,7 @@ tags = ["studynote-cloud-architecture"]
 |:---|:---|:---|:---|
 | **클라우드** | **멀티** | AWS 전용 | 멀티 |
 | **언어** | HCL | YAML/[JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) | TypeScript/Python |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a></strong> | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 기반 | AWS 관리 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)/[SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a></strong> | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 기반 | AWS 관리 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)/[SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) |
 | **라이선스** | BSL (1.6+) | 무료 | Apache 2.0 |
 
 ---

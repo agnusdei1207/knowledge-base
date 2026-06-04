@@ -21,7 +21,7 @@ tags = ["studynote-devops"]
 
 수동으로 빌드하면 실수가 많다. 빌드 도구는 이 과정을 반복 가능하게 만든다.
 
-그래서 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD의 기본 구성요소가 된다.
+그래서 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD의 기본 구성요소가 된다.
 
 - **📢 섹션 요약 비유**: 레시피대로 자동으로 요리를 해 주는 주방이다.
 
@@ -61,7 +61,7 @@ Deploy
 
 | 기능 | 의미 |
 | :-- | :-- |
-| [Dependency Management](/knowledge-base/studynote/09_security/uncategorized/612_dependency_management/) | [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 관리 |
+| [Dependency Management](/knowledge-base/studynote/09_security/uncategorized/1042_dependency_management/) | [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 관리 |
 | Build Lifecycle | 빌드 단계 |
 | Script | 자동화 |
 

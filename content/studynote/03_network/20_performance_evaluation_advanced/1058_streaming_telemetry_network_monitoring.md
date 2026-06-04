@@ -11,7 +11,7 @@ tags = ["network"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스트리밍 텔레메트리는 장비가 상태를 능동적으로 보내는 Push 기반 실시간 관측 방식이다.
-> 2. **가치**: [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) (Simple Network [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)의 한계를 넘어 마이크로버스트 같은 짧은 폭주 현상을 잡아낸다.
+> 2. **가치**: [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) (Simple Network [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)의 한계를 넘어 마이크로버스트 같은 짧은 폭주 현상을 잡아낸다.
 > 3. **판단 포인트**: YANG 모델, 가벼운 직렬화 포맷, 수집기 구조, 실시간 분석 파이프라인이 핵심이다.
 
 ---

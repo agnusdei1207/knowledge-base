@@ -120,9 +120,9 @@ LogQL 예시:
 | **ML 기능** | 기본 이상 감지 | Elastic ML (고급) |
 | **무료 수준** | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 전체 | 기본 기능 (고급은 유료) |
 
-### Grafana k6: [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) 통합
+### Grafana k6: [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/) 통합
 
-Grafana k6는 JavaScript 기반 [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) 도구로, 테스트 결과를 Grafana 대시보드로 실시간 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한다:
+Grafana k6는 JavaScript 기반 [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/) 도구로, 테스트 결과를 Grafana 대시보드로 실시간 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한다:
 
 ```javascript
 // k6 테스트 스크립트
@@ -134,7 +134,7 @@ export default function() {
 }
 ```
 
-**📢 섹션 요약 비유**: Grafana + k6의 조합은 <strong>의사 + <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/">스트레스 테스트</a> 장비</strong>와 같다. [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)([스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/))를 수행하면서 실시간으로 시스템 반응(Grafana 대시보드)을 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하여 한계점을 파악한다.
+**📢 섹션 요약 비유**: Grafana + k6의 조합은 <strong>의사 + <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/839_stress_test/">스트레스 테스트</a> 장비</strong>와 같다. [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/)([스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/839_stress_test/))를 수행하면서 실시간으로 시스템 반응(Grafana 대시보드)을 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하여 한계점을 파악한다.
 
 ---
 
@@ -194,7 +194,7 @@ export default function() {
 
 ### 결론
 
-Grafana는 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a> 시대의 표준 관측성 플랫폼</strong>이다. [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)와 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 환경에서 시스템의 "건강 상태"를 지속적으로 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하고, 이상 감지 시 즉각 대응할 수 있는 가시성을 제공한다. 정보통신기술사는 LGTM [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 각 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 역할과 PromQL 기반 알림 설계를 이해하고 클라우드 인프라 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 아키텍처 설계에 적용할 수 있어야 한다.
+Grafana는 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/">클라우드 네이티브</a> 시대의 표준 관측성 플랫폼</strong>이다. [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)와 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 환경에서 시스템의 "건강 상태"를 지속적으로 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하고, 이상 감지 시 즉각 대응할 수 있는 가시성을 제공한다. 정보통신기술사는 LGTM [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 각 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 역할과 PromQL 기반 알림 설계를 이해하고 클라우드 인프라 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 아키텍처 설계에 적용할 수 있어야 한다.
 
 **📢 섹션 요약 비유**: Grafana가 있는 엔지니어링 팀은 <strong>항공 관제사가 있는 공항</strong>과 같다. 관제사(Grafana)가 모든 비행기([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))의 상태를 실시간으로 파악하고, 이상이 감지되면 즉각 대응하여 충돌(장애)을 방지한다.
 
@@ -210,7 +210,7 @@ Grafana는 <strong><a href="/knowledge-base/studynote/04_software_engineering/11
 | Mimir | [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) 확장 | [멀티테넌트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 고가용성 [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) |
 | LGTM [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) | 통합 관측성 | Loki+Grafana+Tempo+Mimir |
 | PromQL | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어 | [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어 |
-| Grafana k6 | [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) | JavaScript 기반 [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) + Grafana 통합 |
+| Grafana k6 | [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/) | JavaScript 기반 [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/) + Grafana 통합 |
 | [Kibana](/knowledge-base/studynote/16_bigdata/08_visualization/169_kibana/) | 비교 도구 | [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) 특화 [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/) [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) |
 
 ### 📈 관련 키워드 및 발전 흐름도

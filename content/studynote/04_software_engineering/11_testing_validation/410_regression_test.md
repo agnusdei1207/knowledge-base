@@ -53,7 +53,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 회귀 테스트는 인간 테스터에게는 기피 대상 1호입니다.
-시스템이 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) v1에서 v100으로 커질수록, 테스트해야 하는 <strong>기존 기능 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/">테스트 케이스</a>(TC)</strong>는 눈덩이처럼 불어나 수만 개가 됩니다. "로그인 아이디 10자 이내 입력" 같은 누구나 아는 당연한 테스트를 다음 달도, 내년도, 내후년도 개발자가 뭐 하나 고칠 때마다 사람이 무한 반복해야 합니다. 눈이 빠지고 집중력이 박살 납니다.
+시스템이 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) v1에서 v100으로 커질수록, 테스트해야 하는 <strong>기존 기능 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/">테스트 케이스</a>(TC)</strong>는 눈덩이처럼 불어나 수만 개가 됩니다. "로그인 아이디 10자 이내 입력" 같은 누구나 아는 당연한 테스트를 다음 달도, 내년도, 내후년도 개발자가 뭐 하나 고칠 때마다 사람이 무한 반복해야 합니다. 눈이 빠지고 집중력이 박살 납니다.
 
 이 끔찍한 부하 때문에, 회귀 테스트는 필연적으로 기계에게 이 단순 반복을 인계하는 <strong>테스트 자동화 도구 (Selenium, JUnit, Playwright 등)</strong>의 존재 이유가 됩니다. 컴퓨터는 밤새 1만 개의 로그인 테스트를 1시간 만에 불평 없이 클릭하여 쳐냅니다.
 
@@ -97,7 +97,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 오늘날의 회귀 테스트는 '아무 일 없음을 증명하는 공기'와도 같습니다.
-개발자가 GitHub에 코드를 푸시(Push)하는 순간, 클라우드 위에서 백그라운드 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/), GitHub Actions) 파이프라인이 즉각 발동하며 수천 개의 회귀 유닛 테스트와 [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) 스크립트를 수 분 내에 사격(Firing)합니다.
+개발자가 GitHub에 코드를 푸시(Push)하는 순간, 클라우드 위에서 백그라운드 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/), GitHub Actions) 파이프라인이 즉각 발동하며 수천 개의 회귀 유닛 테스트와 [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) 스크립트를 수 분 내에 사격(Firing)합니다.
 
 만약 단 한 개의 옛날 로직이라도 빨간색(Fail)이 뜨면, 파이프라인은 새 코드가 마스터 브랜치(Main)에 합쳐지는 것을 무자비하게 폭파시켜버립니다. 이것이 바로 "우리의 시스템은 절대로 퇴보하지 않는다"는 확신을 주는 <strong>빌드 파서(Build Breaker) 철학</strong>이자, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))이 겁 없이 하루에 10번씩 코드를 배포할 수 있는 궁극의 믿음입니다.
 
@@ -167,7 +167,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 411 / 973
 
-<- **이전**: [409. OAT (Operational Acceptance Testing) - 운영 인수 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/409_operational_acceptance_testing_oat/)
+<- **이전**: [409. OAT (Operational Acceptance Testing) - 운영 인수 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/801_operational_acceptance_testing_oat/)
 **다음**: [410. 회귀 테스트 (Regression Test) - 사이드 이펙트 검증](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) ->
 
 ---

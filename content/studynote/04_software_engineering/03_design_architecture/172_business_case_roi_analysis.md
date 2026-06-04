@@ -13,7 +13,7 @@ tags = ["software_engineering"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비즈니스 케이스 (Business Case)는 "이 프로젝트를 왜 해야 하는가"를 기술이 아니라 비용, 편익, 위험, 일정, [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 적합성의 언어로 설명하는 투자 의사결정 문서다.
-> 2. **가치**: [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) ([Return on Investment](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))는 투자 대비 수익성을 빠르게 거르는 강력한 지표이지만, 시간 가치와 불확실성을 반영하지 못하므로 [NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/) (Net Present Value), [IRR](/knowledge-base/studynote/12_it_management/01_governance_strategy/014_irr_internal_rate_of_return/) (Internal Rate of Return), Payback Period와 함께 봐야 판단 오류를 줄일 수 있다.
+> 2. **가치**: [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) ([Return on Investment](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/))는 투자 대비 수익성을 빠르게 거르는 강력한 지표이지만, 시간 가치와 불확실성을 반영하지 못하므로 [NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/) (Net Present Value), [IRR](/knowledge-base/studynote/12_it_management/01_governance_strategy/809_irr_internal_rate_of_return/) (Internal Rate of Return), Payback Period와 함께 봐야 판단 오류를 줄일 수 있다.
 > 3. **판단 포인트**: 좋은 비즈니스 케이스는 기술적 매력을 포장하는 문서가 아니라, 전체 소유 비용 (Total Cost of Ownership, [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/))과 실제 현금흐름을 기준으로 채택·보류·축소·폐기 결정을 가능하게 만드는 경영-기술 번역기다.
 
 ---
@@ -51,7 +51,7 @@ tags = ["software_engineering"]
 | 대안 비교 | 현행 유지, 부분 개선, 전면 구축 | 다른 선택지 대비 타당성 부족 |
 | 비용 구조 | 개발, 전환, 교육, 운영, 폐기 비용 | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 과소평가 |
 | 편익 구조 | 매출 증가, 비용 절감, [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 감소 | 기대효과 과장 또는 누락 |
-| 재무 지표 | [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/), [NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/), [IRR](/knowledge-base/studynote/12_it_management/01_governance_strategy/014_irr_internal_rate_of_return/), Payback | 투자 우선순위 비교 불가 |
+| 재무 지표 | [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/), [NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/), [IRR](/knowledge-base/studynote/12_it_management/01_governance_strategy/809_irr_internal_rate_of_return/), Payback | 투자 우선순위 비교 불가 |
 | 가정·민감도 | 채택률, 성장률, 할인율 | 낙관적 숫자에 의존 |
 
 예를 들어 결재 자동화 시스템을 도입한다고 하자. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 3억 원이고, 연간 순편익이 1.2억 원씩 4년간 발생한다고 가정하면 총편익은 4.8억 원이다. 이때 단순 ROI는 `((4.8 - 3.0) / 3.0) × 100 = 60%`이고, 투자 회수 기간 ([Payback Period](/knowledge-base/studynote/12_it_management/01_governance_strategy/015_payback_period/))은 약 2.5년이다. 할인율 8%를 적용한 NPV는 약 +0.97억 원으로, 시간 가치를 반영해도 투자 여지가 있음을 보여 준다.
@@ -69,7 +69,7 @@ tags = ["software_engineering"]
 +--------------------------------------------------------------+
 ```
 
-이 예시는 왜 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 하나만 보면 안 되는지도 보여 준다. 총편익만 보면 매력적이지만, 실제로는 언제 들어오는 돈인지가 중요하다. 똑같이 60% ROI라도 편익이 1년 안에 들어오는 안과 4년 뒤에 몰려 들어오는 안은 경영적으로 가치가 다르기 때문에, NPV와 Payback이 함께 필요하다.
+이 예시는 왜 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 하나만 보면 안 되는지도 보여 준다. 총편익만 보면 매력적이지만, 실제로는 언제 들어오는 돈인지가 중요하다. 똑같이 60% ROI라도 편익이 1년 안에 들어오는 안과 4년 뒤에 몰려 들어오는 안은 경영적으로 가치가 다르기 때문에, NPV와 Payback이 함께 필요하다.
 
 또한 정성적 편익도 완전히 배제하면 안 된다. 고객 만족도 향상, 장애 감소, 규제 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 완화는 직접 현금으로 보이지 않더라도 이탈률 감소, 사고 회피 비용, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응 비용 절감 같은 대체 지표로 환산할 수 있다. 좋은 비즈니스 케이스는 정성적 가치를 무시하는 문서가 아니라, 가능한 한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 지표로 연결하는 문서다.
 
@@ -83,16 +83,16 @@ tags = ["software_engineering"]
 
 | 지표 | 핵심 질문 | 장점 | 한계 |
 | :--- | :--- | :--- | :--- |
-| [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) | 총투자 대비 얼마나 남는가? | 계산이 단순하고 설명이 쉬움 | 시간 가치 반영이 약함 |
+| [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) | 총투자 대비 얼마나 남는가? | 계산이 단순하고 설명이 쉬움 | 시간 가치 반영이 약함 |
 | [NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/) | 오늘 가치로도 이익인가? | 현금흐름 시점 반영 | 할인율 가정에 민감 |
 | [Payback Period](/knowledge-base/studynote/12_it_management/01_governance_strategy/015_payback_period/) | 언제 본전 회수하는가? | 유동성 판단에 유용 | 회수 이후 편익 반영 약함 |
-| [IRR](/knowledge-base/studynote/12_it_management/01_governance_strategy/014_irr_internal_rate_of_return/) | 투자 자체 수익률은 얼마인가? | 자본 비용과 비교 쉬움 | 비정상 현금흐름에서 해석 주의 |
+| [IRR](/knowledge-base/studynote/12_it_management/01_governance_strategy/809_irr_internal_rate_of_return/) | 투자 자체 수익률은 얼마인가? | 자본 비용과 비교 쉬움 | 비정상 현금흐름에서 해석 주의 |
 
 같은 ROI라도 판단이 달라질 수 있는 대표 사례가 있다. 프로젝트 A와 B가 모두 50% ROI라 해도, A가 1년 안에 현금을 회수하고 B가 5년 뒤에 회수한다면 NPV와 Payback 관점에서는 A가 훨씬 유리하다. 즉 ROI는 좋은 시작점이지만, 최종 결론을 대신하는 유일 지표는 아니다.
 
 이 주제는 소프트웨어 공학의 다른 영역과도 직접 연결된다. 요구사항 우선순위 결정에서는 어떤 기능이 가장 빨리 가치를 만드는지 판단해야 하고, [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) ([Minimum Viable Product](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 Payback을 앞당기는 설계 방식이다. 또한 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 상환, 클라우드 전환, 보안 강화 프로젝트는 단순 매출이 아니라 유지보수 비용 절감이나 사고 회피 비용 감소를 편익으로 환산해 비즈니스 케이스를 만든다.
 
-- **📢 섹션 요약 비유**: [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/), [NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/), Payback은 같은 산을 보더라도 등산 시간, 해발고도, 연료 소모를 각각 재는 계기판과 같아서 하나만 보고 길을 정하면 오판하기 쉽다.
+- **📢 섹션 요약 비유**: [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/), [NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/), Payback은 같은 산을 보더라도 등산 시간, 해발고도, 연료 소모를 각각 재는 계기판과 같아서 하나만 보고 길을 정하면 오판하기 쉽다.
 
 ---
 
@@ -141,7 +141,7 @@ tags = ["software_engineering"]
 
 한계도 있다. 미래 편익은 본질적으로 추정치이므로, 비즈니스 케이스가 완벽한 예언서는 될 수 없다. 또 공공성, [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)성, 규제 준수처럼 숫자로 완전히 환산하기 어려운 프로젝트도 존재한다. 따라서 비즈니스 케이스는 결정을 대신하는 기계가 아니라, 더 나은 결정을 돕는 구조화된 판단 틀로 이해해야 한다.
 
-결론적으로 비즈니스 케이스와 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 분석의 핵심은 "기술의 우수성"이 아니라 <strong>투자 자원의 사용 근거</strong>를 만드는 데 있다. 좋은 소프트웨어 공학은 기능을 만드는 일에서 멈추지 않고, 왜 이 기능에 지금 이만큼 투자해야 하는지까지 설명할 수 있을 때 완성된다.
+결론적으로 비즈니스 케이스와 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 분석의 핵심은 "기술의 우수성"이 아니라 <strong>투자 자원의 사용 근거</strong>를 만드는 데 있다. 좋은 소프트웨어 공학은 기능을 만드는 일에서 멈추지 않고, 왜 이 기능에 지금 이만큼 투자해야 하는지까지 설명할 수 있을 때 완성된다.
 
 - **📢 섹션 요약 비유**: 좋은 비즈니스 케이스는 멋진 요리 사진이 아니라, 재료비와 조리 시간, 손님 반응까지 계산해 진짜로 장사가 되는 메뉴판을 만드는 일과 같다.
 
@@ -151,9 +151,9 @@ tags = ["software_engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :---------- |
-| [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) ([Return on Investment](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)) | 총투자 대비 수익성을 빠르게 보는 기본 지표 |
+| [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) ([Return on Investment](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/)) | 총투자 대비 수익성을 빠르게 보는 기본 지표 |
 | [NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/) (Net Present Value) | 시간 가치와 할인율을 반영한 핵심 판단 지표 |
-| [IRR](/knowledge-base/studynote/12_it_management/01_governance_strategy/014_irr_internal_rate_of_return/) (Internal Rate of Return) | 투자안의 내재 수익률을 보여 주는 비교 기준 |
+| [IRR](/knowledge-base/studynote/12_it_management/01_governance_strategy/809_irr_internal_rate_of_return/) (Internal Rate of Return) | 투자안의 내재 수익률을 보여 주는 비교 기준 |
 | [Payback Period](/knowledge-base/studynote/12_it_management/01_governance_strategy/015_payback_period/) | 투자금 회수 속도를 보는 지표 |
 | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) (Total Cost of Ownership) | 개발 이후 운영·교육·폐기까지 포함한 전체 비용 |
 | [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) ([Minimum Viable Product](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)) | 가치 회수 시점을 앞당기는 제품 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |

@@ -125,7 +125,7 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[GoF [Chain of Responsibility](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/276_chain_of_responsibility_pattern/)(1994)] -> [서블릿 필터 체인] -> [스프링 [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)] -> [클라우드 [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) 미들웨어] -> [서비스 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 필터]
+[GoF [Chain of Responsibility](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/276_chain_of_responsibility_pattern/)(1994)] -> [서블릿 필터 체인] -> [스프링 [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)] -> [클라우드 [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/) 미들웨어] -> [서비스 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 필터]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

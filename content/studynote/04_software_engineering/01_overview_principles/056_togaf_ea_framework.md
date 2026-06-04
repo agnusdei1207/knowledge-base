@@ -12,7 +12,7 @@ tags = ["studynote-software-engineering"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [TOGAF](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/) ([The Open Group](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/) [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Framework)는 기업 아키텍처를 체계적으로 설계/운영하기 위한 프레임워크다.
-> 2. **가치**: [ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/) ([Architecture Development Method](/knowledge-base/studynote/12_it_management/03_ea_isp/114_togaf_adm_architecture_development_method/))을 통해 비즈니스/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/애플리케이션/기술 아키텍처를 단계적으로 정리한다.
+> 2. **가치**: [ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/) ([Architecture Development Method](/knowledge-base/studynote/12_it_management/03_ea_isp/898_togaf_adm_architecture_development_method/))을 통해 비즈니스/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/애플리케이션/기술 아키텍처를 단계적으로 정리한다.
 > 3. **판단 포인트**: 표준, 거버넌스, 로드맵이 함께 있어야 실무 적용이 가능하다.
 
 ---

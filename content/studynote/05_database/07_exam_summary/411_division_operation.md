@@ -114,7 +114,7 @@ tags = ["studynote-database"]
 | :--- | :--- |
 | [관계 해석](/knowledge-base/studynote/05_database/07_exam_summary/410_relational_calculus/) (비절차적 연산, 술어) | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
 | [카티션 프로덕트](/knowledge-base/studynote/05_database/07_exam_summary/412_cartesian_product/) ([조인 조건 누락](/knowledge-base/studynote/05_database/07_exam_summary/412_cartesian_product/)) | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
-| [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
+| [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
 | [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) | 운영·설계 판단을 연결해 주는 주변 개념이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도

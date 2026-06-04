@@ -105,7 +105,7 @@ base address = 0x1000, sizeof(int) = 4
 
 ### 주요 활용 사례
 
-- <strong>버퍼 관리 (Buffer <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)</strong>: 네트워크 패킷, I/O 버퍼, 링 버퍼(원형 배열)
+- <strong>버퍼 관리 (Buffer <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/">Management</a>)</strong>: 네트워크 패킷, I/O 버퍼, 링 버퍼(원형 배열)
 - **행렬 연산 (Matrix Operations)**: 그래픽스 변환, 딥러닝 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 텐서, BLAS [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)
 - <strong>힙·<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/">세그먼트 트리</a></strong>: 완전 [이진 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/)를 배열로 표현 (`parent = (i-1)/2`, `left = 2i+1`)
 - **슬라이딩 윈도우**: 연속 구간 최솟값/최댓값 처리 ([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 산술 활용)

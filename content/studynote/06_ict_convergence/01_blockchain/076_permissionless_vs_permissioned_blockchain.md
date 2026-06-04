@@ -77,7 +77,7 @@ Public/Private/Consortium을 함께 보면 더 명확하다. Public은 누구나
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 참여자 간 신뢰 부족이 실제 문제인가?
 2. TPS와 최종성([finality](/knowledge-base/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/)) 요구가 적절한가?
-3. KYC(Know Your [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/))나 권한 통제가 필요한가?
+3. KYC(Know Your [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/))나 권한 통제가 필요한가?
 4. [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)와 영업비밀을 공개 장부에 올려도 되는가?
 5. 운영 거버넌스를 누가 책임지는가?
 
@@ -109,7 +109,7 @@ Permissionless는 신뢰 없는 참여자 사이에서 개방성과 저항성을
 | Permissioned | 허가된 참여와 통제 |
 | PoW / PoS | 공개 합의 메커니즘 |
 | [BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/)([PBFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/)) | 허가형 합의 |
-| KYC(Know Your [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| KYC(Know Your [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/)) | 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 | [Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) | 자동 실행 규칙 |
 
 ### 📈 관련 키워드 및 발전 흐름도

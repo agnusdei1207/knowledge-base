@@ -19,7 +19,7 @@ tags = ["studynote-devops"]
 
 ## Ⅰ. 개요 및 필요성
 
-[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Deployment](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/)) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 빌드 결과물을 믿을 수 있게 남겨야 다음 단계가 안정된다. 아티팩트 관리는 단순 보관이 아니라, 어떤 산출물이 어느 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 통과했는지 추적하는 일이다.
+[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Deployment](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/)) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 빌드 결과물을 믿을 수 있게 남겨야 다음 단계가 안정된다. 아티팩트 관리는 단순 보관이 아니라, 어떤 산출물이 어느 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 통과했는지 추적하는 일이다.
 
 Nexus와 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Registry는 저장 대상과 책임 범위가 다르다. 전자는 여러 패키지 형식을 다루는 저장소 관리자이고, 후자는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지를 다루는 전용 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)다.
 

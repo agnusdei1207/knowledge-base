@@ -27,7 +27,7 @@ tags = ["studynote-software-engineering"]
 
 - **등장 배경 및 발전 과정**:
   1. **IntelliSense (정적 추론 원시 시대)**: IDE가 `String.` 치면 `length(), substring()` 등 그 클래스 안에 든 함수 목록만 멍청하게 알파벳순으로 보여줌.
-  2. <strong>GitHub Copilot의 충격 (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/">2021</a>)</strong>: OpenAI의 GPT-3 모델을 코드 억만 줄로 튜닝한 Codex 모델 장착. 주석 1줄 치면 알고리즘이 통째로 튀어나옴. 개발자들 경악.
+  2. <strong>GitHub Copilot의 충격 (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/">2021</a>)</strong>: OpenAI의 GPT-3 모델을 코드 억만 줄로 튜닝한 Codex 모델 장착. 주석 1줄 치면 알고리즘이 통째로 튀어나옴. 개발자들 경악.
   3. **Cursor 등 초융합 IDE 시대 (현재)**: "플러그인 형태론 부족해!" 아예 VS Code를 마개조해서 챗GPT를 에디터 창틀 벽에 박아버림(Cursor IDE). 에러 나면 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 복붙할 필요도 없이 `Cmd+K` 누르면 AI가 터미널 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 스스로 읽고 내 소스 코드 10개 파일을 통째로 고쳐서 덮어씌워 주는 궁극의 오토파일럿 시대 개막.
 
 - **📢 섹션 요약 비유**: 이 혁명은 <strong>'말 마차에서 자동차로의 전환'</strong>이 아닙니다. <strong>'수동 기어 자동차에서 완벽한 자율 주행(FSD) 자동차로의 퀀텀 점프'</strong>입니다. 엑셀과 핸들을 쥐고 피똥 싸던 개발자들은 이제 손을 떼고, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기사에게 "강남역(결제 기능)으로 가줘"라고 목적지(Prompt)만 지시하면 됩니다. 차가 알아서 좌회전 우회전을 치며 1초 컷으로 데려다주는 미친 시대입니다.
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(대규모 언어 모델) 기반 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 지원 도구 (GitHub Copilot, Cursor 등)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

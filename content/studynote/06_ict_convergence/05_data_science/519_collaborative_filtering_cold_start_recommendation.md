@@ -19,7 +19,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-[추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)([Recommendation System](/knowledge-base/studynote/12_it_management/02_itsm_itil/093_recommendation_system/))은 사용자가 직접 탐색하지 않아도 관심 있는 콘텐츠·상품을 발견하게 돕는다. 넷플릭스, 유튜브, 쿠팡 매출의 35~40%가 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)에 의해 발생한다.
+[추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)([Recommendation System](/knowledge-base/studynote/12_it_management/02_itsm_itil/877_recommendation_system/))은 사용자가 직접 탐색하지 않아도 관심 있는 콘텐츠·상품을 발견하게 돕는다. 넷플릭스, 유튜브, 쿠팡 매출의 35~40%가 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)에 의해 발생한다.
 
 ### [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 주요 접근법
 
@@ -61,7 +61,7 @@ tags = ["studynote-ict-convergence"]
 |:---|:---|:---|
 | [SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) | 정확하지만 희소 처리 어려움 | 소규모 시스템 |
 | ALS | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 용이 | 대규모 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경 |
-| [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) (Bayesian Personalized Ranking) | 암묵적 피드백(클릭, 구매) 최적화 | [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) 최적화 |
+| [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/) (Bayesian Personalized Ranking) | 암묵적 피드백(클릭, 구매) 최적화 | [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) 최적화 |
 
 - **📢 섹션 요약 비유**: [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/)는 유저의 취향(장르, 속도, 감동 등 k개 잠재 요인)과 아이템의 특성을 수백 개의 숫자로 압축하는 거야. 두 벡터가 비슷하면 "이 유저는 이 영화를 좋아할 것"이라고 예측해.
 

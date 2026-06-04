@@ -198,7 +198,7 @@ with mlflow.start_run(run_name="fraud_detection_v3"):
 
 | 항목 | [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/) | Weights & Biases (W&B) | DVC |
 |:---|:---|:---|:---|
-| **유형** | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) (무료 플랜) | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) |
+| **유형** | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) (무료 플랜) | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) |
 | **실험 추적** | 완전 지원 | 매우 강력 | 제한적 |
 | <strong>모델 <a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/">레지스트리</a></strong> | 완전 지원 | 지원 | 없음 |
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 관리</strong> | 제한적 | [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) | 핵심 기능 |
@@ -340,7 +340,7 @@ CI/CD 파이프라인                |  +-- v3: Staging           |
 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
 | 핵심 도구 | [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/) | 실험 추적 + 모델 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 통합 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) |
-| 경쟁 도구 | Weights & Biases (W&B) | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 기반 실험 추적 및 모델 관리 |
+| 경쟁 도구 | Weights & Biases (W&B) | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 기반 실험 추적 및 모델 관리 |
 | 협력 개념 | [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) | [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)과 모델 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 연계 |
 | 협력 개념 | [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) ([Continuous Training](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)) | [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 결과를 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)에 자동 등록 |
 | 배포 연동 | A/B 테스트 | [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 기반 트래픽 분할 |

@@ -118,7 +118,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 87 / 530
 
-<- **이전**: [57. 샘플링 감리 기법 (Sampling Audit Technique) - 표본으로 전체를 검증하기](/knowledge-base/studynote/11_design_supervision/01_audit_framework/057_sampling_audit_technique/)
-**다음**: [58. 고가용성 및 이중화 클러스터 페일오버 시나리오 실지 테스트 참관 (HA Failover Test Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/058_ha_failover_test_audit/) ->
+<- **이전**: [57. 샘플링 감리 기법 (Sampling Audit Technique) - 표본으로 전체를 검증하기](/knowledge-base/studynote/11_design_supervision/01_audit_framework/629_sampling_audit_technique/)
+**다음**: [58. 고가용성 및 이중화 클러스터 페일오버 시나리오 실지 테스트 참관 (HA Failover Test Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/630_ha_failover_test_audit/) ->
 
 ---

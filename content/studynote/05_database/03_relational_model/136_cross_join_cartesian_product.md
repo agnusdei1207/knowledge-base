@@ -11,7 +11,7 @@ tags = ["studynote-database"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CROSS JOIN은 <strong>두 테이블의 모든 행을 서로 조합(<a href="/knowledge-base/studynote/05_database/07_exam_summary/412_cartesian_product/">Cartesian Product</a>)</strong>하여 N×M 행을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 연산이며, 조인 조건 없이 모든 가능한 조합을 만든다.
-> 2. **가치**: 의도적 사용은 드물지만, <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/444_test_data_management/">테스트 데이터</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>·달력×시간대 조합·모든 조합 비교</strong> 등에 활용되며, 실수로 사용 시 행 폭발(100×100=[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000행)에 주의해야 한다.
+> 2. **가치**: 의도적 사용은 드물지만, <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/836_test_data_management/">테스트 데이터</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>·달력×시간대 조합·모든 조합 비교</strong> 등에 활용되며, 실수로 사용 시 행 폭발(100×100=[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000행)에 주의해야 한다.
 > 3. **판단 포인트**: CROSS [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) + WHERE 조건 -> 실질적으로 INNER JOIN과 동일하며, 의도적 Cartesian 외에는 <strong>반드시 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">JOIN</a> 조건을 명시</strong>해야 한다.
 
 ---

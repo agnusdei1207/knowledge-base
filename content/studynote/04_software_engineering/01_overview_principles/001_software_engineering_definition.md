@@ -92,7 +92,7 @@ tags = ["software_engineering"]
 **[도식 설명]**
 이 도식은 소프트웨어 공학의 원리([유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/))가 현대의 클라우드 인프라와 결합하여 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))로 발전하는 융합 지점을 보여준다. 단일 모놀리식 시스템에서는 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)의 한계(수정 시 전체 재배포 등)가 발생하지만, MSA는 공학적 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화 원리를 인프라 레벨까지 확장 적용하여 장애를 격리하고 배포의 독립성을 확보한다.
 
-따라서 최신 소프트웨어 공학은 단순히 코드 레벨의 방법론을 넘어 인프라 구성과 배포 파이프라인([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)까지 포괄하는 융합 학문으로 진화하고 있다.
+따라서 최신 소프트웨어 공학은 단순히 코드 레벨의 방법론을 넘어 인프라 구성과 배포 파이프라인([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD)까지 포괄하는 융합 학문으로 진화하고 있다.
 
 📢 **섹션 요약 비유**: 마치 뛰어난 건축 설계 기술(소프트웨어 공학)이 최신 신소재 기술(클라우드 인프라)과 만나, 지진에도 무너지지 않는 유연한 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 스마트 빌딩을 탄생시키는 것과 같습니다.
 
@@ -107,7 +107,7 @@ tags = ["software_engineering"]
 |:---|:---|
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">결합도</a> 통제</strong> | 변경 발생 시 연쇄적인 코드 수정이 일어나지 않는가? |
 | **측정 가능성** | 코드 라인 수(LOC), 순환 복잡도 등 정량적 지표가 수집되는가? |
-| **자동화율** | 테스트 및 배포 과정이 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인을 통해 자동화되었는가? |
+| **자동화율** | 테스트 및 배포 과정이 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인을 통해 자동화되었는가? |
 
 ```text
 [실무 의사결정 트리: 공학적 가치 충돌 시 판단 흐름]
@@ -135,13 +135,13 @@ tags = ["software_engineering"]
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 소프트웨어 공학의 성공적인 적용은 조직의 개발 역량을 상향 평준화하고 비즈니스 민첩성을 극대화한다.
 
-| 도입 전 (장인 방식) | 도입 후 (공학적 접근) | [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) / 효과 |
+| 도입 전 (장인 방식) | 도입 후 (공학적 접근) | [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) / 효과 |
 |:---|:---|:---|
 | 의존적 지식 ([사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) | 자산화된 프로세스 (문서화, 코드 베이스) | 인력 교체 시 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 최소화 |
 | 예측 불가한 납기 | 정량적 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 기반의 일정 산정 | 프로젝트 성공률 향상 |
 | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 늦은 발견 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계 검증으로 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정 비용 급감 | 유지보수 비용 절감 ([TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 하락) |
 
-소프트웨어 공학은 향후 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/)) 등 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기술과 결합하여, 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 버그 탐지, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 작성 등 공학적 활동의 상당 부분을 자동화하는 '[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)-Driven Software 엔진ering'으로 진화할 것이다. 관련 표준으로는 [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) 공정을 다루는 ISO/IEC 12207, 프로세스 성숙도를 평가하는 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 등이 지속적으로 실무의 나침반 역할을 하고 있다.
+소프트웨어 공학은 향후 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/)) 등 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기술과 결합하여, 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 버그 탐지, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) 작성 등 공학적 활동의 상당 부분을 자동화하는 '[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)-Driven Software 엔진ering'으로 진화할 것이다. 관련 표준으로는 [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) 공정을 다루는 ISO/IEC 12207, 프로세스 성숙도를 평가하는 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 등이 지속적으로 실무의 나침반 역할을 하고 있다.
 
 📢 **섹션 요약 비유**: 소프트웨어 공학은 한 번 타고 버리는 종이배를 접는 일이 아니라, 거친 대양을 수십 년간 항해하며 끊임없이 부품을 업그레이드할 수 있는 최첨단 항공모함을 건조하는 기초 과학입니다.
 
@@ -151,7 +151,7 @@ tags = ["software_engineering"]
 - [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) ([Software Crisis](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)) | 공학적 접근이 태동하게 된 역사적 배경이자 해결 대상
 - [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) (Software Development Life Cycle) | 공학적 원리를 실제 개발 과정에 적용하기 위한 절차적 틀
 - [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화 (Modularity) | [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)과 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 달성하기 위한 가장 핵심적인 구조적 설계 기법
-- [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([Configuration Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/)) | 다수의 개발자가 협업하는 공학적 환경에서 변경을 추적하고 통제하는 체계
+- [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([Configuration Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/873_configuration_management/)) | 다수의 개발자가 협업하는 공학적 환경에서 변경을 추적하고 통제하는 체계
 - 품질 보증 (QA) | 제품이 설정된 공학적 목표([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 등)를 충족하는지 검증하는 독립적 활동
 
 ### 📈 관련 키워드 및 발전 흐름도

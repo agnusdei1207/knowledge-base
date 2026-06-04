@@ -32,7 +32,7 @@ tags = ["studynote-algorithm"]
 | Android | Arrays.sort() |
 | Swift | [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/).sort() |
 
-📢 **섹션 요약 비유**: Timsort는 이미 정리된 책상에서 청소를 시작하는 사람과 같다. 이미 쌓여 있는 책 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)(Run)를 굳이 흩뜨리지 않고, 그대로 활용하면서 깔끔하게 정리한다.
+📢 **섹션 요약 비유**: Timsort는 이미 정리된 책상에서 청소를 시작하는 사람과 같다. 이미 쌓여 있는 책 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)(Run)를 굳이 흩뜨리지 않고, 그대로 활용하면서 깔끔하게 정리한다.
 
 ---
 
@@ -203,7 +203,7 @@ Timsort는 <strong>이론과 현실의 간극을 메운 실용적 걸작</strong
 ### 👶 어린이를 위한 3줄 비유 설명
 
 📚 **책장 정리 달인**: 이미 제목순으로 꽂혀 있는 책들(Run)은 건드리지 않고, 섞인 책들만 끼워 넣으면 훨씬 빠르게 전체를 정리할 수 있어요!
-🔀 **카드 병합 마법**: 두 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)의 카드를 합칠 때 한쪽이 계속 낮은 숫자라면, 그 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)를 통째로 꺼내는 편이 하나씩 비교하는 것보다 훨씬 빠르죠.
+🔀 **카드 병합 마법**: 두 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)의 카드를 합칠 때 한쪽이 계속 낮은 숫자라면, 그 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)를 통째로 꺼내는 편이 하나씩 비교하는 것보다 훨씬 빠르죠.
 ⚡ **똑똑한 청소부**: 방이 거의 정리되어 있으면 청소를 금방 끝내지만, 완전 어수선하면 시간이 걸려요 — Timsort는 정리 상태에 따라 속도를 조절해요!
 
 ---

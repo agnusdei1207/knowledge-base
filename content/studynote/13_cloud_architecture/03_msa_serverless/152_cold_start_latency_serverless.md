@@ -18,7 +18,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 왜 '[콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)' [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)의 성배, [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)(AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/))는 트래픽이 0명이면 서버를 아예 0대로 지워버린다(Scale-to-[Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) 자살 소각 🚀).
+[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)의 성배, [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)(AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/))는 트래픽이 0명이면 서버를 아예 0대로 지워버린다(Scale-to-[Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) 자살 소각 🚀).
 **대재앙의 딜레마 💥**: 새벽 3시에 유저 1명이 쇼핑몰 결제 버튼을 눌렀다.
 AWS 왈: "어? 결제 봇 아까 1시간 전에 트래픽 없어서 다 죽여서 메모리에서 빼버렸는데? 야 잠깐만 기달 ㅋ 나 지금 리눅스 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 새로 1개 판다 ➔ 오케이 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 띄웠고 ➔ 자 이제 자바(Java) 스프링(Spring) 프레임워크 100MB짜리 `.jar` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 램에 올려서 JVM 부팅 켤게 윙윙~ ➔ 휴 3초 걸렸네 자 이제 결제 로직 계산 시작 ㅋ!"
 이 짓거리를 하느라 유저의 스마트폰 결제 화면에 3초 동안 무한 로딩 빙글빙글 모래시계 랙([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 걸렸고, 빡친 유저는 앱을 삭제해 버렸다(UX 파국 멸망 💀).
@@ -75,7 +75,7 @@ AWS 왈: "어? 결제 봇 아까 1시간 전에 트래픽 없어서 다 죽여�
 
 ## Ⅲ. 융합 비교 및 다각도 분석
 
-"언어 뭐 쓸까요 ㅋ?" [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 런타임 언어 4대장 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) 피 터지는 타점 비교다.
+"언어 뭐 쓸까요 ㅋ?" [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 런타임 언어 4대장 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) 피 터지는 타점 비교다.
 
 | 비교 잣대 | Go / [Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/) (컴파일 네이티브 🚀) | Node.js / Python (인터프리터 스크립트 🐍) | Java / C# (엔터프라이즈 가상머신 🐘) |
 |:---|:---|:---|:---|

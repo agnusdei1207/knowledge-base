@@ -58,7 +58,7 @@ WIP를 줄이면 처음에는 불편하지만, 기다림이 줄고 사이클 타
 
 ## Ⅲ. 비교 및 연결
 
-칸반은 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) ([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/))과 자주 비교되지만, 둘의 목적은 다르다. [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)은 시간 박스와 역할을 통해 반복 학습을 강조하고, 칸반은 흐름과 제한을 통해 지속적인 개선을 강조한다. 요구사항 분석 단계에서는 정해진 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)보다, 들어오는 요청이 계속 바뀌는 환경에서 칸반이 더 자연스럽다.
+칸반은 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) ([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/))과 자주 비교되지만, 둘의 목적은 다르다. [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)은 시간 박스와 역할을 통해 반복 학습을 강조하고, 칸반은 흐름과 제한을 통해 지속적인 개선을 강조한다. 요구사항 분석 단계에서는 정해진 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)보다, 들어오는 요청이 계속 바뀌는 환경에서 칸반이 더 자연스럽다.
 
 | 비교 축 | 칸반 | [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) |
 | :--- | :--- | :--- |

@@ -73,7 +73,7 @@ Reference Architecture
 | 위험 | [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 약하면 기대효과가 줄어듦 | 확장성·가시성·자동화 한계가 빨리 드러남 |
 | 적합한 상황 | [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/), [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 의존성, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 플랫폼처럼 공격면이 넓은 환경에서 특히 중요하다. | 변화가 적거나 단순한 환경 |
 
-또한 이 주제는 [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Analysis, Rule Set, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) Gate처럼 주변 개념과 강하게 연결된다. 기술사 관점에서는 개별 정의보다도 이런 연결 구조를 설명해야 답안의 깊이가 생긴다.
+또한 이 주제는 [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Analysis, Rule Set, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) Gate처럼 주변 개념과 강하게 연결된다. 기술사 관점에서는 개별 정의보다도 이런 연결 구조를 설명해야 답안의 깊이가 생긴다.
 
 - **📢 섹션 요약 비유**: 식품 원산지 표기처럼 재료 구성과 유통 경로가 보여야 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 위험을 통제할 수 있다.
 
@@ -116,7 +116,7 @@ Reference Architecture
 |:---|:---|
 | [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Analysis | 소스코드 정적 보안 분석을 이해할 때 직접 연결되는 기반 개념 |
 | Rule Set | 소스코드 정적 보안 분석의 설계·운영 판단 기준을 보완하는 개념 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) Gate | 소스코드 정적 보안 분석을 자동화·확장 측면에서 연결하는 개념 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) Gate | 소스코드 정적 보안 분석을 자동화·확장 측면에서 연결하는 개념 |
 | 출시 직전 수동 보안 점검 | 소스코드 정적 보안 분석 적용 후 후속 발전 방향을 설명하는 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도

@@ -136,7 +136,7 @@ WDigest (WDigest [Authentication](/knowledge-base/studynote/02_operating_system/
 
 **진행 상황**: 661 / 1108
 
-<- **이전**: [603. 버퍼 오버플로우 (Buffer Overflow)](/knowledge-base/studynote/09_security/uncategorized/603_buffer_overflow/)
-**다음**: [604. SQL 주입 (SQL Injection)](/knowledge-base/studynote/09_security/uncategorized/604_sql_injection/) ->
+<- **이전**: [603. 버퍼 오버플로우 (Buffer Overflow)](/knowledge-base/studynote/09_security/uncategorized/1035_buffer_overflow/)
+**다음**: [604. SQL 주입 (SQL Injection)](/knowledge-base/studynote/09_security/uncategorized/1036_sql_injection/) ->
 
 ---

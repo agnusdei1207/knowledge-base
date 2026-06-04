@@ -25,7 +25,7 @@ tags = ["studynote-software-engineering"]
 
 - **등장 배경 및 발전 과정**:
   1. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/">스크럼</a>의 한계</strong>: [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)은 3~9명의 단일 팀을 위한 완벽한 프레임워크지만, 100명이 넘는 개발자가 하나의 거대한 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 시스템을 만들 때는 어떻게 협업해야 하는지 가이드하지 않았다.
-  2. <strong>SoS (<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/">Scrum</a> of Scrums)의 부족</strong>: 각 팀의 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 마스터들이 모이는 SoS 기법이 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 도입되었으나, 단순한 소통 창구 역할에 그쳐 전사적 예산 기획과 아키텍처 정렬을 해결하지 못했다.
+  2. <strong>SoS (<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/">Scrum</a> of Scrums)의 부족</strong>: 각 팀의 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 마스터들이 모이는 SoS 기법이 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 도입되었으나, 단순한 소통 창구 역할에 그쳐 전사적 예산 기획과 아키텍처 정렬을 해결하지 못했다.
   3. **엔터프라이즈 프레임워크의 탄생**: 이에 따라 기업의 기존 거버넌스와 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)을 타협시킨 [SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)(2011년)가 대기업을 중심으로 폭발적으로 성장했고, 이에 반발하여 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 본연의 단순함을 유지하려는 [LeSS](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/), Spotify 모델 등이 대안으로 등장하며 시장을 양분하게 되었다.
 
 규모가 커짐에 따라 단일 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 팀에서 발생하는 의존성 지옥(Dependency Hell)과 이를 대규모 프레임워크가 어떻게 구조화하는지를 시각적으로 대비해 볼 수 있다.
@@ -134,7 +134,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/) [SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/), LeSS은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

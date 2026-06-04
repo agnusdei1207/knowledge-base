@@ -12,7 +12,7 @@ tags = ["studynote-data-engineering"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 인스트럭션 튜닝([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Tuning)은 사전 학습된 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/), [대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/))을 "질문-지시-응답" 포맷의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 추가 학습시켜, <strong>사람의 명령(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">Instruction</a>)을 올바르게 따르는 어시스턴트로 특화</strong>하는 정렬(Alignment) 기법이다.
 > 2. **가치**: GPT-3처럼 텍스트 자동완성만 하던 베이스 모델이 인스트럭션 튜닝을 거쳐 ChatGPT처럼 <strong>대화형 질문응답·요약·번역·코드 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>을 수행하는 어시스턴트로 변환된다.
-> 3. **판단 포인트**: [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) from Human Feedback, 인간 피드백 강화학습)는 인스트럭션 튜닝 이후에 적용하여, 단순히 지시를 따르는 것을 넘어 <strong>인간이 선호하는 유용하고 해롭지 않은 응답을 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>하도록 미세 조정한다.
+> 3. **판단 포인트**: [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/) from Human Feedback, 인간 피드백 강화학습)는 인스트럭션 튜닝 이후에 적용하여, 단순히 지시를 따르는 것을 넘어 <strong>인간이 선호하는 유용하고 해롭지 않은 응답을 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>하도록 미세 조정한다.
 
 ---
 
@@ -22,7 +22,7 @@ LLM의 사전 학습(Pretraining)은 웹·책·코드 등 방대한 텍스트에
 
 인스트럭션 튜닝(IT)은 이 간극을 메운다. "이 논문을 요약해줘", "Python으로 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 작성해줘" 형식의 [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)-Output 쌍 수천~수만 개로 파인튜닝([Fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))하면, 모델은 지시를 따르는 패턴을 학습한다.
 
-[RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) from Human Feedback)는 한 단계 더 나아가, 사람 평가자가 여러 응답 중 더 선호하는 것을 선택하면 그 선호를 학습해 유해하거나 불필요하게 장황한 응답을 제거한다.
+[RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/) from Human Feedback)는 한 단계 더 나아가, 사람 평가자가 여러 응답 중 더 선호하는 것을 선택하면 그 선호를 학습해 유해하거나 불필요하게 장황한 응답을 제거한다.
 
 **미적용 시 발생하는 문제**:
 - 사전 학습 모델: "수도가 뭐야?" 질문에 "수도꼭지, 수도권, 수도 서울, 수도..." 텍스트 자동완성
@@ -166,7 +166,7 @@ LLM 정렬 파이프라인
 | 개념 | 연결 포인트 |
 |:---|:---|
 | <strong>SFT (Supervised <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/">Fine-Tuning</a>)</strong> | 인스트럭션 튜닝의 기술적 명칭; [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/) 방식 |
-| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">RLHF</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/">Reinforcement Learning</a> from Human Feedback)</strong> | 사람 선호 반영 정렬; OpenAI의 핵심 기술 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">RLHF</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/">Reinforcement Learning</a> from Human Feedback)</strong> | 사람 선호 반영 정렬; OpenAI의 핵심 기술 |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/">DPO</a> (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/">Direct Preference Optimization</a>)</strong> | RLHF의 단순화 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/); 보상 모델 불필요 |
 | <strong><a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/966_constitutional_ai/">Constitutional AI</a></strong> | Anthropic의 [RLAIF](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/269_vector_database/) 기반 정렬; AI가 스스로 비판 |
 | <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/">PEFT</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/">Parameter-Efficient Fine-Tuning</a>)</strong> | [LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) 등 적은 파라미터로 IT 수행; 자원 효율화 |

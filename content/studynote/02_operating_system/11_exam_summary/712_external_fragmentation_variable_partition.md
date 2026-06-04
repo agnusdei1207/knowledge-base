@@ -152,7 +152,7 @@ tags = ["studynote-operating-system"]
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - <strong>Object Pool (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/442_memory_pooling/">메모리 풀링</a>)</strong>: 게임 엔진(C++)이나 고성능 서버 개발 시, `new`와 `delete`를 수만 번 부르면 파편화가 생겨 서버가 터진다. 이를 막기 위해 시작 시점에 똑같은 크기의 객체를 1만 개 미리 할당(정적 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))해 두고, 끄고 켜는 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)([Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))만 조작하여 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 자체를 물리적으로 원천 차단하는 **오브젝트 풀(Object Pool)** 디자인 패턴을 필수적으로 적용했는가?
 
-- **📢 섹션 요약 비유**: OS는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)이라는 '규격화된 택배 상자'를 써서 트럭(램)의 빈 공간 낭비를 100% 없앴습니다. 하지만 그 상자 안에 물건을 쑤셔 넣고 정리하는 일은 여전히 개발자(malloc)의 몫이며, 여기서 정리를 못 해 쓰레기 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)(파편화)를 만드는 것은 순전히 개발자의 책임입니다.
+- **📢 섹션 요약 비유**: OS는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)이라는 '규격화된 택배 상자'를 써서 트럭(램)의 빈 공간 낭비를 100% 없앴습니다. 하지만 그 상자 안에 물건을 쑤셔 넣고 정리하는 일은 여전히 개발자(malloc)의 몫이며, 여기서 정리를 못 해 쓰레기 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)(파편화)를 만드는 것은 순전히 개발자의 책임입니다.
 
 ---
 

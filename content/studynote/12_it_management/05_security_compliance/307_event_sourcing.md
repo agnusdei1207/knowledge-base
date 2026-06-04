@@ -141,6 +141,6 @@ tags = ["studynote-it-management"]
 **진행 상황**: 455 / 587
 
 <- **이전**: [306. CQRS 명령 조회 모델 물리 분리](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/)
-**다음**: [307. 이벤트 소싱 불변 로그 스트림 복원](/knowledge-base/studynote/12_it_management/05_security_compliance/307_process/) ->
+**다음**: [307. 이벤트 소싱 불변 로그 스트림 복원](/knowledge-base/studynote/12_it_management/05_security_compliance/949_process/) ->
 
 ---

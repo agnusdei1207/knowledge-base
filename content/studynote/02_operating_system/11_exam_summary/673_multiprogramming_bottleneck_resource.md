@@ -178,7 +178,7 @@ tags = ["studynote-operating-system"]
 
 | 구분 | Uniprogramming (단일 프로그래밍) | Multiprogramming (다중 프로그래밍) | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량 (CPU 활용률)**| [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~20% (나머지는 I/O 대기) | **80~90% 이상 유지** | 하드웨어 투자 대비 극강의 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 달성 |
+| **정량 (CPU 활용률)**| [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~20% (나머지는 I/O 대기) | **80~90% 이상 유지** | 하드웨어 투자 대비 극강의 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 달성 |
 | <strong>정량 (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>)</strong> | 시간당 10개 작업 처리 | **시간당 50~100개 작업 처리** | 시스템 전체의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 대폭 증가 |
 | **정성 (자원 관리)**| 메모리 1개만 관리하면 됨 | [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/), [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 기법 등 필요 | 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 복잡한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 기술 진화를 촉발 |
 

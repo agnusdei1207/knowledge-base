@@ -116,6 +116,6 @@ tags = ["studynote-design-supervision"]
 **진행 상황**: 363 / 530
 
 <- **이전**: [301. 베이스라인과 Hot fix 통제 감리 (Baseline and Hot Fix Control Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/301_baseline_hot_fix/)
-**다음**: [302. 감리 공시와 조달 책임성 확보 (Audit Disclosure Accountability in Public Procurement)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/302_audit_disclosure_accountability_procurement/) ->
+**다음**: [302. 감리 공시와 조달 책임성 확보 (Audit Disclosure Accountability in Public Procurement)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/662_audit_disclosure_accountability_procurement/) ->
 
 ---

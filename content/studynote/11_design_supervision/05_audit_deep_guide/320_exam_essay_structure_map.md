@@ -117,7 +117,7 @@ IT 감리 논술 답안 구조 맵를 제대로 적용하면 [기준선](/knowle
 
 **진행 상황**: 397 / 530
 
-<- **이전**: [319. 전자정부 표준 프레임워크 준수율 (eGovFrame Compliance Rate Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/319_egovframe_compliance_rate/)
-**다음**: [320. IT 감리 논술 답안 구조 총정리 (IT Audit Essay Structure Summary)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/320_summary/) ->
+<- **이전**: [319. 전자정부 표준 프레임워크 준수율 (eGovFrame Compliance Rate Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/677_egovframe_compliance_rate/)
+**다음**: [320. IT 감리 논술 답안 구조 총정리 (IT Audit Essay Structure Summary)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/678_summary/) ->
 
 ---

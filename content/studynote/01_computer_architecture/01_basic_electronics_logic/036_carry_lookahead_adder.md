@@ -54,7 +54,7 @@ tags = ["studynote-computer-architecture"]
 |------------|----------------------|
 | G/P [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기  | 각 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) G, P 계산      |
 | CLA 로직    | 모든 캐리 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 계산    |
-| Sum [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기  | Si = [Pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) XOR [Ci](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)        |
+| Sum [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기  | Si = [Pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/) XOR [Ci](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)        |
 
 > 📢 **섹션 요약 비유**: 모든 심판이 동시에 준비 완료 신호를 계산 — 선수들은 신호가 오자마자 일제히 출발.
 

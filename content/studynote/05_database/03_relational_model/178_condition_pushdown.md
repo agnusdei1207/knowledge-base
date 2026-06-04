@@ -78,7 +78,7 @@ SELECT d.dept_name, v.emp_name, v.salary
  WHERE d.dept_name = 'IT개발부';
 ```
 
-실제 실행계획은 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) 마다 다르게 나타나지만, 핵심은 `emp` 전체를 먼저 읽는 대신 IT개발부 관련 부서 번호에 해당하는 행만 먼저 줄인다는 데 있다. 이때 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)가 높은 조건일수록 이득이 크고, 적절한 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 있으면 푸시다운 이후 액세스 경로까지 좋아질 수 있다.
+실제 실행계획은 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System) 마다 다르게 나타나지만, 핵심은 `emp` 전체를 먼저 읽는 대신 IT개발부 관련 부서 번호에 해당하는 행만 먼저 줄인다는 데 있다. 이때 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)가 높은 조건일수록 이득이 크고, 적절한 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 있으면 푸시다운 이후 액세스 경로까지 좋아질 수 있다.
 
 집계 뷰에서도 원리는 비슷하지만, <strong>어떤 조건이 내려갈 수 있는지</strong>가 더 중요하다. 예를 들어 `GROUP BY deptno` 뷰에 대해 `deptno = 10` 조건은 그룹핑 전에 적용해도 의미가 유지되므로 내려갈 수 있다. 반면 `SUM(salary) > 100000` 같은 집계 결과 조건은 집계가 끝난 뒤에만 평가할 수 있으므로, 원래 위치를 유지하거나 `HAVING` 성격으로 다뤄야 한다.
 

@@ -83,8 +83,8 @@ Layer 3 (dilation=4):
 
 | 모델 | 핵심 아이디어 | 장점 |
 |:---|:---|:---|
-| Informer ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/)) | Sparse Attention (ProbSparse) | 긴 시퀀스 O(n log n) |
-| Autoformer ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/)) | 자동 상관 기반 어텐션 | 주기 패턴 |
+| Informer ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/)) | Sparse Attention (ProbSparse) | 긴 시퀀스 O(n log n) |
+| Autoformer ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/)) | 자동 상관 기반 어텐션 | 주기 패턴 |
 | PatchTST (2023) | 시계열을 패치로 분할 | 장기 예측, [전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/) |
 | iTransformer (2024) | 변수 축으로 어텐션 | 다변량 시계열 |
 | TimesNet (2023) | 1D -> 2D 시간 이미지 변환 | 복잡 패턴 |

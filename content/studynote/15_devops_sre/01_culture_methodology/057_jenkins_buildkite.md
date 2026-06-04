@@ -11,7 +11,7 @@ tags = ["studynote-devops-sre"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Jenkins는 플러그인과 자가 호스팅에 강한 전통적 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)) 도구이고, Buildkite는 에이전트 기반의 클라우드 친화적 도구다.
+> 1. **본질**: Jenkins는 플러그인과 자가 호스팅에 강한 전통적 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)) 도구이고, Buildkite는 에이전트 기반의 클라우드 친화적 도구다.
 > 2. **가치**: Jenkins는 복잡한 레거시 통합에, Buildkite는 관리 단순성과 확장성에 강하다.
 > 3. **판단 포인트**: 인프라 통제권, 유지보수 부담, [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 복잡도, 팀 숙련도를 함께 봐야 한다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 도구는 코드 변경을 빠르게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 역할을 한다. 오래된 시스템은 Jenkins가, 현대적인 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경은 Buildkite가 잘 맞는 경우가 많다.
+[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 도구는 코드 변경을 빠르게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 역할을 한다. 오래된 시스템은 Jenkins가, 현대적인 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경은 Buildkite가 잘 맞는 경우가 많다.
 
 두 도구 모두 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 자동화를 돕지만, 운영 방식과 철학이 다르다.
 
@@ -52,7 +52,7 @@ Build / Test / Deploy
 Buildkite는 에이전트가 실제 작업을 수행하고, 중앙 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 조정에 집중한다.
 
 - 에이전트 기반이라 확장성이 좋다.
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에 잘 맞는다.
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경에 잘 맞는다.
 - 팀이 관리해야 할 서버 부담이 상대적으로 적다.
 
 ```text
@@ -82,7 +82,7 @@ Buildkite Agent
 
 ## Ⅴ. 실무 적용과 운영 습관
 
-[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 도구는 설치보다 운영이 어렵다.
+[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 도구는 설치보다 운영이 어렵다.
 
 - [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 코드로 관리한다.
 - 빌드 시간을 짧게 유지한다.
@@ -112,7 +112,7 @@ CI 도구
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 수동 빌드 서버 -> [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 자동화
+1. 수동 빌드 서버 -> [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 자동화
 2. [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) -> 플러그인 중심의 표준화
 3. Buildkite -> 에이전트 기반 클라우드 모델
 4. [Pipeline as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/072_declarative_pipeline_jenkinsfile_as_code/) -> 선언형 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 확산

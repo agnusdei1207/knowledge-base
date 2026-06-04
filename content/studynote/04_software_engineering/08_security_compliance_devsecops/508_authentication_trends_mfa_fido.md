@@ -127,7 +127,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)) 트렌드은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -181,7 +181,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 608 / 973
 
-<- **이전**: [508. 인증 (Authentication) 트렌드 - MFA, FIDO, WebAuthn, Passwordless](/knowledge-base/studynote/04_software_engineering/11_testing_validation/508_authentication_trends/)
-**다음**: [509. 인가 (Authorization) 모델 - RBAC, ABAC](/knowledge-base/studynote/04_software_engineering/11_testing_validation/509_authorization_models/) ->
+<- **이전**: [508. 인증 (Authentication) 트렌드 - MFA, FIDO, WebAuthn, Passwordless](/knowledge-base/studynote/04_software_engineering/11_testing_validation/900_authentication_trends/)
+**다음**: [509. 인가 (Authorization) 모델 - RBAC, ABAC](/knowledge-base/studynote/04_software_engineering/11_testing_validation/901_authorization_models/) ->
 
 ---

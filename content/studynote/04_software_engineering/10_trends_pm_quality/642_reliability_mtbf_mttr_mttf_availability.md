@@ -30,7 +30,7 @@ tags = ["studynote-software-engineering"]
 
 - **등장 배경 및 발전 과정**:
   1. **제조업의 산물 (1950년대)**: 공장 기계와 군사 장비의 고장률을 계산하기 위해 기계 공학에서 처음 도입.
-  2. <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/">소프트웨어 공학</a>의 편입 (1980년대)</strong>: S/W도 하드웨어처럼 버그로 인해 멈춘다는 것을 깨닫고, 멈추지 않는 시간(Uptime)을 돈으로 환산([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 위약금)하기 위해 IT 계약의 절대 기준으로 삼음.
+  2. <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/">소프트웨어 공학</a>의 편입 (1980년대)</strong>: S/W도 하드웨어처럼 버그로 인해 멈춘다는 것을 깨닫고, 멈추지 않는 시간(Uptime)을 돈으로 환산([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 위약금)하기 위해 IT 계약의 절대 기준으로 삼음.
   3. **클라우드 회복성(Resilience) 시대 (현재)**: AWS 같은 클라우드가 "하드웨어는 무조건 고장 난다(Design for Failure)"고 선언하며, [MTTF](/knowledge-base/studynote/04_software_engineering/06_software_architecture/360_mttf/)(안 고장 나게) 튜닝보다는 K8s 등을 활용해 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))을 0으로 만드는 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 게임으로 패러다임이 전면 이동함.
 
 - **📢 섹션 요약 비유**: 맷집([MTTF](/knowledge-base/studynote/04_software_engineering/06_software_architecture/360_mttf/))이 엄청 좋아서 100대를 맞아야 쓰러지는 복서보다, 1대만 맞아도 쓰러지지만 쓰러지자마자 0.1초 만에 100번 다시 벌떡 일어나는([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)=0) 끈질긴 복서가 결국 15라운드 링 위([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))에서 끝까지 버티고 승리하는 경기 규칙과 같습니다.
@@ -123,7 +123,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 신뢰성 ([MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/), [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/), [MTTF](/knowledge-base/studynote/04_software_engineering/06_software_architecture/360_mttf/)) [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 공식은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

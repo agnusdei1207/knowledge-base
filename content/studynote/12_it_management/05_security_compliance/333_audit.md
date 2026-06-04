@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 506 / 587
 
-<- **이전**: [332. 베이스라인 형상 통제 검증](/knowledge-base/studynote/12_it_management/05_security_compliance/332_baseline_configuration_control_verification/)
-**다음**: [333. 시큐어 코딩 47개 취약점 진단 점검](/knowledge-base/studynote/12_it_management/05_security_compliance/333_secure_coding_47_vulnerabilities_inspection/) ->
+<- **이전**: [332. 베이스라인 형상 통제 검증](/knowledge-base/studynote/12_it_management/05_security_compliance/973_baseline_configuration_control_verification/)
+**다음**: [333. 시큐어 코딩 47개 취약점 진단 점검](/knowledge-base/studynote/12_it_management/05_security_compliance/974_secure_coding_47_vulnerabilities_inspection/) ->
 
 ---

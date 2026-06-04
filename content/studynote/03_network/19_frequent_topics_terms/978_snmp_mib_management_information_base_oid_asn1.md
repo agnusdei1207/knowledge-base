@@ -67,7 +67,7 @@ tags = ["studynote-network"]
   - 저 미친 숫자는 전 세계 만국 공통으로 <strong>"1번 랜선 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>로 들어온 총 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a> 수(ifInOctets)"</strong>를 의미합니다.
   - 중앙 관리 서버가 시스코 라우터한테 `1.3.6...10.1 좀 줘!` 하고 패킷을 쏘면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 `현재 1500바이트 찼습니다` 라고 정확히 던져줍니다.
 
-### 3. [SMI](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/530_smi_structure_of_management_information/) (Structure of [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Information)와 ASN.1
+### 3. [SMI](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/530_smi_structure_of_management_information/) (Structure of [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) Information)와 ASN.1
 MIB라는 트리 구조를 컴퓨터가 파싱할 수 있도록 글씨를 쓰는 문법(규칙)입니다.
 - **ASN.1**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 글로 적는 문법. (`INTEGER`, `OCTET STRING` 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입을 규정합니다.)
 - <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/530_smi_structure_of_management_information/">SMI</a></strong>: "[MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) 트리를 짤 때는 무조건 OID 점 찍는 룰을 지키고, ASN.1 문법으로만 써라!"라고 족쇄를 채우는 근본 구조 헌법입니다.

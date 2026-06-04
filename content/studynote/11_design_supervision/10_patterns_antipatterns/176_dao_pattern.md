@@ -80,7 +80,7 @@ tags = ["studynote-design-supervision"]
 
 이 구조에서 중요한 판단은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 주도권을 어디에 둘 것인가다. 보통 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 계층에서 시작하고, DAO는 그 안에서 필요한 질의와 갱신을 수행한다. DAO가 비즈니스 흐름을 주도하거나 독자적으로 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 정책을 결정하기 시작하면 계층 책임이 다시 흐려진다.
 
-또한 테스트 관점에서 DAO는 매우 유용한 seam을 제공한다. 상위 계층은 [Fake](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/) DAO나 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) DAO를 주입해 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 없이도 유스케이스를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있고, 저장소 구현은 별도의 통합 테스트로 좁혀서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다.
+또한 테스트 관점에서 DAO는 매우 유용한 seam을 제공한다. 상위 계층은 [Fake](/knowledge-base/studynote/04_software_engineering/11_testing_validation/855_fake_test_double/) DAO나 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) DAO를 주입해 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 없이도 유스케이스를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있고, 저장소 구현은 별도의 통합 테스트로 좁혀서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다.
 
 - **📢 섹션 요약 비유**: [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 인터페이스는 주방의 주문서 양식과 같고, 실제 조달 담당자는 시장을 가든 창고를 열든 그 양식에 맞춰 재료를 가져오면 된다.
 
@@ -121,7 +121,7 @@ DAO는 저장소 접근이 비즈니스 코드에 비해 복잡하거나, 기술
 1. [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 메서드가 `save`, `findAll` 같은 무의미한 범용 이름만 나열하지 않고, 실제 유스케이스를 드러내는가?
 2. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 계층이 SQL, ORM 예외, 커넥션 세부 정보에 직접 노출되어 있지 않은가?
 3. [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 경계가 DAO마다 쪼개지지 않고 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 레벨에서 관리되는가?
-4. 테스트에서 [Fake](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/) DAO나 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) DAO를 활용할 수 있게 의존성 역전이 되어 있는가?
+4. 테스트에서 [Fake](/knowledge-base/studynote/04_software_engineering/11_testing_validation/855_fake_test_double/) DAO나 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) DAO를 활용할 수 있게 의존성 역전이 되어 있는가?
 5. ORM이 이미 제공하는 기능 위에 중복 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)를 만들고 있지는 않은가?
 
 ### 자주 발생하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)

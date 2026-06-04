@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 애플 SEP ([Secure Enclave](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/790_secure_enclave/) Processor)는 Apple [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) ([System on Chip](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/)) 안에서 sepOS 기반으로 동작하는 전용 보안 프로세서로, [생체 인증](/knowledge-base/studynote/09_security/uncategorized/702_biometric_authentication/)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 키를 일반 OS에서 분리한다.
+> 1. **본질**: 애플 SEP ([Secure Enclave](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/790_secure_enclave/) Processor)는 Apple [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) ([System on Chip](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/)) 안에서 sepOS 기반으로 동작하는 전용 보안 프로세서로, [생체 인증](/knowledge-base/studynote/09_security/uncategorized/1047_biometric_authentication/)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 키를 일반 OS에서 분리한다.
 > 2. **가치**: Touch ID, Face ID, 패스코드 시도 제한, Apple Pay 토큰 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 같은 기능이 SEP 위에 놓이면서 모바일 보안의 실질적 신뢰점이 된다.
 > 3. **판단 포인트**: SEP의 가치는 강한 격리와 비반출 키 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에서 나오므로, 앱 로직을 많이 넣기보다 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·키 관리·시도 제한 같은 작은 핵심 기능에 집중하는 것이 맞다.
 
@@ -69,7 +69,7 @@ SEP는 일반 TEE보다 전용성·통합성이 강하고, 범용 TPM보다 실�
 
 | 비교 대상 | 강점 | 차이점 |
 | :--- | :--- | :--- |
-| SEP | [생체 인증](/knowledge-base/studynote/09_security/uncategorized/702_biometric_authentication/)·패스코드 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 통합 | Apple [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) 전용 아키텍처 |
+| SEP | [생체 인증](/knowledge-base/studynote/09_security/uncategorized/1047_biometric_authentication/)·패스코드 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 통합 | Apple [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) 전용 아키텍처 |
 | 범용 [TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/) | 플랫폼 전반 적용 가능 | 코어 공유 구조가 더 흔함 |
 | [TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) | 측정·키 저장에 특화 | [사용자 인증](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) UX와 직접 연결은 약함 |
 

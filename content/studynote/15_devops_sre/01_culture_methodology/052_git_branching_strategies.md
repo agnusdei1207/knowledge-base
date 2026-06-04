@@ -64,7 +64,7 @@ Git은 브랜치를 싸게 만들 수 있으므로, [전략](/knowledge-base/stu
 | 운영 복잡도 | 높음 | 낮음 | 중간 |
 | 배포 속도 | 느림 | 빠름 | 매우 빠름 |
 
-브랜치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD와 [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)와도 연결된다. 특히 Trunk-Based는 feature flag와 함께 써야 메인 브랜치를 자주 병합하면서도 배포 위험을 낮출 수 있다.
+브랜치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD와 [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)와도 연결된다. 특히 Trunk-Based는 feature flag와 함께 써야 메인 브랜치를 자주 병합하면서도 배포 위험을 낮출 수 있다.
 
 - **📢 섹션 요약 비유**: GitFlow는 출입문이 많은 큰 아파트, GitHub Flow는 단순한 원룸, Trunk-Based는 하나의 넓은 방을 계속 정리하는 방식이다.
 
@@ -79,7 +79,7 @@ Git은 브랜치를 싸게 만들 수 있으므로, [전략](/knowledge-base/stu
 1. 릴리스 주기가 짧은가 긴가?
 2. 브랜치 수명이 짧은가?
 3. 메인 브랜치가 항상 배포 가능 상태인가?
-4. feature flag와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD가 연결되어 있는가?
+4. feature flag와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD가 연결되어 있는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -110,7 +110,7 @@ Git은 브랜치를 싸게 만들 수 있으므로, [전략](/knowledge-base/stu
 | merge | 히스토리 보존 |
 | rebase | 선형 히스토리 |
 | [feature flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) | Trunk-Based 보완 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD | 브랜치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 배포 연결 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD | 브랜치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 배포 연결 |
 | [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) / [Code Review](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) | 협업 품질 통제 |
 
 ### 📈 관련 키워드 및 발전 흐름도

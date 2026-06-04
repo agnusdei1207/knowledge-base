@@ -11,8 +11,8 @@ tags = ["studynote-network"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource Public Ke…는 광통신·차세대·자동화에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource Public Ke…를 이해하면 전송 용량과 자동 제어성 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: [RPKI](/knowledge-base/studynote/09_security/uncategorized/1069_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource Public Ke…는 광통신·차세대·자동화에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: [RPKI](/knowledge-base/studynote/09_security/uncategorized/1069_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource Public Ke…를 이해하면 전송 용량과 자동 제어성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
@@ -27,7 +27,7 @@ tags = ["studynote-network"]
   - 이 거짓말이 실수로 전 세계 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 망으로 퍼져나갔고, 전 세계 통신사 라우터들이 속아 넘어가 유튜브 트래픽을 파키스탄으로 쏟아부었다. 결국 파키스탄 통신망이 터져버리고, 전 세계 유튜브가 몇 시간 동안 마비되었다.
   - 최근에는 해커들이 이 짓을 몰래 해서, 암호화폐 거래소의 트래픽을 가로채 해킹하는 짓을 벌이고 있다.
 
-이런 "거짓말쟁이 라우터"를 막기 위해, 통신 공학자들은 인터넷 주소 체계에 은행용 공인인증서([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/))의 강력한 암호학을 씌우는 <strong><a href="/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/">RPKI</a> (Resource <a href="/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/">PKI</a>)</strong>라는 무기를 만들어 냈다.
+이런 "거짓말쟁이 라우터"를 막기 위해, 통신 공학자들은 인터넷 주소 체계에 은행용 공인인증서([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/))의 강력한 암호학을 씌우는 <strong><a href="/knowledge-base/studynote/09_security/uncategorized/1069_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/">RPKI</a> (Resource <a href="/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/">PKI</a>)</strong>라는 무기를 만들어 냈다.
 
 ```text
 [라우팅 프로토콜 인증 방어망 MD5/SHA…]
@@ -49,10 +49,10 @@ RPKI는 두 가지 큰 뼈대([인증](/knowledge-base/studynote/04_software_eng
 #### 1. ROA (Route Origin [Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)) 서명 발급
 - 세계 IP 관리 기구(IANA, 한국의 KISA 등)가 최상위 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 기관(Trust Anchor)이 된다.
 - 구글 같은 회사는 KISA에 가서 "유튜브 IP 대역(Prefix)은 우리 구글 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 번호(AS15169)에서만 방송할 수 있다"고 등록한다.
-- KISA는 이 내용에 강력한 암호화 도장을 쾅 찍어서 <strong>ROA(경로 발신지 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서)</strong>라는 증명서를 발급하여 [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) 저장소에 올려둔다.
+- KISA는 이 내용에 강력한 암호화 도장을 쾅 찍어서 <strong>ROA(경로 발신지 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서)</strong>라는 증명서를 발급하여 [RPKI](/knowledge-base/studynote/09_security/uncategorized/1069_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) 저장소에 올려둔다.
 
 #### 2. 라우터의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계 (ROV - Route Origin [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))
-- 전 세계 통신사(SKT, KT 등)의 라우터 옆에는 [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) 캐시 서버([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)기)가 돌아가고 있다. 이 서버는 전 세계의 ROA [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 다운받아 둔다.
+- 전 세계 통신사(SKT, KT 등)의 라우터 옆에는 [RPKI](/knowledge-base/studynote/09_security/uncategorized/1069_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) 캐시 서버([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)기)가 돌아가고 있다. 이 서버는 전 세계의 ROA [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 다운받아 둔다.
 - **[정상 상황]** 구글 라우터가 "유튜브 IP(8.8.0.0)는 내(AS15169) 거야!"라고 외치면, 통신사 라우터는 옆의 캐시 서버에 물어본다. "[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서(ROA) 내용이랑 맞네? 오케이 통과(Valid)!"
 - **[해커 공격]** 해커 라우터가 "유튜브 IP는 내(해커 AS999) 거야!"라고 뻥을 친다. 통신사 라우터가 캐시 서버에 물어본다. "어? [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서엔 AS15169 꺼라고 적혀있는데, 쟤는 왜 999라고 우겨? 짭이다! **폐기(Invalid, Drop)!**"
 
@@ -77,7 +77,7 @@ RPKI는 두 가지 큰 뼈대([인증](/knowledge-base/studynote/04_software_eng
 +--------------------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource Public Ke…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
+- **📢 섹션 요약 비유**: [RPKI](/knowledge-base/studynote/09_security/uncategorized/1069_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource Public Ke…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
 ---
 
@@ -89,18 +89,18 @@ RPKI는 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_
   - 아직 세상에는 ROA [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 발급받지 않은 게으른 기업의 IP 대역이 훨씬 더 많다.
   - 라우터가 검사했는데 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 없으면(NotFound), "일단은 짭이 아니니까 통과시켜 주자"라고 넘어가야 인터넷이 안 끊긴다. 해커는 이 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 없는 만만한 IP 대역만 골라서 공격한다.
 * **글로벌 연대 필수**
-  - 구글이 백날 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 만들어놔도, 파키스탄 라우터나 다른 통신사 라우터가 "아 난 [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) 검사하기 귀찮아, 그냥 주는 대로 다 믿을래([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기능 끔)" 해버리면 하이재킹은 여전히 발생한다.
-  - 하지만 최근 Cloudflare, AWS 같은 글로벌 거인들이 [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 100% 강제(Invalid 경로 무조건 차단)하면서, 인터넷 생태계가 급속도로 안전해지고 있다.
+  - 구글이 백날 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 만들어놔도, 파키스탄 라우터나 다른 통신사 라우터가 "아 난 [RPKI](/knowledge-base/studynote/09_security/uncategorized/1069_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) 검사하기 귀찮아, 그냥 주는 대로 다 믿을래([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기능 끔)" 해버리면 하이재킹은 여전히 발생한다.
+  - 하지만 최근 Cloudflare, AWS 같은 글로벌 거인들이 [RPKI](/knowledge-base/studynote/09_security/uncategorized/1069_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 100% 강제(Invalid 경로 무조건 차단)하면서, 인터넷 생태계가 급속도로 안전해지고 있다.
 
-[RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource Public Ke…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방어망 [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/)/SHA…가 기반 조건을 만든다면, [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource Public Ke…는 그 위에서 핵심 메커니즘을 구현하고, [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 싱크홀은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+[RPKI](/knowledge-base/studynote/09_security/uncategorized/1069_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource Public Ke…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방어망 [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/)/SHA…가 기반 조건을 만든다면, [RPKI](/knowledge-base/studynote/09_security/uncategorized/1069_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource Public Ke…는 그 위에서 핵심 메커니즘을 구현하고, [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 싱크홀은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방어망 [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/)/SHA…의 기반 정리 | [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource Public Ke…의 핵심 동작 | [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 싱크홀의 확장 적용 |
+| 초점 | [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방어망 [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/)/SHA…의 기반 정리 | [RPKI](/knowledge-base/studynote/09_security/uncategorized/1069_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource Public Ke…의 핵심 동작 | [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 싱크홀의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 전송 용량 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource Public Ke…는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: [RPKI](/knowledge-base/studynote/09_security/uncategorized/1069_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource Public Ke…는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
@@ -115,15 +115,15 @@ RPKI는 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_
 2. 운영 복잡도와 도입 효과를 함께 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource Public Ke…를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
+- **📢 섹션 요약 비유**: [RPKI](/knowledge-base/studynote/09_security/uncategorized/1069_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource Public Ke…를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource Public Ke…는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 전송 용량 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 싱크홀, 의미 기반 통신 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의미 기반 통신 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+[RPKI](/knowledge-base/studynote/09_security/uncategorized/1069_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource Public Ke…는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 전송 용량 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 싱크홀, 의미 기반 통신 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의미 기반 통신 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource Public Ke…는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: [RPKI](/knowledge-base/studynote/09_security/uncategorized/1069_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource Public Ke…는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -148,12 +148,12 @@ RPKI는 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_
     +---> [확장 B: 의미 기반 통신 최적화]
 ```
 
-[RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource Public Ke…는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방어망 [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/)/SHA…에서 출발해 현재 메커니즘을 정교화하고, 이후 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 싱크홀와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+[RPKI](/knowledge-base/studynote/09_security/uncategorized/1069_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource Public Ke…는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방어망 [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/)/SHA…에서 출발해 현재 메커니즘을 정교화하고, 이후 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 싱크홀와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 택배 아저씨들(라우터)은 묻지도 따지지도 않고 "나 구글이요~"라고 소리치는 사람한테 그냥 유튜브 소포를 다 던져줬어요. 가끔 나쁜 도둑이 구글인 척 소리쳐서 소포를 훔쳐 갔죠 ([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 하이재킹).
-2. 이래선 안 되겠다 싶어 '경찰청([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관)'이 생겼고, 진짜 구글에게 위조 방지 도장이 찍힌 '진짜 구글 신분증(ROA)'을 만들어 줬어요. ([RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) 탄생)
+2. 이래선 안 되겠다 싶어 '경찰청([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관)'이 생겼고, 진짜 구글에게 위조 방지 도장이 찍힌 '진짜 구글 신분증(ROA)'을 만들어 줬어요. ([RPKI](/knowledge-base/studynote/09_security/uncategorized/1069_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) 탄생)
 3. 이제 택배 아저씨는 "나 구글이요!" 소리치는 사람에게 무조건 신분증을 내놓으라고 하고, 경찰청 장부랑 맞는지 철저히 검사(Route [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))한 뒤에만 소포를 건네준답니다! 사기꾼은 꼼짝 못 하겠죠?
 
 ---

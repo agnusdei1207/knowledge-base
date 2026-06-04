@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 526 / 587
 
-<- **이전**: [342. 서버리스 FaaS 아키텍처 한계 분석망](/knowledge-base/studynote/12_it_management/05_security_compliance/342_serverless_faas_limitations_audit/)
-**다음**: [343. IaC 테라폼 코드 인프라 선언 통제망](/knowledge-base/studynote/12_it_management/05_security_compliance/343_management/) ->
+<- **이전**: [342. 서버리스 FaaS 아키텍처 한계 분석망](/knowledge-base/studynote/12_it_management/05_security_compliance/983_serverless_faas_limitations_audit/)
+**다음**: [343. IaC 테라폼 코드 인프라 선언 통제망](/knowledge-base/studynote/12_it_management/05_security_compliance/984_management/) ->
 
 ---

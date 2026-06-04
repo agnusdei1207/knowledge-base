@@ -24,8 +24,8 @@ tags = ["studynote-software-engineering"]
 - **필요성**: 복잡한 비즈니스 규칙은 단순한 if-else 문으로 표현하기 어려우며, 중첩된 조건문이 많아지면 어떤 조건 조합이 어떤 행동을 유발하는지파악하는こ와/과가곤난하다. 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/)을 사용하면 조건 조합과 그에 따른 행동을격자목형식에서 명확히 볼 수 있다.
 
 - **표기법**: 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/)은 일반적으로 다음과 같은 구조를 갖는다.
-  - <strong>조건 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">스텁</a>(Condition <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">Stub</a>)</strong>: 표의 상단에 테스트할 조건들을 나열
-  - <strong>행동 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">스텁</a>(Action <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">Stub</a>)</strong>: 표의 하단에 취할 수 있는 조치들을 나열
+  - <strong>조건 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/">스텁</a>(Condition <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/">Stub</a>)</strong>: 표의 상단에 테스트할 조건들을 나열
+  - <strong>행동 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/">스텁</a>(Action <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/">Stub</a>)</strong>: 표의 하단에 취할 수 있는 조치들을 나열
   - **규칙(Rules)**: 각 열은 특정 조건 조합에 대한 행동 규칙을 나타냄
 
 - **비유**: 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/)은 <strong>'지하철 노선도'</strong>와 같다. 지하철 노선도에서는 여러 역(조건)이 서로 연결되어 있고, 각 경로(조건 조합)를 통해 목적지(행동)에 도달한다. 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/)도동양에, 복수의조건의조み합わせ에よっ고이なる결과가득られるこ와/과를시す.
@@ -127,7 +127,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/) ([Decision Table](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/))은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -181,7 +181,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 422 / 973
 
-<- **이전**: [415. 의사 결정 테이블 (Decision Table)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/415_decision_table/)
-**다음**: [416. 상태 전이 테스트 (State Transition Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/416_state_transition_testing/) ->
+<- **이전**: [415. 의사 결정 테이블 (Decision Table)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/807_decision_table/)
+**다음**: [416. 상태 전이 테스트 (State Transition Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/808_state_transition_testing/) ->
 
 ---

@@ -51,7 +51,7 @@ tags = ["studynote-design"]
                  [ 아키텍처 도면 / 구조 결정 ]
 ```
 
-가장 다루기 까다로운 부분은 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) ([Quality Attributes](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/279_quality_attributes_scenario/))이다. 추상적인 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 반드시 "환경-자극-응답-측정"으로 이어지는 구체적인 [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/) ([Quality Attribute Scenario](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/))로 작성되어야 실질적인 드라이버로 작동할 수 있다. 예를 들어 "시스템은 안정적이어야 한다"는 드라이버가 될 수 없으며, "DB 서버 다운 시(자극) 3초 이내에(측정) 예비 서버로 전환된다(응답)"로 구체화해야 한다.
+가장 다루기 까다로운 부분은 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) ([Quality Attributes](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/279_quality_attributes_scenario/))이다. 추상적인 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 반드시 "환경-자극-응답-측정"으로 이어지는 구체적인 [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/993_process/) ([Quality Attribute Scenario](/knowledge-base/studynote/12_it_management/05_security_compliance/993_process/))로 작성되어야 실질적인 드라이버로 작동할 수 있다. 예를 들어 "시스템은 안정적이어야 한다"는 드라이버가 될 수 없으며, "DB 서버 다운 시(자극) 3초 이내에(측정) 예비 서버로 전환된다(응답)"로 구체화해야 한다.
 
 - **📢 섹션 요약 비유**: 집을 지을 때 "가족이 머무를 공간(핵심 기능)", "지진 진도 7을 버티는 내진 설계(품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))", "예산 1억 원 이내(제약 사항)"라는 3가지 뼈대가 모여야 건축가가 철근 콘크리트를 쓸지 목조를 쓸지 결정할 수 있습니다.
 
@@ -103,8 +103,8 @@ tags = ["studynote-design"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/">품질 속성 시나리오</a> (QA Scenario)</strong> | 추상적인 품질 요구를 구체적이고 측정 가능하게 변환한 명세서 |
-| **유틸리티 트리 (Utility Tree)** | 다수의 [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/)들의 우선순위를 평가하고 선정하는 프레임워크 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/993_process/">품질 속성 시나리오</a> (QA Scenario)</strong> | 추상적인 품질 요구를 구체적이고 측정 가능하게 변환한 명세서 |
+| **유틸리티 트리 (Utility Tree)** | 다수의 [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/993_process/)들의 우선순위를 평가하고 선정하는 프레임워크 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/">ATAM</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a> Trade-off Analysis Method)</strong> | 아키텍처가 드라이버를 잘 충족시키고 있는지 평가하는 아키텍처 평가 방법론 |
 | **전술 (Tactics)** | 특정 [아키텍처 드라이버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)(예: [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))를 달성하기 위해 사용하는 구체적인 설계 기법 (예: Ping/Echo) |
 

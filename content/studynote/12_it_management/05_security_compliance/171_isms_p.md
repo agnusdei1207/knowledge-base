@@ -111,7 +111,7 @@ tags = ["studynote-it-management"]
 1. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 범위 안에 실제 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 흐름의 핵심 시스템과 운영 조직이 포함돼 있는가?
 2. 자산 목록, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 처리 흐름, 외부 위탁·제공 관계가 최신 상태로 관리되는가?
 3. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 문서뿐 아니라 승인 기록, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 교육, 점검 결과 같은 운영 증적이 반복적으로 남는가?
-4. 클라우드·[SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) (Software [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 사용 시 공유책임모델에 맞춰 어떤 통제가 우리 책임인지 구분했는가?
+4. 클라우드·[SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) (Software [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 사용 시 공유책임모델에 맞춰 어떤 통제가 우리 책임인지 구분했는가?
 5. [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/), 권리행사 처리, 보유기간 종료 후 파기까지 "운영 절차"가 실제로 실행 가능한가?
 
 ### 자주 발생하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)

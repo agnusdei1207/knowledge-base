@@ -13,7 +13,7 @@ tags = ["studynote-enterprise"]
 
 > 1. **본질**: [Agile PMO](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/037_agile_pmo/) ([Project Management Office](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/))는 일정·문서 통제보다 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 가시성, 의존성 관리, 예산 흐름 지원에 초점을 맞추는 지원형 거버넌스다.
 > 2. **가치**: 팀이 짧은 피드백 주기로 움직여도 경영진은 무엇이 가치를 내는지 볼 수 있어야 하므로, PMO는 표준화와 자율성의 균형을 맞춰야 한다.
-> 3. **판단 포인트**: 산출물 보고서만 늘리면 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)을 억누르고, burnup, CFD (Cumulative Flow Diagram), [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) ([Objectives and Key Results](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/)) 같은 흐름 지표를 보면 의사결정이 빨라진다.
+> 3. **판단 포인트**: 산출물 보고서만 늘리면 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)을 억누르고, burnup, CFD (Cumulative Flow Diagram), [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/) ([Objectives and Key Results](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/)) 같은 흐름 지표를 보면 의사결정이 빨라진다.
 
 ---
 
@@ -97,7 +97,7 @@ strategy -> portfolio -> team cadence -> metrics -> decision
 | :--- | :--- |
 | [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) | 거버넌스와 표준 |
 | Portfolio | 여러 팀의 가치 묶음 |
-| [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) | 성과 목표 연결 |
+| [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/) | 성과 목표 연결 |
 | CFD | 흐름 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) |
 | Dependency | 팀 간 의존성 |
 

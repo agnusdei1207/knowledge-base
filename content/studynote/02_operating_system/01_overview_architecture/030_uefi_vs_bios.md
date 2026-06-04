@@ -44,7 +44,7 @@ UEFI 부팅 흐름:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 부팅 단계 ([PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) [Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/))
+### [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 부팅 단계 ([PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/) [Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/))
 
 | 단계 | 영문 | 역할 |
 |:---|:---|:---|

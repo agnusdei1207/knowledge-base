@@ -12,7 +12,7 @@ tags = ["studynote-software-engineering"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SAFe ([Scaled Agile](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/) Framework)는 10명 남짓의 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)을 넘어, 수백 명의 개발자와 임원진 전체를 거대한 '[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 릴리즈 열차 ([ART](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/))'에 태워 기업 전체 규모로 확장시킨 관료주의형 [대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/) 프레임워크다.
 > 2. **가치**: "개발자 맘대로"가 아니라 임원진의 깐깐한 예산 통제(포트폴리오)와 [Top-Down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/) 기획을 완벽히 보장하면서도, 바닥에서는 2주 단위의 민첩한 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)가 굴러가도록 설계하여 보수적 대기업이 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)을 도입할 명분을 제공했다.
-> 3. **판단 포인트**: 부서 간 얽히고설킨 코드 의존성 (Dependency) 충돌을 막기 위해, 100명이 2박 3일간 합숙하며 일정을 맞추는 [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) 플래닝 (Program Increment Planning)이 필수적이나 오버헤드가 극심하다.
+> 3. **판단 포인트**: 부서 간 얽히고설킨 코드 의존성 (Dependency) 충돌을 막기 위해, 100명이 2박 3일간 합숙하며 일정을 맞추는 [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/) 플래닝 (Program Increment Planning)이 필수적이나 오버헤드가 극심하다.
 
 ---
 
@@ -56,17 +56,17 @@ SAFe의 아키텍처는 수백 명의 인원을 통제하기 위해 <strong><a h
 
 ## Ⅲ. 비교 및 연결
 
-SAFe를 상징하는 시그니처 행사이자 순수 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)과의 결정적 차이는 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/">PI</a> 플래닝 (Program Increment Planning)</strong>이라는 거대 의식에 있다.
+SAFe를 상징하는 시그니처 행사이자 순수 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)과의 결정적 차이는 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/">PI</a> 플래닝 (Program Increment Planning)</strong>이라는 거대 의식에 있다.
 
-| 항목 | 기존 순수 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)) | SAFe 대규모 프레임워크 ([ART](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/) & [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) 플래닝) | 비교 핵심 포인트 |
+| 항목 | 기존 순수 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/)) | SAFe 대규모 프레임워크 ([ART](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/) & [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/) 플래닝) | 비교 핵심 포인트 |
 |:---|:---|:---|:---|
-| **계획 수립 규모** | 단일 팀(5~9명)이 2주 단위로 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 계획 수립 | 100명 전원이 모여 10주([PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/)) 단위의 마스터 플랜 수립 | 계획의 시야와 무게감 차이 |
+| **계획 수립 규모** | 단일 팀(5~9명)이 2주 단위로 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 계획 수립 | 100명 전원이 모여 10주([PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/)) 단위의 마스터 플랜 수립 | 계획의 시야와 무게감 차이 |
 | **의존성 (Dependency)** | 데일리 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)에서 가볍게 말로 조율 가능 | **빨간 털실로 전지에 부서 간 엮인 시기를 시각화하고 타협** | 병목 지점 사전 차단력 |
 | **자율성 수준** | 팀이 스스로 업무량과 방식을 100% 결정 | 상위 포트폴리오의 예산 한도 내에서 할당된 목표(Feature) 분쇄 | 통제(거버넌스) 개입 여부 |
 
-<strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/">PI</a> 플래닝</strong>은 10주짜리 열차가 출발하기 전, 100명의 개발자부터 CEO, 사업부장까지 전원이 거대한 강당에 2박 3일 동안 갇혀 합숙 회의를 벌이는 전쟁터다. 여기서 가장 중요한 것은 '의존성 사냥'이다. "A팀 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 언제 줄 거야? 우리 B팀 3주 차에 써야 해", "안 돼, 4주 차로 미뤄"라며 각자의 개발 일정이 충돌하는 타이밍을 전지판에 시각화하고 사전에 타협을 끝내버린다. 이 무식하지만 확실한 싸움 덕분에, 100명이 찢어져서 코딩하더라도 10주 뒤 코드가 어긋나는 대참사를 막을 수 있다.
+<strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/">PI</a> 플래닝</strong>은 10주짜리 열차가 출발하기 전, 100명의 개발자부터 CEO, 사업부장까지 전원이 거대한 강당에 2박 3일 동안 갇혀 합숙 회의를 벌이는 전쟁터다. 여기서 가장 중요한 것은 '의존성 사냥'이다. "A팀 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 언제 줄 거야? 우리 B팀 3주 차에 써야 해", "안 돼, 4주 차로 미뤄"라며 각자의 개발 일정이 충돌하는 타이밍을 전지판에 시각화하고 사전에 타협을 끝내버린다. 이 무식하지만 확실한 싸움 덕분에, 100명이 찢어져서 코딩하더라도 10주 뒤 코드가 어긋나는 대참사를 막을 수 있다.
 
-- **📢 섹션 요약 비유**: [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) 플래닝은 수백 명의 요리사가 코스 요리를 만들기 전 <strong>'주방 동선 회의'</strong>를 하는 것과 같다. "내가 10시에 고기를 구울 테니 넌 10시 5분에 접시를 준비해"라고 동선을 완벽하게 조율해 놔야만, 실전 주방에서 100명이 뛰어다녀도 프라이팬이 부딪혀 불이 나는 것을 막을 수 있다.
+- **📢 섹션 요약 비유**: [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/) 플래닝은 수백 명의 요리사가 코스 요리를 만들기 전 <strong>'주방 동선 회의'</strong>를 하는 것과 같다. "내가 10시에 고기를 구울 테니 넌 10시 5분에 접시를 준비해"라고 동선을 완벽하게 조율해 놔야만, 실전 주방에서 100명이 뛰어다녀도 프라이팬이 부딪혀 불이 나는 것을 막을 수 있다.
 
 ---
 
@@ -79,7 +79,7 @@ SAFe를 상징하는 시그니처 행사이자 순수 [애자일](/knowledge-bas
 3. **팀 계층 (개발자 레벨)**: 바닥에서 2주마다 코드를 짜고 데일리 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)을 도는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 실무 전선이다.
 
 <strong>판단 포인트 및 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
-임원들은 이 수직적 구조에 환호하지만, 실무에서는 [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) 플래닝을 한 번 여는 데 수천만 원의 체류비와 업무 마비가 발생한다. 만약 100명이 모일 만큼 부서 간 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))가 높지 않은 느슨한 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 구조의 회사라면, SAFe의 무거운 열차에 태우는 것은 완전한 오버엔지니어링([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/))이다. SAFe는 기존의 거대한 모놀리식 (Monolithic) 레거시 시스템을 수백 명이 뜯어고쳐야 할 때만 그 빛을 발한다.
+임원들은 이 수직적 구조에 환호하지만, 실무에서는 [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/) 플래닝을 한 번 여는 데 수천만 원의 체류비와 업무 마비가 발생한다. 만약 100명이 모일 만큼 부서 간 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))가 높지 않은 느슨한 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 구조의 회사라면, SAFe의 무거운 열차에 태우는 것은 완전한 오버엔지니어링([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/))이다. SAFe는 기존의 거대한 모놀리식 (Monolithic) 레거시 시스템을 수백 명이 뜯어고쳐야 할 때만 그 빛을 발한다.
 
 - **📢 섹션 요약 비유**: SAFe의 계층 구조는 <strong>'초거대 여객선(크루즈)의 지휘 체계'</strong>다. 조타실의 선장(임원진)이 목적지를 정하면, 항해사와 요리사 10개 팀이 출항 전 합을 맞춘 뒤 엔진실(바닥)에서는 바쁘게 삽질([애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))을 하며 10주 동안 거대한 배를 움직이는 철저히 통제된 시스템이다.
 
@@ -89,7 +89,7 @@ SAFe를 상징하는 시그니처 행사이자 순수 [애자일](/knowledge-bas
 
 SAFe ([Scaled Agile](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/) Framework)는 대기업이 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)이라는 낯선 야생마에 올라타기 위해 채워 놓은 가장 정교한 고삐이자 안장이다.
 
-개발팀은 2주 단위로 실패와 피드백을 반복하는 민첩함을 얻었고, 경영진은 10주 단위로 예측 가능한 산출물을 검증하며 예산을 통제하는 확신을 얻었다. 지나친 관료주의라는 비판과 [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) 플래닝이라는 극심한 오버헤드를 견뎌야 하지만, 수백 명의 엉킨 실타래(의존성)를 풀고 하나의 목표를 향해 거대한 조직의 템포를 완벽히 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)시키는 압도적인 구조적 안정감 때문에 글로벌 대기업의 70%가 이를 선택하고 있다.
+개발팀은 2주 단위로 실패와 피드백을 반복하는 민첩함을 얻었고, 경영진은 10주 단위로 예측 가능한 산출물을 검증하며 예산을 통제하는 확신을 얻었다. 지나친 관료주의라는 비판과 [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/) 플래닝이라는 극심한 오버헤드를 견뎌야 하지만, 수백 명의 엉킨 실타래(의존성)를 풀고 하나의 목표를 향해 거대한 조직의 템포를 완벽히 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)시키는 압도적인 구조적 안정감 때문에 글로벌 대기업의 70%가 이를 선택하고 있다.
 
 - **📢 섹션 요약 비유**: SAFe는 자유분방한 게릴라 전투(순수 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))를 <strong>'정규군의 제식 훈련'</strong>으로 바꾼 것이다. 10명일 때는 각자 숨어서 잘 싸우면 되지만, 1,000명의 대군이 오와 열을 맞추고 진군하려면 무겁고 답답해 보여도 일사불란한 시스템 통제가 전멸을 막는 유일한 방법이다.
 
@@ -100,7 +100,7 @@ SAFe ([Scaled Agile](/knowledge-base/studynote/04_software_engineering/02_requir
 | 개념 | 연결 포인트 |
 |:---|:---|
 | <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/">ART</a> (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a> Release Train)</strong> | SAFe의 심장이자, 50~125명이 탑승하여 10주간 같은 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)로 달리는 거대한 조직 단위 [메타포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/079_metaphor_xp_practice/) |
-| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/">PI</a> 플래닝 (Program Increment Planning)</strong> | 100명이 오프라인에 모여 부서 간 일정 꼬임을 전지에 실로 엮어가며 사전 조율하는 극강의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 이벤트 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/">PI</a> 플래닝 (Program Increment Planning)</strong> | 100명이 오프라인에 모여 부서 간 일정 꼬임을 전지에 실로 엮어가며 사전 조율하는 극강의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 이벤트 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/">에픽</a> (<a href="/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/">Epic</a>)과 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> (Feature)</strong> | 경영진이 던지는 거대한 비전([Epic](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/))이 하위 계층으로 내려오며 실무 단위의 기능(Feature)으로 분쇄되는 구조 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -124,7 +124,7 @@ ART (Agile Release Train) 출항 · 수백 명의 템포 동기화 달성
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. SAFe는 작은 돛단배([스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/))가 아니라 수백 명이 타고 있는 <strong>'거대한 크루즈 여객선'</strong>을 조종하는 방법이에요.
-2. 배가 출발하기 전에 요리사, 엔진 기사, 청소부 수백 명이 큰 방에 다 같이 모여서 "몇 시에 밥을 주고 몇 시에 교대할지" 꼼꼼히 약속을 정해요. (이걸 [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) 플래닝이라고 해요!)
+2. 배가 출발하기 전에 요리사, 엔진 기사, 청소부 수백 명이 큰 방에 다 같이 모여서 "몇 시에 밥을 주고 몇 시에 교대할지" 꼼꼼히 약속을 정해요. (이걸 [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/) 플래닝이라고 해요!)
 3. 약속이 다 정해지면 선장님의 지시에 맞춰 다 같이 노를 젓기 때문에, 100명이 움직여도 배가 엉뚱한 곳으로 가지 않고 빠르고 안전하게 도착한답니다.
 
 ---

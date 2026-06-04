@@ -41,7 +41,7 @@ Tx -> Signature -> Block -> Hash Chain -> Consensus -> Ledger
 | Block | [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) | 해시 연결 |
 | Consensus | 승인 절차 | PoW / PoS |
 | [Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) | 로직 적합성 | 권한/조건 |
-| [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) | 통제 | 개인키 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
+| [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) | 통제 | 개인키 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
 
 핵심은 원장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 운영 통제를 함께 보는 것이다. 해시가 맞아도 접근권한이 엉망이면 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 실패다.
 
@@ -141,7 +141,7 @@ Tx -> Signature -> Block -> Hash Chain -> Consensus -> Ledger
 
 **진행 상황**: 80 / 530
 
-<- **이전**: [52. PMO와 감리의 차이 (PMO vs Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/052_pmo_audit_difference/)
+<- **이전**: [52. PMO와 감리의 차이 (PMO vs Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/627_pmo_audit_difference/)
 **다음**: [54. ITIL/ITSM 감사 (ITIL ITSM Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/054_itil_itsm_audit/) ->
 
 ---

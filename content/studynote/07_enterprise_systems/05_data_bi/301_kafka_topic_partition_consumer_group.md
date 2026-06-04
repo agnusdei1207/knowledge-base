@@ -34,7 +34,7 @@ tags = ["studynote-enterprise-systems"]
 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 설계 원칙:
 - 너무 적으면: [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 병목, 컨슈머 추가해도 효과 없음
 - 너무 많으면: 브로커 메모리 압박, [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/)/KRaft [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 과부하
-- 권장: 브로커당 2,000~4,000 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 이내 유지 ([Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) 권장)
+- 권장: 브로커당 2,000~4,000 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 이내 유지 ([Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/) 권장)
 
 📢 **섹션 요약 비유**: [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 고속도로 차선, 컨슈머는 차량이다. 차선 수보다 차가 많아봐야 차선 수만큼밖에 통행하지 못한다.
 

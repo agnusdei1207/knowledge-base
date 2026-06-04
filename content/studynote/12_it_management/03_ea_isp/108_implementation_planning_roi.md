@@ -10,7 +10,7 @@ tags = ["studynote-it-management"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 이행 계획 수립의 본질은 식별된 과제의 우선순위 산정, 일정/예산 편성 ([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 분석)를 의미와 해석 기준을 분명히 해 실제 의사결정에 쓰이게 만드는 데 있다.
+> 1. **본질**: 이행 계획 수립의 본질은 식별된 과제의 우선순위 산정, 일정/예산 편성 ([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 분석)를 의미와 해석 기준을 분명히 해 실제 의사결정에 쓰이게 만드는 데 있다.
 > 2. **가치**: 측정식의 의미와 해석 기준을 정확히 이해해야 숫자가 보고용 장식이 아니라 실제 투자·운영 판단 도구가 된다.
 > 3. **판단 포인트**: 이행 계획 수립은 도입 자체보다 범위, 책임, 측정 기준을 어떻게 연결하느냐에 따라 성과가 달라진다.
 
@@ -18,7 +18,7 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. 개요 및 필요성
 
-이행 계획 수립은 조직이 당면한 요구를 반복 가능하고 설명 가능한 운영 체계로 바꾸기 위해 사용하는 핵심 관리 개념이다. 실무 초점은 식별된 과제의 우선순위 산정, 일정/예산 편성 ([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 분석)에 놓이며, 핵심은 측정식의 의미와 해석 기준을 정확히 이해해야 숫자가 보고용 장식이 아니라 실제 투자·운영 판단 도구가 된다.
+이행 계획 수립은 조직이 당면한 요구를 반복 가능하고 설명 가능한 운영 체계로 바꾸기 위해 사용하는 핵심 관리 개념이다. 실무 초점은 식별된 과제의 우선순위 산정, 일정/예산 편성 ([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 분석)에 놓이며, 핵심은 측정식의 의미와 해석 기준을 정확히 이해해야 숫자가 보고용 장식이 아니라 실제 투자·운영 판단 도구가 된다.
 
 이 개념이 중요한 이유는 현장의 속도와 통제가 자주 충돌하기 때문이다. 기준이 없으면 부서별로 다른 판단이 누적되어 중복 투자, 운영 공백, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 리스크가 커지고, 반대로 지나치게 경직된 통제는 변화 대응 속도를 떨어뜨린다. 실무에서는 보통 과제 포트폴리오, 우선순위 기준, 연차 로드맵 같은 세부 축이 함께 굴러가야 관리 체계가 실제 효과를 낸다.
 
@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 199 / 587
 
-<- **이전**: [107. 차이 분석 (Gap Analysis)](/knowledge-base/studynote/12_it_management/03_ea_isp/107_gap_analysis_task_identification/)
-**다음**: [108. 서픽스 트리와 서픽스 배열 (Suffix Tree & Array)](/knowledge-base/studynote/12_it_management/03_ea_isp/108_suffix_tree_array/) ->
+<- **이전**: [107. 차이 분석 (Gap Analysis)](/knowledge-base/studynote/12_it_management/03_ea_isp/891_gap_analysis_task_identification/)
+**다음**: [108. 서픽스 트리와 서픽스 배열 (Suffix Tree & Array)](/knowledge-base/studynote/12_it_management/03_ea_isp/892_suffix_tree_array/) ->
 
 ---

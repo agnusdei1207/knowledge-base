@@ -26,7 +26,7 @@ tags = ["studynote-software-engineering"]
 - **💡 비유**: <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/233_class_diagram_static_structure_uml/">클래스 다이어그램</a></strong>은 연극의 '등장인물 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도와 배역 설명서'입니다. 누가 왕이고 누가 신하인지 정적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 보여줍니다. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/">시퀀스 다이어그램</a></strong>은 배우들이 시간에 따라 대사를 주고받는 '대본(Script)'이며, <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/237_activity_diagram_dynamic_workflow_uml/">액티비티 다이어그램</a></strong>은 배우의 동선과 무대 장치의 움직임을 지시하는 '무대 연출 콘티'와 같습니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **객체지향 방법론의 난립과 통합**: 1990년대 초, Booch, Rumbaugh(OMT), Jacobson(OOBE) 등 수많은 객체지향 설계 표기법이 난립하여 시장의 혼란을 초래했다. 이에 세 거장(Three Amigos)이 모여 각자의 장점을 합친 UML을 탄생시켰고, OMG(Object [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Group)의 표준으로 채택되었다.
+  1. **객체지향 방법론의 난립과 통합**: 1990년대 초, Booch, Rumbaugh(OMT), Jacobson(OOBE) 등 수많은 객체지향 설계 표기법이 난립하여 시장의 혼란을 초래했다. 이에 세 거장(Three Amigos)이 모여 각자의 장점을 합친 UML을 탄생시켰고, OMG(Object [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) Group)의 표준으로 채택되었다.
   2. **정적 뷰와 동적 뷰의 이원화 사상**: 객체지향의 본질인 "상태를 가진 객체들이 메시지를 주고받으며 협력한다"는 철학을 완벽히 모델링하기 위해, 시스템 구조(명사)와 행위(동사)를 분리하여 다각도로 투영하는 14종 이상의 다이어그램 체계로 진화했다.
 
 UML의 정적/동적 다이어그램 체계가 시스템을 어떻게 다차원적으로 투영하는지 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하면 다음과 같다.
@@ -129,7 +129,7 @@ UML의 정적/동적 다이어그램 체계가 시스템을 어떻게 다차원�
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 클래스, 시퀀스, [액티비티 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/237_activity_diagram_dynamic_workflow_uml/)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

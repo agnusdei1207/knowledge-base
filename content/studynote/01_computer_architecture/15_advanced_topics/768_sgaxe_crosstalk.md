@@ -23,7 +23,7 @@ tags = ["studynote-computer-architecture"]
 
 SGAxe는 CacheOut 계열의 L1D (Level 1 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Cache) 축출 샘플링을 바탕으로 [SGX](/knowledge-base/studynote/09_security/04_endpoint_security/389_sgx/) 관련 비밀을 회수해, 원격 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([Remote Attestation](/knowledge-base/studynote/09_security/04_endpoint_security/396_remote_attestation/)) 신뢰를 위조할 수 있음을 보였다. CrossTalk는 SRBDS라는 이름으로 공개되었으며, `RDRAND`, `RDSEED`, 일부 [SGX](/knowledge-base/studynote/09_security/04_endpoint_security/389_sgx/) 특수 경로처럼 특수 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값을 전달할 때 쓰는 공유 staging buffer를 다른 코어에서 엿들을 수 있음을 드러냈다.
 
-즉 두 공격은 단순히 "새로운 CVE가 또 나왔다"는 의미가 아니라, 하드웨어가 제공하던 최고 수준의 격리 약속이 실제 배선·버퍼·전달 경로 수준에서는 생각보다 쉽게 깨질 수 있음을 보여준다. 신뢰 기반을 설계하는 사람에게는 [보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/503_security_features_design/)의 이름보다 내부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 경로가 더 중요하다는 교훈을 남겼다.
+즉 두 공격은 단순히 "새로운 CVE가 또 나왔다"는 의미가 아니라, 하드웨어가 제공하던 최고 수준의 격리 약속이 실제 배선·버퍼·전달 경로 수준에서는 생각보다 쉽게 깨질 수 있음을 보여준다. 신뢰 기반을 설계하는 사람에게는 [보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/895_security_features_design/)의 이름보다 내부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 경로가 더 중요하다는 교훈을 남겼다.
 
 - **📢 섹션 요약 비유**: 성벽은 두꺼웠지만, 성 안의 비밀문서가 지나가는 배수로와 우편관이 새고 있었던 셈이라서 SGAxe와 CrossTalk는 "벽"보다 "배관"을 공격한 사례다.
 
@@ -58,7 +58,7 @@ SGAxe와 CrossTalk는 같은 문맥에서 자주 묶이지만, 메커니즘은 �
 
 SGAxe를 이해할 때는 Quoting [Enclave](/knowledge-base/studynote/09_security/04_endpoint_security/390_enclave/) (QE)와 원격 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체인이 중요하다. 공격자가 attestation-related secret을 회수하면, 외부 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자 입장에서는 가짜 엔클레이브를 진짜처럼 믿을 위험이 생긴다. CrossTalk를 이해할 때는 "특수 명령은 코어 안에서만 끝난다"는 믿음이 깨진다는 점이 중요하다. 공유 staging buffer에 값이 잠깐 놓이는 순간, 다른 코어도 그 잔상을 관찰할 수 있기 때문이다.
 
-결국 두 공격 모두 기능 격리와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 격리가 같지 않다는 사실을 보여준다. [보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/503_security_features_design/)이 아무리 화려해도, 그 기능을 떠받치는 버퍼와 전달 경로가 공유되면 신뢰의 마지막 고리가 끊어진다.
+결국 두 공격 모두 기능 격리와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 격리가 같지 않다는 사실을 보여준다. [보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/895_security_features_design/)이 아무리 화려해도, 그 기능을 떠받치는 버퍼와 전달 경로가 공유되면 신뢰의 마지막 고리가 끊어진다.
 
 - **📢 섹션 요약 비유**: SGAxe는 왕의 금고에서 나오는 열쇠 도장을 위조한 사건이고, CrossTalk는 다른 건물 우편실에서 내 비밀 서류가 지나는 우편관을 몰래 엿본 사건이라고 생각하면 된다.
 
@@ -66,7 +66,7 @@ SGAxe를 이해할 때는 Quoting [Enclave](/knowledge-base/studynote/09_securit
 
 ## Ⅲ. 비교 및 연결
 
-이 둘을 [RIDL](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/765_ridl_attack/), [좀비로드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/767_zombieload_attack/) 같은 [MDS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/764_mds/) 계열과 연결해서 보면 신뢰 경계가 단계적으로 무너지는 흐름이 보인다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 공격이 같은 코어의 버퍼 공유를 보여줬다면, CrossTalk는 코어 경계 너머의 공유 경로까지 드러냈고, SGAxe는 그 위에 세워진 [SGX](/knowledge-base/studynote/09_security/04_endpoint_security/389_sgx/) 신뢰 체인 자체를 흔들었다. 즉 "같은 코어의 누수"에서 끝난 이야기가 아니라, "최고 [보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/503_security_features_design/)도 하드웨어 공유 경로에 종속된다"는 결론으로 확장된 것이다.
+이 둘을 [RIDL](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/765_ridl_attack/), [좀비로드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/767_zombieload_attack/) 같은 [MDS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/764_mds/) 계열과 연결해서 보면 신뢰 경계가 단계적으로 무너지는 흐름이 보인다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 공격이 같은 코어의 버퍼 공유를 보여줬다면, CrossTalk는 코어 경계 너머의 공유 경로까지 드러냈고, SGAxe는 그 위에 세워진 [SGX](/knowledge-base/studynote/09_security/04_endpoint_security/389_sgx/) 신뢰 체인 자체를 흔들었다. 즉 "같은 코어의 누수"에서 끝난 이야기가 아니라, "최고 [보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/895_security_features_design/)도 하드웨어 공유 경로에 종속된다"는 결론으로 확장된 것이다.
 
 | 신뢰 경계 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [MDS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/764_mds/) 계열 | [CrossTalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/) | SGAxe |
 | :--- | :--- | :--- | :--- |
@@ -104,7 +104,7 @@ SGAxe를 이해할 때는 Quoting [Enclave](/knowledge-base/studynote/09_securit
 
 이들 공격에 대한 완화와 운영 복구가 제대로 이뤄지면, 최소한 [SGX](/knowledge-base/studynote/09_security/04_endpoint_security/389_sgx/)·특수 명령·코어 격리 같은 고신뢰 기능에 대한 과도한 낙관을 줄이고 현실적인 신뢰 모델을 세울 수 있다. 원격 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체인을 새로 정비하면 가짜 플랫폼을 진짜로 믿는 위험을 줄일 수 있고, [CrossTalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/) 대응은 코어 간 특수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전달이 더 이상 무방비 상태로 남지 않게 만든다.
 
-장기적으로는 하드웨어가 "[보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/503_security_features_design/)"만 추가할 것이 아니라, 그 기능을 지탱하는 전달 경로 전체를 보안 설계 대상으로 삼아야 한다. 엔클레이브, [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/), 특수 명령 버퍼, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체인이 모두 문맥별로 격리되고 자동으로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화되는 방향이 필요하다. SGAxe와 CrossTalk는 결국 "가장 깊은 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 공유 버퍼 위에 세워지면 무너질 수 있다"는 사실을 기억하게 만든다.
+장기적으로는 하드웨어가 "[보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/895_security_features_design/)"만 추가할 것이 아니라, 그 기능을 지탱하는 전달 경로 전체를 보안 설계 대상으로 삼아야 한다. 엔클레이브, [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/), 특수 명령 버퍼, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체인이 모두 문맥별로 격리되고 자동으로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화되는 방향이 필요하다. SGAxe와 CrossTalk는 결국 "가장 깊은 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 공유 버퍼 위에 세워지면 무너질 수 있다"는 사실을 기억하게 만든다.
 
 - **📢 섹션 요약 비유**: 미래의 CPU는 성벽만 높은 왕성이 아니라, 배수로·우편관·출입증 발급소까지 한 세트로 잠그는 도시처럼 설계되어야 한다.
 

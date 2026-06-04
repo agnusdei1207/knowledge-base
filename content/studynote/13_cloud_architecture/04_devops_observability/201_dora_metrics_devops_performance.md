@@ -13,7 +13,7 @@ tags = ["studynote-cloud-architecture"]
 
 > 1. **본질**: Google [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) Research and Assessment팀이 6년간 3만 개 이상 조직을 연구하여 도출한 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 성과의 4가지 표준 측정 지표 — 배포 빈도(DF), 변경 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)(LTC), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)), 변경 실패율([CFR](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/))이다.
 > 2. **가치**: DORA는 "얼마나 빠르게(Velocity)"와 "얼마나 안정적으로([Stability](/knowledge-base/studynote/08_algorithm_stats/02_sorting/021_stability/))"를 동시에 측정하여, 속도와 품질이 트레이드오프가 아닌 함께 높일 수 있음을 데이터로 증명했다.
-> 3. **판단 포인트**: Elite 팀은 하루 여러 번 배포하면서도 변경 실패율 5% 미만을 달성한다. 이는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 자동화·테스트 문화·심리적 안전감이 동시에 성숙했을 때만 가능하다.
+> 3. **판단 포인트**: Elite 팀은 하루 여러 번 배포하면서도 변경 실패율 5% 미만을 달성한다. 이는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 자동화·테스트 문화·심리적 안전감이 동시에 성숙했을 때만 가능하다.
 
 ---
 
@@ -88,7 +88,7 @@ tags = ["studynote-cloud-architecture"]
 
 | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표 향상 | 필요한 기술 관행 |
 |:---|:---|
-| 배포 빈도^ | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 자동화, [트렁크 기반 개발](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/), 작은 배포 단위 |
+| 배포 빈도^ | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 자동화, [트렁크 기반 개발](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/), 작은 배포 단위 |
 | 리드타임v | 자동화 테스트, [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 속도, 배포 파이프라인 최적화 |
 | [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)v | 관찰성([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)), 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/), 인시던트 [관리 프로세스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/018_admin_processes/) |
 | 변경 실패율v | 테스트 커버리지, [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)·[피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/), 코드 품질 |
@@ -99,7 +99,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-<strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/">DORA</a> 지표 측정 방법 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD 도구 활용)</strong>:
+<strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/">DORA</a> 지표 측정 방법 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD 도구 활용)</strong>:
 ```
 배포 빈도 측정:
   CI/CD 시스템(Jenkins, ArgoCD)의 프로덕션 배포 이벤트 카운트
@@ -152,7 +152,7 @@ High -> Elite:   완전 자동화 파이프라인, 카오스 엔지니어링
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 | 배포 빈도와 리드타임 개선의 핵심 기술 인프라 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인 | 배포 빈도와 리드타임 개선의 핵심 기술 인프라 |
 | [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) | 변경 실패율 감소에 직접 기여 |
 | [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) | [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 단축을 위한 빠른 장애 감지 인프라 |
 | [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) | 변경 실패율 감소 + 배포 빈도 증가 동시 기여 |

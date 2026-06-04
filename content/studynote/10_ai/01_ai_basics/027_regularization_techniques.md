@@ -31,7 +31,7 @@ tags = ["studynote-ai"]
 +---------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: 규제화는 시험 공부 방법이다. 기출 문제(훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 달달 외우면 처음 보는 문제([테스트 데이터](/knowledge-base/studynote/04_software_engineering/11_testing_validation/444_test_data_management/))에서 낮은 점수가 나온다. 규제화는 "개념 이해"를 강제하여 어떤 문제도 풀 수 있는 실력을 기른다.
+- **📢 섹션 요약 비유**: 규제화는 시험 공부 방법이다. 기출 문제(훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 달달 외우면 처음 보는 문제([테스트 데이터](/knowledge-base/studynote/04_software_engineering/11_testing_validation/836_test_data_management/))에서 낮은 점수가 나온다. 규제화는 "개념 이해"를 강제하여 어떤 문제도 풀 수 있는 실력을 기른다.
 
 ---
 

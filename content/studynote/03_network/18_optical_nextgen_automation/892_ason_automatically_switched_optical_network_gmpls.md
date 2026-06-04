@@ -47,7 +47,7 @@ ASON은 인프라 구조를 완벽히 3가지 세상으로 쪼갰습니다.
 2. **제어 평면 (Control Plane) 🌟 핵심 🌟**:
    - ASON의 심장이자 뇌입니다. GMPLS(범용 다중 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 라벨 스위칭)라는 고도의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 알고리즘이 탑재된 소프트웨어 뇌들입니다.
    - 뇌들끼리 1초 만에 통신하며 <strong>"서울에서 부산 가는 빛의 최단 거리 경로"를 스스로 찾고(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a>), "여기부터 여기까지 파란색 파장으로 길 뚫어라!"라고 바닥의 기계에 신호를 쏴서 길을 동적으로 뚫어줍니다(Signaling &amp; <a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">Provisioning</a>).</strong>
-3. <strong>관리 평면 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a> Plane)</strong>:
+3. <strong>관리 평면 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/">Management</a> Plane)</strong>:
    - 가장 위에 있는 인간 관리자용 대시보드 화면(NMS)입니다. 장비의 고장 감시, 요금 청구, 장애 알람 등의 운영(OAM)을 담당합니다.
 
 ```text

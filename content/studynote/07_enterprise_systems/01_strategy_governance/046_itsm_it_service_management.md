@@ -10,13 +10,13 @@ tags = ["studynote-enterprise-systems"]
 +++
 
 > **핵심 인사이트**
-> 1. [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/)([IT Service Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_itsm/))은 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 비즈니스 관점에서 설계·제공·개선하는 통합 접근법 — 기술 운영(Technology Operations)이 아닌 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치 창출에 초점을 맞추며, ITIL이 사실상 표준 프레임워크를 제공한다.
-> 2. ITSM의 핵심 KPI는 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)·[MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/)·[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 준수율·FCR — 이 지표들이 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질을 정량화하며, 개선 목표와 투자 우선순위 결정의 기준이 된다.
-> 3. 현대 ITSM은 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)·SRE와 통합 — 전통 ITSM의 변경관리는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD와 충돌할 수 있으며, "경량 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)(Light-[Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [CAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/))"와 "자동화된 변경 승인"으로 속도와 안정성을 동시에 확보하는 방향으로 진화하고 있다.
+> 1. [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/)([IT Service Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/845_itsm/))은 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 비즈니스 관점에서 설계·제공·개선하는 통합 접근법 — 기술 운영(Technology Operations)이 아닌 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치 창출에 초점을 맞추며, ITIL이 사실상 표준 프레임워크를 제공한다.
+> 2. ITSM의 핵심 KPI는 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)·[MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/)·[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 준수율·FCR — 이 지표들이 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질을 정량화하며, 개선 목표와 투자 우선순위 결정의 기준이 된다.
+> 3. 현대 ITSM은 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)·SRE와 통합 — 전통 ITSM의 변경관리는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD와 충돌할 수 있으며, "경량 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)(Light-[Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [CAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/))"와 "자동화된 변경 승인"으로 속도와 안정성을 동시에 확보하는 방향으로 진화하고 있다.
 
 ---
 
-## Ⅰ. [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 가치 체계
+## Ⅰ. [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/) 가치 체계
 
 ```
 ITSM 가치 창출 모델:
@@ -62,11 +62,11 @@ ITSM 가치 지표:
   IT 직원 생산성
 ```
 
-> 📢 **섹션 요약 비유**: ITSM은 IT를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)업으로 — 호텔(IT팀)이 단순히 건물 관리가 아니라 투숙객(사용자) 경험을 창출. [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/)는 호텔 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 목록!
+> 📢 **섹션 요약 비유**: ITSM은 IT를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)업으로 — 호텔(IT팀)이 단순히 건물 관리가 아니라 투숙객(사용자) 경험을 창출. [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/872_service_catalog/)는 호텔 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 목록!
 
 ---
 
-## Ⅱ. 핵심 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)
+## Ⅱ. 핵심 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/) [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)
 
 ```
 ITSM 핵심 성과 지표:
@@ -117,7 +117,7 @@ SLA:
   99.9% = 월 43분
 ```
 
-> 📢 **섹션 요약 비유**: [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) KPI는 배달 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지표 — [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)(배달 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 해결 시간), [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/)(배달 사고 간격), FCR(첫 전화로 해결), CSAT(고객 별점)!
+> 📢 **섹션 요약 비유**: [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/) KPI는 배달 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지표 — [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)(배달 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 해결 시간), [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/)(배달 사고 간격), FCR(첫 전화로 해결), CSAT(고객 별점)!
 
 ---
 
@@ -169,11 +169,11 @@ SRE와 ITSM 융합:
   -> 안정성 우선
 ```
 
-> 📢 **섹션 요약 비유**: [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/)+DevOps는 빠른 배달+안전 — 빠른 배달([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))을 위해 안전 검사([ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/))를 자동화. 저위험 소포는 자동 통과, 위험 화물만 검사!
+> 📢 **섹션 요약 비유**: [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/)+DevOps는 빠른 배달+안전 — 빠른 배달([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))을 위해 안전 검사([ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/))를 자동화. 저위험 소포는 자동 통과, 위험 화물만 검사!
 
 ---
 
-## Ⅳ. [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 도구 선택
+## Ⅳ. [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/) 도구 선택
 
 ```
 ITSM 도구 비교:
@@ -220,11 +220,11 @@ SMB:
   사용성: 서비스 데스크 담당자
 ```
 
-> 📢 **섹션 요약 비유**: [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 도구 선택은 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 선택 — 대기업은 SAP/오라클(ServiceNow), 중소기업은 더 가벼운 것(Freshservice). 기능 많을수록 복잡하고 비싸요!
+> 📢 **섹션 요약 비유**: [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/) 도구 선택은 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 선택 — 대기업은 SAP/오라클(ServiceNow), 중소기업은 더 가벼운 것(Freshservice). 기능 많을수록 복잡하고 비싸요!
 
 ---
 
-## Ⅴ. 실무 시나리오 — 통신사 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 혁신
+## Ⅴ. 실무 시나리오 — 통신사 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/) 혁신
 
 ```
 대형 통신사 ITSM 최적화:
@@ -272,7 +272,7 @@ SMB:
   비용: BMC Remedy 유지보수 -> ServiceNow 이관 후 3년 TCO 15% 절감
 ```
 
-> 📢 **섹션 요약 비유**: 통신사 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 혁신은 콜센터 업그레이드 — [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기(자동 배정), 지식 시스템(L1 권한 강화), [CMDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/) 지도(영향 분석). FCR 45%->72% = 고객 절반 더 빠른 해결!
+> 📢 **섹션 요약 비유**: 통신사 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/) 혁신은 콜센터 업그레이드 — [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기(자동 배정), 지식 시스템(L1 권한 강화), [CMDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/875_cmdb/) 지도(영향 분석). FCR 45%->72% = 고객 절반 더 빠른 해결!
 
 ---
 
@@ -332,7 +332,7 @@ AIOps (이상 자동 탐지)
 
 1. ITSM은 IT를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)업으로 — 단순 기술 관리가 아니라 사용자(고객)에게 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 제공한다는 마음가짐. 호텔처럼 투숙객 만족이 목표!
 2. FCR은 첫 전화 해결 — "AS기사 한 번만 오면 끝!" 비율. 높을수록 사용자 만족, IT 비용 절감!
-3. [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/)+DevOps는 빠른 배달+안전 검사 — 자동화로 빠르게 배포하면서, 위험한 변경만 검토. 속도와 안정성 둘 다!
+3. [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/)+DevOps는 빠른 배달+안전 검사 — 자동화로 빠르게 배포하면서, 위험한 변경만 검토. 속도와 안정성 둘 다!
 
 ---
 

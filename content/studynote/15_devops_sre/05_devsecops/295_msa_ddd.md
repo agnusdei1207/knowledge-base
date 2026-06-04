@@ -146,6 +146,6 @@ Reference Architecture
 **진행 상황**: 295 / 373
 
 <- **이전**: [294. 테라폼 상태 파일 tfstate 잠금 (Terraform State)](/knowledge-base/studynote/15_devops_sre/05_devsecops/294_tfstate/)
-**다음**: [296. 바운디드 컨텍스트 애그리게이트 루트 (Process)](/knowledge-base/studynote/12_it_management/05_security_compliance/296_process/) ->
+**다음**: [296. 바운디드 컨텍스트 애그리게이트 루트 (Process)](/knowledge-base/studynote/12_it_management/05_security_compliance/941_process/) ->
 
 ---

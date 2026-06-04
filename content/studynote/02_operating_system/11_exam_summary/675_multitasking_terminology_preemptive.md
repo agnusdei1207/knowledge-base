@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 멀티태스킹(Multitasking)은 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 다수의 작업([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)/[Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))이 단일 CPU의 시간을 잘게 쪼개어 공유함으로써, 사용자에게는 <strong>동시에 여러 프로그램이 실행되는 것처럼 보이게 하는 논리적 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a>(<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/">Concurrency</a>)</strong>을 제공하는 기술이다.
+> 1. **본질**: 멀티태스킹(Multitasking)은 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 다수의 작업([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)/[Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))이 단일 CPU의 시간을 잘게 쪼개어 공유함으로써, 사용자에게는 <strong>동시에 여러 프로그램이 실행되는 것처럼 보이게 하는 논리적 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a>(<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/">Concurrency</a>)</strong>을 제공하는 기술이다.
 > 2. **유형**: 과거 프로그램이 스스로 CPU를 양보해야 했던 '비선점형(Cooperative)' 멀티태스킹에서 발전하여, 오늘날에는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 하드웨어 타이머를 이용해 강제로 CPU를 뺏고 넘겨주는 **'선점형(Preemptive)'** 멀티태스킹이 표준으로 자리 잡았다.
 > 3. **가치**: 이 기술 덕분에 사용자는 음악을 들으며 웹 서핑을 하고 문서를 작성하는 등 컴퓨터의 범용성을 극대화할 수 있게 되었으며, 시분할(Time-sharing) 시스템의 대중적 성공을 이끈 핵심 키워드다.
 
@@ -21,7 +21,7 @@ tags = ["studynote-operating-system"]
 
 - **개념**:
   - **멀티태스킹 (Multitasking)**: 컴퓨터가 여러 개의 작업([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))을 짧은 시간 단위(Time [Slice](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) / [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/))로 번갈아 가며 처리하여, 인간의 눈에는 동시에 실행되는 것처럼 보이게 하는 OS의 핵심 기능.
-  - <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">Task</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">태스크</a>)</strong>: 프로세스([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))나 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))를 포괄하여, OS가 스케줄링하는 실행의 기본 단위를 일컫는 범용적 용어.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">Task</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">태스크</a>)</strong>: 프로세스([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))나 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))를 포괄하여, OS가 스케줄링하는 실행의 기본 단위를 일컫는 범용적 용어.
 
 - **필요성 (인간의 인지 한계와 편의성 추구)**:
   - [DOS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) 시절(단일 태스킹)에는 문서를 인쇄하려면 프린트가 끝날 때까지 컴퓨터로 아무 작업도 할 수 없었다.

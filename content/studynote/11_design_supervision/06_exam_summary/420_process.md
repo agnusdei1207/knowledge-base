@@ -19,7 +19,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 개요 및 필요성
 
-[블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/)에서 입력 조건이 많아질수록 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 수는 기하급수적으로 늘어난다. 예를 들어 브라우저, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), 권한, 결제수단, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상태를 모두 조합하면 전수 조합은 곧바로 실무 한계를 넘는다. [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)와 직교 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 바로 이 <strong>조합 폭발</strong>을 통제하기 위한 대표적인 축소 기법이다.
+[블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/804_black_box_testing/)에서 입력 조건이 많아질수록 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) 수는 기하급수적으로 늘어난다. 예를 들어 브라우저, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), 권한, 결제수단, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상태를 모두 조합하면 전수 조합은 곧바로 실무 한계를 넘는다. [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)와 직교 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 바로 이 <strong>조합 폭발</strong>을 통제하기 위한 대표적인 축소 기법이다.
 
 [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)의 핵심 가정은 “많은 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 두 인자 간 상호작용에서 드러난다”는 점이다. 따라서 모든 조합을 다 시험하지 않더라도, 각 인자 쌍이 적어도 한 번씩 등장하도록 케이스를 구성하면 높은 효율을 얻을 수 있다. 직교 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 각 수준이 균형 있게 배치되도록 구성해 편향을 줄이고 분석 가능성을 높인다.
 
@@ -48,7 +48,7 @@ tags = ["studynote-design-supervision"]
 | 제약 조건 처리 | 실제로 불가능한 조합 제거 | 금지 조합 누락 시 무의미한 테스트가 늘어난다 |
 | 보정 케이스 추가 | 장애 이력·경계값·업무 중요 조합 보강 | 2-way 가정의 한계를 실무적으로 보완 |
 
-중요한 것은 [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)가 전능한 해법이 아니라는 점이다. 보안 권한, 계산 로직, 복잡한 상태 전이처럼 3개 이상 조건의 상호작용이 중요한 영역은 3-way 이상 조합, [경계값 분석](/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/), 위험 기반 테스트를 함께 써야 한다. 따라서 시험 답안에서는 “축소”와 함께 “보완”을 반드시 짝지어 써야 한다.
+중요한 것은 [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)가 전능한 해법이 아니라는 점이다. 보안 권한, 계산 로직, 복잡한 상태 전이처럼 3개 이상 조건의 상호작용이 중요한 영역은 3-way 이상 조합, [경계값 분석](/knowledge-base/studynote/04_software_engineering/11_testing_validation/806_boundary_value_analysis/), 위험 기반 테스트를 함께 써야 한다. 따라서 시험 답안에서는 “축소”와 함께 “보완”을 반드시 짝지어 써야 한다.
 
 - **📢 섹션 요약 비유**: 여행 일정 표를 짤 때 모든 도시 조합을 다 가 볼 수는 없으니, 서로 다른 노선이 최소 한 번씩 만나도록 대표 경로를 짜는 것과 같다.
 
@@ -66,7 +66,7 @@ tags = ["studynote-design-supervision"]
 | 한계 | 시간·인력 부담 큼 | 3-way 이상 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 누락 가능 | 수준 수가 맞지 않으면 적용 제약 |
 | 적합 영역 | 안전·규제상 전수 필요 구간 | 화면·[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)·환경 조합 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 반복 실험형 조합 설계, 품질 비교 |
 
-이 기법은 [동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/), [경계값 분석](/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/), 의사결정 테이블 테스트와 자연스럽게 연결된다. [동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/)과 [경계값 분석](/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/)으로 각 수준을 잘 정의한 뒤, [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)나 직교 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 조합 수를 줄이면 훨씬 실무적인 테스트 설계가 된다. 즉 축소 기법은 독립 기법이 아니라 <strong>다른 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/">블랙박스 테스트</a> 기법을 운영 가능하게 만드는 결합 기술</strong>이다.
+이 기법은 [동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/), [경계값 분석](/knowledge-base/studynote/04_software_engineering/11_testing_validation/806_boundary_value_analysis/), 의사결정 테이블 테스트와 자연스럽게 연결된다. [동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/)과 [경계값 분석](/knowledge-base/studynote/04_software_engineering/11_testing_validation/806_boundary_value_analysis/)으로 각 수준을 잘 정의한 뒤, [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)나 직교 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 조합 수를 줄이면 훨씬 실무적인 테스트 설계가 된다. 즉 축소 기법은 독립 기법이 아니라 <strong>다른 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/804_black_box_testing/">블랙박스 테스트</a> 기법을 운영 가능하게 만드는 결합 기술</strong>이다.
 
 - **📢 섹션 요약 비유**: 모든 옷 조합을 다 입어 보는 건 전수 조합이고, 상의·하의·신발이 적어도 한 번씩 어울리게 입어 보는 건 [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)에 가깝다.
 
@@ -97,7 +97,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)와 직교 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 올바르게 적용하면 테스트 설계 시간이 짧아지고, 실행 가능한 범위 안에서 상호작용 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 효과적으로 찾을 수 있다. 특히 다중 환경, 옵션 조합, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 테이블이 많은 서비스에서 비용 절감 효과가 크다. 또한 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 수가 줄어들면 자동화 유지보수 부담도 함께 낮아진다.
+[페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)와 직교 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 올바르게 적용하면 테스트 설계 시간이 짧아지고, 실행 가능한 범위 안에서 상호작용 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 효과적으로 찾을 수 있다. 특히 다중 환경, 옵션 조합, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 테이블이 많은 서비스에서 비용 절감 효과가 크다. 또한 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) 수가 줄어들면 자동화 유지보수 부담도 함께 낮아진다.
 
 다만 축소는 품질을 희생하는 절감이 아니라, <strong>위험을 관리 가능한 범위로 재배치하는 설계 행위</strong>여야 한다. 따라서 기술사 답안의 결론은 “전수 조합의 대안”에서 끝나지 않고, “위험 기반 보완과 함께 쓰는 실무형 조합 최적화 기법”으로 정리하는 것이 적절하다.
 
@@ -110,7 +110,7 @@ tags = ["studynote-design-supervision"]
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | [동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/) ([Equivalence Partitioning](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/)) | 요인별 수준 정의의 출발점 |
-| [경계값 분석](/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/) ([Boundary Value Analysis](/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/)) | 축소 전후에 고위험 경계 케이스를 보강 |
+| [경계값 분석](/knowledge-base/studynote/04_software_engineering/11_testing_validation/806_boundary_value_analysis/) ([Boundary Value Analysis](/knowledge-base/studynote/04_software_engineering/11_testing_validation/806_boundary_value_analysis/)) | 축소 전후에 고위험 경계 케이스를 보강 |
 | 의사결정 테이블 테스트 | 규칙 조합을 구조화하는 상위 기법 |
 | t-way 조합 테스트 | 3-way 이상 상호작용 보완 방향 |
 | [요구사항 추적성](/knowledge-base/studynote/04_software_engineering/03_design_architecture/156_requirements_traceability_vertical_horizontal/) | 축소된 케이스와 요구사항 연결 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
@@ -134,7 +134,7 @@ tags = ["studynote-design-supervision"]
 제약 처리 · 고위험 조합 보강 · t-way 확장
 ```
 
-이 흐름은 [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/) 기초 기법에서 시작해, 조합 폭발을 줄이고, 다시 위험 기반 보완으로 확장되는 실무 적용 순서를 보여 준다.
+이 흐름은 [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/804_black_box_testing/) 기초 기법에서 시작해, 조합 폭발을 줄이고, 다시 위험 기반 보완으로 확장되는 실무 적용 순서를 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

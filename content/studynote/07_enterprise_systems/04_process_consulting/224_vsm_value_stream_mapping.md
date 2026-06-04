@@ -12,7 +12,7 @@ tags = ["studynote-enterprise"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) ([Value Stream Mapping](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/088_value_stream_mapping_vsm/))은 고객 요청이 실제 가치로 전환되기까지의 전체 흐름을 작업 시간과 대기 시간으로 나눠 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하는 기법이다.
-> 2. **가치**: 개별 부서의 생산성이 아니라 전체 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) ([Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/))과 공정 주기 효율 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Cycle Efficiency)을 보기 때문에 숨어 있던 병목과 낭비를 찾아낼 수 있다.
+> 2. **가치**: 개별 부서의 생산성이 아니라 전체 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) ([Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/))과 공정 주기 효율 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Cycle Efficiency)을 보기 때문에 숨어 있던 병목과 낭비를 찾아낼 수 있다.
 > 3. **판단 포인트**: VSM의 핵심은 예쁜 프로세스 그림이 아니라, 어디에서 일이 멈추는지와 왜 다시 되돌아오는지를 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 표시하는 데 있다.
 
 ---
@@ -82,18 +82,18 @@ VSM의 핵심 원리는 가치 흐름을 단계별 상자와 시간선으로 나
 
 ## Ⅲ. 비교 및 연결
 
-VSM은 비슷해 보이는 프로세스 도구와 역할이 다르다. [BPMN](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) ([Business Process Model and Notation](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/203_bpmn_business_process_model_and_notation/))은 절차를 표준 기호로 정확히 모델링하는 데 강하고, [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Mining은 실제 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 기반으로 실제 흐름을 재구성하는 데 강하다. VSM은 그중에서도 "시간과 낭비"를 전면에 둔다는 점이 다르다.
+VSM은 비슷해 보이는 프로세스 도구와 역할이 다르다. [BPMN](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) ([Business Process Model and Notation](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/203_bpmn_business_process_model_and_notation/))은 절차를 표준 기호로 정확히 모델링하는 데 강하고, [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Mining은 실제 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 기반으로 실제 흐름을 재구성하는 데 강하다. VSM은 그중에서도 "시간과 낭비"를 전면에 둔다는 점이 다르다.
 
-| 비교 항목 | [VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) | [BPMN](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) | [Process Mining](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/) |
+| 비교 항목 | [VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) | [BPMN](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) | [Process Mining](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/) |
 | :--- | :--- | :--- | :--- |
 | 주된 목적 | 가치 흐름의 낭비와 병목 발견 | 업무 절차의 정형 모델링 | 실제 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 흐름 분석 |
 | 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | LT, PT, WT, WIP, PCE | 이벤트, 게이트웨이, 역할 | 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 변형 패턴 |
 | 강점 | 전체 최적화와 우선순위 결정 | 복잡한 프로세스 명세화 | 실제 수행 편차와 일탈 탐지 |
 | 한계 | 세부 제어 흐름 표현은 약함 | 시간 낭비가 자동으로 보이지 않음 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 품질이 낮으면 왜곡됨 |
 
-실무에서는 세 도구를 함께 쓰면 좋다. VSM으로 병목 후보를 찾고, BPMN으로 개선 프로세스를 설계하며, [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Mining으로 개선 후 실제 준수 여부를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다. 또한 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) Metrics와 연결하면 delivery 병목이 배포 속도와 안정성에 어떤 영향을 주는지도 파악할 수 있다.
+실무에서는 세 도구를 함께 쓰면 좋다. VSM으로 병목 후보를 찾고, BPMN으로 개선 프로세스를 설계하며, [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Mining으로 개선 후 실제 준수 여부를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다. 또한 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) Metrics와 연결하면 delivery 병목이 배포 속도와 안정성에 어떤 영향을 주는지도 파악할 수 있다.
 
-- **📢 섹션 요약 비유**: VSM이 도로의 정체 구간을 찾아내는 지도라면, BPMN은 교차로 설계도이고, [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Mining은 실제 차량 GPS 기록이다. 셋을 함께 써야 길을 고치고 효과도 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있다.
+- **📢 섹션 요약 비유**: VSM이 도로의 정체 구간을 찾아내는 지도라면, BPMN은 교차로 설계도이고, [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Mining은 실제 차량 GPS 기록이다. 셋을 함께 써야 길을 고치고 효과도 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있다.
 
 ---
 
@@ -138,7 +138,7 @@ VSM의 가장 큰 효과는 조직이 "누가 느린가" 대신 "어디서 멈�
 | PCE | 전체 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 중 실제 가치가 더해진 비율을 보여 준다. |
 | WIP | 재공품이 많아질수록 대기와 문맥 전환이 커진다. |
 | [BPMN](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) | 개선된 미래 상태 프로세스를 정교하게 설계할 때 연결된다. |
-| [Process Mining](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/) | 실제 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반으로 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)와 편차를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. |
+| [Process Mining](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/) | 실제 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반으로 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)와 편차를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

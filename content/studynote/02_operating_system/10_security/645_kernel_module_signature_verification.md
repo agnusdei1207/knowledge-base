@@ -39,7 +39,7 @@ tags = ["studynote-operating-system"]
 
 ### 구성 요소 ([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 암호화 체계)
 
-이 기능은 완벽하게 비대칭 키([Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/984_pki_public_key_infrastructure_ca_ra_certificate/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 의존한다.
+이 기능은 완벽하게 비대칭 키([Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/1080_pki_public_key_infrastructure_ca_ra_certificate/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 의존한다.
 
 | 요소명 | 역할 | 특징 | 비유 |
 |:---|:---|:---|:---|
@@ -172,7 +172,7 @@ tags = ["studynote-operating-system"]
 - <strong>DKMS (Dynamic <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">Module</a> <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/">Support</a>)</strong>: [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 드라이버를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 업데이트 시마다 자동으로 다시 컴파일해 주는 DKMS가 동작할 때, 서명 스크립트도 훅(Hook)으로 자동으로 돌아가도록 연동을 완료했는가?
 - <strong>개인키(Private <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>) 격리</strong>: [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 서명하는 개인키가 인터넷이 연결된 일반 운영 서버에 방치되어 있지 않은가? (개인키가 털리면 해커가 악성 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 마음대로 진짜 도장을 찍을 수 있으므로, 서명은 반드시 에어갭([Air-gapped](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/102_air_gapped_cicd_tarball_delivery/))된 오프라인 빌드 서버나 [HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/) 인프라에서 수행해야 한다.)
 
-- **📢 섹션 요약 비유**: 서명 시스템은 강력한 금고지만, 그 금고를 여는 '열쇠 도장(개인키)'을 금고 옆 책상 위에 올려두면 아무 소용이 없습니다. 암호화의 핵심은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 아니라 키의 철저한 은닉([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))입니다.
+- **📢 섹션 요약 비유**: 서명 시스템은 강력한 금고지만, 그 금고를 여는 '열쇠 도장(개인키)'을 금고 옆 책상 위에 올려두면 아무 소용이 없습니다. 암호화의 핵심은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 아니라 키의 철저한 은닉([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/))입니다.
 
 ---
 

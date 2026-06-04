@@ -11,23 +11,23 @@ tags = ["studynote-algorithm"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))는 정점 (Vertex)과 간선 (Edge)으로 이루어진 자료구조이며, 인접 행렬 ([Adjacency](/knowledge-base/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/) Matrix)과 인접 리스트 ([Adjacency](/knowledge-base/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/) List) 두 가지 방식으로 컴퓨터에 표현한다.
+> 1. **본질**: [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/))는 정점 (Vertex)과 간선 (Edge)으로 이루어진 자료구조이며, 인접 행렬 ([Adjacency](/knowledge-base/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/) Matrix)과 인접 리스트 ([Adjacency](/knowledge-base/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/) List) 두 가지 방식으로 컴퓨터에 표현한다.
 > 2. **가치**: 인접 행렬은 O(1) 간선 조회, 인접 리스트는 O(V+E) 공간 효율 — [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 밀도에 따라 올바른 표현을 선택해야 성능을 끌어낼 수 있다.
-> 3. **판단 포인트**: 밀집 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Dense [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/), E ≈ V^)에는 인접 행렬, 희소 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Sparse [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/), E ≪ V^)에는 인접 리스트가 기본 선택 기준이다.
+> 3. **판단 포인트**: 밀집 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Dense [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/), E ≈ V^)에는 인접 행렬, 희소 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Sparse [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/), E ≪ V^)에는 인접 리스트가 기본 선택 기준이다.
 
 ## Ⅰ. 개요 및 필요성
 
-[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))는 G = (V, E)로 정의되며, V는 정점 집합, E는 간선 집합이다. 실세계의 네트워크, 지도, 소셜 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/), 의존성 등 수많은 문제가 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 모델링된다.
+[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/))는 G = (V, E)로 정의되며, V는 정점 집합, E는 간선 집합이다. 실세계의 네트워크, 지도, 소셜 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/), 의존성 등 수많은 문제가 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 모델링된다.
 
 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 주요 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/):
 
 | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 설명 |
 |:---|:---|
-| 방향 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Directed [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) | 간선에 방향 존재 (->) |
-| 무방향 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Undirected [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) | 간선에 방향 없음 (—) |
-| [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Weighted [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) | 간선에 비용/거리 부여 |
-| 밀집 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Dense [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) | E ≈ V^, 간선이 많음 |
-| 희소 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Sparse [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) | E ≪ V^, 간선이 적음 |
+| 방향 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Directed [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/)) | 간선에 방향 존재 (->) |
+| 무방향 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Undirected [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/)) | 간선에 방향 없음 (—) |
+| [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Weighted [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/)) | 간선에 비용/거리 부여 |
+| 밀집 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Dense [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/)) | E ≈ V^, 간선이 많음 |
+| 희소 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Sparse [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/)) | E ≪ V^, 간선이 적음 |
 
 📢 **섹션 요약 비유**: [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 도시들(정점)과 도로들(간선)로 구성된 지도다. 표현 방식은 이 지도를 어떤 형식의 종이에 기록하느냐의 차이다.
 

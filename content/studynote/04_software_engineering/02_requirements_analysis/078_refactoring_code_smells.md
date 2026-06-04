@@ -19,7 +19,7 @@ tags = ["software_engineering"]
 ## Ⅰ. 개요 및 필요성
 
 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)은 기능을 바꾸지 않고 구조를 바꾸는 활동이다. [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/)은 "이 코드가 앞으로 더 아파질 가능성이 높다"는 경고로 보면 된다.
-빠르게만 만든 코드는 수정할수록 더 느려진다. 그래서 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) ([Test-Driven Development](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/))와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/))가 안전망이 된다.
+빠르게만 만든 코드는 수정할수록 더 느려진다. 그래서 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) ([Test-Driven Development](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/))와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/))가 안전망이 된다.
 ```text
 냄새 탐지 -> 테스트 확보 -> 작은 변경 -> 회귀 검증 -> 유지보수성 향상
 ```
@@ -96,7 +96,7 @@ TDD와 CI가 있으면 characterization test(캐릭터라이제이션 테스트)
 | Refactoring | 동작을 유지하며 구조를 바꾼다 |
 | [Technical debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) | 미뤄진 설계 비용이다 |
 | [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) | 안전망 역할을 한다 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) | 변경 후 즉시 확인한다 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) | 변경 후 즉시 확인한다 |
 | [SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) | 책임 분리의 기준이다 |
 
 ### 📈 관련 키워드 및 발전 흐름도

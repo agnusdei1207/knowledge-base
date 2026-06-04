@@ -27,7 +27,7 @@ tags = ["studynote-software-engineering"]
 
 - **등장 배경 및 발전 과정**:
   1. **1990년대**: [테스트 오라클](/knowledge-base/studynote/04_software_engineering/11_testing_validation/436_test_oracle/) 문제 연구에서 샘플링 오라클의 한계 인식
-  2. **2000년대**: [탐색적 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/433_exploratory_testing/)([Exploratory Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/433_exploratory_testing/)) 확산과 함께 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 접근법 주목
+  2. **2000년대**: [탐색적 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/825_exploratory_testing/)([Exploratory Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/825_exploratory_testing/)) 확산과 함께 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 접근법 주목
   3. **현재**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML 기반 테스트 생성에서 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 패턴 매칭으로 활용 확대
 
 - **📢 섹션 요약 비유**: [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 오라클은 <strong>'요리사의 맛본기'</strong>와 같다. 요리사는 모든 재료의 정확한 양과 온도를 계량하지 않고, 경험적으로 "이 정도면 적절하다"는 판단을 내린다. 완벽한 레시피가 아닌 현장의 판단으로 대부분 충분한 품질을 확보할 수 있듯이, [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 오라클도 모든 결괏값을 사전 정의하지 않고 합리적 테스트 판단을 가능하게 한다.
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 오라클 ([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/) [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 470 / 973
 
-<- **이전**: [439. 휴리스틱 오라클 (Heuristic Oracle)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/439_heuristic_oracle/)
-**다음**: [440. 일관성 오라클 (Consistent Oracle)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/440_consistent_oracle/) ->
+<- **이전**: [439. 휴리스틱 오라클 (Heuristic Oracle)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/831_heuristic_oracle/)
+**다음**: [440. 일관성 오라클 (Consistent Oracle)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/832_consistent_oracle/) ->
 
 ---

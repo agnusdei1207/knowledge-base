@@ -90,7 +90,7 @@ IoT는 과거의 기기 간 통신인 M2M을 포괄하고, 나아가 사람과 �
 
 ## Ⅴ. 기대효과 및 결론
 
-IoT 인프라가 제대로 구축되면 기업은 '예측 유지보수(Predictive Maintenance)'를 통해 기계가 고장 나기 전에 미리 부품을 교체하여 공장 가동 중단을 막을 수 있다. 또한, 단순히 제품을 파는 것을 넘어 고객이 제품을 어떻게 사용하는지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 얻어 '구독형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))'로 비즈니스 모델을 전환할 수 있다.
+IoT 인프라가 제대로 구축되면 기업은 '예측 유지보수(Predictive Maintenance)'를 통해 기계가 고장 나기 전에 미리 부품을 교체하여 공장 가동 중단을 막을 수 있다. 또한, 단순히 제품을 파는 것을 넘어 고객이 제품을 어떻게 사용하는지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 얻어 '구독형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/))'로 비즈니스 모델을 전환할 수 있다.
 
 결론적으로 IoT는 4차 산업혁명의 눈과 귀 역할을 하는 가장 기초적인 감각 기관이다. 향후 이기종 기기 간의 통신 표준([Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 등)이 통일되고, 생성형 AI가 디바이스 단에 탑재되면, 기기가 스스로 상황을 인지하고 판단하는 진정한 의미의 자율 지능 사회로 도약할 것이다.
 

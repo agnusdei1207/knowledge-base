@@ -22,7 +22,7 @@ tags = ["studynote-bigdata"]
 
 수천만 건의 거래 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 사람이 직접 훑어 패턴을 찾는 것은 불가능하다. 연관 규칙 마이닝은 [지지도](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) 임계값으로 탐색 공간을 선제적으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하고, 통계 지표로 의미 있는 규칙만 필터링함으로써 이 탐색을 자동화한다.
 
-- **📢 섹션 요약 비유**: 연관 규칙은 거대한 슈퍼마켓 영수증 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)에서 "어떤 물건들이 항상 함께 담겨 있는가"를 찾아주는 자동 탐정이다.
+- **📢 섹션 요약 비유**: 연관 규칙은 거대한 슈퍼마켓 영수증 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)에서 "어떤 물건들이 항상 함께 담겨 있는가"를 찾아주는 자동 탐정이다.
 
 ---
 

@@ -123,7 +123,7 @@ tags = ["ai"]
 
 <strong>실무 시나리오 1: 엔터프라이즈 사내 문서 검색(<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a>) 고도화</strong>
 기존의 벡터 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 기반 검색은 "A회사의 CEO가 누구인가?"라는 단순 질의에는 강하나, "A회사 CEO가 과거에 설립했던 스타트업과 경쟁하는 B회사의 제품은?" 같은 다중 홉(Multi-Hop) 추론에 취약하다.
-- **의사결정**: 문서 내의 엔티티(인물, 회사, 제품)를 추출하여 `의미망(Knowledge Graph)` 형태의 지식 표현으로 변환 적재한다. 질의 시 벡터 [유사도 검색](/knowledge-base/studynote/05_database/06_dw_olap_trends/348_similarity_search/)과 [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) 탐색을 하이브리드로 결합([GraphRAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/530_graph_rag/))하여 정확도를 비약적으로 높인다.
+- **의사결정**: 문서 내의 엔티티(인물, 회사, 제품)를 추출하여 `의미망(Knowledge Graph)` 형태의 지식 표현으로 변환 적재한다. 질의 시 벡터 [유사도 검색](/knowledge-base/studynote/05_database/06_dw_olap_trends/348_similarity_search/)과 [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) 탐색을 하이브리드로 결합([GraphRAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/530_graph_rag/))하여 정확도를 비약적으로 높인다.
 
 <strong>실무 시나리오 2: 금융권 사기 탐지(<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/267_gnn_fraud_detection_knowledge_graph/">FDS</a>) 시스템 구축</strong>
 딥러닝 기반의 사기 탐지 모델은 높은 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)을 보이지만, 금융 감독 기관에 "왜 계좌를 정지했는지" 법적/[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 근거(Explainability)를 제출하지 못하는 문제가 발생한다.

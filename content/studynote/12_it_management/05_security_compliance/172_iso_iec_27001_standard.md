@@ -119,13 +119,13 @@ ISO/IEC 27001은 국제적으로 통용되는 [인증](/knowledge-base/studynote
 - 심사 직전 문서만 정리하고 실제 운영 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 점검 루프는 없는 것
 - 위험평가 없이 Annex A 통제를 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)처럼 복사하는 것
 - 정보보안팀만의 프로젝트로 두고 경영진 책임과 예산 확보를 빼 놓는 것
-- 범위에서 핵심 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/), 위탁 운영, 클라우드 자산을 빼서 실질 위험을 숨기는 것
+- 범위에서 핵심 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/), 위탁 운영, 클라우드 자산을 빼서 실질 위험을 숨기는 것
 
 ### 적용 판단 예시
 
 | 상황 | 판단 포인트 |
 | :--- | :--- |
-| 글로벌 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 고객사 대응 | 국제 신뢰 확보를 위해 ISO/IEC 27001 우선 검토 |
+| 글로벌 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 고객사 대응 | 국제 신뢰 확보를 위해 ISO/IEC 27001 우선 검토 |
 | 국내 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 중심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P와 병행 또는 우선 적용 검토 |
 | 빠른 성장 단계 스타트업 | 범위를 핵심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 제한하고 운영 가능한 수준부터 시작 |
 

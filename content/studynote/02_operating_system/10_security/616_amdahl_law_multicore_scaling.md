@@ -212,7 +212,7 @@ Speedup_ìì(N) = f + N  (1-f)
    - 16ìì ìë ìë: 1/(0.33+0.67/16) = 2.77ë
 
 **ëì**:
-- nginxì worker [process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) ìë 16êë ìê
+- nginxì worker [process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) ìë 16êë ìê
 -epoll/ ëììë Accept êí íí
 - êêë: CPU ìì ììë êí êì, ìëë 40% íì
 

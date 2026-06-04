@@ -135,7 +135,7 @@ Delta Lake는 [오픈소스](/knowledge-base/studynote/12_it_management/05_secur
 | 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
 | `_delta_log` | 핵심 구성요소 | [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) |
-| MERGE INTO | [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) 확장 | upsert 원자적 처리 |
+| MERGE INTO | [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/) 확장 | upsert 원자적 처리 |
 | OPTIMIZE + Z-ORDER | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 | 소규모 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 병합 + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클러스터링 |
 | VACUUM | 유지 관리 | 만료 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 물리 삭제 |
 | AutoLoader | 수집 도구 | 신규 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 자동 감지·적재 |

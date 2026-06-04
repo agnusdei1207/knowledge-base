@@ -63,7 +63,7 @@ tags = ["devops_sre"]
 | 사일로 원인 유형 | 구체적 증상 | 해결을 위한 접근법 | 기대 효과 |
 |:---|:---|:---|:---|
 | **조직 구조적 사일로** | 부서 간 계층적 장벽, 보고 선이 분리 | 크로스 펑셔널 팀 구성, 스트래티지팀Embedding | 공유된 목표에 대한 공통 책임 |
-| **프로세스적 사일로** | 수동 승인, 장벽 너머로의 작업 전달 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 자동화 | 배포 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 50% 이상 단축 |
+| **프로세스적 사일로** | 수동 승인, 장벽 너머로의 작업 전달 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 자동화 | 배포 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 50% 이상 단축 |
 | **기술적 사일로** | 서로 다른 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), 호환 불가 도구 | 공통 도구 체인 도입, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동 | 정보 자동 공유 및 투명성 확보 |
 | **문화적 사일로** | '내 부서가 아니면 신경 쓰지 말라' 풍토 | 공유 미팅, 포스트모템 공동 수행 | [심리적 안전](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/)감 및 협업 문화 형성 |
 
@@ -157,7 +157,7 @@ tags = ["devops_sre"]
 [플랫폼 팀]
 ```
 
-이 흐름도는 사일로 조직에서 크로스펑셔널 팀과 공유 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD를 거쳐 플랫폼 팀으로 성숙하는 전환 순서를 보여준다.
+이 흐름도는 사일로 조직에서 크로스펑셔널 팀과 공유 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD를 거쳐 플랫폼 팀으로 성숙하는 전환 순서를 보여준다.
 
 ---
 
@@ -167,10 +167,10 @@ tags = ["devops_sre"]
 
 **1. 실무 의사결정 시나리오**
 - <strong>시나리오 A: 기존_ops' 부서가 <a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">데브옵스</a> 전환에 강하게 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/">저항</a></strong>
-  - **상황**: 운영팀은 "우리가 시스템을 가장 잘 안다"며 새로운 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 도구에 대한 변경을 거부함.
+  - **상황**: 운영팀은 "우리가 시스템을 가장 잘 안다"며 새로운 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 도구에 대한 변경을 거부함.
   - **판단**: 이를 강제로 추진하기보다는 운영팀의 핵심 인물(인플루언서)을솔선표범으로 삼아 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 가치를 체감하게 한 후,피등의우필(불안감)을 이해하고피등의 전문성이 새로운 역할(예: [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/))로 전환될 수 있는 경로를 제시해야 한다. 운영 부서 통합이 아닌 역할 재정의에 초점을 맞춰야 한다.
 
-- <strong>시나리오 B: 보안팀이 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인에 보안 점검 자동화 도입을 거부</strong>
+- <strong>시나리오 B: 보안팀이 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인에 보안 점검 자동화 도입을 거부</strong>
   - **상황**: 보안팀은 "보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 수동으로 해야 한다"며 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 내 자동화된 보안 스캔 단계 추가를 거부함.
   - **판단**: 이는 [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 보안 접근법으로 해결해야 한다. 보안팀의 전문가 역량을 발 빠르게 배치(deploy)하는 대신, 그들이정의한 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)을 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 코드화([정책 애즈 코드](/knowledge-base/studynote/15_devops_sre/05_devsecops/258_policy_as_code_opa_gatekeeper/))하여 개발자가 Self-service로 보안 점검을 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하도록 할 수 있다. 이를 통해 보안팀은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 정의 및 exceptions 처리에만 집중하고, 개발팀은 빠른 피드백을 얻을 수 있다.
 

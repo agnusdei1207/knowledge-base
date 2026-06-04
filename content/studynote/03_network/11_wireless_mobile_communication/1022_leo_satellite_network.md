@@ -118,7 +118,7 @@ tags = ["studynote-network"]
 | [가시광 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/158_vlc_lifi_visible_light/) 라이파이 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
 | 셀 (Cell) | 무선 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 범위를 나누는 기본 단위다. |
 | [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) ([Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)) | 이동 중에도 연결을 유지하게 만든다. |
-| [위성 통신 핸드오버](/knowledge-base/studynote/09_security/uncategorized/1023_isl_inter_satellite_link_low_earth_orbit_routing/) ([ISL](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [위성 통신 핸드오버](/knowledge-base/studynote/09_security/uncategorized/1101_isl_inter_satellite_link_low_earth_orbit_routing/) ([ISL](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -132,7 +132,7 @@ tags = ["studynote-network"]
     +---> [확장 B: 지능형 무선 자원 제어]
 ```
 
-[저궤도 위성](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)망과 스타링크는 [가시광 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/158_vlc_lifi_visible_light/) 라이파이에서 출발해 현재 메커니즘을 정교화하고, 이후 [위성 통신 핸드오버](/knowledge-base/studynote/09_security/uncategorized/1023_isl_inter_satellite_link_low_earth_orbit_routing/) (ISL와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+[저궤도 위성](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)망과 스타링크는 [가시광 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/158_vlc_lifi_visible_light/) 라이파이에서 출발해 현재 메커니즘을 정교화하고, 이후 [위성 통신 핸드오버](/knowledge-base/studynote/09_security/uncategorized/1101_isl_inter_satellite_link_low_earth_orbit_routing/) (ISL와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

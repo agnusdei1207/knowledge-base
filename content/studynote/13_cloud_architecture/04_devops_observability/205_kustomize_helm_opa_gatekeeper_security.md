@@ -21,9 +21,9 @@ tags = ["studynote-cloud-architecture"]
 
 K8s 클러스터에 수백 개의 팀이 리소스를 배포하면, 표준을 지키지 않는 YAML이 반드시 등장한다: `image: latest` 사용으로 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 추적 불가, CPU/메모리 제한 없어 노드 고갈, 루트 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 실행, 비표준 이미지 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 사용 등. 코드 리뷰만으로는 이를 100% 막기 어렵다.
 
-[Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)(PaC)는 이 문제를 자동화로 해결한다. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 코드로 표현하여 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인과 K8s Admission Controller에 통합하면, 위반 리소스는 파이프라인 단계에서 거부되거나 클러스터 진입 자체가 차단된다. 이것이 DevSecOps의 핵심 실천 방법이다.
+[Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)(PaC)는 이 문제를 자동화로 해결한다. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 코드로 표현하여 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인과 K8s Admission Controller에 통합하면, 위반 리소스는 파이프라인 단계에서 거부되거나 클러스터 진입 자체가 차단된다. 이것이 DevSecOps의 핵심 실천 방법이다.
 
-[OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/)([Open Policy Agent](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/))는 [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 졸업 프로젝트로, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경의 범용 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진이다. K8s 통합을 위한 [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/) Gatekeeper와 함께 사용하면 K8s 리소스에 대한 모든 커스텀 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 코드로 정의하고 실시간으로 강제할 수 있다.
+[OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/)([Open Policy Agent](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/))는 [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 졸업 프로젝트로, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경의 범용 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진이다. K8s 통합을 위한 [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/) Gatekeeper와 함께 사용하면 K8s 리소스에 대한 모든 커스텀 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 코드로 정의하고 실시간으로 강제할 수 있다.
 
 📢 **섹션 요약 비유**: [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) Code는 건설 현장의 자동화된 품질 검사 기계와 같다. 인부(개발자)가 자재(YAML)를 가져올 때마다 기계가 자동으로 "규격에 맞는지" 검사하고, 맞지 않으면 현장에 반입 자체를 거부한다.
 
@@ -139,7 +139,7 @@ spec:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-<strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD 파이프라인 통합 (Shift Left)</strong>:
+<strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD 파이프라인 통합 (Shift Left)</strong>:
 ```yaml
 # GitHub Actions: PR 단계에서 OPA 정책 검증
 jobs:
@@ -193,11 +193,11 @@ spec:
 | 기대효과 | 설명 |
 |:---|:---|
 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 보장 | 수작업 리뷰 의존 없이 모든 배포에 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 자동 적용 |
-| Shift Left 보안 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 단계에서 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 위반 조기 발견 |
+| Shift Left 보안 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 단계에서 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 위반 조기 발견 |
 | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 용이성 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 코드가 곧 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 증적 |
 | 지식 공유 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 코드로 명확히 표현되어 조직 표준 전파 용이 |
 
-[Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) Code는 DevSecOps의 핵심 실천이다. "보안은 전문 팀의 일"이라는 사일로를 제거하고, 보안 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인에 내재화됨으로써 "기본이 안전한([Secure by Default](/knowledge-base/studynote/09_security/01_intro_principles/061_secure_by_default/))" 인프라를 실현한다.
+[Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) Code는 DevSecOps의 핵심 실천이다. "보안은 전문 팀의 일"이라는 사일로를 제거하고, 보안 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인에 내재화됨으로써 "기본이 안전한([Secure by Default](/knowledge-base/studynote/09_security/01_intro_principles/061_secure_by_default/))" 인프라를 실현한다.
 
 📢 **섹션 요약 비유**: [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 없이 보안 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 유지하는 것은 "모든 직원이 회사 규정을 외워서 스스로 지키기를 기대하는 것"과 같다. 규정을 자동화된 시스템에 심으면 인간의 실수나 망각 없이 항상 적용된다.
 
@@ -211,7 +211,7 @@ spec:
 | K8s Admission Controller | [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/) Gatekeeper가 연결되는 K8s 확장 포인트 |
 | Kyverno | Rego 없이 YAML로 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 정의하는 대안 도구 |
 | PSA ([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Admission) | 기본 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 보안 프로파일, OPA로 추가 강화 |
-| Conftest | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 파이프라인에서 [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 로컬 실행하는 도구 |
+| Conftest | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 파이프라인에서 [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 로컬 실행하는 도구 |
 | [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) | [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) Code가 구현하는 보안 내재화 방법론 |
 
 ### 👶 어린이를 위한 3줄 비유 설명

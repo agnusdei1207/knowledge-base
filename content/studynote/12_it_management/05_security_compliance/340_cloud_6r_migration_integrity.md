@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 520 / 587
 
-<- **이전**: [339. 제로 트러스트 ZTNA 마이크로 세그멘테이션 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/)
-**다음**: [340. 클라우드 6R 마이그레이션 이관 무결성 통제망](/knowledge-base/studynote/12_it_management/05_security_compliance/340_management/) ->
+<- **이전**: [339. 제로 트러스트 ZTNA 마이크로 세그멘테이션 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/980_ztna/)
+**다음**: [340. 클라우드 6R 마이그레이션 이관 무결성 통제망](/knowledge-base/studynote/12_it_management/05_security_compliance/981_management/) ->
 
 ---

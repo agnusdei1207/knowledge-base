@@ -28,7 +28,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **빌 게이츠의 분노 (2002)**: "기능 추가 다 멈춰!" 트러스트워디 컴퓨팅 메모 발표. 전사 개발팀 셧다운.
   2. **MS-SDL의 사내 의무화 (2004)**: MS 내부에 SDL을 전면 도입. 취약한 C언어 함수(`strcpy` 등) 사용을 금지하고 위협 모델링을 강제. 결과적으로 Windows Vista, SQL Server 2005의 해킹 취약점이 이전 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 대비 90% 극적 감소하는 마법을 보여줌.
-  3. **글로벌 표준화 (2008~현재)**: MS가 "우리만 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 아까우니 너희도 써라"며 이 룰을 전 세계에 무료 공개. 이후 OWASP SAMM, ISO 27034 등 세상의 모든 [Secure SDLC](/knowledge-base/studynote/04_software_engineering/11_testing_validation/471_secure_sdlc/) 규격의 '조상님'으로 군림함.
+  3. **글로벌 표준화 (2008~현재)**: MS가 "우리만 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 아까우니 너희도 써라"며 이 룰을 전 세계에 무료 공개. 이후 OWASP SAMM, ISO 27034 등 세상의 모든 [Secure SDLC](/knowledge-base/studynote/04_software_engineering/11_testing_validation/863_secure_sdlc/) 규격의 '조상님'으로 군림함.
 
 - **📢 섹션 요약 비유**: MS-SDL은 동네 구멍가게 주먹구구식 요리법에 빡친 백종원이 나타나서, <strong>"1단계: 무조건 손 닦아, 2단계: 칼 소독해, 3단계: 유통기한 확인해!"라며 벽에 대문짝만하게 붙여놓은 '대기업 프랜차이즈 식당의 위생 7계명 절대 수칙'</strong>입니다. 이 수칙 하나로 식중독(해킹) 사고가 0건으로 줄어들었습니다.
 
@@ -120,7 +120,7 @@ Microsoft SDL ([Security](/knowledge-base/studynote/04_software_engineering/05_d
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 Microsoft SDL ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Development Lifecycle)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ Microsoft SDL (Security Development Lifecycle) 개념 정립
 
 **진행 상황**: 538 / 973
 
-<- **이전**: [473. Microsoft SDL (Security Development Lifecycle)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/473_microsoft_sdl/)
-**다음**: [474. 위협 모델링 (Threat Modeling)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/474_threat_modeling/) ->
+<- **이전**: [473. Microsoft SDL (Security Development Lifecycle)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/865_microsoft_sdl/)
+**다음**: [474. 위협 모델링 (Threat Modeling)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/866_threat_modeling/) ->
 
 ---

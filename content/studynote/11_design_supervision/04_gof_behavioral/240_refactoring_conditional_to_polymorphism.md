@@ -163,7 +163,7 @@ After (OCP 준수):
 1. **테스트 작성**: 기존 조건문 커버하는 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 먼저 작성
 2. **인터페이스 추출**: 공통 행동을 인터페이스로 정의
 3. <strong>구현 클래스 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: 각 분기를 별도 클래스로 분리
-4. **조건문 교체**: if-else를 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) 또는 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) ([Dependency Injection](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/): [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)) 로 교체
+4. **조건문 교체**: if-else를 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) 또는 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) ([Dependency Injection](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/): [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)) 로 교체
 5. **테스트 재실행**: 동일 결과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
 
 모든 if-else를 다형성으로 전환하는 것은 오버엔지니어링이다:

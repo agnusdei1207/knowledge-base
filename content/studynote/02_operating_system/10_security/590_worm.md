@@ -136,7 +136,7 @@ Robert Morris가사조(심화)한Morris Worm은 인터넷 역사상 첫 번째 �
 | [로직 밤](/knowledge-base/studynote/02_operating_system/10_security/588_logic_bomb/) ([Logic Bomb](/knowledge-base/studynote/02_operating_system/10_security/588_logic_bomb/)) / 타이머 밤 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
 | [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) ([Virus](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
 | [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) ([Buffer Overflow](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)) 원리 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [셸코드](/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/) ([Shellcode](/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/)) [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [셸코드](/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/) ([Shellcode](/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/)) [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

@@ -99,10 +99,10 @@ tags = ["studynote-design-supervision"]
 - 상위 개념: 프로젝트 거버넌스([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Governance)
 - 핵심 통제: 유발 지표, 위험 소유자
 - [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적: 대응 추적과 운영 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·테스트 결과
-- 확장 개념: 성과 기반 관리(Outcome Driven [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))
+- 확장 개념: 성과 기반 관리(Outcome Driven [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/))
 
 ### 📈 관련 키워드 및 발전 흐름도
-[유발 지표] -> [위험등록부 모니터링 감리] -> [성과 기반 관리(Outcome Driven [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))]
+[유발 지표] -> [위험등록부 모니터링 감리] -> [성과 기반 관리(Outcome Driven [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/))]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 유발 지표는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.

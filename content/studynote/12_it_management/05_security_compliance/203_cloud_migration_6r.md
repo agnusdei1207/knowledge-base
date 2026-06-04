@@ -10,7 +10,7 @@ tags = ["studynote-it-management"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 클라우드 마이그레이션 6R 기법의 본질은 Rehost(그대로 이전), Replatform(OS/DB 변경 이전), [Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)/PaaS로 구조 전면 수정), Repurchase([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 구매 대체)를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델, 자동화, 책임 분담 기준으로 실현하는 데 있다.
+> 1. **본질**: 클라우드 마이그레이션 6R 기법의 본질은 Rehost(그대로 이전), Replatform(OS/DB 변경 이전), [Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)/PaaS로 구조 전면 수정), Repurchase([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 구매 대체)를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델, 자동화, 책임 분담 기준으로 실현하는 데 있다.
 > 2. **가치**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델, 자동화, 비용·보안 책임, 운영 관측성이 함께 설계되어야 클라우드 도입 효과가 지속된다.
 > 3. **판단 포인트**: 클라우드 마이그레이션 6R 기법은 도입 자체보다 범위, 책임, 측정 기준을 어떻게 연결하느냐에 따라 성과가 달라진다.
 
@@ -18,7 +18,7 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. 개요 및 필요성
 
-클라우드 마이그레이션 6R 기법은 조직이 당면한 요구를 반복 가능하고 설명 가능한 운영 체계로 바꾸기 위해 사용하는 핵심 관리 개념이다. 실무 초점은 Rehost(그대로 이전), Replatform(OS/DB 변경 이전), [Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)/PaaS로 구조 전면 수정), Repurchase([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 구매 대체)에 놓이며, 핵심은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델, 자동화, 비용·보안 책임, 운영 관측성이 함께 설계되어야 클라우드 도입 효과가 지속된다.
+클라우드 마이그레이션 6R 기법은 조직이 당면한 요구를 반복 가능하고 설명 가능한 운영 체계로 바꾸기 위해 사용하는 핵심 관리 개념이다. 실무 초점은 Rehost(그대로 이전), Replatform(OS/DB 변경 이전), [Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)/PaaS로 구조 전면 수정), Repurchase([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 구매 대체)에 놓이며, 핵심은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델, 자동화, 비용·보안 책임, 운영 관측성이 함께 설계되어야 클라우드 도입 효과가 지속된다.
 
 이 개념이 중요한 이유는 현장의 속도와 통제가 자주 충돌하기 때문이다. 기준이 없으면 부서별로 다른 판단이 누적되어 중복 투자, 운영 공백, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 리스크가 커지고, 반대로 지나치게 경직된 통제는 변화 대응 속도를 떨어뜨린다. 실무에서는 보통 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), Rehost, Replatform 같은 세부 축이 함께 굴러가야 관리 체계가 실제 효과를 낸다.
 

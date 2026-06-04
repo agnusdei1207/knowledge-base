@@ -30,7 +30,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **직관의 시대 (2000년대 이전)**: 디자인과 기획은 철저히 사장님이나 천재 기획자 스티브 잡스 같은 소수의 감각(Intuition)에 의존했다.
   2. **디지털 실험의 태동 (2000년대 중반)**: 구글, 아마존 등에서 인터넷의 '비용 없는 즉각적 피드백'을 활용해 트래픽을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시키는 A/B 테스트 인프라를 독자적으로 구축하기 시작.
-  3. **실험의 대중화 및 플랫폼화 (현재)**: Optimizely, VWO 같은 상용 A/B 테스트 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 툴과, 백엔드 기능 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)([Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)) 도구인 LaunchDarkly가 결합하여, 이제는 구글이 아니라도 동네 쇼핑몰조차 버튼 하나로 A/B 테스트를 굴리는 시대가 왔다.
+  3. **실험의 대중화 및 플랫폼화 (현재)**: Optimizely, VWO 같은 상용 A/B 테스트 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 툴과, 백엔드 기능 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)([Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)) 도구인 LaunchDarkly가 결합하여, 이제는 구글이 아니라도 동네 쇼핑몰조차 버튼 하나로 A/B 테스트를 굴리는 시대가 왔다.
 
 - **📢 섹션 요약 비유**: 수백억짜리 다리를 놓기 전에 튼튼한지 확인하려고 진짜 코끼리 1,000마리를 한 번에 밀어 넣는 바보짓(빅뱅 배포)을 멈추고, 코끼리와 똑같은 무게의 모래주머니 2개를 양쪽 다리에 슬쩍 올려놓고(실험군/대조군 트래픽 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) 튼튼한 다리 모양을 수학적으로 확인한 뒤 진짜 코끼리를 건너게 하는 안전제일주의 건축법입니다.
 
@@ -122,7 +122,7 @@ A/B 테스팅을(를) 올바르게 적용하면 [소프트웨어 품질](/knowle
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 A/B 테스팅은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

@@ -19,7 +19,7 @@ tags = ["studynote-algorithm"]
 
 ## Ⅰ. 개요 및 필요성
 
-이분 매칭은 이분 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Bipartite [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) 에서 한쪽 집합 `U` 와 다른쪽 집합 `V` 사이의 간선들 중, 끝점을 공유하지 않도록 최대한 많이 고르는 문제다. 구직자와 일자리, 학생과 기숙사 방, 광고 슬롯과 광고주처럼 <strong>서로 다른 두 집단 사이의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/">일대일</a> 배정</strong>을 모델링할 때 자주 등장한다.
+이분 매칭은 이분 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Bipartite [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/)) 에서 한쪽 집합 `U` 와 다른쪽 집합 `V` 사이의 간선들 중, 끝점을 공유하지 않도록 최대한 많이 고르는 문제다. 구직자와 일자리, 학생과 기숙사 방, 광고 슬롯과 광고주처럼 <strong>서로 다른 두 집단 사이의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/">일대일</a> 배정</strong>을 모델링할 때 자주 등장한다.
 
 이 문제가 중요한 이유는 단순히 "연결 가능한가"보다 "얼마나 많이 충돌 없이 배정할 수 있는가"가 실무에서 더 중요하기 때문이다. 단순 탐욕법으로 눈앞의 짝만 먼저 정해 버리면, 뒤에서 더 좋은 배정을 막아 전체 개수가 줄어들 수 있다. 그래서 이분 매칭은 국소 선택보다 <strong>재배치가 가능한 구조</strong>를 보는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 필요하다.
 
@@ -157,7 +157,7 @@ tags = ["studynote-algorithm"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 이분 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Bipartite [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) | 이분 매칭이 성립하는 기본 구조 |
+| 이분 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Bipartite [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/)) | 이분 매칭이 성립하는 기본 구조 |
 | 증대 경로 (Augmenting Path) | 매칭 수를 1씩 늘리는 핵심 메커니즘 |
 | 최대 매칭 (Maximum Matching) | 이 문서의 직접 문제 목표 |
 | 쾨니그의 정리 (Kőnig's Theorem) | 최대 매칭과 최소 정점 커버의 등가 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |

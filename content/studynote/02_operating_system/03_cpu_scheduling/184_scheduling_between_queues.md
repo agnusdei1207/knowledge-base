@@ -107,7 +107,7 @@ tags = ["studynote-operating-system"]
 1. **마감 시한을 절대 놓치면 안 되는 큐가 있는가?** 있으면 고정 우선순위가 필요할 수 있다.
 2. **하위 큐의 starvation을 허용할 수 있는가?** 안 된다면 시간 할당, [aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/), MLFQ를 검토해야 한다.
 3. **워크로드가 장기간 안정적인가?** 클래스가 자주 바뀌면 정적 큐 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 부적합해질 수 있다.
-4. <strong>격리와 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">Service Level Agreement</a>)가 중요한가?</strong> [멀티테넌트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 환경이면 비율 기반 배분이 더 설명력이 크다.
+4. <strong>격리와 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/">SLA</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/">Service Level Agreement</a>)가 중요한가?</strong> [멀티테넌트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 환경이면 비율 기반 배분이 더 설명력이 크다.
 
 ### 대표 적용 예시
 

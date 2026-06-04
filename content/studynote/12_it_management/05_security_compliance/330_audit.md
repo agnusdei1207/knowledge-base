@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 500 / 587
 
-<- **이전**: [329. 감리 프레임워크 3단계 (요구, 설계, 종료)](/knowledge-base/studynote/12_it_management/05_security_compliance/329_audit_framework_3phases_requirements_design_closing/)
-**다음**: [330. 시정 조치 확인 추가 감리 결과서](/knowledge-base/studynote/12_it_management/05_security_compliance/330_corrective_action_confirmation_additional_audit/) ->
+<- **이전**: [329. 감리 프레임워크 3단계 (요구, 설계, 종료)](/knowledge-base/studynote/12_it_management/05_security_compliance/970_audit_framework_3phases_requirements_design_closing/)
+**다음**: [330. 시정 조치 확인 추가 감리 결과서](/knowledge-base/studynote/12_it_management/05_security_compliance/971_corrective_action_confirmation_additional_audit/) ->
 
 ---

@@ -216,7 +216,7 @@ echo "0-1" > /sys/fs/cgroup/cpuset/mygroup/cpuset.cpus
 | <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a></strong> | [Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) |
 | **QPI** | QuickPath Interconnect |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a></strong> | [Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/) |
-| **PID** | [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/) |
+| **PID** | [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/) |
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 

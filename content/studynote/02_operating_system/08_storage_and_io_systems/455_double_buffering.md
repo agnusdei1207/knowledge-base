@@ -130,9 +130,9 @@ tags = ["studynote-operating-system"]
 ## Ⅴ. 기대효과 및 결론
 
 ### ìë ìëëì: [Zero-Downtime](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/110_zero_downtime_db_schema_rollout/)(ëìë) ëíì Blue-Green ëí ìííì
-ìííìì ëí([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD) ìíëììë ì ìì ëíëì 'ìì(Swap)' ìíì 100% ëìíê ëìëì ììì ìëíê ìë.
+ìííìì ëí([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD) ìíëììë ì ìì ëíëì 'ìì(Swap)' ìíì 100% ëìíê ëìëì ììì ìëíê ìë.
 1. **ëì ìí**: ìëëíì(k8s) ìëì ì ëì(v2) ìì ìëìíí ë, êì ì(v1)ì ëê ì ìì ìë 10ì ëì ììëì ììì ìë(502 Bad Gateway)ë ëëë. (ëì ëíì ëë íì).
-2. <strong>ìì ëíë ëì (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/304_process/">Blue-Green Deployment</a>)</strong>:
+2. <strong>ìì ëíë ëì (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/947_process/">Blue-Green Deployment</a>)</strong>:
    - íëëì íêì ìì **ìë ëìì 2ìí(ëë, êë)** ëëìëë.
    - íì ìì íëíì ëë ìë(v1)ë ëê ìë (Front Buffer).
    - êëíì ìëë ì ëë êë ìë(v2)ì ì ìëë ììëê ìëê íìíêì ë ëìë (Back Bufferì ëìí ìê).

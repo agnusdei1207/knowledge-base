@@ -136,7 +136,7 @@ Kappa:  "스트리밍 기술이 충분히 성숙했다면 하나면 충분하다
 | <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong> | Speed Layer로 저지연 | 스트리밍으로 저지연 |
 | **재처리** | 배치 레이어에서 독립 재처리 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 리플레이 필요 |
 | **운영 복잡성** | 높음 (두 파이프라인 관리) | 낮음 (단일 파이프라인) |
-| **적합 환경** | 레거시 혼용, 복잡한 집계 | [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/), [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 중심 |
+| **적합 환경** | 레거시 혼용, 복잡한 집계 | [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/), [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 중심 |
 
 ### 3.2 현대 플랫폼 적용 사례
 
@@ -190,7 +190,7 @@ Kappa:  "스트리밍 기술이 충분히 성숙했다면 하나면 충분하다
 
 ### 5.2 결론 — 기술사 작성 포인트
 
-기술사 답안에서는 <strong>"두 아키텍처의 트레이드오프를 시스템 맥락에 따라 판단하는 능력"</strong>을 보여야 한다. Lambda는 배치 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)이 비즈니스 요건인 금융·정산 시스템에 적합하고, Kappa는 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 기반 마이크로서비스가 이미 구축된 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서 운영 단순성의 가치가 크다는 점을 구체적으로 서술하면 고득점이다.
+기술사 답안에서는 <strong>"두 아키텍처의 트레이드오프를 시스템 맥락에 따라 판단하는 능력"</strong>을 보여야 한다. Lambda는 배치 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)이 비즈니스 요건인 금융·정산 시스템에 적합하고, Kappa는 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 기반 마이크로서비스가 이미 구축된 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경에서 운영 단순성의 가치가 크다는 점을 구체적으로 서술하면 고득점이다.
 
 📢 **섹션 요약 비유**: Lambda vs [Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/) 선택은 '자동차 두 대 vs 고성능 오토바이 한 대' 선택과 같다 — 안전성과 다양성이 필요하면 두 대(Lambda), 속도와 단순함이 우선이면 오토바이 한 대([Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/))다.
 

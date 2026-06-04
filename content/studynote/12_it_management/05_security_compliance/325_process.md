@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 490 / 587
 
-<- **이전**: [324. 데이터옵스 CI/CD 파이프라인 자동화](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/)
-**다음**: [325. 스파크 RDD 인메모리 병렬 처리](/knowledge-base/studynote/12_it_management/05_security_compliance/325_spark_rdd/) ->
+<- **이전**: [324. 데이터옵스 CI/CD 파이프라인 자동화](/knowledge-base/studynote/12_it_management/05_security_compliance/965_dataops/)
+**다음**: [325. 스파크 RDD 인메모리 병렬 처리](/knowledge-base/studynote/12_it_management/05_security_compliance/966_spark_rdd/) ->
 
 ---

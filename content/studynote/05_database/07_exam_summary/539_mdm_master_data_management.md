@@ -23,7 +23,7 @@ tags = ["studynote-database"]
 
 시험과 실무에서 `마스터 데이터(MDM) 중복 배제 통합 기준 관리 체계`를 따로 외우기보다, "무엇을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하거나 최적화하려는가"라는 질문으로 연결해야 오래 남는다. 설계 검토에서는 정의보다도 어디에 두고 어떤 비용을 감수할지 설명할 수 있어야 한다.
 
-이 주제와 함께 자주 묶이는 약어로는 MDM (Master [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))가 있다. 약어를 풀어 읽어야 각 규칙의 역할 차이를 놓치지 않는다.
+이 주제와 함께 자주 묶이는 약어로는 MDM (Master [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/))가 있다. 약어를 풀어 읽어야 각 규칙의 역할 차이를 놓치지 않는다.
 
 이 그림은 현재 주제가 입력 조건, 통제 규칙, 결과 보장 사이에서 어떤 위치를 차지하는지 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여 준다.
 
@@ -116,7 +116,7 @@ tags = ["studynote-database"]
 | :--- | :--- |
 | [다중 모델 데이터베이스 융합 조회 연동성](/knowledge-base/studynote/05_database/07_exam_summary/538_multi_model_database/) | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
 | [데이터 가상화 연방 쿼리](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) ([Federated Query](/knowledge-base/studynote/14_data_engineering/04_mlops/195_federated_query_data_fabric_distributed_join/)) 실행 엔진 | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
-| [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
+| [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
 | [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) | 운영·설계 판단을 연결해 주는 주변 개념이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도

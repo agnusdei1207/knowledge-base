@@ -99,7 +99,7 @@ Ready Queue를 효율적으로 관리하면 CPU의 유휴 시간([Idle](/knowled
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block) | Ready Queue에 실제로 저장되어 이동하는 프로세스의 정보 덩어리 |
+| PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Control Block) | Ready Queue에 실제로 저장되어 이동하는 프로세스의 정보 덩어리 |
 | CPU Scheduler | Ready Queue에서 다음 실행할 PCB를 고르는 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) |
 | [Dispatcher](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/) | [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 결정에 따라 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)을 수행해 프로세스에 CPU를 넘겨주는 실행자 |
 | [Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) | Running 상태의 프로세스를 큐로 내리고, 큐의 맨 앞 프로세스를 올리는 과정 |

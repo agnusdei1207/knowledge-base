@@ -12,7 +12,7 @@ tags = ["studynote-devops-sre"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 나이트 빌드(Nightly Build)는 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링(Cron)에 의해 정해진 시간(주로 야간)에 백지상태에서 제품 전체를 빌드하고 전수 테스트하는 배치(Batch)형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이다.
-> 2. **가치**: [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))의 빠른 피드백 속도를 유지하기 위해 생략했던 무겁고 시간이 오래 걸리는 테스트(부하, [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/), 보안 스캔)를 수행하여 숨겨진 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)과 통합 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 잡아낸다.
+> 2. **가치**: [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/))의 빠른 피드백 속도를 유지하기 위해 생략했던 무겁고 시간이 오래 걸리는 테스트(부하, [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/), 보안 스캔)를 수행하여 숨겨진 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)과 통합 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 잡아낸다.
 > 3. **판단 포인트**: '빠른 빌드 속도'와 '완벽한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)'은 상충하므로, 커밋 기반의 주간 CI와 정기 실행 기반의 야간 나이트 빌드를 분리 운영하는 이중 방어선 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필수적이다.
 
 ---
@@ -21,7 +21,7 @@ tags = ["studynote-devops-sre"]
 
 나이트 빌드(Nightly Build)는 개발팀이 퇴근한 심야 시간을 활용해 시스템 전체를 밑바닥부터 다시 조립하고 혹독하게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 정기적 프로세스다. 오늘날 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)과 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서 '모든 커밋마다 모든 테스트를 실행하는 것'은 이상적이지만, 프로젝트 규모가 커지면 테스트에 수시간이 걸려 개발 흐름이 완전히 끊어지게 된다.
 
-따라서 개발이 활발한 낮에는 가벼운 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)와 캐시(Cache)를 활용하여 몇 분 내에 피드백을 주는 '빠른 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)'를 돌린다. 하지만 이 과정에서 외부 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 업데이트 충돌이나 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 간 미세한 통신 오류가 누적될 수 있다. 나이트 빌드는 이러한 '속도 우선주의'가 남긴 구멍을 메우기 위해 모든 캐시를 비우고 외부 요인까지 샅샅이 뒤져 "제품이 어제와 똑같이 건강한가?"를 종합 진단하는 최후의 방어선이다.
+따라서 개발이 활발한 낮에는 가벼운 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)와 캐시(Cache)를 활용하여 몇 분 내에 피드백을 주는 '빠른 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)'를 돌린다. 하지만 이 과정에서 외부 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 업데이트 충돌이나 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 간 미세한 통신 오류가 누적될 수 있다. 나이트 빌드는 이러한 '속도 우선주의'가 남긴 구멍을 메우기 위해 모든 캐시를 비우고 외부 요인까지 샅샅이 뒤져 "제품이 어제와 똑같이 건강한가?"를 종합 진단하는 최후의 방어선이다.
 
 - **📢 섹션 요약 비유**: 주간 CI가 감기나 찰과상을 그때그때 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 '동네 의원 진찰'이라면, 나이트 빌드는 1년에 한 번 모든 장기를 MRI로 찍어보는 '전신 종합 건강검진'이다.
 
@@ -35,7 +35,7 @@ tags = ["studynote-devops-sre"]
 | :--- | :--- | :--- |
 | **0. Scheduled Trigger** | 야간 자동 실행 | Cron (`0 2 * * *` 등) 예약 실행 |
 | **1. Clean Build** | 제로 베이스 컴파일 | 로컬 캐시 삭제, 의존성 패키지 재다운로드 |
-| **2. Full Regression** | 100% [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) | 수만 개의 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 전수 실행 |
+| **2. Full Regression** | 100% [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) | 수만 개의 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) 전수 실행 |
 | **3. Heavy Testing** | [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/), 보안, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 브라우저 자동화([E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/)), [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)/[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/) 보안 스캔 |
 | **4. Report & Alert** | 결과 리포팅 | 다음 날 아침 실패 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 요약본 발송 |
 
@@ -63,14 +63,14 @@ tags = ["studynote-devops-sre"]
 
 주간의 커밋 기반 CI와 야간의 나이트 빌드는 목적과 실행 방식이 완전히 대조된다.
 
-| 비교 항목 | 주간 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) (Commit-based) | 야간 나이트 빌드 (Time-based) |
+| 비교 항목 | 주간 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) (Commit-based) | 야간 나이트 빌드 (Time-based) |
 | :--- | :--- | :--- |
 | <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a> 방식</strong> | 코드 Push / [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 발생 시 | Cron 기반 지정된 시간 |
 | **우선순위 가치** | 속도 (Fast Feedback) | 정확도 및 포괄성 (Completeness) |
 | **환경 상태** | 점진적 빌드 (캐시 의존) | 백지 상태 빌드 (제로 베이스) |
 | **장애 원인** | 주로 내가 방금 작성한 코드 | 주로 외부 의존성 업데이트, 누적된 상호작용 |
 
-특히 현대 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서는 나이트 빌드의 실패 원인이 '우리 소스코드'가 아니라 '밤사이 업데이트된 외부 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 패키지([공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 변경)'인 경우가 잦다. 나이트 빌드는 이러한 '의존성 표류(Dependency Drift)'를 탐지하는 가장 훌륭한 레이다 역할을 한다.
+특히 현대 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경에서는 나이트 빌드의 실패 원인이 '우리 소스코드'가 아니라 '밤사이 업데이트된 외부 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 패키지([공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 변경)'인 경우가 잦다. 나이트 빌드는 이러한 '의존성 표류(Dependency Drift)'를 탐지하는 가장 훌륭한 레이다 역할을 한다.
 
 - **📢 섹션 요약 비유**: 주간 CI가 "내가 방금 끼운 톱니바퀴가 돌아가나?"를 보는 것이라면, 나이트 빌드는 "수만 개의 톱니바퀴 전체에 기름칠이 잘 되어있고 외부 환경 온도에도 버티는가?"를 증명하는 것이다.
 
@@ -82,7 +82,7 @@ tags = ["studynote-devops-sre"]
 
 1. **절대적 클린 환경 보장**: 나이트 빌드는 임시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 이전 빌드 결과물, 다운로드 캐시를 철저히 비운 격리된 환경(주로 일회용 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))에서 구동해야 한다. "어? 내 로컬에선 되는데 나이트 빌드에선 깨지네?"라는 현상이 나와야 정상이다.
 2. **Red Build 최우선 해결**: 아침에 출근했을 때 나이트 빌드가 '실패(Red)' 상태라면, 모든 개발팀은 신규 기능 개발을 멈추고 이를 수정하는 데 전력을 다해야 한다(Stop the Line). 방치된 실패는 깨진 유리창이 되어 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 전체의 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)를 파괴한다.
-3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 나이트 빌드를 너무 가볍게 구성하여 주간 CI와 다를 바 없이 만드는 것. 남는 야간 리소스를 버리는 꼴이다. 무거워서 낮에 못했던 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/[부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)를 밤에 쏟아부어야 한다.
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 나이트 빌드를 너무 가볍게 구성하여 주간 CI와 다를 바 없이 만드는 것. 남는 야간 리소스를 버리는 꼴이다. 무거워서 낮에 못했던 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/[부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/)를 밤에 쏟아부어야 한다.
 
 - **📢 섹션 요약 비유**: 나이트 빌드의 에러 리포트는 은행의 일일 마감 정산과 같다. 단 1원의 오차(Red Build)라도 발견되면 퇴근하지 말고 원인을 찾아야 내일 영업(새로운 개발)을 정상적으로 시작할 수 있다.
 

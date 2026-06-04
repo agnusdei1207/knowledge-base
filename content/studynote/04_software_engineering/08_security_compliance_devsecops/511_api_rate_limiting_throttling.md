@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 쿠폰 이벤트 날이 왔다. 해커가 파이썬(Python)으로 스크립트를 짜서 0.1초 만에 쿠폰 발급 API를 10만 번 호출한다(L7 DDoS 공격). 서버의 DB 커넥션 풀이 다 터지고 사이트가 멈췄다. 정상 고객 수만 명은 접속조차 못 하고 욕을 한다. 혹은 크롤링 봇(Bot)이 매일 밤 쇼핑몰의 상품 가격을 초당 1천 번씩 긁어가서 서버 요금(AWS Billing)이 폭발한다. <strong>"내 코드는 정상적으로 돌아가지만, 적군이 너무 많아서 칼질을 하다 내가 지쳐 죽는 현상"</strong>을 막기 위해, 성문 입구에 병목(Bottle Neck)을 강제로 만들어 트래픽을 한 줄 서기로 찢어버리는 통제력이 절대적으로 필요하다.
 
-- **💡 비유**: Rate Limiting은 뷔페식당의 <strong>'고기 배급 룰'</strong>과 똑같습니다. 식당(서버)에 고기(CPU/DB 자원)가 무한정 있는 게 아닙니다. 어떤 진상 손님(디도스 봇)이 뷔페에 오자마자 고기 100접시를 혼자 다 싹쓸이해 가면 다른 손님들은 굶어 죽습니다. 그래서 주방장([API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/))이 룰을 만듭니다. "손님 1명당 1분에 고기는 딱 2접시까지만 퍼갑니다!" 진상 손님이 3번째 접시를 푸려고 하면 몽둥이로 때려서 쫓아냅니다(429 에러). 이 룰 하나로 식당 안의 모든 손님이 평화롭게 밥을 먹을 수 있습니다.
+- **💡 비유**: Rate Limiting은 뷔페식당의 <strong>'고기 배급 룰'</strong>과 똑같습니다. 식당(서버)에 고기(CPU/DB 자원)가 무한정 있는 게 아닙니다. 어떤 진상 손님(디도스 봇)이 뷔페에 오자마자 고기 100접시를 혼자 다 싹쓸이해 가면 다른 손님들은 굶어 죽습니다. 그래서 주방장([API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/))이 룰을 만듭니다. "손님 1명당 1분에 고기는 딱 2접시까지만 퍼갑니다!" 진상 손님이 3번째 접시를 푸려고 하면 몽둥이로 때려서 쫓아냅니다(429 에러). 이 룰 하나로 식당 안의 모든 손님이 평화롭게 밥을 먹을 수 있습니다.
 
 - **등장 배경 및 발전 과정**:
   1. **L3/L4 디도스 시대 (과거)**: 2000년대 해커들은 무식하게 핑(Ping)이나 껍데기 네트워크 패킷([SYN Flood](/knowledge-base/studynote/09_security/03_network_security/255_syn_flood/))만 미친 듯이 쏴서 인터넷 선 자체를 터뜨렸다. 이건 통신사가 막아줬다.
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/) (비율 제한) 및 Throttling (스로틀링)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -175,6 +175,6 @@ API Rate Limiting (비율 제한) 및 Throttling (스로틀링) 개념 정립
 **진행 상황**: 613 / 973
 
 <- **이전**: [510. API 보안 관리 - OAuth 2.0 (Access Token 인가), OIDC(인증), JWT(JSON Web Token)](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/510_api_security_oauth_oidc_jwt/)
-**다음**: [511. API Rate Limiting 및 Throttling](/knowledge-base/studynote/04_software_engineering/11_testing_validation/511_rate_limiting_throttling/) ->
+**다음**: [511. API Rate Limiting 및 Throttling](/knowledge-base/studynote/04_software_engineering/11_testing_validation/903_rate_limiting_throttling/) ->
 
 ---

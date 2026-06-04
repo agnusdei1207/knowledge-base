@@ -136,7 +136,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 132 / 1108
 
-<- **이전**: [1019. 동형 암호 (Homomorphic Encryption)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/)
+<- **이전**: [1019. 동형 암호 (Homomorphic Encryption)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/)
 **다음**: [101. SHA-3 (Keccak) — 스펀지 구조(Sponge Construction), NIST 2015](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/) ->
 
 ---

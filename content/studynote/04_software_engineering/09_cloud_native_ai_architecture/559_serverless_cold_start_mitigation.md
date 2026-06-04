@@ -122,7 +122,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 콜드 스타트 ([Cold Start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/)) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 문제 및 극복 방안 ([Provisioned Concurrency](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/202_provisioned_concurrency_serverless_cold_start/) 등)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -176,7 +176,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 710 / 973
 
-<- **이전**: [559. 콜드 스타트 (Cold Start) 지연 문제 및 극복 방안 (Provisioned Concurrency 등)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/559_cold_start/)
-**다음**: [560. 데이터 메시 (Data Mesh) - 데이터 소유권의 탈중앙화 (도메인 중심)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/560_data_mesh/) ->
+<- **이전**: [559. 콜드 스타트 (Cold Start) 지연 문제 및 극복 방안 (Provisioned Concurrency 등)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/951_cold_start/)
+**다음**: [560. 데이터 메시 (Data Mesh) - 데이터 소유권의 탈중앙화 (도메인 중심)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/952_data_mesh/) ->
 
 ---

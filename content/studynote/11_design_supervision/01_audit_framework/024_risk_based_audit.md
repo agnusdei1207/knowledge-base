@@ -90,7 +90,7 @@ ISO 31000(위험 관리 표준)과 ISACA의 [COBIT](/knowledge-base/studynote/12
 
 1. <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/027_risk_identification/">위험 식별</a></strong>: 레거시 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전환(500GB), 36개 외부 시스템 연동, 2회 요구사항 변경 이력.
 2. **최고위험 선정**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전환, 핵심 외부 인터페이스 10개.
-3. **감리 집중**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전환 계획·테스트 결과물 심층 검토, 인터페이스 명세서·[테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 100% 샘플링.
+3. **감리 집중**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전환 계획·테스트 결과물 심층 검토, 인터페이스 명세서·[테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) 100% 샘플링.
 4. **결과**: 고위험 30% 영역에 감리 시간 60% 투입 -> 오픈 전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전환 오류 12건 사전 발견.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)

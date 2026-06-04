@@ -104,7 +104,7 @@ tags = ["studynote-operating-system"]
 | **유연성** | 앱별 맞춤 LibOS 구현 가능 |
 | **연구 영향** | [Unikernel](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/), [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/), MicroVM 설계에 영향 |
 
-엑소커널은 상용 배포는 제한적이었지만, 그 철학은 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서 [Unikernel](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/)(MirageOS, Nanos), [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 기반 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 확장, AWS Firecracker 등으로 부활했다.
+엑소커널은 상용 배포는 제한적이었지만, 그 철학은 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경에서 [Unikernel](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/)(MirageOS, Nanos), [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 기반 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 확장, AWS Firecracker 등으로 부활했다.
 
 - **📢 섹션 요약 비유**: 엑소커널은 시대를 앞선 설계 철학이다. 1990년대에는 너무 복잡하고 위험했지만, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)·클라우드 시대가 되면서 그 아이디어가 Unikernel과 MicroVM으로 되살아났다.
 

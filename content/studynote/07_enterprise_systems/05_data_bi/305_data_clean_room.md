@@ -124,7 +124,7 @@ Google, Apple의 프라이버시 강화 [정책](/knowledge-base/studynote/10_ai
 | 항목 | 클린 룸 미사용 | 클린 룸 사용 |
 |:---|:---|:---|
 | [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/) 법적 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) | 높음 (직접 PII 공유) | 낮음 (집계만 노출) |
-| 캠페인 측정 정확도 | 불가 ([쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 폐기) | 가능 ([1st party](/knowledge-base/studynote/12_it_management/05_security_compliance/279_cdp_first_party/) [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)) |
+| 캠페인 측정 정확도 | 불가 ([쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 폐기) | 가능 ([1st party](/knowledge-base/studynote/12_it_management/05_security_compliance/928_cdp_first_party/) [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)) |
 | 규제 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대비 | 취약 | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·DP [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)으로 대응 |
 
 📢 **섹션 요약 비유**: 클린 룸은 두 나라가 국경 근처 중립지대에서 정보를 교환하는 외교 채널이다. 서로의 영토(원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))엔 들어가지 않고도 협업할 수 있다.

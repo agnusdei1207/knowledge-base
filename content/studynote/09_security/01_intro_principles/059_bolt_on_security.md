@@ -21,7 +21,7 @@ tags = ["studynote-security"]
 
 사후 보안은 "기능을 먼저 만들고, 나중에 보안을 붙이자"는 사고에서 나온다. 빠른 출시가 우선이던 시절에는 흔했지만, 지금은 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)를 크게 남긴다.
 
-외곽 장비는 네트워크 경계의 위협을 막는 데 유용하다. 하지만 애플리케이션 내부의 권한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/), 로직 오류는 코드 자체를 고치지 않으면 사라지지 않는다.
+외곽 장비는 네트워크 경계의 위협을 막는 데 유용하다. 하지만 애플리케이션 내부의 권한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [입력 검증](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/), 로직 오류는 코드 자체를 고치지 않으면 사라지지 않는다.
 
 - **📢 섹션 요약 비유**: 집을 허술하게 지은 뒤 문 앞에만 철문을 달아 두는 것과 같다.
 
@@ -76,7 +76,7 @@ Bolt-on은 종종 "[Defense in Depth](/knowledge-base/studynote/09_security/01_i
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 코드 수준의 [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/)과 권한 검사가 있는가?
+1. 코드 수준의 [입력 검증](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/)과 권한 검사가 있는가?
 2. 외곽 장비가 아닌 설계 수정 계획이 있는가?
 3. 보안 요구사항이 요구 분석 단계부터 반영되었는가?
 4. 보안 솔루션이 기능 마비를 숨기고 있지는 않은가?

@@ -81,7 +81,7 @@ tags = ["studynote-bigdata"]
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) | Append-only | Merge/Upsert | Overwrite/Merge |
 | 보존 기간 | 장기 (수 년) | 중기 (수 개월) | 단기 (최신 집계) |
 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 기준 | 수집 날짜 | 비즈니스 날짜 | 분석 기간 |
-| 품질 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) | 없음 (원본 그대로) | 중간 ([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 완료) | 높음 (비즈니스 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)) |
+| 품질 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) | 없음 (원본 그대로) | 중간 ([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 완료) | 높음 (비즈니스 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)) |
 
 > 📢 **섹션 요약 비유**: Bronze는 냉장고 채소 칸(신선 재료), Silver는 손질된 재료, Gold는 완성된 요리다. 요리(Gold)가 잘못됐을 때 재료(Bronze)부터 다시 추적할 수 있다.
 
@@ -118,14 +118,14 @@ tags = ["studynote-bigdata"]
 
 **Silver 계층 핵심 변환**
 - 중복 제거: `ROW_NUMBER() OVER (PARTITION BY pk ORDER BY updated_at DESC) = 1`
-- [SCD Type 2](/knowledge-base/studynote/12_it_management/05_security_compliance/315_scd_type_2/): 이력 관리를 위한 `valid_from`, `valid_to`, `is_current` 컬럼
+- [SCD Type 2](/knowledge-base/studynote/12_it_management/05_security_compliance/957_scd_type_2/): 이력 관리를 위한 `valid_from`, `valid_to`, `is_current` 컬럼
 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 게이트: NULL 비율, 이상값 범위 검사 통과 후 진입
 
 **기술사 답안 포인트**
 
 | 질문 | 핵심 답변 |
 |:---|:---|
-| 각 계층 존재 이유 | 관심사 분리로 품질 수준·소비자·[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 독립 관리 |
+| 각 계층 존재 이유 | 관심사 분리로 품질 수준·소비자·[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 독립 관리 |
 | Bronze append-only 이유 | 원본 보존으로 언제든 재처리 가능, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적 보장 |
 | Silver에서 [SCD](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/) 적용 이유 | 천천히 변하는 [마스터 데이터](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/)(고객, 제품) 이력 보존 |
 | Gold 집계 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | Star [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)로 BI [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 |
@@ -156,7 +156,7 @@ Multi-Tier Architecture는 현대 [데이터 레이크하우스](/knowledge-base
 | Bronze | 원시 계층 | append-only, 원본 보존 |
 | Silver | 정제 계층 | 중복 제거, [SCD](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/), 품질 검사 |
 | Gold | 집계 계층 | BI/[KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) 최적화, Star [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) |
-| [SCD Type 2](/knowledge-base/studynote/12_it_management/05_security_compliance/315_scd_type_2/) | Silver 변환 기법 | 이력 보존형 천천히 변하는 차원 |
+| [SCD Type 2](/knowledge-base/studynote/12_it_management/05_security_compliance/957_scd_type_2/) | Silver 변환 기법 | 이력 보존형 천천히 변하는 차원 |
 | AutoLoader | Bronze 수집 도구 | 신규 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 자동 감지·Delta 적재 |
 | Great Expectations | 품질 도구 | Silver 진입 전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 검사 |
 

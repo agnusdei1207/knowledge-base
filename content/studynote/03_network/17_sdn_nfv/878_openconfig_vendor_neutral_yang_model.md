@@ -57,7 +57,7 @@ tags = ["studynote-network"]
 ### 1. 단일 자동화 스크립트의 기적 (Write Once, Run Anywhere)
 - 관리자가 OpenConfig가 정해준 표준 YANG 서식(`openconfig-interfaces.yang`)에 맞춰서 IP 주소를 셋팅하는 파이썬 코드를 딱 1줄 짭니다.
 - [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 안에 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/)), 주니퍼(Juniper), 아리스타(Arista), 노키아 장비 수천 대가 마구 섞여(멀티 벤더 환경) 있어도 상관없습니다.
-- 이 파이썬 코드를 1만 대의 잡탕 장비에 동시에 쏴버리면, 모든 기계가 "아! 오픈컨피그 표준 서식으로 왔네!" 하고 **제조사에 상관없이 똑같이 IP를 착착찰칵 바꿔버립니다.** (진정한 인프라 자동화 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD의 완성)
+- 이 파이썬 코드를 1만 대의 잡탕 장비에 동시에 쏴버리면, 모든 기계가 "아! 오픈컨피그 표준 서식으로 왔네!" 하고 **제조사에 상관없이 똑같이 IP를 착착찰칵 바꿔버립니다.** (진정한 인프라 자동화 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD의 완성)
 
 ### 2. 제조사(벤더)의 굴복
 - 처음엔 시스코 같은 하드웨어 벤더들이 "우리만의 고급 기능을 못 쓰잖아!"라며 반발했습니다.

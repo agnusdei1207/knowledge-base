@@ -60,7 +60,7 @@ tags = ["studynote-devops-sre"]
 
 [프롬프트 인젝션](/knowledge-base/studynote/09_security/19_ai_advanced_security/955_prompt_injection/)은 전통적 입력 공격과 닮았지만, 자연어라는 모호성을 통해 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 경계를 흔든다는 점이 다르다. SQL Injection이 구문 파서를 속이는 공격이라면, [프롬프트 인젝션](/knowledge-base/studynote/09_security/19_ai_advanced_security/955_prompt_injection/)은 모델의 지시 우선순위와 의미 해석을 흔드는 공격이다.
 
-| 항목 | 전통적 [Injection](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) | [프롬프트 인젝션](/knowledge-base/studynote/09_security/19_ai_advanced_security/955_prompt_injection/) |
+| 항목 | 전통적 [Injection](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) | [프롬프트 인젝션](/knowledge-base/studynote/09_security/19_ai_advanced_security/955_prompt_injection/) |
 | :--- | :--- | :--- |
 | 공격 표면 | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)/명령 구문 | 자연어 지시와 문맥 |
 | 방어 핵심 | 파라미터 바인딩, 이스케이프 | 권한 분리, [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 격리, 출력 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
@@ -89,7 +89,7 @@ tags = ["studynote-devops-sre"]
 - RAG로 불러온 외부 문서의 “무시하라” 같은 명령을 별도 정제 없이 모델에 전달하는 경우
 - 모델이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 명령을 사람 검토 없이 곧바로 운영 시스템에 실행하는 경우
 
-기술사 답안에서는 [프롬프트 인젝션](/knowledge-base/studynote/09_security/19_ai_advanced_security/955_prompt_injection/)을 “[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 특화 [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/)과 권한 통제 문제”로 정의하면 좋다.
+기술사 답안에서는 [프롬프트 인젝션](/knowledge-base/studynote/09_security/19_ai_advanced_security/955_prompt_injection/)을 “[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 특화 [입력 검증](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/)과 권한 통제 문제”로 정의하면 좋다.
 
 - **📢 섹션 요약 비유**: 손님이 큰소리로 요구하더라도, 접수창구 직원이 혼자 금고를 열 수 없게 만드는 게 진짜 보안이다.
 

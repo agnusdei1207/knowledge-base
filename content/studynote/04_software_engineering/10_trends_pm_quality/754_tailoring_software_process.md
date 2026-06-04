@@ -80,7 +80,7 @@ tags = ["studynote-software-engineering"]
 | <strong>테일러링 (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/">Tailoring</a>)</strong> | 표준 방법론을 **프로젝트 환경에 맞게 잘라냄** | **개발 프로세스 및 문서** | 요구사항 명세서를 10장 $\rightarrow$ 2장으로 축소 |
 | **커스터마이징 (Customization)** | 만들어진 소프트웨어를 **고객 입맛에 맞게 고침** | **소프트웨어(제품) 기능**| 솔루션 UI 색상을 파란색으로 변경 |
 
-즉, 커스터마이징은 '결과물(Product)'을 바꾸는 것이고, 테일러링은 결과물을 만드는 '과정([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))'을 바꾸는 것이다.
+즉, 커스터마이징은 '결과물(Product)'을 바꾸는 것이고, 테일러링은 결과물을 만드는 '과정([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))'을 바꾸는 것이다.
 
 - **📢 섹션 요약 비유**: 빵 공장에서 빵을 굽는 기계를 우리 공장 크기에 맞게 개조하는 것은 '테일러링'이고, 그렇게 구워진 빵에 딸기잼을 바를지 초코잼을 바를지 손님 취향에 맞추는 것은 '커스터마이징'이다.
 

@@ -12,7 +12,7 @@ tags = ["studynote-ai"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 1×1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)(1x1 [Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/), Pointwise [Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/))은 공간 정보(Spatial Information)를 그대로 유지하면서 채널(Channel) 수만 선택적으로 변환하는 연산으로, 채널 간 선형 결합(Linear Combination)을 학습한다.
-> 2. **가치**: [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)([Dimensionality Reduction](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_dimensionality_reduction/))로 계산량을 대폭 줄이고, 비선형 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)(Non-linear Activation)와 결합하여 표현력을 높이면서도 파라미터를 효율적으로 사용한다.
+> 2. **가치**: [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)([Dimensionality Reduction](/knowledge-base/studynote/12_it_management/02_itsm_itil/863_dimensionality_reduction/))로 계산량을 대폭 줄이고, 비선형 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)(Non-linear Activation)와 결합하여 표현력을 높이면서도 파라미터를 효율적으로 사용한다.
 > 3. **판단 포인트**: 시험에서는 1×1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)이 채널 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)로 어떻게 연산량을 줄이는지 계산, 보틀넥 구조([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/) [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))에서의 역할, NIN (Network in Network), GoogLeNet(Inception), ResNet에서의 활용 맥락을 묻는다.
 
 ---
@@ -168,7 +168,7 @@ MobileNet은 일반 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_c
 
 ### 설계 사용 시나리오
 
-1. <strong>채널 축소 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/079_dimensionality_reduction/">Dimensionality Reduction</a>)</strong>: 연산량 줄이기 전 전처리 단계
+1. <strong>채널 축소 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/863_dimensionality_reduction/">Dimensionality Reduction</a>)</strong>: 연산량 줄이기 전 전처리 단계
 2. **채널 증가**: 특징 공간을 풍부하게 확장할 때
 3. **비선형성 추가**: ReLU와 결합하여 표현력 향상 (GAP 전 마지막 1×1 Conv)
 4. **채널 정렬**: 잔차 연결(Skip Connection)에서 채널 수 맞추기
@@ -231,7 +231,7 @@ ResNet의 스킵 연결(Skip Connection)에서 입력과 출력의 채널 수가
 | NIN (Network in Network) | MLP, 채널 변환 / 1×1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)의 기원 |
 | GoogLeNet (Inception) | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/), 효율 / Inception [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 축소 역할 |
 | 깊이별 분리 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) (DS Conv) | MobileNet, 경량화 / Depthwise + Pointwise |
-| [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) ([Dimensionality Reduction](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_dimensionality_reduction/)) | [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/), [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) / 채널 방향 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) |
+| [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) ([Dimensionality Reduction](/knowledge-base/studynote/12_it_management/02_itsm_itil/863_dimensionality_reduction/)) | [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/), [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) / 채널 방향 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

@@ -64,7 +64,7 @@ tags = ["studynote-operating-system"]
 | 격리 수준 | 높음 | 중간 |
 | 부팅 속도 | 느림 | 빠름 |
 | OS 중복 | 있음 | 없음 |
-| 사용 사례 | 멀티테넌시, 레거시 | [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD |
+| 사용 사례 | 멀티테넌시, 레거시 | [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD |
 
 Type 1 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 하드웨어 위에서 직접 동작해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 안정성이 좋고, Type 2는 호스트 OS 위에서 실행되어 편하지만 오버헤드가 있다.
 

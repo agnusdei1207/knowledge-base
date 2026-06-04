@@ -11,14 +11,14 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 비운영 환경 테스트데이터 마스킹 감리는 비운영 환경(Non Production)에서의 [테스트 데이터](/knowledge-base/studynote/04_software_engineering/11_testing_validation/444_test_data_management/) 마스킹([Test Data Masking](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/108_test_data_masking_pipeline/)) 체계에서 비식별화(Masking), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 축소(Subsetting), 접근 제한(Access Restriction)의 정합성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.
+> 1. **본질**: 비운영 환경 테스트데이터 마스킹 감리는 비운영 환경(Non Production)에서의 [테스트 데이터](/knowledge-base/studynote/04_software_engineering/11_testing_validation/836_test_data_management/) 마스킹([Test Data Masking](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/108_test_data_masking_pipeline/)) 체계에서 비식별화(Masking), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 축소(Subsetting), 접근 제한(Access Restriction)의 정합성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.
 > 2. **가치**: 비식별화와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 축소를 실행 가능한 기준으로 연결하면 숨은 리스크를 조기에 찾고 비용이 큰 재작업을 줄일 수 있다.
 > 3. **판단 포인트**: 감리인은 문서 존재 여부보다 접근 제한까지 닫힌 증적이 남는지, 그리고 책임자·임계값·예외 승인 흐름이 작동하는지 확인해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
-비운영 환경 테스트데이터 마스킹 감리는 비운영 환경(Non Production)에서의 [테스트 데이터](/knowledge-base/studynote/04_software_engineering/11_testing_validation/444_test_data_management/) 마스킹([Test Data Masking](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/108_test_data_masking_pipeline/)) 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 활용이 확대되면서 수집보다 최소화, 추적성, 파기까지 포함한 프라이버시 관리가 핵심이 되었다. 특히 비식별화가 기준선으로 정리되지 않으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 축소는 사람 의존 절차로 흩어지고, 최종적으로 접근 제한이 남지 않아 의사결정이 감각에 의존하게 된다. 통제가 약하면 과도한 이용, 비인가 노출, 법규 위반이 빠르게 발생한다.
+비운영 환경 테스트데이터 마스킹 감리는 비운영 환경(Non Production)에서의 [테스트 데이터](/knowledge-base/studynote/04_software_engineering/11_testing_validation/836_test_data_management/) 마스킹([Test Data Masking](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/108_test_data_masking_pipeline/)) 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 활용이 확대되면서 수집보다 최소화, 추적성, 파기까지 포함한 프라이버시 관리가 핵심이 되었다. 특히 비식별화가 기준선으로 정리되지 않으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 축소는 사람 의존 절차로 흩어지고, 최종적으로 접근 제한이 남지 않아 의사결정이 감각에 의존하게 된다. 통제가 약하면 과도한 이용, 비인가 노출, 법규 위반이 빠르게 발생한다.
 
 ```text
 +------------------+

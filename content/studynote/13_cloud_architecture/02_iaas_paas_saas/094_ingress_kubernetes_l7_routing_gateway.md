@@ -82,7 +82,7 @@ NodePort나 LoadBalancer는 단순한 '[파이프](/knowledge-base/studynote/02_
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 인그레스 도입 시 가장 중요한 의사결정은 어떤 인그레스 컨트롤러를 선택할 것인가이다. Nginx Ingress Controller가 가장 대중적이지만, 환경에 따라 ALB Ingress(AWS), [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) Gateway([Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/)) 등을 고려해야 한다.
+실무에서 인그레스 도입 시 가장 중요한 의사결정은 어떤 인그레스 컨트롤러를 선택할 것인가이다. Nginx Ingress Controller가 가장 대중적이지만, 환경에 따라 ALB Ingress(AWS), [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) Gateway([Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/)) 등을 고려해야 한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. <strong>컨트롤러 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a></strong>: 인그레스 컨트롤러 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 죽으면 클러스터 전체의 외부 통신이 끊어지므로 반드시 복제본(Replica)을 늘려 고가용성(HA)을 확보했는가?

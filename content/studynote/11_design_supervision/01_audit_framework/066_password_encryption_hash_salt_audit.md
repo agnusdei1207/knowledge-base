@@ -145,6 +145,6 @@ Password Security
 **진행 상황**: 100 / 530
 
 <- **이전**: [65. 로그 및 감사 추적 (Audit Trail) - 위변조 방지 컴플라이언스 점검](/knowledge-base/studynote/11_design_supervision/01_audit_framework/065_audit_trail_worm_storage_compliance/)
-**다음**: [66. 비밀번호 암호화 저장 방식 진단 (Password Hash and Salt Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/066_password_hash_salt_audit/) ->
+**다음**: [66. 비밀번호 암호화 저장 방식 진단 (Password Hash and Salt Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/635_password_hash_salt_audit/) ->
 
 ---

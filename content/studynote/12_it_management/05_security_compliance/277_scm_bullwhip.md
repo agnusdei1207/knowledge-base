@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 402 / 587
 
-<- **이전**: [276. ERP 전사적 자원 관리](/knowledge-base/studynote/12_it_management/05_security_compliance/276_erp_enterprise_resource_planning/)
-**다음**: [277. SCM 공급망 관리 채찍 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/277_scm_bullwhip_effect/) ->
+<- **이전**: [276. ERP 전사적 자원 관리](/knowledge-base/studynote/12_it_management/05_security_compliance/925_erp_enterprise_resource_planning/)
+**다음**: [277. SCM 공급망 관리 채찍 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/926_scm_bullwhip_effect/) ->
 
 ---

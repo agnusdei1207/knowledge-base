@@ -12,7 +12,7 @@ tags = ["studynote-bigdata"]
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유자([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner)는 특정 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 대해 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적·법적 책임을 지는 시니어 비즈니스 임원으로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 결정과 규제 준수에 대한 최종 책임을 진다.
-- **가치**: [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 체계에서 Owner가 명확해야 접근 승인·규제 대응·품질 기준 결정이 일원화되고, 분쟁 발생 시 책임 소재가 명확해진다.
+- **가치**: [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) 체계에서 Owner가 명확해야 접근 승인·규제 대응·품질 기준 결정이 일원화되고, 분쟁 발생 시 책임 소재가 명확해진다.
 - **판단 포인트**: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner는 기술적 역할이 아니라 <strong>비즈니스 책임 역할</strong>이며, GDPR의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 컨트롤러([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Controller) 개념과 유사하다는 점이 기술사 답안의 핵심 포인트다.
 
 ---
@@ -76,13 +76,13 @@ tags = ["studynote-bigdata"]
 | 접근 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 결정 | [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)에 따른 역할별 접근 수준 정의 |
 | 접근 요청 최종 승인 | [Data Steward](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/067_data_steward_data_quality/) 검토 후 최종 승인/거부 |
 | 규제 준수 보장 | [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)·PIPA에서 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Controller 역할 수행 |
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 기준 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 허용 품질 수준([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) 결정 |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 기준 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 허용 품질 수준([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)) 결정 |
 | 보유/삭제 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 결정 | 법적 보관 기간 + 비즈니스 필요 기간 결정 |
 | [데이터 분류](/knowledge-base/studynote/09_security/16_data_privacy/808_data_classification/) 결정 | Public/Internal/Confidential/[Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
 
 ### 2.3 [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 연계 — [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Controller 개념
 
-| 개념 | [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 용어 | [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 용어 |
+| 개념 | [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 용어 | [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) 용어 |
 |:---|:---|:---|
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 목적·방법 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Controller ([Art](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/).4(7)) | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner |
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 실행자 | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Processor ([Art](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/).4(8)) | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Custodian / IT |
@@ -109,7 +109,7 @@ tags = ["studynote-bigdata"]
 
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner 직책 | 예시 |
 |:---|:---|:---|
-| 고객([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | CMO (Chief Marketing Officer) | 고객 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| 고객([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/)) | CMO (Chief Marketing Officer) | 고객 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | 재무(Finance) | CFO (Chief Financial Officer) | 매출, 비용, 예산 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | 인사(HR) | CHRO (Chief Human Resources Officer) | 직원 정보, 급여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | 제품(Product) | CPO (Chief Product Officer) | 제품 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/), 재고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
@@ -173,7 +173,7 @@ tags = ["studynote-bigdata"]
 
 ### 5.2 결론
 
-[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner는 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)의 <strong>정치적(organizational) 중심축</strong>이다. 아무리 좋은 기술 도구와 프로세스가 있어도, 비즈니스 임원이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 책임을 받아들이지 않으면 거버넌스는 형식화된다. 기술사는 조직 설계(organizational design) 관점에서 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner 역할을 제도화하는 방법을 제시해야 한다.
+[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner는 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)의 <strong>정치적(organizational) 중심축</strong>이다. 아무리 좋은 기술 도구와 프로세스가 있어도, 비즈니스 임원이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 책임을 받아들이지 않으면 거버넌스는 형식화된다. 기술사는 조직 설계(organizational design) 관점에서 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner 역할을 제도화하는 방법을 제시해야 한다.
 
 **📢 섹션 요약 비유**: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner는 <strong>국가의 장관</strong>이다. 각 부처([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)) 장관이 그 부처 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(예산·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))를 책임지고, 국무총리([CDO](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/068_cdo_cio_role_separation_governance/))가 전체를 조율하며, 대통령(이사회)이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 방향을 제시한다.
 
@@ -212,7 +212,7 @@ tags = ["studynote-bigdata"]
     v
 [GDPR / 개인정보 책임 — 법적 데이터 오너십과 컴플라이언스 통합]
 ```
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오너는 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)의 핵심 책임 주체로, 스튜어드와의 역할 분담을 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질·보안·컴플라이언스를 조직적으로 보장한다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오너는 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)의 핵심 책임 주체로, 스튜어드와의 역할 분담을 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질·보안·컴플라이언스를 조직적으로 보장한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

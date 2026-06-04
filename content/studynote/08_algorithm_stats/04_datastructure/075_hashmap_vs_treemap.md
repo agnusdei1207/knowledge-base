@@ -138,7 +138,7 @@ TreeMap은 동일한 키-값 쌍을 [이진 탐색 트리](/knowledge-base/study
 | <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/">레드-블랙 트리</a></strong> | TreeMap의 내부 자료구조; 항상 O(log n) 보장 |
 | <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/">해시 충돌</a> (Hash <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/">Collision</a>)</strong> | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 요인; 체이닝 또는 오픈 어드레싱으로 해결 |
 | **ConcurrentHashMap** | HashMap의 [스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/); 세그먼트 락 방식 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/110_skip_list/">Skip List</a></strong> | TreeMap의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 대안; ConcurrentSkipListMap의 기반 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/894_skip_list/">Skip List</a></strong> | TreeMap의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 대안; ConcurrentSkipListMap의 기반 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

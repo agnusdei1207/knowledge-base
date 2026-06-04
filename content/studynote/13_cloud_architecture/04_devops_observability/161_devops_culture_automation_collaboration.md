@@ -11,7 +11,7 @@ tags = ["studynote-cloud"]
 
 ## 핵심 인사이트 (3줄 요약)
 1. **개발과 운영의 통합**: 개발(Dev)과 운영(Ops) 팀 간의 소유권 공유와 협업을 통해 소프트웨어 배포 속도와 안정성을 동시에 달성함.
-2. <strong>신속한 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/">피드백 루프</a></strong>: [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))과 배포(CD)를 자동화하여 버그를 조기 발견하고 시장의 요구에 기민하게 대응함.
+2. <strong>신속한 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/">피드백 루프</a></strong>: [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/))과 배포(CD)를 자동화하여 버그를 조기 발견하고 시장의 요구에 기민하게 대응함.
 3. **문화적 패러다임**: 단순한 도구의 도입이 아니라, 비난 없는(Blameless) 회고와 지속적인 학습을 중시하는 조직 문화적 전환임.
 
 ---
@@ -56,7 +56,7 @@ tags = ["studynote-cloud"]
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 - **실무 적용**: 단순 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)) 도입이 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)가 아님. '자동화' 이전에 팀 간의 '신뢰'와 '공통 지표([SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)/[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))' 수립이 선행되어야 함.
-- **기술사적 판단**: [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)는 현재 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))와 플랫폼 엔지니어링으로 진화하고 있으며, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서 기업의 경쟁력을 결정하는 핵심 역량(Core Competency)으로 정착됨.
+- **기술사적 판단**: [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)는 현재 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))와 플랫폼 엔지니어링으로 진화하고 있으며, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경에서 기업의 경쟁력을 결정하는 핵심 역량(Core Competency)으로 정착됨.
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 - **기대효과**: 배포 빈도([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) Frequency) 증가, 변경 실패율([Change Failure Rate](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/)) 감소, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)) 단축.
@@ -64,7 +64,7 @@ tags = ["studynote-cloud"]
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 - **상위 개념**: [애자일 방법론](/knowledge-base/studynote/04_software_engineering/01_overview_principles/012_agile_methodology/), [클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/).
-- **하위 개념**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/), [CALMS](/knowledge-base/studynote/15_devops_sre/05_devsecops/281_calms/), [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/).
+- **하위 개념**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD, [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/), [CALMS](/knowledge-base/studynote/15_devops_sre/05_devsecops/281_calms/), [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/).
 - **연관 개념**: [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/), [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/), [Platform 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/).
 
 ### 👶 어린이를 위한 3줄 비유 설명

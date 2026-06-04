@@ -13,7 +13,7 @@ tags = ["studynote-ai"]
 
 > 1. **본질**: [DBSCAN](/knowledge-base/studynote/06_ict_convergence/05_data_science/351_dbscan_density_based_clustering/)(Density-Based Spatial [Clustering](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/) of Applications with Noise, 노이즈 포함 밀도 기반 공간 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/))은 반경 ε 내에 최소 MinPts 이상의 점이 밀집한 영역을 군집으로 연결하는 밀도 기반 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, 군집 개수 K를 사전에 지정할 필요가 없다.
 > 2. **가치**: 원형이 아닌 임의 형태의 군집(초승달, 도넛, 나선형)을 탐지하고, 어느 군집에도 속하지 않는 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)(Noise Point)를 자동 분리하여 K-Means가 실패하는 복잡한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 처리한다.
-> 3. **판단 포인트**: ε(epsilon, 반경)와 MinPts(최소 점 수) 두 하이퍼파라미터가 군집 품질을 결정하며, [k-NN](/knowledge-base/studynote/06_ict_convergence/05_data_science/352_knn_distance_metrics/) 거리 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(k-distance [graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))의 엘보우(elbow) 지점에서 적절한 ε를 추정한다.
+> 3. **판단 포인트**: ε(epsilon, 반경)와 MinPts(최소 점 수) 두 하이퍼파라미터가 군집 품질을 결정하며, [k-NN](/knowledge-base/studynote/06_ict_convergence/05_data_science/352_knn_distance_metrics/) 거리 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(k-distance [graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/))의 엘보우(elbow) 지점에서 적절한 ε를 추정한다.
 
 ---
 

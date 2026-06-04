@@ -11,7 +11,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 개발자의 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)([Cognitive Load](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/))를 줄이기 위해 전담 플랫폼 팀이 인프라·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD·모니터링을 표준화된 셀프서비스(골든 패스)로 제공하는 DevOps의 진화형 조직 패턴이다.
+> 1. **본질**: 개발자의 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)([Cognitive Load](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/))를 줄이기 위해 전담 플랫폼 팀이 인프라·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD·모니터링을 표준화된 셀프서비스(골든 패스)로 제공하는 DevOps의 진화형 조직 패턴이다.
 > 2. **가치**: 개발자가 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) YAML·[Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)·보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 소모하는 시간을 없애고, 비즈니스 기능 개발에만 집중하게 하여 전사 개발 속도와 표준성을 동시에 높인다.
 > 3. **판단 포인트**: 플랫폼은 내부 제품(Internal Product)이다. 개발자가 자발적으로 사용하지 않는 플랫폼은 실패한 것이며, [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)([DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/): Developer Experience)이 핵심 성과 지표다.
 
@@ -19,9 +19,9 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 도입 이후 조직들은 "모두가 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 엔지니어"라는 이상을 추구했다. 하지만 현실에서 개발자들은 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) YAML 작성, [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) 준수, 인프라 비용 추적 등 핵심 비즈니스 로직과 무관한 작업에 상당한 시간을 소모하게 됐다. 이것이 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/">인지 부하</a>(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/">Cognitive Load</a>)</strong>다.
+[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 도입 이후 조직들은 "모두가 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 엔지니어"라는 이상을 추구했다. 하지만 현실에서 개발자들은 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) YAML 작성, [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) 준수, 인프라 비용 추적 등 핵심 비즈니스 로직과 무관한 작업에 상당한 시간을 소모하게 됐다. 이것이 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/">인지 부하</a>(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/">Cognitive Load</a>)</strong>다.
 
-[플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)은 이 문제의 해결책으로 등장했다. 전담 플랫폼 팀(Platform Team)이 인프라·보안·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD·관찰성 도구를 표준화하고, 개발자가 셀프서비스로 사용할 수 있는 <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/">IDP</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/200_internal_developer_platform_backstage/">Internal Developer Platform</a>/Portal)</strong>를 구축하는 조직 패턴이다.
+[플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)은 이 문제의 해결책으로 등장했다. 전담 플랫폼 팀(Platform Team)이 인프라·보안·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD·관찰성 도구를 표준화하고, 개발자가 셀프서비스로 사용할 수 있는 <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/">IDP</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/200_internal_developer_platform_backstage/">Internal Developer Platform</a>/Portal)</strong>를 구축하는 조직 패턴이다.
 
 Gartner는 2023년 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)을 "Top [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Strategic Technology Trends"에 선정했으며, [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 설문에서 응답자의 68%가 플랫폼 팀을 운영 중이거나 계획 중이라고 답했다. Spotify의 Backstage, HashiCorp의 Waypoint, CNCF의 Crossplane이 대표적인 도구 생태계를 형성하고 있다.
 
@@ -61,7 +61,7 @@ Gartner는 2023년 [플랫폼 엔지니어링](/knowledge-base/studynote/04_soft
 |:---|:---|
 | 정의 | 표준화된 권장 개발·배포 방법론, 플랫폼 팀이 제공하는 검증된 경로 |
 | 목적 | 개발자가 매번 처음부터 설계하지 않고 검증된 패턴을 재사용 |
-| 구성 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 템플릿, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인, 기본 보안·모니터링 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 포함 |
+| 구성 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 템플릿, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인, 기본 보안·모니터링 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 포함 |
 | 유연성 | "강제"가 아닌 "권장" — 개발자가 필요하면 이탈 가능 |
 
 📢 **섹션 요약 비유**: 골든 패스는 GPS가 제공하는 "권장 경로"와 같다. 목적지까지 가장 빠르고 안전한 길을 알려주되, 드라이버가 원하면 다른 길로 갈 수도 있다.
@@ -84,10 +84,10 @@ Gartner는 2023년 [플랫폼 엔지니어링](/knowledge-base/studynote/04_soft
 
 | 도구 | 특징 |
 |:---|:---|
-| Spotify Backstage | [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/), [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/)·플러그인 생태계 |
+| Spotify Backstage | [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/), [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/872_service_catalog/)·플러그인 생태계 |
 | Cortex | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 성숙도·스코어카드 |
-| [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) | 개발자 포털 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) |
-| OpsLevel | [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/)·RunBook 통합 |
+| [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) | 개발자 포털 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) |
+| OpsLevel | [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/872_service_catalog/)·RunBook 통합 |
 
 📢 **섹션 요약 비유**: IDP는 마치 스마트폰의 앱스토어와 같다. 개발자는 필요한 인프라(앱)를 검색해서 클릭 한 번으로 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)(다운로드)하면 된다. 앱이 어떻게 동작하는지 몰라도 쓸 수 있다.
 
@@ -130,7 +130,7 @@ Level 4: 완전 자동화된 골든 패스 + 개발자 경험(DX) 측정
 | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표 개선 | 배포 빈도^, 리드타임v, 변경 실패율v |
 | 지식 이전 용이 | 온보딩 시간 단축 (골든 패스 따라가면 됨) |
 
-[플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)은 "DevOps의 민주화"다. 모든 개발자가 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 전문가가 될 필요 없이, 잘 설계된 플랫폼을 통해 DevOps의 혜택을 누릴 수 있게 하는 것이 목표다. 2025년 이후 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 조직의 핵심 경쟁력이 될 것으로 전망된다.
+[플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)은 "DevOps의 민주화"다. 모든 개발자가 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 전문가가 될 필요 없이, 잘 설계된 플랫폼을 통해 DevOps의 혜택을 누릴 수 있게 하는 것이 목표다. 2025년 이후 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 조직의 핵심 경쟁력이 될 것으로 전망된다.
 
 📢 **섹션 요약 비유**: [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)의 궁극적 목표는 개발자가 "인프라를 몰라도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 배포할 수 있는" 상태를 만드는 것이다. 마치 자동차를 운전하기 위해 엔진 구조를 알 필요가 없는 것처럼.
 

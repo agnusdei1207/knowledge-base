@@ -17,7 +17,7 @@ tags = ["studynote-bigdata"]
 ---
 
 ### Ⅰ. 개요 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Background)
-운영 시스템([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/))은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리에 최적화되어 있어 복잡한 분석 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에는 부적합하다. [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)는 빌 인먼(Bill [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/311_inmon/))과 랄프 킴벌(Ralph [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/))의 이론을 바탕으로, 과거부터 현재까지의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석하기 좋은 형태로 통합하여 기업의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 의사결정을 돕는 기술이다.
+운영 시스템([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/))은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리에 최적화되어 있어 복잡한 분석 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에는 부적합하다. [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)는 빌 인먼(Bill [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/953_inmon/))과 랄프 킴벌(Ralph [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/954_kimball/))의 이론을 바탕으로, 과거부터 현재까지의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석하기 좋은 형태로 통합하여 기업의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 의사결정을 돕는 기술이다.
 
 ---
 
@@ -40,12 +40,12 @@ tags = ["studynote-bigdata"]
                                 +-----------------------+       +-------------------+
 ```
 
-1. <strong>4대 특징 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/311_inmon/">Inmon</a>)</strong>:
+1. <strong>4대 특징 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/953_inmon/">Inmon</a>)</strong>:
    - **주제 중심적 (Subject Oriented)**: 고객, 상품 등 특정 주제별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구성.
    - **통합적 (Integrated)**: 전사의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 표준화된 포맷으로 통합.
    - **시계열적 (Time Variant)**: 과거의 이력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보존.
    - **비휘발성 (Non-volatile)**: 한 번 적재된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 삭제되지 않음.
-2. **모델링**: [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)([Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/))와 눈송이 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)([Snowflake Schema](/knowledge-base/studynote/12_it_management/05_security_compliance/313_snowflake_schema/))를 사용하여 분석 속도를 최적화한다.
+2. **모델링**: [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)([Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/))와 눈송이 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)([Snowflake Schema](/knowledge-base/studynote/12_it_management/05_security_compliance/955_snowflake_schema/))를 사용하여 분석 속도를 최적화한다.
 
 ---
 

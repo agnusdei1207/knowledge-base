@@ -151,7 +151,7 @@ Enhanced Fan-Out:
 
 - [ ] `ProvisionedThroughputExceededException` 발생 시 샤드 분할(SplitShard)
 - [ ] Enhanced Fan-Out: Consumer > 1개이고 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 경쟁 발생 시 활성화
-- [ ] On-Demand 모드([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/)+): 자동 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/), 예측 불가능한 트래픽에 적합
+- [ ] On-Demand 모드([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/)+): 자동 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/), 예측 불가능한 트래픽에 적합
 - [ ] 샤드 수 줄이기: MergeShards [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) (인접 샤드만 병합 가능)
 
 **📢 섹션 요약 비유**

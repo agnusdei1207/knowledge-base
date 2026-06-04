@@ -68,7 +68,7 @@ tags = ["studynote-bigdata"]
 스파크 배포 모드의 올바른 선택은 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 효율성과 비용에 직접적인 영향을 미친다. 앞으로의 트렌드는 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)) 스파크다. 사용자가 모드를 고민할 필요 없이 인프라가 워크로드에 맞춰 최적의 배치를 자동 수행하는 방향으로 진화하고 있다. 하지만 여전히 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 트러블슈팅의 핵심 지점은 드라이버와 워커의 물리적 배치([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) Mode) 분석에서 시작된다.
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- **부모 개념:** Distributed Computing, Resource [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)
+- **부모 개념:** Distributed Computing, Resource [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/)
 - **유사 개념:** [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) Scheduler, [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/)
 - **하위 개념:** spark-submit, Application Master, Spark UI
 
@@ -90,7 +90,7 @@ tags = ["studynote-bigdata"]
 [서버리스 Spark (Serverless Spark) — 클라우드 완전 관리형, 인프라 추상화 극대화]
 ```
 
-이 흐름은 Spark의 배포 모드가 로컬 개발 환경에서 출발하여 [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 클러스터 공유를 거쳐 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 기반 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 배포로 진화하는 과정을 보여준다.
+이 흐름은 Spark의 배포 모드가 로컬 개발 환경에서 출발하여 [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 클러스터 공유를 거쳐 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 기반 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 배포로 진화하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 - 지휘자(드라이버)가 연주자(실행기)들과 어디에 있느냐의 차이예요.

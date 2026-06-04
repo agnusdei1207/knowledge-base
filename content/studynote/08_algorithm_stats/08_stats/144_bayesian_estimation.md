@@ -75,7 +75,7 @@ P(x_new | X) = ∫ P(x_new | θ) · P(θ|X) dθ
 | 적용 | 딥러닝 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 추정 | 베이즈 신경망, 의사 결정 |
 
 <strong>빈도주의 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/">신뢰 구간</a> vs 베이즈 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/">신뢰 구간</a>(Credible Interval)</strong>:
-- <strong>빈도주의 95% <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a></strong>: "이 방법을 반복하면 95%의 구간이 모수를 포함" (모수는 고정값)
+- <strong>빈도주의 95% <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a></strong>: "이 방법을 반복하면 95%의 구간이 모수를 포함" (모수는 고정값)
 - **베이즈 95% Credible Interval**: "사후 분포에서 θ가 이 구간 안에 있을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 95%" (θ를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수로 취급)
 
 📢 **섹션 요약 비유**: MAP vs 완전 베이즈는 "일기예보"의 차이다. MAP는 "내일 기온은 22℃"라는 단일 예측, 완전 베이즈는 "20~24℃ 범위의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포"를 제공한다 — 불확실성을 얼마나 솔직하게 표현하느냐의 차이다.

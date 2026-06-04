@@ -123,7 +123,7 @@ FinOps는 전통적 IT 예산 통제와 운영 방식이 다르다. 예전에는
 
 ## Ⅴ. 기대효과 및 결론
 
-FinOps가 정착되면 클라우드 비용은 더 이상 월말 놀라움이 아니라 일상 운영 변수로 바뀐다. 팀별 비용 책임이 분명해지고, 예약 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 rightsizing이 체계화되며, 신규 [서비스 설계](/knowledge-base/studynote/12_it_management/02_itsm_itil/065_service_design/) 단계에서부터 비용 효율을 고려하게 된다. 결과적으로 총비용뿐 아니라 비용 예측 가능성과 의사결정 속도도 함께 좋아진다.
+FinOps가 정착되면 클라우드 비용은 더 이상 월말 놀라움이 아니라 일상 운영 변수로 바뀐다. 팀별 비용 책임이 분명해지고, 예약 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 rightsizing이 체계화되며, 신규 [서비스 설계](/knowledge-base/studynote/12_it_management/02_itsm_itil/849_service_design/) 단계에서부터 비용 효율을 고려하게 된다. 결과적으로 총비용뿐 아니라 비용 예측 가능성과 의사결정 속도도 함께 좋아진다.
 
 물론 FinOps는 도구만으로 완성되지 않는다. 태깅 규율, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 오너십, 재무와 엔지니어링의 협업 문화가 함께 성숙해야 한다. 따라서 FinOps는 "청구서를 줄이는 기법"이 아니라 "클라우드 비용을 운영 가능한 시스템으로 만드는 방식"으로 기억해야 한다.
 

@@ -244,7 +244,7 @@ AI UX 디자인의 핵심 방법론으로
 
 **진행 상황**: 69 / 587
 
-<- **이전**: [038. 피벗과 린 스타트업 (Pivot & Lean Startup)](/knowledge-base/studynote/12_it_management/01_governance_strategy/038_pivot_lean_startup/)
-**다음**: [39. OKR (Objectives and Key Results)](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) ->
+<- **이전**: [038. 피벗과 린 스타트업 (Pivot & Lean Startup)](/knowledge-base/studynote/12_it_management/01_governance_strategy/830_pivot_lean_startup/)
+**다음**: [39. OKR (Objectives and Key Results)](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/) ->
 
 ---

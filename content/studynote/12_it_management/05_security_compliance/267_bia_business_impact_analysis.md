@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 384 / 587
 
-<- **이전**: [266. BCP 업무 연속성 계획](/knowledge-base/studynote/12_it_management/05_security_compliance/266_bcp_business_continuity_plan/)
+<- **이전**: [266. BCP 업무 연속성 계획](/knowledge-base/studynote/12_it_management/05_security_compliance/917_bcp_business_continuity_plan/)
 **다음**: [268. RTO 복구 시간 RPO 복구 시점](/knowledge-base/studynote/12_it_management/05_security_compliance/268_rto_rpo_objectives/) ->
 
 ---

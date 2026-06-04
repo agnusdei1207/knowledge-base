@@ -96,7 +96,7 @@ tags = ["studynote-computer-architecture"]
 
 부울 대수는 인간의 추상적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 100% 무결점의 하드웨어 실리콘 칩으로 자동 합성(Synthesis)할 수 있게 만든 위대한 수학적 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 통역기다.
 
-미래에는 인간 엔지니어의 휴리스틱을 넘어 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/))이 수십억 개의 부울 대수 퍼즐을 풀게 하여 칩 면적을 극한으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 주도 로직 합성 시대로 돌입하고 있다. 덧붙여, 연산 시 정보의 소멸로 인한 발열을 막기 위해 연산을 거꾸로 되돌릴 수 있는 가역 부울 게이트(Reversible Computing)가 양자 컴퓨터의 뼈대로 연구되며 진화를 계속하고 있다.
+미래에는 인간 엔지니어의 휴리스틱을 넘어 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/))이 수십억 개의 부울 대수 퍼즐을 풀게 하여 칩 면적을 극한으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 주도 로직 합성 시대로 돌입하고 있다. 덧붙여, 연산 시 정보의 소멸로 인한 발열을 막기 위해 연산을 거꾸로 되돌릴 수 있는 가역 부울 게이트(Reversible Computing)가 양자 컴퓨터의 뼈대로 연구되며 진화를 계속하고 있다.
 
 - **📢 섹션 요약 비유**: 조지 불이 허공에 지은 '아름다운 상상도(부울 수학)'에 클로드 섀논이 현실의 '벽돌(전기 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))'을 맞춰보니, 실제로 사람이 살 수 있는 완벽한 진짜 성(컴퓨터)이 튼튼히 지어진다는 것을 증명해 낸 위대한 마술이다.
 

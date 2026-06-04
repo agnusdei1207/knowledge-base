@@ -61,7 +61,7 @@ tags = ["studynote-network"]
 - 그러면 전파들이 허공에서 겹쳐지고 부딪히면서, 양옆으로 퍼지던 전파는 상쇄되어 죽어버리고, <strong>오직 정면 철수가 있는 방향으로 향하는 전파 파동만 엄청나게 증폭(보강 간섭)되어 바늘처럼 뾰족한 '레이저 빔' 형태로 모양이 변형</strong>됩니다.
 - <strong>3D <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">빔포밍</a></strong>: 옛날엔 좌우(수평)로만 빔을 쐈는데, [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 바둑판 배열이라 위아래(수직)로도 빔 각도를 꺾을 수 있습니다. 고층 아파트 15층 베란다에 있는 철수 정수리에 빔을 조준해서 꽂아버립니다.
 
-### 2. 빔 관리 (Beam [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) 3단계 시스템 🌟 기출 🌟
+### 2. 빔 관리 (Beam [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/)) 3단계 시스템 🌟 기출 🌟
 철수가 가만히 있지 않고 버스를 타고 이동합니다. 레이저 빔이 어떻게 쫓아갈까요?
 1. **빔 스위핑 (Beam Sweeping, 빗자루질)**: 기지국이 처음에 철수 위치를 모릅니다. 그래서 1번 각도 빔, 2번 각도 빔, 3번 각도 빔을 0.01초 간격으로 빗자루 쓸듯이 쫘아악~ 돌리면서 쏩니다. 철수 폰이 "어! 2번 빔이 나한테 제일 쎄게 잘 들어와!" 하고 응답을 칩니다.
 2. **빔 측정 및 결정 (Measurement & Determination)**: 기지국이 "오케이! 넌 2번 각도로 고정!" 하며 철수에게 메인 빔을 조준합니다.

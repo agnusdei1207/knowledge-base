@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 411 / 587
 
-<- **이전**: [280. MES 공장 제조 실행 시스템](/knowledge-base/studynote/12_it_management/05_security_compliance/280_mes_manufacturing_execution_system/)
+<- **이전**: [280. MES 공장 제조 실행 시스템](/knowledge-base/studynote/12_it_management/05_security_compliance/930_mes_manufacturing_execution_system/)
 **다음**: [282. KMS 지식 관리 암묵지 형식지 SECI 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/282_kms_seci/) ->
 
 ---

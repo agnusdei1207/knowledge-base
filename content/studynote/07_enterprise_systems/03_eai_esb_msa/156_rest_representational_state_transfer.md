@@ -75,7 +75,7 @@ REST는 [SOAP](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/15
 | 강점 | 단순성, 웹 친화성, 캐시 | 엄격한 계약, WS-* 확장 |
 | 적합한 영역 | 웹·모바일·공개 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | 강한 계약과 레거시 B2B |
 
-REST는 이후 [Richardson Maturity Model](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/157_restful_api_richardson_maturity_model/), HATEOAS ([Hypermedia as the 엔진 of Application State](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/161_rest_level_3_hateoas/)), [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) 설계와도 연결된다. 즉 REST는 단순 호출 규칙이 아니라, 웹 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 전반의 설계 철학을 여는 출발점이다.
+REST는 이후 [Richardson Maturity Model](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/157_restful_api_richardson_maturity_model/), HATEOAS ([Hypermedia as the 엔진 of Application State](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/161_rest_level_3_hateoas/)), [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/) 설계와도 연결된다. 즉 REST는 단순 호출 규칙이 아니라, 웹 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 전반의 설계 철학을 여는 출발점이다.
 
 - **📢 섹션 요약 비유**: REST가 잘 정리된 도서관 열람 체계라면, SOAP는 복잡하지만 엄격한 문서 결재 절차에 가깝다. 둘 다 쓸모 있지만 목적이 다르다.
 

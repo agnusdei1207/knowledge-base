@@ -75,7 +75,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅴ. 기대효과 및 결론
 
-LwM2M은 <strong>대규모 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 디바이스 관리의 사실상 표준</strong>이며, AWS [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) Device [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)·Azure [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) Hub에서도 LwM2M 호환을 지원하는 방향으로 발전하고 있다.
+LwM2M은 <strong>대규모 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 디바이스 관리의 사실상 표준</strong>이며, AWS [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) Device [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/)·Azure [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) Hub에서도 LwM2M 호환을 지원하는 방향으로 발전하고 있다.
 
 ---
 

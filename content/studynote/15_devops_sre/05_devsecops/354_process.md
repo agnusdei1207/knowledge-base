@@ -66,7 +66,7 @@ tags = ["studynote-devops-sre"]
 | 장점 | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 확보 용이 | 팀 자율성, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 개발 |
 | 위험 | 병목, 거대 빌드 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/UX 파편화 |
 
-이 아키텍처는 [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/)([Backend for Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/)), Design System, [Module Federation](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/557_webpack_module_federation/), Frontend Observability와 연결된다. 즉 프론트엔드만 쪼개는 게 아니라, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 경계와 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 체계도 함께 재설계해야 한다.
+이 아키텍처는 [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/)([Backend for Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/)), Design System, [Module Federation](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/557_webpack_module_federation/), Frontend Observability와 연결된다. 즉 프론트엔드만 쪼개는 게 아니라, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 경계와 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 체계도 함께 재설계해야 한다.
 
 - **📢 섹션 요약 비유**: 한 사람이 학교 축제를 다 준비하는 것보다 부스별 팀을 나누는 방식이 빠르지만, 행사 안내판과 시간표는 공통으로 맞춰야 하는 것과 같다.
 
@@ -111,7 +111,7 @@ tags = ["studynote-devops-sre"]
 | :--- | :--- |
 | [Module Federation](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/557_webpack_module_federation/) | 런타임 번들 통합에 자주 쓰이는 기법 |
 | Design System | UX [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 지키는 공통 자산 |
-| [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) | 프론트 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 최적화 계층 |
+| [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/) | 프론트 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 최적화 계층 |
 | Frontend [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) UI의 사용자 흐름 추적 |
 
 ### 📈 관련 키워드 및 발전 흐름도

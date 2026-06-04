@@ -83,7 +83,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-인프라([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/))를 넘어 소프트웨어([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))에서도 쓰입니다.
+인프라([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/))를 넘어 소프트웨어([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/))에서도 쓰입니다.
 - 구글 워크스페이스, 슬랙(Slack), 노션(Notion) 등은 전 세계 1억 명이 같은 프로그램(코드)과 같은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB) 한 덩어리를 씁니다.
 - 단지 사용자 ID(Tenant ID)라는 꼬리표를 소프트웨어적으로 분기 처리하여, 로그인하면 남의 회사 자료는 안 보이고 우리 회사 게시판만 보이도록 논리적(소프트웨어 코드 레벨)으로만 잘게 쪼개놓은 최극단의 원가 절감 공유 모델입니다.
 

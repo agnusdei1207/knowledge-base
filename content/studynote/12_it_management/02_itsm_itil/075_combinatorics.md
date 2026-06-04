@@ -133,7 +133,7 @@ return result
 
 **진행 상황**: 133 / 587
 
-<- **이전**: [74. 순열과 조합 (Permutation and Combination)](/knowledge-base/studynote/12_it_management/02_itsm_itil/074_permutation_combination/)
-**다음**: [75. 인시던트 관리 (Incident Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_incident_management/) ->
+<- **이전**: [74. 순열과 조합 (Permutation and Combination)](/knowledge-base/studynote/12_it_management/02_itsm_itil/858_permutation_combination/)
+**다음**: [75. 인시던트 관리 (Incident Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/859_incident_management/) ->
 
 ---

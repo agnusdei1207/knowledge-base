@@ -228,7 +228,7 @@ LIMIT 100;
 |:---|:---|:---|
 | 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조합 필요 | 연방 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) | 이동 없이 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | 복잡한 집계/대용량 분석 | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) + [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 필요 |
-| [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 강화 | [Data Fabric](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 통합 관리 |
+| [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) 강화 | [Data Fabric](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 통합 관리 |
 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 자율성 중요 | [Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/) | 조직 구조 반영 |
 | 빠른 프로토타이핑 | 연방 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 없이 즉시 탐색 |
 
@@ -327,7 +327,7 @@ AI 강화 데이터 패브릭 (미래)
 | 최적화 | Predicate Pushdown | 필터 조건을 소스로 전달 |
 | 최적화 | CBO (Cost-Based [Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/)) | 통계 기반 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 최적화 |
 | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) | [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) Metastore | [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 기반 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 저장소 |
-| 거버넌스 | Apache Atlas | [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)·계보 관리 |
+| 거버넌스 | Apache Atlas | [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)·계보 관리 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -22,7 +22,7 @@ tags = ["studynote-bigdata"]
 ---
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
-[데이터 늪](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/)은 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 아키텍처에서 관리 계층([Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Layer)이 붕괴되었을 때 발생한다.
+[데이터 늪](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/)은 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 아키텍처에서 관리 계층([Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) Layer)이 붕괴되었을 때 발생한다.
 
 ```text
 [ Data Lake vs Data Swamp / 데이터 레이크와 늪의 차이 ]
@@ -70,7 +70,7 @@ tags = ["studynote-bigdata"]
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- **상위 개념**: [Data Governance](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/), [Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)
+- **상위 개념**: [Data Governance](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/), [Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)
 - **하위 개념**: [Data Catalog](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/), [Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), [Data Lineage](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/)
 - **연관 개념**: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Wrangling, [Data Quality](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/), [Dark Data](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/)
 
@@ -88,7 +88,7 @@ tags = ["studynote-bigdata"]
 [연관 개념: Data Wrangling, Data Quality, Dark Data]
 ```
 
-이 흐름도는 상위 개념: [Data Governance](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/), [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Lake에서 출발해 연관 개념: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Wrangling, [Data Quality](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/), Dark Data까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
+이 흐름도는 상위 개념: [Data Governance](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/), [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Lake에서 출발해 연관 개념: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Wrangling, [Data Quality](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/), Dark Data까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. <strong><a href="/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/">데이터 늪</a></strong>: 장난감 상자에 장난감을 정리 안 하고 막 집어넣어서, 나중에는 밑바닥에 뭐가 있는지 알 수 없게 된 상태예요.

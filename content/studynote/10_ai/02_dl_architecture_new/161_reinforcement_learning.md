@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트
 
-> 1. **본질**: [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) ([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/))은 정답 레이블 대신 보상 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 받으며, 에이전트 (Agent)가 환경 ([Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))과 상호작용해 누적 보상을 키우는 행동 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 학습하는 방법이다.
+> 1. **본질**: [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) ([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/))은 정답 레이블 대신 보상 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 받으며, 에이전트 (Agent)가 환경 ([Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))과 상호작용해 누적 보상을 키우는 행동 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 학습하는 방법이다.
 > 2. **가치**: 한 번의 정답보다 여러 번의 선택이 중요한 문제, 즉 게임·로봇 제어·운영 최적화처럼 순차 의사결정이 핵심인 영역에서 강한 힘을 발휘한다.
 > 3. **판단 포인트**: [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)의 성패는 모델 크기보다도 상태 정의, 보상 설계, [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)과 활용의 균형, 실제 배포 전 안전 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 얼마나 정교하게 했는지에 달려 있다.
 

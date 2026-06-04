@@ -128,7 +128,7 @@ V-모델은 [테스트 주도 개발](/knowledge-base/studynote/04_software_engi
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 V-모델은 비용이 많이 들지만, 그 이상의 '[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)'을 보장하는 고품질 소프트웨어 생산 체계이다.
 
-| 장점 (도입 효과) | 단점 (실패 조건) | [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 판단 핵심 |
+| 장점 (도입 효과) | 단점 (실패 조건) | [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 판단 핵심 |
 |:---|:---|:---|
 | 테스트 계획이 초기화되어 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 조기 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)/수정 비용 절감 | 폭포수처럼 요구사항 변경에 여전히 둔감함 | 생명, 안전과 직결된 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 요구 수준 |
 | 완벽한 추적성으로 규제 기관 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 대응에 최적 | 과도한 테스트 문서 작성으로 인한 일정 오버헤드 | 기능 안전 표준(ISO 26262 등) 준수 여부 |

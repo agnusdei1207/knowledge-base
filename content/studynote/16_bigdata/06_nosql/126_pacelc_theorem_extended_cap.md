@@ -61,7 +61,7 @@ C : Consistency (일관성)
 2. **기술사적 판단:** 현대 시스템은 "단일 정답"이 없음. 동일한 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 내에서도 '사용자 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 정보'는 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)/EC로, '게시글 조회수'는 PA/EL로 처리하는 등 <strong>업무 특성에 따른 세밀한 세분화 설계</strong>가 기술사의 진정한 실력임.
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
-1. **기대효과:** 시스템이 정상일 때 발생하는 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))의 원인을 수학적으로 이해하고, 비즈니스 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))를 달성하기 위한 구조적 근거를 제공함.
+1. **기대효과:** 시스템이 정상일 때 발생하는 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))의 원인을 수학적으로 이해하고, 비즈니스 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/))를 달성하기 위한 구조적 근거를 제공함.
 2. **결론:** PACELC는 CAP의 이상적인 논의를 실무적인 엔지니어링의 영역으로 끌어내린 이론임. 이를 통해 우리는 시스템의 평상시와 비상시를 모두 아우르는 강건한 아키텍처를 설계할 수 있음.
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))

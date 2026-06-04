@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 532 / 587
 
-<- **이전**: [345. LLM 파운데이션 모델 환각 (Hallucination) 방어 검증](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_hallucination/)
-**다음**: [346. RAG 프라이빗 지식 벡터 DB 임베딩 무결성 구조](/knowledge-base/studynote/12_it_management/05_security_compliance/346_rag_private_knowledge_vector_db/) ->
+<- **이전**: [345. LLM 파운데이션 모델 환각 (Hallucination) 방어 검증](/knowledge-base/studynote/12_it_management/05_security_compliance/986_llm_hallucination/)
+**다음**: [346. RAG 프라이빗 지식 벡터 DB 임베딩 무결성 구조](/knowledge-base/studynote/12_it_management/05_security_compliance/987_rag_private_knowledge_vector_db/) ->
 
 ---

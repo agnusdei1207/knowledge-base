@@ -13,7 +13,7 @@ tags = ["studynote-operating-system"]
 
 > 1. **본질**: 정적 연결 (Static Linking)은 컴파일의 마지막 단계(Link Time)에서, 프로그램이 사용하는 <strong>모든 외부 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> 코드(예: printf, 수학 함수)를 실행 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(.exe) 내부에 물리적으로 몽땅 복사해 넣어 단일 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>로 융합</strong>하는 고전적인 링킹 기법이다.
 > 2. **가치**: 만들어진 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 외부 시스템 환경이나 DLL(동적 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)) 존재 여부에 전혀 영향을 받지 않는 <strong>완벽한 이식성(Portability)</strong>과 실행 독립성을 보장하여, 배포가 극도로 단순해진다.
-> 3. **융합**: 과거 용량 부족으로 동적 링킹에 밀려났으나, 최근 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경, 그리고 Go(Golang)와 [Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/) 언어의 부상과 함께 "의존성 없는 무결점 배포"를 위한 핵심 아키텍처로 화려하게 부활했다.
+> 3. **융합**: 과거 용량 부족으로 동적 링킹에 밀려났으나, 최근 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경, 그리고 Go(Golang)와 [Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/) 언어의 부상과 함께 "의존성 없는 무결점 배포"를 위한 핵심 아키텍처로 화려하게 부활했다.
 
 ---
 
@@ -110,7 +110,7 @@ tags = ["studynote-operating-system"]
 
 | 비교 항목 | 정적 연결 (Static Linking) | [동적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/) ([Dynamic Linking](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/)) |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> 포함 여부</strong>| 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내부에 물리적으로 내장 | 포인터([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))만 있고 실제 코드는 외부에 존재 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> 포함 여부</strong>| 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내부에 물리적으로 내장 | 포인터([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/))만 있고 실제 코드는 외부에 존재 |
 | **의존성 (Dependency)**| **전혀 없음** (단일 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 배포 끝) | 매우 높음 (실행 환경에 해당 DLL/SO가 있어야 함) |
 | **메모리/디스크 효율** | 매우 나쁨 (동일 코드 중복 적재) | 매우 좋음 (시스템 전체가 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 공유) |
 | **보안 패치 방법** | 소스코드를 다시 링킹(컴파일)해서 새 EXE 배포 | [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(DLL/SO)만 교체하면 즉시 반영 |
@@ -167,7 +167,7 @@ tags = ["studynote-operating-system"]
 
 ### 결론 및 미래 전망
 
-정적 연결 (Static Linking)은 메모리가 금값이었던 시절 "비효율의 상징"으로 매도당했으나, 메모리가 흔해지고 배포의 복잡성이 기하급수적으로 증가한 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 시대에 가장 우아하고 신뢰할 수 있는 배포 단위로 완벽하게 부활했다. "개발자의 컴퓨터에서는 되는데 서버에서는 안 되는데요?"라는 소프트웨어 공학의 영원한 난제를 원천 차단하는 이 투박하고 거대한 단일 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 패키징 방식은, 앞으로도 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템과 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)) 생태계를 지탱하는 핵심 철학으로 굳건히 자리매김할 것이다.
+정적 연결 (Static Linking)은 메모리가 금값이었던 시절 "비효율의 상징"으로 매도당했으나, 메모리가 흔해지고 배포의 복잡성이 기하급수적으로 증가한 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 시대에 가장 우아하고 신뢰할 수 있는 배포 단위로 완벽하게 부활했다. "개발자의 컴퓨터에서는 되는데 서버에서는 안 되는데요?"라는 소프트웨어 공학의 영원한 난제를 원천 차단하는 이 투박하고 거대한 단일 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 패키징 방식은, 앞으로도 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템과 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)) 생태계를 지탱하는 핵심 철학으로 굳건히 자리매김할 것이다.
 
 - **📢 섹션 요약 비유**: 외부의 도움을 전혀 받지 않는 '자급자족 우주선'을 만들어 쏘아 올림으로써, 우주 어느 행성(서버)에 착륙하든 버튼 하나만 누르면 완벽하게 살아 숨 쉬는 생명 유지 아키텍처의 부활입니다.
 
@@ -178,7 +178,7 @@ tags = ["studynote-operating-system"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | [동적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/) ([Dynamic Linking](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/) ([Shared Library](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/)) 스터브 ([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)) 코드 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/) ([Shared Library](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/)) 스터브 ([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)) 코드 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
 | [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) ([Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
 | [스왑 아웃](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/) ([Swap out](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/)) / 스왑 인 (Swap in) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
@@ -199,7 +199,7 @@ tags = ["studynote-operating-system"]
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 정적 연결 (Static Linking)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
-2. 먼저 [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/) ([Shared Library](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/)) 스터브 ([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)) 코드을 이해하면 정적 연결 (Static Linking)이 왜 필요한지 더 쉽게 보여요.
+2. 먼저 [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/) ([Shared Library](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/)) 스터브 ([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)) 코드을 이해하면 정적 연결 (Static Linking)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 정적 연결 (Static Linking)을 잘 알면 나중에 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) ([Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))도 훨씬 쉽게 배울 수 있어요.
 
 ---

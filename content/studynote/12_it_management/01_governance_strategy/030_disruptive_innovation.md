@@ -159,7 +159,7 @@ AI가 와해성 혁신의 새로운 파도로 부상하고 있다. [LLM](/knowle
 
 **진행 상황**: 52 / 587
 
-<- **이전**: [29. IT 포트폴리오 관리 (IT PPM)](/knowledge-base/studynote/12_it_management/01_governance_strategy/029_it_ppm/)
+<- **이전**: [29. IT 포트폴리오 관리 (IT PPM)](/knowledge-base/studynote/12_it_management/01_governance_strategy/822_it_ppm/)
 **다음**: [31. 롱테일 법칙 (Long Tail)](/knowledge-base/studynote/12_it_management/01_governance_strategy/031_long_tail/) ->
 
 ---

@@ -106,9 +106,9 @@ tags = ["studynote-database"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 품질 메타 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 통제 관리 | 앞뒤 맥락에서 현재 주제의 경계를 선명하게 해 주는 인접 개념이다. |
+| [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) 품질 메타 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 통제 관리 | 앞뒤 맥락에서 현재 주제의 경계를 선명하게 해 주는 인접 개념이다. |
 | [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 핫 덤프 콜드 덤프 | 앞뒤 맥락에서 현재 주제의 경계를 선명하게 해 주는 인접 개념이다. |
-| [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) | 현재 개념이 실제로 실행되는 플랫폼이다. |
+| [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System) | 현재 개념이 실제로 실행되는 플랫폼이다. |
 | [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) ([Data Model](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)) | 개념의 위치를 설명하는 상위 프레임이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도

@@ -10,15 +10,15 @@ tags = ["studynote-it-management"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) ([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/))의 본질은 ISP보다 구체적. 특정 프로젝트의 요구사항 명세서(RFP) 작성, S/W 규모 산정([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)), 제안요청서 도출에 특화된 활동을 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.
+> 1. **본질**: [정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) ([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/))의 본질은 ISP보다 구체적. 특정 프로젝트의 요구사항 명세서(RFP) 작성, S/W 규모 산정([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)), 제안요청서 도출에 특화된 활동을 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.
 > 2. **가치**: 현행 구조, 목표 구조, 전환 과제의 추적성이 확보되어야 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 실제 투자와 아키텍처 변화로 이어진다.
-> 3. **판단 포인트**: [정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) ([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/))는 도입 자체보다 범위, 책임, 측정 기준을 어떻게 연결하느냐에 따라 성과가 달라진다.
+> 3. **판단 포인트**: [정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) ([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/))는 도입 자체보다 범위, 책임, 측정 기준을 어떻게 연결하느냐에 따라 성과가 달라진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) ([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/))는 조직이 당면한 요구를 반복 가능하고 설명 가능한 운영 체계로 바꾸기 위해 사용하는 핵심 관리 개념이다. 실무 초점은 ISP보다 구체적. 특정 프로젝트의 요구사항 명세서(RFP) 작성, S/W 규모 산정([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)), 제안요청서 도출에 특화된 활동에 놓이며, 핵심은 현행 구조, 목표 구조, 전환 과제의 추적성이 확보되어야 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 실제 투자와 아키텍처 변화로 이어진다.
+[정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) ([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/))는 조직이 당면한 요구를 반복 가능하고 설명 가능한 운영 체계로 바꾸기 위해 사용하는 핵심 관리 개념이다. 실무 초점은 ISP보다 구체적. 특정 프로젝트의 요구사항 명세서(RFP) 작성, S/W 규모 산정([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)), 제안요청서 도출에 특화된 활동에 놓이며, 핵심은 현행 구조, 목표 구조, 전환 과제의 추적성이 확보되어야 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 실제 투자와 아키텍처 변화로 이어진다.
 
 이 개념이 중요한 이유는 현장의 속도와 통제가 자주 충돌하기 때문이다. 기준이 없으면 부서별로 다른 판단이 누적되어 중복 투자, 운영 공백, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 리스크가 커지고, 반대로 지나치게 경직된 통제는 변화 대응 속도를 떨어뜨린다. 실무에서는 보통 판단: 성능이냐 순서냐에 따라 선택이 달라진다, 원인: 레드-블랙 트리의 균형 잡힌 구조 덕분이다, 결과: 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서도 예측 가능한 성능을 보인다 같은 세부 축이 함께 굴러가야 관리 체계가 실제 효과를 낸다.
 
@@ -30,7 +30,7 @@ tags = ["studynote-it-management"]
 +--------------------------------------------------------------+
 ```
 
-이 그림은 [정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) ([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/))가 단순 규정이 아니라 요구를 기준으로 번역하고, 실행 결과를 다시 개선으로 환류시키는 관리 루프임을 보여 준다.
+이 그림은 [정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) ([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/))가 단순 규정이 아니라 요구를 기준으로 번역하고, 실행 결과를 다시 개선으로 환류시키는 관리 루프임을 보여 준다.
 
 - **📢 섹션 요약 비유**: 집을 짓기 전에 현재 땅 상태와 설계도, 공정표를 함께 보는 일과 같다.
 
@@ -38,7 +38,7 @@ tags = ["studynote-it-management"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) ([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/))가 제대로 작동하려면 목표 정의, 역할 분담, 실행 절차, 측정·개선이 끊기지 않아야 한다. 조직은 보통 이 네 요소를 기준으로 체계를 설계하며, 어느 한 축이 빠지면 선언적 문서만 남거나 현장 통제가 과도하게 비대해진다.
+[정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) ([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/))가 제대로 작동하려면 목표 정의, 역할 분담, 실행 절차, 측정·개선이 끊기지 않아야 한다. 조직은 보통 이 네 요소를 기준으로 체계를 설계하며, 어느 한 축이 빠지면 선언적 문서만 남거나 현장 통제가 과도하게 비대해진다.
 
 | 구성 축 | 설명 | 판단 포인트 |
 |:---|:---|:---|
@@ -63,15 +63,15 @@ tags = ["studynote-it-management"]
 
 ## Ⅲ. 비교 및 연결
 
-[정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) ([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/))는 인접한 관리 개념들과 함께 볼 때 더 분명해진다. 상위 거버넌스는 방향을 주고, 하위 운영 체계는 실행을 맡으며, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)와 측정 체계는 결과를 검증한다.
+[정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) ([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/))는 인접한 관리 개념들과 함께 볼 때 더 분명해진다. 상위 거버넌스는 방향을 주고, 하위 운영 체계는 실행을 맡으며, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)와 측정 체계는 결과를 검증한다.
 
 | 비교 대상 | 차이점 | 연결 포인트 |
 |:---|:---|:---|
-| [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 정보화 방향을 정렬한다 | 현재 주제는 그 구조를 구체 설계·전환하는 세부 축 |
+| [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 정보화 방향을 정렬한다 | 현재 주제는 그 구조를 구체 설계·전환하는 세부 축 |
 | [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) | 전사 관점의 기준 구조를 제공한다 | 현재 주제는 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 산출물 또는 방법론의 일부로 연결 |
-| [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) | 개별 사업의 상세 실행 설계를 다룬다 | 현재 주제는 사업 이전 단계의 정합성 확보에 기여 |
+| [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) | 개별 사업의 상세 실행 설계를 다룬다 | 현재 주제는 사업 이전 단계의 정합성 확보에 기여 |
 
-실무에서는 [정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) ([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/))를 단독 프레임워크로 보기보다, 정책-운영-[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)-자동화 사이를 연결하는 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 개념으로 이해하는 편이 정확하다. 특히 조직 규모가 커질수록 사람의 기억보다 표준과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 의존하는 운영이 중요해진다.
+실무에서는 [정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) ([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/))를 단독 프레임워크로 보기보다, 정책-운영-[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)-자동화 사이를 연결하는 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 개념으로 이해하는 편이 정확하다. 특히 조직 규모가 커질수록 사람의 기억보다 표준과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 의존하는 운영이 중요해진다.
 
 - **📢 섹션 요약 비유**: 지도와 나침반, 여행 일정표를 함께 보는 장거리 여행 준비와 같다.
 
@@ -79,7 +79,7 @@ tags = ["studynote-it-management"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) ([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/))를 적용할 때는 개념 정의보다 운영 경계를 먼저 그리는 것이 중요하다. 어떤 시스템, 어떤 조직, 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 어떤 외부 공급자까지 책임 범위에 포함할지 정하지 않으면 통제가 빈틈없이 작동하기 어렵다. 또한 수작업 문서 관리에만 의존하면 운영 부담이 커지므로, 승인 흐름, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 증적 수집, 예외 보고를 가능한 한 도구와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 연결해야 한다.
+실무에서 [정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) ([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/))를 적용할 때는 개념 정의보다 운영 경계를 먼저 그리는 것이 중요하다. 어떤 시스템, 어떤 조직, 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 어떤 외부 공급자까지 책임 범위에 포함할지 정하지 않으면 통제가 빈틈없이 작동하기 어렵다. 또한 수작업 문서 관리에만 의존하면 운영 부담이 커지므로, 승인 흐름, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 증적 수집, 예외 보고를 가능한 한 도구와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 연결해야 한다.
 
 ### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -100,7 +100,7 @@ tags = ["studynote-it-management"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) ([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/))가 정착되면 조직은 속도와 통제를 동시에 관리할 수 있다. 의사결정 기준이 명확해져 중복 작업과 책임 공백이 줄고, 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 축적되면서 개선 우선순위도 더 선명해진다. 또한 외부 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)나 규제 대응에서도 "무엇을 했는가"보다 "어떻게 반복적으로 관리하는가"를 설명하기 쉬워진다.
+[정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) ([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/))가 정착되면 조직은 속도와 통제를 동시에 관리할 수 있다. 의사결정 기준이 명확해져 중복 작업과 책임 공백이 줄고, 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 축적되면서 개선 우선순위도 더 선명해진다. 또한 외부 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)나 규제 대응에서도 "무엇을 했는가"보다 "어떻게 반복적으로 관리하는가"를 설명하기 쉬워진다.
 
 다만 모든 상황에 동일한 강도로 적용하면 비용이 커질 수 있다. 따라서 중요도와 위험 수준에 따라 적용 강도를 차등화하고, 자동화·분석 도구와 결합해 운영 부담을 줄이는 방향으로 발전시키는 것이 바람직하다.
 
@@ -127,10 +127,10 @@ tags = ["studynote-it-management"]
     +---> [결과: 대규모 데이터에서도 예측 가능한 성능을 보인다]
 ```
 
-이 흐름은 선행 요구를 기준으로 [정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) ([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/))를 정착시키고, 이후 원인: 레드-블랙 트리의 균형 잡힌 구조 덕분이다와 결과: 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서도 예측 가능한 성능을 보인다 같은 확장 축으로 고도화하는 전개를 보여 준다.
+이 흐름은 선행 요구를 기준으로 [정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) ([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/))를 정착시키고, 이후 원인: 레드-블랙 트리의 균형 잡힌 구조 덕분이다와 결과: 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서도 예측 가능한 성능을 보인다 같은 확장 축으로 고도화하는 전개를 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. [정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) ([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/))는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
+1. [정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) ([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/))는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
 
@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 201 / 587
 
-<- **이전**: [108. 서픽스 트리와 서픽스 배열 (Suffix Tree & Array)](/knowledge-base/studynote/12_it_management/03_ea_isp/108_suffix_tree_array/)
-**다음**: [109. 정보시스템 마스터플랜 (ISMP)](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) ->
+<- **이전**: [108. 서픽스 트리와 서픽스 배열 (Suffix Tree & Array)](/knowledge-base/studynote/12_it_management/03_ea_isp/892_suffix_tree_array/)
+**다음**: [109. 정보시스템 마스터플랜 (ISMP)](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) ->
 
 ---

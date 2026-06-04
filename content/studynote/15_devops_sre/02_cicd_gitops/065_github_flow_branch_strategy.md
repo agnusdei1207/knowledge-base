@@ -12,7 +12,7 @@ tags = ["studynote-devops"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: GitHub Flow는 main과 짧은 feature 브랜치만으로 개발과 배포를 단순화하는 브랜치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
-> 2. **가치**: 빠른 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 검토와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 결합이 쉬워서, 연속 배포([Continuous Deployment](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/))에 잘 맞는다.
+> 2. **가치**: 빠른 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 검토와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 결합이 쉬워서, 연속 배포([Continuous Deployment](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/))에 잘 맞는다.
 > 3. **판단**: Git Flow보다 단순하지만, 테스트와 자동화 품질이 낮으면 오히려 위험할 수 있다.
 
 ---
@@ -81,7 +81,7 @@ GitHub Flow는 Git Flow보다 가볍고, [트렁크 기반 개발](/knowledge-ba
 - 테스트 없이 merge만 하는 설계
 - 배포 자동화 없이 GitHub Flow만 흉내 내는 설계
 
-기술사 관점에서는 GitHub Flow를 "브랜치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"이 아니라 "[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 맞물린 개발 운영 방식"으로 봐야 한다.
+기술사 관점에서는 GitHub Flow를 "브랜치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"이 아니라 "[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 맞물린 개발 운영 방식"으로 봐야 한다.
 
 - **📢 섹션 요약 비유**: 만든 뒤 바로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 바로 내보내는 간단한 공장 시스템이다.
 

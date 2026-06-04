@@ -10,7 +10,7 @@ tags = ["studynote-it-management"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 데스크 ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Desk)의 본질은 사용자와 IT 조직 간의 단일 접점 ([SPOC](/knowledge-base/studynote/12_it_management/02_itsm_itil/073_spoc/), Single Point of Contact)를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치와 운영 절차로 연결하는 데 있다.
+> 1. **본질**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 데스크 ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Desk)의 본질은 사용자와 IT 조직 간의 단일 접점 ([SPOC](/knowledge-base/studynote/12_it_management/02_itsm_itil/857_spoc/), Single Point of Contact)를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치와 운영 절차로 연결하는 데 있다.
 > 2. **가치**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 정의, 운영 절차, 품질 측정, 개선 루프가 연결되어야 사용자가 체감하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준을 안정적으로 유지할 수 있다.
 > 3. **판단 포인트**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 데스크 ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Desk)는 도입 자체보다 범위, 책임, 측정 기준을 어떻게 연결하느냐에 따라 성과가 달라진다.
 
@@ -18,7 +18,7 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. 개요 및 필요성
 
-[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 데스크 ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Desk)는 조직이 당면한 요구를 반복 가능하고 설명 가능한 운영 체계로 바꾸기 위해 사용하는 핵심 관리 개념이다. 실무 초점은 사용자와 IT 조직 간의 단일 접점 ([SPOC](/knowledge-base/studynote/12_it_management/02_itsm_itil/073_spoc/), Single Point of Contact)에 놓이며, 핵심은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 정의, 운영 절차, 품질 측정, 개선 루프가 연결되어야 사용자가 체감하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준을 안정적으로 유지할 수 있다.
+[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 데스크 ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Desk)는 조직이 당면한 요구를 반복 가능하고 설명 가능한 운영 체계로 바꾸기 위해 사용하는 핵심 관리 개념이다. 실무 초점은 사용자와 IT 조직 간의 단일 접점 ([SPOC](/knowledge-base/studynote/12_it_management/02_itsm_itil/857_spoc/), Single Point of Contact)에 놓이며, 핵심은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 정의, 운영 절차, 품질 측정, 개선 루프가 연결되어야 사용자가 체감하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준을 안정적으로 유지할 수 있다.
 
 이 개념이 중요한 이유는 현장의 속도와 통제가 자주 충돌하기 때문이다. 기준이 없으면 부서별로 다른 판단이 누적되어 중복 투자, 운영 공백, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 리스크가 커지고, 반대로 지나치게 경직된 통제는 변화 대응 속도를 떨어뜨린다. 실무에서는 보통 접수 채널, [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)·우선순위, 지식·해결 같은 세부 축이 함께 굴러가야 관리 체계가 실제 효과를 낸다.
 
@@ -67,7 +67,7 @@ tags = ["studynote-it-management"]
 
 | 비교 대상 | 차이점 | 연결 포인트 |
 |:---|:---|:---|
-| [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치와 고객 경험을 중심에 둔다 | 현재 주제는 ITSM을 실행하는 구체 절차나 역할 |
+| [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치와 고객 경험을 중심에 둔다 | 현재 주제는 ITSM을 실행하는 구체 절차나 역할 |
 | [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | 배포 속도와 협업을 강화한다 | 현재 주제는 통제와 안정성 기준을 보완 |
 | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) | 신뢰성과 자동화 운영을 강조한다 | 현재 주제는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지원과 책임 모델을 정리 |
 
@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 127 / 587
 
-<- **이전**: [71. 최소 공통 조상 (LCA, Lowest Common Ancestor)](/knowledge-base/studynote/12_it_management/02_itsm_itil/071_lca/)
-**다음**: [72. 에라토스테네스의 체 (Sieve of Eratosthenes)](/knowledge-base/studynote/12_it_management/02_itsm_itil/072_sieve_of_eratosthenes/) ->
+<- **이전**: [71. 최소 공통 조상 (LCA, Lowest Common Ancestor)](/knowledge-base/studynote/12_it_management/02_itsm_itil/855_lca/)
+**다음**: [72. 에라토스테네스의 체 (Sieve of Eratosthenes)](/knowledge-base/studynote/12_it_management/02_itsm_itil/856_sieve_of_eratosthenes/) ->
 
 ---

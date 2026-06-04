@@ -91,7 +91,7 @@ SWOT 매트릭스:
 5단계: OKR — 분기 목표·핵심 결과 관리
 ```
 
-- **📢 섹션 요약 비유**: [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립 5단계는 여행 계획이다. 여행지 정보 수집(PESTLE), 경쟁 여행사 비교(5 Forces), 나의 강점·약점 파악(SWOT), 여행 일정표([BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/)), 하루하루 목표([OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/)) 순이다.
+- **📢 섹션 요약 비유**: [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립 5단계는 여행 계획이다. 여행지 정보 수집(PESTLE), 경쟁 여행사 비교(5 Forces), 나의 강점·약점 파악(SWOT), 여행 일정표([BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/)), 하루하루 목표([OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/)) 순이다.
 
 ---
 

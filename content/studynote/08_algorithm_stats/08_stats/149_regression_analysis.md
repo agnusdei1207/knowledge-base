@@ -188,7 +188,7 @@ P(y=k|x) = exp(Xβ_k) / Σ_j exp(Xβ_j)
 1. **선형성 (Linearity)**: E[y|X] = Xβ — 비선형 패턴 시 변수 변환 필요
 2. <strong>독립성 (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/">Independence</a>)</strong>: 잔차들이 서로 독립 — 시계열 데이터에서 자기상관(Autocorrelation) 위반 주의
 3. **등분산성 (Homoscedasticity)**: 잔차 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 X에 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)없이 일정 — 위반 시 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 안정화 변환(log, √) 필요
-4. **정규성 (Normality)**: 잔차 ~ N(0, σ^) — 소표본에서 추론(검정, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))에 필요
+4. **정규성 (Normality)**: 잔차 ~ N(0, σ^) — 소표본에서 추론(검정, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/))에 필요
 
 **진단 플롯 (Diagnostic Plots)**:
 

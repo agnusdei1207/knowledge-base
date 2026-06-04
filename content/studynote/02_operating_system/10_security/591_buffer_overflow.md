@@ -79,7 +79,7 @@ tags = ["studynote-operating-system"]
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 오염 발생 미스터리 (명중률 바늘구멍 조준 폭주 랙)</strong>:
   - (태생적 주소 적중 파단 스왑): RET 의 주소를 조작해서 "내 악성코드로 점프해라!" 라고 시키려면, 해커는 그 '악성코드가 위치한 정확한 메모리 주소(예: 0xbffffa00)' 를 1바이트 오차도 없이 맞춰야 한다.
   - (환상 브레이크 OS 변동성 빔 발동!): 앗! OS 의 메모리는 실행할 때마다 환경변수 크기가 다르고 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임 위치가 몇 바이트씩 요동친다! 해커가 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)를 때릴 때마다 주소가 어긋나서, 악성코드가 실행 안 되고 `Segmentation Fault` (앱 팅김) 만 나면서 100번 공격에 99번 실패한다!
-  - 파멸 결과: 해커는 정확한 메모리 주소(Target Offset) 를 도출할 수 없어 페이로드 [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)($O(N)$ 조준 멸망 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)) 참사가 발생했다 증명 록보장.
+  - 파멸 결과: 해커는 정확한 메모리 주소(Target Offset) 를 도출할 수 없어 페이로드 [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/)($O(N)$ 조준 멸망 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)) 참사가 발생했다 증명 록보장.
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 극복 솔루션 패치 타결 조율 (NOP Sled 미끄럼틀 기만술과 <a href="/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/">Shellcode</a> 록백!!) / 자율 치유 방패</strong>:
   - 해커 대마법사 타격!: "정확히 맞추기 힘들어? 그럼 과녁판 주위에 거대한 쿠션 (미끄럼틀) 을 깔아라 쾅!"
   - 갓기능 마스킹 스왑:
@@ -119,7 +119,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅴ. 기대효과 및 결론
 
-버퍼 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) (Buffer [Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)) 원리은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [보호와 보안](/knowledge-base/studynote/02_operating_system/01_overview_architecture/043_protection_security/) 메커니즘을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 [셸코드](/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/) ([Shellcode](/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/)) [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
+버퍼 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) (Buffer [Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)) 원리은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [보호와 보안](/knowledge-base/studynote/02_operating_system/01_overview_architecture/043_protection_security/) 메커니즘을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 [셸코드](/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/) ([Shellcode](/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/)) [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/)처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -131,7 +131,7 @@ tags = ["studynote-operating-system"]
 |:---|:---|
 | [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) ([Virus](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
 | 웜 ([Worm](/knowledge-base/studynote/02_operating_system/10_security/590_worm/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [셸코드](/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/) ([Shellcode](/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/)) [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [셸코드](/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/) ([Shellcode](/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/)) [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
 | 버퍼 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 방어 하드웨어 기술 ([NX Bit](/knowledge-base/studynote/09_security/04_endpoint_security/335_nx_bit/) / [Data Execution Prevention](/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/), [DEP](/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도

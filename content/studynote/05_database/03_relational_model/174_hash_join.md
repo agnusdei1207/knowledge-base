@@ -19,7 +19,7 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-해시 조인은 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스 관리 시스템](/knowledge-base/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/) (RDBMS, Relational [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) 이 대량 조인을 빠르게 처리하기 위해 사용하는 대표적인 물리 조인 방식이다. 핵심 아이디어는 단순하다. **작은 집합은 먼저 기억해 두고, 큰 집합은 지나가면서 즉석에서 대조한다.** 이 때문에 해시 조인은 보통 `=` 조건의 대량 조인에서 가장 먼저 검토된다.
+해시 조인은 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스 관리 시스템](/knowledge-base/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/) (RDBMS, Relational [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System) 이 대량 조인을 빠르게 처리하기 위해 사용하는 대표적인 물리 조인 방식이다. 핵심 아이디어는 단순하다. **작은 집합은 먼저 기억해 두고, 큰 집합은 지나가면서 즉석에서 대조한다.** 이 때문에 해시 조인은 보통 `=` 조건의 대량 조인에서 가장 먼저 검토된다.
 
 이 방식이 필요한 이유는 다른 조인 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 병목이 분명하기 때문이다. [Nested Loop Join](/knowledge-base/studynote/05_database/07_exam_summary/431_nested_loop_join/) 은 외부 행마다 내부 집합을 반복 탐색하므로, 결과 건수가 많아지면 랜덤 I/O 가 급증한다. [Sort Merge Join](/knowledge-base/studynote/05_database/03_relational_model/173_sort_merge_join/) 은 대량 조인과 범위 조인에 강하지만, 정렬이 선행되어야 하므로 입력이 이미 정렬돼 있지 않으면 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 크다.
 
@@ -162,7 +162,7 @@ Parallel hash join / Bloom filter optimization
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 먼저 작은 장난감 상자를 색깔별 칸에 나눠 넣어 두어요.
-2. 이제 큰 장난감 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)를 보면서 같은 색 칸만 바로 열어 보면 돼요.
+2. 이제 큰 장난감 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)를 보면서 같은 색 칸만 바로 열어 보면 돼요.
 3. 그래서 모든 장난감을 처음부터 다시 찾지 않아도 빨리 짝을 맞출 수 있어요.
 
 ---

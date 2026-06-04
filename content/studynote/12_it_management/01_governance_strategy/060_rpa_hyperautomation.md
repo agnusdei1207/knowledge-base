@@ -11,8 +11,8 @@ tags = ["studynote-it-management"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: RPA (Robotic [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Automation)는 사람이 반복하던 규칙 기반 작업을 소프트웨어 봇(Bot)이 대신 수행하는 자동화 방식이다.
-> 2. **확장**: [초자동화](/knowledge-base/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/)([Hyperautomation](/knowledge-base/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/))는 RPA에 [BPM](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/) ([Business Process Management](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/)), [Process Mining](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)), ML (Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))을 결합해 [end-to-end](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) 프로세스를 넓게 자동화하는 전략이다.
+> 1. **본질**: RPA (Robotic [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Automation)는 사람이 반복하던 규칙 기반 작업을 소프트웨어 봇(Bot)이 대신 수행하는 자동화 방식이다.
+> 2. **확장**: [초자동화](/knowledge-base/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/)([Hyperautomation](/knowledge-base/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/))는 RPA에 [BPM](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/) ([Business Process Management](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/)), [Process Mining](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)), ML (Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))을 결합해 [end-to-end](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) 프로세스를 넓게 자동화하는 전략이다.
 > 3. **판단**: 성공의 핵심은 도구가 아니라 대상 업무의 적합도, 예외 처리, 그리고 CoE (Center of Excellence) 중심의 운영 통제다.
 
 ---
@@ -44,7 +44,7 @@ RPA는 이런 반복 작업을 GUI(Graphic User Interface) 수준에서 자동�
 | 구성 요소 | 역할 |
 | :-- | :-- |
 | [RPA Bot](/knowledge-base/studynote/12_it_management/05_security_compliance/283_rpa_bot/) | 화면 클릭, 입력, 조회, 전송 같은 반복 작업 수행 |
-| [Process Mining](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/) | 실제 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 분석해 자동화 후보 업무를 찾음 |
+| [Process Mining](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/) | 실제 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 분석해 자동화 후보 업무를 찾음 |
 | OCR (Optical Character Recognition) | 이미지/문서에서 텍스트를 읽어냄 |
 | NLP (Natural Language Processing) | 이메일, 문의, 문서 같은 비정형 정보를 해석함 |
 | [Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) | 봇 일정, 큐, 모니터링, 장애 대응을 관리함 |
@@ -148,7 +148,7 @@ RPA는 귀찮은 숙제를 대신 써 주는 똑똑한 로봇이에요.
 
 **진행 상황**: 104 / 587
 
-<- **이전**: [59. 바이모달 IT (Bimodal IT) - Mode 1 / Mode 2 전략](/knowledge-base/studynote/12_it_management/01_governance_strategy/059_bimodal_it_mode1_mode2_strategy/)
+<- **이전**: [59. 바이모달 IT (Bimodal IT) - Mode 1 / Mode 2 전략](/knowledge-base/studynote/12_it_management/01_governance_strategy/844_bimodal_it_mode1_mode2_strategy/)
 **다음**: [61. 블룸 필터 (Bloom Filter) - 확률적 집합 멤버십 검사](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/) ->
 
 ---

@@ -33,7 +33,7 @@ tags = ["studynote-network"]
     +---> [Destination Unreachable…]
 ```
 
-- **📢 섹션 요약 비유**: <strong> Time Exceeded는 첩보 영화에서 적진에 침투한 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/">스파이</a>(패킷)가 제한 시간(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a>) 내에 임무를 완수하지 못해 자폭 장치가 터지는 순간, 본부에 마지막으로 송출하는 </strong>"나 여기서 죽는다(나를 죽인 건 이 동네 라우터다)"라는 최후의 단말마 통신**입니다.
+- **📢 섹션 요약 비유**: <strong> Time Exceeded는 첩보 영화에서 적진에 침투한 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/">스파이</a>(패킷)가 제한 시간(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a>) 내에 임무를 완수하지 못해 자폭 장치가 터지는 순간, 본부에 마지막으로 송출하는 </strong>"나 여기서 죽는다(나를 죽인 건 이 동네 라우터다)"라는 최후의 단말마 통신**입니다.
 
 ---
 

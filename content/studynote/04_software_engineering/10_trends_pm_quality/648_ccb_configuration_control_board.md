@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 소프트웨어는 형태가 없어 눈에 보이지 않기 때문에, 한 번 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))을 확정한 뒤 통제 없이 수정하면 금세 무정부 상태(Chaos)에 빠진다. [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)([형상 통제 위원회](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/))는 프로젝트 관리자(PM), 고객 대표, 기술 리더(Architect) 등으로 구성되어 이러한 형상 항목([Configuration Item](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))의 변경을 심사하는 문지기(Gatekeeper) 조직이다.
+- **개념**: 소프트웨어는 형태가 없어 눈에 보이지 않기 때문에, 한 번 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))을 확정한 뒤 통제 없이 수정하면 금세 무정부 상태(Chaos)에 빠진다. [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)([형상 통제 위원회](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/))는 프로젝트 관리자(PM), 고객 대표, 기술 리더(Architect) 등으로 구성되어 이러한 형상 항목([Configuration Item](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/))의 변경을 심사하는 문지기(Gatekeeper) 조직이다.
 - **필요성**: 개발 중반에 영업팀이 "버튼 하나만 추가해 줘"라고 무심코 던진 요청이, 실제로는 DB 스키마와 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 로직 전체를 뜯어고쳐야 하는 재앙일 수 있다. 이런 요청을 개발자가 임의로 수용하면, 테스트가 누락되고 예산이 초과되며 최종 납기일이 지연된다. CCB는 이 "버튼 하나"가 일으킬 파급 효과(Impact Analysis)를 분석하고, 비용을 누가 부담할지 결정하는 브레이크 장치다.
 - **💡 비유**: CCB는 아파트 건설 현장의 "설계 변경 심의 위원회"와 같다. 골조가 다 올라간 상태에서 집주인이 "거실 벽을 허물어 주세요"라고 하면, 인부(개발자)가 마음대로 허무는 것이 아니라, 구조 기술자와 현장 소장이 모여서 "벽을 허물면 붕괴 위험이 있고 비용이 1천만 원 듭니다. 그래도 하시겠습니까?"를 공식적으로 따져보는 것과 같다.
 
@@ -113,7 +113,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 소프트웨어 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)) 통제 위원회 CCB은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -168,6 +168,6 @@ tags = ["studynote-software-engineering"]
 **진행 상황**: 814 / 973
 
 <- **이전**: [647. FTR (정형 기술 검토) 인스펙션/워크스루](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/)
-**다음**: [649. 기준선 (Baseline) 수립 변경 통제](/knowledge-base/studynote/04_software_engineering/uncategorized/649_baseline_change_control/) ->
+**다음**: [649. 기준선 (Baseline) 수립 변경 통제](/knowledge-base/studynote/04_software_engineering/uncategorized/967_baseline_change_control/) ->
 
 ---

@@ -137,6 +137,6 @@ tags = ["studynote-security"]
 **진행 상황**: 680 / 1108
 
 <- **이전**: [613. UEBA (User Entity Behavior Analytics)](/knowledge-base/studynote/09_security/12_identity_threat_advanced/613_ueba/)
-**다음**: [614. 암호학적 구현 보안 (Cryptographic Implementation Security)](/knowledge-base/studynote/09_security/uncategorized/614_cryptographic_implementation/) ->
+**다음**: [614. 암호학적 구현 보안 (Cryptographic Implementation Security)](/knowledge-base/studynote/09_security/uncategorized/1044_cryptographic_implementation/) ->
 
 ---

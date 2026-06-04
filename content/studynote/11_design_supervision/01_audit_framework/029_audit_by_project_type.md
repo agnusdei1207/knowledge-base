@@ -11,7 +11,7 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [정보시스템 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/)는 프로젝트 특성(신규 개발, 운영·유지보수, 패키지 도입, 클라우드 전환)에 따라 감리 초점과 점검 항목이 달라진다. 단순히 체크리스트를 적용하는 것이 아니라 프로젝트 유형에 맞는 맞춤형 감리가 필요하다.
-> 2. **가치**: 신규 개발 감리는 아키텍처 적절성·개발 품질·보안 설계에 집중하는 반면, 운영 감리는 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 이행·장애 대응 프로세스·변경 관리에 집중한다. 패키지 도입 감리는 커스터마이징 리스크와 밴더 의존성을, 클라우드 감리는 [CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/) 책임 분리와 보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 중점 점검한다.
+> 2. **가치**: 신규 개발 감리는 아키텍처 적절성·개발 품질·보안 설계에 집중하는 반면, 운영 감리는 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 이행·장애 대응 프로세스·변경 관리에 집중한다. 패키지 도입 감리는 커스터마이징 리스크와 밴더 의존성을, 클라우드 감리는 [CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/) 책임 분리와 보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 중점 점검한다.
 > 3. **판단 포인트**: 클라우드·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 시스템의 감리 새 이슈가 등장했다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 편향성([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 설명 가능성([XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/)), [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 출력 품질 감리가 현대 감리의 신규 영역이다. 기존 체크리스트는 이를 포함하지 않으므로 감리 기준 현행화가 시급하다.
 
 ---
@@ -72,7 +72,7 @@ tags = ["studynote-design-supervision"]
 | 비교 | 신규 개발 | 운영 | 클라우드 전환 |
 |:---|:---|:---|:---|
 | 시점 | 개발 중 | 운영 중 | 전환 전후 |
-| 위험 | 설계 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 미달 | [보안 설정 오류](/knowledge-base/studynote/04_software_engineering/11_testing_validation/482_security_misconfiguration/) |
+| 위험 | 설계 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 미달 | [보안 설정 오류](/knowledge-base/studynote/04_software_engineering/11_testing_validation/874_security_misconfiguration/) |
 | 주요 도구 | [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/), 설계 리뷰 | 모니터링 대시보드 | [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) |
 
 - **📢 섹션 요약 비유**: 감리 유형은 의사의 진료 종류다. 신규 개발은 신생아 검사(태어날 때부터 건강 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)), 운영 감리는 정기 건강검진, 클라우드 전환은 이민 전 건강검사다.
@@ -160,7 +160,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 34 / 530
 
-<- **이전**: [28. 시스템 아키텍처 보안 감리 (System Architecture Security Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/028_system_architecture_security_audit/)
-**다음**: [29. 데이터베이스 영역 감리 (Database Area Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/029_database_area_audit/) ->
+<- **이전**: [28. 시스템 아키텍처 보안 감리 (System Architecture Security Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/605_system_architecture_security_audit/)
+**다음**: [29. 데이터베이스 영역 감리 (Database Area Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/606_database_area_audit/) ->
 
 ---

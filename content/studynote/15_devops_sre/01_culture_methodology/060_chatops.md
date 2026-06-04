@@ -49,9 +49,9 @@ Bot
 | Bot | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 파싱하고 외부 도구 API를 호출 |
 | [Webhook](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/) | 외부 시스템 이벤트를 채팅 채널로 밀어 넣음 |
 | Runbook Automation | [인시던트 대응](/knowledge-base/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/) 절차를 단계별로 실행 |
-| [Incident Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_incident_management/) | 장애 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 호출, 상태 공유를 관리 |
+| [Incident Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/859_incident_management/) | 장애 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 호출, 상태 공유를 관리 |
 
-ChatOps는 Slash Command와 Webhook이 핵심이다. 사용자는 `/deploy production v2.3.1`처럼 명령을 입력하고, 봇은 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD와 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 시스템을 묶어 실행 결과를 바로 게시한다.
+ChatOps는 Slash Command와 Webhook이 핵심이다. 사용자는 `/deploy production v2.3.1`처럼 명령을 입력하고, 봇은 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD와 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 시스템을 묶어 실행 결과를 바로 게시한다.
 
 - **📢 섹션 요약 비유**: 전화와 메일을 따로 보내던 일을, 비서 한 명이 받아서 바로 회의실 게시판에 붙여 주는 구조다.
 

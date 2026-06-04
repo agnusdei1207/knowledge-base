@@ -73,7 +73,7 @@ tags = ["studynote-devops-sre"]
 - **Four Keys**: Google [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 측정 도구.
 
 ### 개선 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
-- 배포 빈도 ^: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 자동화, [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/).
+- 배포 빈도 ^: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 자동화, [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/).
 - [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) v: 작은 배치, [트렁크 기반 개발](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/).
 - 변경 실패율 v: 테스트 커버리지, [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/).
 - [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) v: 관측성([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)), 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/).
@@ -90,7 +90,7 @@ tags = ["studynote-devops-sre"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **배포 빈도** | 속도 지표, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 성숙도 반영 |
+| **배포 빈도** | 속도 지표, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 성숙도 반영 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/">리드 타임</a></strong> | 코드 커밋->프로덕션 배포 시간 |
 | **변경 실패율** | 안정성 지표, 테스트 품질 반영 |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a></strong> | 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 속도, 관측성 수준 반영 |

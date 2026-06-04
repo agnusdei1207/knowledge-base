@@ -130,7 +130,7 @@ spec:
 |:---|:---|
 | **비용 절감** | 상용 어플라이언스 대비 60~75% 절감 |
 | **유연한 확장** | 노드 추가로 페타바이트 선형 확장 |
-| <strong>표준 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong> | S3, CSI로 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 통합 |
+| <strong>표준 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong> | S3, CSI로 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 통합 |
 
 SDS는 [Hyperconverged Infrastructure](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/026_hci/) ([HCI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/630_hci/), [하이퍼컨버지드 인프라](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/630_hci/))로 발전하여 컴퓨팅·스토리지·네트워킹을 단일 소프트웨어 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)으로 통합(예: Nutanix, VMware vSAN)하고 있다. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 스토리지(Longhorn, Rook-Ceph)는 K8s 네이티브 SDS의 표준으로 자리잡았다.
 

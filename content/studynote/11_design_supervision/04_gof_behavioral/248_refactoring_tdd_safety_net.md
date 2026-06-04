@@ -60,9 +60,9 @@ tags = ["studynote-design-supervision"]
 |:---|:---|:---|
 | 라인 커버리지 (Line Coverage) | 실행된 코드 라인 비율 | 80%+ 권고 |
 | 브랜치 커버리지 (Branch Coverage) | 분기(if/else) 경로 커버 | 75%+ 권고 |
-| 변이 테스트 ([Mutation Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/456_mutation_testing/)) | 코드 변이 감지율 | 60%+ 이상적 |
+| 변이 테스트 ([Mutation Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/848_mutation_testing/)) | 코드 변이 감지율 | 60%+ 이상적 |
 
-[테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/) ([Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/)) 은 의존 객체를 대체해 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)의 독립성을 보장한다.
+[테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/1008_test_double_isolation/) ([Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/850_test_double/)) 은 의존 객체를 대체해 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)의 독립성을 보장한다.
 
 ```
 +--------------------------------------------------+
@@ -78,7 +78,7 @@ tags = ["studynote-design-supervision"]
 +--------------+-----------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: 항공기 시뮬레이터로 연습하면 실제 비행기를 추락시키지 않고 조종 실력을 기를 수 있다 — [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/)이 바로 그 시뮬레이터다.
+- **📢 섹션 요약 비유**: 항공기 시뮬레이터로 연습하면 실제 비행기를 추락시키지 않고 조종 실력을 기를 수 있다 — [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/1008_test_double_isolation/)이 바로 그 시뮬레이터다.
 
 ---
 
@@ -121,7 +121,7 @@ tags = ["studynote-design-supervision"]
 3. <strong>안전망 확보 후 <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">리팩토링</a> 시작</strong>
 4. **커버리지 점진적 확대**: 수정하는 코드 주변부터 테스트 추가
 
-[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)) 파이프라인에 테스트를 통합하면 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 후 자동으로 안전망이 작동한다.
+[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)) 파이프라인에 테스트를 통합하면 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 후 자동으로 안전망이 작동한다.
 
 ```
 개발자 커밋 -> CI 파이프라인 자동 실행
@@ -134,7 +134,7 @@ tags = ["studynote-design-supervision"]
 
 - <strong>지속적 <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">리팩토링</a> (Continuous <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/">Refactoring</a>)</strong>: 스프린트마다 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 제거 시간을 스케줄링
 - **보이 스카우트 규칙 (Boy Scout Rule)**: "캠프장을 발견했을 때보다 더 깨끗하게 떠나라" — 건드린 코드는 반드시 개선
-- <strong>안전망 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">Return on Investment</a>)</strong>: 테스트 작성 투자 대비 버그 감소·[리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 속도 향상 효과로 3~6개월 내 회수
+- <strong>안전망 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/">ROI</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/">Return on Investment</a>)</strong>: 테스트 작성 투자 대비 버그 감소·[리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 속도 향상 효과로 3~6개월 내 회수
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 변경 전 동작을 고정할 테스트가 준비되었는가?
@@ -154,7 +154,7 @@ tags = ["studynote-design-supervision"]
 | 팀 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 참여 의지 | 낮음 (두려움) | 높음 (안전) |
 | 릴리즈 후 핫픽스 빈도 | 월 4~6건 | 월 0~1건 |
 
-[TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 안전망 ([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) Safety Net) 은 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)을 <strong>두려움 없는 반복 행위</strong>로 전환한다. "테스트 없이 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)하지 말라"는 원칙은 단순한 관례가 아니라, 소프트웨어 진화 (Software Evolution) 를 지속 가능하게 만드는 <strong>공학적 필수 조건</strong>이다. 기술사 논술에서는 테스트 커버리지 목표 수치와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 연동 방안을 함께 제시해야 설득력이 높다.
+[TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 안전망 ([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) Safety Net) 은 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)을 <strong>두려움 없는 반복 행위</strong>로 전환한다. "테스트 없이 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)하지 말라"는 원칙은 단순한 관례가 아니라, 소프트웨어 진화 (Software Evolution) 를 지속 가능하게 만드는 <strong>공학적 필수 조건</strong>이다. 기술사 논술에서는 테스트 커버리지 목표 수치와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 연동 방안을 함께 제시해야 설득력이 높다.
 
 확장 방향은 ① [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 자동화, ② 아키텍처 적합성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), ③ 작은 단위의 상시 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 문화 정착이다.
 
@@ -170,8 +170,8 @@ tags = ["studynote-design-supervision"]
 | 연관 개념 | 테스트 커버리지 (Test Coverage) | 안전망의 두께 지표 |
 | 연관 개념 | 테스트 피라미드 (Test Pyramid) | 테스트 유형별 비율 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 | 연관 개념 | 특성 테스트 (Characterization Test) | 레거시 코드 안전망 구축 |
-| 연관 개념 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)) | 자동화 안전망 파이프라인 |
-| 연관 개념 | [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/) ([Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/)) | 격리된 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 지원 |
+| 연관 개념 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)) | 자동화 안전망 파이프라인 |
+| 연관 개념 | [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/1008_test_double_isolation/) ([Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/850_test_double/)) | 격리된 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 지원 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 characterization test -> [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 안전망 -> continuous [refactoring](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/)

@@ -11,7 +11,7 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 디미터 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/110_law_of_demeter/), LoD)은 객체가 협력할 때 "직접적인 이웃([immediate](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/) neighbor)"하고만 대화하고, 이웃의 내부 구조를 탐색하여 깊은 체이닝([chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))으로 다른 객체에 접근하는 것을 금지하는 [최소 지식의 원칙](/knowledge-base/studynote/11_design_supervision/09_design_principles/110_law_of_demeter/)(Principle of Least Knowledge)이다.
+> 1. **본질**: 디미터 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/653_law_of_demeter/), LoD)은 객체가 협력할 때 "직접적인 이웃([immediate](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/) neighbor)"하고만 대화하고, 이웃의 내부 구조를 탐색하여 깊은 체이닝([chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/))으로 다른 객체에 접근하는 것을 금지하는 [최소 지식의 원칙](/knowledge-base/studynote/11_design_supervision/09_design_principles/653_law_of_demeter/)(Principle of Least Knowledge)이다.
 > 2. **가치**: `a.getB().getC().doSomething()` 같은 메서드 체이닝은 A가 B의 내부 구조와 C의 존재를 모두 알아야 하는 강한 구조적 결합을 만든다. LoD를 따르면 내부 구조 변경이 외부로 전파되는 충격이 차단된다.
 > 3. **판단 포인트**: "점([dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/))을 두 번 이상 찍는 코드는 LoD 위반 후보"라는 경험칙을 적용하되, 플루언트 인터페이스(Fluent Interface)나 [빌더 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/)([Builder Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/148_builder_pattern/))처럼 동일 객체에 연속 호출하는 경우는 예외로 처리해야 한다.
 
@@ -111,13 +111,13 @@ LoD는 [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/3
 
 LoD를 시스템 전반에 적용하면 내부 구조 변경의 파급 범위가 명확하게 제한된다. `Address` 클래스를 리팩토링해도 Order가 위임 메서드를 내부에서 처리하고 있으므로, 외부 클라이언트 코드는 전혀 영향을 받지 않는다. 이는 대규모 레거시 시스템 리팩토링에서 특히 강력한 장점이다.
 
-한계는 위임 메서드의 증가다. 규모가 큰 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델에서는 수십 개의 위임 메서드가 생겨 객체의 인터페이스가 방대해질 수 있다. 이때는 인터페이스를 적절한 역할로 분리하는 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) ([Interface Segregation Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/246_isp_interface_segregation_principle/), [인터페이스 분리 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/358_architecture/))를 함께 적용하여 균형을 맞춘다.
+한계는 위임 메서드의 증가다. 규모가 큰 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델에서는 수십 개의 위임 메서드가 생겨 객체의 인터페이스가 방대해질 수 있다. 이때는 인터페이스를 적절한 역할로 분리하는 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) ([Interface Segregation Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/246_isp_interface_segregation_principle/), [인터페이스 분리 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/358_architecture/))를 함께 적용하여 균형을 맞춘다.
 
 미래 방향으로는 ① 함수형 프로그래밍에서 파이프라인 합성으로 LoD를 대체, ② [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구의 LoD 위반 자동 탐지, ③ [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 자동 경계 감지 도구 발전이 진행되고 있다.
 
 LoD는 "객체가 필요 이상으로 많이 알수록 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)가 올라가고 유지보수가 어려워진다"는 사실을 코드 수준의 규칙으로 구체화한 것으로, "최소 지식으로 최대 협력"을 달성하는 설계 원칙으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/) 조직에서 비밀 임무는 "알 필요가 있는 사람에게만 알려준다([need-to-know](/knowledge-base/studynote/09_security/01_intro_principles/013_need_to_know/) basis)" 원칙으로 운영된다. 각 객체도 자신의 임무에 필요한 최소한의 정보만 알아야 보안(캡슐화)이 유지된다.
+- **📢 섹션 요약 비유**: [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/) 조직에서 비밀 임무는 "알 필요가 있는 사람에게만 알려준다([need-to-know](/knowledge-base/studynote/09_security/01_intro_principles/013_need_to_know/) basis)" 원칙으로 운영된다. 각 객체도 자신의 임무에 필요한 최소한의 정보만 알아야 보안(캡슐화)이 유지된다.
 
 ---
 
@@ -148,7 +148,7 @@ LoD는 "객체가 필요 이상으로 많이 알수록 [결합도](/knowledge-ba
 
 **진행 상황**: 163 / 530
 
-<- **이전**: [110. 최소 지식의 원칙 (Law of Demeter)](/knowledge-base/studynote/11_design_supervision/09_design_principles/110_law_of_demeter/)
+<- **이전**: [110. 최소 지식의 원칙 (Law of Demeter)](/knowledge-base/studynote/11_design_supervision/09_design_principles/653_law_of_demeter/)
 **다음**: [111. 할리우드 원칙 (Hollywood Principle)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/111_hollywood_principle/) ->
 
 ---

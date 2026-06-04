@@ -12,7 +12,7 @@ tags = ["studynote-it-management"]
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: 기술 부채(Technical Debt)는 당장의 출시 일정을 맞추기 위해 타협한 비효율적 코드와 설계이며, 이를 정량적으로 모니터링하여 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 초과 시 신규 릴리스(Release)를 차단하는 것이 연계 릴리스 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 핵심이다.
 - **가치**: 기술 부채로 인해 사소한 수정에도 막대한 시간과 비용(이자)이 발생하는 것을 막고, '신규 기능 개발 속도'와 '시스템 안정성' 사이에서 경영진과 개발진이 합의할 수 있는 객관적 기준선을 제공한다.
-- **판단 포인트**: 정적 코드 분석 도구([SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) 등)를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인의 퀄리티 게이트(Quality Gate)와 연동하고, 에러 버짓([Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/))이 소진되면 즉시 신규 배포를 중단하고 부채 상환([리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/))에 집중하도록 강제해야 한다.
+- **판단 포인트**: 정적 코드 분석 도구([SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) 등)를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인의 퀄리티 게이트(Quality Gate)와 연동하고, 에러 버짓([Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/))이 소진되면 즉시 신규 배포를 중단하고 부채 상환([리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/))에 집중하도록 강제해야 한다.
 
 ### Ⅰ. 개요 및 필요성
 기술 부채(Technical Debt)는 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 커닝햄(Ward Cunningham)이 창안한 개념으로, 단기적인 개발 속도를 위해 코드 품질이나 설계를 희생했을 때 발생하는 장기적인 유지보수 부담을 금융의 '부채'에 빗댄 것이다.
@@ -26,7 +26,7 @@ tags = ["studynote-it-management"]
 | 단계 | 도구 및 기법 | 수행 역할 |
 |---|---|---|
 | **측정 (Measure)** | [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) 등 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 툴 | 복잡도(Cyclomatic Complexity), [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/)([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/)), 중복 코드 비율을 분석하여 기술 부채 수치(일/시간) 계산 |
-| **통제 (Gatekeeping)** | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 (Quality Gate) | 설정된 부채 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)(예: 테스트 커버리지 80% 미만) 위반 시 빌드 및 릴리스 강제 실패 처리 (Fail) |
+| **통제 (Gatekeeping)** | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인 (Quality Gate) | 설정된 부채 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)(예: 테스트 커버리지 80% 미만) 위반 시 빌드 및 릴리스 강제 실패 처리 (Fail) |
 | <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>)</strong> | 에러 버짓([Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)) 연동 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 허용 시간이 바닥나면 신규 배포를 즉각 멈추고 시스템 안정화 작업으로 강제 전환 |
 
 ```text
@@ -64,7 +64,7 @@ tags = ["studynote-it-management"]
 |---|---|---|
 | 발생 원인 | 빠른 시장 진입(Time-to-Market)을 위해 합의 하에 임시 구조 채택 | 팀의 설계 역량 부족이나 표준 [코딩 컨벤션](/knowledge-base/studynote/04_software_engineering/06_software_architecture/328_coding_convention_style_guide/) 미준수로 인한 스파게티 코드 |
 | 인지 상태 | 개발진과 경영진이 부채의 존재를 명확히 인지하고 상환 계획을 가짐 | 부채가 쌓이는지도 모르며, 잦은 장애 발생 시점에서야 문제 발견 |
-| 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 다음 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)에 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 일정을 배정하여 의도적으로 청산 | 강도 높은 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 의무화 및 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 파이프라인 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 룰(Lint) 강화 |
+| 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 다음 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)에 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 일정을 배정하여 의도적으로 청산 | 강도 높은 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 의무화 및 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 파이프라인 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 룰(Lint) 강화 |
 
 기술 부채 관리는 단순히 코드 품질을 높이는 개발자들의 취향 문제가 아니라, 비즈니스 리스크를 관리하는 경영 통제 수단이다. 따라서 개발 프로세스와 배포 프로세스([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)/[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))가 융합된 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 다루어진다.
 
@@ -87,7 +87,7 @@ tags = ["studynote-it-management"]
 
 ### 📌 관련 개념 맵
 - **상위 개념**: 소프트웨어 유지보수, [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) ([Refactoring](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/))
-- **연관 개념**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인, [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) ([Static Analysis](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)), [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/) ([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))
+- **연관 개념**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인, [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) ([Static Analysis](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)), [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/) ([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))
 - **파생 개념**: [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)), 에러 버짓 ([Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)), 퀄리티 게이트 (Quality Gate)
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -121,7 +121,7 @@ SRE 연계 (Error Budget) · 데이터 기반의 비즈니스 타협 정책 확�
 
 **진행 상황**: 183 / 587
 
-<- **이전**: [99. 챗봇 및 AI옵스(AIOps) 결합 ITSM - 지능형 IT 서비스 자동화](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/)
-**다음**: [100. 기술 부채 (Technical Debt) 모니터링 연계 릴리스 정책](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_release_policy/) ->
+<- **이전**: [99. 챗봇 및 AI옵스(AIOps) 결합 ITSM - 지능형 IT 서비스 자동화](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)
+**다음**: [100. 기술 부채 (Technical Debt) 모니터링 연계 릴리스 정책](/knowledge-base/studynote/12_it_management/02_itsm_itil/884_technical_debt_release_policy/) ->
 
 ---

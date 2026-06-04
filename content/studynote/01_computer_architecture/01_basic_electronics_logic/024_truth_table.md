@@ -129,7 +129,7 @@ XOR(배타적 OR)은 홀수 개의 입력이 1일 때만 출력 1이며, [패리
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/">카르노 맵</a></strong> | 진리표의 시각적 최적화 도구 |
 | **SOP/POS** | 진리표에서 추출하는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 표현식 |
 | **NAND/NOR** | 범용(Universal) 게이트; 진리표로 모든 함수 구현 가능 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/">결정 테이블</a></strong> | SW 테스트에서 진리표를 응용한 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 설계 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/">결정 테이블</a></strong> | SW 테스트에서 진리표를 응용한 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) 설계 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

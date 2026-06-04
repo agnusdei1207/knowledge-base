@@ -55,7 +55,7 @@ tags = ["studynote-ai"]
 
 | 구성 요소 | 역할 | 실무 판단 포인트 |
 | :--- | :--- | :--- |
-| 정방향 과정 ([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 노이즈를 누적 | 학습용 기준 분포를 제공 |
+| 정방향 과정 ([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/)) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 노이즈를 누적 | 학습용 기준 분포를 제공 |
 | U-Net | 단계별 노이즈 예측 | 해상도·연산량·조건 주입 구조가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 좌우 |
 | 텍스트 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) (Text [Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)) | 프롬프트를 벡터로 변환 | 의미 이해력과 제어력이 품질에 직접 영향 |
 | 잠재 공간 [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) | 이미지 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)/복원 | 고해상도 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 비용 절감 핵심 |

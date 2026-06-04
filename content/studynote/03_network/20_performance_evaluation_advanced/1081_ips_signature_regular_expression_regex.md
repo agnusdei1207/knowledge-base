@@ -20,7 +20,7 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> (L3/L4)</strong>: IP 주소와 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)(껍데기)만 보고 문을 열어줍니다. 해커가 정상적인 웹 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(80번)를 달고 들어오면 문을 활짝 열어주는 바보입니다.
-- <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/">IPS</a> (Intrusion Prevention System, 침입 방지 시스템)</strong>: 껍데기는 기본이고, 패킷의 진짜 속살(L7 페이로드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))까지 싹 다 뜯어봐서 악성코드나 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 공격이 들어있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 <strong>'실시간으로 즉각 차단(Drop)'</strong>해 버리는 네트워크의 경찰입니다. (탐지만 하고 보고서만 쓰는 IDS와 달리 직접 죽입니다.)
+- <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/">IPS</a> (Intrusion Prevention System, 침입 방지 시스템)</strong>: 껍데기는 기본이고, 패킷의 진짜 속살(L7 페이로드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))까지 싹 다 뜯어봐서 악성코드나 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 공격이 들어있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 <strong>'실시간으로 즉각 차단(Drop)'</strong>해 버리는 네트워크의 경찰입니다. (탐지만 하고 보고서만 쓰는 IDS와 달리 직접 죽입니다.)
 
 ```text
 [네트워크 포렌식 패킷 덤프 파싱]

@@ -136,7 +136,7 @@ PKINIT (Public [Key](/knowledge-base/studynote/05_database/02_modeling_normaliza
 
 **진행 상황**: 670 / 1108
 
-<- **이전**: [608. 오류 처리와 로깅 보안 (Error Handling & Logging Security)](/knowledge-base/studynote/09_security/uncategorized/608_error_handling_logging/)
+<- **이전**: [608. 오류 처리와 로깅 보안 (Error Handling & Logging Security)](/knowledge-base/studynote/09_security/uncategorized/1039_error_handling_logging/)
 **다음**: [609. 원격 데스크톱 게이트웨이 (Remote Desktop Gateway)](/knowledge-base/studynote/09_security/12_identity_threat_advanced/609_remote_desktop_gateway/) ->
 
 ---

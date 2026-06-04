@@ -92,7 +92,7 @@ L1 규제는 수만 개의 변수 중 진짜 핵심만 남기는 희소 모델(S
 
 ## Ⅴ. 기대효과 및 결론
 
-L1/L2 규제를 도입하면 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 정확도는 소폭 떨어질 수 있으나, [테스트 데이터](/knowledge-base/studynote/04_software_engineering/11_testing_validation/444_test_data_management/)에 대한 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 예측의 안정성은 비약적으로 상승한다. 특히 딥러닝에서 L2 규제는 파라미터 폭발을 막아주어 학습 과정 자체의 수치적 안정성을 보장한다.
+L1/L2 규제를 도입하면 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 정확도는 소폭 떨어질 수 있으나, [테스트 데이터](/knowledge-base/studynote/04_software_engineering/11_testing_validation/836_test_data_management/)에 대한 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 예측의 안정성은 비약적으로 상승한다. 특히 딥러닝에서 L2 규제는 파라미터 폭발을 막아주어 학습 과정 자체의 수치적 안정성을 보장한다.
 
 다만, 규제 강도를 결정하는 $\[lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)$ 값을 실험적으로 찾아야 한다는 부담이 존재하며, 최신 딥러닝에서는 [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/) 등 다른 기법들과 얽혀 복합적인 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 발전하고 있다. 결론적으로 L1/L2 규제는 "가장 똑똑한 모델을 만드는 것이 아니라, 가장 덜 틀리는 유연한 모델을 만드는 수학적 족쇄"로 기억해야 한다.
 

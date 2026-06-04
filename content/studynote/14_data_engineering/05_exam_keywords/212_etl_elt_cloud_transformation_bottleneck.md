@@ -12,7 +12,7 @@ tags = ["studynote-data-engineering"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)(Extract, Transform, Load)은 중간 변환 서버에서 먼저 정제 후 DW에 적재하지만, [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/)(Extract, Load, Transform)는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 클라우드 DW에 먼저 적재 후 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내부의 막대한 컴퓨팅 파워로 변환한다.
 > 2. **가치**: 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/), Redshift)의 분리 스토리지-컴퓨팅 구조 덕분에 ELT는 변환 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))이 사라지고, dbt([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Build Tool)로 SQL 기반 변환 파이프라인을 코드로 관리할 수 있다.
-> 3. **판단 포인트**: [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)·레거시 환경은 ETL이 여전히 적합하나, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·비정형 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 ELT가 압도적으로 유리하다 — 변환 로직의 위치가 아키텍처 선택의 핵심이다.
+> 3. **판단 포인트**: [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)·레거시 환경은 ETL이 여전히 적합하나, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·비정형 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 ELT가 압도적으로 유리하다 — 변환 로직의 위치가 아키텍처 선택의 핵심이다.
 
 ---
 
@@ -97,7 +97,7 @@ WHERE status != 'cancelled'
 - SQL 기반이라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석가도 변환 로직 작성 가능
 - 계보(Lineage) 자동 추적 — 어떤 테이블이 어디서 왔는지 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 - 테스트(not_null, unique, accepted_values) 내장
-- Git 기반 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리로 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/)) 파이프라인 통합
+- Git 기반 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리로 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/)) 파이프라인 통합
 
 ### 2.4 Apache Spark를 활용한 대규모 [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/)
 

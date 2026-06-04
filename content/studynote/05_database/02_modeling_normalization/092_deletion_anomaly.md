@@ -25,7 +25,7 @@ tags = ["database"]
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-삭제 이상은 [함수적 종속성](/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/)(Functional Dependency)이 얽혀있는 비정규화 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)에서 발생한다. [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)(Tuple) 단위로 삭제가 이루어지는 RDBMS(Relational [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)의 특성 때문이다.
+삭제 이상은 [함수적 종속성](/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/)(Functional Dependency)이 얽혀있는 비정규화 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)에서 발생한다. [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)(Tuple) 단위로 삭제가 이루어지는 RDBMS(Relational [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System)의 특성 때문이다.
 
 ### 비정규화 테이블 구조와 삭제 연산의 병목
 | 학번(PK) | 과목코드(PK) | 학생이름 | 학과 | 과목명 |
@@ -57,7 +57,7 @@ tags = ["database"]
 | 이상([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/)) 유형 | 핵심 문제 | 실무 발생 상황 |
 | :--- | :--- | :--- |
 | **삭제 이상 (Deletion)** | 원치 않는 연쇄 정보 소멸 | 수강 취소 시 학생 신상 정보 증발 |
-| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/091_functional_dependency_fd/">삽입 이상</a> (Insertion)</strong> | 불필요한 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 강제 요구 | 미수강 신입생 등록 시 가짜 과목코드 필요 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/091_functional_dependency_fd/">삽입 이상</a> (Insertion)</strong> | 불필요한 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 강제 요구 | 미수강 신입생 등록 시 가짜 과목코드 필요 |
 | <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/">갱신 이상</a> (Update)</strong> | 중복 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 부분 수정으로 불일치 | 학과명 변경 시 일부 행만 수정되어 모순 발생 |
 
 삭제 이상은 [삽입 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/091_functional_dependency_fd/)과 동전의 양면이다. 합쳐진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 억지로 넣으려다 실패하는 것이 [삽입 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/091_functional_dependency_fd/)이라면, 억지로 빼내려다 다른 것까지 부수는 것이 삭제 이상이다. 결국 이들의 공통 해결책은 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)를 통한 '[무손실 분해](/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/)'다.

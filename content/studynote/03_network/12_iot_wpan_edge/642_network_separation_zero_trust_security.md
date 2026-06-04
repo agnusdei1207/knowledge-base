@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - 기업이나 공공기관에서 외부의 해킹, 악성코드 침입, 내부 정보 유출을 막기 위해 <strong>외부 인터넷망과 내부 업무망을 물리적 또는 논리적으로 완전히 분리하는 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/">보안 아키텍처</a></strong>입니다.
 - **배경**: 2011년 농협 전산망 마비 사태 등 북한/해커들의 공격으로 국가 인프라가 뚫리자, 금융권과 공공기관에 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/)가 법으로 강제(의무화)되었습니다.
 
-코로나19 사태로 '재택근무'가 폭발하고 클라우드([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)) 시대가 열리자, 사내 PC에서만 접속할 수 있는 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 규제는 IT 혁신을 가로막는 최악의 족쇄가 되었습니다. "망을 무조건 끊어 놓는 게 능사가 아니다. <strong>망을 연결하되, 절대 해킹당하지 않는 새로운 통제 모델</strong>을 만들자." 이것이 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)의 출발점입니다.
+코로나19 사태로 '재택근무'가 폭발하고 클라우드([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/)) 시대가 열리자, 사내 PC에서만 접속할 수 있는 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 규제는 IT 혁신을 가로막는 최악의 족쇄가 되었습니다. "망을 무조건 끊어 놓는 게 능사가 아니다. <strong>망을 연결하되, 절대 해킹당하지 않는 새로운 통제 모델</strong>을 만들자." 이것이 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)의 출발점입니다.
 
 ```text
 [홈 네트워크 게이트웨이 / 월패드 프로토콜…]

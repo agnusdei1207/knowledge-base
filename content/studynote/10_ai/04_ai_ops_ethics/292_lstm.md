@@ -93,7 +93,7 @@ LSTM 셀 하나는 입력 게이트(Input Gate), 삭제 게이트(Forget Gate), 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 활용 사례**:
-- **자연어 처리 (NLP)**: 기계 번역([Seq2Seq](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/245_seq2seq_context_vector_attention_dynamic_weight/)), [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/), 질의응답에서 긴 문장의 맥락 유지
+- **자연어 처리 (NLP)**: 기계 번역([Seq2Seq](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/245_seq2seq_context_vector_attention_dynamic_weight/)), [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/), 질의응답에서 긴 문장의 맥락 유지
 - **시계열 예측**: 주가·전력 수요·[이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)에서 수백 시점의 패턴 학습
 - **음성 인식 (Speech Recognition)**: 연속된 음성 프레임의 언어 모델
 

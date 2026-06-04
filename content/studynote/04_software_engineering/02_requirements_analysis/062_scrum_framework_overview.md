@@ -10,7 +10,7 @@ tags = ["software_engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 스크럼([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/))은 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 철학을 가장 널리 실천하는 반복적 팀 운영 프레임워크다.
+> 1. **본질**: 스크럼([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/))은 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 철학을 가장 널리 실천하는 반복적 팀 운영 프레임워크다.
 > 2. **가치**: 짧은 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)로 일하고, 매번 결과를 점검하고, 다음 사이클에 개선을 반영한다.
 > 3. **판단**: 역할, 이벤트, 산출물을 형식만 지키는 것이 아니라 피드백과 학습이 실제로 돌아가야 한다.
 
@@ -63,7 +63,7 @@ tags = ["software_engineering"]
 | 방식 | 특징 | 적합한 상황 |
 | :-- | :-- | :-- |
 | Waterfall | 순차, 계획 중심 | 요구가 거의 변하지 않을 때 |
-| [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/) | 반복, 피드백 중심 | 요구가 자주 바뀔 때 |
+| [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/) | 반복, 피드백 중심 | 요구가 자주 바뀔 때 |
 | [Kanban](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) | 흐름, [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 중심 | 지속적 작업 흐름이 중요할 때 |
 
 스크럼은 단순한 회의 체계가 아니다. [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 목표, 백로그 우선순위, 팀 자율성이 함께 맞아야 효과가 난다.

@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block)는 운영체제가 각 프로세스의 상태, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값, 메모리 정보 등 모든 메타데이터를 추적하고 관리하기 위해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간에 유지하는 핵심 자료구조다.
+> 1. **본질**: PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Control Block)는 운영체제가 각 프로세스의 상태, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값, 메모리 정보 등 모든 메타데이터를 추적하고 관리하기 위해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간에 유지하는 핵심 자료구조다.
 > 2. **가치**: CPU 시분할 환경에서 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 시, 현재 작업 상태를 안전하게 저장하고 다음 작업 상태를 복원할 수 있게 하여 멀티태스킹의 물리적 기반을 제공한다.
 > 3. **판단 포인트**: 프로세스 내에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 분화함에 따라, 공유 자원은 PCB에 남기고 개별 실행 흐름은 TCB ([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Control Block)로 분리 관리하여 스케줄링 오버헤드를 극적으로 낮추는 계층적 아키텍처로 진화했다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-프로세스 제어 블록 (PCB, [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block)은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 시스템 내의 실행 중인 프로세스를 제어하기 위해 사용하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조체다. 리눅스에서는 `task_struct`로 구현되며, 프로세스의 생명 주기를 통제하는 '주민등록증'과 같다. 더 세밀한 실행 단위인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 등장하면서, 고유 상태를 담는 TCB ([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Control Block)가 PCB 내부에 계층적으로 연결되었다.
+프로세스 제어 블록 (PCB, [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Control Block)은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 시스템 내의 실행 중인 프로세스를 제어하기 위해 사용하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조체다. 리눅스에서는 `task_struct`로 구현되며, 프로세스의 생명 주기를 통제하는 '주민등록증'과 같다. 더 세밀한 실행 단위인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 등장하면서, 고유 상태를 담는 TCB ([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Control Block)가 PCB 내부에 계층적으로 연결되었다.
 
 하나의 CPU 코어는 동시에 하나의 명령어만 처리할 수 있다. 시분할 (Time-Sharing) 운영체제에서 여러 프로세스가 동시에 실행되는 것처럼 보이려면, CPU가 프로세스 A에서 B로 제어권을 넘길 때 A의 정확한 중단 지점([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))을 완벽히 기억해야 한다. 이 하드웨어 문맥을 안전한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리에 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)해두는 공간이 바로 PCB다. PCB가 없다면 중단된 지점부터 다시 코드를 이어서 실행하는 것은 불가능하다.
 

@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 516 / 587
 
-<- **이전**: [337. OAT / UAT 인수 테스트 승인 확인](/knowledge-base/studynote/12_it_management/05_security_compliance/337_oat_uat_acceptance_testing/)
-**다음**: [338. ISMS-P 인증 위험 통제 보안 심사망 연계](/knowledge-base/studynote/12_it_management/05_security_compliance/338_isms_p_certification_audit/) ->
+<- **이전**: [337. OAT / UAT 인수 테스트 승인 확인](/knowledge-base/studynote/12_it_management/05_security_compliance/978_oat_uat_acceptance_testing/)
+**다음**: [338. ISMS-P 인증 위험 통제 보안 심사망 연계](/knowledge-base/studynote/12_it_management/05_security_compliance/979_isms_p_certification_audit/) ->
 
 ---

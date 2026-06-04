@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 570 / 587
 
-<- **이전**: [364. 아키텍처 평가 ATAM CBAM 상충점 민감도 도출 로직](/knowledge-base/studynote/12_it_management/05_security_compliance/364_atam_cbam_architecture_evaluation/)
-**다음**: [365. 객체지향 5원칙 SOLID 위배 코드 냄새(Code Smell) 리팩토링 검증](/knowledge-base/studynote/12_it_management/05_security_compliance/365_solid_principles_code_smell/) ->
+<- **이전**: [364. 아키텍처 평가 ATAM CBAM 상충점 민감도 도출 로직](/knowledge-base/studynote/12_it_management/05_security_compliance/1005_atam_cbam_architecture_evaluation/)
+**다음**: [365. 객체지향 5원칙 SOLID 위배 코드 냄새(Code Smell) 리팩토링 검증](/knowledge-base/studynote/12_it_management/05_security_compliance/1006_solid_principles_code_smell/) ->
 
 ---

@@ -28,7 +28,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. <strong><a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/">네트워크 보안</a>(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/">WAF</a>)의 한계와 절망</strong>: WAF는 쏟아지는 해킹 우회 기법을 막으려다 가짜 경고(오탐)를 너무 많이 뱉어내, 화가 난 기업들이 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 필터를 꺼버리는(Bypass) 병크가 일상화되었다.
   2. **가트너의 RASP 개념 선포 (2012)**: "앱 밖에서 지키니까 털리지. 아예 앱 안쪽 런타임 환경(JVM/.NET) 안으로 뚫고 들어가서 스스로 막게 해라!"라며 RASP라는 미친 사상을 처음 세상에 내놓았다.
-  3. <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/452_log4shell/">Log4Shell</a> 사태를 거치며 신격화 (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/">2021</a>~현재)</strong>: 전 세계 서버를 초토화시킨 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)포제이 사태 때, WAF는 속수무책으로 다 뚫렸다. 하지만 RASP를 달아둔 소수 기업들의 서버는, RASP가 "어? [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 찍는 함수가 왜 갑자기 외부 IP(해커 서버)로 쉘 권한을 달라고 통신(RCE)을 시도하지? 미친 거 아냐! 썰어버려!"라며 패치 0일 차([Zero-day](/knowledge-base/studynote/02_operating_system/10_security/597_zero_day_exploit/))에 아무것도 안 하고 100% 무상으로 서버를 살려내며 그 압도적 위대함을 전 세계에 팩트로 증명해 버렸다.
+  3. <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/452_log4shell/">Log4Shell</a> 사태를 거치며 신격화 (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/">2021</a>~현재)</strong>: 전 세계 서버를 초토화시킨 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)포제이 사태 때, WAF는 속수무책으로 다 뚫렸다. 하지만 RASP를 달아둔 소수 기업들의 서버는, RASP가 "어? [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 찍는 함수가 왜 갑자기 외부 IP(해커 서버)로 쉘 권한을 달라고 통신(RCE)을 시도하지? 미친 거 아냐! 썰어버려!"라며 패치 0일 차([Zero-day](/knowledge-base/studynote/02_operating_system/10_security/597_zero_day_exploit/))에 아무것도 안 하고 100% 무상으로 서버를 살려내며 그 압도적 위대함을 전 세계에 팩트로 증명해 버렸다.
 
 - **📢 섹션 요약 비유**: WAF가 도둑이 담장을 넘을 때 <strong>'얼굴 생김새(패킷 패턴)'</strong>만 보고 몽둥이로 때리는 기도(경비원)라면, RASP는 도둑이 집 안에 얌전히 앉아있다가 갑자기 품에서 **'칼을 빼어 들어 찌르는 그 물리적인 행위(함수 실행 맥락)'** 자체를 인지하고 팔을 꺾어버리는 실내 전속 밀착 보디가드입니다.
 
@@ -120,7 +120,7 @@ RASP (Runtime Application Self-Protection)을(를) 올바르게 적용하면 [�
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 RASP (Runtime Application Self-Protection)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ RASP (Runtime Application Self-Protection) 개념 정립
 
 **진행 상황**: 580 / 973
 
-<- **이전**: [494. RASP (Runtime Application Self-Protection)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/494_rasp/)
-**다음**: [495. SCA (Software Composition Analysis)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/495_sca_software_composition_analysis/) ->
+<- **이전**: [494. RASP (Runtime Application Self-Protection)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/886_rasp/)
+**다음**: [495. SCA (Software Composition Analysis)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/887_sca_software_composition_analysis/) ->
 
 ---

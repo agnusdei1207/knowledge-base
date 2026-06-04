@@ -122,7 +122,7 @@ TF-IDF   = TF(t,d) × IDF(t)
 |:---|:---|
 | [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 활용 | 기존 수치 분석이 놓친 80% 텍스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 인사이트 추출 |
 | 업무 자동화 | 문서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 요약, 정보 추출 자동화로 인력 비용 절감 |
-| 의사결정 지원 | VoC (Voice of [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)), 뉴스, SNS 종합 인사이트 대시보드 |
+| 의사결정 지원 | VoC (Voice of [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/)), 뉴스, SNS 종합 인사이트 대시보드 |
 | 지식 발굴 | 수백만 건 문서에서 사람이 발견하지 못한 패턴과 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 자동 추출 |
 | 실시간 처리 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) + Spark Streaming으로 실시간 텍스트 스트림 분석 |
 
@@ -141,7 +141,7 @@ TF-IDF   = TF(t,d) × IDF(t)
 | [Word2Vec](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/339_word2vec/) | 의미적 단어 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) |
 | [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) ([Bidirectional Encoder Representations from Transformers](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)) | [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 최신 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) |
 | KoNLPy / Mecab | 한국어 형태소 분석 도구 |
-| [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/) ([Sentiment Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)) | 텍스트 마이닝의 대표 응용 |
+| [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/) ([Sentiment Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)) | 텍스트 마이닝의 대표 응용 |
 | [토픽 모델링](/knowledge-base/studynote/16_bigdata/05_analysis/116_topic_modeling/) ([Topic Modeling](/knowledge-base/studynote/16_bigdata/05_analysis/116_topic_modeling/)) | 문서 집합의 주제 발굴 응용 |
 
 ### 📈 관련 키워드 및 발전 흐름도

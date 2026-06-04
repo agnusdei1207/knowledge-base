@@ -94,7 +94,7 @@ Matthew Skelton·Manuel Pais가 제시한 <strong>Team Topologies 프레임워�
 | 팀 유형                     | 역할                              | 예시                    |
 |---------------------------|----------------------------------|------------------------|
 | [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)-aligned Team        | 고객 가치 흐름 직접 제공           | 주문·결제·배송 팀        |
-| Platform Team              | 내부 플랫폼 제공, [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/) 감소   | 인프라·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD·관측성 팀  |
+| Platform Team              | 내부 플랫폼 제공, [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/) 감소   | 인프라·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD·관측성 팀  |
 | Enabling Team              | 역량 전파·[CoP](/knowledge-base/studynote/09_security/04_endpoint_security/347_cop/)(실천 공동체) 지원   | [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)·보안 전문가 팀   |
 | Complicated-Subsystem Team | 특수 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문성 집중            | ML·암호화·결제 게이트웨이|
 

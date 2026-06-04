@@ -32,7 +32,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **1990년대 초**: IEEE 표준에서 체계화된 테스트 입력 선택 기법으로 소개
   2. **2000년대**:JUnit 등 테스트 프레임워크에 [동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/) 기반 테스트 자동화 지원
-  3. **현재**:민첩개발에서 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 설계의 기본 기법으로 활용
+  3. **현재**:민첩개발에서 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) 설계의 기본 기법으로 활용
 
 - **섹션 요약 비유**: [동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/)은 <strong>'피트니스 센터회원권 tier'</strong>와 같다. 센터에는 Silver, Gold, Platinum 등 다양한 등급이 있지만, 각 등급 내부의회원들은 동일한 혜택을 받는다. 따라서 각 등급에서 한 명의회원를 대표로 측시하면 전체 등급의 혜택을검정할 수 있다.
 
@@ -126,7 +126,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/) ([Equivalence Partitioning](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/))은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -180,7 +180,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 418 / 973
 
-<- **이전**: [413. 동등 분할 (Equivalence Partitioning)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/413_equivalence_partitioning/)
-**다음**: [414. 경계값 분석 (Boundary Value Analysis)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/) ->
+<- **이전**: [413. 동등 분할 (Equivalence Partitioning)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/805_equivalence_partitioning/)
+**다음**: [414. 경계값 분석 (Boundary Value Analysis)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/806_boundary_value_analysis/) ->
 
 ---

@@ -72,7 +72,7 @@ $\text{Total Error} = \text{[Bias](/knowledge-base/studynote/01_computer_archite
 |:---|:---|:---|
 | **모델** | 선형 회귀, 얕은 트리 | 깊은 DNN, 깊은 트리 |
 | <strong>훈련 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong> | 낮은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | <strong>매우 높은 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/444_test_data_management/">테스트 데이터</a></strong> | 낮은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 낮은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) (일반화 실패) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/836_test_data_management/">테스트 데이터</a></strong> | 낮은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 낮은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) (일반화 실패) |
 | **해결** | 변수 추가, 모델 복잡도 ^ | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 추가, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/) |
 
 ---

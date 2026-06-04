@@ -62,7 +62,7 @@ Resources
 | 도구 | 스타일 | 강점 | 주 용도 |
 | :-- | :-- | :-- | :-- |
 | [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) | 선언형 | 멀티클라우드, 상태 관리 | [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) |
-| [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/) | 명령형 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 자동화, [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) | [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) |
+| [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/) | 명령형 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 자동화, [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) | [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/873_configuration_management/) |
 | Pulumi | 코드형 | 일반 언어의 표현력 | 복잡한 로직 |
 | CloudFormation | 선언형 | AWS 기본 통합 | AWS 인프라 |
 

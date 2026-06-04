@@ -37,7 +37,7 @@ tags = ["studynote-devops-sre"]
 | 역할   | 감시자, 보고자    | 촉진자, 코치          |
 | 집중   | 계획 준수        | 가치 전달             |
 | 속도   | 느린 승인 프로세스| 빠른 실험·학습        |
-| 측정   | 예산·일정 준수    | [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/), 비즈니스 임팩트  |
+| 측정   | 예산·일정 준수    | [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/), 비즈니스 임팩트  |
 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)   | 위에서 아래로     | 서번트 리더십          |
 
 > 📢 **섹션 요약 비유**: 전통 PMO는 교통 경찰(규칙 위반 감시), [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) PMO는 교통 엔지니어(교통 흐름 최적화).

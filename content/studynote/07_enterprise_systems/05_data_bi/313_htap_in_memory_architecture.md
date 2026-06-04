@@ -113,7 +113,7 @@ NUMA Node 0              NUMA Node 1
 ### [HTAP](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/) 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 - [ ] [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신선도 요구: <1초가 비즈니스 가치 창출하는가? (재고, 사기, 금융)
-- [ ] 인메모리 비용 정당화: 전체 워킹셋이 수백GB~수TB -> 비용 대비 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 계산
+- [ ] 인메모리 비용 정당화: 전체 워킹셋이 수백GB~수TB -> 비용 대비 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 계산
 - [ ] 워크로드 격리: OLTP와 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 간 리소스 경쟁 방지 설계
 - [ ] [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/): NVM(Intel Optane) 또는 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 기반 체크포인트 주기 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 - [ ] HA 구성: 인메모리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 방지를 위한 레플리카 구성 필수

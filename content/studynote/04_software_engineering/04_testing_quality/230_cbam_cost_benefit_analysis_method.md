@@ -50,7 +50,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **개념**: <strong>C(비용 Cost)</strong>와 <strong>B(편익/이익 Benefit)</strong>를 분석하는 방법입니다.
-- ATAM이 기술적으로 분석해 놓은 여러 개의 훌륭한 아키텍처 대안 도면들을 펼쳐놓고, <strong>각 도면을 선택했을 때 들어가는 '구축 비용(Cost)'과 그 도면이 비즈니스에 가져다줄 '경제적 이익(Benefit, 투자 대비 효과 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a>)'을 돈(수치)으로 환산하여, 최종적으로 경영진이 가장 돈이 되는 가성비 최고의 도면을 선택하게 해주는 경제적 아키텍처 평가 기법</strong>입니다.
+- ATAM이 기술적으로 분석해 놓은 여러 개의 훌륭한 아키텍처 대안 도면들을 펼쳐놓고, <strong>각 도면을 선택했을 때 들어가는 '구축 비용(Cost)'과 그 도면이 비즈니스에 가져다줄 '경제적 이익(Benefit, 투자 대비 효과 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/">ROI</a>)'을 돈(수치)으로 환산하여, 최종적으로 경영진이 가장 돈이 되는 가성비 최고의 도면을 선택하게 해주는 경제적 아키텍처 평가 기법</strong>입니다.
 
 - **📢 섹션 요약 비유**: CBAM (Cost Benefit Analysis Method)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -73,10 +73,10 @@ CBAM은 쌩뚱맞게 혼자 작동하지 않습니다. 무조건 <strong>"<a hre
 1. **1단계 (ATAM의 유산 받기)**: 먼저 ATAM을 돌려서 "대안 A(보안 몰빵 도면)", "대안 B([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 몰빵 도면)" 같은 쓸만한 도면 후보들을 기술적으로 검증해 냅니다.
 2. **2단계 (효용성 계산 Utility)**: 경영진이 각 도면의 점수를 매깁니다. "대안 A는 보안이 좋아서 해킹 벌금을 막아주니 우리에게 100점짜리 가치가 있고, 대안 B는 속도가 빨라 고객 이탈을 막아주니 80점짜리 가치가 있군."
 3. **3단계 (비용 Cost 산정)**: 도면대로 지을 때 견적을 뽑습니다. "대안 A는 서버 10대 사야 하니 10억 원, 대안 B는 코드만 깎으면 되니 2억 원이군."
-4. <strong>4단계 (가성비 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a> 계산 및 선택) 🌟</strong>:
-   - **대안 A**: 가치 100점 / 비용 10억 = 가성비([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)) <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a></strong>
-   - **대안 B**: 가치 80점 / 비용 2억 = 가성비([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)) **40**
-   - **결론**: 비록 대안 A가 기술적으론 더 완벽하고 가치가 높지만, 돈 대비 가성비([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))가 압도적으로 높은 **'대안 B' 도면을 회사의 최종 아키텍처로 낙찰(결정) 땅땅땅!**
+4. <strong>4단계 (가성비 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/">ROI</a> 계산 및 선택) 🌟</strong>:
+   - **대안 A**: 가치 100점 / 비용 10억 = 가성비([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/)) <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a></strong>
+   - **대안 B**: 가치 80점 / 비용 2억 = 가성비([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/)) **40**
+   - **결론**: 비록 대안 A가 기술적으론 더 완벽하고 가치가 높지만, 돈 대비 가성비([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/))가 압도적으로 높은 **'대안 B' 도면을 회사의 최종 아키텍처로 낙찰(결정) 땅땅땅!**
 
 - **📢 섹션 요약 비유**: CBAM (Cost Benefit Analysis Method)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -91,9 +91,9 @@ CBAM은 쌩뚱맞게 혼자 작동하지 않습니다. 무조건 <strong>"<a hre
 시험에서 키워드 매칭은 다음과 같이 무조건 떨어집니다.
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/228_saam_software_architecture_analysis_method/">SAAM</a></strong>: 최초, 변경 용이성, 기능성 채점.
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/">ATAM</a></strong>: 현대 표준, 여러 품질 간의 <strong>'트레이드오프(상충 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>)'</strong> 분석 집중.
-- **CBAM**: ATAM의 기술적 결과물을 바탕으로 <strong>'경제성(비용/편익/<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a>)'</strong>을 평가하는 자본주의의 꽃.
+- **CBAM**: ATAM의 기술적 결과물을 바탕으로 <strong>'경제성(비용/편익/<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/">ROI</a>)'</strong>을 평가하는 자본주의의 꽃.
 
-> 📢 **섹션 요약 비유**: <strong>CBAM(비용 편익 분석 방법)</strong>은 완벽하게 설계된 F1 레이싱카 도면(아키텍처)에 <strong>'자본주의 원가 계산서'</strong>를 들이대는 냉혹한 회계사입니다. 공학자([ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/))가 "사장님, 차체를 풀 카본으로 바르고 엔진을 티타늄으로 깎으면 코너링 속도([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 더 빨라지는 완벽한 아키텍처 대안(A)을 찾았습니다!"라고 환호합니다. 회계사(CBAM)가 계산기를 두드립니다. "그 풀 카본 티타늄 엔진(대안 A)을 깎으려면 제작비(Cost)가 500억이 추가로 듭니다. 근데 그 차로 코너링 속도를 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 높여서 우승 상금(Benefit)으로 벌어올 돈은 고작 10억입니다. 투자 대비 효율([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))이 씹창입니다. 당장 설계 도면 갈아엎고, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 2% 떨어지지만 원가는 50억만 드는 알루미늄 엔진 대안(B)으로 채택(최종 의사결정)하십시오!" 공학자의 기술적 완벽함([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/보안 트레이드오프)을 무조건 맹신하지 않고, <strong>회사 통장의 현실(가성비)을 들이밀어 기술과 비즈니스의 최종 타협을 이뤄내는 가장 현실적이고 완벽한 기업용 설계 채점표</strong>입니다.
+> 📢 **섹션 요약 비유**: <strong>CBAM(비용 편익 분석 방법)</strong>은 완벽하게 설계된 F1 레이싱카 도면(아키텍처)에 <strong>'자본주의 원가 계산서'</strong>를 들이대는 냉혹한 회계사입니다. 공학자([ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/))가 "사장님, 차체를 풀 카본으로 바르고 엔진을 티타늄으로 깎으면 코너링 속도([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 더 빨라지는 완벽한 아키텍처 대안(A)을 찾았습니다!"라고 환호합니다. 회계사(CBAM)가 계산기를 두드립니다. "그 풀 카본 티타늄 엔진(대안 A)을 깎으려면 제작비(Cost)가 500억이 추가로 듭니다. 근데 그 차로 코너링 속도를 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 높여서 우승 상금(Benefit)으로 벌어올 돈은 고작 10억입니다. 투자 대비 효율([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/))이 씹창입니다. 당장 설계 도면 갈아엎고, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 2% 떨어지지만 원가는 50억만 드는 알루미늄 엔진 대안(B)으로 채택(최종 의사결정)하십시오!" 공학자의 기술적 완벽함([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/보안 트레이드오프)을 무조건 맹신하지 않고, <strong>회사 통장의 현실(가성비)을 들이밀어 기술과 비즈니스의 최종 타협을 이뤄내는 가장 현실적이고 완벽한 기업용 설계 채점표</strong>입니다.
 
 - **📢 섹션 요약 비유**: CBAM (Cost Benefit Analysis Method)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -114,7 +114,7 @@ CBAM (Cost Benefit Analysis Method)을(를) 올바르게 적용하면 [소프트
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 CBAM (Cost Benefit Analysis Method)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

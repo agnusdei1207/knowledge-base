@@ -13,7 +13,7 @@ tags = ["studynote-ai"]
 
 > 1. **본질**: 순전파([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Propagation)는 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 신경망의 입력층->은닉층->출력층 방향으로 흐르며 행렬 곱과 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)를 순차 적용해 예측값을 계산하는 과정이다.
 > 2. **가치**: 순전파는 <strong>예측(Inference)</strong>만 수행하며, 중간 계산 결과(활성화 값, 선형 결합값 z)를 저장해 이후 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))에서 기울기 계산에 활용한다.
-> 3. **판단 포인트**: 연산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Computational [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))를 이해하면 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)의 국소 기울기(Local Gradient) 계산이 순전파에서 이미 결정됨을 알 수 있으며, [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)([Batch Processing](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/))로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 효율을 극대화한다.
+> 3. **판단 포인트**: 연산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Computational [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/))를 이해하면 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)의 국소 기울기(Local Gradient) 계산이 순전파에서 이미 결정됨을 알 수 있으며, [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)([Batch Processing](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/))로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 효율을 극대화한다.
 
 ---
 
@@ -85,7 +85,7 @@ Z = W × X + b (브로드캐스팅)
   Z: [n_out × N]
 ```
 
-### 연산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Computational [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))
+### 연산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Computational [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/))
 
 ```
 +--------------------------------------------------------------+
@@ -197,7 +197,7 @@ with torch.no_grad():
 | 개념 | 연결 포인트 |
 |:---|:---|
 | [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)) | 연쇄 법칙, 기울기 계산 / 순전파 이후 실행되는 학습 단계 |
-| 연산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Computational [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) | 노드, 엣지, 자동 미분 / 순전파 경로의 수학적 표현 |
+| 연산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Computational [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/)) | 노드, 엣지, 자동 미분 / 순전파 경로의 수학적 표현 |
 | [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) ([Loss Function](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_loss_function/)) | [MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/), CE, 예측 오차 / 순전파 최종 단계에서 계산 |
 | [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) ([Batch Processing](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)) | 미니배치, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 / 순전파 효율화의 핵심 기법 |
 | 활성화 저장 (Activation [Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)) | z, a 저장, [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 준비 / [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)를 위한 순전파 부산물 |

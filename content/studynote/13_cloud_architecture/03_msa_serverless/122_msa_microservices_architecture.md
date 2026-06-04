@@ -43,8 +43,8 @@ tags = ["studynote-cloud-architecture"]
 
 | 패턴 | 설명 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/">API Gateway</a></strong> | 외부 요청의 단일 진입점 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/303_service_discovery/">Service Discovery</a></strong> | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 위치 동적 탐색 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/">API Gateway</a></strong> | 외부 요청의 단일 진입점 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/946_service_discovery/">Service Discovery</a></strong> | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 위치 동적 탐색 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/">Circuit Breaker</a></strong> | 장애 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 호출 차단 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/">Saga</a></strong> | [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) ([보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)) |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/">CQRS</a></strong> | 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 모델 분리 |
@@ -82,9 +82,9 @@ MSA는 <strong>대규모 조직의 빠른 배포·독립 <a href="/knowledge-bas
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/">API Gateway</a></strong> | MSA의 단일 진입점 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/">API Gateway</a></strong> | MSA의 단일 진입점 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/">Saga</a></strong> | [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 패턴 |
-| <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/">Service Mesh</a></strong> | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신 인프라 ([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)) |
+| <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/">Service Mesh</a></strong> | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신 인프라 ([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)) |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/">DDD</a></strong> | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계 설계 ([Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)) |
 | **Conway's Law** | 팀 구조 = 시스템 구조 |
 

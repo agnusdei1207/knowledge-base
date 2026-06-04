@@ -136,7 +136,7 @@ Federated Identity (연합 신원)를 제대로 이해하면 개념 하나를 �
 
 **진행 상황**: 683 / 1108
 
-<- **이전**: [615. API 보안 (API Security)](/knowledge-base/studynote/09_security/uncategorized/615_api_security/)
+<- **이전**: [615. API 보안 (API Security)](/knowledge-base/studynote/09_security/uncategorized/1045_api_security/)
 **다음**: [616. Identity Bridge (신원 가교)](/knowledge-base/studynote/09_security/12_identity_threat_advanced/616_identity_bridge/) ->
 
 ---

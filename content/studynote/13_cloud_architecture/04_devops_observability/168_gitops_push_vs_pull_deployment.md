@@ -10,7 +10,7 @@ tags = ["studynote-cloud-architecture"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: GitOps에서 Push 방식은 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인이 클러스터에 직접 명령을 밀어 넣고, Pull 방식은 클러스터 내 에이전트가 Git을 감시하다가 스스로 당겨온다.
+> 1. **본질**: GitOps에서 Push 방식은 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인이 클러스터에 직접 명령을 밀어 넣고, Pull 방식은 클러스터 내 에이전트가 Git을 감시하다가 스스로 당겨온다.
 > 2. **가치**: Pull 방식은 클러스터 외부에서 내부로 접근하는 자격 증명을 없애므로 보안 면에서 구조적으로 우월하다.
 > 3. **판단 포인트**: 파이프라인이 클러스터 자격 증명을 관리해야 하는지 여부로 Push/Pull을 선택하며, 실무에서는 ArgoCD·Flux 같은 Pull 도구가 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 표준이 되었다.
 
@@ -18,7 +18,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-전통적인 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인은 빌드 후 `kubectl apply` 명령을 직접 실행하여 클러스터 상태를 변경한다. 이를 <strong>Push(푸시) 배포</strong>라고 부른다. 반면 <strong>Pull(풀) 배포</strong>는 클러스터 내부에 상주하는 에이전트(ArgoCD, Flux)가 주기적으로 Git 저장소를 감시하고, 변경 사항이 감지되면 스스로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)한다.
+전통적인 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인은 빌드 후 `kubectl apply` 명령을 직접 실행하여 클러스터 상태를 변경한다. 이를 <strong>Push(푸시) 배포</strong>라고 부른다. 반면 <strong>Pull(풀) 배포</strong>는 클러스터 내부에 상주하는 에이전트(ArgoCD, Flux)가 주기적으로 Git 저장소를 감시하고, 변경 사항이 감지되면 스스로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)한다.
 
 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 철학의 핵심은 "Git이 단일 진실 원천(SSOT, Single Source of Truth)"이라는 원칙이다. 이 원칙 아래서 두 방식은 서로 다른 보안·운영 트레이드오프를 가지며, 엔터프라이즈 환경에서 어느 방식을 선택하느냐는 아키텍처 설계의 핵심 결정 사항이다.
 
@@ -49,7 +49,7 @@ Pull 방식이 부상한 이유는 [제로 트러스트](/knowledge-base/studyno
 |:---|:---|:---|
 | 자격 증명 위치 | 파이프라인 서버(외부) | 클러스터 내부 에이전트 |
 | 보안 표면 | 넓음 (kubeconfig 외부 노출) | 좁음 (읽기 전용 Git 접근) |
-| 도구 예시 | [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/), GitLab [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/), GitHub Actions | ArgoCD, Flux CD |
+| 도구 예시 | [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/), GitLab [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/), GitHub Actions | ArgoCD, Flux CD |
 | 드리프트 감지 | 없음 (일회성 실행) | 있음 (지속 감시, 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) |
 | 멀티 클러스터 | 간단 (파이프라인에서 분기) | 에이전트 별도 배포 필요 |
 | [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 적합성 | 부분적 | 완전한 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) |
@@ -66,8 +66,8 @@ Pull 방식이 부상한 이유는 [제로 트러스트](/knowledge-base/studyno
 |:---|:---|:---|:---|
 | ArgoCD | Pull | UI 대시보드, 다중 클러스터, [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/) 내장 | 대규모 K8s 운영 |
 | Flux CD | Pull | CLI 중심, [Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)/[Kustomize](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/) 통합, [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 졸업 | 경량 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) |
-| [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) | Push | 범용 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/), 광범위한 플러그인 | 레거시 파이프라인 |
-| GitHub Actions | Push | [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/), 빠른 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 소규모 프로젝트 |
+| [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) | Push | 범용 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/), 광범위한 플러그인 | 레거시 파이프라인 |
+| GitHub Actions | Push | [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/), 빠른 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 소규모 프로젝트 |
 
 <strong>드리프트(<a href="/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/">Configuration Drift</a>) 처리</strong>: Pull 도구는 Git에 정의된 상태와 실제 클러스터 상태를 지속 비교하여 누군가 수동으로 클러스터를 변경하면 자동으로 되돌린다(Self-healing). Push 방식은 이 기능이 없다.
 
@@ -79,7 +79,7 @@ Pull 방식이 부상한 이유는 [제로 트러스트](/knowledge-base/studyno
 
 **선택 기준:**
 - 보안 규정이 엄격한 금융·공공: Pull(ArgoCD) 방식 우선
-- 기존 레거시 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 파이프라인 유지 필요: Push 허용, 단계적 Pull 전환
+- 기존 레거시 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 파이프라인 유지 필요: Push 허용, 단계적 Pull 전환
 - 멀티 클러스터 환경: ArgoCD ApplicationSet으로 일괄 관리
 
 **ArgoCD 핵심 개념:**
@@ -112,7 +112,7 @@ Pull 기반 GitOps는 클러스터 자격 증명의 외부 노출을 차단하�
 | ArgoCD / Flux | Pull 방식의 대표 도구 |
 | [Configuration Drift](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/) | Pull 도구의 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)로 방지 |
 | [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) | 클러스터 자격 증명 외부 비노출 원칙 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/[CD Pipeline](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/081_cd_continuous_deployment_pipeline_architecture/) | Push 방식의 기반 인프라 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/[CD Pipeline](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/081_cd_continuous_deployment_pipeline_architecture/) | Push 방식의 기반 인프라 |
 | [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/) | ArgoCD 에이전트 권한 관리 |
 
 ### 👶 어린이를 위한 3줄 비유 설명

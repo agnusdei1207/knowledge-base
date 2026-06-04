@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 548 / 587
 
-<- **이전**: [353. 블록체인 스마트 컨트랙트 정형 검증 재진입 취약 차단](/knowledge-base/studynote/12_it_management/05_security_compliance/353_blockchain_smart_contract_reentrancy/)
-**다음**: [354. DID 탈중앙 신원 증명 영지식 증명 (ZKP) 인증망](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_zkp/) ->
+<- **이전**: [353. 블록체인 스마트 컨트랙트 정형 검증 재진입 취약 차단](/knowledge-base/studynote/12_it_management/05_security_compliance/994_blockchain_smart_contract_reentrancy/)
+**다음**: [354. DID 탈중앙 신원 증명 영지식 증명 (ZKP) 인증망](/knowledge-base/studynote/12_it_management/05_security_compliance/995_did_zkp/) ->
 
 ---

@@ -21,7 +21,7 @@ tags = ["studynote-design"]
 
 [재해 복구](/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/)는 "백업이 있다"는 말만으로 끝나지 않는다. 실제 화재, [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/), 전원 장애가 발생했을 때 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 얼마나 빨리, 얼마나 적게 잃고 돌아오는지가 중요하다.
 
-그래서 모의 훈련([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) Drill)을 통해 주 센터와 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 센터 간 전환 절차를 실제로 시험한다. 감리의 목적은 서류가 아니라 실행력을 확인하는 데 있다.
+그래서 모의 훈련([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Drill)을 통해 주 센터와 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 센터 간 전환 절차를 실제로 시험한다. 감리의 목적은 서류가 아니라 실행력을 확인하는 데 있다.
 
 - **📢 섹션 요약 비유**: 구명정이 있다고 믿는 것과, 진짜 바다에서 타 보게 하는 것은 다르다.
 

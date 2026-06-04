@@ -11,8 +11,8 @@ tags = ["studynote-it-management"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SCM ([Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/), [소프트웨어 형상 관리](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/648_ccb_configuration_control_board/))은 소프트웨어 산출물을 형상 항목 ([Configuration Item](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)) 단위로 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고, 변경을 승인·기록·[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)하는 통제 체계다.
-> 2. **가치**: 소스코드뿐 아니라 요구사항, 설계서, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/), 배포 패키지까지 같은 기준으로 관리해야 변경 추적성, 재현 가능한 릴리스, 빠른 복구가 가능해진다.
+> 1. **본질**: SCM ([Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/), [소프트웨어 형상 관리](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/648_ccb_configuration_control_board/))은 소프트웨어 산출물을 형상 항목 ([Configuration Item](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)) 단위로 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고, 변경을 승인·기록·[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)하는 통제 체계다.
+> 2. **가치**: 소스코드뿐 아니라 요구사항, 설계서, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/), 배포 패키지까지 같은 기준으로 관리해야 변경 추적성, 재현 가능한 릴리스, 빠른 복구가 가능해진다.
 > 3. **판단 포인트**: [형상 식별](/knowledge-base/studynote/04_software_engineering/01_overview_principles/021_configuration_identification/) -> [형상 통제](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/) -> [형상 상태 기록](/knowledge-base/studynote/04_software_engineering/01_overview_principles/024_configuration_status_accounting/) -> [형상 감사](/knowledge-base/studynote/04_software_engineering/01_overview_principles/023_configuration_audit/)의 흐름과 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) ([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)) 관리가 핵심이며, 단순 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 도구 사용만으로 SCM이 완성되지는 않는다.
 
 ---
@@ -74,7 +74,7 @@ SCM의 핵심 원리는 "무엇을 관리할지 정의하고, 어떻게 바뀌�
 
 | 기능 | 핵심 질문 | 실무 산출물 |
 | :--- | :--- | :--- |
-| [형상 식별](/knowledge-base/studynote/04_software_engineering/01_overview_principles/021_configuration_identification/) ([Configuration Identification](/knowledge-base/studynote/04_software_engineering/01_overview_principles/021_configuration_identification/)) | 무엇을 관리할 것인가? | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 목록, 명명 규칙, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 체계 |
+| [형상 식별](/knowledge-base/studynote/04_software_engineering/01_overview_principles/021_configuration_identification/) ([Configuration Identification](/knowledge-base/studynote/04_software_engineering/01_overview_principles/021_configuration_identification/)) | 무엇을 관리할 것인가? | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 목록, 명명 규칙, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 체계 |
 | [형상 통제](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/) ([Configuration Control](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/)) | 어떤 변경을 승인할 것인가? | 변경 요청서, 영향 분석서, [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) 회의록 |
 | [형상 상태 기록](/knowledge-base/studynote/04_software_engineering/01_overview_principles/024_configuration_status_accounting/) ([Configuration Status Accounting](/knowledge-base/studynote/04_software_engineering/01_overview_principles/024_configuration_status_accounting/)) | 지금 상태가 무엇인가? | [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 현황표, 배포 이력, 릴리스 노트 |
 | [형상 감사](/knowledge-base/studynote/04_software_engineering/01_overview_principles/023_configuration_audit/) ([Configuration Audit](/knowledge-base/studynote/04_software_engineering/01_overview_principles/023_configuration_audit/)) | 관리 절차와 결과가 맞는가? | 기능/물리 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 결과, 증빙 문서 |
@@ -114,7 +114,7 @@ SCM은 자주 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 형상 항목 ([Configuration Item](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))이 코드 외 문서·[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)·배포 패키지까지 정의되어 있는가?
+1. 형상 항목 ([Configuration Item](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/))이 코드 외 문서·[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)·배포 패키지까지 정의되어 있는가?
 2. 운영 반영 전 변경 요청, 영향 분석, 승인 기록이 남는가?
 3. 릴리스 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)과 배포 대상 환경이 1:1로 추적되는가?
 4. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)나 장애 대응 시 이전 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)으로 복원 가능한가?
@@ -147,7 +147,7 @@ SCM을 제대로 운영하면 변경 추적성, 릴리스 재현성, [감사](/k
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) ([Configuration Item](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)) | 소스코드, 문서, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 등 SCM이 직접 관리하는 단위 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) ([Configuration Item](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)) | 소스코드, 문서, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 등 SCM이 직접 관리하는 단위 |
 | [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) ([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)) | 공식 승인된 기준 상태로, 변경 비교와 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)의 기준점 |
 | [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) ([Configuration Control](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/) Board) | 주요 변경의 승인·반려를 결정하는 통제 조직 |
 | SCMP ([Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) Plan) | SCM 범위, 절차, 책임을 정의하는 계획 문서 |

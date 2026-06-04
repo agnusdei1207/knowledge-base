@@ -132,13 +132,13 @@ DR 전환 후 Consumer 재시작:
 | [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)-and-Spoke | 중앙 -> 다수 지역 | 중앙 집중식 관리 | 중앙 장애 시 전체 영향 |
 | Fan-Out | 1 소스 -> N 대상 | 동일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 다목적 활용 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 소모 |
 
-### 2. [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) MirrorMaker 2 vs [Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) Replicator
+### 2. [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) MirrorMaker 2 vs [Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/) Replicator
 
-| 항목 | MirrorMaker 2 ([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)) | [Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) Replicator (상용) |
+| 항목 | MirrorMaker 2 ([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)) | [Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/) Replicator (상용) |
 |:---|:---|:---|
-| 라이선스 | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) | 유료 ([Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) Enterprise) |
+| 라이선스 | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) | 유료 ([Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/) Enterprise) |
 | 오프셋 변환 | ✅ | ✅ (더 세밀한 제어) |
-| [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Connect 기본 | [Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) Control Center |
+| [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Connect 기본 | [Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/) Control Center |
 | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) | 별도 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 필요 | 자동 통합 |
 
 **📢 섹션 요약 비유**

@@ -117,7 +117,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 431 / 530
 
-<- **이전**: [352. 품질 속성 시나리오 (Quality Attribute Scenario)](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/)
+<- **이전**: [352. 품질 속성 시나리오 (Quality Attribute Scenario)](/knowledge-base/studynote/12_it_management/05_security_compliance/993_process/)
 **다음**: [354. 객체지향 SOLID 5원칙 (SOLID Principles)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/354_solid_5/) ->
 
 ---

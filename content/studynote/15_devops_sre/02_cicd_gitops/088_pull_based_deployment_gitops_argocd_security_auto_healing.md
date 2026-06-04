@@ -19,7 +19,7 @@ tags = ["studynote-devops"]
 
 ## Ⅰ. 개요 및 필요성
 
-전통적인 푸시(Push) 기반 배포 방식에서는 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/))와 같은 외부 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 도구가 빌드를 마친 후 직접 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터에 접속하여 배포 명령(`kubectl apply`)을 내렸다. 이 구조에서는 외부 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 서버가 핵심 인프라의 막강한 제어 권한과 비밀번호를 모두 들고 있어야 했으며, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버가 해킹당하면 전체 인프라가 넘어가는 심각한 보안 위협이 존재했다.
+전통적인 푸시(Push) 기반 배포 방식에서는 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/))와 같은 외부 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 도구가 빌드를 마친 후 직접 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터에 접속하여 배포 명령(`kubectl apply`)을 내렸다. 이 구조에서는 외부 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 서버가 핵심 인프라의 막강한 제어 권한과 비밀번호를 모두 들고 있어야 했으며, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 서버가 해킹당하면 전체 인프라가 넘어가는 심각한 보안 위협이 존재했다.
 
 이러한 문제를 해결하기 위해 배포의 방향을 180도 뒤집은 것이 풀 기반(Pull-based) 배포다. 클러스터 안쪽에 권한을 가진 에이전트를 배치하고, 이 에이전트가 오직 바깥의 Git 저장소만 쳐다보며 변경 사항을 가져오게(Pull) 만든 것이다. 이를 통해 외부에서는 클러스터의 존재조차 알 필요가 없는 강력한 격리 환경이 완성되었다.
 
@@ -68,13 +68,13 @@ tags = ["studynote-devops"]
 | 비교 축 | [Push-based](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/087_push_based_deployment_jenkins_ci_cd_security_risk/) 배포 | Pull-based 배포 ([GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)) |
 | :--- | :--- | :--- |
 | **제어 주체 위치** | 클러스터 외부 ([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/), GitHub Actions) | 클러스터 내부 (ArgoCD, FluxCD) |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 및 <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a> 보안</strong> | 외부 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버가 클러스터 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 소유해야 함 | 클러스터가 외부 Git 접근 토큰만 보유하면 됨 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 및 <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a> 보안</strong> | 외부 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 서버가 클러스터 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 소유해야 함 | 클러스터가 외부 Git 접근 토큰만 보유하면 됨 |
 | **진실의 원천 (SSOT)** | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 스크립트 실행 결과 | Git에 저장된 선언형 매니페스트 (YAML) |
 | <strong>장애 시 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> 방식</strong> | 이전 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 재실행 등 수동 개입 | Git Commit Revert 시 즉각 자동 반영 |
 
 Pull 방식은 애플리케이션 소스코드를 담은 'App Repo'와 배포 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) YAML을 담은 '[Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) Repo'를 분리하는 구조와 강하게 연결된다. 빌드는 App Repo에서 푸시 방식으로 끝나고, 배포는 [Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) Repo 업데이트를 통해 풀 방식으로 처리되기 때문이다.
 
-- **📢 섹션 요약 비유**: 주방장([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))은 요리(빌드)만 해서 진열대에 올려두고, 매장 매니저(CD 에이전트)가 진열대(Git)를 보고 직접 매장(클러스터)을 꾸미도록 역할을 철저히 분리한 구조다.
+- **📢 섹션 요약 비유**: 주방장([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/))은 요리(빌드)만 해서 진열대에 올려두고, 매장 매니저(CD 에이전트)가 진열대(Git)를 보고 직접 매장(클러스터)을 꾸미도록 역할을 철저히 분리한 구조다.
 
 ---
 

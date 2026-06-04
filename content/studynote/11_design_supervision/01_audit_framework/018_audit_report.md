@@ -86,7 +86,7 @@ tags = ["design_supervision"]
 | **조치 의무** | 사업 종료 전 **반드시** 조치하고 감리원의 재확인을 받아야 함 | 가급적 조치하되, 일정/비용 상 제약 시 사유서 제출로 갈음 가능 | **종료 조건 여부** |
 | **미조치 파급** | 검수 불합격, 잔금 지급 보류, 지체상금 부과 대상 | 향후 유지보수 시 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)(Tech Debt)로 이관됨 | **비즈니스 임팩트** |
 
-컨설팅 영역의 보고서와 감리 보고서를 비교해 보면, 컨설팅([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/), [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) 등)은 '미래의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(To-Be)' 제시에 초점이 맞춰져 있는 반면, 감리 보고서는 '현재의 계약(RFP)과 산출물의 일치 여부([As-Is](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))'라는 과거-현재 지향적이고 통제적인 성격이 훨씬 강합니다.
+컨설팅 영역의 보고서와 감리 보고서를 비교해 보면, 컨설팅([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/), [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/) 등)은 '미래의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(To-Be)' 제시에 초점이 맞춰져 있는 반면, 감리 보고서는 '현재의 계약(RFP)과 산출물의 일치 여부([As-Is](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))'라는 과거-현재 지향적이고 통제적인 성격이 훨씬 강합니다.
 따라서 감리원은 뛰어난 기술력을 가졌더라도 제안서나 계약 범위에 없는 최신 기술 트렌드를 무리하게 '필수 시정 조치'로 강제해서는 안 됩니다. (오버엔지니어링의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/))
 
 > 📢 **섹션 요약 비유**: 필수 시정 조치가 자동차 브레이크 고장처럼 '당장 고치지 않으면 출고 불가능한 치명적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)'이라면, 권고 사항은 '연비를 높이기 위해 타이어 공기압을 조절하면 좋겠다'는 튜닝 팁에 해당합니다.
@@ -103,7 +103,7 @@ tags = ["design_supervision"]
 
 2. **시나리오: 사업자의 거센 반발 예상 지적**
    - **상황**: 시스템 아키텍처가 전면 재설계되어야 할 수준의 중대한 보안 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 적시해야 함 (일정 1달 이상 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 예상).
-   - **판단**: 보고서에 일방적으로 작성하기 전에, [종료 회의](/knowledge-base/studynote/11_design_supervision/01_audit_framework/019_exit_meeting/)([Exit Meeting](/knowledge-base/studynote/11_design_supervision/01_audit_framework/019_exit_meeting/))나 사전 브리핑을 통해 발주자와 사업자에게 해당 이슈의 심각성([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))을 선제적으로 설명해야 합니다. 보고서에는 "현재 구조의 법적 한계(문제점) -> 단기적 [워크어라운드](/knowledge-base/studynote/12_it_management/02_itsm_itil/076_workaround_temporary_fix_incident/)(단기 조치) -> 장기적 아키텍처 개편(장기 조치)"로 나누어 작성하여, 프로젝트가 파국(소송)으로 가지 않도록 출구 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 제시하는 고도의 판단력이 필요합니다.
+   - **판단**: 보고서에 일방적으로 작성하기 전에, [종료 회의](/knowledge-base/studynote/11_design_supervision/01_audit_framework/019_exit_meeting/)([Exit Meeting](/knowledge-base/studynote/11_design_supervision/01_audit_framework/019_exit_meeting/))나 사전 브리핑을 통해 발주자와 사업자에게 해당 이슈의 심각성([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))을 선제적으로 설명해야 합니다. 보고서에는 "현재 구조의 법적 한계(문제점) -> 단기적 [워크어라운드](/knowledge-base/studynote/12_it_management/02_itsm_itil/860_workaround_temporary_fix_incident/)(단기 조치) -> 장기적 아키텍처 개편(장기 조치)"로 나누어 작성하여, 프로젝트가 파국(소송)으로 가지 않도록 출구 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 제시하는 고도의 판단력이 필요합니다.
 
 ```text
 [감리 보고서 품질 검증 플로우]
@@ -143,7 +143,7 @@ tags = ["design_supervision"]
 
 ---
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-* [조치 결과 확인](/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_follow_up_action_verification/) (Follow-up) | 감리 보고서에 적시된 시정 조치 권고 사항이 제대로 이행되었는지 점검하는 후속 절차
+* [조치 결과 확인](/knowledge-base/studynote/11_design_supervision/01_audit_framework/602_follow_up_action_verification/) (Follow-up) | 감리 보고서에 적시된 시정 조치 권고 사항이 제대로 이행되었는지 점검하는 후속 절차
 * [종료 회의](/knowledge-base/studynote/11_design_supervision/01_audit_framework/019_exit_meeting/) ([Exit Meeting](/knowledge-base/studynote/11_design_supervision/01_audit_framework/019_exit_meeting/)) | 감리 보고서의 최종안을 확정하기 전, 발주자와 피감리인과 모여 이견을 조율하는 회의
 * [요구사항 추적 매트릭스](/knowledge-base/studynote/04_software_engineering/03_design_architecture/157_requirements_traceability_matrix_rtm/) ([RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)) | 감리 보고서에서 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 지적할 때 가장 기본이 되는 '[기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)' 추적 문서
 * 필수 시정 조치 (Major Finding) | 감리 보고서에서 사업자가 반드시 조치해야만 과업 완료로 인정되는 핵심 지적 사항

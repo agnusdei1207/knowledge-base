@@ -101,7 +101,7 @@ RO TRNG는 온칩 난수 공급을 저비용으로 실현해 [보안 부팅](/kn
 | :--- | :--- |
 | 지터 (Jitter) | RO TRNG가 이용하는 직접 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 원천 |
 | 조건화기 (Conditioner) | 편향을 줄여 암호용 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 품질을 높이는 후처리 |
-| [Injection](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) [Locking](/knowledge-base/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/) | 외부 주파수로 RO를 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)시키는 대표 공격 |
+| [Injection](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) [Locking](/knowledge-base/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/) | 외부 주파수로 RO를 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)시키는 대표 공격 |
 | 헬스 테스트 | 지속적으로 난수 품질을 감시하는 운용 계층 |
 
 ### 📈 관련 키워드 및 발전 흐름도

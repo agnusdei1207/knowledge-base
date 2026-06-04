@@ -166,6 +166,6 @@ COCOMO는 시대가 변하면서 진화했고, 다른 산정 기법들과 경쟁
 **진행 상황**: 844 / 973
 
 <- **이전**: [671. UML 클래스, 시퀀스, 액티비티 다이어그램](/knowledge-base/studynote/04_software_engineering/uncategorized/671_uml_diagrams_class_sequence/)
-**다음**: [672. 소프트웨어 비용 산정 COCOMO](/knowledge-base/studynote/04_software_engineering/uncategorized/672_software_cost_estimation_cocomo/) ->
+**다음**: [672. 소프트웨어 비용 산정 COCOMO](/knowledge-base/studynote/04_software_engineering/uncategorized/973_software_cost_estimation_cocomo/) ->
 
 ---

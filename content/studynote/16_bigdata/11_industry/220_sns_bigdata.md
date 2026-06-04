@@ -12,7 +12,7 @@ tags = ["studynote-bigdata"]
 ## 핵심 인사이트 (3줄 요약)
 
 - SNS 빅데이터의 핵심은 <strong>속도</strong>다. 트위터 파이어호스(Twitter Firehose)는 분당 수백만 건의 트윗을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하며, 실시간 처리 없이는 트렌드 감지가 불가능하다.
-- [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)([Sentiment Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/))은 텍스트의 긍·부정을 넘어 측면별(Aspect-Based) 의견과 정치적 입장까지 포착하는 방향으로 진화했다.
+- [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)([Sentiment Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/))은 텍스트의 긍·부정을 넘어 측면별(Aspect-Based) 의견과 정치적 입장까지 포착하는 방향으로 진화했다.
 - 허위 정보(Misinformation) 탐지는 기술적 문제이자 사회적 책임이며, 네트워크 전파 패턴이 허위 정보의 핵심 특징이다.
 
 ---
@@ -101,7 +101,7 @@ SNS 플랫폼은 하루 수억 건의 포스팅·댓글·좋아요를 [생성](/
 
 ## Ⅲ. 비교 및 연결
 
-### [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/) 기법 비교
+### [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/) 기법 비교
 
 | 기법 | 원리 | 정확도 | 적합 상황 |
 |:---|:---|:---|:---|
@@ -158,7 +158,7 @@ SNS 플랫폼은 하루 수억 건의 포스팅·댓글·좋아요를 [생성](/
 |:---|:---|
 | 여론 분석 | 선거 여론 예측 정확도 75~85% |
 | 브랜드 위기 대응 | 경보 시스템으로 대응 시간 수시간 -> 1시간 이하 단축 |
-| 인플루언서 마케팅 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) | 정확한 타겟 인플루언서 선별로 캠페인 효율 2~3배 향상 |
+| 인플루언서 마케팅 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) | 정확한 타겟 인플루언서 선별로 캠페인 효율 2~3배 향상 |
 | 허위 정보 탐지 | 네트워크 분석 기반 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 차단으로 전파 30~50% 감소 |
 
 **결론**: SNS 빅데이터는 사회적 담론의 실시간 거울이다. 기술사는 정치적 중립성·사생활 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)·[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 편향의 세 가지 윤리 원칙을 기술 설계 단계에서 내재화해야 한다.
@@ -171,7 +171,7 @@ SNS 플랫폼은 하루 수억 건의 포스팅·댓글·좋아요를 [생성](/
 
 | 개념 | 연관 개념 | 비고 |
 |:---|:---|:---|
-| [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/) | [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), VADER, Aspect-Based, KoNLPy | NLP 핵심 응용 |
+| [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/) | [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), VADER, Aspect-Based, KoNLPy | NLP 핵심 응용 |
 | [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 탐지 | Kleinberg [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), 시계열 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) | 트렌드 포착 |
 | PageRank | 인플루언서 점수, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB | 영향력 측정 |
 | 허위 정보 탐지 | 전파 패턴, 봇 탐지, 팩트체킹 | 정보 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) |
@@ -200,7 +200,7 @@ SNS [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relatio
 ### 👶 어린이를 위한 3줄 비유 설명
 
 - SNS 빅데이터는 "인터넷 광장에서 수억 명이 하는 말을 듣고 지금 가장 핫한 주제를 찾는 것"이다.
-- [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)은 "댓글이 화난 말인지 기쁜 말인지 AI가 구분하는 것"이다.
+- [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)은 "댓글이 화난 말인지 기쁜 말인지 AI가 구분하는 것"이다.
 - 허위 정보 탐지는 "너무 빠르게 퍼지는 소문은 가짜일 가능성이 높다는 것을 AI가 아는 것"이다.
 
 ---

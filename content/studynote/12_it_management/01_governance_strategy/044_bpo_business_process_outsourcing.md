@@ -19,7 +19,7 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. 개요 및 필요성
 
-BPO (Business [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Outsourcing)는 IT뿐 아니라 인사, 총무 등 비즈니스 프로세스 자체를 아웃소싱에 초점을 맞춘다. 이 개념이 필요한 이유는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위를 같은 언어로 맞추지 못하면 각 부서가 서로 다른 성공 기준으로 움직이기 쉽기 때문이다. 특히 IT 거버넌스 및 IT 경영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (80개) 영역에서는 용어를 아는 것보다도 어떤 상황에서 이 개념을 꺼내야 하는지 아는 편이 더 중요하다.
+BPO (Business [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Outsourcing)는 IT뿐 아니라 인사, 총무 등 비즈니스 프로세스 자체를 아웃소싱에 초점을 맞춘다. 이 개념이 필요한 이유는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위를 같은 언어로 맞추지 못하면 각 부서가 서로 다른 성공 기준으로 움직이기 쉽기 때문이다. 특히 IT 거버넌스 및 IT 경영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (80개) 영역에서는 용어를 아는 것보다도 어떤 상황에서 이 개념을 꺼내야 하는지 아는 편이 더 중요하다.
 
 실무에서는 이 개념을 단순 정의로 외우기보다 조직이 무엇을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)·개선·정렬하려는지에 맞춰 읽어야 한다. 그래서 기술사 답안에서도 배경, 필요성, 실패 시 위험을 먼저 말하고 나서 구조와 지표를 붙여 주는 편이 설득력이 높다.
 
@@ -75,8 +75,8 @@ BPO의 핵심 원리는 입력 기준, 실행 규칙, 측정 지표, 개선 루�
 | 비교 대상 | 경계 차이 | 판단 포인트 |
 |:---|:---|:---|
 | IT 아웃소싱  [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 'IT 아웃소싱  [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
-| [클라우드 매니지드 서비스](/knowledge-base/studynote/12_it_management/01_governance_strategy/045_msp_managed_service_provider/) | '[클라우드 매니지드 서비스](/knowledge-base/studynote/12_it_management/01_governance_strategy/045_msp_managed_service_provider/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
-| [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/) | '[그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
+| [클라우드 매니지드 서비스](/knowledge-base/studynote/12_it_management/01_governance_strategy/837_msp_managed_service_provider/) | '[클라우드 매니지드 서비스](/knowledge-base/studynote/12_it_management/01_governance_strategy/837_msp_managed_service_provider/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
+| [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/833_growth_hacking/) | '[그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/833_growth_hacking/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
 
 따라서 시험 답안에서는 "무엇과 다르며 왜 같이 보아야 하는가"를 짝지어 말하는 것이 중요하다. 실무에서도 현재 문제가 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 정렬인지, 운영 절차인지, 보안 통제인지에 따라 BPO의 사용 위치가 달라진다.
 
@@ -119,8 +119,8 @@ BPO의 핵심 원리는 입력 기준, 실행 규칙, 측정 지표, 개선 루�
 | 개념 | 연결 포인트 |
 |:---|:---|
 | IT 아웃소싱  [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
-| [클라우드 매니지드 서비스](/knowledge-base/studynote/12_it_management/01_governance_strategy/045_msp_managed_service_provider/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
-| [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
+| [클라우드 매니지드 서비스](/knowledge-base/studynote/12_it_management/01_governance_strategy/837_msp_managed_service_provider/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
+| [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/833_growth_hacking/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
 | IT 거버넌스 | 현재 개념을 IT 거버넌스 관점과 연결해 실무 맥락을 넓힌다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -148,7 +148,7 @@ BPO의 핵심 원리는 입력 기준, 실행 규칙, 측정 지표, 개선 루�
 
 **진행 상황**: 79 / 587
 
-<- **이전**: [43. IT 아웃소싱 (ITO, IT Outsourcing) 전략](/knowledge-base/studynote/12_it_management/01_governance_strategy/043_it_outsourcing_strategy/)
-**다음**: [044. BPO — 비즈니스 프로세스 아웃소싱](/knowledge-base/studynote/12_it_management/01_governance_strategy/044_business_process_outsourcing_bpo/) ->
+<- **이전**: [43. IT 아웃소싱 (ITO, IT Outsourcing) 전략](/knowledge-base/studynote/12_it_management/01_governance_strategy/835_it_outsourcing_strategy/)
+**다음**: [044. BPO — 비즈니스 프로세스 아웃소싱](/knowledge-base/studynote/12_it_management/01_governance_strategy/836_business_process_outsourcing_bpo/) ->
 
 ---

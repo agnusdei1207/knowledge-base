@@ -124,7 +124,7 @@ tags = ["studynote-cloud-architecture"]
 
 **진행 상황**: 307 / 371
 
-<- **이전**: [307. 피처 플래그 기능 토글 동적 노출 (Feature Flag)](/knowledge-base/studynote/12_it_management/05_security_compliance/307_process/)
+<- **이전**: [307. 피처 플래그 기능 토글 동적 노출 (Feature Flag)](/knowledge-base/studynote/12_it_management/05_security_compliance/949_process/)
 **다음**: [309. 하둡 분산 시스템 HDFS 디스크 맵리듀스 병목 (HDFS)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/309_hdfs/) ->
 
 ---

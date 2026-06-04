@@ -106,7 +106,7 @@ tags = ["software_engineering"]
 | 실무 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (주의사항) | 판단 기준 |
 |:---|:---|
 | **문서를 위한 문서** | 개발 시간보다 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 프로세서 작업 시간이 더 긴 주객전도 현상 방지 |
-| <strong>가짜 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a>률 (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/">Fake</a> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">Progress</a>)</strong> | "코딩 90% 완료"라는 모호한 수치가 아닌, "[단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 통과율 90%" 등 정량적 지표 관리 |
+| <strong>가짜 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a>률 (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/855_fake_test_double/">Fake</a> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">Progress</a>)</strong> | "코딩 90% 완료"라는 모호한 수치가 아닌, "[단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 통과율 90%" 등 정량적 지표 관리 |
 | **요구사항 빙산의 일각** | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 고객 본인조차 자신이 원하는 바를 완벽히 알지 못한다는 사실을 인지하고 무조건 동결하는 위험 경계 |
 
 ```text
@@ -121,14 +121,14 @@ tags = ["software_engineering"]
                      (점진적 기능 개발)
 ```
 **[도식 설명]**
-이 흐름도는 실무에서 폭포수의 장점(명확한 관리, 규제 대응)과 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 장점(유연한 개발 속도)을 결합한 하이브리드 아키텍처를 보여준다. 거시적인 시스템 아키텍처 설계와 최종 [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)는 폭포수 방식으로 엄격하게 통제하되, 내부 구현 단계에서는 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/))을 도입하여 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 단위로 반복 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 수행한다. 이는 SI(시스템 통합) 프로젝트에서 현실적인 타협안으로 가장 널리 쓰인다.
+이 흐름도는 실무에서 폭포수의 장점(명확한 관리, 규제 대응)과 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 장점(유연한 개발 속도)을 결합한 하이브리드 아키텍처를 보여준다. 거시적인 시스템 아키텍처 설계와 최종 [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)는 폭포수 방식으로 엄격하게 통제하되, 내부 구현 단계에서는 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/))을 도입하여 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 단위로 반복 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 수행한다. 이는 SI(시스템 통합) 프로젝트에서 현실적인 타협안으로 가장 널리 쓰인다.
 
 📢 **섹션 요약 비유**: 건물의 큰 뼈대와 기둥 위치는 시청의 엄격한 허가(폭포수)를 받아 세우되, 내부 인테리어와 가구 배치는 입주자의 마음이 바뀔 때마다([스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)) 유연하게 옮길 수 있도록 결합하는 전략입니다.
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 폭포수 모델은 완벽한 통제력과 예측 가능성을 무기로 대규모 IT 시스템의 태동기를 이끌었다.
 
-| 장점 (도입 효과) | 단점 (실패 조건) | [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 판단 핵심 |
+| 장점 (도입 효과) | 단점 (실패 조건) | [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 판단 핵심 |
 |:---|:---|:---|
 | 단계별 산출물이 명확하여 PM의 일정/예산 통제 용이 | 고객 요구사항 변경 수용이 구조적으로 불가능에 가까움 | 요구사항이 얼마나 확고한가? |
 | 참여 인력의 이탈/교체 시 문서 기반 인수인계 수월 | 테스트 단계 전까지 작동하는 시스템을 볼 수 없음 | 개발 기간 중 비즈니스 환경이 급변하는가? |

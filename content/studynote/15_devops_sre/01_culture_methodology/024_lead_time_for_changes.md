@@ -12,7 +12,7 @@ tags = ["studynote-devops-sre"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: LTC ([Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) for Changes, 변경 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/))는 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) Research and Assessment) 4대 지표 중 하나로, 코드가 커밋된 시점부터 프로덕션(Production)에 성공적으로 배포되기까지 걸리는 총 시간을 측정하는 소프트웨어 딜리버리 속도 지표다.
 > 2. **가치**: LTC는 개발 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))을 가시화하며, Elite 수준 팀은 LTC < 1시간을 달성하는 반면 Low 팀은 6개월 이상이다. LTC 단축은 고객 피드백 -> 코드 반영 -> 배포까지의 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하여 시장 대응력을 높인다.
-> 3. **판단 포인트**: LTC는 단순히 배포 자동화 속도가 아닌 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 리뷰 대기·QA 병목·수동 승인 프로세스 등 모든 대기 시간을 포함한다. LTC 개선의 핵심은 자동화([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)보다 먼저 업무 흐름의 대기 시간([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) Time) 제거이다.
+> 3. **판단 포인트**: LTC는 단순히 배포 자동화 속도가 아닌 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 리뷰 대기·QA 병목·수동 승인 프로세스 등 모든 대기 시간을 포함한다. LTC 개선의 핵심은 자동화([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD)보다 먼저 업무 흐름의 대기 시간([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) Time) 제거이다.
 
 ---
 
@@ -95,13 +95,13 @@ LTC와 DF는 "속도" 지표, CFR과 MTTR은 "안정성" 지표로 서로 보완
 2. **병목 분석**: [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 리뷰 평균 대기 4일 -> 핵심 병목 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
 3. **Trunk-based 전환**: 장수 브랜치 제거, 매일 main 머지.
 4. <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/">PR</a> 규칙</strong>: PR당 200줄 이하 코드 변경 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 도입.
-5. **자동화 QA**: Playwright [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 테스트 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 통합 -> 수동 QA 80% 제거.
+5. **자동화 QA**: Playwright [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 테스트 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 통합 -> 수동 QA 80% 제거.
 6. **결과**: LTC 30일 -> 4시간 (99% 단축).
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- LTC 측정 없이 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 도구만 도입하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). 자동화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 구축 후 "빨라졌겠지" 하고 LTC를 측정하지 않으면 실제 병목([PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 대기, QA)이 해소되지 않았음을 모른다. "측정하지 않는 것은 개선할 수 없다(If you can't measure it, you can't improve it)."
+- LTC 측정 없이 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 도구만 도입하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). 자동화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 구축 후 "빨라졌겠지" 하고 LTC를 측정하지 않으면 실제 병목([PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 대기, QA)이 해소되지 않았음을 모른다. "측정하지 않는 것은 개선할 수 없다(If you can't measure it, you can't improve it)."
 
-- **📢 섹션 요약 비유**: LTC 측정 없이 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD만 도입하는 건, 식당 주방 속도만 올리고 홀 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 대기 시간을 무시하는 것이다. 손님이 느린 이유는 주방이 아니라 홀 대기에 있을 수 있다.
+- **📢 섹션 요약 비유**: LTC 측정 없이 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD만 도입하는 건, 식당 주방 속도만 올리고 홀 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 대기 시간을 무시하는 것이다. 손님이 느린 이유는 주방이 아니라 홀 대기에 있을 수 있다.
 
 ---
 
@@ -115,7 +115,7 @@ LTC와 DF는 "속도" 지표, CFR과 MTTR은 "안정성" 지표로 서로 보완
 
 LTC는 DORA의 SPACE 프레임워크(Satisfaction·[Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·Activity·Communication·Efficiency)로 확장되어 [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)(Developer Experience, [DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/)) 관점의 생산성 측정으로 발전하고 있다.
 
-- **📢 섹션 요약 비유**: LTC 단축은 가속 페달을 밟는 것이 아니라 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등(병목)을 제거하는 것이다. 빠른 차([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 자동화)가 있어도 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등이 많으면 목적지에 늦게 도착한다.
+- **📢 섹션 요약 비유**: LTC 단축은 가속 페달을 밟는 것이 아니라 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등(병목)을 제거하는 것이다. 빠른 차([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 자동화)가 있어도 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등이 많으면 목적지에 늦게 도착한다.
 
 ---
 
@@ -126,7 +126,7 @@ LTC는 DORA의 SPACE 프레임워크(Satisfaction·[Performance](/knowledge-base
 | <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/">DORA</a> 4대 지표</strong> | LTC가 속하는 소프트웨어 딜리버리 성과 측정 체계 |
 | <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/">Trunk-based Development</a></strong> | LTC 단축을 위한 개발 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 | **Feature Flags** | 배포와 릴리스 분리 -> LTC 단축 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD</strong> | LTC 단축의 기술적 기반; 자동화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD</strong> | LTC 단축의 기술적 기반; 자동화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 |
 | <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/">DORA</a> Elite</strong> | LTC < 1시간 달성 조직 수준 |
 
 ### 📈 관련 키워드 및 발전 흐름도

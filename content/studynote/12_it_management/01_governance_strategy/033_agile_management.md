@@ -10,8 +10,8 @@ tags = ["studynote-it-management"]
 +++
 
 > **핵심 인사이트 3줄**
-> 1. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 관리([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))는 짧은 반복 주기([스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/))를 통해 고객 가치를 지속 전달하고, 변화에 신속히 적응하는 인간 중심의 경량 프로젝트 관리 방식이다.
-> 2. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 선언(2001년)의 4대 가치와 12원칙이 이론 기반이며, [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)·[Kanban](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)·SAFe가 주요 실천 프레임워크로 대부분의 IT 프로젝트에 적용되고 있다.
+> 1. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 관리([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/))는 짧은 반복 주기([스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/))를 통해 고객 가치를 지속 전달하고, 변화에 신속히 적응하는 인간 중심의 경량 프로젝트 관리 방식이다.
+> 2. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 선언(2001년)의 4대 가치와 12원칙이 이론 기반이며, [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/)·[Kanban](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)·SAFe가 주요 실천 프레임워크로 대부분의 IT 프로젝트에 적용되고 있다.
 > 3. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 핵심은 '계획 준수'가 아닌 '적응과 학습'이며, 측정 지표(벨로시티·[번다운 차트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/072_burndown_burnup_chart/)·사이클 타임)로 팀 성과를 가시화하고 지속적으로 개선하는 것이다.
 
 ---
@@ -33,9 +33,9 @@ tags = ["studynote-it-management"]
 
 ---
 
-## Ⅱ. [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/) 프레임워크
+## Ⅱ. [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/) 프레임워크
 
-### [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/) 3대 역할
+### [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/) 3대 역할
 
 | 역할              | 책임                              |
 |-----------------|----------------------------------|
@@ -43,7 +43,7 @@ tags = ["studynote-it-management"]
 | [Scrum Master](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/064_scrum_master_sm/) ([SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/))  | 팀 코치·장애물 제거·[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 촉진  |
 | [Development Team](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/065_development_team_scrum/)   | 자기 조직화 개발 (3~9명)         |
 
-### [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/) 이벤트 (2주 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 기준)
+### [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/) 이벤트 (2주 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 기준)
 
 ```
 스프린트 계획 (Planning) — 2h
@@ -63,7 +63,7 @@ tags = ["studynote-it-management"]
 | [Sprint](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) Backlog   | 현 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 목록            |
 | Increment        | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 결과물 (잠재 출시 가능)  |
 
-📢 **섹션 요약 비유**: [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/) [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)는 마라톤 대신 릴레이 경주다 — 2주마다 배턴(Increment)을 넘기며 방향을 수정하고, 다음 구간을 더 잘 달릴 준비를 한다.
+📢 **섹션 요약 비유**: [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/) [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)는 마라톤 대신 릴레이 경주다 — 2주마다 배턴(Increment)을 넘기며 방향을 수정하고, 다음 구간을 더 잘 달릴 준비를 한다.
 
 ---
 
@@ -126,21 +126,21 @@ Essential SAFe: 팀 + ART (Agile Release Train) 수준
 Large SAFe:    Portfolio + Solution + ART + Team
 ```
 
-### [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) (Program Increment) Planning
+### [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/) (Program Increment) Planning
 
 - 전체 팀(100명+)이 분기별 8~12주 로드맵 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)
 - 팀 간 의존성 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)·조율
-- 공통 [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) 목표 수립
+- 공통 [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/) 목표 수립
 
-### [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/) vs [Kanban](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) vs [SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)
+### [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/) vs [Kanban](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) vs [SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)
 
 | 프레임워크  | 적합 팀 규모   | 주요 특징            |
 |----------|-------------|---------------------|
-| [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)    | 3~9명 단일 팀 | 2주 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)·역할 분담 |
+| [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/)    | 3~9명 단일 팀 | 2주 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)·역할 분담 |
 | [Kanban](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)   | 운영·지원 팀  | 흐름 최적화·WIP 제한  |
 | [SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)     | 100명+ 기업  | 포트폴리오·[ART](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/) 조율   |
 
-📢 **섹션 요약 비유**: SAFe는 여러 팀이 같은 악보로 연주하는 오케스트라다 — 각 파트(팀)가 독립적이지만 [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) 계획(리허설)으로 전체 곡(제품)을 맞춘다.
+📢 **섹션 요약 비유**: SAFe는 여러 팀이 같은 악보로 연주하는 오케스트라다 — 각 파트(팀)가 독립적이지만 [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/) 계획(리허설)으로 전체 곡(제품)을 맞춘다.
 
 ---
 
@@ -202,7 +202,7 @@ SAFe -> 대규모 PI Planning -> 포트폴리오 레벨 애자일
 
 **진행 상황**: 57 / 587
 
-<- **이전**: [32. 네트워크 효과 (Network Effect) / 메트칼프의 법칙](/knowledge-base/studynote/12_it_management/01_governance_strategy/032_network_effect/)
-**다음**: [33. 플랫폼 비즈니스 모델 (Platform Business Model)](/knowledge-base/studynote/12_it_management/01_governance_strategy/033_platform_business_model/) ->
+<- **이전**: [32. 네트워크 효과 (Network Effect) / 메트칼프의 법칙](/knowledge-base/studynote/12_it_management/01_governance_strategy/824_network_effect/)
+**다음**: [33. 플랫폼 비즈니스 모델 (Platform Business Model)](/knowledge-base/studynote/12_it_management/01_governance_strategy/825_platform_business_model/) ->
 
 ---

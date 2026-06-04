@@ -72,7 +72,7 @@ tags = ["studynote-software-engineering"]
 ```
 
 **[다이어그램 해설]**
-오른쪽(운영 단계)에서 하드코딩된 패스워드나 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 취약점이 발견되면, DB 구조를 바꾸고 서비스를 중단하고 긴급 패치를 해야 하는 대재앙이 벌어진다. 하지만 왼쪽(개발 단계)에서 IDE의 보안 플러그인이 "이 코드 취약합니다"라고 즉시 밑줄을 쳐주면, 개발자는 백스페이스를 몇 번 누르는 것만으로(비용 거의 0) 완벽하게 보안을 지켜낼 수 있다.
+오른쪽(운영 단계)에서 하드코딩된 패스워드나 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 취약점이 발견되면, DB 구조를 바꾸고 서비스를 중단하고 긴급 패치를 해야 하는 대재앙이 벌어진다. 하지만 왼쪽(개발 단계)에서 IDE의 보안 플러그인이 "이 코드 취약합니다"라고 즉시 밑줄을 쳐주면, 개발자는 백스페이스를 몇 번 누르는 것만으로(비용 거의 0) 완벽하게 보안을 지켜낼 수 있다.
 
 - **📢 섹션 요약 비유**: 병에 걸리고 나서 수술과 입원(Right)으로 수백만 원을 쓰는 대신, 매일 비타민을 먹고 운동(Left)하여 병 자체를 예방함으로써 시간과 돈을 극적으로 아끼는 예방 의학의 원리와 같습니다.
 
@@ -94,10 +94,10 @@ tags = ["studynote-software-engineering"]
 
 DevSecOps는 구호가 아니라 실체적인 툴 체인(Tool-chain)의 결합이다. 파이프라인 단계별로 각기 다른 자동화 보안 분석 도구가 동작한다.
 
-1. <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/453_sca/">SCA</a> (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/495_sca_software_composition_analysis/">Software Composition Analysis</a>) - 설계/개발 단계</strong>:
+1. <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/453_sca/">SCA</a> (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/887_sca_software_composition_analysis/">Software Composition Analysis</a>) - 설계/개발 단계</strong>:
    - 현대 소프트웨어의 80%는 남이 짠 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)(Log4j 등)로 구성된다. SCA는 `package.json`이나 `pom.xml`을 분석하여 이미 알려진 취약점([CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/))이 있는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 버전을 사용하고 있는지 스캔하고 차단한다.
 2. <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/">SAST</a> (Static Application <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Testing) - 커밋/빌드 단계</strong>:
-   - [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 기법. 개발자가 짠 소스코드 자체(텍스트)를 실행하지 않고 훑어보며, SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/), 하드코딩된 암호 키 등 [코딩 컨벤션](/knowledge-base/studynote/04_software_engineering/06_software_architecture/328_coding_convention_style_guide/) 위반을 컴파일 전에 잡아낸다. 화이트박스 보안 테스트에 해당한다.
+   - [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 기법. 개발자가 짠 소스코드 자체(텍스트)를 실행하지 않고 훑어보며, SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/), 하드코딩된 암호 키 등 [코딩 컨벤션](/knowledge-base/studynote/04_software_engineering/06_software_architecture/328_coding_convention_style_guide/) 위반을 컴파일 전에 잡아낸다. 화이트박스 보안 테스트에 해당한다.
 3. <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/">DAST</a> (Dynamic Application <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Testing) - 테스트/스테이징 단계</strong>:
    - [동적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/) 기법. 애플리케이션이 실제로 실행되어 메모리에 올라간 상태에서, 자동화된 해커 봇이 웹의 폼(Form)과 API에 무작위 악성 페이로드를 쏘아보며(Fuzzing) 보안 취약점을 검증한다. 블랙박스 보안 테스트에 해당한다.
 4. <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/493_iast_interactive_analysis/">IAST</a> (Interactive Application <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Testing)</strong>:
@@ -140,7 +140,7 @@ DevSecOps의 또 다른 혁신은 보안 규정, [방화벽](/knowledge-base/stu
 ```
 
 **[다이어그램 해설]**
-이전에는 개발자가 클라우드 환경을 배포할 때, 보안 팀이 티켓을 받아 "이 설정이 보안 규정에 맞나?" 일일이 대조했다. 컴플라이언스 코드화가 적용된 파이프라인에서는 [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/)([Open Policy Agent](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/)) 같은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진이 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 단계에 삽입된다. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 위반 코드가 푸시되면 보안 팀이 개입하기도 전에 젠킨스가 빌드를 파기(Drop)해버려 휴먼 에러가 물리적으로 차단된다.
+이전에는 개발자가 클라우드 환경을 배포할 때, 보안 팀이 티켓을 받아 "이 설정이 보안 규정에 맞나?" 일일이 대조했다. 컴플라이언스 코드화가 적용된 파이프라인에서는 [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/)([Open Policy Agent](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/)) 같은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진이 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 단계에 삽입된다. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 위반 코드가 푸시되면 보안 팀이 개입하기도 전에 젠킨스가 빌드를 파기(Drop)해버려 휴먼 에러가 물리적으로 차단된다.
 
 - **📢 섹션 요약 비유**: 놀이공원에서 직원이 일일이 줄자로 키를 재는 대신, 키가 120cm 미만이면 애초에 회전목마 입구의 자동문(코드화된 규칙) 자체가 스르륵 닫혀버려서 뚫고 들어갈 수 없게 만드는 것과 같습니다.
 
@@ -160,7 +160,7 @@ DevSecOps의 또 다른 혁신은 보안 규정, [방화벽](/knowledge-base/stu
 |:---|:---|:---|
 | **오탐의 홍수 (False Positives)** | [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) 도구가 조금만 의심스러워도 수천 개의 알람을 쏟아내어 빌드를 멈추면, 개발자들이 보안 경고를 끄거나 무시해버리는 '양치기 소년' 사태가 발생한다. | 처음에는 알람만 주고 빌드를 통과시키되([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) mode), 오탐을 정교하게 튜닝한 후 핵심 룰에 대해서만 차단([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) mode)을 걸어야 한다. |
 | <strong>파이프라인 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (Slow Builds)</strong> | 코드 한 번 올릴 때마다 [DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)/[SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) 스캔에 30분이 걸린다면, 5분 만에 배포하려던 DevOps의 기동성이 완전히 파괴된다. | 딥 스캔은 자정에(Nightly) 비동기로 돌리고, 주간에는 변경된 파일만 가볍게 검사하는 증분 스캔(Incremental Scan)을 적용해야 한다. |
-| <strong>보안 팀의 역할 변화 (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">Silo</a> 재발)</strong> | 보안 도구를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD에 욱여넣고 관리는 여전히 보안 팀이 뒷짐 지고 한다면 결국 사일로는 부활한다. | 보안 담당자는 검사관(Inspector)이 아니라, 자동화 도구를 컨설팅하고 룰을 짜주는 보안 조력자(Enabler)로 직무가 전환되어야 한다. |
+| <strong>보안 팀의 역할 변화 (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">Silo</a> 재발)</strong> | 보안 도구를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD에 욱여넣고 관리는 여전히 보안 팀이 뒷짐 지고 한다면 결국 사일로는 부활한다. | 보안 담당자는 검사관(Inspector)이 아니라, 자동화 도구를 컨설팅하고 룰을 짜주는 보안 조력자(Enabler)로 직무가 전환되어야 한다. |
 
 - **📢 섹션 요약 비유**: 과속을 막기 위해 1km마다 과속 단속 카메라(보안 스캔)를 너무 많이 설치하면, 차들이 아예 앞으로 가지 못해 교통 체증(배포 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))이 끔찍해지므로 꼭 필요한 커브길에만 영리하게 설치해야 하는 딜레마입니다.
 

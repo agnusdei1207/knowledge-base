@@ -123,7 +123,7 @@ tags = ["studynote-ai"]
 | 오프폴리시 학습 ([Off-Policy](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/464_q_learning_off_policy/) [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) | 과거 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 얻은 샘플도 현재 가치 추정에 재사용할 수 있는 학습 틀 |
 | PER (Prioritized Experience Replay) | 큰 TD Error를 가진 경험을 더 자주 뽑아 학습 속도를 높이는 확장 기법 |
 | HER (Hindsight Experience Replay) | 실패 경험의 목표를 재해석해 희소 보상 문제의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 효율을 높이는 기법 |
-| [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 강화학습 (Distributed [Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/)) | 여러 Actor가 중앙 버퍼를 공유해 경험 수집량과 학습량을 확장하는 구조 |
+| [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 강화학습 (Distributed [Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/)) | 여러 Actor가 중앙 버퍼를 공유해 경험 수집량과 학습량을 확장하는 구조 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

@@ -19,7 +19,7 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. 개요 및 필요성
 
-동료 검토는 같은 팀 또는 관련 역할의 구성원이 코드, 설계서, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 같은 산출물을 검토하는 활동이다. 공식 [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) (Inspection)보다 가볍고, 단순 열람보다 체계적이며, 배포 전에 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 앞단에서 제거하는 예방 중심 품질 관리 기법이라는 점이 핵심이다. 오늘날에는 주로 풀 리퀘스트 ([Pull Request](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/), [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)) 기반 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 형태로 구현된다.
+동료 검토는 같은 팀 또는 관련 역할의 구성원이 코드, 설계서, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) 같은 산출물을 검토하는 활동이다. 공식 [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) (Inspection)보다 가볍고, 단순 열람보다 체계적이며, 배포 전에 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 앞단에서 제거하는 예방 중심 품질 관리 기법이라는 점이 핵심이다. 오늘날에는 주로 풀 리퀘스트 ([Pull Request](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/), [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)) 기반 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 형태로 구현된다.
 
 이 활동이 필요한 이유는 작성자 혼자서는 자신의 맥락에 익숙해져 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 놓치기 쉽기 때문이다. 특히 예외 처리 누락, 경계 조건, 보안 취약점, 아키텍처 위반은 컴파일이나 자동 테스트만으로는 충분히 드러나지 않는 경우가 많다. 다른 시각이 들어오면 코드의 논리와 의도가 다시 검증된다.
 
@@ -74,7 +74,7 @@ tags = ["studynote-it-management"]
 | 주 목적 | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견 + 지식 공유 | 이해도 향상 | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 측정과 통제 | 즉시 피드백과 공동 설계 |
 | 적합 상황 | 일반 코드 변경 | 설계 공유, 신규 기능 설명 | 고위험 산출물 | 복잡 로직, 신입 교육 |
 
-또한 동료 검토는 [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))과 긴밀히 연결된다. 자동화 검사가 형식과 반복 규칙을 먼저 걸러 주면, 사람은 아키텍처와 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 판단에 집중할 수 있다. [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 관점에서는 보안 리뷰를 동료 검토 흐름 안에 포함시켜 배포 전 왼쪽으로 당기는 [Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 품질 활동으로 본다.
+또한 동료 검토는 [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/))과 긴밀히 연결된다. 자동화 검사가 형식과 반복 규칙을 먼저 걸러 주면, 사람은 아키텍처와 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 판단에 집중할 수 있다. [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 관점에서는 보안 리뷰를 동료 검토 흐름 안에 포함시켜 배포 전 왼쪽으로 당기는 [Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 품질 활동으로 본다.
 
 따라서 동료 검토는 단독 활동이 아니라 테스트, [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/), [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/), 팀 문화와 연결된 허브다. 리뷰만 잘해도 품질이 해결되는 것이 아니라, 자동화와 역할 분담이 맞물릴 때 효과가 커진다.
 
@@ -110,7 +110,7 @@ tags = ["studynote-it-management"]
 
 동료 검토가 정착되면 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 테스트와 운영 단계로 넘어가기 전에 제거되어 수정 비용이 줄어든다. 동시에 코드 스타일, 설계 원칙, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식이 팀 내부에 축적되어 특정 개인에게 지식이 집중되는 문제를 완화한다. 심리적 안전감이 뒷받침되면 리뷰는 통제 장치가 아니라 학습 장치로 기능한다.
 
-물론 한계도 있다. 리뷰 기준이 없거나 시간이 부족하면 형식적 승인 절차로 변질되고, 팀 문화가 공격적이면 작성자는 방어적으로 반응해 개선 효과가 줄어든다. 그래서 리뷰 문화는 도구 도입만으로 생기지 않으며, 자동화·[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)·리뷰 가이드·리더의 모범이 함께 필요하다.
+물론 한계도 있다. 리뷰 기준이 없거나 시간이 부족하면 형식적 승인 절차로 변질되고, 팀 문화가 공격적이면 작성자는 방어적으로 반응해 개선 효과가 줄어든다. 그래서 리뷰 문화는 도구 도입만으로 생기지 않으며, 자동화·[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)·리뷰 가이드·리더의 모범이 함께 필요하다.
 
 결론적으로 동료 검토는 단순한 코드 검사 절차가 아니라 팀이 품질을 공동 소유하는 운영 방식이다. 잘 설계된 동료 검토는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 줄이는 동시에 팀의 사고방식과 [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/) 이해도를 함께 끌어올린다.
 
@@ -125,7 +125,7 @@ tags = ["studynote-it-management"]
 | [Pull Request](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) ([PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)) | 현대 동료 검토의 대표 실행 단위 |
 | Ego-less Programming | 사람이 아니라 코드를 개선 대상으로 보는 문화 원칙 |
 | [Collective Code Ownership](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/075_collective_code_ownership/) | 코드 오너십을 팀 전체로 확장하는 효과 |
-| [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)) | 자동 검사와 사람 리뷰를 연결하는 품질 게이트 |
+| [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)) | 자동 검사와 사람 리뷰를 연결하는 품질 게이트 |
 | [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) Fatigue | 큰 PR과 느린 응답이 만드는 품질 저하 요인 |
 
 ### 📈 관련 키워드 및 발전 흐름도

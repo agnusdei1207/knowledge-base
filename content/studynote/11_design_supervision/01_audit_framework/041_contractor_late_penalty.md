@@ -12,7 +12,7 @@ tags = ["studynote-design-supervision"]
 > **핵심 인사이트**
 > 1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 진단은 정보 시스템 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 의사결정과 업무 수행에 적합한지를 6대 품질 지표(완전성·유효성·[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·[정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)·적시성·[보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))로 체계적으로 측정하고 개선하는 활동이다.
 > 2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 문제는 "Garbage In, Garbage Out(GIGO)" 원칙에 따라 분석·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·의사결정 시스템의 신뢰성을 직접 훼손하므로, [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 시대에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 관리는 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) 관리와 동등한 중요성을 갖는다.
-> 3. ISO 8000([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질), DQM([Data Quality](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) 국제 표준에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질을 "목적 적합성([Fitness](/knowledge-base/studynote/06_ict_convergence/05_data_science/395_genetic_algorithm_ga_operators/) for Purpose)"으로 정의하며, 절대적 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)보다 사용 목적에 맞는 품질 수준이 중요하다고 강조한다.
+> 3. ISO 8000([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질), DQM([Data Quality](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/)) 국제 표준에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질을 "목적 적합성([Fitness](/knowledge-base/studynote/06_ict_convergence/05_data_science/395_genetic_algorithm_ga_operators/) for Purpose)"으로 정의하며, 절대적 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)보다 사용 목적에 맞는 품질 수준이 중요하다고 강조한다.
 
 ---
 
@@ -130,7 +130,7 @@ tags = ["studynote-design-supervision"]
 
 ---
 
-## Ⅳ. DQM 체계와 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)
+## Ⅳ. DQM 체계와 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)
 
 ```
 DQM (Data Quality Management) 체계:
@@ -260,7 +260,7 @@ Quality Gate as Code
 
 **진행 상황**: 58 / 530
 
-<- **이전**: [40. 클라우드 기반 정보화 사업 감리 가이드 (Cloud-based Audit Guide)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/040_cloud_based_audit/)
-**다음**: [41. 데이터 품질 진단 (Data Quality Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/041_data_quality_diagnosis/) ->
+<- **이전**: [40. 클라우드 기반 정보화 사업 감리 가이드 (Cloud-based Audit Guide)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/617_cloud_based_audit/)
+**다음**: [41. 데이터 품질 진단 (Data Quality Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/618_data_quality_diagnosis/) ->
 
 ---

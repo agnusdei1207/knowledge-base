@@ -137,6 +137,6 @@ Coordinated Disclosure (협력적 공개)를 제대로 이해하면 개념 하�
 **진행 상황**: 154 / 1108
 
 <- **이전**: [102. BLAKE2/BLAKE3 — 빠른 성능 해시, AES 대체](/knowledge-base/studynote/09_security/02_crypto/102_blake2_blake3/)
-**다음**: [1030. 시그폭스 (SigFox) 협대역 통신 (Sigfox Lpwan Ultra Narrow Band IOT)](/knowledge-base/studynote/09_security/uncategorized/1030_sigfox_lpwan_ultra_narrow_band_iot/) ->
+**다음**: [1030. 시그폭스 (SigFox) 협대역 통신 (Sigfox Lpwan Ultra Narrow Band IOT)](/knowledge-base/studynote/09_security/uncategorized/1108_sigfox_lpwan_ultra_narrow_band_iot/) ->
 
 ---

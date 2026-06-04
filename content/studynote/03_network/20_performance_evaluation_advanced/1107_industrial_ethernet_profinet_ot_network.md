@@ -37,7 +37,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-그래서 지멘스(Siemens)가 사무실 랜선을 공장용으로 악랄하게 뜯어고쳐 만든 세계 1위 점유율의 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 표준이 바로 <strong><a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/900_profinet/">PROFINET</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a> Field Net)</strong>입니다.
+그래서 지멘스(Siemens)가 사무실 랜선을 공장용으로 악랄하게 뜯어고쳐 만든 세계 1위 점유율의 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 표준이 바로 <strong><a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/900_profinet/">PROFINET</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/">Process</a> Field Net)</strong>입니다.
 
 - 사무실 PC의 이메일 패킷([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP)과 로봇 팔의 실시간 제어 패킷이 1개의 랜선 안에서 동시에 흐르더라도, 기계가 완벽히 분리 처리하는 짬뽕 융합 기술입니다.
 

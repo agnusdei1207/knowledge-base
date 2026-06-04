@@ -12,7 +12,7 @@ tags = ["studynote-computer-architecture"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: AWS Nitro Enclaves는 EC2 (Elastic Compute Cloud) 인스턴스 안에서 CPU와 메모리 일부를 분리해, 네트워크·스토리지·쉘 접근이 없는 격리 실행 공간을 만드는 서비스다.
-> 2. **가치**: 부모 인스턴스 루트 권한과 클라우드 운영 경계에 대한 불신을 줄이면서도, [KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/) ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))와 원격 증명을 결합해 민감 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리를 클라우드 안에서 안전하게 수행하게 해 준다.
+> 2. **가치**: 부모 인스턴스 루트 권한과 클라우드 운영 경계에 대한 불신을 줄이면서도, [KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/) ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))와 원격 증명을 결합해 민감 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리를 클라우드 안에서 안전하게 수행하게 해 준다.
 > 3. **판단 포인트**: 엔클레이브는 만능 VM이 아니라 작은 금고형 실행 환경이므로, 자원 분할·vsock 통신·상태 비보존성·디버깅 전략을 함께 설계해야 실무 가치가 나온다.
 
 ---

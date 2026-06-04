@@ -11,7 +11,7 @@ tags = ["studynote-database"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/) DB 질의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계 극복 가속화 연구망 설계는 보안·프라이버시 관점에서 자주 쓰이는 보안 통제 개념이다.
+> 1. **본질**: [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/) DB 질의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계 극복 가속화 연구망 설계는 보안·프라이버시 관점에서 자주 쓰이는 보안 통제 개념이다.
 > 2. **가치**: 유출 가능성과 규제 위반 위험을 낮추고 추적 가능성을 높인다. 특히 `동형 암호 DB 질의 성능 한계 극복 가속화 연구망 설계`는 `보안·프라이버시 맥락에서 역할과 경계를 판단해야 하는 주제`를 설계 판단으로 연결해 준다.
 > 3. **판단 포인트**: 보안 계층을 성급히 덧붙이면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하와 키 관리 복잡도가 커질 수 있다. 따라서 무엇을 우선 보호할지와 어느 비용을 감수할지를 함께 봐야 한다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-[동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/) DB 질의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계 극복 가속화 연구망 설계는 보안·프라이버시 관점에서 자주 쓰이는 보안 통제 개념이다. 이 주제가 필요한 이유는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스는 개인정보와 핵심 업무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 동시에 담기 때문에 저장·전송·조회 전 구간의 통제가 필요하다. 특히 `일관된 해싱 노드 이탈 데이터 리밸런싱 극소화 원리`에서 드러난 한계를 줄이고 `트리 구조 매핑 Nested Set 성능 검색 비교 Nested Path 모델` 같은 후속 판단의 기준선을 세울 때 현재 개념이 중심축이 된다.
+[동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/) DB 질의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계 극복 가속화 연구망 설계는 보안·프라이버시 관점에서 자주 쓰이는 보안 통제 개념이다. 이 주제가 필요한 이유는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스는 개인정보와 핵심 업무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 동시에 담기 때문에 저장·전송·조회 전 구간의 통제가 필요하다. 특히 `일관된 해싱 노드 이탈 데이터 리밸런싱 극소화 원리`에서 드러난 한계를 줄이고 `트리 구조 매핑 Nested Set 성능 검색 비교 Nested Path 모델` 같은 후속 판단의 기준선을 세울 때 현재 개념이 중심축이 된다.
 
 시험과 실무에서 `동형 암호 DB 질의 성능 한계 극복 가속화 연구망 설계`를 따로 외우기보다, "무엇을 보호하거나 최적화하려는가"라는 질문으로 연결해야 오래 남는다. 민감정보를 다루는 서비스에서는 저장 시 암호화와 조회 시 최소권한을 함께 설계해야 한다.
 

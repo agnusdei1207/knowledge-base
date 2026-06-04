@@ -114,7 +114,7 @@ SPI를 제대로 이해하려면 [SV](/knowledge-base/studynote/12_it_management
 
 ## Ⅴ. 기대효과 및 결론
 
-SPI를 정기적으로 관리하면 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 초기에 감지하고, 포트폴리오 간 비교 기준을 통일하며, [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 전략의 효과를 수치로 추적할 수 있다. 특히 [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) ([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Body of Knowledge) 기반의 프로젝트 통제에서는 SPI가 경영진 보고와 현장 의사결정 사이를 이어 주는 공통 언어 역할을 한다. 단순한 "늦고 있다"가 아니라 "계획 대비 몇 퍼센트 효율로 가고 있는가"를 말해 주기 때문이다.
+SPI를 정기적으로 관리하면 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 초기에 감지하고, 포트폴리오 간 비교 기준을 통일하며, [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 전략의 효과를 수치로 추적할 수 있다. 특히 [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) ([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) Body of Knowledge) 기반의 프로젝트 통제에서는 SPI가 경영진 보고와 현장 의사결정 사이를 이어 주는 공통 언어 역할을 한다. 단순한 "늦고 있다"가 아니라 "계획 대비 몇 퍼센트 효율로 가고 있는가"를 말해 주기 때문이다.
 
 그러나 SPI는 어디까지나 비율 지표다. 크리티컬 패스 여부, 품질 저하, 재작업, 프로젝트 종료 시 수렴 문제는 별도로 보완해야 한다. 따라서 SPI는 <strong>일정 성과를 빠르게 계량화하는 1차 계기판</strong>으로 기억하고, 후반부에는 ES와 네트워크 분석으로 정밀 판단을 이어 가는 것이 바람직하다.
 

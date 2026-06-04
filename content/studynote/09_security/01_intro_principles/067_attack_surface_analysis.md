@@ -54,7 +54,7 @@ Reduction / Hardening
 | 개념 | 초점 | 차이 |
 | :-- | :-- | :-- |
 | Attack Surface | 노출 면적 | 공격 가능 접점 |
-| [Threat Modeling](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/) | 공격 시나리오 | 공격 방식 |
+| [Threat Modeling](/knowledge-base/studynote/09_security/uncategorized/1041_threat_modeling/) | 공격 시나리오 | 공격 방식 |
 | Hardening | 방어 강화 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)/축소 |
 
 | 영역 | 예 |

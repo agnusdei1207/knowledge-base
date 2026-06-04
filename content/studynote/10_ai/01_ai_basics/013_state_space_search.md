@@ -58,7 +58,7 @@ tags = ["ai"]
    (S3) <--+                     (무시)    [S3] [S4] (목표 도달 시 중단)
                              (S0 회귀 방지)
 ```
-이 흐름의 핵심은 '[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))'와 '탐색 트리(Tree)'의 차이다. 상태 공간 자체는 순환(Loop)이 존재하는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)일 수 있으나, 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 이를 실행 메모리 상에 루트에서 뻗어나가는 순환 없는 트리 구조로 풀어낸다(Unrolling). 이때 S1에서 다시 S0로 돌아가는 불필요한 반복 전개를 막기 위해 '방문한 노드(Closed List / Explored Set)'를 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)하여 메모리 병목과 무한 루프를 방지하는 컷오프(Cut-off) 메커니즘이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 최적화의 핵심으로 작용한다.
+이 흐름의 핵심은 '[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/))'와 '탐색 트리(Tree)'의 차이다. 상태 공간 자체는 순환(Loop)이 존재하는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)일 수 있으나, 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 이를 실행 메모리 상에 루트에서 뻗어나가는 순환 없는 트리 구조로 풀어낸다(Unrolling). 이때 S1에서 다시 S0로 돌아가는 불필요한 반복 전개를 막기 위해 '방문한 노드(Closed List / Explored Set)'를 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)하여 메모리 병목과 무한 루프를 방지하는 컷오프(Cut-off) 메커니즘이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 최적화의 핵심으로 작용한다.
 
 📢 **섹션 요약 비유**: 상태 공간 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)가 모든 교차로가 얽혀 있는 실제 도로망이라면, 탐색 트리는 내가 출발지에서 목적지까지 가면서 지나온 궤적만 나뭇가지처럼 그려놓은 내비게이션 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 같습니다.
 
@@ -75,7 +75,7 @@ tags = ["ai"]
 | **목적** | 최단 '경로' 찾기 보장 | 빠른 '최적 경로' 찾기 보장 | '목표 상태' 자체를 찾기 (경로 무관) |
 | **적용 사례** | 소규모 퍼즐, 기본 웹 크롤러 | 네비게이션, 게임 유닛 길찾기 | N-Queen 문제, 유전 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 기반 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 |
 
-다음은 문제의 복잡도에 따른 상태 공간의 폭발적 증가([Curse of Dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_curse_of_dimensionality/))를 보여주는 비용 함수 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)이다.
+다음은 문제의 복잡도에 따른 상태 공간의 폭발적 증가([Curse of Dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/864_curse_of_dimensionality/))를 보여주는 비용 함수 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)이다.
 ```text
 상태 수(Nodes)
   ^

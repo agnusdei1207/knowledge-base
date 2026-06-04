@@ -67,7 +67,7 @@ SRM ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas
 
 | 비교 대상 | 차이점 | 연결 포인트 |
 |:---|:---|:---|
-| [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치와 고객 경험을 중심에 둔다 | 현재 주제는 ITSM을 실행하는 구체 절차나 역할 |
+| [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치와 고객 경험을 중심에 둔다 | 현재 주제는 ITSM을 실행하는 구체 절차나 역할 |
 | [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | 배포 속도와 협업을 강화한다 | 현재 주제는 통제와 안정성 기준을 보완 |
 | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) | 신뢰성과 자동화 운영을 강조한다 | 현재 주제는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지원과 책임 모델을 정리 |
 
@@ -140,7 +140,7 @@ SRM ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas
 
 **진행 상황**: 219 / 587
 
-<- **이전**: [117. BRM (Business Reference Model, 업무 참조 모델)](/knowledge-base/studynote/12_it_management/03_ea_isp/117_brm_business_reference_model_function/)
-**다음**: [118. SRM (Service Reference Model, 서비스 참조 모델)](/knowledge-base/studynote/12_it_management/03_ea_isp/118_srm_service_reference_model_component/) ->
+<- **이전**: [117. BRM (Business Reference Model, 업무 참조 모델)](/knowledge-base/studynote/12_it_management/03_ea_isp/901_brm_business_reference_model_function/)
+**다음**: [118. SRM (Service Reference Model, 서비스 참조 모델)](/knowledge-base/studynote/12_it_management/03_ea_isp/902_srm_service_reference_model_component/) ->
 
 ---

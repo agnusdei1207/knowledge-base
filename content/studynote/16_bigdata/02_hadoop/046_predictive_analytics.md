@@ -12,7 +12,7 @@ tags = ["studynote-bigdata"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 예측 분석(Predictive Analytics)은 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 패턴·통계·[머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델을 활용하여 미래 사건의 발생 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이나 결과값을 정량적으로 추정하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 방법론으로, 기술적(Descriptive)·진단적(Diagnostic) 분석에서 한 단계 발전한 것이다.
 > 2. **가치**: 예측 분석은 "무슨 일이 일어날 것인가?"에 답함으로써 반응적(Reactive) 의사결정에서 선제적(Proactive) 의사결정으로 전환하며, 수요 예측·장비 예지 보전·신용 위험 평가·이탈 예측 등 실질적인 비즈니스 가치를 창출한다.
-> 3. **판단 포인트**: 예측 모델의 품질은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질과 특성 공학([Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/))에 의해 결정된다. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)보다 "어떤 특성을 모델에 넣을 것인가"의 판단이 예측 정확도의 핵심이며, 모델 해석 가능성(Explainability)이 규제 업종에서는 정확도만큼 중요하다.
+> 3. **판단 포인트**: 예측 모델의 품질은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질과 특성 공학([Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/865_feature_engineering/))에 의해 결정된다. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)보다 "어떤 특성을 모델에 넣을 것인가"의 판단이 예측 정확도의 핵심이며, 모델 해석 가능성(Explainability)이 규제 업종에서는 정확도만큼 중요하다.
 
 ---
 
@@ -117,7 +117,7 @@ tags = ["studynote-bigdata"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong>특성 공학 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/">Feature 엔진ering</a>)</strong> | 예측 모델 정확도를 결정하는 핵심 단계 |
+| <strong>특성 공학 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/865_feature_engineering/">Feature 엔진ering</a>)</strong> | 예측 모델 정확도를 결정하는 핵심 단계 |
 | <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/">교차 검증</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/">Cross-validation</a>)</strong> | 모델 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 방법 |
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/">Data Drift</a> 탐지</strong> | 배포 후 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 조기 탐지 |
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/">AutoML</a></strong> | 모델 탐색·하이퍼파라미터 자동화 |

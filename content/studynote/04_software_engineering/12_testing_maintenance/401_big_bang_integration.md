@@ -24,7 +24,7 @@ tags = ["studynote-software-engineering"]
 이것이 우주가 한 점에서 폭발하여 한순간에 생겨났다는 이론에서 이름을 따온 <strong>빅뱅 통합(Big Bang Integration)</strong>이다.
 
 * **왜 이런 짓을 할까?**
-  점진적으로(하나씩) 조립하려면, 아직 안 만들어진 부품을 흉내 내는 가짜 로봇([스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/), 드라이버)을 만드는 데 엄청난 시간과 코딩이 들어간다. 규모가 작거나 일정이 쪼들리는 팀은 "가짜 객체 짤 시간 어딨어! 그냥 다 만들 때까지 각자 코딩하고 마감일에 한 번에 합치자!"라는 유혹에 빠지게 된다.
+  점진적으로(하나씩) 조립하려면, 아직 안 만들어진 부품을 흉내 내는 가짜 로봇([스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/), 드라이버)을 만드는 데 엄청난 시간과 코딩이 들어간다. 규모가 작거나 일정이 쪼들리는 팀은 "가짜 객체 짤 시간 어딨어! 그냥 다 만들 때까지 각자 코딩하고 마감일에 한 번에 합치자!"라는 유혹에 빠지게 된다.
 
 > 📢 **섹션 요약 비유**: 1,000조각짜리 퍼즐을 맞출 때, 원래는 테두리부터 하나씩(점진적) 맞춰야 합니다. 하지만 빅뱅 통합은 퍼즐 판에 1,000조각을 한 번에 다 부어버리고 양손으로 마구 비벼서 "어떻게든 덩어리가 뭉쳐지겠지!"라고 기대하는 상남자식(혹은 무모한) 조립 방식입니다.
 
@@ -105,7 +105,7 @@ tags = ["studynote-software-engineering"]
 
 이토록 악명 높음에도 불구하고 빅뱅 통합은 완전히 멸종하지 않았다. 다음과 같은 극히 제한적인 조건에서는 최고의 효율을 낼 수 있다.
 
-* **초소형 프로젝트**: [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 3~4개밖에 안 되는 간단한 토이 프로젝트나 유틸리티 스크립트는 굳이 [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)을 짤 필요 없이 한 번에 묶어서 디버깅하는 것이 훨씬 빠르다.
+* **초소형 프로젝트**: [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 3~4개밖에 안 되는 간단한 토이 프로젝트나 유틸리티 스크립트는 굳이 [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)을 짤 필요 없이 한 번에 묶어서 디버깅하는 것이 훨씬 빠르다.
 * **레거시 시스템 마이그레이션**: 이미 과거에 100% 검증이 완료되어 잘 돌아가고 있는 낡은 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 덩어리를 그대로 통째로 새 시스템에 들어다 앉힐 때([Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) and Shift) 사용된다.
 * **시간적 한계**: 도저히 하향식/상향식 전략을 짤 시간도, 가짜 객체를 만들 리소스도 없는 절망적인 상황에서 "일단 터뜨려놓고 버그 고치자"는 최후의 수단으로 쓰인다. (물론 기술 부채로 되돌아온다.)
 
@@ -122,7 +122,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 "편리함의 대가는 가혹한 디버깅으로 청구된다."
-빅뱅 통합(Big Bang Integration)은 복잡성을 통제하는 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 기본 원칙([분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/), Divide & Conquer)에 정면으로 위배되는 '비점진적(Non-incremental)' 접근법이다. 조립의 고통을 프로젝트 막바지로 이연시킬 뿐, 통합의 순간에 마주하는 혼돈(Chaos)은 결코 피할 수 없다. 현대 개발 방법론인 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)([지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/))가 "매일매일 아주 조금씩 코드를 통합하라"고 소리치는 이유도 바로 이 끔찍한 빅뱅 통합의 후유증을 두 번 다시 겪지 않기 위한 엔지니어들의 처절한 반성문인 셈이다.
+빅뱅 통합(Big Bang Integration)은 복잡성을 통제하는 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 기본 원칙([분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/), Divide & Conquer)에 정면으로 위배되는 '비점진적(Non-incremental)' 접근법이다. 조립의 고통을 프로젝트 막바지로 이연시킬 뿐, 통합의 순간에 마주하는 혼돈(Chaos)은 결코 피할 수 없다. 현대 개발 방법론인 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)([지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/))가 "매일매일 아주 조금씩 코드를 통합하라"고 소리치는 이유도 바로 이 끔찍한 빅뱅 통합의 후유증을 두 번 다시 겪지 않기 위한 엔지니어들의 처절한 반성문인 셈이다.
 
 ---
 
@@ -145,7 +145,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 빅뱅 통합 (Big Bang Integration)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

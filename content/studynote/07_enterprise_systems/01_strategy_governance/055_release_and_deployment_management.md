@@ -11,8 +11,8 @@ tags = ["studynote-enterprise-systems"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 릴리스 관리 (Release [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))는 변경을 묶어 안정적으로 배포 가능한 단위로 준비하는 활동이다.
-> 2. **가치**: 배포 관리 ([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))는 실제 환경에 안전하게 반영하는 실행 절차다.
+> 1. **본질**: 릴리스 관리 (Release [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/))는 변경을 묶어 안정적으로 배포 가능한 단위로 준비하는 활동이다.
+> 2. **가치**: 배포 관리 ([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/))는 실제 환경에 안전하게 반영하는 실행 절차다.
 > 3. **판단 포인트**: 릴리스와 배포를 분리해야 계획, 승인, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이 명확해진다.
 
 ---
@@ -50,7 +50,7 @@ Change -> Build -> Release Package -> Deployment -> Verification -> Rollback
 
 ## Ⅲ. 비교 및 연결
 
-릴리스 관리와 배포 관리는 [Change Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/027_change_management/), [CAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD와 연결된다. 배포가 빠를수록 자동화와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 더 중요하다.
+릴리스 관리와 배포 관리는 [Change Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/027_change_management/), [CAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD와 연결된다. 배포가 빠를수록 자동화와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 더 중요하다.
 
 | 항목 | 릴리스 관리 | 배포 관리 |
 | :--- | :--- | :--- |
@@ -105,7 +105,7 @@ Change -> Build -> Release Package -> Deployment -> Verification -> Rollback
 | [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) | 반영 |
 | [Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/) | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
 | [CAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/) | 승인 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD | 자동화 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD | 자동화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

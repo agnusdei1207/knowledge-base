@@ -18,7 +18,7 @@ tags = ["software_engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-AS-IS / TO-BE 분석은 <strong>현재 상태를 있는 그대로 파악하고, 목표 상태를 설계한 뒤, 두 상태 사이의 간극을 관리 가능한 변화 항목으로 바꾸는 분석 프레임</strong>이다. 요구공학, 업무 프로세스 재설계 ([Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/), [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/)), 정보화 전략계획, 시스템 고도화 프로젝트의 초반부에서 가장 자주 쓰인다. 핵심은 "문제가 있으니 바꾸자"가 아니라, <strong>무엇이 현재의 병목인지, 바뀐 뒤 어떤 모습이어야 하는지, 그 차이를 어떻게 메울지</strong>를 구조화하는 데 있다.
+AS-IS / TO-BE 분석은 <strong>현재 상태를 있는 그대로 파악하고, 목표 상태를 설계한 뒤, 두 상태 사이의 간극을 관리 가능한 변화 항목으로 바꾸는 분석 프레임</strong>이다. 요구공학, 업무 프로세스 재설계 ([Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/), [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/)), 정보화 전략계획, 시스템 고도화 프로젝트의 초반부에서 가장 자주 쓰인다. 핵심은 "문제가 있으니 바꾸자"가 아니라, <strong>무엇이 현재의 병목인지, 바뀐 뒤 어떤 모습이어야 하는지, 그 차이를 어떻게 메울지</strong>를 구조화하는 데 있다.
 
 이 기법이 필요한 이유는 프로젝트 실패가 기능 부족보다도 <strong>현실 오해와 목표 불명확성</strong>에서 자주 시작되기 때문이다. 현재 프로세스를 제대로 이해하지 못하면 잘못된 자동화를 만들고, 목표 상태를 구체화하지 못하면 팀마다 서로 다른 그림을 보고 움직인다. 결국 AS-IS / TO-BE 분석은 기술 문서 작성 이전에, [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 사이의 공통 언어를 만드는 작업이라고 볼 수 있다.
 
@@ -70,7 +70,7 @@ AS-IS / TO-BE 분석은 <strong>현재 상태를 있는 그대로 파악하고, 
 
 이런 구조를 잡아 두면 TO-BE가 공허한 이상론으로 흐르지 않는다. 예를 들어 "결재를 실시간으로 바꾼다"는 목표가 있다면, 프로세스만 바꾸는 것으로는 부족하고 [데이터 표준화](/knowledge-base/studynote/05_database/02_modeling_normalization/126_data_standardization_word_domain_term/), 인터페이스, 권한 체계, 역할 책임까지 같이 바뀌어야 함이 드러난다. 그래서 AS-IS / TO-BE 분석은 단순한 인터뷰 정리가 아니라, <strong>변화를 시스템적으로 분해하는 설계 도구</strong>다.
 
-또한 분석 모델링에는 [BPMN](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) (Business [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Model and Notation), 업무 흐름도, 시스템 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 다이어그램, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 청사진 같은 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 도구가 자주 활용된다. 중요한 것은 표기법 그 자체보다, 현재와 미래를 <strong>같은 언어로 비교 가능하게 표현</strong>하는 것이다.
+또한 분석 모델링에는 [BPMN](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) (Business [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Model and Notation), 업무 흐름도, 시스템 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 다이어그램, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 청사진 같은 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 도구가 자주 활용된다. 중요한 것은 표기법 그 자체보다, 현재와 미래를 <strong>같은 언어로 비교 가능하게 표현</strong>하는 것이다.
 
 - **📢 섹션 요약 비유**: 이 분석은 낡은 집을 리모델링할 때 지금의 방 배치, 배관, 전기선을 먼저 확인하고, 새 집 구조도와 나란히 놓고 비교하는 과정과 같다. 벽만 예쁘게 다시 칠한다고 집이 좋아지는 것이 아니라, 배선과 배관까지 함께 바꿔야 진짜 달라진다.
 
@@ -87,7 +87,7 @@ AS-IS / TO-BE 분석은 흔히 현행 조사, Gap 분석, 요구사항 정의와
 | 위험 | 문제만 나열하고 끝날 수 있음 | 희망사항만 남을 수 있음 | 실행 가능한 단위로 못 쪼개면 공회전 |
 | 연결 산출물 | 프로세스 맵, 현행 시스템 목록 | 목표 프로세스, 목표 아키텍처 | 과제 정의서, 요구사항, 로드맵 |
 
-이 분석은 다른 기법과도 밀접하게 연결된다. 업무 프로세스 재설계 ([BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/))는 TO-BE 중심의 급진적 변화 관점을 더하고, SWOT 분석이나 3C/4C 분석은 왜 그 TO-BE가 필요한지에 대한 사업적 근거를 보강한다. 또한 [도메인 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/170_domain_analysis/), [비즈니스 케이스](/knowledge-base/studynote/04_software_engineering/03_design_architecture/172_business_case_roi_analysis/), 투자대비효과 ([Return on Investment](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/), [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)) 산정과 연결하면 "좋아 보이는 변화"가 아니라 "왜 이 변화가 우선인지"까지 설명할 수 있다.
+이 분석은 다른 기법과도 밀접하게 연결된다. 업무 프로세스 재설계 ([BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/))는 TO-BE 중심의 급진적 변화 관점을 더하고, SWOT 분석이나 3C/4C 분석은 왜 그 TO-BE가 필요한지에 대한 사업적 근거를 보강한다. 또한 [도메인 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/170_domain_analysis/), [비즈니스 케이스](/knowledge-base/studynote/04_software_engineering/03_design_architecture/172_business_case_roi_analysis/), 투자대비효과 ([Return on Investment](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/), [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/)) 산정과 연결하면 "좋아 보이는 변화"가 아니라 "왜 이 변화가 우선인지"까지 설명할 수 있다.
 
 중요한 경계도 있다. AS-IS / TO-BE 분석은 단순 화면 비교서가 아니며, 경쟁사 기능 리스트를 베껴 적는 작업도 아니다. 현재 조직의 제약과 미래 운영 방식이 반영되지 않으면, TO-BE는 현실과 분리된 슬로건이 된다. 반대로 현재 문제만 자세히 적고 목표 상태를 추상적으로 남기면, 프로젝트는 "문제는 알지만 방향은 모르는" 상태에 머문다.
 
@@ -152,9 +152,9 @@ AS-IS / TO-BE 분석을 제대로 수행하면 프로젝트는 막연한 개선 
 | :--- | :--- |
 | AS-IS (현재 상태) | 현행 업무·시스템·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·조직의 사실 기반 기준선이다 |
 | TO-BE (미래 상태) | 달성하려는 목표 운영 방식과 구조를 정의한다 |
-| Gap 분석 ([Gap Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/107_gap_analysis_task_identification/)) | 현재와 미래 사이의 차이를 과제 단위로 분해한다 |
-| [BPMN](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) (Business [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Model and Notation) | 현행·목표 프로세스를 같은 언어로 비교할 때 자주 쓰는 표기법이다 |
-| [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) ([Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/)) | TO-BE 중심의 급진적 프로세스 혁신과 연결된다 |
+| Gap 분석 ([Gap Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/891_gap_analysis_task_identification/)) | 현재와 미래 사이의 차이를 과제 단위로 분해한다 |
+| [BPMN](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) (Business [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Model and Notation) | 현행·목표 프로세스를 같은 언어로 비교할 때 자주 쓰는 표기법이다 |
+| [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/) ([Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/)) | TO-BE 중심의 급진적 프로세스 혁신과 연결된다 |
 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) ([Key Performance Indicator](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/020_kpi/)) | 변화 효과를 측정 가능한 수치로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하게 해 준다 |
 | 로드맵 (Roadmap) | Gap을 실제 실행 순서와 우선순위로 바꾸는 산출물이다 |
 

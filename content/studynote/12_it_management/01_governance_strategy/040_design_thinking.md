@@ -74,9 +74,9 @@ tags = ["studynote-it-management"]
 
 | 비교 대상 | 경계 차이 | 판단 포인트 |
 |:---|:---|:---|
-| [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/) | '[그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
+| [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/833_growth_hacking/) | '[그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/833_growth_hacking/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
 | [양손잡이 조직](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_ambidextrous_organization/) | '[양손잡이 조직](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_ambidextrous_organization/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
-| [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) | '[피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
+| [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/) | '[피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
 
 따라서 시험 답안에서는 "무엇과 다르며 왜 같이 보아야 하는가"를 짝지어 말하는 것이 중요하다. 실무에서도 현재 문제가 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 정렬인지, 운영 절차인지, 보안 통제인지에 따라 디자인 씽킹의 사용 위치가 달라진다.
 
@@ -118,9 +118,9 @@ tags = ["studynote-it-management"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
+| [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/833_growth_hacking/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
 | [양손잡이 조직](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_ambidextrous_organization/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
-| [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
+| [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
 | IT 거버넌스 | 현재 개념을 IT 거버넌스 관점과 연결해 실무 맥락을 넓힌다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -148,7 +148,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 71 / 587
 
-<- **이전**: [39. OKR (Objectives and Key Results)](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/)
-**다음**: [040. OKR (Objectives and Key Results) — 목표와 핵심 결과](/knowledge-base/studynote/12_it_management/01_governance_strategy/040_okr_objectives_key_results/) ->
+<- **이전**: [39. OKR (Objectives and Key Results)](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/)
+**다음**: [040. OKR (Objectives and Key Results) — 목표와 핵심 결과](/knowledge-base/studynote/12_it_management/01_governance_strategy/832_okr_objectives_key_results/) ->
 
 ---

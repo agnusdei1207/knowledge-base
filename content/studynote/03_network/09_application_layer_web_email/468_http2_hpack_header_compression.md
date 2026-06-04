@@ -104,7 +104,7 @@ HPACK 아키텍처는 3가지 강력한 수학적/논리적 무기로 구성됩�
 | 고려 사항 | 세부 내용 | 주요 아키텍처 의사결정 |
 |:---|:---|:---|
 | **도입 환경** | 기존 레거시 시스템과의 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 분석 | 마이그레이션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 및 단계별 전환 계획 수립 |
-| <strong>비용(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a>)</strong> | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구축 비용(CAPEX) 및 운영 비용(OPEX) | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 관점의 장기적 효율성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| <strong>비용(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/">ROI</a>)</strong> | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구축 비용(CAPEX) 및 운영 비용(OPEX) | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 관점의 장기적 효율성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | **보안/위험** | 컴플라이언스 준수 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/) | [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 기반 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)/[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 체계 연계 |
 
 *(추가 실무 적용 가이드 - L7 로드밸런서의 메모리 폭발 방어 아키텍처)*
@@ -144,7 +144,7 @@ HPACK 아키텍처는 3가지 강력한 수학적/논리적 무기로 구성됩�
     *   [CRIME](/knowledge-base/studynote/09_security/03_network_security/296_crime_attack/)/BREACH 해킹 방어 (Gzip 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 암호학적 취약점 극복)
     *   서버 메모리 부하 (Stateful 연결 오버헤드 증가) 향후에는 지능형 애플리케이션 전달 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 역사는 "종이에 글을 써서 편지를 보내던 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1 시대"에서 "서로가 암호표(HPACK)를 나눠 가지고 숫자만 부호로 날리는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2의 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/) 통신"으로 진화했고, 이제는 "암호표 한 장이 찢어져도 통신이 끊기지 않는 독립 무전기(QPACK)" 시대로 접어들며 인터넷의 군더더기 살점을 1g도 남기지 않고 도려내고 있습니다.
+- **📢 섹션 요약 비유**: 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 역사는 "종이에 글을 써서 편지를 보내던 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1 시대"에서 "서로가 암호표(HPACK)를 나눠 가지고 숫자만 부호로 날리는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2의 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/) 통신"으로 진화했고, 이제는 "암호표 한 장이 찢어져도 통신이 끊기지 않는 독립 무전기(QPACK)" 시대로 접어들며 인터넷의 군더더기 살점을 1g도 남기지 않고 도려내고 있습니다.
 
 ---
 

@@ -109,7 +109,7 @@ Airflow를 도입할 때 가장 먼저 판단할 것은 "의존성이 있는 반
 2. 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 XCom이 아니라 객체 저장소, [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/), [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐 등 외부 저장소로 주고받는가?
 3. Executor 선택이 현재 규모와 맞는가? 소규모는 Local, 팀 단위 운영은 Celery, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 확장은 Kubernetes가 일반적이다.
 4. [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수와 파싱 비용을 고려해 Scheduler 부하를 측정하고 있는가?
-5. Secrets, 연결 정보, 알림 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) 경고를 표준화했는가?
+5. Secrets, 연결 정보, 알림 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)) 경고를 표준화했는가?
 
 ### 자주 발생하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 

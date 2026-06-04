@@ -21,7 +21,7 @@ tags = ["studynote-devops"]
 
 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) 리포지토리는 소스 저장소와 배포 저장소를 분리한다. Git이 사람의 변경 이력을 보관한다면, [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) 리포지토리는 빌드된 바이너리의 이력과 배포 승인 상태를 보관한다. 이 둘을 섞어 버리면 "어떤 커밋이 어떤 바이너리를 만들었는가"를 다시 증명하기 어렵다.
 
-빌드 산출물을 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버 디스크나 개발자 노트북에 둔 채 배포하면 재현성, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/), [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)가 동시에 무너진다. 운영 장애가 발생했을 때 동일한 소스와 동일한 의존성으로 다시 빌드한 결과가 과거 배포본과 다를 수 있기 때문이다. 그래서 중앙 저장소에 올릴 때는 해시, 서명, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 함께 남겨야 한다.
+빌드 산출물을 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 서버 디스크나 개발자 노트북에 둔 채 배포하면 재현성, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/), [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)가 동시에 무너진다. 운영 장애가 발생했을 때 동일한 소스와 동일한 의존성으로 다시 빌드한 결과가 과거 배포본과 다를 수 있기 때문이다. 그래서 중앙 저장소에 올릴 때는 해시, 서명, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 함께 남겨야 한다.
 
 ```text
 +---------------------- 배포 가능한 바이너리의 생명주기 ----------------------+
@@ -116,7 +116,7 @@ Nexus와 JFrog Artifactory는 범용 패키지 저장에 강하고, Amazon ECR�
 | 개념 | 연결 포인트 |
 | :-- | :-- |
 | Git | 소스 변경 이력의 원본 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버 | [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 생산자 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 서버 | [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 생산자 |
 | [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) 리포지토리 | [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 고정과 보존의 중심 |
 | [컨테이너 레지스트리](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/070_container_registry_docker_hub_ecr/) | 이미지 배포용 저장소 |
 | [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) ([Software Bill of Materials](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/)) | 구성 요소 추적과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) |

@@ -56,7 +56,7 @@ tags = ["studynote-devops-sre"]
 | [Chaos Monkey](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/) | Netflix [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/), EC2 랜덤 종료            |
 | LitmusChaos  | [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 프로젝트, K8s 네이티브 카오스         |
 | Chaos [Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)   | [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 인큐베이팅, 네트워크 장애 특화        |
-| Gremlin      | 상용 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/), 엔터프라이즈 기능               |
+| Gremlin      | 상용 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/), 엔터프라이즈 기능               |
 | AWS FIS      | AWS [Fault Injection](/knowledge-base/studynote/02_operating_system/10_security/670_fault_injection_chaos_testing_kernel/) Simulator              |
 
 GameDay (게임데이): 전체 팀이 참가해 대규모 장애 시나리오를 실제로 실행하는 훈련 이벤트.

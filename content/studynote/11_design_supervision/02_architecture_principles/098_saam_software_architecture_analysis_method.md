@@ -98,7 +98,7 @@ SAAM은 주관적이었던 아키텍처 설계를 '시나리오'라는 정량적
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/) ([Quality Attribute Scenario](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/)) | 아키텍처 평가에 사용되는 자극(Stimulus), 환경, 응답 측정의 기본 단위 |
+| [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/993_process/) ([Quality Attribute Scenario](/knowledge-base/studynote/12_it_management/05_security_compliance/993_process/)) | 아키텍처 평가에 사용되는 자극(Stimulus), 환경, 응답 측정의 기본 단위 |
 | [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Trade-off Analysis Method) | SAAM의 한계를 넘어 다중 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)의 상충관계를 분석하는 후속 기법 |
 | [단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/) ([SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/), [Single Responsibility Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/)) | SAAM의 시나리오 상호작용 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 시 가장 먼저 평가되는 객체지향 핵심 원칙 |
 | [CBAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/) (Cost Benefit Analysis Method) | 아키텍처 결정에 따른 기술적 이점과 경제적 비용을 함께 분석하는 기법 |

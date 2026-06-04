@@ -12,7 +12,7 @@ tags = ["studynote-data-engineering"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DataOps는 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)에 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 원칙을 적용해 빌드, 테스트, 배포, 모니터링을 자동화하는 운영 방식이다.
-> 2. **가치**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD를 통해 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)/[ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 변경을 안전하게 배포하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질과 재현성을 높인다.
+> 2. **가치**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD를 통해 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)/[ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 변경을 안전하게 배포하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질과 재현성을 높인다.
 > 3. **판단 포인트**: 코드뿐 아니라 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/), 품질 규칙, lineage (라인리지)까지 함께 관리해야 한다.
 
 ---
@@ -29,7 +29,7 @@ DataOps는 이 문제를 해결하기 위해 등장했다. [데이터](/knowledg
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 소스 수집부터 변환, 테스트, 배포, 모니터링까지 연결한다. 파이프라인 정의 자체도 코드로 관리하는 것이 핵심이다.
+[DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/965_dataops/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD는 소스 수집부터 변환, 테스트, 배포, 모니터링까지 연결한다. 파이프라인 정의 자체도 코드로 관리하는 것이 핵심이다.
 
 ```text
 Source -> Ingest -> Transform -> Test -> Deploy -> Monitor
@@ -37,14 +37,14 @@ Source -> Ingest -> Transform -> Test -> Deploy -> Monitor
 
 | 단계 | 역할 | 예시 |
 | :--- | :--- | :--- |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) | 변경 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | SQL lint, [unit test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) | 변경 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | SQL lint, [unit test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) |
 | CD | 안전 배포 | 스테이징/프로덕션 승격 |
 | Test | 품질 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | null, duplicate, freshness |
 | [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) | 운영 감시 | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 실패율, drift |
 
 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 소프트웨어처럼 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리되고, 배포 전에 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되어야 한다는 점이다. 그래야 재현 가능한 분석이 가능하다.
 
-- **📢 섹션 요약 비유**: [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) 파이프라인은 재료 검수부터 출하까지 자동으로 돌아가는 식품 공장이다.
+- **📢 섹션 요약 비유**: [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/965_dataops/) 파이프라인은 재료 검수부터 출하까지 자동으로 돌아가는 식품 공장이다.
 
 ---
 
@@ -52,7 +52,7 @@ Source -> Ingest -> Transform -> Test -> Deploy -> Monitor
 
 DataOps는 DevOps와 비슷하지만, 객체가 코드가 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름과 품질이라는 점이 다르다. MLOps와도 연결되지만, DataOps는 모델 이전의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반을 다룬다.
 
-| 항목 | [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) |
+| 항목 | [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/965_dataops/) |
 | :--- | :--- | :--- |
 | 대상 | 애플리케이션 | [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) |
 | 테스트 | 기능/통합 | 품질/[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)/신선도 |
@@ -89,7 +89,7 @@ DataOps는 lineage와 [데이터 카탈로그](/knowledge-base/studynote/12_it_m
 
 ## Ⅴ. 기대효과 및 결론
 
-[DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변경의 위험을 줄이고, 배포 속도와 품질을 함께 높인다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀의 DevOps라고 볼 수 있지만, 품질과 추적성에 더 무게가 있다.
+[DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/965_dataops/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변경의 위험을 줄이고, 배포 속도와 품질을 함께 높인다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀의 DevOps라고 볼 수 있지만, 품질과 추적성에 더 무게가 있다.
 
 정리하면, DataOps는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 소프트웨어처럼 안전하게 바꿔야 한다"는 원칙을 실행하는 방식이다.
 
@@ -101,7 +101,7 @@ DataOps는 lineage와 [데이터 카탈로그](/knowledge-base/studynote/12_it_m
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD | 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)/배포 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD | 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)/배포 |
 | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)/[ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환 |
 | Lineage | 영향 추적 |
 | Quality Gate | 배포 조건 |

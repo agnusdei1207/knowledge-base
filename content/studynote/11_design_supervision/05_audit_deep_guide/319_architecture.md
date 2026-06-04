@@ -117,7 +117,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 395 / 530
 
-<- **이전**: [318. 정보시스템 보안 감리 통제 체계 총론 (Information System Security Audit Control Overview)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/318_security_audit_control_overview/)
-**다음**: [319. 전자정부 표준 프레임워크 준수율 (eGovFrame Compliance Rate Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/319_egovframe_compliance_rate/) ->
+<- **이전**: [318. 정보시스템 보안 감리 통제 체계 총론 (Information System Security Audit Control Overview)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/676_security_audit_control_overview/)
+**다음**: [319. 전자정부 표준 프레임워크 준수율 (eGovFrame Compliance Rate Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/677_egovframe_compliance_rate/) ->
 
 ---

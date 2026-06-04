@@ -102,7 +102,7 @@ ExecutionGraph (물리적 실행 계획, 태스크 인스턴스 포함)
 TaskManager의 Task Slot에 배포·실행
 ```
 
-<strong>연산자 체이닝(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/">Operator</a> <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/">Chaining</a>)</strong>: 네트워크 I/O 없이 연결 가능한 연산자들을 하나의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에서 실행 -> [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화/역직렬화 비용 제거
+<strong>연산자 체이닝(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/">Operator</a> <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/">Chaining</a>)</strong>: 네트워크 I/O 없이 연결 가능한 연산자들을 하나의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에서 실행 -> [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화/역직렬화 비용 제거
 
 **📢 섹션 요약 비유**
 > Flink 아키텍처는 "건설 현장 구조"와 같다. JobManager는 현장 소장(전체 조율), ResourceManager는 인력 파견 회사(TaskSlot 관리), TaskManager는 각 시공팀(실제 작업), [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Slot은 팀원 개인(격리된 실행 공간)이다.
@@ -189,7 +189,7 @@ Flink 아키텍처의 핵심은 <strong>JobManager의 중앙 조율 + TaskManage
 | DataStream [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | 프로그래밍 인터페이스 | JobGraph [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 원천 |
 | [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Backend | 상태 저장 | TaskManager의 로컬 상태 저장 방식 |
 | [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) | HA 의존성 | JobManager 리더 선출 |
-| [Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/) [Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/) | 최적화 기법 | JobGraph 내 연산자 통합으로 네트워크 비용 절감 |
+| [Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/) [Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/) | 최적화 기법 | JobGraph 내 연산자 통합으로 네트워크 비용 절감 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

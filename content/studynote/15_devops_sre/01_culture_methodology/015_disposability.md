@@ -170,7 +170,7 @@ tags = ["devops_sre"]
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a></strong> | [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) lifecycle + terminationGracePeriodSeconds | [Rolling Update](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/083_rolling_update_deployment_zero_downtime_version_inconsistency/), [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) 관리 |
 | **오토스케일링** | HPA가 빠른 인스턴스 교체를 전제 | [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)/인 시 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단방지 |
 | **무상태 설계** | [프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) 시 상태 손실방지 | 외부 저장소에 상태 위임으로즉시 교체 가능 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD</strong> | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 자주 프로세스 시작/종료 | 빌드/테스트 시간 단축 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD</strong> | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 자주 프로세스 시작/종료 | 빌드/테스트 시간 단축 |
 
 특히 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 환경에서 폐기 가능성 원칙은 Rolling Update와 Deployment의핵심을 이룬다. 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)의 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 점진적으로 늘려가면서 구 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)의 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 점진적으로 제거하므로, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 없이 배포를완료할 수 있다.
 
@@ -267,7 +267,7 @@ Step 5: v1.0 파드 1개 종료, v1.1 파드 1개 추가
 
 | 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|
-| <strong>12팩터 앱 (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/200_12_factor_app_cloud_native_principles/">12-Factor App</a>)</strong> | 폐기 가능성이 IX번째 원칙으로 포함된 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 애플리케이션 설계 선언 |
+| <strong>12팩터 앱 (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/200_12_factor_app_cloud_native_principles/">12-Factor App</a>)</strong> | 폐기 가능성이 IX번째 원칙으로 포함된 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 애플리케이션 설계 선언 |
 | **Graceful Shutdown** | SIGTERM 수신 후 처리 중인 요청 완료->리소스 정리->정상 종료의 단계적 프로세스 |
 | **Liveness / Readiness Probe** | Kubernetes가 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 시작 완료 및 생존 여부를 감지하여 폐기 가능성을 자동 관리하는 메커니즘 |
 | <strong>무상태 설계 (<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a>)</strong> | 메모리·디스크에 상태를 저장하지 않아 언제든 종료·재시작이 가능한 폐기 가능성의 전제 조건 |
@@ -292,7 +292,7 @@ Step 5: v1.0 파드 1개 종료, v1.1 파드 1개 추가
 [FaaS (AWS Lambda / Azure Functions) — 요청당 즉시 시작·즉시 폐기, 폐기 가능성의 극단적 구현]
 ```
 
-이 흐름은 재시작 시 전체 중단이 불가피한 모놀리식 배포에서 폐기 가능성 원칙을 정의한 12팩터 앱을 거쳐, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)->[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)->FaaS로 진화하며 빠른 시작과 우아한 종료가 인프라 수준에서 자동화되는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 배포 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)의 발전 계보를 보여준다.
+이 흐름은 재시작 시 전체 중단이 불가피한 모놀리식 배포에서 폐기 가능성 원칙을 정의한 12팩터 앱을 거쳐, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)->[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)->FaaS로 진화하며 빠른 시작과 우아한 종료가 인프라 수준에서 자동화되는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 배포 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)의 발전 계보를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

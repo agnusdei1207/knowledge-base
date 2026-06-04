@@ -85,7 +85,7 @@ RAG는 세 단계로 구성된다: <strong>검색(Retrieval) -> 증강(Augmentat
 
 | 벡터 DB | 특징 | 적합 사용 사례 |
 |:---|:---|:---|
-| **Pinecone** | 완전 관리형 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/), 빠른 시작 | [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/), 중소규모 |
+| **Pinecone** | 완전 관리형 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/), 빠른 시작 | [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/), 중소규모 |
 | **Weaviate** | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/), [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) | [하이브리드 검색](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/279_rlhf_reinforcement_learning_human_feedback/) |
 | <strong><a href="/knowledge-base/studynote/07_enterprise_systems/05_data_bi/320_gnn_vector_db_recommendation/">Milvus</a></strong> | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/), 대규모 확장성, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 지원 | 기업 대규모 배포 |
 | **Chroma** | 로컬 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/), Python 친화적 | 개발/테스트 환경 |

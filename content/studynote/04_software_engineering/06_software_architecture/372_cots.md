@@ -29,7 +29,7 @@ tags = ["studynote-software-engineering"]
   1. **1980년대**: 미국 정부의 FAA,군방 등이 COTS 도입을 장려하여 구매 비용 절감
   2. **1990년대**: [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 솔루션(SAP, [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) 대중화, COTS 기반 시스템 구축 증가
   3. **2000년대**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 운동과 함께 COTS의 대안으로 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 소프트웨어([OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)) 확산
-  4. **현재**: 클라우드 기반 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) (Software [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 모델로 발전, 구독 기반 이용
+  4. **현재**: 클라우드 기반 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) (Software [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 모델로 발전, 구독 기반 이용
 
 - **📢 섹션 요약 비유**: COTS는 <strong>'피트니스 센터의 리용권'</strong>과 같다. 헬스장을 처음부터 설계하여 건설하면（사내 개발）수년이 걸리지만, 완성된 피트니스 센터에 리용권을 구매하면（즉각 리용）수업과 설비를즉시 활용할 수 있다. 그러나 리용권개격상창하거나 피트니스 센터의방향이변경되면리용자에불리익이발생한다.
 
@@ -121,7 +121,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 상용 소프트웨어 (COTS, Commercial Off-The-Shelf) 통합 및 품질은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

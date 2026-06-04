@@ -11,7 +11,7 @@ tags = ["studynote-devops"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Jenkins는 플러그인 기반의 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 자동화 서버다.
+> 1. **본질**: Jenkins는 플러그인 기반의 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 자동화 서버다.
 > 2. **가치**: 빌드, 테스트, 배포를 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 자동화한다.
 > 3. **판단**: [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) Code와 에이전트 구성, 플러그인 관리가 중요하다.
 
@@ -85,7 +85,7 @@ Jenkins는 유연하지만 플러그인 관리가 중요하다. 그래서 운영
 - 자격 증명을 노출하는 설계
 - [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 코드화 없이 운영하는 설계
 
-기술사 관점에서는 Jenkins를 "[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 자동화 서버"로 설명해야 한다.
+기술사 관점에서는 Jenkins를 "[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 자동화 서버"로 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 반복 작업을 대신하는 똑똑한 기계다.
 
@@ -95,7 +95,7 @@ Jenkins는 유연하지만 플러그인 관리가 중요하다. 그래서 운영
 
 Jenkins는 배포 자동화와 품질 확보를 돕는다.
 
-결론적으로 Jenkins는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 자동화 서버다.
+결론적으로 Jenkins는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 자동화 서버다.
 
 - **📢 섹션 요약 비유**: 코드가 바뀌면 알아서 공정이 돌아간다.
 

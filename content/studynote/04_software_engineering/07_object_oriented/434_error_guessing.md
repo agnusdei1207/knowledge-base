@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 오류 추정은 테스터가기왕의 경험, 류사 시스템에서의 문제 발생 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 직감등을 활용하여 "여기서 문제가 발생할 것 같다"라는 예상으로 테스트 케이스를 설계하는 기법이다. 이는명세서나 코드 분석이 아닌, 테스터의 주관적판단에 의존한다.
 
-- **필요성**: 체계적인 테스트 기법([동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/), [경계값 분석](/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/), [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 등)은사전에정의된 규칙에 따라 테스트 케이스를 도출하지만, 이러한 규칙으로포착되지 않는 예외적인 상황이 있을 수 있다. 오류 추정은 이러한 사각지대를보완하여 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견 효과를 향상시킨다.
+- **필요성**: 체계적인 테스트 기법([동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/), [경계값 분석](/knowledge-base/studynote/04_software_engineering/11_testing_validation/806_boundary_value_analysis/), [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 등)은사전에정의된 규칙에 따라 테스트 케이스를 도출하지만, 이러한 규칙으로포착되지 않는 예외적인 상황이 있을 수 있다. 오류 추정은 이러한 사각지대를보완하여 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견 효과를 향상시킨다.
 
 - **오류 추정과 관련된개념**:
   - **경험 기반 테스트**: 테스터의 경험을 기반으로 테스트
@@ -127,7 +127,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 오류 추정 (Error Guessing)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -181,7 +181,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 460 / 973
 
-<- **이전**: [434. 오류 추정 (Error Guessing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/434_error_guessing/)
+<- **이전**: [434. 오류 추정 (Error Guessing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/826_error_guessing/)
 **다음**: [435. 체크리스트 (Checklist) 기반 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) ->
 
 ---

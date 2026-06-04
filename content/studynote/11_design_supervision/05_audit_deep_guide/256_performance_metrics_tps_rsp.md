@@ -13,7 +13,7 @@ tags = ["studynote-design-supervision"]
 
 > 1. **본질**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 진단의 3대 지표인 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)([Response Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)), 동시 사용자 수(Concurrent User), [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)(TPS, Transactions Per Second)은 상호 의존적이며, 하나의 최적화가 다른 지표에 영향을 준다.
 > 2. **가치**: TPS가 낮고 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 길면 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))의 위치를 정확히 특정하지 않은 채 서버 증설만으로는 해결되지 않는다.
-> 3. **판단 포인트**: 목표 TPS, 최대 동시 사용자 수, 허용 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)(예: 95th percentile ≤ 3초)을 사전에 정의하고 [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) 결과와 비교하는 것이 감리의 핵심이다.
+> 3. **판단 포인트**: 목표 TPS, 최대 동시 사용자 수, 허용 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)(예: 95th percentile ≤ 3초)을 사전에 정의하고 [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/) 결과와 비교하는 것이 감리의 핵심이다.
 
 ---
 
@@ -106,10 +106,10 @@ tags = ["studynote-design-supervision"]
 ## Ⅲ. 비교 및 연결
 | 테스트 유형 | 목적 | 부하 패턴 | 주요 측정 지표 |
 |:---|:---|:---|:---|
-| [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) ([Load Test](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)) | 목표 부하 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 점진적 증가 | TPS, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) |
-| [스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/) ([Stress Test](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/)) | 한계점(Break Point) 탐색 | 한계 초과 부하 | 포화점, 오류율 |
-| [내구성 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/449_endurance_soak_test/) (Soak Test) | 장시간 운영 안정성 | 지속 부하 | [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/), TPS 변화 |
-| [스파이크 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/448_spike_test/) ([Spike Test](/knowledge-base/studynote/04_software_engineering/11_testing_validation/448_spike_test/)) | 순간 급증 대응 | 급격한 피크 | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 |
+| [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/) ([Load Test](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/)) | 목표 부하 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 점진적 증가 | TPS, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) |
+| [스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/839_stress_test/) ([Stress Test](/knowledge-base/studynote/04_software_engineering/11_testing_validation/839_stress_test/)) | 한계점(Break Point) 탐색 | 한계 초과 부하 | 포화점, 오류율 |
+| [내구성 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/841_endurance_soak_test/) (Soak Test) | 장시간 운영 안정성 | 지속 부하 | [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/), TPS 변화 |
+| [스파이크 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/840_spike_test/) ([Spike Test](/knowledge-base/studynote/04_software_engineering/11_testing_validation/840_spike_test/)) | 순간 급증 대응 | 급격한 피크 | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 |
 | 볼륨 테스트 ([Volume](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/) Test) | 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 | 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 변화 |
 
 | 도구 | [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 지원 | 특징 | 사용 환경 |
@@ -118,9 +118,9 @@ tags = ["studynote-design-supervision"]
 | Gatling | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/), [WebSocket](/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/) | 코드 기반, 고성능 | 개발자 친화 |
 | nGrinder | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) | NAVER 개발, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 테스트 | 국내 공공 다수 사용 |
 | Locust | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) | Python 기반 | [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경 |
-| k6 | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/), [WebSocket](/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/) | JS 기반, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 연동 | [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경 |
+| k6 | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/), [WebSocket](/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/) | JS 기반, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 연동 | [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경 |
 
-- **📢 섹션 요약 비유**: [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)는 "실제 개업 전 친구들을 초대해 식당을 가득 채워보는 리허설"이다. 예상치 못한 병목(주방 동선)을 미리 발견하고 개선할 수 있다.
+- **📢 섹션 요약 비유**: [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/)는 "실제 개업 전 친구들을 초대해 식당을 가득 채워보는 리허설"이다. 예상치 못한 병목(주방 동선)을 미리 발견하고 개선할 수 있다.
 
 ---
 
@@ -145,7 +145,7 @@ tags = ["studynote-design-supervision"]
 | 상황 | 판단 | 조치 |
 |:---|:---|:---|
 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표 문서 없음 | 심각한 지적 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 요건 정의서 작성 요구 |
-| [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) 미수행 | 주요 지적 | 테스트 수행 후 재감리 |
+| [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/) 미수행 | 주요 지적 | 테스트 수행 후 재감리 |
 | P95 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 목표 초과 | 보완 필요 | 병목 원인 분석 및 튜닝 |
 | 오류율 1% 초과 | 주요 지적 | 오류 원인 분석 필수 |
 | 포화점이 목표 부하 이하 | 심각한 지적 | 아키텍처 개선 또는 증설 |
@@ -161,7 +161,7 @@ tags = ["studynote-design-supervision"]
 ---
 
 ## Ⅴ. 기대효과 및 결론
-명확한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표(TPS, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 동시 사용자)를 기반으로 한 체계적 감리는 오픈 직후 발생하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·장애를 사전 예방한다. 2021년 재난지원금 신청 시스템 마비, 2023년 수능 원서 접수 장애 등의 사례는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 감리 부재가 실제 국민 불편으로 직결됨을 보여준다. P95 기반 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 목표 관리와 사전 [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) 수행은 공공정보화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 감리의 기본 요건이다.
+명확한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표(TPS, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 동시 사용자)를 기반으로 한 체계적 감리는 오픈 직후 발생하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·장애를 사전 예방한다. 2021년 재난지원금 신청 시스템 마비, 2023년 수능 원서 접수 장애 등의 사례는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 감리 부재가 실제 국민 불편으로 직결됨을 보여준다. P95 기반 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 목표 관리와 사전 [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/) 수행은 공공정보화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 감리의 기본 요건이다.
 
 확장 방향은 ① [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), ② Continuous [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/), ③ [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), [Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 기반 이상 탐지와 결합하는 것이다.
 

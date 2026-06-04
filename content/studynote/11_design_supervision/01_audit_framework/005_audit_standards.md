@@ -69,7 +69,7 @@ tags = ["design_supervision"]
 | **제1편 총칙** | 목적, 용어 정의, 적용 범위 | 감리 대상, 감리 종류, 관련 법령 | 기본 틀 정의 |
 | **제2편 감리 실시** | 감리 계획, 준비, 수행, 보고 절차 | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)기술, 증거수집, 분석방법 | [PDCA](/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/) 기반 |
 | **제3편 감리 영역별 세부기준** | 사업관리, 응용시스템, DB/보안 | [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/),평가항목 | 핵심 내용 |
-| **제4편 감리 증거 및 보고** | 증거의 종류, 보고서 양식, 조치근진 | [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/), 시정권고 | 법적な 뒷받침 |
+| **제4편 감리 증거 및 보고** | 증거의 종류, 보고서 양식, 조치근진 | [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/628_objective_evidence_collection/), 시정권고 | 법적な 뒷받침 |
 
 감리기준의 각 영역별 주요 검사 항목을 수준대별로 정리한 표는 다음과 같다.
 
@@ -195,7 +195,7 @@ tags = ["design_supervision"]
 | **감리인 역량** | 전문 감리 인력 양성의 systematic한 기준 확립 | [CISA](/knowledge-base/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/) 등 국제 자격보유솔 50% 이상 향상 |
 
 **미래 전망:**
-정보계통 감리기준은 Fourth Industrial Revolution 기술([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), Big [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), Cloud, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/))의 등장에 따라 지속갱신될 전망이다. 특히 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서의 감리항목 추가, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 및 윤리성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 항목새롭게 추가, 그리고 실시간 모니터링 기반의 지속적 감리(Continuous [Auditing](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)) 방법론의 제도화가 주요 검토과제로의론되고 있다.
+정보계통 감리기준은 Fourth Industrial Revolution 기술([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), Big [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), Cloud, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/))의 등장에 따라 지속갱신될 전망이다. 특히 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경에서의 감리항목 추가, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 및 윤리성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 항목새롭게 추가, 그리고 실시간 모니터링 기반의 지속적 감리(Continuous [Auditing](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)) 방법론의 제도화가 주요 검토과제로의론되고 있다.
 
 📢 **섹션 요약 비유**: 미래의 감리기준 발전은 <strong>'자동차 검사 기준 의현대화'</strong>과 같습니다. 처음에는 차체 흠집과 브레이크만 확인했지만, 이제는 연비, 배기가스, 전자제어장치, 자율주행 기능까지 확인하듯이, 정보시스템 감리기준도새로운기출에 맞춰 계속 진화할 것입니다.
 

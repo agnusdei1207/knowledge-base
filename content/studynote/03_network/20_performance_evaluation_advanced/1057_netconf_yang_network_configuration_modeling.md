@@ -11,7 +11,7 @@ tags = ["network"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: YANG은 네트워크 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)의 구조와 규칙을 정의하는 모델이고, NETCONF는 그 모델을 장비에 안전하게 주입하는 전송 프로토콜이다.
-> 2. **가치**: CLI 수작업과 [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) (Simple Network [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 중심의 한계를 넘어, 선언형 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)과 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)을 가능하게 한다.
+> 2. **가치**: CLI 수작업과 [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) (Simple Network [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 중심의 한계를 넘어, 선언형 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)과 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)을 가능하게 한다.
 > 3. **판단 포인트**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) ([Secure Shell](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)) 기반 전송, candidate/running datastore 분리가 핵심이다.
 
 ---
@@ -20,7 +20,7 @@ tags = ["network"]
 
 기존 CLI ([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Line Interface) 방식은 장비마다 명령어가 다르고, 사람이 직접 타이핑해야 해서 실수가 잦다.
 
-[SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) (Simple Network [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))는 모니터링에는 강하지만, 복잡한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 안전하게 쓰는 데는 약했다. 그래서 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 자동화를 위한 새로운 규격이 필요했다.
+[SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) (Simple Network [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))는 모니터링에는 강하지만, 복잡한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 안전하게 쓰는 데는 약했다. 그래서 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 자동화를 위한 새로운 규격이 필요했다.
 
 - **📢 섹션 요약 비유**: 예전에는 네트워크 장비를 하나하나 손으로 만졌다면, 이제는 도면을 넣고 자동 조립하는 시대다.
 

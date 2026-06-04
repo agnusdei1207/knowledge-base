@@ -71,7 +71,7 @@ PKCS#[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_system
 
 ## Ⅲ. 비교 및 연결
 
-PKCS#10은 다른 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) ([Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/984_pki_public_key_infrastructure_ca_ra_certificate/)) 산출물과 구분해서 이해해야 한다. CSR은 "요청서"이고, 인증서는 "발급 결과물"이며, PKCS#12는 개인키까지 담을 수 있는 배포·[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)다. 이 차이를 구분해야 운영 사고를 줄일 수 있다.
+PKCS#10은 다른 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) ([Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/1080_pki_public_key_infrastructure_ca_ra_certificate/)) 산출물과 구분해서 이해해야 한다. CSR은 "요청서"이고, 인증서는 "발급 결과물"이며, PKCS#12는 개인키까지 담을 수 있는 배포·[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)다. 이 차이를 구분해야 운영 사고를 줄일 수 있다.
 
 | 항목 | PKCS#[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) CSR | X.509 인증서 | PKCS#12 |
 | :--- | :--- | :--- | :--- |
@@ -81,7 +81,7 @@ PKCS#10은 다른 [PKI](/knowledge-base/studynote/09_security/03_network_securit
 | 대표 확장자 | `.csr` | `.crt`, `.cer` | `.p12`, `.pfx` |
 | 보안 포인트 | 개인키 소유 증명 | 신뢰 체인 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 자체 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 필요 |
 
-또한 PKCS#10은 PKCS#7 / CMS (Cryptographic Message Syntax), 자동 인증서 관리 환경 (ACME, Automatic Certificate [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/)), 등록기관 ([RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/), [Registration Authority](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/))과도 연결된다. CSR이 발급 파이프라인의 출발점이라면, CMS는 인증서나 서명 데이터를 포장하는 데 쓰이고, ACME는 CSR 제출과 발급 자동화를 도와준다.
+또한 PKCS#10은 PKCS#7 / CMS (Cryptographic Message Syntax), 자동 인증서 관리 환경 (ACME, Automatic Certificate [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/)), 등록기관 ([RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/), [Registration Authority](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/))과도 연결된다. CSR이 발급 파이프라인의 출발점이라면, CMS는 인증서나 서명 데이터를 포장하는 데 쓰이고, ACME는 CSR 제출과 발급 자동화를 도와준다.
 
 이 차이가 중요한 이유는 초보 운영자가 CSR과 인증서를 혼동하기 쉽기 때문이다. CSR을 만들어도 브라우저가 신뢰하는 인증서가 생긴 것은 아니며, 반대로 인증서를 받았다고 해서 개인키를 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)한 것도 아니다. 각 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 역할이 명확히 다르다.
 
@@ -133,11 +133,11 @@ PKCS#10을 표준대로 사용하면 다양한 CA와 도구가 상호 운용 가
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [공개키 기반 구조](/knowledge-base/studynote/03_network/13_network_security_basics/676_pki_public_key_infrastructure/) ([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/), [Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/984_pki_public_key_infrastructure_ca_ra_certificate/)) | CSR이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·제출되는 전체 인증서 발급 체계 |
+| [공개키 기반 구조](/knowledge-base/studynote/03_network/13_network_security_basics/676_pki_public_key_infrastructure/) ([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/), [Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/1080_pki_public_key_infrastructure_ca_ra_certificate/)) | CSR이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·제출되는 전체 인증서 발급 체계 |
 | X.509 인증서 | CSR [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 후 최종 발급되는 결과물 |
 | [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) ([Subject Alternative Name](/knowledge-base/studynote/09_security/04_endpoint_security/174_san_subject_alternative_name/)) | CSR 단계에서 정의하는 현대 인증서의 핵심 이름 확장 |
 | [PoP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/) (Proof of Possession) | CSR 서명으로 증명하는 개인키 소유 사실 |
-| ACME (Automatic Certificate [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/)) | CSR 제출과 인증서 발급 자동화를 돕는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
+| ACME (Automatic Certificate [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/)) | CSR 제출과 인증서 발급 자동화를 돕는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
 | PKCS#12 | 발급된 인증서와 개인키를 함께 보관할 때 쓰는 별도 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) |
 
 ### 📈 관련 키워드 및 발전 흐름도

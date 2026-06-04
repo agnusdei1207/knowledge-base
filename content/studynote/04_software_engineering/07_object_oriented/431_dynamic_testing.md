@@ -34,7 +34,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **1970년대**: 소프트웨어 테스트 이론에서 동적 테스팅 개념 확립
   2. **1990년대**: JUnit(Java), NUnit(.NET) 등 [단위 테스트 프레임워크](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/398_unit_test_framework_xunit/) 등장
-  3. **현재**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD와 결합한 [지속적 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/465_continuous_testing/), 자동화된 [동적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/) 도구
+  3. **현재**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD와 결합한 [지속적 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/857_continuous_testing/), 자동화된 [동적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/) 도구
 
 - **섹션 요약 비유**: 동적 테스팅은 <strong>'완구 작동 측시'</strong>와/과 같다. 완구의 설계도(코드)를보고 구조를 확인하지만(정적), 실제로 건전지를 넣고 작동시켜봐야(동적)마체가 돌아가는지, 불빛이 나는지 등을 알 수 있다. 작동시켜보기 전에는"마마체가 연결되어 있는지"등의문제을 알 수 없다.
 
@@ -128,7 +128,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 동적 테스팅 (Dynamic Testing)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -182,7 +182,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 454 / 973
 
-<- **이전**: [431. 동적 테스팅 (Dynamic Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/431_dynamic_testing/)
-**다음**: [432. 리스크 기반 테스팅 (Risk-based Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/432_risk_based_testing/) ->
+<- **이전**: [431. 동적 테스팅 (Dynamic Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/823_dynamic_testing/)
+**다음**: [432. 리스크 기반 테스팅 (Risk-based Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/824_risk_based_testing/) ->
 
 ---

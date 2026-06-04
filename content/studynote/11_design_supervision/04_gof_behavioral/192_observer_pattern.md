@@ -97,7 +97,7 @@ tags = ["studynote-design-supervision"]
 2. 동기 통지 시 느린 Observer가 Subject를 블로킹하는 문제를 해결했는가?
 3. [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 방지를 위해 Observer가 더 이상 필요 없을 때 구독 해제(removeObserver)가 되는가?
 4. 이벤트 순환(Subject가 Observer를 통지하고 Observer가 다시 Subject를 변경하는 무한 루프)을 방지하는가?
-5. [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) 수가 많을 때 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화를 위해 비동기 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/)(EventBus)를 사용하는가?
+5. [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) 수가 많을 때 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화를 위해 비동기 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/931_event_bus_stream_processing/)(EventBus)를 사용하는가?
 
 - **📢 섹션 요약 비유**: 구독 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Subject)에서 탈퇴(removeObserver)를 처리하지 않으면, 더 이상 관심 없는 구독자([Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))에게 계속 알림이 가서 메모리 낭비(누수)가 발생한다.
 

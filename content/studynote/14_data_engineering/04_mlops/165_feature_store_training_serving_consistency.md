@@ -154,8 +154,8 @@ Point-in-Time Correct 조인 구현 (Feast 예시):
 | 제품 | 유형 | 오프라인 | 온라인 | 강점 |
 |:---|:---|:---:|:---:|:---|
 | **Feast** | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) | S3/GCS/BQ | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/)/[DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) | 가장 많이 쓰이는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) |
-| **Tecton** | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) | Spark/[Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) | [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/)/[Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) | 완전 관리형, 스트리밍 강점 |
-| **Hopsworks** | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)/[SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) | [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) | RonDB/MySQL | 사용 편의성, 오프라인 강점 |
+| **Tecton** | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) | Spark/[Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) | [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/)/[Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) | 완전 관리형, 스트리밍 강점 |
+| **Hopsworks** | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)/[SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) | [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) | RonDB/MySQL | 사용 편의성, 오프라인 강점 |
 | <strong>Vertex <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> Feature Store</strong> | GCP | [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) | Bigtable | GCP 완전 통합 |
 | **SageMaker Feature Store** | AWS | S3 | [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) | AWS SageMaker 완전 통합 |
 
@@ -284,7 +284,7 @@ Training-Serving Skew는 훈련 시 Python PySpark로 계산한 [피처](/knowle
 | **Training-Serving Skew** | 빈번히 발생 | 완전 제거 | 모델 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 향상 |
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 누수</strong> | 감지 어려움 | PIT 조인으로 방지 | 모델 정확도 현실화 |
 | <strong>팀 간 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 공유</strong> | 없음 | 검색·재사용 가능 | 협업 효율 향상 |
-| <strong>실시간 서빙 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong> | 수 초 (실시간 계산) | 수 ms (사전 계산) | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 충족 |
+| <strong>실시간 서빙 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong> | 수 초 (실시간 계산) | 수 ms (사전 계산) | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 충족 |
 
 ### 5.2 결론
 
@@ -306,7 +306,7 @@ Training-Serving Skew는 훈련 시 Python PySpark로 계산한 [피처](/knowle
 | 구성요소 | [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) | [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 정의·[메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/) |
 | 도구 | Feast | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 스토어 |
 | 도구 | Hopsworks | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 스토어 |
-| 도구 | Tecton | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 스토어 |
+| 도구 | Tecton | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 스토어 |
 | 상위 개념 | [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) | [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 스토어는 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 핵심 인프라 |
 | 연관 | [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/) | 모델 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 ([피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 스토어 협력) |
 

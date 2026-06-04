@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 400 / 587
 
-<- **이전**: [275. MDM 마스터 데이터 관리](/knowledge-base/studynote/12_it_management/05_security_compliance/275_mdm_review/)
-**다음**: [276. ERP 전사적 자원 관리](/knowledge-base/studynote/12_it_management/05_security_compliance/276_erp_enterprise_resource_planning/) ->
+<- **이전**: [275. MDM 마스터 데이터 관리](/knowledge-base/studynote/12_it_management/05_security_compliance/924_mdm_review/)
+**다음**: [276. ERP 전사적 자원 관리](/knowledge-base/studynote/12_it_management/05_security_compliance/925_erp_enterprise_resource_planning/) ->
 
 ---

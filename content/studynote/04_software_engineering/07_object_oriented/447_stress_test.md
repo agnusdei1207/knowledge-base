@@ -23,14 +23,14 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 수강신청 첫날 오전 9시, 백신 예약 첫날, BTS 콘서트 티켓팅 등 시스템은 1년에 단 하루, 단 1분 동안 설계치를 100배 초과하는 극한의 압박을 받는다. 이때 아무런 스트레스 테스트 없이 오픈했다면, 서버는 멈추고 결제 중이던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 증발하며 DB 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 걸려 영원히 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)되지 않는 재앙이 터진다. 기술사는 "서버가 안 죽게 만들어라"라고 지시하는 것이 아니라, <strong>"서버가 죽더라도 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 손실 없이 안전하게 뻗고, 트래픽이 빠지면 스스로 부활하게 만들어라"</strong>를 스트레스 테스트로 증명해야 한다.
 
-- **💡 비유**: 스트레스 테스트는 <strong>'잠수함 압력 테스트(Crash Test)'</strong>와 같습니다. 평소에 다니는 수심 100m([부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/))가 아니라, 잠수함을 수심 1,000m의 심해로 억지로 끌고 들어갑니다. 잠수함이 찌그러지며 박살 날 때(시스템 다운), 물이 엔진실로 새어 들어가지 않도록 비상 격벽이 제대로 닫히는지([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)), 선원들은 대피할 수 있는지(우아한 실패)를 보는 잔혹하지만 가장 확실한 극한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)입니다.
+- **💡 비유**: 스트레스 테스트는 <strong>'잠수함 압력 테스트(Crash Test)'</strong>와 같습니다. 평소에 다니는 수심 100m([부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/))가 아니라, 잠수함을 수심 1,000m의 심해로 억지로 끌고 들어갑니다. 잠수함이 찌그러지며 박살 날 때(시스템 다운), 물이 엔진실로 새어 들어가지 않도록 비상 격벽이 제대로 닫히는지([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)), 선원들은 대피할 수 있는지(우아한 실패)를 보는 잔혹하지만 가장 확실한 극한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 과거엔 '평상시'에 서버가 잘 도는지([부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/))에 집중했다. 서버가 죽으면 그냥 재부팅했다.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 과거엔 '평상시'에 서버가 잘 도는지([부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/))에 집중했다. 서버가 죽으면 그냥 재부팅했다.
   2. **대규모 장애의 시대**: 2000년대 전자상거래 폭발로 디도스(DDoS)급의 정상 트래픽 폭주가 일상화되며 시스템 붕괴가 기업의 파산으로 이어졌다. "어떻게 죽는지 확인하자"는 사상이 대두되었다.
   3. **카오스 엔진 (현재)**: 넷플릭스의 [카오스 몽키](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/)([Chaos Monkey](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/))처럼, 라이브 운영 환경에서도 의도적으로 스트레스를 주어(예: 서버 랜선 뽑기, CPU 100% 만들기) 클라우드의 자가 치유력을 상시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 아키텍처로 진화했다.
 
-- **📢 섹션 요약 비유**: [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)가 마라톤 선수에게 '42.195km를 뛸 수 있니?'를 테스트하는 것이라면, 스트레스 테스트는 마라톤 선수 등 뒤에 사자 3마리를 풀어서 선수가 피를 토하며 쓰러질 때까지 뛰게 한 뒤, '심장이 어떻게 멎는지'를 관찰하는 가학적이지만 필수적인 신체 검사입니다.
+- **📢 섹션 요약 비유**: [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/)가 마라톤 선수에게 '42.195km를 뛸 수 있니?'를 테스트하는 것이라면, 스트레스 테스트는 마라톤 선수 등 뒤에 사자 3마리를 풀어서 선수가 피를 토하며 쓰러질 때까지 뛰게 한 뒤, '심장이 어떻게 멎는지'를 관찰하는 가학적이지만 필수적인 신체 검사입니다.
 
 ---
 
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 스트레스 테스트 (Stress Test)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 486 / 973
 
-<- **이전**: [447. 스트레스 테스트 (Stress Test)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/)
-**다음**: [448. 스파이크 테스트 (Spike Test)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/448_spike_test/) ->
+<- **이전**: [447. 스트레스 테스트 (Stress Test)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/839_stress_test/)
+**다음**: [448. 스파이크 테스트 (Spike Test)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/840_spike_test/) ->
 
 ---

@@ -97,7 +97,7 @@ ToT (Tree-of-Thought) 추론 구조
 | [CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/) ([Chain-of-Thought](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/)) | 단선 | 낮음 | 중간 | 중간 복잡도 추론 |
 | SC (Self-[Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)) | 다중 [CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/) 샘플링 | 중간 | 중상 | 수학 문제 |
 | **ToT (Tree-of-Thought)** | 트리 ([BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)/[DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/)) | 높음 | 높음 | 복잡 퍼즐·계획 |
-| GoT ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)-of-Thought) | [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | 최고 | 최고 | 창의적 문제 해결 |
+| GoT ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/)-of-Thought) | [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | 최고 | 최고 | 창의적 문제 해결 |
 
 ### 연결 개념 흐름
 
@@ -154,7 +154,7 @@ ToT는 "LLM을 더 똑똑하게 만드는 것"이 아니라, <strong>"LLM이 문
 |:---|:---|
 | <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/">CoT</a> (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/">Chain-of-Thought</a>)</strong> | ToT의 선행 기법; 단선 추론의 한계를 트리 구조로 극복 |
 | <strong>SC (Self-<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">Consistency</a>)</strong> | 여러 [CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/) 경로 샘플링 후 다수결; ToT와 상보 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
-| <strong>GoT (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a>-of-Thought)</strong> | ToT의 진화형; [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 구조로 아이디어 병합·순환 가능 |
+| <strong>GoT (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/">Graph</a>-of-Thought)</strong> | ToT의 진화형; [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 구조로 아이디어 병합·순환 가능 |
 | **ReAct** | 추론(Reasoning)과 행동(Action)을 결합한 에이전트 기법 |
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/">프롬프트 엔지니어링</a></strong> | ToT를 포함하는 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 기술 체계 |
 

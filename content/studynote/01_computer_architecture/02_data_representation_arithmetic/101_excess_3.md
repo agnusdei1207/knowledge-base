@@ -127,7 +127,7 @@ Excess-3 (3초과 코드) 도입 · +3 오프셋 매핑
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 3초과 코드는 원래 숫자에 무조건 "3"을 몰래 더해놓고 쓰는 비밀 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/) 편지예요!
+1. 3초과 코드는 원래 숫자에 무조건 "3"을 몰래 더해놓고 쓰는 비밀 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/) 편지예요!
 2. 이 편지를 거울에 비추면([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 반전) 복잡한 뺄셈 계산기를 안 쓰고도 마법처럼 정답(9의 보수)이 딱 튀어나온답니다.
 3. 또 편지에 0000 같은 빈칸이 없어서, 선이 끊어져서 아무 신호도 안 오면 "앗, 고장 났네!" 하고 금방 눈치챌 수 있게 도와줘요.
 

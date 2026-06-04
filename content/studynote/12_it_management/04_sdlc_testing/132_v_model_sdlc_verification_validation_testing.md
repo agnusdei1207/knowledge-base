@@ -20,7 +20,7 @@ tags = ["studynote-it-management"]
 
 V 모델 (V-Model)는 조직이 당면한 요구를 반복 가능하고 설명 가능한 운영 체계로 바꾸기 위해 사용하는 핵심 관리 개념이다. 실무 초점은 폭포수 모델의 확장, 개발 각 단계에 대응하는 테스트 레벨(단위, 통합, 시스템, 인수) 명시 ([Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) & [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))에 놓이며, 핵심은 요구사항, 산출물, 품질 게이트, 일정·원가 지표가 한 흐름으로 연결되어야 프로젝트 통제가 가능하다.
 
-이 개념이 중요한 이유는 현장의 속도와 통제가 자주 충돌하기 때문이다. 기준이 없으면 부서별로 다른 판단이 누적되어 중복 투자, 운영 공백, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 리스크가 커지고, 반대로 지나치게 경직된 통제는 변화 대응 속도를 떨어뜨린다. 실무에서는 보통 전통적 테스트의 멍청함 (Big-Bang Testing):, V 모델의 철학 ([Shift-Left Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/466_shift_left_testing/)):, [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) ([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 같은 세부 축이 함께 굴러가야 관리 체계가 실제 효과를 낸다.
+이 개념이 중요한 이유는 현장의 속도와 통제가 자주 충돌하기 때문이다. 기준이 없으면 부서별로 다른 판단이 누적되어 중복 투자, 운영 공백, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 리스크가 커지고, 반대로 지나치게 경직된 통제는 변화 대응 속도를 떨어뜨린다. 실무에서는 보통 전통적 테스트의 멍청함 (Big-Bang Testing):, V 모델의 철학 ([Shift-Left Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/858_shift_left_testing/)):, [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) ([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 같은 세부 축이 함께 굴러가야 관리 체계가 실제 효과를 낸다.
 
 ```text
 +--------------------------------------------------------------+
@@ -43,7 +43,7 @@ V 모델 (V-Model)가 제대로 작동하려면 목표 정의, 역할 분담, �
 | 구성 축 | 설명 | 판단 포인트 |
 |:---|:---|:---|
 | 전통적 테스트의 멍청함 (Big-Bang Testing): | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 범위와 기준선이 흔들리면 후속 통제도 불안정해진다. |
-| V 모델의 철학 ([Shift-Left Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/466_shift_left_testing/)): | 원칙과 구조를 구체화해 실행 가능한 형태로 바꾼다. | 책임 경계와 운영 절차가 연결돼야 재현성이 생긴다. |
+| V 모델의 철학 ([Shift-Left Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/858_shift_left_testing/)): | 원칙과 구조를 구체화해 실행 가능한 형태로 바꾼다. | 책임 경계와 운영 절차가 연결돼야 재현성이 생긴다. |
 | [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) ([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 성과와 위험을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있는 증적과 판단 근거를 만든다. | 측정 가능한 산출물과 증적이 있어야 설명 가능성이 높아진다. |
 | [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) ([확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 변화·예외를 다시 체계에 반영해야 장기적으로 유지된다. |
 
@@ -84,7 +84,7 @@ V 모델 (V-Model)는 인접한 관리 개념들과 함께 볼 때 더 분명해
 ### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 적용 범위와 제외 범위가 명확하며 전통적 테스트의 멍청함 (Big-Bang Testing): 관점의 경계가 실제 운영에 반영되어 있는가?
-2. V 모델의 철학 ([Shift-Left Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/466_shift_left_testing/)):와 관련된 책임자, 승인권자, 실행 주체가 충돌 없이 정의되어 있는가?
+2. V 모델의 철학 ([Shift-Left Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/858_shift_left_testing/)):와 관련된 책임자, 승인권자, 실행 주체가 충돌 없이 정의되어 있는가?
 3. [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) ([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 결과를 보여 주는 증적과 지표가 정기적으로 축적되는가?
 4. [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) ([확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 결과가 다음 변경·투자·교육 계획으로 환류되는가?
 
@@ -112,7 +112,7 @@ V 모델 (V-Model)가 정착되면 조직은 속도와 통제를 동시에 관�
 | 개념 | 연결 포인트 |
 |:---|:---|
 | 전통적 테스트의 멍청함 (Big-Bang Testing): | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
-| V 모델의 철학 ([Shift-Left Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/466_shift_left_testing/)): | 원칙과 구조를 구체화해 실행 가능한 형태로 바꾼다 |
+| V 모델의 철학 ([Shift-Left Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/858_shift_left_testing/)): | 원칙과 구조를 구체화해 실행 가능한 형태로 바꾼다 |
 | [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) ([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 성과와 위험을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있는 증적과 판단 근거를 만든다 |
 | [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) ([확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
 
@@ -127,7 +127,7 @@ V 모델 (V-Model)가 정착되면 조직은 속도와 통제를 동시에 관�
     +---> [Verification (검증]
 ```
 
-이 흐름은 선행 요구를 기준으로 V 모델 (V-Model)를 정착시키고, 이후 V 모델의 철학 ([Shift-Left Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/466_shift_left_testing/)):와 [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) ([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 같은 확장 축으로 고도화하는 전개를 보여 준다.
+이 흐름은 선행 요구를 기준으로 V 모델 (V-Model)를 정착시키고, 이후 V 모델의 철학 ([Shift-Left Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/858_shift_left_testing/)):와 [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) ([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 같은 확장 축으로 고도화하는 전개를 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. V 모델 (V-Model)는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.

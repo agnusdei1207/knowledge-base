@@ -21,14 +21,14 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/)(Software Development Life Cycle)는 집을 짓는 순서(기획 -> 설계 -> 공사 -> 검수)다. 여기에 Secure(안전한)가 붙으면, 단순히 예쁜 집을 짓는 게 아니라 처음부터 도둑이 못 들어오는 구조를 그리는 것이다. 기획 단계부터 비밀번호 암호화 요구사항을 명시하고, 설계 단계에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출 경로를 예측하며, 코딩할 때는 보안 린터(Linter)를 켜놓고 치는 일련의 보안 내재화 프로세스다.
 
-- **필요성**: 2000년대까지만 해도 개발자들은 기능만 쌩쌩 돌게 짰고(속도전), 보안팀은 오픈 하루 전날 찾아와 "SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 터지니까 오픈 안 됨"이라고 태클만 거는 웬수지간이었다. 그런데 앱이 거대해지며, 100만 줄의 코드를 다 짜고 나서 보안 구멍을 메우려다 보니 DB 구조 자체를 갈아엎어야 하는 대참사가 일어났다. 즉, <strong>"보안은 나중에 덧붙이는 반창고가 아니라, 건물의 철근 자체에 섞어야 하는 시멘트"</strong>라는 처절한 깨달음 속에서 Secure SDLC가 탄생했다.
+- **필요성**: 2000년대까지만 해도 개발자들은 기능만 쌩쌩 돌게 짰고(속도전), 보안팀은 오픈 하루 전날 찾아와 "SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 터지니까 오픈 안 됨"이라고 태클만 거는 웬수지간이었다. 그런데 앱이 거대해지며, 100만 줄의 코드를 다 짜고 나서 보안 구멍을 메우려다 보니 DB 구조 자체를 갈아엎어야 하는 대참사가 일어났다. 즉, <strong>"보안은 나중에 덧붙이는 반창고가 아니라, 건물의 철근 자체에 섞어야 하는 시멘트"</strong>라는 처절한 깨달음 속에서 Secure SDLC가 탄생했다.
 
 - **💡 비유**: Secure SDLC는 <strong>'면역력을 키우는 식단과 운동(예방)'</strong>과 같습니다. 옛날에는 아무거나 막 먹고(더러운 코딩), 병(해킹)에 걸리면 독한 약(사후 패치)을 먹어 치료했습니다. 몸(시스템)은 이미 망가졌고 약값도 비쌉니다. Secure SDLC는 어릴 때부터 밥 먹기 전에 손을 씻고, 몸에 좋은 밥을 짓는 법(설계/기획)부터 철저히 지켜서 아예 바이러스가 침투해도 스스로 이겨내는 강철 면역 체계(Built-in [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))를 만드는 평생 건강 관리법입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **사후 약방문(Patching) 시대**: 해커가 뚫으면, 부랴부랴 패치(Patch) 코드를 만들어 배포하는 두더지 잡기 식 방어였다.
   2. **마이크로소프트의 대각성 (2004)**: 빌 게이츠가 "보안 버그 때문에 윈도우 못 쓰겠다!"는 원성에 충격을 받고, MS-SDL을 전사적으로 강제 선포하며 "보안 룰을 안 지키면 코드 배포 금지!"라는 최초의 Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) 제국을 열었다. (473번 연계)
-  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/">DevSecOps</a> (현재)</strong>: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD가 유행하자 이 긴 보안 절차를 자동화(기계화)하여 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)) 파이프라인에 통째로 욱여넣은 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 보안 시대가 완성되었다.
+  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/">DevSecOps</a> (현재)</strong>: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD가 유행하자 이 긴 보안 절차를 자동화(기계화)하여 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)) 파이프라인에 통째로 욱여넣은 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 보안 시대가 완성되었다.
 
 - **📢 섹션 요약 비유**: Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) 없이 코딩하는 것은, <strong>'창문과 자물쇠 없이 금고를 만들고, 다 지은 다음 그물망을 덮어놓는 멍청한 짓'</strong>입니다. Secure SDLC는 설계도를 그릴 때부터 "여기엔 지문 인식기를 달고, 창문은 아예 만들지 마!"라고 못을 박고 시작하는 가장 완벽한 성벽 축조술입니다.
 
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 소프트웨어 개발 보안 (Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 534 / 973
 
-<- **이전**: [471. 소프트웨어 개발 보안 (Secure SDLC)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/471_secure_sdlc/)
-**다음**: [472. BSIMM (Building Security In Maturity Model)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/472_bsimm/) ->
+<- **이전**: [471. 소프트웨어 개발 보안 (Secure SDLC)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/863_secure_sdlc/)
+**다음**: [472. BSIMM (Building Security In Maturity Model)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/864_bsimm/) ->
 
 ---

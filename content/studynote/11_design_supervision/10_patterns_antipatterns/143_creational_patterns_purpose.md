@@ -83,7 +83,7 @@ tags = ["studynote-design-supervision"]
 | 선택 파라미터가 많아 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 폭발 발생 | [Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) | 조립 단계와 표현을 분리 |
 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 비용이 큰 객체를 반복 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | [Prototype](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) | 새 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)보다 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)가 효율적 |
 
-[생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)은 IoC [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와도 연결된다. Spring 같은 프레임워크는 [Factory Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/), [Abstract Factory](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/), [Singleton](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) 개념을 시스템 수준으로 확장한 예다. 그래서 [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)을 이해하면 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 동작도 더 명확하게 보인다.
+[생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)은 IoC [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와도 연결된다. Spring 같은 프레임워크는 [Factory Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/), [Abstract Factory](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/), [Singleton](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) 개념을 시스템 수준으로 확장한 예다. 그래서 [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)을 이해하면 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 동작도 더 명확하게 보인다.
 
 - **📢 섹션 요약 비유**: 어떤 집은 열쇠 하나만 있으면 되고, 어떤 집은 가구 세트를 통째로 맞춰야 하며, 어떤 집은 샘플 하우스를 복사해 짓는 것이 더 빠른 것과 같은 차이다.
 
@@ -91,7 +91,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)은 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/), [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 기반 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 멀티 플랫폼 UI, 복잡한 DTO 조립, 캐시 가능한 원형 객체 관리 등에 널리 쓰인다. 중요한 것은 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 코드를 감춘다가 아니라 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 변경의 파급을 어디서 끊을지 설계하는 것</strong>이다.
+실무에서 [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)은 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/), [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 기반 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 멀티 플랫폼 UI, 복잡한 DTO 조립, 캐시 가능한 원형 객체 관리 등에 널리 쓰인다. 중요한 것은 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 코드를 감춘다가 아니라 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 변경의 파급을 어디서 끊을지 설계하는 것</strong>이다.
 
 기술사 답안에서는 5개 패턴을 단순 나열하기보다, 직접 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 문제 -> [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임 분리 -> 적합한 패턴 선택 -> 기대효과 흐름으로 서술하면 구조적 완성도가 높다.
 
@@ -100,7 +100,7 @@ tags = ["studynote-design-supervision"]
 1. 클라이언트가 구체 클래스 이름과 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 절차를 직접 알고 있는가?
 2. [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 타입, 제품군, 조립 순서, 인스턴스 개수 중 무엇이 핵심 문제인가?
 3. 새 구현 추가 시 클라이언트 수정 없이 확장 가능한가?
-4. 테스트에서 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) 또는 대체 구현으로 쉽게 바꿔 끼울 수 있는가?
+4. 테스트에서 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) 또는 대체 구현으로 쉽게 바꿔 끼울 수 있는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 오답 포인트
 
@@ -122,7 +122,7 @@ tags = ["studynote-design-supervision"]
 |:---|:---|
 | [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 감소 | 클라이언트가 구체 클래스 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 세부사항에서 분리됨 |
 | 확장성 향상 | 새 구현 추가 시 기존 호출부 수정 최소화 |
-| 테스트 용이성 | [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/), [Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/), 대체 구현 주입이 쉬워짐 |
+| 테스트 용이성 | [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/), [Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/), 대체 구현 주입이 쉬워짐 |
 | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 규칙 중앙화 | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 정책과 조립 순서를 한곳에서 관리 가능 |
 
 - **📢 섹션 요약 비유**: [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)은 건물을 예쁘게 칠하는 기술이 아니라, 자재 반입과 조립 순서를 통제하는 공정 관리 체계에 가깝다.
@@ -135,7 +135,7 @@ tags = ["studynote-design-supervision"]
 |:---|:---|
 | [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 방식 확장 시 기존 호출부 수정을 줄이는 기준 |
 | [DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) | 구체 클래스 대신 추상화에 의존하게 만드는 기반 |
-| [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) / IoC | [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)이 프레임워크 수준으로 확장된 대표 사례 |
+| [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) / IoC | [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)이 프레임워크 수준으로 확장된 대표 사례 |
 | [Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) | 복잡한 조립형 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 대표 패턴 |
 | [Abstract Factory](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/) | 관련 객체 패밀리 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 대표 패턴 |
 

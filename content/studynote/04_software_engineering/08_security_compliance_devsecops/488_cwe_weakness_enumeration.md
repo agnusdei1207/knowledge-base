@@ -28,7 +28,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **용어의 파편화 지옥**: 1990년대 해킹이 폭발했지만 방어 가이드는 각 회사(MS, IBM)마다 이름이 달라서 중구난방이었다.
   2. **미국 국토안보부(DHS)의 후원과 MITRE의 집대성**: "안 되겠다, 모든 취약점 원인을 하나로 묶어라!"라는 지시 아래 MITRE 코퍼레이션이 2006년에 [CWE](/knowledge-base/studynote/09_security/04_endpoint_security/410_cwe_taxonomy/) 리스트를 최초 발행했다.
-  3. **시큐어 코딩의 글로벌 법전화 (현재)**: 한국 KISA(인터넷진흥원)의 '소프트웨어 보안약점 진단가이드 47항목' 등 전 세계 국가 공인 보안 규격들이 "[CWE](/knowledge-base/studynote/09_security/04_endpoint_security/410_cwe_taxonomy/) 몇 번을 막아라"라고 법에 명시하면서 절대적인 파이프라인([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD) 스캐너의 채점 기준이 되었다.
+  3. **시큐어 코딩의 글로벌 법전화 (현재)**: 한국 KISA(인터넷진흥원)의 '소프트웨어 보안약점 진단가이드 47항목' 등 전 세계 국가 공인 보안 규격들이 "[CWE](/knowledge-base/studynote/09_security/04_endpoint_security/410_cwe_taxonomy/) 몇 번을 막아라"라고 법에 명시하면서 절대적인 파이프라인([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD) 스캐너의 채점 기준이 되었다.
 
 - **📢 섹션 요약 비유**: CWE는 경찰서 캐비닛에 있는 <strong>'범죄 수법(Modus Operandi) 도감'</strong>입니다. 이 도감에는 "범인 얼굴(사건)"이 있는 게 아니라, "1. 쇠지렛대로 창문 뜯기", "2. 도어록 비번 훔쳐보기" 같은 범죄자들의 뻔한 수법(구멍)들이 적혀 있습니다. 경찰(개발자)은 이 도감을 보고 "아하, 창문을 튼튼하게 바꿔야겠구나" 하고 대비책을 세우게 됩니다.
 
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [CWE](/knowledge-base/studynote/09_security/04_endpoint_security/410_cwe_taxonomy/) ([Common Weakness Enumeration](/knowledge-base/studynote/09_security/04_endpoint_security/410_cwe_taxonomy/))은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ CWE (Common Weakness Enumeration) 개념 정립
 
 **진행 상황**: 568 / 973
 
-<- **이전**: [488. CWE (Common Weakness Enumeration)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/488_cwe/)
-**다음**: [489. CVE (Common Vulnerabilities and Exposures)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/489_cve/) ->
+<- **이전**: [488. CWE (Common Weakness Enumeration)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/880_cwe/)
+**다음**: [489. CVE (Common Vulnerabilities and Exposures)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/881_cve/) ->
 
 ---

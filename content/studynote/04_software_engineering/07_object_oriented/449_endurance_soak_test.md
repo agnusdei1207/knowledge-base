@@ -21,16 +21,16 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: Soak은 '물에 오랫동안 담가놓는다'는 뜻이다. 동시 접속자 10만 명을 때리는 게 아니다. 평범하게 동시 접속자 1천 명을 3박 4일 동안 쉬지 않고 쏴본다. 1일 차에는 서버 메모리 사용량이 30%였다가, 3일 차에 95%까지 서서히 차올라 결국 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))으로 죽는 끔찍한 현상을 관찰한다.
 
-- **필요성**: 은행 차세대 시스템을 1,000억 원 들여 만들었다. [성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/) 1시간은 완벽하게 통과했다. 화려하게 오픈식까지 마쳤는데, 오픈 1주일째 되는 일요일 새벽에 모든 WAS 서버가 원인 모를 이유로 메모리를 뿜으며 전멸했다. 서버를 재부팅하니 다시 멀쩡해졌다. 그런데 또 1주일 뒤 일요일에 다 같이 죽었다. 코드를 짤 때 객체를 생성하고 지우는(Close) 한 줄을 빼먹어서, 1주일 동안 쓰레기 객체가 메모리에 산더미처럼 쌓여 터진 것이다. 이런 1주일짜리 잠복기 버그는 짧고 강한 '[스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/)'로는 절대 못 잡는다. <strong>"오래 켜놔 봐야 안다"</strong>는 진리가 내구성 테스트의 필요성이다.
+- **필요성**: 은행 차세대 시스템을 1,000억 원 들여 만들었다. [성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/837_performance_test_types/) 1시간은 완벽하게 통과했다. 화려하게 오픈식까지 마쳤는데, 오픈 1주일째 되는 일요일 새벽에 모든 WAS 서버가 원인 모를 이유로 메모리를 뿜으며 전멸했다. 서버를 재부팅하니 다시 멀쩡해졌다. 그런데 또 1주일 뒤 일요일에 다 같이 죽었다. 코드를 짤 때 객체를 생성하고 지우는(Close) 한 줄을 빼먹어서, 1주일 동안 쓰레기 객체가 메모리에 산더미처럼 쌓여 터진 것이다. 이런 1주일짜리 잠복기 버그는 짧고 강한 '[스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/839_stress_test/)'로는 절대 못 잡는다. <strong>"오래 켜놔 봐야 안다"</strong>는 진리가 내구성 테스트의 필요성이다.
 
-- **💡 비유**: 내구성 테스트는 자동차의 <strong>'10만 km 내구 주행 테스트'</strong>와 같습니다. 스포츠카를 트랙에 올리고 시속 300km로 10분 달리는 것([스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/))으로는 엔진의 파워를 알 수 있습니다. 하지만 시속 100km로 3박 4일 동안 쉬지 않고 달렸을 때(내구성 테스트), 미세하게 새던 엔진 오일이 결국 바닥나서 엔진이 녹아내리는지, 타이어 편마모가 생기는지는 오직 오랫동안 달려봐야만 잡을 수 있는 치명적 결함입니다.
+- **💡 비유**: 내구성 테스트는 자동차의 <strong>'10만 km 내구 주행 테스트'</strong>와 같습니다. 스포츠카를 트랙에 올리고 시속 300km로 10분 달리는 것([스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/839_stress_test/))으로는 엔진의 파워를 알 수 있습니다. 하지만 시속 100km로 3박 4일 동안 쉬지 않고 달렸을 때(내구성 테스트), 미세하게 새던 엔진 오일이 결국 바닥나서 엔진이 녹아내리는지, 타이어 편마모가 생기는지는 오직 오랫동안 달려봐야만 잡을 수 있는 치명적 결함입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **단기 테스트의 맹점**: C/C++ 시절 포인터 메모리 해제(`free`) 누락이 많았으나, 테스트가 짧아 운영 중 서버가 자주 죽어 1일 1 재부팅이 당연시되었다.
   2. <strong><a href="/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/">가비지 컬렉터</a>(GC)의 배신</strong>: Java 환경이 오며 GC가 메모리를 청소해 주어 안심했다. 그러나 `HashMap` 같은 정적 변수에 데이터를 계속 쌓기만 하고 지우지 않으면 GC도 손을 놓아버리는 '조용한 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)'가 엔터프라이즈의 가장 큰 적이 되었다.
   3. <strong>APM과 장기 <a href="/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/">프로파일링</a> (현재)</strong>: 제니퍼(Jennifer)나 데이터독(Datadog) 같은 [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/) 에이전트를 달고 72시간 롱런 테스트를 돌려, 메모리 증가 곡선(Leak)을 눈으로 확인하고 힙 덤프를 뜨는 것이 차세대 구축 시 필수 관문(오픈 승인 조건)이 되었다.
 
-- **📢 섹션 요약 비유**: 내구성 테스트는 <strong>'양동이 밑빠진 독 테스트'</strong>입니다. 바가지로 1분 동안 미친 듯이 물을 부어보는 것([부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/))은 양동이가 튼튼한지 봅니다. 하지만 양동이에 바늘구멍([메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/))이 뚫려있다면 1분 테스트로는 티도 안 납니다. 물을 적당히 틀어놓고 3일 밤낮을 내버려 둬야, 그 바늘구멍으로 물이 다 새어나가 바닥이 드러나는 끔찍한 실체를 잡아낼 수 있습니다.
+- **📢 섹션 요약 비유**: 내구성 테스트는 <strong>'양동이 밑빠진 독 테스트'</strong>입니다. 바가지로 1분 동안 미친 듯이 물을 부어보는 것([부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/))은 양동이가 튼튼한지 봅니다. 하지만 양동이에 바늘구멍([메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/))이 뚫려있다면 1분 테스트로는 티도 안 납니다. 물을 적당히 틀어놓고 3일 밤낮을 내버려 둬야, 그 바늘구멍으로 물이 다 새어나가 바닥이 드러나는 끔찍한 실체를 잡아낼 수 있습니다.
 
 ---
 
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 내구성 테스트 (Endurance / Soak Test)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 490 / 973
 
-<- **이전**: [449. 내구성 테스트 (Endurance / Soak Test)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/449_endurance_soak_test/)
-**다음**: [450. 벤치마크 테스트 (BMT, Benchmark Test)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/450_benchmark_test/) ->
+<- **이전**: [449. 내구성 테스트 (Endurance / Soak Test)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/841_endurance_soak_test/)
+**다음**: [450. 벤치마크 테스트 (BMT, Benchmark Test)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/842_benchmark_test/) ->
 
 ---

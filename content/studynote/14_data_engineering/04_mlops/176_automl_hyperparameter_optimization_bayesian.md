@@ -43,7 +43,7 @@ AutoML에서 하이퍼파라미터 최적화(Hyperparameter Optimization, HPO)�
 | 구성 요소 | 역할 | 대표 선택지 |
 | :--- | :--- | :--- |
 | 탐색 공간 | 실험 가능한 하이퍼파라미터 범위 정의 | 연속형, 이산형, 조건부 파라미터 |
-| 대리 모델 | `x -> 성능 분포`를 근사 | Gaussian [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/), Tree-structured Parzen Estimator (TPE) |
+| 대리 모델 | `x -> 성능 분포`를 근사 | Gaussian [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/), Tree-structured Parzen Estimator (TPE) |
 | 획득 함수 | 탐색과 활용의 균형으로 다음 후보 결정 | Expected Improvement, Upper [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) Bound |
 | 평가기 | 실제 모델 학습 및 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 점수 산출 | 교차검증, 홀드아웃, [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/) |
 | 실험 저장소 | 결과·시드·[아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) 기록 | [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/), Optuna Storage |
@@ -78,7 +78,7 @@ AutoML에서 하이퍼파라미터 최적화(Hyperparameter Optimization, HPO)�
                                                  +---------------> 반복
 ```
 
-이 과정에서 Gaussian [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) (GP)는 저차원 연속 공간에서 불확실성 표현이 뛰어나고, TPE (Tree-structured Parzen Estimator)는 혼합형·조건부 공간에서 실무 적응력이 좋다. 획득 함수도 역할이 다르다. Expected Improvement (EI)는 현재 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 얼마나 더 좋아질지를 기대값으로 계산하고, Upper [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) Bound (UCB)는 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 불확실성을 함께 보며 아직 덜 탐색된 영역에 기회를 준다.
+이 과정에서 Gaussian [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) (GP)는 저차원 연속 공간에서 불확실성 표현이 뛰어나고, TPE (Tree-structured Parzen Estimator)는 혼합형·조건부 공간에서 실무 적응력이 좋다. 획득 함수도 역할이 다르다. Expected Improvement (EI)는 현재 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 얼마나 더 좋아질지를 기대값으로 계산하고, Upper [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) Bound (UCB)는 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 불확실성을 함께 보며 아직 덜 탐색된 영역에 기회를 준다.
 
 중요한 포인트는 베이지안 최적화가 단순히 "좋아 보이는 점"만 고르지 않는다는 점이다. 이미 좋아 보이는 근처를 더 파는 <strong>활용(exploitation)</strong>과, 아직 정보가 적지만 잠재력이 있을 수 있는 영역을 보는 <strong>탐색(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/">exploration</a>)</strong>을 동시에 관리한다. 이 균형이 무너지면 지역 최적해에 갇히거나, 반대로 실험을 너무 흩뿌려 효율을 잃는다.
 
@@ -156,7 +156,7 @@ AutoML 전체 그림에서 베이지안 HPO는 독립 [모듈](/knowledge-base/s
 | :--- | :--- |
 | HPO (Hyperparameter Optimization) | 모델 외부 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값을 최적화하는 AutoML의 핵심 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) |
 | Bayesian Optimization | 비싼 목적함수를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 모델로 근사해 다음 실험을 선택하는 방식 |
-| Gaussian [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) | 저차원 연속 탐색에서 불확실성 표현이 강한 대리 모델 |
+| Gaussian [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) | 저차원 연속 탐색에서 불확실성 표현이 강한 대리 모델 |
 | TPE (Tree-structured Parzen Estimator) | 혼합형·조건부 파라미터 공간에 강한 실무형 대리 모델 |
 | Hyperband | [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/)로 자원 낭비를 줄이는 탐색 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) |
 | BOHB (Bayesian Optimization and HyperBand) | 샘플 효율과 자원 효율을 함께 노리는 결합형 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |

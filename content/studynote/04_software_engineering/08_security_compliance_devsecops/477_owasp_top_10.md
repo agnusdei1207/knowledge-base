@@ -11,7 +11,7 @@ tags = ["studynote-software-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) 기준 주요 취약점)은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 1. **본질**: [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/) 기준 주요 취약점)은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
 > 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
@@ -26,15 +26,15 @@ tags = ["studynote-software-engineering"]
 - **💡 비유**: OWASP Top 10은 <strong>'전국 빈집털이범들의 가장 뻔한 수법 Top <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a> 뉴스 보도'</strong>와 같습니다. "1위: 우유 투입구로 손 넣기", "2위: 열린 창문 뜯기", "3위: 화분 밑에 숨겨둔 열쇠 찾기". 집주인(개발자)이 도둑을 막겠다고 마당에 지뢰를 깔거나 지붕에 철조망을 치는 오버(Over-engineering)를 할 필요가 없습니다. 그냥 저 뉴스에 나온 1, 2, 3위 수법들(우유 구멍 막기, 열쇠 숨기지 않기)만 철저히 대비해도 도둑질(해킹)의 90%를 막을 수 있는 가장 훌륭한 맞춤형 방범 매뉴얼입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **해킹의 카오스 시대 (2000년대 초)**: 웹이 막 태동하며 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 등 해킹이 미친 듯이 터졌지만 방어 기준이 없어 개발자들은 맞으면서 배웠다.
+  1. **해킹의 카오스 시대 (2000년대 초)**: 웹이 막 태동하며 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 등 해킹이 미친 듯이 터졌지만 방어 기준이 없어 개발자들은 맞으면서 배웠다.
   2. <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/">OWASP Top 10</a> 탄생 (2003)</strong>: 전문가들이 빡쳐서 "웹 해킹은 결국 이 10개가 전부다!"라며 최초로 문서를 배포. 이후 전 세계 기업 보안팀의 신흥 종교로 급부상.
-  3. **2017년에서 2021년으로의 진화 (현재)**: 과거엔 단순한 코드 버그(SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/))가 1, 2위를 다퉜지만, 클라우드와 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대가 오자 <strong>"잘못된 설계(<a href="/knowledge-base/studynote/09_security/05_web_app_security/440_insecure_design/">Insecure Design</a>)", "권한 통제 실패(<a href="/knowledge-base/studynote/09_security/05_web_app_security/417_broken_access_control/">Broken Access Control</a>)", "클라우드 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 오류(<a href="/knowledge-base/studynote/09_security/05_web_app_security/412_security_misconfiguration/">Security Misconfiguration</a>)"</strong> 같은 아키텍처 레벨과 인프라 레벨의 거대한 결함들이 1위로 치고 올라오는 패러다임 시프트가 일어났다.
+  3. **2017년에서 2021년으로의 진화 (현재)**: 과거엔 단순한 코드 버그(SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/))가 1, 2위를 다퉜지만, 클라우드와 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대가 오자 <strong>"잘못된 설계(<a href="/knowledge-base/studynote/09_security/05_web_app_security/440_insecure_design/">Insecure Design</a>)", "권한 통제 실패(<a href="/knowledge-base/studynote/09_security/05_web_app_security/417_broken_access_control/">Broken Access Control</a>)", "클라우드 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 오류(<a href="/knowledge-base/studynote/09_security/05_web_app_security/412_security_misconfiguration/">Security Misconfiguration</a>)"</strong> 같은 아키텍처 레벨과 인프라 레벨의 거대한 결함들이 1위로 치고 올라오는 패러다임 시프트가 일어났다.
 
 - **📢 섹션 요약 비유**: 이 10개의 리스트는 의대생들이 달달 외우는 <strong>'한국인 사망 원인 Top <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a> 통계'</strong>와 같습니다. 의사(아키텍트)가 환자(시스템)의 생명을 지키고 싶다면, 아프리카 열대병 1개를 연구할 시간에 암, 심장병, 뇌졸중(OWASP 1,2,3위)을 예방하고 수술하는 법을 먼저 뼈저리게 마스터해야만 수백만 명을 살려낼 수 있습니다.
 
 ---
 
-다음은 [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) 기의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/) 기의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 +-------------------------------------------------------------+
@@ -49,7 +49,7 @@ tags = ["studynote-software-engineering"]
 +-------------------------------------------------------------+
 ```
 
-이 다이어그램은 [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) 기가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/) 기가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -59,7 +59,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) 기준 주요 취약점)의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
+[OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/) 기준 주요 취약점)의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
@@ -68,9 +68,9 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) 기준 주요 취약점)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/) 기준 주요 취약점)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
-- **📢 섹션 요약 비유**: [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) 기준 주요 취약점)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
+- **📢 섹션 요약 비유**: [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/) 기준 주요 취약점)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
 ---
 
@@ -80,18 +80,18 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-[OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) 기준 주요 취약점)을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
+[OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/) 기준 주요 취약점)을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
 
-| 비교 항목 | [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) 기준 주요 취약점) | 유사 대안 |
+| 비교 항목 | [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/) 기준 주요 취약점) | 유사 대안 |
 | :--- | :--- | :--- |
 | 핵심 목적 | 체계적 품질·생산성 향상 | 임시 방편적 해결 |
 | 적용 규모 | 중·대규모 프로젝트에서 효과적 | 소규모에서는 오버헤드 발생 가능 |
 | 조직 요건 | 팀 전체의 공통 이해와 훈련 필요 | 개인 역량 의존 |
 | 측정 가능성 | 정량적 지표로 성과 측정 가능 | 주관적 판단에 의존 |
 
-다른 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 개념과의 연결을 보면, [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) 기준 주요 취약점)은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))와 긴밀하게 연계된다.
+다른 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 개념과의 연결을 보면, [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/) 기준 주요 취약점)은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))와 긴밀하게 연계된다.
 
-- **📢 섹션 요약 비유**: [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) 기준 주요 취약점)과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
+- **📢 섹션 요약 비유**: [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/) 기준 주요 취약점)과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
 
 ---
 
@@ -101,9 +101,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) 기준 주요 취약점)을(를) 실무에 적용할 때는 다음 판단 기준을 참고한다.
+[OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/) 기준 주요 취약점)을(를) 실무에 적용할 때는 다음 판단 기준을 참고한다.
 
-- **📢 섹션 요약 비유**: [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) 기준 주요 취약점)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/) 기준 주요 취약점)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -111,7 +111,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) 기준 주요 취약점)을(를) 올바르게 적용하면 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+[OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/) 기준 주요 취약점)을(를) 올바르게 적용하면 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
@@ -120,12 +120,12 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
-[OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) 기준 주요 취약점)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
+[OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/) 기준 주요 취약점)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) 기준 주요 취약점)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/) 기준 주요 취약점)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -137,10 +137,10 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) 기준 주요 취약점)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) 기준 주요 취약점)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) 기준 주요 취약점) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) 기준 주요 취약점)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/) 기준 주요 취약점)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/) 기준 주요 취약점)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/) 기준 주요 취약점) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/) 기준 주요 취약점)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -164,7 +164,7 @@ OWASP Top 10 (2021 기준 주요 취약점) 개념 정립
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) 기준 주요 취약점)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/) 기준 주요 취약점)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
@@ -174,7 +174,7 @@ OWASP Top 10 (2021 기준 주요 취약점) 개념 정립
 
 **진행 상황**: 545 / 973
 
-<- **이전**: [476. DREAD 모델 - 위협 리스크 산정 지표 (Damage, Reproducibility, Exploitability, Affected](/knowledge-base/studynote/04_software_engineering/11_testing_validation/476_dread_model/)
-**다음**: [477. OWASP Top 10 (2021)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) ->
+<- **이전**: [476. DREAD 모델 - 위협 리스크 산정 지표 (Damage, Reproducibility, Exploitability, Affected](/knowledge-base/studynote/04_software_engineering/11_testing_validation/868_dread_model/)
+**다음**: [477. OWASP Top 10 (2021)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/) ->
 
 ---

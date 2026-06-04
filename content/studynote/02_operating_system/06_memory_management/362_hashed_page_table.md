@@ -13,7 +13,7 @@ tags = ["studynote-operating-system"]
 
 > 1. **본질**: 해시 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)(Hashed [Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))은 광활한 64비트 주소 공간에서 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 크기 폭발을 막기 위해, 가상 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호를 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)([Hash Function](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/))에 통과시켜 <strong>일정한 크기의 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/">해시 테이블</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/">Hash Table</a>)에 매핑(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/">Mapping</a>)하는 딕셔너리형 자료구조</strong>다.
 > 2. **가치**: [다단계 페이징](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/)([Hierarchical Paging](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/))이 깊어질수록 램을 4번, 5번 접근해야 하는 최악의 오버헤드([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Walk Penalty)를 줄이고, 이론적으로 **$O(1)$에 수렴하는 빠른 평균 탐색 속도와 적은 메모리 사용량을 동시에 달성**한다.
-> 3. **융합**: 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))을 해결하기 위해 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/))로 여러 엔트리를 엮어두는 체이닝([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/)) 기법을 융합하며, 희소(Sparse) 주소 공간을 쓰는 초대형 서버 환경에서 [다단계 페이징](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/)의 강력한 대안으로 쓰인다.
+> 3. **융합**: 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))을 해결하기 위해 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/))로 여러 엔트리를 엮어두는 체이닝([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/)) 기법을 융합하며, 희소(Sparse) 주소 공간을 쓰는 초대형 서버 환경에서 [다단계 페이징](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/)의 강력한 대안으로 쓰인다.
 
 ---
 
@@ -53,7 +53,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)의 구조와 체이닝 ([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))
+### [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)의 구조와 체이닝 ([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/))
 
 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)에는 치명적인 약점이 있다. 바로 다른 가상 주소 `p1`과 `p2`를 넣었는데 우연히 같은 [해시 인덱스](/knowledge-base/studynote/05_database/03_relational_model/157_hash_index_equal_search/) `5`가 튀어나오는 <strong>충돌(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/">Collision</a>)</strong>이다. 이를 막기 위해 [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)의 각 칸은 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">연결 리스트</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">Linked List</a>)</strong>로 구성된다.
 
@@ -123,7 +123,7 @@ tags = ["studynote-operating-system"]
 | 해시 테이블| 평균적으로 빠름| 불안정 (충돌)| 해시맵 낭비 존재|
 +----------+------------+------------+-------------------------+
 ```
-**[매트릭스 해설]** 이론적 평균치(Big-O Average case)는 해시가 좋지만, OS 설계자는 시스템이 멈추는 '최악의 경우(Worst case)'를 더 무서워한다. [해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)로 인한 꼬리물기([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/)) 현상은 OS 스케줄러의 타임아웃을 유발할 수 있어 대중화되지 못했다.
+**[매트릭스 해설]** 이론적 평균치(Big-O Average case)는 해시가 좋지만, OS 설계자는 시스템이 멈추는 '최악의 경우(Worst case)'를 더 무서워한다. [해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)로 인한 꼬리물기([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/)) 현상은 OS 스케줄러의 타임아웃을 유발할 수 있어 대중화되지 못했다.
 
 - **📢 섹션 요약 비유**: 목적지까지 내비게이션 안내를 받을 때, 무조건 신호등 4개를 거쳐 10분 만에 도착하는 길(다단계)과 골목길로 가면 3분 컷이지만 골목이 막히면 1시간이 걸리는 복불복 지름길(해시) 중, OS는 무조건 예측 가능한 전자의 길을 택한 것입니다.
 

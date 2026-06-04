@@ -1,0 +1,184 @@
++++
+title = "867. STRIDE 모델 (STRIDE Model)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
+
+## 핵심 인사이트 (3줄 요약)
+
+> 1. **본질**: [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 모델 ([STRIDE Model](/knowledge-base/studynote/09_security/01_intro_principles/065_stride_model/))은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
+
+---
+
+## Ⅰ. 개요 및 필요성
+
+STRIDE는 설계 단계에서 보안 위협을 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하기 위한 대표적인 방법이다. 이름을 외우는 것보다, 각 글자가 어떤 공격 유형을 뜻하는지 이해하는 것이 중요하다.
+
+이 모델은 [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/1041_threat_modeling/) ([Threat Modeling](/knowledge-base/studynote/09_security/uncategorized/1041_threat_modeling/))에서 빠르게 점검 목록을 만들 때 유용하다.
+
+- **📢 섹션 요약 비유**: 장난감 상자를 볼 때 "부서짐, 분실, 훔침"처럼 문제 종류를 먼저 나누는 것이다.
+
+---
+
+다음은 [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 모델 ([STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) Mo의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+
+```text
++-------------------------------------------------------------+
+|                  STRIDE 모델 (STRIDE Mo                        |
++-------------------------------------------------------------+
+|                                                             |
+|  [입력/요구사항] ---> [핵심 처리 과정] ---> [출력/결과물]  |
+|       |                    |                    |          |
+|       v                    v                    v          |
+|   요구 분석           설계·적용           품질 검증        |
+|                                                             |
++-------------------------------------------------------------+
+```
+
+이 다이어그램은 [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 모델 ([STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) Mo가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
+
+---
+
+---
+
+---
+
+## Ⅱ. 아키텍처 및 핵심 원리
+
+STRIDE는 아래처럼 6가지 질문으로 생각한다.
+
+```text
+자격 위조? -> Spoofing
+변조?      -> Tampering
+부인?      -> Repudiation
+유출?      -> Information Disclosure
+서비스 거부? -> Denial of Service
+권한 상승? -> Elevation of Privilege
+```
+
+| 항목 | 의미 |
+|:---|:---|
+| [Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) | 신원 위조 |
+| Tampering | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/흐름 변조 |
+| Repudiation | 행위 부인 |
+| Information Disclosure | 정보 노출 |
+| Denial of [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 방해 |
+| Elevation of Privilege | [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/) |
+
+- **📢 섹션 요약 비유**: 감기 증상을 볼 때 열, 기침, 통증을 따로 구분하는 것과 같다.
+
+---
+
+---
+
+---
+
+---
+
+## Ⅲ. 비교 및 연결
+
+STRIDE는 체크리스트가 아니라 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 틀이다. 그래서 동일한 시스템도 관점에 따라 여러 [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 항목에 걸릴 수 있다.
+
+| 구분 | [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) | 단순 취약점 목록 |
+|:---|:---|:---|
+| 목적 | 위협 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 항목 나열 |
+| 강점 | 누락 방지 | 빠른 기록 |
+| 한계 | 우선순위는 별도 필요 | [구조적 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/) 부족 |
+
+[위협 모델링](/knowledge-base/studynote/09_security/uncategorized/1041_threat_modeling/), 공격 표면 분석, 보안 리뷰와 함께 쓰면 효과가 크다.
+
+- **📢 섹션 요약 비유**: 책을 장르별로 나누면 찾기 쉽지만, 어떤 책이 좋은지는 또 따로 골라야 하는 것과 같다.
+
+---
+
+---
+
+---
+
+---
+
+## Ⅳ. 실무 적용 및 기술사 판단
+
+실무에서는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [입력 검증](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 권한 분리, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 설계에서 STRIDE를 적용한다.
+
+적용 순서는 다음과 같다.
+1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 그린다.
+2. 흐름의 각 지점에 [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 항목을 대입한다.
+3. 대응책을 요구사항에 반영한다.
+
+- **📢 섹션 요약 비유**: 가게를 둘러보며 "도난, 위조, 파손"이 어디서 생길지 미리 적어두는 것이다.
+
+---
+
+---
+
+---
+
+---
+
+## Ⅴ. 기대효과 및 결론
+
+STRIDE는 보안 사고를 감으로 보지 않고 구조적으로 본다. 그래서 설계 검토의 품질을 높인다.
+
+결론적으로 STRIDE는 "보안 위협 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 프레임워크"다.
+
+- **📢 섹션 요약 비유**: 문제를 종류별로 정리해야 약도 제대로 챙길 수 있다.
+
+---
+
+---
+
+---
+
+### 📌 관련 개념 맵
+
+| 개념 | 연결 포인트 |
+| :--- | :--- |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 모델 ([STRIDE Model](/knowledge-base/studynote/09_security/01_intro_principles/065_stride_model/))의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 모델 ([STRIDE Model](/knowledge-base/studynote/09_security/01_intro_principles/065_stride_model/))은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 모델 ([STRIDE Model](/knowledge-base/studynote/09_security/01_intro_principles/065_stride_model/)) 적용 결과는 QA 활동을 통해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되고 측정된다 |
+| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 모델 ([STRIDE Model](/knowledge-base/studynote/09_security/01_intro_principles/065_stride_model/))에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+
+### 📈 관련 키워드 및 발전 흐름도
+
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    |
+    v
+STRIDE 모델 (STRIDE Model) 개념 정립
+    |
+    v
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    |
+    v
+클라우드 네이티브·AI 기반 확장 적용
+    |
+    v
+지속적 개선 및 DevOps·MLOps 통합
+```
+
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+
+### 👶 어린이를 위한 3줄 비유 설명
+
+1. [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 모델 ([STRIDE Model](/knowledge-base/studynote/09_security/01_intro_principles/065_stride_model/))은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
+3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 541 / 973
+
+<- **이전**: [474. 위협 모델링 (Threat Modeling) 아키텍처 보안 분석](/knowledge-base/studynote/04_software_engineering/11_testing_validation/866_threat_modeling/)
+**다음**: [475. STRIDE 모델 - Spoofing, Tampering, Repudiation, Information Disclosure,](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/475_stride_threat_modeling/) ->
+
+---

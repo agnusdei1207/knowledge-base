@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 [형상 통제](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/) 위원회 (CCB, [Configuration Control](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/) Board)는 승인된 요구사항과 형상 항목을 바꾸려는 요청을 공식적으로 검토하고 승인·보류·기각을 결정하는 조직 또는 프로세스다. 여기서 핵심은 단순 회의체 이름이 아니라, "누가 어떤 근거로 변경을 허용했는가"를 남기는 통제 메커니즘이라는 점이다. 즉 CCB는 변경을 막기 위한 장치가 아니라, 변경을 책임 있게 허용하기 위한 장치다.
 
-이 개념이 필요한 이유는 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) 이후의 요구사항 변경이 설계, 개발, 테스트, 계약, 운영 일정까지 연쇄적으로 흔들기 때문이다. 고객 입장에서는 작은 문구 수정처럼 보여도, 실제로는 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) 변경, 인터페이스 수정, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 재작성, [인수 기준](/knowledge-base/studynote/04_software_engineering/03_design_architecture/165_acceptance_criteria_definition/) 변경으로 이어질 수 있다. CCB가 없으면 이런 변화가 구두 지시나 메신저 메시지로 흘러 들어와 프로젝트 범위를 흐리고 책임 소재를 불분명하게 만든다.
+이 개념이 필요한 이유는 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) 이후의 요구사항 변경이 설계, 개발, 테스트, 계약, 운영 일정까지 연쇄적으로 흔들기 때문이다. 고객 입장에서는 작은 문구 수정처럼 보여도, 실제로는 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) 변경, 인터페이스 수정, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) 재작성, [인수 기준](/knowledge-base/studynote/04_software_engineering/03_design_architecture/165_acceptance_criteria_definition/) 변경으로 이어질 수 있다. CCB가 없으면 이런 변화가 구두 지시나 메신저 메시지로 흘러 들어와 프로젝트 범위를 흐리고 책임 소재를 불분명하게 만든다.
 
 - **📢 섹션 요약 비유**: CCB는 건물 설계가 끝난 뒤 들어오는 설계 변경 요청을 심사하는 허가 창구와 같다. 창문 하나 바꾸는 것처럼 보여도 구조와 공사비가 바뀌는지 먼저 따져 봐야 한다.
 
@@ -125,7 +125,7 @@ CCB가 제대로 작동하면 프로젝트는 변경을 두려워하지 않으�
 | [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) ([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)) | CCB 심사의 직접 대상이 되는 공식 기준선이다. |
 | [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) ([Requirements Traceability Matrix](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)) | 변경이 설계·코드·테스트로 어떻게 번지는지 추적하는 근거 자료다. |
 | [형상 감사](/knowledge-base/studynote/04_software_engineering/01_overview_principles/023_configuration_audit/) ([Configuration Audit](/knowledge-base/studynote/04_software_engineering/01_overview_principles/023_configuration_audit/)) | 승인된 변경이 실제 산출물에 정확히 반영됐는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. |
-| 릴리스 관리 (Release [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) | 승인된 변경이 언제 어떤 버전으로 배포될지 결정하는 후속 단계다. |
+| 릴리스 관리 (Release [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/)) | 승인된 변경이 언제 어떤 버전으로 배포될지 결정하는 후속 단계다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

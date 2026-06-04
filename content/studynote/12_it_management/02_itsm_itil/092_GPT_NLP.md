@@ -20,7 +20,7 @@ tags = ["it_management"]
 
 ## Ⅰ. 개요 및 필요성
 
-[GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) ([Generative Pre-trained Transformer](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/))는 OpenAI가 개발한 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 사전 학습 언어 모델이다. 기존의 자연어 처리(NLP)가 번역, [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/) 등 특정 단일 작업([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))에 맞춰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 레이블링하고 별도로 모델을 학습시켜야 했던 수동적이고 파편화된 한계를 부수기 위해 등장했다.
+[GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) ([Generative Pre-trained Transformer](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/))는 OpenAI가 개발한 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 사전 학습 언어 모델이다. 기존의 자연어 처리(NLP)가 번역, [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/) 등 특정 단일 작업([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))에 맞춰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 레이블링하고 별도로 모델을 학습시켜야 했던 수동적이고 파편화된 한계를 부수기 위해 등장했다.
 
 인터넷에 널린 수조 개의 문장을 읽어 들이며 그저 "문맥상 다음에 올 단어가 무엇일까?"를 맞히는 단순한 과제(Next Token Prediction)를 극한으로 반복했다. 놀랍게도 모델의 파라미터가 수백억 단위를 넘어가면서, 단순히 단어를 맞히는 것을 넘어 문법, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/), 상식은 물론 코딩 지식까지 스스로 깨우치게 되었다. 특정 작업마다 새로운 모델을 훈련할 필요 없이 거대한 기본 뇌([Foundation Model](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)) 하나로 모든 문제를 푸는 패러다임의 대전환이 일어난 것이다.
 
@@ -54,7 +54,7 @@ GPT의 근간은 구글이 발표한 [트랜스포머](/knowledge-base/studynote
 +--------------------------------------------------------------+
 ```
 
-특히 ChatGPT([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-3.5 이상)의 혁신은 [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) ([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) from Human Feedback)를 통해 "똑똑하지만 제멋대로인 예측기"를 "안전하고 예의 바르게 대답하는 비서"로 통제(Alignment)했다는 데 있다.
+특히 ChatGPT([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-3.5 이상)의 혁신은 [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) ([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/) from Human Feedback)를 통해 "똑똑하지만 제멋대로인 예측기"를 "안전하고 예의 바르게 대답하는 비서"로 통제(Alignment)했다는 데 있다.
 
 - **📢 섹션 요약 비유**: 사전 학습이 도서관의 모든 책을 외워 방대한 지식을 쌓은 '야생의 천재'라면, RLHF는 이 천재에게 "사람을 돕고, 욕설은 피하며, 친절하게 대답하는 법"을 가르치는 철저한 '예절 및 직무 교육'이다.
 
@@ -68,7 +68,7 @@ GPT의 근간은 구글이 발표한 [트랜스포머](/knowledge-base/studynote
 | :--- | :--- | :--- |
 | **아키텍처** | [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)의 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))만 사용 | [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)의 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))만 사용 |
 | **학습 방식** | 문장 중간에 구멍을 뚫고 양방향 문맥으로 맞히기 | 앞의 단어들만 보고 다음 단어를 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)으로 맞히기 |
-| **강점 영역** | 문장 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/), 객체명 인식 등 "이해" | 대화 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 요약, 번역, 작문 등 "[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)" |
+| **강점 영역** | 문장 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/), 객체명 인식 등 "이해" | 대화 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 요약, 번역, 작문 등 "[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)" |
 
 BERT가 문서를 완벽하게 독해(이해)하여 빈칸을 채우거나 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 객관식 시험의 달인이라면, GPT는 앞의 맥락을 이어받아 새로운 글을 창작해 내는 주관식 논술의 달인이다. 현재 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시대를 평정한 것은 압도적인 파라미터 크기와 확장성으로 무장한 GPT의 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 방식이다.
 
@@ -143,7 +143,7 @@ GPT-4 (멀티모달 통합) · AI Agent (자율 행동 에이전트)
 
 **진행 상황**: 167 / 587
 
-<- **이전**: [91. CMDB (Configuration Management Database)](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/)
-**다음**: [92. 가용성 관리 (Availability Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/092_availability_management/) ->
+<- **이전**: [91. CMDB (Configuration Management Database)](/knowledge-base/studynote/12_it_management/02_itsm_itil/875_cmdb/)
+**다음**: [92. 가용성 관리 (Availability Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/876_availability_management/) ->
 
 ---

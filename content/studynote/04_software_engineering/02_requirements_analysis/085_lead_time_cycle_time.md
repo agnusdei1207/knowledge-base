@@ -61,7 +61,7 @@ tags = ["software_engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 리드 타임을 고객 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))와 연결하고, 사이클 타임을 팀의 공정 개선과 연결하는 식으로 나눠 본다. 같은 평균이라도 꼬리가 긴 분포는 사용자 불만을 키우므로, 중앙값과 P95를 함께 봐야 한다. 또한 작업 유형별로 분리하지 않으면 작은 수정과 큰 기능이 섞여 왜곡된다.
+실무에서는 리드 타임을 고객 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/))와 연결하고, 사이클 타임을 팀의 공정 개선과 연결하는 식으로 나눠 본다. 같은 평균이라도 꼬리가 긴 분포는 사용자 불만을 키우므로, 중앙값과 P95를 함께 봐야 한다. 또한 작업 유형별로 분리하지 않으면 작은 수정과 큰 기능이 섞여 왜곡된다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 리드 타임과 사이클 타임의 시작·종료점이 정의되어 있는가?
@@ -94,7 +94,7 @@ tags = ["software_engineering"]
 | [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) Time | 착수 전 대기 시간 |
 | WIP ([Work In Progress](/knowledge-base/studynote/04_software_engineering/uncategorized/661_kanban_wip_limit/)) | 흐름을 막는 재공 |
 | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표 | 배포 성과를 보는 실무 기준 |
-| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) | 고객 약속 시간과의 연결 |
+| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)) | 고객 약속 시간과의 연결 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

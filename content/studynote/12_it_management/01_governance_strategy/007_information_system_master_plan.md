@@ -10,10 +10,10 @@ tags = ["it_management"]
 tags = ["it_management"]
 +++
 
-# [정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) ([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/): Information System Master Plan)
+# [정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) ([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/): Information System Master Plan)
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/)([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/))은 [정보화 전략 계획](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))에서 도출된 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 방향을 바탕으로, 구체적인 시스템 개발 우선순위, 일정, 비용을 수립하는중기(1-3년) 계획이다.
+> 1. **본질**: [정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/)([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/))은 [정보화 전략 계획](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))에서 도출된 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 방향을 바탕으로, 구체적인 시스템 개발 우선순위, 일정, 비용을 수립하는중기(1-3년) 계획이다.
 > 2. **가치**:ISP의전략적 방향을실행 가능한 프로젝트 단위로 구체화하여,한られた여산과 인력을 효율적으로 배분하고 중복 투자를 방지한다.
 > 3. <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>: ISMP는ISP의 하위 개념으로,ISP가 "어디로 가야 하는가(방향)"를 정의하면, ISMP는 "무엇을, いつ까지에(프로그램/일정)"를정의한다.
 
@@ -21,9 +21,9 @@ tags = ["it_management"]
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-[정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/)([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/))은 기업의 정보시스템 개발을 체계적으로 관리하기 위한중기계화서이다. ISMP는 1970년대 미국련방정부의 정보시스템 기획에서 비롯되어, 1980년대 기업 환경으로확산된 방법론이다.
+[정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/)([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/))은 기업의 정보시스템 개발을 체계적으로 관리하기 위한중기계화서이다. ISMP는 1970년대 미국련방정부의 정보시스템 기획에서 비롯되어, 1980년대 기업 환경으로확산된 방법론이다.
 
-ISMP가 필요한 이유는 다음과 같다. 첫째, 정보시스템 개발이기업의경쟁력에 직결되기 때문이다. 시장 변화에 빠르게 대응하기 위해정보시스템를괄시 개발해야 하지만, 이는 단순한 기술 결정이 아닌 비용, 인력, 비즈니스 우선순위 등을 종합적으로 고려한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 의사결정이다. 둘째, 중복 투자 방지의 필요성이다. 개별 부서가 독립적으로 시스템을 개발하면 동일하거나 유사한 기능을 가진 시스템이복수 존재하여 예산 낭비가 발생한다. ISMP는 전사적 관점에서 이러한 중복을사전에 방지한다. 셋째, 규제 및 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 요구이다. 금융위원회, [금융감독원](/knowledge-base/studynote/09_security/17_framework_compliance/889_fss_cyber_supervision/) 등 규제 기관들은 금융회사에 정보시스템 운영 및 개발에 대한 체계적 관리 계획을 요구하고 있으며, 외부 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)에서도 [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) 존재 여부를 확인한다.
+ISMP가 필요한 이유는 다음과 같다. 첫째, 정보시스템 개발이기업의경쟁력에 직결되기 때문이다. 시장 변화에 빠르게 대응하기 위해정보시스템를괄시 개발해야 하지만, 이는 단순한 기술 결정이 아닌 비용, 인력, 비즈니스 우선순위 등을 종합적으로 고려한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 의사결정이다. 둘째, 중복 투자 방지의 필요성이다. 개별 부서가 독립적으로 시스템을 개발하면 동일하거나 유사한 기능을 가진 시스템이복수 존재하여 예산 낭비가 발생한다. ISMP는 전사적 관점에서 이러한 중복을사전에 방지한다. 셋째, 규제 및 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 요구이다. 금융위원회, [금융감독원](/knowledge-base/studynote/09_security/17_framework_compliance/889_fss_cyber_supervision/) 등 규제 기관들은 금융회사에 정보시스템 운영 및 개발에 대한 체계적 관리 계획을 요구하고 있으며, 외부 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)에서도 [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 존재 여부를 확인한다.
 
 ```text
 이 도식은 ISP와 ISMP의 관계를 보여준다.
@@ -56,7 +56,7 @@ ISMP는ISP와 비교할 때より구체적な실행계화에 초점을 맞춘다
 
 ISMP는 체계적인 단계별 방법론을 통해 수립되며, 각 단계에서 다양한 분석 기법과 도구가 활용된다.
 
-#### [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) 수립 단계
+#### [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 수립 단계
 
 | 단계 | 활동 | 주요 산출물 | 담당자 |
 |:---|:---|:---|:---|
@@ -77,7 +77,7 @@ ISMP에서 중요한 부분은 시스템의 [분류](/knowledge-base/studynote/1
 | **|** 기타 시스템 | 일반 업무 지원 | 전산회계, 급여관리 |
 | **기술적 플랫폼** | 레거시 시스템 | mainframe 기반 기존 시스템 | IBM 메인프레임 기반 시스템 |
 | **|** 오픈 시스템 | 표준 기술 기반 시스템 | Unix/Linux 서버 기반 |
-| **|** 클라우드 시스템 | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)/[PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)/[IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) 활용 | Salesforce, M365, AWS |
+| **|** 클라우드 시스템 | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/)/[PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)/[IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) 활용 | Salesforce, M365, AWS |
 
 ```text
 이 도식은 시스템 우선순위 결정 시 활용되는 매트릭스를 보여준다.
@@ -104,7 +104,7 @@ ISMP에서 중요한 부분은 시스템의 [분류](/knowledge-base/studynote/1
 
 이 매트릭스는 시스템 개발 우선순위를 결정할 때 활용된다. 비즈니스 영향도가 높고 긴급한 시스템(제1순위)은 즉시 개발에 착수하고, 영향도는 높지만 긴급하지 않은 시스템(제2순위)은중기 로드맵에 포함시킨다. 반대로 영향도가 낮고 긴급한 시스템(제3순위)은자원국한 시 후순위로 밀리며, 영향도도 긴급도도 낮은 시스템(제4순위)은 지속적인 모니터링만 실시한다.
 
-📢 **섹션 요약 비유**: [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) 우선순위 결정은 '급식 줄 서기'와 같습니다. 배가 매우 고픈 사람(높은 영향도+긴급도)은 맨 앞에 세우고, 배는 고프지만 참을 수 있는 사람은 두 번째에, 그저 배고픈 척하는 사람은 뒤로 미루는 것과 같습니다.
+📢 **섹션 요약 비유**: [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 우선순위 결정은 '급식 줄 서기'와 같습니다. 배가 매우 고픈 사람(높은 영향도+긴급도)은 맨 앞에 세우고, 배는 고프지만 참을 수 있는 사람은 두 번째에, 그저 배고픈 척하는 사람은 뒤로 미루는 것과 같습니다.
 
 ---
 
@@ -121,7 +121,7 @@ ISMP의 주요 산출물과 실무에서의 활용 방안을 분석한다.
 | **요구사항 정의서** | 이용자(업무부서)가 요구하는 신규/개선 기능 | 개발 범위([Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/)) 정의 |
 | **타겟 아키텍처** | 향후 3년 후 목표 시스템가구 (To-Be) | 기술 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 방향 제시 |
 | **프로젝트 로드맵** |우선순위에 따른 프로젝트 일정, 비용, 인력 계획 | 예산 배분, 자원 조율 |
-| **투자 효과 분석서** | 각 프로젝트의 예상 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/), [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 기여도 | 경영진 승인 근거 |
+| **투자 효과 분석서** | 각 프로젝트의 예상 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/), [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 기여도 | 경영진 승인 근거 |
 
 #### ISP와ISMP의련휴
 
@@ -151,19 +151,19 @@ ISP와ISMP는 독립적으로 존재하는 것이 아니라 유기적으로련�
 
 ISP가갱신되면 그 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 방향에 맞춰 ISMP도 함께조정되어야 한다. 예를 들어, ISP에서 "클라우드 퍼스트 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"을 신규 채택하면, ISMP에서 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 시스템의 클라우드 이전 일정을가속하거나, 신규 개발프로젝트중 클라우드 기반 시스템의 비중을높이는등의조정이 이루어져야 한다.
 
-📢 **섹션 요약 비유**: ISP와 ISMP의관계는 '학기말승학계화'과 같습니다. 학기 초에 장래 희망([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))을 정하면, 그에 맞게 1학기엔 어학 시험을보고, 2학기엔 자격증을 따며, 방학엔 인턴을 하는 구체적 계획([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/))을 세우는 것과 동일합니다.
+📢 **섹션 요약 비유**: ISP와 ISMP의관계는 '학기말승학계화'과 같습니다. 학기 초에 장래 희망([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))을 정하면, 그에 맞게 1학기엔 어학 시험을보고, 2학기엔 자격증을 따며, 방학엔 인턴을 하는 구체적 계획([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/))을 세우는 것과 동일합니다.
 
 ---
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
-[ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) 수립 및 이행 시 흔히 발생하는 문제와 해결 방안을 분석한다.
+[ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 수립 및 이행 시 흔히 발생하는 문제와 해결 방안을 분석한다.
 
 #### 주요 문제 시나리오
 
 **시나리오 1: 사업부서의 요구 증가로 인한 일정 초과**
 * **상황**:ISMP에 프로젝트 일정이 결정된 후, 사업부서에서새롭게 추가요구가 폭주하여 프로젝트 범위가 계속 확대됨.
-* **해결**: [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)위원회([CAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/))를 통해 범위 변경을 엄격히 관리하고, 주요 변경은 [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) 전체 일정과 예산에 반영하도록 규정
+* **해결**: [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)위원회([CAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/))를 통해 범위 변경을 엄격히 관리하고, 주요 변경은 [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 전체 일정과 예산에 반영하도록 규정
 
 <strong>시나리오 2: 기술 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> 노후화로 인한 유지보수 비용 증가</strong>
 * **상황**: 오래된 레거시 시스템의 유지보수 비용이 신규 개발 예산을 잠식함.
@@ -171,7 +171,7 @@ ISP가갱신되면 그 [전략](/knowledge-base/studynote/04_software_engineerin
 
 **시나리오 3: 클라우드 전환과ISMP의 충돌**
 * **상황**: 회사가 클라우드 퍼스트 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 수립했지만, 기존ISMP에는 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 확장 계획이 포함되어 있음.
-* **해결**: [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)-[ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) 연계를 강화하여 상위 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 변경 시 하위 계획이자동 반영되는사조み를구축
+* **해결**: [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)-[ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 연계를 강화하여 상위 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 변경 시 하위 계획이자동 반영되는사조み를구축
 
 ```text
 이 플로우는ISMP 프로젝트의 우선순위 재조정 프로세스를 보여준다.
@@ -217,20 +217,20 @@ ISMP를 체계적으로 수립하고 이행하면 다음과 같은 효과를 기
 
 #### 미래 전망
 
-* <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/">ISMP</a></strong>: 전통적인 연도별ISMP 갱신을 넘어Quarterly갱신적 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 로드맵으로 전환
+* <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/">ISMP</a></strong>: 전통적인 연도별ISMP 갱신을 넘어Quarterly갱신적 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 로드맵으로 전환
 * **자동화된ISMP**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 시스템 현황 분석 및 최적화 추천공능 도입
-* <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a> <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/">ISMP</a></strong>: [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)시스템재 없고 클라우드 기반만 존재하는 환경에 맞춘 새로운 형태의ISMP
+* <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/">클라우드 네이티브</a> <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/">ISMP</a></strong>: [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)시스템재 없고 클라우드 기반만 존재하는 환경에 맞춘 새로운 형태의ISMP
 
-📢 **섹션 요약 비유**: ISMP는기업의 '항해 도표'입니다. 항해도표가 없으면 부표 없이 바다를 헤매듯, [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) 없이는 기업의 정보시스템이 될림lessly표류합니다. 정기적으로 별과 자리를 확인하며(분기 검토) 항해도표를갱신해야 안전하게목적지에 도착할 수 있습니다.
+📢 **섹션 요약 비유**: ISMP는기업의 '항해 도표'입니다. 항해도표가 없으면 부표 없이 바다를 헤매듯, [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 없이는 기업의 정보시스템이 될림lessly표류합니다. 정기적으로 별과 자리를 확인하며(분기 검토) 항해도표를갱신해야 안전하게목적지에 도착할 수 있습니다.
 
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-* [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) ([정보화 전략 계획](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)) | ISMP의 상위 개념으로, 3-5년중기의 비지니스-IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을정의.
-* [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/)) | ISMP의 아키텍처설계의 기준이 되는전국적 기술 청사진.
+* [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) ([정보화 전략 계획](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)) | ISMP의 상위 개념으로, 3-5년중기의 비지니스-IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을정의.
+* [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/806_ea_enterprise_architecture/)) | ISMP의 아키텍처설계의 기준이 되는전국적 기술 청사진.
 * 프로젝트 포트폴리오 관리 (PPM) | ISMP에서 도출된 프로젝트들의우선순위와 자원 배분을 관리하는활동.
 * Gap 분석 | 현재 시스템 현황([As-Is](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/))과 목표 상태(To-Be) 간 차이를 분석하는방법.
-* [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/) ([Change Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/027_change_management/)) | [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) 이행 중 발생하는 범위 변경을 관리하는プロセス.
+* [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/) ([Change Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/027_change_management/)) | [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 이행 중 발생하는 범위 변경을 관리하는プロセス.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -256,7 +256,7 @@ ISMP를 체계적으로 수립하고 이행하면 다음과 같은 효과를 기
 정보화 마스터 플랜이 현황 분석에서 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립·과제 도출·로드맵·발주로 이어지는 IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기획의 전체 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. **개념**: ISMP는 '우리반 1학기 공부 계획표'와 같아요. 언어를 잘하려면([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 목표), 1학기에 영어 먼저 공부하고, 2학기에 수학을 공부하기로세일정을 세워요.
+1. **개념**: ISMP는 '우리반 1학기 공부 계획표'와 같아요. 언어를 잘하려면([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 목표), 1학기에 영어 먼저 공부하고, 2학기에 수학을 공부하기로세일정을 세워요.
 2. **원리**: 계획표대로 하면 중간고사를 잘 볼 수 있지만, 급하게 더 많은 내용을 넣으면 표가 엉망이 될 수 있어요.
 3. **효과**: 미리 계획하면 엄마, 선생님이 만족하고, 시험도 잘 보겠답니다!
 
@@ -266,7 +266,7 @@ ISMP를 체계적으로 수립하고 이행하면 다음과 같은 효과를 기
 
 **진행 상황**: 9 / 587
 
-<- **이전**: [006. ISP (Information Strategy Planning, 정보화 전략 계획)](/knowledge-base/studynote/12_it_management/01_governance_strategy/006_isp_information_strategy_planning/)
-**다음**: [007. 정보시스템 마스터플랜 (ISMP, Information System Master Plan)](/knowledge-base/studynote/12_it_management/01_governance_strategy/007_ismp_information_system_master_plan/) ->
+<- **이전**: [006. ISP (Information Strategy Planning, 정보화 전략 계획)](/knowledge-base/studynote/12_it_management/01_governance_strategy/802_isp_information_strategy_planning/)
+**다음**: [007. 정보시스템 마스터플랜 (ISMP, Information System Master Plan)](/knowledge-base/studynote/12_it_management/01_governance_strategy/803_ismp_information_system_master_plan/) ->
 
 ---

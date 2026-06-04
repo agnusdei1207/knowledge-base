@@ -18,7 +18,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-MSA에서 [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) -> Auth -> Order -> Payment -> Notification으로 이어지는 요청 체인에서, 전체 응답이 2초 걸린다. "어디서 느린가?"를 찾으려면 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 일일이 시간순으로 대조해야 한다.
+MSA에서 [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/) -> Auth -> Order -> Payment -> Notification으로 이어지는 요청 체인에서, 전체 응답이 2초 걸린다. "어디서 느린가?"를 찾으려면 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 일일이 시간순으로 대조해야 한다.
 
 ```text
 +-------------------------------------------------------+
@@ -75,7 +75,7 @@ W3C Trace [Context](/knowledge-base/studynote/02_operating_system/01_overview_ar
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. <strong><a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/">OTel</a> SDK 계측</strong>: 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 [OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) SDK 추가 (Auto-instrumentation 권장).
 2. **Collector 배포**: [OTel](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) Collector를 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 또는 DaemonSet으로 배포하여 Span 수집.
-3. **백엔드 선택**: Jaeger(분석)·Tempo(비용 효율)·Datadog([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)).
+3. **백엔드 선택**: Jaeger(분석)·Tempo(비용 효율)·Datadog([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/)).
 4. <strong>샘플링 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 전량 수집은 비용 폭발 -> Head-based 또는 Tail-based 샘플링.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -103,7 +103,7 @@ W3C Trace [Context](/knowledge-base/studynote/02_operating_system/01_overview_ar
 | **Jaeger / Tempo** | 트레이싱 백엔드 (저장·[시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)) |
 | <strong>W3C Trace <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a></strong> | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 [Trace ID](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/) 전파 표준 헤더 |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">Observability</a></strong> | 트레이싱이 속하는 3대 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 중 하나 |
-| <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/">Service Mesh</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">Istio</a>)</strong> | [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 프록시가 자동으로 Span [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
+| <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/">Service Mesh</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/">Istio</a>)</strong> | [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 프록시가 자동으로 Span [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

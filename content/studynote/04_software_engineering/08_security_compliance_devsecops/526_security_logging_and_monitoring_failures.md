@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 로깅(Logging)은 '일기 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)'다. 일반 로깅은 `java.lang.NullPointerException 터짐` 처럼 버그 잡을 때 쓴다. <strong>보안 로깅(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/526_security_logging/">Security Logging</a>)</strong>은 목적이 다르다. 해커를 잡을 때 쓴다. `[2024-05-01 12:00:00] (언제) | [IP: 104.22.x.x] (어디서) | [User: Admin] (누가) | [Action: DROP TABLE] (무엇을) | [Result: Success] (어떻게)` 처럼 법정에서 검사가 들이밀 수 있는 '완벽한 6하 원칙 육하원칙 증거 쪼가리'를 1초에 만 번씩 미친 듯이 찍어내는 행위다.
+- **개념**: 로깅(Logging)은 '일기 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)'다. 일반 로깅은 `java.lang.NullPointerException 터짐` 처럼 버그 잡을 때 쓴다. <strong>보안 로깅(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/918_security_logging/">Security Logging</a>)</strong>은 목적이 다르다. 해커를 잡을 때 쓴다. `[2024-05-01 12:00:00] (언제) | [IP: 104.22.x.x] (어디서) | [User: Admin] (누가) | [Action: DROP TABLE] (무엇을) | [Result: Success] (어떻게)` 처럼 법정에서 검사가 들이밀 수 있는 '완벽한 6하 원칙 육하원칙 증거 쪼가리'를 1초에 만 번씩 미친 듯이 찍어내는 행위다.
 
 - **필요성**: 2013년, 한국의 유명 방송사와 은행들의 컴퓨터 수만 대가 일제히 포맷되어 뻗어버린 3.20 사이버 테러가 터졌다. 경찰이 범인을 잡으려 "[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버 까봐!" 했는데, 해커가 치밀하게 서버의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 찌꺼기까지 싹 다 지우고(Covering Tracks) 날아가 버려서 수사에 엄청난 애를 먹었다. <strong>아무리 비싼 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/">WAF</a>)을 세워놔도 한 번 뚫리면 끝이다. 뚫린 뒤의 유일한 구원줄은 "해커가 방에 들어와서 금고를 열기까지의 10분간의 <a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/">CCTV</a> 영상(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>)"뿐이다.</strong> 이 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상이 날아가거나(용량 초과), 해커가 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 녹화기를 부수는 짓(위변조)을 물리적으로 불가능하게 만드는 초강력 중앙 통제 시스템이 회사 존폐의 필수 조건이 되었다.
 
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 보안 로깅 (Logging)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 644 / 973
 
-<- **이전**: [526. 보안 로깅 (Logging)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/526_security_logging/)
-**다음**: [527. 보안 감사 (Audit) 트레일 추적 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/) ->
+<- **이전**: [526. 보안 로깅 (Logging)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/918_security_logging/)
+**다음**: [527. 보안 감사 (Audit) 트레일 추적 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/919_security_audit_trail/) ->
 
 ---

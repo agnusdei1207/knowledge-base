@@ -250,6 +250,6 @@ tags = ["design_supervision"]
 **진행 상황**: 13 / 530
 
 <- **이전**: [12. 2단계 감리 - 설계 단계 감리, 종료 단계 감리 (요구사항 정의 감리 생략 조건 사업)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/012_2_stage_audit/)
-**다음**: [013. 확인 감리 (Follow-up Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/013_follow_up_audit/) ->
+**다음**: [013. 확인 감리 (Follow-up Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/601_follow_up_audit/) ->
 
 ---

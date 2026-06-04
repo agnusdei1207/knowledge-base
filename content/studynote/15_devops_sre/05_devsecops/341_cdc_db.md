@@ -29,7 +29,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-CDC의 핵심 원리는 `트랜잭션 로그 읽기 -> 변경 이벤트 표준화 -> 순서 보장 전파 -> 대상 시스템 반영`이다. 구현은 보통 원본 DB의 Binlog/WAL을 읽는 커넥터, [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/), [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 관리, 소비자 애플리케이션으로 구성된다. 이때 중요한 것은 “어떤 행이 바뀌었는가”만이 아니라 “어떤 커밋 순서로 바뀌었는가”를 잃지 않는 것이다.
+CDC의 핵심 원리는 `트랜잭션 로그 읽기 -> 변경 이벤트 표준화 -> 순서 보장 전파 -> 대상 시스템 반영`이다. 구현은 보통 원본 DB의 Binlog/WAL을 읽는 커넥터, [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/931_event_bus_stream_processing/), [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 관리, 소비자 애플리케이션으로 구성된다. 이때 중요한 것은 “어떤 행이 바뀌었는가”만이 아니라 “어떤 커밋 순서로 바뀌었는가”를 잃지 않는 것이다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -101,7 +101,7 @@ CDC를 이해하려면 배치 [ETL](/knowledge-base/studynote/12_it_management/0
 
 CDC를 잘 설계하면 운영계와 분석계, 검색계, 이벤트 구독자가 거의 같은 시간축을 공유하게 된다. 그 결과 다운타임을 줄이면서도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용도를 높일 수 있고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 출시 속도를 따라갈 수 있다. 특히 [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)이 많아질수록 전체 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)보다 변경 기반 전달이 훨씬 경제적이다.
 
-반대로 CDC는 “만능 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)”가 아니다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 접근 제약이 큰 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/), [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)가 매우 불안정한 시스템, 삭제·보정 규칙이 불명확한 조직에서는 운영 비용이 급증할 수 있다. 따라서 CDC는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 기술이면서 동시에 정합성과 관찰 가능성을 관리하는 운영 체계로 기억해야 한다.
+반대로 CDC는 “만능 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)”가 아니다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 접근 제약이 큰 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/), [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)가 매우 불안정한 시스템, 삭제·보정 규칙이 불명확한 조직에서는 운영 비용이 급증할 수 있다. 따라서 CDC는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 기술이면서 동시에 정합성과 관찰 가능성을 관리하는 운영 체계로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 좋은 CDC는 수도관 전체를 매번 갈아엎는 것이 아니라, 어디서 새는지 바로 찾아 필요한 물만 정확히 보내는 배관 설계와 같다.
 

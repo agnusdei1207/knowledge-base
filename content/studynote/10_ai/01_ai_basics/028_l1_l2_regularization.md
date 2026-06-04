@@ -110,7 +110,7 @@ ElasticNet 적합:
 |:---|:---|
 | **과적합 방지** | 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암기 대신 패턴 학습 |
 | <strong>Feature <a href="/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/">Selection</a> (L1)</strong> | 자동 불필요 특성 제거 |
-| <strong>일반화 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | [테스트 데이터](/knowledge-base/studynote/04_software_engineering/11_testing_validation/444_test_data_management/) 예측력 향상 |
+| <strong>일반화 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | [테스트 데이터](/knowledge-base/studynote/04_software_engineering/11_testing_validation/836_test_data_management/) 예측력 향상 |
 
 딥러닝에서는 L2 규제화([Weight Decay](/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/))가 [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)에 통합된 AdamW로 구현되어 표준화됐다. L1 희소 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)는 뉴럴 네트워크 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))와 결합되어 모델 경량화에 활용된다.
 

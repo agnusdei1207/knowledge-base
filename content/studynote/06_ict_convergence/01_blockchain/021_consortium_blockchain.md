@@ -163,7 +163,7 @@ tags = ["ict_convergence"]
 
 컨소시엄 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사일로를 허물고 기업 간 상호 작용 비용을 극적으로 낮추는 인프라 혁신이다.
 
-| 기대효과 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 상세 내용 | [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 및 지표 |
+| 기대효과 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 상세 내용 | [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 및 지표 |
 |:---|:---|:---|
 | **정량적 효과** | 정산/대조 업무 자동화로 인한 시간 단축 | 거래 청산 시간: D+3일 -> 실시간(Real-time) 완료 |
 | **정성적 효과** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위변조 원천 차단으로 규제 대응력 확보 | 투명한 [Audit Trail](/knowledge-base/studynote/11_design_supervision/01_audit_framework/065_audit_trail_worm_storage_compliance/) 제공, 상호 분쟁(Claim) [근절](/knowledge-base/studynote/09_security/13_secops_ir_forensics/657_ir_eradication/) |

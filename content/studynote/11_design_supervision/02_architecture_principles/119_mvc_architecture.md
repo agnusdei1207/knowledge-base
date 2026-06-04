@@ -104,7 +104,7 @@ Spring MVC 기반 프로젝트에서 MVC 위반의 가장 흔한 형태는 Contr
 2. Controller가 비즈니스 로직을 [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 계층에 완전히 위임하는가?
 3. [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)(템플릿)에 비즈니스 계산 로직이 없는가?
 4. Model([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)·[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))이 View나 Controller를 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하지 않는가?
-5. Controller [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)가 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) Service를 통해 독립적으로 수행되는가?
+5. Controller [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)가 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Service를 통해 독립적으로 수행되는가?
 
 - **📢 섹션 요약 비유**: 판사(Controller)는 법조문(Model)을 해석하여 판결([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 선택)을 내린다. 판사가 직접 법을 만들거나 판결문을 직접 출력하면 삼권분립(MVC)이 무너진다.
 

@@ -26,7 +26,7 @@ tags = ["studynote-network"]
 - **장점**: 헤더만 보고 빠르게 넘기므로 처리 속도가 미친 듯이 빠르고, 라우터 자체 기능만으로도 구현 가능하여 비용이 쌉니다.
 - **치명적 단점**:
   - <strong>멍청함 (<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a>)</strong>: 이전 통신의 맥락(문맥)을 전혀 기억하지 못합니다. 내가 네이버에 접속 요청을 한 적도 없는데, 뜬금없이 네이버 IP를 달고 응답(ACK) 패킷이 들어와도 "어? 네이버 IP 허용이네?" 하고 그냥 통과시켜 버립니다. (IP 스푸핑에 속수무책)
-  - **내용물(Payload) 맹인**: [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 80번(정상 웹사이트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))이기만 하면, 그 안에 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)나 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 코드가 들어있어도 전혀 보지 못하고 통과시킵니다.
+  - **내용물(Payload) 맹인**: [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 80번(정상 웹사이트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))이기만 하면, 그 안에 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)나 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 코드가 들어있어도 전혀 보지 못하고 통과시킵니다.
 
 ```text
 [방화벽 필터링 1,2,3 세대 진화]

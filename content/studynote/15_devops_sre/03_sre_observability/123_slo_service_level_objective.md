@@ -12,7 +12,7 @@ tags = ["studynote-devops-sre"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SLO는 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/">SLI</a>(측정 지표)에 대한 목표 <a href="/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a></strong>이며, "[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) ≥ 99.9%"처럼 정의하여 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a>의 정량적 기준</strong>을 제공한다.
 > 2. **가치**: SLO가 없으면 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 괜찮은가?"에 대한 판단이 주관적이지만, SLO가 있으면 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/">Error Budget</a>(100%-<a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a>)이 남았는가?</strong>로 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 개발 vs 안정화의 우선순위를 객관적으로</strong> 결정할 수 있다.
-> 3. **판단 포인트**: SLO는 100%로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하면 안 되며(혁신 불가), <strong>사용자 기대+비즈니스 목표</strong>에 맞춰 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해야 한다. [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ≤ [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)(계약)이어야 내부 목표가 계약보다 엄격하다.
+> 3. **판단 포인트**: SLO는 100%로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하면 안 되며(혁신 불가), <strong>사용자 기대+비즈니스 목표</strong>에 맞춰 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해야 한다. [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ≤ [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)(계약)이어야 내부 목표가 계약보다 엄격하다.
 
 ---
 
@@ -42,16 +42,16 @@ tags = ["studynote-devops-sre"]
 ### [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 원칙
 1. **100% 금지**: 혁신·배포가 불가능해짐.
 2. **사용자 기대 기반**: 내부 도구는 99.5%, 결제는 99.99%.
-3. **[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) < [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)**: 내부 목표가 계약보다 엄격해야 여유 확보.
+3. **[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) < [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)**: 내부 목표가 계약보다 엄격해야 여유 확보.
 
-### [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) -> [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) -> [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) -> [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 체인
+### [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) -> [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) -> [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) -> [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 체인
 
 | 단계 | 정의 | 예 |
 |:---|:---|:---|
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/">SLI</a></strong> | 측정 | [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 99.95% |
 | <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a></strong> | 목표 | ≥ 99.9% |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/">Error Budget</a></strong> | 여유 | 0.1% (43분) |
-| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a></strong> | 계약 | ≥ 99.5% (위반 시 크레딧) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/">SLA</a></strong> | 계약 | ≥ 99.5% (위반 시 크레딧) |
 
 - **📢 섹션 요약 비유**: SLO는 다이어트 목표(70kg 이하), Error Budget은 허용 체중 초과(1kg), SLA는 건강 검진 기준(80kg 이하)이다.
 
@@ -89,7 +89,7 @@ SLO는 <strong>SRE의 가장 핵심적 의사결정 도구</strong>이며, Error
 |:---|:---|
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/">SLI</a></strong> | SLO의 측정 기반 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/">Error Budget</a></strong> | SLO에서 파생되는 허용 장애 시간 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a></strong> | SLO보다 느슨한 고객 계약 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/">SLA</a></strong> | SLO보다 느슨한 고객 계약 |
 | **Release Freeze** | Budget 소진 시 배포 중단 |
 | **Burn Rate Alert** | Budget 소진 속도 알림 |
 

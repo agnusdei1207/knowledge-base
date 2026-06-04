@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 결국 한 달 뒤, "어? 로그인 버튼 누가 지웠어?", "내가 어제 수정한 코드가 왜 옛날 코드로 다시 덮어씌워졌지?"라는 절망적인 외침이 개발실에 울려 퍼진다. 여러 명이 협업하는 환경에서 **'누가, 언제, 왜 이 코드를 고쳤는지'** 알 수 없게 되는 순간 시스템은 붕괴된다.
 
-이 무법지대를 통제하기 위해, 건축 공학의 도면 관리 기법을 본떠 만든 것이 <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/">형상 관리</a>(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/">Configuration Management</a>)</strong>다. 코드가 수정될 때마다 꼬리표([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))를 달고, 중요한 시점에는 굵은 선([베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/))을 그어 절대 함부로 고치지 못하게 자물쇠를 채우는([형상 통제](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/)) 위대한 규칙이다.
+이 무법지대를 통제하기 위해, 건축 공학의 도면 관리 기법을 본떠 만든 것이 <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/">형상 관리</a>(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/873_configuration_management/">Configuration Management</a>)</strong>다. 코드가 수정될 때마다 꼬리표([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))를 달고, 중요한 시점에는 굵은 선([베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/))을 그어 절대 함부로 고치지 못하게 자물쇠를 채우는([형상 통제](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/)) 위대한 규칙이다.
 
 - **📢 섹션 요약 비유**: 여러 명이 하나의 커다란 모래성을 쌓을 때, 아무나 맘대로 모래를 파내면 성이 무너진다. [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)는 1시간마다 모래성의 사진을 찍어두고([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리), "이제부터 이 기둥은 완성본이니까 누구도 건드리지 마!"라고 금줄을 치는 것([베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/))이다.
 
@@ -74,7 +74,7 @@ tags = ["studynote-software-engineering"]
 
 실무에서 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)(Configuration Mgt)와 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리(Version Control)를 똑같은 것으로 착각하지만, 포함 관계가 다르다.
 
-| 비교 항목 | [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 (Version Control) | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([Configuration Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/)) |
+| 비교 항목 | [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 (Version Control) | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([Configuration Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/873_configuration_management/)) |
 |:---|:---|:---|
 | **의미** | 파일의 변경 이력(History)만 관리 | [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리를 포함한 **전사적 변경 통제 프로세스** |
 | **관리 대상** | 주로 소스코드 (Source [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) | 소스코드, 기획서, 설계도, DB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/), 환경설정 |
@@ -162,7 +162,7 @@ Git은 훌륭한 [버전](/knowledge-base/studynote/03_network/06_network_layer_
 
 **진행 상황**: 816 / 973
 
-<- **이전**: [649. 기준선 (Baseline) 수립 변경 통제](/knowledge-base/studynote/04_software_engineering/uncategorized/649_baseline_change_control/)
-**다음**: [650. CI/CD 지속적 통합, 배포 파이프라인](/knowledge-base/studynote/04_software_engineering/uncategorized/650_ci_cd_pipeline/) ->
+<- **이전**: [649. 기준선 (Baseline) 수립 변경 통제](/knowledge-base/studynote/04_software_engineering/uncategorized/967_baseline_change_control/)
+**다음**: [650. CI/CD 지속적 통합, 배포 파이프라인](/knowledge-base/studynote/04_software_engineering/uncategorized/968_ci_cd_pipeline/) ->
 
 ---

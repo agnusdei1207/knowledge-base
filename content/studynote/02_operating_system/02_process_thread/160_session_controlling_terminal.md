@@ -29,7 +29,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-세션에는 보통 세션 리더와 하나 이상의 [프로세스 그룹](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/)이 존재한다. 세션 리더는 자신의 PID ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) ID)를 기준으로 세션을 대표하고, 세션은 SID (Session ID)로 식별되며, 각 그룹은 PGID ([Process Group](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/) ID)로 구분된다. 특정 순간 터미널 입력을 받는 그룹은 포그라운드 [프로세스 그룹](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/)이 된다. 터미널 드라이버는 키 입력과 제어 시그널을 이 포그라운드 그룹으로 보내고, 백그라운드 그룹의 무분별한 터미널 접근은 막는다.
+세션에는 보통 세션 리더와 하나 이상의 [프로세스 그룹](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/)이 존재한다. 세션 리더는 자신의 PID ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) ID)를 기준으로 세션을 대표하고, 세션은 SID (Session ID)로 식별되며, 각 그룹은 PGID ([Process Group](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/) ID)로 구분된다. 특정 순간 터미널 입력을 받는 그룹은 포그라운드 [프로세스 그룹](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/)이 된다. 터미널 드라이버는 키 입력과 제어 시그널을 이 포그라운드 그룹으로 보내고, 백그라운드 그룹의 무분별한 터미널 접근은 막는다.
 
 ### 핵심 객체와 역할
 

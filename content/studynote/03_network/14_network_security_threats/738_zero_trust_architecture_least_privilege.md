@@ -22,7 +22,7 @@ tags = ["studynote-network"]
 - **성곽형(Perimeter) 보안**: 외부(Untrusted)와 내부(Trusted)를 가르고, 그 경계선에 값비싼 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(FW)과 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 장비를 몰아넣어 막는 고전적 방식입니다.
 - **붕괴 원인**:
   1. 직원이 감염된 노트북을 들고 출근해 사내망에 꽂으면, <strong>신뢰 구역 안쪽에서부터 악성코드(<a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/">랜섬웨어</a>)가 퍼져</strong> 속수무책으로 털렸습니다.
-  2. 클라우드(AWS, [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))가 도입되고 직원들이 카페나 집(재택근무)에서 일하게 되면서, "어디까지가 내부망이고 어디가 외부망인지" 경계선 자체가 완전히 증발해 버렸습니다.
+  2. 클라우드(AWS, [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/))가 도입되고 직원들이 카페나 집(재택근무)에서 일하게 되면서, "어디까지가 내부망이고 어디가 외부망인지" 경계선 자체가 완전히 증발해 버렸습니다.
 
 ```text
 [백도어]

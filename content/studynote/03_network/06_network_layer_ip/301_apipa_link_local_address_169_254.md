@@ -47,7 +47,7 @@ tags = ["studynote-network"]
 
 ### 2. 링크 로컬(Link-local)의 철저한 격리
 - 라우터들은 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블에 <strong><code>169.254.0.0/16</code></strong> 대역이 목적지이거나 출발지인 패킷이 들어오면 가차 없이 <strong>Drop(폐기)</strong>하도록 세팅되어 있다.
-- 즉, 같은 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 허브나 L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(같은 Broadcast [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))에 꽂힌 PC들끼리만 스타크래프트 로컬 게임이나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유가 가능할 뿐, 네이버나 구글로는 절대 갈 수 없다.
+- 즉, 같은 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) 허브나 L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(같은 Broadcast [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))에 꽂힌 PC들끼리만 스타크래프트 로컬 게임이나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유가 가능할 뿐, 네이버나 구글로는 절대 갈 수 없다.
 
 ```text
  +-------------------------------------------------------------+

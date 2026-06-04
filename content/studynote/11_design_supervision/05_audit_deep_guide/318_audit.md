@@ -117,7 +117,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 393 / 530
 
-<- **이전**: [317. 시큐어 코딩 도구 미탐·오탐 비율 보고 (Secure Coding Tool False Negative and False Positive](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/317_secure_coding_tool_false_rates/)
-**다음**: [318. 정보시스템 보안 감리 통제 체계 총론 (Information System Security Audit Control Overview)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/318_security_audit_control_overview/) ->
+<- **이전**: [317. 시큐어 코딩 도구 미탐·오탐 비율 보고 (Secure Coding Tool False Negative and False Positive](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/675_secure_coding_tool_false_rates/)
+**다음**: [318. 정보시스템 보안 감리 통제 체계 총론 (Information System Security Audit Control Overview)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/676_security_audit_control_overview/) ->
 
 ---

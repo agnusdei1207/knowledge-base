@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: SAST는 소스코드를 읽는 '규칙 기반(Rule-based)' 스캐너 봇이다. 기계가 코드를 텍스트로 쭉 읽다가 `Statement sql = "SELECT * FROM users WHERE name='" + input + "'"` 라는 문장을 발견하면, 내장된 족보(CWE-89)와 비교해보고 "야! 문자열 덧셈으로 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 짜면 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 터지잖아!"라며 빨간 줄을 쫙 긋는다. 프로그램이 켜지기도(런타임) 전인 '컴파일(Compile) 혹은 텍스트 상태'에서 모든 검사가 1분 만에 끝난다.
+- **개념**: SAST는 소스코드를 읽는 '규칙 기반(Rule-based)' 스캐너 봇이다. 기계가 코드를 텍스트로 쭉 읽다가 `Statement sql = "SELECT * FROM users WHERE name='" + input + "'"` 라는 문장을 발견하면, 내장된 족보(CWE-89)와 비교해보고 "야! 문자열 덧셈으로 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 짜면 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 터지잖아!"라며 빨간 줄을 쫙 긋는다. 프로그램이 켜지기도(런타임) 전인 '컴파일(Compile) 혹은 텍스트 상태'에서 모든 검사가 1분 만에 끝난다.
 
 - **필요성**: 보안팀원 3명이 1,000만 줄의 은행 코드를 일일이 눈으로 읽고(Manual [Code Review](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)) 해킹 구멍을 찾는 것은 미친 짓이다. 게다가 버그 하나 고치는 비용은 코드를 방금 짠 순간에 고치면 10분이지만, 오픈 당일(런타임)에 DAST나 모의 해킹으로 터지면 1달이 걸린다. <strong>"인간의 나태함(실수)을 가장 빠르고, 가장 싸고, 가장 기계적인 방식으로 통제하기 위한 자동화된 린터(Linter)의 확장판"</strong>으로서 SAST가 전 세계 개발 파이프라인의 필수 문지기로 자리 잡았다.
 
@@ -120,7 +120,7 @@ SAST (Static Application [Security](/knowledge-base/studynote/04_software_engine
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 SAST (Static Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ SAST (Static Application Security Testing) 개념 정립
 
 **진행 상황**: 574 / 973
 
-<- **이전**: [491. SAST (Static Application Security Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/491_sast/)
-**다음**: [492. DAST (Dynamic Application Security Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/492_dast/) ->
+<- **이전**: [491. SAST (Static Application Security Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/883_sast/)
+**다음**: [492. DAST (Dynamic Application Security Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/884_dast/) ->
 
 ---

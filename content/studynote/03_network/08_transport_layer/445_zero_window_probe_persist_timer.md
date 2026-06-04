@@ -48,7 +48,7 @@ tags = ["studynote-network"]
 
 ### 1. 프로브(Probe) 패킷의 정체
 송신자가 수신자를 찔러보는 이 패킷([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Window Probe)은 와이어샤크(Wireshark)에서 잡힌다.
-- [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 알맹이는 <strong>딱 <code>1바이트</code>짜리 쓰레기 문자(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/">더미</a>)</strong> 하나만 들어있다.
+- [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 알맹이는 <strong>딱 <code>1바이트</code>짜리 쓰레기 문자(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/">더미</a>)</strong> 하나만 들어있다.
 - 1바이트를 억지로 밀어 넣음으로써 수신자 OS가 억지로라도 강제 대답(ACK)을 하게 만든다.
 - 수신자 OS는 이 1바이트를 받고 "아 나 아직 자리 없다고 ㅆㅂ!!" 화를 내며 `Window=0`을 다시 적어서 튕겨내거나, "오, 아까 자리 났어!" 라며 `Window=64000`을 적어서 보낸다. 이렇게 데드락이 뚫린다.
 

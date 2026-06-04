@@ -10,7 +10,7 @@ tags = ["studynote-cloud"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-- [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인의 최종 단계까지 100% 자동화하여 수동 승인 없이 운영 환경에 즉시 반영하는 관행임.
+- [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인의 최종 단계까지 100% 자동화하여 수동 승인 없이 운영 환경에 즉시 반영하는 관행임.
 - 코드 커밋부터 사용자 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)까지의 시간을 최소화(Time to Market)하여 비즈니스 피드백 루프를 가속화함.
 - 견고한 자동화 테스트와 '배포 가드레일'이 필수이며, 장애 발생 시 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 체계가 전제되어야 함.
 

@@ -109,7 +109,7 @@ tags = ["studynote-computer-architecture"]
 ### 채택 기준
 
 - **채택**: 단일 서버 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), OS 재설치, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 오프라인 진단 도구 부팅
-- **회피**: 대규모 신규 구축, 지속적 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/) / [Continuous Deployment](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/)) 배포, 느린 회선 위 대용량 이미지 반복 전송
+- **회피**: 대규모 신규 구축, 지속적 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/) / [Continuous Deployment](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/)) 배포, 느린 회선 위 대용량 이미지 반복 전송
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 

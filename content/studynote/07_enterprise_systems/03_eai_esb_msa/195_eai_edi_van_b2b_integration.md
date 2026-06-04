@@ -31,7 +31,7 @@ VAN은 이런 문제를 [초기](/knowledge-base/studynote/03_network/08_transpo
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-전형적인 B2B EDI 구조는 내부 업무 시스템, B2B 게이트웨이, 문서 변환 매핑, 전송망, 파트너 시스템으로 이어진다. 내부 ERP나 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) 시스템에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 주문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 B2B 게이트웨이에서 EDIFACT, ANSI X12, XML 기반 산업 표준으로 변환된다. 이후 VAN이나 AS2 (Applicability Statement 2) 같은 전달 채널을 통해 거래처로 보내지고, 상대편 게이트웨이가 이를 자사 내부 포맷으로 다시 매핑한다.
+전형적인 B2B EDI 구조는 내부 업무 시스템, B2B 게이트웨이, 문서 변환 매핑, 전송망, 파트너 시스템으로 이어진다. 내부 ERP나 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/)) 시스템에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 주문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 B2B 게이트웨이에서 EDIFACT, ANSI X12, XML 기반 산업 표준으로 변환된다. 이후 VAN이나 AS2 (Applicability Statement 2) 같은 전달 채널을 통해 거래처로 보내지고, 상대편 게이트웨이가 이를 자사 내부 포맷으로 다시 매핑한다.
 
 | 구성 요소 | 역할 | 실무 포인트 |
 | :--- | :--- | :--- |

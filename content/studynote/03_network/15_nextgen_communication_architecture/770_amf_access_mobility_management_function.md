@@ -37,7 +37,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. 출입국 심사관 (Access [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) & [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))
+### 1. 출입국 심사관 (Access [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) & [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))
 - 스마트폰이 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 전파를 잡고 처음 켜지면 가장 먼저 대화하게 되는 코어망의 정문(단일 창구)입니다.
 - 단말기가 넘겨준 신분증(USIM 번호)을 들고, 중앙 족보(UDM/AUSF 서버)에 "이놈 우리 통신사 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 무제한 요금제 쓰는 진짜 고객 맞아?"라고 검사([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))를 받습니다.
 - 통과가 되면 무선 해킹(스니핑)을 막기 위해 단말기와 AMF 사이에 쓸 강력한 임시 암호화 키를 발급해 통신 터널을 깐깐하게 잠급니다. ([NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) 암호화 제어)

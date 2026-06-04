@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 469 / 587
 
-<- **이전**: [313. 스노우플레이크 스키마 정규화 트리 형태](/knowledge-base/studynote/12_it_management/05_security_compliance/313_snowflake_schema/)
-**다음**: [314. 서로게이트 키 인조 식별자 생성](/knowledge-base/studynote/12_it_management/05_security_compliance/314_surrogate_key/) ->
+<- **이전**: [313. 스노우플레이크 스키마 정규화 트리 형태](/knowledge-base/studynote/12_it_management/05_security_compliance/955_snowflake_schema/)
+**다음**: [314. 서로게이트 키 인조 식별자 생성](/knowledge-base/studynote/12_it_management/05_security_compliance/956_surrogate_key/) ->
 
 ---

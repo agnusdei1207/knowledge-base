@@ -99,7 +99,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 아키텍처 무결점 지표 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)
+### 아키텍처 무결점 지표 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)
 
 | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 재난 상황 | Hot Spare 미도입 (Cold 대기 상황) | Hot Spare 활성 할당 아키텍처 토폴로지 구동 시 | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 파장 및 효과 |
 |:---|:---|:---|:---|

@@ -73,7 +73,7 @@ Reference Architecture
 | 위험 | [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 약하면 기대효과가 줄어듦 | 확장성·가시성·자동화 한계가 빨리 드러남 |
 | 적합한 상황 | 여러 팀이 독립적으로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 API를 변경하는 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서 가치가 크다. | 변화가 적거나 단순한 환경 |
 
-또한 이 주제는 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/), [Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/), Fast Feedback처럼 주변 개념과 강하게 연결된다. 기술사 관점에서는 개별 정의보다도 이런 연결 구조를 설명해야 답안의 깊이가 생긴다.
+또한 이 주제는 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/), [Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/), Fast Feedback처럼 주변 개념과 강하게 연결된다. 기술사 관점에서는 개별 정의보다도 이런 연결 구조를 설명해야 답안의 깊이가 생긴다.
 
 - **📢 섹션 요약 비유**: 연습문제처럼 작은 단위에서 자주 틀려봐야 시험장에서 무너지지 않는다.
 
@@ -114,8 +114,8 @@ Reference Architecture
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) | 유닛 테스트 함수 격리망 프레임워크 모킹, 스터빙 더블 기법을 이해할 때 직접 연결되는 기반 개념 |
-| [Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/) | 유닛 테스트 함수 격리망 프레임워크 모킹, 스터빙 더블 기법의 설계·운영 판단 기준을 보완하는 개념 |
+| [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) | 유닛 테스트 함수 격리망 프레임워크 모킹, 스터빙 더블 기법을 이해할 때 직접 연결되는 기반 개념 |
+| [Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/) | 유닛 테스트 함수 격리망 프레임워크 모킹, 스터빙 더블 기법의 설계·운영 판단 기준을 보완하는 개념 |
 | Fast Feedback | 유닛 테스트 함수 격리망 프레임워크 모킹, 스터빙 더블 기법을 자동화·확장 측면에서 연결하는 개념 |
 | 수동 QA와 대형 [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 중심 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 유닛 테스트 함수 격리망 프레임워크 모킹, 스터빙 더블 기법 적용 후 후속 발전 방향을 설명하는 개념 |
 
@@ -136,7 +136,7 @@ Reference Architecture
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 유닛 테스트 함수 격리망 프레임워크 모킹, 스터빙 더블 기법은 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
-2. [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) 같은 친구들과 같이 움직여야 더 잘 작동해요.
+2. [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
 
 ---

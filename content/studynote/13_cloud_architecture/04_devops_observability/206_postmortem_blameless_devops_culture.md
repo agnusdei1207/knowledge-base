@@ -152,7 +152,7 @@ Blameless Post-mortem은 기술적 실천이기 전에 <strong>조직 문화의 
 | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) | 포스트모템이 [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) 소비 원인 분석의 입력 |
 | 5 Whys | 근본 원인 분석의 핵심 기법 |
 | 심리적 안전감 | Blameless 문화의 토대이자 결과 |
-| [인시던트 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_incident_management/) | 포스트모템은 인시던트 해결 후 필수 후속 활동 |
+| [인시던트 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/859_incident_management/) | 포스트모템은 인시던트 해결 후 필수 후속 활동 |
 | [DORA Metrics](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/201_dora_metrics_devops_performance/) | [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 감소는 효과적인 포스트모템 문화가 기여 |
 | [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) | 포스트모템 학습 결과를 카오스 실험에 반영 |
 

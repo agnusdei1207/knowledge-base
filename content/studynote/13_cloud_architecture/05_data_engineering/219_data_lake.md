@@ -18,7 +18,7 @@ tags = ["cloud_architecture"]
 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)([Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))는 기업의 흩어진 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한곳에 모으는 거대한 저수지 역할을 한다. 기존의 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))가 정제된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만을 담는 '생수통'이라면, [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 흙탕물([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))까지도 모두 받아두었다가 필요할 때 정수해서 사용하는 철학을 가지고 있다.
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
-[데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 수집(Ingest), 저장(Store), 처리([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)), 분석(Analyze)의 다계층 구조로 이루어진다.
+[데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 수집(Ingest), 저장(Store), 처리([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/)), 분석(Analyze)의 다계층 구조로 이루어진다.
 
 ```text
 [ Architecture of Data Lake & Pipeline ]

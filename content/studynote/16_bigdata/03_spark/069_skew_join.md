@@ -173,7 +173,7 @@ result = skewed_df.join(normal_df_replicated, "salted_key")
 |:---|:---|
 | 스테이지 실행 시간 단축 | 스큐 해소 시 수 시간 -> 수십 분으로 단축 |
 | 클러스터 자원 효율화 | 유휴 Executor 제거, CPU 활용률 균등화 |
-| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약) 안정화 | Straggler Task로 인한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 제거 |
+| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약) 안정화 | Straggler Task로 인한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 제거 |
 
 ### 2. 결론
 

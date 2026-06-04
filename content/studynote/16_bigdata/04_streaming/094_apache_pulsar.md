@@ -86,7 +86,7 @@ Pulsar 해결책:
 |:---|:---|:---|
 | [Multi-Tenancy](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/) | 테넌트/[네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 계층 구조로 완전 격리 | 토픽 명명 규칙으로만 구분 |
 | [Geo](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/)-[Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | 클러스터 간 비동기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 내장 | MirrorMaker 2 별도 필요 |
-| Tiered Storage | 오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 S3/GCS로 자동 이전 | [Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) Tiered Storage (유료) |
+| Tiered Storage | 오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 S3/GCS로 자동 이전 | [Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/) Tiered Storage (유료) |
 | Pulsar Functions | 경량 [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) 함수 내장 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Streams 별도 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) |
 | 구독 유형 | Exclusive/Shared/[Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/)/[Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)-Shared | [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)으로만 구분 |
 
@@ -115,7 +115,7 @@ Key-Shared:  같은 키는 같은 Consumer로 (순서 보장 + 병렬)
 | [멀티 테넌시](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/) | 제한적 (토픽 명명 규칙) | 네이티브 (Tenant/NS/Topic) |
 | [Geo](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/)-[Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | MirrorMaker 2 필요 | 내장 |
 | 운영 복잡도 | 중간 (단일 계층) | 높음 (3계층: Broker/BK/ZK) |
-| 생태계 | 성숙 ([Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) 등) | 성장 중 (StreamNative 등) |
+| 생태계 | 성숙 ([Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/) 등) | 성장 중 (StreamNative 등) |
 | [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 보존 | 토픽 단위 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | Ledger 단위, Tiered Storage |
 
 ### 2. 연결 개념
@@ -135,7 +135,7 @@ Key-Shared:  같은 키는 같은 Consumer로 (순서 보장 + 병렬)
 
 | 시나리오 | Pulsar 선택 이유 |
 |:---|:---|
-| 대규모 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 플랫폼 ([멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)) | 기본 내장 테넌트 격리 |
+| 대규모 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 플랫폼 ([멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)) | 기본 내장 테넌트 격리 |
 | 글로벌 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) (지역 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 필수) | [Geo](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/)-[Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 내장 |
 | 무제한 보존 필요 (비용 최적화) | Tiered Storage로 [콜드 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/) -> S3 이전 |
 | 브로커 확장 빈번 | 스토리지와 독립 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 가능 |
@@ -146,8 +146,8 @@ Key-Shared:  같은 키는 같은 Consumer로 (순서 보장 + 병렬)
 |:---|:---|:---|
 | 운영 팀 경험 | 풍부한 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 경험 있을 때 | 새로운 아키텍처 도입 가능 시 |
 | 요구 기능 | 단순 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐 + 스트리밍 | [멀티 테넌시](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/) + [Geo](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/)-[DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) + Tiered Storage |
-| 생태계 | 성숙한 [Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/)/MSK | 성장 중, StreamNative 지원 |
-| 벤더 지원 | [Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/), Cloudera | StreamNative |
+| 생태계 | 성숙한 [Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/)/MSK | 성장 중, StreamNative 지원 |
+| 벤더 지원 | [Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/), Cloudera | StreamNative |
 
 ### 3. [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 

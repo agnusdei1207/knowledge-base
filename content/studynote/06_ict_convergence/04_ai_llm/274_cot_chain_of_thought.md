@@ -11,7 +11,7 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [ToT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/147_concept/) / GoT ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) of Thoughts) (Tree of Thoughts): 단일 사슬을 넘어 여러 추론 경로를 탐색/평가하며 분기하는 고도화 프롬프팅를 이해하는 핵심 개념으로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.
+> 1. **본질**: [ToT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/147_concept/) / GoT ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) of Thoughts) (Tree of Thoughts): 단일 사슬을 넘어 여러 추론 경로를 탐색/평가하며 분기하는 고도화 프롬프팅를 이해하는 핵심 개념으로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.
 > 2. **가치**: 이 주제를 제대로 잡으면 정확도 향상, 자동화, 개인화뿐 아니라 설계 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 재사용성, 운영 가시성까지 한 번에 연결해서 설명할 수 있다.
 > 3. **판단 포인트**: 기술사 답안에서는 정확도, 설명 가능성, 추론 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, 비용과 범위·전제·운영 정책을 함께 제시해야 하며, 정의보다 적용 경계를 말할 수 있어야 한다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-[ToT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/147_concept/) / GoT ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) of Thoughts) (Tree of Thoughts): 단일 사슬을 넘어 여러 추론 경로를 탐색/평가하며 분기하는 고도화 프롬프팅를 다루는 개념이다. 이 주제가 중요한 이유는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 단순한 선언이 아니라 실제 설계 항목으로 바꾸기 때문이다. 다시 말해, "왜 필요한가"를 묻는 순간 이 개념은 문제를 구조화하는 언어가 된다.
+[ToT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/147_concept/) / GoT ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) of Thoughts) (Tree of Thoughts): 단일 사슬을 넘어 여러 추론 경로를 탐색/평가하며 분기하는 고도화 프롬프팅를 다루는 개념이다. 이 주제가 중요한 이유는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 단순한 선언이 아니라 실제 설계 항목으로 바꾸기 때문이다. 다시 말해, "왜 필요한가"를 묻는 순간 이 개념은 문제를 구조화하는 언어가 된다.
 
 현업에서 이 개념이 빠지면 보통 규칙 기반 자동화·단순 통계 모델에 기대게 된다. 그 방식은 출발은 쉽지만 규모가 커질수록 병목, 수작업, 책임 불분명 같은 문제가 누적되기 쉽다. 반대로 이 개념을 기준으로 보면 문제의 위치와 제어 지점을 분리해서 설명할 수 있어, 설계와 운영 모두에서 판단이 선명해진다.
 
@@ -42,11 +42,11 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[ToT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/147_concept/) / GoT ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) of Thoughts)의 핵심은 입력, 처리, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 결과의 흐름을 한 세트로 보는 데 있다. 구현 기술이 달라도 결국 단일 사슬을 넘어 여러 추론 경로를 탐색/평가하며 분기하는 고도화 프롬프팅를 안정적으로 수행하려면 어떤 입력이 들어오고, 어떤 규칙으로 처리되며, 어떤 제어 지점에서 품질을 보장하는지가 정리되어야 한다. 이 메커니즘을 이해해야 실제 시스템에서 튜닝 포인트를 잡을 수 있다.
+[ToT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/147_concept/) / GoT ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) of Thoughts)의 핵심은 입력, 처리, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 결과의 흐름을 한 세트로 보는 데 있다. 구현 기술이 달라도 결국 단일 사슬을 넘어 여러 추론 경로를 탐색/평가하며 분기하는 고도화 프롬프팅를 안정적으로 수행하려면 어떤 입력이 들어오고, 어떤 규칙으로 처리되며, 어떤 제어 지점에서 품질을 보장하는지가 정리되어야 한다. 이 메커니즘을 이해해야 실제 시스템에서 튜닝 포인트를 잡을 수 있다.
 
 | 구성 관점 | 해당 기술에서 보는 의미 | 설계 포인트 |
 | :--- | :--- | :--- |
-| 입력/범위 | [ToT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/147_concept/) / GoT ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) of Thoughts)가 다루는 대상과 전제조건을 정리한다. | 범위가 흐리면 개념도 흐려진다. |
+| 입력/범위 | [ToT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/147_concept/) / GoT ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) of Thoughts)가 다루는 대상과 전제조건을 정리한다. | 범위가 흐리면 개념도 흐려진다. |
 | 핵심 처리 | 규칙, 절차, 모델, 합의 중 중심 메커니즘을 본다. | 처리 단계를 나누면 병목이 보인다. |
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)/제어 | 품질과 신뢰를 지탱하는 제어 지점을 정한다. | 정확도, 설명 가능성, 추론 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, 비용과 연결해 판단한다. |
 | 출력/효과 | 결과가 운영 가치로 어떻게 이어지는지 평가한다. | 효과와 비용을 동시에 본다. |
@@ -69,9 +69,9 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅲ. 비교 및 연결
 
-[ToT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/147_concept/) / GoT ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) of Thoughts)의 경계를 드러내려면 **규칙 기반 자동화·단순 통계 모델** 과 비교하는 것이 가장 빠르다. 규칙 기반 자동화·단순 통계 모델이 익숙함과 단순성을 제공한다면, 이 개념은 정확도 향상, 자동화, 개인화 같은 가치와 설계 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 재사용성, 운영 가시성를 얻기 위해 구조적 통제를 더 가져가는 쪽에 가깝다. 차이는 기술 이름보다도 어떤 제약을 우선 해결하려는지에서 생긴다.
+[ToT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/147_concept/) / GoT ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) of Thoughts)의 경계를 드러내려면 **규칙 기반 자동화·단순 통계 모델** 과 비교하는 것이 가장 빠르다. 규칙 기반 자동화·단순 통계 모델이 익숙함과 단순성을 제공한다면, 이 개념은 정확도 향상, 자동화, 개인화 같은 가치와 설계 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 재사용성, 운영 가시성를 얻기 위해 구조적 통제를 더 가져가는 쪽에 가깝다. 차이는 기술 이름보다도 어떤 제약을 우선 해결하려는지에서 생긴다.
 
-| 비교 항목 | [ToT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/147_concept/) / GoT ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) of Thoughts) | 규칙 기반 자동화·단순 통계 모델 |
+| 비교 항목 | [ToT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/147_concept/) / GoT ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) of Thoughts) | 규칙 기반 자동화·단순 통계 모델 |
 | :--- | :--- | :--- |
 | 설계 초점 | 단일 사슬을 넘어 여러 추론 경로를 탐색/평가하며 분기하는 고도화 프롬프팅를 체계적으로 다루는 구조 | 익숙한 방식으로 빠르게 구현하는 구조 |
 | 강점 | 정확도 향상, 자동화, 개인화 같은 가치와 설계 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 재사용성, 운영 가시성 확보에 유리 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 진입과 단순 운영에 유리 |
@@ -122,7 +122,7 @@ tags = ["studynote-ict-convergence"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | [생각의 사슬](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/273_zero_few_shot_learning/) | 현재 개념이 등장하게 된 배경 또는 선행 개념이다. |
-| [ToT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/147_concept/) / GoT ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) of Thoughts) | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 맥락에서 현재 설계 판단의 중심 개념이다. |
+| [ToT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/147_concept/) / GoT ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) of Thoughts) | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 맥락에서 현재 설계 판단의 중심 개념이다. |
 | [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) | 현재 개념을 다음 응용 단계로 연결하는 인접 개념이다. |
 | [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) | 현재 개념 이후의 고도화 방향을 보여 준다. |
 

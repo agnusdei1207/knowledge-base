@@ -12,7 +12,7 @@ tags = ["studynote-data-engineering"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 현대 클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼은 수집->저장->처리->분석->서빙의 5단계 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 자동화·탄력화하여 페타바이트(PB) 규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 비즈니스 인사이트로 전환한다.
 > 2. **가치**: AWS·GCP·Azure의 관리형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 생태계를 조합하면 인프라 운영 부담 없이 [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)([Data Lakehouse](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/))와 실시간 분석을 동시에 구현할 수 있다.
-> 3. **판단 포인트**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보([Data Lineage](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/))·품질([Data Quality](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/))·거버넌스([Data Governance](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/))의 삼축 관리가 없으면, 아무리 정교한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인도 "쓰레기 입력->쓰레기 출력(GIGO, Garbage In Garbage Out)"이 된다.
+> 3. **판단 포인트**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보([Data Lineage](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/))·품질([Data Quality](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/))·거버넌스([Data Governance](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/))의 삼축 관리가 없으면, 아무리 정교한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인도 "쓰레기 입력->쓰레기 출력(GIGO, Garbage In Garbage Out)"이 된다.
 
 ---
 
@@ -110,7 +110,7 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-### 3.1 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)([Data Governance](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)) 삼각 구도
+### 3.1 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)([Data Governance](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)) 삼각 구도
 
 ```
            데이터 거버넌스 (Data Governance)
@@ -225,7 +225,7 @@ tags = ["studynote-data-engineering"]
 통합 파이프라인: Airflow · dbt · MLOps 연동
 ```
 2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보는 "이 책이 어떤 원고에서 만들어졌고, 누가 편집했는지" 기록하는 출판 이력이에요—어디서 왔는지 모르는 책은 믿기 어려워요.
-3. [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)는 도서관 규칙이에요. 책을 무단으로 바꾸면 안 되고, 개인 정보가 담긴 책은 특별히 잠가두고, 불량 책은 자동으로 골라내는 시스템이에요.
+3. [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)는 도서관 규칙이에요. 책을 무단으로 바꾸면 안 되고, 개인 정보가 담긴 책은 특별히 잠가두고, 불량 책은 자동으로 골라내는 시스템이에요.
 
 ---
 

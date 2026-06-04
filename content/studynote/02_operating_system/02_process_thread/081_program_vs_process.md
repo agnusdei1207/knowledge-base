@@ -10,17 +10,17 @@ tags = ["studynote-operating-system"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 프로그램(Program)이 하드디스크에 저장된 차갑고 수동적인 0과 1의 <strong>정적(Static) <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(쇳덩어리 조각)</strong>이라면, 프로세스([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))는 그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 메인 메모리(RAM)에 올라가 CPU의 심장 박동([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/))을 받으며 펄떡이는 <strong>동적(Dynamic) 실행 주체</strong>다.
+> 1. **본질**: 프로그램(Program)이 하드디스크에 저장된 차갑고 수동적인 0과 1의 <strong>정적(Static) <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(쇳덩어리 조각)</strong>이라면, 프로세스([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))는 그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 메인 메모리(RAM)에 올라가 CPU의 심장 박동([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/))을 받으며 펄떡이는 <strong>동적(Dynamic) 실행 주체</strong>다.
 > 2. **가치**: 이 분리를 통해 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 하나의 '카카오톡 프로그램'을 두 번 더블클릭하면, 디스크의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 수정하지 않고도 메모리 위에 완전히 독립된 밥그릇(메모리 공간, PID)을 가진 '두 개의 카카오톡 프로세스'를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 멀티태스킹을 지원할 수 있다.
-> 3. **판단 포인트**: 프로그램이 프로세스로 부화(Instantiate)하는 순간, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 프로세스를 관리하기 위해 주민등록증 격인 <strong>PCB(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a> Control Block)</strong>를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리에 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하며, 이 순간부터 프로세스는 OS의 가혹한 스케줄링 통제를 받는 노예가 된다.
+> 3. **판단 포인트**: 프로그램이 프로세스로 부화(Instantiate)하는 순간, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 프로세스를 관리하기 위해 주민등록증 격인 <strong>PCB(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/">Process</a> Control Block)</strong>를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리에 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하며, 이 순간부터 프로세스는 OS의 가혹한 스케줄링 통제를 받는 노예가 된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-바탕화면에 있는 `Chrome.exe` 아이콘을 보자. 더블클릭하기 전의 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 아무 짓도 하지 않는다. 그냥 디스크의 공간을 차지하고 있는 죽은 문서(Program)다. 하지만 마우스로 더블클릭하는 순간, 이 죽은 문서는 메모리 위로 복사되어 멱살이 잡힌 채 CPU의 자원을 집어삼키며 화면에 웹 페이지를 렌더링하는 살아있는 생명체([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))로 돌변한다.
+바탕화면에 있는 `Chrome.exe` 아이콘을 보자. 더블클릭하기 전의 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 아무 짓도 하지 않는다. 그냥 디스크의 공간을 차지하고 있는 죽은 문서(Program)다. 하지만 마우스로 더블클릭하는 순간, 이 죽은 문서는 메모리 위로 복사되어 멱살이 잡힌 채 CPU의 자원을 집어삼키며 화면에 웹 페이지를 렌더링하는 살아있는 생명체([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))로 돌변한다.
 
-컴퓨터 공학은 왜 이 둘을 분리해 부를까? "크롬이 뻗었다"고 할 때 디스크에 있는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`Chrome.exe`)이 고장 난 것이 아니라, 메모리 위에서 실행 중인 10개의 탭(10개의 [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)) 중 하나가 메모리 충돌로 죽어버린 것이기 때문이다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)의 가장 중요한 존재 이유는 이 수백 개의 '살아 숨 쉬는 프로세스'들이 한정된 CPU와 메모리를 놓고 싸우지 않도록 시분할(Time-sharing)로 다스리는 것이다. 죽은 프로그램은 OS의 관심 밖이다. OS의 지배는 오직 프로세스에게만 향한다.
+컴퓨터 공학은 왜 이 둘을 분리해 부를까? "크롬이 뻗었다"고 할 때 디스크에 있는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`Chrome.exe`)이 고장 난 것이 아니라, 메모리 위에서 실행 중인 10개의 탭(10개의 [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/)) 중 하나가 메모리 충돌로 죽어버린 것이기 때문이다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)의 가장 중요한 존재 이유는 이 수백 개의 '살아 숨 쉬는 프로세스'들이 한정된 CPU와 메모리를 놓고 싸우지 않도록 시분할(Time-sharing)로 다스리는 것이다. 죽은 프로그램은 OS의 관심 밖이다. OS의 지배는 오직 프로세스에게만 향한다.
 
 - **📢 섹션 요약 비유**: 프로그램은 넷플릭스에 저장된 '오징어 게임 대본(정적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))'이다. 대본은 그냥 종이일 뿐이다. 반면 프로세스는 촬영장에 배우들이 모여 대본을 들고 땀 흘리며 연기하는 '촬영 현장(동적 실행)'이다. 대본 하나로 한국판 오징어 게임도 찍고 미국판도 찍을 수 있듯, 하나의 프로그램으로 수많은 프로세스를 동시에 띄울 수 있다.
 
@@ -62,10 +62,10 @@ tags = ["studynote-operating-system"]
 
 ## Ⅲ. 비교 및 연결
 
-### 수동적 상태(Program) vs 능동적 개체([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))
+### 수동적 상태(Program) vs 능동적 개체([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))
 컴퓨터 아키텍처에서 정적 자산과 동적 자원을 엄격히 구분하는 표다.
 
-| 비교 항목 | 프로그램 (Program) | 프로세스 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)) |
+| 비교 항목 | 프로그램 (Program) | 프로세스 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/)) |
 |:---|:---|:---|
 | **상태 / 본질** | <strong>정적(Static) / <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a>)</strong> | **동적(Dynamic) / 실행 중인 프로그램** |
 | **저장 위치** | 보조기억장치 ([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/), [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) | **메인 메모리 (RAM)** |
@@ -96,7 +96,7 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 
 프로그램과 프로세스의 분리는, 컴퓨터를 '단순한 전자 문서 보관함'에서 '동시에 수백 개의 생명체가 살아 움직이는 거대한 생태계([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))'로 진화시킨 결정적 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))다.
 
-우리가 스마트폰에서 카카오톡을 하다가 유튜브로 앱을 전환할 때 화면이 멈추지 않는 이유는, 디스크에 있는 두 개의 죽은 앱(프로그램)이 아니라, 메모리 위에서 OS의 완벽한 스케줄링 지휘를 받으며 0.001초 단위로 CPU를 나눠 쓰는 살아있는 두 개의 프로세스([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))가 존재하기 때문이다. 결론적으로 프로그램은 개발자가 남긴 정적인 흔적이고, 프로세스는 그 흔적이 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 숨결을 만나 폭발적으로 작동하는 동적인 엔진이다.
+우리가 스마트폰에서 카카오톡을 하다가 유튜브로 앱을 전환할 때 화면이 멈추지 않는 이유는, 디스크에 있는 두 개의 죽은 앱(프로그램)이 아니라, 메모리 위에서 OS의 완벽한 스케줄링 지휘를 받으며 0.001초 단위로 CPU를 나눠 쓰는 살아있는 두 개의 프로세스([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))가 존재하기 때문이다. 결론적으로 프로그램은 개발자가 남긴 정적인 흔적이고, 프로세스는 그 흔적이 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 숨결을 만나 폭발적으로 작동하는 동적인 엔진이다.
 
 - **📢 섹션 요약 비유**: 프로그램은 마법사가 쓴 '주문서(스크롤)' [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이다. 프로세스는 그 스크롤을 찢어 마법을 시전했을 때 허공에 소환되어 불을 뿜는 '드래곤'이다. 스크롤 1장으로 드래곤 10마리를 동시에 소환(멀티 프로세스)할 수 있으며, OS는 이 드래곤들이 서로 싸우지 않고 일하도록 통제하는 절대적인 마법통제국이다.
 
@@ -107,7 +107,7 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 | 개념 | 연결 포인트 |
 |:---|:---|
 | <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a>)</strong> | 프로세스라는 무거운 밥그릇(메모리 공간) 안에서, 밥은 같이 먹으면서 숟가락만 여러 개 얹어 동시에 일하는 프로세스 내부의 '더 가벼운 실행 단위' |
-| <strong>PCB (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a> Control Block)</strong> | 프로그램이 프로세스가 될 때 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 발급하는 주민등록증. 프로세스 ID(PID), [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/), CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값 등을 모두 꼼꼼하게 기록해 두는 쇳덩어리 장부 |
+| <strong>PCB (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/">Process</a> Control Block)</strong> | 프로그램이 프로세스가 될 때 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 발급하는 주민등록증. 프로세스 ID(PID), [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/), CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값 등을 모두 꼼꼼하게 기록해 두는 쇳덩어리 장부 |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a> Switching)</strong> | CPU가 A 프로세스를 실행하다 멈추고 B 프로세스로 넘어갈 때, A의 하던 일([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))을 PCB에 백업하고 B의 일을 복원하는 무겁고 피곤한 OS의 쇳덩어리 전환 작업 |
 
 ### 📈 관련 키워드 및 발전 흐름도

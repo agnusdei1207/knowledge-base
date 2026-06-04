@@ -120,7 +120,7 @@ tags = ["studynote-devops-sre"]
      }]
    }
    ```
-   이 텍스트 1장만 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 깃허브 액션(GitHub Actions) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 쑤셔 박아놓으면 ➔ 개발자가 금요일 퇴근 직전 새 결제 코드 푸시(Push) 치는 찰나에!! 백그라운드 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버가 0.1초 컷으로 카오스 폭탄 1방 툭 던져보고 ➔ 저 `tolerance: 0.99` 가설 뚫려 뻗는지 1분 동안 오토 엑스레이 스캔 채점 쳐버린 다음 ➔ 뚫리면 배포(Deploy) 빠꾸 튕겨내 차단 드랍 컷 쳐버리는 궁극의 무인 자동화 무결점 품질 게이트 텐트 제국이 완성된다 🚀.
+   이 텍스트 1장만 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 깃허브 액션(GitHub Actions) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 쑤셔 박아놓으면 ➔ 개발자가 금요일 퇴근 직전 새 결제 코드 푸시(Push) 치는 찰나에!! 백그라운드 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 서버가 0.1초 컷으로 카오스 폭탄 1방 툭 던져보고 ➔ 저 `tolerance: 0.99` 가설 뚫려 뻗는지 1분 동안 오토 엑스레이 스캔 채점 쳐버린 다음 ➔ 뚫리면 배포(Deploy) 빠꾸 튕겨내 차단 드랍 컷 쳐버리는 궁극의 무인 자동화 무결점 품질 게이트 텐트 제국이 완성된다 🚀.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - <strong>정상 상태 측정 주기(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a> Interval 랙) 띄엄띄엄 무지성 방치 파국 💀</strong>:

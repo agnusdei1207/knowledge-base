@@ -15,7 +15,7 @@ tags = ["studynote-design-supervision"]
 3. **판단 포인트**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동성, 인터페이스 표준성, 대체 가능성, 계약 종료 조건, 내부 역량 축적 수준을 함께 봐야 한다.
 
 ## Ⅰ. 개요 및 필요성
-현대 시스템은 클라우드, 소프트웨어 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) (Software [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)), 플랫폼 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) (Platform [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)), 외부 API에 폭넓게 의존한다. 이때 빠른 도입과 풍부한 기능을 얻는 대신, 특정 사업자 기술에 깊이 잠기면 가격 인상이나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 변경, 장애 발생 시 탈출 비용이 급격히 커진다. 이것이 벤더 락인의 핵심 위험이다.
+현대 시스템은 클라우드, 소프트웨어 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) (Software [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/)), 플랫폼 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) (Platform [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)), 외부 API에 폭넓게 의존한다. 이때 빠른 도입과 풍부한 기능을 얻는 대신, 특정 사업자 기술에 깊이 잠기면 가격 인상이나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 변경, 장애 발생 시 탈출 비용이 급격히 커진다. 이것이 벤더 락인의 핵심 위험이다.
 
 관리 측면에서 중요한 점은 “외부 제품을 쓰지 말자”가 아니라 “종속을 인지 가능한 수준으로 관리하자”는 데 있다. 즉 어떤 의존성은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적으로 수용하고, 어떤 의존성은 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)·표준화·이중화로 통제해야 한다. 기술사 답안에서는 기능 우수성만 강조하지 말고, 대체 가능성과 퇴출 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 함께 제시해야 한다.
 
@@ -29,13 +29,13 @@ tags = ["studynote-design-supervision"]
 - **📢 섹션 요약 비유**: 편리한 렌터카를 빌리는 것은 좋지만 반납 조건을 모르면 여행 마지막 날이 가장 힘들어진다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-벤더 락인 통제는 기술 계층, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계층, 계약 계층의 세 축으로 본다. 기술 계층에서는 공급자 전용 API를 직접 호출하기보다 내부 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)나 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층을 두고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계층에서는 반출 형식과 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 표준을 확보하며, 계약 계층에서는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약 ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)), 종료 지원, 비용 구조를 관리해야 한다.
+벤더 락인 통제는 기술 계층, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계층, 계약 계층의 세 축으로 본다. 기술 계층에서는 공급자 전용 API를 직접 호출하기보다 내부 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)나 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층을 두고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계층에서는 반출 형식과 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 표준을 확보하며, 계약 계층에서는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약 ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)), 종료 지원, 비용 구조를 관리해야 한다.
 
 | 통제 영역 | 핵심 원리 | 관리 포인트 |
 |:---|:---|:---|
 | 인터페이스 | 표준 API와 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 계층으로 직접 종속 완화 | 공급자 교체 시 변경 범위를 경계면으로 제한 |
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 반출 형식 표준화와 [데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/) 확보 | [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 주기, 마이그레이션 테스트, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 보존 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
-| 계약·운영 | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), 종료 조항, 가격 구조를 사전에 관리 | 위약금, 기술지원 범위, 종료 시 지원 기간 점검 |
+| 계약·운영 | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/), 종료 조항, 가격 구조를 사전에 관리 | 위약금, 기술지원 범위, 종료 시 지원 기간 점검 |
 
 ```text
 +----------+   +------------+   +------------+
@@ -58,7 +58,7 @@ tags = ["studynote-design-supervision"]
 | 교체 용이성 | 매우 낮음 | 중간 이상 | 높음 |
 | 적합 상황 | 짧은 출시 기한, 차별적 기능 필요 | 장기 운영 시스템, 균형 추구 | 규제 산업, 고가용성, 협상력 확보 필요 |
 
-관련 개념으로는 개방형 표준 (Open Standard), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동성 ([Data Portability](/knowledge-base/studynote/09_security/16_data_privacy/795_data_portability/)), 탈출 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (Exit [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)), [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) ([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 설계가 있다. 이들을 함께 엮으면 관리 답안의 입체감이 높아진다.
+관련 개념으로는 개방형 표준 (Open Standard), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동성 ([Data Portability](/knowledge-base/studynote/09_security/16_data_privacy/795_data_portability/)), 탈출 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (Exit [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)), [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) ([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 설계가 있다. 이들을 함께 엮으면 관리 답안의 입체감이 높아진다.
 - **📢 섹션 요약 비유**: 한 상점만 이용하면 편하지만, 가격이 오를 때 다른 가게로 갈 길이 없어진다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
@@ -69,7 +69,7 @@ tags = ["studynote-design-supervision"]
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 표준 형식으로 반출 가능한가?
 - 공급자 전용 기능 사용 목록과 대체 난이도가 문서화되어 있는가?
-- [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), 종료 지원, 가격 인상 조건이 계약서에 명시되어 있는가?
+- [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/), 종료 지원, 가격 인상 조건이 계약서에 명시되어 있는가?
 - 내부 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 계층이나 포터빌리티 테스트가 존재하는가?
 - 운영 인력과 개발 인력이 최소한의 대체 기술 역량을 유지하는가?
 
@@ -86,12 +86,12 @@ tags = ["studynote-design-supervision"]
 - 벤더 락인 -> 기술 종속·가격 종속 -> 사업 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 확대
 - [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층 -> 교체 범위 축소 -> 아키텍처 유연성 확보
 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동성 -> 탈출 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) -> 협상력 유지
-- 계약 통제 -> [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)·종료 조항 -> 운영 안정성 보장
+- 계약 통제 -> [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)·종료 조항 -> 운영 안정성 보장
 
 ### 📈 관련 키워드 및 발전 흐름도
 외부 솔루션 단순 도입 -> 기능 종속 심화 -> 락인 비용 인식 -> [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층 도입 -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동성 확보 -> [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 멀티 벤더·퇴출 계획 수립
 
-- 핵심 키워드: [Vendor Lock-in](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/), [Data Portability](/knowledge-base/studynote/09_security/16_data_privacy/795_data_portability/), Exit [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), 표준 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층
+- 핵심 키워드: [Vendor Lock-in](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/), [Data Portability](/knowledge-base/studynote/09_security/16_data_privacy/795_data_portability/), Exit [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/), 표준 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 한 놀이터만 가면 편하지만, 문을 닫으면 놀 곳이 없어질 수 있어요.

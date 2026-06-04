@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 580 / 587
 
-<- **이전**: [369. 오픈소스 라이선스 고지 의무 및 GPL 전염성 릴리스 차단 진단](/knowledge-base/studynote/12_it_management/05_security_compliance/369_oss_license_gpl_compliance/)
-**다음**: [370. DORA 메트릭스 기반 DevOps 조직 성과 민첩성 리포팅 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/370_dora_metrics_devops_audit/) ->
+<- **이전**: [369. 오픈소스 라이선스 고지 의무 및 GPL 전염성 릴리스 차단 진단](/knowledge-base/studynote/12_it_management/05_security_compliance/1010_oss_license_gpl_compliance/)
+**다음**: [370. DORA 메트릭스 기반 DevOps 조직 성과 민첩성 리포팅 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/1011_dora_metrics_devops_audit/) ->
 
 ---

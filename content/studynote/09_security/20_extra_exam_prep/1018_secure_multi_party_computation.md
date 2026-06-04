@@ -137,6 +137,6 @@ Secure Multi-Party Computation (SMPC)를 제대로 이해하면 개념 하나를
 **진행 상황**: 130 / 1108
 
 <- **이전**: [1017. Commitment Scheme (약속 기법)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1017_commitment_scheme/)
-**다음**: [1019. 동형 암호 (Homomorphic Encryption)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/) ->
+**다음**: [1019. 동형 암호 (Homomorphic Encryption)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/) ->
 
 ---

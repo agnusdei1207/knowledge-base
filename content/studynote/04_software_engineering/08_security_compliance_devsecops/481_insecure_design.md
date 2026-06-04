@@ -22,12 +22,12 @@ tags = ["studynote-software-engineering"]
 - **개념**: [Insecure Design](/knowledge-base/studynote/09_security/05_web_app_security/440_insecure_design/)(안전하지 않은 설계)은 코드의 오타나 문법 에러(Bug)가 아니다. 설계 자체의 멍청함(Flaw)이다.
   - <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a>(Flaw)</strong>: "비밀번호 찾기 질문" 기능에서, 질문이 "어머니의 결혼 전 성(姓)은?" 이다. 해커가 피해자의 페이스북이나 가족관계증명서를 털어 답을 알아낸 뒤 비밀번호를 100% 합법적(?)으로 바꿔버린다. 코드는 100% 정상 작동했다. 기획(설계)이 미친 짓이었을 뿐이다.
 
-- **필요성**: 수백억 원의 보안 예산을 들여 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/))을 세우고, 정적 분석기([SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/))를 달아 코드를 쥐어짰다. 해커가 들어올 기술적 구멍([버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/), [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/))은 0([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))이 되었다. 그런데 영화 예매 사이트에서 "어린이표 2장, 어른표 -1장"을 결제하니까 총액이 0원이 되어 공짜로 예매가 되는 사고가 터졌다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)도 기계도 이 논리적 미친 짓(마이너스 수량 꼼수)을 에러라고 잡지 못했다. 왜? 문법적으론 완벽한 숫자 계산이었으니까. **코딩의 완벽함이 비즈니스 로직의 허술함을 지켜주지 못한다는 한계를 깨닫고, 아키텍처 설계도(Blueprint) 자체의 논리를 뜯어고쳐야 생존할 수 있다.**
+- **필요성**: 수백억 원의 보안 예산을 들여 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/))을 세우고, 정적 분석기([SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/))를 달아 코드를 쥐어짰다. 해커가 들어올 기술적 구멍([버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/), [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/))은 0([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))이 되었다. 그런데 영화 예매 사이트에서 "어린이표 2장, 어른표 -1장"을 결제하니까 총액이 0원이 되어 공짜로 예매가 되는 사고가 터졌다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)도 기계도 이 논리적 미친 짓(마이너스 수량 꼼수)을 에러라고 잡지 못했다. 왜? 문법적으론 완벽한 숫자 계산이었으니까. **코딩의 완벽함이 비즈니스 로직의 허술함을 지켜주지 못한다는 한계를 깨닫고, 아키텍처 설계도(Blueprint) 자체의 논리를 뜯어고쳐야 생존할 수 있다.**
 
 - **💡 비유**: 안전하지 않은 설계는 <strong>'잠금장치가 문 안쪽에 없는 감옥'</strong>과 같습니다. 감옥을 티타늄(완벽한 코드)으로 엄청 튼튼하게 지었습니다. 벽을 부수고(해킹) 탈출하는 건 불가능합니다. 그런데 설계자가 실수로 '문 여는 버튼'을 감옥 안쪽 벽(멍청한 기획)에 달아버렸습니다. 죄수는 그냥 버튼을 누르고 유유히 당당하게 걸어 나갑니다. 건물의 튼튼함(코딩)과 상관없이 도면(설계) 자체가 바보 같아서 벌어진 재앙입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **코더(Coder)의 시대**: 2000년대 해커들은 주로 C언어 메모리나 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 같은 기술적인 잔버그(Implementation Bug)를 뚫고 들어왔다.
+  1. **코더(Coder)의 시대**: 2000년대 해커들은 주로 C언어 메모리나 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 같은 기술적인 잔버그(Implementation Bug)를 뚫고 들어왔다.
   2. **프레임워크 방어망의 고도화**: Spring, Django 같은 현대 프레임워크들이 기술적 버그(SQLi, [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/))를 기계적으로 거의 100% 방어해 내는 수준에 이르렀다.
   3. **비즈니스 로직 해킹의 부상 (현재)**: 기술적 구멍이 막히자, 해커들은 "개발자가 빼먹은 비즈니스 예외 로직"을 노리기 시작했다. 이에 OWASP 재단은 2021년, "이제 코드(구현) 고치는 건 그만하고, 기획(설계)부터 똑바로 해라!"라는 분노를 담아 `Insecure Design(A04)`을 거대한 새로운 카테고리로 신설해 버렸다.
 
@@ -121,7 +121,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [Insecure Design](/knowledge-base/studynote/09_security/05_web_app_security/440_insecure_design/) (안전하지 않은 설계)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -175,7 +175,7 @@ Insecure Design (안전하지 않은 설계) 개념 정립
 
 **진행 상황**: 554 / 973
 
-<- **이전**: [481. Insecure Design (안전하지 않은 설계)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/481_insecure_design/)
-**다음**: [482. Security Misconfiguration (보안 설정 오류)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/482_security_misconfiguration/) ->
+<- **이전**: [481. Insecure Design (안전하지 않은 설계)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/873_insecure_design/)
+**다음**: [482. Security Misconfiguration (보안 설정 오류)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/874_security_misconfiguration/) ->
 
 ---

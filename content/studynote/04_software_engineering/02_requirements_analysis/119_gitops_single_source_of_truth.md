@@ -38,7 +38,7 @@ tags = ["studynote-software-engineering"]
 
 ### Push vs Pull 방식
 
-| 비교 | Push ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)->[kubectl](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/077_kube_api_server_k8s_hub/)) | Pull (ArgoCD/Flux) |
+| 비교 | Push ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)->[kubectl](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/077_kube_api_server_k8s_hub/)) | Pull (ArgoCD/Flux) |
 |:---|:---|:---|
 | **보안** | CI에 kubeconfig 필요 | **클러스터 내부에서 Pull** |
 | **Self-healing** | 없음 | **드리프트 자동 복원** |
@@ -56,7 +56,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 수동 운영 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD | GitOps |
+| 비교 | 수동 운영 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD | GitOps |
 |:---|:---|:---|:---|
 | **변경 추적** | 없음 | 일부 | **Git 100%** |
 | <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a></strong> | 수동 | 파이프라인 | **git revert** |
@@ -81,7 +81,7 @@ tags = ["studynote-software-engineering"]
 | [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) | 분 단위 | **git revert (초)** | 즉시 |
 | 드리프트 | 방치 | **자동 복원** | 제로 |
 
-GitOps는 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a> 운영의 사실상 표준</strong>이며, ArgoCD가 [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) Graduated 프로젝트로 채택되어 생태계가 안정적이다.
+GitOps는 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/">클라우드 네이티브</a> 운영의 사실상 표준</strong>이며, ArgoCD가 [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) Graduated 프로젝트로 채택되어 생태계가 안정적이다.
 
 ---
 

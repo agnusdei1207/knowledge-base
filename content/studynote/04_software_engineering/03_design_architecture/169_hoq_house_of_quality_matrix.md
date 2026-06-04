@@ -80,7 +80,7 @@ HoQ는 QFD 전체와 동일하지 않다. QFD가 고객 요구를 설계·부품
 
 또한 HoQ는 [카노 모델](/knowledge-base/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/) ([Kano Model](/knowledge-base/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/)), 우선순위 매트릭스와도 연결된다. [카노 모델](/knowledge-base/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/)이 고객 만족의 성격을 분류한다면, HoQ는 그 결과를 실제 기술 목표로 번역한다. 우선순위 매트릭스가 단순 비교라면, HoQ는 고객 중요도와 기술 상관 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 동시에 반영한다.
 
-[소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 관점에서는 [요구사항 추적성](/knowledge-base/studynote/04_software_engineering/03_design_architecture/156_requirements_traceability_vertical_horizontal/) ([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/)), [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 목표 ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/), [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))와도 이어진다. HoQ에서 정한 목표값이 설계 기준과 테스트 기준으로 이어져야 비로소 살아 있는 문서가 된다.
+[소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 관점에서는 [요구사항 추적성](/knowledge-base/studynote/04_software_engineering/03_design_architecture/156_requirements_traceability_vertical_horizontal/) ([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/)), [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/993_process/), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 목표 ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/), [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))와도 이어진다. HoQ에서 정한 목표값이 설계 기준과 테스트 기준으로 이어져야 비로소 살아 있는 문서가 된다.
 
 - **📢 섹션 요약 비유**: QFD가 긴 여행 전체 일정표라면 HoQ는 첫 번째 큰 지도와 같다. 지도만 들고 끝나면 목적지에 도착하지 못하지만, 지도 없이는 올바른 출발도 어렵다.
 
@@ -101,7 +101,7 @@ HoQ는 QFD 전체와 동일하지 않다. QFD가 고객 요구를 설계·부품
 - WHAT이 고객 언어로 쓰였는가, HOW가 측정 가능한가?
 - [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 점수의 근거가 인터뷰·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·전문가 합의로 설명 가능한가?
 - 지붕에서 음의 상관 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 확인하고도 목표치를 무리하게 동시에 잡지 않았는가?
-- 결과가 설계 문서, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/), 운영 지표까지 이어지는가?
+- 결과가 설계 문서, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/), 운영 지표까지 이어지는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -130,7 +130,7 @@ HoQ를 제대로 활용하면 고객 요구가 기술 목표와 [검증](/knowle
 | 개념 | 연결 포인트 |
 | :--- | :---------- |
 | [품질 기능 전개](/knowledge-base/studynote/04_software_engineering/03_design_architecture/168_qfd_quality_function_deployment/) (QFD) | HoQ를 포함하는 상위 요구 전개 방법론 |
-| VOC (Voice of [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | WHAT의 원천이 되는 고객 요구 입력 |
+| VOC (Voice of [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/)) | WHAT의 원천이 되는 고객 요구 입력 |
 | 기술 특성 (엔진ering Characteristics) | HOW 영역을 이루는 설계 가능 변수 |
 | [카노 모델](/knowledge-base/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/) ([Kano Model](/knowledge-base/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/)) | WHAT의 만족 성격을 분류해 HoQ 입력 품질 향상 |
 | 추적성 ([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/)) | HoQ 결과를 설계·테스트·운영 지표로 연결 |

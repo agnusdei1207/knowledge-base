@@ -120,7 +120,7 @@ tags = ["ai"]
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
-실무에서 지식 베이스와 추론 엔진(주로 BRMS - Business Rule [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System 형태로 도입됨)을 도입할 때는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목과 규칙 관리 복잡성을 엄격히 통제해야 한다.
+실무에서 지식 베이스와 추론 엔진(주로 BRMS - Business Rule [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System 형태로 도입됨)을 도입할 때는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목과 규칙 관리 복잡성을 엄격히 통제해야 한다.
 
 **실무 시나리오 1: 이커머스 다이나믹 프라이싱 & 프로모션 엔진**
 수백 개의 할인 쿠폰, VIP 등급, 제휴 카드 할인 조건이 복잡하게 얽혀 있어, 앱 서버의 if-else 코드로는 결제 금액 오류(Over-discount)가 지속적으로 발생하는 상황.
@@ -146,7 +146,7 @@ tags = ["ai"]
                  +- 정책 B 우선순위 50
                  +- 결론: 배송비 5천원 부과 안전 수행
 ```
-이 도식의 핵심은 지식 베이스가 커질수록 기존 규칙과 신규 규칙 간의 모순(Contradiction)을 인간이 육안으로 찾아낼 수 없다는 점이다. 이런 충돌은 컴파일 타임 에러가 아니라 런타임 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 에러를 유발하므로 시스템에 치명적이다. 따라서 실무 아키텍트는 룰을 배포하기 전에 반드시 시뮬레이션 환경에서 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)([Regression Test](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/))를 돌려 부작용을 검출하는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 구축해야 한다.
+이 도식의 핵심은 지식 베이스가 커질수록 기존 규칙과 신규 규칙 간의 모순(Contradiction)을 인간이 육안으로 찾아낼 수 없다는 점이다. 이런 충돌은 컴파일 타임 에러가 아니라 런타임 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 에러를 유발하므로 시스템에 치명적이다. 따라서 실무 아키텍트는 룰을 배포하기 전에 반드시 시뮬레이션 환경에서 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)([Regression Test](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/))를 돌려 부작용을 검출하는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 구축해야 한다.
 
 📢 **섹션 요약 비유**: 수백 명의 법률 고문(규칙)을 한 방에 모아놓으면 서로 자기 말이 맞다고 싸우게 됩니다. 반드시 가장 상위의 헌법(우선순위)을 정해주는 정리자가 있어야 시스템이 멈추지 않습니다.
 

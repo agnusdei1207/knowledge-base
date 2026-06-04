@@ -112,7 +112,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅲ. 비교 및 연결
 
-### [자원 풀링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/638_resource_pooling_cxl/)의 3가지 레벨 비교 ([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) vs [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/) vs [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))
+### [자원 풀링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/638_resource_pooling_cxl/)의 3가지 레벨 비교 ([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) vs [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/) vs [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/))
 
 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))의 깊이가 어디까지 들어가느냐에 따라 클라우드의 성격이 바뀐다.
 
@@ -120,7 +120,7 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|:---|
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/">IaaS</a></strong> | 클라우드 제공자 (OS/[Hypervisor](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 레벨) | <strong>가상 하드웨어 조각 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>)</strong>. 소비자가 직접 OS를 깔고, 그 위에 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 된 vCPU, RAM 덩어리를 받아옴. | AWS EC2 |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/">PaaS</a></strong> | 클라우드 제공자 ([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)/런타임 레벨) | <strong>실행 환경 조각 (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/">Container</a>)</strong>. OS 관리는 버리고, "파이썬 코드를 돌릴 수 있는 메모리 1GB짜리 구역 하나 줘"라고 요청. | AWS Elastic Beanstalk |
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/">SaaS</a></strong> | 클라우드 제공자 (애플리케이션 레벨) | <strong>소프트웨어의 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 계정 (Account)</strong>. 서버나 CPU는 아예 안 보이고, 하나의 큰 앱 안에서 내 계정용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 풀만 분리해 줌. | Google Workspace |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/">SaaS</a></strong> | 클라우드 제공자 (애플리케이션 레벨) | <strong>소프트웨어의 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 계정 (Account)</strong>. 서버나 CPU는 아예 안 보이고, 하나의 큰 앱 안에서 내 계정용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 풀만 분리해 줌. | Google Workspace |
 
 ### 과목 융합 관점
 

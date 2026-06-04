@@ -74,7 +74,7 @@ std::map<key, value> 내부:
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | AVL | Red-Black | [Skip List](/knowledge-base/studynote/12_it_management/03_ea_isp/110_skip_list/) |
+| 비교 | AVL | Red-Black | [Skip List](/knowledge-base/studynote/12_it_management/03_ea_isp/894_skip_list/) |
 |:---|:---|:---|:---|
 | 균형 | 엄격 (±1) | 유연 (2×) | 확률적 |
 | 검색 | 약간 빠름 | 약간 느림 | O(log N) 평균 |
@@ -82,7 +82,7 @@ std::map<key, value> 내부:
 | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 | 어려움 | 어려움 | 쉬움 |
 | 사용처 | 읽기 집중 | 표준 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/), LevelDB |
 
-- **📢 섹션 요약 비유**: AVL·RB·Skip List는 세 정렬 방식이다. AVL(완벽한 ABC 정리), RB(빠른 정리, 약간 느슨), [Skip List](/knowledge-base/studynote/12_it_management/03_ea_isp/110_skip_list/)(확률적 정리, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 가능)로 상황에 맞게 선택한다.
+- **📢 섹션 요약 비유**: AVL·RB·Skip List는 세 정렬 방식이다. AVL(완벽한 ABC 정리), RB(빠른 정리, 약간 느슨), [Skip List](/knowledge-base/studynote/12_it_management/03_ea_isp/894_skip_list/)(확률적 정리, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 가능)로 상황에 맞게 선택한다.
 
 ---
 

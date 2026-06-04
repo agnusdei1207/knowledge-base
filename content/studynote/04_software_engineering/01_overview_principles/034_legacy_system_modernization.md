@@ -12,7 +12,7 @@ tags = ["studynote-software-engineering"]
 > **핵심 인사이트 3줄**
 > 1. 레거시 시스템 현대화(Legacy System Modernization)는 기존 시스템을 단순 교체가 아닌 비즈니스 연속성을 유지하면서 점진적으로 전환하는 복잡한 아키텍처 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 > 2. [Strangler Fig](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/) 패턴은 레거시를 점진적으로 대체하는 가장 안전한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로, 신규 마이크로서비스가 레거시 기능을 하나씩 감싸며 결국 전체를 대체한다.
-> 3. 현대화 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 계산 시 직접 비용(개발)뿐 아니라 레거시 유지 비용([기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 이자), 비즈니스 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)(EOL 지원 종료), 운영 병목(배포 속도 저하)을 모두 포함해야 한다.
+> 3. 현대화 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 계산 시 직접 비용(개발)뿐 아니라 레거시 유지 비용([기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 이자), 비즈니스 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)(EOL 지원 종료), 운영 병목(배포 속도 저하)을 모두 포함해야 한다.
 
 ---
 

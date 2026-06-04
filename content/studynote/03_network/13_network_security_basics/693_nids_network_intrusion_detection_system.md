@@ -67,7 +67,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - NIDS의 가장 큰 약점은 이름 그대로 <strong>'탐지(<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>)'만 할 뿐 '차단(Prevention)'을 하지 못한다는 점</strong>입니다.
-- 네트워크에 해커가 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 공격을 던지면, NIDS는 그걸 보고 "삐용삐용! 해커가 들어왔습니다!"라고 알람 메일만 보냅니다. 알람이 울린 순간 이미 해커의 악성 코드는 서버에 도달해 버린 뒤입니다. (이 수동성을 극복하기 위해 나온 방어 장비가 다음 695번의 IPS입니다.)
+- 네트워크에 해커가 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 공격을 던지면, NIDS는 그걸 보고 "삐용삐용! 해커가 들어왔습니다!"라고 알람 메일만 보냅니다. 알람이 울린 순간 이미 해커의 악성 코드는 서버에 도달해 버린 뒤입니다. (이 수동성을 극복하기 위해 나온 방어 장비가 다음 695번의 IPS입니다.)
 
 NIDS 공격을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [상태 기반 감시](/knowledge-base/studynote/03_network/13_network_security_basics/692_stateful_inspection_firewall_principle/) 기술의 원리가 기반 조건을 만든다면, NIDS 공격은 그 위에서 핵심 메커니즘을 구현하고, [스노트](/knowledge-base/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/), [Suricata](/knowledge-base/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/) 와 오용 탐지 vs…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 

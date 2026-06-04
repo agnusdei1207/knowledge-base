@@ -32,7 +32,7 @@ tags = ["studynote-operating-system"]
   - <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/541_log_structured_file_system/">LFS</a> 순차 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> (Sequential Log)</strong>: 직원은 진열대를 돌아다니지 않는다. 새로 온 모든 물건을 창고 바닥 끝 빈자리(Log 끝단)부터 그냥 차곡차곡 무조건 일렬로 쏟아놓는다(Append). 놓는 속도는 1초면 끝난다. (나중에 물건 찾을 땐 어디 뒀는지 맵만 업데이트해 두면 된다).
 
 - **등장 배경**:
-  - 1992년 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) 버클리의 논문(The Design and Implementation of a [Log-Structured File System](/knowledge-base/studynote/02_operating_system/09_file_system/541_log_structured_file_system/))에서 처음 제안되었다. RAM 캐시의 확대로 'Read' 병목이 사라진 미래에는 오직 'Write' 병목만 남을 것을 정확히 예견한 선구적 아키텍처다.
+  - 1992년 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/871_underpinning_contract/) 버클리의 논문(The Design and Implementation of a [Log-Structured File System](/knowledge-base/studynote/02_operating_system/09_file_system/541_log_structured_file_system/))에서 처음 제안되었다. RAM 캐시의 확대로 'Read' 병목이 사라진 미래에는 오직 'Write' 병목만 남을 것을 정확히 예견한 선구적 아키텍처다.
 
 ```text
   +-------------------------------------------------------------+

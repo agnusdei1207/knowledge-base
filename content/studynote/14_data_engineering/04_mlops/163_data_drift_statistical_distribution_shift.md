@@ -288,7 +288,7 @@ else:
 |:---|:---|:---|:---|
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하 감지</strong> | 고객 불만 후 인지 | 사전 감지 | 1~2주 조기 대응 |
 | **재학습 타이밍** | 정기 일정 기반 | 필요 시 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) | 40% 재학습 비용 절감 |
-| **비즈니스 손실** | 수주간 불량 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 즉시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 개선 |
+| **비즈니스 손실** | 수주간 불량 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 즉시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 개선 |
 | **규제 대응** | 추적 불가 | PSI [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 보존 | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능 |
 
 ### 5.2 결론

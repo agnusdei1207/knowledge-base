@@ -136,7 +136,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 110 / 1108
 
-<- **이전**: [1000. 클라우드 네이티브 네트워크 (Cloud Native Network Cni Kubernetes Pod Overlay)](/knowledge-base/studynote/09_security/uncategorized/1000_cloud_native_network_cni_kubernetes_pod_overlay/)
+<- **이전**: [1000. 클라우드 네이티브 네트워크 (Cloud Native Network Cni Kubernetes Pod Overlay)](/knowledge-base/studynote/09_security/uncategorized/1096_cloud_native_network_cni_kubernetes_pod_overlay/)
 **다음**: [1001. CSPRNG (Cryptographically Secure Pseudo-Random Number Generator)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1001_csprng_random_generator/) ->
 
 ---

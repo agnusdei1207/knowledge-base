@@ -11,7 +11,7 @@ tags = ["database"]
 # 사용자 정의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) (User-defined [Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)) - 업무 규칙에 따른 제약
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 사용자 정의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은 기본키, 외래키, [도메인 무결성](/knowledge-base/studynote/05_database/02_modeling_normalization/076_domain_integrity/)만으로는 막지 못하는 업무 규칙을 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)에 강제하는 규칙이다.
+> 1. **본질**: 사용자 정의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은 기본키, 외래키, [도메인 무결성](/knowledge-base/studynote/05_database/02_modeling_normalization/076_domain_integrity/)만으로는 막지 못하는 업무 규칙을 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System)에 강제하는 규칙이다.
 > 2. **가치**: CHECK 제약조건은 단순 조건에 강하고, TRIGGER는 행·테이블을 넘는 복합 규칙에 강하다.
 > 3. **판단 포인트**: 규칙이 단순하면 CHECK, 복잡하거나 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)·연쇄 처리가 필요하면 TRIGGER를 쓰되 부작용을 최소화해야 한다.
 
@@ -27,7 +27,7 @@ tags = ["database"]
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-[DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) ([Data Manipulation Language](/knowledge-base/studynote/05_database/01_db_architecture_relational/021_dml/)) 문이 들어오면 DB는 제약조건을 먼저 검사하고, 필요하면 TRIGGER를 실행한 뒤 성공하면 COMMIT, 실패하면 ROLLBACK한다. 핵심은 "들어오기 전에 막을지", "들어온 뒤에 처리할지"를 구분하는 것이다.
+[DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/) ([Data Manipulation Language](/knowledge-base/studynote/05_database/01_db_architecture_relational/021_dml/)) 문이 들어오면 DB는 제약조건을 먼저 검사하고, 필요하면 TRIGGER를 실행한 뒤 성공하면 COMMIT, 실패하면 ROLLBACK한다. 핵심은 "들어오기 전에 막을지", "들어온 뒤에 처리할지"를 구분하는 것이다.
 
 | 방식 | 강점 | 한계 | 적합한 규칙 |
 | :--- | :--- | :--- | :--- |

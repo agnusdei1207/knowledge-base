@@ -117,7 +117,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 389 / 530
 
-<- **이전**: [315. 운영 체계 인수인계 매뉴얼 완전성 점검 (Operations Handover Manual Completeness Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/315_operations_handover_manual/)
-**다음**: [316. 데이터 마이그레이션 백업·롤백 테스트 (Migration Backup and Rollback Test Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/316_process/) ->
+<- **이전**: [315. 운영 체계 인수인계 매뉴얼 완전성 점검 (Operations Handover Manual Completeness Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/673_operations_handover_manual/)
+**다음**: [316. 데이터 마이그레이션 백업·롤백 테스트 (Migration Backup and Rollback Test Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/674_process/) ->
 
 ---

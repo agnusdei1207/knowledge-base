@@ -142,7 +142,7 @@ IT 프로젝트는 예산 항목이 먼저 잡히고, 계약 조항이 그 범�
 
 **진행 상황**: 115 / 530
 
-<- **이전**: [74. 모의 침투 테스트 및 취약점 조치 감리](/knowledge-base/studynote/11_design_supervision/01_audit_framework/074_penetration_testing_vulnerability_remediation_audit/)
+<- **이전**: [74. 모의 침투 테스트 및 취약점 조치 감리](/knowledge-base/studynote/11_design_supervision/01_audit_framework/640_penetration_testing_vulnerability_remediation_audit/)
 **다음**: [76. 서비스 데스크 및 인시던트 관리 체계 확인 (Service Desk and Incident Management Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/076_service_desk_incident_management_audit/) ->
 
 ---

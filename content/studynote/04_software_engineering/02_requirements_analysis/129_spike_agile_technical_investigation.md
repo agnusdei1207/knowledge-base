@@ -40,7 +40,7 @@ tags = ["studynote-software-engineering"]
 
 | 유형 | 목적 | 예 |
 |:---|:---|:---|
-| **기술 Spike** | 기술 가능성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | PoC, [성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/) |
+| **기술 Spike** | 기술 가능성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | PoC, [성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/837_performance_test_types/) |
 | **기능 Spike** | 요구사항 명확화 | 사용자 인터뷰, [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) |
 
 - **📢 섹션 요약 비유**: 기술 Spike는 "다리가 무게를 견딜까?" 테스트, 기능 Spike는 "이 다리가 필요한가?" [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이다.

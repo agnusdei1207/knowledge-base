@@ -18,7 +18,7 @@ tags = ["devops_sre"]
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-소프트웨어 애플리케이션은 다양한 환경(개발자 로컬 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버, 스테이징 서버, 프로덕션 서버 등)에서 동작한다. 각 환경은 서로 다른 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 주소, 서로 다른 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 키, 서로 다른 로깅 수준 등을 필요로 한다. 이러한 환경별 구성을"설정(Configuration)"이라 한다.
+소프트웨어 애플리케이션은 다양한 환경(개발자 로컬 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 서버, 스테이징 서버, 프로덕션 서버 등)에서 동작한다. 각 환경은 서로 다른 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 주소, 서로 다른 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 키, 서로 다른 로깅 수준 등을 필요로 한다. 이러한 환경별 구성을"설정(Configuration)"이라 한다.
 
 전통적인 설정 관리의 문제점은"설정을 코드에 하드코딩"하는 것이다. 예를 들어, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 연결 정보를 코드에 직접 적어두면:
 ```python

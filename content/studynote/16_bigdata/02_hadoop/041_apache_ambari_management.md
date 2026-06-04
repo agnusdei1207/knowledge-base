@@ -62,7 +62,7 @@ tags = ["studynote-bigdata"]
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 - **기대효과**: 운영 인력 소모 감소, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류로 인한 장애 방지, 실시간 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝 가이드 확보.
-- **결론**: [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서도 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 클러스터의 안정적인 운영을 위해서는 암바리와 같은 통합 관리 프레임워크가 필수적이며, 향후 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 연동형으로의 진화가 기대된다.
+- **결론**: [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경에서도 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 클러스터의 안정적인 운영을 위해서는 암바리와 같은 통합 관리 프레임워크가 필수적이며, 향후 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 연동형으로의 진화가 기대된다.
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 1. **Ambari Blueprints**: 클러스터 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 형식으로 정의한 템플릿
@@ -86,7 +86,7 @@ tags = ["studynote-bigdata"]
     v
 [Kubernetes on Hadoop — 컨테이너 오케스트레이션과의 통합 관리]
 ```
-Ambari는 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 생태계의 복잡한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 웹 UI와 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API로 단순화한 관리 플랫폼으로, 현대 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 통합 관리로 진화하고 있다.
+Ambari는 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 생태계의 복잡한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 웹 UI와 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API로 단순화한 관리 플랫폼으로, 현대 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경에서 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 통합 관리로 진화하고 있다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. **아파치 암바리**: 수백 명의 요리사(서버)가 일하는 거대한 주방의 '총주방장'님과 같아요.

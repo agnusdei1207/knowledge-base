@@ -61,7 +61,7 @@ SPACE는 DORA의 보완재다. DORA가 파이프라인 속도·안정성에 집�
 
 | 접근 | 방법 | 특징 |
 |:---|:---|:---|
-| 시스템/툴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | Git, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, 이슈 트래커 자동 수집 | 객관적, 행동 지표 |
+| 시스템/툴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | Git, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD, 이슈 트래커 자동 수집 | 객관적, 행동 지표 |
 | 조사/설문 | [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/) 설문 (분기별) | 주관적, 인식 지표 |
 | 관찰/인터뷰 | 팀 리뷰, 1:1 미팅 | 맥락 이해, 질적 지표 |
 
@@ -75,8 +75,8 @@ SPACE는 DORA의 보완재다. DORA가 파이프라인 속도·안정성에 집�
 
 | 항목 | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) | SPACE |
 |:---|:---|:---|
-| 발표 | Google/[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 팀 (2018~) | GitHub/Microsoft/UVic ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/)) |
-| 핵심 초점 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 성과 | 개발자 생산성 전반 |
+| 발표 | Google/[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 팀 (2018~) | GitHub/Microsoft/UVic ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/)) |
+| 핵심 초점 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인 성과 | 개발자 생산성 전반 |
 | 지표 유형 | 객관적 측정 (4개) | 5개 차원 복합 |
 | 인간 요소 | 간접적 (번아웃 etc.) | ✅ 직접 측정 |
 | 적용 레벨 | 팀/시스템 | 개인/팀/시스템 |

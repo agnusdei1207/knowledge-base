@@ -13,7 +13,7 @@ tags = ["studynote-operating-system"]
 
 > 1. **본질**: [역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/)([Inverted Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/))은 메모리 낭비를 줄이기 위해 전 세계(시스템)에 장부를 딱 1개만 두어 $O(N)$의 끔찍한 순차 탐색 렉을 유발하는데, 이를 **단 1~2회의 메모리 접근만으로 끊어내기 위해 `[PID, Page Number]`를 키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))로 삼아 $O(1)$ 속도로 인덱스를 꽂아주는 하드웨어 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)([Hash Function](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)) 융합 아키텍처**다.
 > 2. **가치**: 64비트의 무한한 가상 주소 공간이 낳는 [다단계 페이징](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/) 트리(4~5번 램 접근)의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Penalty)을 무력화시키고, <strong>램 용량 절약과 주소 번역 속도라는 절대 잡을 수 없는 두 마리 토끼를 극한의 수학적 해싱으로 멱살 잡아 캐리</strong>한다.
-> 3. **융합**: 필연적으로 터지는 '[해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))'을 해결하기 위해 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))와 결합되며, 해시 포인터를 저장하는 <strong>해시 앵커 테이블(Hash Anchor Table)이라는 보조 장부가 역 테이블과 2단 융합</strong>하여 슈퍼컴퓨터 급 서버의 메모리를 지배한다.
+> 3. **융합**: 필연적으로 터지는 '[해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))'을 해결하기 위해 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/))와 결합되며, 해시 포인터를 저장하는 <strong>해시 앵커 테이블(Hash Anchor Table)이라는 보조 장부가 역 테이블과 2단 융합</strong>하여 슈퍼컴퓨터 급 서버의 메모리를 지배한다.
 
 ---
 
@@ -63,7 +63,7 @@ tags = ["studynote-operating-system"]
 
 세상에 완벽한 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)는 없다. 가상 주소 공간은 무한(64비트)인데, 해시가 뱉어내는 앵커 테이블 방 개수는 유한(예: 10만 개)하기 때문에 <strong>비둘기집 원리</strong>에 의해 무조건 충돌이 난다.
 - **상황**: `프로세스 B의 20번 페이지`를 해시에 돌렸더니, 우연히 아까랑 똑같이 `결과값 88`이 튀어나왔다.
-- <strong>해결책 (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/">Chaining</a>, 체이닝)</strong>:
+- <strong>해결책 (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/">Chaining</a>, 체이닝)</strong>:
   - 88번 앵커를 타고 역 테이블 405번 줄에 갔더니 내가 찾는 `[PID: B, Page: 20]`이 아니라 아까 들어간 `[PID: A, Page: 10]`이 있다! (충돌/Miss).
   - 당황하지 않는다. 405번 줄 끝에는 <strong><code>Next Pointer (다음 줄 번호)</code></strong>가 달려 있다. (예: `Next = 912번 줄`).
   - MMU는 912번 줄로 다시 점프(RAM 3차 방문)해서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. 거기에 `[PID: B, Page: 20]`이 있으면 성공이다.

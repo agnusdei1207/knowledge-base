@@ -10,9 +10,9 @@ tags = ["studynote-cloud-architecture"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: mTLS는 <strong>클라이언트와 서버가 양쪽 모두 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서를 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>(상호 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>)</strong>하는 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 확장이며, [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/))에서 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 간 통신의 암호화·<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>·<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a></strong>을 보장하는 핵심 메커니즘이다.
+> 1. **본질**: mTLS는 <strong>클라이언트와 서버가 양쪽 모두 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서를 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>(상호 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>)</strong>하는 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 확장이며, [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/))에서 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 간 통신의 암호화·<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>·<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a></strong>을 보장하는 핵심 메커니즘이다.
 > 2. **가치**: 일반 TLS는 <strong>서버만 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a></strong>(클라이언트는 아무나)하지만, mTLS는 <strong>양쪽 모두 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a></strong>하여 [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 네트워크에서 "네트워크 내부라도 신뢰하지 않는" 원칙을 실현한다.
-> 3. **판단 포인트**: [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/))가 <strong>자동 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서 발급·회전·<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/">mTLS</a> 적용</strong>을 사이드카에서 처리하므로, 애플리케이션 코드 변경 없이 적용된다.
+> 3. **판단 포인트**: [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/))가 <strong>자동 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서 발급·회전·<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/">mTLS</a> 적용</strong>을 사이드카에서 처리하므로, 애플리케이션 코드 변경 없이 적용된다.
 
 ---
 
@@ -31,7 +31,7 @@ mTLS:  클라이언트 ↔ 서버 양쪽 인증서 교환·검증
 
 ## Ⅱ~Ⅴ. 결론
 
-mTLS는 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">Zero Trust</a>·<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">서비스 메시</a>의 보안 핵심</strong>이며, Istio가 자동화를 제공한다.
+mTLS는 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">Zero Trust</a>·<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/">서비스 메시</a>의 보안 핵심</strong>이며, Istio가 자동화를 제공한다.
 
 ---
 
@@ -41,7 +41,7 @@ mTLS는 <strong><a href="/knowledge-base/studynote/02_operating_system/10_securi
 |:---|:---|
 | <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/">mTLS</a></strong> | 상호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">Zero Trust</a></strong> | 내부도 불신 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">Istio</a></strong> | 자동 [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/">Istio</a></strong> | 자동 [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서 회전</strong> | 자동 갱신 |
 | **SPIFFE** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) ID 표준 |
 

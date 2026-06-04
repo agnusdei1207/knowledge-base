@@ -11,160 +11,161 @@ tags = ["studynote-it-management"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: IT 경영 관리 핵심 토픽 752번 시험 요약은(는) 보안 컴플라이언스 및 IT 경영 관리 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: IT 경영관리(Information Technology Governance)는 COBIT 2019, ITIL 4, ISO/IEC 38500 등 글로벌 프레임워크를 기반으로 기업의 IT 자원을 전략·전술·운영 3계층으로 통합·최적화하여 비즈니스 가치(Value Realization)와 리스크 통제(Risk Optimization), 자원 효율(Resource Optimization)을 동시 달성하는 경영 체계임.
+> 2. **가치**: McKinsey(2023) 조사에 따르면 성숙한 IT 거버넌스 도입 기업은 디지털 전환 ROI가 평균 35% 높고, 정보화 사업 실패율은 14%(PMBOK 미적용 67%)로 감소하며, IT 비용 대비 비즈니스 기여도(Business Value of IT, BVIT) 지표가 2.3배 향상됨.
+> 3. **판단 포인트**: 중앙집중형(Centralized) vs 분산형(Distributed/Federated) 거버넌스 모델 선택, COBIT의 40개 Governance/Management Objective 중 어디까지 적용할지(Design Factors 11개 활용), 그리고 EA(Enterprise Architecture)와의 연계 수준(TOGAF ADM 적용 단계)에 따라 거버넌스 성숙도가 결정됨.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-IT 경영 관리 핵심 토픽 752번 시험 요약은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+4차 산업혁명 시대의 IT는 더 이상 단순 비용센터(COE, Center of Excellence)가 아닌 **전략적 비즈니스 파트너**로 진화했습니다. 2020년 이후 COVID-19 팬데믹,生成系 AI(LLM, MLLM)의 등장, 공급망 재편 등으로 인해 IT와 비즈니스 사이의 융합이 가속화되었고, 한국정보화진흥원(NIA)의 「2023 정보화 사업 시행 실태조사」에 따르면 전체 공공정보화 사업의 27.3%가 초기 계획 대비 예산을 초과하고 14.8%가 성과를 미달성한 것으로 나타났습니다. 이는 IT 투자의 **전략적 정렬(Strategic Alignment)**과 **성과 측정(Performance Measurement)** 부재가 근본 원인입니다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, IT Management Core Topic 752 Exam Summary 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+IT 경영관리(Information Technology Management & Governance)는 이러한 문제를 해결하기 위해 **계획-실행-모니터링-평가**의 폐루프(Closed-loop) 체계를 구축하고, 이사회-경영진-IT 부서 간의 의사결정 구조를 명확히 하는 데 목적이 있습니다. 한국정보통신기술협회(TTA)의 ISMS-P, 정보통신산업진흥원의 IT-Biz-BMP(정보통신사업자 역량강화) 인증, 그리고 공공부문의 DGB(디지털정부혁신) 추진 등이 모두 이 프레임워크 위에서 운영됩니다.
 
 ```text
-+--------------------------------------------------------------+
-|                    IT 경영 관리 핵심 토픽 752번 시험 요약 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[IT 경영관리 3계층 구조 (전략-전술-운영)]
+
+                    +---------------------------------+
+                    |   Board / CEO / 이사회 (전략층)  |
+                    |  - IT 전략(IT Strategy) 수립     |
+                    |  - 디지털 전환(DX) 비전          |
+                    |  - IT 투자 우선순위(Portfolio)    |
+                    +---------------+-----------------+
+                                    | BSC KPI 연계
+                    +---------------v-----------------+
+                    |   CIO / IT Steering Committee   |
+                    |         (전술/관리층)            |
+                    |  - EA(Enterprise Architecture)   |
+                    |  - 정보화 사업 계획 및 예산 통제  |
+                    |  - SLA/OLA 관리                 |
+                    |  - 거버넌스 체계 운영(COBIT)     |
+                    +---------------+-----------------+
+                                    | Service Design
+                    +---------------v-----------------+
+                    |   IT Operations / DevOps        |
+                    |         (운영층)                |
+                    |  - ITIL 4 Service Value System  |
+                    |  - Incident/Problem Management  |
+                    |  - SIEM/SOC, 백업/DR 운영        |
+                    |  - APM(APM Tools, Datadog 등)    |
+                    +---------------------------------+
+                                    ^
+                                    | Monitor & Feedback
+                                    | (PDCA: Plan-Do-Check-Act)
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+기존 패러다임은 IT를 "지원부서(Back Office)"로 인식하고, 개별 시스템 단위로 예산과 성과를 관리하는 **사일로(Silo)형 투자**였습니다. 그러나 현재는 클라우드 네이티브, SaaS, 데이터 레이크, AI/ML Ops 등 기술 스택이 복잡해지면서, **기업 아키텍처(EA) 기반의 포트폴리오 관리**와 **BizDevOps/GitOps**로 진화했습니다. 이는 Gartner(2024)가 강조한 "Continuous Compliance"와 "Adaptive Governance" 트렌드와도 부합합니다.
 
-- **📢 섹션 요약 비유**: IT 경영 관리 핵심 토픽 752번 시험 요약은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: IT 경영관리는 마치 **도시의 도시계획(Urban Planning)**과 같습니다. 건물(시스템) 하나하나 짓는 것이 아니라, 교통(데이터 흐름), 공원(데이터 거버넌스), 소방(보안), 상하수도(네트워크) 등 도시 전체의 인프를总体规划하고, 시민(사용자)에게 가치를 제공하는 것과 같은 원리입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-IT 경영 관리 핵심 토픽 752번 시험 요약의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+IT 경영관리의 핵심은 **COBIT 2019**의 Governance System과 **ITIL 4**의 Service Value System(SVS)을 통합적으로 이해하는 것입니다. COBIT 2019는 40개의 관리 목적(Governance & Management Objectives, GMO)을 5개 도메인(EDM, APO, BAI, DSS, MEA)으로 분류하며, 각 목적은 Process Capability를 평가하기 위해 CMMI Institute의 PAM(Process Assessment Model)을 사용합니다.
+
+ITIL 4는 2019년부터 Service Value System 체계를 도입하여 34개 Practice를 Guiding Principles(7개), Governance, Service Value Chain(6개 Activity: Plan->Engage->Design&Transition->Obtain/Build->Deliver&Support->Improve), Continual Improvement, Practices로 재편했습니다. 핵심 메커니즘은 **Opportunity/Demand -> Value**로의 변환이며, 이를 위해 Portfolio Management(전략->프로젝트->서비스->자산 4단계)와 Demand Management(파이프라인 패턴)가 작동합니다.
+
+거버넌스 의사결정 구조는 RACI 매트릭스와 의사결정 권한(Decision Rights)에 따라 **R(Responsible), A(Accountable), C(Consulted), I(Informed)**로 명확히 정의되어야 합니다. 특히 정보화 사업의 단계별 의사결정 Gate(예: G1 계획, G2 분석, G3 설계, G4 구축, G5 시험, G6 오픈, G7 안정화)는 한국정보화진흥원 표준 PMO 매뉴얼에서도 강조하는 핵심 절차입니다.
 
 ```text
-+--------------------------------------------------------------+
-|              IT Management Core Topic 752 Exam Summary 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+[COBIT 2019 + ITIL 4 통합 거버넌스 흐름도]
+
+  +----------+    +-------------+    +--------------+
+  | Strategy |---->| Engagement  |---->| Design &     |
+  | (전략)   |    | (관계/이해) |    | Transition   |
+  | EDM      |    | APO/DSS     |    | (BAI)        |
+  +----+-----+    +------+------+    +------+-------+
+       |                  |                   |
+       |                  |                   v
+       |                  |           +--------------+
+       |                  |           | Obtain/Build |
+       |                  |           | (BAI03-04)   |
+       |                  |           +------+-------+
+       |                  |                  |
+       |                  v                  v
+       |           +-------------+    +--------------+
+       |           | Deliver &   |<----|  Improve     |--+
+       |           | Support     |    |  (Continual) |  |
+       |           | (DSS)       |    +--------------+  |
+       |           +------+------+                       |
+       |                  |                              |
+       v                  v                              |
+  +-------------------------------------------------+    |
+  |   MEA (Monitor, Evaluate, Assess) --------------+----+
+  |   - KPI/CSF 측정 -> BSC 4관점(재무/고객/내부/학습)|
+  |   - Internal Control & Audit Trail              |
+  |   - Compliance (ISMS-P, GDPR, 개인정보보호법)     |
+  +-------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Governance Body (이사회/CIO)** | 의사결정·감독·책임(RACI의 A) | IT Steering Committee 운영, Digital Ethics Charter 수립, Risk Appetite 정의(예: RTO 4hr, RPO 1hr) |
+| **COBIT 2019 EDM(5개)** | 거버넌스 5대 영역(EDM01~05) | EDM01 Governance Framework Setting, EDM02 Benefits Delivery, EDM03 Risk Optimization, EDM04 Resource Optimization, EDM05 Stakeholder Transparency |
+| **EA Framework (TOGAF ADM)** | 기업 아키텍처 8단계(ADM Cycle) | Preliminary->Vision->Business->Data/App/Technology->Opportunities->Migration->Implementation Governance->Change Management, ArchiMate 3.2 표기법 |
+| **ITIL 4 SVS (34 Practice)** | 서비스 가치 사슬 운영 | Incident Mgmt(P1~P4 SLA), Change Enablement(CAB/ECAB), Service Desk(AI Chatbot + L1/L2), Problem Mgmt(Known Error DB) |
+| **정보화 사업 PMO** | 사업 관리·품질·예산 통제 | 단계별 Gate Review(7단계), EV(Earned Value) 분석(CPI, SPI), WBS 기반 RAM(Responsibility Assignment Matrix) |
+| **보안/컴플라이언스** | ISMS-P, PIMS, SOC2 | ISO/IEC 27001:2022(Annex A 93통제항목), ISO 27701, NIST CSF 2.0, K-ISMS-P 인증(3년 주기, 매년 감시) |
+| **성과 측정(BSC)** | IT-BSC 4관점 KPI | 재무관점(ROI, TCO), 고객관점(CSAT, NPS), 내부프로세스(MTTR, 가용성 99.99%), 학습/성장(직원자격, 교육시간) |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+핵심 알고리즘·산식으로는 **TCO(Total Cost of Ownership)**, **ROI(Return on Investment)**, **NPV(Net Present Value)**, **IRR(Internal Rate of Return)**, **EV(원가획득가치)**, **SPI/CPI** 등이 있습니다. EV 분석의 핵심은 EV = BAC × 완료율(%), CPI = EV/AC, SPI = EV/PV이며, CPI<1이면 예산 초과, SPI<1이면 일정 지연으로 판정합니다. 또한 정보화 사업의 성공 확률을 높이기 위해 **PMP/PMBOK 7th Edition**의 12 Principle과 **PRINCE2**의 7 Principle/7 Process를 적용합니다.
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+- **📢 섹션 요약 비유**: COBIT는 **헌법**, ITIL은 **행정절차법**, TOGAF는 **도시계획법**, ISMS는 **형법**과 같습니다. 기업이라는 나라에서 IT는 이 모든 법 체계의 지배를 받으며, 기술사(技術士)는 이 법들 사이의 충돌을 조율하고 최적의 운영체계를 설계하는 역할입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-IT 경영 관리 핵심 토픽 752번 시험 요약을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+IT 경영관리 영역에서 자주 혼동되는 프레임워크 간 차이를 명확히 이해하는 것이 시험의 핵심입니다. COBIT 2019는 **거버넌스·관리 목적 달성**에 초점을 맞추고, ITIL 4는 **서비스 운영 최적화**, TOGAF는 **아키텍처 설계**, PMBOK은 **프로젝트 관리**, ISO 27001은 **보안 통제**에 집중합니다.
 
-| 구분 | 전통적 접근 | IT 경영 관리 핵심 토픽 752번 시험 요약 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+| 구분 | COBIT 2019 | ITIL 4 | TOGAF 10 | PMBOK 7th |
+| :--- | :--- | :--- | :--- | :--- |
+| **목적** | IT 거버넌스·리스크·컴플라이언스 | IT 서비스 관리(ITSM) | 기업 아키텍처(EA) 설계 | 프로젝트 관리 방법론 |
+| **대상** | 이사회·CIO·감사인 | IT 운영·서비스 매니저 | EA 아키텍트·전략기획 | PM·PMO·사업팀 |
+| **핵심 모델** | 40개 GMO, 11 Design Factors, 7 Component | SVS, 34 Practice, 7 Guiding Principle | ADM(8단계), Architecture Content Framework | 12 Principle, 8 Performance Domain |
+| **측정 체계** | Process Capability(0~5), Maturity | SLA/OLA, KPI/CSF | ADM Phase Deliverable, Migration Plan | Earned Value(EV, CPI, SPI) |
+| **도구 연계** | Process Assessment(PAM), Risk IT | ServiceNow, Jira Service Mgmt, BMC Helix | Archi(ArchiMate 도구), BiZZdesign, Avolution | MS Project, Primavera P6, OpenText PPM |
+| **적용 시점** | 전략 수립·연간 거버넌스 리뷰 | 일일 운영·연속 개선 | 신규 사업·중장기 EA 로드맵 | 단위 프로젝트(임시적) |
+| **컴플라이언스** | SOX, K-ICS, ISO 38500 연계 | ISO 20000:2018 | JTK(공공 EA), FEAF(연방 EA) | ISO 21502, ISO 21500 |
+| **리스크 관리** | EDM03(Risk Optimization) 핵심 | Practice: Risk Mgmt | Migration Plan Risk | Risk Domain |
+| **핵심 산출물** | Policies, Control Objectives | Service Catalogue, SLAs | Architecture Vision, Target Architecture | Project Charter, WBS, Risk Register |
+| **성숙도 모델** | CMMI 5단계 + ISO 330xx PAM | ITIL Maturity Model | TOGAF Maturity Model | OPM3(Organizational PM Maturity) |
 
-관련 기술 영역과의 연결점도 중요하다. IT 경영 관리 핵심 토픽 752번 시험 요약은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 IT 경영 관리 핵심 토픽 752번 시험 요약은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 IT 경영 관리 핵심 토픽 752번 시험 요약을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-IT 경영 관리 핵심 토픽 752번 시험 요약을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, IT 경영 관리 핵심 토픽 752번 시험 요약 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: IT 경영 관리 핵심 토픽 752번 시험 요약은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | IT 경영 관리 핵심 토픽 752번 시험 요약의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | IT 경영 관리 핵심 토픽 752번 시험 요약의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
+**다른 시스템과의 연계**는 다음과 같이 설계됩니다. 첫째, **Biz-DevOps 파이프라인**에서 COBIT의 BAI(Build, Acquire, Implement)와 ITIL의 Change Enablement가 GitLab CI/CD, ArgoCD, Jenkins와 연결됩니다. 둘째, **데이터 거버넌스**는 DAMA-DMBOK 2.0의 11개 지식 영역(Data Architecture, Data Modeling, Data Quality, Metadata, Data Security 등)과 COBIT의 APO14(Data Management)가 융합됩니다. 셋째, **클라우드 거버넌스**는 AWS Well-Architected Framework(5대 Pillars: Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization), Azure CAF(Greenfield/Brownfield), GCP CAF와 COBIT이 매핑됩니다. 넷째, **AI 거버넌스**는 EU AI Act(2024), NIST AI RMF 1.0, 한국 AI 기본법(2026 시행 예정)과 연계됩니다.
 
 ```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-IT 경영 관리 핵심 토픽 752번 시험 요약 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
+[IT 거버넌스 프레임워크 상호 연계 구조]
+
+        +-----------------+
+        |  ISO/IEC 38500  | <--- 최상위 거버넌스 원칙
+        |  (Governance)   |
+        +--------+--------+
+                 |
+     +-----------+-----------+
+     v           v           v
+  COBIT 2019  ISO 27001   ISO 20000
+  (관리목표)   (보안통제)   (서비스관리)
+     |           |           |
+     +-----+-----+-----+-----+
+           |           |
+           v           v
+      +--------+   +--------+
+      | TOGAF  |   | ITIL 4 |
+      |  (EA)  |   | (SVS)  |
+      +----+---+   +---+----+
+           |           |
+           +-----+-----+
+                 v
+         +--------------+
+         |   실행/운영    |
+         | DevOps, SRE  |
+         | AIOps, MLOps |
+         +--------------+
 ```
 
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. IT 경영 관리 핵심 토픽 752번 시험 요약은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+- **📢 섹션 요약 비유**: COBIT, ITIL, TOGAF, PMBOK, ISMS는 마치 **오케스트라의 악기들**과 같습니다. COBIT은 지휘자(거버넌스), ITIL은 바이올린(서비스 운영), TOGAF는 작곡가(아키텍처
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 752 / 800

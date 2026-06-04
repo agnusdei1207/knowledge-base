@@ -29,7 +29,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-The [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 색인하는 주체와 이를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·지원하는 주체들이 GRT ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) Token) 생태계 안에서 상호작용하는 구조다. 핵심 개발 단위는 <strong>서브그래프 (Subgraph)</strong>로, 특정 컨트랙트의 이벤트를 어떻게 가공할지 정의한 명세서다.
+The [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 색인하는 주체와 이를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·지원하는 주체들이 GRT ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) Token) 생태계 안에서 상호작용하는 구조다. 핵심 개발 단위는 <strong>서브그래프 (Subgraph)</strong>로, 특정 컨트랙트의 이벤트를 어떻게 가공할지 정의한 명세서다.
 
 ```text
 +--------------------------------------------------------------+
@@ -66,7 +66,7 @@ The [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) [�
 
 Web3 환경에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어오는 방식은 직접 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) 호출, 중앙화 공급자, 그리고 The Graph와 같은 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 나뉜다.
 
-| 비교 항목 | 직접 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) 파싱 ([Full Node](/knowledge-base/studynote/06_ict_convergence/01_blockchain/083_full_node_complete_ledger/)) | 중앙화 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) (Alchemy, Infura 등) | The [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) ([탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 인덱싱) |
+| 비교 항목 | 직접 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) 파싱 ([Full Node](/knowledge-base/studynote/06_ict_convergence/01_blockchain/083_full_node_complete_ledger/)) | 중앙화 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) (Alchemy, Infura 등) | The [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) ([탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 인덱싱) |
 | :--- | :--- | :--- | :--- |
 | <strong>속도 및 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 수 분 ~ 수 시간 소요 | 비교적 빠르나 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 한계 존재 | **밀리초 (ms) 단위** |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/">탈중앙화</a> 수준</strong> | 매우 높음 (직접 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) | 낮음 (서버 다운 시 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 마비) | **높음** (다수의 독립 인덱서) |
@@ -84,13 +84,13 @@ The Graph는 단순히 속도만 빠른 것이 아니라, [IPFS](/knowledge-base
 Web3 아키텍처 설계 시 백엔드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계층에 대한 결정은 전체 시스템의 가용성과 직결된다.
 
 ### 판단 포인트
-- <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/">DeFi</a>/NFT 대시보드 구축</strong>: Uniswap의 TVL (Total Value Locked) 변화나 OpenSea의 거래 히스토리를 사용자에게 실시간으로 보여주려면 The [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) 도입이 사실상 필수적이다.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/">DeFi</a>/NFT 대시보드 구축</strong>: Uniswap의 TVL (Total Value Locked) 변화나 OpenSea의 거래 히스토리를 사용자에게 실시간으로 보여주려면 The [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) 도입이 사실상 필수적이다.
 - **실시간성(Real-time) vs 완전성**: 서브그래프는 블록이 생성된 후 인덱서가 이를 파싱하는 약간의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Sync Delay)이 발생한다. 따라서 초단타 아비트리지 봇처럼 1블록(12초) 내의 극단적인 실시간성이 필요한 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에는 적합하지 않고, 집계 및 히스토리 조회용으로 써야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 저장된 모든 [Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) Data를 백엔드 서버에서 `eth_getLogs`로 계속 긁어와 직접 RDBMS에 저장하는 휠(Wheel) 재발명 로직. 인프라 비용과 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 오류 리스크만 폭증한다.
 
-- **📢 섹션 요약 비유**: 실시간 뉴스 속보를 보기 위해 윤전기에서 방금 나온 신문을 가로채는 것(직접 파싱)은 극소수에게만 필요하다. 대부분의 독자는 잘 편집된 포털 사이트 메인 화면(The [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))을 보는 것이 훨씬 효율적이다.
+- **📢 섹션 요약 비유**: 실시간 뉴스 속보를 보기 위해 윤전기에서 방금 나온 신문을 가로채는 것(직접 파싱)은 극소수에게만 필요하다. 대부분의 독자는 잘 편집된 포털 사이트 메인 화면(The [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/))을 보는 것이 훨씬 효율적이다.
 
 ---
 
@@ -100,7 +100,7 @@ The Graph를 적용하면 [DApp](/knowledge-base/studynote/06_ict_convergence/01
 
 다만, 멀티 체인 환경이 복잡해지면서 서브그래프를 여러 체인에 맞게 관리해야 하는 복잡도가 존재한다. 결론적으로 The Graph는 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)(백엔드)와 사용자 인터페이스(프론트엔드)를 연결하는 가장 표준적이고 강력한 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 미들웨어 (Middleware)로 자리매김하고 있다.
 
-- **📢 섹션 요약 비유**: 복잡한 도로망([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)) 위를 달리는 수많은 자동차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))의 궤적을 CCTV로 하나하나 분석하는 대신, 모든 경로를 완벽하게 집계해 주는 네비게이션 교통 통제소(The [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))를 무료로 이용하는 것과 같다.
+- **📢 섹션 요약 비유**: 복잡한 도로망([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)) 위를 달리는 수많은 자동차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))의 궤적을 CCTV로 하나하나 분석하는 대신, 모든 경로를 완벽하게 집계해 주는 네비게이션 교통 통제소(The [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/))를 무료로 이용하는 것과 같다.
 
 ---
 
@@ -109,7 +109,7 @@ The Graph를 적용하면 [DApp](/knowledge-base/studynote/06_ict_convergence/01
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/">GraphQL</a></strong> | The Graph에서 클라이언트가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 요청할 때 사용하는 선언적 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어 |
-| <strong>GRT (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a> Token)</strong> | 인덱서, 큐레이터, 위임자에게 경제적 유인을 제공하는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 유틸리티 토큰 |
+| <strong>GRT (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/">Graph</a> Token)</strong> | 인덱서, 큐레이터, 위임자에게 경제적 유인을 제공하는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 유틸리티 토큰 |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/">IPFS</a> (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/">InterPlanetary File System</a>)</strong> | 서브그래프의 정의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(매니페스트 등)이 변조되지 않도록 저장하는 [분산 파일 시스템](/knowledge-base/studynote/02_operating_system/09_file_system/553_distributed_file_system/) |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a> (Single Point of Failure)</strong> | The Graph가 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형 인덱서를 통해 제거하고자 하는 중앙화 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 약점 |
 

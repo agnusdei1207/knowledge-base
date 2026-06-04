@@ -66,7 +66,7 @@ ATAM은 설계도를 평가한다는 점에서 [CBAM](/knowledge-base/studynote/
 | 항목 | [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Trade-off Analysis Method) | [CBAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/) (Cost Benefit Analysis Method) |
 | :--- | :--- | :--- |
 | 평가 기준 | 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) ([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 보안 등) | 경제적 이득 (비용 대비 수익) |
-| 도출 결과물 | [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/), 민감점, 타협점 (Trade-off) | [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) (투자 자본 수익률) 최적화 대안 |
+| 도출 결과물 | [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/), 민감점, 타협점 (Trade-off) | [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) (투자 자본 수익률) 최적화 대안 |
 | 실행 시점 | 아키텍처 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 시 | [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) 이후, 대안 중 경제성 선택 시 |
 
 ATAM을 통해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)의 타협점(Trade-off)을 찾아내면, 그 대안들 중에서 "어떤 방식이 돈이 제일 적게 들고 수익이 큰가?"를 결정하기 위해 CBAM이 후속으로 투입된다. 즉, ATAM은 기술적 생존을, CBAM은 경제적 타당성을 책임진다.
@@ -94,7 +94,7 @@ ATAM을 통해 [성능](/knowledge-base/studynote/04_software_engineering/05_dev
 
 ## Ⅴ. 기대효과 및 결론
 
-[ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) 4단계 프로세스를 철저히 준수하면, 시스템 오픈 전에 치명적인 아키텍처 결함을 발견하여 수정 비용을 수백 배 절감할 수 있다. 또한, 모든 결정이 시나리오에 기반하므로 아키텍트와 고객 간의 책임 소재([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))가 명확해진다.
+[ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) 4단계 프로세스를 철저히 준수하면, 시스템 오픈 전에 치명적인 아키텍처 결함을 발견하여 수정 비용을 수백 배 절감할 수 있다. 또한, 모든 결정이 시나리오에 기반하므로 아키텍트와 고객 간의 책임 소재([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/))가 명확해진다.
 
 한계점으로는 9스텝을 모두 밟는 데 최소 수일이 걸리며, 숙련된 퍼실리테이터(감리자)가 없으면 회의가 감정싸움으로 변질될 위험이 크다는 것이다.
 

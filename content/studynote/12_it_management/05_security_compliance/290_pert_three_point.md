@@ -141,6 +141,6 @@ tags = ["studynote-it-management"]
 **진행 상황**: 425 / 587
 
 <- **이전**: [289. CPM 주공정법 임계 경로](/knowledge-base/studynote/12_it_management/05_security_compliance/289_cpm_critical_path/)
-**다음**: [290. PERT 3점 추정](/knowledge-base/studynote/12_it_management/05_security_compliance/290_pert_three_point_estimation/) ->
+**다음**: [290. PERT 3점 추정](/knowledge-base/studynote/12_it_management/05_security_compliance/936_pert_three_point_estimation/) ->
 
 ---

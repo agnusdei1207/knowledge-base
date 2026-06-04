@@ -84,8 +84,8 @@ tags = ["studynote-software-engineering"]
 (주문 시 항상 로그인 필요)        (특정 조건: 회원 동의 시만 알림)
 ```
 
-- <strong>포함(«<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/">include</a>»)</strong>: 기본 유스케이스가 실행될 때 **항상** 포함 유스케이스도 실행. 화살표 방향: 기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) -> 포함 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/)
-- **확장(«extend»)**: 특정 <strong>조건</strong>이 만족될 때만 확장 유스케이스가 실행. 화살표 방향: 확장 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) -> 기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) (역방향)
+- <strong>포함(«<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/">include</a>»)</strong>: 기본 유스케이스가 실행될 때 **항상** 포함 유스케이스도 실행. 화살표 방향: 기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/871_underpinning_contract/) -> 포함 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/871_underpinning_contract/)
+- **확장(«extend»)**: 특정 <strong>조건</strong>이 만족될 때만 확장 유스케이스가 실행. 화살표 방향: 확장 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/871_underpinning_contract/) -> 기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/871_underpinning_contract/) (역방향)
 
 - **📢 섹션 요약 비유**: «[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)»는 **'피자 주문 시 항상 결제가 포함'** 되는 것이고, «extend»는 **'추가 치즈가 필요할 때만 선택'** 하는 것입니다. 포함은 필수 공통, 확장은 조건부 선택입니다.
 
@@ -109,9 +109,9 @@ tags = ["studynote-software-engineering"]
 |:---|:---|:---|:---|
 | «[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)» | 공통 필수 기능 추출 | 기본 -> 포함 | 항상 실행 |
 | «extend» | 선택적 부가 기능 분리 | 확장 -> 기본 | 조건부 실행 |
-| 일반화 | 액터/[UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 자식 -> 부모 | [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) |
+| 일반화 | 액터/[UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/871_underpinning_contract/) [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 자식 -> 부모 | [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) |
 
-- **📢 섹션 요약 비유**: «[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)», «extend», 일반화의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 <strong>'밥 먹기(기본 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/">UC</a>)', '수저 사용(항상 포함)', '디저트 선택(조건부 확장)', '어른 vs. 아이 식사법(일반화)'</strong> 로 구분됩니다. 공통 필수는 포함, 선택적 추가는 확장, 계층 구조는 일반화입니다.
+- **📢 섹션 요약 비유**: «[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)», «extend», 일반화의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 <strong>'밥 먹기(기본 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/871_underpinning_contract/">UC</a>)', '수저 사용(항상 포함)', '디저트 선택(조건부 확장)', '어른 vs. 아이 식사법(일반화)'</strong> 로 구분됩니다. 공통 필수는 포함, 선택적 추가는 확장, 계층 구조는 일반화입니다.
 
 ---
 
@@ -129,13 +129,13 @@ tags = ["studynote-software-engineering"]
 1. **시스템 경계(System Boundary)를 명확히**: 경계 안은 내 시스템 책임, 경계 밖은 외부 액터. 경계가 없으면 범위 논쟁 발생.
 2. **액터는 시스템 사용자 역할**: 특정 사람이 아니라 역할(Role). 한 사람이 여러 액터 역할을 할 수 있음.
 3. **유스케이스 명칭은 동사+목적어**: "주문 처리", "회원 등록" 등 기능 행위로 작성. 명사만 쓰면 안 됨.
-4. **«extend» 화살표 방향**: 확장 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) -> 기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) (반직관적이므로 시험에서 자주 출제)
+4. **«extend» 화살표 방향**: 확장 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/871_underpinning_contract/) -> 기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/871_underpinning_contract/) (반직관적이므로 시험에서 자주 출제)
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 **유스케이스를 너무 세부적으로 쪼개기**: "비밀번호 입력", "이메일 입력" 같이 UI 단위로 쪼개면 [유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)이 화면 흐름도가 된다. 유스케이스는 사용자 목표(User Goal) 수준 ("로그인", "회원가입")으로 추상화해야 한다.
 
-<strong>«<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/">include</a>»와 «extend» 방향 혼동</strong>: 가장 흔한 오류. «extend»의 화살표는 확장 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) -> 기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) (기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) 쪽 화살촉). «[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)»는 기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) -> 포함 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/).
+<strong>«<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/">include</a>»와 «extend» 방향 혼동</strong>: 가장 흔한 오류. «extend»의 화살표는 확장 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/871_underpinning_contract/) -> 기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/871_underpinning_contract/) (기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/871_underpinning_contract/) 쪽 화살촉). «[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)»는 기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/871_underpinning_contract/) -> 포함 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/871_underpinning_contract/).
 
 - **📢 섹션 요약 비유**: 유스케이스를 너무 세게 쪼개는 것은 **'건물 도면에 콘센트 위치까지 표시하는 것'** 과 같습니다. 도면은 방 배치를 보여주는 것이지, 전기 배선 설계서가 아닙니다. 세부 단위는 [시퀀스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/)이 담당합니다.
 

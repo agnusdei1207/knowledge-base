@@ -35,7 +35,7 @@ tags = ["studynote-os"]
 5. 프로세스 B 실행 재개
 ```
 
-### PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block) 저장 내용
+### PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Control Block) 저장 내용
 
 | 항목              | 내용                        |
 |-----------------|---------------------------|

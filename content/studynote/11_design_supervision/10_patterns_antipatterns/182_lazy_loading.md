@@ -38,7 +38,7 @@ tags = ["studynote-design-supervision"]
 | 엔티티 / [Aggregate](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) | 비즈니스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담는 주체 | 어떤 연관이 기본 조회 대상인지 판단 필요 |
 | [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) ([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)) | 실제 객체 대리자 | 첫 접근 시 로딩 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 발생 |
 | Persistence [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) / [Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) | 로딩 가능 범위 유지 | 경계가 종료되면 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) 접근 실패 가능 |
-| Fetch [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) / Entity [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) | 명시적 선로딩 도구 | 필요한 경우만 계획적으로 사용 |
+| Fetch [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) / Entity [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) | 명시적 선로딩 도구 | 필요한 경우만 계획적으로 사용 |
 | Batch Fetch | 여러 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) 접근을 묶어 완화 | N+1 완화에 유용 |
 
 아래 그림은 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Loading의 실행 경로를 요약한다.
@@ -96,7 +96,7 @@ tags = ["studynote-design-supervision"]
 | 실무 상황 | 권장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 이유 |
 | :--- | :--- | :--- |
 | 목록 화면 | [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) + DTO Projection 또는 필요한 Join만 사용 | 불필요한 연관 객체 방지 |
-| 상세 화면 | [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) 기본 + Fetch [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) / Entity [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) | 필요한 연관을 한 번에 로드 |
+| 상세 화면 | [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) 기본 + Fetch [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) / Entity [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) | 필요한 연관을 한 번에 로드 |
 | 대량 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) | [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) + Batch Fetch + 주기적 flush/clear | 메모리와 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 폭증 방지 |
 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 직렬화 | 엔티티 직접 노출 지양, DTO 변환 | [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 직렬화·순환 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 방지 |
 

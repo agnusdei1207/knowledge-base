@@ -53,7 +53,7 @@ Deploy
 
 | 구분 | [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) | AWS ECR |
 | :-- | :-- | :-- |
-| 성격 | 공용/호스팅 | [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) |
+| 성격 | 공용/호스팅 | [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) |
 | 보안 | 계정 기반 | [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) 연동 |
 | 사용 | 공개 이미지 | 기업용 배포 |
 

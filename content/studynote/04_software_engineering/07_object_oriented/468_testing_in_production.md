@@ -30,7 +30,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **"운영망 절대 접근 금지" 시대**: [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/) 시절엔 운영 서버 접근은 신성모독이었다.
   2. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)의 거미줄</strong>: 100개의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 얽히자, QA 서버 하나에 100개 서버를 똑같이 띄워두는 게 불가능해졌다(테스트 환경 붕괴).
-  3. **인프라 관측성/분리의 성숙 (현재)**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)와 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) 덕분에 트래픽을 마음대로 자르고, 꼬리표(Header)를 달아 테스트 트래픽과 진짜 결제 트래픽을 완벽히 격리할 수 있는 기술이 완성되면서 TiP가 글로벌 빅테크의 표준으로 등극했다.
+  3. **인프라 관측성/분리의 성숙 (현재)**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)와 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) 덕분에 트래픽을 마음대로 자르고, 꼬리표(Header)를 달아 테스트 트래픽과 진짜 결제 트래픽을 완벽히 격리할 수 있는 기술이 완성되면서 TiP가 글로벌 빅테크의 표준으로 등극했다.
 
 - **📢 섹션 요약 비유**: 샌드박스 테스트는 <strong>수영장(통제된 환경)에서 수영 치는 것</strong>입니다. 파도도 없고 물도 따뜻합니다. 반면 TiP는 <strong>동해 바다(운영 환경) 한가운데 밧줄을 매달고 수영하는 것</strong>입니다. 진짜 상어가 언제 튀어나올지 모르는 야생에서, 언제든 배로 당겨 끌어올릴 수 있는 밧줄(안전장치)만 매단 채 진짜 파도의 힘을 느껴보는 궁극의 실전 검증입니다.
 
@@ -122,7 +122,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 운영 환경 테스트 (Testing in Production / TiP)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -176,7 +176,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 528 / 973
 
-<- **이전**: [468. 운영 환경 테스트 (Testing in Production / TiP)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/468_testing_in_production/)
-**다음**: [469. 모델 기반 테스팅 (MBT, Model-Based Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/469_model_based_testing_mbt/) ->
+<- **이전**: [468. 운영 환경 테스트 (Testing in Production / TiP)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/860_testing_in_production/)
+**다음**: [469. 모델 기반 테스팅 (MBT, Model-Based Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/861_model_based_testing_mbt/) ->
 
 ---

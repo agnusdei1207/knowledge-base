@@ -10,7 +10,7 @@ tags = ["studynote-data-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)([Dimensionality Reduction](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_dimensionality_reduction/))는 고차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 핵심 정보는 유지하면서 불필요한 차원을 제거하여, 차원의 저주([Curse of Dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_curse_of_dimensionality/))를 극복하고 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)·모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 개선하는 기법이다.
+> 1. **본질**: [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)([Dimensionality Reduction](/knowledge-base/studynote/12_it_management/02_itsm_itil/863_dimensionality_reduction/))는 고차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 핵심 정보는 유지하면서 불필요한 차원을 제거하여, 차원의 저주([Curse of Dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/864_curse_of_dimensionality/))를 극복하고 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)·모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 개선하는 기법이다.
 > 2. **가치**: [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)([Principal Component Analysis](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/), [주성분 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/))는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 최대화 비지도 축소, LDA(Linear Discriminant Analysis, [선형 판별 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/082_lda_linear_discriminant_analysis_classification/))는 클래스 분리 극대화 지도 축소, t-SNE(t-Distributed Stochastic Neighbor [Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))는 고차원 이웃 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 보존하는 비선형 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)를 각각 제공한다.
 > 3. **판단 포인트**: PCA는 전처리·[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 목적, LDA는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 전처리, t-SNE/UMAP은 탐색적 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 목적으로 선택해야 하며, t-SNE는 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환(out-of-sample)이 불가능하다는 제약이 있다.
 
@@ -18,7 +18,7 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-### 차원의 저주 ([Curse of Dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_curse_of_dimensionality/))
+### 차원의 저주 ([Curse of Dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/864_curse_of_dimensionality/))
 
 차원이 증가할수록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트 간 거리가 모두 비슷해지고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 희소해져 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 역설적으로 저하된다.
 
@@ -242,11 +242,11 @@ PCA 주성분 = V의 열벡터
 | 핵심 기법 | t-SNE | 비선형·[시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 전용 |
 | 비교 | UMAP | 빠른 비선형 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) |
 | 수학 기반 | [SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) ([특이값 분해](/knowledge-base/studynote/10_ai/05_data_science_ml/342_svd/)) | [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 내부 계산 기반 |
-| 문제 | [Curse of Dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_curse_of_dimensionality/) (차원의 저주) | 고차원 희소성 문제 |
+| 문제 | [Curse of Dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/864_curse_of_dimensionality/) (차원의 저주) | 고차원 희소성 문제 |
 | 파라미터 | Explained [Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) Ratio | [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 선택 기준 |
 | 파라미터 | Perplexity (퍼플렉서티) | t-SNE 이웃 영향 범위 |
 | 응용 | Eigenface | [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 기반 얼굴 인식 |
-| 전처리 연계 | [Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/) (특성 공학) | 축소 전 특성 변환 |
+| 전처리 연계 | [Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/865_feature_engineering/) (특성 공학) | 축소 전 특성 변환 |
 
 ---
 

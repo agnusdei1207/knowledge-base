@@ -12,7 +12,7 @@ tags = ["studynote-ict-convergence"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 확장성 지표 ([Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) Scalability TPS [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)): TPS (Transactions Per Second), 레이턴시 ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))를 이해하는 핵심 개념으로, 중앙 기관 없이 상태를 공유하고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 하는 문제를 설명하는 데 쓰인다.
-> 2. **가치**: 이 주제를 제대로 잡으면 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능성, 자동 정산, 투명한 거버넌스뿐 아니라 용량 계획, 병목 분석, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 해석까지 한 번에 연결해서 설명할 수 있다.
+> 2. **가치**: 이 주제를 제대로 잡으면 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능성, 자동 정산, 투명한 거버넌스뿐 아니라 용량 계획, 병목 분석, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 해석까지 한 번에 연결해서 설명할 수 있다.
 > 3. **판단 포인트**: 기술사 답안에서는 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/), 확정성, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 수수료, 규제 적합성과 측정 대상·기간·분산을 함께 제시해야 하며, 정의보다 적용 경계를 말할 수 있어야 한다.
 
 ---
@@ -49,7 +49,7 @@ tags = ["studynote-ict-convergence"]
 | 측정 대상 | [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 확장성 지표가 무엇을 얼마나 처리하거나 얼마나 오래 지연시키는지 본다. | 단위와 측정 구간을 먼저 고정한다. |
 | 산출 방식 | 이벤트·거래·요청을 시간 창 또는 확정 상태 기준으로 집계한다. | 평균뿐 아니라 분산과 꼬리 지연도 함께 본다. |
 | 해석 기준 | 숫자를 단독으로 보지 않고 품질과 비용을 같이 읽는다. | [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/), 확정성, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 수수료, 규제 적합성을 함께 해석한다. |
-| 운영 활용 | 용량 계획, 병목 분석, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 관리의 기준선이 된다. | 대시보드와 경보 기준을 같이 설계한다. |
+| 운영 활용 | 용량 계획, 병목 분석, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 관리의 기준선이 된다. | 대시보드와 경보 기준을 같이 설계한다. |
 
 아래 구조도는 이 개념이 실제 시스템 안에서 어떻게 흘러가는지 보여 준다.
 
@@ -69,12 +69,12 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅲ. 비교 및 연결
 
-[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 확장성 지표의 경계를 드러내려면 <strong>감에 의존한 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 판단</strong> 과 비교하는 것이 가장 빠르다. 감에 의존한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 판단이 익숙함과 단순성을 제공한다면, 이 개념은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능성, 자동 정산, 투명한 거버넌스 같은 가치와 용량 계획, 병목 분석, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 해석를 얻기 위해 구조적 통제를 더 가져가는 쪽에 가깝다. 차이는 기술 이름보다도 어떤 제약을 우선 해결하려는지에서 생긴다.
+[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 확장성 지표의 경계를 드러내려면 <strong>감에 의존한 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 판단</strong> 과 비교하는 것이 가장 빠르다. 감에 의존한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 판단이 익숙함과 단순성을 제공한다면, 이 개념은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능성, 자동 정산, 투명한 거버넌스 같은 가치와 용량 계획, 병목 분석, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 해석를 얻기 위해 구조적 통제를 더 가져가는 쪽에 가깝다. 차이는 기술 이름보다도 어떤 제약을 우선 해결하려는지에서 생긴다.
 
 | 비교 항목 | [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 확장성 지표 | 감에 의존한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 판단 |
 | :--- | :--- | :--- |
 | 설계 초점 | TPS (Transactions Per Second), 레이턴시 ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))를 체계적으로 다루는 구조 | 익숙한 방식으로 빠르게 구현하는 구조 |
-| 강점 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능성, 자동 정산, 투명한 거버넌스 같은 가치와 용량 계획, 병목 분석, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 해석 확보에 유리 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 진입과 단순 운영에 유리 |
+| 강점 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능성, 자동 정산, 투명한 거버넌스 같은 가치와 용량 계획, 병목 분석, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 해석 확보에 유리 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 진입과 단순 운영에 유리 |
 | 약점 | 운영 기준과 예외 처리까지 설계해야 효과가 난다 | 규모 확대 시 병목과 수작업이 누적되기 쉽다 |
 | 연결 관점 | [CBDC](/knowledge-base/studynote/06_ict_convergence/01_blockchain/061_cbdc_central_bank_digital_currency/) 오프라인 결제 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)를 배경으로 [라이트 노드](/knowledge-base/studynote/06_ict_convergence/01_blockchain/082_light_node_spv_simplified_payment_verification/)로 확장된다 | 독립 운영은 쉬우나 구조 확장성은 제한될 수 있다 |
 

@@ -97,11 +97,11 @@ MTTF (Mean Time to Failure)  : 최초 가동 ~ 첫 장애까지
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **사용자 신뢰** | 빠른 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 준수 |
+| **사용자 신뢰** | 빠른 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 준수 |
 | **비즈니스 손실 최소화** | 장애 시간 × 비용/분 직접 절감 |
 | **팀 역량 향상** | Post-mortem을 통한 지속 개선 |
 
-[AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) for IT Operations)는 ML 기반 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)로 MTTD를 초 단위로 단축하고, 자동 런북 실행으로 MTTR을 수분 이내로 낮추는 방향으로 발전하고 있다.
+[AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) for IT Operations)는 ML 기반 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)로 MTTD를 초 단위로 단축하고, 자동 런북 실행으로 MTTR을 수분 이내로 낮추는 방향으로 발전하고 있다.
 
 - **📢 섹션 요약 비유**: AIOps는 자동 운전 소방차다. AI가 화재를 먼저 탐지하고 자동으로 최적 경로로 출동하여 진압한다. 사람 운전사(운영팀)보다 탐지->[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 사이클이 훨씬 빠르다.
 
@@ -111,10 +111,10 @@ MTTF (Mean Time to Failure)  : 최초 가동 ~ 첫 장애까지
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a>/<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a></strong> | [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 목표값 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)의 계약적 근거 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a>/<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/">SLA</a></strong> | [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 목표값 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)의 계약적 근거 |
 | <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/201_dora_metrics_devops_performance/">DORA Metrics</a></strong> | MTTR을 포함하는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 성과 지표 4종 |
 | **Post-mortem** | [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 사후 근본 원인 분석 활동 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/">AIOps</a></strong> | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 MTTD+[MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 자동 단축 기술 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/">AIOps</a></strong> | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 MTTD+[MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 자동 단축 기술 |
 | **Blue/Green 배포** | 빠른 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)으로 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 단축 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -139,7 +139,7 @@ MTTF (Mean Time to Failure)  : 최초 가동 ~ 첫 장애까지
 
 1. MTTR은 게임에서 다시 살아나는 데 걸리는 시간이에요! 빠를수록 좋고, 방법을 알아야 빠르게 살아날 수 있어요.
 2. 화재 탐지기 -> 소방차 출동 -> 불 위치 파악 -> 진화처럼, 장애도 탐지->대응->진단->[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 4단계로 줄여야 해요.
-3. AI가 알아서 불을 탐지하고 자동으로 진압하는 세상([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/))이 되면 MTTR이 몇 초로 줄어든답니다!
+3. AI가 알아서 불을 탐지하고 자동으로 진압하는 세상([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/))이 되면 MTTR이 몇 초로 줄어든답니다!
 
 ---
 

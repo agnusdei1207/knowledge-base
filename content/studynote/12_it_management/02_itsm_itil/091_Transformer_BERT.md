@@ -72,7 +72,7 @@ Transformer는 2017년 구글이 "Attention Is All You Need" 논문에서 발표
 | **차용 아키텍처** | Transformer의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">인코더</a>(<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">Encoder</a>)</strong> | Transformer의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">디코더</a>(<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">Decoder</a>)</strong> |
 | <strong>문맥 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> 방향</strong> | **양방향 (Bidirectional)** | <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a> (Unidirectional, 좌->우)</strong> |
 | **학습 방식** | 문장 중간의 빈칸([MASK]) 단어 예측 | 주어진 단어들 다음으로 올 단어 예측 |
-| **강점 분야** | 텍스트 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/), [기계 독해](/knowledge-base/studynote/10_ai/03_llm_nlp/208_mrc_machine_reading_comprehension/)(QA) | 텍스트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 대화형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), 요약 |
+| **강점 분야** | 텍스트 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/), [기계 독해](/knowledge-base/studynote/10_ai/03_llm_nlp/208_mrc_machine_reading_comprehension/)(QA) | 텍스트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 대화형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), 요약 |
 
 BERT는 문장의 처음과 끝을 동시에 파악하므로 문맥의 의미를 깊게 이해하는 데 탁월하다. 반면 GPT는 오직 이전 단어들만 보고 다음 단어를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해야 하므로 작문 능력에 특화되어 있다. 이들 모두 방대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 '사전 학습(Pre-training)'을 마친 뒤, 특정 목적에 맞게 지식을 미세 조정하는 '파인튜닝([Fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))'이라는 공통된 패러다임을 공유한다.
 
@@ -150,7 +150,7 @@ Transformer (RNN 제거, 100% 병렬 Self-Attention)
 
 **진행 상황**: 165 / 587
 
-<- **이전**: [90. CI (Configuration Item)](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)
-**다음**: [91. CMDB (Configuration Management Database)](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/) ->
+<- **이전**: [90. CI (Configuration Item)](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)
+**다음**: [91. CMDB (Configuration Management Database)](/knowledge-base/studynote/12_it_management/02_itsm_itil/875_cmdb/) ->
 
 ---

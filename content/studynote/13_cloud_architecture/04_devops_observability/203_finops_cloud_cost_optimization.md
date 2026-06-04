@@ -89,7 +89,7 @@ FinOps의 핵심 원칙: "사용한 만큼 지불(Pay-per-use)의 가변비용 �
 | Reserved Instance (1년) | ~40% | 낮음 (인스턴스 유형 고정) | 안정적 기반 워크로드 |
 | Reserved Instance (3년) | ~60% | 매우 낮음 | 핵심 장기 운영 서버 |
 | Savings Plans | 40~66% | 높음 (인스턴스 유형 유연) | 다양한 워크로드 |
-| [Spot Instance](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/) | 60~90% | 중단 가능 | [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, 빅데이터 |
+| [Spot Instance](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/) | 60~90% | 중단 가능 | [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD, 빅데이터 |
 
 ### 태깅(Tagging) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
@@ -113,7 +113,7 @@ AutoShutdown:   true (야간 자동 셧다운 대상)
 - <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/">FinOps</a> Practitioner</strong>: 비용 최적화를 조율하는 중앙 팀
 - **엔진ering Teams**: 비용을 생성하는 팀, 비용 의식 교육 필요
 - **Finance Team**: 예산 계획·예측·차지백(chargeback) 관리
-- **Business Stakeholders**: [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 관점의 클라우드 투자 의사결정
+- **Business Stakeholders**: [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 관점의 클라우드 투자 의사결정
 
 **자동화 비용 제어 예시**:
 ```python
@@ -153,7 +153,7 @@ def lambda_handler(event, context):
 | 비용 낭비 절감 | Zombie 리소스 제거로 즉시 20~35% 절약 가능 |
 | 예측 가능한 비용 | RI/[SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 활용으로 월별 비용 변동성 감소 |
 | 팀별 비용 책임 | 태깅 기반 할당으로 팀의 비용 의식 제고 |
-| 비즈니스 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 증명 | 단위 비용으로 클라우드 투자 효과 측정 |
+| 비즈니스 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 증명 | 단위 비용으로 클라우드 투자 효과 측정 |
 
 FinOps는 "클라우드 청구서를 줄이는 것"이 아니라 "클라우드 지출이 비즈니스 가치를 만들고 있음을 증명하는 것"이다. 클라우드 비용을 기술 부채처럼 방치하지 않고, 재무·기술·비즈니스 팀이 함께 지속적으로 최적화하는 문화가 FinOps의 본질이다.
 

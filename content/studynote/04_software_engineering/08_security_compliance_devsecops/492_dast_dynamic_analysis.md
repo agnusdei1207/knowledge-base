@@ -23,10 +23,10 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)(정적 분석기)만 썼더니 거짓 경고(오탐)가 5만 개나 떠서 개발자들이 쌍욕을 하며 스캐너 코드를 뽑아버렸다. 게다가 SAST는 소스코드(로직)만 보지, <strong>"웹 서버의 방화벽이 어떻게 쳐져 있는지, 톰캣 서버의 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>) <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>이 틀렸는지"와 같은 '인프라 환경(Runtime <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/">Environment</a>)'의 구멍</strong>은 절대 찾을 수 없다. 개발자가 완벽하게 짠 코드라도, 운영 서버의 아파치 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 뚫려있으면 털리는 법이다. 이 때문에 <strong>실제 서버가 켜진 상태에서 밖에서 문을 걷어차 보는 진짜 도둑질 시뮬레이션</strong>이 100% 필수적이다.
 
-- **💡 비유**: DAST는 <strong>'자동차 충돌 크래시 테스트'</strong>와 똑같습니다. SAST가 공장에서 도면과 나사(소스코드)를 엑스레이로 쳐다보며 "튼튼하네!"라고 박수 치는 거라면, DAST는 그렇게 만든 차에 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 인형을 태우고 진짜 시속 100km로 벽에 갖다 쳐박아버리는 짓입니다. 도면엔 완벽했는데 쳐박아보니 에어백이 안 터집니다(런타임 환경 에러). 진짜 피를 흘려봐야만 아는 팩트를 증명하는 가장 확실한 맷집 검증입니다.
+- **💡 비유**: DAST는 <strong>'자동차 충돌 크래시 테스트'</strong>와 똑같습니다. SAST가 공장에서 도면과 나사(소스코드)를 엑스레이로 쳐다보며 "튼튼하네!"라고 박수 치는 거라면, DAST는 그렇게 만든 차에 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) 인형을 태우고 진짜 시속 100km로 벽에 갖다 쳐박아버리는 짓입니다. 도면엔 완벽했는데 쳐박아보니 에어백이 안 터집니다(런타임 환경 에러). 진짜 피를 흘려봐야만 아는 팩트를 증명하는 가장 확실한 맷집 검증입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/455_penetration_testing_vulnerability_scanning/">모의 해킹</a> 노가다</strong>: 과거엔 비싼 화이트해커를 1주일 고용해서 손으로 직접 키보드를 치게 했다(수동 DAST).
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/847_penetration_testing_vulnerability_scanning/">모의 해킹</a> 노가다</strong>: 과거엔 비싼 화이트해커를 1주일 고용해서 손으로 직접 키보드를 치게 했다(수동 DAST).
   2. **자동화 스캐너의 붐 (2000년대 중반)**: 해커들이 치는 단골 해킹 패턴 1만 개(Payload)를 모아놓고, 기계가 밤새도록 버튼을 누르며 대신 폭격을 쏴주는 `Burp Suite`나 `OWASP ZAP` 같은 위대한 DAST 툴이 상용화되었다.
   3. <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/">DevSecOps</a> 파이프라인 합체 (현재)</strong>: [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)가 빌드를 끝내고 QA 서버([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))를 띄우자마자, DAST 툴이 1시간 동안 무자비하게 폭격하고 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) 파이프라인을 부숴버리며 배포를 컷오프(Fail)시키는 파이프라인 자동화의 끝판왕이 되었다.
 
@@ -120,7 +120,7 @@ DAST (Dynamic Application [Security](/knowledge-base/studynote/04_software_engin
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 DAST (Dynamic Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ DAST (Dynamic Application Security Testing) 개념 정립
 
 **진행 상황**: 576 / 973
 
-<- **이전**: [492. DAST (Dynamic Application Security Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/492_dast/)
-**다음**: [493. IAST (Interactive Application Security Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/493_iast/) ->
+<- **이전**: [492. DAST (Dynamic Application Security Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/884_dast/)
+**다음**: [493. IAST (Interactive Application Security Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/885_iast/) ->
 
 ---

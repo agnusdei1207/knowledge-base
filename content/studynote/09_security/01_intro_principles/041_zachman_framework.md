@@ -145,7 +145,7 @@ EA 4대 도메인 (TOGAF):
 
 ---
 
-## Ⅴ. 실무 시나리오 — [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 산출물 자크만 매핑
+## Ⅴ. 실무 시나리오 — [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 산출물 자크만 매핑
 
 ```
 정보화 전략 계획(ISP) 자크만 매핑:
@@ -175,7 +175,7 @@ To-Be 아키텍처 설계:
   감리원이 ISP 완전성 검증에 자크만 활용
 ```
 
-> 📢 **섹션 요약 비유**: 자크만으로 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 검토는 36칸 빙고 게임 — 모든 칸이 채워져야 아키텍처가 완전하고, 빈 칸이 있으면 누락된 산출물.
+> 📢 **섹션 요약 비유**: 자크만으로 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 검토는 36칸 빙고 게임 — 모든 칸이 채워져야 아키텍처가 완전하고, 빈 칸이 있으면 누락된 산출물.
 
 ---
 

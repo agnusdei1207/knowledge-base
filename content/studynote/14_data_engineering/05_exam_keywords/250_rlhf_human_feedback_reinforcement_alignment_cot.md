@@ -10,7 +10,7 @@ tags = ["studynote-data-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: RLHF([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) from Human Feedback)는 인간이 선호하는 출력을 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 신호로 삼아 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))이 "도움이 되고·무해하며·솔직한(HHH: Helpful, Harmless, Honest)" 응답을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하도록 <strong>정렬(Alignment)</strong>시키는 핵심 기술이다.
+> 1. **본질**: RLHF([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/) from Human Feedback)는 인간이 선호하는 출력을 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 신호로 삼아 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))이 "도움이 되고·무해하며·솔직한(HHH: Helpful, Harmless, Honest)" 응답을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하도록 <strong>정렬(Alignment)</strong>시키는 핵심 기술이다.
 > 2. **가치**: 단순한 언어 모델링을 넘어 인간의 의도와 가치관에 맞는 AI를 만드는 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 정렬(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> Alignment)</strong> 문제의 실용적 해법으로, GPT-4·Claude·Gemini 등 현대 상용 LLM의 안전성과 유용성의 기반이다.
 > 3. **판단 포인트**: RLHF의 인간 피드백 수집 비용·규모 한계를 극복하기 위한 [RLAIF](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/269_vector_database/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Feedback), [DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/)([Direct Preference Optimization](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/)) 등 대안 정렬 방법들의 등장 이유와 트레이드오프를 논술에서 제시해야 한다.
 
@@ -164,7 +164,7 @@ RLHF 후 안전성 [검증](/knowledge-base/studynote/04_software_engineering/07
 3. **안전 분류기**: 응답 안전성 자동 필터링 (OpenAI Moderation [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))
 4. **Jailbreak 테스트**: 안전 장치 우회 시도 테스트
 
-📢 **섹션 요약 비유**: Red Teaming은 <strong>신제품 출시 전 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/">스트레스 테스트</a></strong>다. 일부러 못되게 굴어봐서 제품이 버티는지 확인한다.
+📢 **섹션 요약 비유**: Red Teaming은 <strong>신제품 출시 전 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/839_stress_test/">스트레스 테스트</a></strong>다. 일부러 못되게 굴어봐서 제품이 버티는지 확인한다.
 
 ---
 

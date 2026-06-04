@@ -13,7 +13,7 @@ tags = ["studynote-database"]
 
 > 1. **본질**: DB 파서 (Parser)는 SQL 문장을 문법에 맞는 파스 트리 (Parse Tree)로 변환하는 첫 단계다.
 > 2. **가치**: 파스 트리는 문법 오류를 잡고, 의미 분석과 최적화의 출발점을 제공한다.
-> 3. **판단 포인트**: 파스 트리, AST (Abstract Syntax Tree), [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 계획, [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 구분해야 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) 설계를 정확히 설명할 수 있다.
+> 3. **판단 포인트**: 파스 트리, AST (Abstract Syntax Tree), [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 계획, [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 구분해야 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System) 설계를 정확히 설명할 수 있다.
 
 ---
 
@@ -66,7 +66,7 @@ SQL Text -> Tokens -> Parse Tree -> Semantic Check -> Query Plan
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 파서가 [SQL injection](/knowledge-base/studynote/09_security/uncategorized/604_sql_injection/) (SQL 삽입 공격) 방어, 에러 리포트, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 리라이트, 캐시 처리의 기초가 된다. 문법 오류를 정확히 잡을수록 사용자 경험이 좋아진다.
+실무에서는 파서가 [SQL injection](/knowledge-base/studynote/09_security/uncategorized/1036_sql_injection/) (SQL 삽입 공격) 방어, 에러 리포트, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 리라이트, 캐시 처리의 기초가 된다. 문법 오류를 정확히 잡을수록 사용자 경험이 좋아진다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 

@@ -120,7 +120,7 @@ producer.produce('my-event-hub', key='user-001', value='{"action": "click"}')
 | 비교 항목 | Azure Event Hubs | [Apache Kafka](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) | [Amazon Kinesis](/knowledge-base/studynote/16_bigdata/04_streaming/091_amazon_kinesis/) |
 |:---|:---|:---|:---|
 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 호환 | ✅ (드롭인 교체) | 원본 | ❌ |
-| 관리 방식 | 완전 관리형 | 자체/MSK/[Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) | 완전 관리형 |
+| 관리 방식 | 완전 관리형 | 자체/MSK/[Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/) | 완전 관리형 |
 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 | 최대 1,024 (Dedicated) | 무제한 | 샤드 수 기반 |
 | 보존 기간 | 최대 90일 | 무제한 | 최대 365일 |
 | 글로벌 [Geo](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/)-[DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) | ✅ (Event Hubs [Geo](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/)-[DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)) | 수동 MirrorMaker 2 | ❌ 기본 |

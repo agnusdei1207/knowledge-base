@@ -93,7 +93,7 @@ MaaS는 비슷한 용어와 자주 섞여 쓰이지만, 초점이 다르다. 길
 | 제공 범위 | 검색·안내 | 호출·대여 | 검색·예약·결제·환승 | 교통·안전·환경 통합 관제 |
 | 통합 수준 | 정보 중심 | 단일 모드 중심 | [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·운영 중심 |
 | 주요 가치 | 길 찾기 편의 | 차량 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) | 환승 마찰 제거 | 도시 효율과 제어 |
-| 대표 판단 | 정확한 경로 안내 | 차량 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) | 정산·거버넌스·표준화 | 공공 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) |
+| 대표 판단 | 정확한 경로 안내 | 차량 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) | 정산·거버넌스·표준화 | 공공 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) |
 
 또한 MaaS는 협력 지능형 교통체계 ([C-ITS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/173_c_its_cooperative_intelligent_transport_systems/), Cooperative-Intelligent Transport Systems) 나 [스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/) 플랫폼과도 연결된다. C-ITS가 도로와 차량의 실시간 상태를 알려 준다면, MaaS는 그 정보를 시민 여정 설계에 반영한다. [스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/) 플랫폼은 MaaS에서 수집된 이동 패턴을 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에 반영해, 혼잡 요금이나 친환경 인센티브 같은 제어 전략을 설계할 수 있다.
 

@@ -159,7 +159,7 @@ tags = ["studynote-operating-system"]
 | 구분 | 도입 전 (Single-CPU) | 도입 후 (Multi-CPU) | 기대 효과 |
 |:---|:---|:---|:---|
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> (TPS)</strong> | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000 TPS | 80,000 TPS (8코어 시) | 비즈니스 처리 속도 8배 향상 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a></strong> | CPU 장애 시 즉시 셧다운 | 일부 장애 시 지속 가동 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가동률 ([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) 99.99% 달성 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a></strong> | CPU 장애 시 즉시 셧다운 | 일부 장애 시 지속 가동 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가동률 ([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)) 99.99% 달성 |
 | **경제성** | 초고가 특수 CPU 필요 | 저가 범용 CPU 여러 개 활용 | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) (Total Cost of Ownership) 절감 |
 
 ### 미래 전망

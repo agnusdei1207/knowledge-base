@@ -123,7 +123,7 @@ BER (로그)
 
 RSC: Recursive Systematic Convolutional 코드
 
-### [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) 코드의 태너 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Tanner [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))
+### [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) 코드의 태너 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Tanner [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/))
 
 ```
 변수 노드 (Variable Nodes): v₁ v₂ v₃ v₄ v₅

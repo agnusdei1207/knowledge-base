@@ -152,7 +152,7 @@ tags = ["software_engineering"]
 | Power-Interest Grid | 영향력과 관심도를 기준으로 참여 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 나누는 대표 매트릭스다. |
 | RACI | 이해관계자 우선순위와 별도로 역할 책임을 명확히 한다. |
 | [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) (Change Control Board) | 핵심 이해관계자 요구를 정식 변경 절차에 연결한다. |
-| Requirements [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) | 어떤 요구를 우선 반영할지 판단하는 근거가 된다. |
+| Requirements [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) | 어떤 요구를 우선 반영할지 판단하는 근거가 된다. |
 | [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) | 숨은 반대자, 승인 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 조직 저항을 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)로 구조화한다. |
 
 ### 📈 관련 키워드 및 발전 흐름도

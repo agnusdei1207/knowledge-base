@@ -52,7 +52,7 @@ Team Synchronization
 
 | 회의 | 목적 | 길이 |
 | :-- | :-- | :-- |
-| Daily [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/) | [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 짧음 |
+| Daily [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/) | [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 짧음 |
 | Planning | 계획 | 중간 |
 | [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) | 결과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 중간 |
 | Retro | 개선 | 중간 |

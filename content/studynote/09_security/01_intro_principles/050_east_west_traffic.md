@@ -108,7 +108,7 @@ tags = ["NSX", "SDN", "Zero Trust", "data center security", "east west traffic",
          --[암호화 통신]--->
 ```
 
-[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/), Linkerd)가 mTLS를 자동 관리.
+[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/), Linkerd)가 mTLS를 자동 관리.
 
 📢 **섹션 요약 비유**: mTLS는 두 사람이 서로 신분증을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 악수하는 것 — 한쪽만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 TLS보다 강력하다.
 

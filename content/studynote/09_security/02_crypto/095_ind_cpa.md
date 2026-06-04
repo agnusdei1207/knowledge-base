@@ -87,7 +87,7 @@ IND-CPA를 통과하기 위한 절대 조건은 <strong>확률적 암호화 (Pro
 
 IND-CPA는 암호가 뚫리지 않음을 증명하는 '수학적 대헌장'이다. 이 게임 모델 덕분에 현대 암호학은 해커가 발전해도 방어력이 유지됨을 수학의 확률론에 근거하여 당당하게 증명(Provable [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))할 수 있게 되었다.
 
-결론적으로, 완벽하게 구별 불가능하지 않다면 그것은 안전한 암호가 아니다. 어떤 혁신적인 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) ([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/))가 새롭게 발명되더라도 이 IND-[CPA](/knowledge-base/studynote/09_security/02_crypto/094_cpa/) (또는 IND-[CCA](/knowledge-base/studynote/09_security/02_crypto/093_cca/)) 스무고개 게임의 문턱을 넘지 못하면 국제 표준 (NIST)의 도장을 결코 받을 수 없다는 점을 명심해야 한다.
+결론적으로, 완벽하게 구별 불가능하지 않다면 그것은 안전한 암호가 아니다. 어떤 혁신적인 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) ([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/))가 새롭게 발명되더라도 이 IND-[CPA](/knowledge-base/studynote/09_security/02_crypto/094_cpa/) (또는 IND-[CCA](/knowledge-base/studynote/09_security/02_crypto/093_cca/)) 스무고개 게임의 문턱을 넘지 못하면 국제 표준 (NIST)의 도장을 결코 받을 수 없다는 점을 명심해야 한다.
 
 - **📢 섹션 요약 비유**: IND-CPA는 국가대표 선발전의 <strong>'기본 체력장'</strong>이다. 이 체력장(구별 불가능성)을 통과하지 못한 선수는 아무리 화려한 기술(새로운 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 이름)을 자랑해도 올림픽(인터넷 표준) 무대에 나설 수 없다.
 

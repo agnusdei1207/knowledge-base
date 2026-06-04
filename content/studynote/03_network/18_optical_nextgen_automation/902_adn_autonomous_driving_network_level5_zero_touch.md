@@ -42,7 +42,7 @@ tags = ["studynote-network"]
 - **L1 (보조 제어, Assisted)**: 엑셀 매크로 툴이나 스크립트([Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/))로 반복 작업을 조금 줄인 상태. 여전히 인간이 지시를 눌러야 함.
 - **L2 (부분 자율, Partial)**: 일부분([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 할당 등)이 자동화되었으나, 에러가 나면 무조건 알람을 울려 인간이 고쳐야 함. (현재 대부분 기업망 수준)
 - **L3 (조건부 자율, Conditional) 🌟**: 857번 IBN과 849번 SD-WAN의 단계. "유튜브 트래픽은 막아라"라는 인간의 의도를 주면 AI가 코드로 번역해 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 뿌립니다. 하지만 예상치 못한 해커 공격 패턴이 오면 AI가 멘붕에 빠져 인간을 깨웁니다. (현재 첨단 클라우드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 수준)
-- **L4 (고도 자율, High Autonomous)**: 시스템이 스스로 학습하여 인간이 예측하지 못한 복잡한 에러도 자체 분석([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/))하여 90% 이상 자가 치유(Self-Healing)합니다. 인간은 그냥 보고서만 읽으며 "음, 잘 고쳤군" 하고 승인(결단 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))만 합니다.
+- **L4 (고도 자율, High Autonomous)**: 시스템이 스스로 학습하여 인간이 예측하지 못한 복잡한 에러도 자체 분석([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/))하여 90% 이상 자가 치유(Self-Healing)합니다. 인간은 그냥 보고서만 읽으며 "음, 잘 고쳤군" 하고 승인(결단 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))만 합니다.
 - **L5 (완전 자율 구동, Full Autonomous Network) 🌟 궁극기 🌟**: 인간이 운영 시스템에서 완전히 퇴출됩니다(Zero-Touch). AI가 트래픽 폭증을 1시간 전에 예측하고, 알아서 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 전파 각도([안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 틸트)를 꺾고, 서버 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 1만 개를 증설한 뒤, 신종 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 해커가 쳐들어오자 스스로 역방향 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([허니팟](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/694_honey_pot/))을 파서 가두어 버리는 신(God)의 경지입니다. 통신사의 최종 목표입니다.
 
 ```text
@@ -107,7 +107,7 @@ tags = ["studynote-network"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
 | 광 전송 (Optical Transport) | [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 백본의 기본 전달 수단이다. |
 | 텔레메트리 (Telemetry) | 실시간 상태 측정과 제어 피드백을 가능하게 한다. |
 | [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 네트워크 실시간 토폴로지 동기… | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |

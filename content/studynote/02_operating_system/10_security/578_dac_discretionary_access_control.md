@@ -87,7 +87,7 @@ rwx r-x --- : Owner는 읽기/쓰기/실행, Group은 읽기/실행, Others는 �
 
 - <strong>소규모 환경</strong>에서는 DAC만으로 충분한 보안 수준을 달성할 수 있음
 - <strong>대규모/고보안 환경</strong>에서는 DAC와 MAC의 이중 방어 체계가 필수적
-- <strong>클라우드 환경</strong>에서는 [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/)(Identity and Access [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))을 통해 DAC 원칙을 세밀하게 제어
+- <strong>클라우드 환경</strong>에서는 [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/)(Identity and Access [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/))을 통해 DAC 원칙을 세밀하게 제어
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 

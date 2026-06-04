@@ -34,9 +34,9 @@ tags = ["studynote-enterprise"]
 | 단계 | 핵심 산출물 | 주된 기술 요소 | 관리 포인트 |
 | :--- | :--- | :--- | :--- |
 | 설계 (Design) | 프로세스 모델, 규칙, 역할 정의 | [BPMN](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/), [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 룰, 폼 설계 | 표준화와 예외 정의 |
-| 실행 (Execution) | 실행 인스턴스, 작업 큐 | [BPM](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/) 엔진, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)), 워크리스트 | [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) |
+| 실행 (Execution) | 실행 인스턴스, 작업 큐 | [BPM](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/) 엔진, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)), 워크리스트 | [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)) |
 | [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 (Monitoring) | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/), 알림, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) | BAM, 대시보드, 이벤트 저장소 | 병목, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 재작업 탐지 |
-| 최적화 (Optimization) | 개선 모델, 자동화 시나리오 | [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/), [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) ([Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/)), 시뮬레이션 | 효과 대비 비용, 통제 유지 |
+| 최적화 (Optimization) | 개선 모델, 자동화 시나리오 | [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/), [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/) ([Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/)), 시뮬레이션 | 효과 대비 비용, 통제 유지 |
 
 아래 그림은 BPM이 단순 선형 절차가 아니라, 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 다시 설계 자산으로 돌아오는 닫힌 루프임을 보여준다.
 
@@ -61,7 +61,7 @@ tags = ["studynote-enterprise"]
 
 [BPM](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/) 라이프사이클은 워크플로우나 BPR와 닮았지만 초점이 다르다. 워크플로우가 주로 "정해진 흐름을 자동으로 태운다"에 가깝다면, BPM은 그 흐름을 설계하고 측정하고 바꾸는 관리 범위까지 포함한다. 반대로 BPR는 대개 대대적 재설계에 무게를 두지만, BPM은 작은 개선을 지속적으로 반복할 수 있다는 점이 강점이다.
 
-| 관점 | 워크플로우 | [BPM](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/) 라이프사이클 | [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) |
+| 관점 | 워크플로우 | [BPM](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/) 라이프사이클 | [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/) |
 | :--- | :--- | :--- | :--- |
 | 중심 질문 | 누가 다음 작업을 할 것인가 | 프로세스가 어떻게 계속 좋아질 것인가 | 프로세스를 근본적으로 바꿔야 하는가 |
 | 범위 | 실행 중심 | 설계~개선 전주기 | 혁신 프로젝트 중심 |
@@ -81,7 +81,7 @@ tags = ["studynote-enterprise"]
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 프로세스 오너가 설계 변경 권한까지 갖고 있는가?
-2. [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), 체류 시간, 재작업률 같은 운영 지표가 정의되어 있는가?
+2. [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/), 체류 시간, 재작업률 같은 운영 지표가 정의되어 있는가?
 3. 예외 흐름과 수동 개입 절차가 모델 안에 포함되어 있는가?
 4. 개선 전후 효과를 비교할 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이 확보되어 있는가?
 
@@ -112,7 +112,7 @@ tags = ["studynote-enterprise"]
 | [BPMN](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) ([Business Process Model and Notation](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/203_bpmn_business_process_model_and_notation/)) | 설계 단계를 실행 가능한 모델로 표현하는 표준 |
 | WfMS ([Workflow Management System](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/204_workflow_management_system_business_automation/)) | 실행 단계에서 사람과 시스템 작업을 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)하는 엔진 |
 | BAM (Business Activity Monitoring) | [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 단계에서 KPI와 병목을 실시간 가시화 |
-| [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/) ([Process Mining](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)) | 최적화 단계에서 실제 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 분석해 개선 근거를 제공 |
+| [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/) ([Process Mining](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)) | 최적화 단계에서 실제 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 분석해 개선 근거를 제공 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

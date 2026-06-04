@@ -13,7 +13,7 @@ tags = ["studynote-bigdata"]
 
 - 의료 빅데이터는 **EMR·유전체·영상·웨어러블** 4가지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이어를 융합하여 "질병 발생 전 예측"을 현실로 만든다.
 - 유전체 분석은 한 사람당 3B(Base Pairs) 규모의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하며, GATK [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 변이(Variant) 발굴의 표준이다.
-- [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)([HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/)·의료법)와 임상 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 간의 균형이 의료 빅데이터 설계의 핵심 트레이드오프다.
+- [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)([HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/1058_hipaa/)·의료법)와 임상 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 간의 균형이 의료 빅데이터 설계의 핵심 트레이드오프다.
 
 ---
 
@@ -128,10 +128,10 @@ tags = ["studynote-bigdata"]
 
 | 기술 | 원리 | 의료 적용 |
 |:---|:---|:---|
-| 비식별화 (De-[identification](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)) | 직접 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(이름·ID) 제거 | [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/) [Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) Harbor 방식 |
+| 비식별화 (De-[identification](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)) | 직접 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(이름·ID) 제거 | [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/1058_hipaa/) [Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) Harbor 방식 |
 | [연방 학습](/knowledge-base/studynote/14_data_engineering/04_mlops/181_federated_learning_privacy_distributed_training/) ([Federated Learning](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 없이 모델만 공유 | 병원 간 협력 모델 학습 |
 | [차등 프라이버시](/knowledge-base/studynote/16_bigdata/10_governance/209_differential_privacy/) (DP) | 통계에 노이즈 추가 | 집계 공개 시 개인 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
-| [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/) (HE) | 암호화 상태로 연산 | 이론상 가장 강력, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비용 높음 |
+| [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/) (HE) | 암호화 상태로 연산 | 이론상 가장 강력, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비용 높음 |
 
 > 📢 **섹션 요약 비유**: 의료 AI는 "환자 정보를 절대 밖으로 내보내지 않고도 병원들이 힘을 합쳐 더 좋은 진단 AI를 만드는 것"이다. [연방 학습](/knowledge-base/studynote/14_data_engineering/04_mlops/181_federated_learning_privacy_distributed_training/)은 "각 학교가 시험지를 공유하지 않고도 공통 모범 답안을 만드는 것"과 같다.
 
@@ -200,7 +200,7 @@ ML 모델 (XGBoost)
 |:---|:---|:---|
 | EMR (전자의무기록) | HL7 FHIR, NLP, ICD 코딩 | 의료 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 |
 | GATK (유전체 분석 도구) | NGS, SNP, INDEL, VCF | 유전체 표준 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 |
-| [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/) | 비식별화, [연방 학습](/knowledge-base/studynote/14_data_engineering/04_mlops/181_federated_learning_privacy_distributed_training/), [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) | 의료 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
+| [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/1058_hipaa/) | 비식별화, [연방 학습](/knowledge-base/studynote/14_data_engineering/04_mlops/181_federated_learning_privacy_distributed_training/), [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) | 의료 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
 | CDSS (임상의사결정지원) | [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/), XGBoost, 재입원 예측 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 진료 보조 |
 | SaMD (의료기기 소프트웨어) | MFDS, FDA, CE [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) | 임상 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 규제 |
 

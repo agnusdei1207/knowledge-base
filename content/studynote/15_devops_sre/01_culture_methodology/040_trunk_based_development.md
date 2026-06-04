@@ -12,7 +12,7 @@ tags = ["studynote-devops-sre"]
 > **핵심 인사이트**
 > 1. 트렁크 기반 개발(TBD, Trunk-Based Development)은 모든 개발자가 하나의 공유 브랜치(trunk/main)에 소규모 코드를 빈번하게 통합하는 방식으로, 장기 브랜치로 인한 병합 지옥(Merge Hell)과 통합 늦음(Integration Late) 문제를 근본적으로 해결한다.
 > 2. TBD는 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 연구에서 고성능 조직의 핵심 기술 실천으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)된 과학적 근거가 있는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 원칙이며, [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)([Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/))와 결합하여 "완성되지 않은 코드도 안전하게 통합"하는 것이 핵심 패턴이다.
-> 3. Git Flow·GitHub Flow와 구분되어, TBD는 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 완성도와 테스트 자동화가 높을수록 효과가 커지며, "브랜치 수명은 하루"라는 규칙이 [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))의 진정한 의미를 구현한다.
+> 3. Git Flow·GitHub Flow와 구분되어, TBD는 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 완성도와 테스트 자동화가 높을수록 효과가 커지며, "브랜치 수명은 하루"라는 규칙이 [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/))의 진정한 의미를 구현한다.
 
 ---
 
@@ -144,7 +144,7 @@ TBD 성공을 위한 전제:
    심리적 안전감 (Small Change 두려움 없음)
 ```
 
-> 📢 **섹션 요약 비유**: TBD 전제 조건은 고속도로 운전 조건 — 자동차(테스트)와 GPS([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)가 갖춰져야 안전하게 달릴 수 있다.
+> 📢 **섹션 요약 비유**: TBD 전제 조건은 고속도로 운전 조건 — 자동차(테스트)와 GPS([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD)가 갖춰져야 안전하게 달릴 수 있다.
 
 ---
 

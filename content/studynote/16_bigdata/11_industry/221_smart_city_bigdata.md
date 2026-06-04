@@ -153,7 +153,7 @@ CCTV 전수 분석               익명화·최소 수집 원칙
 | 시민 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 엣지에서 익명화 + 최소 수집 | [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)/[개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/) 준수 |
 
 **기술사 핵심 판단**:
-- <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">데이터 거버넌스</a></strong>: 도시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 소유권(시민 vs. 시 vs. 기업)을 명확히 정의.
+- <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/">데이터 거버넌스</a></strong>: 도시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 소유권(시민 vs. 시 vs. 기업)을 명확히 정의.
 - **보안**: 도시 인프라 제어 시스템은 [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 보안 ([ICS](/knowledge-base/studynote/09_security/18_iot_ot_physical/893_ics_industrial_control_system/)/[SCADA](/knowledge-base/studynote/09_security/18_iot_ot_physical/894_scada/) 보안 표준) 별도 적용.
 - **디지털 포용**: 앱 기반 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 디지털 취약계층을 배제하지 않도록 대안 채널 유지.
 
@@ -183,7 +183,7 @@ CCTV 전수 분석               익명화·최소 수집 원칙
 | [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상 분석 | 엣지 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), 군중 밀집도, LPR, 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 도시 안전 인프라 |
 | ATSC (적응형 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 제어) | 강화학습, V2I, 루프 감지기 | 교통 최적화 |
 | 스마트 에너지 그리드 | EMS, 스마트미터, [ESS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/), 수요 반응 | 에너지 효율화 |
-| 도시 [데이터 허브](/knowledge-base/studynote/16_bigdata/09_platform/180_data_hub/) (CDH) | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이, [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) | 통합 플랫폼 |
+| 도시 [데이터 허브](/knowledge-base/studynote/16_bigdata/09_platform/180_data_hub/) (CDH) | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이, [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) | 통합 플랫폼 |
 | 디지털트윈 | 가상 도시 모델, 시뮬레이션 | 스마트시티 고도화 |
 
 ### 📈 관련 키워드 및 발전 흐름도

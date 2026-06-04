@@ -95,7 +95,7 @@ tags = ["studynote-operating-system"]
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 오버헤드</strong>| 나노초 단위 (매우 빠르고 조용히 처리) | **마이크로~밀리초 단위 (OS가 개입해 끔찍하게 무거움)** |
 | **확장성 제약** | [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 트래픽만 잡아먹음 | 코어 수에 비례해 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 경합이 터짐 (병목) |
 
-### 멀티스레드([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) vs 멀티프로세스([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))의 역설
+### 멀티스레드([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) vs 멀티프로세스([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))의 역설
 
 일반적으로 "[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 프로세스보다 가볍다"고 배운다. 하지만 64코어 이상 대형 서버에서 메모리 해제(Free)를 밥 먹듯이 하는 앱이라면 이야기가 <strong>완전히 반대</strong>가 될 수 있다.
 - **멀티 프로세스 (Nginx 방식)**: 카톡 앱과 엑셀 앱은 가상 주소 장부([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))가 아예 다르다. 카톡이 자기 메모리를 해제해도, 엑셀이 돌고 있는 코어 1번에게 슛다운을 쏠 필요가 **전혀 없다** (어차피 장부가 달라서 남의 캐시가 오염될 일이 없음).
@@ -110,7 +110,7 @@ tags = ["studynote-operating-system"]
 | Multi-Thread | 100% 공유   | 코어 전체에 IPI 쏨| ☠️ 사방팔방 폭탄 터짐|
 +----------+------------+------------+----------------------------------+
 ```
-**[매트릭스 해설]** "[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 무조건 짱이다"라는 편견을 부수는 아키텍처의 배신이다. 크롬 브라우저가 옛날에 탭을 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 띄우다 버벅대서 뻗는 걸 포기하고, 요즘 크롬이 탭 하나하나를 아예 무거운 '독립 프로세스'로 띄우는(Multi-[process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) [architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) 진짜 숨겨진 이유 중 하나가 바로 이 보안과 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 슛다운 병목을 피해 코어 가동률을 끌어올리기 위함이다.
+**[매트릭스 해설]** "[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 무조건 짱이다"라는 편견을 부수는 아키텍처의 배신이다. 크롬 브라우저가 옛날에 탭을 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 띄우다 버벅대서 뻗는 걸 포기하고, 요즘 크롬이 탭 하나하나를 아예 무거운 '독립 프로세스'로 띄우는(Multi-[process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) [architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) 진짜 숨겨진 이유 중 하나가 바로 이 보안과 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 슛다운 병목을 피해 코어 가동률을 끌어올리기 위함이다.
 
 - **📢 섹션 요약 비유**: 가족(멀티 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))이 한 카드로 결제 내역(장부)을 공유하면, 엄마가 카드 한도를 줄일 때마다(메모리 해제) 아빠, 아들, 딸 폰으로 전부 경고 카톡(슛다운)을 날려 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)시켜야 해서 가족이 피곤합니다. 차라리 다 남남인 친구(멀티 프로세스)끼리 각자 카드를 쓰면, 한 명이 카드 정지를 당하든 말든 남들은 카톡 받을 일 없이 평화로운 이치입니다.
 

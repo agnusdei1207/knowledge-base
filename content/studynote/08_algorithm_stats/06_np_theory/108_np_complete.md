@@ -11,7 +11,7 @@ tags = ["studynote-algorithm-stats"]
 
 > **핵심 인사이트**
 > 1. NP-완전(NP-Complete)은 NP 문제 중에서도 "NP에서 가장 어려운" 문제로, 이를 다항시간에 풀 수 있으면 모든 NP 문제를 다항시간에 풀 수 있다는 특성을 가져 P=NP 문제 해결의 열쇠가 된다.
-> 2. Cook-Levin 정리(1971)는 [SAT](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/)(Boolean 만족가능성) 문제가 최초의 NP-완전 문제임을 증명했으며, 이후 Karp가 21개의 NP-완전 문제를 다항시간 환산([Polynomial Reduction](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/111_polynomial_reduction/))으로 목록화하여 NP-완전 문제군 이론의 토대를 놓았다.
+> 2. Cook-Levin 정리(1971)는 [SAT](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/)(Boolean 만족가능성) 문제가 최초의 NP-완전 문제임을 증명했으며, 이후 Karp가 21개의 NP-완전 문제를 다항시간 환산([Polynomial Reduction](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/111_polynomial_reduction/))으로 목록화하여 NP-완전 문제군 이론의 토대를 놓았다.
 > 3. NP-완전 문제는 현실에서 [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)([Approximation Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/))·메타휴리스틱([SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/), [GA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/169_evolutionary_algorithms/))·고정 파라미터 추론(FPT)으로 "충분히 좋은" 해를 빠르게 찾는 실용적 접근이 핵심이다.
 
 ---
@@ -254,7 +254,7 @@ LLM 기반 조합 최적화 연구 진행 중
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. NP-완전 문제는 "답이 있는지 확인은 빠르지만, 답을 찾는 게 엄청 어려운" 최고 난이도 수학 퍼즐이에요!
-2. [SAT](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/)(변수들을 참/거짓으로 정해서 수식이 참이 되게 할 수 있나?)가 첫 NP-완전 문제로 증명됐고, 이걸 빠르게 풀면 수천 개의 어려운 문제도 빠르게 풀 수 있어요.
+2. [SAT](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/)(변수들을 참/거짓으로 정해서 수식이 참이 되게 할 수 있나?)가 첫 NP-완전 문제로 증명됐고, 이걸 빠르게 풀면 수천 개의 어려운 문제도 빠르게 풀 수 있어요.
 3. 완벽한 답을 빠르게 찾을 수 없어서, 현실에서는 "충분히 좋은 답([근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/))"으로 배송 경로, 공장 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 같은 문제를 해결해요!
 
 ---

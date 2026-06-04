@@ -12,7 +12,7 @@ tags = ["studynote-ai"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 과소적합(Underfitting)은 모델이 지나치게 단순하여 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)조차 제대로 학습하지 못하고, 훈련 오차와 테스트 오차가 모두 높은 상태다.
-> 2. **가치**: 과소적합 진단은 모델 선택([Model Selection](/knowledge-base/studynote/12_it_management/02_itsm_itil/084_model_selection/))과 특성 공학([Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/))의 방향성을 결정하는 핵심 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)이며, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 프로젝트 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계에서 반드시 점검해야 한다.
+> 2. **가치**: 과소적합 진단은 모델 선택([Model Selection](/knowledge-base/studynote/12_it_management/02_itsm_itil/084_model_selection/))과 특성 공학([Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/865_feature_engineering/))의 방향성을 결정하는 핵심 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)이며, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 프로젝트 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계에서 반드시 점검해야 한다.
 > 3. **판단 포인트**: 편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))이 높다는 것은 모델 가정(Model Assumption)이 현실 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 복잡성과 맞지 않는 것이며, 해결책은 모델 복잡도 증가 또는 유의미한 특성 추가다.
 
 ---
@@ -131,7 +131,7 @@ tags = ["studynote-ai"]
 | 강한 L2 규제 (λ=100) | 과소적합 | λ 값 감소 |
 | 100개 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) + 1000개 파라미터 | 과대적합 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증가 또는 모델 축소 |
 
-### 3.3 특성 공학([Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/))으로 편향 감소
+### 3.3 특성 공학([Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/865_feature_engineering/))으로 편향 감소
 - 기존 특성의 비선형 변환: `x^`, `log(x)`, `√x`
 - 특성 교차(Feature Crossing): `x₁ × x₂`
 - [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식 기반 파생 변수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)

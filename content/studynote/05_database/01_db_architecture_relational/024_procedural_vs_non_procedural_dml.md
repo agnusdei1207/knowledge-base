@@ -10,9 +10,9 @@ tags = ["studynote-database"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) ([Data Manipulation Language](/knowledge-base/studynote/05_database/01_db_architecture_relational/021_dml/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조작어)은 절차적(Procedural) 방식과 비절차적(Non-Procedural) 방식으로 구분되며, 절차적 DML은 레코드를 어떻게(HOW) 탐색할지 지정하고 비절차적 DML은 무엇을(WHAT) 원하는지만 선언한다.
-> 2. **가치**: 비절차적 DML인 SQL은 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화(Query Optimization)를 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 내부 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)([Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/))에 위임하여 개발자가 접근 경로를 몰라도 최적 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)([Execution Plan](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/))을 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하므로, 생산성과 이식성이 절차적 [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) 대비 월등히 높다.
-> 3. **판단 포인트**: SQL의 비절차적 특성이 항상 유리하지는 않다. 복잡한 커서(Cursor) 처리나 행별 비즈니스 로직이 필요한 경우 절차적 [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/)(PL/SQL, T-SQL)을 활용하여 세밀한 제어가 필요하며, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)([Hint](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/))로 최적화를 유도하는 것이 실무 핵심 역량이다.
+> 1. **본질**: [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/) ([Data Manipulation Language](/knowledge-base/studynote/05_database/01_db_architecture_relational/021_dml/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조작어)은 절차적(Procedural) 방식과 비절차적(Non-Procedural) 방식으로 구분되며, 절차적 DML은 레코드를 어떻게(HOW) 탐색할지 지정하고 비절차적 DML은 무엇을(WHAT) 원하는지만 선언한다.
+> 2. **가치**: 비절차적 DML인 SQL은 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화(Query Optimization)를 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 내부 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)([Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/))에 위임하여 개발자가 접근 경로를 몰라도 최적 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)([Execution Plan](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/))을 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하므로, 생산성과 이식성이 절차적 [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/) 대비 월등히 높다.
+> 3. **판단 포인트**: SQL의 비절차적 특성이 항상 유리하지는 않다. 복잡한 커서(Cursor) 처리나 행별 비즈니스 로직이 필요한 경우 절차적 [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/)(PL/SQL, T-SQL)을 활용하여 세밀한 제어가 필요하며, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)([Hint](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/))로 최적화를 유도하는 것이 실무 핵심 역량이다.
 
 ---
 
@@ -82,7 +82,7 @@ CLOSE cur;
 
 ## Ⅲ. 비교 및 연결
 
-| 항목 | 절차적 [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) | 비절차적 [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) (SQL) |
+| 항목 | 절차적 [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/) | 비절차적 [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/) (SQL) |
 |:---|:---|:---|
 | **처리 단위** | 레코드 단위 | 집합(Set) 단위 |
 | **접근 경로** | 개발자가 명시 | [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 자동 결정 |

@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 550 / 587
 
-<- **이전**: [354. DID 탈중앙 신원 증명 영지식 증명 (ZKP) 인증망](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_zkp/)
-**다음**: [355. 메타버스 가상 자산 통제망](/knowledge-base/studynote/12_it_management/05_security_compliance/355_metaverse_virtual_asset_governance/) ->
+<- **이전**: [354. DID 탈중앙 신원 증명 영지식 증명 (ZKP) 인증망](/knowledge-base/studynote/12_it_management/05_security_compliance/995_did_zkp/)
+**다음**: [355. 메타버스 가상 자산 통제망](/knowledge-base/studynote/12_it_management/05_security_compliance/996_metaverse_virtual_asset_governance/) ->
 
 ---

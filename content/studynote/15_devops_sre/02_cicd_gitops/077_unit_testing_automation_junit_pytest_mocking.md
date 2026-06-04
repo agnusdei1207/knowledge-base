@@ -13,7 +13,7 @@ tags = ["studynote-devops"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)([Unit Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/))는 함수·메서드·클래스의 가장 작은 행동을 자동으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 실행 가능한 명세다.
-> 2. **가치**: JUnit (Java Unit Testing framework)과 Pytest (Python testing framework)를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/))에 붙이면 회귀를 배포 전에 막을 수 있다.
+> 2. **가치**: JUnit (Java Unit Testing framework)과 Pytest (Python testing framework)를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/))에 붙이면 회귀를 배포 전에 막을 수 있다.
 > 3. **판단 포인트**: Mocking ([Mock Object](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/399_mock_object/)) 은 외부 의존성을 끊는 데 유효하지만, 실제 연동 문제까지 가릴 만큼 과하면 안 된다.
 
 ---
@@ -36,7 +36,7 @@ tags = ["studynote-devops"]
 | Fixture | 입력/환경 준비 | `setup/teardown`, `@BeforeEach`, `@pytest.fixture` |
 | Mocking | 외부 의존성 대체 | DB, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O를 격리 |
 | Assertion | 기대값 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 예외, 반환값, 호출 횟수 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) Gate | 머지 차단 | 실패 시 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 정지 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) Gate | 머지 차단 | 실패 시 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 정지 |
 
 ```text
 코드 변경
@@ -66,10 +66,10 @@ JUnit은 어노테이션 기반으로 테스트 구조를 고정하기 좋고, P
 | :--- | :--- | :--- | :--- |
 | 범위 | 함수/클래스 | [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 연동 | 사용자 시나리오 |
 | 속도 | 매우 빠름 | 중간 | 느림 |
-| 의존성 | [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) 사용 | 실제 의존성 일부 | 실제 시스템 |
+| 의존성 | [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) 사용 | 실제 의존성 일부 | 실제 시스템 |
 | 목적 | 회귀 차단 | 인터페이스 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 전체 경험 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 
-테스트 자동화는 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) ([Test-Driven Development](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/))와 만나면 더 강해진다. TDD는 테스트를 먼저 쓰고 코드를 맞추게 하므로, [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)의 역할을 설계 단계로 끌어올린다. [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/), [Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/), Fake는 모두 Test Double이지만, 호출 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 하느냐 값만 돌려주느냐가 다르다.
+테스트 자동화는 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) ([Test-Driven Development](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/))와 만나면 더 강해진다. TDD는 테스트를 먼저 쓰고 코드를 맞추게 하므로, [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)의 역할을 설계 단계로 끌어올린다. [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/), [Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/), Fake는 모두 Test Double이지만, 호출 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 하느냐 값만 돌려주느냐가 다르다.
 
 📢 섹션 요약 비유: [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)는 망원경, [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)는 쌍안경, E2E는 드론 촬영처럼 보는 범위와 비용이 다르다.
 
@@ -105,7 +105,7 @@ JUnit은 어노테이션 기반으로 테스트 구조를 고정하기 좋고, P
 | Pytest (Python testing framework) | fixture, parametrize 기반의 테스트 프레임워크 |
 | Mocking ([Mock Object](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/399_mock_object/)) | 외부 의존성 절연 및 호출 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | AAA (Arrange-Act-Assert) | 테스트 본문을 읽기 쉽게 정리하는 패턴 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)) | 테스트 실패 시 머지를 차단하는 배포 게이트 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)) | 테스트 실패 시 머지를 차단하는 배포 게이트 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

@@ -102,7 +102,7 @@ VSM을 제대로 하려면 특정 제품군이나 [서비스](/knowledge-base/st
 
 ## Ⅴ. 기대효과 및 결론
 
-VSM을 쓰면 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)이 줄고, 협업 병목이 보이며, 개선 우선순위가 숫자로 바뀐다. 특히 DevOps에서는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 어느 구간이 가장 오래 멈추는지 찾는 데 효과적이다.
+VSM을 쓰면 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)이 줄고, 협업 병목이 보이며, 개선 우선순위가 숫자로 바뀐다. 특히 DevOps에서는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 어느 구간이 가장 오래 멈추는지 찾는 데 효과적이다.
 
 다만 VSM은 한 번 그려 놓고 끝나는 문서가 아니다. 프로세스가 바뀌면 다시 측정해야 한다. 결국 VSM은 "흐름을 보는 습관"으로 기억해야 한다.
 

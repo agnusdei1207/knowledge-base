@@ -67,9 +67,9 @@ tags = ["studynote-it-management"]
 
 | 비교 대상 | 차이점 | 연결 포인트 |
 |:---|:---|:---|
-| [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 정보화 방향을 정렬한다 | 현재 주제는 그 구조를 구체 설계·전환하는 세부 축 |
+| [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 정보화 방향을 정렬한다 | 현재 주제는 그 구조를 구체 설계·전환하는 세부 축 |
 | [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) | 전사 관점의 기준 구조를 제공한다 | 현재 주제는 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 산출물 또는 방법론의 일부로 연결 |
-| [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) | 개별 사업의 상세 실행 설계를 다룬다 | 현재 주제는 사업 이전 단계의 정합성 확보에 기여 |
+| [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) | 개별 사업의 상세 실행 설계를 다룬다 | 현재 주제는 사업 이전 단계의 정합성 확보에 기여 |
 
 실무에서는 아키텍처 검토 위원회 (ARB, [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) Board)를 단독 프레임워크로 보기보다, 정책-운영-[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)-자동화 사이를 연결하는 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 개념으로 이해하는 편이 정확하다. 특히 조직 규모가 커질수록 사람의 기억보다 표준과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 의존하는 운영이 중요해진다.
 
@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 229 / 587
 
-<- **이전**: [122. EA 거버넌스 (EA Governance)](/knowledge-base/studynote/12_it_management/03_ea_isp/122_ea_governance_arb_architecture_review_board/)
-**다음**: [123. 아키텍처 검토 위원회 (ARB, Architecture Review Board)](/knowledge-base/studynote/12_it_management/03_ea_isp/123_architecture_review_board_arb_ea_governance/) ->
+<- **이전**: [122. EA 거버넌스 (EA Governance)](/knowledge-base/studynote/12_it_management/03_ea_isp/906_ea_governance_arb_architecture_review_board/)
+**다음**: [123. 아키텍처 검토 위원회 (ARB, Architecture Review Board)](/knowledge-base/studynote/12_it_management/03_ea_isp/907_architecture_review_board_arb_ea_governance/) ->
 
 ---

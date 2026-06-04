@@ -11,7 +11,7 @@ tags = ["studynote-devops-sre"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Pre-commit Hook은 `git commit` 실행 직전에 <strong>자동으로 린터·포매터·보안 스캔을 실행</strong>하여, 품질 기준을 충족하지 못한 코드의 커밋을 차단하는 <strong>Shift Left 품질 관리 메커니즘</strong>이다.
-> 2. **가치**: CI에서 린트를 실행하면 커밋->푸시->[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 실패->수정->재커밋의 <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/">피드백 루프</a>가 10분 이상</strong>이지만, Pre-commit Hook은 커밋 시점에 <strong>즉시(수 초) 피드백</strong>하여 불량 코드가 리포지토리에 들어가는 것을 원천 차단한다.
+> 2. **가치**: CI에서 린트를 실행하면 커밋->푸시->[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 실패->수정->재커밋의 <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/">피드백 루프</a>가 10분 이상</strong>이지만, Pre-commit Hook은 커밋 시점에 <strong>즉시(수 초) 피드백</strong>하여 불량 코드가 리포지토리에 들어가는 것을 원천 차단한다.
 > 3. **판단 포인트**: `pre-commit` 프레임워크(Python)가 사실상 표준이며, ESLint·Prettier·Black·Ruff·gitleaks([시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 탐지)·commitlint(커밋 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 규약)를 조합하여 팀 전체에 일관된 품질 기준을 적용한다.
 
 ---
@@ -70,7 +70,7 @@ repos:
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 린트만 | Pre-commit + [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) |
+| 비교 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 린트만 | Pre-commit + [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) |
 |:---|:---|:---|
 | **피드백 시간** | 10분+ | **수 초** |
 | **불량 코드 커밋** | 가능 | **차단** |
@@ -89,11 +89,11 @@ repos:
 
 ## Ⅴ. 기대효과 및 결론
 
-| 지표 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 린트만 | Pre-commit | 개선 |
+| 지표 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 린트만 | Pre-commit | 개선 |
 |:---|:---|:---|:---|
 | [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/) | 10분 | **3초** | 200× |
 | [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 유출 | CI에서 발견 | **커밋 전 차단** | 원천 방지 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 실패율 | 높음 | **낮음** | 효율 ^ |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 실패율 | 높음 | **낮음** | 효율 ^ |
 
 Pre-commit Hook은 <strong>Shift Left의 가장 극단적 구현</strong>이며, 비용 대비 효과가 가장 높은 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 실천이다.
 
@@ -107,7 +107,7 @@ Pre-commit Hook은 <strong>Shift Left의 가장 극단적 구현</strong>이며,
 | **gitleaks** | [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 탐지 Hook |
 | **commitlint** | 커밋 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 형식 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | **Shift Left** | 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 가장 앞 단계로 이동 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a> 린트</strong> | Pre-commit의 보완 (이중 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a> 린트</strong> | Pre-commit의 보완 (이중 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -129,7 +129,7 @@ Pre-commit Hook은 <strong>Shift Left의 가장 극단적 구현</strong>이며,
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Pre-commit Hook은 <strong>공항 보안 검색대</strong>예요. 짐(코드)에 위험물(에러)이 있으면 비행기(커밋)에 못 타요.
-2. 보안 검색은 **몇 초만에 끝나서** 공항([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))까지 가지 않아도 바로 알 수 있어요.
+2. 보안 검색은 **몇 초만에 끝나서** 공항([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/))까지 가지 않아도 바로 알 수 있어요.
 3. 덕분에 나쁜 코드가 <strong>리포지토리에 들어가는 것을 원천 차단</strong>할 수 있답니다!
 
 ---

@@ -90,14 +90,14 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-[에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)의 경계는 [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/), [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/), [Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)), 변경 관리와 비교할 때 더 선명해진다. SLI는 현재 상태를 재는 계기판이고, SLO는 허용 목표이며, SLA는 고객과의 계약이다. [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)은 그중 SLO에서 파생되는 <strong>운영 가능한 실패량</strong>으로, 배포·실험·안정화 우선순위를 조절하는 내부 통제 수단이다.
+[에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)의 경계는 [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/), [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/), [Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) ([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)), 변경 관리와 비교할 때 더 선명해진다. SLI는 현재 상태를 재는 계기판이고, SLO는 허용 목표이며, SLA는 고객과의 계약이다. [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)은 그중 SLO에서 파생되는 <strong>운영 가능한 실패량</strong>으로, 배포·실험·안정화 우선순위를 조절하는 내부 통제 수단이다.
 
 | 구분 | 핵심 질문 | 역할 |
 | :--- | :--- | :--- |
 | [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) | 지금 실제 품질은 얼마인가 | 측정 |
 | [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) | 어느 수준을 유지할 것인가 | 내부 목표 |
 | [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) | 얼마나 더 변경 위험을 감수할 수 있는가 | 운영 통제 |
-| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) | 고객에게 무엇을 약속했는가 | 외부 계약 |
+| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) | 고객에게 무엇을 약속했는가 | 외부 계약 |
 
 또한 [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)은 "100% [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 강박"과도 대비된다. 100%를 절대선으로 두면 사소한 오류도 곧바로 실패로 해석되어 변화가 멈춘다. 반대로 예산이 있는 조직은 허용 실패량을 전제로, 작은 실험을 반복하면서도 선을 넘으면 즉시 복원력 투자로 전환한다.
 
@@ -109,7 +109,7 @@ tags = ["studynote-cloud-architecture"]
 
 [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)은 다른 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 지표와도 연결된다. [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) Research and Assessment) 지표의 배포 빈도, 변경 실패율, 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간을 함께 보면 "왜 예산이 빨리 타는가"가 보인다. Toil이 많은 조직은 자동화가 부족해 예산을 방어하기 어렵고, Blameless Postmortem이 약하면 예산을 잃고도 학습을 남기지 못한다. 결국 [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)은 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 단독 개념이 아니라, 배포 문화와 운영 성숙도를 묶는 허브다.
 
-- **📢 섹션 요약 비유**: [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)·[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)·[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)·[에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)의 관계는 체온계, 건강 목표, 보험 약관, 하루 활동량 한도의 관계와 같다. 체온은 상태를 보여 주고, 목표는 기준을 정하고, 보험은 약속을 만들며, 활동량 한도는 오늘 얼마나 무리할지 결정하게 만든다.
+- **📢 섹션 요약 비유**: [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)·[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)·[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)·[에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)의 관계는 체온계, 건강 목표, 보험 약관, 하루 활동량 한도의 관계와 같다. 체온은 상태를 보여 주고, 목표는 기준을 정하고, 보험은 약속을 만들며, 활동량 한도는 오늘 얼마나 무리할지 결정하게 만든다.
 
 ---
 
@@ -162,7 +162,7 @@ tags = ["studynote-cloud-architecture"]
 | [Canary Release](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/195_canary_release_deployment/) | 예산을 적게 쓰면서 변경 위험을 검증하는 배포 방식 |
 | [Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) | 예산을 반복적으로 태우는 운영 부채의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) |
 | [Blameless Postmortem](/knowledge-base/studynote/15_devops_sre/03_sre_observability/128_blameless_postmortem/) | 예산 소진 원인을 구조적 개선으로 바꾸는 학습 루프 |
-| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) | 내부 예산 관리가 지켜야 할 외부 계약 경계 |
+| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)) | 내부 예산 관리가 지켜야 할 외부 계약 경계 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

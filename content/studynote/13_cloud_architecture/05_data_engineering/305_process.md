@@ -124,7 +124,7 @@ tags = ["studynote-cloud-architecture"]
 
 **진행 상황**: 304 / 371
 
-<- **이전**: [304. 블루/그린 배포 무중단 롤백 용이 (Blue-Green Deployment)](/knowledge-base/studynote/12_it_management/05_security_compliance/304_process/)
+<- **이전**: [304. 블루/그린 배포 무중단 롤백 용이 (Blue-Green Deployment)](/knowledge-base/studynote/12_it_management/05_security_compliance/947_process/)
 **다음**: [306. 섀도우 배포 트래픽 미러링 검증 (Shadow Deployment)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/306_audit/) ->
 
 ---

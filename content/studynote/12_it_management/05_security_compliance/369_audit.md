@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 578 / 587
 
-<- **이전**: [368. 보안 감사 로깅 6하 원칙 WORM 보존 기간 법적 준수 진단](/knowledge-base/studynote/12_it_management/05_security_compliance/368_security_audit_logging/)
-**다음**: [369. 오픈소스 라이선스 고지 의무 및 GPL 전염성 릴리스 차단 진단](/knowledge-base/studynote/12_it_management/05_security_compliance/369_oss_license_gpl_compliance/) ->
+<- **이전**: [368. 보안 감사 로깅 6하 원칙 WORM 보존 기간 법적 준수 진단](/knowledge-base/studynote/12_it_management/05_security_compliance/1009_security_audit_logging/)
+**다음**: [369. 오픈소스 라이선스 고지 의무 및 GPL 전염성 릴리스 차단 진단](/knowledge-base/studynote/12_it_management/05_security_compliance/1010_oss_license_gpl_compliance/) ->
 
 ---

@@ -256,7 +256,7 @@ Phase 3 (18개월): 세그멘테이션
   예방한 랜섬웨어 피해 추정: 50억원 이상
 ```
 
-> 📢 **섹션 요약 비유**: 보험사 ZT 전환은 방어 깊이 쌓기 — [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 하나(성벽 하나)에서 [MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/)+[ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/)+[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)+모니터링(겹겹이 방어). 성벽 하나 뚫려도 안쪽에서 막아요!
+> 📢 **섹션 요약 비유**: 보험사 ZT 전환은 방어 깊이 쌓기 — [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 하나(성벽 하나)에서 [MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/)+[ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/980_ztna/)+[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)+모니터링(겹겹이 방어). 성벽 하나 뚫려도 안쪽에서 막아요!
 
 ---
 

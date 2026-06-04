@@ -18,7 +18,7 @@ tags = ["software_engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-[애자일 스크럼](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/) ([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/))은 10명 이내의 소규모 단일 팀이 빠르게 소프트웨어를 배포하는 데에는 탁월한 성과를 보였다. 그러나 제품의 규모가 커져 3~9개의 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀(약 30~100명)이 하나의 백로그 ([Product Backlog](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/))를 공유하며 같은 소스코드를 만지기 시작하면 끔찍한 재앙이 펼쳐진다. 각 팀이 자신들의 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)를 마치고 코드를 합치려 할 때, 서로의 변수와 인터페이스를 물고 늘어지는 거대한 충돌([Merge Conflict](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/068_git_merge_conflict_resolution_rebase/))과 의존성 에러가 폭발하는 것이다.
+[애자일 스크럼](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/) ([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/))은 10명 이내의 소규모 단일 팀이 빠르게 소프트웨어를 배포하는 데에는 탁월한 성과를 보였다. 그러나 제품의 규모가 커져 3~9개의 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀(약 30~100명)이 하나의 백로그 ([Product Backlog](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/))를 공유하며 같은 소스코드를 만지기 시작하면 끔찍한 재앙이 펼쳐진다. 각 팀이 자신들의 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)를 마치고 코드를 합치려 할 때, 서로의 변수와 인터페이스를 물고 늘어지는 거대한 충돌([Merge Conflict](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/068_git_merge_conflict_resolution_rebase/))과 의존성 에러가 폭발하는 것이다.
 
 이른바 '통합의 지옥 (Integration Hell)'이라 불리는 이 현상을 통제하기 위해, 단순히 "팀끼리 알아서 소통해라"라고 방목하는 것은 실패의 지름길이다. [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 창시자는 여러 팀이 한 제품을 개발할 때는 무조건 누군가가 의존성 관리를 전담해야 한다고 판단했고, 기존 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)에 팀 간 '연결고리'를 강제하는 넥서스 (Nexus) 프레임워크를 발표하게 되었다. 넥서스는 복잡한 프로세스를 추가하는 대신 오직 '통합'이라는 하나의 목적표적만을 조준한다.
 
@@ -32,7 +32,7 @@ tags = ["software_engineering"]
 
 | 구성 요소 | 역할 및 핵심 임무 |
 | :--- | :--- |
-| **넥서스 통합팀 (NIT)** | 8개의 개발팀이 뿜어내는 수만 줄의 코드가 충돌 없이 매일 하나의 시스템([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)으로 병합되도록 돕는 통합 전담반 |
+| **넥서스 통합팀 (NIT)** | 8개의 개발팀이 뿜어내는 수만 줄의 코드가 충돌 없이 매일 하나의 시스템([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD)으로 병합되도록 돕는 통합 전담반 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/">제품 책임자</a> (PO)</strong> | 전체 넥서스에 단 1명만 존재하며, 단일 [제품 백로그](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/) ([Product Backlog](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/))의 우선순위를 지휘함 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/064_scrum_master_sm/">스크럼 마스터</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/">SM</a>)</strong> | 넥서스 레벨의 통합 장애물(Impediment)과 조직적 의존성을 제거하는 리더 |
 | **NIT 팀원 구성** | 개별 3~9개의 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀에서 파견된 에이스 개발자들(대표자)이 모여 구성됨 |
@@ -114,7 +114,7 @@ NIT 팀원들은 자신들만의 특정 기능(예: 결제, 로그인)을 코딩
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **NIT (Nexus Integration Team)** | 넥서스의 척추. 개별 팀의 기능 개발보다 1개의 완성된 제품으로 통합되는 과정([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)의 장애물을 제거하는 특수 조직. |
+| **NIT (Nexus Integration Team)** | 넥서스의 척추. 개별 팀의 기능 개발보다 1개의 완성된 제품으로 통합되는 과정([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD)의 장애물을 제거하는 특수 조직. |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/">SAFe</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/">Scaled Agile Framework</a>)</strong> | 넥서스가 해결하기 힘든 수백 명 이상의 전사적 포트폴리오 관리가 필요할 때 채택하는 초거대 엔터프라이즈 [애자일 방법론](/knowledge-base/studynote/04_software_engineering/01_overview_principles/012_agile_methodology/). |
 | **의존성 (Dependency)** | 팀 A의 코드가 팀 B의 API에 기대고 있는 상태. 넥서스는 이 보이지 않는 거미줄을 일일 회의와 계획 회의에서 사전 통제하는 데 목숨을 건다. |
 | <strong>단일 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/">제품 백로그</a> (Single <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/">Product Backlog</a>)</strong> | 9개의 팀이 있더라도, 우선순위 목록(백로그)과 [제품 책임자](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/)(PO)는 오직 단 1명만 존재하여 난개발을 방지한다. |

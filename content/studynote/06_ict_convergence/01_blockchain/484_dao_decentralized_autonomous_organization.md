@@ -13,7 +13,7 @@ tags = ["studynote-ict-convergence"]
 
 > 1. **본질**: [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/)([Decentralized Autonomous Organization](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/), [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 자율 조직)는 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)가 조직의 규칙을 코드화하여, <strong>CEO 없이 토큰 홀더의 투표로 의사결정</strong>이 이루어지는 새로운 조직 형태다.
 > 2. **가치**: 거버넌스 토큰(Governance Token)과 타임락(Timelock) 메커니즘이 결합되어 악의적 프로포절을 차단하고, 위임 투표(Delegate [Voting](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/))로 일반 홀더도 의사결정에 참여할 수 있다.
-> 3. **판단 포인트**: The [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 해킹(2016, $6000만 손실)이 보여주듯 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 취약점이 거버넌스 공격 벡터가 되므로, [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))와 타임락이 모든 DAO의 필수 요건이다.
+> 3. **판단 포인트**: The [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 해킹(2016, $6000만 손실)이 보여주듯 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 취약점이 거버넌스 공격 벡터가 되므로, [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/919_security_audit_trail/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))와 타임락이 모든 DAO의 필수 요건이다.
 
 ---
 

@@ -19,9 +19,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 구문 커버리지는 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 실행 결과로 코드 내 모든 문장이 최소 한 번 이상 실행되었는지 측정하는 지표이다. 구문 커버리지율(%)은 "실행된 문장 수 / 전체 문장 수 × 100"으로 계산한다.
+- **개념**: 구문 커버리지는 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) 실행 결과로 코드 내 모든 문장이 최소 한 번 이상 실행되었는지 측정하는 지표이다. 구문 커버리지율(%)은 "실행된 문장 수 / 전체 문장 수 × 100"으로 계산한다.
 
-- **필요성**: [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)를 작성할 때, 일부 코드만 테스트하고 나머지는 테스트하지 않는정황이 발생할 수 있다. 구문 커버리지 100%를 목표로 하면 테스트되지 않은 코드를 파악하고, 누락된 테스트를 보완할 수 있다. 그러나 구문 커버리지 100%라도 모든 결함을 발견할 수 없다는 점에 유의해야 한다.
+- **필요성**: [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/)를 작성할 때, 일부 코드만 테스트하고 나머지는 테스트하지 않는정황이 발생할 수 있다. 구문 커버리지 100%를 목표로 하면 테스트되지 않은 코드를 파악하고, 누락된 테스트를 보완할 수 있다. 그러나 구문 커버리지 100%라도 모든 결함을 발견할 수 없다는 점에 유의해야 한다.
 
 - **문장(Statement)의 정의**: 프로그래밍 언어에서 하나의 문장은 일반적으로 하나의 실행 가능한 코드 라인에 해당한다. 대입문, [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/), 조건문, 순환문 등이 모두 문장에 해당한다. 반면,선언문(변수 선언 등)은 실행 가능한 문장이 아니므로 구문 커버리지 대상이 아니다.
 
@@ -30,7 +30,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **1970년대**: 구조적 테스트(Structured Testing)의 일환으로 구문 커버리지 개념 도입
   2. **1990년대**:JUnit 등 테스트 프레임워크의 보급과 함께 구문 커버리지 도구 대중화
-  3. **현재**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인에서 자동으로 구문 커버리지를 측정하고 품질 기준체표 여부를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
+  3. **현재**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인에서 자동으로 구문 커버리지를 측정하고 품질 기준체표 여부를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
 
 - **섹션 요약 비유**: 구문 커버리지는 <strong>'려행대리점의 핫크룩스순회'</strong>과 같다.려행사점장이すべ고의지점에립ち기っ고점포가영업하고 있는か을/를확인하는. すべ고의점포에방문すれば순회복개솔100%이지만, それぞれ의점포의경영리념([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/))이 정확한지는확인에서きない. 점포가폐쇄한ままな의에순회한こ와/과에하면(커버리지 100%) 문제가 된다.
 
@@ -124,7 +124,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 구문 커버리지 (Statement Coverage)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -178,7 +178,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 436 / 973
 
-<- **이전**: [422. 구문 커버리지 (Statement Coverage)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/)
-**다음**: [423. 결정 커버리지 (Decision Coverage / 분기 커버리지)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/) ->
+<- **이전**: [422. 구문 커버리지 (Statement Coverage)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/814_statement_coverage/)
+**다음**: [423. 결정 커버리지 (Decision Coverage / 분기 커버리지)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/815_decision_coverage/) ->
 
 ---

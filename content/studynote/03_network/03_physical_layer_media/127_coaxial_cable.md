@@ -86,7 +86,7 @@ tags = ["studynote-network"]
 | **노이즈 내성**| 낮음 (쌍꼬임으로 상쇄) | 높음 (외부 쉴드 완벽 차폐) | 완벽함 (빛이므로 EMI 무관) | 공장 등 전자기 간섭 환경 |
 | **전송 거리** | 최대 100m | 수백 m (영상: 300~500m) | 수십 km 이상 | 백본망 vs 액세스망 |
 | **포설 난이도**| 쉬움 (가볍고 유연함) | 어려움 (무겁고 구부리기 힘듦) | 매우 어려움 (유리 깨짐 주의) | 배관 사이즈 및 작업 비용 |
-| **주요 용도** | 기업/가정용 LAN 접속 | [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/), CATV, HFC 분배망 | [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 백본, 해저 케이블 | 레거시 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 및 목적 |
+| **주요 용도** | 기업/가정용 LAN 접속 | [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/), CATV, HFC 분배망 | [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 백본, 해저 케이블 | 레거시 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 및 목적 |
 
 UTP는 비용이 저렴하지만 거리 제한(100m)이 치명적이다. 동축 케이블은 UTP보다 멀리, 노이즈 없이 보낼 수 있으나 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 확장에 한계가 있고 두껍다. 광케이블은 완벽하지만 끝단에서 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 변환하는 [트랜시버](/knowledge-base/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/)(SFP) 비용이 크다. 따라서 유선방송 사업자는 백본은 광케이블로, 가입자 집안까지는 기존에 깔린 동축 케이블을 재활용하는 **HFC (Hybrid Fiber Coaxial)** 아키텍처를 융합하여 경제성과 속도를 동시 확보한다.
 
@@ -140,7 +140,7 @@ UTP는 비용이 저렴하지만 거리 제한(100m)이 치명적이다. 동축 
 | 지표 | [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 기반 망 전환 한계 극복 | HFC 망 진화 활용 |
 |:---|:---|:---|
 | <strong>장거리 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a></strong> | [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 100m 리피터 전력 공급 문제 회피 | 수백 미터의 종단(Last Mile) 커버리지 확보 |
-| <strong>비용 절감 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a>)</strong> | 기존 건물 벽체에 매설된 동축 선로 100% 재활용 | DOCSIS 3.1/4.0 표준으로 구리선 교체 없이 기가급 속도 달성 |
+| <strong>비용 절감 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/">ROI</a>)</strong> | 기존 건물 벽체에 매설된 동축 선로 100% 재활용 | DOCSIS 3.1/4.0 표준으로 구리선 교체 없이 기가급 속도 달성 |
 
 **미래 전망**
 신규 구축되는 건물에서는 점차 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/)(Cat 6a 이상)와 광케이블로 전면 대체되는 추세이지만, 전 세계에 이미 깔려 있는 천문학적 규모의 동축 케이블 인프라는 쉽게 버려지지 않는다. 케이블 TV망은 DOCSIS([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Over Cable [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Interface [Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/)) 프로토콜을 고도화하여 동축 케이블 하나로 수 Gbps의 양방향 인터넷을 제공하며 생명력을 연장하고 있다. 동축 케이블은 완전한 FTTH(Fiber to the Home) 시대가 오기 전까지 광통신과 융합된 '라스트 마일'의 든든한 가교 역할을 수행할 것이다.

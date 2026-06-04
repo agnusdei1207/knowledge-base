@@ -124,7 +124,7 @@ PCIe를 제대로 이해하려면 “[병렬](/knowledge-base/studynote/05_datab
 2. 슬롯 모양이 아니라 실제 링크 협상 결과가 x1/x4/x8/x16 중 무엇인가?
 3. 장치가 CPU 직결인지, 칩셋 경유인지 확인했는가?
 4. 여러 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 장치나 NIC를 동시에 사용할 때 업링크 병목이 생기지 않는가?
-5. BIOS/UEFI에서 레인 분할 (Bifurcation), ASPM ([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)), 세대 강제 설정이 필요한가?
+5. BIOS/UEFI에서 레인 분할 (Bifurcation), ASPM ([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/)), 세대 강제 설정이 필요한가?
 
 ### 자주 나오는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 

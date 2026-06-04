@@ -275,7 +275,7 @@ Retain: SAP + MES 온프레미스
   서버: 400대 -> 온프레미스 50대 + 클라우드
 ```
 
-> 📢 **섹션 요약 비유**: 제조사 마이그레이션은 공장 이전 — 쓸모없는 기계(20개 Retire), 임대로 전환([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)), 기계 그대로 옮기기(Rehost), 특수 설비는 원래 공장에(Retain). 연 16억 절감!
+> 📢 **섹션 요약 비유**: 제조사 마이그레이션은 공장 이전 — 쓸모없는 기계(20개 Retire), 임대로 전환([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/)), 기계 그대로 옮기기(Rehost), 특수 설비는 원래 공장에(Retain). 연 16억 절감!
 
 ---
 

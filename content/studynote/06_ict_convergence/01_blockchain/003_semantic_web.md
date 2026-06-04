@@ -102,7 +102,7 @@ tags = ["ict_convergence"]
 
 ### 기업 지식 관리 시스템
 
-기업 환경에서 시맨틱 웹은 지식 관리(Knowledge [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))에 크게 기여한다. 조직 내의 다양한 문서, 이메일, 보고서, 규칙 등을 온톨로지에 따라 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하고 연결하면,원공이 필요한 정보를より쉽게 검색하고, 경영진은 조직 지식의 격차를파악할 수 있다. 예를 들어,제약회사에서는 약물 성분, 부작용, 임상 시험 결과 등을 시맨틱 웹으로 연결하여 새로운약 개발에 활용한다.
+기업 환경에서 시맨틱 웹은 지식 관리(Knowledge [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/))에 크게 기여한다. 조직 내의 다양한 문서, 이메일, 보고서, 규칙 등을 온톨로지에 따라 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하고 연결하면,원공이 필요한 정보를より쉽게 검색하고, 경영진은 조직 지식의 격차를파악할 수 있다. 예를 들어,제약회사에서는 약물 성분, 부작용, 임상 시험 결과 등을 시맨틱 웹으로 연결하여 새로운약 개발에 활용한다.
 
 ### 📢 비유 요약
 
@@ -114,7 +114,7 @@ tags = ["ict_convergence"]
 
 ### 온톨로지 품질 지표
 
-시맨틱 웹 온톨로지의품질을평가하는에는복수의지표를사용하는. 일관성([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))은 온톨로지 내의 명제가상호 모순되지 않는지를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 충족성([Satisfiability](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))은 모든 클래스에 실제로 속하는 인스턴스가 존재하는지를 확인한다. 올바름성(Correctness)은 온톨로지가 현실 세계를 정확하게 반영하고 있는지를 평가한다. 이러한 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 위해 Pellet, HermiT, FaCT++ 등의 추론기(Reasoner)가 활용된다.
+시맨틱 웹 온톨로지의품질을평가하는에는복수의지표를사용하는. 일관성([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))은 온톨로지 내의 명제가상호 모순되지 않는지를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 충족성([Satisfiability](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/))은 모든 클래스에 실제로 속하는 인스턴스가 존재하는지를 확인한다. 올바름성(Correctness)은 온톨로지가 현실 세계를 정확하게 반영하고 있는지를 평가한다. 이러한 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 위해 Pellet, HermiT, FaCT++ 등의 추론기(Reasoner)가 활용된다.
 
 ### [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 테스트
 
@@ -134,7 +134,7 @@ RDF [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relatio
 
 ### AI와 시맨틱 웹의 융합
 
-현재 가장 주목받는 트렌드는인공지능([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))과 시맨틱 웹 기술의심도 있는융합이다. [대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/)([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))이 자연어를 이해하듯, 시맨틱 웹은구조화된 지식([knowledge graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))을 통해 기계가 논리적 추론을 수행할 수 있게 한다. Google의 [Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/), Microsoft's Satori, Amazon의 product [graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) 등은 시맨틱 웹 기술에서 영감을 받은 대규모 지식 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 사례이다. 이러한 지식 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 검색 엔진, 음성 비서, 챗봇 등의 지능형 서비스의 밑바탕이 된다.
+현재 가장 주목받는 트렌드는인공지능([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))과 시맨틱 웹 기술의심도 있는융합이다. [대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/)([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))이 자연어를 이해하듯, 시맨틱 웹은구조화된 지식([knowledge graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))을 통해 기계가 논리적 추론을 수행할 수 있게 한다. Google의 [Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/), Microsoft's Satori, Amazon의 product [graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) 등은 시맨틱 웹 기술에서 영감을 받은 대규모 지식 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 사례이다. 이러한 지식 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 검색 엔진, 음성 비서, 챗봇 등의 지능형 서비스의 밑바탕이 된다.
 
 ### 시맨틱 웹 3.0의 발전 방향
 

@@ -96,7 +96,7 @@ Java [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_n
 | limits 적정 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 리소스 낭비 없이 **안정 운영** |
 | 모니터링 알림 | [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 전 **사전 대응** 가능 |
 
-[OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killed는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서 가장 빈번한 장애 원인이며, [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) v2와 K8s Memory [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)(KEP-2570)가 결합하여 더 세밀한 메모리 관리가 가능해지고 있다.
+[OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killed는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경에서 가장 빈번한 장애 원인이며, [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) v2와 K8s Memory [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)(KEP-2570)가 결합하여 더 세밀한 메모리 관리가 가능해지고 있다.
 
 ---
 

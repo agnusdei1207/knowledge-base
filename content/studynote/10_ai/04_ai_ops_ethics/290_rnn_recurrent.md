@@ -66,7 +66,7 @@ RNN의 핵심 수식은 단순하다. 현재 은닉 상태 h_t는 이전 은닉 
 |:---|:---|:---|
 | [One-to-One](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/) | 단일 입력 -> 단일 출력 | 일반 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
 | One-to-Many | 하나 입력 -> 시퀀스 출력 | 이미지 자막 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
-| [Many-to-One](/knowledge-base/studynote/02_operating_system/02_process_thread/098_many_to_one_model/) | 시퀀스 입력 -> 하나 출력 | [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/) |
+| [Many-to-One](/knowledge-base/studynote/02_operating_system/02_process_thread/098_many_to_one_model/) | 시퀀스 입력 -> 하나 출력 | [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/) |
 | [Many-to-Many](/knowledge-base/studynote/02_operating_system/02_process_thread/100_many_to_many_model/) | 시퀀스 -> 시퀀스 | 기계 번역, 챗봇 |
 
 - **📢 섹션 요약 비유**: RNN의 은닉 상태는 달리기 선수가 바통을 들고 계주 경기를 하는 것이다. 1번 선수(t=1)가 달리다가 바통(h_1)을 2번 선수에게 넘기고, 2번도 달리다가 바통(h_2)을 3번에게 넘긴다. 최종 4번 선수의 손에는 1·2·3번의 기억이 바통 안에 담겨 있다. 문제는 바통을 넘길 때마다 내용이 조금씩 지워진다는 것이다.
@@ -88,7 +88,7 @@ RNN의 핵심 수식은 단순하다. 현재 은닉 상태 h_t는 이전 은닉 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **자연어 처리 (NLP)**: 텍스트를 단어 단위로 순차 입력받아 번역, 요약, [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)에 활용
+- **자연어 처리 (NLP)**: 텍스트를 단어 단위로 순차 입력받아 번역, 요약, [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)에 활용
 - **시계열 예측**: 주가, 전력 수요, 센서 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) 등 시간 의존성 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 예측
 - **음성 인식 (ASR)**: 오디오 프레임을 순차 처리하여 텍스트로 변환
 

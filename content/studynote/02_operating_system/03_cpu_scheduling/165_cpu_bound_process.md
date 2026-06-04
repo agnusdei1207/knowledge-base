@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: CPU 바운드 프로세스 (CPU Bound [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))는 입출력 (Input/Output, I/O) 대기보다 중앙 처리 장치 (Central Processing Unit, CPU) 연산 구간이 훨씬 길어, 실행 시간 대부분을 계산에 쓰는 작업이다.
+> 1. **본질**: CPU 바운드 프로세스 (CPU Bound [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))는 입출력 (Input/Output, I/O) 대기보다 중앙 처리 장치 (Central Processing Unit, CPU) 연산 구간이 훨씬 길어, 실행 시간 대부분을 계산에 쓰는 작업이다.
 > 2. **가치**: 이런 프로세스는 긴 CPU 버스트 (CPU Burst) 동안 캐시 지역성 (Cache Locality)을 살려 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 높이지만, 응답성 중심 workload와 섞이면 선점 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 서툴 때 체감 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 크게 만든다.
 > 3. **판단 포인트**: 핵심은 "우선순위를 낮출 것인가"보다 "얼마나 길게 실행시켜 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 비용을 상쇄할 것인가"와 "다른 작업을 굶기지 않게 공정성을 어떻게 회복할 것인가"다.
 

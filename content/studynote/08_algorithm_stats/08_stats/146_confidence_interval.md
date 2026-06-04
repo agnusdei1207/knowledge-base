@@ -19,9 +19,9 @@ tags = ["studynote-algorithm"]
 
 ## Ⅰ. 신뢰 구간의 정의와 구성
 
-<strong>신뢰 구간 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">Confidence</a> Interval, <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>)</strong>: 모수 θ의 추정치와 불확실성을 구간으로 표현.
+<strong>신뢰 구간 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">Confidence</a> Interval, <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>)</strong>: 모수 θ의 추정치와 불확실성을 구간으로 표현.
 
-<strong>95% <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a> 공식 (σ 알 때)</strong>:
+<strong>95% <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a> 공식 (σ 알 때)</strong>:
 
 ```
 CI = x̄ ± z_{α/2} · (σ/√n)
@@ -30,7 +30,7 @@ z_{0.025} = 1.96 (양측 95% CI)
 z_{0.005} = 2.576 (양측 99% CI)
 ```
 
-<strong>95% <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a> 공식 (σ 모를 때, t-분포 사용)</strong>:
+<strong>95% <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a> 공식 (σ 모를 때, t-분포 사용)</strong>:
 
 ```
 CI = x̄ ± t_{α/2, n-1} · (s/√n)
@@ -106,9 +106,9 @@ df가 커질수록 t-분포는 [정규 분포](/knowledge-base/studynote/08_algo
 n = (z_{α/2} · σ / MoE)^
 ```
 
-<strong>표본 크기별 95% <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a> 폭 변화</strong>:
+<strong>표본 크기별 95% <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a> 폭 변화</strong>:
 
-| n | 상대적 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 폭 | 설명 |
+| n | 상대적 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 폭 | 설명 |
 |:---:|:---:|:---|
 | 25 | 100% (기준) | |
 | 100 | 50% | n 4배 -> 폭 2배 감소 |
@@ -129,7 +129,7 @@ n = (z_{α/2} · σ / MoE)^
               x̄ 중심
 ```
 
-📢 **섹션 요약 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 폭과 표본 크기는 "확성기 음량과 거리"와 같다. 거리를 4배 늘리면 소리가 반으로 줄듯, 표본을 4배 늘려야 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 폭이 반으로 줄어 — [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 향상에는 제곱 비용이 든다.
+📢 **섹션 요약 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 폭과 표본 크기는 "확성기 음량과 거리"와 같다. 거리를 4배 늘리면 소리가 반으로 줄듯, 표본을 4배 늘려야 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 폭이 반으로 줄어 — [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 향상에는 제곱 비용이 든다.
 
 ---
 
@@ -140,13 +140,13 @@ n = (z_{α/2} · σ / MoE)^
 **절차**:
 1. 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(n개)에서 복원 추출([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) with Replacement)로 B개 부트스트랩 표본 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 2. 각 표본에서 통계량(평균, 중앙값 등) 계산 -> {θ̂*₁, ..., θ̂*_B}
-3. 이 B개 통계량의 경험적 분포로 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 구성
+3. 이 B개 통계량의 경험적 분포로 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 구성
 
-<strong>방법별 부트스트랩 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a></strong>:
+<strong>방법별 부트스트랩 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a></strong>:
 - **백분위수(Percentile) 방법**: θ̂*의 2.5%, 97.5% 분위수
 - **BCa (Bias-Corrected and Accelerated)**: 편향과 [왜도](/knowledge-base/studynote/14_data_engineering/02_math_mining/064_skewness_kurtosis_log_transformation/) 보정, 가장 정확
 
-**사용 시점**: 이론적 분포 유도가 어려운 중앙값, 상관계수, 복잡한 모델의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 추정에 활용.
+**사용 시점**: 이론적 분포 유도가 어려운 중앙값, 상관계수, 복잡한 모델의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 추정에 활용.
 
 📢 **섹션 요약 비유**: 부트스트랩은 "내가 가진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 가상 실험 수천 번 하기"와 같다. 실제로 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집하는 대신, 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 섞고 뽑아 "만약 이런 표본이었다면?"을 무수히 반복해 불확실성을 추정한다.
 
@@ -154,7 +154,7 @@ n = (z_{α/2} · σ / MoE)^
 
 ## Ⅴ. 응용: A/B 테스팅과 임상 시험
 
-**A/B 테스팅**: 두 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(A, B)의 전환율 차이의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)
+**A/B 테스팅**: 두 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(A, B)의 전환율 차이의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)
 
 ```
 CI for (p_B - p_A):
@@ -164,24 +164,24 @@ CI for (p_B - p_A):
 CI가 0을 포함하면 -> 통계적으로 유의미한 차이 없음
 CI가 0을 포함하지 않으면 -> 유의미한 차이 있음
 
-**임상 시험 (Clinical Trial)**: 새 약품의 효과 크기 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)
-- 규제 기관(FDA)은 단순 p-값이 아닌 <strong>효과 크기의 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a></strong> 요구
-- [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 하한이 최소 임상 유의 차이(MCID)를 초과해야 승인
+**임상 시험 (Clinical Trial)**: 새 약품의 효과 크기 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)
+- 규제 기관(FDA)은 단순 p-값이 아닌 <strong>효과 크기의 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a></strong> 요구
+- [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 하한이 최소 임상 유의 차이(MCID)를 초과해야 승인
 
 **선거 여론 조사**:
-- "A 후보 지지율 48% ± 3.5% (95% [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))"
+- "A 후보 지지율 48% ± 3.5% (95% [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/))"
 - MoE = 3.5%이면 n ≈ 784명 (σ_p = 0.5 가정)
 
-<strong>z-분포 vs t-분포 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a> 비교</strong>:
+<strong>z-분포 vs t-분포 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a> 비교</strong>:
 
-| 조건 | 사용 분포 | 95% [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 임계값 |
+| 조건 | 사용 분포 | 95% [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 임계값 |
 |:---|:---:|:---:|
 | σ 알고, n 큼 | N(0,1) | ±1.96 |
 | σ 모름, n=[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) | t(9) | ±2.262 |
 | σ 모름, n=30 | t(29) | ±2.045 |
 | σ 모름, n=100 | t(99) | ±1.984 |
 
-📢 **섹션 요약 비유**: A/B 테스팅의 CI는 "저울로 재는 체중 차이"와 같다. 체중 차이가 1kg인데 저울 오차가 ±3kg이면 의미 없듯, 전환율 차이가 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 안에 있으면 "그냥 우연의 차이"라고 봐야 한다.
+📢 **섹션 요약 비유**: A/B 테스팅의 CI는 "저울로 재는 체중 차이"와 같다. 체중 차이가 1kg인데 저울 오차가 ±3kg이면 의미 없듯, 전환율 차이가 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 안에 있으면 "그냥 우연의 차이"라고 봐야 한다.
 
 ---
 
@@ -189,10 +189,10 @@ CI가 0을 포함하지 않으면 -> 유의미한 차이 있음
 
 | 개념 | 연결 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|:---|
-| 신뢰 구간 | 표본 크기 n | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 폭 ∝ 1/√n |
-| 신뢰 구간 | [유의 수준](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) α | α 낮으면 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 넓어짐 |
+| 신뢰 구간 | 표본 크기 n | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 폭 ∝ 1/√n |
+| 신뢰 구간 | [유의 수준](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) α | α 낮으면 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 넓어짐 |
 | 학생 t-분포 | 자유도 df | df -> ∞이면 [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) |
-| 부트스트랩 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) | 비모수 방법 | 분포 가정 불필요 |
+| 부트스트랩 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) | 비모수 방법 | 분포 가정 불필요 |
 | 신뢰 구간 | [가설 검정](/knowledge-base/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/) | CI에 귀무값 포함 여부 = p > α |
 | 베이즈 Credible Interval | CI와 비교 | 해석 차이 (θ를 [확률 변수](/knowledge-base/studynote/08_algorithm_stats/08_stats/134_random_variable/) 취급) |
 

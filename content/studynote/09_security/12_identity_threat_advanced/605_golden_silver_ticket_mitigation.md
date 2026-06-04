@@ -137,6 +137,6 @@ Golden/[Silver Ticket](/knowledge-base/studynote/09_security/12_identity_threat_
 **진행 상황**: 664 / 1108
 
 <- **이전**: [604. SSP (Security Support Provider)](/knowledge-base/studynote/09_security/12_identity_threat_advanced/604_ssp/)
-**다음**: [606. CSRF (Cross-Site Request Forgery)](/knowledge-base/studynote/09_security/uncategorized/606_csrf/) ->
+**다음**: [606. CSRF (Cross-Site Request Forgery)](/knowledge-base/studynote/09_security/uncategorized/1037_csrf/) ->
 
 ---

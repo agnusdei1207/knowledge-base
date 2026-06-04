@@ -86,7 +86,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-커패시터 기술의 고도화는 고속 프로세서의 전력 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/)) 확보와 메모리 집적도 향상의 핵심 동력이다. 칩 내부 깊숙한 곳에 트렌치(우물)를 파서 커패시터를 매립하는 기술 덕분에, 최신 프로세서는 극심한 터보 클럭 부스트 상황에서도 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하 없이 동작한다.
+커패시터 기술의 고도화는 고속 프로세서의 전력 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/)) 확보와 메모리 집적도 향상의 핵심 동력이다. 칩 내부 깊숙한 곳에 트렌치(우물)를 파서 커패시터를 매립하는 기술 덕분에, 최신 프로세서는 극심한 터보 클럭 부스트 상황에서도 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하 없이 동작한다.
 
 미래의 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 커패시터는 더 좁은 다이(Die) 공간에서 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 견디기 위해 수직 기둥 형태에서 아파트처럼 누워 쌓아 올리는 3D [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 적층 구조로 진화하고 있다. 또한 찰나의 순간에 막대한 에너지를 뿜어내는 슈퍼 커패시터는 단순한 전자 부품을 넘어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터의 비상 전력 [UPS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/652_ups_architecture/) 백업과 전기차 회생 제동의 심장으로까지 그 영역을 넓히고 있다.
 

@@ -70,7 +70,7 @@ tags = ["studynote-enterprise-systems"]
 
 ### 마테크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 설계 원칙
 1. <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/">CDP</a> 중심</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합을 먼저 확보한 후 실행 도구 연결.
-2. <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a> 측정</strong>: 도구별 비용 vs 전환율 기여도 분석.
+2. <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/">ROI</a> 측정</strong>: 도구별 비용 vs 전환율 기여도 분석.
 3. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 네이티브</strong>: GenAI 내장 도구 우선 선택 (콘텐츠 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)).
 
 ---

@@ -12,7 +12,7 @@ tags = ["software_engineering"]
 
 > 1. **본질**: [VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) (Value [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))은 제품의 요구사항이 고객에게 전달되기까지의 전체 개발 라이프사이클을 그려, 실제 가치를 만드는 시간과 낭비되는 대기 시간을 분리해 내는 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 기법이다.
 > 2. **가치**: 개별 프로세스의 부분 최적화가 아닌 전체 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 관점에서 `리드 타임 (Lead Time)`을 분석하여, 인수인계(Handoff)나 승인 병목으로 인한 고질적인 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 구간을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)한다.
-> 3. **판단 포인트**: 개발 속도(코딩 시간)를 높이는 것보다 단계 간의 대기와 재작업을 줄이는 데 초점을 맞춰야 하며, VSM으로 도출된 병목 지점에는 `WIP (Work In Progress)` 제한과 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 자동화를 집중 투입해야 한다.
+> 3. **판단 포인트**: 개발 속도(코딩 시간)를 높이는 것보다 단계 간의 대기와 재작업을 줄이는 데 초점을 맞춰야 하며, VSM으로 도출된 병목 지점에는 `WIP (Work In Progress)` 제한과 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 자동화를 집중 투입해야 한다.
 
 ---
 
@@ -32,10 +32,10 @@ VSM은 작업 과정을 시간 축 위에 매핑하며, `현재 상태 맵 (Curr
 
 | 핵심 지표 | 의미 | 분석 목적 |
 | :--- | :--- | :--- |
-| [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Time (작업 시간) | 코드 작성, 테스트 실행 등 실제 가치가 더해지는 실 작업 시간 | 실제 생산성 측정 |
+| [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Time (작업 시간) | 코드 작성, 테스트 실행 등 실제 가치가 더해지는 실 작업 시간 | 실제 생산성 측정 |
 | Wait Time (대기 시간) | 승인, 다음 단계 인수인계를 위해 아무 작업 없이 버려지는 시간 | 병목 및 흐름 단절 구간 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) |
-| [Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) ([리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)) | [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Time + Wait Time (요청부터 배포까지의 총 시간) | 고객이 체감하는 인도 속도 |
-| Flow Efficiency (흐름 효율성) | [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Time ÷ [Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) × 100 (%) | [전체 프로세스](/knowledge-base/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/) 중 진짜 일한 비율 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| [Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) ([리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)) | [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Time + Wait Time (요청부터 배포까지의 총 시간) | 고객이 체감하는 인도 속도 |
+| Flow Efficiency (흐름 효율성) | [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Time ÷ [Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) × 100 (%) | [전체 프로세스](/knowledge-base/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/) 중 진짜 일한 비율 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 
 ```text
 +-------------------------------------------------------------+
@@ -55,7 +55,7 @@ VSM은 작업 과정을 시간 축 위에 매핑하며, `현재 상태 맵 (Curr
 
 위 다이어그램처럼 전체 시간 중 대기가 차지하는 비중이 압도적으로 높다. 핵심 원리는 이 비율을 가시화하여 개발자 증원보다 결재 프로세스 간소화나 QA 자동화가 더 시급함을 입증하는 것이다.
 
-- 📢 섹션 요약 비유: 의사가 진료([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Time)하는 시간은 3분인데, 접수하고 대기(Wait Time)하는 시간이 1시간이라면 병원 시스템 전체([Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/))가 문제임을 숫자로 보여주는 엑스레이 차트다.
+- 📢 섹션 요약 비유: 의사가 진료([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Time)하는 시간은 3분인데, 접수하고 대기(Wait Time)하는 시간이 1시간이라면 병원 시스템 전체([Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/))가 문제임을 숫자로 보여주는 엑스레이 차트다.
 
 ---
 
@@ -63,15 +63,15 @@ VSM은 작업 과정을 시간 축 위에 매핑하며, `현재 상태 맵 (Curr
 
 VSM은 문제를 진단하는 정적 도구이며, 진단 이후의 통제와 자동화를 위해 다른 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 프레임워크와 결합된다.
 
-| 비교 축 | [VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) (가치 스트림 맵) | [Kanban](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) ([칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)) | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/배포) |
+| 비교 축 | [VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) (가치 스트림 맵) | [Kanban](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) ([칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)) | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD ([지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/배포) |
 | :--- | :--- | :--- | :--- |
 | 주요 역할 | 거시적 병목 진단 및 낭비 측정 | 미시적 작업 흐름 통제 | 수작업 대기 구간의 시스템 자동화 |
 | 핵심 행동 | [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 매핑 및 흐름 효율성 도출 | WIP 제한을 통한 병목 완화 | 빌드, 테스트, 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 구축 |
 | 관리 관점 | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 전체의 "구조적" 개선 | 개별 단계의 "가시성" 및 "속도" 조절 | 핸드오프(Handoff) 및 대기시간 "제거" |
 
-VSM을 통해 테스트 단계 앞의 엄청난 대기 큐를 발견했다면, [Kanban](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) 보드에서 해당 단계의 WIP 상한을 낮춰 유입을 막고, 근본적으로는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 구축해 사람이 손으로 넘기는 과정을 스크립트로 대체하는 식으로 연결된다.
+VSM을 통해 테스트 단계 앞의 엄청난 대기 큐를 발견했다면, [Kanban](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) 보드에서 해당 단계의 WIP 상한을 낮춰 유입을 막고, 근본적으로는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 구축해 사람이 손으로 넘기는 과정을 스크립트로 대체하는 식으로 연결된다.
 
-- 📢 섹션 요약 비유: VSM이 고속도로 어디서 상습 정체가 일어나는지 보여주는 지도라면, [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)은 톨게이트로 들어오는 차의 수를 조절하는 신호등이고, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 멈추지 않고 통과하는 하이패스 차로를 만드는 것이다.
+- 📢 섹션 요약 비유: VSM이 고속도로 어디서 상습 정체가 일어나는지 보여주는 지도라면, [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)은 톨게이트로 들어오는 차의 수를 조절하는 신호등이고, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD는 멈추지 않고 통과하는 하이패스 차로를 만드는 것이다.
 
 ---
 

@@ -232,7 +232,7 @@ TensorRT Plan (.plan)
 |:---|:---|:---|:---|
 | **TF Serving** | TF 전용, 안정적 | 안정성, 간단한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | TF 단일 모델 |
 | **Triton** | 멀티 프레임워크, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 최적화 | 고성능, 유연성 | 멀티 프레임워크, 고성능 |
-| **KServe** | K8s 기반, 멀티 프레임워크 | [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/), [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) | [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 환경 |
+| **KServe** | K8s 기반, 멀티 프레임워크 | [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/), [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) | [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 환경 |
 | **TorchServe** | PyTorch 전용 | PyTorch 네이티브 | PyTorch 모델 |
 | **BentoML** | 코드 중심, 쉬운 배포 | 개발자 친화적 | [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/), 소규모 |
 | **Ray Serve** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) Python | 유연한 Python 로직 | 복잡한 서빙 로직 |
@@ -245,7 +245,7 @@ TensorRT Plan (.plan)
 | **지연시간** | 낮음 (즉시 처리) | 약간 높음 (대기 시간) |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a></strong> | 낮음 | 높음 ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 활용률^) |
 | **복잡도** | 간단 | 복잡 ([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 튜닝) |
-| **적합 상황** | 지연시간 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 엄격 | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 중심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
+| **적합 상황** | 지연시간 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 엄격 | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 중심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
 
 ### 3.3 모델 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기법 비교
 

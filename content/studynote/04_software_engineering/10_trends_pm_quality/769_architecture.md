@@ -78,7 +78,7 @@ tags = ["studynote-software-engineering"]
 | 중앙집중 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 확장성 |
 | 모놀리식 | [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화 | 변경 영향 |
 
-또한 이 개념은 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/))와도 연결된다. 단일 기술을 아는 것보다, 그 기술이 어떤 운영 문맥에서 선택되는지 보는 것이 더 중요하다. 그래서 시험에서도 "무엇과 비교했는가"를 함께 써야 답안의 깊이가 생긴다.
+또한 이 개념은 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/))와도 연결된다. 단일 기술을 아는 것보다, 그 기술이 어떤 운영 문맥에서 선택되는지 보는 것이 더 중요하다. 그래서 시험에서도 "무엇과 비교했는가"를 함께 써야 답안의 깊이가 생긴다.
 
 - **📢 섹션 요약 비유**: 부품이 맞물리는 레고 구조는 같은 모양처럼 보여도 용도에 따라 완전히 다르다. 비교해야 차이가 보인다.
 

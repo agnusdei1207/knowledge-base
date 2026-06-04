@@ -23,7 +23,7 @@ tags = ["studynote-network"]
 
 - **필요성**: 해커가 패킷을 가로채서(Sniffing) 비밀번호를 알아내거나, 탈취한 패킷을 다시 보내어([Replay Attack](/knowledge-base/studynote/09_security/03_network_security/274_replay_attack/)) 정상 사용자로 위장하는 공격이 빈번해지자, 비밀번호 자체가 네트워크 선로를 타지 않게 만드는 근본적인 해결책이 필요해졌다.
 
-- **💡 비유**: [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/) 영화의 "암구호"와 같습니다. 문지기(서버)가 매일 바뀌는 질문(Challenge, 예: "오늘 점심은?")을 던지면, [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/)(클라이언트)는 머릿속에 있는 비밀번호(예: "사과")를 조합하여 정해진 규칙(해시)에 따라 암호화된 대답("사과가 들어간 샐러드")을 합니다. 해커가 대답을 엿듣고 다음 날 "사과가 들어간 샐러드"라고 말해도, 그날의 질문(Challenge)이 달라서 틀린 대답이 되므로 쫓겨나게 됩니다.
+- **💡 비유**: [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/) 영화의 "암구호"와 같습니다. 문지기(서버)가 매일 바뀌는 질문(Challenge, 예: "오늘 점심은?")을 던지면, [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/)(클라이언트)는 머릿속에 있는 비밀번호(예: "사과")를 조합하여 정해진 규칙(해시)에 따라 암호화된 대답("사과가 들어간 샐러드")을 합니다. 해커가 대답을 엿듣고 다음 날 "사과가 들어간 샐러드"라고 말해도, 그날의 질문(Challenge)이 달라서 틀린 대답이 되므로 쫓겨나게 됩니다.
 
 ```text
 [PAP]

@@ -13,7 +13,7 @@ tags = ["studynote-ai"]
 
 > 1. **본질**: [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)([One-Hot Encoding](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/))은 범주형 변수(Categorical Variable)의 각 범주를 서로 독립된 이진 열(0 또는 1)로 변환하여, 범주 간 순서나 크기 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 임의로 부여하지 않는 수치화 방법이다.
 > 2. **가치**: 선형 모델과 신경망에서 범주형 변수를 올바르게 처리하기 위해 필수적이며, 순서 없는 범주 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 잘못된 수치적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 부여를 방지한다.
-> 3. **판단 포인트**: 범주 수가 많을수록 고차원 희소 벡터가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되어 차원의 저주([Curse of Dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_curse_of_dimensionality/))가 발생하므로, 고차원 범주에는 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)([Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))으로 대체하는 것이 적합하다.
+> 3. **판단 포인트**: 범주 수가 많을수록 고차원 희소 벡터가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되어 차원의 저주([Curse of Dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/864_curse_of_dimensionality/))가 발생하므로, 고차원 범주에는 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)([Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))으로 대체하는 것이 적합하다.
 
 ---
 

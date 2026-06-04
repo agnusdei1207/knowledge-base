@@ -98,7 +98,7 @@ new_stats = tfdv.generate_statistics_from_csv('new_data.csv')
 anomalies = tfdv.validate_statistics(new_stats, schema)
 ```
 
-#### 단계 2: [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링 ([Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/))
+#### 단계 2: [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링 ([Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/865_feature_engineering/))
 
 | 작업 | 설명 | 도구 |
 |:---|:---|:---|
@@ -240,7 +240,7 @@ anomalies = tfdv.validate_statistics(new_stats, schema)
 평가 게이트는 자동 재학습된 모델이 실제 프로덕션에 배포되기 전에 거치는 <strong>자동 품질 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 관문</strong>이다. 다음 세 가지 기준을 모두 통과해야 배포가 허용된다:
 1. <strong>절대 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 기준</strong>: 정확도, [F1-Score](/knowledge-base/studynote/10_ai/03_llm_nlp/255_f1_score/) 등이 최소 기준치 이상
 2. <strong>상대 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 기준</strong>: 현재 프로덕션 모델 대비 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 또는 동등
-3. **비기능 요건**: 추론 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), 메모리 사용량 등
+3. **비기능 요건**: 추론 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/), 메모리 사용량 등
 
 이를 통해 자동화 과정에서 발생할 수 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 문제나 코드 버그로 인한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 모델이 자동으로 배포되는 위험을 방지한다.
 
@@ -328,7 +328,7 @@ CT (Continuous [Training](/knowledge-base/studynote/04_software_engineering/09_c
 
 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
-| 상위 개념 | [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) | CT는 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD의 세 번째 축 |
+| 상위 개념 | [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) | CT는 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD의 세 번째 축 |
 | [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) | [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) ([Data Drift](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)) | 입력 분포 변화가 CT 발동 조건 |
 | [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) | [컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/) ([Concept Drift](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/)) | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 변화로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 -> CT 발동 |
 | 구성요소 | [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) ([Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)) | 재학습 시 최신 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 제공 |

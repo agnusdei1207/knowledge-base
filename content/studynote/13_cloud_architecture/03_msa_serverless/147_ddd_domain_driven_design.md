@@ -89,7 +89,7 @@ DDD 전술적 패턴 (Tactical Patterns)
   +---------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: Bounded Context는 **'사내 각 부서의 전문 언어 영역'** 과 같습니다. 영업팀의 "고객([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/))"과 배송팀의 "수령인(Recipient)"은 같은 사람이지만 다른 용어로 불립니다. 부서 간 경계([Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))가 없으면 한 단어가 여러 의미를 갖게 되어 혼란이 생깁니다.
+- **📢 섹션 요약 비유**: Bounded Context는 **'사내 각 부서의 전문 언어 영역'** 과 같습니다. 영업팀의 "고객([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/))"과 배송팀의 "수령인(Recipient)"은 같은 사람이지만 다른 용어로 불립니다. 부서 간 경계([Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))가 없으면 한 단어가 여러 의미를 갖게 되어 혼란이 생깁니다.
 
 ---
 

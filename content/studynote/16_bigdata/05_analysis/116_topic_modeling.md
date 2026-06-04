@@ -83,7 +83,7 @@ tags = ["studynote-bigdata"]
 | **계산 비용** | 낮음 | 높음 ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 권장) |
 | **노이즈 처리** | 없음 | HDBSCAN "-1" 클러스터 |
 
-토픽 모델링은 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/), [개체명 인식](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/) ([NER](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/))과 결합할 때 더 강력하다. "어떤 주제에 대해 어떤 감성을 가지는가" (Aspect-Based Sentiment)를 측정할 수 있다.
+토픽 모델링은 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/), [개체명 인식](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/) ([NER](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/))과 결합할 때 더 강력하다. "어떤 주제에 대해 어떤 감성을 가지는가" (Aspect-Based Sentiment)를 측정할 수 있다.
 
 - **📢 섹션 요약 비유**: LDA는 도서관에서 주제 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)표를 K개 만들어 놓고 책을 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 것이고, BERTopic은 책들의 의미를 이해해서 자연스럽게 뭉치는 그룹을 발견하는 것이다.
 

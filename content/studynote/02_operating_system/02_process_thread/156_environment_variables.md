@@ -21,7 +21,7 @@ tags = ["studynote-operating-system"]
 
 ### 1. 정의
 
-환경 변수([Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/) Variable)는 운영체제에서 프로세스가 실행될 때 참조할 수 있는 키-값(Key-Value) 쌍으로 이루어진 문자열이다. 프로세스는 [부모 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/)([Parent Process](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/))로부터 환경 변수를 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(Inherit)받으며, 이를 통해 실행 환경 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 자식 프로세스(Child [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))에 전달한다.
+환경 변수([Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/) Variable)는 운영체제에서 프로세스가 실행될 때 참조할 수 있는 키-값(Key-Value) 쌍으로 이루어진 문자열이다. 프로세스는 [부모 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/)([Parent Process](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/))로부터 환경 변수를 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(Inherit)받으며, 이를 통해 실행 환경 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 자식 프로세스(Child [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))에 전달한다.
 
 > **비유**: 환경 변수는 "가족의 전통 레시피"다. 부모가 아이에게 전달하며, 아이는 그대로 사용하거나 자신만의 재료를 추가할 수 있다.
 

@@ -11,19 +11,19 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SMBIOS (System [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) BIOS)는 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)가 시스템 모델, BIOS [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 시리얼 번호, 메모리 슬롯 정보 같은 인벤토리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 표준 구조체로 공개하는 규격이다.
-> 2. **가치**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 자산관리 도구는 벤더별 전용 유틸리티 없이도 하드웨어 정체성과 구성 정보를 읽어 자동 설치, 장애 분석, [CMDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/) ([Configuration Management Database](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/)) 연동을 수행할 수 있다.
+> 1. **본질**: SMBIOS (System [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) BIOS)는 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)가 시스템 모델, BIOS [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 시리얼 번호, 메모리 슬롯 정보 같은 인벤토리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 표준 구조체로 공개하는 규격이다.
+> 2. **가치**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 자산관리 도구는 벤더별 전용 유틸리티 없이도 하드웨어 정체성과 구성 정보를 읽어 자동 설치, 장애 분석, [CMDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/875_cmdb/) ([Configuration Management Database](/knowledge-base/studynote/12_it_management/02_itsm_itil/875_cmdb/)) 연동을 수행할 수 있다.
 > 3. **판단 포인트**: SMBIOS는 매우 유용한 "설명서"이지만 보안적으로 강한 신원 증명 수단은 아니므로, 값의 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)·[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·위변조 가능성을 함께 평가해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-SMBIOS는 시스템 관리 소프트웨어가 컴퓨터의 정체성과 구성 정보를 표준 방식으로 읽도록 만든 규격이다. 과거에는 서버 모델명, 보드 정보, 메모리 슬롯 배치, BIOS [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 같은 정보가 벤더마다 제각각이어서, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)나 관리 도구가 이를 공통 방식으로 수집하기 어려웠다. DMTF (Distributed [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Force)는 이 문제를 줄이기 위해 DMI (Desktop [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Interface) 계열의 구조를 발전시켜 SMBIOS를 표준화했다.
+SMBIOS는 시스템 관리 소프트웨어가 컴퓨터의 정체성과 구성 정보를 표준 방식으로 읽도록 만든 규격이다. 과거에는 서버 모델명, 보드 정보, 메모리 슬롯 배치, BIOS [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 같은 정보가 벤더마다 제각각이어서, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)나 관리 도구가 이를 공통 방식으로 수집하기 어려웠다. DMTF (Distributed [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Force)는 이 문제를 줄이기 위해 DMI (Desktop [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) Interface) 계열의 구조를 발전시켜 SMBIOS를 표준화했다.
 
 핵심은 "장치를 제어하는 것"이 아니라 "장치가 무엇인지 설명하는 것"이다. 예를 들어 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 설치 프로그램은 시스템 제조사와 제품명을 읽어 적절한 드라이버 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 고를 수 있고, 자산관리 에이전트는 시리얼 번호와 BIOS [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 수집해 중앙 CMDB와 동기화할 수 있다. 메모리 장애가 났을 때도 어떤 슬롯이 몇 GB인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 출발점이 된다.
 
-오늘날 SMBIOS는 더 이상 옛날 BIOS에만 묶인 개념이 아니다. [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 기반 시스템에서도 SMBIOS 테이블은 계속 제공되며, 리눅스의 `dmidecode`나 윈도우의 WMI (Windows [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Instrumentation) 질의가 이 정보를 읽어 간다. 즉 SMBIOS는 현대 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 생태계의 표준 인벤토리 레이어라고 보면 된다.
+오늘날 SMBIOS는 더 이상 옛날 BIOS에만 묶인 개념이 아니다. [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 기반 시스템에서도 SMBIOS 테이블은 계속 제공되며, 리눅스의 `dmidecode`나 윈도우의 WMI (Windows [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) Instrumentation) 질의가 이 정보를 읽어 간다. 즉 SMBIOS는 현대 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 생태계의 표준 인벤토리 레이어라고 보면 된다.
 
 - **📢 섹션 요약 비유**: SMBIOS는 컴퓨터 몸속에 들어 있는 신분증과 가구 배치표를 합쳐 놓은 문서와 같다. 밖에서 뜯어보지 않아도 "누구인지, 무엇이 들어 있는지"를 빠르게 파악할 수 있다.
 
@@ -131,7 +131,7 @@ SMBIOS의 가장 큰 효과는 자동화 가능성이다. [운영체제](/knowle
 | `dmidecode` | 리눅스에서 SMBIOS 정보를 읽는 대표 도구다 |
 | WMI | 윈도우에서 SMBIOS 기반 정보를 질의하는 대표 인터페이스다 |
 | [BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) | out-of-band 인벤토리와 SMBIOS 값을 교차 검증할 수 있다 |
-| [CMDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/) | SMBIOS로 수집한 자산 정보를 운영 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)와 연결하는 목적지다 |
+| [CMDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/875_cmdb/) | SMBIOS로 수집한 자산 정보를 운영 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)와 연결하는 목적지다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

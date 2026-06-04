@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 404 / 587
 
-<- **이전**: [277. SCM 공급망 관리 채찍 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/277_scm_bullwhip_effect/)
-**다음**: [278. CRM 고객 관계 관리 LTV](/knowledge-base/studynote/12_it_management/05_security_compliance/278_crm_ltv/) ->
+<- **이전**: [277. SCM 공급망 관리 채찍 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/926_scm_bullwhip_effect/)
+**다음**: [278. CRM 고객 관계 관리 LTV](/knowledge-base/studynote/12_it_management/05_security_compliance/927_crm_ltv/) ->
 
 ---

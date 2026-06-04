@@ -209,7 +209,7 @@ Article 36: <strong>고위험 처리(High-<a href="/knowledge-base/studynote/11_
     v
 [동형 암호 (Homomorphic Encryption) — 암호화 상태 연산, 복호화 없는 분석]
 ```
-이 흐름은 엄격한 [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 규제 속에서 연구·통계 목적의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용을 허용하는 Article 89 특례를 기반으로, 가명 처리·[차분 프라이버시](/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/)·[연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)·[동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/)로 발전하는 프라이버시 보존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 기술의 진화를 보여준다.
+이 흐름은 엄격한 [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 규제 속에서 연구·통계 목적의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용을 허용하는 Article 89 특례를 기반으로, 가명 처리·[차분 프라이버시](/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/)·[연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)·[동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/)로 발전하는 프라이버시 보존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 기술의 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

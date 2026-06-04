@@ -11,8 +11,8 @@ tags = ["studynote-enterprise-systems"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 소셜 CRM은 기존 CRM의 고객 관리를 <strong>소셜 미디어(Twitter/X·Instagram·커뮤니티·리뷰 사이트)</strong>로 확장하여, 고객이 <strong>자발적으로 생산하는 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/">비정형 데이터</a>(UGC)</strong>에서 브랜드 인사이트를 추출하고 실시간 대응하는 시스템이다.
-> 2. **가치**: 전통 CRM이 "우리가 수집한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"를 분석한다면, 소셜 CRM은 "고객이 스스로 말한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(불만·칭찬·제안)"를 <strong>소셜 리스닝(Social Listening)</strong>으로 수집하고 <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/">감성 분석</a>(<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/">Sentiment Analysis</a>)</strong>으로 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한다.
-> 3. **판단 포인트**: 소셜 CRM은 마케팅(바이럴)·CS(불만 실시간 대응)·R&D(고객 요구 탐색)의 교차점이며, <strong>VOC(Voice of <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">C고객</a>)를 디지털화하는 핵심 채널</strong>이다.
+> 2. **가치**: 전통 CRM이 "우리가 수집한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"를 분석한다면, 소셜 CRM은 "고객이 스스로 말한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(불만·칭찬·제안)"를 <strong>소셜 리스닝(Social Listening)</strong>으로 수집하고 <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/">감성 분석</a>(<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/">Sentiment Analysis</a>)</strong>으로 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한다.
+> 3. **판단 포인트**: 소셜 CRM은 마케팅(바이럴)·CS(불만 실시간 대응)·R&D(고객 요구 탐색)의 교차점이며, <strong>VOC(Voice of <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/">C고객</a>)를 디지털화하는 핵심 채널</strong>이다.
 
 ---
 
@@ -51,12 +51,12 @@ tags = ["studynote-enterprise-systems"]
 | 기능 | 설명 | 도구 |
 |:---|:---|:---|
 | **소셜 리스닝** | 브랜드 키워드 실시간 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 | Brandwatch, Sprinklr |
-| <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/">감성 분석</a></strong> | NLP로 긍·부정·중립 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/">감성 분석</a></strong> | NLP로 긍·부정·중립 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) |
 | <strong>인플루언서 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a></strong> | 영향력 높은 사용자 자동 태깅 | 팔로워·리트윗 분석 |
 | **소셜 CS** | DM·댓글로 즉시 고객 대응 | Zendesk Social, Hootsuite |
 | **UGC 분석** | 고객 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 콘텐츠에서 제품 인사이트 추출 | 키워드·[토픽 모델링](/knowledge-base/studynote/16_bigdata/05_analysis/116_topic_modeling/) |
 
-- **📢 섹션 요약 비유**: 소셜 리스닝은 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)기(합법적 브랜드 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링)이고, [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 통역사(고객 감정을 숫자로 변환)이다.
+- **📢 섹션 요약 비유**: 소셜 리스닝은 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)기(합법적 브랜드 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링)이고, [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 통역사(고객 감정을 숫자로 변환)이다.
 
 ---
 
@@ -84,7 +84,7 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅴ. 기대효과 및 결론
 
-소셜 CRM은 <strong>고객의 목소리(VOC)를 디지털 세계에서 실시간으로 수집하는 유일한 채널</strong>이며, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 AI의 발전으로 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/) 정확도와 자동 답변 품질이 비약적으로 향상되고 있다.
+소셜 CRM은 <strong>고객의 목소리(VOC)를 디지털 세계에서 실시간으로 수집하는 유일한 채널</strong>이며, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 AI의 발전으로 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/) 정확도와 자동 답변 품질이 비약적으로 향상되고 있다.
 
 ---
 
@@ -93,8 +93,8 @@ tags = ["studynote-enterprise-systems"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **소셜 리스닝** | 브랜드 언급 실시간 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/">감성 분석</a> (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/">Sentiment Analysis</a>)</strong> | NLP로 긍·부정 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
-| <strong>VOC (Voice of <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">C고객</a>)</strong> | 소셜 CRM이 디지털화하는 고객 피드백 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/">감성 분석</a> (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/">Sentiment Analysis</a>)</strong> | NLP로 긍·부정 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
+| <strong>VOC (Voice of <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/">C고객</a>)</strong> | 소셜 CRM이 디지털화하는 고객 피드백 |
 | <strong>협업 <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/">CRM</a></strong> | 소셜 채널을 [옴니채널](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/073_omni_channel_o2o_evolution/)에 통합 |
 | **인플루언서 마케팅** | 소셜 CRM에서 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)한 영향력자 활용 |
 

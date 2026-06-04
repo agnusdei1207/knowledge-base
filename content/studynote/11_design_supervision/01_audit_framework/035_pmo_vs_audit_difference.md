@@ -205,7 +205,7 @@ PMO vs 감리
 
 **진행 상황**: 46 / 530
 
-<- **이전**: [34. SW 개발보안 진단 (Secure Coding Diagnosis)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/034_sw_secure_coding_diagnosis/)
-**다음**: [35. 웹 접근성 및 호환성 진단 (Web Accessibility and Compatibility Diagnosis)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/035_web_accessibility_compatibility_diagnosis/) ->
+<- **이전**: [34. SW 개발보안 진단 (Secure Coding Diagnosis)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/611_sw_secure_coding_diagnosis/)
+**다음**: [35. 웹 접근성 및 호환성 진단 (Web Accessibility and Compatibility Diagnosis)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/612_web_accessibility_compatibility_diagnosis/) ->
 
 ---

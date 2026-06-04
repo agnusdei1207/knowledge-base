@@ -184,7 +184,7 @@ AARRR 2.0 — 커뮤니티 추가:
 
 ---
 
-## Ⅴ. 실무 시나리오 — [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 성장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+## Ⅴ. 실무 시나리오 — [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 성장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```
 B2B SaaS 그로스 해킹 AARRR 분석:

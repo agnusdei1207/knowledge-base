@@ -18,7 +18,7 @@ tags = ["studynote-design-supervision"]
 ---
 
 ## Ⅰ. 개요 및 필요성
-대형 소프트웨어에서 "[C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)(고객)"는 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)마다 다른 의미를 갖는다:
+대형 소프트웨어에서 "[C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/)(고객)"는 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)마다 다른 의미를 갖는다:
 
 ```
 결제 컨텍스트: Customer { cardNumber, billingAddress, creditScore }
@@ -26,7 +26,7 @@ tags = ["studynote-design-supervision"]
 CRM 컨텍스트: Customer { leadScore, segment, contactHistory }
 ```
 
-하나의 거대한 [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) 모델로 통합하면:
+하나의 거대한 [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/) 모델로 통합하면:
 - 모델이 비대해지고 각 팀의 의도가 희석됨
 - 변경 시 전체 시스템 영향도 증가
 - 팀 간 조율 비용 폭증
@@ -100,7 +100,7 @@ CRM 컨텍스트: Customer { leadScore, segment, contactHistory }
 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 유형 | 설명 | 팀 협력도 | 모델 독립성 |
 |:---|:---|:---|:---|
 | Shared [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) | 두 팀이 공유 코어 모델 공동 관리 | 매우 높음 | 낮음 |
-| [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)-Supplier | 공급자가 고객 요구사항 반영 | 높음 | 중간 |
+| [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/)-Supplier | 공급자가 고객 요구사항 반영 | 높음 | 중간 |
 | Conformist | 공급자 모델을 고객이 그대로 따름 | 낮음 | 낮음 |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/">ACL</a></strong> | **번역 계층으로 외부 모델 차단** | **낮음** | **높음** |
 | Published Language | 표준 공개 언어로 통신 | 중간 | 높음 |
@@ -180,7 +180,7 @@ ACL 변환: OrderPlacedEvent { customer: Customer{...}, lineItems: [...] }
 | 상황 | [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 적용 | 이유 |
 |:---|:---|:---|
 | 레거시 시스템과 통합 | 필수 | 레거시 모델 오염 방지 |
-| 외부 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동 | 강력 권장 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 변경에 내부 격리 |
+| 외부 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동 | 강력 권장 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 변경에 내부 격리 |
 | 같은 팀 내 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) | 선택적 | 팀 협력으로 조율 가능 |
 | Published Language | 불필요 | 이미 표준화된 인터페이스 |
 
@@ -224,7 +224,7 @@ ACL 변환: OrderPlacedEvent { customer: Customer{...}, lineItems: [...] }
 | 연관 개념 | [Ubiquitous Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/) | ACL이 보호하는 내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 언어 |
 | 유사 패턴 | [Adapter Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/151_adapter_pattern/) | GoF 수준의 인터페이스 변환 |
 | 연관 패턴 | [Facade Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/156_facade_pattern/) | ACL이 외부 시스템을 래핑하는 방식 |
-| [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 맵 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | Shared [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/), [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)-Supplier, Conformist, Published Language | ACL과 비교되는 6가지 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 유형 |
+| [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 맵 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | Shared [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/), [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/)-Supplier, Conformist, Published Language | ACL과 비교되는 6가지 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 유형 |
 | 적용 사례 | [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 결제 게이트웨이 통합 | ACL로 복수 결제사 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 번역 |
 
 ### 📈 관련 키워드 및 발전 흐름도

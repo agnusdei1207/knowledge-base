@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 452 / 587
 
-<- **이전**: [304. 서킷 브레이커 장애 연쇄 차단 폴백](/knowledge-base/studynote/12_it_management/05_security_compliance/304_process/)
-**다음**: [305. 사가 패턴 (Saga) 보상 트랜잭션](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/) ->
+<- **이전**: [304. 서킷 브레이커 장애 연쇄 차단 폴백](/knowledge-base/studynote/12_it_management/05_security_compliance/947_process/)
+**다음**: [305. 사가 패턴 (Saga) 보상 트랜잭션](/knowledge-base/studynote/12_it_management/05_security_compliance/948_saga_pattern/) ->
 
 ---

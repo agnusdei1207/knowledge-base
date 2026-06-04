@@ -108,7 +108,7 @@ tags = ["studynote-design-supervision"]
 
 한계는 새로운 ConcreteCreator 서브클래스가 많아지면 클래스 계층이 복잡해지고, 단순한 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)에 과도한 복잡성이 도입될 수 있다.
 
-미래 방향으로는 ① 함수형 프로그래밍에서 팩터리 함수로 단순화, ② [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 팩터리 메서드 패턴을 프레임워크 수준에서 구현, ③ Kotlin sealed class로 타입 안전한 팩터리 구현이 발전하고 있다.
+미래 방향으로는 ① 함수형 프로그래밍에서 팩터리 함수로 단순화, ② [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 팩터리 메서드 패턴을 프레임워크 수준에서 구현, ③ Kotlin sealed class로 타입 안전한 팩터리 구현이 발전하고 있다.
 
 - **📢 섹션 요약 비유**: 팩터리 메서드는 각 도시(서브클래스)가 자신의 지역 특산물(제품)을 생산하는 방식을 자율적으로 결정하지만, 유통(클라이언트)은 동일한 방식으로 수령한다.
 

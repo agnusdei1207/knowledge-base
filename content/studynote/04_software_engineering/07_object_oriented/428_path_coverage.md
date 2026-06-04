@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 경로 커버리지는 프로그램의 시작부터 끝까지의 가능한 모든 실행 경로를 테스트하는 것이다. 제어 흐름 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([Control Flow](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/) [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))에서 각 노드를 방문하고 엣지를 통과하는 모든 가능한 순서를Cover한다.
+- **개념**: 경로 커버리지는 프로그램의 시작부터 끝까지의 가능한 모든 실행 경로를 테스트하는 것이다. 제어 흐름 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([Control Flow](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/) [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/))에서 각 노드를 방문하고 엣지를 통과하는 모든 가능한 순서를Cover한다.
 
 - **필요성**: 결정 커버리지가 각 분기의 참/거짓만을 검증하고, 경로 커버리지가 시작~끝까지의 전체 흐름을 검증한다. 프로그램이 복잡한 중첩 분기나 순환을 포함할 경우, 가능한 경로 수가 급격히 증가하여 모든 경로를 테스트하는 것이 어려워질 수 있다.
 
@@ -124,7 +124,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 경로 커버리지 (Path Coverage)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -178,7 +178,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 448 / 973
 
-<- **이전**: [428. 경로 커버리지 (Path Coverage)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/428_path_coverage/)
-**다음**: [429. 데이터 흐름 테스팅 (Data Flow Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/429_data_flow_testing/) ->
+<- **이전**: [428. 경로 커버리지 (Path Coverage)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/820_path_coverage/)
+**다음**: [429. 데이터 흐름 테스팅 (Data Flow Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/821_data_flow_testing/) ->
 
 ---

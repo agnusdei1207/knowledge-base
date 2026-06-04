@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 개발자가 기능을 쌩쌩 잘 돌아가게([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)) 짜는 것을 넘어, 외부의 악의적인 입력이나 비정상적인 상황에서도 시스템이 스스로 붕괴하거나 정보를 토해내지 않도록 단단하게(Robust) 코드를 짜는 룰(Rule)이다.
 
-- **필요성**: 은행 웹사이트의 로그인 창에 비밀번호 대신 `' OR 1=1 --` 이라는 특이한 문자를 쳤다. 그랬더니 놀랍게도 관리자 계정으로 로그인되어 100억 원을 이체할 수 있었다(SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)). [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 수억 원짜리를 사놓았지만 소용이 없었다. 왜냐하면 웹사이트 안에서 돌아가는 자바(Java) 소스 코드가 사용자가 입력한 문자를 아무 의심 없이 그대로 DB로 직행시키는 '스파게티 보안 구멍'을 갖고 있었기 때문이다. <strong>코드가 썩어있으면 외부의 철조망(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>)은 아무 의미가 없다.</strong>
+- **필요성**: 은행 웹사이트의 로그인 창에 비밀번호 대신 `' OR 1=1 --` 이라는 특이한 문자를 쳤다. 그랬더니 놀랍게도 관리자 계정으로 로그인되어 100억 원을 이체할 수 있었다(SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/)). [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 수억 원짜리를 사놓았지만 소용이 없었다. 왜냐하면 웹사이트 안에서 돌아가는 자바(Java) 소스 코드가 사용자가 입력한 문자를 아무 의심 없이 그대로 DB로 직행시키는 '스파게티 보안 구멍'을 갖고 있었기 때문이다. <strong>코드가 썩어있으면 외부의 철조망(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>)은 아무 의미가 없다.</strong>
 
 - **💡 비유**: [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)은 <strong>'튼튼한 성문 만들기'</strong>와 같습니다. 겉에 해자([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))를 파고 경비병(백신)을 세워놔도, 정작 성문(소스 코드)이 종이로 만들어져서 누군가 발로 차서 뚫을 수 있다면 그 성은 무너집니다. [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)은 성문을 티타늄으로 만들고, 들어오는 사람의 지문과 홍채(입력값 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))를 하나하나 깐깐하게 검사하는 강력한 출입국 관리소입니다.
 
@@ -30,7 +30,7 @@ tags = ["studynote-software-engineering"]
   2. **CERT / OWASP의 등장**: 2000년대 해킹 피해가 조 단위로 넘어가자, OWASP(국제웹보안표준기구) 같은 단체에서 "웹 취약점 Top [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)"을 발표하며 전 세계 개발자들에게 제발 이 10가지 코드 좀 이렇게 짜지 말라고 가이드라인을 뿌렸다.
   3. **법적 의무화 (현재)**: 대한민국 행정안전부는 "소프트웨어 개발보안가이드(47개 항목)"를 제정하여, 공공기관 프로젝트는 무조건 이 룰대로 [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)을 안 하면 아예 납품 통과(감리) 자체를 불허하는 강력한 규제로 진화했다.
 
-- **📢 섹션 요약 비유**: [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)은 비행기 탈 때 거치는 <strong>'공항 검색대'</strong>입니다. 승객([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 아무리 선량해 보여도, 가방 속에 폭탄(악성 스크립트)이나 칼(SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/))이 숨겨져 있는지 엑스레이(입력값 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))로 무조건 의심하고 싹 털어보는 철저한 편집증입니다.
+- **📢 섹션 요약 비유**: [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)은 비행기 탈 때 거치는 <strong>'공항 검색대'</strong>입니다. 승객([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 아무리 선량해 보여도, 가방 속에 폭탄(악성 스크립트)이나 칼(SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/))이 숨겨져 있는지 엑스레이(입력값 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))로 무조건 의심하고 싹 털어보는 철저한 편집증입니다.
 
 ---
 
@@ -117,7 +117,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) ([Secure Coding](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)) 원칙은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

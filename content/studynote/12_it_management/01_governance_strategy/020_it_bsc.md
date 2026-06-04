@@ -15,7 +15,7 @@ tags = ["it_management"]
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 전사적 [균형 성과 기록표](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/)(Corporate [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/))의 철학을 상속받아, IT 조직에 특화된 4가지 관점(기업 공헌, 사용자 지향, 운영 탁월성, 미래 지향)으로 재설계한 평가 프레임워크.
 > 2. **가치**: 경영진에게 IT가 '돈만 먹는 하마(Cost Center)'가 아니라 '비즈니스 가치를 창출하는 핵심 파트너(Value Center)'임을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 논리로 증명해 내는 강력한 무기.
-> 3. **융합**: 상위의 전사 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표를 하위의 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리([ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/)) 및 [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) 프로세스와 정렬([Strategic Alignment](/knowledge-base/studynote/12_it_management/01_governance_strategy/002_it_governance_5_domains/))시켜 완벽한 IT 거버넌스 통제 구조를 완성함.
+> 3. **융합**: 상위의 전사 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표를 하위의 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리([ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/)) 및 [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/846_itil/) 프로세스와 정렬([Strategic Alignment](/knowledge-base/studynote/12_it_management/01_governance_strategy/002_it_governance_5_domains/))시켜 완벽한 IT 거버넌스 통제 구조를 완성함.
 
 ---
 
@@ -58,8 +58,8 @@ IT BSC는 전사 BSC의 4대 관점을 IT 조직의 생태계에 맞게 1:1로 �
 
 | 전사 [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) 관점 | IT [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) 특화 관점 | 핵심 질문 및 평가 방향 | IT 실무 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) 매핑 예시 |
 |:---|:---|:---|:---|
-| **재무 관점** | **기업 공헌 관점** (Corporate Contribution) | IT 부서가 전사 비즈니스 가치와 재무에 어떻게 기여하는가? | IT 투자 수익률([IT ROI](/knowledge-base/studynote/12_it_management/03_ea_isp/126_it_roi_pre_progress_post_evaluation_evm/)), IT 예산 대비 비용 절감액, 신규 비즈니스 매출 기여도 |
-| **고객 관점** | **사용자 지향 관점** (User Orientation) | 사내 현업 부서 및 외부 최종 고객에게 IT가 어떻게 평가받는가? | 헬프데스크 만족도(CSAT), 현업 요구사항 적기 처리율, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 미달 건수 |
+| **재무 관점** | **기업 공헌 관점** (Corporate Contribution) | IT 부서가 전사 비즈니스 가치와 재무에 어떻게 기여하는가? | IT 투자 수익률([IT ROI](/knowledge-base/studynote/12_it_management/03_ea_isp/910_it_roi_pre_progress_post_evaluation_evm/)), IT 예산 대비 비용 절감액, 신규 비즈니스 매출 기여도 |
+| **고객 관점** | **사용자 지향 관점** (User Orientation) | 사내 현업 부서 및 외부 최종 고객에게 IT가 어떻게 평가받는가? | 헬프데스크 만족도(CSAT), 현업 요구사항 적기 처리율, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 미달 건수 |
 | **내부 프로세스 관점** | **운영 탁월성 관점** (Operational Excellence) | IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 개발 및 운영 프로세스가 얼마나 효과/효율적인가? | 장애 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)), 월간 신규 기능 배포 횟수, 보안 취약점 패치율 |
 | **학습과 성장 관점** | **미래 지향 관점** (Future Orientation) | 지속적 혁신을 위해 IT 기술력과 인적 역량을 어떻게 기를 것인가? | 클라우드/[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 등 신기술 교육 이수율, 연구개발(R&D) 과제 성공률, [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 제거율 |
 
@@ -103,7 +103,7 @@ IT BSC는 독립된 섬이 아니다. 이는 반드시 기업 전체를 관장�
 | **프로세스/운영**| 주문에서 배송까지의 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 사이클타임 절반 단축 | --(시스템 융합)---> | 레거시 ERP와 물류 창고 시스템 간의 실시간 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동망 구축 |
 | **학습/미래** | 직원들의 [데이터 리터러시](/knowledge-base/studynote/12_it_management/01_governance_strategy/058_data_literacy/)(해석 능력) 강화 | --(인프라 제공)---> | 전사 빅데이터 분석 플랫폼(대시보드) 구축 및 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 파트 교육 |
 
-아래의 비교 상태도는 단순히 IT 시스템 내부만 관리하던 과거의 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 도구와, 비즈니스 가치까지 연결하는 IT [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) 간의 시각 차이를 보여준다.
+아래의 비교 상태도는 단순히 IT 시스템 내부만 관리하던 과거의 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/) 도구와, 비즈니스 가치까지 연결하는 IT [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) 간의 시각 차이를 보여준다.
 
 ```text
 [전통적 ITSM vs IT BSC 관리 지표의 포커스 이동]
@@ -126,7 +126,7 @@ IT BSC는 독립된 섬이 아니다. 이는 반드시 기업 전체를 관장�
 +-------------------------+
 ```
 
-[ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) 중심의 전통적 ITSM이 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 '운영 안정성(프로세스 관점)'에만 극도로 치우쳐 있다면, IT BSC는 이 안정성이 '고객과 재무'에 어떤 영향을 미치는지 양방향으로 평가한다는 점에서 한 차원 높은 거버넌스 도구이다.
+[ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/846_itil/) 중심의 전통적 ITSM이 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 '운영 안정성(프로세스 관점)'에만 극도로 치우쳐 있다면, IT BSC는 이 안정성이 '고객과 재무'에 어떤 영향을 미치는지 양방향으로 평가한다는 점에서 한 차원 높은 거버넌스 도구이다.
 
 > 📢 **섹션 요약 비유**: 식당 주방장이 오로지 "칼질을 1초에 10번 한다, 도마가 세상에서 제일 깨끗하다(기존 IT 지표)"라고 자기 위안하는 것을 넘어, "그래서 손님이 요리 맛에 감동해서 팁을 더 주고 갔는가?(IT [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/))"까지 철저하게 확인하는 관점의 진화입니다.
 
@@ -157,9 +157,9 @@ IT BSC는 독립된 섬이 아니다. 이는 반드시 기업 전체를 관장�
 ```
 
 <strong>실무 도입 및 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>
-1. **기술적 판단**: '운영 탁월성' 지표에 클라우드 자동화율, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 배포 빈도 같은 최신 기술 지표가 반영되어 있는가? (단순히 고장 안 나는 것을 넘어, 얼마나 기민하게([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 움직이는지가 현대 IT의 핵심이다.)
-2. **운영적 판단**: 현업 사용자가 실제로 체감하는 지표([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))와 IT 부서 내부의 지표가 불일치하지 않는가? (서버는 켜져 있는데 DB 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))으로 사용자는 앱 접속이 안 되는 상황을 숨기면 안 된다.)
-3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 경고</strong>: '만병통치약의 착각'. IT 조직의 성숙도가 매우 낮아 당장 매일 서버가 터져 나가는 소방수(Firefighting) 상황인데, 무리하게 복잡한 4대 관점의 BSC를 도입하려다 문서 작업에 치여 실제 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 못 하는 우를 범해선 안 된다. 기초적 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/)([인시던트 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_incident_management/))이 안정화된 이후 고도화 단계에서 도입해야 한다.
+1. **기술적 판단**: '운영 탁월성' 지표에 클라우드 자동화율, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 배포 빈도 같은 최신 기술 지표가 반영되어 있는가? (단순히 고장 안 나는 것을 넘어, 얼마나 기민하게([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 움직이는지가 현대 IT의 핵심이다.)
+2. **운영적 판단**: 현업 사용자가 실제로 체감하는 지표([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/))와 IT 부서 내부의 지표가 불일치하지 않는가? (서버는 켜져 있는데 DB 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))으로 사용자는 앱 접속이 안 되는 상황을 숨기면 안 된다.)
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 경고</strong>: '만병통치약의 착각'. IT 조직의 성숙도가 매우 낮아 당장 매일 서버가 터져 나가는 소방수(Firefighting) 상황인데, 무리하게 복잡한 4대 관점의 BSC를 도입하려다 문서 작업에 치여 실제 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 못 하는 우를 범해선 안 된다. 기초적 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/)([인시던트 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/859_incident_management/))이 안정화된 이후 고도화 단계에서 도입해야 한다.
 
 > 📢 **섹션 요약 비유**: 전투기 조종사가 비행기를 몰 때, 엔진 내부의 톱니바퀴 회전수(기술 지표)만 보는 게 아니라, 내가 지금 적기를 향해 올바른 각도로 미사일 조준을 맞추고 있는지(비즈니스 지표)를 최우선으로 확인하는 HUD(헤드업 디스플레이) 시스템을 켜는 것과 같습니다.
 
@@ -185,9 +185,9 @@ IT BSC의 성공적인 정착은 IT 조직이 수동적인 '지원 부서'에서
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 - <strong>IT 거버넌스 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/001_it_governance/">IT Governance</a>)</strong> : IT BSC의 상위 개념. 기업의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 IT를 연계(Alignment)하여 비즈니스 가치를 창출하고 위험을 통제하는 이사회의 책임 구조.
 - <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/">COBIT</a> (Control Objectives for Information and Related Tech.)</strong> : IT 거버넌스를 실현하기 위해 글로벌하게 사용되는 통제 프레임워크로, 비즈니스 목표를 IT 목표로 연계할 때 [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) 4대 관점을 표준으로 사용함.
-- <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/126_it_roi_pre_progress_post_evaluation_evm/">IT ROI</a> (IT 투자 수익률)</strong> : IT BSC의 4가지 관점 중 '기업 공헌(재무) 관점'에서 IT 투자 대비 어느 정도의 경제적 편익을 얻었는지 정량적으로 증명하는 지표.
-- <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">Service Level Agreement</a>, <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 수준 협약)</strong> : IT 부서와 현업 부서 간에 맺는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 보증 계약으로, IT BSC의 '사용자 지향 관점'을 평가하는 핵심 근거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 됨.
-- <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/">ITSM</a> (IT <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 관리)</strong> : [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) 기반으로 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 효과적으로 설계/운영하는 체계. 이 과정이 얼마나 훌륭한지가 IT BSC의 '운영 탁월성 관점'을 채우는 결과로 나타남.
+- <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/910_it_roi_pre_progress_post_evaluation_evm/">IT ROI</a> (IT 투자 수익률)</strong> : IT BSC의 4가지 관점 중 '기업 공헌(재무) 관점'에서 IT 투자 대비 어느 정도의 경제적 편익을 얻었는지 정량적으로 증명하는 지표.
+- <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/">SLA</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/">Service Level Agreement</a>, <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 수준 협약)</strong> : IT 부서와 현업 부서 간에 맺는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 보증 계약으로, IT BSC의 '사용자 지향 관점'을 평가하는 핵심 근거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 됨.
+- <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/">ITSM</a> (IT <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 관리)</strong> : [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/846_itil/) 기반으로 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 효과적으로 설계/운영하는 체계. 이 과정이 얼마나 훌륭한지가 IT BSC의 '운영 탁월성 관점'을 채우는 결과로 나타남.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -219,7 +219,7 @@ IT BSC는 비즈니스 [전략](/knowledge-base/studynote/04_software_engineerin
 
 **진행 상황**: 34 / 587
 
-<- **이전**: [19. 균형 성과 기록표 (BSC, Balanced Scorecard)](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc_balanced_scorecard/)
+<- **이전**: [19. 균형 성과 기록표 (BSC, Balanced Scorecard)](/knowledge-base/studynote/12_it_management/01_governance_strategy/814_bsc_balanced_scorecard/)
 **다음**: [21. 전략 체계도 (Strategy Map)](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map/) ->
 
 ---

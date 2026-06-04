@@ -11,7 +11,7 @@ tags = ["studynote-enterprise"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: IT 조직 진단 3P는 사람 (People), 프로세스 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)), 플랫폼·기술 (Platform/Technology)의 정렬 상태를 점검해, [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 실패 원인을 구조적으로 분해하는 프레임워크다.
+> 1. **본질**: IT 조직 진단 3P는 사람 (People), 프로세스 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/)), 플랫폼·기술 (Platform/Technology)의 정렬 상태를 점검해, [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 실패 원인을 구조적으로 분해하는 프레임워크다.
 > 2. **가치**: 같은 장애나 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이라도 원인이 역량 부족인지, 절차 병목인지, [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)인지 구분할 수 있어, 투자 우선순위와 변화관리 방향을 명확히 잡게 해 준다.
 > 3. **판단 포인트**: 기술 도입만으로는 혁신이 완성되지 않으므로, 보통은 프로세스 재설계와 사람 역량·보상 체계를 먼저 정비한 뒤 적합한 기술을 얹는 순서가 효과적이다.
 
@@ -34,7 +34,7 @@ tags = ["studynote-enterprise"]
 | 축 | 진단 질문 | 대표 징후 | 개선 방향 |
 | :--- | :--- | :--- | :--- |
 | People | 수행 역량과 협업 문화가 충분한가? | 기술 거부, 부서 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/), 핵심인력 의존 | 교육, 역할 재정의, 보상체계 조정 |
-| [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) | 흐름과 책임이 명확한가? | 승인 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 중복 입력, 예외 처리 남발 | 업무 재설계, 표준화, 책임 분리 |
+| [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) | 흐름과 책임이 명확한가? | 승인 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 중복 입력, 예외 처리 남발 | 업무 재설계, 표준화, 책임 분리 |
 | Platform/Technology | 시스템이 업무를 잘 지원하는가? | 레거시 병목, 수작업 전환, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 단절 | 시스템 통합, 자동화, 인프라 현대화 |
 
 아래 그림은 세 축이 독립된 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)가 아니라, 서로 맞물려야 성과가 나는 구조임을 보여준다.
@@ -67,7 +67,7 @@ tags = ["studynote-enterprise"]
 | 강점 | 원인 분해가 명확함 | 사업성과와 조직 실행을 함께 봄 |
 | 주 사용처 | 조직 진단, 혁신 과제 정렬 | 디지털 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)·플랫폼 조직 설계 |
 
-또한 3P는 비즈니스 프로세스 재설계 ([BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/), [Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/)), [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) ([Capability Maturity Model Integration](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/)), [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))와 연결된다. BPR은 [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) 축 개선에, CMMI는 Process와 People의 표준화에, [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)는 People과 Platform의 협업 구조 강화에 무게가 있다. 따라서 3P는 다른 방법론을 대체한다기보다, 어느 축을 보완하는지 보여 주는 상위 진단 렌즈로 이해하는 것이 맞다.
+또한 3P는 비즈니스 프로세스 재설계 ([BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/), [Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/)), [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) ([Capability Maturity Model Integration](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/)), [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))와 연결된다. BPR은 [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) 축 개선에, CMMI는 Process와 People의 표준화에, [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)는 People과 Platform의 협업 구조 강화에 무게가 있다. 따라서 3P는 다른 방법론을 대체한다기보다, 어느 축을 보완하는지 보여 주는 상위 진단 렌즈로 이해하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 3P는 집의 기둥 세 개를 보는 것이고, 4P는 거기에 "이 집이 누구를 위해 지어졌는가"라는 방의 쓰임새를 더 보는 것이다. 기둥만 튼튼해도 살기 불편하면 좋은 집이 아니다.
 
@@ -113,7 +113,7 @@ tags = ["studynote-enterprise"]
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | 변화관리 ([Change Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/027_change_management/)) | People 축에서 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 완화와 역할 전환을 다룸 |
-| 비즈니스 프로세스 재설계 ([BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/), [Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/)) | [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) 축의 병목 제거와 표준화에 직접 연결됨 |
+| 비즈니스 프로세스 재설계 ([BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/), [Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/)) | [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) 축의 병목 제거와 표준화에 직접 연결됨 |
 | [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) | People과 Platform의 협업 구조를 강화함 |
 | 레거시 현대화 (Legacy Modernization) | Platform/Technology 축의 구조 개선 과제 |
 | 제품 중심 운영 모델 (Product Operating Model) | 3P를 4P로 확장할 때 연결되는 관점 |

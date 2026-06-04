@@ -115,7 +115,7 @@ tags = ["studynote-database"]
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | Quorum 읽기 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 보정 정족수 합의 구조 | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
-| [데이터 옵스](/knowledge-base/studynote/05_database/07_exam_summary/498_dataops_automation_pipeline/) ([DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/)) 자동화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
+| [데이터 옵스](/knowledge-base/studynote/05_database/07_exam_summary/498_dataops_automation_pipeline/) ([DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/965_dataops/)) 자동화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
 | [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) ([Not Only SQL](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/274_nosql/)) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
 | [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) ([Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/)) | 운영·설계 판단을 연결해 주는 주변 개념이다. |
 

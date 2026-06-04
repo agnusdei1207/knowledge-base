@@ -140,7 +140,7 @@ FinOps [스팟 인스턴스](/knowledge-base/studynote/06_ict_convergence/03_clo
 
 **진행 상황**: 528 / 587
 
-<- **이전**: [343. IaC 테라폼 코드 인프라 선언 통제망](/knowledge-base/studynote/12_it_management/05_security_compliance/343_management/)
-**다음**: [344. FinOps 스팟 인스턴스 비용 절감 모니터 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops_spot_instance_cost_optimization/) ->
+<- **이전**: [343. IaC 테라폼 코드 인프라 선언 통제망](/knowledge-base/studynote/12_it_management/05_security_compliance/984_management/)
+**다음**: [344. FinOps 스팟 인스턴스 비용 절감 모니터 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/985_finops_spot_instance_cost_optimization/) ->
 
 ---

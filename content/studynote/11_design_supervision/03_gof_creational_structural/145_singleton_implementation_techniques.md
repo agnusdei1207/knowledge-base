@@ -125,7 +125,7 @@ tags = ["studynote-design-supervision"]
 |:---|:---|
 | volatile 키워드 | DCL에서 메모리 가시성 보장에 필수 |
 | Java 직렬화 | Enum으로만 완전한 싱글턴 보장 |
-| 스프링 @Bean | [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기반 싱글턴 관리 대안 |
+| 스프링 @Bean | [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기반 싱글턴 관리 대안 |
 | Kotlin object | Kotlin에서 간결한 싱글턴 표현 |
 
 ### 📈 관련 키워드 및 발전 흐름도

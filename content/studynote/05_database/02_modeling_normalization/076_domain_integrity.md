@@ -18,7 +18,7 @@ tags = ["database"]
 
 ## Ⅰ. 개요 및 필요성
 
-RDBMS(Relational [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질은 "테이블에 넣기 전부터 이미 걸러졌는가"로 결정된다. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은 속성이 가질 수 있는 합법적인 값 집합을 정의하고, INSERT/UPDATE 시 그 범위를 벗어나는 값을 거부한다. 즉, 컬럼 단위의 품질 보증이다.
+RDBMS(Relational [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System)에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질은 "테이블에 넣기 전부터 이미 걸러졌는가"로 결정된다. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은 속성이 가질 수 있는 합법적인 값 집합을 정의하고, INSERT/UPDATE 시 그 범위를 벗어나는 값을 거부한다. 즉, 컬럼 단위의 품질 보증이다.
 
 애플리케이션에서만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하면 화면과 API가 바뀔 때마다 규칙이 빠져나간다. 반면 DB 제약은 입력 경로가 여러 개여도 마지막에 한 번 더 막아 준다. 그래서 정합성 사고를 줄이려면 비즈니스 규칙을 가능한 한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계층에 내려야 한다.
 
@@ -118,7 +118,7 @@ CHECK는 단순한 범위 규칙에 강하고, 코드 테이블은 재사용 가
 | :-- | :-- |
 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)([domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)) | 허용 가능한 값의 집합 |
 | [DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/)([Data Definition Language](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/)) | 제약을 선언하는 구문 |
-| [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/)([Data Manipulation Language](/knowledge-base/studynote/05_database/01_db_architecture_relational/021_dml/)) | INSERT/UPDATE [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 대상 |
+| [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/)([Data Manipulation Language](/knowledge-base/studynote/05_database/01_db_architecture_relational/021_dml/)) | INSERT/UPDATE [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 대상 |
 | CHECK | 범위/조건 제약 |
 | 코드 테이블 | 재사용 가능한 값 목록 |
 | [참조 무결성](/knowledge-base/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/) | 테이블 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 안정성 |

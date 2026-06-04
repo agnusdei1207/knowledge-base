@@ -64,7 +64,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 인증서와 공개키를 믿을 수 있는지, 세션키를 매번 새로 만드는지, IV를 재사용하지 않는지를 본다. [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) ([Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/984_pki_public_key_infrastructure_ca_ra_certificate/))와 키 회전 정책도 함께 있어야 한다.
+실무에서는 인증서와 공개키를 믿을 수 있는지, 세션키를 매번 새로 만드는지, IV를 재사용하지 않는지를 본다. [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) ([Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/1080_pki_public_key_infrastructure_ca_ra_certificate/))와 키 회전 정책도 함께 있어야 한다.
 절대 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 RSA로 직접 암호화하지 말고, 개인키 유출 대비까지 포함해 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 폐기, 재발급 절차를 설계해야 한다.
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -84,7 +84,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅴ. 기대효과 및 결론
 
 하이브리드 암호는 보안과 성능을 동시에 만족시키는 가장 현실적인 타협이다. 그래서 대부분의 웹, 메일, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송 시스템의 기본이 된다.
-앞으로는 [KEM](/knowledge-base/studynote/09_security/03_network_security/134_kem_key_encapsulation/)/DEM과 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) ([Post-Quantum Cryptography](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/))가 결합된 형태가 표준이 된다.
+앞으로는 [KEM](/knowledge-base/studynote/09_security/03_network_security/134_kem_key_encapsulation/)/DEM과 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) ([Post-Quantum Cryptography](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/))가 결합된 형태가 표준이 된다.
 기술사는 이 주제를 "빠른 대칭키와 안전한 비대칭키의 역할 분담"으로 기억하면 된다.
 
 - **📢 섹션 요약 비유**: 현실적인 암호화의 표준은 늘 하이브리드다.

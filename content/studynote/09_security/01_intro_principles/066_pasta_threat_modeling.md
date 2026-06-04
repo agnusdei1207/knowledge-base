@@ -11,7 +11,7 @@ tags = ["studynote-security"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: PASTA는 비즈니스 목표에서 시작해 공격 시뮬레이션과 위협 분석까지 이어지는 7단계 [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/) 프레임워크다.
+> 1. **본질**: PASTA는 비즈니스 목표에서 시작해 공격 시뮬레이션과 위협 분석까지 이어지는 7단계 [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/1041_threat_modeling/) 프레임워크다.
 > 2. **가치**: STRIDE처럼 위협을 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 것에서 끝나지 않고, 위험 영향과 공격 경로를 단계적으로 분석한다.
 > 3. **판단**: PASTA는 보안팀만의 도구가 아니라, 아키텍처와 비즈니스 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 함께 보는 협업 프레임이다.
 

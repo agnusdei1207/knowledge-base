@@ -10,7 +10,7 @@ tags = ["studynote-enterprise-systems"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: HRIS(Human Resource Information System)는 <strong>인사 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(급여·근태·조직)를 통합 관리</strong>하는 시스템이고, e-HR은 <strong>웹 기반 셀프서비스(휴가신청·급여조회)</strong>를 제공하며, [TMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/)(Talent [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)는 <strong>채용->육성->평가->승계의 인재 라이프사이클을 관리</strong>한다.
+> 1. **본질**: HRIS(Human Resource Information System)는 <strong>인사 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(급여·근태·조직)를 통합 관리</strong>하는 시스템이고, e-HR은 <strong>웹 기반 셀프서비스(휴가신청·급여조회)</strong>를 제공하며, [TMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/)(Talent [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System)는 <strong>채용->육성->평가->승계의 인재 라이프사이클을 관리</strong>한다.
 > 2. **가치**: 수작업 인사 관리는 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 오류·<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>·분석 불가</strong>이지만, 디지털 HR은 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 기반 의사결정(People Analytics)</strong>으로 이직 예측·적합 인재 배치를 실현한다.
 > 3. **판단 포인트**: SAP SuccessFactors·Workday가 글로벌 표준이며, AI가 이력서 스크리닝·이직 예측·맞춤 교육 추천에 활용되고 있다.
 

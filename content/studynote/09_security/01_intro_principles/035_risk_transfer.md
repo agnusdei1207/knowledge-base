@@ -105,8 +105,8 @@ SOC 운영, 위협 탐지, 인시던트 대응 위탁
 
 | 아웃소싱 유형 | 전가 대상 위험          | 주의점               |
 |-------------|------------------------|---------------------|
-| [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 이용    | 인프라·앱 취약점        | [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) 이슈     |
-| MSSP 위탁    | 보안 운영·탐지 실패     | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 검토, 의존성     |
+| [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 이용    | 인프라·앱 취약점        | [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) 이슈     |
+| MSSP 위탁    | 보안 운영·탐지 실패     | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 검토, 의존성     |
 | 클라우드     | 하드웨어 장애, 재해     | 공유 책임 범위 명확화|
 
 > 📢 **섹션 요약 비유**: 요리는 직접 하되, 식재료 보관과 화재 예방은 전문 주방 업체에 맡기는 것 — 역할 분리가 책임 분리다.

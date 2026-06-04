@@ -11,7 +11,7 @@ tags = ["studynote-database"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 바인드 변수 (Bind Variable)은 파싱 결과 재사용, SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방지, 하드 파싱 (Hard Parsing) 방지 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이점에 초점을 맞춘 개념이다.
+> 1. **본질**: 바인드 변수 (Bind Variable)은 파싱 결과 재사용, SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 방지, 하드 파싱 (Hard Parsing) 방지 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이점에 초점을 맞춘 개념이다.
 > 2. **가치**: 대용량 질의에서는 같은 SQL도 접근 경로와 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)에 따라 비용이 크게 달라진다.
 > 3. **판단 포인트**: 판단 포인트는 바인드 변수를 어디에 적용해야 효과가 크고, 어떤 비용이나 제약이 따라오는지 함께 보는 데 있다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-바인드 변수 (Bind Variable)은 파싱 결과 재사용, SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방지, 하드 파싱 (Hard Parsing) 방지 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이점에 초점을 맞춘 개념이다. 대용량 질의에서는 같은 SQL도 접근 경로와 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)에 따라 비용이 크게 달라진다. 잘못 쓰면 Full Scan, 정렬, 랜덤 I/O가 한꺼번에 늘어난다.
+바인드 변수 (Bind Variable)은 파싱 결과 재사용, SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 방지, 하드 파싱 (Hard Parsing) 방지 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이점에 초점을 맞춘 개념이다. 대용량 질의에서는 같은 SQL도 접근 경로와 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)에 따라 비용이 크게 달라진다. 잘못 쓰면 Full Scan, 정렬, 랜덤 I/O가 한꺼번에 늘어난다.
 
 ```text
 +--------------------------------------------------------------+

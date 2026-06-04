@@ -91,7 +91,7 @@ MDX (Multidimensional Expressions)는 [OLAP](/knowledge-base/studynote/12_it_man
 
 ### [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) 설계 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-- [ ] 조회 응답 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/): <1초면 [MOLAP](/knowledge-base/studynote/05_database/06_dw_olap_trends/336_molap/), 5~30초 허용이면 [ROLAP](/knowledge-base/studynote/05_database/06_dw_olap_trends/337_rolap/) 검토
+- [ ] 조회 응답 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/): <1초면 [MOLAP](/knowledge-base/studynote/05_database/06_dw_olap_trends/336_molap/), 5~30초 허용이면 [ROLAP](/knowledge-base/studynote/05_database/06_dw_olap_trends/337_rolap/) 검토
 - [ ] [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신선도 요구: 실시간이면 [ROLAP](/knowledge-base/studynote/05_database/06_dw_olap_trends/337_rolap/) 또는 [HTAP](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/) 검토
 - [ ] 차원 수: 20개 초과 시 [ROLAP](/knowledge-base/studynote/05_database/06_dw_olap_trends/337_rolap/) 권장
 - [ ] 스토리지 예산: MOLAP은 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 2~5배 스토리지 필요
@@ -144,7 +144,7 @@ HOLAP - MOLAP+ROLAP 하이브리드 계층화
 현대 OLAP (Druid, ClickHouse) - 실시간 집계 진화
 ```
 
-> **키워드**: [MOLAP](/knowledge-base/studynote/05_database/06_dw_olap_trends/336_molap/), [ROLAP](/knowledge-base/studynote/05_database/06_dw_olap_trends/337_rolap/), [HOLAP](/knowledge-base/studynote/05_database/06_dw_olap_trends/338_holap/), [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) Cube, [Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/), [Snowflake Schema](/knowledge-base/studynote/12_it_management/05_security_compliance/313_snowflake_schema/), Drill-Down, ClickHouse
+> **키워드**: [MOLAP](/knowledge-base/studynote/05_database/06_dw_olap_trends/336_molap/), [ROLAP](/knowledge-base/studynote/05_database/06_dw_olap_trends/337_rolap/), [HOLAP](/knowledge-base/studynote/05_database/06_dw_olap_trends/338_holap/), [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) Cube, [Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/), [Snowflake Schema](/knowledge-base/studynote/12_it_management/05_security_compliance/955_snowflake_schema/), Drill-Down, ClickHouse
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

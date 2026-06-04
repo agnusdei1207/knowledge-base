@@ -19,7 +19,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어 취약점의 대부분은 코딩 실수([SQL Injection](/knowledge-base/studynote/09_security/uncategorized/604_sql_injection/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/), 버퍼 오버플로)에서 시작된다. 이 취약점들은 개발 단계에서 자동 도구로 잡을 수 있음에도, 전통적으로 운영 환경에서 침투 테스터나 실제 공격자에 의해 발견되는 경우가 많았다.
+소프트웨어 취약점의 대부분은 코딩 실수([SQL Injection](/knowledge-base/studynote/09_security/uncategorized/1036_sql_injection/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/), 버퍼 오버플로)에서 시작된다. 이 취약점들은 개발 단계에서 자동 도구로 잡을 수 있음에도, 전통적으로 운영 환경에서 침투 테스터나 실제 공격자에 의해 발견되는 경우가 많았다.
 
 [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)/[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)/IAST는 이 취약점들을 개발 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 내에서 자동으로 찾는 도구들이다. OWASP (Open Web Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/)) Top [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 취약점 대부분이 이 도구들로 탐지 가능하다.
 
@@ -61,7 +61,7 @@ tags = ["studynote-devops-sre"]
 ## Ⅲ. 비교 및 연결
 
 [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) 주요 탐지 취약점:
-- <strong><a href="/knowledge-base/studynote/09_security/uncategorized/604_sql_injection/">SQL Injection</a></strong>: 사용자 입력이 직접 SQL [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에 삽입되는 패턴
+- <strong><a href="/knowledge-base/studynote/09_security/uncategorized/1036_sql_injection/">SQL Injection</a></strong>: 사용자 입력이 직접 SQL [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에 삽입되는 패턴
 - <strong><a href="/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/">XSS</a> (<a href="/knowledge-base/studynote/09_security/05_web_app_security/470_xss/">Cross-Site Scripting</a>)</strong>: 사용자 입력이 HTML에 직접 출력되는 패턴
 - <strong>하드코딩된 <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/">시크릿</a></strong>: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 키, 비밀번호가 코드에 직접 기재
 - <strong>취약한 <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/">암호화 알고리즘</a></strong>: [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/), SHA-1 사용
@@ -96,7 +96,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)/[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)/IAST를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD에 통합하면 [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) 취약점의 상당 부분을 운영 이전에 제거할 수 있다. 침투 테스터의 수동 작업 범위가 줄어들고, 실제 0-day와 비즈니스 로직 취약점에 집중할 수 있다.
+[SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)/[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)/IAST를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD에 통합하면 [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) 취약점의 상당 부분을 운영 이전에 제거할 수 있다. 침투 테스터의 수동 작업 범위가 줄어들고, 실제 0-day와 비즈니스 로직 취약점에 집중할 수 있다.
 
 핵심은 <strong>도구가 개발 속도를 방해하지 않는 것</strong>이다. PR에서 SAST가 30분이 걸린다면 개발자가 우회방법을 찾는다. 5분 내 피드백, 높은 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)의 결과만이 문화로 정착한다.
 

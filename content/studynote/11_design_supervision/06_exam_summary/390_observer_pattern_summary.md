@@ -69,7 +69,7 @@ tags = ["studynote-design-supervision"]
 | 구조 안정성 | 패턴 적용 상태는 주제(subject)가 구독자 목록을 관리하고 변경 시 등록된 [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/)에게 알림을 보낸다 | 즉흥 구현 상태는 책임과 의존이 섞여 규칙이 흐려진다 |
 | 운영 결과 | 패턴 적용 상태는 발행자와 구독자를 느슨하게 결합해 확장성을 높인다 | 즉흥 구현 상태는 변경 대상이 늘어날수록 발행자가 구독자 상세를 알아야 해 구조가 경직된다 |
 
-연결 개념으로는 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/), 퍼블리시-서브스크라이브 같은 주변 주제를 함께 써 주면, 단순 암기보다 적용 맥락이 살아난다.
+연결 개념으로는 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/931_event_bus_stream_processing/), 퍼블리시-서브스크라이브 같은 주변 주제를 함께 써 주면, 단순 암기보다 적용 맥락이 살아난다.
 
 - **📢 섹션 요약 비유**: 전용 공구와 즉흥 수리를 비교하면 패턴이 줄이는 복잡도가 분명해진다.
 
@@ -103,7 +103,7 @@ tags = ["studynote-design-supervision"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/) | [옵저버 패턴](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/606_observer_pattern_pub_sub/) ([Observer Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
+| [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/931_event_bus_stream_processing/) | [옵저버 패턴](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/606_observer_pattern_pub_sub/) ([Observer Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 | 퍼블리시-서브스크라이브 | [옵저버 패턴](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/606_observer_pattern_pub_sub/) ([Observer Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 | 반응형 UI | [옵저버 패턴](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/606_observer_pattern_pub_sub/) ([Observer Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 | [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) | [옵저버 패턴](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/606_observer_pattern_pub_sub/) ([Observer Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |

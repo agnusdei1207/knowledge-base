@@ -11,7 +11,7 @@ tags = ["studynote-devops-sre"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 침수 냉각([Immersion Cooling](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/602_immersion_cooling/))은 IT 장비를 유전체 냉각액에 완전 침지해 전통 공랭 대비 [PUE](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/237_pue_power_usage_effectiveness_datacenter_metric/) ([Power Usage Effectiveness](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/623_datacenter_pue/))를 1.03~1.1 수준으로 낮추는 고밀도 냉각 기술이며, [Carbon-Aware](/knowledge-base/studynote/12_it_management/05_security_compliance/359_esg_carbon_aware_pue/) Computing은 그리드의 탄소 강도를 실시간으로 인식해 워크로드를 시간적·지리적으로 이동시키는 소프트웨어 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
+> 1. **본질**: 침수 냉각([Immersion Cooling](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/602_immersion_cooling/))은 IT 장비를 유전체 냉각액에 완전 침지해 전통 공랭 대비 [PUE](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/237_pue_power_usage_effectiveness_datacenter_metric/) ([Power Usage Effectiveness](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/623_datacenter_pue/))를 1.03~1.1 수준으로 낮추는 고밀도 냉각 기술이며, [Carbon-Aware](/knowledge-base/studynote/12_it_management/05_security_compliance/1000_esg_carbon_aware_pue/) Computing은 그리드의 탄소 강도를 실시간으로 인식해 워크로드를 시간적·지리적으로 이동시키는 소프트웨어 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 > 2. **가치**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/[HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/) 워크로드의 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 서버는 랙당 20~100kW 전력 밀도로 공랭 한계를 초과하므로 침수 냉각이 필수이며, GreenOps는 [Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/) 2 (간접 전기 탄소)·[Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/) 3 ([공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 탄소)까지 포함한 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 탄소 중립화 운영 체계다.
 > 3. **판단 포인트**: [PUE](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/237_pue_power_usage_effectiveness_datacenter_metric/) 1.0이 이상적이며, 1.2 이하가 효율 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 기준이다. 탄소 집약도(gCO2eq/kWh)가 낮은 시간대와 지역에 배치 워크로드를 이동시키는 "Temporal Shifting + Spatial Shifting" [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 실질 탄소 감축의 핵심이다.
 
@@ -54,7 +54,7 @@ ChatGPT 급 대형 언어 모델([LLM](/knowledge-base/studynote/06_ict_converge
 - **Spatial Shifting**: 탄소 강도가 낮은 클라우드 리전(아이슬란드 지열, 북유럽 수력)으로 워크로드 이동
 - **Carbon SDK**: Microsoft Carbon Aware SDK, WattTime API로 실시간 그리드 탄소 강도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 취득
 
-- 📢 섹션 요약 비유: [Carbon-Aware](/knowledge-base/studynote/12_it_management/05_security_compliance/359_esg_carbon_aware_pue/) Computing은 전기 요금이 싼 시간(탄소 강도 낮은 시간)에 세탁기를 돌리는 것과 같다. 언제 돌리느냐에 따라 탄소 발생량이 크게 달라진다.
+- 📢 섹션 요약 비유: [Carbon-Aware](/knowledge-base/studynote/12_it_management/05_security_compliance/1000_esg_carbon_aware_pue/) Computing은 전기 요금이 싼 시간(탄소 강도 낮은 시간)에 세탁기를 돌리는 것과 같다. 언제 돌리느냐에 따라 탄소 발생량이 크게 달라진다.
 
 ---
 
@@ -93,7 +93,7 @@ Google은 2030년 Carbon-Free Energy 24/7 목표를 선언했다. [Kubernetes](/
 
 ## Ⅴ. 기대효과 및 결론
 
-침수 냉각 도입 시 냉각 에너지 비용이 공랭 대비 30~50% 절감되고, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 서버의 열 스로틀링이 제거되어 연산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~15% 향상된다. [Carbon-Aware](/knowledge-base/studynote/12_it_management/05_security_compliance/359_esg_carbon_aware_pue/) Temporal Shifting으로 ML 학습의 실질 탄소 배출을 20~30% 줄인 사례가 보고된다.
+침수 냉각 도입 시 냉각 에너지 비용이 공랭 대비 30~50% 절감되고, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 서버의 열 스로틀링이 제거되어 연산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~15% 향상된다. [Carbon-Aware](/knowledge-base/studynote/12_it_management/05_security_compliance/1000_esg_carbon_aware_pue/) Temporal Shifting으로 ML 학습의 실질 탄소 배출을 20~30% 줄인 사례가 보고된다.
 
 미래는 원자력 에너지(SMR, Small Modular Reactor)와 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 직접 연계, AI가 실시간 탄소 최적 경로를 자동 결정하는 방향이다.
 
@@ -136,7 +136,7 @@ Carbon-Aware Computing (Temporal/Spatial Shifting)
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 침수 냉각은 뜨거운 컴퓨터를 특수 기름(유전체)에 담가서 식히는 것으로, 선풍기(공랭)보다 훨씬 효율적이에요.
-2. [Carbon-Aware](/knowledge-base/studynote/12_it_management/05_security_compliance/359_esg_carbon_aware_pue/) Computing은 바람이 많이 부는 밤에 세탁기를 돌리는 것처럼, 전기가 가장 깨끗한 시간에 컴퓨터 작업을 하는 거예요.
+2. [Carbon-Aware](/knowledge-base/studynote/12_it_management/05_security_compliance/1000_esg_carbon_aware_pue/) Computing은 바람이 많이 부는 밤에 세탁기를 돌리는 것처럼, 전기가 가장 깨끗한 시간에 컴퓨터 작업을 하는 거예요.
 3. [PUE](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/237_pue_power_usage_effectiveness_datacenter_metric/) 1.0은 전기를 100% 컴퓨터에만 쓰는 완벽한 효율이고, 공랭 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)는 1.6처럼 60%를 냉각에 낭비해요.
 
 ---

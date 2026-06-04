@@ -10,7 +10,7 @@ tags = ["studynote-design"]
 +++
 
 > **핵심 인사이트 3줄**
-> 1. 감리 품질 관리([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) Quality [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))는 IT [감리 수행](/knowledge-base/studynote/11_design_supervision/01_audit_framework/017_audit_execution/)의 객관성·전문성·일관성을 보장하기 위한 품질 통제 체계로, 감리 계획·수행·보고 전 단계에 걸친 내부 품질 검토가 핵심이다.
+> 1. 감리 품질 관리([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) Quality [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/))는 IT [감리 수행](/knowledge-base/studynote/11_design_supervision/01_audit_framework/017_audit_execution/)의 객관성·전문성·일관성을 보장하기 위한 품질 통제 체계로, 감리 계획·수행·보고 전 단계에 걸친 내부 품질 검토가 핵심이다.
 > 2. 한국 정보시스템 감리는 「전자정부법」과 「[정보시스템 감리기준](/knowledge-base/studynote/11_design_supervision/01_audit_framework/005_audit_standards/)(행안부 고시)」에 따라 의무 감리 대상이 규정되며, 감리법인·감리원·발주기관의 역할과 책임이 명확히 분리된다.
 > 3. 감리 품질의 3대 위협은 독립성 훼손(이해충돌)·역량 미달(전문성 부족)·자료 은폐(증거 왜곡)로, 이를 방지하기 위한 감리원 자격 관리·감리 문서 표준화·이의신청 절차가 제도화되어 있다.
 
@@ -158,7 +158,7 @@ tags = ["studynote-design"]
 
 **진행 상황**: 44 / 530
 
-<- **이전**: [웹 접근성 진단 (Web Accessibility Diagnosis)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/033_web_accessibility_diagnosis/)
-**다음**: [34. SW 개발보안 진단 (Secure Coding Diagnosis)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/034_sw_secure_coding_diagnosis/) ->
+<- **이전**: [웹 접근성 진단 (Web Accessibility Diagnosis)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/610_web_accessibility_diagnosis/)
+**다음**: [34. SW 개발보안 진단 (Secure Coding Diagnosis)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/611_sw_secure_coding_diagnosis/) ->
 
 ---

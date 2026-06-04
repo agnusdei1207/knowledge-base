@@ -37,7 +37,7 @@ Demand Side
 | 요소 | 의미 |
 | :-- | :-- |
 | Two-sided Market | 양면 시장 |
-| [Network Effect](/knowledge-base/studynote/12_it_management/01_governance_strategy/032_network_effect/) | [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/) |
+| [Network Effect](/knowledge-base/studynote/12_it_management/01_governance_strategy/824_network_effect/) | [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/) |
 | Rule / Fee | 규칙과 수수료 |
 
 플랫폼은 양쪽 참여자가 많아질수록 더 강해진다. 그래서 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)와 규칙 설계가 중요하다.

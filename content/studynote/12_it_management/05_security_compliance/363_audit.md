@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 566 / 587
 
-<- **이전**: [362. 서드파티 락인 (Lock-in) 멀티 클라우드 전환 컨테이너 이식성(Portability) 확보 전략](/knowledge-base/studynote/12_it_management/05_security_compliance/362_multi_cloud_portability_strategy/)
-**다음**: [363. 마이크로 프론트엔드 배포 독립성 컴포넌트 결합망 진단](/knowledge-base/studynote/12_it_management/05_security_compliance/363_micro_frontend_deployment_independence/) ->
+<- **이전**: [362. 서드파티 락인 (Lock-in) 멀티 클라우드 전환 컨테이너 이식성(Portability) 확보 전략](/knowledge-base/studynote/12_it_management/05_security_compliance/1003_multi_cloud_portability_strategy/)
+**다음**: [363. 마이크로 프론트엔드 배포 독립성 컴포넌트 결합망 진단](/knowledge-base/studynote/12_it_management/05_security_compliance/1004_micro_frontend_deployment_independence/) ->
 
 ---

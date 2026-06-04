@@ -10,9 +10,9 @@ tags = ["studynote-ict-convergence"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: UTM(Unmanned Aircraft System Traffic [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/), 무인 비행체 교통 관제 시스템)은 도심 저고도(150m 이하) 공역에서 드론(Drone) 등 무인 항공기(UAS, Unmanned Aircraft System)의 안전한 운항을 관리하는 디지털 항공 교통 관제 체계다.
+> 1. **본질**: UTM(Unmanned Aircraft System Traffic [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/), 무인 비행체 교통 관제 시스템)은 도심 저고도(150m 이하) 공역에서 드론(Drone) 등 무인 항공기(UAS, Unmanned Aircraft System)의 안전한 운항을 관리하는 디지털 항공 교통 관제 체계다.
 > 2. **가치**: 드론 배송·도심항공교통([UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/), [Urban Air Mobility](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/))의 상용화를 위한 <strong>항공 규제 인프라의 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/">디지털 전환</a></strong>으로, [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)·충돌 회피·비행 승인을 자동화하여 수만 대의 드론이 동시에 비행할 수 있게 한다.
-> 3. **판단 포인트**: UTM은 기존 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/)(Air Traffic [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/), 항공 교통 관제)과 달리 관제사 없이 <strong>자동화된 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 시스템</strong>으로 운영되며, [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)(Remote ID), 지오펜싱(Geofencing), 비행 계획 승인, 충돌 회피가 핵심 기능이다.
+> 3. **판단 포인트**: UTM은 기존 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/)(Air Traffic [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/), 항공 교통 관제)과 달리 관제사 없이 <strong>자동화된 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 시스템</strong>으로 운영되며, [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)(Remote ID), 지오펜싱(Geofencing), 비행 계획 승인, 충돌 회피가 핵심 기능이다.
 
 ---
 
@@ -154,7 +154,7 @@ UTM은 "드론을 날리는 기술"이 아니라, **"수만 대의 드론이 동
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/">ATM</a> (Air Traffic <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)</strong> | 유인 항공기 고고도 관제; UTM의 선행 기술 |
+| <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/">ATM</a> (Air Traffic <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/">Management</a>)</strong> | 유인 항공기 고고도 관제; UTM의 선행 기술 |
 | **Remote ID** | 드론 실시간 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)·위치 브로드캐스트; UTM의 기초 레이어 |
 | **지오펜싱 (Geofencing)** | GNSS 기반 가상 비행 구역 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/); UTM의 핵심 안전 기능 |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/">UAM</a> (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/">Urban Air Mobility</a>)</strong> | 에어택시·플라잉카; UTM의 확장 적용 영역 |

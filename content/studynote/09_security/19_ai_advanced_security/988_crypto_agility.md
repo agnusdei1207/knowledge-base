@@ -137,6 +137,6 @@ tags = ["studynote-security"]
 **진행 상황**: 1094 / 1108
 
 <- **이전**: [987. NIST PQC 표준 (Kyber, Dilithium, etc.)](/knowledge-base/studynote/09_security/19_ai_advanced_security/987_nist_pqc_standard/)
-**다음**: [988. 전자 서명 (Digital Signature)](/knowledge-base/studynote/09_security/uncategorized/988_digital_signature_non_repudiation_integrity_hash_private_key/) ->
+**다음**: [988. 전자 서명 (Digital Signature)](/knowledge-base/studynote/09_security/uncategorized/1084_digital_signature_non_repudiation_integrity_hash_private_key/) ->
 
 ---

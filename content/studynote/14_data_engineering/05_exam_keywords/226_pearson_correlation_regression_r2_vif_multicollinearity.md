@@ -174,7 +174,7 @@ E: Equal Variance    (등분산성) -> Scale-Location 플롯, BP 검정
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 4-1. 마케팅 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)([Return on Investment](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)) 분석 시나리오
+### 4-1. 마케팅 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/)([Return on Investment](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/)) 분석 시나리오
 
 ```
 [목표] TV 광고비·SNS 광고비·할인율 -> 매출 예측

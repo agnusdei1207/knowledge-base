@@ -130,7 +130,7 @@ W (Wait)   : 평균 응답 시간 (초, second)
 | 방법 | 정확도 | 실무 적용성 | 권장 상황 |
 |:---|:---|:---|:---|
 | 리틀의 법칙 (Little's Law) | 높음 | 높음 | 목표 TPS·[응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 명확 시 |
-| [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) 기반 경험치 | 중간 | 높음 | 실제 부하 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 존재 시 |
+| [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/) 기반 경험치 | 중간 | 높음 | 실제 부하 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 존재 시 |
 | HikariCP 공식 | 중간 | 중간 | CPU 바운드 DB 서버 |
 | 임의 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) (200, 100 등) | 낮음 | 낮음 | 근거 없는 관행 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) ❌ |
 
@@ -152,7 +152,7 @@ W (Wait)   : 평균 응답 시간 (초, second)
 | **2단계** | 현재 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | `server.xml` 또는 `application.yml` |
 | **3단계** | 리틀의 법칙으로 이론적 적정값 계산 | L = λ × W |
 | **4단계** | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값 vs 이론값 비교 | 20% 이내 오차 허용 |
-| **5단계** | [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) 결과와 일치 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 활성 수 모니터링 |
+| **5단계** | [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/838_load_test/) 결과와 일치 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 활성 수 모니터링 |
 
 ```
 # Tomcat server.xml

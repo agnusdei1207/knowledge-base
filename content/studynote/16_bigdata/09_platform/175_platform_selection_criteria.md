@@ -41,7 +41,7 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-좋은 플랫폼 선택 프레임워크는 보통 두 단계로 간다. 먼저 <strong>필수 조건</strong>을 통과시킨다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 특정 국가 안에 있어야 하는지, [Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))를 몇 초로 요구하는지, 24x7 운영팀이 있는지 같은 조건은 탈락 기준이다. 그다음 후보 플랫폼 패밀리를 좁힌 뒤, 비용·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·운영 난이도·이식성 같은 비교 항목을 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)로 평가한다.
+좋은 플랫폼 선택 프레임워크는 보통 두 단계로 간다. 먼저 <strong>필수 조건</strong>을 통과시킨다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 특정 국가 안에 있어야 하는지, [Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) ([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/))를 몇 초로 요구하는지, 24x7 운영팀이 있는지 같은 조건은 탈락 기준이다. 그다음 후보 플랫폼 패밀리를 좁힌 뒤, 비용·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·운영 난이도·이식성 같은 비교 항목을 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)로 평가한다.
 
 아래 그림은 실무적으로 많이 쓰는 선택 흐름이다.
 

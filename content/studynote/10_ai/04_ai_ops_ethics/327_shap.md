@@ -12,7 +12,7 @@ tags = ["studynote-ai"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SHAP (SHapley Additive exPlanations)은 협력 게임 이론의 <strong>샤플리 값(Shapley Value)</strong>을 ML 예측 설명에 적용하여, 각 특징이 예측에 기여한 양을 공정하게 분배하는 수학적으로 엄격한 [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 방법론이다.
-> 2. **가치**: 국소(개별 예측) 설명과 전역(모델 전체 특징 중요도) 설명을 동시에 제공하고, "효율성·대칭성·[더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)·가산성"의 4가지 공정성 공리를 만족하는 유일한 특징 기여도 분배 방법이다.
+> 2. **가치**: 국소(개별 예측) 설명과 전역(모델 전체 특징 중요도) 설명을 동시에 제공하고, "효율성·대칭성·[더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)·가산성"의 4가지 공정성 공리를 만족하는 유일한 특징 기여도 분배 방법이다.
 > 3. **판단 포인트**: SHAP 값의 핵심 해석은 "이 특징이 기준값([베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/), 평균 예측)에서 실제 예측까지의 차이를 얼마나 설명하는가"이며, SHAP 값의 합이 예측값과 기준값의 차이와 정확히 일치하는 <strong>가산성(Additivity)</strong>이 LIME과 구별되는 핵심 특성이다.
 
 ---
@@ -72,7 +72,7 @@ SHAP은 이 원리를 ML에 적용한다: n개 특징이 협력하여 예측값 
 |:---|:---|:---|
 | 효율성 (Efficiency) | SHAP 합 = 예측값 - 기준값 | 기여도가 빠짐없이 분배됨 |
 | 대칭성 (Symmetry) | 동일 기여 특징은 동일 SHAP | 공정한 분배 보장 |
-| [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) ([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)) | 무기여 특징은 SHAP=0 | 무관한 특징은 0 기여 |
+| [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) ([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)) | 무기여 특징은 SHAP=0 | 무관한 특징은 0 기여 |
 | 가산성 (Additivity) | [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)의 SHAP = 개별 합 | 복합 모델도 일관된 설명 |
 
 - **📢 섹션 요약 비유**: SHAP 가산성은 회계 장부의 이중 기입 원칙과 같다. 수입(예측값) = [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 잔액(기준값) + 모든 항목(SHAP값)의 합. 어떤 항목도 빠지거나 중복되지 않고, 장부(SHAP 설명)가 대차 균형을 이루어야 한다. LIME은 이 균형 보장이 없어 설명이 "근사"에 머문다.

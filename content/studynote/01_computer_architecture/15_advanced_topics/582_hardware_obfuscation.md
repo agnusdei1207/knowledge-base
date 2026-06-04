@@ -59,7 +59,7 @@ tags = ["studynote-computer-architecture"]
 | :--- | :--- | :--- | :--- |
 | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 잠금 (Logic [Locking](/knowledge-base/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/)) | 키 게이트를 삽입해 잘못된 키에서 오답을 낸다 | 기능 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)와 과잉 생산을 직접 억제한다 | 잘못 설계하면 타이밍 경로가 길어진다 |
 | 레이아웃 위장 (Layout Camouflaging) | 물리적으로 다른 셀을 비슷한 모양으로 구현한다 | 광학 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/) 비용을 높인다 | 면적과 제조 복잡도가 증가한다 |
-| 상태 기계 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/) | [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 상태와 전이를 넣어 제어 의도를 숨긴다 | 제어 흐름 분석을 어렵게 한다 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 테스트 벡터 생성이 복잡해진다 |
+| 상태 기계 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/) | [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) 상태와 전이를 넣어 제어 의도를 숨긴다 | 제어 흐름 분석을 어렵게 한다 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 테스트 벡터 생성이 복잡해진다 |
 | 스캔 체인 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 내부 관찰 경로를 제한한다 | 테스트 포트를 통한 정보 유출을 줄인다 | 생산 테스트 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 충돌할 수 있다 |
 
 이 그림은 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)된 칩이 왜 키와 함께 설계되어야 하는지 구조적으로 보여 준다.
@@ -79,7 +79,7 @@ tags = ["studynote-computer-architecture"]
 +----------------------------------------------------------------------------+
 ```
 
-다만 단순 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 잠금만으로 충분하지는 않다. 활성화된 칩을 하나 확보한 공격자는 그 칩을 "정답 오라클"처럼 이용해 불리언 충족성 (Boolean [Satisfiability](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/), [SAT](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/)) 공격으로 키를 역추론할 수 있다. 그래서 현대 연구와 실무는 반SAT 구조, 순차 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/), 스캔 체인 차폐를 함께 묶어, <strong>기능 숨김 + 분석 난도 증가 + 테스트 경로 통제</strong>를 동시에 노린다.
+다만 단순 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 잠금만으로 충분하지는 않다. 활성화된 칩을 하나 확보한 공격자는 그 칩을 "정답 오라클"처럼 이용해 불리언 충족성 (Boolean [Satisfiability](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/), [SAT](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/)) 공격으로 키를 역추론할 수 있다. 그래서 현대 연구와 실무는 반SAT 구조, 순차 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/), 스캔 체인 차폐를 함께 묶어, <strong>기능 숨김 + 분석 난도 증가 + 테스트 경로 통제</strong>를 동시에 노린다.
 
 - **📢 섹션 요약 비유**: 이 구조는 금고를 자물쇠 하나로만 잠그는 게 아니라, 겉모양도 일반 서랍처럼 꾸미고, 내부 칸막이도 복잡하게 만들어 도둑이 열쇠를 구해도 바로 보물을 찾기 어렵게 하는 다층 잠금 장치와 같다.
 
@@ -91,7 +91,7 @@ tags = ["studynote-computer-architecture"]
 
 | [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 방식 | 막고 싶은 위협 | 강점 | 한계 |
 | :--- | :--- | :--- | :--- |
-| [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 잠금 | 과잉 생산, 기능 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | 키 없이는 제대로 동작하지 않는다 | 활성화 칩이 노출되면 [SAT](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/) 공격 대상이 될 수 있다 |
+| [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 잠금 | 과잉 생산, 기능 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | 키 없이는 제대로 동작하지 않는다 | 활성화 칩이 노출되면 [SAT](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/) 공격 대상이 될 수 있다 |
 | 레이아웃 위장 | 물리 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/) | 현미경 분석 비용을 높인다 | 면적·전력 오버헤드가 크다 |
 | 분할 제조 (Split Manufacturing) | 제조 단계의 완전한 설계 노출 | 한 업체가 전체 연결을 모르게 한다 | 후공정 신뢰와 비용 구조를 따져야 한다 |
 | 소프트웨어 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/) | 배포 후 코드 분석 | 업데이트가 쉽다 | 제조 단계 IP 유출은 막지 못한다 |
@@ -134,7 +134,7 @@ tags = ["studynote-computer-architecture"]
 
 하드웨어 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)가 잘 적용되면 칩 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)와 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)의 경제성이 크게 떨어진다. 공격자는 같은 기능을 재현하기 위해 더 많은 실리콘 분석, 더 긴 키 추론 시간, 더 복잡한 물리 검사를 감당해야 한다. 이는 곧 설계 자산의 수익 기간을 늘리고, [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 내부자의 부정 생산 유인을 낮추며, [트로이목마](/knowledge-base/studynote/09_security/15_malware_attack_vectors/726_trojan_horse/) 삽입이나 의도 분석 시도까지 어렵게 만든다.
 
-하지만 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 절대 보안이 아니다. 충분한 시간과 장비를 가진 공격자는 물리 분석, 전력 측정, 오라클 기반 [SAT](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/) 공격, 고급 현미경 분석을 시도할 수 있다. 그래서 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 "아무도 못 푼다"가 아니라 "상업적으로 안 맞을 만큼 비싸게 만든다"는 목표로 이해해야 한다. 이 현실 인식이 있어야 면적과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손실을 과도하게 감수하지 않게 된다.
+하지만 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 절대 보안이 아니다. 충분한 시간과 장비를 가진 공격자는 물리 분석, 전력 측정, 오라클 기반 [SAT](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/) 공격, 고급 현미경 분석을 시도할 수 있다. 그래서 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 "아무도 못 푼다"가 아니라 "상업적으로 안 맞을 만큼 비싸게 만든다"는 목표로 이해해야 한다. 이 현실 인식이 있어야 면적과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손실을 과도하게 감수하지 않게 된다.
 
 앞으로는 [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 기반 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/), 재구성 가능한 가속기, 장치 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계와 결합한 동적 활성화 모델에서 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)의 중요성이 더 커질 수 있다. 결론적으로 하드웨어 기반 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 회로를 복잡하게 꾸미는 장식이 아니라, <strong>신뢰가 분산된 <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">공급망</a>에서 칩의 진짜 기능과 가치를 끝까지 붙잡는 보안 설계 철학</strong>이다.
 
@@ -151,7 +151,7 @@ tags = ["studynote-computer-architecture"]
 | [PUF](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/485_puf/) | 칩별 고유 키를 만드는 데 유용해 동일 키 재사용 위험을 줄인다. |
 | 하드웨어 [트로이목마](/knowledge-base/studynote/09_security/15_malware_attack_vectors/726_trojan_horse/) | [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)가 삽입·분석 비용을 높여 방어하려는 주요 위협이다. |
 | DFT | 테스트를 위해 필요하지만, 과도하게 열리면 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/) 효과를 약화시킨다. |
-| [SAT](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/) 공격 | 활성화된 칩을 오라클로 삼아 잠금 키를 추론하려는 대표 공격 방식이다. |
+| [SAT](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/) 공격 | 활성화된 칩을 오라클로 삼아 잠금 키를 추론하려는 대표 공격 방식이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

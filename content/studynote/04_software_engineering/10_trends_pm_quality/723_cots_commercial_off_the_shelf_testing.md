@@ -82,7 +82,7 @@ COTS를 도입할 때 가장 중요한 엔지니어링 원칙은 <strong>'블랙
 | **유지보수** | 내부 개발팀이 독박 | **벤더사가 패치 및 책임 보장** | 커뮤니티 의존 (스스로 해결해야 함) |
 | **최고의 용도**| 회사의 핵심 돈벌이 로직 | 회계, [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/), 이메일, 메신저 | [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/), 프레임워크 기반 |
 
-최근 COTS는 클라우드 시대를 맞아 패키지 설치형에서 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/">SaaS</a>(Software <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">as</a> a <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a>, 예: 슬랙, 세일즈포스)</strong> 형태로 진화하여 도입 속도가 더욱 빨라졌다.
+최근 COTS는 클라우드 시대를 맞아 패키지 설치형에서 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/">SaaS</a>(Software <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">as</a> a <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a>, 예: 슬랙, 세일즈포스)</strong> 형태로 진화하여 도입 속도가 더욱 빨라졌다.
 
 - **📢 섹션 요약 비유**: 자체 개발이 '직접 뜨개질해서 옷 만들기'라면, COTS는 '백화점에서 명품 정장 사 입기', [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)는 '무료로 풀린 옷본을 다운받아 내 맘대로 수선해서 입기'다.
 

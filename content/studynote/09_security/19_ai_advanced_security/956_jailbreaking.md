@@ -69,7 +69,7 @@ Jailbreaking (탈옥 공격)는 비슷한 영역의 다른 접근과 비교할 �
 | :--- | :--- | :--- |
 | 발생 전제 | Jailbreaking (탈옥 공격)는 취약한 입력, 과도한 신뢰, 상태 불일치가 있을 때 성립한다. | 단순 운영 장애는 악의적 조작 없이도 발생할 수 있다. |
 | 주요 영향 | 권한 확대, 정보 노출, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 교란처럼 공격자가 의도한 결과를 만든다. | 오구성은 비의도적 노출이 많아 교정 방식이 다르다. |
-| 방어 방식 | [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/), 최소 권한, 격리, 탐지 규칙을 함께 사용한다. | 패치나 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 수정만으로 끝나는 경우보다 운영 감시가 더 중요하다. |
+| 방어 방식 | [입력 검증](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/), 최소 권한, 격리, 탐지 규칙을 함께 사용한다. | 패치나 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 수정만으로 끝나는 경우보다 운영 감시가 더 중요하다. |
 
 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·신기술 보안 관점에서는 Jailbreaking (탈옥 공격)가 상위 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 하위 구현, 관측 지표와 어떻게 이어지는지까지 함께 설명해야 한다. 이 연결이 보여야 단순 정의 암기에서 벗어나 실제 설계 언어가 된다.
 

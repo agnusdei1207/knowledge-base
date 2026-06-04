@@ -68,15 +68,15 @@ tags = ["studynote-database"]
 | **내용** | 측정값 (숫자) | [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) (텍스트) |
 | **행 수** | 수억 | 수천~수만 |
 | **변경** | Append (추가) | [SCD](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/) (갱신) |
-| **키** | FK (디멘전 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)) | PK ([Surrogate Key](/knowledge-base/studynote/12_it_management/05_security_compliance/314_surrogate_key/)) |
+| **키** | FK (디멘전 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)) | PK ([Surrogate Key](/knowledge-base/studynote/12_it_management/05_security_compliance/956_surrogate_key/)) |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [Surrogate Key](/knowledge-base/studynote/12_it_management/05_security_compliance/314_surrogate_key/) vs Natural [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)
+### [Surrogate Key](/knowledge-base/studynote/12_it_management/05_security_compliance/956_surrogate_key/) vs Natural [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)
 - <strong>Natural <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a></strong> (상품코드 "P001"): 비즈니스 의미 있음, 변경 가능.
-- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/314_surrogate_key/">Surrogate Key</a></strong> (자동증가 정수): [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내부 전용, <strong><a href="/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/">SCD</a> Type 2에 필수</strong>.
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/956_surrogate_key/">Surrogate Key</a></strong> (자동증가 정수): [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내부 전용, <strong><a href="/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/">SCD</a> Type 2에 필수</strong>.
 
 ---
 
@@ -92,7 +92,7 @@ tags = ["studynote-database"]
 |:---|:---|
 | <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/">스타 스키마</a></strong> | 팩트 중심 + 1단 디멘전 [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) |
 | <strong><a href="/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/">SCD</a></strong> | 디멘전 변경 이력 관리 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/314_surrogate_key/">Surrogate Key</a></strong> | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 디멘전의 내부 PK |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/956_surrogate_key/">Surrogate Key</a></strong> | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 디멘전의 내부 PK |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/">OLAP</a> Cube</strong> | 팩트+디멘전으로 구성하는 다차원 분석 |
 | **dbt** | 팩트/디멘전 모델 자동 [빌드 도구](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/070_build_tools_maven_gradle_npm/) |
 

@@ -21,18 +21,18 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 화이트박스 테스트는 소프트웨어의 내부 구조와 구현을파악한 상태에서 수행하는 테스트이다. 소스코드의 각 문장, 분기, 경로 등이 올바르게 동작하는지를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하며, 테스트러가 코드를 직접 볼 수 있다는 전제하에 설계된다.
 
-- **필요성**: [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/)가 시스템의 외부 동작만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다면, 화이트박스 테스트는 코드 레벨에서 내부 로직이 정확한지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 예를 들어, "입력값이 10보다 크면 '양수'를 출력한다"라는 요구사항에 대해 [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/)는 입력값 15를 넣었을 때 '양수'가 나오면 통과하지만, 내부에서 "if (x > [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))"을 "if (x >= [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))"으로 잘못 구현했더라도 테스트를 통과한다. 화이트박스 테스트는 이러한 내부 구현 오류도 발견할 수 있다.
+- **필요성**: [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/804_black_box_testing/)가 시스템의 외부 동작만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다면, 화이트박스 테스트는 코드 레벨에서 내부 로직이 정확한지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 예를 들어, "입력값이 10보다 크면 '양수'를 출력한다"라는 요구사항에 대해 [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/804_black_box_testing/)는 입력값 15를 넣었을 때 '양수'가 나오면 통과하지만, 내부에서 "if (x > [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))"을 "if (x >= [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))"으로 잘못 구현했더라도 테스트를 통과한다. 화이트박스 테스트는 이러한 내부 구현 오류도 발견할 수 있다.
 
 - **블랙박스 vs 화이트박스**:
-  - <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/">블랙박스 테스트</a></strong>: 시스템의 외부 동작(입력-출력 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 내부 구조 불문
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/804_black_box_testing/">블랙박스 테스트</a></strong>: 시스템의 외부 동작(입력-출력 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 내부 구조 불문
   - **화이트박스 테스트**: 내부 구조, 코드, 로직을 분석하여 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 구현 Knowledge 필요
 
-- **비유**: 화이트박스 테스트는 <strong>'자동차 엔진분해 검사'</strong>와 같다. [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/)가 자동차를 굴려본다(운전해본다)면, 화이트박스 테스트는 엔진 hood 열어 엔진 내부(구조)를 직접검사하는 것이다. 엔진 내부의피스톤, 캠샤프트 등이 제 기능을 하는지 확인하듯, 화이트박스 테스트도 코드의 내부 구성요소가 올바르게 동작하는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
+- **비유**: 화이트박스 테스트는 <strong>'자동차 엔진분해 검사'</strong>와 같다. [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/804_black_box_testing/)가 자동차를 굴려본다(운전해본다)면, 화이트박스 테스트는 엔진 hood 열어 엔진 내부(구조)를 직접검사하는 것이다. 엔진 내부의피스톤, 캠샤프트 등이 제 기능을 하는지 확인하듯, 화이트박스 테스트도 코드의 내부 구성요소가 올바르게 동작하는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 
 - **등장 배경 및 발전 과정**:
   1. **1970년대**: 구조적 프로그래밍 개념의 발전과 함께 화이트박스 테스트 기법 등장
   2. **1990년대**:JUnit 등 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 프레임워크의 보급으로 화이트박스 테스트 대중화
-  3. **현재**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인에서 자동화된 화이트박스 테스트가 필수적
+  3. **현재**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인에서 자동화된 화이트박스 테스트가 필수적
 
 - **섹션 요약 비유**: 화이트박스 테스트는 <strong>'건물을설계도대로 시공했는지검사'</strong>와 같다. 건축 감사자가 건물 외관(블랙박스)만 보는 것이 아니라, 설계도(内部構造)를보고 기둥, 배선, 배관 등이 설계대로 시공되었는지 직접 확인하는 것이다. 소프트웨어에서도 마찬가지로 소스코드(設計図)를 보고 구현(施工)이 정확한지검정하는.
 
@@ -126,7 +126,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 화이트박스 테스트 (White-box Test / 구조 기반 테스트)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -180,7 +180,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 432 / 973
 
-<- **이전**: [420. 화이트박스 테스트 (White-box Test / 구조 기반 테스트)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/420_whitebox_test/)
-**다음**: [421. 제어 흐름 테스트 (Control Flow Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/421_control_flow_testing/) ->
+<- **이전**: [420. 화이트박스 테스트 (White-box Test / 구조 기반 테스트)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/812_whitebox_test/)
+**다음**: [421. 제어 흐름 테스트 (Control Flow Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/813_control_flow_testing/) ->
 
 ---

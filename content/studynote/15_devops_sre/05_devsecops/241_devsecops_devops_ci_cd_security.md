@@ -73,7 +73,7 @@ Reference Architecture
 | 위험 | [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 약하면 기대효과가 줄어듦 | 확장성·가시성·자동화 한계가 빨리 드러남 |
 | 적합한 상황 | [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/), [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 의존성, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 플랫폼처럼 공격면이 넓은 환경에서 특히 중요하다. | 변화가 적거나 단순한 환경 |
 
-또한 이 주제는 [Shift-left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Automation처럼 주변 개념과 강하게 연결된다. 기술사 관점에서는 개별 정의보다도 이런 연결 구조를 설명해야 답안의 깊이가 생긴다.
+또한 이 주제는 [Shift-left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD, [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Automation처럼 주변 개념과 강하게 연결된다. 기술사 관점에서는 개별 정의보다도 이런 연결 구조를 설명해야 답안의 깊이가 생긴다.
 
 - **📢 섹션 요약 비유**: 식품 원산지 표기처럼 재료 구성과 유통 경로가 보여야 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 위험을 통제할 수 있다.
 
@@ -115,7 +115,7 @@ Reference Architecture
 | 개념 | 연결 포인트 |
 |:---|:---|
 | [Shift-left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) | [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 사상을 이해할 때 직접 연결되는 기반 개념 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD | [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 사상의 설계·운영 판단 기준을 보완하는 개념 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD | [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 사상의 설계·운영 판단 기준을 보완하는 개념 |
 | [Security Automation](/knowledge-base/studynote/09_security/13_secops_ir_forensics/638_security_automation/) | [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 사상을 자동화·확장 측면에서 연결하는 개념 |
 | 출시 직전 수동 보안 점검 | [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 사상 적용 후 후속 발전 방향을 설명하는 개념 |
 

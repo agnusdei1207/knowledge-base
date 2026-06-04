@@ -120,7 +120,7 @@ tags = ["studynote-design-supervision"]
 |:---|:---|
 | [LSP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/) ([리스코프 치환 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/357_process/)) | 직접 위반 — 치환 불가 |
 | [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) ([개방-폐쇄 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/356_process/)) | 타입 체크 코드 급증 |
-| [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) ([인터페이스 분리 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/358_architecture/)) | 불필요한 메서드 강제 구현 |
+| [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) ([인터페이스 분리 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/358_architecture/)) | 불필요한 메서드 강제 구현 |
 
 - **📢 섹션 요약 비유**: 채식주의자를 "인간"의 서브클래스로 만들고 "고기 먹기" 메서드를 오버라이드해 비어두는 것 — 생물학 교과서가 틀린 게 아니라 설계가 틀린 것이다.
 
@@ -135,7 +135,7 @@ Java 표준 라이브러리의 `Stack<E>` 가 `Vector<E>` 를 [상속](/knowledg
 
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a> 계층 재설계</strong>: "[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) -> 인터페이스 + 구성" 전환을 설계 개선 방안으로 제시
 - <strong>계약 설계 (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/388_design_by_contract/">Design by Contract</a>, DbC)</strong>: 선행 조건 (Precondition), 후행 조건 (Postcondition), 불변식 (Invariant) 문서화
-- <strong>인터페이스 분리 (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/">ISP</a>: <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/246_isp_interface_segregation_principle/">Interface Segregation Principle</a>)</strong>: 거대 인터페이스 대신 역할별 소형 인터페이스
+- <strong>인터페이스 분리 (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/">ISP</a>: <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/246_isp_interface_segregation_principle/">Interface Segregation Principle</a>)</strong>: 거대 인터페이스 대신 역할별 소형 인터페이스
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 변경 전 동작을 고정할 테스트가 준비되었는가?
@@ -170,7 +170,7 @@ Java 표준 라이브러리의 `Stack<E>` 가 `Vector<E>` 를 [상속](/knowledg
 | 상위 개념 | [SOLID](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) 원칙 | LSP는 SOLID의 'L' |
 | 핵심 원칙 | [LSP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/) ([Liskov Substitution Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/)) | 치환 가능성 보장 |
 | 연관 원칙 | [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) ([Open-Closed Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/244_ocp_open_closed_principle/)) | [LSP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/) 위반 시 함께 위반 |
-| 연관 원칙 | [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) ([Interface Segregation Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/246_isp_interface_segregation_principle/)) | 불필요 메서드 강제 방지 |
+| 연관 원칙 | [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) ([Interface Segregation Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/246_isp_interface_segregation_principle/)) | 불필요 메서드 강제 방지 |
 | 처방 | 구성 우선 (Composition over Inheritance) | [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 대신 구성 |
 | 연관 개념 | 계약 설계 ([Design by Contract](/knowledge-base/studynote/04_software_engineering/06_software_architecture/388_design_by_contract/), DbC) | 선행/후행 조건, 불변식 |
 

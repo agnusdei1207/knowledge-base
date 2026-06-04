@@ -19,7 +19,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 ([API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/))는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)/[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 환경에서 반복되는 운영 문제를 구조적으로 다루기 위해 등장한 개념이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수가 늘고 배포 빈도가 높아지면 애플리케이션 코드와 운영 제어를 분리하는 플랫폼 계층이 필요하다. 핵심은 클라이언트 진입점에서 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 제한, 관측을 집중 제어하는 계층에 있다. 이 관점에서 보면, 이 주제는 단순 기술 소개가 아니라 속도와 안정성을 동시에 맞추기 위한 운영 설계 기준에 가깝다.
+[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 ([API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/))는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)/[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 환경에서 반복되는 운영 문제를 구조적으로 다루기 위해 등장한 개념이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수가 늘고 배포 빈도가 높아지면 애플리케이션 코드와 운영 제어를 분리하는 플랫폼 계층이 필요하다. 핵심은 클라이언트 진입점에서 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 제한, 관측을 집중 제어하는 계층에 있다. 이 관점에서 보면, 이 주제는 단순 기술 소개가 아니라 속도와 안정성을 동시에 맞추기 위한 운영 설계 기준에 가깝다.
 
 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 확장, 보안, 저장소를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별로 제각각 구현하면 운영 복잡도가 기하급수적으로 늘어난다. 따라서 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이를 이해할 때는 "무엇을 자동화하는가"보다 "어떤 실패와 편차를 줄이려는가"를 먼저 붙잡아야 한다.
 
@@ -117,7 +117,7 @@ Reference Architecture
 | Rate Limit | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이를 이해할 때 직접 연결되는 기반 개념 |
 | Auth | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이의 설계·운영 판단 기준을 보완하는 개념 |
 | [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이를 자동화·확장 측면에서 연결하는 개념 |
-| [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 적용 후 후속 발전 방향을 설명하는 개념 |
+| [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/) | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 적용 후 후속 발전 방향을 설명하는 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

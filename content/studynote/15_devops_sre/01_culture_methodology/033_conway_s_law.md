@@ -108,7 +108,7 @@ Platform Team의 역할:
   -> 도메인 집중도 향상
 ```
 
-📢 **섹션 요약 비유**: Platform Team은 요리사를 위한 주방 설비 전문가다 — 요리사([Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)-aligned)가 요리에만 집중할 수 있도록 오븐·칼·청소(인프라·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)를 알아서 관리한다.
+📢 **섹션 요약 비유**: Platform Team은 요리사를 위한 주방 설비 전문가다 — 요리사([Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)-aligned)가 요리에만 집중할 수 있도록 오븐·칼·청소(인프라·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD)를 알아서 관리한다.
 
 ---
 
@@ -126,13 +126,13 @@ Dev -> 인프라팀 요청    Dev -> 내부 개발자 플랫폼 (IDP)
 ### [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) ([Internal Developer Platform](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/200_internal_developer_platform_backstage/)) 구성
 
 - 셀프서비스 인프라 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) (Backstage·[Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))
-- [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 골든 패스 (표준화된 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인)
+- [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 골든 패스 (표준화된 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인)
 - 관측성 대시보드 (인프라 걱정 없이)
 - 보안·컴플라이언스 자동화
 
 **콘웨이 법칙 관점**: Platform Team이 좋은 IDP를 만들면, [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)-aligned Team이 자연스럽게 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 패턴으로 개발하게 됨
 
-📢 **섹션 요약 비유**: IDP는 IKEA 가구 조립 키트다 — 설계도(골든 패스), 도구([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD), 재료(인프라)를 모두 패키지로 제공해 누구나 쉽게 조립(배포)할 수 있게 한다.
+📢 **섹션 요약 비유**: IDP는 IKEA 가구 조립 키트다 — 설계도(골든 패스), 도구([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD), 재료(인프라)를 모두 패키지로 제공해 누구나 쉽게 조립(배포)할 수 있게 한다.
 
 ---
 

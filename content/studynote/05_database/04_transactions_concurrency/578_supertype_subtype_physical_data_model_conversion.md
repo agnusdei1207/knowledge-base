@@ -114,7 +114,7 @@ tags = ["studynote-database"]
 | :--- | :--- |
 | [다대다](/knowledge-base/studynote/02_operating_system/02_process_thread/100_many_to_many_model/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 해소 교차 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) (Intersection Entity / [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/) Table) 분해 | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
 | [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 제약 조건 CASCADE, RESTRICT, SET NULL 연쇄 업데이트 삭제 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
-| [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
+| [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
 | [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) | 운영·설계 판단을 연결해 주는 주변 개념이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도

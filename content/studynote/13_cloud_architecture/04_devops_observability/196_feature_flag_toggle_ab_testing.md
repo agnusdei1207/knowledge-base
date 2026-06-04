@@ -121,7 +121,7 @@ if (showNewUI) {
 
 <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/">Trunk-based Development</a>(TBD)와의 연계</strong>:
 - 기능 브랜치 없이 모든 개발자가 main/trunk에 직접 커밋
-- 미완성 기능은 [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)로 숨겨서 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 유지
+- 미완성 기능은 [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)로 숨겨서 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인 유지
 - 장기 브랜치(feature branch)의 [merge conflict](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/068_git_merge_conflict_resolution_rebase/) 문제 해결
 
 <strong>킬 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>(Kill <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a>) 활용</strong>:
@@ -136,7 +136,7 @@ if (showNewUI) {
 **기술사 판단 포인트**:
 - [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)는 Ops Toggle로 "비상 차단 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)" 역할을 하여 배포 없는 긴급 장애 대응에 핵심적이다.
 - [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 규칙이 복잡해지면 "[피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) 지옥([Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) Hell)"이 발생하므로, 단순하게 유지하고 주기적으로 정리해야 한다.
-- Permission Toggle은 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 제품의 Freemium/Premium 기능 분리에서 비즈니스 핵심 인프라가 된다.
+- Permission Toggle은 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 제품의 Freemium/Premium 기능 분리에서 비즈니스 핵심 인프라가 된다.
 
 📢 **섹션 요약 비유**: [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)의 킬 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 공장의 비상 정지 버튼과 같다. 기계(새 기능)에 문제가 생겼을 때 전체 공장([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))을 멈출 필요 없이, 해당 기계만 즉시 멈출 수 있다.
 

@@ -12,7 +12,7 @@ tags = ["studynote-bigdata"]
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: 빅데이터 법적 분쟁은 ①[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권, ②수집 동의, ③목적 외 사용, ④국가 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이전, ⑤자동화 의사결정의 5대 유형으로 구분되며, 각각 다른 법적 근거와 판례가 형성되고 있다.
-- **가치**: Cambridge Analytica 사건(8,700만 건 무동의 수집), Schrems II(EU-US Privacy Shield 무효), CNIL의 Google €150M [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 과징금 등 실제 판례가 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 설계의 필수 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 기준이 된다.
+- **가치**: Cambridge Analytica 사건(8,700만 건 무동의 수집), Schrems II(EU-US Privacy Shield 무효), CNIL의 Google €150M [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 과징금 등 실제 판례가 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) 설계의 필수 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 기준이 된다.
 - **판단 포인트**: EU-US [Data Privacy](/knowledge-base/studynote/09_security/01_intro_principles/016_data_privacy/) Framework(2023), [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) Article 22(자동화 결정 이의 제기권), 한국 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 3법의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 결합 프레임워크가 분쟁 예방의 현재 최신 법적 기준이므로, 설계 단계부터 이를 반영해야 한다.
 
 ---
@@ -107,7 +107,7 @@ tags = ["studynote-bigdata"]
 | <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/060_privacy_by_design/">Privacy by Design</a></strong> | 시스템 설계 단계부터 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 내재화 |
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 최소화</strong> | 목적 달성에 필요한 최소 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 수집 |
 | **목적 명시** | 수집 시 명확한 처리 목적을 문서화 |
-| **동의 관리** | Consent [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Platform ([CMP](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/)) 도입 |
+| **동의 관리** | Consent [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) Platform ([CMP](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/)) 도입 |
 | <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/796_gdpr_dpia/">DPIA</a></strong> | 고위험 처리 전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 영향 평가 수행 |
 
 **📢 섹션 요약 비유**: Privacy by Design은 <strong>내진 설계</strong>와 같다. 건물 완공 후 내진 보강 공사를 하면 비용이 10배 들지만, 처음부터 내진 설계로 짓는 것이 훨씬 경제적이고 안전하다.
@@ -156,7 +156,7 @@ tags = ["studynote-bigdata"]
 
 ### 결론
 
-빅데이터 법적 분쟁은 기술의 발전 속도를 법이 따라가지 못하는 **규제 갭(Regulatory Gap)** 에서 발생한다. Cambridge Analytica, Schrems II, EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act 등의 사례는 단순한 법적 사건이 아니라 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">데이터 거버넌스</a> 설계 원칙의 변곡점</strong>이다. 정보통신기술사는 최신 판례와 법제 변화를 지속적으로 추적하고, Privacy by Design과 DPIA를 시스템 설계의 필수 요소로 내재화해야 한다.
+빅데이터 법적 분쟁은 기술의 발전 속도를 법이 따라가지 못하는 **규제 갭(Regulatory Gap)** 에서 발생한다. Cambridge Analytica, Schrems II, EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act 등의 사례는 단순한 법적 사건이 아니라 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/">데이터 거버넌스</a> 설계 원칙의 변곡점</strong>이다. 정보통신기술사는 최신 판례와 법제 변화를 지속적으로 추적하고, Privacy by Design과 DPIA를 시스템 설계의 필수 요소로 내재화해야 한다.
 
 **📢 섹션 요약 비유**: 빅데이터 법적 분쟁에서 배우는 [교훈](/knowledge-base/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/)은 <strong>교통사고 판례에서 도로 설계 기준이 발전하는 것</strong>과 같다. 사고(분쟁)가 발생할 때마다 더 안전한 설계 기준(거버넌스 원칙)이 만들어진다.
 

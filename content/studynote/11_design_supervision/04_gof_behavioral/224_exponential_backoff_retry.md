@@ -170,7 +170,7 @@ SDK 기본 설정:
 
 | 파라미터 | 결정 기준 | 예시 |
 |:---|:---|:---|
-| maxAttempts | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 허용 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) / 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 | 3~5회 |
+| maxAttempts | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 허용 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) / 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 | 3~5회 |
 | base | 네트워크 왕복 시간 ([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/)) × 2~5배 | 100ms~1s |
 | [cap](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) | 사용자 최대 허용 대기 시간 | 30s~60s |
 | Jitter | Full Jitter 권장 | random(0, wait) |
@@ -191,7 +191,7 @@ Exponential Backoff and Retry 패턴은 [분산](/knowledge-base/studynote/08_al
 **기대효과**:
 - <strong>일시적 장애 자동 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong>: 네트워크 순간 오류의 90%는 재시도로 해결
 - **서버 부하 감소**: Jitter로 재시도 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 방지
-- <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a> 향상</strong>: 재시도 없이는 실패했을 요청도 성공으로 전환
+- <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/">SLA</a> 향상</strong>: 재시도 없이는 실패했을 요청도 성공으로 전환
 
 **적용 원칙**:
 1. 재시도 전 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/">멱등성</a> <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong> — 비멱등성 연산에는 [Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) 필수

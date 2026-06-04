@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 380 / 587
 
-<- **이전**: [264. 문제 관리 근본 원인 KEDB](/knowledge-base/studynote/12_it_management/05_security_compliance/264_problem_management_root_cause_kedb/)
-**다음**: [265. 변경 관리 CAB 위원회 승인](/knowledge-base/studynote/12_it_management/05_security_compliance/265_change_management_cab_approval/) ->
+<- **이전**: [264. 문제 관리 근본 원인 KEDB](/knowledge-base/studynote/12_it_management/05_security_compliance/915_problem_management_root_cause_kedb/)
+**다음**: [265. 변경 관리 CAB 위원회 승인](/knowledge-base/studynote/12_it_management/05_security_compliance/916_change_management_cab_approval/) ->
 
 ---

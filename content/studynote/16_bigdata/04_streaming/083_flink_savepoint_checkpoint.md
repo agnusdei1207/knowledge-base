@@ -171,7 +171,7 @@ UID 없이는 자동 [생성](/knowledge-base/studynote/02_operating_system/02_p
 - [ ] 체크포인트 저장소: [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/)/S3 (내구성 있는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지)
 - [ ] 연산자 UID 명시적 지정 (`uid("...")`) — 세이브포인트 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 필수
 - [ ] RocksDB StateBackend 사용 시 체크포인트 크기 증가 고려
-- [ ] 배포 전 세이브포인트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 자동화 ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 통합)
+- [ ] 배포 전 세이브포인트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 자동화 ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 통합)
 
 **📢 섹션 요약 비유**
 > 체크포인트-세이브포인트 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 "집 열쇠 관리"와 같다. 자동 체크포인트는 "스마트 잠금장치가 매 30분마다 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 기록"이고, 세이브포인트는 "이사 전 집 열쇠 복사본 만들기"다. 이사(업그레이드)후에도 새 집(클러스터)에서 복사본(세이브포인트)으로 들어갈 수 있다.

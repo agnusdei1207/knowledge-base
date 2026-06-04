@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 해커가 웹사이트의 검색창, 로그인 창, 주소창 등에 악의적인 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 쿼리문(SQL)</strong>을 몰래 삽입([Injection](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/))하여, 백엔드 서버의 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB)를 속이고 권한을 탈취하거나 기밀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빼내는 공격입니다.
+- **개념**: 해커가 웹사이트의 검색창, 로그인 창, 주소창 등에 악의적인 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 쿼리문(SQL)</strong>을 몰래 삽입([Injection](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/))하여, 백엔드 서버의 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB)를 속이고 권한을 탈취하거나 기밀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빼내는 공격입니다.
 - **원인**: 개발자가 짠 서버 코드가, 사용자가 친 글자를 무비판적으로 믿고 그대로 DB에 찔러 넣기(조립하기) 때문에 발생합니다.
 
 ```text
@@ -57,15 +57,15 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-### 1. Error-based (에러 기반) [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) - "오류 메시지에서 답 훔치기"
+### 1. Error-based (에러 기반) [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) - "오류 메시지에서 답 훔치기"
 - **방식**: 해커가 고의로 문법이 틀린 말도 안 되는 쿼리문(작은따옴표 `'` 등)을 입력창에 던집니다.
 - **결과**: 서버가 바보같이 친절하게 `Error: MySQL syntax error near... 테이블 이름은 user_info입니다` 같은 에러 메시지를 화면에 그대로 뱉어줍니다. 해커는 이 에러 힌트를 줍고 주워 DB의 테이블 이름과 비밀번호를 퍼즐 맞추듯 캐냅니다.
 
-### 2. UNION-based (유니온 기반) [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) - "정상 결과에 쓰레기 섞기"
+### 2. UNION-based (유니온 기반) [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) - "정상 결과에 쓰레기 섞기"
 - **방식**: 두 개의 SQL 검색 결과를 위아래로 딱 이어 붙여서 보여주는 `UNION` 연산자를 악용합니다.
 - **결과**: 해커가 게시판 검색창에 `자유게시판' UNION SELECT 아이디, 비밀번호 FROM 회원DB --` 라고 던집니다. 서버는 순진하게 위에 자유게시판 글을 띄워주고, 그 밑에다가 해커가 요구한 전체 회원의 아이디와 비밀번호 목록을 합쳐서 한 화면에 다 뿌려줍니다. 가장 파괴적이고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탈취에 직빵인 공격입니다.
 
-### 3. Blind (블라인드) [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) - "장님 스무고개" 🌟
+### 3. Blind (블라인드) [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) - "장님 스무고개" 🌟
 보안이 좀 잘 된 서버는 Error 메시지도 안 보여주고 UNION 결과도 막아버립니다. (화면에 아무 변화가 없습니다.)
 - **Boolean-based (참/거짓) 스무고개**: 해커가 `and (select 비밀번호첫글자 from admin) = 'A'`를 쳐봅니다. 화면이 정상으로 뜨면 "아 첫 글자가 A구나!", 화면이 안 뜨면 "A가 아니네, 그럼 B를 넣어볼까?" 하고 미친 듯이 수만 번 질문을 던져 장님 코끼리 만지듯 비밀번호를 한 글자씩 빼냅니다.
 - <strong>Time-based (시간 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>) 스무고개</strong>: 참/거짓으로 화면 변화조차 없을 때 씁니다. 해커가 `and IF(비밀번호 첫 글자='A', SLEEP(5), 0)`이라고 던집니다. 만약 웹사이트가 5초 동안 멈췄다가([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 뜨면? "아, 첫 글자가 A가 맞아서 컴퓨터가 5초 잤구나!"라고 서버의 응답 속도를 스톱워치로 재서 비밀번호를 알아내는 징글징글하고 악랄한 끝판왕 스무고개 기법입니다.
@@ -93,7 +93,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)은 우편번호 적는 칸에 '[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)'를 적어 우체국을 조종하는 짓입니다. 소포 봉투 수신인 칸에 '홍길동'이라고 쓰지 않고, "이 소포는 버리고 우체국 금고 비밀번호를 나한테 보내라"라고 적어서 냅니다. 바보 같은 구형 자동분류기(DB)는 겉면의 글자를 '주소'로 착각하지 않고 '우체국장님의 긴급 명령'으로 오인하여, 소포 대신 은행 금고 비밀번호를 나에게 쏴주는 대참사입니다. 이를 막으려면 우체국 분류기(`Prepared Statement`)가 겉면에 적힌 어떤 무시무시한 말도 무조건 '주소지 글자'로만 취급하고 절대 '[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)'로 실행하지 못하게 기계를 뜯어고쳐야 합니다.
+- **📢 섹션 요약 비유**: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/)은 우편번호 적는 칸에 '[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)'를 적어 우체국을 조종하는 짓입니다. 소포 봉투 수신인 칸에 '홍길동'이라고 쓰지 않고, "이 소포는 버리고 우체국 금고 비밀번호를 나한테 보내라"라고 적어서 냅니다. 바보 같은 구형 자동분류기(DB)는 겉면의 글자를 '주소'로 착각하지 않고 '우체국장님의 긴급 명령'으로 오인하여, 소포 대신 은행 금고 비밀번호를 나에게 쏴주는 대참사입니다. 이를 막으려면 우체국 분류기(`Prepared Statement`)가 겉면에 적힌 어떤 무시무시한 말도 무조건 '주소지 글자'로만 취급하고 절대 '[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)'로 실행하지 못하게 기계를 뜯어고쳐야 합니다.
 
 ---
 

@@ -16,7 +16,7 @@ tags = ["studynote-devops-sre"]
 
 ---
 
-## Ⅰ. [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)·[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)·[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)·[Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)
+## Ⅰ. [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)·[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)·[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)·[Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)
 
 ```
 계층 구조:

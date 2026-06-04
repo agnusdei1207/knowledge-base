@@ -78,7 +78,7 @@ OOB(Out-Of-Bag) 오차: [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-변수 중요도 실무 사용 시 주의 사항: ① 높은 상관관계를 가진 두 변수(A, B)는 MDI 중요도를 나눠가져 둘 다 낮게 나올 수 있다. ② 범주형 변수의 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 인코딩 방식(원핫 vs 레이블)이 중요도 계산에 영향을 준다. ③ 재현성(Reproducibility)을 위해 random_state 고정 필수. [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/)([SHapley Additive exPlanations](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/)) 값은 개별 예측에서 각 특성의 기여도를 섀플리 값으로 계산하여 가장 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 높은 설명을 제공한다.
+변수 중요도 실무 사용 시 주의 사항: ① 높은 상관관계를 가진 두 변수(A, B)는 MDI 중요도를 나눠가져 둘 다 낮게 나올 수 있다. ② 범주형 변수의 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) 인코딩 방식(원핫 vs 레이블)이 중요도 계산에 영향을 준다. ③ 재현성(Reproducibility)을 위해 random_state 고정 필수. [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/)([SHapley Additive exPlanations](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/)) 값은 개별 예측에서 각 특성의 기여도를 섀플리 값으로 계산하여 가장 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 높은 설명을 제공한다.
 
 - **📢 섹션 요약 비유**: 상관 변수의 MDI [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)은 "한 팀에서 쌍둥이 선수의 어시스트 통계"다. 쌍둥이 선수 A, B가 서로 패스를 주고받으면 어시스트가 절반씩 나뉘어 둘 다 중간 정도로 나온다. 실제론 한 명만 있어도 충분하지만 MDI는 이를 구분 못한다.
 

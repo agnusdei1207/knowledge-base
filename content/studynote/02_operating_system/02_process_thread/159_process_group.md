@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 프로세스 그룹 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Group)은 여러 프로세스를 하나의 실행 단위처럼 묶어 같은 PGID ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Group ID)로 관리하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 객체다.
+> 1. **본질**: 프로세스 그룹 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Group)은 여러 프로세스를 하나의 실행 단위처럼 묶어 같은 PGID ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Group ID)로 관리하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 객체다.
 > 2. **가치**: 셸 ([Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/))은 파이프라인과 작업 제어 (Job Control)를 구현할 때 프로세스 그룹을 사용해 `Ctrl+C`, `Ctrl+Z`, `fg`, `bg`를 개별 프로세스가 아닌 작업 단위로 처리한다.
 > 3. **판단 포인트**: 프로세스 그룹은 자원 제한용 cgroup (Control Group)과 다르며, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)), 제어 터미널 (Controlling Terminal), `setpgid()`, `tcsetpgrp()`의 관계를 함께 이해해야 실무 장애를 줄일 수 있다.
 
@@ -29,7 +29,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-프로세스 그룹은 보통 셸이 `fork()`로 자식들을 만든 뒤 `setpgid()`로 같은 그룹에 묶으면서 형성된다. 그룹에는 보통 리더가 있으며, 리더의 PID ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))가 곧 PGID가 되는 경우가 많다. 다만 중요한 점은 “리더가 존재한다”와 “리더가 살아 있어야 그룹이 유지된다”가 같지 않다는 점이다. 리더가 종료돼도 그룹 자체는 남을 수 있다.
+프로세스 그룹은 보통 셸이 `fork()`로 자식들을 만든 뒤 `setpgid()`로 같은 그룹에 묶으면서 형성된다. 그룹에는 보통 리더가 있으며, 리더의 PID ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))가 곧 PGID가 되는 경우가 많다. 다만 중요한 점은 “리더가 존재한다”와 “리더가 살아 있어야 그룹이 유지된다”가 같지 않다는 점이다. 리더가 종료돼도 그룹 자체는 남을 수 있다.
 
 ### 핵심 객체와 역할
 
@@ -73,7 +73,7 @@ tags = ["studynote-operating-system"]
 
 프로세스 그룹은 자주 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)이나 cgroup (Control Group)과 혼동된다. 하지만 세 개는 관리 목적이 다르다.
 
-| 구분 | 프로세스 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)) | 프로세스 그룹 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Group) | [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)) | cgroup |
+| 구분 | 프로세스 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/)) | 프로세스 그룹 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Group) | [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)) | cgroup |
 | :--- | :--- | :--- | :--- | :--- |
 | 기본 목적 | 실행 단위 | 시그널·작업 제어 단위 | 로그인/터미널 상위 경계 | 자원 제한·회계 |
 | [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) | PID | PGID | SID | 계층형 경로 |
@@ -121,7 +121,7 @@ tags = ["studynote-operating-system"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| PGID ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Group ID) | 프로세스 그룹을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 핵심 값 |
+| PGID ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Group ID) | 프로세스 그룹을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 핵심 값 |
 | [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)) | 여러 프로세스 그룹을 포함하는 상위 경계 |
 | 제어 터미널 (Controlling Terminal) | 포그라운드 그룹에 터미널 시그널을 전달 |
 | 작업 제어 (Job Control) | `fg`, `bg`, `Ctrl+Z`를 프로세스 그룹 단위로 구현 |

@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 대기 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Wait-for [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))는 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 시각화한 원본 '[자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))'에서 **'자원 정점(네모 상자)'을 모두 지워버리고**, 오직 "어떤 프로세스가 어떤 프로세스의 완료를 멱살 쥐듯 기다리고 있는가"라는 <strong>사람(프로세스) 간의 직접적인 원한 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>(의존성)만 남긴 초경량 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 위상 지도</strong>다.
+> 1. **본질**: 대기 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Wait-for [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/))는 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 시각화한 원본 '[자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))'에서 **'자원 정점(네모 상자)'을 모두 지워버리고**, 오직 "어떤 프로세스가 어떤 프로세스의 완료를 멱살 쥐듯 기다리고 있는가"라는 <strong>사람(프로세스) 간의 직접적인 원한 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>(의존성)만 남긴 초경량 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 위상 지도</strong>다.
 > 2. **가치**: 불필요한 자원 노드를 삭제하여 탐색 크기를 절반 이하로 줄였기 때문에, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)나 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 탐지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 $O(V+E)$의 쾌속 [깊이 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/)([DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/))을 이용해 '죽음의 사이클(원형 고리)' 존재 여부를 훨씬 빠르고 가볍게 스캔해 낼 수 있게 해준다.
 > 3. **융합**: 단, 이 가벼운 마법은 오직 "자원이 1개씩(단일 인스턴스)만 존재하는 환경"에서만 성립하며, 다중 인스턴스 환경에서는 누가 누구를 간접적으로 기다리는지 화살표가 왜곡되므로 다중 환경에서는 은행원 변형 스캔(행렬 탐지)으로 융합 및 치환되어 사용된다.
 
@@ -22,7 +22,7 @@ tags = ["studynote-operating-system"]
 [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))를 보면, `P1 -> 프린터(R1)`, `프린터(R1) -> P2` 처럼 사람이 사물을 요구하거나 사물이 사람에게 귀속된 복잡한 그림이 그려진다.
 
 하지만 데드락 감시 데몬 입장에선 "프린터 건, 스캐너 건 나발이건 알 바 아니고, **결국 P1이 P2가 나가주길 기다리고 있는 거잖아?**" 라는 핵심만 있으면 된다.
-따라서 중간에 낀 '사물(자원)' 노드를 생략하고, `P1 -> P2` 라는 다이렉트 화살표로 그림을 단축시켜 버린다. 이것이 바로 <strong>대기 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>(Wait-for <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a>, WFG)</strong>다.
+따라서 중간에 낀 '사물(자원)' 노드를 생략하고, `P1 -> P2` 라는 다이렉트 화살표로 그림을 단축시켜 버린다. 이것이 바로 <strong>대기 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>(Wait-for <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/">Graph</a>, WFG)</strong>다.
 
 **💡 비유**: 복잡한 사각관계 막장 드라마 인물 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도. "철수가 영희의 집문서(자원)를 원하고, 그 집문서는 민수 명의(할당)로 되어 있다"는 긴 문장([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))을, 변호사가 쓱 보고 "그냥 철수가 민수(결재권자)를 기다린다(Wait-for)"는 단 한 줄로 칠판에 요약(WFG)해 버리는 것.
 
@@ -67,7 +67,7 @@ WFG의 최대 장점은 컴퓨터 과학의 가장 기본이자 극도로 최적
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 대상 | [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/) ([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)) | 대기 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Wait-for [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) |
+| 비교 대상 | [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/) ([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)) | 대기 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Wait-for [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/)) |
 |:---|:---|:---|
 | 노드(Node)의 종류 | 프로세스(동그라미) + 자원(네모) **[2종]** | 오직 프로세스(동그라미) **[1종]** |
 | [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 크기 | 아주 크고 복잡함 (수만 개 메모리 맵) | 절반 이하로 다이어트됨 (탐색 속도 2배) |

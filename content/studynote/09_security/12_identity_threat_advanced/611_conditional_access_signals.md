@@ -136,7 +136,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 674 / 1108
 
-<- **이전**: [610. 메모리 관리 보안 (Memory Management Security)](/knowledge-base/studynote/09_security/uncategorized/610_memory_management/)
-**다음**: [611. 위협 모델링 (Threat Modeling)](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/) ->
+<- **이전**: [610. 메모리 관리 보안 (Memory Management Security)](/knowledge-base/studynote/09_security/uncategorized/1040_memory_management/)
+**다음**: [611. 위협 모델링 (Threat Modeling)](/knowledge-base/studynote/09_security/uncategorized/1041_threat_modeling/) ->
 
 ---

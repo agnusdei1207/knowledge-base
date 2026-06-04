@@ -76,12 +76,12 @@ WT 전략: 핵심 AI 솔루션에만 집중, 주변 서비스 축소
 | 도구 | 목적 | 범위 |
 |:---|:---|:---|
 | **SWOT** | [환경 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/102_environmental_analysis_pest_5forces_value_chain/) | 내부+외부 4요소 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/">PEST</a>/PESTEL</strong> | 외부 [거시 환경 분석](/knowledge-base/studynote/12_it_management/01_governance_strategy/025_pest_analysis/) | 외부 요인만 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/">PEST</a>/PESTEL</strong> | 외부 [거시 환경 분석](/knowledge-base/studynote/12_it_management/01_governance_strategy/025_pest_analysis/) | 외부 요인만 |
 | **5 Forces** | 산업 경쟁 구조 분석 | 외부 경쟁 요인 |
 | **TOWS** | SWOT 기반 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 도출 | 4요소 교차 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 | <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/">BSC</a></strong> | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 실행 추적 | 4대 관점 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) |
 
-SWOT -> TOWS [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) -> [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) -> [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 실행의 흐름이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기획의 완성된 사이클이다.
+SWOT -> TOWS [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) -> [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) -> [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/) 실행의 흐름이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기획의 완성된 사이클이다.
 
 - **📢 섹션 요약 비유**: SWOT가 지도(현재 위치 파악), TOWS가 경로 선택, BSC가 이정표([KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)), OKR이 GPS 목적지 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이다. 지도만 있고 경로가 없으면 길을 잃는다.
 
@@ -95,7 +95,7 @@ SWOT -> TOWS [전략](/knowledge-base/studynote/04_software_engineering/04_testi
 3. **TOWS 매트릭스**: 4개 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 방향 × 상위 항목 교차 분석.
 4. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 선택</strong>: SO 1개 + WO 1개 + WT 방어 1개 = 핵심 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 3개.
 5. <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/">BSC</a> 연계</strong>: 각 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) 관점(재무/고객/프로세스/학습)에 배치.
-6. <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/">OKR</a> 수립</strong>: 분기 단위 O와 KR로 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 실행 수준으로 내림.
+6. <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/">OKR</a> 수립</strong>: 분기 단위 O와 KR로 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 실행 수준으로 내림.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - SWOT 항목을 너무 추상적으로 나열하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). "기술력이 강함" 같은 추상적 강점이 아니라 "NLP 모델 정확도 업계 1위(90.5%)"처럼 구체적 수치와 증거가 있어야 TOWS [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 도출 시 실질적으로 활용할 수 있다.
@@ -110,7 +110,7 @@ SWOT -> TOWS [전략](/knowledge-base/studynote/04_software_engineering/04_testi
 |:---|:---|
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 방향 명확화</strong> | 4개 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 유형으로 방향 결정 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/">이해관계자</a> 정렬</strong> | 공동 워크숍으로 공감대 형성 |
-| **실행 연계** | [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/)/[OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 연결로 실행 가능성 확보 |
+| **실행 연계** | [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/)/[OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/) 연결로 실행 가능성 확보 |
 
 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)([DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/)) 시대에 SWOT 분석의 주기가 연간->분기로 단축되고 있으며, 실시간 시장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(빅데이터 분석)를 활용하여 동적 SWOT(Dynamic SWOT)을 수행하는 기업이 증가하고 있다.
 
@@ -125,7 +125,7 @@ SWOT -> TOWS [전략](/knowledge-base/studynote/04_software_engineering/04_testi
 | **PESTEL** | SWOT의 외부 환경(O·T) 도출 기반 [거시 환경 분석](/knowledge-base/studynote/12_it_management/01_governance_strategy/025_pest_analysis/) |
 | **Porter 5 Forces** | 산업 경쟁 구조 분석; SWOT 위협 요인 도출 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/">BSC</a></strong> | TOWS [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 4대 관점 KPI로 실행화 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/">OKR</a></strong> | [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표를 분기 실행 목표로 내림 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/">OKR</a></strong> | [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표를 분기 실행 목표로 내림 |
 | **Dynamic SWOT** | 실시간 빅데이터 기반 동적 SWOT 업데이트 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -158,7 +158,7 @@ SWOT -> TOWS [전략](/knowledge-base/studynote/04_software_engineering/04_testi
 
 **진행 상황**: 41 / 587
 
-<- **이전**: [23. 파이브 포스 모델 (Five Forces Model)](/knowledge-base/studynote/12_it_management/01_governance_strategy/023_five_forces_model/)
-**다음**: [24. SWOT 분석 (S)](/knowledge-base/studynote/12_it_management/01_governance_strategy/024_swot_tows/) ->
+<- **이전**: [23. 파이브 포스 모델 (Five Forces Model)](/knowledge-base/studynote/12_it_management/01_governance_strategy/817_five_forces_model/)
+**다음**: [24. SWOT 분석 (S)](/knowledge-base/studynote/12_it_management/01_governance_strategy/818_swot_tows/) ->
 
 ---

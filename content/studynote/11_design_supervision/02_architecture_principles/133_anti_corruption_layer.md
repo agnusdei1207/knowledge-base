@@ -81,7 +81,7 @@ ACL의 가장 어려운 실무 과제는 외부 시스템이 자주 변경될 �
 |:---|:---|:---|
 | 외부 변경 영향 | [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 내부만 수정 | 내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전체 수정 |
 | 내부 모델 순수성 | 보장됨 | 오염 위험 |
-| 테스트 용이성 | [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) 가능 | 외부 시스템 의존 |
+| 테스트 용이성 | [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) 가능 | 외부 시스템 의존 |
 
 - **📢 섹션 요약 비유**: ACL이 없는 외부 시스템 통합은 하수구(외부 모델)가 수돗물(내부 모델)과 직접 연결된 것이다. 반드시 정수 필터([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))를 거쳐야 내부 시스템이 깨끗하게 유지된다.
 
@@ -94,7 +94,7 @@ ACL의 가장 어려운 실무 과제는 외부 시스템이 자주 변경될 �
 1. 외부 시스템·레거시 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동 시 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 레이어가 명시적으로 존재하는가?
 2. ACL이 외부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 개념을 내부 유비쿼터스 언어로 번역하는 로직을 포함하는가?
 3. 외부 시스템의 예외·오류가 내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 예외로 변환되는가?
-4. ACL이 인터페이스로 추상화되어 외부 시스템 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) 테스트가 가능한가?
+4. ACL이 인터페이스로 추상화되어 외부 시스템 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) 테스트가 가능한가?
 5. 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 변경 시 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 내부만 수정하면 내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 코드를 수정하지 않아도 되는가?
 
 - **📢 섹션 요약 비유**: ACL은 공항 세관처럼, 입국(외부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유입) 시 검사·변환하여 내국인(내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))이 외국 규격(외부 모델)에 맞춰 바뀔 필요가 없게 한다.
@@ -105,7 +105,7 @@ ACL의 가장 어려운 실무 과제는 외부 시스템이 자주 변경될 �
 
 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 적용으로 외부 시스템 변경이 내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 전파되지 않아 안정적인 내부 모델이 유지되고, 외부 시스템을 Mock으로 대체하여 독립적인 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 테스트가 가능해진다. 레거시 시스템 통합 시 내부 팀의 개발 속도가 외부 변화에 영향받지 않는다.
 
-한계는 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 구현 자체가 추가 개발 비용이며, 단순한 외부 통합에 적용하면 오버엔지니어링이 될 수 있다. [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이와 ACL의 결합([BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) 패턴)이 미래 방향이다.
+한계는 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 구현 자체가 추가 개발 비용이며, 단순한 외부 통합에 적용하면 오버엔지니어링이 될 수 있다. [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이와 ACL의 결합([BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/) 패턴)이 미래 방향이다.
 
 - **📢 섹션 요약 비유**: ACL은 번역가처럼, 외국어(외부 모델)를 한국어(내부 모델)로 번역하여 내부 팀이 외국어를 배우지 않아도 소통할 수 있게 한다.
 
@@ -124,7 +124,7 @@ ACL의 가장 어려운 실무 과제는 외부 시스템이 자주 변경될 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[외부 [의존성 오염](/knowledge-base/studynote/09_security/05_web_app_security/463_dependency_confusion/) 문제] -> DDD [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 패턴] -> Facade+[Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)+Translator 구현] -> BFF([Backend for Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/))] -> [서비스 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 통합 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)]
+[외부 [의존성 오염](/knowledge-base/studynote/09_security/05_web_app_security/463_dependency_confusion/) 문제] -> DDD [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 패턴] -> Facade+[Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)+Translator 구현] -> BFF([Backend for Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/))] -> [서비스 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 통합 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

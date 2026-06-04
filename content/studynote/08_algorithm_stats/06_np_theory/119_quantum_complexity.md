@@ -194,7 +194,7 @@ BQP의 실용적 의미:
 
 ---
 
-## Ⅴ. 실무 시나리오 — [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 전환
+## Ⅴ. 실무 시나리오 — [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) 전환
 
 ```
 양자 위협 대응: 후양자 암호(PQC) 전환
@@ -244,7 +244,7 @@ NIST PQC 표준화 (2024):
   -> 지속적 수학적 검증 필요
 ```
 
-> 📢 **섹션 요약 비유**: [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 전환은 자물쇠 교체 — 양자 컴퓨터가 현재 자물쇠([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/))를 딸 수 있는 열쇠(Shor)를 가질 때를 대비해 미리 양자 내성 자물쇠(격자 암호)로 교체!
+> 📢 **섹션 요약 비유**: [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) 전환은 자물쇠 교체 — 양자 컴퓨터가 현재 자물쇠([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/))를 딸 수 있는 열쇠(Shor)를 가질 때를 대비해 미리 양자 내성 자물쇠(격자 암호)로 교체!
 
 ---
 

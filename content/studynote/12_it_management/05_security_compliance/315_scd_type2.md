@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 471 / 587
 
-<- **이전**: [314. 서로게이트 키 인조 식별자 생성](/knowledge-base/studynote/12_it_management/05_security_compliance/314_surrogate_key/)
-**다음**: [315. SCD 데이터 이력 유지 방식 (Type 2 로우 추가)](/knowledge-base/studynote/12_it_management/05_security_compliance/315_scd_type_2/) ->
+<- **이전**: [314. 서로게이트 키 인조 식별자 생성](/knowledge-base/studynote/12_it_management/05_security_compliance/956_surrogate_key/)
+**다음**: [315. SCD 데이터 이력 유지 방식 (Type 2 로우 추가)](/knowledge-base/studynote/12_it_management/05_security_compliance/957_scd_type_2/) ->
 
 ---

@@ -43,7 +43,7 @@ Data Files + Metadata Log -> Table Snapshot -> Query Engine
 
 핵심은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 직접 다루지 않고, 테이블 상태와 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)을 기준으로 읽고 쓰는 것이다.
 
-- **📢 섹션 요약 비유**: 오픈 테이블 포맷은 쌓아 둔 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)에 카탈로그와 버전표를 붙이는 일이다.
+- **📢 섹션 요약 비유**: 오픈 테이블 포맷은 쌓아 둔 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)에 카탈로그와 버전표를 붙이는 일이다.
 
 ---
 
@@ -58,7 +58,7 @@ Data Files + Metadata Log -> Table Snapshot -> Query Engine
 
 이 포맷들은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 웨어하우스와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이크의 경계를 줄이는 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 구조와도 연결된다.
 
-- **📢 섹션 요약 비유**: 원시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 상자 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/), 오픈 테이블 포맷은 상자에 칸막이와 재고표를 붙인 것이다.
+- **📢 섹션 요약 비유**: 원시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 상자 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/), 오픈 테이블 포맷은 상자에 칸막이와 재고표를 붙인 것이다.
 
 ---
 
@@ -124,7 +124,7 @@ Data Files + Metadata Log -> Table Snapshot -> Query Engine
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 오픈 테이블 포맷은 상자 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)에 번호표를 붙이는 거예요.
+1. 오픈 테이블 포맷은 상자 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)에 번호표를 붙이는 거예요.
 2. 그래서 언제 넣고 뺐는지 알 수 있어요.
 3. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 많아도 테이블처럼 관리할 수 있어요.
 

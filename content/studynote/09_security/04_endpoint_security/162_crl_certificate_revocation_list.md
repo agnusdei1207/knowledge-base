@@ -19,7 +19,7 @@ tags = ["studynote-security"]
 
 ## Ⅰ. 개요 및 필요성
 
-CRL은 [공개키 기반 구조](/knowledge-base/studynote/03_network/13_network_security_basics/676_pki_public_key_infrastructure/) ([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/), [Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/984_pki_public_key_infrastructure_ca_ra_certificate/))에서 더 이상 신뢰할 수 없는 인증서를 별도로 기록한 목록이다. 인증서는 보통 만료일까지 유효하지만, 현실에서는 만료 전에 폐기해야 하는 일이 자주 발생한다. 대표적으로 개인키 유출, 인증서 오발급, 조직 이동, 장비 폐기, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유권 상실 등이 있다.
+CRL은 [공개키 기반 구조](/knowledge-base/studynote/03_network/13_network_security_basics/676_pki_public_key_infrastructure/) ([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/), [Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/1080_pki_public_key_infrastructure_ca_ra_certificate/))에서 더 이상 신뢰할 수 없는 인증서를 별도로 기록한 목록이다. 인증서는 보통 만료일까지 유효하지만, 현실에서는 만료 전에 폐기해야 하는 일이 자주 발생한다. 대표적으로 개인키 유출, 인증서 오발급, 조직 이동, 장비 폐기, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유권 상실 등이 있다.
 
 만약 이런 사건이 발생했는데도 만료일만 믿고 계속 인증서를 유효하다고 보면, 공격자는 탈취한 키로 정상 서버처럼 위장할 수 있다. 따라서 PKI는 발급만큼이나 "중도 폐기" 메커니즘이 중요하다. CRL은 이 문제를 가장 전통적이고 보편적으로 해결해 온 방식이다.
 
@@ -121,7 +121,7 @@ CRL을 적절히 운영하면 만료 전 사고가 난 인증서를 신속히 �
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) ([Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/984_pki_public_key_infrastructure_ca_ra_certificate/)) | CRL이 동작하는 전체 신뢰 인프라 |
+| [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) ([Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/1080_pki_public_key_infrastructure_ca_ra_certificate/)) | CRL이 동작하는 전체 신뢰 인프라 |
 | [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) ([Certification Authority](/knowledge-base/studynote/09_security/03_network_security/160_ca_certification_authority/)) | [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)과 서명의 주체 |
 | [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/) ([CRL Distribution Point](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/)) | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자가 CRL을 가져오는 배포 위치 |
 | [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) (Online Certificate Status [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) | CRL의 최신성 한계를 보완하는 실시간 질의 방식 |

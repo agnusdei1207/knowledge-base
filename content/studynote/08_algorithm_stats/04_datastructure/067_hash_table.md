@@ -75,7 +75,7 @@ hash("Alice") % 7 = 3
 
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 방식 | 장점 | 단점 |
 |:---|:---|:---|:---|
-| 체이닝 ([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/)) | 같은 버킷에 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) | 부하 계수 1 이상 허용 | 포인터 오버헤드 |
+| 체이닝 ([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/)) | 같은 버킷에 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) | 부하 계수 1 이상 허용 | 포인터 오버헤드 |
 | 오픈 어드레싱 ([Open Addressing](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/)) | 빈 슬롯 탐색(선형/이차/이중해시) | 캐시 효율 좋음 | 부하 계수 0.7 이하 필요 |
 
 ### 부하 계수와 리해싱 (Rehashing)
@@ -158,7 +158,7 @@ hash("Alice") % 7 = 3
 
 | 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|
-| 체이닝 ([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/)) | [해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) 처리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 1 |
+| 체이닝 ([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/)) | [해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) 처리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 1 |
 | 오픈 어드레싱 | [해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) 처리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 2 |
 | [블룸 필터](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/) ([Bloom Filter](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)) | 확률적 해시 기반 집합 멤버십 |
 | 리해싱 (Rehashing) | 부하 계수 초과 시 재구성 |

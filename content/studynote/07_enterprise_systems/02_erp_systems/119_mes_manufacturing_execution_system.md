@@ -79,7 +79,7 @@ tags = ["studynote-enterprise-systems"]
 | 불량률 | 높음 | <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/203_spc_signed_public_key_challenge/">SPC</a>+<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 예측</strong> | 감소 |
 | 납기 준수 | 불확실 | **실시간 추적** | 향상 |
 
-MES는 [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/)의 <strong>중추 신경계</strong>이며, 클라우드 MES([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))로 전환되면서 중소기업도 접근 가능해지고 있다.
+MES는 [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/)의 <strong>중추 신경계</strong>이며, 클라우드 MES([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/))로 전환되면서 중소기업도 접근 가능해지고 있다.
 
 ---
 

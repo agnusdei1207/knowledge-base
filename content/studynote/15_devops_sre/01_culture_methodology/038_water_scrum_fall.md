@@ -12,7 +12,7 @@ tags = ["studynote-devops-sre"]
 > **핵심 인사이트**
 > 1. 워터스크럼폴(WaterScrumFall)은 기획과 배포는 전통적인 워터폴 방식으로, 개발만 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 형태로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)되는 반(半)[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)으로, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 핵심 가치인 "고객 피드백을 통한 지속적 적응"이 불가능한 형태다.
 > 2. 조직이 워터스크럼폴에 빠지는 가장 흔한 원인은 구조적 장벽 — 기획팀(PRD 고정), 개발팀([스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)), 운영팀(분기 별 릴리즈)이 각자의 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)에서 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 프레임워크만 이식하고 전체 가치 흐름은 바꾸지 않기 때문이다.
-> 3. 진정한 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 전환은 팀 구조 변경(교차 기능팀)과 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD) 모두가 바뀌어야 완성되며, [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 세리머니만 도입하는 것은 형식적 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)(Cargo Cult [Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))에 불과하다.
+> 3. 진정한 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 전환은 팀 구조 변경(교차 기능팀)과 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD) 모두가 바뀌어야 완성되며, [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 세리머니만 도입하는 것은 형식적 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)(Cargo Cult [Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))에 불과하다.
 
 ---
 
@@ -232,7 +232,7 @@ DORA 연구 (2013~)
 
 1. 워터스크럼폴은 요리 재료 구매는 6개월 계획으로, 실제 요리만 매일 한다는 이름 붙인 것처럼 — 겉만 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)이고 속은 워터폴인 패턴이에요.
 2. 진짜 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 계획부터 배포까지 전체 흐름이 빨라야 하며, 2주마다 실제 고객이 사용할 수 있는 기능을 배포할 수 있어야 해요.
-3. [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 4가지 지표(배포 빈도, 리드타임, 실패율, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)시간)가 낮으면 워터스크럼폴 진단을 의심하고 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD와 팀 구조를 바꿔야 해요!
+3. [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 4가지 지표(배포 빈도, 리드타임, 실패율, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)시간)가 낮으면 워터스크럼폴 진단을 의심하고 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD와 팀 구조를 바꿔야 해요!
 
 ---
 

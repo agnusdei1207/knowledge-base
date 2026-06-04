@@ -45,7 +45,7 @@ TRM (Technical [Reference Model](/knowledge-base/studynote/12_it_management/03_e
 | 기술 영역 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 범위와 기준선이 흔들리면 후속 통제도 불안정해진다. |
 | 표준 규격 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 책임 경계와 운영 절차가 연결돼야 재현성이 생긴다. |
 | 예외 관리 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 측정 가능한 산출물과 증적이 있어야 설명 가능성이 높아진다. |
-| [현행화](/knowledge-base/studynote/12_it_management/03_ea_isp/125_asis_update_ea_maintenance_synchronization/) 체계 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 변화·예외를 다시 체계에 반영해야 장기적으로 유지된다. |
+| [현행화](/knowledge-base/studynote/12_it_management/03_ea_isp/909_asis_update_ea_maintenance_synchronization/) 체계 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 변화·예외를 다시 체계에 반영해야 장기적으로 유지된다. |
 
 ```text
 +--------------------------------------------------------------+
@@ -67,9 +67,9 @@ TRM (Technical [Reference Model](/knowledge-base/studynote/12_it_management/03_e
 
 | 비교 대상 | 차이점 | 연결 포인트 |
 |:---|:---|:---|
-| [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 정보화 방향을 정렬한다 | 현재 주제는 그 구조를 구체 설계·전환하는 세부 축 |
+| [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 정보화 방향을 정렬한다 | 현재 주제는 그 구조를 구체 설계·전환하는 세부 축 |
 | [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) | 전사 관점의 기준 구조를 제공한다 | 현재 주제는 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 산출물 또는 방법론의 일부로 연결 |
-| [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) | 개별 사업의 상세 실행 설계를 다룬다 | 현재 주제는 사업 이전 단계의 정합성 확보에 기여 |
+| [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) | 개별 사업의 상세 실행 설계를 다룬다 | 현재 주제는 사업 이전 단계의 정합성 확보에 기여 |
 
 실무에서는 TRM (Technical [Reference Model](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/), 기술 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/))를 단독 프레임워크로 보기보다, 정책-운영-[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)-자동화 사이를 연결하는 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 개념으로 이해하는 편이 정확하다. 특히 조직 규모가 커질수록 사람의 기억보다 표준과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 의존하는 운영이 중요해진다.
 
@@ -86,7 +86,7 @@ TRM (Technical [Reference Model](/knowledge-base/studynote/12_it_management/03_e
 1. 적용 범위와 제외 범위가 명확하며 기술 영역 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 관점의 경계가 실제 운영에 반영되어 있는가?
 2. 표준 규격와 관련된 책임자, 승인권자, 실행 주체가 충돌 없이 정의되어 있는가?
 3. 예외 관리 결과를 보여 주는 증적과 지표가 정기적으로 축적되는가?
-4. [현행화](/knowledge-base/studynote/12_it_management/03_ea_isp/125_asis_update_ea_maintenance_synchronization/) 체계 결과가 다음 변경·투자·교육 계획으로 환류되는가?
+4. [현행화](/knowledge-base/studynote/12_it_management/03_ea_isp/909_asis_update_ea_maintenance_synchronization/) 체계 결과가 다음 변경·투자·교육 계획으로 환류되는가?
 
 ### 자주 발생하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -114,7 +114,7 @@ TRM (Technical [Reference Model](/knowledge-base/studynote/12_it_management/03_e
 | 기술 영역 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
 | 표준 규격 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
 | 예외 관리 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
-| [현행화](/knowledge-base/studynote/12_it_management/03_ea_isp/125_asis_update_ea_maintenance_synchronization/) 체계 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
+| [현행화](/knowledge-base/studynote/12_it_management/03_ea_isp/909_asis_update_ea_maintenance_synchronization/) 체계 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
@@ -140,7 +140,7 @@ TRM (Technical [Reference Model](/knowledge-base/studynote/12_it_management/03_e
 
 **진행 상황**: 223 / 587
 
-<- **이전**: [119. DRM (Data Reference Model, 데이터 참조 모델)](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/)
-**다음**: [120. TRM (Technical Reference Model, 기술 참조 모델)](/knowledge-base/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model_infrastructure_standards/) ->
+<- **이전**: [119. DRM (Data Reference Model, 데이터 참조 모델)](/knowledge-base/studynote/12_it_management/03_ea_isp/903_drm_data_reference_model_standard/)
+**다음**: [120. TRM (Technical Reference Model, 기술 참조 모델)](/knowledge-base/studynote/12_it_management/03_ea_isp/904_trm_technical_reference_model_infrastructure_standards/) ->
 
 ---

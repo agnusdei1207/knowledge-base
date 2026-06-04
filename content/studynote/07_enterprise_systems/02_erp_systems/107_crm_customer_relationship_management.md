@@ -10,7 +10,7 @@ tags = ["enterprise_systems"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: CRM ([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))은 불특정 다수를 향한 1회성 마케팅을 탈피하고, 개별 고객의 행동과 거래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 심층 분석하여 맞춤형 가치를 제공하는 전사적 고객 관리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이자 이를 구현하는 IT 시스템이다.
+> 1. **본질**: CRM ([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/))은 불특정 다수를 향한 1회성 마케팅을 탈피하고, 개별 고객의 행동과 거래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 심층 분석하여 맞춤형 가치를 제공하는 전사적 고객 관리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이자 이를 구현하는 IT 시스템이다.
 > 2. **가치**: 신규 고객을 유치하는 것보다 기존 고객을 유지하는 것([Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/))이 비용 대비 수익률이 압도적으로 높다는 파레토 법칙에 기반하여, 고객의 평생 가치([LTV](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/))와 충성도를 극대화한다.
 > 3. **판단 포인트**: 성공적인 CRM은 단순한 소프트웨어 도입(Salesforce 등)이 아니라, 마케팅, 영업, 고객 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(CS) 부서가 하나의 통합된 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 공유하며 고객 경험을 일관되게 연결할 때만 완성된다.
 
@@ -28,7 +28,7 @@ CRM은 기업이 고객을 이해하고 [관계](/knowledge-base/studynote/05_da
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-CRM 시스템은 단절된 부서 간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 하나로 묶어 고객 생애 주기([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) Lifecycle) 전체를 관리한다. 그 핵심 기능은 크게 3가지 축으로 돌아간다.
+CRM 시스템은 단절된 부서 간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 하나로 묶어 고객 생애 주기([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/) Lifecycle) 전체를 관리한다. 그 핵심 기능은 크게 3가지 축으로 돌아간다.
 
 | CRM 핵심 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) | 주요 역할 및 메커니즘 | 실무 적용 예시 |
 | :--- | :--- | :--- |
@@ -82,7 +82,7 @@ CRM 프로젝트의 실패율이 높은 이유는 IT 솔루션 관점으로만 �
 3. **가비지 인 가비지 아웃 (GIGO)**: 영업 사원이 현장의 생생한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 CRM에 입력하도록 동기를 부여하고 있는가? (입력이 불편하면 시스템은 죽은 장부가 된다)
 
 **[ 기술사적 의사결정 ]**
-- **SaaS형 CRM 우선 고려**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구축 비용과 인프라 유지보수 부담을 줄이기 위해 Salesforce 등 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 클라우드 기반([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)) CRM 도입을 1순위로 검토한다. 핵심 경쟁력은 시스템 자체의 개발이 아니라, 시스템 안에 쌓이는 '우리만의 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 역량'이기 때문이다.
+- **SaaS형 CRM 우선 고려**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구축 비용과 인프라 유지보수 부담을 줄이기 위해 Salesforce 등 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 클라우드 기반([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/)) CRM 도입을 1순위로 검토한다. 핵심 경쟁력은 시스템 자체의 개발이 아니라, 시스템 안에 쌓이는 '우리만의 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 역량'이기 때문이다.
 
 - **📢 섹션 요약 비유**: 비싼 헬스장 회원권(CRM 솔루션)을 끊었다고 몸이 좋아지지 않는다. 매일 꾸준히 가서 운동([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 입력 및 분석)을 해야만 근육(매출)이 붙는다. 기술보다 실행하는 조직 문화가 훨씬 중요하다.
 
@@ -90,7 +90,7 @@ CRM 프로젝트의 실패율이 높은 이유는 IT 솔루션 관점으로만 �
 
 ## Ⅴ. 기대효과 및 결론
 
-성공적인 CRM은 고객 이탈률(Churn Rate)을 방어하고 마케팅 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)(투자 대비 수익률)를 획기적으로 높인다. 기업은 고객을 1회성 거래 대상이 아닌 '평생의 동반자'로 만들며 록인([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/)) 효과를 누린다.
+성공적인 CRM은 고객 이탈률(Churn Rate)을 방어하고 마케팅 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/)(투자 대비 수익률)를 획기적으로 높인다. 기업은 고객을 1회성 거래 대상이 아닌 '평생의 동반자'로 만들며 록인([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/)) 효과를 누린다.
 
 향후 CRM은 단순한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기록장을 넘어, AI를 결합하여 고객이 불만을 느끼기도 전에 먼저 해결책을 제시하는 '지능형 고객 경험(CX) 플랫폼'으로 진화하고 있다. 결론적으로 CRM은 소프트웨어가 아니라, 고객을 중심에 두는 기업의 확고한 경영 철학 그 자체로 이해해야 한다.
 
@@ -104,7 +104,7 @@ CRM 프로젝트의 실패율이 높은 이유는 IT 솔루션 관점으로만 �
 | :--- | :--- |
 | 파레토 법칙 (80/20 법칙) | 상위 20% 고객이 이익의 80%를 낸다는 CRM의 근본적 도입 명분 |
 | [LTV](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/) (Life Time Value) | 고객 평생 가치, 한 고객이 기업과 거래하며 평생 가져다주는 이익 총합 |
-| [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) ([Software as a Service](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/185_saas_software_as_a_service/)) | Salesforce처럼 클라우드에서 CRM 기능을 즉시 빌려 쓰는 IT 트렌드 |
+| [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) ([Software as a Service](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/185_saas_software_as_a_service/)) | Salesforce처럼 클라우드에서 CRM 기능을 즉시 빌려 쓰는 IT 트렌드 |
 | [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) / [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) | CRM이 물어온 주문을 실제 생산하고 배송하기 위해 연동되어야 하는 백오피스 시스템 |
 
 ### 📈 관련 키워드 및 발전 흐름도

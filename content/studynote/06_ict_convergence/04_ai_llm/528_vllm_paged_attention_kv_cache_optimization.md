@@ -21,7 +21,7 @@ tags = ["studynote-ict-convergence"]
 
 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 서빙의 전통적 문제: 각 요청의 KV 캐시 크기는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 완료 전까지 알 수 없어 과다 할당(Over-provisioning) 또는 미리 최대 시퀀스 길이만큼 연속 메모리를 예약해야 했다. 이로 인해 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리의 <strong>20~40%가 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/">내부 단편화</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/">Internal Fragmentation</a>)</strong>로 낭비됐다.
 
-vLLM은 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) Berkeley 연구팀이 2023년 발표한 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 추론 엔진으로, PagedAttention으로 이 문제를 근본적으로 해결했다.
+vLLM은 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/871_underpinning_contract/) Berkeley 연구팀이 2023년 발표한 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 추론 엔진으로, PagedAttention으로 이 문제를 근본적으로 해결했다.
 
 - **📢 섹션 요약 비유**: 호텔에서 투숙 기간을 모르는 손님에게 무조건 최대 일수분 방을 통째로 예약하던 방식에서, 필요한 만큼만 날마다 배정하는 방식으로 전환한 것이다.
 

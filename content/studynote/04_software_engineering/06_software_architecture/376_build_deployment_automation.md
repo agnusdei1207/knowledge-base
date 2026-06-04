@@ -26,8 +26,8 @@ tags = ["studynote-software-engineering"]
 - **💡 비유**: 빌드 및 배포 자동화는 <strong>'고속철도 물류 시스템'</strong>과 같다. 화물 열차가 각 역마다 화물을 내리고 다시 실는 작업을 수동으로 하면 엄청난 시간이 걸리지만,자동화된 물류기지에서는 화물 열차가 들어오는 순간부터 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 자동 적재, 자동 출하까지 تمام이자동화되어 있다. Likewise, 소프트웨어도자동화된 빌드/배포 파이프라인을 통해 코드가 들어오는 순간부터 고객에게 전달될 때까지인류없이고속으로 처리된다.
 
 - **등장 배경 및 발전 과정**:
-  1. **2000년대 초**: CruiseControl, Hudson 등 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 도구 등장
-  2. **2010년대**: Jenkins가주류 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 도구로 자리잡음, Docker의 등장으로 배포 환경 표준화
+  1. **2000년대 초**: CruiseControl, Hudson 등 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 도구 등장
+  2. **2010년대**: Jenkins가주류 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 도구로 자리잡음, Docker의 등장으로 배포 환경 표준화
   3. **2015년 이후**: [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 대중화, [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 개념 확산
   4. **현재**: Cloud-Native, [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/), Progressive Delivery 등 첨단 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 등장
 
@@ -121,7 +121,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 소프트웨어 빌드 및 배포 자동화의 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

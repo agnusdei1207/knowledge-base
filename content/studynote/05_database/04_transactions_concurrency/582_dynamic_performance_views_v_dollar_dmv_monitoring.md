@@ -23,7 +23,7 @@ tags = ["studynote-database"]
 
 시험과 실무에서 `동적 성능 뷰 (V$, DMV) DBA 모니터링 병목 락 트레이싱 성능 지표 확인망`를 따로 외우기보다, "무엇을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하거나 최적화하려는가"라는 질문으로 연결해야 오래 남는다. 주문·결제 서비스처럼 초당 수천 건의 갱신이 발생하는 환경에서는 충돌 빈도와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간을 함께 봐야 한다.
 
-이 주제와 함께 자주 묶이는 약어로는 DMV (Dynamic [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))가 있다. 약어를 풀어 읽어야 각 규칙의 역할 차이를 놓치지 않는다.
+이 주제와 함께 자주 묶이는 약어로는 DMV (Dynamic [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))가 있다. 약어를 풀어 읽어야 각 규칙의 역할 차이를 놓치지 않는다.
 
 이 그림은 현재 주제가 입력 조건, 통제 규칙, 결과 보장 사이에서 어떤 위치를 차지하는지 압축해 보여 준다.
 

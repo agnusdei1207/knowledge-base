@@ -87,7 +87,7 @@ CA 아키텍트를 위한 실무 판단과 보안 체크리스트는 프로젝�
 2. **재진입(Reentrancy) 공격 방어 판단**: CA가 다른 CA로 돈을 보낼 때, 해커의 악의적 CA가 0.1초 만에 다시 돈을 빼가는 출금 함수를 연쇄적으로 호출할 수 있다. 반드시 내부 장부의 잔고를 먼저 차감한 뒤(Effects)에 외부로 돈을 송금하는(Interactions) <strong>Checks-Effects-Interactions 패턴</strong>을 강제해야 한다.
 3. <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/">가스</a> 병목 판단</strong>: 1만 명에게 토큰을 보내려고 EOA가 CA를 1만 번 호출하면 파산 단계를 맞는다. 다중 전송(Multi-send)을 할 수 있는 배치(Batch) 처리용 CA를 하나 배포하여, 단 1번의 호출로 루프를 돌게 만들어 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 비용을 최소화해야 한다.
 
-- **📢 섹션 요약 비유**: CA 설계는 다리([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 건설과 같다. 한 번 콘크리트를 부어버리면(배포) 부수고 다시 지을 수 없으므로, 설계도 단계에서 수만 번의 하중 테스트([보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/))를 거치고 예비 보수 통로([프록시 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/158_proxy_pattern/))를 미리 만들어 두어야 대참사를 막을 수 있다.
+- **📢 섹션 요약 비유**: CA 설계는 다리([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 건설과 같다. 한 번 콘크리트를 부어버리면(배포) 부수고 다시 지을 수 없으므로, 설계도 단계에서 수만 번의 하중 테스트([보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/919_security_audit_trail/))를 거치고 예비 보수 통로([프록시 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/158_proxy_pattern/))를 미리 만들어 두어야 대참사를 막을 수 있다.
 
 ---
 

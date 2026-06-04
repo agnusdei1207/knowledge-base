@@ -11,7 +11,7 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [스트랭글러 피그 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/) ([Strangler Fig Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/308_strangler_fig_pattern/))은 모놀리식 레거시 시스템을 한 번에 재작성하는 빅뱅 방식 대신, 전면에 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)(게이트웨이)를 두고 새로운 기능부터 신규 마이크로서비스로 하나씩 가로채어 레거시를 점진적으로 고사시키는 레거시 전환 전략이다.
+> 1. **본질**: [스트랭글러 피그 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/) ([Strangler Fig Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/950_strangler_fig_pattern/))은 모놀리식 레거시 시스템을 한 번에 재작성하는 빅뱅 방식 대신, 전면에 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)(게이트웨이)를 두고 새로운 기능부터 신규 마이크로서비스로 하나씩 가로채어 레거시를 점진적으로 고사시키는 레거시 전환 전략이다.
 > 2. **가치**: 시스템 전체를 중단하지 않고 운영 중에 레거시를 신규 아키텍처로 교체할 수 있어, 재작성 리스크를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)하고 신규 기능과 레거시 기능을 공존시키면서 점진적으로 전환한다.
 > 3. **판단 포인트**: 전환 완료 시점을 명확히 정의하지 않으면 레거시와 신규 시스템이 장기간 혼재하는 '영구 혼합 아키텍처' 함정에 빠지므로, 각 기능 단위의 전환 완료 기준(Definition of Done)과 일정을 사전에 정의해야 한다.
 

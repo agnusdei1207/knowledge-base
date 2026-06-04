@@ -136,7 +136,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 1087 / 1108
 
-<- **이전**: [984. PKI 공개키 인프라 (Public Key Infrastructure)](/knowledge-base/studynote/09_security/uncategorized/984_pki_public_key_infrastructure_ca_ra_certificate/)
+<- **이전**: [984. PKI 공개키 인프라 (Public Key Infrastructure)](/knowledge-base/studynote/09_security/uncategorized/1080_pki_public_key_infrastructure_ca_ra_certificate/)
 **다음**: [985. 양자 위협 (Shor's Algorithm impact)](/knowledge-base/studynote/09_security/19_ai_advanced_security/985_quantum_threat_shor/) ->
 
 ---

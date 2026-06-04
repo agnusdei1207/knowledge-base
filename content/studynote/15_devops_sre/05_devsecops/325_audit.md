@@ -12,7 +12,7 @@ tags = ["studynote-devops-sre"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DevSecOps는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 모든 단계에 보안을 내재화하는 문화·방법론이다. [Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) (좌편이)란 보안 활동을 개발 수명주기의 왼쪽(이른 단계)으로 이동시켜, 운영 단계에서 발견되는 비싼 취약점을 설계·코딩 단계에서 사전 차단한다.
-> 2. **핵심 원리**: 보안 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 운영 후에 발견하면 수정 비용이 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)의 30배에 달한다(IBM 연구). [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/)으로 설계 단계에 위협을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고, [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)/[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)/SCA로 코드·빌드 단계에 자동 스캔하면 보안 사고 자체를 예방한다.
+> 2. **핵심 원리**: 보안 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 운영 후에 발견하면 수정 비용이 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)의 30배에 달한다(IBM 연구). [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/1041_threat_modeling/)으로 설계 단계에 위협을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고, [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)/[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)/SCA로 코드·빌드 단계에 자동 스캔하면 보안 사고 자체를 예방한다.
 > 3. **판단 포인트**: [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 성숙도의 핵심은 "보안이 배포를 막는가"가 아니라 "보안이 배포 속도를 유지하면서 품질을 높이는가"다. 자동화된 보안 게이트가 있어야 속도와 보안이 공존한다.
 
 ---
@@ -47,7 +47,7 @@ Shift-Left의 반대 개념 Shift-Right는 프로덕션 환경에서 보안 관�
 +------------------------------------------------------------+
 ```
 
-[STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/)은 6가지 위협 범주의 두문자어다:
+[STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/1041_threat_modeling/)은 6가지 위협 범주의 두문자어다:
 - **S** - [Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) ([스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)): 신원 위조
 - **T** - Tampering (변조): [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 침해
 - **R** - Repudiation (부인): 행위 부인
@@ -88,7 +88,7 @@ Shift-Left의 반대 개념 Shift-Right는 프로덕션 환경에서 보안 관�
 - **Level 1**: 수동 보안 검토
 - **Level 2**: CI에 [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)/[SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) 통합
 - **Level 3**: [DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/), [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 스캔 자동화
-- **Level 4**: [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/) -> 런타임 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 전 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 자동화
+- **Level 4**: [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/1041_threat_modeling/) -> 런타임 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 전 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 자동화
 
 > 📢 **섹션 요약 비유**: 보안 게이트는 고속도로 톨게이트다. 모든 차를 정지시키면 교통이 막히고, 아무 차나 통과시키면 위험하다. 빠른 자동 검사 + 의심 차량만 정밀 검사가 이상적이다.
 
@@ -109,10 +109,10 @@ DevSecOps의 본질은 **"보안은 팀 전체의 책임"** 이라는 문화 전
 | 개념 | 연결 포인트 |
 |:---|:---|
 | [Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) | 보안을 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계로 이동 |
-| [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) | [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/) 6가지 범주 |
+| [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) | [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/1041_threat_modeling/) 6가지 범주 |
 | [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) ([Static Application Security Testing](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)) | 정적 코드 분석 |
 | [DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/) ([Dynamic Application Security Testing](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)) | 실행 중 [동적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/) |
-| [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) ([Software Composition Analysis](/knowledge-base/studynote/04_software_engineering/11_testing_validation/495_sca_software_composition_analysis/)) | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 의존성 [취약점 스캔](/knowledge-base/studynote/09_security/13_secops_ir_forensics/675_vulnerability_scanning/) |
+| [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) ([Software Composition Analysis](/knowledge-base/studynote/04_software_engineering/11_testing_validation/887_sca_software_composition_analysis/)) | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 의존성 [취약점 스캔](/knowledge-base/studynote/09_security/13_secops_ir_forensics/675_vulnerability_scanning/) |
 | [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Champion | 각 팀 보안 대표 개발자 |
 
 ### 📈 관련 키워드 및 발전 흐름도

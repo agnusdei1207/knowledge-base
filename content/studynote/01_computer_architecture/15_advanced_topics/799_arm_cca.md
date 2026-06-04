@@ -13,7 +13,7 @@ tags = ["studynote-computer-architecture"]
 
 > 1. **본질**: ARM CCA는 ARMv9 기반 시스템에서 Realm이라는 별도 실행 세계를 도입해, 하이퍼바이저조차 들여다볼 수 없는 기밀 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 환경을 만드는 아키텍처다.
 > 2. **가치**: TrustZone이 정적 보안 세계 분리에 강했다면, CCA는 [멀티테넌트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 클라우드에서 동적으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·파기되는 기밀 워크로드를 다루기 위한 ARM의 답이다.
-> 3. **판단 포인트**: 핵심 판단은 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) (Granule [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) Table) 기반 메모리 소유권, RMM (Realm [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)) 역할, 원격 증명 비용을 감수할 만큼 워크로드 가치가 큰지에 있다.
+> 3. **판단 포인트**: 핵심 판단은 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) (Granule [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) Table) 기반 메모리 소유권, RMM (Realm [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)) 역할, 원격 증명 비용을 감수할 만큼 워크로드 가치가 큰지에 있다.
 
 ---
 
@@ -37,7 +37,7 @@ ARM 서버와 단말이 클라우드형 보안 요구를 받아들이면서, 기
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-CCA의 핵심 메커니즘은 RMM이 Realm의 생명주기를 관리하고, GPT가 각 메모리 granule의 소유 상태를 하드웨어로 강제한다는 점이다. 하이퍼바이저는 Realm [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 요청을 내지만, 실제 메모리 소유권 전환은 Root 영역의 제어 아래에서 이뤄진다. Realm 안의 코드는 측정값으로 기록되고, 외부 검증자는 이 측정값과 하드웨어 서명을 통해 원격 증명을 수행할 수 있다. 따라서 CCA의 본질은 "[VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) [보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/503_security_features_design/) 하나"가 아니라 "메모리 소유권·실행 세계·증명"의 삼중 결합이다.
+CCA의 핵심 메커니즘은 RMM이 Realm의 생명주기를 관리하고, GPT가 각 메모리 granule의 소유 상태를 하드웨어로 강제한다는 점이다. 하이퍼바이저는 Realm [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 요청을 내지만, 실제 메모리 소유권 전환은 Root 영역의 제어 아래에서 이뤄진다. Realm 안의 코드는 측정값으로 기록되고, 외부 검증자는 이 측정값과 하드웨어 서명을 통해 원격 증명을 수행할 수 있다. 따라서 CCA의 본질은 "[VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) [보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/895_security_features_design/) 하나"가 아니라 "메모리 소유권·실행 세계·증명"의 삼중 결합이다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |

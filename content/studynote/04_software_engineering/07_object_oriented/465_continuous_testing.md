@@ -11,7 +11,7 @@ tags = ["studynote-software-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 지속적 테스팅 (Continuous Testing) - [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 전 과정에 테스트 자동화 통합은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 1. **본질**: 지속적 테스팅 (Continuous Testing) - [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인 전 과정에 테스트 자동화 통합은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
 > 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
@@ -19,11 +19,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: Continuous(지속적)라는 말은 "멈추지 않고 24시간 내내 기계가 돌아간다"는 뜻이다. 개발자가 `git push`를 때리는 순간, 서버([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))가 코드를 낚아채서 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)(단위) -> 정적 스캔(보안) -> 가상 서버 띄우기(통합) -> JMeter 쏘기([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))를 15분 만에 일사천리로 끝내고, 단 1개의 테스트라도 삑사리가 나면 소스 병합(Merge) 자체를 거부하며 코드를 뱉어버리는 피도 눈물도 없는 자동화 컨베이어 벨트다.
+- **개념**: Continuous(지속적)라는 말은 "멈추지 않고 24시간 내내 기계가 돌아간다"는 뜻이다. 개발자가 `git push`를 때리는 순간, 서버([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/))가 코드를 낚아채서 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)(단위) -> 정적 스캔(보안) -> 가상 서버 띄우기(통합) -> JMeter 쏘기([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))를 15분 만에 일사천리로 끝내고, 단 1개의 테스트라도 삑사리가 나면 소스 병합(Merge) 자체를 거부하며 코드를 뱉어버리는 피도 눈물도 없는 자동화 컨베이어 벨트다.
 
 - **필요성**: 폭포수(Waterfall) 개발 시절, 6개월간 코딩만 미친 듯이 하고 마지막 1주일에 QA 팀을 불렀다(빅뱅 테스트). QA 팀이 1만 개의 에러를 뿜어내자, 개발자 100명은 6개월 전 내가 무슨 로직을 짰는지 기억도 못 하는 상태에서 밤을 새우며 얽힌 실타래(버그)를 풀다 퇴사했다. 오픈은 3개월 밀렸다. **에러를 가장 값싸고 빠르게 고치는 순간은 '방금 내가 타자를 친 10분 뒤'다.** 이 황금 피드백 타임을 잡기 위해, 코드를 합칠 때마다 기계가 미친 듯이 전수 검사를 해버리는 지속적 테스팅이 필수 불가결한 시대정신이 되었다.
 
-- **💡 비유**: 지속적 테스팅은 라면 공장의 <strong>'구간별 불량품 자동 엑스레이 기계'</strong>와 같습니다. 옛날에는 라면 100만 봉지를 박스에 다 포장하고 트럭에 싣기 직전에 열어봤습니다(수동 QA). 머리카락이 하나 발견되면 박스를 다 뜯어야 하죠. 지금은 밀가루 반죽할 때 엑스레이([단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)), 면을 튀길 때 엑스레이([통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)), 봉지에 스프 넣을 때 무게 센서([성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/))를 달아놔서(파이프라인), 컨베이어 벨트를 지나는 찰나의 순간 불량품을 발로 뻥 차버리고(빌드 실패) 정상 제품만 상자에 담기게 하는 완벽한 기계적 퀄리티 컨트롤입니다.
+- **💡 비유**: 지속적 테스팅은 라면 공장의 <strong>'구간별 불량품 자동 엑스레이 기계'</strong>와 같습니다. 옛날에는 라면 100만 봉지를 박스에 다 포장하고 트럭에 싣기 직전에 열어봤습니다(수동 QA). 머리카락이 하나 발견되면 박스를 다 뜯어야 하죠. 지금은 밀가루 반죽할 때 엑스레이([단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)), 면을 튀길 때 엑스레이([통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)), 봉지에 스프 넣을 때 무게 센서([성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/837_performance_test_types/))를 달아놔서(파이프라인), 컨베이어 벨트를 지나는 찰나의 순간 불량품을 발로 뻥 차버리고(빌드 실패) 정상 제품만 상자에 담기게 하는 완벽한 기계적 퀄리티 컨트롤입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **수동 QA의 지옥**: 알파/베타 테스트라는 명목하에 사람이 액셀(Excel)에 시나리오 1만 개를 적어놓고 마우스를 일일이 클릭하며 에러를 찾았다. (1달 소요)
@@ -59,7 +59,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-지속적 테스팅 (Continuous Testing) - [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 전 과정에 테스트 자동화 통합의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
+지속적 테스팅 (Continuous Testing) - [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인 전 과정에 테스트 자동화 통합의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 지속적 테스팅 (Continuous Testing)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 522 / 973
 
-<- **이전**: [465. 지속적 테스팅 (Continuous Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/465_continuous_testing/)
-**다음**: [466. 시프트 레프트 테스팅 (Shift-Left Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/466_shift_left_testing/) ->
+<- **이전**: [465. 지속적 테스팅 (Continuous Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/857_continuous_testing/)
+**다음**: [466. 시프트 레프트 테스팅 (Shift-Left Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/858_shift_left_testing/) ->
 
 ---

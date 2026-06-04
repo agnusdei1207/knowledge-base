@@ -89,7 +89,7 @@ TCO를 계산할 때는 비용을 한 덩어리로 보지 말고 계층별로 �
 | Replatform | 중간 | 중간~낮음 | 일부 managed [service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 활용 가능 | 운영 모델 재설계 필요 |
 | [Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) / [Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) | 높음 | 가장 낮아질 가능성 큼 | [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)과 자동화 극대화 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자와 조직 변화 부담 |
 
-또한 TCO와 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) ([Return on Investment](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))는 같은 것이 아니다. TCO는 비용 총합을, ROI는 투자로 얻은 수익 대비 효율을 본다. 클라우드가 TCO는 약간 높아도 출시 속도 향상과 장애 감소로 더 높은 ROI를 만들 수 있다. 반대로 사용량이 매우 일정하고 기존 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)가 이미 감가상각을 끝낸 환경이라면 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)의 TCO가 더 유리할 수도 있다.
+또한 TCO와 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) ([Return on Investment](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/))는 같은 것이 아니다. TCO는 비용 총합을, ROI는 투자로 얻은 수익 대비 효율을 본다. 클라우드가 TCO는 약간 높아도 출시 속도 향상과 장애 감소로 더 높은 ROI를 만들 수 있다. 반대로 사용량이 매우 일정하고 기존 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)가 이미 감가상각을 끝낸 환경이라면 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)의 TCO가 더 유리할 수도 있다.
 
 - **📢 섹션 요약 비유**: 같은 도시로 가도 도보, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), 고속철의 총비용과 도착 시간이 다르다. 처음 표값만 보면 헷갈리지만, 오래 걸리는 시간 손실까지 더하면 최적 선택이 달라진다.
 
@@ -136,7 +136,7 @@ TCO를 계산할 때는 비용을 한 덩어리로 보지 말고 계층별로 �
 | OPEX | 사용량 기반 운영비 구조와 현금 흐름 특성을 설명한다. |
 | [Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)-and-Shift | 낮은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 전환비 대신 장기 TCO가 높아질 수 있다. |
 | [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) | 클라우드 운영 단계에서 실제 비용 최적화를 담당한다. |
-| [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 위에 비즈니스 수익 효과를 더해 투자 타당성을 본다. |
+| [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 위에 비즈니스 수익 효과를 더해 투자 타당성을 본다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

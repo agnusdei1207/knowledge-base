@@ -12,7 +12,7 @@ tags = ["studynote-devops-sre"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) Research and Assessment) 배포 빈도([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) Frequency)는 조직이 프로덕션 환경에 코드를 배포하는 빈도를 측정하는 핵심 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 성과 지표로, 팀의 소프트웨어 전달 역량(Software Delivery Capability)과 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 성숙도를 직접적으로 반영한다.
 > 2. **가치**: [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 연구(2019 [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) of [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) Report)는 Elite 팀이 하루 여러 번 배포(On Demand)하며, 이 팀들이 Low 팀(수개월에 1회)보다 배포 속도 208배, [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 106배, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 2604배 우수하다는 것을 수만 개 조직 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)했다.
-> 3. **판단 포인트**: 배포 빈도를 높이기 위한 전제 조건은 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)([마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 자동화, [Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/), 자동화 테스트 커버리지이며, 높은 배포 빈도 달성 없이는 짧은 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)(Mean Time To [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))과 낮은 변경 실패율([Change Failure Rate](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/))도 달성하기 어렵다.
+> 3. **판단 포인트**: 배포 빈도를 높이기 위한 전제 조건은 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)([마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 자동화, [Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/), 자동화 테스트 커버리지이며, 높은 배포 빈도 달성 없이는 짧은 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)(Mean Time To [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))과 낮은 변경 실패율([Change Failure Rate](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/))도 달성하기 어렵다.
 
 ---
 
@@ -49,7 +49,7 @@ tags = ["studynote-devops-sre"]
 
 | 등급 | 배포 빈도 | 대표 사례 | 특성 |
 |:---|:---|:---|:---|
-| **Elite** | 하루 여러 번 (On Demand) | Netflix, Amazon | 완전 자동화 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, [Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) |
+| **Elite** | 하루 여러 번 (On Demand) | Netflix, Amazon | 완전 자동화 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD, [Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) |
 | **High** | 하루 1회 ~ 주 1회 | 성숙 스타트업 | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 자동화 완성 |
 | **Medium** | 주 1회 ~ 월 1회 | 중견 기업 | 일부 수동 배포 잔존 |
 | **Low** | 월 1회 ~ 반기 1회 | 전통 SI | 수동 배포, 긴 승인 절차 |
@@ -77,7 +77,7 @@ tags = ["studynote-devops-sre"]
 +--------------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: Elite 팀의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 컨베이어 벨트 공장이다. 개발자가 코드를 올리면 자동으로 테스트·검사·포장·배송이 끊임없이 이루어져 하루에도 수십 번 소비자(사용자) 손에 제품이 전달된다.
+- **📢 섹션 요약 비유**: Elite 팀의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD는 컨베이어 벨트 공장이다. 개발자가 코드를 올리면 자동으로 테스트·검사·포장·배송이 끊임없이 이루어져 하루에도 수십 번 소비자(사용자) 손에 제품이 전달된다.
 
 ---
 
@@ -137,7 +137,7 @@ tags = ["studynote-devops-sre"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인</strong> | 배포 빈도를 높이는 핵심 자동화 인프라 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인</strong> | 배포 빈도를 높이는 핵심 자동화 인프라 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/">Feature Flag</a></strong> | 배포와 기능 릴리스를 분리하여 안전한 고빈도 배포 실현 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">카나리 배포</a></strong> | 트래픽 일부에만 신버전 적용으로 위험 최소화 |
 | <strong>변경 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/">리드 타임</a> (MLT)</strong> | 코드 커밋 -> 프로덕션 배포까지의 시간; DF와 상호 강화 |
@@ -160,7 +160,7 @@ tags = ["studynote-devops-sre"]
     v
 [플랫폼 엔지니어링 + AI 코드 어시스턴트 — 배포 자동화 극한]
 ```
-수동 대규모 배포에서 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 자동화, [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 분리, Feature Flag를 거쳐 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)과 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 보조로 극한의 배포 빈도를 달성하는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 성숙화 흐름이다.
+수동 대규모 배포에서 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 자동화, [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 분리, Feature Flag를 거쳐 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)과 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 보조로 극한의 배포 빈도를 달성하는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 성숙화 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -123,7 +123,7 @@ tags = ["studynote-computer-architecture"]
 | 베이스보드 관리 컨트롤러 ([BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/)) | [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 멈춰도 살아 있는 아웃오브밴드 관측 경로를 제공한다 |
 | 레드피시 (Redfish) | 하드웨어 상태를 표준 인터페이스로 노출하는 관리 계층이다 |
 | 이비피에프 ([eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/)) | 소프트웨어 실행 맥락과 하드웨어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 연결해 준다 |
-| [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 기반 운영 ([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/)) | 대규모 텔레메트리에서 이상 징후를 자동으로 찾아낸다 |
+| [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 기반 운영 ([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)) | 대규모 텔레메트리에서 이상 징후를 자동으로 찾아낸다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

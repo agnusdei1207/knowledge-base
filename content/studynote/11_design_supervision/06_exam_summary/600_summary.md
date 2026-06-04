@@ -51,7 +51,7 @@ tags = ["studynote-design-supervision"]
 | 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 축 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 보안, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), 확장성, [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) | 기술 선택 이유와 트레이드오프 설명 |
 | 감리·증적 축 | [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 산출물, 조치결과, 재검증 | 평가형 문장과 실무 근거를 완성 |
 
-이 프레임에 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/), [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) 생명주기, GC 튜닝, 감리 키워드 매핑 같은 개별 주제를 꽂아 넣으면 서로 다른 문제도 같은 뼈대로 답할 수 있다. 결국 집대성의 목표는 내용을 줄이는 것이 아니라 <strong>답안 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 경로를 줄이는 것</strong>이다.
+이 프레임에 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/), [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) 생명주기, GC 튜닝, 감리 키워드 매핑 같은 개별 주제를 꽂아 넣으면 서로 다른 문제도 같은 뼈대로 답할 수 있다. 결국 집대성의 목표는 내용을 줄이는 것이 아니라 <strong>답안 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 경로를 줄이는 것</strong>이다.
 - **📢 섹션 요약 비유**: 서랍을 물건 종류대로만 나누는 것이 아니라, 자주 쓰는 순서와 확인표까지 함께 붙여 둔 정리함과 같다.
 
 ---
@@ -99,7 +99,7 @@ tags = ["studynote-design-supervision"]
 - **생명주기 기반 정리**: 기획부터 운영·개선까지 답안 순서를 안정시키는 주축
 - <strong>품질 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a> 중심 사고</strong>: 기술 선택 이유와 트레이드오프를 설명하는 기준
 - **감리 증적 연결**: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 산출물, 인터뷰, 테스트 결과를 평가 언어로 전환하는 장치
-- **패턴·원리·튜닝 통합**: [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/), [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/), GC, 보안, 운영을 하나의 틀에 수용하는 구조
+- **패턴·원리·튜닝 통합**: [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/), [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/), GC, 보안, 운영을 하나의 틀에 수용하는 구조
 - **실전 답안 템플릿**: 정의 -> 원리 -> 비교 -> 판단 -> 기대효과의 반복 가능한 서술 틀
 
 ### 📈 관련 키워드 및 발전 흐름도

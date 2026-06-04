@@ -13,7 +13,7 @@ tags = ["studynote-design-supervision"]
 
 > 1. **본질**: 미디에이터 패턴 ([Mediator Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/))은 GoF 행위 패턴으로, 객체들이 직접 참조하며 복잡하게 상호작용하는 대신, [중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)([Mediator](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)) 객체를 통해 통신하게 하여 객체 간 N:N 결합을 N:1+1:N으로 단순화하는 패턴이다.
 > 2. **가치**: [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 간 직접 참조를 제거하여 결합도를 낮추고, 상호작용 로직을 미디에이터에 집중시켜 각 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)를 독립적으로 재사용·테스트할 수 있게 한다. 채팅방, 항공 관제, MVC의 Controller, CQRS의 MediatR가 대표 사례다.
-> 3. **판단 포인트**: 미디에이터 패턴은 미디에이터 자체가 '신(God) 객체'가 되어 비대해지는 위험이 있다. 미디에이터가 너무 많은 책임을 가지면 오히려 유지보수가 어려워진다. 도메인별로 미디에이터를 분리하거나, [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/)(EventBus)로 대체하는 것을 고려해야 한다.
+> 3. **판단 포인트**: 미디에이터 패턴은 미디에이터 자체가 '신(God) 객체'가 되어 비대해지는 위험이 있다. 미디에이터가 너무 많은 책임을 가지면 오히려 유지보수가 어려워진다. 도메인별로 미디에이터를 분리하거나, [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/931_event_bus_stream_processing/)(EventBus)로 대체하는 것을 고려해야 한다.
 
 ---
 
@@ -90,7 +90,7 @@ GUI 애플리케이션에서 버튼·체크박스·텍스트필드가 서로 직
 ---
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-스프링에서 미디에이터 패턴은 `ApplicationEventPublisher` 기반 이벤트 시스템으로 구현된다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 이벤트를 발행하면 미디에이터([이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/))가 적절한 핸들러로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)한다. 이벤트 기반 마이크로서비스에서 Kafka가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 미디에이터 역할을 한다.
+스프링에서 미디에이터 패턴은 `ApplicationEventPublisher` 기반 이벤트 시스템으로 구현된다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 이벤트를 발행하면 미디에이터([이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/931_event_bus_stream_processing/))가 적절한 핸들러로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)한다. 이벤트 기반 마이크로서비스에서 Kafka가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 미디에이터 역할을 한다.
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 간 N:N 직접 참조를 미디에이터를 통해 N:1+1:N으로 단순화했는가?
@@ -107,7 +107,7 @@ GUI 애플리케이션에서 버튼·체크박스·텍스트필드가 서로 직
 
 미디에이터 패턴을 적용하면 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 간 복잡한 N:N 결합이 N:1로 단순화되어 각 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)를 독립적으로 개발·테스트·재사용할 수 있다. [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/)·MVC·이벤트 주도 아키텍처에서 핵심 패턴으로 활용된다.
 
-한계는 미디에이터가 비대해지면 단일 실패 지점([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))이 되고, 복잡한 중재 로직이 미디에이터에 집중되어 God 객체가 될 수 있다. 도메인별 미디에이터 분리 또는 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/) 활용으로 이를 방지한다.
+한계는 미디에이터가 비대해지면 단일 실패 지점([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))이 되고, 복잡한 중재 로직이 미디에이터에 집중되어 God 객체가 될 수 있다. 도메인별 미디에이터 분리 또는 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/931_event_bus_stream_processing/) 활용으로 이를 방지한다.
 
 - **📢 섹션 요약 비유**: 미디에이터 패턴은 오케스트라 지휘자([Mediator](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/))가 각 단원([컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))을 조율하는 것이다. 지휘자가 없으면 단원들이 서로 박자를 맞추기 어렵다.
 

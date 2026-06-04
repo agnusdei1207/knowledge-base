@@ -194,7 +194,7 @@ tags = ["studynote-operating-system"]
 | [베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/) (Base/Relocation [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
 | [한계 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/) ([Limit Register](/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
 | [동적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/) ([Dynamic Linking](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/) ([Shared Library](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/)) 스터브 ([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)) 코드 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/) ([Shared Library](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/)) 스터브 ([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)) 코드 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

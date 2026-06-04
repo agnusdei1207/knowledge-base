@@ -28,7 +28,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **회계 장부의 시대**: 원래 IT 용어가 아니라 회계/재무에서 왔다. "돈 통 만지는 놈이랑 장부 적는 놈을 분리해라"는 고전적인 은행의 횡령 방지 룰이었다.
   2. **모놀리식 IT의 독재자 (Sysadmin)**: 2000년대 IT 인프라에선 `root` 계정 하나를 가진 시스템 관리자가 신(God)이었다. 그가 DB 지우면 끝.
-  3. **클라우드와 DevSecOps의 분할 통치 (현재)**: IT 시스템이 복잡해지고, 소스코드 한 줄이 100억의 가치를 가지게 되면서, **"개발자는 코드를 짜되 배포를 못 하고, 운영자는 배포는 하되 코드를 못 건드리는"** [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인의 거대한 권력 찢기([IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) Role 분리)가 데브옵스의 생존 헌법으로 진화했다.
+  3. **클라우드와 DevSecOps의 분할 통치 (현재)**: IT 시스템이 복잡해지고, 소스코드 한 줄이 100억의 가치를 가지게 되면서, **"개발자는 코드를 짜되 배포를 못 하고, 운영자는 배포는 하되 코드를 못 건드리는"** [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인의 거대한 권력 찢기([IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) Role 분리)가 데브옵스의 생존 헌법으로 진화했다.
 
 - **📢 섹션 요약 비유**: SoD 위반은 <strong>'경찰관이 판사 역할까지 혼자 다 하는 것'</strong>입니다. 경찰(개발자)이 도둑(코드)을 잡아 와서, 자기가 직접 징역 10년이라고 재판 판결(배포 승인)까지 내려버리면 억울한 사람(버그)이 감옥에 가도 막을 자가 없습니다. 기소하는 자와 판결하는 자의 룰을 엄격하게 나누는 것이 삼권분립이자 소프트웨어의 정의(Justice)입니다.
 
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 보안 조직 분리 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 위반(SoD, Segregation of Duties)의 SW 통제 로직은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 652 / 973
 
-<- **이전**: [530. 보안 조직 분리 정책 위반 (SoD, Segregation of Duties)의 SW 통제 로직](/knowledge-base/studynote/04_software_engineering/11_testing_validation/530_segregation_of_duties_control_logic/)
-**다음**: [531. 클라우드 네이티브 (Cloud Native) 아키텍처 철학](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) ->
+<- **이전**: [530. 보안 조직 분리 정책 위반 (SoD, Segregation of Duties)의 SW 통제 로직](/knowledge-base/studynote/04_software_engineering/11_testing_validation/922_segregation_of_duties_control_logic/)
+**다음**: [531. 클라우드 네이티브 (Cloud Native) 아키텍처 철학](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) ->
 
 ---

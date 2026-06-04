@@ -62,7 +62,7 @@ AIOps를 구현하기 위한 가장 중요한 실무 아키텍처가 IBN입니�
 사람의 손(Touch)이 1%도 개입하지 않는 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 통합 자력 제어 모델입니다.
 
 1. **상태 모니터링 (Telemtry)**: AI가 1밀리초 단위로 망의 트래픽을 감시합니다.
-2. <strong>이상 예측 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/">AIOps</a>)</strong>: "어? 콘서트장에 사람들이 몰리면서 3번 라우터 온도가 올라가네? 10분 뒤에 터지겠군."
+2. <strong>이상 예측 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/">AIOps</a>)</strong>: "어? 콘서트장에 사람들이 몰리면서 3번 라우터 온도가 올라가네? 10분 뒤에 터지겠군."
 3. **자동 치유 체계 (Self-Healing)**: AI가 사람에게 묻지 않고 스스로 판단합니다. "3번 라우터 트래픽을 4번으로 우회시켜!" 그리고 장비에 자동으로 명령을 쏴서 고장을 미연에 100% 방어해 냅니다.
 4. <strong>지속 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> (Assurance)</strong>: 관리자의 '의도(홀로그램 무중단)'가 잘 지켜지고 있는지 스스로 24시간 피드백 루프를 돌립니다.
 
@@ -89,7 +89,7 @@ AIOps를 구현하기 위한 가장 중요한 실무 아키텍처가 IBN입니�
 2. 운영 복잡도와 도입 효과를 함께 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 네트워크 운영은 '수동 변속기 자동차'입니다. 운전자(관리자)가 오르막길을 만날 때마다 엔진 소리(알람)를 듣고 클러치를 밟으며 기어를 1단 2단 일일이 손으로 바꿔줘야(CLI [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 입력) 차가 안 섭니다. [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/) 기반의 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 자율망은 '완전 자율주행 테슬라'입니다. 관리자는 뒷좌석에 누워 "부산 해운대로 조용하게 모셔"라고 의도([Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/))만 말하면 끝입니다. 차에 달린 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/))가 알아서 앞차와의 거리, 노면 상태, 엔진 온도를 1초에 수천 번 계산하며, 스스로 핸들을 꺾고 브레이크를 밟아 목적지까지 완벽한 무사고(제로 터치)로 도착하게 만드는 통신 인프라의 최종 진화형입니다.
+- **📢 섹션 요약 비유**: 기존 네트워크 운영은 '수동 변속기 자동차'입니다. 운전자(관리자)가 오르막길을 만날 때마다 엔진 소리(알람)를 듣고 클러치를 밟으며 기어를 1단 2단 일일이 손으로 바꿔줘야(CLI [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 입력) 차가 안 섭니다. [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) 기반의 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 자율망은 '완전 자율주행 테슬라'입니다. 관리자는 뒷좌석에 누워 "부산 해운대로 조용하게 모셔"라고 의도([Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/))만 말하면 끝입니다. 차에 달린 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/))가 알아서 앞차와의 거리, 노면 상태, 엔진 온도를 1초에 수천 번 계산하며, 스스로 핸들을 꺾고 브레이크를 밟아 목적지까지 완벽한 무사고(제로 터치)로 도착하게 만드는 통신 인프라의 최종 진화형입니다.
 
 ---
 

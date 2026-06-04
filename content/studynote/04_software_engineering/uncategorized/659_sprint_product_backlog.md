@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [애자일 스크럼](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)) 프레임워크에서 백로그(Backlog)는 제품에 필요한 모든 작업(기능, 버그 수정, [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 해소 등)의 목록이다. 이 중 **프로덕트 백로그(PB)** 는 제품 오너(PO)가 소유하며 제품의 생애주기와 함께 끊임없이 변하는 전체 요구사항의 집합이다. 반면 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">스프린트</a> 백로그(SB)</strong> 는 개발팀(Dev Team)이 소유하며, 단일 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)(보통 1~4주) 동안 달성해야 할 구체적인 작업([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))들의 고정된 집합이다.
+- **개념**: [애자일 스크럼](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/)([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/)) 프레임워크에서 백로그(Backlog)는 제품에 필요한 모든 작업(기능, 버그 수정, [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 해소 등)의 목록이다. 이 중 **프로덕트 백로그(PB)** 는 제품 오너(PO)가 소유하며 제품의 생애주기와 함께 끊임없이 변하는 전체 요구사항의 집합이다. 반면 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">스프린트</a> 백로그(SB)</strong> 는 개발팀(Dev Team)이 소유하며, 단일 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)(보통 1~4주) 동안 달성해야 할 구체적인 작업([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))들의 고정된 집합이다.
 
 - **필요성**: 전통적인 프로젝트 관리에서는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 수백 페이지의 요구사항 명세서를 확정(Freeze)하고 시작했다. 그러나 이 방식은 개발 도중 시장 상황이 변하거나 고객의 마음이 바뀌었을 때 대처할 수 없는 구조적 한계가 있었다. 이를 해결하기 위해 요구사항을 고정하지 않고 '우선순위가 높은 것부터 순차적으로 구체화'하는 지연된 의사결정(Deferred Decision) 체계가 필요해졌다. 프로덕트 백로그는 이 유연성을 제공하고, [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 백로그는 잦은 변경으로 인해 개발자가 집중력을 잃는 것을 막아주는 방파제 역할을 한다.
 
@@ -133,7 +133,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 백로그 / 프로덕트 백로그은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

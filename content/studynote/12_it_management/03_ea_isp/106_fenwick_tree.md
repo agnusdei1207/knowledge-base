@@ -140,7 +140,7 @@ tags = ["it_management"]
 
 **진행 상황**: 195 / 587
 
-<- **이전**: [105. 감성 분석 (Sentiment Analysis) — 긍/부정/중립, BERT 기반 심화](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)
-**다음**: [106. 기술 아키텍처 (TA) 현황 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/) ->
+<- **이전**: [105. 감성 분석 (Sentiment Analysis) — 긍/부정/중립, BERT 기반 심화](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)
+**다음**: [106. 기술 아키텍처 (TA) 현황 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/890_ta_as_is_analysis/) ->
 
 ---

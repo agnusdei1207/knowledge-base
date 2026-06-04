@@ -136,7 +136,7 @@ LLM08: Autonomous Agent Risk를 제대로 이해하면 개념 하나를 외우�
 
 **진행 상황**: 1084 / 1108
 
-<- **이전**: [982. SSL/TLS 핸드셰이크 (Ssl TLS Handshake Session Key Exchange Https)](/knowledge-base/studynote/09_security/uncategorized/982_ssl_tls_handshake_session_key_exchange_https/)
-**다음**: [983. VPN (가상 사설망)](/knowledge-base/studynote/09_security/uncategorized/983_vpn_virtual_private_network_tunneling_encryption/) ->
+<- **이전**: [982. SSL/TLS 핸드셰이크 (Ssl TLS Handshake Session Key Exchange Https)](/knowledge-base/studynote/09_security/uncategorized/1078_ssl_tls_handshake_session_key_exchange_https/)
+**다음**: [983. VPN (가상 사설망)](/knowledge-base/studynote/09_security/uncategorized/1079_vpn_virtual_private_network_tunneling_encryption/) ->
 
 ---

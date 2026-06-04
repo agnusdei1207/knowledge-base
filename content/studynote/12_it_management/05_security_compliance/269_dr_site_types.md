@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 387 / 587
 
-<- **이전**: [268. RTO 복구 시간 RPO 복구 시점](/knowledge-base/studynote/12_it_management/05_security_compliance/268_rto_rpo_recovery_objectives/)
-**다음**: [269. DR 센터 (미러, 핫, 웜, 콜드)](/knowledge-base/studynote/12_it_management/05_security_compliance/269_dr_site_types_comparison/) ->
+<- **이전**: [268. RTO 복구 시간 RPO 복구 시점](/knowledge-base/studynote/12_it_management/05_security_compliance/918_rto_rpo_recovery_objectives/)
+**다음**: [269. DR 센터 (미러, 핫, 웜, 콜드)](/knowledge-base/studynote/12_it_management/05_security_compliance/919_dr_site_types_comparison/) ->
 
 ---

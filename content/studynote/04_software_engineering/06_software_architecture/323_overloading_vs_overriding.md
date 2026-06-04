@@ -34,7 +34,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. C언어 시절에는 오버로딩이 안 되어서 수학 함수들이 `abs()`, `fabs()`, `labs()` 등으로 타입마다 이름이 전부 다르게 존재했다(극악의 [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)).
   2. C++와 Java가 등장하며 객체지향의 다형성 개념을 문법 스펙으로 도입했고,
-  3. 현대의 모든 아키텍처(Spring 프레임워크 등)는 이 오버라이딩(추상 메서드 구현) 없이는 아예 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/)([의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)) 자체가 작동하지 않는 구조로 진화했다.
+  3. 현대의 모든 아키텍처(Spring 프레임워크 등)는 이 오버라이딩(추상 메서드 구현) 없이는 아예 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/)([의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)) 자체가 작동하지 않는 구조로 진화했다.
 
 - **📢 섹션 요약 비유**: 오버로딩은 짐을 위로 높이 쌓아 올리는(Load) 것이라 이름만 같고 내용물이 여러 개 존재하는 것이며, 오버라이딩은 기존 짐 위에 올라타서(Ride) 짓밟아버리고 완전히 내 것으로 덮어씌우는 것입니다.
 
@@ -126,7 +126,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 오버로딩 (Overloading) vs 오버라이딩 (Overriding)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

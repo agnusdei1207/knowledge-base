@@ -63,7 +63,7 @@ Host OS Kernel
 | 자원 사용 | 큼 | 작음 |
 | OS 다양성 | 높음 | 호스트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 종속 |
 
-[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 이식성과 확장성이 좋아 MSA와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD에 잘 맞지만, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 공유하므로 보안 설계가 중요하다. 필요하면 Kata Containers나 gVisor처럼 더 강한 격리 런타임을 쓴다.
+[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 이식성과 확장성이 좋아 MSA와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD에 잘 맞지만, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 공유하므로 보안 설계가 중요하다. 필요하면 Kata Containers나 gVisor처럼 더 강한 격리 런타임을 쓴다.
 
 - **📢 섹션 요약 비유**: 무거운 트럭 대신 규격 박스를 여러 개 쌓아 빠르게 배송하는 방식이다.
 

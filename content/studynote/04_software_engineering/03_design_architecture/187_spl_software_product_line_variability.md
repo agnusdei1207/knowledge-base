@@ -78,7 +78,7 @@ SPL은 공장(플랫폼)을 짓는 일과, 그 공장에서 물건을 찍어내�
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - **장점**: 획기적인 개발 시간(Time-to-Market) 단축, 코어 자산의 반복 재사용을 통한 막대한 개발 비용 절감 및 품질(버그 최소화) 향상.
-- **한계**: 처음 핵심 자산(공장)을 구축하는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자 비용([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))이 매우 큽니다. 제품군이 3개 미만이거나 요구사항 변동이 너무 잦은 스타트업 환경에는 부적합합니다.
+- **한계**: 처음 핵심 자산(공장)을 구축하는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자 비용([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/))이 매우 큽니다. 제품군이 3개 미만이거나 요구사항 변동이 너무 잦은 스타트업 환경에는 부적합합니다.
 
 > 📢 **섹션 요약 비유**: 서브웨이 샌드위치 가게입니다. '빵 굽고 고기 넣는 기본 과정([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 공학/공통성)'은 본사에서 미리 매뉴얼로 다 만들어 둡니다. 그리고 손님이 올 때마다 "할라피뇨 넣을까요? 치즈는 뭘로 할까요?(응용 공학/가변성)" 옵션만 선택하게 해서 1분 만에 완벽한 맞춤형 샌드위치를 찍어내는 공장식 주문 시스템입니다.
 
@@ -97,7 +97,7 @@ SPL은 공장(플랫폼)을 짓는 일과, 그 공장에서 물건을 찍어내�
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [소프트웨어 제품 라인](/knowledge-base/studynote/04_software_engineering/01_overview_principles/019_software_product_line/) (SPL) 요구사항 가변성(Variability) 분석은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

@@ -63,7 +63,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-TEE는 빠르지만 하드웨어 제조사와 구현 신뢰에 의존하고, [FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) (Fully [Homomorphic Encryption](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/))와 MPC (Multi-Party Computation)는 더 강한 수학적 모델을 제공하지만 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비용이 크다. 또한 CPU 내부 enclave형과 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 단위 confidential computing은 개발 수정 범위와 운영 방식이 다르다. 그래서 기밀 컴퓨팅 도입은 "무조건 [TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/)"가 아니라, 요구 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·규제 수준·공격 모델을 맞춰 고르는 문제다.
+TEE는 빠르지만 하드웨어 제조사와 구현 신뢰에 의존하고, [FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) (Fully [Homomorphic Encryption](/knowledge-base/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/))와 MPC (Multi-Party Computation)는 더 강한 수학적 모델을 제공하지만 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비용이 크다. 또한 CPU 내부 enclave형과 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 단위 confidential computing은 개발 수정 범위와 운영 방식이 다르다. 그래서 기밀 컴퓨팅 도입은 "무조건 [TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/)"가 아니라, 요구 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·규제 수준·공격 모델을 맞춰 고르는 문제다.
 
 | 비교 대상 | 장점 | 대표 한계 |
 | :--- | :--- | :--- |

@@ -11,7 +11,7 @@ tags = ["studynote-database"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 크로스탭 보고서는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관점에서 자주 쓰이는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 개념이다.
+> 1. **본질**: [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/) 크로스탭 보고서는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관점에서 자주 쓰이는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 개념이다.
 > 2. **가치**: 개념 간 경계를 선명하게 잡아 시험 답안과 실무 판단을 동시에 강화할 수 있다. 특히 `피벗 크로스탭 보고서`는 `데이터베이스 맥락에서 역할과 경계를 판단해야 하는 주제`를 설계 판단으로 연결해 준다.
 > 3. **판단 포인트**: 정의만 외우면 적용 범위와 한계를 잘못 판단하기 쉽다. 따라서 무엇을 우선 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)할지와 어느 비용을 감수할지를 함께 봐야 한다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-[피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 크로스탭 보고서는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관점에서 자주 쓰이는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 개념이다. 이 주제가 필요한 이유는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 개념은 서로 연결되어 있어 배경, 구조, 비교, 운영 판단을 함께 봐야 의미가 선명해진다. 특히 `슬라이스 다이스 차원 절단`에서 드러난 한계를 줄이고 `데이터 레이크 스키마 온 리드 원시 형태 저장` 같은 후속 판단의 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 세울 때 현재 개념이 중심축이 된다.
+[피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/) 크로스탭 보고서는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관점에서 자주 쓰이는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 개념이다. 이 주제가 필요한 이유는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 개념은 서로 연결되어 있어 배경, 구조, 비교, 운영 판단을 함께 봐야 의미가 선명해진다. 특히 `슬라이스 다이스 차원 절단`에서 드러난 한계를 줄이고 `데이터 레이크 스키마 온 리드 원시 형태 저장` 같은 후속 판단의 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 세울 때 현재 개념이 중심축이 된다.
 
 시험과 실무에서 `피벗 크로스탭 보고서`를 따로 외우기보다, "무엇을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하거나 최적화하려는가"라는 질문으로 연결해야 오래 남는다. 설계 검토에서는 정의보다도 어디에 두고 어떤 비용을 감수할지 설명할 수 있어야 한다.
 
@@ -114,7 +114,7 @@ tags = ["studynote-database"]
 | :--- | :--- |
 | [슬라이스 다이스 차원 절단](/knowledge-base/studynote/05_database/07_exam_summary/480_slicing_dicing_olap/) | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
 | [데이터 레이크 스키마 온 리드 원시 형태 저장](/knowledge-base/studynote/05_database/07_exam_summary/482_data_lake_schema_on_read/) | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
-| [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
+| [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
 | [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) | 운영·설계 판단을 연결해 주는 주변 개념이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도

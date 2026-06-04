@@ -10,7 +10,7 @@ tags = ["studynote-operating-system"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 프로세스 종료 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Termination)는 실행 중인 프로세스가 OS에 자원 반환을 요청하여 생명주기를 마감하는 과정으로, `exit()` 시스템 콜이나 `Signal`(시그널)을 통해 수행된다.
+> 1. **본질**: 프로세스 종료 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Termination)는 실행 중인 프로세스가 OS에 자원 반환을 요청하여 생명주기를 마감하는 과정으로, `exit()` 시스템 콜이나 `Signal`(시그널)을 통해 수행된다.
 > 2. **가치**: 점유하던 메모리, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 (FD), [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 객체를 OS가 안전하게 회수하게 하여 자원 누수 (Resource Leak)를 막고, 부모 프로세스에 종료 상태를 보고하게 한다.
 > 3. **판단 포인트**: 치명적 오류나 `SIGKILL`로 인한 비정상 종료 시 사용자 수준 정리 로직(`atexit` 등)이 건너뛰어져 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실이 발생할 수 있으므로, 클라우드 환경에서는 `SIGTERM`을 이용한 우아한 종료 (Graceful Shutdown) 파이프라인 설계가 필수적이다.
 
@@ -18,7 +18,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-프로세스 종료 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Termination)는 프로세스가 실행을 중단하고 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에 할당받은 자원의 반환을 요청하는 생명주기의 마지막 단계다. 프로세스는 스스로 `exit()` 시스템 콜을 호출하여 끝내는 정상 종료 (Normal Termination)와, 치명적 오류(널 포인터 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 등)나 외부의 강제 시그널(`SIGKILL` 등)에 의해 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 강제로 날려버리는 비정상 종료 (Abnormal Termination)로 나뉜다.
+프로세스 종료 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Termination)는 프로세스가 실행을 중단하고 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에 할당받은 자원의 반환을 요청하는 생명주기의 마지막 단계다. 프로세스는 스스로 `exit()` 시스템 콜을 호출하여 끝내는 정상 종료 (Normal Termination)와, 치명적 오류(널 포인터 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 등)나 외부의 강제 시그널(`SIGKILL` 등)에 의해 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 강제로 날려버리는 비정상 종료 (Abnormal Termination)로 나뉜다.
 
 이 과정이 중요한 이유는 자원의 유한성 때문이다. 프로세스가 쓰던 메모리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/), 네트워크 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/), 열려 있는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 ([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Descriptor)를 제대로 회수하지 않으면 시스템 자원이 말라버려 결국 OS 전체가 패닉에 빠진다. 또한 부모 프로세스에게 성공/실패 여부를 알려주어 후속 작업이 이어지도록 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하는 역할도 맡는다.
 
@@ -106,7 +106,7 @@ tags = ["studynote-operating-system"]
 |:---|:---|
 | <strong>시그널 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">Signal</a>)</strong> | 프로세스에게 "죽어라!" 혹은 "멈춰라!" 등 [비동기적](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/) 명령을 전달하는 OS의 메시지 체계 |
 | **wait() / waitpid() 시스템 콜** | 부모가 자식의 종료(exit)까지 대기하며, 좀비를 방지하는 필수 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 수단 |
-| <strong>PCB (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a> Control Block)</strong> | 프로세스가 끝난 뒤 메모리가 다 털려도, 부모가 확인할 때까지 끝까지 살아남는 최소한의 진료 기록부 |
+| <strong>PCB (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/">Process</a> Control Block)</strong> | 프로세스가 끝난 뒤 메모리가 다 털려도, 부모가 확인할 때까지 끝까지 살아남는 최소한의 진료 기록부 |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a> preStop 훅</strong> | 프로세스가 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에서 강제 종료되기 전에 애플리케이션 단의 클린업 스크립트를 꽂아 넣는 클라우드 확장판 |
 
 ### 📈 관련 키워드 및 발전 흐름도

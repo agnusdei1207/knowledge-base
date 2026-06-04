@@ -10,7 +10,7 @@ tags = ["studynote-cloud-architecture"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/)(Extract, Load, Transform)는 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 먼저 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)/레이크에 고속 적재(L)한 후, [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내부의 강력한 MPP 컴퓨팅으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 변환(T)하는 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 통합 방식</strong>이다.
+> 1. **본질**: [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/)(Extract, Load, Transform)는 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 먼저 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)/레이크에 고속 적재(L)한 후, [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내부의 강력한 MPP 컴퓨팅으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 변환(T)하는 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/">클라우드 네이티브</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 통합 방식</strong>이다.
 > 2. **가치**: ETL의 변환 서버 병목을 제거하고, 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보존하여 <strong>나중에 다른 관점으로 재분석</strong>할 수 있으며, 클라우드 DW의 수평 확장으로 빅데이터 규모에 탄력적 대응이 가능하다.
 > 3. **판단 포인트**: dbt([data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) build tool)가 [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 패러다임의 Transform 단계를 SQL 기반으로 표준화한 핵심 도구이며, <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/">Snowflake</a>·<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/">BigQuery</a>·Redshift + dbt</strong> 조합이 현대 클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스택의 표준이다.
 
@@ -88,7 +88,7 @@ ELT가 특히 효과적인 이유:
 | **Transform** | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내 SQL 변환 | dbt, Dataform |
 | <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">Orchestration</a></strong> | 파이프라인 스케줄링 | Airflow, Prefect, Dagster |
 | **BI & Analytics** | [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)·분석 | [Tableau](/knowledge-base/studynote/16_bigdata/08_visualization/164_tableau/), [Looker](/knowledge-base/studynote/16_bigdata/08_visualization/166_looker/), Metabase |
-| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/278_reverse_etl_operational_analytics/">Reverse ETL</a></strong> | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) -> [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 도구 역방향 | Census, Hightouch |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/278_reverse_etl_operational_analytics/">Reverse ETL</a></strong> | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) -> [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 도구 역방향 | Census, Hightouch |
 
 📢 **섹션 요약 비유**: dbt는 SQL로 된 레시피 북이다. 어떤 재료(원시 테이블)를 어떻게 조합([JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)·집계)해 어떤 요리(비즈니스 테이블)를 만드는지 Git으로 관리되는 레시피북이며, 매번 같은 맛을 보장하는 자동화 주방이다.
 
@@ -112,7 +112,7 @@ ELT가 특히 효과적인 이유:
 
 ### [Reverse ETL](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/278_reverse_etl_operational_analytics/) (역방향 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/))
 
-ELT의 발전으로 등장한 개념으로, DW에서 분석·변환된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>운영 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/">SaaS</a> 도구(<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/">CRM</a>·이메일·광고 플랫폼)로 역방향 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong>한다.
+ELT의 발전으로 등장한 개념으로, DW에서 분석·변환된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>운영 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/">SaaS</a> 도구(<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/">CRM</a>·이메일·광고 플랫폼)로 역방향 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong>한다.
 
 ```
 [Reverse ETL 흐름]
@@ -212,7 +212,7 @@ models:
 | 한계 | 내용 |
 |:---|:---|
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">DW</a> 비용 증가</strong> | 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보존으로 스토리지 및 컴퓨팅 비용 ^ |
-| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">데이터 거버넌스</a></strong> | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내 원시 테이블 과잉 -> 정리 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 필요 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/">데이터 거버넌스</a></strong> | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내 원시 테이블 과잉 -> 정리 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 필요 |
 | **SQL 의존성** | 복잡한 ML [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/), 비정형 처리는 Python/Spark 병행 필요 |
 | **실시간 한계** | 기본적으로 배치 지향, 실시간 처리는 스트리밍 파이프라인 별도 |
 
@@ -228,7 +228,7 @@ models:
 | 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) | [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 변환 엔진 역할 담당 ([Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/)) |
 | Fivetran/Airbyte | ELT의 Extract+Load 자동화 도구 |
 | [Apache Airflow](/knowledge-base/studynote/14_data_engineering/04_mlops/168_airflow_dag_pipeline_scheduling/) | [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 파이프라인 스케줄링·[오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) |
-| [Reverse ETL](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/278_reverse_etl_operational_analytics/) | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) -> 운영 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 역방향 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) |
+| [Reverse ETL](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/278_reverse_etl_operational_analytics/) | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) -> 운영 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 역방향 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) |
 | [Schema-on-Read](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/) | ELT에서 원시 적재 후 변환하는 철학과 연결 |
 
 ### 👶 어린이를 위한 3줄 비유 설명

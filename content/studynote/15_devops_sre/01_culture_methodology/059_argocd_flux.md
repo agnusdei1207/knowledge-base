@@ -19,7 +19,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-전통적인 배포는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버가 클러스터에 직접 명령을 보내는 Push 방식이 많았다. 그러나 이 방식은 자격증명 노출과 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 드리프트([Configuration Drift](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/)) 관리가 어려웠다.
+전통적인 배포는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 서버가 클러스터에 직접 명령을 보내는 Push 방식이 많았다. 그러나 이 방식은 자격증명 노출과 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 드리프트([Configuration Drift](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/)) 관리가 어려웠다.
 
 GitOps는 "Git이 진실의 원천"이라는 관점으로 이 문제를 바꾼다. 클러스터 내부의 에이전트가 Git을 보고 원하는 상태와 실제 상태를 맞춘다.
 
@@ -47,7 +47,7 @@ Kubernetes Cluster
 | Manifest | YAML, [Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/), [Kustomize](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/) 등 선언형 정의 |
 | Cluster | 실제 실행 중인 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) |
 
-Push 방식은 외부 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버가 클러스터에 접근해야 하지만, Pull 방식은 클러스터 안의 컨트롤러가 스스로 Git을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. 그래서 보안과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)에 유리하다.
+Push 방식은 외부 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 서버가 클러스터에 접근해야 하지만, Pull 방식은 클러스터 안의 컨트롤러가 스스로 Git을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. 그래서 보안과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)에 유리하다.
 
 - **📢 섹션 요약 비유**: 관리자 한 명이 문을 두드리는 대신, 방 안에 있는 감시 카메라가 스스로 약속과 현실을 비교하는 구조다.
 
@@ -63,7 +63,7 @@ Argo CD와 Flux는 둘 다 [GitOps](/knowledge-base/studynote/04_software_engine
 | 운영 감각 | 대시보드 중심 | 컨트롤러 중심 |
 | 적합한 경우 | 운영 가시성이 중요할 때 | 경량/자동화가 중요할 때 |
 
-전통 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD와 비교하면, GitOps는 배포를 "[파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 결과"가 아니라 "Git 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)"로 본다. 따라서 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)은 `git revert`에 가까운 동작이 된다.
+전통 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD와 비교하면, GitOps는 배포를 "[파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 결과"가 아니라 "Git 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)"로 본다. 따라서 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)은 `git revert`에 가까운 동작이 된다.
 
 - **📢 섹션 요약 비유**: 바로 전화해서 지시하는 방식과, 적어 둔 메모를 보고 자동으로 움직이는 방식의 차이다.
 

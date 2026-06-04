@@ -108,7 +108,7 @@ GA4 (Google Analytics 4)와 Adobe Analytics 같은 상용 툴은 클릭스트림
 
 1. **이커머스 퍼널 최적화**: 상품 조회->장바구니->결제 각 단계 이탈율 분석 -> 이탈 원인 제거
 2. **콘텐츠 플랫폼 추천**: 시청/클릭 이력 실시간 분석 -> 다음 추천 콘텐츠 개인화
-3. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/">SaaS</a> 제품 개선</strong>: 기능별 사용 빈도 분석 -> 낮은 사용 기능 UX 재설계 또는 제거
+3. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/">SaaS</a> 제품 개선</strong>: 기능별 사용 빈도 분석 -> 낮은 사용 기능 UX 재설계 또는 제거
 4. **광고 효율화**: 광고 클릭 -> 전환까지의 경로 분석 -> 어트리뷰션 모델 최적화
 
 ### [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -136,7 +136,7 @@ GA4 (Google Analytics 4)와 Adobe Analytics 같은 상용 툴은 클릭스트림
 | 전환율 향상 | 퍼널 이탈 지점 제거로 구매 전환율 5~20% 향상 |
 | UX 개선 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 UI 설계로 사용자 만족도 향상 |
 | 개인화 강화 | 행동 기반 추천으로 관련성 높은 콘텐츠 제공 |
-| 광고 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) | 정확한 어트리뷰션으로 광고 예산 최적화 |
+| 광고 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) | 정확한 어트리뷰션으로 광고 예산 최적화 |
 | 제품 발전 방향 | 기능 사용 빈도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 로드맵 근거 마련 |
 
 클릭스트림 분석은 "사용자가 말하는 것"보다 "사용자가 실제로 하는 것"을 보는 기술이다. 설문 조사의 응답 편향 없이 실제 행동 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기반으로 제품 결정을 내릴 수 있다는 점이 가장 큰 강점이다. [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 규제가 강화될수록 동의 기반의 First-Party [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 더욱 중요해지고 있다.

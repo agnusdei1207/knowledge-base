@@ -140,7 +140,7 @@ IT 컴플라이언스 (IT [Compliance](/knowledge-base/studynote/07_enterprise_s
 
 **진행 상황**: 85 / 587
 
-<- **이전**: [046. SLA — 서비스 수준 협약 측정 지표](/knowledge-base/studynote/12_it_management/01_governance_strategy/046_sla_service_level_agreement_metrics/)
-**다음**: [047. IT 컴플라이언스 — GDPR·SOX·통제 프레임워크](/knowledge-base/studynote/12_it_management/01_governance_strategy/047_it_compliance_gdpr_sox_control_framework/) ->
+<- **이전**: [046. SLA — 서비스 수준 협약 측정 지표](/knowledge-base/studynote/12_it_management/01_governance_strategy/838_sla_service_level_agreement_metrics/)
+**다음**: [047. IT 컴플라이언스 — GDPR·SOX·통제 프레임워크](/knowledge-base/studynote/12_it_management/01_governance_strategy/839_it_compliance_gdpr_sox_control_framework/) ->
 
 ---

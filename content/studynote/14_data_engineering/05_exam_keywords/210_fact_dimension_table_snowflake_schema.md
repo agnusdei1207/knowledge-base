@@ -98,7 +98,7 @@ SCD 유형 비교
 
 ## Ⅲ. 비교 및 연결
 
-### [서로게이트 키](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/276_surrogate_key_artificial_identifier/) ([Surrogate Key](/knowledge-base/studynote/12_it_management/05_security_compliance/314_surrogate_key/))
+### [서로게이트 키](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/276_surrogate_key_artificial_identifier/) ([Surrogate Key](/knowledge-base/studynote/12_it_management/05_security_compliance/956_surrogate_key/))
 
 [차원 테이블](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/)의 기본 키로, 소스 시스템의 자연 키(Natural [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))와 별개로 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내부에서 생성하는 대리 키.
 
@@ -130,11 +130,11 @@ SCD 유형 비교
 
 ### 기술사 판단 포인트
 
-1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/315_scd_type_2/">SCD Type 2</a> 선택 기준</strong>: 고객 세그먼트 변경, 지역 재편, 제품 카테고리 변경 시 필수
+1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/957_scd_type_2/">SCD Type 2</a> 선택 기준</strong>: 고객 세그먼트 변경, 지역 재편, 제품 카테고리 변경 시 필수
 2. **스타 vs 스노우플레이크**: BI 도구([Tableau](/knowledge-base/studynote/16_bigdata/08_visualization/164_tableau/)·[Power BI](/knowledge-base/studynote/16_bigdata/08_visualization/165_power_bi/)) 사용 환경 -> 스타 선호; [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 중요 -> 스노우플레이크 고려
 3. **현대 컬럼 스토어**: [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/)·Snowflake에서는 비정규화가 오히려 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 유리
 
-📢 **섹션 요약 비유**: [SCD Type 2](/knowledge-base/studynote/12_it_management/05_security_compliance/315_scd_type_2/) 설계는 <strong>이사 때마다 주소록 새 줄을 추가</strong>하는 것이다. 덮어쓰면 예전 주소로 보낸 편지 이력이 사라지지만, 새 줄을 추가하면 언제 어디 살았는지 다 남는다.
+📢 **섹션 요약 비유**: [SCD Type 2](/knowledge-base/studynote/12_it_management/05_security_compliance/957_scd_type_2/) 설계는 <strong>이사 때마다 주소록 새 줄을 추가</strong>하는 것이다. 덮어쓰면 예전 주소로 보낸 편지 이력이 사라지지만, 새 줄을 추가하면 언제 어디 살았는지 다 남는다.
 
 ---
 
@@ -165,7 +165,7 @@ SCD 유형 비교
 | 핵심 구조 | [차원 테이블](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/) | 분석 맥락·[속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 테이블 |
 | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 패턴 | [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/) | 비정규화, 단순·고성능 |
 | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 패턴 | [스노우플레이크 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/335_snowflake_schema/) | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), 유지보수 용이 |
-| 이력 관리 | [SCD Type 2](/knowledge-base/studynote/12_it_management/05_security_compliance/315_scd_type_2/) | 변경 이력 완전 보존 |
+| 이력 관리 | [SCD Type 2](/knowledge-base/studynote/12_it_management/05_security_compliance/957_scd_type_2/) | 변경 이력 완전 보존 |
 | 키 설계 | [서로게이트 키](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/276_surrogate_key_artificial_identifier/) | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내부 대리 키 |
 | 특수 팩트 | [팩트리스 팩트 테이블](/knowledge-base/studynote/05_database/04_transactions_concurrency/576_factless_fact_table_event_tracking_coverage/) | 이벤트 발생 자체 기록 |
 | 분석 처리 | [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) 드릴다운/[롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) | 다차원 집계 탐색 |

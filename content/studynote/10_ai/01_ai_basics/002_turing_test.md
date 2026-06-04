@@ -41,7 +41,7 @@ tags = ["ai"]
 +--------+           +--------+
 ```
 
-이 그림의 핵심은 심사관(C)이 대상 A와 B의 물리적 실체를 전혀 볼 수 없다는 점이다. 오직 텔레타이프(현대의 메신저 인터페이스)를 통한 텍스트 입출력(I/O) 교환만으로 판단을 내려야 한다. 만약 기계(B)가 인간(A)인 척 심사관을 기만하는 데 성공 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 30%(튜링의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 기준)를 넘는다면 테스트를 통과한 것으로 본다. 이는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 내부적으로 어떻게 연산하는지는 무시하고, 출력의 결과물만으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 평가하는 [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/)의 시초이다.
+이 그림의 핵심은 심사관(C)이 대상 A와 B의 물리적 실체를 전혀 볼 수 없다는 점이다. 오직 텔레타이프(현대의 메신저 인터페이스)를 통한 텍스트 입출력(I/O) 교환만으로 판단을 내려야 한다. 만약 기계(B)가 인간(A)인 척 심사관을 기만하는 데 성공 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 30%(튜링의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 기준)를 넘는다면 테스트를 통과한 것으로 본다. 이는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 내부적으로 어떻게 연산하는지는 무시하고, 출력의 결과물만으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 평가하는 [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/804_black_box_testing/)의 시초이다.
 
 📢 **섹션 요약 비유**: "블라인드 오디션에서 노래 부르는 사람이 인간인지 보컬로이드인지 맞히지 못한다면, 그 기계는 '가창력'을 인정받는 것과 같습니다."
 
@@ -77,7 +77,7 @@ tags = ["ai"]
 
 이 흐름도의 핵심은 튜링 테스트가 '완벽한 정답'을 요구하는 것이 아니라 '인간다운 반응'을 요구한다는 점이다. 기계가 너무 빠르고 정확하게 수학 계산을 해내면 심사관은 즉시 기계임을 눈치챈다. 따라서 페르소나 엔진과 Humanization Filter(인간화 필터)가 기계의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 의도적으로 낮추고 노이즈를 섞는 과정이 필수적이다. 이는 현대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 정렬(Alignment) 기술에서 모델의 어조를 튜닝하는 지시 미세조정([Instruction Tuning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/147_instruction_tuning_rlhf_alignment/))의 원류가 된다.
 
-📢 **섹션 요약 비유**: "완벽한 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/)가 되기 위해 외국어의 정석 문법이 아니라, 현지인들만 쓰는 비속어와 머뭇거림까지 치밀하게 연습하는 과정입니다."
+📢 **섹션 요약 비유**: "완벽한 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/)가 되기 위해 외국어의 정석 문법이 아니라, 현지인들만 쓰는 비속어와 머뭇거림까지 치밀하게 연습하는 과정입니다."
 
 ---
 

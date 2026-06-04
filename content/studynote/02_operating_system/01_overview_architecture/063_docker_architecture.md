@@ -103,7 +103,7 @@ Docker는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cl
 
 ## Ⅴ. 기대효과 및 결론
 
-Docker는 개발 환경과 운영 환경의 차이를 줄이고, 배포를 반복 가능하게 만든다. 그래서 현대 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD와 클라우드 네이티브의 기본 단위로 자리 잡았다.
+Docker는 개발 환경과 운영 환경의 차이를 줄이고, 배포를 반복 가능하게 만든다. 그래서 현대 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD와 클라우드 네이티브의 기본 단위로 자리 잡았다.
 
 결국 중요한 것은 "[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 띄운다"가 아니라 "어떤 이미지를 어떤 기준으로 재사용할 것인가"다.
 

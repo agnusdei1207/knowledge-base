@@ -10,13 +10,13 @@ tags = ["studynote-devops-sre"]
 +++
 
 > **핵심 인사이트**
-> - [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) ([Service Level Indicator](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/))는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 측정하는 지표, [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/))는 내부 목표, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))는 외부 계약이다.
+> - [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) ([Service Level Indicator](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/))는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 측정하는 지표, [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/))는 내부 목표, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/))는 외부 계약이다.
 > - [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) (에러 버짓)은 SLO에서 도출되며, 개발팀이 혁신을 추진할 수 있는 "허용 가능한 불안정성"의 양이다.
 > - SLO는 SLA보다 항상 엄격하게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해 예산 초과 전에 내부 경보가 울리게 해야 한다.
 
 ---
 
-## Ⅰ. [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) / [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) / [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 계층 구조
+## Ⅰ. [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) / [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) / [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 계층 구조
 
 ```
 +------------------------------------------------------+
@@ -32,7 +32,7 @@ tags = ["studynote-devops-sre"]
 |-------|-------------------------------------------|----------------|
 | [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)   | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 정량화한 측정 지표           | 엔지니어링     |
 | [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)   | SLI의 달성 목표값 (내부 약속)              | 팀 내부        |
-| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)   | 고객과 체결한 법적/계약적 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약 | 비즈니스·법무  |
+| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)   | 고객과 체결한 법적/계약적 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약 | 비즈니스·법무  |
 
 > 📢 **Ⅰ 섹션 요약 비유**
 > SLI는 체온계, SLO는 "36.5도 유지 목표", SLA는 "발열 시 환불"이라는 보험 계약이다.
@@ -83,7 +83,7 @@ SLO 99.99% -> 월 4.38분 허용 다운타임
 
 ## Ⅳ. [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 원칙
 
-1. **SLA보다 엄격하게**: [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 99.95% > [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 99.9% — 내부 경보가 먼저 울려야 한다.
+1. **SLA보다 엄격하게**: [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 99.95% > [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 99.9% — 내부 경보가 먼저 울려야 한다.
 2. **사용자 여정 기반**: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답시간보다 "결제 완료까지 전체 흐름의 성공률"이 더 의미 있다.
 3. **점진적 강화**: 처음부터 99.99%를 목표로 하면 Error Budget이 너무 작아 혁신이 멈춘다.
 
@@ -93,7 +93,7 @@ SLO 99.99% ->  Error Budget = 월 4.38분  <- 배포 한 번 실패하면 소진
 ```
 
 > 📢 **Ⅳ 섹션 요약 비유**
-> SLO는 시험 합격선 — 60점([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))이 통과선이지만 자신의 목표는 80점([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))으로 높게 잡아 여유를 만든다.
+> SLO는 시험 합격선 — 60점([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/))이 통과선이지만 자신의 목표는 80점([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))으로 높게 잡아 여유를 만든다.
 
 ---
 
@@ -105,7 +105,7 @@ SLO 99.99% ->  Error Budget = 월 4.38분  <- 배포 한 번 실패하면 소진
 |-----------------|-----------------------------------------------|
 | [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)             | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 측정 지표                          |
 | [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)             | 내부 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 달성 목표값                        |
-| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)             | 고객과의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 계약                      |
+| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)             | 고객과의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 계약                      |
 | [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)    | [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 기반 허용 다운타임 예산                    |
 | Burn Rate       | [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) 소진 속도                        |
 | 4 Golden [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) | [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)·Traffic·Errors·Saturation 핵심 지표   |

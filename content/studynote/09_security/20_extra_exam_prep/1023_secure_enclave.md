@@ -136,7 +136,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 140 / 1108
 
-<- **이전**: [1023. 위성 통신 핸드오버 (ISL)](/knowledge-base/studynote/09_security/uncategorized/1023_isl_inter_satellite_link_low_earth_orbit_routing/)
+<- **이전**: [1023. 위성 통신 핸드오버 (ISL)](/knowledge-base/studynote/09_security/uncategorized/1101_isl_inter_satellite_link_low_earth_orbit_routing/)
 **다음**: [1024. TEE (Trusted Execution Environment)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1024_tee_trusted_execution_environment/) ->
 
 ---

@@ -11,7 +11,7 @@ tags = ["studynote-database"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 에러/타임베이스 블라인드 주입 체계망는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관점에서 자주 쓰이는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 개념이다.
+> 1. **본질**: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 에러/타임베이스 블라인드 주입 체계망는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관점에서 자주 쓰이는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 개념이다.
 > 2. **가치**: 개념 간 경계를 선명하게 잡아 시험 답안과 실무 판단을 동시에 강화할 수 있다. 특히 `SQL 인젝션 논리 에러/타임베이스 블라인드 주입 체계망`는 `데이터베이스 맥락에서 역할과 경계를 판단해야 하는 주제`를 설계 판단으로 연결해 준다.
 > 3. **판단 포인트**: 정의만 외우면 적용 범위와 한계를 잘못 판단하기 쉽다. 따라서 무엇을 우선 보호할지와 어느 비용을 감수할지를 함께 봐야 한다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 에러/타임베이스 블라인드 주입 체계망는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관점에서 자주 쓰이는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 개념이다. 이 주제가 필요한 이유는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 개념은 서로 연결되어 있어 배경, 구조, 비교, 운영 판단을 함께 봐야 의미가 선명해진다. 특히 `DB 방화벽 프록시 스니핑 방식 모니터링 감사 통제`에서 드러난 한계를 줄이고 `시큐어 코딩 파라 파라미터 매핑 ORM 보안 내재화 방식` 같은 후속 판단의 기준선을 세울 때 현재 개념이 중심축이 된다.
+SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 에러/타임베이스 블라인드 주입 체계망는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관점에서 자주 쓰이는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 개념이다. 이 주제가 필요한 이유는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 개념은 서로 연결되어 있어 배경, 구조, 비교, 운영 판단을 함께 봐야 의미가 선명해진다. 특히 `DB 방화벽 프록시 스니핑 방식 모니터링 감사 통제`에서 드러난 한계를 줄이고 `시큐어 코딩 파라 파라미터 매핑 ORM 보안 내재화 방식` 같은 후속 판단의 기준선을 세울 때 현재 개념이 중심축이 된다.
 
 시험과 실무에서 `SQL 인젝션 논리 에러/타임베이스 블라인드 주입 체계망`를 따로 외우기보다, "무엇을 보호하거나 최적화하려는가"라는 질문으로 연결해야 오래 남는다. 설계 검토에서는 정의보다도 어디에 두고 어떤 비용을 감수할지 설명할 수 있어야 한다.
 
@@ -116,7 +116,7 @@ SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_val
 | :--- | :--- |
 | DB [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 스니핑 방식 모니터링 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 통제 | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
 | [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 파라 파라미터 매핑 ORM 보안 내재화 방식 | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
-| [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
+| [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
 | [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) | 운영·설계 판단을 연결해 주는 주변 개념이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도

@@ -136,7 +136,7 @@ AXIOM (Magnet Forensics)를 제대로 이해하면 개념 하나를 외우는 �
 
 **진행 상황**: 771 / 1108
 
-<- **이전**: [701. 비밀번호 인증 (Password Authentication)](/knowledge-base/studynote/09_security/uncategorized/701_password_authentication/)
-**다음**: [702. 생체 인증 (Biometric Authentication)](/knowledge-base/studynote/09_security/uncategorized/702_biometric_authentication/) ->
+<- **이전**: [701. 비밀번호 인증 (Password Authentication)](/knowledge-base/studynote/09_security/uncategorized/1046_password_authentication/)
+**다음**: [702. 생체 인증 (Biometric Authentication)](/knowledge-base/studynote/09_security/uncategorized/1047_biometric_authentication/) ->
 
 ---

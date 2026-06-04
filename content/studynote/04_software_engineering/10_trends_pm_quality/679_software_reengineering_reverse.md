@@ -131,7 +131,7 @@ tags = ["studynote-software-engineering"]
 
 소프트웨어 재공학을 통해 기업은 수십 년간 축적된 비즈니스 룰을 잃어버릴 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 없이 시스템의 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)을 최신 상태로 끌어올릴 수 있다. 또한 잃어버린 문서를 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)으로 복원하여 향후 시스템 운영의 가시성을 확보하게 된다.
 
-현대의 재공학은 단순히 코드를 예쁘게 만드는 것을 넘어, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 아키텍처로의 전환을 위한 핵심 디딤돌이다. 섣부른 빅뱅(Big Bang) 재개발보다는, 철저한 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)과 점진적인 재공학을 통해 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 통제하는 것이 기술사의 올바른 판단이다.
+현대의 재공학은 단순히 코드를 예쁘게 만드는 것을 넘어, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 아키텍처로의 전환을 위한 핵심 디딤돌이다. 섣부른 빅뱅(Big Bang) 재개발보다는, 철저한 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)과 점진적인 재공학을 통해 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 통제하는 것이 기술사의 올바른 판단이다.
 
 - **📢 섹션 요약 비유**: 과거의 유물(레거시)을 부수지 않고 꼼꼼히 스케치([역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/))하여 현대의 박물관(클라우드)에 안전하고 튼튼하게 다시 전시(재공학)하는 훌륭한 문화재 복원 작업이다.
 

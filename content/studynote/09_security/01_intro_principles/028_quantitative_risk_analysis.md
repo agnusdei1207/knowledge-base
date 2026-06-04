@@ -10,7 +10,7 @@ tags = ["studynote-security"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 정량적 위험 분석(Quantitative [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Analysis)은 보안 위험을 화폐 단위(원화/달러)로 수치화하여 경영진이 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 기반으로 보안 투자 의사결정을 내릴 수 있게 하는 방법론이다. [ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/)(연간 기대 손실) = SLE × ARO가 핵심 공식이다.
+> 1. **본질**: 정량적 위험 분석(Quantitative [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Analysis)은 보안 위험을 화폐 단위(원화/달러)로 수치화하여 경영진이 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 기반으로 보안 투자 의사결정을 내릴 수 있게 하는 방법론이다. [ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/)(연간 기대 손실) = SLE × ARO가 핵심 공식이다.
 > 2. **가치**: 정성적 분석(High/Medium/Low)과 달리 정량적 분석은 "이 통제를 구현하면 연간 5억 원 손실을 막을 수 있다"는 명확한 비용-편익 근거를 제공한다. CISO가 경영진에게 보안 예산을 정당화하는 핵심 도구다.
 > 3. **판단 포인트**: 정확한 자산 가치·위협 발생 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 산정이 어렵다는 한계가 있다. [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 발생 빈도를 예측하기 어려운 경우 몬테카를로 시뮬레이션 등 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 기반 접근이 필요하다. 정성적 분석과 병행 사용이 권장된다.
 

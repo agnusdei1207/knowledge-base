@@ -14,7 +14,7 @@ tags = ["devops_sre"]
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 애자일(Agile)은 개발(기획~코딩) 단계의 짧은 반복 주기와 빠른 피드백에 초점을 맞춘 방법론이며, [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)는 이를 코드가 프로덕션에 배포된 이후 운영 단계까지 확장한 패러다임이다.
 > 2. **가치**: 애자일만으로는 배포 직후 발생하는 운영 이슈를 개발 사이클에 반영하는폐배이 부족하지만, [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)는 이 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를 자동화하여 애자일의 속도와 운영의 안정성을 동시에 달성한다.
-> 3. **융합**: 애자일의 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 개념이 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인과 결합되면, 백로그 정리된 기능이 단기간에 프로덕션에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 상태가 된다.
+> 3. **융합**: 애자일의 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 개념이 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인과 결합되면, 백로그 정리된 기능이 단기간에 프로덕션에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 상태가 된다.
 
 ---
 
@@ -68,10 +68,10 @@ tags = ["devops_sre"]
 | **초점** | 백로그 -> 동작하는 소프트웨어 | 코드 -> 고객 가치 전달 | 애자일의 산출물이 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)의 입력이 됨 |
 | **반복 단위** | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) (1~4주) | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 (수분~수시간) | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 내에서 여러 번의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 실행 |
 | **팀 구조** | 크로스펑셔널 개발팀 | 개발+운영 통합팀 | 애자일팀에 Ops/보안 역할 통합 |
-| **품질 방법** | [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/), [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/), 지속적 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 내 자동 테스트, [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) | 코드 품질에 대한공동책임 |
+| **품질 방법** | [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/), [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/), 지속적 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 내 자동 테스트, [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) | 코드 품질에 대한공동책임 |
 | <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/">피드백 루프</a></strong> | [스프린트 회고](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/071_sprint_retrospective/), 제품부책인 피드백 | [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/), 경보 | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 레벨 + 실시간 레벨 이중 피드백 |
 
-아래는 애자일 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 주기와 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 어떻게 결합되는지를 보여주는프로세스도이다.
+아래는 애자일 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 주기와 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 어떻게 결합되는지를 보여주는프로세스도이다.
 
 ```text
 [애자일 스프린트 + DevOps CI/CD 결합 모델]
@@ -108,7 +108,7 @@ tags = ["devops_sre"]
 
 이프로세스의 핵심은 애자일 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 내에서복수다음의 프로덕션 배포(CD)가 발생할 수 있다는 점이다. 전통적인 애자일에서는 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 종료 시점에 하나의 배포를 수행했지만, [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)와 결합되면 기능 완료 직후 즉시 프로덕션에 배포하여 실제 사용자 피드백을 가장 빠른 시점에 얻을 수 있다. 이를 통해 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 내에서도 Build-Measure-Learn [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를고속회전시킬 수 있다.
 
-> 📢 **섹션 요약 비유**: 애자일 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)가 요리사 수업이고, [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 그 요리사들의 작품(요리)을 고객 테이블까지 운반하는 서빙 로봇이다. 요리사 수업(애자일)에서 수업을 빨리 끝내면(개발 속도 향상), 서빙 로봇([데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))이 그 요리를 신속준학하게 고객에게 전달한다.
+> 📢 **섹션 요약 비유**: 애자일 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)가 요리사 수업이고, [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD는 그 요리사들의 작품(요리)을 고객 테이블까지 운반하는 서빙 로봇이다. 요리사 수업(애자일)에서 수업을 빨리 끝내면(개발 속도 향상), 서빙 로봇([데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))이 그 요리를 신속준학하게 고객에게 전달한다.
 
 ---
 
@@ -198,7 +198,7 @@ Level 4:フル-stack Product Team (목표)
 | **팀 역량** | 개발 역량만 성장 | 개발 + 운영 역량 균형 성장 | 다능성 (T-shaped)인재비솔증가 |
 
 **미래 전망 및 결론**:
-애자일과 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)의융합은 이제 선택이 아닌 필수이ㅂ다. 특히 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/), [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 기술의 확산으로 인해, 조직 전체가 개발과 운영을통합하여 보고 반응해야 하는 환경이되었다. 향후에는 애자일, [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/), [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/), SRE가피차융합된 "현대적 소프트웨어 엔지니어링"으로통합될 것이다.
+애자일과 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)의융합은 이제 선택이 아닌 필수이ㅂ다. 특히 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/), [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 기술의 확산으로 인해, 조직 전체가 개발과 운영을통합하여 보고 반응해야 하는 환경이되었다. 향후에는 애자일, [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/), [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/), SRE가피차융합된 "현대적 소프트웨어 엔지니어링"으로통합될 것이다.
 
 조직은 "우리 애자일일태용다" 또는 "우리 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)도입제み다"라는 편리적인식을 버리고, 고객에게 가치을 전달하는 전체 흐름(기획->개발->배포->운영->[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링->개선)을 하나의집성된システム와/과し고설계해야 한다. 이것이 애자일과 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)의정しい관계이다.
 
@@ -210,7 +210,7 @@ Level 4:フル-stack Product Team (목표)
 
 - 애자일 (Agile) | 짧은 반복과 빠른 피드백 중심의 개발 방법론
 - [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) ([Sprint](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)) | 1~4주 단위의 반복 개발 주기
-- [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD | 통합과 배포를 자동화하는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
+- [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD | 통합과 배포를 자동화하는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 - 운영 통합 | 배포 이후 피드백을 운영에 반영하는 연결 지점
 - [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | 개발과 운영을 하나의 가치 흐름으로 묶는 체계
 
@@ -232,7 +232,7 @@ Level 4:フル-stack Product Team (목표)
 [DevOps]
 ```
 
-이 흐름도는 애자일 (Agile)에서 출발해 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) ([Sprint](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, 운영 통합, DevOps로 이어지는 확장 순서를 보여준다.
+이 흐름도는 애자일 (Agile)에서 출발해 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) ([Sprint](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD, 운영 통합, DevOps로 이어지는 확장 순서를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

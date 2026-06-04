@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 추적성([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))은 소프트웨어 수명 주기([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/)) 내에서 생성되는 모든 산출물(문서, 코드, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)) 간의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 연관성을 수립하는 것이다. 고객의 입에서 나온 말 한마디(요구사항)가 최종 소프트웨어에 누락 없이 반영되었는지, 반대로 쓸데없이 구현된 코드 조각(Gold-plating)은 없는지 감시하는 내비게이션이다.
+- **개념**: 추적성([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))은 소프트웨어 수명 주기([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/)) 내에서 생성되는 모든 산출물(문서, 코드, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/)) 간의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 연관성을 수립하는 것이다. 고객의 입에서 나온 말 한마디(요구사항)가 최종 소프트웨어에 누락 없이 반영되었는지, 반대로 쓸데없이 구현된 코드 조각(Gold-plating)은 없는지 감시하는 내비게이션이다.
 
 - **필요성**: 차세대 은행 시스템 프로젝트 오픈 전날. 테스터가 헐레벌떡 뛰어온다. "버그 났어요! 비밀번호 3번 틀리면 계정이 잠겨야 하는데 안 잠겨요!" 개발팀장이 소리친다. "야, 그 코드 누가 짰어? DB 테이블은 어디 있어? 테스트 시나리오는 애초에 있었어?" 100명의 개발자가 서로 얼굴만 쳐다본다. 문서 수백 장과 소스 코드 수십만 줄이 어디서 어떻게 연결되어 있는지 아무도 모른다. <strong>요구사항 1개가 시스템의 핏줄을 타고 어디로 흘러갔는지(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a>), 이 수상한 코드는 도대체 누구의 요구로 짠 건지(Backward)</strong> 역학 조사(역학 추적)를 10분 만에 끝내지 못하면 유지보수와 기능 변경은 지옥의 철야 작업으로 직행한다. 거대한 복잡성을 통제할 '바코드 꼬리표'가 절실했다.
 
@@ -136,7 +136,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 요구사항 추적성 ([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

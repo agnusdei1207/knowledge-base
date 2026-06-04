@@ -72,9 +72,9 @@ SBOM은 단순히 엑셀로 적은 목록이 아니라, 기계(Machine)가 읽�
 
 ## Ⅲ. 비교 및 연결
 
-[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)를 관리한다는 측면에서 [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/)([Software Composition Analysis](/knowledge-base/studynote/04_software_engineering/11_testing_validation/495_sca_software_composition_analysis/))와 SBOM은 자주 혼용되지만 역할이 다르다.
+[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)를 관리한다는 측면에서 [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/)([Software Composition Analysis](/knowledge-base/studynote/04_software_engineering/11_testing_validation/887_sca_software_composition_analysis/))와 SBOM은 자주 혼용되지만 역할이 다르다.
 
-| 구분 | [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) 도구 ([Software Composition Analysis](/knowledge-base/studynote/04_software_engineering/11_testing_validation/495_sca_software_composition_analysis/)) | [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) (Software [Bill of Materials](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)) |
+| 구분 | [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) 도구 ([Software Composition Analysis](/knowledge-base/studynote/04_software_engineering/11_testing_validation/887_sca_software_composition_analysis/)) | [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) (Software [Bill of Materials](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)) |
 |:---|:---|:---|
 | **정의** | 소프트웨어 성분을 분석해 취약점/라이선스 위반을 **찾아내는 '행위(동사)' 및 '도구'** | 그 분석을 통해 만들어진 표준화된 **'문서/결과물(명사)'** |
 | **소유권** | 보안팀, 개발팀 내부에서 사용 | 파트너사, 고객사, 규제 기관에 <strong>제출하고 공유</strong>하는 용도 |

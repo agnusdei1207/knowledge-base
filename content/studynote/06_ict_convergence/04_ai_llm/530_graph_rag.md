@@ -100,7 +100,7 @@ GraphRAG는 단순한 정보 검색을 넘어 '지식 발견'의 도구로 진�
 |:---|:---|
 | 부모 개념 | [Retrieval-Augmented Generation](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/585_rag_retrieval_augmented_generation/) ([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)) |
 | 연관 개념 | [Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/), Entity Extraction, Community [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/), [Vector DB](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/151_vector_database_embedding_ann_search/) |
-| 파생 기술 | Microsoft GraphRAG, Neo4j GraphRAG, [LangChain](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/586_langchain_ai_pipeline_framework/) [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)-Index |
+| 파생 기술 | Microsoft GraphRAG, Neo4j GraphRAG, [LangChain](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/586_langchain_ai_pipeline_framework/) [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/)-Index |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

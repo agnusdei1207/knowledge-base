@@ -11,7 +11,7 @@ tags = ["studynote-enterprise"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 개념인 [SCD](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/) Type 2는 엔터프라이즈 환경에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석 가능한 자산으로 전환하기 위해 쓰이는 핵심 기준이며, 특히 [SCD Type 2](/knowledge-base/studynote/12_it_management/05_security_compliance/315_scd_type_2/), Row, 시작일의 경계를 분명히 만드는 데 의미가 있다.
+> 1. **본질**: 개념인 [SCD](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/) Type 2는 엔터프라이즈 환경에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석 가능한 자산으로 전환하기 위해 쓰이는 핵심 기준이며, 특히 [SCD Type 2](/knowledge-base/studynote/12_it_management/05_security_compliance/957_scd_type_2/), Row, 시작일의 경계를 분명히 만드는 데 의미가 있다.
 > 2. **가치**: 이 개념을 제대로 이해하면 원천 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많아도 통찰로 이어지지 않는 상황을 줄이고, 의사결정 기준·책임 분담·운영 자동화를 같은 체계 안에서 연결할 수 있다.
 > 3. **판단 포인트**: 기술사 답안과 실무 설계에서는 정의 암기보다 적용 범위, 측정 지표, 예외 처리 조건을 어디까지 설계했는지가 더 중요하다.
 
@@ -46,9 +46,9 @@ tags = ["studynote-enterprise"]
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| [SCD Type 2](/knowledge-base/studynote/12_it_management/05_security_compliance/315_scd_type_2/) | 요구사항·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·업무 조건을 구조화 | 용어 정의와 책임 주체를 먼저 고정 |
+| [SCD Type 2](/knowledge-base/studynote/12_it_management/05_security_compliance/957_scd_type_2/) | 요구사항·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·업무 조건을 구조화 | 용어 정의와 책임 주체를 먼저 고정 |
 | Row | 실행 절차와 통제 포인트를 연결 | 예외 처리와 승인 기준을 명시 |
-| 시작일 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·품질·위험을 측정 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), 비용, 리드타임 등 정량 지표 확보 |
+| 시작일 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·품질·위험을 측정 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/), 비용, 리드타임 등 정량 지표 확보 |
 | 운영 피드백 | 재설계 여부를 판단 | 변경 이력과 회고 루프를 남김 |
 
 ```text
@@ -71,7 +71,7 @@ tags = ["studynote-enterprise"]
 
 개념 [SCD](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/) Type 2의 경계는 비슷한 개념과 비교할 때 더 선명해진다. 실무에서 혼동이 생기는 이유는 이름이 비슷해서가 아니라 적용 시점과 산출물 수준이 다르기 때문이다. 그래서 비교는 단순 장단점 나열보다 "언제 어느 깊이까지 쓰는가"를 중심으로 읽어야 한다.
 
-| 관점 | 운영 중심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 | [SCD Type 2](/knowledge-base/studynote/12_it_management/05_security_compliance/315_scd_type_2/) | 분석·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 확장 구조 |
+| 관점 | 운영 중심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 | [SCD Type 2](/knowledge-base/studynote/12_it_management/05_security_compliance/957_scd_type_2/) | 분석·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 확장 구조 |
 | :--- | :--- | :--- | :--- |
 | 초점 | 국지 문제 해소 | 핵심 경계와 실행 기준 정렬 | 전사 확장과 지속 개선 |
 | 정보 구조 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되기 쉬움 | 흐름과 책임을 구조화 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·자동화와 연계 |
@@ -119,7 +119,7 @@ tags = ["studynote-enterprise"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [SCD Type 2](/knowledge-base/studynote/12_it_management/05_security_compliance/315_scd_type_2/) | [SCD](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/) Type 2의 선행 개념 또는 입력 축 |
+| [SCD Type 2](/knowledge-base/studynote/12_it_management/05_security_compliance/957_scd_type_2/) | [SCD](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/) Type 2의 선행 개념 또는 입력 축 |
 | Row | 설계·운영 단계에서 함께 검토해야 하는 핵심 축 |
 | 시작일 | 품질·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 판단을 구체화하는 확장 요소 |
 | 실시간·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 분석 체계 | [SCD](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/) Type 2를 전사 체계로 확장할 때 연결되는 주제 |

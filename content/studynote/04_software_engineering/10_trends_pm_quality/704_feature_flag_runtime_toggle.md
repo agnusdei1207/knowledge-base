@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 과거의 개발자들은 새로운 기능(피쳐)을 개발하면 별도의 피쳐 브랜치(Feature Branch)에서 몇 주씩 코드를 짰다. 그리고 오픈 전날 밤, 수만 줄의 코드를 메인(Main) 브랜치에 합치려다(Merge) 엄청난 충돌(Conflict)이 발생해 밤을 새우는 일이 비일비재했다.
 
-이를 해결하기 위해 "코드는 무조건 매일매일 메인 브랜치에 합치자([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)"는 철학이 대두되었다. 하지만 미완성된 코드를 서버에 올리면 유저가 에러를 겪게 된다. 이 딜레마를 깨기 위해 <strong>"코드는 매일 합쳐서 서버에 올리되, 유저 눈에는 보이지 않게 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>(If문)로 숨겨두자"</strong>는 아이디어가 나왔고, 이것이 바로 <strong>피쳐 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a>(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/">Feature Flag</a>)</strong> 또는 <strong>피쳐 토글(Feature Toggle)</strong>이다.
+이를 해결하기 위해 "코드는 무조건 매일매일 메인 브랜치에 합치자([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD)"는 철학이 대두되었다. 하지만 미완성된 코드를 서버에 올리면 유저가 에러를 겪게 된다. 이 딜레마를 깨기 위해 <strong>"코드는 매일 합쳐서 서버에 올리되, 유저 눈에는 보이지 않게 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>(If문)로 숨겨두자"</strong>는 아이디어가 나왔고, 이것이 바로 <strong>피쳐 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a>(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/">Feature Flag</a>)</strong> 또는 <strong>피쳐 토글(Feature Toggle)</strong>이다.
 
 - **📢 섹션 요약 비유**: 아직 내부 공사가 안 끝난 식당 방이 있을 때, 방을 아예 부숴놓는 것(피쳐 브랜치)이 아니라, 방은 다 만들어두되 문을 잠그고 '공사 중' 팻말(피쳐 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))을 걸어두어 손님들이 못 들어가게 막아놓는 것이다.
 
@@ -74,7 +74,7 @@ tags = ["studynote-software-engineering"]
 
 | [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 종류 | 목적 | 수명 (Life Span) | 변동 주기 |
 |:---|:---|:---|:---|
-| **Release Toggles** | 미완성 기능을 숨겨 [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))을 돕기 위함 | 짧음 (며칠~몇 주) | 배포할 때 한 번 |
+| **Release Toggles** | 미완성 기능을 숨겨 [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/))을 돕기 위함 | 짧음 (며칠~몇 주) | 배포할 때 한 번 |
 | **Experiment Toggles** | A/B 테스트 (디자인 A가 나은지 B가 나은지) | 중간 (수 주~수 개월) | 유저마다 다름 |
 | **Ops Toggles** | 트래픽 폭주 시 무거운 기능(예: 추천)을 끄는 킬스위치 | **매우 긺 (수 년)** | 장애 발생 시 |
 | **Permission Toggles**| 프리미엄(유료) 유저에게만 고급 기능 활성화 | **매우 긺 (영구적)** | 유저 결제 상태에 따라 |

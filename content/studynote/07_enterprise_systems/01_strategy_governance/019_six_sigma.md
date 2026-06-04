@@ -15,7 +15,7 @@ tags = ["enterprise_systems"]
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 모토로라에서 창안하고 GE가 발전시킨 품질 경영 기법으로, 통계학의 표준편차(Sigma, $\sigma$)를 활용해 100만 번의 기회 중 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 3.4회 이하(3.4 PPM)로 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)하는 완벽에 가까운 품질 목표를 지향한다.
 > 2. **가치**: 직관이나 경험에 의존하던 전통적인 품질 관리를 벗어나, 고객의 핵심 요구사항(CTQ)을 정의하고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기반으로 문제의 근본 원인을 찾아내며, 재무적 성과와 직접적으로 연계한다.
-> 3. **융합**: 현대 기업에서는 순수 제조업의 불량률 감소를 넘어, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)업의 리드타임 단축 및 IT 프로세스 최적화([ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/), [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/))와 결합하여 전사적 비즈니스 프로세스 혁신 수단으로 폭넓게 활용된다.
+> 3. **융합**: 현대 기업에서는 순수 제조업의 불량률 감소를 넘어, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)업의 리드타임 단축 및 IT 프로세스 최적화([ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/846_itil/), [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/))와 결합하여 전사적 비즈니스 프로세스 혁신 수단으로 폭넓게 활용된다.
 
 ---
 
@@ -175,7 +175,7 @@ tags = ["enterprise_systems"]
 * **DMAIC / DMADV** | 기존 프로세스 개선(DMAIC)과 신규 제품 설계(DMADV, DFSS)를 위한 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)의 양대 방법론
 * <strong>린 생산 (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/">Lean</a> Production)</strong> | 낭비 제거에 초점을 맞춘 도요타 생산 방식(TPS)으로, 품질 중심의 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)와 융합하여 린 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)(LSS)로 활용됨
 * <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/058_data_literacy/">데이터 리터러시</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/058_data_literacy/">Data Literacy</a>)</strong> | [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)를 수행하기 위해 조직원들이 필수적으로 갖춰야 하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고 해석하는 능력
-* <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/368_spc/">통계적 공정 관리</a> (<a href="/knowledge-base/studynote/09_security/04_endpoint_security/203_spc_signed_public_key_challenge/">SPC</a>, Statistical <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a> Control)</strong> | 공정이 안정적인 상태에 있는지를 파악하기 위해 관리도(Control Chart) 등 통계적 기법을 사용하는 통제 수단
+* <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/368_spc/">통계적 공정 관리</a> (<a href="/knowledge-base/studynote/09_security/04_endpoint_security/203_spc_signed_public_key_challenge/">SPC</a>, Statistical <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/">Process</a> Control)</strong> | 공정이 안정적인 상태에 있는지를 파악하기 위해 관리도(Control Chart) 등 통계적 기법을 사용하는 통제 수단
 
 ### 📈 관련 키워드 및 발전 흐름도
 

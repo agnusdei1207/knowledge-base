@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 396 / 587
 
-<- **이전**: [273. 데이터 스튜어드십](/knowledge-base/studynote/12_it_management/05_security_compliance/273_data_stewardship_review/)
-**다음**: [274. CDO 데이터 총괄 임원](/knowledge-base/studynote/12_it_management/05_security_compliance/274_cdo_role/) ->
+<- **이전**: [273. 데이터 스튜어드십](/knowledge-base/studynote/12_it_management/05_security_compliance/922_data_stewardship_review/)
+**다음**: [274. CDO 데이터 총괄 임원](/knowledge-base/studynote/12_it_management/05_security_compliance/923_cdo_role/) ->
 
 ---

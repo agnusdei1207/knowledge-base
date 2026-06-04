@@ -38,7 +38,7 @@ tags = ["data_engineering"]
       (Block 1 원본)          (Block 1 복제)        (Block 1 복제)
            +--> 3개의 복제본이 랙 하나에 몰려있어 파일 완전 유실!
 ```
-이 그림의 핵심은 논리적 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)=3)가 물리적 토폴로지를 무시할 때 발생하는 맹점입니다. 이런 배치는 서버 1대 고장에는 강하지만, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 고장 앞에서는 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본이 무용지물이 됨을 보여줍니다. 실무에서는 네트워크 장비의 장애 빈도가 무시할 수 없는 수준이므로, 이 지점을 극복하지 못하면 엔터프라이즈급 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 99.999%를 달성할 수 없습니다.
+이 그림의 핵심은 논리적 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)=3)가 물리적 토폴로지를 무시할 때 발생하는 맹점입니다. 이런 배치는 서버 1대 고장에는 강하지만, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 고장 앞에서는 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본이 무용지물이 됨을 보여줍니다. 실무에서는 네트워크 장비의 장애 빈도가 무시할 수 없는 수준이므로, 이 지점을 극복하지 못하면 엔터프라이즈급 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)) [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 99.999%를 달성할 수 없습니다.
 
 📢 **섹션 요약 비유**: 비행기에 타고 있는 국가 원수와 부통령, 국무총리가 만약의 사고를 대비해 절대 같은 비행기에 동승하지 않고 서로 다른 비행기(다른 랙)에 나누어 탑승하는 철저한 경호 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)과 완벽히 같습니다.
 
@@ -194,7 +194,7 @@ Rack 2에 살아남은 단 1개의 블록을 읽어, 즉시 Rack 3, Rack 4의 �
     v
 [데이터 패브릭 (Data Fabric) — 토폴로지 인지 자동 배치·재균형, 클라우드 네이티브 분산 저장]
 ```
-이 흐름은 단순 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)의 물리적 장애 취약점을 랙·[데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)·리전 인지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 계층적으로 극복하고, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서 토폴로지 기반 자동 배치로 진화하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지 내구성 설계의 발전을 보여준다.
+이 흐름은 단순 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)의 물리적 장애 취약점을 랙·[데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)·리전 인지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 계층적으로 극복하고, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경에서 토폴로지 기반 자동 배치로 진화하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지 내구성 설계의 발전을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 소풍을 갈 때 도시락 3개를 만들어서 전부 내 가방에만 넣으면, 내가 넘어졌을 때 도시락이 다 망가져 굶어야 해요!

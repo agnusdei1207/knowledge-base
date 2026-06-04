@@ -19,7 +19,7 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-소트 머지 조인은 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스 관리 시스템](/knowledge-base/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/) (RDBMS, Relational [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) 이 대량 조인을 처리할 때 선택하는 대표적인 물리 연산이다. 핵심 아이디어는 단순하다. <strong>처음에 정렬 비용을 한 번 내고, 이후에는 양쪽 집합을 순차적으로만 읽으며 조인 비용을 낮추는 것</strong>이다.
+소트 머지 조인은 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스 관리 시스템](/knowledge-base/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/) (RDBMS, Relational [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System) 이 대량 조인을 처리할 때 선택하는 대표적인 물리 연산이다. 핵심 아이디어는 단순하다. <strong>처음에 정렬 비용을 한 번 내고, 이후에는 양쪽 집합을 순차적으로만 읽으며 조인 비용을 낮추는 것</strong>이다.
 
 이 방식이 필요한 이유는 다른 조인 방식의 한계가 분명하기 때문이다. [Nested Loop Join](/knowledge-base/studynote/05_database/07_exam_summary/431_nested_loop_join/) 은 외부 집합이 커질수록 내부 탐색이 반복되어 랜덤 입출력 (I/O, Input/Output) 이 폭증한다. [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/) ([Hash Join](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)) 은 대량 동등 조인에 강하지만, 조인 조건이 범위 비교나 비동등 비교로 바뀌면 적용이 제한된다.
 
@@ -171,7 +171,7 @@ Reuse ordered result for group/order analytics
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 두 카드 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)를 숫자 순서대로 먼저 예쁘게 줄 세워요.
+1. 두 카드 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)를 숫자 순서대로 먼저 예쁘게 줄 세워요.
 2. 그다음 맨 앞 카드끼리만 비교하면서 작은 쪽을 앞으로 넘겨요.
 3. 그래서 이리저리 다시 찾지 않아도 끝까지 한 번에 짝을 맞출 수 있어요.
 

@@ -97,7 +97,7 @@ tags = ["studynote-ict-convergence"]
 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/">O-RAN</a> 도입의 기대 효과</strong>
 
 - **비용 절감**: [COTS](/knowledge-base/studynote/04_software_engineering/06_software_architecture/372_cots/)(Commercial Off-The-Shelf) 서버 활용, 기지국 장비 단가 30~40% 절감 추정.
-- **혁신 속도**: 소프트웨어 업데이트로 새 기능 신속 적용. [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)(Cloud-native) 운영.
+- **혁신 속도**: 소프트웨어 업데이트로 새 기능 신속 적용. [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)(Cloud-native) 운영.
 - **경쟁 생태계**: 기존 3대 벤더 독점에 Samsung·Mavenir·Parallel Wireless 등 신규 진입.
 
 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/">O-RAN</a> 보안 취약점</strong>

@@ -11,7 +11,7 @@ tags = ["studynote-database"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) (INSERT, UPDATE, DELETE [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 가능)는 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)링·정합성 관점에서 자주 쓰이는 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)링 개념이다.
+> 1. **본질**: [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/) (INSERT, UPDATE, DELETE [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 가능)는 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)링·정합성 관점에서 자주 쓰이는 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)링 개념이다.
 > 2. **가치**: 중복을 줄이고 변경 영향을 예측 가능하게 만든다. 특히 `DML (INSERT, UPDATE, DELETE 롤백 가능)`는 `데이터 모델링·정합성 맥락에서 역할과 경계를 판단해야 하는 주제`를 설계 판단으로 연결해 준다.
 > 3. **판단 포인트**: [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)와 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)만 강조하면 조인 비용과 개발 복잡도가 커질 수 있다. 따라서 무엇을 우선 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)할지와 어느 비용을 감수할지를 함께 봐야 한다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-[DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) (INSERT, UPDATE, DELETE [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 가능)는 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)링·정합성 관점에서 자주 쓰이는 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)링 개념이다. 이 주제가 필요한 이유는 구조와 제약을 먼저 잡지 않으면 같은 사실이 여러 곳에 흩어지고 [갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/)이 생기기 때문이다. 특히 `DDL (CREATE, ALTER, DROP, TRUNCATE 롤백 불가)`에서 드러난 한계를 줄이고 `DCL (GRANT, REVOKE 권한 통제)` 같은 후속 판단의 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 세울 때 현재 개념이 중심축이 된다.
+[DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/) (INSERT, UPDATE, DELETE [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 가능)는 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)링·정합성 관점에서 자주 쓰이는 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)링 개념이다. 이 주제가 필요한 이유는 구조와 제약을 먼저 잡지 않으면 같은 사실이 여러 곳에 흩어지고 [갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/)이 생기기 때문이다. 특히 `DDL (CREATE, ALTER, DROP, TRUNCATE 롤백 불가)`에서 드러난 한계를 줄이고 `DCL (GRANT, REVOKE 권한 통제)` 같은 후속 판단의 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 세울 때 현재 개념이 중심축이 된다.
 
 시험과 실무에서 `DML (INSERT, UPDATE, DELETE 롤백 가능)`를 따로 외우기보다, "무엇을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하거나 최적화하려는가"라는 질문으로 연결해야 오래 남는다. 업무 규칙이 자주 변하는 시스템일수록 개념 모델과 물리 모델의 책임을 분리해 두어야 한다.
 

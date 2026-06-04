@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 433 / 587
 
-<- **이전**: [293. 기능 점수 (FP) 내부논리파일 외부연계 외부입력 출력](/knowledge-base/studynote/12_it_management/05_security_compliance/293_function_point_analysis/)
-**다음**: [294. COCOMO 비용 산정 (유기적, 준분리, 내장형)](/knowledge-base/studynote/12_it_management/05_security_compliance/294_cocomo_review/) ->
+<- **이전**: [293. 기능 점수 (FP) 내부논리파일 외부연계 외부입력 출력](/knowledge-base/studynote/12_it_management/05_security_compliance/939_function_point_analysis/)
+**다음**: [294. COCOMO 비용 산정 (유기적, 준분리, 내장형)](/knowledge-base/studynote/12_it_management/05_security_compliance/940_cocomo_review/) ->
 
 ---

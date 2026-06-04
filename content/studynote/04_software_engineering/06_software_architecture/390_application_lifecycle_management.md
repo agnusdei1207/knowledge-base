@@ -28,8 +28,8 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **1990년대**: 프로젝트 관리(PM), [요구사항 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/), 테스트 관리 등 개별 도구별 관리
   2. **2000년대**: ALM 통합 플랫폼 등장 (IBM Rational, Microsoft TFS 등)
-  3. **2010년대**: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/), [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 확산으로 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD와 ALM의 경계 허물어짐
-  4. **2020년대**: [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 기반 ALM 도구(Jira, Azure [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/), ServiceNow) 클라우드 전환, 플랫폼 engineering과 결합
+  3. **2010년대**: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/), [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 확산으로 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD와 ALM의 경계 허물어짐
+  4. **2020년대**: [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 기반 ALM 도구(Jira, Azure [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/), ServiceNow) 클라우드 전환, 플랫폼 engineering과 결합
 
 - **📢 섹션 요약 비유**: ALM은 <strong>'사람의일생 관리'</strong>와 같다. 출생(아이디어 inception) -> 유년기(개발) -> 청년기(성숙) -> 노년기(유지보수) -> 사망(폐기)의전 과정을 관리한다. 단순히 나이만 관리하는 것이 아니라, 건강상태, 재산 관리, 가족 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/), 사회 활동 등을전국적으로 관리하여,QOL(Quality of Life)을 극대화하고로료이후의행복을 준비한다. 애플리케이션도 마찬가지로 전 Lifecycle을 관리하여, 비즈니스 가치를 극대화하고, 기술적부채를 최소화하며, 궁극적으로조직적_success에 기여한다.
 
@@ -121,7 +121,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 애플리케이션 라이프사이클 관리 (ALM) 시스템 도입은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

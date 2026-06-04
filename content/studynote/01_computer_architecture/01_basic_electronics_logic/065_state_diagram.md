@@ -87,7 +87,7 @@ State A --input--> State B
 
 ## Ⅴ. 기대효과 및 결론
 
-상태도를 쓰면 전이 규칙을 명확히 설명할 수 있고, 디버깅과 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 작성도 쉬워진다.
+상태도를 쓰면 전이 규칙을 명확히 설명할 수 있고, 디버깅과 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) 작성도 쉬워진다.
 
 결론적으로 상태도는 상태 기반 시스템의 기본 언어다.
 

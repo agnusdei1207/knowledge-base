@@ -11,7 +11,7 @@ tags = ["studynote-devops-sre"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [뮤테이션 테스트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/)([Mutation Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/456_mutation_testing/))는 소스 코드에 의도적인 버그(뮤턴트, Mutant)를 심어 테스트 스위트가 그 버그를 탐지하는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 테스트 품질 평가 기법이다. [코드 커버리지](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/078_code_coverage/)가 100%여도 테스트가 실제로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지 않으면 뮤테이션 스코어가 낮다.
+> 1. **본질**: [뮤테이션 테스트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/)([Mutation Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/848_mutation_testing/))는 소스 코드에 의도적인 버그(뮤턴트, Mutant)를 심어 테스트 스위트가 그 버그를 탐지하는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 테스트 품질 평가 기법이다. [코드 커버리지](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/078_code_coverage/)가 100%여도 테스트가 실제로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지 않으면 뮤테이션 스코어가 낮다.
 > 2. **탐지됨 vs 생존**: 뮤턴트가 탐지됨(Detected)이면 테스트가 올바르게 버그를 잡은 것이고, 생존(Survived)이면 테스트에 구멍이 있다는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)다. 생존한 뮤턴트가 많을수록 테스트 스위트가 취약하다.
 > 3. **판단 포인트**: PITest (Java), Stryker (JS/TS) 등이 대표 도구다. [뮤테이션 테스트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/)는 실행 비용이 높아 전체 [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/)보다 핵심 비즈니스 로직에 선택적으로 적용하는 것이 현실적이다.
 
@@ -86,14 +86,14 @@ tags = ["studynote-devops-sre"]
 ### [뮤테이션 테스트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) 도입 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 1. **선택적 적용**: 전체 [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/)가 아닌 핵심 비즈니스 로직에만 적용
-2. <strong>임계값 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 뮤테이션 스코어 80% 이상을 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 통과 기준으로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
+2. <strong>임계값 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 뮤테이션 스코어 80% 이상을 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 통과 기준으로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 3. **증분 적용**: 새로 작성하는 코드부터 [뮤테이션 테스트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) 적용
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 핵심 비즈니스 로직의 뮤테이션 스코어가 75% 이상인가?
 2. 생존 뮤턴트가 발견된 후 테스트가 추가되었는가?
-3. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 [뮤테이션 테스트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) 결과가 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 리뷰에 표시되는가?
+3. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 [뮤테이션 테스트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) 결과가 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 리뷰에 표시되는가?
 
 > 📢 **섹션 요약 비유**: 뮤테이션 스코어 80%는 시험에서 80점을 목표로 하는 것과 같다. 100점(모든 뮤턴트 탐지)은 비용 대비 현실적이지 않다. 핵심 로직에 집중해 효율을 높인다.
 
@@ -113,7 +113,7 @@ tags = ["studynote-devops-sre"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [뮤테이션 테스트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) ([Mutation Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/456_mutation_testing/)) | 테스트 스위트 품질 평가 |
+| [뮤테이션 테스트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) ([Mutation Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/848_mutation_testing/)) | 테스트 스위트 품질 평가 |
 | 뮤턴트 (Mutant) | 의도적으로 심은 코드 변이 |
 | 탐지됨 (Detected) | 테스트가 뮤턴트를 잡은 경우 |
 | 생존 (Survived) | 테스트가 뮤턴트를 못 잡은 경우 |

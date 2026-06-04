@@ -48,7 +48,7 @@ tags = ["studynote-database"]
 |:---|:---|:---|
 | <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/">B-Tree</a></strong> | 범위 검색, 정렬 | 저카디널리티 |
 | **Hash** | 등가 검색 (=) | 범위 검색 |
-| **Bitmap** | 저카디널리티 (성별, Y/N) | [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) ([DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) 빈번) |
+| **Bitmap** | 저카디널리티 (성별, Y/N) | [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) ([DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/) 빈번) |
 | **Covering** | [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/) 컬럼 전부 포함 | 넓은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) |
 
 ### [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 유형

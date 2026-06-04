@@ -38,7 +38,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **치명적 한계**: [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 연결 시 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 암호화되지만, 이 최초의 인사말([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) Hello) 패킷 안에 들어있는 <strong>SNI 주소(<code>naver.com</code>라는 글씨)만큼은 암호화되지 않고 평문(Cleartext)</strong>으로 허공을 날아갑니다.
-- **국가의 불법 사이트 차단 방식**: 한국 방통위나 중국 정부는 통신사([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)) 인터넷 길목에 감시 장비를 달아놓고, 지나가는 패킷 겉면의 SNI 평문을 들여다봅니다. 거기에 `illegal-site.com`이라는 차단 명단 주소가 보이면, 가차 없이 연결을 끊어버리고 `Warning.or.kr` (경고창)로 튕겨버립니다. 이것이 유명한 <strong>'SNI 필터링 차단'</strong>입니다.
+- **국가의 불법 사이트 차단 방식**: 한국 방통위나 중국 정부는 통신사([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)) 인터넷 길목에 감시 장비를 달아놓고, 지나가는 패킷 겉면의 SNI 평문을 들여다봅니다. 거기에 `illegal-site.com`이라는 차단 명단 주소가 보이면, 가차 없이 연결을 끊어버리고 `Warning.or.kr` (경고창)로 튕겨버립니다. 이것이 유명한 <strong>'SNI 필터링 차단'</strong>입니다.
 
 ```text
 [세션 재개 기능 구성]

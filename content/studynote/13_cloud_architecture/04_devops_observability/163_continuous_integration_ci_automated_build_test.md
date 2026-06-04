@@ -46,16 +46,16 @@ tags = ["studynote-cloud"]
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-| 구분 | 수동 통합 (Manual) | [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/) ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)) |
+| 구분 | 수동 통합 (Manual) | [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/) ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)) |
 | :--- | :--- | :--- |
 | **통합 주기** | 주간/월간 단위 (비정기적) | 매일 수회 (Push 시 자동) |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 발견 시점</strong> | 통합 단계 혹은 배포 후 (늦음) | 코드 작성 직후 (매우 빠름) |
 | **품질 유지** | 사람의 주의력에 의존 | 자동화된 테스트 슈트에 의존 |
-| **리소스 소모** | 통합 담당자(Build Master) 필요 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 인프라 구축 비용 발생 |
+| **리소스 소모** | 통합 담당자(Build Master) 필요 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 인프라 구축 비용 발생 |
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 - **실무 적용**: 테스트 커버리지(Test Coverage)를 높이는 것이 CI의 성패를 결정함. 테스트 코드가 없는 CI는 단순한 '컴파일 자동화'에 불과함.
-- **기술사적 판단**: CI는 CD([지속적 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/))의 전제 조건이며, 최근에는 '[Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)' 사상을 반영하여 시큐리티 스캐닝과 취약점 분석까지 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 파이프라인에 포함하는 추세임.
+- **기술사적 판단**: CI는 CD([지속적 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/))의 전제 조건이며, 최근에는 '[Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)' 사상을 반영하여 시큐리티 스캐닝과 취약점 분석까지 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 파이프라인에 포함하는 추세임.
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 - **기대효과**: [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) 향상, 개발 생산성 증대, 버그 수정 비용의 획기적 절감.
@@ -81,7 +81,7 @@ CI: 코드 커밋 -> 자동 빌드 -> 자동 테스트
 CD: Continuous Delivery -> Continuous Deployment
 ```
 2. 다 만들고 나서 틀린 조각을 찾으려면 다 부숴야 하지만, 그때그때 확인하면 금방 고칠 수 있어요.
-3. 기계 선생님([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버)이 우리가 실수한 조각을 즉시 찾아주니 안심하고 조립할 수 있어요!
+3. 기계 선생님([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 서버)이 우리가 실수한 조각을 즉시 찾아주니 안심하고 조립할 수 있어요!
 
 ---
 

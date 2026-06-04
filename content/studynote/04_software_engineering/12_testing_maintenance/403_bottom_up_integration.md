@@ -59,7 +59,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-상향식 통합 시험을 할 때 <strong>드라이버(Driver)</strong>는 필수불가결한 도구이자, 하향식의 [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))과 항상 비교되는 단골 출제 대상이다.
+상향식 통합 시험을 할 때 <strong>드라이버(Driver)</strong>는 필수불가결한 도구이자, 하향식의 [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/))과 항상 비교되는 단골 출제 대상이다.
 
 * **드라이버(Driver)란?**
   - "내가 짠 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)들을 실행시키고 명령을 내려줄, <strong>아직 안 만들어진 상위 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>의 역할을 흉내 내는 가짜 제어 프로그램(가짜 조종사)</strong>"
@@ -84,7 +84,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅲ. 비교 및 연결
 
 **[ 장점 (견고한 인프라) ]**
-1. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">스텁</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">Stub</a>)이 필요 없다</strong>: 맨 밑바닥부터 올라가므로 "내 밑에 누군가를 호출할 일"이 없다. 멍청한 대답을 하는 [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)을 짤 필요 없이 진짜 부품들만 뭉쳐서 완벽하게 테스트할 수 있다.
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/">스텁</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/">Stub</a>)이 필요 없다</strong>: 맨 밑바닥부터 올라가므로 "내 밑에 누군가를 호출할 일"이 없다. 멍청한 대답을 하는 [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)을 짤 필요 없이 진짜 부품들만 뭉쳐서 완벽하게 테스트할 수 있다.
 2. **핵심 병목 조기 해결**: 하드웨어 제어, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 등 시스템에서 가장 까다로운 I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 에러를 프로젝트 극초반에 모두 고치고 안전하게 위로 올라갈 수 있다.
 
 **[ 단점 (고객의 답답함) ]**
@@ -127,7 +127,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 상향식 통합 (Bottom-up)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

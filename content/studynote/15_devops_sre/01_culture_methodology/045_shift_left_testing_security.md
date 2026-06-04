@@ -11,8 +11,8 @@ tags = ["studynote-devops-sre"]
 
 > **핵심 인사이트**
 > 1. [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)(Shift Left)는 테스팅·보안 활동을 개발 생명주기의 왼쪽([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계)으로 이동시키는 원칙 — [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)은 발견이 늦을수록 수정 비용이 기하급수적으로 증가하며(IBM: 운영 단계 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정 비용 = 설계 단계의 100×), [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 발견이 핵심이다.
-> 2. [시프트 레프트 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/466_shift_left_testing/)은 테스트 피라미드와 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)([테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/))로 구현 — [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)(70%)·[통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)(20%)·[E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 테스트([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%) 비율로 빠른 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를 만들어 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
-> 3. [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)([시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 보안)는 보안을 개발 프로세스에 내재화 — [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)([정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/))->[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)([동적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/))->[SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/)([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 취약점)->[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 스캔을 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 자동화하며, "보안은 보안팀의 일"이 아닌 "모두의 일"로 만든다.
+> 2. [시프트 레프트 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/858_shift_left_testing/)은 테스트 피라미드와 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)([테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/))로 구현 — [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)(70%)·[통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)(20%)·[E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 테스트([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%) 비율로 빠른 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를 만들어 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
+> 3. [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)([시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 보안)는 보안을 개발 프로세스에 내재화 — [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)([정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/))->[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)([동적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/))->[SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/)([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 취약점)->[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 스캔을 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 자동화하며, "보안은 보안팀의 일"이 아닌 "모두의 일"로 만든다.
 
 ---
 
@@ -61,7 +61,7 @@ IBM 연구 (1970s, 여전히 통용):
 
 ---
 
-## Ⅱ. [시프트 레프트 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/466_shift_left_testing/)
+## Ⅱ. [시프트 레프트 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/858_shift_left_testing/)
 
 ```
 테스트 피라미드 (Test Pyramid):
@@ -171,7 +171,7 @@ DevSecOps 파이프라인:
 
 ---
 
-## Ⅳ. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 구성
+## Ⅳ. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 구성
 
 ```
 시프트 레프트 CI/CD 파이프라인:
@@ -217,7 +217,7 @@ Stage 5 (CD - 프로덕션):
   Medium 이하: 리포트만
 ```
 
-> 📢 **섹션 요약 비유**: [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 공항 보안 검색 — 수하물(코드)이 여러 검색대(Stage)를 통과. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 검색대(Pre-commit)에서 걸리면 가장 빠르고 저렴하게 해결!
+> 📢 **섹션 요약 비유**: [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD는 공항 보안 검색 — 수하물(코드)이 여러 검색대(Stage)를 통과. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 검색대(Pre-commit)에서 걸리면 가장 빠르고 저렴하게 해결!
 
 ---
 

@@ -147,7 +147,7 @@ tags = ["studynote-operating-system"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/) ([Shared Library](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/)) 스터브 ([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)) 코드 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/) ([Shared Library](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/)) 스터브 ([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)) 코드 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
 | [정적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/334_static_linking/) ([Static Linking](/knowledge-base/studynote/02_operating_system/06_memory_management/334_static_linking/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
 | [스왑 아웃](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/) ([Swap out](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/)) / 스왑 인 (Swap in) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
 | [표준 스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/) ([전체 프로세스](/knowledge-base/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/)) vs [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템 스와핑 ([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |

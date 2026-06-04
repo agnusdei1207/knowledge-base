@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 556 / 587
 
-<- **이전**: [357. O-RAN 프론트홀 개방 사양 무결 망 진단](/knowledge-base/studynote/12_it_management/05_security_compliance/357_o_ran_fronthaul_open_interface/)
-**다음**: [358. 스마트 팩토리 산업 이더넷 TSN 결정론적 시간 보장 진단](/knowledge-base/studynote/12_it_management/05_security_compliance/358_smart_factory_tsn_deterministic_timing/) ->
+<- **이전**: [357. O-RAN 프론트홀 개방 사양 무결 망 진단](/knowledge-base/studynote/12_it_management/05_security_compliance/998_o_ran_fronthaul_open_interface/)
+**다음**: [358. 스마트 팩토리 산업 이더넷 TSN 결정론적 시간 보장 진단](/knowledge-base/studynote/12_it_management/05_security_compliance/999_smart_factory_tsn_deterministic_timing/) ->
 
 ---

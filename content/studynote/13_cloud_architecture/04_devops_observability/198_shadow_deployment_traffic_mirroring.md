@@ -19,7 +19,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)([Shadow Deployment](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/118_shadow_deployment_traffic_mirroring/))는 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/), Envoy)나 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이의 트래픽 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)(Traffic Mirroring) 기능을 활용하여, 운영 트래픽의 복사본을 신버전 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 동시에 전달하는 기법이다. 운영 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 정상적으로 응답하고, 신버전(Shadow)은 동일한 요청을 처리하지만 그 응답은 사용자에게 반환되지 않는다.
+[섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)([Shadow Deployment](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/118_shadow_deployment_traffic_mirroring/))는 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/), Envoy)나 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이의 트래픽 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)(Traffic Mirroring) 기능을 활용하여, 운영 트래픽의 복사본을 신버전 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 동시에 전달하는 기법이다. 운영 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 정상적으로 응답하고, 신버전(Shadow)은 동일한 요청을 처리하지만 그 응답은 사용자에게 반환되지 않는다.
 
 이 기법이 필요한 이유는 **스테이징 환경의 근본적 한계** 때문이다. 스테이징 환경은 운영과 동일한 코드를 실행하지만, 트래픽 패턴·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포·사용자 행동 패턴이 운영과 다르다. 예를 들어 검색 쿼리의 99%는 스테이징에서 테스트되지 않은 특이한 패턴일 수 있다.
 
@@ -57,7 +57,7 @@ tags = ["studynote-cloud-architecture"]
                         - v1과 결과 차이
 ```
 
-### [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) 트래픽 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
+### [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) 트래픽 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 
 ```yaml
 apiVersion: networking.istio.io/v1alpha3
@@ -97,7 +97,7 @@ spec:
   +---------------------------------------------+
 ```
 
-📢 **섹션 요약 비유**: [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) `mirror` [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)은 마치 전화 통화를 녹음하는 것과 같다. 통화([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))는 정상 진행되고, 복사본이 조용히 다른 시스템(Shadow)에 전달되어 분석된다.
+📢 **섹션 요약 비유**: [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) `mirror` [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)은 마치 전화 통화를 녹음하는 것과 같다. 통화([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))는 정상 진행되고, 복사본이 조용히 다른 시스템(Shadow)에 전달되어 분석된다.
 
 ---
 
@@ -188,9 +188,9 @@ class ShadowComparisonService:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) Traffic Mirroring | [섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)의 핵심 구현 기술 |
+| [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) Traffic Mirroring | [섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)의 핵심 구현 기술 |
 | [다크 론칭](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/197_dark_launching_traffic_shadow/) | 코드 레벨의 유사 기법, 단일 기능 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 적합 |
-| [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) (Envoy) | 네트워크 레벨 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)을 가능하게 하는 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) |
+| [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) (Envoy) | 네트워크 레벨 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)을 가능하게 하는 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) |
 | 격리 DB 환경 | [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) 트래픽의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 사이드 이펙트 방지 핵심 |
 | 결과 비교 분석 | 자동화된 Mismatch 감지 및 리포팅 프로세스 |
 | [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) | 섀도우 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 완료 후 점진적 사용자 노출 단계 |

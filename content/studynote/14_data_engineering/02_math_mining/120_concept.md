@@ -71,7 +71,7 @@ tags = ["studynote-dataengineering"]
 ### ML에서의 부트스트래핑
 1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/">Random Forest</a></strong>: [Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) = 부트스트랩 샘플로 트리 학습.
 2. **.632+ 부트스트래핑**: 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 추정 ([교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) 대안).
-3. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/">신뢰 구간</a></strong>: 모델 정확도의 95% [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 추정.
+3. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/">신뢰 구간</a></strong>: 모델 정확도의 95% [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 추정.
 
 ---
 

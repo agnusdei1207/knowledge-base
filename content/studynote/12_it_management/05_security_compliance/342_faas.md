@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 524 / 587
 
-<- **이전**: [341. 컨테이너 쿠버네티스 오케스트레이션 오토스케일링 진단](/knowledge-base/studynote/12_it_management/05_security_compliance/341_kubernetes_orchestration_autoscaling/)
-**다음**: [342. 서버리스 FaaS 아키텍처 한계 분석망](/knowledge-base/studynote/12_it_management/05_security_compliance/342_serverless_faas_limitations_audit/) ->
+<- **이전**: [341. 컨테이너 쿠버네티스 오케스트레이션 오토스케일링 진단](/knowledge-base/studynote/12_it_management/05_security_compliance/982_kubernetes_orchestration_autoscaling/)
+**다음**: [342. 서버리스 FaaS 아키텍처 한계 분석망](/knowledge-base/studynote/12_it_management/05_security_compliance/983_serverless_faas_limitations_audit/) ->
 
 ---

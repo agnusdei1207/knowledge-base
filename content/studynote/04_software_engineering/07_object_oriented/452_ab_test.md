@@ -28,7 +28,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **직관의 시대**: 웹사이트 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/), 디자인과 기획은 디자이너의 예술 감각이나 기획자의 경험에 100% 의존했다.
   2. **오바마 대선 캠프의 기적 (2008)**: 오바마 캠프가 후원금 모금 사이트의 사진과 버튼 문구를 24개 조합으로 A/B 테스트하여 후원금 6,000만 달러(약 800억 원)를 추가로 끌어모으며 IT 업계에 큰 충격을 주었다.
-  3. <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/">그로스 해킹</a>(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/">Growth Hacking</a>)의 무기 (현재)</strong>: 구글, 넷플릭스, 토스 등은 하루에도 수천 개의 A/B 테스트를 백그라운드에서 돌린다. 성장을 위한 모든 결정은 직관이 아닌 A/B 테스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 결정한다.
+  3. <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/833_growth_hacking/">그로스 해킹</a>(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/833_growth_hacking/">Growth Hacking</a>)의 무기 (현재)</strong>: 구글, 넷플릭스, 토스 등은 하루에도 수천 개의 A/B 테스트를 백그라운드에서 돌린다. 성장을 위한 모든 결정은 직관이 아닌 A/B 테스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 결정한다.
 
 - **📢 섹션 요약 비유**: A/B 테스트는 식당 주인이 <strong>'짬짬면 그릇'</strong>을 써서 고객의 입맛을 파악하는 것입니다. 짜장면(A)이 맛있는지 짬뽕(B)이 맛있는지 혼자 고민하지 않고, 고객에게 두 개를 동시에 내어주고 고객이 어느 쪽을 더 많이 긁어먹었는지 남은 빈 그릇([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 보고 내일의 주력 메뉴를 결정하는 완벽한 장사 수완입니다.
 
@@ -120,7 +120,7 @@ A/B 테스트을(를) 올바르게 적용하면 [소프트웨어 품질](/knowle
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 A/B 테스트은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ A/B 테스트 개념 정립
 
 **진행 상황**: 496 / 973
 
-<- **이전**: [452. A/B 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/452_ab_test/)
-**다음**: [453. 호환성 테스트 (Compatibility Test)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/453_compatibility_test/) ->
+<- **이전**: [452. A/B 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/844_ab_test/)
+**다음**: [453. 호환성 테스트 (Compatibility Test)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/845_compatibility_test/) ->
 
 ---

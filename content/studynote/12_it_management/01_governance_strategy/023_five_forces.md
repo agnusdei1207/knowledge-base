@@ -76,7 +76,7 @@ tags = ["studynote-it-management"]
 |:---|:---|:---|
 | [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) | '[가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 분석 관점과 질문 구조에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
 | SWOT 분석 | 'SWOT 분석' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 분석 관점과 질문 구조에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
-| [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/) | '[전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 분석 관점과 질문 구조에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
+| [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/815_strategy_map_bsc/) | '[전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/815_strategy_map_bsc/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 분석 관점과 질문 구조에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
 
 따라서 시험 답안에서는 "무엇과 다르며 왜 같이 보아야 하는가"를 짝지어 말하는 것이 중요하다. 실무에서도 현재 문제가 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 정렬인지, 운영 절차인지, 보안 통제인지에 따라 5 Forces 모델의 사용 위치가 달라진다.
 
@@ -120,7 +120,7 @@ tags = ["studynote-it-management"]
 |:---|:---|
 | [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
 | SWOT 분석 | 인접 주제로서 범위와 시점을 구분하게 한다. |
-| [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
+| [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/815_strategy_map_bsc/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
 | 의사결정 프레임 | 현재 개념을 의사결정 프레임 관점과 연결해 실무 맥락을 넓힌다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -148,7 +148,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 39 / 587
 
-<- **이전**: [22. 가치 사슬 (Value Chain) - 마이클 포터, 주활동(본원적 활동)과 지원 활동 분류 분석](/knowledge-base/studynote/12_it_management/01_governance_strategy/022_value_chain_analysis_model/)
-**다음**: [23. 파이브 포스 모델 (Five Forces Model)](/knowledge-base/studynote/12_it_management/01_governance_strategy/023_five_forces_model/) ->
+<- **이전**: [22. 가치 사슬 (Value Chain) - 마이클 포터, 주활동(본원적 활동)과 지원 활동 분류 분석](/knowledge-base/studynote/12_it_management/01_governance_strategy/816_value_chain_analysis_model/)
+**다음**: [23. 파이브 포스 모델 (Five Forces Model)](/knowledge-base/studynote/12_it_management/01_governance_strategy/817_five_forces_model/) ->
 
 ---

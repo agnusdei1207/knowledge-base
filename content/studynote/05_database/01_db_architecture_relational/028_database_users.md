@@ -47,7 +47,7 @@ tags = ["studynote-database"]
 |:---|:---|:---|
 | **단순 최종 사용자** | [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/) (특정 뷰) | CRUD via 앱 폼 |
 | **전문 최종 사용자** | [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/), INSERT | 직접 SQL 작성 |
-| **응용 프로그래머** | [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/), [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) | ORM/[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통해 CRUD |
+| **응용 프로그래머** | [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/), [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/) | ORM/[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통해 CRUD |
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/">DBA</a></strong> | ALL PRIVILEGES | [DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/), [DCL](/knowledge-base/studynote/05_database/01_db_architecture_relational/022_dcl/), [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), 튜닝 |
 
 ### [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/) ([Principle of Least Privilege](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/))
@@ -96,7 +96,7 @@ tags = ["studynote-database"]
 | <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> 추적</strong> | 사용자별 접근 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 관리 |
 | **효율성** | 사용자 요구에 맞는 인터페이스 제공 |
 
-Text-to-SQL과 LLM의 발전으로 비전문가도 자연어로 DB를 조회하는 "[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 최종 사용자" 유형이 등장하고 있으며, 이에 따라 접근 권한 관리와 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방어가 새로운 보안 과제로 부상하고 있다.
+Text-to-SQL과 LLM의 발전으로 비전문가도 자연어로 DB를 조회하는 "[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 최종 사용자" 유형이 등장하고 있으며, 이에 따라 접근 권한 관리와 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) 방어가 새로운 보안 과제로 부상하고 있다.
 
 - **📢 섹션 요약 비유**: Text-to-SQL은 DB에 자연어로 질문할 수 있는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 비서다. "작년에 가장 많이 팔린 제품은?"이라고 말하면 AI가 SQL로 변환해서 DB에서 답을 가져온다. 이제 누구나 DB 사용자가 될 수 있다.
 

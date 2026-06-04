@@ -74,13 +74,13 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 가치 흐름 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) |
+| 비교 | 가치 흐름 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) |
 |:---|:---|:---|:---|
 | 초점 | 전체 흐름 분석 | 자동화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 | 성과 측정 |
 | 기원 | 린 제조업 | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | 구글 연구 |
 | 목표 | 낭비 제거 | 빠른 자동 전달 | 고성과 달성 |
 
-- **📢 섹션 요약 비유**: [VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/)·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD·DORA는 공장 개선 3단계다. VSM으로 공정 병목을 찾고(분석), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD로 공정을 자동화하며(개선), [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)으로 개선 효과를 측정한다([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)).
+- **📢 섹션 요약 비유**: [VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/)·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD·DORA는 공장 개선 3단계다. VSM으로 공정 병목을 찾고(분석), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD로 공정을 자동화하며(개선), [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)으로 개선 효과를 측정한다([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)).
 
 ---
 

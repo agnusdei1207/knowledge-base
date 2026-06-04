@@ -10,15 +10,15 @@ tags = ["devops_sre"]
 +++
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 12 팩터 앱( Twelve-Factor App)은 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 및 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 애플리케이션 개발을 위한 12가지 설계 원칙으로, Heroku의 엔지니어링 팀이 2011년에 체계화했다.
-> 2. **가치**: 이 원칙들을 따르면 애플리케이션의 배포 민첩성, 확장성, [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)이 극대화되어, 현대적 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인과완미하게 연동된다.
+> 1. **본질**: 12 팩터 앱( Twelve-Factor App)은 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 및 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 애플리케이션 개발을 위한 12가지 설계 원칙으로, Heroku의 엔지니어링 팀이 2011년에 체계화했다.
+> 2. **가치**: 이 원칙들을 따르면 애플리케이션의 배포 민첩성, 확장성, [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)이 극대화되어, 현대적 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인과완미하게 연동된다.
 > 3. **융합**: [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/), [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/), [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), [백엔드 서비스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/010_backend_services/), 빌드/릴리스/실행, [무상태 프로세스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/012_stateless_processes/), [포트 바인딩](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/013_port_binding/), [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/), [폐기 가능성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/015_disposability/), 개발/운영 환경 일치, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [관리 프로세스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/018_admin_processes/)의 12원칙으로 구성된다.
 
 ---
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-12 팩터 앱은 2011년 Heroku의 공동 창립자이자 CTO인 [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) Wiggins가 제안한 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 애플리케이션 개발을 위한방법론이다. 당시 Heroku는 [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)([Platform as a Service](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)) 형태로 수천 개의 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 애플리케이션을 호스팅하고 있었으며, 그 경험을 통해"잘 동작하는 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 앱"의 공통적인 설계 특성을 12가지 원칙으로 정리했다.
+12 팩터 앱은 2011년 Heroku의 공동 창립자이자 CTO인 [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) Wiggins가 제안한 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 애플리케이션 개발을 위한방법론이다. 당시 Heroku는 [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)([Platform as a Service](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)) 형태로 수천 개의 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 애플리케이션을 호스팅하고 있었으며, 그 경험을 통해"잘 동작하는 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 앱"의 공통적인 설계 특성을 12가지 원칙으로 정리했다.
 
 이 원칙들이 중요한 이유는, 전통적인 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 서버 기반 애플리케이션과 달리, 현대 클라우드 환경에서는 애플리케이션이빈번하게 배포되고, 여러 인스턴스로 확장되며, 다양한 환경(개발, 스테이징, 프로덕션)을 오가며 동작해야 하기 때문이다. 만약 애플리케이션이 이러한 동적 환경에 적합하지 않게 설계되어 있으면, 배포할 때마다각충 문제가 발생하고, 확장 시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 저하되며, 장애 발생 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 어려워진다.
 
@@ -83,9 +83,9 @@ tags = ["devops_sre"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-12 팩터 앱의 각 원칙은 실제 [클라우드 네이티브 아키텍처](/knowledge-base/studynote/12_it_management/05_security_compliance/204_cloud_native_architecture/)에서 어떻게실장されるか을/를상세에분석할 필요가 있다. 특히 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인과의 연계는 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 관점에서 매우 중요하다.
+12 팩터 앱의 각 원칙은 실제 [클라우드 네이티브 아키텍처](/knowledge-base/studynote/12_it_management/05_security_compliance/204_cloud_native_architecture/)에서 어떻게실장されるか을/를상세에분석할 필요가 있다. 특히 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인과의 연계는 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 관점에서 매우 중요하다.
 
-| 원칙 | 핵심 요구사항 |[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 연동 방식 | 어겼을 때의 문제 |
+| 원칙 | 핵심 요구사항 |[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 연동 방식 | 어겼을 때의 문제 |
 |:---|:---|:---|:---|
 | <strong>① <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/">코드베이스</a></strong> | Git 등 VCS로 관리, 앱당 1개의Repo | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)는 Repoへ의Push | [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 불일치, 배포 실수 |
 | <strong>② <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a></strong> | 명시적 선언 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) (package.[json](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 등) | 빌드 단계에서 자동 설치 | "내 PC에서는 되는데" 문제 |
@@ -100,7 +100,7 @@ tags = ["devops_sre"]
 | <strong>⑪ <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a></strong> | 이벤트 스트림으로stdout 출력 | [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/) Aggregator 연동 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 추적 불가 |
 | <strong>⑫ <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/018_admin_processes/">관리 프로세스</a></strong> | 일회성도 동일 환경에서 실행 | Admin 스크립트를 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 통합 | 마이그레이션 불일치 |
 
-아래는 12 팩터 앱이 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 어떻게 활용되는지를 보여주는 흐름도이다.
+아래는 12 팩터 앱이 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 어떻게 활용되는지를 보여주는 흐름도이다.
 
 ```text
 [12 팩터 앱 + CI/CD 파이프라인 연동]
@@ -140,7 +140,7 @@ tags = ["devops_sre"]
 +--------------------------------------------------------------+
 ```
 
-> 📢 **섹션 요약 비유**: 12 팩터 앱은 공장 프로덕션 라인의 품질 관리 기준과 같다. 공장 라인(애플리케이션)의 각 공정(원칙)에서 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 없으면 최종 제품(배포)은 품질이보정される.  기중 하나라도 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 있으면 전체 제품 품질이 영향을 받는다. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 각 공정의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을측정하는 자동화된 검사참과 같다.
+> 📢 **섹션 요약 비유**: 12 팩터 앱은 공장 프로덕션 라인의 품질 관리 기준과 같다. 공장 라인(애플리케이션)의 각 공정(원칙)에서 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 없으면 최종 제품(배포)은 품질이보정される.  기중 하나라도 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 있으면 전체 제품 품질이 영향을 받는다. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 각 공정의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을측정하는 자동화된 검사참과 같다.
 
 ---
 
@@ -153,10 +153,10 @@ tags = ["devops_sre"]
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a></strong> | 확장성, 독립적 배포 | [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)는 아키텍처, 12팩터는 설계 원칙 | 12팩터 원칙을준수하면 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 전환이 용이 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a>)</strong> | 환경 일치, [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 격리 | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 배포 기술, 12팩터는 설계 철학 | 12팩터 앱을 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)화하면완미적 호환 |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a></strong> | [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/), [폐기 가능성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/015_disposability/), 무상태 | K8s는 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 플랫폼, 12팩터는 앱 설계 | 12팩터 앱이 K8s에서 optimal하게 동작 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD</strong> | 빌드/릴리스/실행 분리, 자동화 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 배포 자동화, 12팩터는 앱 설계 | 12팩터 원칙 없으면 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 효과 저하 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD</strong> | 빌드/릴리스/실행 분리, 자동화 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD는 배포 자동화, 12팩터는 앱 설계 | 12팩터 원칙 없으면 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 효과 저하 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a></strong> | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, [폐기 가능성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/015_disposability/) | SRE는 운영 방법론, 12팩터는 개발 원칙 | 12팩터 앱은 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 친화적설계 |
 
-12 팩터 앱과 모던 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 원칙들 간의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 보다 명확히 하면, 왜 12팩터 원칙을，수るこ와/과가 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 전환의 기본인지 이해할 수 있다.
+12 팩터 앱과 모던 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 원칙들 간의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 보다 명확히 하면, 왜 12팩터 원칙을，수るこ와/과가 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 전환의 기본인지 이해할 수 있다.
 
 ```text
 [12 팩터 앱의 현대적 진화]
@@ -173,7 +173,7 @@ tags = ["devops_sre"]
                                                       +-- 자동화된 스케일링
 ```
 
-> 📢 **섹션 요약 비유**: 12 팩터 앱은 음식의 기본 레시피와 같다. 기본 레시피(12팩터)를 잘 따르면 어떤 요리사(개발자)든 동일한품질의 요리(앱)를 만들 수 있다. 레시피가 없으면 요리사마다 다른 맛의 음식을 만들게 되고, 손님(운영팀/고객)이 예측할 수 없는 결과를 받게 된다. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 이 레시피를 automated cooking machine과 같다.
+> 📢 **섹션 요약 비유**: 12 팩터 앱은 음식의 기본 레시피와 같다. 기본 레시피(12팩터)를 잘 따르면 어떤 요리사(개발자)든 동일한품질의 요리(앱)를 만들 수 있다. 레시피가 없으면 요리사마다 다른 맛의 음식을 만들게 되고, 손님(운영팀/고객)이 예측할 수 없는 결과를 받게 된다. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD는 이 레시피를 automated cooking machine과 같다.
 
 ---
 
@@ -183,12 +183,12 @@ tags = ["devops_sre"]
 
 **1. 실무 의사결정 시나리오**
 - **시나리오 A: 레거시 모놀리식 앱을 12팩터로 마이그레이션해야 할 때**
-  - **상황**: 기존에 작성된 모놀리식 앱이 12팩터 어느 원칙에도 맞지 않으며, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)로의 전환을 목표로 함.
+  - **상황**: 기존에 작성된 모놀리식 앱이 12팩터 어느 원칙에도 맞지 않으며, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)로의 전환을 목표로 함.
   - **판단**: 한 번에 모든 원칙을 적용하기보다, 우선순위를 정하여 단계적으로 적용해야 한다. 수선 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(③)을 [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)로 분리하고, [무상태 프로세스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/012_stateless_processes/)(⑥)를 위해 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 상태를 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 등으로 이동하며, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(⑪)를 구조화된 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 형태로stdout에 출력하도록수정한다. 이를 통해 점진적으로 12팩터 Compliant해질 수 있다.
 
 - <strong>시나리오 B: 새로운 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a> 프로젝트에 12팩터 적용 시</strong>
   - **상황**: [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 아키텍처로 새 프로젝트를 시작하려고 하며, 무엇을 기준으로 설계해야 할지 명확하지 않음.
-  - **판단**: 이 경우 애초부터 12팩터 원칙을 기본 설계 기준으로 삼아야 한다. 특히 [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/)(①), [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)(②), [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(③), 무상태(⑥), [포트 바인딩](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/013_port_binding/)(⑦)은 MSA에서서비스간 통신과 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 관리의 기본이 된다. 이것을 어기면 나중에 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)나 [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/) 도입이 어려워진다.
+  - **판단**: 이 경우 애초부터 12팩터 원칙을 기본 설계 기준으로 삼아야 한다. 특히 [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/)(①), [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)(②), [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(③), 무상태(⑥), [포트 바인딩](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/013_port_binding/)(⑦)은 MSA에서서비스간 통신과 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 관리의 기본이 된다. 이것을 어기면 나중에 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)나 [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/) 도입이 어려워진다.
 
 ```text
 [12 팩터 적용 우선순위 판단 프레임워크]
@@ -223,11 +223,11 @@ Lower Priority (나중에 적용):
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-12 팩터 앱 원칙을 준수하여 개발된 애플리케이션은 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서 뛰어난 확장성, 안정성, 관리 용이성을 보여주며, 이것이 곧 비즈니스 가치가 된다.
+12 팩터 앱 원칙을 준수하여 개발된 애플리케이션은 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경에서 뛰어난 확장성, 안정성, 관리 용이성을 보여주며, 이것이 곧 비즈니스 가치가 된다.
 
 | 관점 | 12팩터 미준수 ([AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)) | 12팩터 준수 (TO-BE) | [핵심 성과 지표](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) |
 |:---|:---|:---|:---|
-| **배포 속도** | 환경별 별도 빌드, 수동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 자동화 | 배포 시간 70% 단축 |
+| **배포 속도** | 환경별 별도 빌드, 수동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 자동화 | 배포 시간 70% 단축 |
 | **확장성** |수직확장만 가능, 단일실례 병목 | 수평 확장 (오토스케일링) 가능 | 트래픽 처리용량 무한 확장 |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a></strong> | 배포 시 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 | [무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/) (Blue/Green) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 시간 99% 감소 |
 | <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 시간</strong> | 장애 시 수동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 빠른 인스턴스 교체 | [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 80% 단축 |
@@ -249,7 +249,7 @@ Lower Priority (나중에 적용):
 | **모놀리스** | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 단일 배포 단위로 시작하는 구조 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a></strong> | 기능을 작게 나눠 독립 배포하는 구조 |
 | **12팩터 앱** | 클라우드 환경에 맞춘 애플리케이션 운영 원칙 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a></strong> | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와 자동 확장 중심의 운영 방식 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/">클라우드 네이티브</a></strong> | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와 자동 확장 중심의 운영 방식 |
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
@@ -265,7 +265,7 @@ Lower Priority (나중에 적용):
 [클라우드 네이티브 (Cloud Native)]
 ```
 
-이 흐름도는 모놀리스에서 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)와 12팩터 앱, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)로 진화하는 흐름을 보여준다.
+이 흐름도는 모놀리스에서 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)와 12팩터 앱, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)로 진화하는 흐름을 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 예전의 큰 앱은 한 번에 같이 움직이는 경우가 많았다.

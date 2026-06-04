@@ -12,7 +12,7 @@ tags = ["cicd-gitops", "studynote-devops-sre"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 엣지 디바이스 OTA ([Over-The-Air](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/523_iot_firmware_ota_security/))는 수천~수십만 대의 물리적 기기(차량, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 등)를 회수하지 않고 무선 네트워크를 통해 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)나 소프트웨어를 원격 배포하는 인프라 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이다.
-> 2. **가치**: 클라우드의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/배포) 워크플로우를 하드웨어 단말기까지 확장하여, 제품 판매 이후에도 지속적으로 보안 패치와 신규 기능을 주입해 기기의 라이프사이클 가치를 극대화한다.
+> 2. **가치**: 클라우드의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD ([지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/배포) 워크플로우를 하드웨어 단말기까지 확장하여, 제품 판매 이후에도 지속적으로 보안 패치와 신규 기능을 주입해 기기의 라이프사이클 가치를 극대화한다.
 > 3. **판단 포인트**: 서버 업데이트와 달리 엣지 OTA는 업데이트 도중 전원이 끊기면 기기가 먹통(Brick)이 되는 치명적 위험이 있으므로, A/B 듀얼 뱅크(Dual Bank) 설계와 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 메커니즘을 필수적으로 도입해야 한다.
 
 ---
@@ -65,7 +65,7 @@ OTA 배포는 스마트폰이나 테슬라 같은 커넥티드 카(SDV, Software
 
 ## Ⅲ. 비교 및 연결
 
-웹 서버 배포([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))와 엣지 하드웨어 배포(OTA)는 환경적 제약 때문에 완전히 다른 철학으로 접근해야 한다.
+웹 서버 배포([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/))와 엣지 하드웨어 배포(OTA)는 환경적 제약 때문에 완전히 다른 철학으로 접근해야 한다.
 
 | 비교 항목 | 웹/클라우드 서버 배포 | 엣지 디바이스 OTA 배포 |
 | :--- | :--- | :--- |

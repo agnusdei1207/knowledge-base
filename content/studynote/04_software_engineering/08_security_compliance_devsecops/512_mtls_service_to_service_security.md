@@ -28,7 +28,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **경계 기반 보안의 패배**: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)/[IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)) 밖은 위험하고 사내망(LAN)은 안전하다는 '성곽 방어' 모델이 [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/)([지능형 지속 위협](/knowledge-base/studynote/09_security/04_endpoint_security/374_apt/)) 해킹 한 방에 속수무책으로 무너졌다.
   2. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">제로 트러스트</a>의 부상 (2010년대)</strong>: 구글이 "내부 네트워크도 해커의 앞마당이라 가정해라(BeyondCorp)"라며 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 사상을 터뜨렸다. 사내망에서도 모든 통신을 암호화하고 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)하라는 지시가 떨어졌다.
-  3. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">서비스 메시</a>와 mTLS의 대통일 (현재)</strong>: 50개 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)마다 개발자가 Java로 암호화/[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 코드를 치려다 다 퇴사해버렸다. 이 고통을 구원하기 위해 [이스티오](/knowledge-base/studynote/03_network/16_data_center_cloud/829_istio_envoy_service_mesh_control_plane/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)) 같은 '[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)'가 등장해, 앱 바깥에서 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)(Envoy)가 투명하게 mTLS를 자동으로 씌워주는 인프라 혁명이 완성되었다.
+  3. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/">서비스 메시</a>와 mTLS의 대통일 (현재)</strong>: 50개 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)마다 개발자가 Java로 암호화/[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 코드를 치려다 다 퇴사해버렸다. 이 고통을 구원하기 위해 [이스티오](/knowledge-base/studynote/03_network/16_data_center_cloud/829_istio_envoy_service_mesh_control_plane/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)) 같은 '[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)'가 등장해, 앱 바깥에서 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)(Envoy)가 투명하게 mTLS를 자동으로 씌워주는 인프라 혁명이 완성되었다.
 
 - **📢 섹션 요약 비유**: 사내망 평문 통신은 집에 도둑이 담장을 넘었을 때 <strong>'안방, 화장실, 금고 문이 전부 활짝 열려있어 1초 만에 집을 다 터는 꼴'</strong>입니다. mTLS를 발라둔 사내망은 담장이 뚫려도, 집 안의 모든 방마다 100억짜리 안면인식 강철 문이 달려 있어서 도둑이 거실에서 한 발짝도 움직이지 못하고(횡적 이동 차단) 결국 굶어 죽는 감옥입니다.
 
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 보안 (Service-to-Service [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 615 / 973
 
-<- **이전**: [511. API Rate Limiting 및 Throttling](/knowledge-base/studynote/04_software_engineering/11_testing_validation/511_rate_limiting_throttling/)
-**다음**: [512. 마이크로서비스 간 보안 - mTLS (상호 TLS 인증)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/512_service_to_service_security_mtls/) ->
+<- **이전**: [511. API Rate Limiting 및 Throttling](/knowledge-base/studynote/04_software_engineering/11_testing_validation/903_rate_limiting_throttling/)
+**다음**: [512. 마이크로서비스 간 보안 - mTLS (상호 TLS 인증)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/904_service_to_service_security_mtls/) ->
 
 ---

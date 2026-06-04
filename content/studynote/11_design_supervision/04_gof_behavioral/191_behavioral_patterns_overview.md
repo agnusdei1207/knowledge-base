@@ -151,7 +151,7 @@ GoF [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing
 
 **진행 상황**: 252 / 530
 
-<- **이전**: [190. 엔터프라이즈 모듈 분리 의존성 주입(DI) 프레임워크 생명주기 관리 구조 (Spring Bean Lifecycle)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/)
+<- **이전**: [190. 엔터프라이즈 모듈 분리 의존성 주입(DI) 프레임워크 생명주기 관리 구조 (Spring Bean Lifecycle)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/)
 **다음**: [192. 옵저버 패턴 (Observer Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/192_observer_pattern/) ->
 
 ---

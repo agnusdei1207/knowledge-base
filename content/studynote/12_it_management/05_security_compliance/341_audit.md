@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 522 / 587
 
-<- **이전**: [340. 클라우드 6R 마이그레이션 이관 무결성 통제망](/knowledge-base/studynote/12_it_management/05_security_compliance/340_management/)
-**다음**: [341. 컨테이너 쿠버네티스 오케스트레이션 오토스케일링 진단](/knowledge-base/studynote/12_it_management/05_security_compliance/341_kubernetes_orchestration_autoscaling/) ->
+<- **이전**: [340. 클라우드 6R 마이그레이션 이관 무결성 통제망](/knowledge-base/studynote/12_it_management/05_security_compliance/981_management/)
+**다음**: [341. 컨테이너 쿠버네티스 오케스트레이션 오토스케일링 진단](/knowledge-base/studynote/12_it_management/05_security_compliance/982_kubernetes_orchestration_autoscaling/) ->
 
 ---

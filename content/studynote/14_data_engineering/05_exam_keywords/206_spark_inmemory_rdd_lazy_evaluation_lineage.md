@@ -20,7 +20,7 @@ tags = ["studynote-data-engineering"]
 
 ### Apache Spark 등장 배경
 
-2009년 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) 버클리 AMPLab에서 시작된 Spark는 MapReduce의 두 가지 핵심 한계를 해결하기 위해 설계되었다.
+2009년 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/871_underpinning_contract/) 버클리 AMPLab에서 시작된 Spark는 MapReduce의 두 가지 핵심 한계를 해결하기 위해 설계되었다.
 
 | [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 한계 | Spark 해결책 |
 |:---|:---|

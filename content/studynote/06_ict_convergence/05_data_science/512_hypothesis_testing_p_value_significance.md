@@ -94,7 +94,7 @@ tags = ["studynote-ict-convergence"]
 
 **기술사 판단 포인트**:
 - p-값만 보고 결론 내리는 "p-값 숭배(p-hacking)" 경계.
-- [신뢰 구간](/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/)([Confidence Interval](/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))을 함께 보고해 효과 범위 명시.
+- [신뢰 구간](/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/)([Confidence Interval](/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/))을 함께 보고해 효과 범위 명시.
 - 다중 검정 시 FDR(False Discovery Rate) 보정(Benjamini-Hochberg 방법) 적용.
 
 - **📢 섹션 요약 비유**: p-값이 낮다고 해서 효과가 크다는 의미는 아니야. 키가 1mm 차이 나도 표본이 백만 명이면 p < 0.001이 나와. 실제로 그 1mm 차이가 중요한지는 별개의 문제야.

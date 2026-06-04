@@ -70,7 +70,7 @@ if (result == 8) {
 * **pytest (Python)**
   - Python 기본 내장인 `unittest`의 무거운 객체 지향적 문법을 타파하고, 그냥 `assert a == b` 한 줄만 쓰면 알아서 다 분석해 주는 극강의 심플함으로 파이썬 테스트계를 평정했다. 픽스처(Fixture)를 함수의 인자([Dependency Injection](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/))로 던져주는 기능이 예술적이다.
 * **Jest (JavaScript / TypeScript)**
-  - Facebook(Meta)이 만든 도구로, 프론트엔드/백엔드 가리지 않고 JS 생태계의 표준이 되었다. 목([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/)) 함수 생성과 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 테스팅 기능이 내장되어 있어 React 개발 등에 필수적이다.
+  - Facebook(Meta)이 만든 도구로, 프론트엔드/백엔드 가리지 않고 JS 생태계의 표준이 되었다. 목([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/)) 함수 생성과 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 테스팅 기능이 내장되어 있어 React 개발 등에 필수적이다.
 * **NUnit / xUnit.net (C# / .NET)**
   - 마이크로소프트 .NET 생태계의 표준 테스팅 도구들이다.
 
@@ -87,7 +87,7 @@ if (result == 8) {
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 "도구가 문화를 만든다. 테스트 자동화가 없었다면 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))도 없었다."
-개발자들은 본능적으로 코드를 짜는 건 좋아하지만 테스트하는 건 지루해한다. [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 프레임워크는 이 지루한 '[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)'의 과정을 '버튼 한 번 누르면 수천 개의 녹색 불(Green Light)이 쏟아지는' 게임처럼 즐거운 피드백 루프로 탈바꿈시켰다. 이 프레임워크들이 제공하는 강력하고 우아한 Assert 기능과 자동 실행 파이프라인 덕분에 오늘날의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD와 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 핵심인 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)([테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/)) 방법론이 현실의 산업계에 단단히 뿌리내릴 수 있었던 것이다.
+개발자들은 본능적으로 코드를 짜는 건 좋아하지만 테스트하는 건 지루해한다. [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 프레임워크는 이 지루한 '[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)'의 과정을 '버튼 한 번 누르면 수천 개의 녹색 불(Green Light)이 쏟아지는' 게임처럼 즐거운 피드백 루프로 탈바꿈시켰다. 이 프레임워크들이 제공하는 강력하고 우아한 Assert 기능과 자동 실행 파이프라인 덕분에 오늘날의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD와 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 핵심인 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)([테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/)) 방법론이 현실의 산업계에 단단히 뿌리내릴 수 있었던 것이다.
 
 ---
 
@@ -110,7 +110,7 @@ if (result == 8) {
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 프레임워크 (JUnit, pytest, NUnit 등)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

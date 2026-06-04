@@ -41,7 +41,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - 2019년 IT 리서치 기관 가트너(Gartner)가 주창한 개념입니다. (읽기: 새시)
-- **개념**: <strong>가장 빠른 길을 찾아주는 '네트워크 기능(<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/">SD-WAN</a> 등)'과 해커를 막아주는 '클라우드 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/503_security_features_design/">보안 기능</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/">SSE</a>)'을 짬뽕하여, 전 세계 어디서든 사용자와 가장 가까운 클라우드 엣지(Edge)에서 하나의 통합된 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/">SaaS</a>)로 제공하는 보안 네트워킹 아키텍처</strong>입니다.
+- **개념**: <strong>가장 빠른 길을 찾아주는 '네트워크 기능(<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/">SD-WAN</a> 등)'과 해커를 막아주는 '클라우드 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/895_security_features_design/">보안 기능</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/">SSE</a>)'을 짬뽕하여, 전 세계 어디서든 사용자와 가장 가까운 클라우드 엣지(Edge)에서 하나의 통합된 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/">SaaS</a>)로 제공하는 보안 네트워킹 아키텍처</strong>입니다.
 - 철학: "보안 장비를 회사에 박아두지 말고, 통신망(클라우드) 자체를 거대한 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)으로 만들어라!"
 
 ```text
@@ -68,10 +68,10 @@ SASE는 단일 제품이 아니라 아래 4가지 기술이 구름 위에서 하
 - 직원이 집에서 이상한 도박 사이트나 악성코드 사이트에 들어가지 못하게, 클라우드 허공에서 웹 트래픽을 까보고(URL 필터링, 악성코드 검사) 유해 사이트 접속을 콱 차단하는 허공의 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)입니다.
 
 ### 3. [CASB](/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/) (클라우드 접근 보안 중계, Cloud Access [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Broker) - "클라우드 헌병대"
-- 직원이 구글 드라이브나 슬랙([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))을 쓸 때 감시합니다.
+- 직원이 구글 드라이브나 슬랙([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/))을 쓸 때 감시합니다.
 - 퇴사하려는 직원이 회사 극비 문서 1,000장을 개인 구글 드라이브로 몰래 업로드하려는 순간, CASB가 클라우드 단에서 이걸 적발하고 전송을 차단([DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/), [데이터 유출 방지](/knowledge-base/studynote/12_it_management/05_security_compliance/186_dlp_data_loss_prevention/))해 버립니다.
 
-### 4. [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/) ([제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 네트워크 접속, 1043번 연계) - "아무도 믿지 마라"
+### 4. [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/980_ztna/) ([제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 네트워크 접속, 1043번 연계) - "아무도 믿지 마라"
 - "너 사장님 아이디/비번으로 들어왔어? 그래도 넌 해커일지 모르니까 믿을 수 없다!"
 - VPN처럼 접속하면 회사 전체 네트워크를 뻥 뚫어주는 게 아니라, 사장님이라도 딱 '인사과 서버' 1곳만 볼 수 있게 극도로 제한된 권한만 주고 1초마다 신분을 계속 감시하는 궁극의 의심병 접속 모델입니다.
 
@@ -89,7 +89,7 @@ SASE는 단일 제품이 아니라 아래 4가지 기술이 구름 위에서 하
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 장비(Box)를 안 사도 됩니다. 본사에 수억짜리 시스코 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 기계를 살 필요 없이, 한 달에 얼마씩 내고 클라우드에 뜬 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 구독([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))하면 끝입니다.
+- 장비(Box)를 안 사도 됩니다. 본사에 수억짜리 시스코 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 기계를 살 필요 없이, 한 달에 얼마씩 내고 클라우드에 뜬 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 구독([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/))하면 끝입니다.
 - 직원이 서울에 있든 뉴욕에 있든, 가장 가까운 뉴욕 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 엣지([PoP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/))에 접속하여 빛의 속도로 보안 검사를 받고 안전하게 업무를 할 수 있습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -98,7 +98,7 @@ SASE는 단일 제품이 아니라 아래 4가지 기술이 구름 위에서 하
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 과거 회사의 보안은 거대한 <strong>'경복궁 성문 검색대'</strong>였습니다. 옥새([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 궁 안에 있으니 성문만 겹겹이 지키면 됐습니다. 하지만 클라우드 시대가 되자 옥새는 강남역 스타벅스 클라우드로 이사 갔고, 신하(직원)들도 재택근무를 합니다. 신하가 강남역 스타벅스를 가는데 굳이 경복궁 성문([VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))까지 와서 몸수색을 받고 다시 강남으로 돌아가는 미친 삽질을 하게 된 겁니다. 가트너가 주창한 <strong><a href="/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/">SASE</a></strong>는 경복궁 성문을 헐어버리고, <strong>'투명한 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 경호원(클라우드 엣지)'</strong>을 모든 직원의 머리 위에 둥둥 띄워놓은 것입니다. 직원이 집이나 카페에서 구글 드라이브로 문서를 옮기려는 순간, 머리 위에 떠 있던 경호원([SWG](/knowledge-base/studynote/03_network/14_network_security_threats/742_swg_secure_web_gateway/), [CASB](/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/), [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/))이 빛의 속도로 길목을 가로막고 "어디 가는 트래픽이냐? [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 있나 까보자!"라고 실시간으로 짐을 뒤져 검사합니다. 네트워크 길 찾기와 보안 검색을 직원의 위치와 상관없이 허공(클라우드)에서 단 1초 만에 한 큐에 끝내버리는 궁극의 언택트 보안 아키텍처입니다.
+- **📢 섹션 요약 비유**: 과거 회사의 보안은 거대한 <strong>'경복궁 성문 검색대'</strong>였습니다. 옥새([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 궁 안에 있으니 성문만 겹겹이 지키면 됐습니다. 하지만 클라우드 시대가 되자 옥새는 강남역 스타벅스 클라우드로 이사 갔고, 신하(직원)들도 재택근무를 합니다. 신하가 강남역 스타벅스를 가는데 굳이 경복궁 성문([VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))까지 와서 몸수색을 받고 다시 강남으로 돌아가는 미친 삽질을 하게 된 겁니다. 가트너가 주창한 <strong><a href="/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/">SASE</a></strong>는 경복궁 성문을 헐어버리고, <strong>'투명한 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 경호원(클라우드 엣지)'</strong>을 모든 직원의 머리 위에 둥둥 띄워놓은 것입니다. 직원이 집이나 카페에서 구글 드라이브로 문서를 옮기려는 순간, 머리 위에 떠 있던 경호원([SWG](/knowledge-base/studynote/03_network/14_network_security_threats/742_swg_secure_web_gateway/), [CASB](/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/), [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/980_ztna/))이 빛의 속도로 길목을 가로막고 "어디 가는 트래픽이냐? [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 있나 까보자!"라고 실시간으로 짐을 뒤져 검사합니다. 네트워크 길 찾기와 보안 검색을 직원의 위치와 상관없이 허공(클라우드)에서 단 1초 만에 한 큐에 끝내버리는 궁극의 언택트 보안 아키텍처입니다.
 
 ---
 

@@ -180,7 +180,7 @@ LaunchDarkly 통합:
   트래픽 % 제어 (shadow %, canary %)
 ```
 
-> 📢 **섹션 요약 비유**: 다크 런칭 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 비행기 시험 비행 순서 — 격납고 점검([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD) -> 활주로 주행(스테이징) -> 저고도 비행(다크 런칭) -> 정식 운항(100% 배포).
+> 📢 **섹션 요약 비유**: 다크 런칭 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 비행기 시험 비행 순서 — 격납고 점검([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD) -> 활주로 주행(스테이징) -> 저고도 비행(다크 런칭) -> 정식 운항(100% 배포).
 
 ---
 

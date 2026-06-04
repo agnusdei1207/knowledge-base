@@ -13,7 +13,7 @@ tags = ["studynote-design-supervision"]
 
 > 1. **본질**: [DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) ([Dependency Inversion Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/), 의존성 역전 원칙)는 고수준 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(비즈니스 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))과 저수준 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(세부 구현)이 모두 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)(인터페이스)에 의존함으로써, 소스 코드 의존성의 화살표를 제어 흐름과 반대 방향으로 역전시키는 설계 원칙이다.
 > 2. **가치**: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 엔진이 Oracle에서 PostgreSQL로 교체되거나 외부 결제 API가 변경되어도, 핵심 비즈니스 로직 코드를 단 한 줄도 수정하지 않는 유연한 구조를 달성한다.
-> 3. **판단 포인트**: 인터페이스 남발로 인한 오버엔지니어링(over-engineering)을 방지하려면 "이 구현체가 교체될 가능성이 있는가?" 또는 "[Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/)(테스트 대역)으로 격리해야 하는가?"라는 두 질문으로 적용 여부를 결정해야 한다.
+> 3. **판단 포인트**: 인터페이스 남발로 인한 오버엔지니어링(over-engineering)을 방지하려면 "이 구현체가 교체될 가능성이 있는가?" 또는 "[Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/)(테스트 대역)으로 격리해야 하는가?"라는 두 질문으로 적용 여부를 결정해야 한다.
 
 ---
 
@@ -48,7 +48,7 @@ DIP가 없으면 시스템은 "구현 세부 사항의 노예"가 된다. 인프
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-DIP를 실현하는 데는 두 단계가 필요하다. 첫째, 고수준 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 자신이 필요로 하는 동작을 인터페이스로 정의한다. 둘째, 저수준 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 그 인터페이스를 구현(implements)한다. 이 구조는 IoC (Inversion of Control, 제어의 역전) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와 결합할 때 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) ([Dependency Injection](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/), [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)) 메커니즘으로 완성된다.
+DIP를 실현하는 데는 두 단계가 필요하다. 첫째, 고수준 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 자신이 필요로 하는 동작을 인터페이스로 정의한다. 둘째, 저수준 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 그 인터페이스를 구현(implements)한다. 이 구조는 IoC (Inversion of Control, 제어의 역전) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와 결합할 때 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) ([Dependency Injection](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/), [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)) 메커니즘으로 완성된다.
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
@@ -117,7 +117,7 @@ DIP를 체계적으로 적용하면 시스템 전체가 플러그인(plug-in) �
 
 한계로는 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층이 늘어날수록 코드 추적 경로가 길어지고 신규 개발자의 학습 곡선이 가팔라질 수 있다. 또한 단기 개발 속도가 일시적으로 느려질 수 있어 스타트업 초기처럼 빠른 [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) ([Minimum Viable Product](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)) 검증이 우선인 상황에서는 의도적으로 DIP를 생략할 수도 있다.
 
-미래 방향으로는 ① [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/)) 수준의 동적 의존성 교체, ② 컴파일 타임 DI를 통한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화, ③ [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 코드 분석으로 [DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) 위반 자동 탐지 등이 주목받고 있다.
+미래 방향으로는 ① [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)([Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/)) 수준의 동적 의존성 교체, ② 컴파일 타임 DI를 통한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화, ③ [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 코드 분석으로 [DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) 위반 자동 탐지 등이 주목받고 있다.
 
 결론적으로 DIP는 "비즈니스의 핵심 가치를 기술 세부 구현의 변화로부터 어떻게 격리할 것인가"라는 질문에 대한 가장 객체지향적인 해답으로 기억해야 한다.
 
@@ -138,7 +138,7 @@ SOLID 원칙] -> DIP] -> [IoC 컨테이너] -> DI 프레임워크(Spring)] -> [�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[절차적 강결합 (하향식 직접 의존)] -> [객체지향 캡슐화·다형성] -> SOLID 원칙 정립([DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/))] -> [IoC/[DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) 패턴 확산] -> [헥사고날·클린 아키텍처] -> [플러그인 기반 마이크로서비스]
+[절차적 강결합 (하향식 직접 의존)] -> [객체지향 캡슐화·다형성] -> SOLID 원칙 정립([DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/))] -> [IoC/[DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) 패턴 확산] -> [헥사고날·클린 아키텍처] -> [플러그인 기반 마이크로서비스]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

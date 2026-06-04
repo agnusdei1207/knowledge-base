@@ -12,7 +12,7 @@ tags = ["software_engineering"]
 
 > 1. **본질**: 마인드 맵 (Mind Map)은 하나의 중심 주제에서 연관 아이디어를 방사형으로 확장하는 발산 도구이고, 친화도 ([Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/) Diagram)는 흩어진 의견을 유사성에 따라 묶어 의미 있는 그룹으로 수렴시키는 정리 도구다.
 > 2. **가치**: 요구사항 정의나 아키텍처 구상 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 이 둘을 함께 쓰면, 빠짐없이 아이디어를 펼치면서도 최종적으로는 구조화된 요구와 설계 주제로 압축할 수 있다.
-> 3. **판단 포인트**: 중심 문제는 분명하지만 생각이 부족할 때는 마인드 맵이 유리하고, 인터뷰 메모나 VOC (Voice of [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/))처럼 자료는 많은데 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계가 없을 때는 친화도가 더 적합하며, 실제 워크숍에서는 보통 마인드 맵 후 친화도 순서가 효과적이다.
+> 3. **판단 포인트**: 중심 문제는 분명하지만 생각이 부족할 때는 마인드 맵이 유리하고, 인터뷰 메모나 VOC (Voice of [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/))처럼 자료는 많은데 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계가 없을 때는 친화도가 더 적합하며, 실제 워크숍에서는 보통 마인드 맵 후 친화도 순서가 효과적이다.
 
 ---
 
@@ -92,7 +92,7 @@ tags = ["software_engineering"]
 
 소프트웨어 설계와의 연결도 명확하다. 마인드 맵은 시스템 경계, 주요 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/), 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 넓게 탐색하는 데 적합하다. 친화도는 이후에 요구사항 후보를 "[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)", "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)", "운영", "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질"처럼 묶어 백로그나 아키텍처 이슈 목록으로 변환하는 데 적합하다. 즉 전자는 **탐색용 지도**, 후자는 **정리용 서랍장** 역할을 한다.
 
-실무에서는 이 둘이 경쟁 관계가 아니라 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 관계다. 예를 들어 신규 [서비스 설계](/knowledge-base/studynote/12_it_management/02_itsm_itil/065_service_design/) 워크숍에서 중심 주제 "모바일 주문 고도화"를 마인드 맵으로 펼친 뒤, 사용자 인터뷰 메모와 장애 기록을 친화도로 묶으면, 아이디어 확장과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 구조화가 동시에 이루어진다.
+실무에서는 이 둘이 경쟁 관계가 아니라 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 관계다. 예를 들어 신규 [서비스 설계](/knowledge-base/studynote/12_it_management/02_itsm_itil/849_service_design/) 워크숍에서 중심 주제 "모바일 주문 고도화"를 마인드 맵으로 펼친 뒤, 사용자 인터뷰 메모와 장애 기록을 친화도로 묶으면, 아이디어 확장과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 구조화가 동시에 이루어진다.
 
 - **📢 섹션 요약 비유**: 마인드 맵은 여행 가기 전에 가고 싶은 곳을 크게 펼쳐 보는 지도이고, 친화도는 여행 짐을 종류별로 가방에 나누어 담는 과정과 같다. 어디로 갈지와 어떻게 챙길지는 서로 다른 일이다.
 
@@ -135,7 +135,7 @@ tags = ["software_engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-마인드 맵과 친화도를 함께 쓰면 **아이디어의 누락과 혼란을 동시에 줄일 수 있다**. 마인드 맵은 팀의 사고 폭을 넓혀 빠진 논점을 줄이고, 친화도는 산발적 의견을 구조화해 핵심 주제와 우선순위를 드러낸다. 그래서 요구사항 정의, [서비스 설계](/knowledge-base/studynote/12_it_management/02_itsm_itil/065_service_design/), 조직 문제 해결 워크숍에서 생산성이 크게 올라간다.
+마인드 맵과 친화도를 함께 쓰면 **아이디어의 누락과 혼란을 동시에 줄일 수 있다**. 마인드 맵은 팀의 사고 폭을 넓혀 빠진 논점을 줄이고, 친화도는 산발적 의견을 구조화해 핵심 주제와 우선순위를 드러낸다. 그래서 요구사항 정의, [서비스 설계](/knowledge-base/studynote/12_it_management/02_itsm_itil/849_service_design/), 조직 문제 해결 워크숍에서 생산성이 크게 올라간다.
 
 하지만 두 도구 모두 만능은 아니다. 마인드 맵은 논점이 많아질수록 가지가 과도하게 퍼질 수 있고, 친화도는 퍼실리테이션이 약하면 자의적 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)나 침묵하는 참여자 문제를 낳을 수 있다. 따라서 도구 자체보다 <strong>어떤 단계에서 무엇을 얻기 위해 쓰는가</strong>를 분명히 해야 한다.
 
@@ -150,7 +150,7 @@ tags = ["software_engineering"]
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | 브레인스토밍 (Brainstorming) | 마인드 맵의 발산 입력이 되는 대표 기법이다 |
-| VOC (Voice of [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | 친화도로 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/)하기 좋은 대표 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)다 |
+| VOC (Voice of [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/)) | 친화도로 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/)하기 좋은 대표 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)다 |
 | KJ 기법 (Kawakita Jiro Method) | 친화도의 대표적 원형으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)와 명명 과정을 강조한다 |
 | [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) ([Work Breakdown Structure](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)) | 마인드 맵에서 나온 기능 가지를 구조화된 작업 분해로 연결할 수 있다 |
 | 요구사항 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 친화도 결과를 기능·비기능·운영 요구로 전환하는 단계다 |

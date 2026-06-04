@@ -54,7 +54,7 @@ tags = ["studynote-software-engineering"]
 
 CMMI는 연속적 표현(Continuous Representation)과 단계적 표현(Staged Representation)을 제공하며, 조직 성숙도를 평가할 때는 주로 <strong>단계적 표현의 5단계(Maturity Levels)</strong>를 사용한다.
 
-| 성숙도 단계 | 명칭 | 핵심 특징 | 핵심 프로세스 영역 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Areas) |
+| 성숙도 단계 | 명칭 | 핵심 특징 | 핵심 프로세스 영역 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Areas) |
 |:---|:---|:---|:---|
 | **레벨 1** | <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> (Initial)</strong> | 임기응변, 영웅적 노력 의존, 예측 불가 | (정의된 프로세스 없음) |
 | **레벨 2** | **관리 (Managed)** | 프로젝트 단위의 기본적 관리, 유사 프로젝트 반복 성공 | [요구사항 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/), 프로젝트 계획, [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) |

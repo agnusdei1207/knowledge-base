@@ -54,7 +54,7 @@ tags = ["studynote-data-engineering"]
 | **모델 서빙 복잡성** | KServe로 멀티 프레임워크 단일 서빙 |
 | **실험 추적** | [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/) 통합 |
 
-📢 **섹션 요약 비유**: Kubeflow는 ML 버전의 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)라고 할 수 있다. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)가 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 앱 배포를 자동화하듯, Kubeflow는 ML 모델의 학습->튜닝->서빙 과정을 자동화한다. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 인프라 위에서 움직이므로 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) ML의 표준이다.
+📢 **섹션 요약 비유**: Kubeflow는 ML 버전의 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)라고 할 수 있다. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)가 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 앱 배포를 자동화하듯, Kubeflow는 ML 모델의 학습->튜닝->서빙 과정을 자동화한다. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 인프라 위에서 움직이므로 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) ML의 표준이다.
 
 ---
 
@@ -342,7 +342,7 @@ PyTorchJob (분산 PyTorch 학습):
 
 ### 5.2 결론
 
-Kubeflow는 ML 워크로드를 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 방식으로 운영하려는 조직의 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 플랫폼 표준이다. 파이프라인 자동화(KFP), 하이퍼파라미터 최적화(Katib), 멀티 프레임워크 서빙(KServe)의 통합이 ML 생산성을 크게 향상시키지만, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 운영 역량이 선행 조건이다.
+Kubeflow는 ML 워크로드를 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 방식으로 운영하려는 조직의 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 플랫폼 표준이다. 파이프라인 자동화(KFP), 하이퍼파라미터 최적화(Katib), 멀티 프레임워크 서빙(KServe)의 통합이 ML 생산성을 크게 향상시키지만, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 운영 역량이 선행 조건이다.
 
 📢 **섹션 요약 비유**: Kubeflow는 ML 버전의 항공 관제 시스템과 같다. 수많은 ML 파이프라인 비행기(Pipelines)가 이착륙하고, 최적 연료 배합(Katib)을 자동 계산하며, 승객(추론 요청)을 가장 빠른 경로로 안내하는(KServe) 완전 자동화 관제탑이다.
 

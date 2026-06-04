@@ -115,7 +115,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 374 / 530
 
-<- **이전**: [307. 서버 인증서 수명주기 모니터링 체계 (Server Certificate Lifecycle Monitoring Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/307_certificate_expiration_monitoring/)
-**다음**: [308. 사용자 세션 통제와 동시접속 방지 감리 (User Session Control and Duplicate Login Prevention](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/308_session_timeout_duplicate_login/) ->
+<- **이전**: [307. 서버 인증서 수명주기 모니터링 체계 (Server Certificate Lifecycle Monitoring Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/666_certificate_expiration_monitoring/)
+**다음**: [308. 사용자 세션 통제와 동시접속 방지 감리 (User Session Control and Duplicate Login Prevention](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/667_session_timeout_duplicate_login/) ->
 
 ---

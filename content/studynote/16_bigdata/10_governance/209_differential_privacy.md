@@ -142,7 +142,7 @@ TopDown [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_a
 #### Google RAPPOR
 
 Chrome 브라우저 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 통계 수집:
-- 이진 스트링 무작위화 + 영구 랜덤 응답(PRR) + 순간 랜덤 응답([IRR](/knowledge-base/studynote/12_it_management/01_governance_strategy/014_irr_internal_rate_of_return/))
+- 이진 스트링 무작위화 + 영구 랜덤 응답(PRR) + 순간 랜덤 응답([IRR](/knowledge-base/studynote/12_it_management/01_governance_strategy/809_irr_internal_rate_of_return/))
 - 약 100만 사용자 이상에서 유의미한 통계 추출 가능
 
 **📢 섹션 요약 비유**: Apple의 로컬 DP는 <strong>익명 여론조사 기법</strong>과 같다. 각자 자신의 의견을 말하기 전에 동전을 던져, 앞면이 나오면 실제 의견을, 뒷면이 나오면 무작위 대답을 한다. 집계하면 전체 경향은 파악되지만 개인의 실제 답변은 알 수 없다.

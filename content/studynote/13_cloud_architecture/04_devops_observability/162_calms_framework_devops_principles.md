@@ -72,7 +72,7 @@ tags = ["studynote-cloud"]
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 - **상위 개념**: [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/), [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/), 린 경영.
 - **관련 모델**: [DORA Metrics](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/201_dora_metrics_devops_performance/), Three Ways of [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/).
-- **연관 기술**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 도구, 모니터링/로깅 시스템.
+- **연관 기술**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 도구, 모니터링/로깅 시스템.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 축구팀이 이기려면 좋은 공(자동화)도 필요하지만, 친구들과 친하게 지내고(문화) 전술을 나누는 것(공유)도 중요해요.

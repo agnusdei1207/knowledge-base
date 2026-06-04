@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 고객이 "우리 쇼핑몰은 **빨라야 하고, 절대 죽으면 안 됩니다**"라고 요구했다고 치자. '빠르다'는 1초인가, 0.1초인가? '절대'는 99%[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/), 99.999%[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? 이처럼 모호한 [비기능 요구사항](/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/)([NFR](/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/))을 그대로 두고 아키텍처를 설계하면, 나중에 고객은 "내가 생각한 빠름이 아니다"라며 불만을 제기하고 재작업이 발생한다. 따라서 숫자로 측정이 가능한 '시나리오' 형태의 합의서가 반드시 필요하다.
 
-- **💡 비유**: 자동차를 살 때 "튼튼한 차를 주세요"라고 말하는 것은 모호합니다. 대신 "시속 60km로 콘크리트 벽을(환경) 정면으로 들이받았을 때(자극), 범퍼가 부서지더라도(대상), 승객의 공간은 유지되어야 하며(응답), 탑승자의 부상 수치가 1도 이하여야 한다(응답 척도)"라고 구체적인 '충돌 [테스트 시나리오](/knowledge-base/studynote/04_software_engineering/11_testing_validation/442_test_scenario/)'를 적어두는 것과 같습니다.
+- **💡 비유**: 자동차를 살 때 "튼튼한 차를 주세요"라고 말하는 것은 모호합니다. 대신 "시속 60km로 콘크리트 벽을(환경) 정면으로 들이받았을 때(자극), 범퍼가 부서지더라도(대상), 승객의 공간은 유지되어야 하며(응답), 탑승자의 부상 수치가 1도 이하여야 한다(응답 척도)"라고 구체적인 '충돌 [테스트 시나리오](/knowledge-base/studynote/04_software_engineering/11_testing_validation/834_test_scenario/)'를 적어두는 것과 같습니다.
 
 - **등장 배경 및 발전 과정**:
   1. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/">비기능 요구사항</a>의 방치</strong>: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)에서는 기능(Use Case) 구현에만 집중하고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이나 보안은 뒷전으로 미루어, 배포 후 시스템이 붕괴되는 일이 잦았다.
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 아키텍처 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) (Quality [Attributes](/knowledge-base/studynote/02_operating_system/09_file_system/502_file_attributes_metadata/))은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

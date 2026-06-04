@@ -137,6 +137,6 @@ tags = ["studynote-security"]
 **진행 상황**: 1088 / 1108
 
 <- **이전**: [984. 양자 컴퓨팅 보안 (Quantum Security)](/knowledge-base/studynote/09_security/19_ai_advanced_security/984_quantum_security/)
-**다음**: [985. X.509 인증서 (X509 Certificate PKI Digital Signature Format)](/knowledge-base/studynote/09_security/uncategorized/985_x509_certificate_pki_digital_signature_format/) ->
+**다음**: [985. X.509 인증서 (X509 Certificate PKI Digital Signature Format)](/knowledge-base/studynote/09_security/uncategorized/1081_x509_certificate_pki_digital_signature_format/) ->
 
 ---

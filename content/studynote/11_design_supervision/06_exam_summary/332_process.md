@@ -11,14 +11,14 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 47개 보안 약점는 [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·권한, 자원 관리를 한 체계로 묶어 판단하는 보안 감리 주제다.
+> 1. **본질**: [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 47개 보안 약점는 [입력 검증](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·권한, 자원 관리를 한 체계로 묶어 판단하는 보안 감리 주제다.
 > 2. **가치**: 기준 문서와 현장 증거를 연결해 보고서가 실제 개선과 의사결정으로 이어지게 한다.
 > 3. **판단 포인트**: 범위 정의, 실행 증거, 후속 조치가 끝까지 닫혔는지를 확인하는 것이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
-[시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 47개 보안 약점는 위협과 통제를 함께 보는 보안 감리 주제다. 최근 환경에서는 [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·권한, 자원 관리가 따로 놀면 형식상 적합과 실제 품질 사이의 간극이 커지므로, 설계와 운영을 한 문장으로 설명할 수 있는 구조가 필요하다.
+[시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 47개 보안 약점는 위협과 통제를 함께 보는 보안 감리 주제다. 최근 환경에서는 [입력 검증](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·권한, 자원 관리가 따로 놀면 형식상 적합과 실제 품질 사이의 간극이 커지므로, 설계와 운영을 한 문장으로 설명할 수 있는 구조가 필요하다.
 특히 [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 47개 보안 약점은 문서만 맞는지 보는 수준을 넘어서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 테스트, 산출물, 인터뷰 증거가 같은 방향을 가리키는지 확인해야 한다. 그래야 감리 결과가 일회성 지적이 아니라 재현 가능한 개선 기준이 된다.
 
 ```text
@@ -40,11 +40,11 @@ tags = ["studynote-design-supervision"]
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-[시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 47개 보안 약점의 핵심 원리는 [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/)로 범위를 고정하고, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·권한로 구조를 설계하며, 자원 관리로 결과를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 것이다. 이때 속도·비용·통제강도 중 무엇을 우선할지 정해야 트레이드오프가 선명해지고, 기술사 답안에서도 단순 나열이 아니라 판단이 드러난다.
+[시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 47개 보안 약점의 핵심 원리는 [입력 검증](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/)로 범위를 고정하고, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·권한로 구조를 설계하며, 자원 관리로 결과를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 것이다. 이때 속도·비용·통제강도 중 무엇을 우선할지 정해야 트레이드오프가 선명해지고, 기술사 답안에서도 단순 나열이 아니라 판단이 드러난다.
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
-| 자산·범위 | [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/)를 기준으로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 대상을 식별한다. | 경계 누락이 가장 큰 위험이다. |
+| 자산·범위 | [입력 검증](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/)를 기준으로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 대상을 식별한다. | 경계 누락이 가장 큰 위험이다. |
 | [예방 통제](/knowledge-base/studynote/09_security/01_intro_principles/053_preventive_controls/) | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·권한와 연결된 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)·코드·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 통제를 심는다. | 우회 경로를 먼저 차단해야 한다. |
 | 증적·조치 | 자원 관리를 중심으로 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·재시험 결과를 닫는다. | 예외 승인과 재검증까지 이어져야 한다. |
 
@@ -77,7 +77,7 @@ tags = ["studynote-design-supervision"]
 실무에서는 [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 47개 보안 약점를 도입했는가보다 어떤 조건에서 효과가 나는가를 먼저 봐야 한다. 기술사 답안도 '무조건 적용'이 아니라 범위, 증거, 예외, 비용을 함께 써야 설득력이 생긴다.
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 대상과 범위가 [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/) 기준으로 명확히 식별되었는가?
+1. [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 대상과 범위가 [입력 검증](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/) 기준으로 명확히 식별되었는가?
 2. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·권한 관련 통제가 설계·구현·운영에 일관되게 반영되었는가?
 3. 자원 관리와 예외 승인 기록이 재검증 일정까지 남아 있는가?
 4. [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/)이 책임자·우선순위·마감일과 함께 보고되는가?
@@ -96,14 +96,14 @@ tags = ["studynote-design-supervision"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/) | [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 47개 보안 약점의 출발점이 되는 핵심 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이다. |
+| [입력 검증](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/) | [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 47개 보안 약점의 출발점이 되는 핵심 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이다. |
 | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·권한 | 실제 설계·운영·관리 메커니즘으로 이어지는 연결 축이다. |
 | 자원 관리 | 판정과 재검증의 신뢰도를 높이는 증거 축이다. |
 | [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/) 보고 | 개별 활동을 거버넌스와 지속 개선으로 확장하는 축이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-- 관련 키워드: [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·권한, 자원 관리, [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/) 보고
+- 관련 키워드: [입력 검증](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·권한, 자원 관리, [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/) 보고
 [취약점 사후 보완] -> [코드 단계 보안 약점 제거] -> [개발 파이프라인 자동 차단]
 
 ### 👶 어린이를 위한 3줄 비유 설명

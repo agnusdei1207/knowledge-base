@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 424 / 587
 
-<- **이전**: [288. WBS 100% Rule 작업 패키지](/knowledge-base/studynote/12_it_management/05_security_compliance/288_wbs_100_rule/)
+<- **이전**: [288. WBS 100% Rule 작업 패키지](/knowledge-base/studynote/12_it_management/05_security_compliance/935_wbs_100_rule/)
 **다음**: [290. PERT 3점 추정](/knowledge-base/studynote/12_it_management/05_security_compliance/290_pert_three_point/) ->
 
 ---

@@ -158,7 +158,7 @@ PoST는 PoW의 "자원 소모를 통한 보안 증명"이라는 철학을 계승
        v (단기 수익은 얻었으나 장비 교체 비용 발생)
 [전자 폐기물(e-Waste) 급증] => 🚨 '친환경'이라는 본래 철학 훼손
 ```
-이 그림은 소프트웨어적 [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)이 하드웨어 인프라에 미치는 물리적 부작용을 경고한다. 이 도식에서 핵심은 Plotting과 Farming의 하드웨어 요구사항이 완전히 다르다는 점이다. 따라서 실무 운영자는 Plotting 전용 RAM Disk나 엔터프라이즈급 SSD로 단기 부하를 흡수하고, 장기 보관(Farming)은 저전력 대용량 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 클러스터로 분리하는 계층화된 스토리지 아키텍처([Storage Tiering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/674_storage_tiering/))를 반드시 설계해야만 투자 대비 수익([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))과 인프라 안정성을 지킬 수 있다.
+이 그림은 소프트웨어적 [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)이 하드웨어 인프라에 미치는 물리적 부작용을 경고한다. 이 도식에서 핵심은 Plotting과 Farming의 하드웨어 요구사항이 완전히 다르다는 점이다. 따라서 실무 운영자는 Plotting 전용 RAM Disk나 엔터프라이즈급 SSD로 단기 부하를 흡수하고, 장기 보관(Farming)은 저전력 대용량 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 클러스터로 분리하는 계층화된 스토리지 아키텍처([Storage Tiering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/674_storage_tiering/))를 반드시 설계해야만 투자 대비 수익([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/))과 인프라 안정성을 지킬 수 있다.
 
 📢 **섹션 요약 비유**: 전기를 아끼려고 연비 좋은 친환경 화물차(PoST)를 샀는데, 과적을 너무 심하게 해서 한 달 만에 타이어와 엔진([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))이 다 망가져 버려 결국 더 큰 손해([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/))를 보는 상황을 피하도록 화물을 잘 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)해야 합니다.
 
@@ -168,7 +168,7 @@ PoST는 PoW의 "자원 소모를 통한 보안 증명"이라는 철학을 계승
 
 공간 및 시간 증명(PoST)은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 생태계가 마주한 에너지 낭비라는 치명적인 철학적, 현실적 딜레마를 '잉여 스토리지 재활용'이라는 참신한 방식으로 해결한 기술이다.
 
-| 구분 | 전력 기반 (PoW) | 스토리지 기반 (PoST) | 기대 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 및 효과 |
+| 구분 | 전력 기반 (PoW) | 스토리지 기반 (PoST) | 기대 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 및 효과 |
 |:---|:---|:---|:---|
 | **에너지 효율** | 단일 국가 수준의 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) | 대기 모드 수준의 극저전력 소비 | 탄소 발자국 최소화 (ESG 부합) |
 | <strong>참여 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/">접근성</a></strong> | 전문 채굴업자 위주 독점 | 일반인 유휴 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 디스크 활용 | 극도의 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 달성 |

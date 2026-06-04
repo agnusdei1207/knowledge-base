@@ -12,7 +12,7 @@ tags = ["studynote-algorithm"]
 ## 핵심 인사이트 (3줄 요약)
 - 개방 주소법은 [해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) 발생 시 [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) 내부의 <strong>다른 빈 버킷(Empty Bucket)</strong>을 찾아 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하는 충돌 해결 기법이다.
 - 포인터를 사용하는 [체인법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/069_chaining/)과 달리 테이블 내부 공간만을 활용하므로 캐시 효율(Cache Locality)이 높고 오버헤드가 적다.
-- [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 삭제 시 가짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)/[Tombstone](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/300_schema_on_write_vs_read/)) 처리가 필요하며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 밀집되는 클러스터링([Clustering](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/)) 현상을 제어하는 것이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 관건이다.
+- [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 삭제 시 가짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)/[Tombstone](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/300_schema_on_write_vs_read/)) 처리가 필요하며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 밀집되는 클러스터링([Clustering](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/)) 현상을 제어하는 것이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 관건이다.
 
 ### Ⅰ. 개요 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Background)
 - **배경**: 해시 함수가 완벽하지 않아 동일한 인덱스에 여러 키가 할당되는 충돌이 발생할 때, 별도의 외부 메모리([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 등)를 쓰지 않고 테이블 자체에서 해결하려는 시도에서 시작되었다.
@@ -41,7 +41,7 @@ tags = ["studynote-algorithm"]
 - **삭제 처리(Deletion)**: 단순히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 지우면 탐색 경로가 끊기므로 'Deleted' 마킹([Tombstone](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/300_schema_on_write_vs_read/))을 통해 경로를 유지해야 한다.
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
-| 구분 | 개방 주소법 (Open Addressing) | [체인법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/069_chaining/) ([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/)) |
+| 구분 | 개방 주소법 (Open Addressing) | [체인법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/069_chaining/) ([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/)) |
 | :--- | :--- | :--- |
 | **저장 공간** | [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) 내부 (Internal) | 외부 링크드 리스트 (External) |
 | **메모리 효율** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적을 때 유리, 포인터 오버헤드 없음 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 많아도 유연, 포인터 저장 공간 필요 |

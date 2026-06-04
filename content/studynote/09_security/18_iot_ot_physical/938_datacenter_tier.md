@@ -136,7 +136,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 1032 / 1108
 
-<- **이전**: [937. 하이브리드 암호 시스템 (Hybrid Cryptography Symmetric Asymmetric Ssl Pgp)](/knowledge-base/studynote/09_security/uncategorized/937_hybrid_cryptography_symmetric_asymmetric_ssl_pgp/)
-**다음**: [938. 서버실 보안 (File Carving Network Forensics Pcap Signature Recovery)](/knowledge-base/studynote/09_security/uncategorized/938_file_carving_network_forensics_pcap_signature_recovery/) ->
+<- **이전**: [937. 하이브리드 암호 시스템 (Hybrid Cryptography Symmetric Asymmetric Ssl Pgp)](/knowledge-base/studynote/09_security/uncategorized/1071_hybrid_cryptography_symmetric_asymmetric_ssl_pgp/)
+**다음**: [938. 서버실 보안 (File Carving Network Forensics Pcap Signature Recovery)](/knowledge-base/studynote/09_security/uncategorized/1072_file_carving_network_forensics_pcap_signature_recovery/) ->
 
 ---

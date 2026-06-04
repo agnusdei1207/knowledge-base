@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-개발자가 코드를 다 짠 뒤, 코드가 잘 도는지 확인하기 위해 실행(Run) 버튼을 누른다. 에러가 난다. 어디서 났는지 몰라 수만 줄의 코드를 디버깅하느라 밤을 새운다. 이것이 동적 테스트([Dynamic Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/431_dynamic_testing/))의 뼈아픈 한계다.
+개발자가 코드를 다 짠 뒤, 코드가 잘 도는지 확인하기 위해 실행(Run) 버튼을 누른다. 에러가 난다. 어디서 났는지 몰라 수만 줄의 코드를 디버깅하느라 밤을 새운다. 이것이 동적 테스트([Dynamic Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/823_dynamic_testing/))의 뼈아픈 한계다.
 
 1976년, IBM의 마이클 페이건(Michael Fagan)은 "코드를 실행하기 전에, 차라리 사람 여러 명이 모여서 코드를 한 줄씩 낭독하며 눈으로 버그를 찾으면 어떨까?"라는 아이디어를 냈다.
 

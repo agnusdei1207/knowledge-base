@@ -12,7 +12,7 @@ tags = ["studynote-design-supervision"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 퍼징(Fuzzing)은 정상 명세에서 벗어난 입력이나 패킷을 대량 자동 주입해 예외 처리 취약점과 비정상 종료를 찾는 동적 보안 테스트 기법이다.
-> 2. **가치**: 사람이 예상한 시나리오만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 한계를 넘어, 파서 오류·메모리 손상·[입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/) 누락 같은 숨은 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 조기에 드러낼 수 있다.
+> 2. **가치**: 사람이 예상한 시나리오만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 한계를 넘어, 파서 오류·메모리 손상·[입력 검증](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/) 누락 같은 숨은 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 조기에 드러낼 수 있다.
 > 3. **판단 포인트**: 시드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, 변이 규칙, 격리 실행 환경, 크래시 재현성, 취약점 우선순위화가 갖춰져야 퍼징 결과가 감리 증적으로 인정된다.
 
 ## Ⅰ. 개요 및 필요성
@@ -64,9 +64,9 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅲ. 비교 및 연결
 
-퍼징은 다른 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기법과 함께 놓고 봐야 장점이 드러난다. 취약점 스캐닝이 알려진 패턴 중심이라면, 퍼징은 예외 처리 취약성과 강건성을 탐지하는 데 강하다. [모의 해킹](/knowledge-base/studynote/04_software_engineering/11_testing_validation/455_penetration_testing_vulnerability_scanning/)은 실제 공격 시나리오 재현에 유리하지만 자동 반복성과 입력 다양성은 퍼징이 우세하다.
+퍼징은 다른 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기법과 함께 놓고 봐야 장점이 드러난다. 취약점 스캐닝이 알려진 패턴 중심이라면, 퍼징은 예외 처리 취약성과 강건성을 탐지하는 데 강하다. [모의 해킹](/knowledge-base/studynote/04_software_engineering/11_testing_validation/847_penetration_testing_vulnerability_scanning/)은 실제 공격 시나리오 재현에 유리하지만 자동 반복성과 입력 다양성은 퍼징이 우세하다.
 
-| 비교 항목 | 퍼징 | 취약점 스캐닝 | [모의 해킹](/knowledge-base/studynote/04_software_engineering/11_testing_validation/455_penetration_testing_vulnerability_scanning/) |
+| 비교 항목 | 퍼징 | 취약점 스캐닝 | [모의 해킹](/knowledge-base/studynote/04_software_engineering/11_testing_validation/847_penetration_testing_vulnerability_scanning/) |
 |:---|:---|:---|:---|
 | 주된 목적 | 비정상 입력에 대한 강건성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 알려진 취약점 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | 실제 공격 경로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | 입력 방식 | 무작위·변이·[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 기반 자동 주입 | 시그니처/[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 기반 탐지 | 전문가 시나리오 기반 수동·반자동 |
@@ -94,7 +94,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅴ. 기대효과 및 결론
 
-퍼징 기반 이상 패킷 자동 주입을 제대로 운영하면 명세 기반 테스트가 놓친 입력 강건성 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 조기에 제거할 수 있다. 그 결과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애, 원격 크래시, [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/) 우회, 자원 고갈 같은 사고 가능성이 줄어든다. 특히 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)·네트워크·[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 처리 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)처럼 경계면이 많은 시스템일수록 효과가 크다.
+퍼징 기반 이상 패킷 자동 주입을 제대로 운영하면 명세 기반 테스트가 놓친 입력 강건성 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 조기에 제거할 수 있다. 그 결과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애, 원격 크래시, [입력 검증](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/) 우회, 자원 고갈 같은 사고 가능성이 줄어든다. 특히 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)·네트워크·[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 처리 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)처럼 경계면이 많은 시스템일수록 효과가 크다.
 
 결론적으로 감리의 초점은 “퍼징을 했다”가 아니라 “퍼징 결과를 운영 가능한 보안 개선으로 연결했는가”에 있다. 대상 선정, 자동 주입, 결과 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 재현과 조치까지 한 흐름으로 설명하면 답안의 설득력이 높아진다.
 
@@ -105,7 +105,7 @@ tags = ["studynote-design-supervision"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | 동적 애플리케이션 보안 테스트([DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/), Dynamic Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing) | 실행 중 외부 관점 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이라는 점에서 퍼징과 맞닿아 있다. |
-| [경계값 분석](/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/) | 퍼징의 변이 규칙 설계 시 길이·범위·형식 경계를 집중 공략한다. |
+| [경계값 분석](/knowledge-base/studynote/04_software_engineering/11_testing_validation/806_boundary_value_analysis/) | 퍼징의 변이 규칙 설계 시 길이·범위·형식 경계를 집중 공략한다. |
 | 취약점 스캐닝 | 기본 위생 점검을 담당하며 퍼징과 상호 보완적이다. |
 | 크래시 재현 | 퍼징 결과를 개발 수정으로 연결하는 핵심 고리다. |
 | 커버리지 유도 퍼징 | 실행 경로를 넓혀 더 깊은 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 찾는 고급 형태다. |

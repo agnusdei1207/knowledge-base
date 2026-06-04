@@ -50,11 +50,11 @@ tags = ["studynote-bigdata"]
 
 | 항목 | [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) | OpenSearch |
 |:---:|:---:|:---:|
-| 개발사 | Elastic | AWS ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) 포크) |
+| 개발사 | Elastic | AWS ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/) 포크) |
 | 라이선스 | SSPL (비오픈소스) | Apache 2.0 |
 | AWS 관리형 | 제한적 | AWS OpenSearch [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
 | 기능 패리티 | 약간 선진 | 빠르게 따라옴 |
-| [보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/503_security_features_design/) | 유료 X-Pack | 무료 포함 |
+| [보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/895_security_features_design/) | 유료 X-Pack | 무료 포함 |
 | 선택 기준 | 최신 ML 기능 | AWS 통합, [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) |
 
 📢 **섹션 요약 비유**

@@ -52,7 +52,7 @@ tags = ["studynote-design-supervision"]
 | <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/078_code_coverage/">코드 커버리지</a></strong> | 테스트 커버된 코드 비율 |
 | **중복 코드** | 복사된 코드 블록 비율 |
 
-### [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 통합 자동화 감리 흐름
+### [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 통합 자동화 감리 흐름
 
 ```text
 개발자 커밋
@@ -70,7 +70,7 @@ Quality Gate 통과 -> 배포 승인
 Quality Gate 실패 -> 자동 차단 + 감리 보고서
 ```
 
-- **📢 섹션 요약 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 자동 감리는 자동화 공항 보안 검색대다. 모든 수하물(커밋)이 X선(자동화 도구)을 통과하고, 이상 징후는 보안 요원(감리사)에게 자동 전달된다.
+- **📢 섹션 요약 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 자동 감리는 자동화 공항 보안 검색대다. 모든 수하물(커밋)이 X선(자동화 도구)을 통과하고, 이상 징후는 보안 요원(감리사)에게 자동 전달된다.
 
 ---
 
@@ -131,8 +131,8 @@ AI 아키텍처 감리:
 |:---|:---|
 | <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/">SonarQube</a></strong> | 코드 품질·[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 측정 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/">SAST</a>/<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/">DAST</a></strong> | 정적/동적 보안 분석 |
-| **Quality Gate** | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 자동 품질 차단 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/">DevSecOps</a></strong> | 보안 자동화를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD에 통합 |
+| **Quality Gate** | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 자동 품질 차단 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/">DevSecOps</a></strong> | 보안 자동화를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD에 통합 |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a> 감리</strong> | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 차세대 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -156,7 +156,7 @@ AI 아키텍처 감리:
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 감리 자동화 도구는 품질 검사 로봇이에요 — 모든 코드를 자동으로 검사해서 문제를 찾아요!
-2. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인은 자동 검사 컨베이어 벨트예요 — 코드가 올라오면 자동으로 여러 검사를 통과해야 배포돼요!
+2. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인은 자동 검사 컨베이어 벨트예요 — 코드가 올라오면 자동으로 여러 검사를 통과해야 배포돼요!
 3. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 감리는 점점 더 똑똑해져서 코드의 의미까지 이해하고 리뷰해주는 시대가 오고 있어요!
 
 ---
@@ -165,7 +165,7 @@ AI 아키텍처 감리:
 
 **진행 상황**: 36 / 530
 
-<- **이전**: [29. 데이터베이스 영역 감리 (Database Area Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/029_database_area_audit/)
-**다음**: [30. 시스템 아키텍처/보안 영역 감리 (System Architecture and Security Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/030_system_architecture_security_audit/) ->
+<- **이전**: [29. 데이터베이스 영역 감리 (Database Area Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/606_database_area_audit/)
+**다음**: [30. 시스템 아키텍처/보안 영역 감리 (System Architecture and Security Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/607_system_architecture_security_audit/) ->
 
 ---

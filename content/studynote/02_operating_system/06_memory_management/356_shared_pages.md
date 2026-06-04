@@ -87,7 +87,7 @@ tags = ["studynote-operating-system"]
 
 메모리를 공유한다는 목적은 같지만, 범주와 아키텍처가 완전히 다르다.
 
-| 비교 항목 | 멀티 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Sharing) | [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) [Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) Sharing) |
+| 비교 항목 | 멀티 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Sharing) | [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) [Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) Sharing) |
 |:---|:---|:---|
 | **공유 대상** | **같은 프로세스** 소속의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들 간의 공유 | <strong>서로 다른 독립된 프로세스</strong>들 간의 공유 |
 | **공유 범위** | 코드([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 전부 공유 | 오직 읽기 전용 <strong>코드(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong>나 특정 DLL/SO만 제한적 공유 |
@@ -99,7 +99,7 @@ tags = ["studynote-operating-system"]
 이 '공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)' 하드웨어 아키텍처가 없었다면 윈도우의 `.dll (Dynamic Link Library)`이나 리눅스의 `.so (Shared Object)` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 존재할 수 없었다.
 - 모든 프로그램은 `printf()` 같은 표준 C [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 호출한다.
 - 100개의 앱이 실행될 때, 리눅스는 `libc.so` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 물리 프레임에 단 1번만 로드한다 (약 2MB).
-- 그리고 100개 앱의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)에 `libc.so`의 500개 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 프레임 번호를 스터브([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))를 통해 모두 똑같이 매핑해 준다.
+- 그리고 100개 앱의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)에 `libc.so`의 500개 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 프레임 번호를 스터브([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/))를 통해 모두 똑같이 매핑해 준다.
 - 이로 인해 시스템 전체의 메모리 낭비가 테라바이트 수준으로 절약된다.
 
 ```text

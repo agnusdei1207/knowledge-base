@@ -153,7 +153,7 @@ public final class Money {
 |:---|:---:|:---:|
 | 관련 유효성 검사 위치 수 | 23곳 | 1곳 (클래스 내부) |
 | 관련 변수 추가 시 수정 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수 | 18개 | 1개 |
-| 단위 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 수 (동일 커버리지) | 47개 | 12개 |
+| 단위 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) 수 (동일 커버리지) | 47개 | 12개 |
 | 코드 중복률 | 19% | 3% |
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클럼프 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Clumps) 제거는 <strong>숨겨진 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 개념을 발굴하는 탐사 작업</strong>이다. 단순히 변수를 묶는 것이 아니라, 그 묶음에 이름과 행동을 부여함으로써 코드가 비즈니스 언어와 일치하도록 만든다. 이는 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트 용이성, 팀 커뮤니케이션을 동시에 향상시킨다.

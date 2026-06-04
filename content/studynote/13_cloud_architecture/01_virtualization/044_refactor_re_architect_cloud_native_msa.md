@@ -12,7 +12,7 @@ tags = ["studynote-cloud-architecture"]
 > **핵심 인사이트**
 > 1. Re-factor(재구성)와 Re-architect(재설계)는 클라우드 마이그레이션 6R [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 가장 높은 가치를 창출하는 단계로 — Re-factor는 애플리케이션 코드를 [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)/서버리스에 최적화하고, Re-architect는 모놀리스를 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)([Microservices Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/))로 근본적으로 재설계한다.
 > 2. [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 전환의 핵심 원칙은 [도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)([DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/))의 [바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)([Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계로 삼는 것으로 — 각 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)는 독립적으로 배포·확장·장애 격리가 가능해야 하며, "두 피자 팀(Two-Pizza Team)"이 소유·운영할 수 있는 크기가 적절하다.
-> 3. [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 전환은 [Strangler Fig Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/308_strangler_fig_pattern/)(교살 무화과 패턴)으로 점진적으로 진행하는 것이 권장되며 — 모놀리스를 즉시 전부 전환하는 "Big Bang" 방식은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 리스크와 복잡성으로 인해 대부분 실패한다.
+> 3. [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 전환은 [Strangler Fig Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/950_strangler_fig_pattern/)(교살 무화과 패턴)으로 점진적으로 진행하는 것이 권장되며 — 모놀리스를 즉시 전부 전환하는 "Big Bang" 방식은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 리스크와 복잡성으로 인해 대부분 실패한다.
 
 ---
 
@@ -119,7 +119,7 @@ Two-Pizza Team:
 
 ---
 
-## Ⅲ. [Strangler Fig Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/308_strangler_fig_pattern/)
+## Ⅲ. [Strangler Fig Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/950_strangler_fig_pattern/)
 
 ```
 Strangler Fig Pattern (교살 무화과 패턴):
@@ -167,7 +167,7 @@ Strangler 장점:
 
 ---
 
-## Ⅳ. [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 패턴
+## Ⅳ. [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 패턴
 
 ```
 클라우드 네이티브 패턴:

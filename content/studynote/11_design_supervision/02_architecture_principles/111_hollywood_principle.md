@@ -13,7 +13,7 @@ tags = ["studynote-design-supervision"]
 
 > 1. **본질**: 할리우드 원칙 (Hollywood Principle)은 "먼저 연락하지 마라, 우리가 연락할 것이다 (Don't [call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) us, we'll [call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) you)"라는 표현으로, 상위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 호출 시점과 방법을 결정하는 제어 역전(IoC, Inversion of Control)의 철학적 근간이다.
 > 2. **가치**: 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 상위 프레임워크에 의존하지 않고 인터페이스만 구현하면, 프레임워크가 적절한 시점에 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 호출함으로써 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)과 상위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간의 [순환 의존성](/knowledge-base/studynote/02_operating_system/05_deadlock/316_synchronization_bug_debugging/)(circular dependency)이 사라진다.
-> 3. **판단 포인트**: 콜백(callback), 이벤트 리스너(event listener), [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)([Template Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)), [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/)) 모두 할리우드 원칙의 구체적 표현이므로, 프레임워크 설계 시 "하위가 상위를 직접 호출하는 구조"가 보이면 원칙 위반 후보다.
+> 3. **판단 포인트**: 콜백(callback), 이벤트 리스너(event listener), [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)([Template Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)), [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/)) 모두 할리우드 원칙의 구체적 표현이므로, 프레임워크 설계 시 "하위가 상위를 직접 호출하는 구조"가 보이면 원칙 위반 후보다.
 
 ---
 
@@ -49,14 +49,14 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-할리우드 원칙이 구체화되는 주요 패턴은 네 가지다. ① 콜백(Callback): 함수를 인자로 전달하고 특정 이벤트 시 프레임워크가 호출, ② 이벤트 리스너: 이벤트 발생 시 등록된 핸들러를 시스템이 호출, ③ [템플릿 메서드 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/392_process/): 부모 클래스가 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 뼈대를 제어하고 자식 클래스의 추상 메서드를 호출, ④ [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/): 객체 생성과 생명주기를 프레임워크가 관리하고 필요 시 주입.
+할리우드 원칙이 구체화되는 주요 패턴은 네 가지다. ① 콜백(Callback): 함수를 인자로 전달하고 특정 이벤트 시 프레임워크가 호출, ② 이벤트 리스너: 이벤트 발생 시 등록된 핸들러를 시스템이 호출, ③ [템플릿 메서드 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/392_process/): 부모 클래스가 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 뼈대를 제어하고 자식 클래스의 추상 메서드를 호출, ④ [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/): 객체 생성과 생명주기를 프레임워크가 관리하고 필요 시 주입.
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
 | 콜백 | [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/), 비동기 엔진 / 콜백 함수 | Node.js, JavaScript 이벤트 |
-| 이벤트 리스너 | [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/), GUI 프레임워크 / 리스너 클래스 | Java Swing, Android |
+| 이벤트 리스너 | [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/931_event_bus_stream_processing/), GUI 프레임워크 / 리스너 클래스 | Java Swing, Android |
 | [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) | 추상 클래스의 훅(hook) 메서드 / 구체 클래스 오버라이딩 | JUnit, 웹 프레임워크 필터 |
-| [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) | Spring IoC [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) / @[Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/), @[Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | Spring, Guice |
+| [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) | Spring IoC [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) / @[Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/), @[Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | Spring, Guice |
 
 ```text
 +-------------------------------------------------------------+
@@ -85,7 +85,7 @@ tags = ["studynote-design-supervision"]
 |:---|:---|:---|
 | **핵심 질문** | 누가 언제 호출하는가 (제어 흐름) | 무엇에 의존하는가 (의존성 방향) |
 | **강조점** | 제어의 역전 (IoC) | 추상화에 의존 |
-| **구현 기법** | 콜백, 이벤트, 훅 메서드 | 인터페이스, [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) |
+| **구현 기법** | 콜백, 이벤트, 훅 메서드 | 인터페이스, [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) |
 | **결과** | 프레임워크가 실행 시점 결정 | 고수준 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 저수준을 모름 |
 
 [옵저버 패턴](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/606_observer_pattern_pub_sub/)([Observer Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))도 할리우드 원칙의 표현이다. 구독자([Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))는 발행자(Subject)에게 "나를 등록해 줘"라고 알리고 대기한다. 이벤트가 발생하면 Subject가 Observer를 호출한다. Observer는 Subject의 내부 상태 변화를 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)하지 않는다.
@@ -124,7 +124,7 @@ Spring Boot, React의 useEffect, Node.js의 [이벤트 루프](/knowledge-base/s
 
 ### 📌 관련 개념 맵
 
-[전통 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 호출] -> [할리우드 원칙] -> [IoC/[DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/)] -> [프레임워크 설계] -> [리액티브 프로그래밍]
+[전통 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 호출] -> [할리우드 원칙] -> [IoC/[DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/)] -> [프레임워크 설계] -> [리액티브 프로그래밍]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
@@ -135,7 +135,7 @@ Spring Boot, React의 useEffect, Node.js의 [이벤트 루프](/knowledge-base/s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[라이브러리 직접 호출] -> [콜백 패턴] -> [할리우드 원칙 정립] -> [IoC/[DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) 프레임워크] -> [리액티브 스트림] -> [서버리스 [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 트리거] -> AI 에이전트 오케스트레이션]
+[라이브러리 직접 호출] -> [콜백 패턴] -> [할리우드 원칙 정립] -> [IoC/[DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) 프레임워크] -> [리액티브 스트림] -> [서버리스 [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 트리거] -> AI 에이전트 오케스트레이션]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

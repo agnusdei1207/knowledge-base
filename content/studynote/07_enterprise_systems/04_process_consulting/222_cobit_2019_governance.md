@@ -86,9 +86,9 @@ tags = ["studynote-enterprise"]
 
 ## Ⅲ. 비교 및 연결
 
-[COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 2019를 제대로 이해하려면 비슷해 보이는 프레임워크와 경계를 분명히 해야 한다. COBIT은 거버넌스 중심의 상위 프레임워크이고, [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) 4 ([Information Technology Infrastructure Library](/knowledge-base/studynote/09_security/17_framework_compliance/880_itil/) 4)는 [서비스 운영](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_service_operation/)과 개선의 실무 프레임워크이며, ISO/IEC 38500은 이사회 수준의 원칙 선언에 가깝다.
+[COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 2019를 제대로 이해하려면 비슷해 보이는 프레임워크와 경계를 분명히 해야 한다. COBIT은 거버넌스 중심의 상위 프레임워크이고, [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/846_itil/) 4 ([Information Technology Infrastructure Library](/knowledge-base/studynote/09_security/17_framework_compliance/880_itil/) 4)는 [서비스 운영](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_service_operation/)과 개선의 실무 프레임워크이며, ISO/IEC 38500은 이사회 수준의 원칙 선언에 가깝다.
 
-| 비교 항목 | [COBIT 2019](/knowledge-base/studynote/12_it_management/01_governance_strategy/005_cobit_2019/) | [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) 4 | ISO/IEC 38500 |
+| 비교 항목 | [COBIT 2019](/knowledge-base/studynote/12_it_management/01_governance_strategy/005_cobit_2019/) | [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/846_itil/) 4 | ISO/IEC 38500 |
 | :--- | :--- | :--- | :--- |
 | 초점 | 전사 I&T 거버넌스와 관리 구조 | IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치 흐름 운영 | 이사회 수준의 IT 거버넌스 원칙 |
 | 주된 질문 | 올바른 목표와 통제가 있는가? | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 어떻게 안정적으로 제공할까? | 경영진은 어떤 책임을 져야 하는가? |
@@ -96,7 +96,7 @@ tags = ["studynote-enterprise"]
 | 적용 계층 | 이사회~실무 전 구간 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)관리 조직 중심 | 이사회·경영진 중심 |
 | 연결 방식 | 상위 방향 제시 | 하위 운영 실행 | 최고 수준 원칙 제공 |
 
-[COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 2019는 [CISA](/knowledge-base/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/) ([Certified Information Systems Auditor](/knowledge-base/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/)) 기반 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)와도 잘 맞는다. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)인은 [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 목표 체계를 기준 삼아 통제 적정성을 평가할 수 있고, 운영팀은 [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) 4나 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 프랙티스를 써서 실제 개선을 수행할 수 있다. 즉 COBIT은 "무엇을 감시하고 정렬할 것인가"를, 다른 프레임워크는 "어떻게 실행할 것인가"를 담당한다.
+[COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 2019는 [CISA](/knowledge-base/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/) ([Certified Information Systems Auditor](/knowledge-base/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/)) 기반 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)와도 잘 맞는다. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)인은 [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 목표 체계를 기준 삼아 통제 적정성을 평가할 수 있고, 운영팀은 [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/846_itil/) 4나 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 프랙티스를 써서 실제 개선을 수행할 수 있다. 즉 COBIT은 "무엇을 감시하고 정렬할 것인가"를, 다른 프레임워크는 "어떻게 실행할 것인가"를 담당한다.
 
 - **📢 섹션 요약 비유**: COBIT이 도시 전체의 교통 법규와 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 체계라면, ITIL은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 배차표이고 ISO/IEC 38500은 시장이 지켜야 할 교통 철학이다. 셋은 경쟁자가 아니라 서로 다른 높이에서 역할을 나눈다.
 
@@ -129,7 +129,7 @@ tags = ["studynote-enterprise"]
 
 [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 2019를 제대로 적용하면 IT 투자 우선순위가 사업 목표와 더 직접적으로 연결되고, 위험 대응과 자원 배분이 같은 대시보드에서 논의된다. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), 보안, 아키텍처, 운영이 따로 놀지 않고 하나의 목표 체계 아래서 정렬되므로 중복 통제와 책임 공백이 줄어든다.
 
-다만 [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 2019는 만능 실행 매뉴얼이 아니다. 세부 운영 절차는 [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) 4, 보안 통제는 ISO 27001, delivery 개선은 [DORA Metrics](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/201_dora_metrics_devops_performance/) 같은 다른 체계와 결합해야 한다. 따라서 이 개념은 "모든 것을 직접 하는 프레임워크"가 아니라 "무엇을 왜 해야 하는지 먼저 정렬시키는 프레임워크"로 기억하는 것이 정확하다.
+다만 [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 2019는 만능 실행 매뉴얼이 아니다. 세부 운영 절차는 [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/846_itil/) 4, 보안 통제는 ISO 27001, delivery 개선은 [DORA Metrics](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/201_dora_metrics_devops_performance/) 같은 다른 체계와 결합해야 한다. 따라서 이 개념은 "모든 것을 직접 하는 프레임워크"가 아니라 "무엇을 왜 해야 하는지 먼저 정렬시키는 프레임워크"로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 좋은 지휘자는 모든 악기를 직접 연주하지 않는다. 누가 언제 어떤 박자로 들어와야 합주가 되는지 맞춰 주는 사람이 바로 [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 2019다.
 

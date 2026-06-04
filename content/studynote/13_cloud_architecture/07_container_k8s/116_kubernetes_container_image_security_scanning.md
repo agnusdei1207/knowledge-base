@@ -44,8 +44,8 @@ tags = ["studynote-cloud-architecture"]
 |:---|:---|:---|:---|
 | **Trivy** | [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) | 빠름, All-in-one | ✅ |
 | **Grype** | [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) | Syft [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 연동 | ✅ |
-| **Snyk** | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) | 개발자 IDE 통합 | ✅ |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a> Scout</strong> | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) | [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 내장 | ✅ |
+| **Snyk** | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) | 개발자 IDE 통합 | ✅ |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a> Scout</strong> | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) | [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 내장 | ✅ |
 
 ### [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) (Software [Bill of Materials](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/))
 이미지 내 모든 패키지·버전을 <strong>재료 목록</strong>으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) 매칭·라이선스 감사에 활용.
@@ -56,7 +56,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 스캔 없음 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 스캔 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) + Admission |
+| 비교 | 스캔 없음 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 스캔 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) + Admission |
 |:---|:---|:---|:---|
 | **배포 차단** | ✗ | 빌드만 | **빌드+배포** |
 | **취약 이미지** | 프로덕션 진입 | 빌드 실패 | **완전 차단** |
@@ -67,7 +67,7 @@ tags = ["studynote-cloud-architecture"]
 
 ### Shift Left [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 - **IDE**: Snyk 플러그인으로 코딩 시점 [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) 감지.
-- <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a></strong>: Trivy를 GitHub Actions에 통합, Critical [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) 시 빌드 실패.
+- <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a></strong>: Trivy를 GitHub Actions에 통합, Critical [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) 시 빌드 실패.
 - <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/">Registry</a></strong>: Harbor 내장 스캐너로 Push 시 자동 스캔.
 - **Runtime**: Falco로 실행 중 이상 행위 탐지.
 

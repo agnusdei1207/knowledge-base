@@ -10,9 +10,9 @@ tags = ["studynote-it-management"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: PMBOK([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Body of Knowledge, 프로젝트 관리 지식 체계)은 PMI([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Institute, 프로젝트 관리 협회)가 제정한 프로젝트 관리의 표준 프레임워크로, <strong>10대 지식 영역(Knowledge Area)과 5개 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/">프로세스 그룹</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/">Process Group</a>)의 교차점에서 49개 프로세스</strong>를 정의한다.
-> 2. **가치**: IT·건설·제조·연구개발 등 모든 산업의 프로젝트 관리자가 공통 언어와 프로세스로 프로젝트를 계획·실행·통제할 수 있는 <strong>글로벌 표준 관리 프레임워크</strong>로, PMP([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Professional) 자격증의 이론적 기반이다.
-> 3. **판단 포인트**: PMBOK 제7판([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/))은 프로세스 중심에서 <strong>원칙(Principles) + 성과 영역(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a>)</strong> 중심으로 패러다임이 전환되었으며, 6판(프로세스 중심)과 7판(가치·결과 중심)을 구분해서 이해해야 한다.
+> 1. **본질**: PMBOK([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) Body of Knowledge, 프로젝트 관리 지식 체계)은 PMI([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) Institute, 프로젝트 관리 협회)가 제정한 프로젝트 관리의 표준 프레임워크로, <strong>10대 지식 영역(Knowledge Area)과 5개 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/">프로세스 그룹</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/">Process Group</a>)의 교차점에서 49개 프로세스</strong>를 정의한다.
+> 2. **가치**: IT·건설·제조·연구개발 등 모든 산업의 프로젝트 관리자가 공통 언어와 프로세스로 프로젝트를 계획·실행·통제할 수 있는 <strong>글로벌 표준 관리 프레임워크</strong>로, PMP([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) Professional) 자격증의 이론적 기반이다.
+> 3. **판단 포인트**: PMBOK 제7판([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/))은 프로세스 중심에서 <strong>원칙(Principles) + 성과 영역(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a>)</strong> 중심으로 패러다임이 전환되었으며, 6판(프로세스 중심)과 7판(가치·결과 중심)을 구분해서 이해해야 한다.
 
 ---
 
@@ -89,7 +89,7 @@ EVM 핵심 지표
 
 ### PMBOK 6판 vs. 7판 비교
 
-| 구분 | PMBOK 6판 | PMBOK 7판 ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/)) |
+| 구분 | PMBOK 6판 | PMBOK 7판 ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/)) |
 |:---|:---|:---|
 | 구조 | 49개 프로세스 (프로세스 중심) | 12개 원칙 + 8개 성과 영역 (결과 중심) |
 | 접근 방식 | 예측적(Waterfall) 중심 | 예측적 + 적응형([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 통합 |
@@ -155,7 +155,7 @@ PMBOK은 "프로젝트를 통제하는 도구"가 아니라, **"프로젝트를 
 | <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/">WBS</a> (<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/">Work Breakdown Structure</a>)</strong> | 범위 관리의 핵심 도구; 작업을 계층적으로 분해 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/">EVM</a> (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/040_evm/">Earned Value Management</a>)</strong> | 원가·일정 통합 성과 측정 기법 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/">CPM</a> (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/037_cpm/">Critical Path Method</a>)</strong> | 일정 관리의 핵심; 프로젝트 최장 경로 분석 |
-| <strong>PMP (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/">Project</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a> Professional)</strong> | PMBOK 기반의 PMI 국제 프로젝트 관리 자격증 |
+| <strong>PMP (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/">Project</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/">Management</a> Professional)</strong> | PMBOK 기반의 PMI 국제 프로젝트 관리 자격증 |
 | <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a>)</strong> | PMBOK 7판에 통합된 적응형 개발 접근; [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)·칸반과 연계 |
 
 ### 📈 관련 키워드 및 발전 흐름도

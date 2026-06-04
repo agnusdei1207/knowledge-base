@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 테스팅은 프로그램에서 변수의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(정의), 사용, 소멸의 lifecycle을 추적하고, 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름이 올바른지를 테스트하는 기법이다. 각 변수에 대해 "정의-사용(Define-Use)" 쌍을 식별하고, 이 DU 경로를 커버하는 테스트 케이스를 설계한다.
 
-- **필요성**: 전통적인 제어 흐름 기반 테스트(구문, 분기, [조건 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/) 등)는 프로그램의 제어 흐름만 검증하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 테스팅은 변수의 값이 프로그램 내에서 어떻게 흐르고 변화하는지를 검증한다. 예를 들어, 변수 x가 정의된 후 변경되지 않고 사용되어야 하는 상황에서, 중간에 다른 값으로 덮어씌워지면 이는 제어 흐름 테스트로는 발견하기 어려운 결함이다.
+- **필요성**: 전통적인 제어 흐름 기반 테스트(구문, 분기, [조건 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/816_condition_coverage/) 등)는 프로그램의 제어 흐름만 검증하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 테스팅은 변수의 값이 프로그램 내에서 어떻게 흐르고 변화하는지를 검증한다. 예를 들어, 변수 x가 정의된 후 변경되지 않고 사용되어야 하는 상황에서, 중간에 다른 값으로 덮어씌워지면 이는 제어 흐름 테스트로는 발견하기 어려운 결함이다.
 
 - **핵심 개념**:
   - **정의(Define)**: 변수에 값을 할당하는 지점 (예: x = 5)
@@ -127,7 +127,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 테스팅 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Flow Testing)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -181,7 +181,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 450 / 973
 
-<- **이전**: [429. 데이터 흐름 테스팅 (Data Flow Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/429_data_flow_testing/)
-**다음**: [430. 정적 테스팅 (Static Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/430_static_testing/) ->
+<- **이전**: [429. 데이터 흐름 테스팅 (Data Flow Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/821_data_flow_testing/)
+**다음**: [430. 정적 테스팅 (Static Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/822_static_testing/) ->
 
 ---

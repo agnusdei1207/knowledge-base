@@ -11,7 +11,7 @@ tags = ["studynote-software-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: PMO([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Office)는 프로젝트 관리 방식과 기준을 전사적으로 표준화하는 조직이다.
+> 1. **본질**: PMO([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) Office)는 프로젝트 관리 방식과 기준을 전사적으로 표준화하는 조직이다.
 > 2. **가치**: 개별 PM의 역량 편차를 줄이고, 자원 배분과 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 통제를 조직 차원에서 가능하게 한다.
 > 3. **판단 포인트**: 지원형, 통제형, 지시형 중 어디까지 권한을 줄지 정해야 PMO가 관료조직으로 변질되지 않는다.
 
@@ -66,7 +66,7 @@ PMO는 영향력 수준에 따라 세 가지로 나뉜다.
 | 통제형(Controlling) | 준수 여부를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 규율이 필요한 조직 |
 | 지시형(Directive) | PMO가 직접 개입 | 대규모, 고위험 포트폴리오 |
 
-PMO는 PM([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Manager)과도 다르다. PM이 개별 프로젝트의 실행 책임자라면, PMO는 여러 프로젝트가 같은 기준으로 움직이게 하는 상위 조정자다. EPMO(Enterprise [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Office)로 올라가면 범위가 더 넓어져 기업 전략과의 정렬이 강해진다.
+PMO는 PM([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Manager)과도 다르다. PM이 개별 프로젝트의 실행 책임자라면, PMO는 여러 프로젝트가 같은 기준으로 움직이게 하는 상위 조정자다. EPMO(Enterprise [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) Office)로 올라가면 범위가 더 넓어져 기업 전략과의 정렬이 강해진다.
 
 - **📢 섹션 요약 비유**: 선장(PM) 하나를 돕는 조타수가 아니라, 함대 전체의 항로를 정하는 작전 사령부에 가깝다.
 

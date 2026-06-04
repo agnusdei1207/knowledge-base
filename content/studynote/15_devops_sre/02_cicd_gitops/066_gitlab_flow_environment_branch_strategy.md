@@ -13,7 +13,7 @@ tags = ["studynote-devops"]
 
 > 1. **본질**: GitLab Flow는 main과 환경 브랜치(dev/staging/prod 등)를 연결해 배포 흐름을 명확히 하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 > 2. **가치**: 환경별 승격(promote) 흐름이 분명해 운영과 릴리스 관리가 쉬워진다.
-> 3. **판단**: GitFlow와 GitHub Flow의 중간 성격을 가지며, 환경 중심 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD에 잘 맞는다.
+> 3. **판단**: GitFlow와 GitHub Flow의 중간 성격을 가지며, 환경 중심 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD에 잘 맞는다.
 
 ---
 
@@ -67,7 +67,7 @@ GitLab Flow는 환경 브랜치가 중요한 조직에 잘 맞는다. 단순한 
 1. 환경별 브랜치/배포 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 있는가?
 2. 승격 순서가 명확한가?
 3. [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)과 승인 절차가 있는가?
-4. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD와 연결되어 있는가?
+4. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD와 연결되어 있는가?
 5. 브랜치 폭증을 관리하는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -85,7 +85,7 @@ GitLab Flow는 환경 브랜치가 중요한 조직에 잘 맞는다. 단순한 
 
 ## Ⅴ. 기대효과 및 결론
 
-GitLab Flow는 환경 승격과 배포 추적을 단순화한다. 그래서 기업용 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD에서 실용적이다.
+GitLab Flow는 환경 승격과 배포 추적을 단순화한다. 그래서 기업용 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD에서 실용적이다.
 
 결론적으로 GitLab Flow는 환경 브랜치를 중심으로 한 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 

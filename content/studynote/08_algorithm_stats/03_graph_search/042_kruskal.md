@@ -12,7 +12,7 @@ tags = ["studynote-algorithm"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 크루스칼 (Kruskal) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 모든 간선을 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 기준으로 정렬한 후 사이클을 형성하지 않는 최소 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 간선을 탐욕적으로 선택하여 MST를 구성한다.
-> 2. **가치**: 유니온-파인드 ([Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/070_union_find/), [Disjoint Set](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/077_union_find_disjoint_set/) Union)로 O(α(V)) 사이클 검사를 구현하면 전체 O(E log E) 복잡도로 희소 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 최적 성능을 발휘한다.
+> 2. **가치**: 유니온-파인드 ([Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/854_union_find/), [Disjoint Set](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/077_union_find_disjoint_set/) Union)로 O(α(V)) 사이클 검사를 구현하면 전체 O(E log E) 복잡도로 희소 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 최적 성능을 발휘한다.
 > 3. **판단 포인트**: 간선 리스트만 있어도 동작하는 유연성이 있으나, 간선 수 E가 매우 많은 밀집 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서는 정렬 비용 때문에 Prim이 유리하다.
 
 ## Ⅰ. 개요 및 필요성
@@ -23,7 +23,7 @@ tags = ["studynote-algorithm"]
 |:---|:---|
 | [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) | O(E log E) — 정렬 지배 |
 | [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) | O(V+E) |
-| 핵심 자료구조 | 간선 리스트 + [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/070_union_find/) |
+| 핵심 자료구조 | 간선 리스트 + [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/854_union_find/) |
 | 적합 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | 희소 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Sparse, E ≪ V^) |
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 유형 | 탐욕 (Greedy) |
 
@@ -31,7 +31,7 @@ tags = ["studynote-algorithm"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/070_union_find/) ([Disjoint Set](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/077_union_find_disjoint_set/) Union, [DSU](/knowledge-base/studynote/03_network/03_physical_layer_media/145_dsu_csu_digital_service_unit/))
+### [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/854_union_find/) ([Disjoint Set](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/077_union_find_disjoint_set/) Union, [DSU](/knowledge-base/studynote/03_network/03_physical_layer_media/145_dsu_csu_digital_service_unit/))
 
 Union-Find는 서로소 집합을 관리하는 자료구조로, 두 가지 연산을 지원한다:
 
@@ -45,7 +45,7 @@ Union(x, y): x의 집합과 y의 집합을 합집합
   -> 두 최적화 적용 시 연산당 O(α(V)) ≈ O(1) (α = 역아커만 함수)
 ```
 
-### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 크루스칼 + [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/070_union_find/) [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)
+### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 크루스칼 + [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/854_union_find/) [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)
 
 ```
 +----------------------------------------------------------+
@@ -98,7 +98,7 @@ Union(x, y): x의 집합과 y의 집합을 합집합
 | 항목 | 크루스칼 | Prim |
 |:---|:---|:---|
 | 접근 방식 | 간선 중심 | 정점 중심 |
-| 핵심 자료구조 | [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/070_union_find/) | [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/) |
+| 핵심 자료구조 | [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/854_union_find/) | [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/) |
 | 정렬 필요 | 필수 (간선 정렬) | 불필요 |
 | 연결 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 불필요 | 가능 (포레스트 구성) | 단일 시작점 필요 |
 | [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) | O(E log E) | O(E log V) |
@@ -143,7 +143,7 @@ Union(x, y): x의 집합과 y의 집합을 합집합
 
 ## Ⅴ. 기대효과 및 결론
 
-크루스칼 (Kruskal) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 간선 정렬 + Union-Find의 조합으로 O(E log E) 시간에 희소 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 MST를 구성한다. 경로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)과 랭크 합집합 최적화로 [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/070_union_find/) 연산을 실질적으로 O(1)에 처리하여 전체 시간의 대부분이 정렬에 집중된다.
+크루스칼 (Kruskal) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 간선 정렬 + Union-Find의 조합으로 O(E log E) 시간에 희소 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 MST를 구성한다. 경로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)과 랭크 합집합 최적화로 [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/854_union_find/) 연산을 실질적으로 O(1)에 처리하여 전체 시간의 대부분이 정렬에 집중된다.
 
 **핵심 결론**: 크루스칼 = "싼 간선부터 사이클 없이 추가" — 탐욕 전략이 컷 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)으로 보장되는 아름다운 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
@@ -153,7 +153,7 @@ Union(x, y): x의 집합과 y의 집합을 합집합
 
 | 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
-| [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/070_union_find/) ([DSU](/knowledge-base/studynote/03_network/03_physical_layer_media/145_dsu_csu_digital_service_unit/)) | 핵심 자료구조 | 사이클 검사 + 집합 관리 |
+| [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/854_union_find/) ([DSU](/knowledge-base/studynote/03_network/03_physical_layer_media/145_dsu_csu_digital_service_unit/)) | 핵심 자료구조 | 사이클 검사 + 집합 관리 |
 | 컷 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) (Cut Property) | [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/) 근거 | 탐욕 선택의 최적성 보장 |
 | [MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/) (Minimum Spanning Tree) | 출력 결과 | 최소 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 신장 트리 |
 | Prim [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 대안 | 밀집 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에 유리 |
@@ -179,13 +179,13 @@ Union(x, y): x의 집합과 y의 집합을 합집합
 [네트워크 토폴로지 최적화 — MST 기반 물리 네트워크·클러스터 배선 설계]
 ```
 
-이 흐름은 [MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/) 문제 정의에서 크루스칼과 프림이라는 두 탐욕 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 분기하고, [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/070_union_find/) 자료구조로 효율화된 뒤 네트워크 설계·클러스터 구성 등 실무 토폴로지 최적화로 응용되는 과정을 보여준다.
+이 흐름은 [MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/) 문제 정의에서 크루스칼과 프림이라는 두 탐욕 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 분기하고, [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/854_union_find/) 자료구조로 효율화된 뒤 네트워크 설계·클러스터 구성 등 실무 토폴로지 최적화로 응용되는 과정을 보여준다.
 
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 🛒 크루스칼은 마트에서 가장 싼 가격표부터 물건을 카트에 담는 것처럼, 제일 저렴한 도로부터 네트워크를 연결한다.
-2. 🔗 단, 이미 연결된 두 마을을 또 연결하면 낭비이므로, 같은 그룹([Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/070_union_find/))인지 먼저 확인하고 건너뛴다.
+2. 🔗 단, 이미 연결된 두 마을을 또 연결하면 낭비이므로, 같은 그룹([Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/854_union_find/))인지 먼저 확인하고 건너뛴다.
 3. 🏆 이 방법으로 V-1개의 도로를 선택하면 자동으로 전체 네트워크의 최소 비용 뼈대가 완성된다.
 
 ---

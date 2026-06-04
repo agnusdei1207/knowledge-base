@@ -13,7 +13,7 @@ tags = ["studynote-devops-sre"]
 
 > 1. **본질**: [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) Code는 보안·컴플라이언스 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 사람이 읽는 문서가 아닌 코드로 정의하고 자동으로 강제하는 접근 방식이다. [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/) ([Open Policy Agent](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/), 오픈 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 에이전트)는 [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 프로젝트로 Rego 언어로 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 작성하고 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) 등 다양한 환경에서 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 평가한다.
 > 2. **Gatekeeper의 역할**: Gatekeeper는 OPA를 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) Admission Controller로 구현한 것이다. [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 요청이 들어오면 ConstraintTemplate에 정의된 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 검사하고, 위반 시 요청을 거부한다. "루트로 실행 금지", "특정 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)만 허용" 같은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 코드로 강제된다.
-> 3. **판단 포인트**: Conftest는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) YAML, [Dockerfile](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/067_dockerfile_container_image_build_script/), [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) 코드를 배포 전에 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 검사한다. 배포 후 Gatekeeper가 런타임에 이중으로 강제해 Defense in Depth를 구현한다.
+> 3. **판단 포인트**: Conftest는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) YAML, [Dockerfile](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/067_dockerfile_container_image_build_script/), [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) 코드를 배포 전에 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 검사한다. 배포 후 Gatekeeper가 런타임에 이중으로 강제해 Defense in Depth를 구현한다.
 
 ---
 
@@ -71,17 +71,17 @@ deny[msg] {
 
 | 항목 | [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/) | Gatekeeper | Conftest |
 |:---|:---|:---|:---|
-| 역할 | 범용 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진 | K8s Admission Controller | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 검사 |
-| 시점 | 런타임 | 런타임 (Admission) | 배포 전 ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)) |
+| 역할 | 범용 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진 | K8s Admission Controller | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 검사 |
+| 시점 | 런타임 | 런타임 (Admission) | 배포 전 ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)) |
 | 언어 | Rego | Rego + ConstraintTemplate | Rego |
 | 대상 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), K8s | [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 전용 | 코드/[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) |
 
 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 계층 구조 ([Defense in Depth](/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/)):
-- [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 단계: Conftest로 코드 레벨 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 검사
+- [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 단계: Conftest로 코드 레벨 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 검사
 - 배포 단계: Gatekeeper Admission [Webhook](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 강제
 - 런타임: [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/)/[CWPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링
 
-> 📢 **섹션 요약 비유**: Conftest는 공항 체크인 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))이고, Gatekeeper는 탑승구(배포 시점)이다. 두 번 검사해서 잘못된 것이 비행기(프로덕션)에 탑승하지 못하게 한다.
+> 📢 **섹션 요약 비유**: Conftest는 공항 체크인 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/))이고, Gatekeeper는 탑승구(배포 시점)이다. 두 번 검사해서 잘못된 것이 비행기(프로덕션)에 탑승하지 못하게 한다.
 
 ---
 
@@ -142,7 +142,7 @@ spec:
 | Rego | [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 작성 언어 |
 | Gatekeeper | K8s Admission Controller [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/) 구현체 |
 | ConstraintTemplate | Gatekeeper [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 템플릿 |
-| Conftest | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 코드 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 검사 도구 |
+| Conftest | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 코드 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 검사 도구 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

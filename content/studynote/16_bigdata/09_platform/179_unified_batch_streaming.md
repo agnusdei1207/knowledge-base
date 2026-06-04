@@ -115,7 +115,7 @@ Spark Structured Streaming은 DataFrame 중심의 통합과 [레이크하우스]
 2. unbounded 입력에는 Event Time과 [Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 정의되어 있는가?
 3. 결과 싱크는 idempotent한가, 아니면 Exactly-Once가 필요한가?
 4. 상태 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) ([Time To Live](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)), 컴팩션, 체크포인트 간격이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)량에 맞는가?
-5. 백필 작업이 실시간 [Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))를 침해하지 않도록 큐, 슬롯, 클러스터를 분리했는가?
+5. 백필 작업이 실시간 [Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) ([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/))를 침해하지 않도록 큐, 슬롯, 클러스터를 분리했는가?
 
 흔한 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)은 통합 엔진을 도입하고도 배치용 SQL과 스트리밍용 SQL을 따로 유지하는 것이다. 또 마이크로배치를 "실시간과 완전히 동일"하다고 과신하거나, 반대로 모든 배치 재처리를 무조건 스트림 엔진 하나로 몰아넣는 것도 문제다. 통합은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)의 통합이지, 물리 자원 격리까지 포기하라는 뜻은 아니다.
 

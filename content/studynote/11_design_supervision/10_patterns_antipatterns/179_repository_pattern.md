@@ -110,7 +110,7 @@ Spring [Data](/knowledge-base/studynote/05_database/01_db_architecture_relationa
 2. 인터페이스 메서드가 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 용어를 사용하고 있는가?
 3. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 ORM [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/), [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/), 테이블 조인 세부사항에 직접 접근하지 않는가?
 4. 복잡한 조회 전용 요구는 별도 Query Service로 분리되어 있는가?
-5. 테스트에서 In-Memory 구현체나 [Fake](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/) Repository로 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙을 검증할 수 있는가?
+5. 테스트에서 In-Memory 구현체나 [Fake](/knowledge-base/studynote/04_software_engineering/11_testing_validation/855_fake_test_double/) Repository로 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙을 검증할 수 있는가?
 
 ### 자주 발생하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 

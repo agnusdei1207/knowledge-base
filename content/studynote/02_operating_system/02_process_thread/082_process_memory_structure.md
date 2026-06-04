@@ -178,7 +178,7 @@ Heap과 Stack은 프로세스 실행 중에 크기가 변하므로 서로 충돌
 | 개념 | 연결 포인트 |
 |:---|:---|
 | [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) 차단 ([Seccomp](/knowledge-base/studynote/02_operating_system/01_overview_architecture/080_seccomp/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| 프로그램 (Program) vs 프로세스 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 프로그램 (Program) vs 프로세스 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
 | [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/) (Block Started by Symbol) 영역 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
 | 힙 ([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 영역 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
@@ -199,7 +199,7 @@ Heap과 Stack은 프로세스 실행 중에 크기가 변하므로 서로 충돌
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 프로세스 메모리 구조은 컴퓨터가 여러 일을 나눠서 처리하고 서로 기다리게 하는 약속이에요.
-2. 먼저 프로그램 (Program) vs 프로세스 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))을 이해하면 프로세스 메모리 구조이 왜 필요한지 더 쉽게 보여요.
+2. 먼저 프로그램 (Program) vs 프로세스 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))을 이해하면 프로세스 메모리 구조이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 프로세스 메모리 구조을 잘 알면 나중에 [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/) (Block Started by Symbol) 영역도 훨씬 쉽게 배울 수 있어요.
 
 ---

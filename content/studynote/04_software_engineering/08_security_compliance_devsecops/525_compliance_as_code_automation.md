@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
   - 과거: 보안팀장이 메일로 "오늘부터 AWS 띄울 때 태그(Tag)에 팀 이름 안 적으면 징계합니다!"라고 보낸다 (Human Language). 개발자는 까먹고 안 적는다.
   - 현재: 보안팀이 [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/) 룰셋 코드에 `if !has_tag("Team") { deny }` 라고 치고 Git에 저장한다. 개발자가 태그 안 달고 AWS를 띄우려(빌드) 하면 화면에 시뻘건 403 에러가 뜨며 서버 생성이 강제로 막힌다 (Machine [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)).
 
-- **필요성**: 클라우드 시대에 개발 속도는 빛보다 빠르다(하루 100번 배포). 그런데 [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))는 석기시대다. 금융위에서 "너희 서버 암호화 다 됐어?" 물어보면 보안팀은 1달 내내 수천 대 서버 세팅을 마우스로 캡처(Capture)해서 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)([Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/))에 붙여넣으며 피눈물을 흘린다. 더 큰 재앙은, 어제 완벽하게 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)에 통과했어도 오늘 밤 주니어 개발자가 옵션 1개 실수하면 100억짜리 규제 위반 벌금을 맞는다는 것이다. **"인간의 눈알 엑셀 노가다와 양심(기억력)에 회사의 법적 목숨을 거는 미친 짓"을 중단하고, 법(규제)을 24시간 잠들지 않는 기계의 통치 망으로 넘겨버리기 위해** 이 혁명적 개념이 탄생했다.
+- **필요성**: 클라우드 시대에 개발 속도는 빛보다 빠르다(하루 100번 배포). 그런데 [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/919_security_audit_trail/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))는 석기시대다. 금융위에서 "너희 서버 암호화 다 됐어?" 물어보면 보안팀은 1달 내내 수천 대 서버 세팅을 마우스로 캡처(Capture)해서 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)([Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/))에 붙여넣으며 피눈물을 흘린다. 더 큰 재앙은, 어제 완벽하게 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)에 통과했어도 오늘 밤 주니어 개발자가 옵션 1개 실수하면 100억짜리 규제 위반 벌금을 맞는다는 것이다. **"인간의 눈알 엑셀 노가다와 양심(기억력)에 회사의 법적 목숨을 거는 미친 짓"을 중단하고, 법(규제)을 24시간 잠들지 않는 기계의 통치 망으로 넘겨버리기 위해** 이 혁명적 개념이 탄생했다.
 
 - **💡 비유**: 컴플라이언스 애즈 코드는 <strong>'고속도로 무인 과속 단속 카메라'</strong>와 똑같습니다. 과거엔 경찰관([감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)관)이 숨어있다가 딱지를 끊었습니다(수동 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)). 경찰이 퇴근한 새벽(배포 후)에는 폭주족(해킹)이 판을 칩니다. 이 기술은 경찰관을 아예 없애고, 톨게이트 입구부터 출구까지 모든 차로 바닥에 <strong>'과속하면 차 바퀴가 터져버리는 스마트 스피드 브레이커(코드화된 룰)'</strong>를 깔아버리는 것입니다. 100km/h(보안 규제)를 1km/h라도 넘기면 차가 물리적으로 멈춰버리니, 경찰이 자고 있어도 도로의 평화(컴플라이언스)는 100% 무결하게 수학적으로 보장됩니다.
 
@@ -122,7 +122,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 컴플라이언스 애즈 코드 ([Compliance as Code](/knowledge-base/studynote/12_it_management/01_governance_strategy/048_compliance_as_code/)) 자동화은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -176,7 +176,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 642 / 973
 
-<- **이전**: [525. 컴플라이언스 애즈 코드 (Compliance as Code)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/525_compliance_as_code/)
-**다음**: [526. 보안 로깅 (Logging)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/526_security_logging/) ->
+<- **이전**: [525. 컴플라이언스 애즈 코드 (Compliance as Code)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/917_compliance_as_code/)
+**다음**: [526. 보안 로깅 (Logging)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/918_security_logging/) ->
 
 ---

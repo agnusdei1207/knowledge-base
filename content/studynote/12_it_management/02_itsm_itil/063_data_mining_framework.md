@@ -148,7 +148,7 @@ DataOps / MLOps
 
 **진행 상황**: 109 / 587
 
-<- **이전**: [62. ITIL (IT Infrastructure Library)](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/)
-**다음**: [63. ITIL V3 의 서비스 수명주기 (Service Lifecycle) 5단계](/knowledge-base/studynote/12_it_management/02_itsm_itil/063_itil_v3_service_lifecycle/) ->
+<- **이전**: [62. ITIL (IT Infrastructure Library)](/knowledge-base/studynote/12_it_management/02_itsm_itil/846_itil/)
+**다음**: [63. ITIL V3 의 서비스 수명주기 (Service Lifecycle) 5단계](/knowledge-base/studynote/12_it_management/02_itsm_itil/847_itil_v3_service_lifecycle/) ->
 
 ---

@@ -11,9 +11,9 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 스로틀링([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Throttling)은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 과부하와 남용을 막는 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 메커니즘이고, [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/)([Backend for Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/))는 각 클라이언트에 최적화된 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 계층을 분리하여 오버패칭(Overfetching)과 언더패칭(Underfetching)을 해결한다.
+> 1. **본질**: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 스로틀링([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Throttling)은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 과부하와 남용을 막는 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 메커니즘이고, [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/)([Backend for Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/))는 각 클라이언트에 최적화된 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 계층을 분리하여 오버패칭(Overfetching)과 언더패칭(Underfetching)을 해결한다.
 > 2. **가치**: 토큰 버킷(Token Bucket), 리키 버킷(Leaky Bucket), 슬라이딩 윈도(Sliding Window) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 각각 버스트 허용, 균일 속도, 시간 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)의 트레이드오프를 가진다.
-> 3. **판단 포인트**: [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) 패턴은 클라이언트 종류가 다양(모바일/웹/[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/))하고 각각의 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 요구사항이 다를 때 효과적이며, 그렇지 않으면 GraphQL이 더 단순한 대안이다.
+> 3. **판단 포인트**: [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/) 패턴은 클라이언트 종류가 다양(모바일/웹/[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/))하고 각각의 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 요구사항이 다를 때 효과적이며, 그렇지 않으면 GraphQL이 더 단순한 대안이다.
 
 ---
 
@@ -21,7 +21,7 @@ tags = ["studynote-ict-convergence"]
 
 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 스로틀링 필요성</strong>: 공개 API나 내부 [MSA API](/knowledge-base/studynote/15_devops_sre/05_devsecops/336_msa_api/) 모두 무제한 요청을 허용하면 서버 과부하, DDOS(Distributed Denial of [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)), 특정 클라이언트의 자원 독점이 발생한다. [Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/)(속도 제한)은 단위 시간당 요청 수를 제한하여 공정한 자원 배분과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 안정성을 동시에 확보한다.
 
-<strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/">BFF</a> 필요성</strong>: 하나의 범용 API가 모바일, 웹, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), TV 등 모든 클라이언트를 지원하려 하면:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/">BFF</a> 필요성</strong>: 하나의 범용 API가 모바일, 웹, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), TV 등 모든 클라이언트를 지원하려 하면:
 - **오버패칭(Overfetching)**: 필요 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 받아 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비
 - **언더패칭(Underfetching)**: 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 얻기 위해 여러 번 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출
 - 클라이언트별 최적화가 불가능하여 모바일 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하
@@ -52,10 +52,10 @@ tags = ["studynote-ict-convergence"]
 |:---|:---:|:---:|:---:|:---|
 | 토큰 버킷 (Token Bucket) | ✓ | 낮음 | 중간 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 기본값 |
 | 리키 버킷 (Leaky Bucket) | ✗ | 낮음 | 중간 | 균일한 업스트림 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
-| 슬라이딩 윈도 (Sliding Window) | 부분 | 높음 | 높음 | 정밀한 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 제어 |
+| 슬라이딩 윈도 (Sliding Window) | 부분 | 높음 | 높음 | 정밀한 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 제어 |
 | 고정 윈도 (Fixed Window) | 부분 | 매우 낮음 | 낮음 | 단순 구현 필요 시 |
 
-<strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/">BFF</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/">Backend for Frontend</a>) 아키텍처</strong>:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/">BFF</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/">Backend for Frontend</a>) 아키텍처</strong>:
 
 ```
 클라이언트        BFF 계층               마이크로서비스
@@ -78,12 +78,12 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅲ. 비교 및 연결
 
-<strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/">BFF</a> vs <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/">GraphQL</a></strong>:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/">BFF</a> vs <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/">GraphQL</a></strong>:
 
-| 구분 | [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) | [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/) |
+| 구분 | [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/) | [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/) |
 |:---|:---|:---|
 | 유연성 | 클라이언트별 완전 최적화 | 단일 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)로 유연한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) |
-| 서버 복잡성 | [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수만큼 증가 | 단일 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 유지 |
+| 서버 복잡성 | [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수만큼 증가 | 단일 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 유지 |
 | 타입 안전성 | 언어 종속 | SDL [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)로 타입 보장 |
 | N+1 문제 | BFF에서 사전 집계로 해결 | DataLoader 패턴 필요 |
 | 적합 상황 | 클라이언트 종류 다양, 팀 분리 | 다양한 클라이언트, 중앙 집중 선호 |
@@ -101,18 +101,18 @@ tags = ["studynote-ict-convergence"]
 
 **기술사 시험 판단 포인트**:
 1. 세 가지 [Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 트레이드오프(버스트 허용, 구현 복잡도, [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/))를 표로 비교한다.
-2. [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) 도입 근거를 "오버패칭/언더패칭"과 "클라이언트별 팀 독립 개발"로 정당화한다.
+2. [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/) 도입 근거를 "오버패칭/언더패칭"과 "클라이언트별 팀 독립 개발"로 정당화한다.
 3. Redis를 이용한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/) 구현(슬라이딩 윈도, Lua 스크립트 원자 연산)을 언급하면 깊이를 인정받는다.
 
 **실무 시나리오**: 이커머스 모바일 앱 — 상품 목록 화면에서 상품 기본 정보 + 리뷰 수 + 재고 여부를 하나의 API로 제공해야 할 때, 범용 API는 3개 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 각각 호출해야 하지만, Mobile BFF가 서버 측에서 집계하여 단일 최적화 응답 반환. 모바일 네트워크 요청 수 66% 감소.
 
-- **📢 섹션 요약 비유**: [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) 집계는 배달 대행 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 여러 식당에서 음식을 대신 픽업해 한 번에 배달하는 것이다 — 손님은 한 번만 문을 열면 된다.
+- **📢 섹션 요약 비유**: [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/) 집계는 배달 대행 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 여러 식당에서 음식을 대신 픽업해 한 번에 배달하는 것이다 — 손님은 한 번만 문을 열면 된다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 스로틀링과 [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) 패턴을 적용하면:
+[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 스로틀링과 [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/) 패턴을 적용하면:
 - <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 안정성</strong>: Rate Limiting으로 과부하, 남용, DDOS 부분 방어
 - <strong>클라이언트 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>: BFF로 오버패칭 제거, 모바일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사용량 감소
 - **팀 독립성**: 각 클라이언트 팀이 자체 BFF를 소유하여 독립 배포
@@ -128,7 +128,7 @@ tags = ["studynote-ict-convergence"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)/[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/), [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 로드밸런싱 · 505 |
+| [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/) | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)/[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/), [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 로드밸런싱 · 505 |
 | [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/) | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/), 리졸버, N+1 문제 · 505 |
 | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 캐시, 슬라이딩 윈도 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) · 506 |
 | [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservice Architecture](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/365_msa_microservice_architecture/)) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 집계, 팀 독립 · 505 |

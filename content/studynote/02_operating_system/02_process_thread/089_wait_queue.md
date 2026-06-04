@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-대기 큐 (Wait [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 프로세스가 실행 도중 디스크 읽기, 네트워크 응답 대기 등의 이벤트를 만나 더 이상 명령어를 진행할 수 없을 때, 해당 프로세스의 PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block)를 보관하는 자료구조다.
+대기 큐 (Wait [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 프로세스가 실행 도중 디스크 읽기, 네트워크 응답 대기 등의 이벤트를 만나 더 이상 명령어를 진행할 수 없을 때, 해당 프로세스의 PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Control Block)를 보관하는 자료구조다.
 
 과거의 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) ([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 방식은 하드웨어가 준비되었는지 CPU가 계속 확인해야 했기 때문에 오버헤드가 극심했다. 만약 프로세스가 이벤트를 기다리는 동안 계속 CPU를 붙잡고 [바쁜 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/) ([Busy Waiting](/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/))를 수행한다면 고가의 자원이 낭비된다. 따라서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 구동 ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)-Driven) 환경에서는 이벤트 발생 시까지 프로세스를 완전히 잠재우는 대기 큐 구조가 필수적으로 등장했다.
 

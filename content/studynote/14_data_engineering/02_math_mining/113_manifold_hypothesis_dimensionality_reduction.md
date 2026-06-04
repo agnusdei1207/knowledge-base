@@ -11,7 +11,7 @@ tags = ["studynote-dataengineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 매니폴드 가설(Manifold Hypothesis)은 현실의 고차원 데이터가 실제로는 <strong>저차원 매니폴드(곡면) 위에 밀집</strong>되어 있다는 가정이며, 이것이 [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)·t-SNE·[오토인코더](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/) 등 <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/">차원 축소</a>가 작동하는 수학적 근거</strong>다.
-> 2. **가치**: 100×100 이미지([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000차원)에서 의미 있는 사진은 전체 공간의 극히 일부에만 존재한다. 매니폴드 가설은 이 "의미 있는 부분 공간"을 찾아 <strong>차원의 저주(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/080_curse_of_dimensionality/">Curse of Dimensionality</a>)</strong>를 극복하게 한다.
+> 2. **가치**: 100×100 이미지([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000차원)에서 의미 있는 사진은 전체 공간의 극히 일부에만 존재한다. 매니폴드 가설은 이 "의미 있는 부분 공간"을 찾아 <strong>차원의 저주(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/864_curse_of_dimensionality/">Curse of Dimensionality</a>)</strong>를 극복하게 한다.
 > 3. **판단 포인트**: 딥러닝의 은닉층은 본질적으로 <strong>고차원 데이터를 저차원 매니폴드로 투영하는 비선형 변환 장치</strong>이며, Representation [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)(표현 학습)의 수학적 토대가 매니폴드 가설이다.
 
 ---

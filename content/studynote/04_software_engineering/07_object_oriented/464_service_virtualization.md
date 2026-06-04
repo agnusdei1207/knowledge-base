@@ -11,7 +11,7 @@ tags = ["studynote-software-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/)) - [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서 외부 의존 API를 모사하는 [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/) 서버은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 1. **본질**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/)) - [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서 외부 의존 API를 모사하는 [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/) 서버은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
 > 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
@@ -26,7 +26,7 @@ tags = ["studynote-software-engineering"]
 - **💡 비유**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)는 콜센터 신입사원의 <strong>'시뮬레이션 진상 손님 훈련'</strong>과 같습니다. 신입사원(내 서버)이 응대 연습을 해야 하는데 진짜 고객(외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버)에게 전화를 돌려 욕을 먹게 할 순 없습니다. 그래서 옆자리의 베테랑 교관이 고객인 척 전화를 걸고, 진상 고객의 대본([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 응답)을 그대로 읊어줍니다. 신입사원 입장에서는 수화기 너머의 사람이 진짜인지 가짜([가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 서버)인지 전혀 구분하지 못하고 100% 완벽한 실전 훈련(테스트)을 할 수 있습니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **모놀리식의 Mocking**: 과거엔 1개의 거대한 코드 덩어리 안에서 함수(Method)만 찌르면 됐으므로, 단순히 코드에 `Mockito`로 가짜 로봇([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/))을 꽂아 넣는 것으로 충분했다.
+  1. **모놀리식의 Mocking**: 과거엔 1개의 거대한 코드 덩어리 안에서 함수(Method)만 찌르면 됐으므로, 단순히 코드에 `Mockito`로 가짜 로봇([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/))을 꽂아 넣는 것으로 충분했다.
   2. **SOA와 MSA의 분할**: 시스템이 물리적인 네트워크 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/), [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/)) 통신으로 갈라지며, 코드 레벨의 Mock으로는 [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/), 500 에러, 헤더(Header) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 같은 인프라 통합(Integration) 환경을 테스트할 수 없게 되었다.
   3. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 서버의 대두 (현재)</strong>: 코드를 넘어 아예 "[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 응답을 대신 뱉어주는 독자적인 가짜 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(8080) 서버"를 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))로 띄우는 `WireMock`, `Mountebank` 솔루션이 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 생태계의 표준 무기가 되었다.
 
@@ -59,7 +59,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/)) - [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서 외부 의존 API를 모사하는 [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/) 서버의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
+[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/)) - [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서 외부 의존 API를 모사하는 [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/) 서버의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 520 / 973
 
-<- **이전**: [464. 서비스 가상화 (Service Virtualization)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/464_service_virtualization/)
-**다음**: [465. 지속적 테스팅 (Continuous Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/465_continuous_testing/) ->
+<- **이전**: [464. 서비스 가상화 (Service Virtualization)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/856_service_virtualization/)
+**다음**: [465. 지속적 테스팅 (Continuous Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/857_continuous_testing/) ->
 
 ---

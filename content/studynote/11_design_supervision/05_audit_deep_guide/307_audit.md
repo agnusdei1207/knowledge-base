@@ -115,7 +115,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 372 / 530
 
-<- **이전**: [306. 웹셸 업로드 필터 다중방어 감리 (Web Shell Upload Filter Defense Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/306_web_shell_upload_filter/)
-**다음**: [307. 서버 인증서 수명주기 모니터링 체계 (Server Certificate Lifecycle Monitoring Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/307_certificate_expiration_monitoring/) ->
+<- **이전**: [306. 웹셸 업로드 필터 다중방어 감리 (Web Shell Upload Filter Defense Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/665_web_shell_upload_filter/)
+**다음**: [307. 서버 인증서 수명주기 모니터링 체계 (Server Certificate Lifecycle Monitoring Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/666_certificate_expiration_monitoring/) ->
 
 ---

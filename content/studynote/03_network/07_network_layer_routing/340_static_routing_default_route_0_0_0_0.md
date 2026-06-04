@@ -46,10 +46,10 @@ tags = ["studynote-network"]
 - 이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 치면 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블(지도)에 `S` (Static을 의미)라는 마크와 함께 지도가 한 줄 팍! 새겨진다.
 - 앞서 배웠듯 Static의 <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a>(AD 값)는 1</strong>이다. 100만 원짜리 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 프로그램이 다른 우회로를 찾아서 "사장님! 저 길이 더 빠른데요?"라고 110점짜리 의견을 올려도, AD 1인 Static [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 OSPF의 아가리를 닥치게 만들고 무조건 자기가 시킨 길로만 데이터를 밀어 넣는다. (그래서 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 최고, 해커가 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 오염시킬 수 없다).
 
-### 2. 라우터의 한계 ([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/) Network)
+### 2. 라우터의 한계 ([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/) Network)
 정적 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)의 한계점은 명확하다. 통신사가 선로 공사를 하다가 `10.1.1.2`로 가는 선을 끊어먹었다고 치자.
 라우터는 선이 죽은 줄도 모르고 끝없이 `10.1.1.2` 쪽으로 회사의 소중한 데이터를 밀어 넣는다(블랙홀). 회사는 통신 단절에 빠지고, 빡친 관리자가 차를 몰고 회사에 출근해서 수동으로 `no ip route...`를 쳐서 설정을 지워주기 전까지 통신은 절대 스스로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Self-healing)되지 않는다.
-그래서 출구가 딱 1개뿐인 <strong>단말 네트워크(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">Stub</a> Network, 막다른 골목)</strong>에서만 쓴다.
+그래서 출구가 딱 1개뿐인 <strong>단말 네트워크(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/">Stub</a> Network, 막다른 골목)</strong>에서만 쓴다.
 
 ### 3. 궁극의 치트키: 디폴트 라우터 (Default Route)
 인터넷에는 수백만 개의 IP가 있다. 내 방 라우터가 네이버 IP, 구글 IP, 아마존 IP를 다 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블에 적을 수 없다(메모리 터짐).

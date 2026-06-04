@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: I/O 바운드 프로세스 (Input/Output Bound [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))는 CPU 연산보다 디스크·네트워크·사용자 입력을 기다리는 시간이 더 긴 작업이다.
+> 1. **본질**: I/O 바운드 프로세스 (Input/Output Bound [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))는 CPU 연산보다 디스크·네트워크·사용자 입력을 기다리는 시간이 더 긴 작업이다.
 > 2. **가치**: 이런 프로세스는 CPU를 오래 붙잡지 않으므로, 준비가 끝난 순간 빨리 실행시켜 다시 I/O를 걸어 주는 편이 전체 시스템 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)을 함께 높인다.
 > 3. **판단 포인트**: 스케줄링은 단순 우선순위 싸움이 아니라, 짧은 CPU 버스트 (CPU Burst)를 빨리 끝내 장치 병렬성을 살릴지, 과도한 우대 때문에 CPU 바운드 작업이 굶지 않게 균형을 잡을지의 문제다.
 

@@ -164,7 +164,7 @@ Spring의 `DispatcherServlet`은 [프론트 컨트롤러 패턴](/knowledge-base
 | 대조 개념 | [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Controller | [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)별 개별 컨트롤러 패턴 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-웹 요청 진입점 -> 프론트 컨트롤러 vs [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 컨트롤러 -> [API gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/)/handler [mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)
+웹 요청 진입점 -> 프론트 컨트롤러 vs [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 컨트롤러 -> [API gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/)/handler [mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 컨트롤러는 각 교실마다 선생님이 출석도 부르고 수업도 하는 거야.

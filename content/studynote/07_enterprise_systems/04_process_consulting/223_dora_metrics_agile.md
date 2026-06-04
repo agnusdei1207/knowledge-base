@@ -101,7 +101,7 @@ tags = ["studynote-enterprise"]
 
 ### 적용 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)관리, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, incident 관리 도구에서 동일한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)를 연결했는가?
+1. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)관리, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD, incident 관리 도구에서 동일한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)를 연결했는가?
 2. 배포 이벤트와 장애 이벤트의 기준 시점을 자동 수집하도록 구성했는가?
 3. 지표를 개인이 아닌 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 또는 팀 단위로 해석하고 있는가?
 4. 낮은 DF를 문제로 보기 전에 승인 대기, 테스트 대기, 릴리즈 윈도우 제한을 함께 분석했는가?
@@ -132,7 +132,7 @@ tags = ["studynote-enterprise"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/) / [Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)) | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표를 실제로 개선하는 자동화 기반이다. |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/) / [Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)) | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표를 실제로 개선하는 자동화 기반이다. |
 | [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) | 운영 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 역량과 [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/) 수준을 보여 준다. |
 | [CFR](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/) | 변경 품질과 테스트 내재화 수준을 드러낸다. |
 | [VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) | 배포 전 대기 구간까지 포함해 병목을 찾게 해 준다. |

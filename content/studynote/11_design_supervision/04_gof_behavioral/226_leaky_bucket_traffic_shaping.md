@@ -140,7 +140,7 @@ class LeakyBucket:
 | Fixed Window | 경계에서 2× 버스트 가능 | O(1) | 낮음 | 단순 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) |
 | Sliding Window Log | 없음 (정확) | O(N) | 높음 | 정밀 제어 |
 | Sliding Window [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) | 근사 제거 | O(1) | 높음 | 대부분 상황 |
-| Token Bucket | 허용 (B 용량까지) | O(1) | 높음 | [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) |
+| Token Bucket | 허용 (B 용량까지) | O(1) | 높음 | [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/) |
 | Leaky Bucket | 흡수 후 평활화 | O(B) | 높음 | 네트워크 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) |
 
 - **📢 섹션 요약 비유**: 토큰 버킷과 리키 버킷의 차이는 고속버스 터미널(토큰 버킷)과 지하철(리키 버킷)의 차이 — 고속버스는 여러 버스가 한꺼번에 출발(버스트 허용)할 수 있지만, 지하철은 정해진 배차 간격(일정 속도)을 반드시 지킨다.

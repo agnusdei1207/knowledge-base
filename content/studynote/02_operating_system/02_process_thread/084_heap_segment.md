@@ -117,7 +117,7 @@ mmap으로 받은 메모리나 공유 메모리도 넓게 보면 힙과 비슷�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) address space | 프로그램이 보는 전체 메모리 지도 |
+| [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) address space | 프로그램이 보는 전체 메모리 지도 |
 | Allocator | 힙 블록을 나누고 합치는 관리자 |
 | [Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) | 작은 빈 공간이 쌓이는 문제 |
 | [mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/) | 큰 영역을 별도로 매핑하는 경로 |

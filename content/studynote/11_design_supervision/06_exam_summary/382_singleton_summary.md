@@ -69,7 +69,7 @@ tags = ["studynote-design-supervision"]
 | 구조 안정성 | 패턴 적용 상태는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자를 은닉하고 정적 접근점이나 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 통해 단일 인스턴스를 관리한다 | 즉흥 구현 상태는 책임과 의존이 섞여 규칙이 흐려진다 |
 | 운영 결과 | 패턴 적용 상태는 공유 자원 초기화와 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 일관성을 간단히 맞출 수 있다 | 즉흥 구현 상태는 여러 인스턴스가 생기면 상태 불일치와 자원 낭비가 발생할 수 있다 |
 
-연결 개념으로는 전역 상태, [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 같은 주변 주제를 함께 써 주면, 단순 암기보다 적용 맥락이 살아난다.
+연결 개념으로는 전역 상태, [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 같은 주변 주제를 함께 써 주면, 단순 암기보다 적용 맥락이 살아난다.
 
 - **📢 섹션 요약 비유**: 전용 공구와 즉흥 수리를 비교하면 패턴이 줄이는 복잡도가 분명해진다.
 
@@ -104,7 +104,7 @@ tags = ["studynote-design-supervision"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | 전역 상태 | [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) 패턴 ([Singleton Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/144_singleton_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
-| [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) | [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) 패턴 ([Singleton Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/144_singleton_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
+| [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) | [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) 패턴 ([Singleton Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/144_singleton_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 | 멀티스레드 초기화 | [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) 패턴 ([Singleton Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/144_singleton_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 | 테스트 격리 | [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) 패턴 ([Singleton Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/144_singleton_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 

@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 소프트웨어 개발 분야에서는 코드를 짜는 언어(Java)나 설계하는 방식([UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))에 대한 표준이 일찍부터 자리 잡았다. 그런데 정작 품질의 마지노선인 '테스팅(Testing)' 분야는 오랫동안 무법지대였다.
 
-회사마다 테스트 계획서 양식이 달랐고, 영국 회사와 인도 하청업체가 쓰는 테스팅 용어가 달라 의사소통이 마비되었다. "[블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/)"라는 단어 하나를 두고도 서로 다른 의미로 해석했다.
+회사마다 테스트 계획서 양식이 달랐고, 영국 회사와 인도 하청업체가 쓰는 테스팅 용어가 달라 의사소통이 마비되었다. "[블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/804_black_box_testing/)"라는 단어 하나를 두고도 서로 다른 의미로 해석했다.
 
 이 난장판을 끝내기 위해, 세계 3대 표준화 기구인 ISO, IEC, IEEE가 합심하여 기존의 낡은 표준들을 모두 폐기하고 2013년에 새롭게 제정한 통합 테스팅 표준이 바로 <strong>ISO/IEC/IEEE 29119</strong>다. 이 표준의 탄생으로 전 세계 테스터들은 마침내 하나의 통일된 교과서를 갖게 되었다.
 
@@ -109,7 +109,7 @@ ISO 29119의 문서를 무작정 모든 프로젝트에 100% 적용하려고 하
 
 ISO 29119를 조직에 정착시키면, 갑자기 외주(SI) 업체가 바뀌거나 새로운 QA 담당자가 입사해도 1시간 안에 기존의 테스트 문서를 읽고 다음 테스트를 진행할 수 있다. 완벽한 커뮤니케이션 프로토콜이 생기기 때문이다.
 
-결론적으로 기술 리더는 "우리 회사는 애자일이라서 문서 안 써요"라는 핑계를 용납해서는 안 된다. ISO 29119가 제시하는 것은 낡은 엑셀 문서가 아니라 <strong>'테스트를 대하는 과학적 태도(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a>)'</strong>다. 테스트는 감(Feeling)으로 클릭해보는 것이 아니라, 리스크를 분석하고 전략을 세우는 가장 고도화된 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 정수임을 잊지 말아야 한다.
+결론적으로 기술 리더는 "우리 회사는 애자일이라서 문서 안 써요"라는 핑계를 용납해서는 안 된다. ISO 29119가 제시하는 것은 낡은 엑셀 문서가 아니라 <strong>'테스트를 대하는 과학적 태도(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/">Process</a>)'</strong>다. 테스트는 감(Feeling)으로 클릭해보는 것이 아니라, 리스크를 분석하고 전략을 세우는 가장 고도화된 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 정수임을 잊지 말아야 한다.
 
 - **📢 섹션 요약 비유**: 이 표준은 오케스트라의 공통 악보다. 바이올린(개발자)과 첼로(QA)가 서로 다른 동네에서 왔더라도, 같은 악보(ISO 29119)를 펼쳐놓으면 지휘자(아키텍트)의 손짓 한 번에 완벽한 화음(품질)을 만들어 낼 수 있다.
 

@@ -19,7 +19,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-2009년 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) Berkeley AMP Lab의 Matei Zaharia가 개발한 Spark는 MapReduce의 근본적 한계—매 처리 단계마다 디스크에 중간 결과를 쓰는 것—을 해결하기 위해 탄생했다. 특히 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)의 반복 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/), k-평균 클러스터링)은 수십~수백 번 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 반복 처리하는데, MapReduce로는 각 반복마다 [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 읽기/쓰기가 발생하여 극도로 느렸다.
+2009년 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/871_underpinning_contract/) Berkeley AMP Lab의 Matei Zaharia가 개발한 Spark는 MapReduce의 근본적 한계—매 처리 단계마다 디스크에 중간 결과를 쓰는 것—을 해결하기 위해 탄생했다. 특히 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)의 반복 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/), k-평균 클러스터링)은 수십~수백 번 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 반복 처리하는데, MapReduce로는 각 반복마다 [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 읽기/쓰기가 발생하여 극도로 느렸다.
 
 Spark의 핵심 아이디어: <strong>메모리에 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 유지한다(Keep <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> In Memory).</strong> 첫 번째 읽기 시에만 디스크에서 메모리로 로딩하고, 이후 처리는 모두 메모리에서 수행한다. 100번 반복이 필요한 ML [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 대비 최대 100배 빠른 이유다.
 
@@ -69,7 +69,7 @@ Spark의 핵심 아이디어: <strong>메모리에 <a href="/knowledge-base/stud
 | <strong><a href="/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/">Spark Streaming</a></strong> | 실시간 [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) | [DStream](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) (구버전) |
 | <strong><a href="/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/">Structured Streaming</a></strong> | [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) (DataFrame [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) | readStream, writeStream |
 | **MLlib** | [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/), LinearRegression |
-| **GraphX** | [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 | [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/), Pregel |
+| **GraphX** | [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 | [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/), Pregel |
 
 ### PySpark 예시 (단어 빈도)
 
@@ -122,7 +122,7 @@ word_count.write.csv("s3://mybucket/output/wordcount")
 | AWS EMR | Amazon 관리형 Spark |
 | [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) | 상용 최적화 Spark 플랫폼 |
 
-📢 **섹션 요약 비유**: Spark의 실행 모드는 주차 방식과 같다. Local은 집 앞 주차(개발), YARN은 공용 주차장([하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 클러스터), K8s는 스마트 주차 타워([클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)), EMR은 발렛파킹(완전 관리형)이다.
+📢 **섹션 요약 비유**: Spark의 실행 모드는 주차 방식과 같다. Local은 집 앞 주차(개발), YARN은 공용 주차장([하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 클러스터), K8s는 스마트 주차 타워([클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)), EMR은 발렛파킹(완전 관리형)이다.
 
 ---
 

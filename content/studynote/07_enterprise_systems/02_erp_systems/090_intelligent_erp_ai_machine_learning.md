@@ -54,7 +54,7 @@ tags = ["enterprise_systems"]
 
 이 그림은 기존에 사람이 일일이 조회하고 기안을 작성하던 긴 과정이, AI의 판단과 RPA의 손발을 통해 하나의 버튼(승인) 클릭으로 단축되는 과정을 묘사한다.
 
-- **📢 섹션 요약 비유**: 과거엔 직원이 엑셀 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)에서 보물(인사이트)을 캐냈다면, 이제는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 비서가 보물을 찾아 책상 위에 올려놓고 "이걸로 집을 살까요?"라고 물어본다. 인간은 고개만 끄덕이면 된다.
+- **📢 섹션 요약 비유**: 과거엔 직원이 엑셀 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)에서 보물(인사이트)을 캐냈다면, 이제는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 비서가 보물을 찾아 책상 위에 올려놓고 "이걸로 집을 살까요?"라고 물어본다. 인간은 고개만 끄덕이면 된다.
 
 ---
 
@@ -84,7 +84,7 @@ ERP의 진화를 세대별로 비교해보면, 지향점(가치)이 철저하게
 3. <strong>설명 가능한 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/">XAI</a>)</strong>: AI가 "발주량을 2배 늘리라"고 제안했을 때, 재무 담당자가 납득할 만한 근거(근거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 추적)를 제공하는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 확립 없이 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)만 껍데기로 도입하여, 틀린 예측 값을 양산해 업무 혼란을 초래하는 경우.
+- [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) 확립 없이 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)만 껍데기로 도입하여, 틀린 예측 값을 양산해 업무 혼란을 초래하는 경우.
 - 모든 의사결정을 AI에게 전임하여 재무 사고 발생 시 책임 소재가 불분명해지는 프로세스 설계.
 
 - **📢 섹션 요약 비유**: 아무리 뛰어난 셰프([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))를 모셔와도, 냉장고에 썩은 식재료(쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 있다면 독요리밖에 나오지 않는다. 좋은 재료 준비가 먼저다.
@@ -106,7 +106,7 @@ ERP의 진화를 세대별로 비교해보면, 지향점(가치)이 철저하게
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | System of Record (SOR) | 사실을 단순히 저장하고 기록하는 구세대 ERP의 역할 |
-| [Hyperautomation](/knowledge-base/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/) ([초자동화](/knowledge-base/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/)) | [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/) 등을 결합해 복잡한 업무를 끝단까지 자동화 |
+| [Hyperautomation](/knowledge-base/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/) ([초자동화](/knowledge-base/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/)) | [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/) 등을 결합해 복잡한 업무를 끝단까지 자동화 |
 | [Predictive Analytics](/knowledge-base/studynote/16_bigdata/02_hadoop/046_predictive_analytics/) ([예측 분석](/knowledge-base/studynote/16_bigdata/02_hadoop/046_predictive_analytics/)) | 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 학습하여 미래의 결과와 수요를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 제시 |
 | [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) ([eXplainable AI](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/255_xai_lime_shap_explainable_contribution/)) | AI의 예측 결과에 대해 "왜 그렇게 판단했는지" 인간에게 이유를 설명하는 기술 |
 

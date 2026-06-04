@@ -20,7 +20,7 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - DRDoS나 대규모 볼류메트릭(Volumetric) 디도스 공격은 패킷의 덩치가 수십~수백 기가비트(Gbps)에 달합니다.
-- 기업이 수천만 원을 주고 산 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)(침입 방지 시스템) 장비는 기껏해야 10Gbps 정도만 처리할 수 있습니다. 해커의 공격이 100Gbps로 쏟아지면, [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 장비를 검사하기도 전에 인터넷 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/), 예: KT)에서 기업으로 들어오는 <strong>물리적인 랜선 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>) 자체가 꽉 차버려 병목(Choke point)</strong>이 발생해 결국 서버가 마비됩니다.
+- 기업이 수천만 원을 주고 산 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)(침입 방지 시스템) 장비는 기껏해야 10Gbps 정도만 처리할 수 있습니다. 해커의 공격이 100Gbps로 쏟아지면, [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 장비를 검사하기도 전에 인터넷 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/), 예: KT)에서 기업으로 들어오는 <strong>물리적인 랜선 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>) 자체가 꽉 차버려 병목(Choke point)</strong>이 발생해 결국 서버가 마비됩니다.
 
 ```text
 [Memcached 증폭 서버 공격 방어 미흡]
@@ -38,7 +38,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **개념**: <strong>DDoS 공격이 발생했을 때, 타겟으로 쏟아지는 엄청난 양의 트래픽을 기업 내부망이 아닌 외부의 거대한 클라우드 대피소로 강제로 돌려(우회), 그곳에서 쓰레기 악성 트래픽을 깨끗하게 씻어내고(Scrubbing) 오직 정상적인 트래픽만 걸러서 다시 기업 서버로 보내주는 디도스 완화(<a href="/knowledge-base/studynote/09_security/12_identity_threat_advanced/605_golden_silver_ticket_mitigation/">Mitigation</a>) 전용 아키텍처</strong>입니다.
-- **제공자**: 주로 전 세계적인 네트워크망을 가진 Akamai, Cloudflare, Imperva 같은 글로벌 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 업체나 KT, SKT 같은 대형 통신사([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))가 제공합니다. (Anti-DDoS [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))
+- **제공자**: 주로 전 세계적인 네트워크망을 가진 Akamai, Cloudflare, Imperva 같은 글로벌 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 업체나 KT, SKT 같은 대형 통신사([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))가 제공합니다. (Anti-DDoS [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))
 
 ```text
 [Memcached 증폭 서버 공격 방어 미흡]

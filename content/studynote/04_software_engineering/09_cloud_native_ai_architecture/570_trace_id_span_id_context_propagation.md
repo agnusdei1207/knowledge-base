@@ -26,7 +26,7 @@ tags = ["studynote-software-engineering"]
 
 - <strong>필요성 (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 프로토콜의 무상태 <a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a> 병맛)</strong>: 50대 파드가 K8s에 떠 있다. HTTP는 붕어 대가리다. 요청 끝나면 뒤돌아서 까먹는다. 앞단 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이에 1번 요청이 들어오고, 0.001초 뒤에 2번 요청이 들어왔다. 둘 다 똑같이 결제 서버를 찌른다. 결제 서버 입장에선 **"도대체 이 패킷이 아까 들어온 1번 유저 건지 2번 유저 건지 물리적으로 1도 알 길이 없다!"** 이 붕어 대가리 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 통신망에서 1번 유저의 트래픽을 끝까지 식별해 내려면, 강제로 택배 송장 바코드(`Trace ID`)를 이마에 붙이고 끝까지 넘겨주는(Propagation) 릴레이 강제 헌법이 아니면 디버깅은 수학적으로 불가능하다.
 
-- **💡 비유**: [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 전파는 클럽의 <strong>'야광 팔찌 릴레이'</strong>와 같습니다. 손님 1,000명이 우르르 클럽(K8s)에 들어옵니다. 입구 가드([API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/))가 첫 손님 손목에 파란색 야광 팔찌(`Trace ID: 파랑`)를 채웁니다. 두 번째 손님에겐 빨간색 팔찌(`Trace ID: 빨강`)를 채웁니다. 이 손님이 바텐더(결제 서버), 화장실(DB 서버)을 지나갈 때마다 직원들은 "아, 파란 팔찌 손님이네!" 하고 1초 만에 식별합니다. 만약 가드가 팔찌를 안 채웠거나, 손님이 중간에 팔찌를 잃어버리면(전파 누락), 직원들은 이 사람이 누군지, 언제 들어왔는지 알 길이 없어 쫓아내야 하는 미아가 됩니다.
+- **💡 비유**: [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 전파는 클럽의 <strong>'야광 팔찌 릴레이'</strong>와 같습니다. 손님 1,000명이 우르르 클럽(K8s)에 들어옵니다. 입구 가드([API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/))가 첫 손님 손목에 파란색 야광 팔찌(`Trace ID: 파랑`)를 채웁니다. 두 번째 손님에겐 빨간색 팔찌(`Trace ID: 빨강`)를 채웁니다. 이 손님이 바텐더(결제 서버), 화장실(DB 서버)을 지나갈 때마다 직원들은 "아, 파란 팔찌 손님이네!" 하고 1초 만에 식별합니다. 만약 가드가 팔찌를 안 채웠거나, 손님이 중간에 팔찌를 잃어버리면(전파 누락), 직원들은 이 사람이 누군지, 언제 들어왔는지 알 길이 없어 쫓아내야 하는 미아가 됩니다.
 
 - **등장 배경 및 발전 과정**:
   1. **사내 자체 규격 지옥 (과거)**: 넷플릭스는 `x-netflix-id`, 페이스북은 `x-fb-trace`... 회사마다 맘대로 헤더 이름을 파서 쓰던 파편화 원시 시대.
@@ -123,7 +123,7 @@ Trace ID와 Span ID의 전파 ([Context](/knowledge-base/studynote/02_operating_
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 Trace ID와 Span ID의 전파 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Propagation)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -177,7 +177,7 @@ Trace ID와 Span ID의 전파 (Context Propagation) 개념 정립
 
 **진행 상황**: 732 / 973
 
-<- **이전**: [570. Trace ID와 Span ID의 전파 (Context Propagation)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/570_trace_id_and_span_id_propagation/)
-**다음**: [571. 탄력성 (Resiliency) 및 결함 허용 (Fault Tolerance) 패턴](/knowledge-base/studynote/04_software_engineering/11_testing_validation/571_resiliency_and_fault_tolerance_patterns/) ->
+<- **이전**: [570. Trace ID와 Span ID의 전파 (Context Propagation)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/962_trace_id_and_span_id_propagation/)
+**다음**: [571. 탄력성 (Resiliency) 및 결함 허용 (Fault Tolerance) 패턴](/knowledge-base/studynote/04_software_engineering/11_testing_validation/963_resiliency_and_fault_tolerance_patterns/) ->
 
 ---

@@ -136,7 +136,7 @@ Identity [Protection](/knowledge-base/studynote/02_operating_system/10_security/
 
 **진행 상황**: 677 / 1108
 
-<- **이전**: [612. 의존성 보안 관리 (Dependency Security Management)](/knowledge-base/studynote/09_security/uncategorized/612_dependency_management/)
-**다음**: [613. 정적 분석과 동적 분석 (SAST & DAST)](/knowledge-base/studynote/09_security/uncategorized/613_static_dynamic_analysis/) ->
+<- **이전**: [612. 의존성 보안 관리 (Dependency Security Management)](/knowledge-base/studynote/09_security/uncategorized/1042_dependency_management/)
+**다음**: [613. 정적 분석과 동적 분석 (SAST & DAST)](/knowledge-base/studynote/09_security/uncategorized/1043_static_dynamic_analysis/) ->
 
 ---

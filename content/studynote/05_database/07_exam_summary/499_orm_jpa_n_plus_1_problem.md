@@ -114,7 +114,7 @@ ORM 객체 매핑 JPA N+1 질의 문제는 응용 아키텍처 관점에서 자�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [데이터 옵스](/knowledge-base/studynote/05_database/07_exam_summary/498_dataops_automation_pipeline/) ([DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/)) 자동화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
+| [데이터 옵스](/knowledge-base/studynote/05_database/07_exam_summary/498_dataops_automation_pipeline/) ([DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/965_dataops/)) 자동화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
 | [역색인](/knowledge-base/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/) ([Inverted Index](/knowledge-base/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/)) 엘라스틱 서치 단어 포인터 | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
 | [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) ([Command Query Responsibility Segregation](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/250_cqrs_command_query_responsibility_segregation_pattern/)) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
 | [폴리글랏 퍼시스턴스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/) | 운영·설계 판단을 연결해 주는 주변 개념이다. |

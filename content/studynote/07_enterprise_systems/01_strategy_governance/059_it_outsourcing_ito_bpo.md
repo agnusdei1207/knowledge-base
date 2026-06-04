@@ -13,7 +13,7 @@ tags = ["studynote-enterprise-systems"]
 
 > 1. **본질**: [ITO](/knowledge-base/studynote/12_it_management/01_governance_strategy/043_it_outsourcing_ito_strategy/)(Information Technology Outsourcing)는 IT 운영·개발을, [BPO](/knowledge-base/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/)([Business Process Outsourcing](/knowledge-base/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/))는 업무 프로세스 자체를 외부 전문업체에 맡기는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 > 2. **가치**: 비용 절감과 핵심 역량 집중이 가능하지만, 내부 역량 약화와 [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)([lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/)) 위험이 따라온다.
-> 3. **판단 포인트**: [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)), 보안, 전환/철수 계획, 지식 이전을 설계하지 않으면 아웃소싱은 실패한다.
+> 3. **판단 포인트**: [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)), 보안, 전환/철수 계획, 지식 이전을 설계하지 않으면 아웃소싱은 실패한다.
 
 ---
 
@@ -46,7 +46,7 @@ SLA / KPI / 보안 / 정산
 | 대상 | IT 인프라, 개발, 운영 | 회계, 인사, 콜센터 등 업무 프로세스 |
 | 목적 | 운영 효율, 전문성 확보 | 비핵심 업무의 표준화와 비용 절감 |
 | 위험 | 기술 종속, 운영 중단 | 품질 편차, 정보 유출 |
-| 핵심 계약 | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), 유지보수 범위 | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 응답시간, 정산 규칙 |
+| 핵심 계약 | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/), 유지보수 범위 | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/), [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 응답시간, 정산 규칙 |
 
 아웃소싱은 "밖에 맡긴다"로 끝나지 않는다. 책임 경계, 성과 지표, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권, [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/)을 계약으로 못 박아야 한다.
 
@@ -77,7 +77,7 @@ ITO는 시스템 운영과 기술 지원에 강하고, BPO는 업무 단위의 �
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 핵심 역량과 비핵심 업무를 분리했는가?
-2. [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/), 보안 책임 범위가 문서화되어 있는가?
+2. [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/), [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/), 보안 책임 범위가 문서화되어 있는가?
 3. 지식 이전과 철수(exit) 계획이 있는가?
 4. 장애·보안사고 대응 책임이 명확한가?
 

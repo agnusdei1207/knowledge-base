@@ -56,7 +56,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-미국 NIST가 전 세계 천재들을 모아놓고 공모전을 열어, 2022년~2024년에 걸쳐 차세대 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 최종 승자 표준들을 발표했습니다. 그중 핵심은 <strong>'격자(Lattice) 기반 암호'</strong>입니다.
+미국 NIST가 전 세계 천재들을 모아놓고 공모전을 열어, 2022년~2024년에 걸쳐 차세대 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) 최종 승자 표준들을 발표했습니다. 그중 핵심은 <strong>'격자(Lattice) 기반 암호'</strong>입니다.
 - **원리 (LWE 문제)**: 3차원, 혹은 100차원의 우주 공간에 점(격자)을 무수히 많이 찍어놓습니다. 그리고 원점에서 출발해 특정 점까지 가장 짧은 거리를 찾으라는 기하학적 문제입니다.
 - **왜 못 푸는가?**: 이 문제는 점의 배열에 노이즈(오차)를 살짝 섞어버리면, 현재의 슈퍼컴퓨터는 물론이고 모든 경우의 수를 뚫어보는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/">양자 컴퓨터</a>(쇼어 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>)조차 갈피를 못 잡고 미로에 빠져버리는 수학적으로 증명된 난제(<a href="/knowledge-base/studynote/08_algorithm_stats/06_np_theory/109_np_hard/">NP-Hard</a>)</strong>입니다.
 - 이 밖에도 다변수 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/), 해시 기반 서명([SPHINCS](/knowledge-base/studynote/09_security/03_network_security/149_sphincs_slh_dsa/)+) 등의 새로운 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)들이 차세대 표준으로 무장 중입니다.
@@ -76,7 +76,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - **Store Now, Decrypt Later (SNDL 공격)**: 해커 국가(중국, 북한)들은 당장 암호를 못 풀더라도, 미국이나 한국의 1급 군사 기밀 패킷을 무작정 훔쳐서 하드디스크에 저장(Store Now)해두고 있습니다. 10년 뒤 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)가 나오면 그때 풀어서 읽으려고(Decrypt Later) 말이죠.
-- 이 때문에 애플(iMessage), 구글 크롬, 정부 기관들은 위기감을 느끼고, 기존의 전통적인 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/">ECC</a> 키 교환과 최신 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/">PQC</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>을 2중으로 겹쳐서 암호화하는 '하이브리드(Hybrid)' 방식</strong>을 오늘 당장 통신망 패치에 긴급 투입하여 선제적 방어를 시작하고 있습니다.
+- 이 때문에 애플(iMessage), 구글 크롬, 정부 기관들은 위기감을 느끼고, 기존의 전통적인 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/">ECC</a> 키 교환과 최신 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/">PQC</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>을 2중으로 겹쳐서 암호화하는 '하이브리드(Hybrid)' 방식</strong>을 오늘 당장 통신망 패치에 긴급 투입하여 선제적 방어를 시작하고 있습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -84,7 +84,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 암호가 1,000만 피스로 이루어진 초거대 '2D 직소 퍼즐'이라면 일반인은 평생 못 맞추지만, 헬기를 타고 하늘 위에서 내려다볼 수 있는 '[양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)'는 10분 만에 퍼즐을 완성해 버립니다. [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/)(격자 암호)는 퍼즐을 100차원 우주 공간의 입체 미로로 바꿔버리는 수학적 진화입니다. 헬기를 타고 보더라도 길이 끊겨있고 안개가 껴 있어서, [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) 할아버지라도 절대 길을 찾지 못하고 무력화되는 현대 수학의 최고 방패입니다.
+- **📢 섹션 요약 비유**: 기존 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 암호가 1,000만 피스로 이루어진 초거대 '2D 직소 퍼즐'이라면 일반인은 평생 못 맞추지만, 헬기를 타고 하늘 위에서 내려다볼 수 있는 '[양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)'는 10분 만에 퍼즐을 완성해 버립니다. [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/)(격자 암호)는 퍼즐을 100차원 우주 공간의 입체 미로로 바꿔버리는 수학적 진화입니다. 헬기를 타고 보더라도 길이 끊겨있고 안개가 껴 있어서, [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) 할아버지라도 절대 길을 찾지 못하고 무력화되는 현대 수학의 최고 방패입니다.
 
 ---
 

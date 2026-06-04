@@ -21,16 +21,16 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)([Spike](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/))는 배구화의 '뾰족한 징'이나 차트의 뾰족한 솟구침을 뜻한다. 평소 100명이 쓰던 쇼핑몰에, 밤 12시 00초 정각 '선착순 아이패드 반값 세일'이 시작되자마자 10만 명의 트래픽이 벼락처럼 꽂히는 현상을 인위적으로 시뮬레이션한다.
 
-- **필요성**: 기존의 부하/[스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/)는 트래픽을 서서히 올렸다(계단식). 그러면 AWS 오토스케일링 그룹이 "어? CPU 올라가네? 서버 2대 띄워!"라며 대응할 여유가 있었다. 하지만 현실의 이벤트(BTS 티켓팅, 재난 문자 푸시)는 대응할 1분의 시간도 주지 않고 1초 만에 서버를 박살 낸다. 오토스케일링 서버가 채 부팅되기도 전에 이미 톰캣(Tomcat) 커넥션 풀이 메말라 터져버린다. 이 <strong>'초 단위의 절벽 충격'</strong>을 버텨낼 수증기(캐시, 큐) 방어막이 제대로 작동하는지 증명해야만 한다.
+- **필요성**: 기존의 부하/[스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/839_stress_test/)는 트래픽을 서서히 올렸다(계단식). 그러면 AWS 오토스케일링 그룹이 "어? CPU 올라가네? 서버 2대 띄워!"라며 대응할 여유가 있었다. 하지만 현실의 이벤트(BTS 티켓팅, 재난 문자 푸시)는 대응할 1분의 시간도 주지 않고 1초 만에 서버를 박살 낸다. 오토스케일링 서버가 채 부팅되기도 전에 이미 톰캣(Tomcat) 커넥션 풀이 메말라 터져버린다. 이 <strong>'초 단위의 절벽 충격'</strong>을 버텨낼 수증기(캐시, 큐) 방어막이 제대로 작동하는지 증명해야만 한다.
 
-- **💡 비유**: [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 테스트는 자동차의 <strong>'급브레이크 / 에어백 테스트'</strong>와 같습니다. 자동차를 서서히 가속해서 시속 200km를 달리는 것([스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/))은 엔진의 힘입니다. 하지만 시속 100km로 잘 가다가 갑자기 1초 만에 콘크리트 벽에 쾅 들이받았을 때([스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)), 0.1초 만에 에어백([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)/Cache)이 터져 나와 운전자(서버)의 목숨을 구하는지를 테스트하는 극강의 순발력 검증입니다.
+- **💡 비유**: [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 테스트는 자동차의 <strong>'급브레이크 / 에어백 테스트'</strong>와 같습니다. 자동차를 서서히 가속해서 시속 200km를 달리는 것([스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/839_stress_test/))은 엔진의 힘입니다. 하지만 시속 100km로 잘 가다가 갑자기 1초 만에 콘크리트 벽에 쾅 들이받았을 때([스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)), 0.1초 만에 에어백([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)/Cache)이 터져 나와 운전자(서버)의 목숨을 구하는지를 테스트하는 극강의 순발력 검증입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **오토스케일링의 환상**: 클라우드 시대가 되면서 "트래픽 오면 서버 무한대로 늘리면 되지!"라고 자만했다.
   2. **서버 예열(Pre-warming)의 한계**: 서버가 늘어나려면 부팅하고 Java 띄우는 데 최소 1~2분이 걸린다. 1초 만에 수만 명이 쏟아지면 서버가 늘어나기 전에 싹 다 폭파되는 대참사가 발생했다.
   3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/">스파이크</a> 대처 아키텍처 등장 (현재)</strong>: [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)) 같은 거대한 큐(대기열)를 앞에 세우고 뒤로 천천히 보내거나, 앞단 캐시([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/))로 방어하는 아키텍처가 필수화되며, 이를 검증하는 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 테스트가 중요해졌다.
 
-- **📢 섹션 요약 비유**: 댐 관리입니다. [스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/)가 '장마철에 물이 서서히 댐 위까지 차올라도 댐이 무너지지 않는가?'를 본다면, [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 테스트는 '댐 위로 갑자기 거대한 쓰나미(파도)가 1초 만에 덮쳐왔을 때 수문이 찰나의 충격을 흡수해 내는가?'를 보는 것입니다.
+- **📢 섹션 요약 비유**: 댐 관리입니다. [스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/839_stress_test/)가 '장마철에 물이 서서히 댐 위까지 차올라도 댐이 무너지지 않는가?'를 본다면, [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 테스트는 '댐 위로 갑자기 거대한 쓰나미(파도)가 1초 만에 덮쳐왔을 때 수문이 찰나의 충격을 흡수해 내는가?'를 보는 것입니다.
 
 ---
 
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 테스트 ([Spike](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) Test)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 488 / 973
 
-<- **이전**: [448. 스파이크 테스트 (Spike Test)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/448_spike_test/)
-**다음**: [449. 내구성 테스트 (Endurance / Soak Test)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/449_endurance_soak_test/) ->
+<- **이전**: [448. 스파이크 테스트 (Spike Test)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/840_spike_test/)
+**다음**: [449. 내구성 테스트 (Endurance / Soak Test)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/841_endurance_soak_test/) ->
 
 ---

@@ -20,7 +20,7 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 일반 가정이나 소규모 사무실에서 사용하는 '공유기(예: 아이피타임)'는 단순한 스위치가 아닙니다.
-인터넷 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/), 예: KT)로부터 받은 **단 1개의 공인 IP(Public IP)** 를 가지고, 집 안의 <strong>여러 대의 기기(스마트폰, <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>)가 동시에 인터넷을 쓸 수 있게</strong> 만들어 주는 완벽한 네트워크 복합 장비입니다.
+인터넷 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/), 예: KT)로부터 받은 **단 1개의 공인 IP(Public IP)** 를 가지고, 집 안의 <strong>여러 대의 기기(스마트폰, <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>)가 동시에 인터넷을 쓸 수 있게</strong> 만들어 주는 완벽한 네트워크 복합 장비입니다.
 
 ```text
 [DHCP Snooping]

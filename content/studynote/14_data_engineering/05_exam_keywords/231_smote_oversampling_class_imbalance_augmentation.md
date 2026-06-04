@@ -203,7 +203,7 @@ x_new = x_i + λ × (x_nn - x_i)
 
 SMOTE는 클래스 불균형 문제 해결의 사실상 표준 기법이지만 만능이 아니다. [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 공간 특성, 불균형 비율, 과적합 위험을 종합 고려해 적합한 변형 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 언더샘플링 조합을 선택해야 한다. 무엇보다 Accuracy가 아닌 F1·AUC·[PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)-AUC 기반 평가가 필수이며, [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Leakage 방지를 위해 학습/평가 분리 파이프라인 설계가 선행되어야 한다.
 
-📢 **섹션 요약 비유**: SMOTE는 시험 공부할 때 핵심 유형 문제를 더 많이 만들어 연습하는 것이다. 단, 실제 시험([테스트 데이터](/knowledge-base/studynote/04_software_engineering/11_testing_validation/444_test_data_management/))에는 그 연습 문제가 들어가면 안 된다—그건 답 알려주는 것과 같으니까.
+📢 **섹션 요약 비유**: SMOTE는 시험 공부할 때 핵심 유형 문제를 더 많이 만들어 연습하는 것이다. 단, 실제 시험([테스트 데이터](/knowledge-base/studynote/04_software_engineering/11_testing_validation/836_test_data_management/))에는 그 연습 문제가 들어가면 안 된다—그건 답 알려주는 것과 같으니까.
 
 ### 📌 관련 개념 맵
 
@@ -216,7 +216,7 @@ SMOTE는 클래스 불균형 문제 해결의 사실상 표준 기법이지만 �
 | 반대 방향 해법 | 언더샘플링 (UnderSampling) | 다수 클래스 제거로 균형 달성 |
 | 조합 기법 | SMOTEENN / SMOTETomek | 오버+언더샘플링 하이브리드 |
 | 평가 지표 | [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)-AUC / F1 / G-Mean | 불균형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 핵심 지표 |
-| 주의사항 | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Leakage | [테스트 데이터](/knowledge-base/studynote/04_software_engineering/11_testing_validation/444_test_data_management/)에 SMOTE 적용 금지 |
+| 주의사항 | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Leakage | [테스트 데이터](/knowledge-base/studynote/04_software_engineering/11_testing_validation/836_test_data_management/)에 SMOTE 적용 금지 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

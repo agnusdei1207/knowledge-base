@@ -32,7 +32,7 @@ DX는 이런 마찰을 줄여, 개발자가 비즈니스 로직에 집중하게 
 좋은 DX는 단순한 예쁜 화면이 아니라 작업 흐름 전체를 포함한다.
 
 - 로컬 개발 환경
-- [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
+- [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 - 배포 절차
 - [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링
 - 승인과 권한
@@ -49,7 +49,7 @@ DX는 이런 마찰을 줄여, 개발자가 비즈니스 로직에 집중하게 
 
 - 템플릿화된 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 - 표준화된 배포 경로
-- [셀프 서비스 포털](/knowledge-base/studynote/12_it_management/02_itsm_itil/098_self_service_portal_helpdesk_automation/)
+- [셀프 서비스 포털](/knowledge-base/studynote/12_it_management/02_itsm_itil/882_self_service_portal_helpdesk_automation/)
 - 공통 관측성 제공
 
 이 구조가 있으면 개발자는 공통 인프라를 직접 만지지 않아도 된다.

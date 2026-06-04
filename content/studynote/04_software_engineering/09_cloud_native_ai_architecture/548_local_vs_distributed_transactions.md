@@ -31,7 +31,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **오라클(RDBMS) 황제의 시대 (로컬 통일)**: 모든 회사가 수백억짜리 거대 DB 1대에 테이블 10만 개를 구겨 넣었다. DB 엔진이 알아서 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어줘서 개발자는 `@Transactional` 딱지 1개면 꿀을 빨았다.
   2. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/">2PC</a> (<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/">Two-Phase Commit</a>)의 등장과 멸망 (과도기)</strong>: DB가 2개로 찢어졌다. 무식하게 코디네이터를 세우고 "1번 DB 준비됐어? 2번 DB 준비됐어? 오케이 둘 다 1,2,3 하면 동시에 커밋 때려!"라고 억지 자물쇠를 채웠다. 1대가 대답 안 하면 전체 시스템이 대기하며([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 성능이 박살 나 버려졌다.
-  3. <strong>BASE 이론과 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/">사가 패턴</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/">Saga Pattern</a>)의 대세화 (현재)</strong>: "야, 억지로 묶지 마! 클라우드에선 무조건 에러 나. 그냥 쿨하게 일단 돈부터 빼(Commit). 근데 상대방 배송 서버가 터졌어? 그럼 나중에 비동기로 **"돈 다시 돌려줌(보상 이벤트)"** 편지 1장 쏴서 뒷수습해!" 완벽한 일치(ACID)를 포기하고, 결국엔 언젠가 맞아떨어진다([Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/))는 실용주의 타협안이 마이크로서비스를 천하 통일했다.
+  3. <strong>BASE 이론과 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/">사가 패턴</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/948_saga_pattern/">Saga Pattern</a>)의 대세화 (현재)</strong>: "야, 억지로 묶지 마! 클라우드에선 무조건 에러 나. 그냥 쿨하게 일단 돈부터 빼(Commit). 근데 상대방 배송 서버가 터졌어? 그럼 나중에 비동기로 **"돈 다시 돌려줌(보상 이벤트)"** 편지 1장 쏴서 뒷수습해!" 완벽한 일치(ACID)를 포기하고, 결국엔 언젠가 맞아떨어진다([Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/))는 실용주의 타협안이 마이크로서비스를 천하 통일했다.
 
 - **📢 섹션 요약 비유**: 로컬 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 <strong>'결혼식장 주례 선생님 앞에서의 동시 혼인 서약'</strong>입니다. 둘 중 하나라도 "아니오(에러)" 하면 결혼([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)) 자체가 그 자리에서 통째로 1초 만에 취소([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))됩니다. [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/)([Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/))은 <strong>'미국과 한국에 떨어져 사는 화상 통화 결혼'</strong>입니다. 한국(결제)에서 먼저 "네" 하고 1달 살았습니다. 근데 한 달 뒤 미국(배송)에서 "아니오"라고 편지가 옵니다. 그러면 어쩔 수 없이 한국에서 <strong>이혼 서류(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/">보상 트랜잭션</a>/환불)</strong>에 도장을 찍고 다시 솔로로 돌아가 뒷수습을 하는, 길고 험난하지만 시스템이 물리적으로 묶여 뻗는 건 막아주는 독립적 절차입니다.
 
@@ -123,7 +123,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 로컬 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) (Local [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)) vs [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) ([Distributed Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/))은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -177,7 +177,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 688 / 973
 
-<- **이전**: [548. 로컬 트랜잭션 (Local Transaction) vs 분산 트랜잭션 (Distributed Transaction)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/548_local_vs_distributed_transaction/)
+<- **이전**: [548. 로컬 트랜잭션 (Local Transaction) vs 분산 트랜잭션 (Distributed Transaction)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/940_local_vs_distributed_transaction/)
 **다음**: [549. 2PC (Two-Phase Commit)의 MSA 적용 한계](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) ->
 
 ---

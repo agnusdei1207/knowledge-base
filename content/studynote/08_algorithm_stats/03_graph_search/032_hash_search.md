@@ -71,7 +71,7 @@ h("apple") = ASCII합 mod 7 = 530 mod 7 = 5 -> 인덱스 5
 
 ### 충돌 처리 ([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) Resolution)
 
-<strong>1. 체이닝 (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/">Chaining</a>)</strong>
+<strong>1. 체이닝 (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/">Chaining</a>)</strong>
 - 같은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)로 추가
 - 공간 제한 없음, 삭제 간편
 - 메모리 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), 포인터 추가 비용

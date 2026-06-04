@@ -56,7 +56,7 @@ RTM이 해결하고자 하는 '요구사항과 산출물 간의 단절 문제'�
   +-----------------------------------------------------------+
 ```
 
-  **[다이어그램 해설]** 그림 상단은 추적성이 없을 때 요구사항이 설계와 테스트로 어떻게 연결되는지 알 수 없는 혼돈 상태를 나타낸다. 하단의 RTM 기반 체계에서는 단일 요구사항 (REQ-01)이 설계 문서 (DES-101), 실제 소스 코드 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) (MOD-A, MOD-B), 그리고 이를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) (TC-001, TC-002)와 명시적으로 연결되어 있다. 순방향 추적은 요구사항이 최종 제품에 누락 없이 반영되었는지 보장하며, 역방향 추적은 특정 테스트 실패나 코드 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 어떤 요구사항을 위해 존재하는지 근거를 제공한다. 이는 변경 영향도 분석의 핵심 기반이 된다.
+  **[다이어그램 해설]** 그림 상단은 추적성이 없을 때 요구사항이 설계와 테스트로 어떻게 연결되는지 알 수 없는 혼돈 상태를 나타낸다. 하단의 RTM 기반 체계에서는 단일 요구사항 (REQ-01)이 설계 문서 (DES-101), 실제 소스 코드 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) (MOD-A, MOD-B), 그리고 이를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) (TC-001, TC-002)와 명시적으로 연결되어 있다. 순방향 추적은 요구사항이 최종 제품에 누락 없이 반영되었는지 보장하며, 역방향 추적은 특정 테스트 실패나 코드 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 어떤 요구사항을 위해 존재하는지 근거를 제공한다. 이는 변경 영향도 분석의 핵심 기반이 된다.
 
 - **📢 섹션 요약 비유**: 건물 설계도(요구사항)의 모든 철근(코드)과 시멘트가 실제 건축물에 정확히 들어갔는지, 잉여 자재가 남거나 모자라지 않는지 대조하는 정밀한 회계 장부와 같습니다.
 
@@ -131,7 +131,7 @@ RTM이 해결하고자 하는 '요구사항과 산출물 간의 단절 문제'�
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 요구사항 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 추적성 매트릭스 (RTM)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

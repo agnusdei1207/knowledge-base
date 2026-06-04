@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 435 / 587
 
-<- **이전**: [294. COCOMO 비용 산정 (유기적, 준분리, 내장형)](/knowledge-base/studynote/12_it_management/05_security_compliance/294_cocomo_review/)
+<- **이전**: [294. COCOMO 비용 산정 (유기적, 준분리, 내장형)](/knowledge-base/studynote/12_it_management/05_security_compliance/940_cocomo_review/)
 **다음**: [296. EAI 허브 앤 스포크 포인트 투 포인트](/knowledge-base/studynote/12_it_management/05_security_compliance/296_eai_hub_spoke_p2p/) ->
 
 ---

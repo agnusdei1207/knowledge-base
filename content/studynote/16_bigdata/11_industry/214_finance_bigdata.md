@@ -27,8 +27,8 @@ tags = ["studynote-bigdata"]
 |:---|:---|:---|
 | 신용 평가 | 소득·자산 3개 지표 | 통신비 납부 이력·유통 구매 패턴 등 수백 가지 대안 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | 사기 탐지 | 규칙 기반 ([임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 초과 시 차단) | 실시간 ML·[그래프 분석](/knowledge-base/studynote/16_bigdata/05_analysis/114_graph_analytics/) -> 미지의 패턴 감지 |
-| [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리 | 역사적 VaR (Value at [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) | 시뮬레이션 + [스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/) + 시나리오 분석 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 수행 |
-| 거래 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 인간 트레이더 판단 | 고빈도 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) + 뉴스 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/) |
+| [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리 | 역사적 VaR (Value at [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) | 시뮬레이션 + [스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/839_stress_test/) + 시나리오 분석 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 수행 |
+| 거래 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 인간 트레이더 판단 | 고빈도 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) + 뉴스 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/) |
 
 > 📢 **섹션 요약 비유**: 금융 빅데이터는 "도시 전체의 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) + 신용카드 내역을 동시에 보는 탐정"이다. 과거에는 한 장의 재무제표만 보았다면, 이제는 수백만 개의 행동 기록이 증거가 된다.
 
@@ -125,7 +125,7 @@ tags = ["studynote-bigdata"]
 |:---|:---|:---|:---|:---|
 | 신용 평가 | 상환 능력 예측 | [Gradient Boosting](/knowledge-base/studynote/10_ai/01_ai_basics/034_gradient_boosting/), [Logistic Regression](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/) | 배치, 수백 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) | 수분~수시간 |
 | [FDS](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/267_gnn_fraud_detection_knowledge_graph/) (이상거래) | 실시간 사기 차단 | [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Forest, GBM, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB | 스트리밍, 저지연 | < 200ms |
-| [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리 | VaR, [스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/) | Monte Carlo 시뮬레이션, 시나리오 분석 | 배치 대용량 | 수분 |
+| [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리 | VaR, [스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/839_stress_test/) | Monte Carlo 시뮬레이션, 시나리오 분석 | 배치 대용량 | 수분 |
 | 알고트레이딩 | 수익 기회 포착 | [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/), 강화학습, 통계적 차익 | 틱 스트리밍 | μs~ms |
 
 ### 연관 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)
@@ -187,7 +187,7 @@ tags = ["studynote-bigdata"]
 | 사기 손실 감소 | [FDS](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/267_gnn_fraud_detection_knowledge_graph/) 도입 시 카드 사기 손실 50~70% 감소 |
 | 신용평가 포용성 | 금융 이력 부족자(Thin-filer) 15~30% 추가 포용 |
 | 알고트레이딩 효율 | 인간 트레이더 대비 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~100배 빠른 실행, 24/7 무중단 |
-| [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리 비용 | [스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/) 자동화로 인건비 40% 절감 |
+| [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리 비용 | [스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/839_stress_test/) 자동화로 인건비 40% 절감 |
 
 **결론**: 금융 빅데이터는 기존 규칙 기반 의사결정 시스템을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주도형으로 전환하는 핵심 동력이다. 실시간성·설명가능성·규제 준수의 삼각 균형이 성공의 열쇠이며, 기술사는 비즈니스 임팩트와 윤리적 위험을 함께 설계해야 한다.
 
@@ -201,7 +201,7 @@ tags = ["studynote-bigdata"]
 |:---|:---|:---|
 | [FDS](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/267_gnn_fraud_detection_knowledge_graph/) (이상거래탐지시스템) | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), Flink, [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Forest, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB | 금융 보안의 핵심 |
 | ACS (대안 신용평가) | XGBoost, [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/), [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/) | 금융 포용성 |
-| VaR (Value at [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) | Monte Carlo, [스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/) | [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 정량화 |
+| VaR (Value at [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) | Monte Carlo, [스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/839_stress_test/) | [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 정량화 |
 | 알고트레이딩 | [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/), 강화학습, 틱 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), OMS | 시장 미시구조 |
 | UBI (Usage-Based Insurance) | 텔레매틱스, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) | 보험 응용 연계 |
 

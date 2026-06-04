@@ -143,7 +143,7 @@ Tableau Pulse는 [AI](/knowledge-base/studynote/04_software_engineering/03_desig
 |:---|:---|
 | **분석 민주화** | SQL 비전문가도 복잡한 분석 가능 |
 | **인사이트 속도** | 리포트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시간 80% 단축 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">데이터 거버넌스</a></strong> | Tableau Server의 중앙 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·접근 제어 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/">데이터 거버넌스</a></strong> | Tableau Server의 중앙 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·접근 제어 |
 | **협업** | Tableau Server/Cloud 대시보드 공유 |
 
 ### 결론

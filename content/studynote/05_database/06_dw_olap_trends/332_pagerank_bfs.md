@@ -11,7 +11,7 @@ tags = ["studynote-database"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) ([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))는 보고서 축 전환 (행렬 변환)에 초점을 둔 분석 플랫폼 개념이다.
+> 1. **본질**: [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/) ([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/))는 보고서 축 전환 (행렬 변환)에 초점을 둔 분석 플랫폼 개념이다.
 > 2. **가치**: 의사결정 속도, 이력 분석, 대용량 조회 효율을 높일 수 있다. 특히 `피벗 (Pivot)`는 `보고서 축 전환 (행렬 변환)`를 설계 판단으로 연결해 준다.
 > 3. **판단 포인트**: 모델을 잘못 잡으면 배치 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 중복 적재, 지표 불일치가 누적된다. 따라서 무엇을 우선 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)할지와 어느 비용을 감수할지를 함께 봐야 한다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-[피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) ([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))는 보고서 축 전환 (행렬 변환)에 초점을 둔 분석 플랫폼 개념이다. 이 주제가 필요한 이유는 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 분석 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 같은 방식으로 다루면 집계 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 조회 비용이 커지기 때문이다. 특히 `슬라이스 (Slice)`에서 드러난 한계를 줄이고 `다차원 모델링` 같은 후속 판단의 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 세울 때 현재 개념이 중심축이 된다.
+[피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/) ([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/))는 보고서 축 전환 (행렬 변환)에 초점을 둔 분석 플랫폼 개념이다. 이 주제가 필요한 이유는 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 분석 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 같은 방식으로 다루면 집계 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 조회 비용이 커지기 때문이다. 특히 `슬라이스 (Slice)`에서 드러난 한계를 줄이고 `다차원 모델링` 같은 후속 판단의 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 세울 때 현재 개념이 중심축이 된다.
 
 시험과 실무에서 `피벗 (Pivot)`를 따로 외우기보다, "무엇을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하거나 최적화하려는가"라는 질문으로 연결해야 오래 남는다. 하루 수십 TB를 적재하는 환경에서는 적재 속도, 변환 위치, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 비용을 함께 최적화해야 한다.
 

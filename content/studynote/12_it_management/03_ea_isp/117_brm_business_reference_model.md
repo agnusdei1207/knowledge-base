@@ -67,11 +67,11 @@ BRM (Business [Reference Model](/knowledge-base/studynote/12_it_management/03_ea
 
 | 비교 대상 | 차이점 | 연결 포인트 |
 |:---|:---|:---|
-| [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)와 교환 기준에 초점 | BRM은 어떤 업무가 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰는지 연결 |
+| [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/903_drm_data_reference_model_standard/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)와 교환 기준에 초점 | BRM은 어떤 업무가 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰는지 연결 |
 | [SRM](/knowledge-base/studynote/12_it_management/03_ea_isp/118_srm_service_reference_model/) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 애플리케이션 기능 표준화 | BRM은 업무 기능 관점에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 필요성을 설명 |
 | [TRM](/knowledge-base/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model/) | 기술 인프라와 표준 규격을 다룸 | BRM은 기술 선택의 업무 근거를 제공 |
 
-실무에서는 BRM을 단독 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)표로 두기보다, [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)·[EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/)·포트폴리오 관리의 상위 기준으로 사용해야 효과가 크다.
+실무에서는 BRM을 단독 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)표로 두기보다, [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)·[EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/)·포트폴리오 관리의 상위 기준으로 사용해야 효과가 크다.
 
 - **📢 섹션 요약 비유**: 지도와 나침반, 여행 일정표를 함께 보는 장거리 여행 준비와 같다.
 
@@ -86,13 +86,13 @@ BRM (Business [Reference Model](/knowledge-base/studynote/12_it_management/03_ea
 1. 업무 기능 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기준이 조직 개편 이후에도 유지될 수 있을 만큼 안정적인가?
 2. 기능 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)와 시스템·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 매핑이 실제로 관리되는가?
 3. 중복 투자나 누락 기능을 식별해 예산·로드맵에 반영하는가?
-4. [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)이 [현행화](/knowledge-base/studynote/12_it_management/03_ea_isp/125_asis_update_ea_maintenance_synchronization/)되어 다음 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)·[EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 과제로 이어지는가?
+4. [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)이 [현행화](/knowledge-base/studynote/12_it_management/03_ea_isp/909_asis_update_ea_maintenance_synchronization/)되어 다음 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)·[EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 과제로 이어지는가?
 
 ### 자주 발생하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)표만 만들고 실제 시스템·예산 심의에 쓰지 않는 경우
 - 조직도 기준으로만 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 기관 간 비교가 어려운 경우
-- [현행화](/knowledge-base/studynote/12_it_management/03_ea_isp/125_asis_update_ea_maintenance_synchronization/) 없이 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 수립 문서로만 남겨 두는 경우
+- [현행화](/knowledge-base/studynote/12_it_management/03_ea_isp/909_asis_update_ea_maintenance_synchronization/) 없이 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 수립 문서로만 남겨 두는 경우
 
 - **📢 섹션 요약 비유**: 지도 없이 길을 떠나지 않듯, 실무에서도 업무 기능 지도를 먼저 맞춰야 정보화 길이 보인다.
 
@@ -100,9 +100,9 @@ BRM (Business [Reference Model](/knowledge-base/studynote/12_it_management/03_ea
 
 ## Ⅴ. 기대효과 및 결론
 
-BRM (Business [Reference Model](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/), 업무 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/))이 정착되면 조직은 업무 기능 기준으로 투자와 아키텍처를 설명할 수 있게 된다. 그 결과 중복 시스템이 줄고, 업무-[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)-기술의 추적성이 확보되며, 후속 ISP나 [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) 수립도 더 정교해진다.
+BRM (Business [Reference Model](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/), 업무 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/))이 정착되면 조직은 업무 기능 기준으로 투자와 아키텍처를 설명할 수 있게 된다. 그 결과 중복 시스템이 줄고, 업무-[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)-기술의 추적성이 확보되며, 후속 ISP나 [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 수립도 더 정교해진다.
 
-다만 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계가 현행 업무 변화를 따라가지 못하면 형식적 문서가 될 수 있다. 따라서 BRM은 한 번 만드는 표가 아니라, 지속적으로 [현행화](/knowledge-base/studynote/12_it_management/03_ea_isp/125_asis_update_ea_maintenance_synchronization/)되고 다른 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)과 연동되는 살아 있는 기준으로 운영해야 한다.
+다만 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계가 현행 업무 변화를 따라가지 못하면 형식적 문서가 될 수 있다. 따라서 BRM은 한 번 만드는 표가 아니라, 지속적으로 [현행화](/knowledge-base/studynote/12_it_management/03_ea_isp/909_asis_update_ea_maintenance_synchronization/)되고 다른 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)과 연동되는 살아 있는 기준으로 운영해야 한다.
 
 - **📢 섹션 요약 비유**: 좋은 아키텍처 문서는 장식용 포스터가 아니라 실제 공사 순서를 정하는 설계도와 같다.
 
@@ -140,7 +140,7 @@ BRM (Business [Reference Model](/knowledge-base/studynote/12_it_management/03_ea
 
 **진행 상황**: 217 / 587
 
-<- **이전**: [116. 참조 모델 (Reference Model)](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model_brm_drm_srm_trm/)
-**다음**: [117. BRM (Business Reference Model, 업무 참조 모델)](/knowledge-base/studynote/12_it_management/03_ea_isp/117_brm_business_reference_model_function/) ->
+<- **이전**: [116. 참조 모델 (Reference Model)](/knowledge-base/studynote/12_it_management/03_ea_isp/900_reference_model_brm_drm_srm_trm/)
+**다음**: [117. BRM (Business Reference Model, 업무 참조 모델)](/knowledge-base/studynote/12_it_management/03_ea_isp/901_brm_business_reference_model_function/) ->
 
 ---

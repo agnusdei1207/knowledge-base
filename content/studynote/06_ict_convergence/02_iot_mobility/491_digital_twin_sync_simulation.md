@@ -63,7 +63,7 @@ NASA가 우주선 건강 모니터링을 위해 물리 시스템의 디지털 [�
 | 부품 트윈([Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) Twin) | 개별 부품 단위 모델 | 베어링 마모 예측 |
 | 자산 트윈(Asset Twin) | 설비·기계 단위 | 터빈 엔진 건강 모니터링 |
 | 시스템 트윈(System Twin) | 여러 자산 통합 | 공장 라인 전체 시뮬레이션 |
-| 프로세스 트윈([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Twin) | 전체 운영 프로세스 | 스마트시티 교통 최적화 |
+| 프로세스 트윈([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Twin) | 전체 운영 프로세스 | 스마트시티 교통 최적화 |
 
 - **📢 섹션 요약 비유**: [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 유형은 자동차 점검 단계와 같다. 타이어 하나(부품), 차 한 대(자산), 주차장 전체(시스템), 도시 교통(프로세스)으로 확장된다.
 

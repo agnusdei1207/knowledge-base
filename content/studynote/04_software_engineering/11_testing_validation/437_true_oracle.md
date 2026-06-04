@@ -78,13 +78,13 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-참 오라클은 오라클 유형 중 가장 이상적이다. 대신 [샘플링 오라클](/knowledge-base/studynote/04_software_engineering/11_testing_validation/438_sampling_oracle/)이나 [휴리스틱 오라클](/knowledge-base/studynote/04_software_engineering/11_testing_validation/439_heuristic_oracle/)은 현실적인 타협안이다.
+참 오라클은 오라클 유형 중 가장 이상적이다. 대신 [샘플링 오라클](/knowledge-base/studynote/04_software_engineering/11_testing_validation/438_sampling_oracle/)이나 [휴리스틱 오라클](/knowledge-base/studynote/04_software_engineering/11_testing_validation/831_heuristic_oracle/)은 현실적인 타협안이다.
 
 | 구분 | 장점 | 한계 |
 |:---|:---|:---|
 | 참 오라클 | 가장 정확함 | 만들기 어려움 |
 | [샘플링 오라클](/knowledge-base/studynote/04_software_engineering/11_testing_validation/438_sampling_oracle/) | 일부만 보면 됨 | 전체 보장은 약함 |
-| [휴리스틱 오라클](/knowledge-base/studynote/04_software_engineering/11_testing_validation/439_heuristic_oracle/) | 유연함 | 주관성 존재 |
+| [휴리스틱 오라클](/knowledge-base/studynote/04_software_engineering/11_testing_validation/831_heuristic_oracle/) | 유연함 | 주관성 존재 |
 
 테스트 자동화의 기준으로는 좋지만, 현실 시스템에서는 보통 부분적으로만 흉내 낸다.
 

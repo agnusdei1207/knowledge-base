@@ -76,7 +76,7 @@ tags = ["software_engineering"]
 +--------------------------------------------------------------------+
 ```
 
-즉 정형 언어의 힘은 "예쁘게 적는다"가 아니라, 명세를 분석 가능한 모델로 바꾸는 데 있다. 이 모델은 theorem proving, model checking, [test case](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) derivation 같은 후속 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 활동과도 자연스럽게 연결된다.
+즉 정형 언어의 힘은 "예쁘게 적는다"가 아니라, 명세를 분석 가능한 모델로 바꾸는 데 있다. 이 모델은 theorem proving, model checking, [test case](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) derivation 같은 후속 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 활동과도 자연스럽게 연결된다.
 
 - **📢 섹션 요약 비유**: 비정형 명세가 말로 설명한 요리법이라면, 정형 명세는 재료·온도·시간·금지 조건까지 적힌 실험실 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에 가깝다.
 
@@ -126,7 +126,7 @@ tags = ["software_engineering"]
 2. **규칙 안정성**: 자주 바뀌는 화면 요구인지, 오래 유지될 핵심 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙인지?
 3. <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a>·상태 복잡도</strong>: [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)와 예외 조건이 많아 자연어로 관리하기 어려운가?
 4. **조직 역량**: 팀이 Z, VDM, model checker 같은 도구와 표기를 소화할 수 있는가?
-5. **산출물 연결성**: 명세가 실제 [test case](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/), contract, [code review](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 기준으로 이어질 수 있는가?
+5. **산출물 연결성**: 명세가 실제 [test case](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/), contract, [code review](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 기준으로 이어질 수 있는가?
 
 ### 자주 나오는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 

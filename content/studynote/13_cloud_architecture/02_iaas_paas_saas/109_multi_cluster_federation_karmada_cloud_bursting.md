@@ -76,7 +76,7 @@ tags = ["studynote-cloud-architecture"]
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 클러스터 간 [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)(Cross-Region [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 측정 및 Placement에 반영했는가?
-2. 멀티 클러스터 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) Multi-Cluster) 또는 Submariner로 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 간 통신을 구성했는가?
+2. 멀티 클러스터 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) Multi-Cluster) 또는 Submariner로 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 간 통신을 구성했는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **무분별한 클러스터 분할**: 팀당 1개 클러스터를 만들어 100개 -> 운영 오버헤드 폭발.
@@ -92,7 +92,7 @@ tags = ["studynote-cloud-architecture"]
 | 클라우드 버스팅 | 불가 | **자동** | 비용 최적화 |
 | 배포 복잡도 | 낮음 | 중간 (Karmada 자동화) | 학습 곡선 |
 
-Karmada는 [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) Incubating 프로젝트로 격상되었으며, OCM(Open Cluster [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))과 함께 멀티 클러스터 관리의 사실상 표준으로 수렴 중이다.
+Karmada는 [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) Incubating 프로젝트로 격상되었으며, OCM(Open Cluster [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/))과 함께 멀티 클러스터 관리의 사실상 표준으로 수렴 중이다.
 
 ---
 
@@ -103,7 +103,7 @@ Karmada는 [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/19
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/">Kubernetes</a></strong> | 멀티 클러스터의 단위 구성 요소 |
 | **Karmada** | 차세대 멀티 클러스터 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 엔진 |
 | **Cloud Bursting** | [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 포화 시 퍼블릭 클라우드로 확장하는 전술 |
-| <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/">Service Mesh</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">Istio</a>)</strong> | 클러스터 간 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 통신을 보장하는 네트워크 레이어 |
+| <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/">Service Mesh</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/">Istio</a>)</strong> | 클러스터 간 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 통신을 보장하는 네트워크 레이어 |
 | <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/">DR</a> (Disaster <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a>)</strong> | 멀티 클러스터의 핵심 가치, 재해복구 |
 
 ### 📈 관련 키워드 및 발전 흐름도

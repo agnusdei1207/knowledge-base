@@ -12,7 +12,7 @@ tags = ["studynote-ict-convergence"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/)([Machine Learning Operations](/knowledge-base/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/))는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자가 주피터 노트북(Jupyter)에서 실험용으로 만든 딥러닝 코드를, 실제 고객이 1년 365일 1초의 끊김 없이 쓸 수 있도록 코딩(Dev)부터 배포(Ops)까지의 전 과정을 톱니바퀴처럼 자동화한 파이프라인 철학이다.
-> 2. **가치**: 기존 소프트웨어는 코드만 배포([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)하면 끝이었지만, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)은 세상([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 변하면 모델이 바보가 되므로 모델을 끝없이 다시 학습시키는 <strong>지속적 학습(<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/">CT</a>, <a href="/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/">Continuous Training</a>)</strong>이라는 완전히 새로운 개념의 자동화 장치를 추가했다.
+> 2. **가치**: 기존 소프트웨어는 코드만 배포([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD)하면 끝이었지만, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)은 세상([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 변하면 모델이 바보가 되므로 모델을 끝없이 다시 학습시키는 <strong>지속적 학습(<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/">CT</a>, <a href="/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/">Continuous Training</a>)</strong>이라는 완전히 새로운 개념의 자동화 장치를 추가했다.
 > 3. **판단 포인트**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 추출 $\rightarrow$ 전처리 $\rightarrow$ 학습 $\rightarrow$ [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) $\rightarrow$ 배포로 이어지는 이 파이프라인은 사람이 손으로 돌리면 반드시 휴먼 에러가 터지므로, 기술사는 Airflow나 [Kubeflow](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/) 같은 오케스트레이터(Orchestrator)를 써서 전 과정을 버튼 하나로 자동화해야만 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 레벨을 달성할 수 있다.
 
 ---
@@ -31,7 +31,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-MLOps는 기존 소프트웨어의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD에 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)(지속적 학습)라는 심장을 하나 더 단 3-Step 파이프라인이다.
+MLOps는 기존 소프트웨어의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD에 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)(지속적 학습)라는 심장을 하나 더 단 3-Step 파이프라인이다.
 
 ```text
 +--------------------------------------------------------+
@@ -65,10 +65,10 @@ MLOps는 기존 소프트웨어의 [CI](/knowledge-base/studynote/12_it_manageme
 
 구글은 MLOps의 성숙도(Maturity)를 3단계 레벨로 엄격하게 쪼개어 기업의 IT 수준을 뼈때린다.
 
-| 비교 항목 | Level 0 (수동 파이프라인) | Level 1 (파이프라인 자동화) | Level 2 ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD/[CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 완전 자동화) |
+| 비교 항목 | Level 0 (수동 파이프라인) | Level 1 (파이프라인 자동화) | Level 2 ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD/[CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 완전 자동화) |
 |:---:|:---|:---|:---|
 | **작동 방식** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자가 **주피터 노트북에서 일일이 손으로 돌림** | 모델의 <strong>학습 과정(<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/">CT</a>)만 자동으로 스크립트화함</strong> | 코드를 고치거나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 변하면 **모든 과정이 전자동으로 돎** |
-| **배포 대상** | 저장된 <strong>'모델 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>(pkl)'</strong> [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 자체를 수동으로 배포함 | 모델을 찍어내는 <strong>'파이프라인 코드'</strong>를 배포함 | <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD/<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/">CT</a> 통합 인프라</strong> 자체를 띄움 |
+| **배포 대상** | 저장된 <strong>'모델 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>(pkl)'</strong> [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 자체를 수동으로 배포함 | 모델을 찍어내는 <strong>'파이프라인 코드'</strong>를 배포함 | <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD/<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/">CT</a> 통합 인프라</strong> 자체를 띄움 |
 | **적용 환경** | AI로 장난치는 스타트업 수준 | 일반적인 IT 기업의 1차 목표 | 구글, 넷플릭스 등 초격차 빅테크 |
 | **단점** | 재학습(Retrain)할 때마다 에러 터짐 | 새로운 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(코드)을 추가할 땐 여전히 수동 배포해야 함 | 구축하는 데 수억 원의 인프라 비용과 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 천재 엔지니어 필요 |
 
@@ -98,9 +98,9 @@ MLOps는 기존 소프트웨어의 [CI](/knowledge-base/studynote/12_it_manageme
 
 MLOps는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자는 수학 공식만 짜는 사람이 아니라, 그 공식이 살아 숨 쉬며 돌아가는 거대한 공장의 설계자가 되어야 한다"는 사상을 IT 업계에 이식했다. [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 실험실의 논문을 넘어, 24시간 멈추지 않고 돈을 벌어다 주는 진짜 '소프트웨어 자산'으로 진화하는 교두보를 마련한 것이다.
 
-결론적으로 MLOps가 없는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 서비스는 한 달짜리 시한부 생명이다. 기술사는 주피터 노트북에 깔끔하게 적힌 코드에 감동할 것이 아니라, 그 코드가 <strong>"언제 재학습될 것인지(<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/">CT</a> Trigger)", "어떻게 테스트될 것인지(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>)", "어떤 전략으로 서버에 안착할 것인지(CD)"</strong>를 묻는 파이프라인의 혹독한 검열관이 되어야 한다. AI의 성능은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 나오지만, AI의 생명력은 전적으로 이 파이프라인 인프라에서 나오기 때문이다.
+결론적으로 MLOps가 없는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 서비스는 한 달짜리 시한부 생명이다. 기술사는 주피터 노트북에 깔끔하게 적힌 코드에 감동할 것이 아니라, 그 코드가 <strong>"언제 재학습될 것인지(<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/">CT</a> Trigger)", "어떻게 테스트될 것인지(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>)", "어떤 전략으로 서버에 안착할 것인지(CD)"</strong>를 묻는 파이프라인의 혹독한 검열관이 되어야 한다. AI의 성능은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 나오지만, AI의 생명력은 전적으로 이 파이프라인 인프라에서 나오기 때문이다.
 
-- **📢 섹션 요약 비유**: 멋진 레이싱카([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델)를 만드는 것도 중요하지만, 레이싱카는 경기 중 반드시 타이어가 닳고 기름이 떨어진다([데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)). MLOps는 차가 달리는 도중에 타이어를 1초 만에 갈아 끼우고 기름을 채워주는([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD/[CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)) 완벽한 호흡의 피트 스탑(Pit Stop) 크루들을 훈련시키는 일이다.
+- **📢 섹션 요약 비유**: 멋진 레이싱카([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델)를 만드는 것도 중요하지만, 레이싱카는 경기 중 반드시 타이어가 닳고 기름이 떨어진다([데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)). MLOps는 차가 달리는 도중에 타이어를 1초 만에 갈아 끼우고 기름을 채워주는([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD/[CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)) 완벽한 호흡의 피트 스탑(Pit Stop) 크루들을 훈련시키는 일이다.
 
 ---
 
@@ -109,7 +109,7 @@ MLOps는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_r
 | 개념 | 연결 포인트 |
 |:---|:---|
 | 상위 개념 | [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 생태계, [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) |
-| 하위 개념 | 지속적 학습 ([CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)), [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/배포 ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD), 파이프라인 ([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/)) |
+| 하위 개념 | 지속적 학습 ([CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)), [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/배포 ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD), 파이프라인 ([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/)) |
 | 연결 개념 | [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/), [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/), [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/) ([MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/)), [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) ([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -121,7 +121,7 @@ MLOps는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_r
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 장난감 공장에서 예전엔 아저씨가 손으로 하나하나 로봇을 만들어서 실수도 많고 너무 느렸어요.
-2. [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 마법사는 공장에 "자동 컨베이어 벨트(파이프라인)"를 깔아줬어요. 이제 나사가 빠진 로봇은 알아서 걸러내고([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)), 고장 나면 1초 만에 새 로봇으로 바꿔줘요(CD).
+2. [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 마법사는 공장에 "자동 컨베이어 벨트(파이프라인)"를 깔아줬어요. 이제 나사가 빠진 로봇은 알아서 걸러내고([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)), 고장 나면 1초 만에 새 로봇으로 바꿔줘요(CD).
 3. 심지어 유행이 바뀌면, 기계가 스스로 최신 설명서를 읽고 더 멋진 로봇으로 업그레이드해서 만들어내는([CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)) 무적의 로봇 공장이 되었답니다!
 
 ---

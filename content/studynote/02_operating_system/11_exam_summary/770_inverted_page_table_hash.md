@@ -69,7 +69,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 해시 매핑 (Hash [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))과 체이닝 ([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))
+### 해시 매핑 (Hash [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))과 체이닝 ([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/))
 
 탐색 속도 문제를 해결하기 위해, [역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/) 앞에 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/">해시 테이블</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/">Hash Table</a>)</strong>을 추가로 배치한다.
 
@@ -103,7 +103,7 @@ tags = ["studynote-operating-system"]
   +-------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 이 복잡한 회로는 전부 하드웨어([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)) 레벨에서 나노초 단위로 일어난다. CPU가 가상 주소를 던지면 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)가 작동해 테이블을 뒤질 '시작점([힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/))'을 알려준다. 해시의 숙명인 [해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)(Hash [Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))이 발생하면(예: PID 99와 PID 10이 우연히 같은 해시값을 가짐), [역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/) 내부에 마련된 `Next 포인터`를 따라 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))를 탐색한다. 평균적으로 1~2회의 탐색(O(1))만으로 물리 프레임 번호를 찾아낼 수 있어, 400만 번의 [선형 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/) 지옥에서 시스템을 구원해 낸다.
+**[다이어그램 해설]** 이 복잡한 회로는 전부 하드웨어([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)) 레벨에서 나노초 단위로 일어난다. CPU가 가상 주소를 던지면 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)가 작동해 테이블을 뒤질 '시작점([힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/))'을 알려준다. 해시의 숙명인 [해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)(Hash [Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))이 발생하면(예: PID 99와 PID 10이 우연히 같은 해시값을 가짐), [역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/) 내부에 마련된 `Next 포인터`를 따라 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/))를 탐색한다. 평균적으로 1~2회의 탐색(O(1))만으로 물리 프레임 번호를 찾아낼 수 있어, 400만 번의 [선형 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/) 지옥에서 시스템을 구원해 낸다.
 
 ### [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/))의 절대적 의존성
 
@@ -124,7 +124,7 @@ OS 메모리 관리의 양대 산맥으로, 각각 메모리 용량과 탐색 �
 | 비교 항목 | 계층형 (다단계) [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) (x86/x64) | [역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/) (PowerPC, IA-64) |
 |:---|:---|:---|
 | **테이블 크기** | <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a> 크기(프로세스 수)</strong>에 비례하여 무한정 커짐. (수 GB 낭비) | <strong>물리 메모리(RAM) 크기</strong>에만 비례. 시스템 전체에 1개라 매우 작음. |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/">물리 주소</a> 탐색</strong>| 가상 주소를 잘라서 바로 인덱스로 쓰므로 충돌 없이 100% 한 번에 감. | [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)를 돌리고 충돌 체인([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))을 따라가는 로직이라 더 무거움. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/">물리 주소</a> 탐색</strong>| 가상 주소를 잘라서 바로 인덱스로 쓰므로 충돌 없이 100% 한 번에 감. | [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)를 돌리고 충돌 체인([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/))을 따라가는 로직이라 더 무거움. |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/">공유 메모리</a></strong> | 매핑이 쉬움. (두 프로세스의 테이블이 하나의 물리 프레임을 가리키면 됨) | **구현이 매우 복잡함**. 역 테이블은 '하나의 물리 프레임' 당 '하나의 PID'만 적을 수 있게 설계되어 있기 때문 ([Aliasing](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/) 문제). |
 
 ### 과목 융합 관점

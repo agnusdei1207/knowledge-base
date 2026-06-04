@@ -134,7 +134,7 @@ tags = ["studynote-ai"]
 | [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) | P(X) 변화, PSI, KS Test / 입력 특성 분포 변화 탐지 |
 | [컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/) | P(Y / X) 변화, 레이블 필요 / 입력-출력 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 변화, 더 근본적 문제 |
 | PSI | 0.1/0.2/0.25 기준 / 드리프트 심각도 측정 표준 지표 |
-| [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) | 자동 재학습, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD / 드리프트 탐지-대응 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 |
+| [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) | 자동 재학습, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD / 드리프트 탐지-대응 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 |
 | [섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/) | 트래픽 복사, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) / 재학습 모델 안전 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 방법 |
 
 ### 📈 관련 키워드 및 발전 흐름도

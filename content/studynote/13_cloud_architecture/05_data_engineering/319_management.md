@@ -125,6 +125,6 @@ tags = ["studynote-cloud-architecture"]
 **진행 상황**: 318 / 371
 
 <- **이전**: [318. 데이터 패브릭 가상화 메타 기반 융합 (Cloud Architecture Concept)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/318_process/)
-**다음**: [320. 프라이버시 클린 룸 데이터 안전 연합 연산 (Cloud Architecture Concept)](/knowledge-base/studynote/12_it_management/05_security_compliance/320_process/) ->
+**다음**: [320. 프라이버시 클린 룸 데이터 안전 연합 연산 (Cloud Architecture Concept)](/knowledge-base/studynote/12_it_management/05_security_compliance/961_process/) ->
 
 ---

@@ -101,7 +101,7 @@ tags = ["studynote-operating-system"]
 ## Ⅲ. 비교 및 연결
 
 ### 백신([Antivirus](/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/))을 눈 뜬 장님으로 만드는 "dir" / "ls" 탐색 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 끔찍한 한계
-명령줄에서 무심코 치는 `dir` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 치명적 속임수(Blind) 구조를 박살 내는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/) 조율.
+명령줄에서 무심코 치는 `dir` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 치명적 속임수(Blind) 구조를 박살 내는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/919_security_audit_trail/) 조율.
 
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 충돌 (ADS <a href="/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/">루트킷</a> 감시망 회피 멸망 파단 랙)</strong>:
   - [CISO](/knowledge-base/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/)(보안책임자)가 서버에 악성 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 10GB 짜리가 들어왔단 소식에 `dir /s /a` 나 `du -sh` 같은 디스크 스캔 명령포를 시스템 전체에 풀가동시켰다.

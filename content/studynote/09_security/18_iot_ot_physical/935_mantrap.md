@@ -136,7 +136,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 1026 / 1108
 
-<- **이전**: [934. 라우팅 프로토콜 인증 방어망 (Routing Protocol Authentication Bgp MD5 Tcp Hijacking)](/knowledge-base/studynote/09_security/uncategorized/934_routing_protocol_authentication_bgp_md5_tcp_hijacking/)
-**다음**: [935. RPKI (Resource Public Key Infrastructure)](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) ->
+<- **이전**: [934. 라우팅 프로토콜 인증 방어망 (Routing Protocol Authentication Bgp MD5 Tcp Hijacking)](/knowledge-base/studynote/09_security/uncategorized/1068_routing_protocol_authentication_bgp_md5_tcp_hijacking/)
+**다음**: [935. RPKI (Resource Public Key Infrastructure)](/knowledge-base/studynote/09_security/uncategorized/1069_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) ->
 
 ---

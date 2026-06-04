@@ -20,7 +20,7 @@ tags = ["studynote-it-management"]
 
 정보보호 공시 제도는 조직이 당면한 요구를 반복 가능하고 설명 가능한 운영 체계로 바꾸기 위해 사용하는 핵심 관리 개념이다. 실무 초점은 기업의 정보보호 투자액, 전담 인력, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 획득 현황을 주주/소비자에게 투명하게 공시하는 제도에 놓이며, 핵심은 자산, 위협, [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.
 
-이 개념이 중요한 이유는 현장의 속도와 통제가 자주 충돌하기 때문이다. 기준이 없으면 부서별로 다른 판단이 누적되어 중복 투자, 운영 공백, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 리스크가 커지고, 반대로 지나치게 경직된 통제는 변화 대응 속도를 떨어뜨린다. 실무에서는 보통 유형, [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 사업자, 집적정보통신시설 같은 세부 축이 함께 굴러가야 관리 체계가 실제 효과를 낸다.
+이 개념이 중요한 이유는 현장의 속도와 통제가 자주 충돌하기 때문이다. 기준이 없으면 부서별로 다른 판단이 누적되어 중복 투자, 운영 공백, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 리스크가 커지고, 반대로 지나치게 경직된 통제는 변화 대응 속도를 떨어뜨린다. 실무에서는 보통 유형, [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 사업자, 집적정보통신시설 같은 세부 축이 함께 굴러가야 관리 체계가 실제 효과를 낸다.
 
 ```text
 +--------------------------------------------------------------+
@@ -43,7 +43,7 @@ tags = ["studynote-it-management"]
 | 구성 축 | 설명 | 판단 포인트 |
 |:---|:---|:---|
 | 유형 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 범위와 기준선이 흔들리면 후속 통제도 불안정해진다. |
-| [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 사업자 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 책임 경계와 운영 절차가 연결돼야 재현성이 생긴다. |
+| [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 사업자 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 책임 경계와 운영 절차가 연결돼야 재현성이 생긴다. |
 | 집적정보통신시설 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 측정 가능한 산출물과 증적이 있어야 설명 가능성이 높아진다. |
 | 상장법인 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 변화·예외를 다시 체계에 반영해야 장기적으로 유지된다. |
 
@@ -84,7 +84,7 @@ tags = ["studynote-it-management"]
 ### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 적용 범위와 제외 범위가 명확하며 유형 관점의 경계가 실제 운영에 반영되어 있는가?
-2. [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 사업자와 관련된 책임자, 승인권자, 실행 주체가 충돌 없이 정의되어 있는가?
+2. [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 사업자와 관련된 책임자, 승인권자, 실행 주체가 충돌 없이 정의되어 있는가?
 3. 집적정보통신시설 결과를 보여 주는 증적과 지표가 정기적으로 축적되는가?
 4. 상장법인 결과가 다음 변경·투자·교육 계획으로 환류되는가?
 
@@ -112,7 +112,7 @@ tags = ["studynote-it-management"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | 유형 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
-| [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 사업자 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
+| [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 사업자 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
 | 집적정보통신시설 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
 | 상장법인 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
 
@@ -127,7 +127,7 @@ tags = ["studynote-it-management"]
     +---> [집적정보통신시설]
 ```
 
-이 흐름은 선행 요구를 기준으로 정보보호 공시 제도를 정착시키고, 이후 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 사업자와 집적정보통신시설 같은 확장 축으로 고도화하는 전개를 보여 준다.
+이 흐름은 선행 요구를 기준으로 정보보호 공시 제도를 정착시키고, 이후 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 사업자와 집적정보통신시설 같은 확장 축으로 고도화하는 전개를 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 정보보호 공시 제도는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.

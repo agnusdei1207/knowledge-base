@@ -60,8 +60,8 @@ tags = ["studynote-operating-system"]
 ### [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/) ([Resource Allocation Graph](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/), [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))
 OS가 데드락을 수학적으로 탐지하기 위해 내부적으로 그리는 방향성 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)다.
 - **프로세스 (동그라미)**, **자원 (네모)**
-- <strong>요청 간선 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/">Pi</a> --> Rj)</strong>: 프로세스가 자원을 달라고 징징대는 선.
-- <strong>할당 간선 (Rj --> <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/">Pi</a>)</strong>: 자원이 프로세스에게 먹혀있는 선.
+- <strong>요청 간선 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/">Pi</a> --> Rj)</strong>: 프로세스가 자원을 달라고 징징대는 선.
+- <strong>할당 간선 (Rj --> <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/">Pi</a>)</strong>: 자원이 프로세스에게 먹혀있는 선.
 
 **판별법**: [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)를 그렸을 때, **사이클(원형 루프)이 존재하고**, 그 사이클 내의 <strong>자원 개수가 각각 1개뿐이라면 100% 데드락</strong>이다.
 

@@ -12,7 +12,7 @@ tags = ["database"]
 
 > 1. **본질**: 키 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은 PK (Primary [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))가 각 행을 유일하게 식별하고 FK (Foreign [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))가 부모 행을 실제로 가리키게 하는 규칙이다.
 > 2. **가치**: 이 규칙이 있어야 중복과 고아 레코드를 막고 조인 결과를 믿을 수 있다.
-> 3. **판단 포인트**: 기술사는 의미보다 안정성이 높은 키를 선택하고 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) 제약조건으로 강제해야 한다.
+> 3. **판단 포인트**: 기술사는 의미보다 안정성이 높은 키를 선택하고 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System) 제약조건으로 강제해야 한다.
 
 ---
 
@@ -41,7 +41,7 @@ PK는 보통 NOT NULL과 UNIQUE를 동시에 만족해야 하고, FK는 삽입·
 | PK | 대표 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) | 짧고 변하지 않아야 한다 |
 | UK | 대체 유일성 보장 | 중복만 막고 NULL 정책을 확인한다 |
 | FK | 부모 행 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) | 고아 레코드 방지와 조인 기준이 된다 |
-| [Surrogate key](/knowledge-base/studynote/12_it_management/05_security_compliance/314_surrogate_key/) | 대리 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경과 변경 안정성을 고려한다 |
+| [Surrogate key](/knowledge-base/studynote/12_it_management/05_security_compliance/956_surrogate_key/) | 대리 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경과 변경 안정성을 고려한다 |
 
 - **📢 섹션 요약 비유**: 후보키, 대표키, [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)키가 역할을 나눠 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 만든다.
 
@@ -64,7 +64,7 @@ PK는 보통 NOT NULL과 UNIQUE를 동시에 만족해야 하고, FK는 삽입·
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 실무에서는 안정성, 길이, 의미, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)성, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 비용을 함께 본다. 특히 키가 바뀌면 연쇄 갱신이 발생하므로, 바뀔 가능성이 낮은 값을 우선한다.
-[DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) 제약조건으로 강제하고 애플리케이션은 보조 역할만 맡겨야 한다. 앱 코드만 믿으면 배치 작업이나 수동 수정에서 쉽게 깨진다.
+[DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System) 제약조건으로 강제하고 애플리케이션은 보조 역할만 맡겨야 한다. 앱 코드만 믿으면 배치 작업이나 수동 수정에서 쉽게 깨진다.
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. PK가 짧고 변하지 않는가?

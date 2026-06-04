@@ -73,7 +73,7 @@ Reference Architecture
 | 위험 | [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 약하면 기대효과가 줄어듦 | 확장성·가시성·자동화 한계가 빨리 드러남 |
 | 적합한 상황 | 대규모 트래픽, 고성능 연산, [하이브리드 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/) 같은 환경에서 기반 계층 이해가 곧 경쟁력이다. | 변화가 적거나 단순한 환경 |
 
-또한 이 주제는 CPU Flame [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/), Disk [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), Packet Capture처럼 주변 개념과 강하게 연결된다. 기술사 관점에서는 개별 정의보다도 이런 연결 구조를 설명해야 답안의 깊이가 생긴다.
+또한 이 주제는 CPU Flame [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/), Disk [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), Packet Capture처럼 주변 개념과 강하게 연결된다. 기술사 관점에서는 개별 정의보다도 이런 연결 구조를 설명해야 답안의 깊이가 생긴다.
 
 - **📢 섹션 요약 비유**: 수도 배관처럼 압력과 누수를 모르면 위층의 문제가 어디서 시작됐는지 알 수 없다.
 
@@ -114,7 +114,7 @@ Reference Architecture
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| CPU Flame [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) | 리눅스 퍼포먼스 툴 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 활용을 이해할 때 직접 연결되는 기반 개념 |
+| CPU Flame [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) | 리눅스 퍼포먼스 툴 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 활용을 이해할 때 직접 연결되는 기반 개념 |
 | Disk [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) | 리눅스 퍼포먼스 툴 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 활용의 설계·운영 판단 기준을 보완하는 개념 |
 | Packet Capture | 리눅스 퍼포먼스 툴 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 활용을 자동화·확장 측면에서 연결하는 개념 |
 | 애플리케이션 계층만 보는 운영 | 리눅스 퍼포먼스 툴 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 활용 적용 후 후속 발전 방향을 설명하는 개념 |
@@ -136,7 +136,7 @@ Reference Architecture
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 리눅스 퍼포먼스 툴 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 활용은 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
-2. CPU Flame [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) 같은 친구들과 같이 움직여야 더 잘 작동해요.
+2. CPU Flame [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
 
 ---

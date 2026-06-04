@@ -98,7 +98,7 @@ TDD는 회귀를 줄이고, 설계를 명확하게 하며, 변경에 대한 자�
 | AAA (Arrange-Act-Assert) | 테스트 구성 패턴 |
 | [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) ([Behavior-Driven Development](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/126_bdd_behavior_driven_development_given_when_then/)) | 행동 명세 중심 개발 |
 | fixture | 테스트 환경 준비 |
-| [mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) | 외부 의존성 분리 |
+| [mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) | 외부 의존성 분리 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

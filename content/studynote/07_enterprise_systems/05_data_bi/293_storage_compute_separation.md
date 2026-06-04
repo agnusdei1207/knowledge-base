@@ -10,7 +10,7 @@ tags = ["studynote-enterprise"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소(Storage)와 연산 엔진(Compute)을 물리적/[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 독립시켜 각각 필요한 만큼 유연하게 확장하는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) [데이터 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)다.
+> 1. **본질**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소(Storage)와 연산 엔진(Compute)을 물리적/[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 독립시켜 각각 필요한 만큼 유연하게 확장하는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) [데이터 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)다.
 > 2. **가치**: 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 시 연산 자원이 부족하면 CPU만 추가하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 늘어나면 스토리지 비용만 지불함으로써 자원 활용 효율과 비용을 최적화한다.
 > 3. **판단 포인트**: 정적 워크로드보다는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유입량과 분석 빈도의 변동성이 큰 현대 엔터프라이즈 환경에서 강력한 비용 절감 및 운영 유연성을 제공한다.
 
@@ -55,7 +55,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅲ. 비교 및 연결
 
-전통적인 결합형 구조(Coupled)와 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 분리형 구조(Decoupled)의 차이는 경제성과 유연성에서 극명하게 갈린다.
+전통적인 결합형 구조(Coupled)와 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 분리형 구조(Decoupled)의 차이는 경제성과 유연성에서 극명하게 갈린다.
 
 | 항목 | 결합형 (Coupled/Shared-Nothing) | 분리형 (Decoupled/Cloud-Native) |
 |:---|:---|:---|

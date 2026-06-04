@@ -81,7 +81,7 @@ RAG는 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance
 1. 문서 청크 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 문맥 단절 없이 검색 품질을 유지하는가?
 2. 벡터 검색에 키워드 검색과 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 필터를 결합했는가?
 3. 답변 평가에 정답률뿐 아니라 충실도, 인용 정확도, 무응답 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 포함하는가?
-4. [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 재생성, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 갱신, 모델 교체가 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD처럼 운영되는가?
+4. [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 재생성, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 갱신, 모델 교체가 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD처럼 운영되는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 

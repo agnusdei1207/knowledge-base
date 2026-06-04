@@ -137,6 +137,6 @@ CPE (Common Platform Enumeration)를 제대로 이해하면 개념 하나를 외
 **진행 상황**: 466 / 1108
 
 <- **이전**: [410. CWE (Common Weakness Enumeration)](/knowledge-base/studynote/09_security/04_endpoint_security/410_cwe_taxonomy/)
-**다음**: [411. OWASP Top 10 2021 Overview (OWASP Top 10 2021 Overview)](/knowledge-base/studynote/09_security/05_web_app_security/411_owasp_top10_2021_overview/) ->
+**다음**: [411. OWASP Top 10 2021 Overview (OWASP Top 10 2021 Overview)](/knowledge-base/studynote/09_security/05_web_app_security/1033_owasp_top10_2021_overview/) ->
 
 ---

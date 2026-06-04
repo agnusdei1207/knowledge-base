@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 414 / 587
 
-<- **이전**: [282. KMS 지식 관리 암묵지 형식지 SECI 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/282_kms_seci_model/)
-**다음**: [283. RPA 초자동화 봇](/knowledge-base/studynote/12_it_management/05_security_compliance/283_rpa_hyperautomation/) ->
+<- **이전**: [282. KMS 지식 관리 암묵지 형식지 SECI 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/931_kms_seci_model/)
+**다음**: [283. RPA 초자동화 봇](/knowledge-base/studynote/12_it_management/05_security_compliance/932_rpa_hyperautomation/) ->
 
 ---

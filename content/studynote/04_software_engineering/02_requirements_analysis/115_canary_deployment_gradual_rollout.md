@@ -12,7 +12,7 @@ tags = ["studynote-software-engineering"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 배포는 신버전을 <strong>전체 트래픽의 1~5%에만 먼저 노출</strong>하고, [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)(에러율·레이턴시)을 관찰하여 안전하면 점진적으로 확대([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%->50%->100%)하는 <strong>위험 최소화 배포 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다.
 > 2. **가치**: 블루/그린이 "한 번에 100% 전환"이라면, [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)는 "1%->5%->25%->100%"로 <strong>단계적 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> 후 전환하므로 장애 시 영향 범위가 극히 제한된다.
-> 3. **판단 포인트**: [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) VirtualService·Argo Rollouts·AWS ALB [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)로 트래픽 비율을 제어하며, Kayenta 같은 <strong>자동 <a href="/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/">카나리</a> 분석(ACA)</strong>과 결합하면 사람 개입 없는 완전 자동 롤아웃이 가능하다.
+> 3. **판단 포인트**: [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) VirtualService·Argo Rollouts·AWS ALB [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)로 트래픽 비율을 제어하며, Kayenta 같은 <strong>자동 <a href="/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/">카나리</a> 분석(ACA)</strong>과 결합하면 사람 개입 없는 완전 자동 롤아웃이 가능하다.
 
 ---
 
@@ -43,7 +43,7 @@ tags = ["studynote-software-engineering"]
 
 | 방식 | 도구 | 특징 |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/">Service Mesh</a></strong> | [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) VirtualService | L7 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/), 헤더 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) |
+| <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/">Service Mesh</a></strong> | [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) VirtualService | L7 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/), 헤더 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) |
 | **K8s Native** | Argo Rollouts | AnalysisRun으로 자동 판정 |
 | <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/031_load_balancer/">Load Balancer</a></strong> | AWS ALB [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) | 인프라 레벨, 간단 |
 | <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a></strong> | Route 53 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) | 글로벌 트래픽 분배 |
@@ -109,7 +109,7 @@ strategy:
 |:---|:---|
 | **블루/그린 배포** | [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)의 대안 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 | **Argo Rollouts** | K8s 네이티브 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 배포 도구 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">Istio</a> VirtualService</strong> | [Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/) 기반 트래픽 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/">Istio</a> VirtualService</strong> | [Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/) 기반 트래픽 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) |
 | **Kayenta ACA** | 자동 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 분석 (통계적 판정) |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/">피처 플래그</a></strong> | 코드 레벨 점진적 릴리즈 |
 

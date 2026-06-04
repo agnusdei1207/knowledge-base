@@ -84,7 +84,7 @@ DSSS를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 | 자원 관점 | 기본 조건 확보 | 구분 명확성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 기존 통신은 편지지에 '안녕'이라는 두 글자를 진하게 적어 보내는 것입니다. 적군이 그 글자에 먹물을 한 방울만 떨어뜨려도 글씨가 훼손됩니다(방해 전파 취약). <strong>DSSS(직접 확산)</strong>는 천재적인 암호 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/) 기술입니다. '안녕'이라는 글자를 가위로 잘게 잘라(칩핑 코드 곱하기) 수백 장의 전단지(쓰레기 글자)와 함께 섞어서 헬기로 도시에 확 뿌려버립니다(주파수 확산). 적군은 이게 쓰레기인지 편지인지 구별도 못 합니다(스텔스 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 불가). 적군이 전단지 무더기에 먹물을 들이부어도, 목적지의 수신자는 '비밀 돋보기(역확산 코드)'를 들고 있습니다. 돋보기로 쓰레기 더미를 비추면, 오직 진짜 조각들만 자석처럼 하나로 찰칵 붙어 오리지널 '안녕'이라는 글자가 뾰족하게 부활하고, 적군이 뿌린 먹물은 투명하게 사라져 버리는 완벽한 잡음 역관광 기술입니다.
+- **📢 섹션 요약 비유**: 기존 통신은 편지지에 '안녕'이라는 두 글자를 진하게 적어 보내는 것입니다. 적군이 그 글자에 먹물을 한 방울만 떨어뜨려도 글씨가 훼손됩니다(방해 전파 취약). <strong>DSSS(직접 확산)</strong>는 천재적인 암호 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/) 기술입니다. '안녕'이라는 글자를 가위로 잘게 잘라(칩핑 코드 곱하기) 수백 장의 전단지(쓰레기 글자)와 함께 섞어서 헬기로 도시에 확 뿌려버립니다(주파수 확산). 적군은 이게 쓰레기인지 편지인지 구별도 못 합니다(스텔스 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 불가). 적군이 전단지 무더기에 먹물을 들이부어도, 목적지의 수신자는 '비밀 돋보기(역확산 코드)'를 들고 있습니다. 돋보기로 쓰레기 더미를 비추면, 오직 진짜 조각들만 자석처럼 하나로 찰칵 붙어 오리지널 '안녕'이라는 글자가 뾰족하게 부활하고, 적군이 뿌린 먹물은 투명하게 사라져 버리는 완벽한 잡음 역관광 기술입니다.
 
 ---
 

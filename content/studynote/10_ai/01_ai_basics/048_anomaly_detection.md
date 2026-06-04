@@ -283,7 +283,7 @@ Precision-Recall 트레이드오프:
   시스템 운영 비용 2억원 -> 순 ROI 6배
 ```
 
-> 📢 **섹션 요약 비유**: 금융 [FDS](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/267_gnn_fraud_detection_knowledge_graph/) = 카드 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) — [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Forest+[LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)+규칙 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)로 72% 탐지. FPR 0.8%로 고객 불편 최소화. 월 12억 사기 예방, 운영 2억 -> [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 6배!
+> 📢 **섹션 요약 비유**: 금융 [FDS](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/267_gnn_fraud_detection_knowledge_graph/) = 카드 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) — [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Forest+[LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)+규칙 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)로 72% 탐지. FPR 0.8%로 고객 불편 최소화. 월 12억 사기 예방, 운영 2억 -> [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 6배!
 
 ---
 

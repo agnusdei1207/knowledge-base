@@ -27,7 +27,7 @@ tags = ["studynote-software-engineering"]
 - 100개의 서버가 각자 "이 유저가 로그인한 유저 맞나?"를 100번 검사해야 한다.
 - 해커가 뒷단에 숨어있어야 할 결제 서버를 직접 공격할 수 있게 된다.
 
-이 끔찍한 복잡성을 해결하기 위해 등장한 것이 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 게이트웨이(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/">API Gateway</a>)</strong>다. <strong>"앱은 나(게이트웨이)한테만 요청해! 내가 알아서 뒤에 있는 100개의 서버 중 맞는 곳으로 배달해 줄게!"</strong>라는 [퍼사드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/)([Facade](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/)) 패턴의 완벽한 아키텍처 구현체다.
+이 끔찍한 복잡성을 해결하기 위해 등장한 것이 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 게이트웨이(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/">API Gateway</a>)</strong>다. <strong>"앱은 나(게이트웨이)한테만 요청해! 내가 알아서 뒤에 있는 100개의 서버 중 맞는 곳으로 배달해 줄게!"</strong>라는 [퍼사드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/)([Facade](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/)) 패턴의 완벽한 아키텍처 구현체다.
 
 - **📢 섹션 요약 비유**: 대형 병원에 갔을 때, 환자가 100명의 의사 진료실을 직접 찾아다니는 건 불가능하다. 입구에 있는 '원무과 데스크([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이)'에서 환자의 신분을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)), "내과 3번 방으로 가세요"라고 안내([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))해 주는 시스템이다.
 
@@ -76,9 +76,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이는 상황에 따라 중앙 집중형으로 쓸 수도 있고, 프론트엔드 맞춤형([BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/))으로 쪼개 쓸 수도 있다.
+[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이는 상황에 따라 중앙 집중형으로 쓸 수도 있고, 프론트엔드 맞춤형([BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/))으로 쪼개 쓸 수도 있다.
 
-| 비교 항목 | 중앙 집중형 [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) (Global) | [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) ([Backend for Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/)) 패턴 |
+| 비교 항목 | 중앙 집중형 [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/) (Global) | [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/) ([Backend for Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/)) 패턴 |
 |:---|:---|:---|
 | **설치 위치** | 전사 시스템 가장 앞단에 1개 | 각 플랫폼(Web, iOS, Android) 앞단에 여러 개 |
 | **핵심 목적** | 공통 기능([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))의 중앙 통제 | 특정 화면에 딱 맞는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 뭉치기(Aggregation) |

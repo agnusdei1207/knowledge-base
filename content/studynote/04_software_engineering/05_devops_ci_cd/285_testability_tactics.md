@@ -28,7 +28,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **수동 블랙박스 테스트의 한계**: 과거에는 QA 팀이 배포된 화면을 직접 마우스로 수백 번 클릭하며(블랙박스) 테스트를 했다. 인건비가 폭증하고 사각지대가 발생했다.
   2. **TDD와 단위 테스트의 부상**: Junit, NUnit 등 프레임워크의 등장으로 코드 레벨에서 개발자가 스스로(화이트박스) 자동화 테스트를 작성하게 되면서, "테스트하기 좋은 코드가 좋은 아키텍처다"라는 패러다임 전환이 일어났다.
-  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/">의존성 주입</a>(<a href="/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/">DI</a>)과 Mocking의 대중화</strong>: 테스트가 어려운 외부 시스템(DB, 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))을 가짜 객체([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/)/[Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))로 대체하여 오직 내 로직만 고립시켜 테스트하는 제어 가능성 전술이 업계 표준으로 정착했다.
+  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/">의존성 주입</a>(<a href="/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/">DI</a>)과 Mocking의 대중화</strong>: 테스트가 어려운 외부 시스템(DB, 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))을 가짜 객체([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/)/[Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/))로 대체하여 오직 내 로직만 고립시켜 테스트하는 제어 가능성 전술이 업계 표준으로 정착했다.
 
 - **📢 섹션 요약 비유**: 수박이 잘 익었는지 확인하려고 매번 수박을 다 쪼개서 먹어봐야 한다면 수박 장사를 할 수 없습니다. 겉을 통통 두드렸을 때 나는 소리(관찰 가능성)를 들을 수 있어야 팔기 좋은 수박입니다.
 
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 시험 용이성 (Testability)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

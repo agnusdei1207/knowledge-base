@@ -143,7 +143,7 @@ tags = ["studynote-operating-system"]
   +-------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault는 게으른 OS의 훈장이지만, 속도가 생명인 HFT(고빈도 매매) 트레이딩 서버나 실시간 RTOS에서는 용납될 수 없는 재앙이다. 최상급 시스템 프로그래머는 프로그램 시작 시 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)) 데이터를 한 번씩 다 써넣는(Prefaulting) 코드를 삽입하여, 실제 트래픽이 들어올 때 폴트가 터지는 것을 막는 장인정신을 발휘한다.
+**[다이어그램 해설]** [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault는 게으른 OS의 훈장이지만, 속도가 생명인 HFT(고빈도 매매) 트레이딩 서버나 실시간 RTOS에서는 용납될 수 없는 재앙이다. 최상급 시스템 프로그래머는 프로그램 시작 시 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)) 데이터를 한 번씩 다 써넣는(Prefaulting) 코드를 삽입하여, 실제 트래픽이 들어올 때 폴트가 터지는 것을 막는 장인정신을 발휘한다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">Segmentation</a> Fault의 진짜 의미</strong>: 개발자가 C언어에서 뻗을 때 내뱉는 `Segfault`는, 사실 정상적인 프로세스 관리 루틴인 `Page Fault ISR`이 "아무리 찾아봐도 네가 달라는 주소는 스왑에도 없고 넌 권한도 없다"라고 포기하고 던지는 사형 선고임을 명확히 이해하고 덤프 분석에 임하고 있는가?

@@ -137,6 +137,6 @@ Hold Your Own [Key](/knowledge-base/studynote/05_database/02_modeling_normalizat
 **진행 상황**: 126 / 1108
 
 <- **이전**: [1014. Bring Your Own Key (BYOK)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1014_byok_bring_your_own_key/)
-**다음**: [1016. Zero Knowledge Proof (ZKP)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1016_zero_knowledge_proof/) ->
+**다음**: [1016. Zero Knowledge Proof (ZKP)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1097_zero_knowledge_proof/) ->
 
 ---

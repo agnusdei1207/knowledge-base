@@ -29,7 +29,7 @@ tags = ["studynote-devops"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 운영에는 트래픽 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)기, 신규 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 안정 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 지표 수집, 판정 게이트가 필요하다. [Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) Routing은 로드밸런서(LB, [Load Balancer](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/031_load_balancer/))나 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/))에서 비율을 조절해, 95/5, 90/10처럼 단계적으로 트래픽을 넘긴다.
+[카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 운영에는 트래픽 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)기, 신규 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 안정 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 지표 수집, 판정 게이트가 필요하다. [Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) Routing은 로드밸런서(LB, [Load Balancer](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/031_load_balancer/))나 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)([Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/))에서 비율을 조절해, 95/5, 90/10처럼 단계적으로 트래픽을 넘긴다.
 
 ```text
 사용자 트래픽
@@ -74,7 +74,7 @@ tags = ["studynote-devops"]
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 관점의 SLO가 정의되어 있는가?
-2. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/) / [Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인과 연결되어 있는가?
+2. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/) / [Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인과 연결되어 있는가?
 3. Sticky [Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 때문에 트래픽 샘플이 왜곡되지 않는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -102,7 +102,7 @@ tags = ["studynote-devops"]
 | Progressive Delivery | 단계적 확장 원칙 |
 | [Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) | 트래픽 비율 제어 |
 | [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/)) | 승격/중단 기준 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD | 배포 자동화 경로 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD | 배포 자동화 경로 |
 | [Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) | 노출 제어와 실험 분리 |
 
 ### 📈 관련 키워드 및 발전 흐름도

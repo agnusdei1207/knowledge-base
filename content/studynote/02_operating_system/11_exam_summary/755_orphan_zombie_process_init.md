@@ -113,7 +113,7 @@ tags = ["studynote-operating-system"]
 
 프로세스에 좀비가 있듯, [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) 환경에도 '[좀비 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/136_zombie_thread/)'가 존재한다. 개념은 비슷하지만 처리 방식이 다르다.
 
-| 비교 항목 | 프로세스 세계 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)) | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 세계 ([Pthreads](/knowledge-base/studynote/02_operating_system/11_exam_summary/790_posix_threads_pthreads_standard_api/)) |
+| 비교 항목 | 프로세스 세계 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/)) | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 세계 ([Pthreads](/knowledge-base/studynote/02_operating_system/11_exam_summary/790_posix_threads_pthreads_standard_api/)) |
 |:---|:---|:---|
 | <strong>부모-자식 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong> | 엄격한 계층 구조. 부모만 자식의 종료 코드를 받을 수 있음. | 수평적 구조. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)끼리(동료) 누가 누굴 기다려줘도 상관없음. |
 | <strong>종료 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> 함수</strong> | `wait()` 또는 `waitpid()` | `pthread_join()` |
@@ -132,7 +132,7 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오 및 트러블슈팅
 
-1. **시나리오 — 사내 빌드 서버의 "fork: retry: No child processes" 장애**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) 빌드 서버에 개발자들이 스크립트를 올리는데, 어느 날 갑자기 시스템에서 터미널 명령어가 아예 안 먹히고 PID를 생성할 수 없다는 에러가 떴다.
+1. **시나리오 — 사내 빌드 서버의 "fork: retry: No child processes" 장애**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) 빌드 서버에 개발자들이 스크립트를 올리는데, 어느 날 갑자기 시스템에서 터미널 명령어가 아예 안 먹히고 PID를 생성할 수 없다는 에러가 떴다.
    - **원인 분석**: 개발자가 짠 파이썬 스크립트에서 워커 프로세스 수백 개를 `subprocess.Popen()`으로 띄워놓고 메인 코드에서 `wait()`를 하지 않은 채 무한 루프에 빠졌다. `ps -ef | grep 'defunct'` 명령으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해 보니 시스템에 Z (Zombie) 상태의 프로세스가 리눅스의 최대 PID 한계치(예: 32768개)를 꽉 채우고 있었다.
    - **아키텍트 판단 (좀비 퇴치)**: 좀비는 이미 죽어있는 프로세스라 `kill -9`로 죽일 수 없다. 죽일 놈이 없기 때문이다. 유일한 해결책은 <strong>'좀비의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/">부모 프로세스</a>'를 찾아서 부모를 <code>kill</code>하는 것</strong>이다. 부모가 죽으면 밑에 달린 좀비들은 즉시 고아가 되고, 최상위 `init` 프로세스에게 입양되자마자 `init`이 즉각 `wait()`를 때려주어 시스템에서 순식간에 청소(Reaping)된다.
 

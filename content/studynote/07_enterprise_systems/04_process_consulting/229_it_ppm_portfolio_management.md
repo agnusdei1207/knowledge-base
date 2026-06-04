@@ -11,7 +11,7 @@ tags = ["studynote-enterprise"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [IT PPM](/knowledge-base/studynote/12_it_management/01_governance_strategy/029_it_ppm/) (Information Technology [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Portfolio [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))은 개별 프로젝트 성공보다, <strong>제한된 예산과 인력을 어떤 조합에 배치해야 기업 가치가 가장 커지는지</strong>를 다루는 거버넌스다.
+> 1. **본질**: [IT PPM](/knowledge-base/studynote/12_it_management/01_governance_strategy/822_it_ppm/) (Information Technology [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Portfolio [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/))은 개별 프로젝트 성공보다, <strong>제한된 예산과 인력을 어떤 조합에 배치해야 기업 가치가 가장 커지는지</strong>를 다루는 거버넌스다.
 > 2. **가치**: 운영, 확장, 혁신 예산을 균형 있게 배분해 좀비 프로젝트를 줄이고 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적으로 중요한 과제에 자원을 집중시킨다.
 > 3. **판단 포인트**: 높은 수익 예상만으로는 부족하며, <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 적합성·<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a>·병목 자원 용량·중단 기준</strong>까지 함께 봐야 진짜 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 관리가 된다.
 
@@ -75,9 +75,9 @@ IT PPM은 보통 <strong>수요 수집 -> 평가 -> 예산 버킷 배분 -> 용�
 
 ## Ⅲ. 비교 및 연결
 
-IT PPM을 이해하려면 프로젝트 관리 (PM, [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))와 린 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 관리 ([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) Portfolio [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))를 함께 비교해야 한다. PM이 선택된 과제를 잘 끝내는 실행 기술이라면, PPM은 어떤 과제를 선택할지부터 다루는 상위 레벨이다.
+IT PPM을 이해하려면 프로젝트 관리 (PM, [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/))와 린 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 관리 ([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) Portfolio [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/))를 함께 비교해야 한다. PM이 선택된 과제를 잘 끝내는 실행 기술이라면, PPM은 어떤 과제를 선택할지부터 다루는 상위 레벨이다.
 
-| 항목 | PM ([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) | 전통적 PPM | [Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) PPM |
+| 항목 | PM ([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/)) | 전통적 PPM | [Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) PPM |
 | :-- | :-- | :-- | :-- |
 | 중심 질문 | 이 프로젝트를 잘 끝냈는가 | 어떤 프로젝트 조합이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에 맞는가 | 지금도 그 조합이 유효한가 |
 | 예산 주기 | 프로젝트별 승인 후 집행 | 연간·반기 중심 | 분기·수시 재배분 |
@@ -85,7 +85,7 @@ IT PPM을 이해하려면 프로젝트 관리 (PM, [Project](/knowledge-base/stu
 | 장점 | 실행 통제에 강함 | 중복 제거와 정렬 강화 | 시장 변화 대응과 조기 중단 유리 |
 | 위험 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 부합도 미반영 | 승인 후 경직성 | 빈번한 우선순위 변경으로 혼선 가능 |
 
-또한 PPM은 엔터프라이즈 아키텍처 ([EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/), [Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/)), Val IT, [SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) ([Scaled Agile Framework](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/))와도 연결된다. EA는 중복 기능과 구조 충돌을 발견하게 해 주고, Val IT는 투자 가치 관점을 제공하며, SAFe는 린 PPM을 대규모 조직에 적용하는 운영 패턴을 제공한다.
+또한 PPM은 엔터프라이즈 아키텍처 ([EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/), [Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/806_ea_enterprise_architecture/)), Val IT, [SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) ([Scaled Agile Framework](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/))와도 연결된다. EA는 중복 기능과 구조 충돌을 발견하게 해 주고, Val IT는 투자 가치 관점을 제공하며, SAFe는 린 PPM을 대규모 조직에 적용하는 운영 패턴을 제공한다.
 
 결국 PPM의 핵심은 숫자 경쟁이 아니라 균형이다. 운영과 혁신, 단기 현금 흐름과 장기 옵션, 위험 회피와 시장 탐색을 한 축에서만 최적화하면 전체 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오는 약해진다.
 
@@ -134,12 +134,12 @@ IT PPM이 정착하면 중복 투자가 줄고, 우선순위 결정 근거가 �
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| PM ([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) | 개별 프로젝트 실행 관리 |
-| [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/)) | 중복 투자와 구조 충돌 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) |
+| PM ([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/)) | 개별 프로젝트 실행 관리 |
+| [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/806_ea_enterprise_architecture/)) | 중복 투자와 구조 충돌 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) |
 | Val IT | IT 투자 가치 실현 관점 제공 |
-| [Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) Portfolio [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) | 분기별 재배분과 실험 중심 운영 |
+| [Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) Portfolio [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) | 분기별 재배분과 실험 중심 운영 |
 | Capacity Planning | 병목 자원 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
-| [VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) (Value [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) | 프로젝트보다 가치 흐름 중심으로 확장되는 방향 |
+| [VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) (Value [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/)) | 프로젝트보다 가치 흐름 중심으로 확장되는 방향 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

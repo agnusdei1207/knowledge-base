@@ -13,7 +13,7 @@ tags = ["studynote-bigdata"]
 
 - **본질**: [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI는 [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Query(M 언어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환)·DAX([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Analysis Expressions 계산)·[시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)의 3레이어로 구성되며, Microsoft 365·Azure·Fabric 생태계와의 깊은 통합을 통해 엔터프라이즈 BI의 표준 플랫폼으로 자리잡았다.
 - **가치**: DAX의 필터 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)(Filter [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))와 행 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)(Row [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)) 개념을 이해하고 CALCULATE로 필터를 조작하는 능력이 [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI 고급 사용자와 기초 사용자를 구분하는 핵심 역량이다.
-- **판단 포인트**: [Microsoft Fabric](/knowledge-base/studynote/16_bigdata/07_data_lake/160_microsoft_fabric/)(2023)은 [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI + [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Factory + Synapse를 통합한 One Lake 기반 분석 플랫폼으로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적재부터 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)까지 단일 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 환경에서 처리하는 패러다임 전환을 의미한다.
+- **판단 포인트**: [Microsoft Fabric](/knowledge-base/studynote/16_bigdata/07_data_lake/160_microsoft_fabric/)(2023)은 [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI + [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Factory + Synapse를 통합한 One Lake 기반 분석 플랫폼으로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적재부터 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)까지 단일 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 환경에서 처리하는 패러다임 전환을 의미한다.
 
 ---
 
@@ -140,7 +140,7 @@ Microsoft Fabric (2023) = 통합 분석 플랫폼
 
 ### 행 수준 보안 (RLS: Row-Level [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))
 
-RLS는 사용자 역할에 따라 볼 수 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 행을 제한하는 [보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/503_security_features_design/):
+RLS는 사용자 역할에 따라 볼 수 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 행을 제한하는 [보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/895_security_features_design/):
 
 ```dax
 // RLS 규칙 정의 (영업 담당자는 자기 지역 데이터만 접근)
@@ -155,7 +155,7 @@ RLS는 사용자 역할에 따라 볼 수 있는 [데이터](/knowledge-base/stu
 | 도구 | 용도 |
 |:---|:---|
 | **DAX Studio** | DAX [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석, 모델 문서화 |
-| **Tabular Editor** | 모델 개발, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 |
+| **Tabular Editor** | 모델 개발, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD, 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/">ALM</a> Toolkit</strong> | 모델 비교·병합 (Git Flow 지원) |
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> BI Helper</strong> | 모델 문서 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 
@@ -191,7 +191,7 @@ RLS는 사용자 역할에 따라 볼 수 있는 [데이터](/knowledge-base/stu
 | [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Query | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환 | M 언어 기반 300+ 커넥터 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) |
 | Import 모드 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모드 | 복사 저장, 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
 | DirectQuery | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모드 | 소스 직접 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/), 항상 최신 |
-| RLS | [보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/503_security_features_design/) | 역할별 행 수준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 필터 |
+| RLS | [보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/895_security_features_design/) | 역할별 행 수준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 필터 |
 | [Microsoft Fabric](/knowledge-base/studynote/16_bigdata/07_data_lake/160_microsoft_fabric/) | 통합 플랫폼 | [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI + [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Factory + Synapse |
 
 ### 📈 관련 키워드 및 발전 흐름도

@@ -19,7 +19,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 중단 없이 업데이트되어야 한다. 전통적 배포("서버 내려서 교체 후 다시 올리기")는 수 분~수십 분의 다운타임을 유발하여 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 위반과 매출 손실로 이어진다. [무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/)([Zero Downtime Deployment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/))는 이 문제를 해결하기 위한 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
+[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 중단 없이 업데이트되어야 한다. 전통적 배포("서버 내려서 교체 후 다시 올리기")는 수 분~수십 분의 다운타임을 유발하여 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 위반과 매출 손실로 이어진다. [무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/)([Zero Downtime Deployment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/))는 이 문제를 해결하기 위한 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
 [무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 선택은 단순한 기술 선택이 아니라 비즈니스 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 허용 수준, 인프라 비용 예산, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 특성에 따른 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 결정이다. 넷플릭스·아마존 같은 기업들은 하루에도 수천 번 배포하면서 99.99% 가용성을 유지하기 위해 이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)들을 정교하게 조합한다.
 
@@ -82,7 +82,7 @@ v2 v1 v1 v1  ->  v2 v2 v1 v1  ->  v2 v2 v2 v1  ->  v2 v2 v2 v2
 |:---|:---|
 | [Rolling Update](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/083_rolling_update_deployment_zero_downtime_version_inconsistency/) | `Deployment` 기본 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (`RollingUpdate`) |
 | Blue-Green | 두 개의 `Deployment` + `Service` 셀렉터 전환 |
-| [Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) | `Ingress` [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) or [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) `VirtualService` |
+| [Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) | `Ingress` [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) or [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) `VirtualService` |
 
 📢 **섹션 요약 비유**: 세 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 레스토랑 메뉴 교체 방법과 같다. Rolling은 메뉴를 하나씩 교체, Blue-Green은 별도 지점을 열어 완전히 준비된 뒤 이전, Canary는 VIP 고객에게만 신메뉴를 먼저 내놓는 것이다.
 
@@ -134,7 +134,7 @@ DB 스키마 변경 있는가?
 | 개념 | 연결 포인트 |
 |:---|:---|
 | K8s [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) | Rolling Update의 기본 구현체 (`strategy: RollingUpdate`) |
-| [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) VirtualService | [Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 트래픽 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 분배 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) 활용 |
+| [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) VirtualService | [Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 트래픽 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 분배 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) 활용 |
 | [Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) | [Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 배포와 결합하여 코드 배포 없는 기능 제어 |
 | DB 마이그레이션 | 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택의 핵심 결정 변수 |
 | ArgoCD / Flux | [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 기반 세 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 모두 구현 가능한 CD 도구 |

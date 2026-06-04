@@ -124,7 +124,7 @@ SonarQube 대시보드:
 
 ## Ⅴ. 현대적 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 예방
 
-### [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)/[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)·CD 파이프라인 통합
+### [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)/[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)·CD 파이프라인 통합
 
 ```
 코드 커밋 -> SonarQube SAST -> 기술 부채 증가 감지 -> PR 차단

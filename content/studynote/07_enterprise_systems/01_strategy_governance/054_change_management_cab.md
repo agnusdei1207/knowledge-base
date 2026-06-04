@@ -11,7 +11,7 @@ tags = ["studynote-enterprise-systems"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/) ([Change Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/027_change_management/))는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 변경의 위험을 통제하는 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) ([IT Service Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_itsm/)) 절차다.
+> 1. **본질**: [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/) ([Change Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/027_change_management/))는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 변경의 위험을 통제하는 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/) ([IT Service Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/845_itsm/)) 절차다.
 > 2. **가치**: [CAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/) (Change Advisory Board)는 변경의 영향, 우선순위, 승인 여부를 검토한다.
 > 3. **판단 포인트**: 표준 변경, 정상 변경, 긴급 변경을 구분해야 승인 흐름이 명확해진다.
 
@@ -39,7 +39,7 @@ Change Request -> Impact/Risk Review -> CAB Approval -> Implementation -> Review
 | :--- | :--- | :--- |
 | Standard Change | 반복적 저위험 | 사전 승인 |
 | Normal Change | 일반 변경 | [CAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/) 검토 |
-| Emergency Change | 긴급 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | [ECAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/)/신속 승인 |
+| Emergency Change | 긴급 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | [ECAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/865_feature_engineering/)/신속 승인 |
 
 핵심은 변경을 막는 것이 아니라, 안전하게 통과시키는 것이다. CAB는 모든 변경을 사람 감으로 승인하는 조직이 아니라, 기준과 증거를 보는 위원회다.
 
@@ -72,7 +72,7 @@ CAB는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_
 1. 변경 유형이 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)되는가?
 2. 영향도와 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 문서화되는가?
 3. [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 계획이 있는가?
-4. [CAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/)/[ECAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/) 승인 기록이 남는가?
+4. [CAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/)/[ECAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/865_feature_engineering/) 승인 기록이 남는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -101,7 +101,7 @@ CAB는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | [CAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/) | 변경 심의 |
-| [ECAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/) | 긴급 심의 |
+| [ECAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/865_feature_engineering/) | 긴급 심의 |
 | Standard Change | 사전 승인 |
 | [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Assessment | 영향 평가 |
 | [Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/) | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 계획 |

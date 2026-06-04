@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 프로젝트의 타임라인 화살표 `[ 기획 ➡ 설계 ➡ 개발 ➡ 테스트 ➡ 배포 ]` 가 있다. 예전엔 QA(테스터) 팀원들이 '테스트' 단계(오른쪽 끝)가 될 때까지 석 달 동안 놀았다. [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)([Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/))는 QA 팀원들의 멱살을 잡고 화살표 맨 왼쪽(기획, 설계)으로 끌고 온다. 기획자가 스펙 문서를 쓸 때 "어? 결제 실패 시 예외 처리 스펙이 빠졌는데요?"라고 문서(텍스트) 단계에서 버그를 찾아버리는([Static Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/430_static_testing/)) 거대한 인식의 전환이다.
+- **개념**: 프로젝트의 타임라인 화살표 `[ 기획 ➡ 설계 ➡ 개발 ➡ 테스트 ➡ 배포 ]` 가 있다. 예전엔 QA(테스터) 팀원들이 '테스트' 단계(오른쪽 끝)가 될 때까지 석 달 동안 놀았다. [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)([Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/))는 QA 팀원들의 멱살을 잡고 화살표 맨 왼쪽(기획, 설계)으로 끌고 온다. 기획자가 스펙 문서를 쓸 때 "어? 결제 실패 시 예외 처리 스펙이 빠졌는데요?"라고 문서(텍스트) 단계에서 버그를 찾아버리는([Static Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/822_static_testing/)) 거대한 인식의 전환이다.
 
 - **필요성**: 개발을 다 끝내고 라이브 배포(오른쪽 끝) 하루 전날 버그가 터졌다. DB 구조가 꼬인 치명적 버그다. 이 버그 1개를 고치려면 DB 설계자, 백엔드 서버, 프론트 화면, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동 등 10명의 인원이 1주일간 밤을 새워 코드를 갈아엎어야 한다(비용 1,000만 원). 만약 이 버그를 두 달 전 '설계 회의(왼쪽)' 때 화이트보드에 그림 그리다 발견했다면? 기획자가 지우개로 슥 지우고 선 하나 다시 그으면 1초 만에 해결된다(비용 0원). <strong>소프트웨어의 버그는 눈덩이(Snowball)처럼 커지기 때문에, 눈이 굴러가기 전 산꼭대기(왼쪽 <a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 단계)에서 발로 밟아 터뜨려야 회사가 산다.</strong>
 
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 테스팅 ([Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) Testing)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -174,7 +174,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 524 / 973
 
-<- **이전**: [466. 시프트 레프트 테스팅 (Shift-Left Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/466_shift_left_testing/)
-**다음**: [467. 시프트 라이트 테스팅 (Shift-Right Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/467_shift_right_testing/) ->
+<- **이전**: [466. 시프트 레프트 테스팅 (Shift-Left Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/858_shift_left_testing/)
+**다음**: [467. 시프트 라이트 테스팅 (Shift-Right Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/859_shift_right_testing/) ->
 
 ---

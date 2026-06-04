@@ -11,7 +11,7 @@ tags = ["studynote-devops"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-    > 1. **본질**: 푸시 기반 (Push-based) 배포는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 서버가 대상 서버로 직접 배포 명령과 자산을 밀어 넣는 방식이다.
+    > 1. **본질**: 푸시 기반 (Push-based) 배포는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 서버가 대상 서버로 직접 배포 명령과 자산을 밀어 넣는 방식이다.
     > 2. **가치**: [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/) orchestrator)는 간단한 자동화에 강하지만, 대상 서버 접근 권한이 집중되어 보안 경계가 넓어진다.
     > 3. **판단 포인트**: 배포 편의성을 얻는 대신 자격 증명, 네트워크 노출, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 책임이 커지므로 대규모 환경에서는 pull 기반이나 GitOps가 더 안전할 수 있다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-devops"]
 
     ## Ⅰ. 개요 및 필요성
 
-    푸시 기반 배포는 중앙 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버가 빌드 산출물을 대상 환경으로 직접 밀어 넣는 방식이다. [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) 같은 오케스트레이터가 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) ([Secure Shell](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 원격 에이전트를 사용해 배포를 수행한다.
+    푸시 기반 배포는 중앙 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 서버가 빌드 산출물을 대상 환경으로 직접 밀어 넣는 방식이다. [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) 같은 오케스트레이터가 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) ([Secure Shell](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 원격 에이전트를 사용해 배포를 수행한다.
 
 이 방식은 구현이 쉽고 기존 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 환경과 잘 맞지만, 배포 서버가 사실상 [특권 계정](/knowledge-base/studynote/09_security/11_iam_access_control/565_privileged_accounts/)의 관문이 된다. 따라서 배포 편의성만 보고 선택하면 보안 경계가 넓어지고, 장애가 나면 중앙 배포 엔진이 단일 실패 지점이 될 수 있다.
 
@@ -108,7 +108,7 @@ GitOps는 선언된 상태를 기준으로 클러스터가 스스로 맞추게 �
     | 개념 | 연결 포인트 |
 | :-- | :-- |
 | [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) | 배포 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)) | 자동 빌드·배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)) | 자동 빌드·배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 |
 | [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) ([Secure Shell](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)) | 원격 실행 자격 수단 |
 | [Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) | 배포 대상 산출물 |
 | [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) | pull 기반 선언형 배포 모델 |

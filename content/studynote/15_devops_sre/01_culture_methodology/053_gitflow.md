@@ -60,7 +60,7 @@ GitFlow는 GitHub Flow나 Trunk-Based보다 구조가 무겁다. 대신 릴리�
 | 릴리스 방식 | 계획형 | 연속형 | 초연속형 |
 | 운영 복잡도 | 높음 | 낮음 | 중간 |
 
-GitFlow는 배포 승인과 릴리스 노트가 중요한 조직에 잘 맞는다. 반대로 빠른 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD가 목표라면 과한 구조가 될 수 있다.
+GitFlow는 배포 승인과 릴리스 노트가 중요한 조직에 잘 맞는다. 반대로 빠른 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD가 목표라면 과한 구조가 될 수 있다.
 
 - **📢 섹션 요약 비유**: GitFlow는 여러 개의 출구가 있는 고속도로, GitHub Flow는 한 개의 빠른 직진로다.
 

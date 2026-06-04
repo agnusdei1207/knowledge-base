@@ -11,7 +11,7 @@ tags = ["studynote-devops-sre"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) (Status [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 상태와 인시던트 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상황을 고객 언어로 번역해 공개하는 대외 관측성 채널이며, 공개 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))의 체감 인터페이스다.
+> 1. **본질**: 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) (Status [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 상태와 인시던트 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상황을 고객 언어로 번역해 공개하는 대외 관측성 채널이며, 공개 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/))의 체감 인터페이스다.
 > 2. **가치**: 장애 사실을 빠르게 공유하면 추측과 티켓 폭주를 줄이고, 장기적으로는 숨기는 조직보다 더 높은 신뢰를 만든다.
 > 3. **판단 포인트**: 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 자동 탐지와 인간의 상황 설명을 함께 가져가야 하며, 주 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 독립된 인프라에 두지 않으면 가장 필요할 때 함께 죽는다는 치명적 한계를 가진다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 단순히 "정상 운영 중"을 표시하는 전광판이 아니다. 고객이 장애를 겪을 때 가장 먼저 묻는 세 가지, 즉 <strong>무엇이 영향을 받는가, 언제부터 문제인가, 다음 업데이트는 언제 나오는가</strong>에 답하는 공식 창구다. [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 관점에서 보면, 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 내부 [인시던트 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_incident_management/) 프로세스가 외부 고객 커뮤니케이션으로 이어지는 마지막 단계다.
+상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 단순히 "정상 운영 중"을 표시하는 전광판이 아니다. 고객이 장애를 겪을 때 가장 먼저 묻는 세 가지, 즉 <strong>무엇이 영향을 받는가, 언제부터 문제인가, 다음 업데이트는 언제 나오는가</strong>에 답하는 공식 창구다. [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 관점에서 보면, 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 내부 [인시던트 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/859_incident_management/) 프로세스가 외부 고객 커뮤니케이션으로 이어지는 마지막 단계다.
 
 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 멈췄는데 회사가 침묵하면 사용자는 지원팀, 커뮤니티, 사회관계망서비스를 돌며 정보를 추측하게 된다. 그 순간 운영팀은 장애 자체보다 문의 폭주와 오해에 더 많은 시간을 쓰게 된다. 반대로 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 빠르게 갱신되면 고객은 같은 정보를 같은 문장으로 받아들이고, 지원 조직도 반복 답변 대신 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 자체에 집중할 수 있다.
 
@@ -48,11 +48,11 @@ tags = ["studynote-devops-sre"]
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| 탐지 계층 | 외부 프로브, 애플리케이션 경보, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 계산 | 사용자 경계에서 증거를 수집해야 함 |
+| 탐지 계층 | 외부 프로브, 애플리케이션 경보, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 계산 | 사용자 경계에서 증거를 수집해야 함 |
 | 판단 계층 | 인시던트 선언, 영향 범위 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 내부 장애와 고객 영향 장애를 구분 |
 | 게시 계층 | 공개 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/), [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 상태, 공지 이력 | 고객이 읽을 수 있는 용어 사용 |
 | 전달 계층 | 이메일, 문자, [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/) 구독 | 고객이 새로고침 없이도 알 수 있어야 함 |
-| 기록 계층 | 업타임 히스토리, 유지보수 공지, 포스트모텀 링크 | 공개 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 신뢰 근거가 됨 |
+| 기록 계층 | 업타임 히스토리, 유지보수 공지, 포스트모텀 링크 | 공개 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 신뢰 근거가 됨 |
 
 아래 구조는 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 내부 감지 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)와 외부 공지를 어떻게 연결하는지 보여 준다.
 
@@ -66,7 +66,7 @@ tags = ["studynote-devops-sre"]
 +--------------------------------------------------------------------------+
 ```
 
-이 구조에서 가장 중요한 원칙은 <strong>독립 호스팅</strong>이다. 주 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 같은 계정, 같은 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) (Content Delivery Network), 같은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 올리면 대형 장애 시 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)도 함께 사라진다. 따라서 외부 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쓰거나, 최소한 다른 계정·다른 배포 경로·다른 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) ([Domain Name System](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) 체계로 분리해야 한다.
+이 구조에서 가장 중요한 원칙은 <strong>독립 호스팅</strong>이다. 주 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 같은 계정, 같은 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) (Content Delivery Network), 같은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 올리면 대형 장애 시 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)도 함께 사라진다. 따라서 외부 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쓰거나, 최소한 다른 계정·다른 배포 경로·다른 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) ([Domain Name System](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) 체계로 분리해야 한다.
 
 상태 표현도 세밀해야 한다. "전체 장애"와 "일부 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)"을 구분하지 못하면 고객은 불필요한 공포를 느끼거나 반대로 상황을 과소평가한다.
 
@@ -91,11 +91,11 @@ tags = ["studynote-devops-sre"]
 | 내부 대시보드 | 운영팀, 개발팀 | 왜 장애가 났는가 | 매우 높음 |
 | 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) | 고객, 파트너, 영업 | 지금 무엇이 영향받는가 | 중간 |
 | 포스트모텀 | 조직 내부, 주요 고객 | 무엇을 배웠고 어떻게 재발을 막을 것인가 | 높음 |
-| 공개 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) | 고객, 법무, 구매 부서 | 어느 수준을 약속하고 못 지키면 어떻게 되는가 | 낮지만 엄격함 |
+| 공개 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) | 고객, 법무, 구매 부서 | 어느 수준을 약속하고 못 지키면 어떻게 되는가 | 낮지만 엄격함 |
 
 자동 업데이트와 수동 업데이트의 경계도 중요하다. [합성 모니터링](/knowledge-base/studynote/15_devops_sre/03_sre_observability/164_synthetic_monitoring_dummy_client/)이 500 오류 급증을 감지하면 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 상태를 자동으로 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하"로 낮출 수 있다. 하지만 "결제 승인은 정상이나 정산 내역 반영이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된다" 같은 고객 영향 문장은 사람이 써야 정확하다. 즉 자동화는 속도를 보장하고, 인간은 의미를 보강한다.
 
-또한 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 공개 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 그 자체는 아니다. 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 고객과의 계약을 설명하는 근거 자료이자 투명성 채널이지, 보상 계산을 확정하는 법적 문서까지 대신하지는 않는다. 하지만 고객 입장에서는 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 성실성이 그 회사의 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)를 거의 그대로 대변한다. 계약서 숫자보다 공지 태도가 더 기억되기 때문이다.
+또한 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 공개 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 그 자체는 아니다. 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 고객과의 계약을 설명하는 근거 자료이자 투명성 채널이지, 보상 계산을 확정하는 법적 문서까지 대신하지는 않는다. 하지만 고객 입장에서는 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 성실성이 그 회사의 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)를 거의 그대로 대변한다. 계약서 숫자보다 공지 태도가 더 기억되기 때문이다.
 
 - **📢 섹션 요약 비유**: 내부 대시보드가 자동차 엔진 계기판이라면, 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 승객에게 들리는 안내 방송이다. 엔진 온도와 오일 압력은 내부에서 보되, 승객에게는 언제 멈췄고 언제 다시 출발하는지를 알려 줘야 한다.
 
@@ -122,7 +122,7 @@ tags = ["studynote-devops-sre"]
 
 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에서 자주 보이는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)은 네 가지다. 첫째, 모든 장애를 "일부 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하"로 축소 표현하는 것, 둘째, 공격·보안 사고를 이유로 아무 정보도 주지 않는 것, 셋째, 고객에게 의미 없는 내부 용어만 나열하는 것, 넷째, 자동화만 믿고 오래된 공지를 방치하는 것이다. 투명성과 보안 사이의 균형은 필요하지만, 모호함은 신뢰를 깎는다.
 
-도구 선택은 조직 규모에 따라 달라질 수 있다. 소규모 팀은 외부 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 가장 안전하고 빠르며, 대규모 조직은 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 기반 자동 게시와 고객 구독 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 가능한 플랫폼이 유리하다. 다만 어떤 도구를 쓰든 핵심은 "고객 영향 중심 서술"과 "독립 생존성" 두 가지다.
+도구 선택은 조직 규모에 따라 달라질 수 있다. 소규모 팀은 외부 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 가장 안전하고 빠르며, 대규모 조직은 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 기반 자동 게시와 고객 구독 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 가능한 플랫폼이 유리하다. 다만 어떤 도구를 쓰든 핵심은 "고객 영향 중심 서술"과 "독립 생존성" 두 가지다.
 
 - **📢 섹션 요약 비유**: 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 운영은 기상청 특보와 같다. 비가 오는 이유를 전부 설명하기보다, 지금 우산이 필요한지와 다음 안내가 언제 나오는지를 먼저 알려 주는 것이 핵심이다.
 
@@ -130,7 +130,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅴ. 기대효과 및 결론
 
-잘 운영된 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 지원 티켓 감소, 영업 신뢰 확보, 공개 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 설득력 강화라는 세 가지 효과를 만든다. 장애 시 고객은 같은 질문을 반복하지 않아도 되고, 영업팀은 과거 업타임 기록과 공지 수준을 근거로 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 설명할 수 있다. 운영팀 입장에서도 공지를 표준화하면 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 업무와 커뮤니케이션 업무를 분리해 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)를 낮출 수 있다.
+잘 운영된 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 지원 티켓 감소, 영업 신뢰 확보, 공개 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 설득력 강화라는 세 가지 효과를 만든다. 장애 시 고객은 같은 질문을 반복하지 않아도 되고, 영업팀은 과거 업타임 기록과 공지 수준을 근거로 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 설명할 수 있다. 운영팀 입장에서도 공지를 표준화하면 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 업무와 커뮤니케이션 업무를 분리해 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)를 낮출 수 있다.
 
 물론 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 만능은 아니다. 공지가 빠르더라도 탐지 자체가 늦으면 의미가 없고, 공지가 성실해도 실제 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 능력이 없으면 신뢰는 오래가지 않는다. 또한 지나치게 많은 세부 정보를 공개하면 보안 위험이나 오해를 낳을 수 있으므로, 고객에게 필요한 정보와 공격자에게 도움이 될 정보를 구분해야 한다.
 
@@ -144,9 +144,9 @@ tags = ["studynote-devops-sre"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [인시던트 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_incident_management/) ([Incident Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_incident_management/)) | 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 업데이트의 내부 출발점 |
+| [인시던트 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/859_incident_management/) ([Incident Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/859_incident_management/)) | 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 업데이트의 내부 출발점 |
 | [합성 모니터링](/knowledge-base/studynote/15_devops_sre/03_sre_observability/164_synthetic_monitoring_dummy_client/) ([Synthetic Monitoring](/knowledge-base/studynote/15_devops_sre/03_sre_observability/164_synthetic_monitoring_dummy_client/)) | 고객 관점에서 상태 변화를 빠르게 감지 |
-| 공개 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) | 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 투명성 근거를 제공하는 외부 약속 |
+| 공개 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)) | 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 투명성 근거를 제공하는 외부 약속 |
 | 포스트모텀 (Postmortem) | 장애 종료 후 학습 내용을 연결하는 후속 문서 |
 | 구독 알림 | 고객이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 방문 없이도 변화를 받게 하는 채널 |
 | 독립 호스팅 | 주 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애와 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 장애를 분리하는 핵심 원칙 |

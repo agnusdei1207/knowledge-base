@@ -147,7 +147,7 @@ RNN과 LSTM은 독립된 점으로 존재하던 [데이터](/knowledge-base/stud
 
 **진행 상황**: 163 / 587
 
-<- **이전**: [89. 구성 관리 (Configuration Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/)
-**다음**: [90. CI (Configuration Item)](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) ->
+<- **이전**: [89. 구성 관리 (Configuration Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/873_configuration_management/)
+**다음**: [90. CI (Configuration Item)](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) ->
 
 ---

@@ -137,6 +137,6 @@ tags = ["studynote-security"]
 **진행 상황**: 1030 / 1108
 
 <- **이전**: [936. 주변 보안 (Perimeter Security)](/knowledge-base/studynote/09_security/18_iot_ot_physical/936_perimeter_security/)
-**다음**: [937. 하이브리드 암호 시스템 (Hybrid Cryptography Symmetric Asymmetric Ssl Pgp)](/knowledge-base/studynote/09_security/uncategorized/937_hybrid_cryptography_symmetric_asymmetric_ssl_pgp/) ->
+**다음**: [937. 하이브리드 암호 시스템 (Hybrid Cryptography Symmetric Asymmetric Ssl Pgp)](/knowledge-base/studynote/09_security/uncategorized/1071_hybrid_cryptography_symmetric_asymmetric_ssl_pgp/) ->
 
 ---

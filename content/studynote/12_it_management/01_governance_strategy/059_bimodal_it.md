@@ -141,6 +141,6 @@ tags = ["studynote-it-management"]
 **진행 상황**: 102 / 587
 
 <- **이전**: [58. 데이터 리터러시 (Data Literacy) - 전 임직원의 데이터 해석 및 활용 역량](/knowledge-base/studynote/12_it_management/01_governance_strategy/058_data_literacy/)
-**다음**: [59. 바이모달 IT (Bimodal IT) - Mode 1 / Mode 2 전략](/knowledge-base/studynote/12_it_management/01_governance_strategy/059_bimodal_it_mode1_mode2_strategy/) ->
+**다음**: [59. 바이모달 IT (Bimodal IT) - Mode 1 / Mode 2 전략](/knowledge-base/studynote/12_it_management/01_governance_strategy/844_bimodal_it_mode1_mode2_strategy/) ->
 
 ---

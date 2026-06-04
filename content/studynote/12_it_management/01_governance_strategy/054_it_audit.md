@@ -50,9 +50,9 @@ IT Governance -> Controls -> Evidence -> Findings -> Recommendation
 
 ## Ⅲ. 비교 및 연결
 
-IT [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)는 [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/)/[ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)보다 넓은 범위를 볼 수 있다. ITSM이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 프로세스 중심이라면 IT [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)는 기술 통제와 리스크를 더 폭넓게 본다.
+IT [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)는 [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/846_itil/)/[ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/) [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)보다 넓은 범위를 볼 수 있다. ITSM이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 프로세스 중심이라면 IT [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)는 기술 통제와 리스크를 더 폭넓게 본다.
 
-| 항목 | IT [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) | [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) |
+| 항목 | IT [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) | [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/) [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) |
 | :--- | :--- | :--- |
 | 초점 | 통제/준법/보안 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 프로세스 |
 | 증거 | 권한, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) | 티켓, [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/), 승인 |
@@ -139,7 +139,7 @@ IT [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditi
 
 **진행 상황**: 97 / 587
 
-<- **이전**: [53. 데이터 스튜어드 역할 (Data Stewardship Role)](/knowledge-base/studynote/12_it_management/01_governance_strategy/053_data_stewardship_role/)
+<- **이전**: [53. 데이터 스튜어드 역할 (Data Stewardship Role)](/knowledge-base/studynote/12_it_management/01_governance_strategy/843_data_stewardship_role/)
 **다음**: [55. 디지털 전환 (Digital Transformation)](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) ->
 
 ---

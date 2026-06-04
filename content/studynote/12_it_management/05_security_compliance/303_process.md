@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 448 / 587
 
-<- **이전**: [302. 서비스 메시 (Istio) 사이드카 프록시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)
-**다음**: [303. 서비스 디스커버리 동적 IP 라우팅](/knowledge-base/studynote/12_it_management/05_security_compliance/303_service_discovery/) ->
+<- **이전**: [302. 서비스 메시 (Istio) 사이드카 프록시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)
+**다음**: [303. 서비스 디스커버리 동적 IP 라우팅](/knowledge-base/studynote/12_it_management/05_security_compliance/946_service_discovery/) ->
 
 ---

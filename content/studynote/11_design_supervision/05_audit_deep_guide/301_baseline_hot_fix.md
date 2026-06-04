@@ -96,7 +96,7 @@ tags = ["studynote-design-supervision"]
 ---
 
 ### 📌 관련 개념 맵
-- 상위 개념: 형상관리([Configuration Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/))
+- 상위 개념: 형상관리([Configuration Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/873_configuration_management/))
 - 핵심 통제: 긴급 변경, [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)
 - [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적: 승인 추적과 운영 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·테스트 결과
 - 확장 개념: 연속 배포 통제(Controlled [Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/))

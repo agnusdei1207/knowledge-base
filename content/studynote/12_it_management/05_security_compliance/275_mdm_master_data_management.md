@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 398 / 587
 
-<- **이전**: [274. CDO 데이터 총괄 임원](/knowledge-base/studynote/12_it_management/05_security_compliance/274_cdo_role/)
-**다음**: [275. MDM 마스터 데이터 관리](/knowledge-base/studynote/12_it_management/05_security_compliance/275_mdm_review/) ->
+<- **이전**: [274. CDO 데이터 총괄 임원](/knowledge-base/studynote/12_it_management/05_security_compliance/923_cdo_role/)
+**다음**: [275. MDM 마스터 데이터 관리](/knowledge-base/studynote/12_it_management/05_security_compliance/924_mdm_review/) ->
 
 ---

@@ -148,7 +148,7 @@ tags = ["studynote-network"]
 | 구분 | 완전 개방 망 (Open Wi-Fi) | 캡티브 포털 (Walled Garden) 적용 망 | 개선 효과 |
 |:---|:---|:---|:---|
 | **정량 (수익 및 마케팅 수집)** | 수익 모델 0원, 비용만 낭비됨 | 광고 노출, 카카오싱크 연동으로 이메일/전번 수집 | 무료 인프라 제공 대가로 <strong>연간 수십만 건의 고객 마케팅 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(DB) 확보 창출.</strong> |
-| **정량 (무선망 자원 관리)** | 동네 백수들이 영화 받느라 망 다운됨 | 1명당 속도 5Mbps, 1시간 제한([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) 강제 | 악성 헤비 유저를 쳐내어 전체 손님의 <strong>평균 체감 속도와 품질(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a>) 3배 이상 안정화.</strong> |
+| **정량 (무선망 자원 관리)** | 동네 백수들이 영화 받느라 망 다운됨 | 1명당 속도 5Mbps, 1시간 제한([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) 강제 | 악성 헤비 유저를 쳐내어 전체 손님의 <strong>평균 체감 속도와 품질(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/">SLA</a>) 3배 이상 안정화.</strong> |
 | **정성 (법적 면책 조항)**| 와이파이로 해킹 범죄 발생 시 카페 사장 수사 | 팝업창에서 [이용 약관 및 불법 행위 금지] 도장 받음 | 불법 다운로드/사이버 범죄 발생 시 핫스팟 제공자(호텔/카페)의 **법적 책임(Liability) 완벽 분리 면책.** |
 
 ### 미래 전망 및 진화 방향

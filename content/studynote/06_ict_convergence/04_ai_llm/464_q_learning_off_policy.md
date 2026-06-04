@@ -111,7 +111,7 @@ Q-Learning은 "규칙을 알려주지 않아도, 실패의 경험만으로 완�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 상위 개념 | 강화학습 ([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/)), [마르코프 결정 과정](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) ([MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/)) |
+| 상위 개념 | 강화학습 ([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/)), [마르코프 결정 과정](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) ([MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/)) |
 | 하위 개념 | Q-Table, 오프 폴리시 (Off-[Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)), 시간 차 학습 (Temporal Difference, TD) |
 | 연결 개념 | 엡실론 그리디 ($\varepsilon$-Greedy), SARSA, [DQN](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/) ([Deep Q-Network](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/)) |
 

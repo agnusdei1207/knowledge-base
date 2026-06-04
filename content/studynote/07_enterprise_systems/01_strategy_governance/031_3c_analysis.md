@@ -10,8 +10,8 @@ tags = ["studynote-enterprise-systems"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 3C 분석([3C Analysis](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_3c_analysis/))은 [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)(고객)·Competitor(경쟁자)·Company(자사)의 세 관점을 통합하여 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 포지셔닝을 도출하는 프레임워크다. 오마에 겐이치(大前研一)가 제시한 경영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기법이다.
-> 2. **가치**: 3C의 핵심은 교차점이다. 고객 니즈를 충족하면서([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)), 경쟁자가 제공 못 하는 것을(Competitor), 자사가 잘할 수 있는 것(Company)으로 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 포지션을 찾는 것이 목표다.
+> 1. **본질**: 3C 분석([3C Analysis](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_3c_analysis/))은 [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/)(고객)·Competitor(경쟁자)·Company(자사)의 세 관점을 통합하여 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 포지셔닝을 도출하는 프레임워크다. 오마에 겐이치(大前研一)가 제시한 경영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기법이다.
+> 2. **가치**: 3C의 핵심은 교차점이다. 고객 니즈를 충족하면서([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/)), 경쟁자가 제공 못 하는 것을(Competitor), 자사가 잘할 수 있는 것(Company)으로 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 포지션을 찾는 것이 목표다.
 > 3. **판단 포인트**: 3C는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 방향 수립의 출발점이지, 완결된 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 아니다. SWOT 분석의 내부 요인(S·W = Company), 외부 요인(O·T ⊃ Competitor·Market)과 연계하여 더 입체적인 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 수립한다.
 
 ---
@@ -41,7 +41,7 @@ tags = ["studynote-enterprise-systems"]
 
 | C | 분석 항목 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">C고객</a></strong> | 고객 세그먼트, 니즈, 구매 기준, 불만, 트렌드 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/">C고객</a></strong> | 고객 세그먼트, 니즈, 구매 기준, 불만, 트렌드 |
 | **Competitor** | 경쟁사 강점·약점, [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 시장 점유율, 차별화 |
 | **Company** | 핵심 역량, 자원, 약점, 브랜드, 재무 현황 |
 
@@ -107,7 +107,7 @@ Company:
   □ 자금·시간 제약 파악
 ```
 
-- **📢 섹션 요약 비유**: IT 기획 3C [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)는 스타트업 PMF [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이다. 고객 인터뷰([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)), 경쟁사 분석(Competitor), 팀 역량 평가(Company)가 Product-Market Fit 달성의 3대 점검 항목이다.
+- **📢 섹션 요약 비유**: IT 기획 3C [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)는 스타트업 PMF [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이다. 고객 인터뷰([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/)), 경쟁사 분석(Competitor), 팀 역량 평가(Company)가 Product-Market Fit 달성의 3대 점검 항목이다.
 
 ---
 

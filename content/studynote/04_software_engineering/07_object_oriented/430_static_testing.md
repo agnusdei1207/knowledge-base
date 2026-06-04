@@ -33,7 +33,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **1970년대**: IBM에서 [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) 프로세스 개발
   2. **1990년대**: [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구 등장 (Lint, PC-Lint 등)
-  3. **현재**: [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/), ESLint, Checkmarx 등 다양한 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 통합
+  3. **현재**: [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/), ESLint, Checkmarx 등 다양한 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 통합
 
 - **섹션 요약 비유**: 정적 테스팅은 <strong>'원고의 맞춤법 검사'</strong>와/과 같다. 인쇄소에서 실제 인쇄를 하기 전에 원고(코드)를 읽으며 맞춤법, 문법, 논리적 오류 등을검사하는. 인쇄 후(동적 테스트)에 오류를 발견하면 원고를 다시서き직し 비용이 발생하지만, 원고 단계에서 발견하면 간단히수정할 수 있다.
 
@@ -127,7 +127,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 정적 테스팅 (Static Testing)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -181,7 +181,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 452 / 973
 
-<- **이전**: [430. 정적 테스팅 (Static Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/430_static_testing/)
-**다음**: [431. 동적 테스팅 (Dynamic Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/431_dynamic_testing/) ->
+<- **이전**: [430. 정적 테스팅 (Static Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/822_static_testing/)
+**다음**: [431. 동적 테스팅 (Dynamic Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/823_dynamic_testing/) ->
 
 ---

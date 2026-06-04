@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 467 / 587
 
-<- **이전**: [312. 데이터 마트 Kimball 다차원 스타 스키마](/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/)
-**다음**: [313. 스노우플레이크 스키마 정규화 트리 형태](/knowledge-base/studynote/12_it_management/05_security_compliance/313_snowflake_schema/) ->
+<- **이전**: [312. 데이터 마트 Kimball 다차원 스타 스키마](/knowledge-base/studynote/12_it_management/05_security_compliance/954_kimball/)
+**다음**: [313. 스노우플레이크 스키마 정규화 트리 형태](/knowledge-base/studynote/12_it_management/05_security_compliance/955_snowflake_schema/) ->
 
 ---

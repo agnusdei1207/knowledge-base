@@ -140,7 +140,7 @@ MLOps 드리프트 탐지 파이프라인 모니터링 [감사](/knowledge-base/
 
 **진행 상황**: 536 / 587
 
-<- **이전**: [347. 프롬프트 인젝션 보안 필터망 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/347_prompt_injection_security_filter/)
-**다음**: [348. MLOps 드리프트 탐지 파이프라인 모니터링 감사](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops_drift_detection_pipeline/) ->
+<- **이전**: [347. 프롬프트 인젝션 보안 필터망 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/988_prompt_injection_security_filter/)
+**다음**: [348. MLOps 드리프트 탐지 파이프라인 모니터링 감사](/knowledge-base/studynote/12_it_management/05_security_compliance/989_mlops_drift_detection_pipeline/) ->
 
 ---

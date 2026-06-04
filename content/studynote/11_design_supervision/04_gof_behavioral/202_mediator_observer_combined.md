@@ -19,9 +19,9 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 개요 및 필요성
 
-실무에서 두 패턴을 순수하게 분리하여 적용하기보다, 함께 조합하여 더 강력한 설계를 달성하는 경우가 많다. [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/)(EventBus)가 대표적인 두 패턴의 조합이다.
+실무에서 두 패턴을 순수하게 분리하여 적용하기보다, 함께 조합하여 더 강력한 설계를 달성하는 경우가 많다. [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/931_event_bus_stream_processing/)(EventBus)가 대표적인 두 패턴의 조합이다.
 
-[이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/) 구조: ① [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)가 이벤트를 EventBus(미디에이터)에 발행(publish), ② EventBus가 해당 이벤트를 구독한 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)([옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))에게 통지(notify), ③ 구독자가 이벤트를 처리. [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)는 서로를 직접 알지 못하고, 이벤트 타입으로만 통신한다.
+[이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/931_event_bus_stream_processing/) 구조: ① [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)가 이벤트를 EventBus(미디에이터)에 발행(publish), ② EventBus가 해당 이벤트를 구독한 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)([옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))에게 통지(notify), ③ 구독자가 이벤트를 처리. [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)는 서로를 직접 알지 못하고, 이벤트 타입으로만 통신한다.
 
 ```text
 +-------------------------------------------------------------+
@@ -83,7 +83,7 @@ tags = ["studynote-design-supervision"]
 ---
 ## Ⅲ. 비교 및 연결
 
-두 패턴 조합의 발전: 단일 앱 내 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/)(스프링 ApplicationEvent) -> [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), RabbitMQ) -> [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)([Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/)) + 두 패턴 통합.
+두 패턴 조합의 발전: 단일 앱 내 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/931_event_bus_stream_processing/)(스프링 ApplicationEvent) -> [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/931_event_bus_stream_processing/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), RabbitMQ) -> [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)([Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/)) + 두 패턴 통합.
 
 | 비교 축 | A | B |
 |:---|:---|:---|
@@ -101,7 +101,7 @@ tags = ["studynote-design-supervision"]
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 이벤트 발행자(미디에이터)와 구독자([옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))가 인터페이스로 분리되어 서로를 알지 못하는가?
 2. 동기 처리(스프링 ApplicationEvent)와 비동기 처리(@Async EventListener, [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))를 요구사항에 맞게 선택했는가?
-3. [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/)가 비대해지지 않도록 도메인별로 이벤트 채널을 분리했는가?
+3. [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/931_event_bus_stream_processing/)가 비대해지지 않도록 도메인별로 이벤트 채널을 분리했는가?
 4. [미디에이터 패턴](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/201_mediator_pattern/)(중재)과 [옵저버 패턴](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/606_observer_pattern_pub_sub/)(1:N 통지)의 역할이 명확히 구분되는가?
 5. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 이벤트 중복 처리, 순서 보장, 재처리(Retry) 전략을 설계했는가?
 
@@ -136,7 +136,7 @@ tags = ["studynote-design-supervision"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 미디에이터(채팅방)와 [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/)(구독 알림)를 합치면 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/)가 돼요!
+1. 미디에이터(채팅방)와 [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/)(구독 알림)를 합치면 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/931_event_bus_stream_processing/)가 돼요!
 2. 쇼핑몰이 주문 완료 이벤트를 발행하면, 이메일·재고·포인트 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 각자 처리해요.
 3. 스프링 ApplicationEvent와 Kafka가 바로 이 두 패턴의 통합 구현이에요!
 

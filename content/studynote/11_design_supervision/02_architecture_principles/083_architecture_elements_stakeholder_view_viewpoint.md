@@ -76,7 +76,7 @@ tags = ["studynote-design"]
 | :--- | :--- | :--- |
 | Logical | 기능은 어떻게 나뉘는가 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 기능 흐름 |
 | Development | 소스는 어떻게 조직되는가 | 패키지, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) |
-| [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) | 실행 중 무엇이 일어나는가 | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/), 통신, [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) |
+| [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) | 실행 중 무엇이 일어나는가 | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/), 통신, [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) |
 | Physical | 어디에 배치되는가 | 서버, 네트워크, 배포 토폴로지 |
 | Scenario | 정말 동작하는가 | 유스케이스, 시나리오 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 
@@ -109,7 +109,7 @@ tags = ["studynote-design"]
 | :--- | :--- |
 | 변경 영향, 코드 소유권 | Development 관점 |
 | 장애 대응, 배치 위치 | Physical 관점 |
-| 실행 순서, [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) | [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) 관점 |
+| 실행 순서, [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) | [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) 관점 |
 | 기능 분해, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 경계 | Logical 관점 |
 
 기술사 답안에서는 다음 판단 문장을 분명히 써 주는 것이 좋다. "모든 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)를 하나의 뷰로 만족시킬 수 없으므로, Concern을 분리하고 각 Concern에 맞는 Viewpoint를 선택해야 한다." 이 문장이 있어야 아키텍처 설명이 단순 도식이 아니라 판단으로 보인다.

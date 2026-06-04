@@ -108,7 +108,7 @@ tags = ["studynote-database"]
 | :--- | :--- |
 | [데이터 디렉터리](/knowledge-base/studynote/05_database/01_db_architecture_relational/013_data_directory/) [시스템 카탈로그](/knowledge-base/studynote/05_database/01_db_architecture_relational/011_system_catalog/) 차이 | 앞뒤 맥락에서 현재 주제의 경계를 선명하게 해 주는 인접 개념이다. |
 | [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) (Trigger 이벤트 연동 프로시저 콜) | 앞뒤 맥락에서 현재 주제의 경계를 선명하게 해 주는 인접 개념이다. |
-| [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) | 현재 개념이 실제로 실행되는 플랫폼이다. |
+| [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System) | 현재 개념이 실제로 실행되는 플랫폼이다. |
 | [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) ([Data Model](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)) | 개념의 위치를 설명하는 상위 프레임이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도

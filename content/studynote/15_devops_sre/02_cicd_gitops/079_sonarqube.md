@@ -12,7 +12,7 @@ tags = ["studynote-devops-sre"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 소나큐브(SonarQube)는 프로그램을 실행하지 않고 소스 코드(Text) 그 자체를 돋보기로 들여다보며, 인간의 눈으로는 찾기 힘든 보안 취약점, 버그, 스파게티 코드([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))를 <strong>기계적으로 색출해 내는 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/">정적 분석</a>(Static <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> Analysis)의 절대적 표준 쇳덩어리 플랫폼</strong>이다.
 > 2. **가치**: 100명의 개발자가 각자의 스타일로 똥(나쁜 코드)을 싸지르는 것을 막고, 변수명 규칙부터 순환 복잡도(Cyclomatic Complexity)까지 회사의 <strong>'코드 품질(Quality) 거버넌스'를 하나의 대시보드에 <a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a>하여 강제로 통일시키는 엄격한 품질 경찰관</strong> 역할을 한다.
-> 3. **판단 포인트**: 단순히 코드만 검사하는 도구가 아니라, Jenkins나 GitHub Actions 같은 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인 한가운데 융합되어(Quality Gate), 품질 기준(예: A등급)을 통과하지 못한 쓰레기 코드는 운영 서버 배포를 물리적으로 차단(Build Fail)해 버리는 파괴적인 통제권</strong>이 핵심이다.
+> 3. **판단 포인트**: 단순히 코드만 검사하는 도구가 아니라, Jenkins나 GitHub Actions 같은 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인 한가운데 융합되어(Quality Gate), 품질 기준(예: A등급)을 통과하지 못한 쓰레기 코드는 운영 서버 배포를 물리적으로 차단(Build Fail)해 버리는 파괴적인 통제권</strong>이 핵심이다.
 
 ---
 
@@ -89,7 +89,7 @@ tags = ["studynote-devops-sre"]
 2. <strong>Clean <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">as</a> You <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> (새로운 코드만 통제하기) <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 10년 된 레거시(낡은) 프로젝트에 소나큐브를 처음 달았더니 에러가 10만 개가 떴다. 개발자들은 절망하고 소나큐브를 끄자고 폭동을 일으킨다. 똑똑한 아키텍트는 룰을 바꾼다. "과거 10년 치 쓰레기는 일단 놔둬(무시). 하지만 <strong>'오늘 새로 추가한 코드(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">New</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)'</strong>에서는 단 1개의 버그나 C등급도 허용하지 않겠다!" 이것이 소나큐브의 핵심 실무 철학인 Clean [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) You Code다. 이렇게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해 두면 낡은 코드가 조금씩 새 코드로 교체되면서, 시스템 전체가 서서히 A등급으로 정화(Purification)되는 마법이 일어난다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **소나큐브 룰(Rule)에 대한 무조건적 맹신과 예외 처리(Suppress) 남용**: 보안 부서에서 "소나큐브 빨간 줄 하나라도 있으면 절대 배포 금지!"라고 멍청한 강압 룰을 내린다. [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)기는 기계라서, 실제로는 완벽하게 방어된 안전한 코드인데도 문법 모양만 보고 오탐(False Positive)을 뱉는 경우가 30%나 된다. 융통성 없는 룰에 지친 개발자들은 코드를 예쁘게 고치는 대신, 코드 위에 `@SuppressWarnings("all")` (소나큐브야 눈감아라) 어노테이션을 무지성으로 도배해 버린다. 결국 소나큐브는 에러를 0개로 표시하지만, 속은 썩어가는 가짜([Fake](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/)) 대시보드로 전락한다.
+- **소나큐브 룰(Rule)에 대한 무조건적 맹신과 예외 처리(Suppress) 남용**: 보안 부서에서 "소나큐브 빨간 줄 하나라도 있으면 절대 배포 금지!"라고 멍청한 강압 룰을 내린다. [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)기는 기계라서, 실제로는 완벽하게 방어된 안전한 코드인데도 문법 모양만 보고 오탐(False Positive)을 뱉는 경우가 30%나 된다. 융통성 없는 룰에 지친 개발자들은 코드를 예쁘게 고치는 대신, 코드 위에 `@SuppressWarnings("all")` (소나큐브야 눈감아라) 어노테이션을 무지성으로 도배해 버린다. 결국 소나큐브는 에러를 0개로 표시하지만, 속은 썩어가는 가짜([Fake](/knowledge-base/studynote/04_software_engineering/11_testing_validation/855_fake_test_double/)) 대시보드로 전락한다.
 
 - **📢 섹션 요약 비유**: 이 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)은 금속탐지기(소나큐브)가 너무 예민해서 벨트 버클만 지나가도 삑삑 울리며 출입을 막는 상황이다. 보안팀이 "소리 나면 무조건 해고!"라고 윽박지르자, 꼼수를 부린 직원들이 아예 금속탐지기 전원 코드를 몰래 뽑아놓고(예외 처리 도배) 지나다니는 것과 같다. 탐지기는 조용해졌지만 진짜 총(버그)을 든 테러리스트도 다 통과해 버린다.
 
@@ -99,7 +99,7 @@ tags = ["studynote-devops-sre"]
 
 소나큐브(SonarQube)는 개발자의 예술적 허영심과 주관적 고집(내 코드가 최고야!)을 박살 내고, 코드의 품질을 차갑고 기계적인 수치(등급, % 비율)로 계량화해 버린 <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/">소프트웨어 공학</a>의 정밀 체중계</strong>다.
 
-과거에는 "코드가 지저분하다"는 말이 시니어 개발자의 주관적 잔소리였지만, 이제는 소나큐브가 내린 'D등급'이라는 쇳덩어리 판결문이 되었다. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 한가운데서 Quality Gate로 버티고 선 이 문지기는, 냄새나는 스파게티 코드가 운영 서버라는 신성한 구역에 한 발짝도 들어오지 못하게 막아낸다. 결론적으로 소나큐브의 도입은 단순한 도구의 추가가 아니라, "기계의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 통과하지 못한 코드는 쓰레기다"라는 가장 냉혹하고 투명한 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 청산 거버넌스의 완성이다.
+과거에는 "코드가 지저분하다"는 말이 시니어 개발자의 주관적 잔소리였지만, 이제는 소나큐브가 내린 'D등급'이라는 쇳덩어리 판결문이 되었다. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 한가운데서 Quality Gate로 버티고 선 이 문지기는, 냄새나는 스파게티 코드가 운영 서버라는 신성한 구역에 한 발짝도 들어오지 못하게 막아낸다. 결론적으로 소나큐브의 도입은 단순한 도구의 추가가 아니라, "기계의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 통과하지 못한 코드는 쓰레기다"라는 가장 냉혹하고 투명한 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 청산 거버넌스의 완성이다.
 
 - **📢 섹션 요약 비유**: 소나큐브는 식당 주방 입구에 설치된 '초정밀 위생 검사 터널'이다. 요리사(개발자)가 아무리 요리(코드)를 빨리 맛있게 만들었다고 우겨도, 서빙을 나가기 전 이 터널을 통과할 때 그릇에 묻은 세균(버그)이나 먼지([코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/))가 1mg이라도 발견되면 기계가 즉시 음식을 쓰레기통으로 던져버린다. 식당 주인(회사)은 덕분에 식중독 사고(서버 장애)를 완벽하게 예방할 수 있다.
 
@@ -131,7 +131,7 @@ CI/CD 파이프라인(Jenkins)과 융합하여 빌드를 강제로 멈추는 Qua
 레거시 코드는 무시하고 '새로운 코드(New Code)'의 품질만 엄격히 통제하는 Clean as You Code 철학 안착
 ```
 
-이 흐름도는 "파편화된 잔소리 도구 -> 중앙 집중형 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 대시보드(소나큐브) -> [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)과의 강제 융합을 통한 통제권 행사"라는 코드 품질 거버넌스의 진화를 보여준다.
+이 흐름도는 "파편화된 잔소리 도구 -> 중앙 집중형 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 대시보드(소나큐브) -> [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD)과의 강제 융합을 통한 통제권 행사"라는 코드 품질 거버넌스의 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -64,7 +64,7 @@ tags = ["studynote-it-management"]
 
 - 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) BI를 제공한다.
 - 정의가 같은 지표를 만든다.
-- [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)를 정리한다.
+- [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)를 정리한다.
 - 실무 교육과 리뷰를 반복한다.
 
 누구나 쉽게 보고, 같은 기준으로 해석할 수 있어야 한다.
@@ -107,7 +107,7 @@ tags = ["studynote-it-management"]
 1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 홍수 -> 해석 능력 필요
 2. 전사적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교육 -> 기본 문해력 향상
 3. 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) BI -> 현업의 직접 활용
-4. [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) -> 지표 표준화
+4. [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) -> 지표 표준화
 5. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주도 문화 -> 조직 의사결정 개선
 
 ---

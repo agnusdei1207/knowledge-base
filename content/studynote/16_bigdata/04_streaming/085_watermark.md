@@ -171,7 +171,7 @@ Step 4: 모니터링
 - [ ] 이벤트 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 분포 측정 (P95/P99 기준으로 워터마크 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))
 - [ ] [Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) Source 처리 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) (`withIdleness()`) — [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 불균형 대비
 - [ ] 워터마크 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 (대시보드 or Flink UI)
-- [ ] Side Output으로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트 수 추적 -> [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 이상 시 알림
+- [ ] Side Output으로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트 수 추적 -> [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 이상 시 알림
 - [ ] 다중 소스의 경우 가장 느린 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 및 처리
 
 **📢 섹션 요약 비유**

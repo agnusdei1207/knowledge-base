@@ -85,13 +85,13 @@ tags = ["studynote-design-supervision"]
 ---
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-아키텍처 피트니스 함수([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) [Fitness](/knowledge-base/studynote/06_ict_convergence/05_data_science/395_genetic_algorithm_ga_operators/) Function)는 개념 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 코드로 표현하고 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인에서 자동으로 검사하는 강력한 도구다. ArchUnit(Java), NetArchTest(.NET)이 대표 도구로, 계층 의존성 방향, [순환 의존성](/knowledge-base/studynote/02_operating_system/05_deadlock/316_synchronization_bug_debugging/), 패키지 명명 규칙을 자동 검사한다.
+아키텍처 피트니스 함수([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) [Fitness](/knowledge-base/studynote/06_ict_convergence/05_data_science/395_genetic_algorithm_ga_operators/) Function)는 개념 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 코드로 표현하고 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인에서 자동으로 검사하는 강력한 도구다. ArchUnit(Java), NetArchTest(.NET)이 대표 도구로, 계층 의존성 방향, [순환 의존성](/knowledge-base/studynote/02_operating_system/05_deadlock/316_synchronization_bug_debugging/), 패키지 명명 규칙을 자동 검사한다.
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 총괄 아키텍트 또는 아키텍처 위원회가 시스템 전체 설계 철학을 소유하고 있는가?
 2. [ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/)([Architecture Decision Record](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/))이 작성되어 팀 전체가 아키텍처 결정 근거를 공유하는가?
 3. [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 명명 규칙, 에러 처리 형식, [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) 구조가 전체 시스템에서 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 있는가?
-4. 아키텍처 피트니스 함수가 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD에 통합되어 원칙 위반을 자동으로 검출하는가?
+4. 아키텍처 피트니스 함수가 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD에 통합되어 원칙 위반을 자동으로 검출하는가?
 5. 새로운 팀원이 기존 코드를 보고 다음 코드의 패턴을 예측할 수 있는가?
 
 - **📢 섹션 요약 비유**: 시리즈 소설에서 작가(총괄 아키텍트)가 바뀌면 캐릭터의 성격이 달라지는 것처럼, 아키텍처 의사결정자가 명확하지 않으면 시스템 성격이 부분마다 달라진다.

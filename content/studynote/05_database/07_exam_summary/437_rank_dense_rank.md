@@ -114,7 +114,7 @@ RANK() 동점 점프 / DENSE_RANK() 비점프는 [데이터베이스](/knowledge
 | :--- | :--- |
 | 윈도우 함수 OVER ([PARTITION BY](/knowledge-base/studynote/05_database/07_exam_summary/436_window_function_over/)) | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
 | [GROUP BY](/knowledge-base/studynote/05_database/04_transactions_concurrency/522_group_by/) 다차원 [ROLLUP](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/), CUBE | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
-| [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
+| [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
 | [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) | 운영·설계 판단을 연결해 주는 주변 개념이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도

@@ -19,7 +19,7 @@ tags = ["studynote-bigdata"]
 ## Ⅰ. 개요 및 필요성
 
 ### [그래프 쿼리 언어](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/285_tree_structure_storage/)의 필요성
-SPARQL은 RDF 트리플스토어에 특화되었고, Gremlin은 명령형(절차적)이라 복잡한 탐색 로직을 기술하기 어렵다. Cypher는 2011년 Neo4j가 개발한 선언적 [그래프 쿼리 언어](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/285_tree_structure_storage/)로, SQL처럼 "무엇을 원하는가"를 기술하면 엔진이 최적 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 수립한다. 2019년 ISO/GQL([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) Query Language) 표준화 과정에서 Cypher가 핵심 영향을 미쳤다.
+SPARQL은 RDF 트리플스토어에 특화되었고, Gremlin은 명령형(절차적)이라 복잡한 탐색 로직을 기술하기 어렵다. Cypher는 2011년 Neo4j가 개발한 선언적 [그래프 쿼리 언어](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/285_tree_structure_storage/)로, SQL처럼 "무엇을 원하는가"를 기술하면 엔진이 최적 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 수립한다. 2019년 ISO/GQL([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) Query Language) 표준화 과정에서 Cypher가 핵심 영향을 미쳤다.
 
 ### Cypher 문법 기초
 
@@ -131,12 +131,12 @@ RETURN r;
 | 항목 | Cypher | SPARQL | Gremlin |
 |:---:|:---:|:---:|:---:|
 | 패러다임 | 선언형 | 선언형 | 명령형(절차) |
-| 대상 모델 | Property [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) | RDF 트리플 | Property [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) |
+| 대상 모델 | Property [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) | RDF 트리플 | Property [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) |
 | 문법 직관성 | 높음 ([ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 아트) | 중간 | 낮음 (체이닝) |
 | 표준 여부 | openCypher / ISO GQL | W3C 표준 | Apache TinkerPop |
 | 주요 DB | Neo4j, Memgraph | Amazon Neptune, GraphDB | JanusGraph, CosmosDB |
 
-### GDS ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Science) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 연계
+### GDS ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Science) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 연계
 
 ```cypher
 -- Neo4j GDS: PageRank 알고리즘 실행

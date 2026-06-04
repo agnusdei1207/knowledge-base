@@ -90,7 +90,7 @@ tags = ["studynote-bigdata"]
 | 고려 사항 | 세부 내용 | 주요 아키텍처 의사결정 |
 |:---|:---|:---|
 | **도입 환경** | 기존 레거시 시스템과의 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 분석 | 마이그레이션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 및 단계별 전환 계획 수립 |
-| <strong>비용(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a>)</strong> | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구축 비용(CAPEX) 및 운영 비용(OPEX) | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 관점의 장기적 효율성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| <strong>비용(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/">ROI</a>)</strong> | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구축 비용(CAPEX) 및 운영 비용(OPEX) | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 관점의 장기적 효율성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | **보안/위험** | 컴플라이언스 준수 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/) | [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 기반 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)/[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 체계 연계 |
 
 *(추가 실무 적용 가이드 - 신제품 기획 및 UI/UX 설계 단계 적용)*
@@ -120,7 +120,7 @@ tags = ["studynote-bigdata"]
     *   <strong>Small <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> (스몰 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)</strong>: [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/), Emotion, Behavior (인과관계, Why, 인간 인지)
 *   <strong>스몰 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수집 방법론 (UX/HCD 연계)</strong>
     *   In-Depth Interview (IDI, 심층 인터뷰)
-    *   Shadowing (관찰 조사) / [Usability](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) Testing ([사용성 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/451_usability_test/))
+    *   Shadowing (관찰 조사) / [Usability](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) Testing ([사용성 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/843_usability_test/))
 *   **융합적 통찰 (Synergy Analysis)**
     *   Big Data로 트렌드와 이상 징후 포착 -> Small Data로 근본 원인(Root Cause) 규명
 

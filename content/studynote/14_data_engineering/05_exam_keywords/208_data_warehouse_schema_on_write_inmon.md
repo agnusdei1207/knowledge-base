@@ -12,7 +12,7 @@ tags = ["studynote-data-engineering"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Warehouse)는 여러 운영 시스템의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주제 지향적(Subject-Oriented)으로 통합·정제하여 의사결정 지원에 최적화된 분석용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스다.
 > 2. **가치**: [스키마 온 라이트](/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/)([Schema-on-Write](/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/)) 방식으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적재 전 품질을 보장하여, 경영진이 일관된 단일 진실 공급원(Single Source of Truth)을 기반으로 의사결정할 수 있도록 한다.
-> 3. **판단 포인트**: [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/311_inmon/) 방법론([Top-Down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/), [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 중심)과 [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/) 방법론([Bottom-Up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/), [차원 모델링](/knowledge-base/studynote/05_database/02_modeling_normalization/118_dimensional_modeling_star_schema/) 중심)의 트레이드오프를 명확히 이해하고, 기업 규모·분석 요건에 따라 선택 근거를 논술할 것.
+> 3. **판단 포인트**: [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/953_inmon/) 방법론([Top-Down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/), [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 중심)과 [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/954_kimball/) 방법론([Bottom-Up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/), [차원 모델링](/knowledge-base/studynote/05_database/02_modeling_normalization/118_dimensional_modeling_star_schema/) 중심)의 트레이드오프를 명확히 이해하고, 기업 규모·분석 요건에 따라 선택 근거를 논술할 것.
 
 ---
 
@@ -20,7 +20,7 @@ tags = ["studynote-data-engineering"]
 
 ### [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 정의
 
-빌 인몬(Bill [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/311_inmon/))이 1990년대 정의한 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)의 4대 특성:
+빌 인몬(Bill [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/953_inmon/))이 1990년대 정의한 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)의 4대 특성:
 
 - **주제 지향(Subject-Oriented)**: 판매, 고객, 제품 등 비즈니스 주제별로 구성
 - **통합(Integrated)**: 이기종 소스 시스템의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 일관된 형식으로 통합
@@ -102,16 +102,16 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-### [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/311_inmon/) vs [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/) 방법론 비교
+### [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/953_inmon/) vs [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/954_kimball/) 방법론 비교
 
-| 항목 | [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/311_inmon/) ([Top-Down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/)) | [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/) ([Bottom-Up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/)) |
+| 항목 | [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/953_inmon/) ([Top-Down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/)) | [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/954_kimball/) ([Bottom-Up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/)) |
 |:---|:---|:---|
 | **접근 방식** | 전사 EDW 우선 구축 | [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) 우선 구축 |
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a></strong> | [3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/) [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) | 비정규화([스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)) |
 | **구현 난이도** | 높음(장기 프로젝트) | 낮음(빠른 성과) |
 | **유지보수** | 쉬움(중복 없음) | 어려움(마트 간 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)) |
 | <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 조인 증가로 느릴 수 있음 | 빠름(비정규화) |
-| **적합 기업** | 대기업(전사 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 중요) | 중소기업(빠른 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 필요) |
+| **적합 기업** | 대기업(전사 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 중요) | 중소기업(빠른 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 필요) |
 
 ### [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 연결 개념
 
@@ -136,7 +136,7 @@ tags = ["studynote-data-engineering"]
 
 ### 기술사 판단 포인트
 
-1. **설계 방법론 선택**: 전사 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 중요 -> [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/311_inmon/), 빠른 비즈니스 가치 -> [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/)
+1. **설계 방법론 선택**: 전사 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 중요 -> [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/953_inmon/), 빠른 비즈니스 가치 -> [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/954_kimball/)
 2. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">DW</a> vs <a href="/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/">레이크하우스</a></strong>: ACID [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 필요 -> [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/), ML 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병행 -> [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)
 3. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/">데이터 모델</a> 진화</strong>: [SCD](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/)([Slowly Changing Dimension](/knowledge-base/studynote/05_database/04_transactions_concurrency/575_scd_slowly_changing_dimension_type_history_management/)) 타입 2로 이력 보존 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 필수
 
@@ -167,12 +167,12 @@ tags = ["studynote-data-engineering"]
 
 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
-| 설계 방법론 | [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/311_inmon/) CIF | [Top-Down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/) 전사 EDW 구축 |
-| 설계 방법론 | [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/) [차원 모델링](/knowledge-base/studynote/05_database/02_modeling_normalization/118_dimensional_modeling_star_schema/) | [Bottom-Up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/) [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) 우선 |
+| 설계 방법론 | [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/953_inmon/) CIF | [Top-Down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/) 전사 EDW 구축 |
+| 설계 방법론 | [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/954_kimball/) [차원 모델링](/knowledge-base/studynote/05_database/02_modeling_normalization/118_dimensional_modeling_star_schema/) | [Bottom-Up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/) [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) 우선 |
 | 구성 요소 | [ODS](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/291_ods/) ([Operational Data Store](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/264_ods_operational_data_store_realtime/)) | 실시간 통합 운영 뷰 |
 | 하위 개념 | [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) | 부서별 서브셋 분석 저장소 |
 | 핵심 프로세스 | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)/[ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 추출·변환·적재 |
-| [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 패턴 | 스타/[스노우플레이크 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/335_snowflake_schema/) | [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/) 차원 모델 |
+| [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 패턴 | 스타/[스노우플레이크 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/335_snowflake_schema/) | [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/954_kimball/) 차원 모델 |
 | 진화형 | [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/) | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)+Lake 결합 아키텍처 |
 | 클라우드 제품 | [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/), Redshift | 현대 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) |
 

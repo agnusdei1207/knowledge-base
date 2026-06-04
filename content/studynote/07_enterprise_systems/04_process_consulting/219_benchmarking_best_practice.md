@@ -81,7 +81,7 @@ tags = ["studynote-enterprise"]
 | 적용 방식 | Gap 분석 후 적응 설계 | 빠른 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | 통제된 테스트 베드에서 계측 |
 | 실패 원인 | 맥락 보정 부족 | 내부 역량 부재 | 실환경과 다른 워크로드 설계 |
 
-이 개념은 [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) ([Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/)), [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) 관리, 성숙도 모델, 클라우드 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와도 연결된다. 결국 벤치마킹은 "더 잘하는 누군가가 있는가"를 묻는 질문이 아니라, "그 차이를 만드는 구조를 우리 조직이 흡수할 수 있는가"를 묻는 질문이다.
+이 개념은 [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/) ([Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/)), [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) 관리, 성숙도 모델, 클라우드 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와도 연결된다. 결국 벤치마킹은 "더 잘하는 누군가가 있는가"를 묻는 질문이 아니라, "그 차이를 만드는 구조를 우리 조직이 흡수할 수 있는가"를 묻는 질문이다.
 
 - **📢 섹션 요약 비유**: 겉모습만 따라 하는 것은 맛집 메뉴 사진을 보고 비슷한 색만 내는 수준이고, 벤치마킹은 주방 동선과 재료 관리 방식까지 배우는 수준이다.
 
@@ -98,7 +98,7 @@ tags = ["studynote-enterprise"]
 1. [As-Is](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 먼저 계량화되어 있는가?
 2. 비교 대상이 왜 우수한지 설명 가능한가?
 3. 환경 차이를 보정할 기준이 있는가?
-4. 결과를 [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/), 교육, 시스템 투자로 연결할 의사결정권자가 있는가?
+4. 결과를 [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/), 교육, 시스템 투자로 연결할 의사결정권자가 있는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -125,8 +125,8 @@ tags = ["studynote-enterprise"]
 | :-- | :-- |
 | [Best Practice](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/) | 비교 기준이 되는 업계 최고 수준의 운영 방식 |
 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) ([Key Performance Indicator](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/020_kpi/)) | 격차를 정량화하는 공통 언어 |
-| [Gap Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/107_gap_analysis_task_identification/) | 현재 수준과 목표 수준의 차이를 원인까지 분석 |
-| [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) ([Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/)) | 벤치마킹 결과를 구조 개편으로 연결 |
+| [Gap Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/891_gap_analysis_task_identification/) | 현재 수준과 목표 수준의 차이를 원인까지 분석 |
+| [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/) ([Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/)) | 벤치마킹 결과를 구조 개편으로 연결 |
 | [BMT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/624_bmt_procedure/) (Benchmarking Test) | IT 솔루션 비교에 특화된 공학적 확장 형태 |
 
 ### 📈 관련 키워드 및 발전 흐름도

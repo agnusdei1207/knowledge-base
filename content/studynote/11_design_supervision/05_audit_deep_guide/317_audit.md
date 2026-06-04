@@ -117,7 +117,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 391 / 530
 
-<- **이전**: [316. 데이터 마이그레이션 백업·롤백 테스트 (Migration Backup and Rollback Test Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/316_process/)
-**다음**: [317. 시큐어 코딩 도구 미탐·오탐 비율 보고 (Secure Coding Tool False Negative and False Positive](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/317_secure_coding_tool_false_rates/) ->
+<- **이전**: [316. 데이터 마이그레이션 백업·롤백 테스트 (Migration Backup and Rollback Test Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/674_process/)
+**다음**: [317. 시큐어 코딩 도구 미탐·오탐 비율 보고 (Secure Coding Tool False Negative and False Positive](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/675_secure_coding_tool_false_rates/) ->
 
 ---

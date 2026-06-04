@@ -136,7 +136,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 149 / 1108
 
-<- **이전**: [1027. 수중 음파 통신망 라우팅/MAC (Uwsn Mac Routing Depth Based Protocol)](/knowledge-base/studynote/09_security/uncategorized/1027_uwsn_mac_routing_depth_based_protocol/)
-**다음**: [1028. 체내 통신 (WBAN MAC 및 주파수 대역)](/knowledge-base/studynote/09_security/uncategorized/1028_wban_mac_duty_cycle_healthcare_sleep_mode/) ->
+<- **이전**: [1027. 수중 음파 통신망 라우팅/MAC (Uwsn Mac Routing Depth Based Protocol)](/knowledge-base/studynote/09_security/uncategorized/1105_uwsn_mac_routing_depth_based_protocol/)
+**다음**: [1028. 체내 통신 (WBAN MAC 및 주파수 대역)](/knowledge-base/studynote/09_security/uncategorized/1106_wban_mac_duty_cycle_healthcare_sleep_mode/) ->
 
 ---

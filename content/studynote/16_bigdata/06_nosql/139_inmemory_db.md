@@ -187,7 +187,7 @@ Kafka (배치 처리용 로그 -> BigQuery/Redshift)
 
 ## Ⅴ. 기대효과 및 결론
 
-### 인메모리 DB 도입 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 분석
+### 인메모리 DB 도입 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 분석
 
 | 구성 | 설명 | 비용 절감 |
 |:---:|:---:|:---:|

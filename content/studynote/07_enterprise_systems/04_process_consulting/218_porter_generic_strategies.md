@@ -23,7 +23,7 @@ tags = ["studynote-enterprise"]
 
 이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필요한 이유는 대부분의 기업이 자원이 무한하지 않기 때문이다. 생산 효율을 끝까지 밀어붙이는 기업과 독창적 경험을 만드는 기업은 투자 구조, 인재 구성, 운영 방식이 다르다. 그런데 둘을 동시에 어설프게 추구하면 비용은 올라가고 고객 인식은 흐려져, 결국 가격 경쟁에서도 지고 브랜드 경쟁에서도 진다.
 
-디지털 산업에서도 이 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 그대로 적용된다. [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)의 대규모 자동화는 원가 우위에 가깝고, 프리미엄 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) ([Software as a Service](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/185_saas_software_as_a_service/))의 독보적 경험은 차별화에 가깝다. 반면 특정 규제 산업만 깊게 파고드는 버티컬 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 집중화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 전형이다.
+디지털 산업에서도 이 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 그대로 적용된다. [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)의 대규모 자동화는 원가 우위에 가깝고, 프리미엄 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) ([Software as a Service](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/185_saas_software_as_a_service/))의 독보적 경험은 차별화에 가깝다. 반면 특정 규제 산업만 깊게 파고드는 버티컬 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 집중화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 전형이다.
 
 - **📢 섹션 요약 비유**: 이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 식당이 뷔페가 될지, 셰프 오마카세가 될지, 아니면 특정 알레르기 환자만 위한 전문 식당이 될지를 먼저 정하는 일과 같다.
 
@@ -37,7 +37,7 @@ tags = ["studynote-enterprise"]
 | :-- | :-- | :-- | :-- |
 | 원가 우위 (Cost Leadership) | 충분히 좋은 품질을 가장 낮은 비용으로 제공 | 표준화, 자동화, 규모의 경제 | 멀티테넌시, 셀프서비스, 운영 자동화 |
 | 차별화 (Differentiation) | 더 비싸더라도 특별한 경험과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 제공 | R&D 투자, 브랜드 관리, 높은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 | 독자 기능, UX 최적화, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 개인화 |
-| 집중화 (Focus) | 특정 세그먼트의 문제를 가장 깊게 해결 | 좁은 시장 이해, 선택적 투자 | 버티컬 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/), 규제 특화 기능, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 템플릿 |
+| 집중화 (Focus) | 특정 세그먼트의 문제를 가장 깊게 해결 | 좁은 시장 이해, 선택적 투자 | 버티컬 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/), 규제 특화 기능, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 템플릿 |
 
 아래 매트릭스는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택이 고객 범위와 우위 원천의 조합이라는 점을 보여준다.
 
@@ -84,7 +84,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 포터 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 "우리 회사가 무엇을 가장 일관되게 잘할 수 있는가"를 점검하는 도구로 써야 한다. 예를 들어 중견 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 기업이 자본과 글로벌 인프라가 부족한데도 저가 범용 시장을 노리면, 대형 플랫폼과의 원가 경쟁에서 밀릴 가능성이 크다. 이때는 차별화나 집중화 쪽으로 이동해 특정 업무의 깊이, 규제 대응, 전환 비용을 무기로 삼는 편이 현실적이다.
+실무에서 포터 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 "우리 회사가 무엇을 가장 일관되게 잘할 수 있는가"를 점검하는 도구로 써야 한다. 예를 들어 중견 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 기업이 자본과 글로벌 인프라가 부족한데도 저가 범용 시장을 노리면, 대형 플랫폼과의 원가 경쟁에서 밀릴 가능성이 크다. 이때는 차별화나 집중화 쪽으로 이동해 특정 업무의 깊이, 규제 대응, 전환 비용을 무기로 삼는 편이 현실적이다.
 
 반대로 대규모 고객 기반과 자동화 역량이 있는 기업이 계속 커스터마이징 요청을 다 받아주면 원가 구조가 무너진다. 원가 우위 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 택한 기업은 예외를 줄이고 표준을 강하게 유지해야 한다. 즉 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 "원하는 것"이 아니라 "지킬 수 있는 운영 원칙"이어야 한다.
 
@@ -121,7 +121,7 @@ tags = ["studynote-enterprise"]
 | [Value Chain](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 비용 구조와 활동 설계에 미치는 영향을 설명 |
 | Stuck in the Middle | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 혼선으로 수익성이 악화되는 대표 위험 |
 | Blue Ocean [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 경쟁 규칙 자체를 바꾸는 비교 프레임 |
-| Vertical [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) | 집중화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 대표적 디지털 구현 형태 |
+| Vertical [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) | 집중화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 대표적 디지털 구현 형태 |
 | [Multi-tenancy](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/) | 원가 우위 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 지탱하는 클라우드 운영 구조 |
 
 ### 📈 관련 키워드 및 발전 흐름도

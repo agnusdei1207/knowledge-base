@@ -10,7 +10,7 @@ tags = ["studynote-software-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 플랫폼 엔지니어링(Platform 엔진ering)은 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 실천 과정에서 폭증한 개발자 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)([Cognitive Load](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/))를 해소하기 위해, 인프라·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD·보안 도구를 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)한 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/110_idp_internal_developer_platform_backstage/">내부 개발자 플랫폼</a>(<a href="/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/">IDP</a>)</strong>을 구축·운영하는 규율이다.
+> 1. **본질**: 플랫폼 엔지니어링(Platform 엔진ering)은 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 실천 과정에서 폭증한 개발자 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)([Cognitive Load](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/))를 해소하기 위해, 인프라·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD·보안 도구를 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)한 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/110_idp_internal_developer_platform_backstage/">내부 개발자 플랫폼</a>(<a href="/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/">IDP</a>)</strong>을 구축·운영하는 규율이다.
 > 2. **가치**: 앱 개발자가 [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)·K8s·[IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) 지식 없이도 <strong>셀프서비스 포털 클릭 한 번으로 보안 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>된 환경을 <a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">프로비저닝</a></strong>하여 Time-to-Market을 단축하고 Shadow IT를 원천 차단한다.
 > 3. **판단 포인트**: 플랫폼 팀은 제품(Product)처럼 IDP를 운영해야 하며, Golden Path와 Escape Hatch의 균형 설계가 성공의 핵심이다.
 
@@ -62,7 +62,7 @@ tags = ["studynote-software-engineering"]
 | 비교 항목 | [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) (문화) | 플랫폼 엔지니어링 (구현) | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)) |
 |:---|:---|:---|:---|
 | **정의** | 개발·운영 협업 문화 | DevOps를 제품화한 [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 구축 | 운영 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 SLO로 관리 |
-| **산출물** | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, 자동화 스크립트 | 셀프서비스 포털, Golden Path | [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/), Runbook |
+| **산출물** | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD, 자동화 스크립트 | 셀프서비스 포털, Golden Path | [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/), Runbook |
 | <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong> | 상위 철학 | DevOps를 현실화하는 수단 | 운영 품질 보증 보완재 |
 
 - **📢 섹션 요약 비유**: DevOps가 "운동하자!"라는 구호라면, 플랫폼 엔지니어링은 헬스장([IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/))을 짓는 것이고, SRE는 트레이너를 배치하는 것이다.
@@ -72,7 +72,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. Stream-aligned Team이 4개 이상, 인프라 티켓 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 평균 3일 이상 -> 플랫폼 팀 분리 시점.
+1. Stream-aligned Team이 4개 이상, 인프라 티켓 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 평균 3일 이상 -> 플랫폼 팀 분리 시점.
 2. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/): Backstage + ArgoCD + Crossplane으로 "새 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)" 셀프서비스 4주 내 제공.
 3. 성공 지표: 플랫폼 채택률(WAU), 인프라 티켓 감소율, [DORA Deployment Frequency](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/023_dora_deployment_frequency/).
 

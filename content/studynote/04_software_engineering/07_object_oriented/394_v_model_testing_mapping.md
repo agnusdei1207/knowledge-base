@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 - **필요성**: 폭포수 시절에는 기획자가 3개월 동안 기획서를 쓰고, 개발자가 3개월 동안 코딩을 한 뒤, 남은 1주일 동안 QA팀이 부랴부랴 마우스 클릭을 하며 테스트를 했다. 기준(명세서)이 없으니 테스터 마음대로 클릭해 보다가 "에러 없네요" 하고 오픈했다. 결과는 대재앙이었다. "개발자가 짠 코드가 아니라, 원래 고객이 원했던 그 요구사항을 테스트하라"는 원칙을 강제하기 위해, '설계 단계'와 '테스트 설계'를 하나로 묶어버리는 V-모델의 시각적 규율이 절대적으로 필요했다.
 - **💡 비유**: V-모델은 "거대한 레고 성 조립 매뉴얼"과 같다. 설명서 1페이지(요구사항)에는 "빨간 성벽"이 그려져 있다. 이때 아빠는 레고를 다 조립한 뒤에 검사하는 게 아니라, 1페이지를 보자마자 "나중에 이 성벽이 정말 빨간색인지 검사해야지([인수 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/) 계획)"라고 미리 검사표를 적어둔다. 즉, '설명서를 그리는 시간'과 '검사표를 만드는 시간'이 양옆에서 동시에(V자 대칭으로) 진행되는 완벽한 짝꿍 시스템이다.
 
-- **📢 섹션 요약 비유**: 옷을 다 만들고 나서 손님에게 입혀보고 "어? 작네?"라고 하는 건 최악의 재단사(폭포수)입니다. 옷감을 자르기 전에(설계), 자로 잰 치수(요구사항)를 바탕으로 미리 마네킹([테스트 시나리오](/knowledge-base/studynote/04_software_engineering/11_testing_validation/442_test_scenario/))을 세워두고, 바느질이 끝날 때마다 그 치수에 맞는지 확인하는 꼼꼼함이 V-모델의 핵심입니다.
+- **📢 섹션 요약 비유**: 옷을 다 만들고 나서 손님에게 입혀보고 "어? 작네?"라고 하는 건 최악의 재단사(폭포수)입니다. 옷감을 자르기 전에(설계), 자로 잰 치수(요구사항)를 바탕으로 미리 마네킹([테스트 시나리오](/knowledge-base/studynote/04_software_engineering/11_testing_validation/834_test_scenario/))을 세워두고, 바느질이 끝날 때마다 그 치수에 맞는지 확인하는 꼼꼼함이 V-모델의 핵심입니다.
 
 ---
 
@@ -113,7 +113,7 @@ V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스�
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스트, 상세 설계-통합테스트, 코딩-단위테스트)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

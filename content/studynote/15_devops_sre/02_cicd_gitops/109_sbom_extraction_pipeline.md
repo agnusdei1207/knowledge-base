@@ -11,14 +11,14 @@ tags = ["studynote-devops-sre"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/)([Software Bill of Materials](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/))은 소프트웨어를 구성하는 <strong>모든 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a>·<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a>·의존성 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>를 기계 판독 가능한 표준 포맷(SPDX, CycloneDX)으로 기록한 디지털 자재 명세서</strong>다.
-> 2. **가치**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 빌드 시점에 자동 추출하여, Log4j 같은 <strong><a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/">공급망 공격</a>(<a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/">Supply Chain Attack</a>) 발생 시 취약 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">컴포넌트</a> 포함 여부를 수초 내 전수 조사</strong>할 수 있다.
+> 2. **가치**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 빌드 시점에 자동 추출하여, Log4j 같은 <strong><a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/">공급망 공격</a>(<a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/">Supply Chain Attack</a>) 발생 시 취약 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">컴포넌트</a> 포함 여부를 수초 내 전수 조사</strong>할 수 있다.
 > 3. **판단 포인트**: 미 행정명령(EO 14028)으로 연방 납품 소프트웨어에 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 제출이 <strong>법적 의무화</strong>되었으며, [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) + VEX(실제 악용 가능성 평가) + 디지털 서명(Sigstore)의 3단 결합이 [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 표준이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어의 80~90%는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)로 구성된다. 직접 설치한 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)뿐 아니라 그것이 끌어오는 하위 의존성(Transitive Dependency)까지 합치면 수백~수천 개에 달한다. [Log4Shell](/knowledge-base/studynote/09_security/05_web_app_security/452_log4shell/)([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/)) 사태에서 전 세계 기업이 "우리 시스템에 Log4j가 있는가?"라는 질문에 수주간 답하지 못한 것이 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 의무화의 직접적 계기다.
+소프트웨어의 80~90%는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)로 구성된다. 직접 설치한 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)뿐 아니라 그것이 끌어오는 하위 의존성(Transitive Dependency)까지 합치면 수백~수천 개에 달한다. [Log4Shell](/knowledge-base/studynote/09_security/05_web_app_security/452_log4shell/)([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/)) 사태에서 전 세계 기업이 "우리 시스템에 Log4j가 있는가?"라는 질문에 수주간 답하지 못한 것이 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 의무화의 직접적 계기다.
 
 ```text
 +-------------------------------------------------------+
@@ -59,7 +59,7 @@ tags = ["studynote-devops-sre"]
 | 요소 | 설명 |
 |:---|:---|
 | **Inventory** | 포함된 모든 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)(이름·[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)·해시) 목록 |
-| <strong>Dependency <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a></strong> | 직접·간접 의존성의 트리 구조 |
+| <strong>Dependency <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/">Graph</a></strong> | 직접·간접 의존성의 트리 구조 |
 | **License Info** | 각 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)의 라이선스 유형 (MIT, GPL 등) |
 | **Provenance** | 소스 출처, 빌드 환경, [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) 정보 |
 
@@ -87,7 +87,7 @@ tags = ["studynote-devops-sre"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 통합 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. <strong>Syft/Trivy</strong>를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 빌드 스텝에 추가하여 매 빌드마다 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/).
+1. <strong>Syft/Trivy</strong>를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 빌드 스텝에 추가하여 매 빌드마다 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/).
 2. **Full Inventory**: 직접 의존성뿐 아니라 Transitive Dependency까지 포함.
 3. **서명**: Cosign으로 SBOM에 디지털 서명 부착 -> 배포 시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/).
 4. **저장**: [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) Registry에 SBOM을 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지와 함께 Attestation으로 첨부.

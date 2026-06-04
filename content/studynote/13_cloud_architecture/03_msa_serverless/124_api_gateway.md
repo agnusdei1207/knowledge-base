@@ -12,7 +12,7 @@ tags = ["studynote-cloud-architecture"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway는 <strong>MSA에서 모든 외부 요청의 단일 진입점(Single Entry Point)</strong>이며, 요청 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)·[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·[Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/)·로깅·응답 캐시를 수행하는 <strong>리버스 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a> + 크로스커팅 관심사 처리기</strong>이다.
 > 2. **가치**: 클라이언트가 수십 개 마이크로서비스의 엔드포인트를 직접 알면 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> URL 변경·<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 중복·CORS 관리</strong>가 불가능하지만, Gateway를 통해 <strong>단일 URL(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">api</a>.example.com)로 모든 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>에 접근</strong>할 수 있다.
-> 3. **판단 포인트**: <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/">BFF</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/">Backend For Frontend</a>)</strong> 패턴과 결합하면 클라이언트별(Web/Mobile) 최적화된 API를 제공할 수 있으며, Kong·Envoy·AWS [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway가 대표 도구이다.
+> 3. **판단 포인트**: <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/">BFF</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/">Backend For Frontend</a>)</strong> 패턴과 결합하면 클라이언트별(Web/Mobile) 최적화된 API를 제공할 수 있으며, Kong·Envoy·AWS [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway가 대표 도구이다.
 
 ---
 
@@ -43,7 +43,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) 핵심 기능
+### [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/) 핵심 기능
 
 | 기능 | 설명 |
 |:---|:---|
@@ -59,7 +59,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 직접 호출 | [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) |
+| 비교 | 직접 호출 | [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/) |
 |:---|:---|:---|
 | **진입점** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)마다 다름 | **단일** |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a></strong> | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)마다 구현 | **중앙 처리** |
@@ -71,14 +71,14 @@ tags = ["studynote-cloud-architecture"]
 
 ### 대표 도구
 - **Kong**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/), 플러그인 생태계.
-- <strong>Envoy <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a></strong>: [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/), [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플레인.
-- <strong>AWS <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/">API Gateway</a></strong>: 관리형, [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 연동.
+- <strong>Envoy <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a></strong>: [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/), [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플레인.
+- <strong>AWS <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/">API Gateway</a></strong>: 관리형, [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 연동.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway는 <strong>MSA의 필수 인프라</strong>이며, [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/)·[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)와 결합하여 현대 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 아키텍처의 통신 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 역할을 한다.
+[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway는 <strong>MSA의 필수 인프라</strong>이며, [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/)·[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)와 결합하여 현대 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 아키텍처의 통신 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 역할을 한다.
 
 ---
 
@@ -86,11 +86,11 @@ tags = ["studynote-cloud-architecture"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/">API Gateway</a></strong> | [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 단일 진입점 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/">BFF</a></strong> | 클라이언트별 맞춤 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/">API Gateway</a></strong> | [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 단일 진입점 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/">BFF</a></strong> | 클라이언트별 맞춤 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) |
 | <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/">Rate Limiting</a></strong> | 과부하 방지 |
 | <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/">Service Mesh</a></strong> | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신 인프라 (보완 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)) |
-| **Kong/Envoy** | 대표 [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) 도구 |
+| **Kong/Envoy** | 대표 [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/) 도구 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 552 / 587
 
-<- **이전**: [355. 메타버스 가상 자산 통제망](/knowledge-base/studynote/12_it_management/05_security_compliance/355_metaverse_virtual_asset_governance/)
-**다음**: [356. 디지털 트윈 동기화 시뮬레이션 지연 오차 감사](/knowledge-base/studynote/12_it_management/05_security_compliance/356_digital_twin_synchronization_latency/) ->
+<- **이전**: [355. 메타버스 가상 자산 통제망](/knowledge-base/studynote/12_it_management/05_security_compliance/996_metaverse_virtual_asset_governance/)
+**다음**: [356. 디지털 트윈 동기화 시뮬레이션 지연 오차 감사](/knowledge-base/studynote/12_it_management/05_security_compliance/997_digital_twin_synchronization_latency/) ->
 
 ---

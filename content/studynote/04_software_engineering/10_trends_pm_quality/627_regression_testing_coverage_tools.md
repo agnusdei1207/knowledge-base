@@ -28,7 +28,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. <strong>수동 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/">회귀 테스트</a> 시대</strong>: 과거에는 QA 팀이 엑셀에 적힌 수백 개의 테스트 시나리오를 새 버전이 나올 때마다 사람이 일일이 마우스로 클릭하며 밤새워 테스트했다. (속도 느림, 휴먼 에러 발생).
   2. **자동화 프레임워크의 탄생**: JUnit(단위), Selenium/Cypress([E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/)) 등 테스트 코드를 짜는 프레임워크가 보급되면서, [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)는 인간의 영역에서 기계(서버)의 영역으로 완전히 넘어갔다.
-  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/">지속적 통합</a>(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>)과 커버리지의 융합</strong>: 이제는 코드를 Git에 푸시(Push)하면 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/))가 수만 개의 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)를 자동으로 돌리고, 테스트 커버리지 도구(JaCoCo)가 "당신의 새 코드는 테스트율이 80% 미만이므로 배포 거부!"라며 품질 게이트를 막아버리는 수준으로 진화했다.
+  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/">지속적 통합</a>(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>)과 커버리지의 융합</strong>: 이제는 코드를 Git에 푸시(Push)하면 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 서버([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/))가 수만 개의 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)를 자동으로 돌리고, 테스트 커버리지 도구(JaCoCo)가 "당신의 새 코드는 테스트율이 80% 미만이므로 배포 거부!"라며 품질 게이트를 막아버리는 수준으로 진화했다.
 
 - **📢 섹션 요약 비유**: 건물에 새로운 인테리어 공사(기능 추가)를 하고 났을 때, 공사한 방만 확인하는 것이 아니라 건물 전체의 전기, 수도, 가스관이 다른 곳에서 터지지 않았는지 모든 스위치를 한 번씩 다 껐다 켜보는 건물 전체 안전 점검입니다.
 
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) 커버리지 도구은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.

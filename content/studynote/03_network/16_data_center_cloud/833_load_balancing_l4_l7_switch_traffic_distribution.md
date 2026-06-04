@@ -67,7 +67,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 시대([Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이)의 절대 주력입니다. (별명: ADC, Application Delivery Controller)
+[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 시대([Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이)의 절대 주력입니다. (별명: ADC, Application Delivery Controller)
 
 ### 1. 동작 원리 ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 본문 심층 해부)
 - OSI 7계층(응용 계층) 끝단까지 짐을 전부 다 까봅니다.

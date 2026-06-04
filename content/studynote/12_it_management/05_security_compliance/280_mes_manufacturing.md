@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 409 / 587
 
-<- **이전**: [279. CDP 고객 데이터 플랫폼 (1st Party)](/knowledge-base/studynote/12_it_management/05_security_compliance/279_cdp_first_party_data/)
-**다음**: [280. MES 공장 제조 실행 시스템](/knowledge-base/studynote/12_it_management/05_security_compliance/280_mes_manufacturing_execution_system/) ->
+<- **이전**: [279. CDP 고객 데이터 플랫폼 (1st Party)](/knowledge-base/studynote/12_it_management/05_security_compliance/929_cdp_first_party_data/)
+**다음**: [280. MES 공장 제조 실행 시스템](/knowledge-base/studynote/12_it_management/05_security_compliance/930_mes_manufacturing_execution_system/) ->
 
 ---

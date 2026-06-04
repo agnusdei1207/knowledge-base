@@ -42,7 +42,7 @@ SiP는 중앙처리장치, 메모리, 무선 칩, 전력 관리 칩, 수동 부�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-SiP는 능동 소자와 수동 소자를 한 패키지 구조 안에서 함께 설계한다. 연산을 맡는 로직 다이, 무선 주파수 (RF, Radio Frequency) 회로, 전력관리반도체 (PMIC, [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Integrated Circuit), 메모리, [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)·[커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/) 같은 수동 부품이 패키지 기판과 인터포저 위에서 연결된다. 이때 핵심은 패키지 내부가 단순 납땜 공간이 아니라 고속 배선, 전원 분배, 열 방출, 기계적 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 함께 만족해야 하는 하나의 시스템 평면이라는 점이다.
+SiP는 능동 소자와 수동 소자를 한 패키지 구조 안에서 함께 설계한다. 연산을 맡는 로직 다이, 무선 주파수 (RF, Radio Frequency) 회로, 전력관리반도체 (PMIC, [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) Integrated Circuit), 메모리, [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)·[커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/) 같은 수동 부품이 패키지 기판과 인터포저 위에서 연결된다. 이때 핵심은 패키지 내부가 단순 납땜 공간이 아니라 고속 배선, 전원 분배, 열 방출, 기계적 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 함께 만족해야 하는 하나의 시스템 평면이라는 점이다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :-- | :-- | :-- |

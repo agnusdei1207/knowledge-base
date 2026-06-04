@@ -107,7 +107,7 @@ RDBMS의 관계 탐색 (JOIN 기반):
 
 | 모델 | 표현 방식 | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어 | 특징 |
 |:---:|:---:|:---:|:---|
-| <strong>Property <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a></strong> | 노드/엣지 + [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) | Cypher, Gremlin | 가장 직관적, 엔터프라이즈 표준 |
+| <strong>Property <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/">Graph</a></strong> | 노드/엣지 + [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) | Cypher, Gremlin | 가장 직관적, 엔터프라이즈 표준 |
 | **RDF (Resource Description Framework)** | 주어-술어-목적어 트리플 | SPARQL | [시맨틱 웹](/knowledge-base/studynote/06_ict_convergence/01_blockchain/003_semantic_web/), [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) |
 | **Hypergraph** | N개 노드를 잇는 하이퍼엣지 | 전용 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) | 복잡한 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 모델링 |
 
@@ -205,7 +205,7 @@ RDBMS 유지 기준:
 | 미디어 | 콘텐츠 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | Netflix 유사 추천 |
 
 ### 결론
-[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB는 "[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"인 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 RDBMS가 해결할 수 없는 문제를 해결하는 특화 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)다. 기술사 시험에서는 <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 없는 인접성 원리</strong>, <strong>Property <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a> vs RDF 모델 차이</strong>, **사기 탐지·추천 엔진 적용 시나리오**, <strong>Cypher 패턴 매칭 문법</strong>이 핵심 논점이다.
+[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB는 "[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"인 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 RDBMS가 해결할 수 없는 문제를 해결하는 특화 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)다. 기술사 시험에서는 <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 없는 인접성 원리</strong>, <strong>Property <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/">Graph</a> vs RDF 모델 차이</strong>, **사기 탐지·추천 엔진 적용 시나리오**, <strong>Cypher 패턴 매칭 문법</strong>이 핵심 논점이다.
 
 📢 **섹션 요약 비유**
 > [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB 도입은 지도 앱이 없던 시대에 지도 앱을 도입하는 것과 같다. "서울에서 부산까지 최단 경로"를 묻는 질문에 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 노선 전체 목록을 뒤지는 것(RDBMS)과 지도를 보는 것([그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB)은 차원이 다른 접근이다.

@@ -47,7 +47,7 @@ tags = ["studynote-network"]
 1. 해커는 타겟 서버에 접속해 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) `GET` 요청을 시작합니다.
 2. 그런데 고의로 마지막의 빈 줄(`\r\n\r\n`)을 빼고, 그냥 `\r\n`만 보내거나 의미 없는 헤더 쪼가리를 **10초에 한 개씩 찔끔찔끔 보냅니다.**
 3. 서버는 "어? 아직 편지가 다 안 끝났네? 내가 기다려야지" 하고 <strong>해커와의 연결을 끊지 못하고 메모리(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">Session</a>)에 계속 물고 대기합니다.</strong> (서버 자원 낭비)
-4. 해커가 이런 '말 더듬는 좀비' 1,000마리를 만들어 서버에 붙여놓으면, 서버는 1,000명의 말을 끝까지 다 들어주기 위해 모든 연결 슬롯([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)/[Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))을 다 소진해 버립니다.
+4. 해커가 이런 '말 더듬는 좀비' 1,000마리를 만들어 서버에 붙여놓으면, 서버는 1,000명의 말을 끝까지 다 들어주기 위해 모든 연결 슬롯([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)/[Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))을 다 소진해 버립니다.
 5. 결국 정상적인 고객이 접속하려 해도, 서버는 "지금 1,000명 주문받고 있어서 꽉 찼으니 기다리세요!"라며 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 거부([DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/))하게 됩니다.
 
 ```text
@@ -66,7 +66,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - 슬로우로리스는 유독 과거의 <strong>Apache 웹 서버</strong>에 치명적이었습니다.
-- 아파치는 클라이언트 1명이 접속할 때마다 무거운 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)/[Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)) 1개를 통째로 할당하는 구조(Prefork 방식)였기 때문에, 해커 몇 백 명만 달라붙어도 금방 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 말라죽었습니다.
+- 아파치는 클라이언트 1명이 접속할 때마다 무거운 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)/[Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/)) 1개를 통째로 할당하는 구조(Prefork 방식)였기 때문에, 해커 몇 백 명만 달라붙어도 금방 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 말라죽었습니다.
 - 반면 최신 Nginx나 Node.js처럼 '이벤트 기반(Event-driven)' 방식의 비동기 서버들은 수만 명이 동시에 말을 더듬어도 CPU를 낭비하지 않고 가볍게 무시할 수 있어 이 공격에 내성이 강합니다.
 
 트래픽 혼잡공격 유도 및 캡챠 적용을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. SLOW GET / SLOW POST 공격이 기반 조건을 만든다면, 트래픽 혼잡공격 유도 및 캡챠 적용은 그 위에서 핵심 메커니즘을 구현하고, [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.

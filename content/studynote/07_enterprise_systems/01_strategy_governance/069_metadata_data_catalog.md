@@ -56,7 +56,7 @@ Search / Governance
 | :-- | :-- | :-- |
 | [Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) | 설명 정보 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | [Data Catalog](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) | 탐색/검색 | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 포털 |
-| [Data Governance](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)/책임 | 관리 체계 |
+| [Data Governance](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)/책임 | 관리 체계 |
 
 | 메타정보 | 예 |
 | :-- | :-- |

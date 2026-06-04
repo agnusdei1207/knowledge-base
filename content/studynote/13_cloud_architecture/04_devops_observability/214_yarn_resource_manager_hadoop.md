@@ -102,7 +102,7 @@ YARN은 이 두 문제를 동시에 해결했다. 리소스 관리를 처리 엔
 |:---|:---|:---|
 | 주 용도 | 빅데이터 처리 워크로드 | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기반 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) |
 | 리소스 단위 | [Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) (CPU+메모리) | [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) |
-| 생태계 | [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 에코시스템 | [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) |
+| 생태계 | [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 에코시스템 | [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) |
 | 트렌드 | Spark on K8s로 이동 중 | 빅데이터 통합 가속 |
 
 📢 **섹션 요약 비유**: YARN과 K8s의 관계는 대형 트럭 운반 회사([YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/))와 퀵 배달 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(K8s)의 관계다. 하나의 거대한 화물(빅데이터 배치)은 YARN이, 빠른 소형 배달([마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/))은 K8s가 더 적합하다.
@@ -177,7 +177,7 @@ YARN은 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_h
 | NodeManager | 각 노드 자원 상태 보고 및 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 실행 |
 | Capacity Scheduler | [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/) 환경의 팀별 자원 보장 |
 | Spark on [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) | Spark가 YARN을 통해 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 클러스터 자원 활용 |
-| Spark on K8s | [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 대체 트렌드, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 빅데이터 |
+| Spark on K8s | [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 대체 트렌드, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 빅데이터 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

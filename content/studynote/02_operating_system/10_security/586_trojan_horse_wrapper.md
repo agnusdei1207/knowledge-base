@@ -72,7 +72,7 @@ malware.exe + game.exe -> wrapper.exe (정상 게임으로 위장)
 ```
 
 **사용되는 기법**:
-- 코드 주입 ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) [Injection](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/))
+- 코드 주입 ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) [Injection](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/))
 - [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 합체 ([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Binding)
 - 런처 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (Launcher Creation)
 

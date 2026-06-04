@@ -60,7 +60,7 @@ MDM은 중복을 제거하고 규칙에 따라 하나의 정본을 만든다. �
 
 | 대상 | 예 |
 | :-- | :-- |
-| [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) | 고객 |
+| [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/) | 고객 |
 | Product | 제품 |
 | Org | 조직 |
 

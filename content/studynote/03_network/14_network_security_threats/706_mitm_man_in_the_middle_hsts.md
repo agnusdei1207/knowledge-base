@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 네트워크 통신을 하는 두 주체(클라이언트와 서버) 사이에 해커가 몰래 끼어들어, <strong>서로가 상대방과 직접 연결되어 있다고 착각하게 만든 뒤, 중간에서 모든 트래픽을 가로채 <a href="/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/">도청</a>(Sniffing), 변조(Tampering), 가짜 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 주입(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/">Injection</a>)을 수행하는 극악의 해킹 기법</strong>입니다.
+- **개념**: 네트워크 통신을 하는 두 주체(클라이언트와 서버) 사이에 해커가 몰래 끼어들어, <strong>서로가 상대방과 직접 연결되어 있다고 착각하게 만든 뒤, 중간에서 모든 트래픽을 가로채 <a href="/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/">도청</a>(Sniffing), 변조(Tampering), 가짜 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 주입(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/">Injection</a>)을 수행하는 극악의 해킹 기법</strong>입니다.
 - 앞서 배운 703번([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))과 705번([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))이 결국 이 중간자(MitM)의 위치를 차지하기 위해 쓰는 대표적인 낚시 수법들입니다.
 
 ```text
@@ -76,7 +76,7 @@ tags = ["studynote-network"]
 
 하지만 해커도 만만치 않습니다. 사용자가 주소창에 귀찮아서 `naver.com`만 치면 브라우저는 일단 기본적으로 암호화가 안 된 평문 통신인 `http://naver.com`으로 먼저 접속을 시도한다는 허점을 노립니다.
 - <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/267_ssl_stripping/">SSL Stripping</a> 공격</strong>: 해커가 이 첫 번째 `http://` 접속 요청을 중간에서 낚아챈 뒤, 자신이 네이버와 대신 `https://` 보안 통신을 맺고, 사용자에게는 영원히 암호화되지 않은 낡은 `http://` 화면만 던져줍니다. 사용자는 자물쇠 마크가 없는지도 모르고 평문으로 비밀번호를 갖다 바칩니다.
-- <strong>궁극의 통제 조치 (<a href="/knowledge-base/studynote/09_security/05_web_app_security/268_hsts/">HSTS</a>, <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> Strict Transport <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong>:
+- <strong>궁극의 통제 조치 (<a href="/knowledge-base/studynote/09_security/05_web_app_security/1031_hsts/">HSTS</a>, <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> Strict Transport <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong>:
   - 웹서버가 응답 헤더에 `Strict-Transport-Security`라는 명령을 달아서 보냅니다.
   - 이 명령을 받은 내 크롬 브라우저는 기억해 둡니다. "아! 네이버는 앞으로 1년 동안 무조건 `https://`로만 접속해야 하는 사이트구나!"
   - 다음 날 내가 실수로 주소창에 평문 `http://naver.com`을 쳐도, <strong>브라우저 자체가 내부에서 강제로 <code>https://</code>로 주소를 뜯어고친 뒤 발송</strong>해 버립니다. 해커가 중간에서 평문 요청을 가로채려던 꼼수([SSL Stripping](/knowledge-base/studynote/09_security/05_web_app_security/267_ssl_stripping/))가 100% 무력화되는 완벽한 방어막입니다.
@@ -87,7 +87,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 중간자 공격(MitM)은 이산가족이 북한에 보낸 편지를, 중간 배달부(브로커)가 마음대로 다 뜯어보고 "나 돈 더 필요해"라고 위조해서 상대에게 넘겨 사기를 치는 짓입니다. 이를 막기 위해 우리는 편지를 철제 금고([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))에 담고 자물쇠를 채워 보냅니다. 배달부가 금고를 부수고 자기가 만든 허접한 가짜 플라스틱 상자에 편지를 담아 가족에게 건네려([SSL Stripping](/knowledge-base/studynote/09_security/05_web_app_security/267_ssl_stripping/)) 하겠지만, 가족들은 "우리 집은 무조건 강철 금고([HSTS](/knowledge-base/studynote/09_security/05_web_app_security/268_hsts/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))로만 대화하기로 약속했어! 플라스틱 상자 가져온 넌 가짜다!"라며 배달부의 사기극을 문전에서 박살 내버립니다.
+- **📢 섹션 요약 비유**: 중간자 공격(MitM)은 이산가족이 북한에 보낸 편지를, 중간 배달부(브로커)가 마음대로 다 뜯어보고 "나 돈 더 필요해"라고 위조해서 상대에게 넘겨 사기를 치는 짓입니다. 이를 막기 위해 우리는 편지를 철제 금고([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))에 담고 자물쇠를 채워 보냅니다. 배달부가 금고를 부수고 자기가 만든 허접한 가짜 플라스틱 상자에 편지를 담아 가족에게 건네려([SSL Stripping](/knowledge-base/studynote/09_security/05_web_app_security/267_ssl_stripping/)) 하겠지만, 가족들은 "우리 집은 무조건 강철 금고([HSTS](/knowledge-base/studynote/09_security/05_web_app_security/1031_hsts/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))로만 대화하기로 약속했어! 플라스틱 상자 가져온 넌 가짜다!"라며 배달부의 사기극을 문전에서 박살 내버립니다.
 
 ---
 

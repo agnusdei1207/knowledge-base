@@ -86,7 +86,7 @@ tags = ["studynote-ai"]
 1. <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/">연합 학습</a></strong>: 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 서버로 전송하지 않음
 2. <strong><a href="/knowledge-base/studynote/16_bigdata/10_governance/209_differential_privacy/">차등 프라이버시</a> (DP)</strong>: [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 업데이트에 노이즈 추가 -> 역추론([Model Inversion](/knowledge-base/studynote/09_security/19_ai_advanced_security/951_model_inversion/)) 공격 방지
 3. **안전한 다자 계산 (SMC)**: 서버가 개별 클라이언트 업데이트를 보지 못하게 암호화 집계
-4. <strong><a href="/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/">동형 암호</a> (HE)</strong>: 암호화 상태에서 모델 집계 수행
+4. <strong><a href="/knowledge-base/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/">동형 암호</a> (HE)</strong>: 암호화 상태에서 모델 집계 수행
 
 세 가지를 조합하면 강력한 프라이버시 보존 ML 시스템이 된다.
 
@@ -132,7 +132,7 @@ tags = ["studynote-ai"]
 | FedAvg | 가중 평균 집계, 통신 효율 / [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)의 기본 집계 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 | Non-IID 문제 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포 이질성, 드리프트 / [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)의 핵심 기술적 도전 |
 | [차등 프라이버시](/knowledge-base/studynote/16_bigdata/10_governance/209_differential_privacy/) (DP) | 노이즈 추가, 역추론 방지 / [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) 강화용 보안 기술 |
-| [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/) (HE) | 암호화 상태 연산 / 서버 신뢰 불필요 집계 방법 |
+| [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/) (HE) | 암호화 상태 연산 / 서버 신뢰 불필요 집계 방법 |
 | [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) / PIPA | [개인정보보호](/knowledge-base/studynote/09_security/16_data_privacy/803_privacy_law_comparison/), [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) / [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) 등장의 규제적 배경 |
 
 ### 📈 관련 키워드 및 발전 흐름도

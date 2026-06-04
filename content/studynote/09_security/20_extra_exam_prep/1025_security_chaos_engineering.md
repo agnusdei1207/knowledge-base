@@ -136,7 +136,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 143 / 1108
 
-<- **이전**: [1024. V2X (Vehicle to Everything)](/knowledge-base/studynote/09_security/uncategorized/1024_v2x_vehicle_to_everything_connected_car/)
+<- **이전**: [1024. V2X (Vehicle to Everything)](/knowledge-base/studynote/09_security/uncategorized/1102_v2x_vehicle_to_everything_connected_car/)
 **다음**: [1025. 보안 카오스 공학 (Security Chaos 엔진ering, SCE)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1025_security_chaos_engineering/) ->
 
 ---

@@ -11,8 +11,8 @@ tags = ["studynote-bigdata"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-- **본질**: Great Expectations(Python), AWS Deequ(Spark), Soda Core(YAML) 세 도구는 각각 다른 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 최적화된 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질(DQ) 자동화 도구로, [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 "품질 게이트"를 삽입한다.
-- **가치**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 DQ 체크를 통합함으로써 품질 문제를 프로덕션 적재 전에 조기 감지·차단하는 자동화된 방어선을 구축한다.
+- **본질**: Great Expectations(Python), AWS Deequ(Spark), Soda Core(YAML) 세 도구는 각각 다른 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 최적화된 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질(DQ) 자동화 도구로, [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/965_dataops/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 "품질 게이트"를 삽입한다.
+- **가치**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 DQ 체크를 통합함으로써 품질 문제를 프로덕션 적재 전에 조기 감지·차단하는 자동화된 방어선을 구축한다.
 - **판단 포인트**: 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)(Python [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) vs Spark 대규모 처리 vs YAML 선언형 접근)과 팀 역량에 따라 도구를 선택하며, 상용 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Monte Carlo는 ML [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 이상 감지에 특화된다.
 
 ---
@@ -114,7 +114,7 @@ val verificationResult = VerificationSuite()
 | 엔터프라이즈 ML [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 이상 감지 | Monte Carlo | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 자동 이상 감지 |
 | dbt 사용 환경 | dbt Tests + Soda | dbt 네이티브 테스트 + Soda 연동 |
 
-### [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서의 위치
+### [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/965_dataops/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서의 위치
 
 ```
 [데이터 소스]
@@ -138,7 +138,7 @@ val verificationResult = VerificationSuite()
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 통합 패턴 ([DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/))
+### [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 통합 패턴 ([DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/965_dataops/))
 
 ```yaml
 # GitHub Actions에서 Soda Core 실행 예시
@@ -193,7 +193,7 @@ Monte Carlo는 통계 기반 <strong>이상 감지(<a href="/knowledge-base/stud
 
 ### 결론
 
-DQ 도구는 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">데이터 거버넌스</a>를 자동화하는 실행 엔진</strong>이다. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 표준이 서류상 존재하는 거버넌스에서 코드로 구현된 거버넌스로 전환시키는 핵심 기술이다. 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 맞는 도구를 선택하고, [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) 철학에 따라 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 통합하는 것이 현대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링의 베스트 프랙티스다.
+DQ 도구는 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/">데이터 거버넌스</a>를 자동화하는 실행 엔진</strong>이다. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 표준이 서류상 존재하는 거버넌스에서 코드로 구현된 거버넌스로 전환시키는 핵심 기술이다. 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 맞는 도구를 선택하고, [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/965_dataops/) 철학에 따라 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 통합하는 것이 현대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링의 베스트 프랙티스다.
 
 **📢 섹션 요약 비유**: DQ 도구가 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀은 <strong>속도 계기판 없이 운전하는 자동차</strong>와 같다. 얼마나 빠른지(품질이 얼마나 좋은지) 알 수 없어 위험한 속도(저품질 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))로 달리고 있어도 모른다.
 
@@ -207,7 +207,7 @@ DQ 도구는 <strong><a href="/knowledge-base/studynote/12_it_management/01_gove
 | AWS Deequ | 핵심 도구 | Spark 네이티브 대규모 제약 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | Soda Core | 핵심 도구 | YAML SodaCL 선언형 DQ 체크 |
 | Monte Carlo | 상용 이상 감지 | ML 기반 자동 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이상 감지 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
-| [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) | 연관 방법론 | DQ 도구를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD에 통합하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 운영 방식 |
+| [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/965_dataops/) | 연관 방법론 | DQ 도구를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD에 통합하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 운영 방식 |
 | [Apache Airflow](/knowledge-base/studynote/14_data_engineering/04_mlops/168_airflow_dag_pipeline_scheduling/) | 통합 오케스트레이터 | DQ 체크를 워크플로우에 삽입 |
 | dbt | 통합 변환 도구 | dbt Test + Soda 조합으로 변환 품질 보장 |
 

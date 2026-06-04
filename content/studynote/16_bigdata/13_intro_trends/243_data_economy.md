@@ -104,7 +104,7 @@ tags = ["studynote-bigdata"]
   - 맞춤(Custom): 협상 기반 대규모 계약
 ```
 
-### [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)와 [데이터 경제](/knowledge-base/studynote/16_bigdata/01_intro/011_data_economy/) 연결
+### [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)와 [데이터 경제](/knowledge-base/studynote/16_bigdata/01_intro/011_data_economy/) 연결
 
 ```text
 데이터 경제 참여 조건:

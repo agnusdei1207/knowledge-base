@@ -123,7 +123,7 @@ C시스템: customer_code (문자)  -> EDW 통합, MDM 구축 가능
 | **EDW** | [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 표준화 기반 전사 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) |
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a></strong> | DA의 핵심 관리 대상 |
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질</strong> | DA의 측정·개선 책임 영역 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/">Data Mesh</a></strong> | 현대 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)에서 [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 역할 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/">Data Mesh</a></strong> | 현대 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)에서 [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 역할 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

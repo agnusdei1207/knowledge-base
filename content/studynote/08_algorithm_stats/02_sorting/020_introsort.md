@@ -84,7 +84,7 @@ n = 1,000,000 일 때:
 | 안정 정렬 | ❌ | [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 특성상 불안정 |
 | 캐시 효율 | 우수 | [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 지역성 활용 |
 
-### 세 중앙값 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택 (Median-of-Three)
+### 세 중앙값 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/) 선택 (Median-of-Three)
 
 ```
 피벗 = MedianOf3(arr[left], arr[mid], arr[right])
@@ -97,7 +97,7 @@ n = 1,000,000 일 때:
 효과: 이미 정렬된 배열에서 퀵 정렬 O(n^) 방지
 ```
 
-📢 **섹션 요약 비유**: 세 중앙값 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택은 팀 구성 시 극단적인 사람을 피하는 전략이다. 팀에서 가장 키 크거나 작은 사람 대신 중간 키를 기준으로 팀을 나누면 더 균형 잡힌 분할이 된다.
+📢 **섹션 요약 비유**: 세 중앙값 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/) 선택은 팀 구성 시 극단적인 사람을 피하는 전략이다. 팀에서 가장 키 크거나 작은 사람 대신 중간 키를 기준으로 팀을 나누면 더 균형 잡힌 분할이 된다.
 
 ---
 
@@ -194,7 +194,7 @@ Introsort는 <strong>현실적 <a href="/knowledge-base/studynote/04_software_en
 | [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/) ([Heap Sort](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)) | -> [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 최악 케이스 방지용 |
 | [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) ([Insertion Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)) | -> 소규모 최적화 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 크기 ≤ 16 |
 | [Timsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/) | 비교 대상 | Python/Java 채택, 안정 정렬 |
-| 세 중앙값 (Median-of-Three) | -> [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택 | 최악 케이스 빈도 감소 |
+| 세 중앙값 (Median-of-Three) | -> [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/) 선택 | 최악 케이스 빈도 감소 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

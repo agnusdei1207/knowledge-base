@@ -19,7 +19,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅰ. 개요 및 필요성
 
-워크플로우 관리 시스템 (Workflow [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System, WfMS)은 정해진 업무 절차에 따라 작업 항목을 사람이나 시스템에 전달하고 상태를 관리하는 소프트웨어다. 수작업 방식에서는 담당자가 다음 부서를 직접 찾거나 메일을 보내야 했기 때문에, 누락·중복·[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 쉽게 발생했다. 특히 승인, 발주, 민원 처리처럼 반복적이면서 책임 전환이 명확한 업무는 사람이 기억으로 연결할수록 통제가 약해진다.
+워크플로우 관리 시스템 (Workflow [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System, WfMS)은 정해진 업무 절차에 따라 작업 항목을 사람이나 시스템에 전달하고 상태를 관리하는 소프트웨어다. 수작업 방식에서는 담당자가 다음 부서를 직접 찾거나 메일을 보내야 했기 때문에, 누락·중복·[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 쉽게 발생했다. 특히 승인, 발주, 민원 처리처럼 반복적이면서 책임 전환이 명확한 업무는 사람이 기억으로 연결할수록 통제가 약해진다.
 
 WfMS는 이런 문제를 줄이기 위해 "다음 작업을 누구에게, 어떤 조건에서, 언제 넘길 것인가"를 시스템 규칙으로 만든다. 덕분에 조직은 개인의 성실함보다 프로세스 자체에 의존하게 되고, 작업이 멈춘 위치를 추적할 수 있다. 결국 WfMS는 업무 자동화의 출발점이자, 프로세스를 운영 가능한 단위로 잘게 나누어 통제하는 도구다.
 
@@ -34,7 +34,7 @@ WfMS는 이런 문제를 줄이기 위해 "다음 작업을 누구에게, 어떤
 | 구성 요소 | 역할 | 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 주의 포인트 |
 | :--- | :--- | :--- | :--- |
 | 정의 도구 | 흐름·조건·역할 설계 | 프로세스 정의, 폼 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) | 과도한 상세화 방지 |
-| 워크플로우 엔진 | [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)와 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 수행 | 인스턴스 상태, 규칙, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) | 장애 시 재처리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| 워크플로우 엔진 | [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)와 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 수행 | 인스턴스 상태, 규칙, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) | 장애 시 재처리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 | Worklist | 사용자 작업 수신/처리 | 담당 작업, 우선순위, 마감 | 역할 기반 [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/) |
 | 통합 인터페이스 | [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)·메일·[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연계 | 외부 시스템 응답 | 연동 실패 보상 처리 |
 | [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) Log | 이력 및 추적 | 누가 언제 무엇을 했는지 | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/) |
@@ -68,7 +68,7 @@ WfMS는 BPM과 자주 함께 언급되지만 범위가 다르다. WfMS가 실행
 | 분석 기능 | 제한적 | 상태 추적 중심 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/), 마이닝, 최적화 |
 | [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/) | 양식/결재선 위주 | 규칙/[상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 위주 | 지속 개선 체계 |
 
-WfMS는 [BPMN](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) 모델을 입력으로 받아 동작할 수 있고, [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 소스가 되기도 한다. 최근에는 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 기반 Low-[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 플랫폼이 등장하면서 비개발자도 간단한 워크플로우를 직접 구성할 수 있게 되었다. 다만 업무 복잡도가 올라갈수록 권한 체계, 예외 처리, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 요건을 함께 고려해야 하므로 "간단한 자동화"와 "엔터프라이즈급 WfMS"를 구분할 필요가 있다.
+WfMS는 [BPMN](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) 모델을 입력으로 받아 동작할 수 있고, [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 소스가 되기도 한다. 최근에는 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 기반 Low-[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 플랫폼이 등장하면서 비개발자도 간단한 워크플로우를 직접 구성할 수 있게 되었다. 다만 업무 복잡도가 올라갈수록 권한 체계, 예외 처리, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 요건을 함께 고려해야 하므로 "간단한 자동화"와 "엔터프라이즈급 WfMS"를 구분할 필요가 있다.
 
 - **📢 섹션 요약 비유**: 전자결재가 도장 찍는 창구라면, WfMS는 창구 뒤에서 사람과 기계를 모두 움직이는 배후 운영실이다.
 
@@ -76,7 +76,7 @@ WfMS는 [BPMN](/knowledge-base/studynote/04_software_engineering/03_design_archi
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 WfMS는 구매 승인, 입사 온보딩, 계약 검토, 장애 처리 티켓 흐름처럼 단계와 책임이 명확한 업무에 적합하다. 이런 영역에서는 대기 시간, 승인 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 재할당 이력, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 위반 건수가 바로 운영 품질을 보여 준다. 반면 판단 기준이 수시로 바뀌거나 협업 맥락이 비정형적인 업무는 과도한 워크플로우화가 오히려 우회 업무를 낳을 수 있다.
+실무에서 WfMS는 구매 승인, 입사 온보딩, 계약 검토, 장애 처리 티켓 흐름처럼 단계와 책임이 명확한 업무에 적합하다. 이런 영역에서는 대기 시간, 승인 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 재할당 이력, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 위반 건수가 바로 운영 품질을 보여 준다. 반면 판단 기준이 수시로 바뀌거나 협업 맥락이 비정형적인 업무는 과도한 워크플로우화가 오히려 우회 업무를 낳을 수 있다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -110,7 +110,7 @@ WfMS가 안정적으로 정착하면 업무 흐름의 예측 가능성이 높아
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | [BPMN](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) ([Business Process Model and Notation](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/203_bpmn_business_process_model_and_notation/)) | WfMS가 해석할 프로세스 정의를 제공 |
-| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) | 단계별 허용 시간과 경보 기준 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) |
+| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)) | 단계별 허용 시간과 경보 기준 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) |
 | Worklist | 사용자별 할 일과 우선순위를 제공하는 실행 접점 |
 | [Audit Trail](/knowledge-base/studynote/11_design_supervision/01_audit_framework/065_audit_trail_worm_storage_compliance/) | 승인·반려·재할당 이력을 남겨 통제와 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 지원 |
 

@@ -96,7 +96,7 @@ tags = ["studynote-design-supervision"]
 ---
 
 ### 📌 관련 개념 맵
-- 상위 개념: 원가·공수 관리(Cost and Effort [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))
+- 상위 개념: 원가·공수 관리(Cost and Effort [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/))
 - 핵심 통제: 규모 추정, 스케일 팩터
 - [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적: [보정 계수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/144_vaf_value_adjustment_factor/)와 운영 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·테스트 결과
 - 확장 개념: 예측 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 고도화(Estimation [Calibration](/knowledge-base/studynote/10_ai/03_llm_nlp/230_digital_twin_simulation_calibration/))

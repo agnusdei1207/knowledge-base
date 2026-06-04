@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 554 / 587
 
-<- **이전**: [356. 디지털 트윈 동기화 시뮬레이션 지연 오차 감사](/knowledge-base/studynote/12_it_management/05_security_compliance/356_digital_twin_synchronization_latency/)
-**다음**: [357. O-RAN 프론트홀 개방 사양 무결 망 진단](/knowledge-base/studynote/12_it_management/05_security_compliance/357_o_ran_fronthaul_open_interface/) ->
+<- **이전**: [356. 디지털 트윈 동기화 시뮬레이션 지연 오차 감사](/knowledge-base/studynote/12_it_management/05_security_compliance/997_digital_twin_synchronization_latency/)
+**다음**: [357. O-RAN 프론트홀 개방 사양 무결 망 진단](/knowledge-base/studynote/12_it_management/05_security_compliance/998_o_ran_fronthaul_open_interface/) ->
 
 ---

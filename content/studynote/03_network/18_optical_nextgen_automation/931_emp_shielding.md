@@ -43,7 +43,7 @@ tags = ["studynote-network"]
 - **구리선의 한계**: 기존의 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블이나 동축 케이블은 금속(구리)이므로 EMP 전자기파에 의해 치명적인 유도 전류가 발생한다.
 - **광케이블의 면역력**: 빛(Photon)을 유리(유전체) 튜브로 쏘아 보내는 광케이블은 전기가 통하지 않으므로 <strong>EMP에 100% 면역</strong>이다. EMP 방호 시설 내부와 외부를 연결하는 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 라인은 무조건 광케이블로만 절연 구성해야 한다.
 
-#### 2. [패러데이 케이지](/knowledge-base/studynote/09_security/18_iot_ot_physical/939_faraday_cage/) ([Faraday Cage](/knowledge-base/studynote/09_security/uncategorized/939_honeypot_deception_technology_cyber_decoy_system/)) 시설 구축
+#### 2. [패러데이 케이지](/knowledge-base/studynote/09_security/18_iot_ot_physical/939_faraday_cage/) ([Faraday Cage](/knowledge-base/studynote/09_security/uncategorized/1073_honeypot_deception_technology_cyber_decoy_system/)) 시설 구축
 - **원리**: 금속망이나 철판으로 둘러싸인 닫힌 공간에 전자기파를 쏘면, 전자는 금속 표면을 타고 흐를 뿐 내부 공간에는 전기장이 전혀 미치지 못한다(전기장 0).
 - **적용**: 핵심 라우터와 서버가 있는 IDC 룸 자체를 두꺼운 철판으로 완벽히 둘러싼다 (쉴딩 룸). 문 틈새, 환기구 통풍구 조차 특수 전파 흡수재(Honeycomb 필터 등)로 막아서 아주 미세한 틈으로 들어오는 파장(수 GHz)까지 차단한다.
 

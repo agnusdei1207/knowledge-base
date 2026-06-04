@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 422 / 587
 
-<- **이전**: [287. PMO 프로젝트 관리 오피스 역할](/knowledge-base/studynote/12_it_management/05_security_compliance/287_pmo_role/)
-**다음**: [288. WBS 100% Rule 작업 패키지](/knowledge-base/studynote/12_it_management/05_security_compliance/288_wbs_100_rule/) ->
+<- **이전**: [287. PMO 프로젝트 관리 오피스 역할](/knowledge-base/studynote/12_it_management/05_security_compliance/934_pmo_role/)
+**다음**: [288. WBS 100% Rule 작업 패키지](/knowledge-base/studynote/12_it_management/05_security_compliance/935_wbs_100_rule/) ->
 
 ---

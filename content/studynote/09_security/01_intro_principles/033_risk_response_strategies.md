@@ -35,7 +35,7 @@ tags = ["studynote-security"]
 | 회피 (Avoid)  | 위험 발생 원인 제거·사업 포기 | 위험 국가 진출 취소           |
 | 전가 (Transfer) | 위험을 제3자에게 이전        | [사이버 보험](/knowledge-base/studynote/09_security/20_extra_exam_prep/1027_cyber_insurance/), 아웃소싱          |
 | 완화 (Mitigate) | 위험 발생 가능성·영향 감소   | [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)·암호화·패치 적용        |
-| 수용 (Accept) | 위험 인식하고 감수            | 소액 위험, [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 음수 대응 불필요|
+| 수용 (Accept) | 위험 인식하고 감수            | 소액 위험, [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 음수 대응 불필요|
 
 📢 **섹션 요약 비유**: 위험 대응은 비행 전 기상 결정이다 — 폭풍이면 취소(회피), 보험 가입(전가), 경로 우회(완화), 약한 비에 그냥 비행(수용).
 

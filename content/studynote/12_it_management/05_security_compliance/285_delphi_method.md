@@ -140,7 +140,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 418 / 587
 
-<- **이전**: [284. 프로세스 마이닝 이벤트 로그 병목 진단](/knowledge-base/studynote/12_it_management/05_security_compliance/284_process_mining_bottleneck/)
+<- **이전**: [284. 프로세스 마이닝 이벤트 로그 병목 진단](/knowledge-base/studynote/12_it_management/05_security_compliance/933_process_mining_bottleneck/)
 **다음**: [286. MECE 논리 트리 중복 누락 배제](/knowledge-base/studynote/12_it_management/05_security_compliance/286_mece_logic_tree/) ->
 
 ---

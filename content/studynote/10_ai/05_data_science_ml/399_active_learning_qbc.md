@@ -106,7 +106,7 @@ x* = argmax I(y; θ | x, D)
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **의료 영상**: 방사선 전문의 레이블링 비용 절감 (암 진단 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))
-**NLP**: 텍스트 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 레이블링 (법률 문서, [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/))
+**NLP**: 텍스트 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 레이블링 (법률 문서, [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/))
 **자율주행**: 어엣지 케이스 자동 발굴 및 우선 레이블링
 
 구현 팁:

@@ -136,7 +136,7 @@ Commitment Scheme (약속 기법)를 제대로 이해하면 개념 하나를 외
 
 **진행 상황**: 129 / 1108
 
-<- **이전**: [1016. 영지식 증명 (Zero Knowledge Proof, ZKP)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1016_zero_knowledge_proof/)
+<- **이전**: [1016. 영지식 증명 (Zero Knowledge Proof, ZKP)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1097_zero_knowledge_proof/)
 **다음**: [1018. Secure Multi-Party Computation (SMPC)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1018_secure_multi_party_computation/) ->
 
 ---

@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: Posture(형상/자세)는 현재 시스템의 모양새다. 수천 대의 서버, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰, DB 권한 등이 얽힌 클라우드의 '현재 모양'을 엑스레이로 찍는다. [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/)([Cloud Security](/knowledge-base/studynote/09_security/17_framework_compliance/842_iso_27017_cloud_security/) Posture [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))은 툴(Tool)이다. AWS 계정 키를 물려주면 이 툴이 내 클라우드를 싹 다 뒤져서 "S3 버킷 퍼블릭으로 열렸음!", "DB 비밀번호가 하드코딩됨!", "디폴트 [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/) 열림!" 1,000개의 지뢰를 시뻘건 대시보드에 뿌려주고 멱살을 잡는다.
+- **개념**: Posture(형상/자세)는 현재 시스템의 모양새다. 수천 대의 서버, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰, DB 권한 등이 얽힌 클라우드의 '현재 모양'을 엑스레이로 찍는다. [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/)([Cloud Security](/knowledge-base/studynote/09_security/17_framework_compliance/842_iso_27017_cloud_security/) Posture [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/))은 툴(Tool)이다. AWS 계정 키를 물려주면 이 툴이 내 클라우드를 싹 다 뒤져서 "S3 버킷 퍼블릭으로 열렸음!", "DB 비밀번호가 하드코딩됨!", "디폴트 [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/) 열림!" 1,000개의 지뢰를 시뻘건 대시보드에 뿌려주고 멱살을 잡는다.
 
 - **필요성**: [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 시대엔 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 장비 한 대 사서 막으면 끝이었다. 클라우드 시대엔 개발자 100명이 각자 자기 집에서 AWS 접속해서 버튼 클릭 몇 번으로 서버 100대와 스토리지 100개를 1분 만에 띄운다(Agility의 폭발). 엄청난 속도지만, 신입 개발자가 무심코 누른 `Allow Public Access` [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하나 때문에 1억 명의 고객 개인정보가 구글 검색창에 굴러다니는 대참사가 터진다. <strong>"인프라의 팽창 속도를 인간(보안팀)의 눈알과 엑셀 수작업으로는 절대 쫓아갈 수 없다는 파멸적 절망감"</strong>이, 24시간 실시간으로 클라우드를 감시하고 기계적으로 썰어버리는 [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) 로봇의 등판을 역사적 필연으로 만들었다.
 
@@ -120,7 +120,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 클라우드 보안 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/)) 연동 개발 프로세스은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -175,6 +175,6 @@ tags = ["studynote-software-engineering"]
 **진행 상황**: 639 / 973
 
 <- **이전**: [523. IoT 기기 펌웨어 무결성 검증망 및 OTA (Over-The-Air) 안전 배포](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/523_iot_firmware_ota_security/)
-**다음**: [524. 클라우드 보안 형상 관리 (CSPM) 연동 개발 프로세스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/524_cspm_integration_process/) ->
+**다음**: [524. 클라우드 보안 형상 관리 (CSPM) 연동 개발 프로세스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/916_cspm_integration_process/) ->
 
 ---

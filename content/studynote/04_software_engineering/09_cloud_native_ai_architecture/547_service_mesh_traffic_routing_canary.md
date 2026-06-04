@@ -30,9 +30,9 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **블루/그린(Blue/Green)의 시대**: 2010년대 "[무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/)"가 유행하며, V1 서버 10대 옆에 똑같이 V2 서버 10대를 돈 주고 띄워놓고 라우터 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 `100 ➡ 0` 으로 확 꺾는 짓을 했다. [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)은 편했지만 인프라 돈이 2배로 들었고, 100% 꺾어버리니 터지면 충격파도 100%였다.
   2. <strong>넷플릭스와 <a href="/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/">카나리</a> 롤아웃 (2010s 중반)</strong>: 넷플릭스가 "야 돈 아까워! V2 서버 딱 1대만 띄우고 1%만 흘려!" 라며 클라이언트 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(Ribbon) 룰로 트래픽을 쪼개는 가성비 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 시대를 열었다.
-  3. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">Istio</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">서비스 메시</a>의 무혈 통치 (현재)</strong>: K8s 시대가 열렸다. 개발자가 코드로 1% 분기(`if (random < 1) go V2`) 치는 뻘짓을 완전히 멸망시켰다. 인프라 바닥에 깔린 Envoy [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 `VirtualService` 도면 딱 1장만 읽고 0.001초 단위로 네트워크 단에서 트래픽을 99:1로 기계적으로 쪼개버리는 궁극의 통제권을 획득했다.
+  3. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/">Istio</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/">서비스 메시</a>의 무혈 통치 (현재)</strong>: K8s 시대가 열렸다. 개발자가 코드로 1% 분기(`if (random < 1) go V2`) 치는 뻘짓을 완전히 멸망시켰다. 인프라 바닥에 깔린 Envoy [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 `VirtualService` 도면 딱 1장만 읽고 0.001초 단위로 네트워크 단에서 트래픽을 99:1로 기계적으로 쪼개버리는 궁극의 통제권을 획득했다.
 
-- **📢 섹션 요약 비유**: 옛날 배포(블루그린)는 <strong>'기찻길 선로(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>)를 100% 오른쪽으로 확 꺾어버리는 짓'</strong>입니다. 기차가 오른쪽 선로가 끊겨있으면 그대로 낭떠러지로 다 같이 추락합니다. [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)([서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/))는 <strong>'기차 승객 중 1%만 뽑아서 쪼매난 선발대 정찰 짚차에 태워 보내는 짓'</strong>입니다. 짚차가 낭떠러지로 떨어져도(1% 희생), 본대 기차(99%)는 1도 타격받지 않고 기존 선로(V1)로 평화롭게 여행을 계속하는 눈물겨운 꼬리 자르기 희생 정신입니다.
+- **📢 섹션 요약 비유**: 옛날 배포(블루그린)는 <strong>'기찻길 선로(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>)를 100% 오른쪽으로 확 꺾어버리는 짓'</strong>입니다. 기차가 오른쪽 선로가 끊겨있으면 그대로 낭떠러지로 다 같이 추락합니다. [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)([서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/))는 <strong>'기차 승객 중 1%만 뽑아서 쪼매난 선발대 정찰 짚차에 태워 보내는 짓'</strong>입니다. 짚차가 낭떠러지로 떨어져도(1% 희생), 본대 기차(99%)는 1도 타격받지 않고 기존 선로(V1)로 평화롭게 여행을 계속하는 눈물겨운 꼬리 자르기 희생 정신입니다.
 
 ---
 
@@ -122,7 +122,7 @@ tags = ["studynote-software-engineering"]
 
 **미래 발전 방향**:
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 트래픽 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) 제어 ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Mesh의 역할)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
@@ -176,7 +176,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 685 / 973
 
-<- **이전**: [546. 사이드카 (Sidecar) 프록시 패턴 - Istio, Envoy, Linkerd](/knowledge-base/studynote/04_software_engineering/11_testing_validation/546_sidecar_proxy_pattern/)
-**다음**: [547. 트래픽 라우팅 및 카나리 배포 제어 (Service Mesh의 역할)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/547_traffic_routing_and_canary_deployment_control/) ->
+<- **이전**: [546. 사이드카 (Sidecar) 프록시 패턴 - Istio, Envoy, Linkerd](/knowledge-base/studynote/04_software_engineering/11_testing_validation/938_sidecar_proxy_pattern/)
+**다음**: [547. 트래픽 라우팅 및 카나리 배포 제어 (Service Mesh의 역할)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/939_traffic_routing_and_canary_deployment_control/) ->
 
 ---

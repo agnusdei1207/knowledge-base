@@ -101,7 +101,7 @@ tags = ["design_supervision"]
 
 2. **시나리오: 감리원의 기술적 오진(False Positive) 노출**
    - **상황**: 감리원이 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에 대한 이해 부족으로, 비동기 통신(Event-Driven)에 따른 '최종적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/))'의 짧은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치를 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)으로 오인하여 지적함. 사업자가 아키텍처 철학을 바탕으로 강력히 반발함.
-   - **판단**: 즉각적인 수용과 수정이 필요합니다. 아키텍처 설계 사상([Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/), [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) 등)에 대한 사업자의 증빙(설계서)이 타당하다면, 총괄 감리원은 감리원의 오류를 인정하고 해당 지적을 기각(Drop)해야 합니다. 이를 억지로 덮으려 하면 감리 전체의 기술적 신뢰도가 붕괴됩니다.
+   - **판단**: 즉각적인 수용과 수정이 필요합니다. 아키텍처 설계 사상([Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/948_saga_pattern/), [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) 등)에 대한 사업자의 증빙(설계서)이 타당하다면, 총괄 감리원은 감리원의 오류를 인정하고 해당 지적을 기각(Drop)해야 합니다. 이를 억지로 덮으려 하면 감리 전체의 기술적 신뢰도가 붕괴됩니다.
 
 ```text
 [종료 회의 갈등 관리 및 이견 조율 플로우]
@@ -138,7 +138,7 @@ tags = ["design_supervision"]
 | <strong><a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/018_audit_report/">감리 보고서</a> 권위 확보</strong> | 합의를 거친 보고서는 발주처 내부 검수 및 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 기구 대응 시 강력한 법적/행정적 면책 근거로 작동 |
 | **프로젝트 종결력 강화** | 남은 잔여 이슈(To-Do)가 명확해지며, 개발 조직이 막연한 불안감 없이 품질 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정에만 몰입 가능 |
 
-미래의 감리 환경에서는 종료 회의가 단순한 대면 회의를 넘어, 소스코드 저장소(Git)의 [Pull Request](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 리뷰와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 상의 '품질 게이트(Quality Gate)' 승인 절차로 통합될 것입니다. 시스템 상에서 지적 사항에 대한 코드 수정과 테스트 통과 여부가 자동 증명되면서, 종료 회의의 이견 조율은 인간의 주관적 논쟁이 아닌 100% [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반의 기술적 타협으로 진화할 것입니다.
+미래의 감리 환경에서는 종료 회의가 단순한 대면 회의를 넘어, 소스코드 저장소(Git)의 [Pull Request](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 리뷰와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인 상의 '품질 게이트(Quality Gate)' 승인 절차로 통합될 것입니다. 시스템 상에서 지적 사항에 대한 코드 수정과 테스트 통과 여부가 자동 증명되면서, 종료 회의의 이견 조율은 인간의 주관적 논쟁이 아닌 100% [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반의 기술적 타협으로 진화할 것입니다.
 
 > 📢 **섹션 요약 비유**: 종료 회의의 완벽한 마무리는 건축 공사에서 마지막 비계(작업 발판)를 해체하기 전, 건축주와 시공사가 함께 건물 전체를 둘러보며 남은 마감 작업을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 웃으며 악수하는 '신뢰의 마침표'입니다.
 
@@ -148,7 +148,7 @@ tags = ["design_supervision"]
 * 과업 대비표 ([RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)) | 이견 발생 시 가장 먼저 펼쳐보는 과업 범위 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)
 * 품질 게이트 (Quality Gate) | [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서 수동 종료 회의를 대체/보완할 수 있는 자동화된 품질 통제 기준
 * 시정 조치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) (Follow-up) | 종료 회의에서 약속된 사항들이 실제로 구현되었는지 감리인이 다시 방문해 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 후속 단계
-* [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 관리 ([Stakeholder](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) | 감리인, 피감리인, 발주자 간의 갈등을 조율하고 기대치를 일치시키는 PM 지식 체계
+* [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 관리 ([Stakeholder](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/)) | 감리인, 피감리인, 발주자 간의 갈등을 조율하고 기대치를 일치시키는 PM 지식 체계
 
 ### 📈 관련 키워드 및 발전 흐름도
 

@@ -56,7 +56,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - 관리자가 가상 공간에 묻습니다. "만약(What-If) 내일 밤 10시에 유튜브 트래픽이 500Gbps로 쏟아진다면 어떻게 될까?"
-- 가상 네트워크 엔진이 수만 개의 가짜 패킷([더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 수식 계산을 1분 만에 끝냅니다.
+- 가상 네트워크 엔진이 수만 개의 가짜 패킷([더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 수식 계산을 1분 만에 끝냅니다.
 - **결과 출력**: "강남역 3번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)부터 잠실 1번 라우터 구간에서 버퍼 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))가 꽉 차서 30%의 패킷 드랍(병목 현상)이 발생합니다!"
 
 ### 2. 장애 파급 효과(Impact) 시뮬레이션
@@ -79,7 +79,7 @@ tags = ["studynote-network"]
 
 - 개발자가 "새로운 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 룰"을 코딩했습니다. 이걸 현실망에 바로 적용하면 짤립니다.
 - <strong>사전 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 개발자가 짠 코드를 1차로 가상의 쌍둥이 망에 주입해 돌려봅니다(샌드박스 테스트).
-- 테스트 결과, 루핑(뺑뺑이) 에러가 없고 목적지까지 정상 도달하는 것을 완벽히 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Verified)한 뒤에야, [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러를 통해 진짜 현실 장비에 100% 안전하게 배포(Commit)를 허락합니다. (네트워크 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD의 완성)
+- 테스트 결과, 루핑(뺑뺑이) 에러가 없고 목적지까지 정상 도달하는 것을 완벽히 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Verified)한 뒤에야, [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러를 통해 진짜 현실 장비에 100% 안전하게 배포(Commit)를 허락합니다. (네트워크 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD의 완성)
 
 - 수만 대의 장비와 수백만 가닥의 경로, 그리고 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 알고리즘의 동작을 가상 공간에서 완벽히 똑같이 흉내(수학적 에뮬레이션) 내려면 엄청난 양의 슈퍼컴퓨터 연산 능력(CPU/[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))이 필요합니다. 그래서 현재 통신사들은 가장 굵직한 코어망 백본 위주로만 제한적으로 트윈 시뮬레이션을 돌리고 있습니다.
 
@@ -89,7 +89,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 네트워크 사전 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 시뮬레이션은 항공기 설계 시 돌리는 '가상 윈드 터널(풍동 테스트)'과 같습니다. 옛날(테스트 베드 부재)엔 새로운 비행기 날개(새로운 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 룰)를 만들면, 그냥 조종사를 태우고 날려봐서 비행기가 안 떨어지면 통과, 떨어지면 고치는 무식한 테스트를 했습니다(장애 발생). <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">디지털 트윈</a> 병목 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>은 컴퓨터 3D 설계도(쌍둥이 망) 안에 비행기를 띄워놓고, 시속 1,000km의 가짜 가상 태풍([더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 트래픽)을 쏴서 날개가 부러지는지(병목 발생) 1만 번을 공짜로 미리 부숴보는 것입니다. 완벽히 안 부러지는 꺾임 각도(최적 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 룰)를 찾아낸 뒤에야 비로소 진짜 현실 비행기에 부품을 장착(현실 망 배포)하여 승객의 100% 안전(무중단 네트워크)을 담보하는 궁극의 예방 방어선입니다.
+- **📢 섹션 요약 비유**: 네트워크 사전 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 시뮬레이션은 항공기 설계 시 돌리는 '가상 윈드 터널(풍동 테스트)'과 같습니다. 옛날(테스트 베드 부재)엔 새로운 비행기 날개(새로운 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 룰)를 만들면, 그냥 조종사를 태우고 날려봐서 비행기가 안 떨어지면 통과, 떨어지면 고치는 무식한 테스트를 했습니다(장애 발생). <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">디지털 트윈</a> 병목 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>은 컴퓨터 3D 설계도(쌍둥이 망) 안에 비행기를 띄워놓고, 시속 1,000km의 가짜 가상 태풍([더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) 트래픽)을 쏴서 날개가 부러지는지(병목 발생) 1만 번을 공짜로 미리 부숴보는 것입니다. 완벽히 안 부러지는 꺾임 각도(최적 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 룰)를 찾아낸 뒤에야 비로소 진짜 현실 비행기에 부품을 장착(현실 망 배포)하여 승객의 100% 안전(무중단 네트워크)을 담보하는 궁극의 예방 방어선입니다.
 
 ---
 

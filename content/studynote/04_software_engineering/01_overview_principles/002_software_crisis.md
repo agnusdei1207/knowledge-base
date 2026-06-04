@@ -78,7 +78,7 @@ tags = ["software_engineering"]
 |:---|:---|:---|:---|
 | **요구사항 변경** | 변경을 억제하고 통제함 (경직됨) | 변경을 환영하고 지속적 반영 (유연함) | 비즈니스 환경의 변동성 |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> 상황 측정</strong> | 문서 산출물 기반 측정 | 동작하는 소프트웨어 기반 측정 | 실질적 진척도 가시성 |
-| **품질 확보 시점** | 개발 후반부(테스트 단계)에 집중 | [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD를 통한 지속적 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정 비용([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) vs 후기) |
+| **품질 확보 시점** | 개발 후반부(테스트 단계)에 집중 | [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD를 통한 지속적 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정 비용([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) vs 후기) |
 
 ```text
 [규모에 따른 복잡도 증가 곡선 분석]
@@ -138,8 +138,8 @@ tags = ["software_engineering"]
 | 위기 극복 이전 | 위기 극복 노력 후 | 도입 전후 패러다임 변화 |
 |:---|:---|:---|
 | 의존적 지식 (영웅적 프로그래머) | 자산화된 프로세스 ([CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/), [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/)) | 개인 역량 의존도 감소 |
-| 수작업 테스트 및 배포 | 자동화된 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 및 Test | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지 속도 비약적 향상 |
-| 변경에 취약한 모놀리스 | [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 및 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) | 시스템 확장성과 [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/) 확보 |
+| 수작업 테스트 및 배포 | 자동화된 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 및 Test | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지 속도 비약적 향상 |
+| 변경에 취약한 모놀리스 | [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 및 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) | 시스템 확장성과 [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/) 확보 |
 
 소프트웨어 위기는 끝난 것이 아니라 규모가 커짐에 따라 새로운 형태로 계속 진화하고 있다. 향후에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반의 코드 제너레이터와 자동 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 도구들이 개발자의 인지적 부하를 줄여주어, 초거대 시스템에서 발생할 수 있는 '2차 소프트웨어 위기'를 예방하는 핵심 표준 기술로 자리 잡을 것이다.
 
@@ -151,7 +151,7 @@ tags = ["software_engineering"]
 - [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 위기를 해결하기 위해 탄생한 체계적 접근 및 관리 학문
 - 브룩스의 법칙 (Brooks's Law) | 위기 상황에서 인력 투입 시 일정이 더 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된다는 프로젝트 관리 원칙
 - [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) ([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)) | 단기적 성과를 위해 품질을 희생함으로써 발생하는 위기의 현대적 형태
-- [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([Configuration Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/)) | 잦은 변경으로 인한 위기를 통제하기 위한 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/) 체계
+- [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([Configuration Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/873_configuration_management/)) | 잦은 변경으로 인한 위기를 통제하기 위한 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/) 체계
 - 객체 지향 및 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) | 소프트웨어의 복잡도 급증이라는 위기 원인을 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화로 극복하려는 아키텍처의 진화
 
 ### 📈 관련 키워드 및 발전 흐름도

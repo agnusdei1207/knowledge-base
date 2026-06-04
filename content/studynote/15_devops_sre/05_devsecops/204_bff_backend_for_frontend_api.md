@@ -19,7 +19,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-[BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) ([Backend For Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/))는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)/[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 환경에서 반복되는 운영 문제를 구조적으로 다루기 위해 등장한 개념이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수가 늘고 배포 빈도가 높아지면 애플리케이션 코드와 운영 제어를 분리하는 플랫폼 계층이 필요하다. 핵심은 웹, 모바일 등 채널별 요구에 맞춰 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 조합과 최적화를 담당하는 전용 백엔드에 있다. 이 관점에서 보면, 이 주제는 단순 기술 소개가 아니라 속도와 안정성을 동시에 맞추기 위한 운영 설계 기준에 가깝다.
+[BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/) ([Backend For Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/))는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)/[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 환경에서 반복되는 운영 문제를 구조적으로 다루기 위해 등장한 개념이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수가 늘고 배포 빈도가 높아지면 애플리케이션 코드와 운영 제어를 분리하는 플랫폼 계층이 필요하다. 핵심은 웹, 모바일 등 채널별 요구에 맞춰 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 조합과 최적화를 담당하는 전용 백엔드에 있다. 이 관점에서 보면, 이 주제는 단순 기술 소개가 아니라 속도와 안정성을 동시에 맞추기 위한 운영 설계 기준에 가깝다.
 
 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 확장, 보안, 저장소를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별로 제각각 구현하면 운영 복잡도가 기하급수적으로 늘어난다. 따라서 BFF를 이해할 때는 "무엇을 자동화하는가"보다 "어떤 실패와 편차를 줄이려는가"를 먼저 붙잡아야 한다.
 
@@ -66,7 +66,7 @@ Reference Architecture
 
 BFF는 보통 단일 공통 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway와 비교할 때 경계가 선명해진다. BFF이 더 많은 자동화와 제어를 제공하더라도, 모든 상황에서 무조건 우월한 것은 아니다. 시스템 규모, 팀 성숙도, 규제 수준, 운영 복잡도가 함께 맞아야 장점이 실제 성과로 이어진다.
 
-| 비교 축 | [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) | 단일 공통 [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) |
+| 비교 축 | [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/) | 단일 공통 [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/) |
 |:---|:---|:---|
 | 중심 목표 | BFF의 목적에 맞춘 제어와 자동화 | 더 전통적이거나 대안적인 운영 방식 |
 | 강점 | 프론트별 과도한 공통 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 타협을 줄인다. | 구조가 단순하거나 도입 장벽이 낮음 |
@@ -117,7 +117,7 @@ BFF를 잘 적용하면 확장성과 격리, 자동화, 표준 운영 모델을 
 | Frontend Channel | BFF를 이해할 때 직접 연결되는 기반 개념 |
 | Aggregation | BFF의 설계·운영 판단 기준을 보완하는 개념 |
 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [Tailoring](/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/) | BFF를 자동화·확장 측면에서 연결하는 개념 |
-| 단일 서버/단일 애플리케이션 중심 운영 | [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) 적용 후 후속 발전 방향을 설명하는 개념 |
+| 단일 서버/단일 애플리케이션 중심 운영 | [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/) 적용 후 후속 발전 방향을 설명하는 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

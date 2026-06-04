@@ -74,7 +74,7 @@ tags = ["studynote-software-engineering"]
 
 프로토타이핑은 단독으로 쓰이기보다 다른 개발 방법론과 섞여서 쓰인다.
 
-| 비교 항목 | 폭포수 (Waterfall) | 프로토타이핑 (Prototyping) | [애자일 스크럼](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)) |
+| 비교 항목 | 폭포수 (Waterfall) | 프로토타이핑 (Prototyping) | [애자일 스크럼](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/)) |
 |:---|:---|:---|:---|
 | **요구사항 확정**| 프로젝트 초기에 100% 픽스 | **시제품을 통해 초기에 픽스** | 스프린트마다 계속 바뀜 |
 | **산출물 전달** | 마지막 날에 한 번 | 중간에 껍데기 한 번, 마지막에 진짜 | 2주마다 '동작하는 소프트웨어' |

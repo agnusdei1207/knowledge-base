@@ -169,7 +169,7 @@ PoW 방식은 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blo
 
 DPoS는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이 비로소 실생활의 대규모 애플리케이션을 구동할 수 있다는 가능성을 증명한 최초의 상용화 성공 모델이다.
 
-| 구분 | 도입 전 (PoW/일반 PoS) | 도입 후 (DPoS) | 기대 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 및 효과 |
+| 구분 | 도입 전 (PoW/일반 PoS) | 도입 후 (DPoS) | 기대 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 및 효과 |
 |:---|:---|:---|:---|
 | <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 비용</strong> | 건당 수수료 폭등 (가스비 전쟁) | 자원 임대(Staking) 방식으로 무료화 가능 | 사용자 체감 비용 99% 절감 |
 | **처리 속도** | 평균 1~10분 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 0.5~3초 이내 확정 | 실시간 인터랙션(게임/소셜) 가능 |
