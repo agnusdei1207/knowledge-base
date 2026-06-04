@@ -18,7 +18,7 @@ tags = ["work"]
 
 ### 🔬 2. R&D (연구개발)
 *   프로덕트 적용을 가정한 기술 실험·검증을 다룹니다. 순수 탐구는 상위 R&D 허브와 연결됩니다.
-*   👉 [R&D 허브](/knowledge-base/work/r-and-d/)
+*   👉 [R&D 허브](/knowledge-base/work/research-and-development/)
 
 ### 🗂️ 3. 기획 (Planning)
 *   진행 중 프로젝트, 로드맵, 마일스톤, 의사결정 흐름의 단일 현황판입니다.

@@ -13,7 +13,7 @@ tags = ["general"]
 사내 업무 허브. **5개 트랙**으로 나뉩니다: **Develop / R&D / 기획 / 디자인 / 사업**
 
 - [Develop](/knowledge-base/work/develop/) — 기술 아키텍처, 스택, 배포·운영
-- [R&D](/knowledge-base/work/r-and-d/) — 프로덕트 적용 기술 실험·검증
+- [R&D](/knowledge-base/work/research-and-development/) — 프로덕트 적용 기술 실험·검증
 - [기획](/knowledge-base/work/planning/) — 프로젝트·로드맵·마일스톤
 - [디자인](/knowledge-base/work/design/) — UX/UI 시스템, 디자인 산출물
 - [사업](/knowledge-base/work/business/) — 파이프라인, GTM, 영업

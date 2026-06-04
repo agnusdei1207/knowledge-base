@@ -29,4 +29,4 @@ tags = ["work", "design"]
 - 기획 입력: [Planning 허브](/knowledge-base/work/planning/)
 - 기술 구현: [Develop 허브](/knowledge-base/work/develop/)
 - 사업 가치: [Business 허브](/knowledge-base/work/business/)
-- R&D 실험: [R&D 허브](/knowledge-base/work/r-and-d/)
+- R&D 실험: [R&D 허브](/knowledge-base/work/research-and-development/)
