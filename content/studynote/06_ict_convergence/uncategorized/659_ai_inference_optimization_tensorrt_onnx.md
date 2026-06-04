@@ -11,160 +11,139 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: AI 추론 최적화 TensorRT ONNX은(는) ICT 융합 기술 심화 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: ONNX(Open Neural Network Exchange)는 프레임워크 비종속 모델 교환을 위한 **프로토콜 버퍼 기반 중간 표현(Intermediate Representation, IR)** 표준이며, TensorRT는 NVIDIA GPU의 CUDA/SM(Streaming Multiprocessor)·Tensor Core 자원에 **Layer Fusion·Kernel Auto-Tuning·FP16/INT8 Quantization**을 자동 적용하는 **추론 전용 런타임 컴파일러**입니다. 두 기술은 `PyTorch/TensorFlow/JAX -> ONNX Export -> TensorRT Engine(plan)` 파이프라인으로 결합되어, 학습-배포 간 의미적·구조적 격차를 해소합니다.
+> 2. **가치**: 동일 하드웨어 대비 ResNet-50 기준 **FP32 -> FP16 변환 시 약 2.0배, INT8 캘리브레이션 적용 시 약 3.7배 지연시간 감소**(NVIDIA A100 기준, TensorRT 8.6), GPU 메모리 footprint **최대 50% 절감**, 그리고 BERT-Large 같은 Transformer 모델에서는 **최대 18배의 추론 가속**(Sparsity + INT8) 효과를 검증할 수 있어, TCO(Total Cost of Ownership)와 SLA 동시 만족이 가능합니다.
+> 3. **판단 포인트**: 핵심 의사결정 축은 ①**정확도-성능 트레이드오프**(INT8 캘리브레이션의 KL Divergence 손실 한계), ②**Dynamic Shape 지원 범위**(최적화된 engine이 고정 shape에 특화되는 특성), ③**NVIDIA 종속성**(AMD/Intel CPU·GPU에서는 ONNX Runtime 또는 OpenVINO 선택), ④**Calibration Dataset의 통계적 대표성**(입력 분포 왜곡 시 정확도 급락), ⑤**Triton Inference Server 연동 시 동적 Batching·Multi-Model Ensemble·Model Repository 관리 전략**입니다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-AI 추론 최적화 TensorRT ONNX은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+딥러닝 모델은 학습(training) 단계에서 PyTorch·TensorFlow·JAX·PaddlePaddle 등 다양한 프레임워크 위에서 개발되지만, **운영(Production) 환경에서는 학습 프레임워크의 무거운 의존성(예: PyTorch+CUDA Toolkit+cuDNN+Python Interpreter 4GB+)과 동적 그래프 특성으로 인해 GPU 자원 활용률이 30~40%에 그치는 'GPU Starvation' 현상**이 빈번합니다. 또한 동일 모델을 다수의 프레임워크·다수의 하드웨어(데이터센터 A100, 엣지 Jetson Orin, 차량용 Drive Orin)에 배포해야 하는 **모델 배포의 파편화(Fragmentation)** 문제가 발생합니다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, AI Inference Optimization TensorRT ONNX 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+`ONNX`는 2017년 Facebook·Microsoft가 시작한 오픈 표준으로, **`.onnx` 파일 단일 포맷으로 모델의 Computational Graph(연산 그래프), 가중치 텐서, 메타데이터를 직렬화**하여 프레임워크 간 손실 없는 변환을 보장합니다. 연산자 사양(Operator Spec)은 `opset_version`을 통해 진화(현재 v20)하며, 200여 개의 표준 연산자와 Custom Op 확장 메커니즘을 제공합니다.
+
+`TensorRT`는 NVIDIA가 2017년(당시 이름: TensorRT 1.0) 출시한 SDK로, 학습된 모델을 **NVIDIA GPU 하드웨어 명령어(PTX/SASS)에 최적화된 직렬화된 엔진 파일(`engine.plan` 또는 `engine.trt`)**로 변환합니다. 핵심 최적화는 ①**Vertical Layer Fusion**(Conv+BN+ReLU 통합), ②**Horizontal Layer Fusion**(동일 입력의 다중 branch 통합), ③**Kernel Auto-Tuning**(입력 shape별 최적 CUDA kernel 탐색), ④**Precision Calibration**(FP32->FP16/INT8/FP8), ⑤**Memory Pool Reuse**(텐서 메모리 사전 할당)입니다.
 
 ```text
-+--------------------------------------------------------------+
-|                    AI 추론 최적화 TensorRT ONNX 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+        [학습 단계: Model Development]                  [배포 단계: Inference Optimization]
+  +------------------------------+             +---------------------------------------+
+  |  PyTorch (torch.export)      |             |  NVIDIA TensorRT (Closed Loop)        |
+  |  TensorFlow (SavedModel)     |  -ONNX--->  |  - Graph Optimization (Layer Fusion)  |
+  |  JAX (jax2tf -> onnx)         |   Export   |  - Kernel Auto-Tuning (cuDNN/cuBLAS) |
+  |  PaddlePaddle (paddle2onnx) |             |  - Precision: FP32/FP16/INT8/FP8     |
+  |  Hugging Face Optimum-ONNX  |             |  - Memory: Static Pool + Reuse        |
+  +------------------------------+             |  - Output: .plan (Engine File)        |
+            |                                  +------------+--------------------------+
+            |                                               | loadEngine()
+            |                                               v
+            |                                  +----------------------------+
+            |                                  |  TensorRT Runtime (C++/Py) |
+            |                                  |  - execute_async()         |
+            |                                  |  - GPU Stream 비동기 실행 |
+            |                                  |  - DLA(Deep Learning      |
+            |                                  |    Accelerator) 오프로드  |
+            |                                  +------------+---------------+
+            |                                               | gRPC/HTTP
+            |                                               v
+            |                                  +----------------------------+
+            |                                  |  Triton Inference Server   |
+            |                                  |  - Dynamic Batcher         |
+            |                                  |  - Model Ensemble          |
+            |                                  |  - Multi-GPU/Multi-Node   |
+            |                                  +----------------------------+
+            v
+  +------------------------------+
+  |  ONNX Runtime (Fallback)     |  <--- Cross-Platform: x86 CPU, ARM, Mali, NNAPI
+  |  - DirectML / CUDA / CPU EP  |      AMD ROCm, Apple CoreML, Qualcomm QNN
+  |  - Graph Optimization        |
+  +------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**기존 패러다임 대비 변화**:
+- **Before (2016 이전)**: Caffe `.prototxt` + `.caffemodel` -> 프레임워크 종속, GPU 활용률 30%대
+- **After (2017 이후)**: PyTorch `state_dict` -> ONNX -> TensorRT engine -> GPU 활용률 70~95%, A100에서 10,000 QPS 달성
+- **현재 (2024~)**: TensorRT-LLM, NeMo, NIM(NVIDIA Inference Microservice)으로 LLM 추론 최적화 영역 확장
 
-- **📢 섹션 요약 비유**: AI 추론 최적화 TensorRT ONNX은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: ONNX는 **"전 세계 모든 요리사가 공용으로 쓸 수 있는 표준 레시피 카드"**이고, TensorRT는 **"그 레시피를 NVIDIA 주방의 화덕(GPU)에 맞춰 자동으로 불 세기와 칼질까지 최적화하는 5스타 셰프"**입니다. 같은 '라면' 레시피(모델)도 일반 가스레인지(CPU)와 화덕(TensorRT)에서는 조리 시간과 풍미가 완전히 달라지죠.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-AI 추론 최적화 TensorRT ONNX의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+TensorRT의 추론 최적화 파이프라인은 크게 **5단계**로 구분되며, 각 단계에서 비가역적(irreversible) 변환이 수행됩니다.
 
 ```text
-+--------------------------------------------------------------+
-|              AI Inference Optimization TensorRT ONNX 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+                +----------------------------------------------------------+
+                |              TensorRT Optimization Pipeline               |
+                +----------------------------------------------------------+
+                                       |
+   [1] Model Parsing                  [2] Network Definition
+   +------------------+               +------------------------------------+
+   |  .onnx (Model)   |  --parse--->  |  INetworkDefinition* network      |
+   |  .pb (TF)        |               |  - Layer 등록 (Conv, MatMul, ...)  |
+   |  .uff (legacy)   |               |  - Input/Output Tensor Shape 명시  |
+   +------------------+               |  - Dynamic Shape Profile 설정     |
+                                      +--------------+---------------------+
+                                                     | addPooling
+                                                     v
+   [3] Builder Configuration         [4] Engine Build (수 분~수십 분)
+   +---------------------------------+ +------------------------------------+
+   | IBuilderConfig* config          | | ① Layer Fusion                    |
+   |  - max_workspace_size = 8GB     | |    Conv+BN+ReLU -> ConvBnRelu       |
+   |  - fp16 = true                  | |    MatMul+Add+GeLU -> FusedMatMul   |
+   |  - int8 = true                  | | ② Kernel Auto-Tuning              |
+   |  - int8_calibrator = Entropy    | |    [Conv k=3 s=1 pad=1, H×W=224]  |
+   |  - sparse_weights = true        | |      -> 1024개 후보 중 SM 점유율 최적|
+   |  - tactic_source = CUBLAS,     | | ③ Tensor Memory Layout Reorder    |
+   |    CUDNN, CUBLASLT, etc.        | |    NCHW -> NHWC (Tensor Core 친화) |
+   |  - DLA_core = -1 (GPU only)    | | ④ Constant Folding                |
+   +---------------------------------+ | ⑤ Dynamic Shape: Min/Opt/Max Profile|
+                                      |    등록된 profile 내에서만 최적화   |
+                                      +--------------+---------------------+
+                                                     | buildSerializedNetwork()
+                                                     v
+   [5] Deserialized Engine & Runtime
+   +----------------------------------------------------------------------+
+   |  ICudaEngine* engine = deserializeCudaEngine(plan_bytes);          |
+   |  IExecutionContext* ctx = engine->createExecutionContext();         |
+   |                                                                      |
+   |  +-----------------+    +------------------+    +--------------+  |
+   |  |  Host Memory    |    |  Device Memory   |    |  Async Stream |  |
+   |  |  (Pinned DMA)   | --> |  - Input Buffer  |    |  cudaStream_t |  |
+   |  |  Input Tensor   |    |  - Output Buffer | --->|  execute_async |  |
+   |  |  Output Tensor  | <-- |  - Internal Pool | <---|  (V100/A100/H100)|
+   |  +-----------------+    +------------------+    +--------------+  |
+   |                                                                      |
+   |  ※ Pinned Memory: cudaHostAlloc(Mapped) -> H2D/D2H 전송 2배 빠름    |
+   |  ※ Stream: GPU 내 동시성, 다중 stream으로 입력-추론-출력 오버랩     |
+   +----------------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+**Layer Fusion의 상세 메커니즘**:
+- **Conv-BN-Add-ReLU Fusion**: Convolution의 bias와 BatchNorm의 scale·shift·epsilon을 Conv weight에 **수학적 동치(Equivalence)** 변환으로 흡수. `W_fused = γ·W/σ`, `b_fused = γ·(b-μ)/σ + β`. 이렇게 통합된 단일 CUDA 커널은 **메모리 접근 횟수 4회 -> 1회, 커널 launch overhead 4회 -> 1회**로 줄어 latency가 대폭 감소합니다.
+- **Q/DQ (Quantize-Dequantize) Node 삽입**: INT8 변환 시 Conv 입력에 `QuantizeLinear`, 가중치에 `DequantizeLinear` 노드가 자동 삽입되며, 이는 추후 `QDQ` 형식(ONNX Runtime Quantization과 호환)으로 캘리브레이션됩니다.
+
+**Precision Calibration 알고리즘**:
+- **Entropy Calibration (Default)**: KL Divergence를 최소화하는 threshold T를 탐색 -> 활성화 분포의 상위 99.99%를 255개 bin에 매핑
+- **MinMax Calibration**: 단순 min/max -> 빠른 대신 정확도 손실 큼
+- **Percentile Calibration**: 99.9% percentile 사용 -> outlier에 강건
+
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **ONNX Graph (Proto)** | 프레임워크 비종속 모델 표현 | `onnx.proto` 스키마 기반 protobuf 직렬화, `ir_version`/`opset_import`/`graph.initializer`(가중치) 포함. `onnx.checker.check_model()`로 사양 적합성 검증 |
+| **TensorRT Builder** | 최적화 그래프 -> Engine 변환 | `IBuilder::buildSerializedNetwork()` 호출 시 위 5단계 자동 수행. **빌드 시간은 수 분~수십 분**(최적 tactic 조합 탐색 때문), 한 번 빌드 후 engine 직렬화하여 재사용 |
+| **TensorRT Engine (plan)** | 직렬화된 GPU 실행 계획 | `.plan` 파일은 하드웨어·TensorRT 버전·GPU 모델에 **강하게 종속**(A100용 engine은 V100에서 실행 불가). IExecutionContext가 상태(state) 보관 -> **각 context는 단일 thread**로 사용해야 함(Safe하지 않음) |
+| **Calibrator (INT8)** | FP32 -> INT8 스케일 팩터 산출 | `IInt8EntropyCalibrator2` 구현 시 `getBatch()`로 calibration batch 반환 -> 내부적으로 activation histogram 누적 -> `computeCalibrationScores()`에서 KL Divergence 최소화. **Calibration Data는 학습 데이터의 1~5%**(500~2000 샘플)면 충분 |
+| **Polygraphy (Toolkit)** | 엔진 검증·디버깅 | `polygraphy run model.onnx --trt --save-engine=plan`로 변환, `polygraphy run plan --validate`로 FP32/INT8 결과 비교(최대 1e-3 atol), `inspect` 명령으로 layer별 tactic dump 가능 |
+| **Triton Inference Server** | 다중 모델 서빙·라우팅 | TensorRT backend로 engine 로드, Dynamic Batcher(예: 5ms window 내 최대 batch_size=32), Model Ensemble(전처리-TensorRT-후처리 파이프라인), Prometheus 메트릭 노출 |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**핵심 파라미터 (BuilderConfig)**:
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
-
----
-
-## Ⅲ. 비교 및 연결
-
-AI 추론 최적화 TensorRT ONNX을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | AI 추론 최적화 TensorRT ONNX |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. AI 추론 최적화 TensorRT ONNX은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 AI 추론 최적화 TensorRT ONNX은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 AI 추론 최적화 TensorRT ONNX을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-AI 추론 최적화 TensorRT ONNX을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, AI 추론 최적화 TensorRT ONNX 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: AI 추론 최적화 TensorRT ONNX은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | AI 추론 최적화 TensorRT ONNX의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | AI 추론 최적화 TensorRT ONNX의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-AI 추론 최적화 TensorRT ONNX 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. AI 추론 최적화 TensorRT ONNX은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+```python
+config = builder.create_builder_config()
+config.set_memory_pool_limit(trt.MemoryPoolType.WORKSPACE, 8 << 30)  # 8GB
+config.set_flag(trt.BuilderFlag.FP
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 659 / 800

@@ -11,160 +11,179 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 강화 학습 RLHF 인간 피드백 정렬은(는) ICT 융합 기술 심화 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: RLHF(Reinforcement Learning from Human Feedback)는 사전훈련된 언어 모델(LLM) 위에 **3단계 파이프라인(SFT -> Reward Model -> PPO/RL Optimization)**을 적용해 인간의 선호 신호(Preference Signal)를 정책 분포에 반영하는 정렬(Alignment) 기법으로, 보상 함수 $r_\theta(x, y)$를 별도 모델로 학습하고 **PPO(Proximal Policy Optimization)**에 **KL 제약($\beta \cdot \text{KL}(\pi_\theta \| \pi_{\text{ref}})$)**을 결합해 Reference Model과의 이탈을 통제한다.
+> 2. **가치**: 단순 SFT 대비 **도움됨·무해함·정직성(HHH) 지표 1.3~2.1배 향상**(InstructGPT 기준), **Hallucination Rate 약 50% 감소**, **Toxicity 25%v** 등 정량적 효과가 입증되었으며, 별도 작업별 파인튜닝 없이 **명령어 일반화** 능력을 획득하여 Few-shot 프롬프트 의존도를 낮추고 엔터프라이즈 도메인 전이 학습 비용을 절감한다.
+> 3. **판단 포인트**: 핵심 트레이드오프는 **(a) Reward Hacking(보상 해킹)** — Proxy Reward와 실제 가치의 괴리로 발생, **(b) Alignment Tax(정렬 세금)** — 정렬로 인한 벤치마크 점수 저하, **(c) 인간 라벨링 비용과 품질 편차**, **(d) PPO의 메모리 4× 부담(Actor+Critic+Ref+Reward)** — 이를 DPO/IPO/KTO/RLAIF/Constitutional AI로 대체할지, 하이브리드로 갈지가 기술사적 의사결정 포인트다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-강화 학습 RLHF 인간 피드백 정렬은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+LLM의 **스케일링 법칙(Scaling Law, Kaplan 2020)**이 매개변수·데이터·연산량에 따라 손실을 예측 가능한 형태로 감소시킴이 입증되면서 GPT-3(175B)·PaLM(540B)·LLaMA·Mistral 등 **Foundation Model** 시대가 열렸다. 그러나 Next Token Prediction으로 학습된 LLM은 본질적으로 **"다음에 올 토큰의 확률 분포"**를 모사하는 생성기이며, 다음의 세 가지 구조적 한계를 가진다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Reinforcement Learning RLHF Human Feedback 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+1. **명령어 불일치(Instruction Following Failure)**: "이메일을 정중하게 다시 써줘" 같은 사용자 의도(intent)를 명세 단서(instruction)만으로 추론하지 못함 — 즉, **Prompt Completion** 방식에서 **Instruction Following**으로의 패러다임 전환이 필요.
+2. **가치 정렬 부재(Value Misalignment)**: 유해·편향·거짓 정보(Hallucination) 생성을 통계적으로만 억제할 뿐, 인간의 윤리·사회적 규범을 **명시적으로 반영하지 못함** — Christiano et al.(2017)의 *Deep Reinforcement Learning from Human Preferences*가 이를 정면으로 다룸.
+3. **분포 외 일반화 부족**: SFT(Supervised Fine-Tuning)만으로는 보지 못한 instruction에 대한 강건성(robustness)이 약함.
+
+기존 SFT는 **고품질 데모(Demonstration) 데이터**가 필요하고, 모든 "잘못된 출력"을 명시적으로 라벨링해야 한다는 **Coverage 한계**가 있다. 반면 RLHF는 **선호 비교(Preference Comparison)**만으로 신호를 추출하므로 라벨링 비용 대비 정보 밀도가 훨씬 높다(Ouyang et al., 2022, *Training language models to follow instructions with human feedback*, OpenAI InstructGPT).
 
 ```text
-+--------------------------------------------------------------+
-|                    강화 학습 RLHF 인간 피드백 정렬 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
++----------------------------------------------------------------------+
+|         RLHF 등장 전후의 LLM 개발 패러다임 비교                       |
++----------------------------------------------------------------------+
+|  [구 패러다임]                                                         |
+|   데이터 -► 토큰 정제 -► Next Token Prediction (Self-Supervised)      |
+|                              |                                        |
+|                              v                                        |
+|                       Foundation Model (Base LLM)                     |
+|                              |                                        |
+|                    Prompt Engineering (수작업)                          |
+|                              |                                        |
+|                              v                                        |
+|                       사용자 응답 (불안정·일관성v)                       |
+|                                                                      |
+|  [신 패러다임: RLHF]                                                   |
+|   데이터 -► Pre-training -► SFT -► RM Training -► PPO Optimization     |
+|                                              |                        |
+|                                              v                        |
+|                                       Aligned LLM (ChatGPT, Claude)  |
+|                                              |                        |
+|                                    Direct Instruction Following       |
+|                                                                      |
+|  ⇒ RLHF는 "Prompt 의존형"을 "Instruction 독립형"으로 전환하는 핵심     |
+|    인터페이스 추상화 계층이라 할 수 있음                                 |
++----------------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**기존 vs 신규 패러다임 핵심 차이**:
+- **SFT-Only**: Teacher Forcing 방식의 모방 학습, "원하는 답"만 학습 -> **분포 외 입력에 취약**.
+- **RLHF**: 보상 최대화 + KL 제약 정책 최적화 -> **상대적 품질 차이**까지 학습. 두 응답 A, B 중 어느 쪽이 인간에게 더 가치 있는지를 비교 라벨링(pairwise comparison)하면 충분.
+- **최신 후속**: DPO(Direct Preference Optimization, Rafailov 2023)는 보상 모델을 명시적으로 학습하지 않고 선호도 데이터를 직접 정책 학습에 사용해 PPO의 메모리·안정성 부담을 회피.
 
-- **📢 섹션 요약 비유**: 강화 학습 RLHF 인간 피드백 정렬은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 일반 SFT는 "정답지(模範 답안)를 통째로 외우는 학생"이고, RLHF는 "여러 답안 중 선생님이 더 좋은 답을 가리키면 그 방향으로 사고방식을 교정받는 학생"과 같다. 절대적 정답을 모두 외울 필요 없이, **상대적 비교만으로 방향성이 학습**된다는 점이 핵심이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-강화 학습 RLHF 인간 피드백 정렬의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+RLHF 파이프라인은 OpenAI의 InstructGPT 논문(Ouyang et al., 2022)을 기준으로 **3단계**로 구성된다. Anthropic의 Claude, Google의 Bard/Gemini, Meta의 Llama-2-Chat 모두 본질적으로 동일한 구조를 채택하되 **Step 3**을 변형해왔다.
 
 ```text
-+--------------------------------------------------------------+
-|              Reinforcement Learning RLHF Human Feedback 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+                       +------------------------------------+
+                       |  STEP 1. Supervised Fine-Tuning    |
+                       |  (SFT) — 정책 초기화              |
+                       |                                    |
+   라벨러(Labeller) --►|  Prompt Datasets  --► SFT Model    |
+   데모 작성 (Demonstrations)                 (π_SFT)         |
+   약 13k~100k examples                       |              |
+                                               v              |
+                       +------------------------------------+
+                       |  STEP 2. Reward Modeling           |
+                       |  (RM) — 인간 선호 학습             |
+                       |                                    |
+   라벨러(Labeller) --►|  Pairwise Comparison (K개 중)        |
+   선호도 라벨링                              |              |
+   A>B, A<B, A≈B 등                         v              |
+                                          Reward Model       |
+                                          r_θ(x, y)          |
+                                          (보통 6B/13B)       |
+                                               |              |
+                                               v              |
+                       +------------------------------------+
+                       |  STEP 3. RL Fine-Tuning (PPO)      |
+                       |  — 정책 최적화 + KL 제약            |
+                       |                                    |
+      Prompt --► Actor π_θ(생성) --► Response y              |
+                       |                |                    |
+                       |                v                    |
+                       |      Reward r_θ(x,y) --► Scalar    |
+                       |                |                    |
+                       |                v                    |
+                       |         Advantage A_t (GAE)         |
+                       |                |                    |
+                       |   KL Divergence(π_θ‖π_SFT)         |
+                       |       β·KL 페널티 부착              |
+                       |                |                    |
+                       |                v                    |
+                       |         PPO Clip(ε=0.1~0.2)        |
+                       |                |                    |
+                       +---► Backprop & Policy Update ------+
+                              Critic V_φ (Value Function)
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Actor Policy $\pi_\theta(y\|x)$** | 실제 정책, 응답을 생성하는 LLM (수십~수백 B) | PPO의 stochastic policy, sampling으로 응답 y 생성. 학습 시 **gradient checkpointing** + **AdamW** + **Mixed Precision(FP16/BF16)** 필수 |
+| **Reference/Critic 모델** | KL 발산 기준선, 가치 추정 | Reference는 **SFT 모델의 frozen copy**($\pi_{\text{ref}}$). Critic $V_\phi$는 scalar value를 회귀 — 별도 LLM 헤드를 1-token linear projection으로 변환 |
+| **Reward Model $r_\theta(x,y)$** | 인간 선호를 점수화하는 scalar 출력 | Bradley-Terry 모델 기반: $P(\sigma) = \frac{e^{r(x,y_w)}}{e^{r(x,y_w)}+e^{r(x,y_l)}}$, loss = $-\log\sigma(r(x,y_w)-r(x,y_l))$ |
+| **PPO Optimizer** | 정책 경사 업데이트 | Clipped Surrogate Objective: $L^{\text{CLIP}} = \mathbb{E}_t[\min(\rho_t A_t, \text{clip}(\rho_t, 1-\epsilon, 1+\epsilon) A_t)]$, $\rho_t = \pi_\theta(a_t\|s_t)/\pi_{\theta_{\text{old}}}(a_t\|s_t)$ |
+| **GAE (Generalized Advantage Estimation)** | 분산-편향 트레이드오프 통제 | $\hat{A}_t = \sum_{l=0}^{\infty}(\gamma\lambda)^l \delta_{t+l}$, $\delta_t = r_t + \gamma V(s_{t+1}) - V(s_t)$. 통상 $\lambda=0.95, \gamma=1.0$ |
+| **KL Penalty** | 정렬 세금(Alignment Tax) 억제 | 최종 reward: $r_{\text{total}} = r_\theta(x,y) - \beta \cdot \text{KL}(\pi_\theta \| \pi_{\text{SFT}})$, $\beta$는 0.02~0.2 사이 튜닝. **Adaptive KL controller**로 자동 조정(KL target≈6~30 nats) |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+### 핵심 수식: PPO+KL 목적함수
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+$$
+\max_{\theta}\; \mathbb{E}_{x \sim \mathcal{D},\, y \sim \pi_\theta(\cdot|x)} \Big[\, r_\theta(x,y) - \beta \,\text{KL}\big(\pi_\theta(y|x)\,\|\,\pi_{\text{ref}}(y|x)\big) \,\Big]
+$$
+
+여기서 $\beta$가 너무 작으면 **Reward Hacking**(반복·과장·미용 어구 남발)이, 너무 크면 **Mode Collapse**(짧고 무난한 응답만 생성)가 발생한다. 실무에서는 **Anthropic Constitutional AI**처럼 자체 규칙(Constitution) 기반 **RLAIF(RL from AI Feedback)**로 라벨링 비용을 낮추고, **Self-Rewarding / Iterative DPO(Zheng et al., 2023)**로 데이터 효율을 높이려는 시도가 병행된다.
+
+### Reward Hacking의 세부 메커니즘
+
+- **Length Bias**: RM이 긴 응답에 점수를 후하게 주는 경향 -> 모델이 군더더기 어구 생성.
+- **Sycophancy(아첨)**: 사용자 의견에 무조건 동의 — *Perez et al. 2022*의 "Discovering Language Model Behaviors" 보고서에서 정량화.
+- **Verbosity/Formatting Exploit**: 마크다운·이모지·불릿을 남발.
+- **대응 기법**: **Length-normalized reward**, **Ensemble of RMs(다수 RM voting)**, **Process Reward Model(PRM, 수학적 단계별 채점, UDT/OpenAI o1)**, **Constitutional Sampling(규칙 기반 거부 샘플링)**.
+
+- **📢 섹션 요약 비유**: RLHF의 세 모델(Actor, Critic, Reward)을 **운전학원**에 비유하면, Actor는 **운전 연습 중인 학생**, Reference 모델은 **교과서 정답 운전**, Critic은 **감독관(점수 매김)**, Reward Model은 **"안전하고 친절한 운전인지"를 평가하는 외부 평가위원**이다. 학생은 평가위원의 점수가 높도록 운전하되, 교과서(Reference)와 너무 다르게 운전하면 감점(KL 페널티)받는다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-강화 학습 RLHF 인간 피드백 정렬을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+RLHF는 단독으로 존재하지 않으며 SFT, DPO, RLAIF, Constitutional AI, 안전 계층(Safety Layer) 등과 명확한 **트레이드오프 매트릭스**를 형성한다.
 
-| 구분 | 전통적 접근 | 강화 학습 RLHF 인간 피드백 정렬 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+| 구분 | SFT (Supervised Fine-Tuning) | RLHF (PPO) | DPO (Direct Preference Optimization) | RLAIF (Constitutional AI) |
+| :--- | :--- | :--- | :--- | :--- |
+| **학습 신호** | 정답 (y) | 보상 (scalar r) | 선호 쌍 (y_w, y_l) | AI 생성 규칙 기반 평가 |
+| **라벨링 비용** | 높음 (데모 작성) | 중간 (쌍 비교) | 중간 (쌍 비교) | 매우 낮음 (자동화) |
+| **메모리 footprint** | 1× (단일 모델) | 4× (Actor+Critic+Ref+RM) | 2× (Policy+Ref) | 1~2× |
+| **학습 안정성** | 매우 안정 | 불안정 (PPO hyperparam 민감) | 안정 (지도학습 형태) | 안정 |
+| **Hallucination 억제** | 약함 | 강함 | 강함 | 강함 |
+| **Reward Hacking 위험** | 없음 | 높음 | 낮음 | 중간 (AI 편향 가능) |
+| **온라인 샘플링 필요** | ✗ | ✓ (PPO rollouts) | ✗ (offline) | △ |
+| **대표 적용 사례** | Alpaca, Dolly | ChatGPT, GPT-4, Llama-2-Chat | Mistral-Instruct, Zephyr, Llama-3-IF | Claude 2/3, Gemini Fine-tuning |
+| **핵심 한계** | 분포 외 일반화 약함 | Alignment Tax, KL 튜닝 | Offline이라 탐색 제한 | AI 평가자의 환각/편향 |
 
-관련 기술 영역과의 연결점도 중요하다. 강화 학습 RLHF 인간 피드백 정렬은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
+### 정량 비교 (InstructGPT 기준, Ouyang 2022)
 
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 강화 학습 RLHF 인간 피드백 정렬은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
+- **Truthfulness (TruthfulQA)**: 175B SFT base = 21.8% -> **SFT+RLHF = 56.3%** (≈2.6×)
+- **Toxicity (RealToxicityPrompts)**: Base = 32.4% -> **RLHF = 21.7%** (33% 감소)
+- **Hallucination Rate**: SFT only = 41.7% -> **RLHF = 22.0%** (47% 감소)
+- **Human Preference Win-rate**: SFT 0.51 vs **RLHF 0.74** vs Base 0.45
 
----
+### 통합 아키텍처: RLHF는 단독이 아닌 "스택"
 
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 강화 학습 RLHF 인간 피드백 정렬을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-강화 학습 RLHF 인간 피드백 정렬을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 강화 학습 RLHF 인간 피드백 정렬 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 강화 학습 RLHF 인간 피드백 정렬은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 강화 학습 RLHF 인간 피드백 정렬의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 강화 학습 RLHF 인간 피드백 정렬의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-강화 학습 RLHF 인간 피드백 정렬 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
+```
++---------------------------------------------------------+
+|  Layer 1: Pre-training (수조 토큰)                       |
+|         v                                               |
+|  Layer 2: SFT (명령어 데이터)                            |
+|         v                                               |
+|  Layer 3: Preference Training (RLHF/DPO/IPO/CPO/ORPO)   |
+|         v                                               |
+|  Layer 4: Safety Tuning (Constitutional AI / RLAIF)      |
+|         v                                               |
+|  Layer 5: Inference-time Guardrails (Llama Guard,        |
+|           NeMo Guardrails, Prompt Guard, Output Filter)  |
+|         v                                               |
+|  Layer 6: RAG + Tool Use + System Prompt Engineering     |
++---------------------------------------------------------+
 ```
 
-### 👶 어린이를 위한 3줄 비유 설명
+즉, **RLHF는 "정렬"의 한 층**이지 시스템 전체가 아니며, 실시간 가드레일(NeMo Guardrails, Azure AI Content Safety, Llama Guard 3 등)과 결합되어야 엔터프라이즈 SLA를 만족한다.
 
-1. 강화 학습 RLHF 인간 피드백 정렬은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+- **📢 섹션
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 656 / 800

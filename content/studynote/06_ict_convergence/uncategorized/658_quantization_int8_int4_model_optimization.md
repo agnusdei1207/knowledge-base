@@ -11,160 +11,203 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 양자화 INT8 INT4 모델 최적화은(는) ICT 융합 기술 심화 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: LLM/딥러닝 모델의 가중치(Weight)와 활성화값(Activation)을 FP32/FP16에서 **INT8(8비트 정수)** 또는 **INT4(4비트 정수)**로 매핑하여 메모리 점유와 연산 비용을 줄이는 **수치 정밀도 축소(Numeric Precision Reduction)** 기법으로, Affine 변환(`q = round(r/S) + Z`)과 Calibration을 통해 양자화 오차(Quantization Error)를 제어한다.
+> 2. **가치**: INT8 양자화 시 **모델 크기 75% 절감**(FP32->INT8), **메모리 대역폭 4배 감소**, **추론 지연 시간 2~4배 단축**을 달성하며, INT4(GPTQ/AWQ/NF4) 적용 시 추가로 87.5% 크기 절감(FP32->INT4)으로 **70B 파라미터 모델을 단일 24GB GPU(예: RTX 4090)에서도 추론 가능**하게 만든다.
+> 3. **판단 포인트**: PTQ(Post-Training Quantization) vs QAT(Quantization-Aware Training), Symmetric vs Asymmetric, Per-tensor vs Per-channel/Per-group, **Outlier 채널 존재 시 SmoothQuant/AWQ의 channel-wise scaling 적용 여부**, 그리고 4-bit의 경우 GPTQ(Optimal Brain Quantization Hessian 기반) vs AWQ(Activation-aware Weight Quantization) vs NF4(NormalFloat) 중 데이터 특성과 허용 정확도 손실(typically 0.5~2%)에 따른 알고리즘 선택이 핵심 결정 포인트다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-양자화 INT8 INT4 모델 최적화은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+GPT/LLaMA 계열 대규모 언어 모델(LLM)이 7B -> 70B -> 405B로 파라미터 수가 폭증하면서, FP16 기준으로 70B 모델은 **140GB VRAM**, FP32는 **280GB**가 필요해 H100 80GB GPU 2~4장이 필수적이다. 동시에 **메모리 대역폭 병목(Memory-Bound Problem)**이 두드러지는데, 디코딩 단계에서 생성 토큰당 모든 가중치를 VRAM->레지스터로 로드해야 하므로 GPU의 HBM 대역폭(예: H100 3.35TB/s)이 추론 속도의 결정적 병목점이 된다. 양자화는 이 두 가지 문제—**① 모델 크기로 인한 VRAM 부족, ② 메모리 대역폭 한계**—를 동시에 해결하는 가장 효과적인 추론 최적화(LLM Inference Optimization) 기법이다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Quantization INT8 INT4 Model Optimization 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+기존의 **가지치기(Pruning)**는 정확도 손실을 예측하기 어렵고, **지식 증류(Knowledge Distillation)**는 별도의 teacher 모델 훈련이 필요하며, **LoRA/QLoRA**는 fine-tuning에 특화되어 있다. 반면 양자화는 **사후 적용 가능(PTQ)**, **하드웨어 가속(INT8 Tensor Core, TensorRT-LLM)**, **프레임워크 생태계(TensorRT, ONNX, llama.cpp, vLLM, TGI) 성숙도** 측면에서 가장 실용적인 1차 최적화 수단으로 자리잡았다.
 
 ```text
-+--------------------------------------------------------------+
-|                    양자화 INT8 INT4 모델 최적화 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[ FP32 LLM 추론의 메모리 병목 구조 ]
+
+   +-----------------------------+
+   |   Pre-trained FP16/FP32 Model |  <- 70B -> 140GB (FP16)
+   +----------+------------------+
+              |  Load all weights per token
+              v
+   +-----------------------------+
+   |       HBM (VRAM)            |  <- H100 80GB / A100 80GB
+   |   [Weight Memory: 140GB]    |     대역폭: 3.35TB/s
+   +----------+------------------+
+              |  Bandwidth-bound
+              v
+   +-----------------------------+
+   |  GPU SM (Compute Units)     |  <- TFLOPS는 남지만 활용도 v
+   |  [Decoding Latency: 30ms/t] |     (Memory Wall 문제)
+   +----------+------------------+
+              |
+              v
+         Token Output
+
+   ⚠ 문제 1: VRAM 부족 -> 양자화로 weight 메모리 1/4~1/8 축소
+   ⚠ 문제 2: 대역폭 병목 -> INT8/INT4 = bandwidth 요구량 1/4~1/8
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**기존 패러다임 vs 양자화 패러다임 비교**
 
-- **📢 섹션 요약 비유**: 양자화 INT8 INT4 모델 최적화은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+| 구분 | 기존(Full Precision) | 양자화(INT8/INT4) |
+|:---|:---|:---|
+| **메모리** | FP16: 14GB (7B) / 140GB (70B) | INT8: 7GB (7B) / 70GB (70B), INT4: 3.5GB (7B) / 35GB (70B) |
+| **하드웨어** | H100/A100 다중 GPU 필수 | 단일 RTX 4090(24GB)에서도 70B INT4 추론 가능 |
+| **추론 지연** | FP16 baseline | INT8: ~2~3배 v, INT4 (with fused kernel): ~3~5배 v |
+| **개발 비용** | GPU 메모리 구매/임대 비용 | 알고리즘(GPTQ/AWQ) + Calibration 데이터 10~1000개 샘플 |
+| **정확도** | Baseline (100%) | INT8: 0.1~0.5% 손실, INT4: 0.5~2.0% 손실 |
+
+- **📢 섹션 요약 비유**: 양자화는 **고해상도 사진(FP32)을 그대로 들고 다니는 것**을 **압축된 JPG(INT8/INT4)**로 바꿔서 주머니에 가볍게 넣고 다니는 것과 같다. 화질은 조금 떨어져도(정확도 손실) 어디든 가지고 다닐 수 있고(단일 GPU), 빠르게 꺼내 볼 수 있다(대역폭 절약).
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-양자화 INT8 INT4 모델 최적화의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+### 1) 양자화의 수학적 정의
 
-```text
-+--------------------------------------------------------------+
-|              Quantization INT8 INT4 Model Optimization 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+**Affine(비대칭) 양자화**의 핵심 수식은 다음과 같다:
+
+```
+Quantization:  q = clamp(round(r / S) + Z, q_min, q_max)
+Dequantization: r ≈ S × (q - Z)
+
+여기서,
+  r : 실수값 (FP32 real value)
+  q : 양자화된 정수값
+  S : Scale factor (Δ, 스케일)  = (r_max - r_min) / (q_max - q_min)
+  Z : Zero-point (영점 오프셋)   = round(q_min - r_min / S)
+  q_min, q_max : INT8 -> -128, 127 / INT4 -> -8, 7
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
-| :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+**Symmetric(대칭) 양자화**는 Z=0으로 고정하여 zero-point 연산을 제거한 형태로, 하드웨어 구현이 단순해진다. LLM에서는 **per-channel symmetric quantization**이 일반적이며, LLaMA/TensorRT-LLM은 **W8A8(weight 8bit, activation 8bit)** 또는 **W4A16(weight 4bit, activation 16bit)** 구조를 채택한다.
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+### 2) Calibration과 양자화 스케일 결정 방식
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+실제 활성화값의 분포는 **Calibration Dataset**(통상 10~512개 샘플)을 GPU에 forward pass하여 관측하고, 그 통계량으로 scale factor를 결정한다:
+
+- **Min-Max Calibration**: 가장 단순, outlier에 취약(outlier 1개가 전체 범위를 왜곡)
+- **Percentile Calibration**: 99.9% percentile로 clip -> outlier robust
+- **Entropy(KL-divergence) Calibration**: TensorRT 기본, FP32와 INT8 출력의 KL divergence 최소화
+- **MSE Calibration**: 양자화 오차의 평균제곱오차 최소화
+
+### 3) INT4 고급 알고리즘 3대 핵심
+
+```text
+[ LLM INT4 양자화 알고리즘 동작 흐름 비교 ]
+
+   +----------------------------------------------------------+
+   |                  ① GPTQ (OBD 기반)                       |
+   |  • Hessian matrix H = 2·X·X^T 계산                      |
+   |  • Optimal Brain Quantization 공식:                      |
+   |      w_q = argmin ||w - w_q||²_H                        |
+   |      δ = - (w_q_err) / (H⁻¹_ii) · H⁻¹_i                |
+   |  • Layer-wise & column-wise 순차 처리                    |
+   |  • 약 80~180GB VRAM + 1~3시간 (70B 기준, group_size=128)|
+   +----------------------------------------------------------+
+
+   +----------------------------------------------------------+
+   |                  ② AWQ (Activation-aware)                |
+   |  • 핵심 통찰: "1% salient weight가 99% activation을 결정"|
+   |  • Activation magnitude로 채널별 중요도 s 계산           |
+   |  • Channel-wise scaling: w' = w · s, x' = x / s          |
+   |  • s = |mean(x)| ^ α  (α≈0.5)                           |
+   |  • Salient 채널(상위 0.1~1%)만 FP16 유지 (mixed prec)   |
+   |  • Reference: MIT-Han Lab 2023                          |
+   +----------------------------------------------------------+
+
+   +----------------------------------------------------------+
+   |              ③ NF4 / FP4 (NormalFloat)                    |
+   |  • QLoRA(Dettmers 2023)에서 제안                         |
+   |  • 사전 학습된 normal distribution quantile로 16개 level  |
+   |  • Non-uniform: 입력 분포에 최적화된 비대칭 레벨         |
+   |  • Double Quant: 양자화된 scale factor를 다시 양자화     |
+   |  • 4-bit 시점에서 가장 적은 정확도 손실(특히 fine-tuning)|
+   +----------------------------------------------------------+
+```
+
+### 4) Layer-wise 파이프라인 (실제 적용 흐름)
+
+```text
+[ PTQ(Post-Training Quantization) End-to-End Pipeline ]
+
+   +-----------------+
+   | ① Pre-trained   |  FP16/FP32 model
+   |    Model        |  (e.g., LLaMA-3-70B)
+   +--------+--------+
+            |
+            v
+   +-----------------+
+   | ② Calibration   |  • C=128~512 samples
+   |    Data 준비    |  • WikiText-2, C4, Pile 일부
+   +--------+--------+
+            |  Forward pass (no grad)
+            v
+   +-------------------------------------+
+   | ③ Activation Statistics 수집       |
+   |  • per-tensor min/max, histogram    |
+   |  • per-channel scale factor 계산    |
+   |  • Outlier 채널 식별 (ratio > 6σ)   |
+   +--------+----------------------------+
+            |
+            v
+   +-------------------------------------+
+   | ④ Weight Quantization              |
+   |  • INT8: per-channel symmetric      |
+   |  • INT4: GPTQ group_size=32/64/128  |
+   |          or AWQ with scaling        |
+   |  • Outlier 보호: FP16 fallback      |
+   +--------+----------------------------+
+            |
+            v
+   +-----------------+
+   | ⑤ Quantized     |  • TensorRT engine
+   |    Model Export  |  • ONNX + quantized operators
+   +--------+--------+  • GGUF (llama.cpp)
+            |           • AWQ checkpoint (.awq)
+            v
+   +-----------------+
+   | ⑥ Inference     |  vLLM / TGI / TensorRT-LLM
+   |    Serving      |  llama.cpp / exllamav2
+   +-----------------+
+```
+
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
+|:---|:---|:---|
+| **Quantization Granularity** | 양자화 단위 결정 | Per-tensor(전체 1개 scale, 단순) / Per-channel(채널별 scale, 정확) / Per-group(group_size=32/64/128, GPTQ 기본) — group이 작을수록 정확도 ^, 메모리 overhead ^ |
+| **Scale Factor(S)** | 실수->정수 매핑 비율 | INT8: S = (max-min)/254 (asymmetric) / 2·max|x|/127 (symmetric), INT4: S = max\|x\|/7. 정보 보존의 핵심 |
+| **Zero Point(Z)** | 비대칭 보정 | Asymmetric에서 0이 INT8의 128에 매핑되도록 보정. Z=0이면 symmetric(LLM W8A8에서 주로 사용) |
+| **Calibration Module** | 활성화 분포 관측 | TensorRT의 `IInt8Calibrator` 인터페이스 구현, MinMax/Entropy/Percentile 알고리즘 선택, 캐시 파일로 재사용 |
+| **QAT(Quantization-Aware Training) Hook** | 학습 중 양자화 시뮬레이션 | Straight-Through Estimator(STE)로 backward pass에서 ∂L/∂w ≈ ∂L/∂w_q, fake quant 노드 삽입 |
+| **Dequantize Fusion** | 런타임 연산 통합 | `MatMul(Dequant(W), Dequant(X))` -> `MatMul_INT8(INT8_W, INT8_X)` + bias, TensorRT/LLM의 커널 fusion으로 메모리 I/O 최소화 |
+| **Outlier Detector** | FP16 fallback 결정 | 채널별 activation ratio = max\|x\| / mean\|x\| > 6~10σ 시 outlier, SmoothQuant는 s = max\|x\|^α로 channel-wise rescale하여 outlier를 weight로 이전 |
+
+### 5) Mixed Precision 구성 (W4A16, W8A8, W4A8)
+
+실무에서는 단순히 전체를 동일 bit로 양자화하지 않고 다음과 같이 혼합한다:
+
+- **W8A8 (Weight 8bit + Activation 8bit)**: 가장 보편적, INT8 Tensor Core 활용, 정확도 손실 < 0.5%
+- **W4A16 (Weight 4bit + Activation 16bit)**: GPTQ/AWQ 기본값, weight만 INT4로 줄이고 activation은 FP16 유지 -> 정확도 손실 1~2%, 메모리 이득 큼
+- **W4A8 (Weight 4bit + Activation 8bit)**: SmoothQuant + GPTQ 조합, FP16보다 ~4배 작고 INT8보다 정확
+- **FP8 (E4M3 / E5M2)**: H100 native support, 양자화/역양자화 변환 비용 최소, NVIDIA Transformer Engine 활용
+
+- **📢 섹션 요약 비유**: 양자화 알고리즘은 **옷장 정리**와 같다. **Min-Max 방식**은 가장 크고 작은 옷 기준으로 옷장 칸을 만들지만(특대형 코트 하나에 공간 다 차지), **Percentile 방식**은 일반적인 옷 99% 기준으로 칸을 만들고(코트는 접어서 별도 보관), **AWQ**는 "이 채널의 옷이 99% 사용된다"고 미리 알아채고 중요한 옷은 다른 곳에 정성껏 보관(scaling)하는 똑똑한 방식이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-양자화 INT8 INT4 모델 최적화을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+### 1) INT8 vs INT4 vs FP8 vs FP16 비교
 
-| 구분 | 전통적 접근 | 양자화 INT8 INT4 모델 최적화 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 양자화 INT8 INT4 모델 최적화은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 양자화 INT8 INT4 모델 최적화은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 양자화 INT8 INT4 모델 최적화을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-양자화 INT8 INT4 모델 최적화을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 양자화 INT8 INT4 모델 최적화 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 양자화 INT8 INT4 모델 최적화은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 양자화 INT8 INT4 모델 최적화의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 양자화 INT8 INT4 모델 최적화의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-양자화 INT8 INT4 모델 최적화 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 양자화 INT8 INT4 모델 최적화은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| 구분 | FP16 (Baseline) | INT8 | INT4 (GPTQ/AWQ) | FP8 (E4M3) |
+|:---|:---|:---|:---|:---|
+| **비트 수** | 16 bit | 8 bit (1/2) | 4 bit (1/4) | 8 bit (1/2) |
+| **메모리 (70B)** | 140 GB | 70 GB | **35 GB** | 70 GB |
+| **표현 가능 값 수** | 65,536 | 256 | 16 | 256 (비선형) |
+| **Dynamic Range** | 6.5×10⁴ (지수) | 제한적(256 level) | 매우 제한(16 level) | FP16과 유사 (지수) |
+| **Tensor Core 지원** | Volta+ (FP16) | Turing+ (INT8) | Hopper (INT4 TC 일부) | Hopper H100 (E4M3) |
+| **정확도 손실 (per
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 658 / 800
