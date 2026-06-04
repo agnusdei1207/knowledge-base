@@ -12,12 +12,12 @@ tags = ["general"]
 ### Work
 Business planning, project delivery, operating notes, and engineering process.
 
-- [Business Hub](/knowledge-base/work/business/)
-- [Projects](/knowledge-base/work/projects/)
-- [Development](/knowledge-base/work/development/)
-- [Operations](/knowledge-base/work/operations/)
-- [Sales](/knowledge-base/work/sales/)
-- [Knowledge Pipeline](/knowledge-base/work/knowledge-pipeline/)
+- [Business Hub](/knowledge-base/work/business/business/)
+- [Projects](/knowledge-base/work/planning/projects/)
+- [Development](/knowledge-base/work/develop/development/)
+- [Operations](/knowledge-base/work/develop/operations/)
+- [Sales](/knowledge-base/work/business/sales/)
+- [Knowledge Pipeline](/knowledge-base/work/develop/knowledge-pipeline/)
 
 
 ### Study Note

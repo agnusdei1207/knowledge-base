@@ -11,7 +11,7 @@ tags = ["work"]
 이 문서는 초기 시장 진입 방식과 패키징 가설을 정리한 초안입니다.
 
 상위 문서:
-- [business](/knowledge-base/work/business/)
+- [business](/knowledge-base/work/business/business/)
 
 ---
 
@@ -84,4 +84,4 @@ tags = ["work"]
 - 대응:
   - 사업 문서와 운영 문서 예시를 먼저 보여주기
   - 결과 화면 중심 데모 준비
-  - [business-pipeline](/knowledge-base/work/business-pipeline/) 사례형 문서 축적
+  - [business-pipeline](/knowledge-base/work/business/business-pipeline/) 사례형 문서 축적

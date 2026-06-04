@@ -28,8 +28,8 @@ R&D 문서는 "연구 결과 보관소"가 아니라, 가설과 검증 결과를
 - 목표: 메신저, 문서, 위키를 통합 질의 가능한 구조로 정리
 - 관심사: chunking 방식, 링크 기반 재랭킹, 문서 최신성 반영
 - 연결 문서 & 학습 배경:
-  - [tech-stack](/knowledge-base/work/tech-stack/)
-  - [business-pipeline](/knowledge-base/work/business-pipeline/)
+  - [tech-stack](/knowledge-base/work/develop/tech-stack/)
+  - [business-pipeline](/knowledge-base/work/business/business-pipeline/)
   - **AI/LLM/RAG 이론 배경**
   - **DB/Vector DB 구조**
 
@@ -37,8 +37,8 @@ R&D 문서는 "연구 결과 보관소"가 아니라, 가설과 검증 결과를
 - 목표: 단순 문서 저장소가 아니라 관계 탐색형 지식 포털 운영
 - 관심사: 링크 밀도, 주제별 허브 문서 설계, AI 자동 문서 연결
 - 연결 문서 & 학습 배경:
-  - [knowledgebase-decision-log](/knowledge-base/work/knowledgebase-decision-log/)
-  - [quartz-deployment](/knowledge-base/work/quartz-deployment/)
+  - [knowledgebase-decision-log](/knowledge-base/work/develop/knowledgebase-decision-log/)
+  - [quartz-deployment](/knowledge-base/work/develop/quartz-deployment/)
   - 개인용 위키 테스트: **Personal Workspace**
 
 ### C. AI 에이전트 문서 작업 표준화
@@ -66,8 +66,8 @@ R&D 문서는 "연구 결과 보관소"가 아니라, 가설과 검증 결과를
 ## 4. 다음 연결 문서
 
 - 기술 로드맵: [research-and-development-roadmap](/knowledge-base/research-and-development/research-and-development-roadmap/)
-- 기반 기술 정리: [tech-stack](/knowledge-base/work/tech-stack/)
-- 사업 연결 관점: [business](/knowledge-base/work/business/)
+- 기반 기술 정리: [tech-stack](/knowledge-base/work/develop/tech-stack/)
+- 사업 연결 관점: [business](/knowledge-base/work/business/business/)
 - 기술사 스터디 노트: index
 
 ---

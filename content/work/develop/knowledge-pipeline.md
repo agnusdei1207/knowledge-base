@@ -11,10 +11,10 @@ tags = ["work"]
 이 문서는 검색 성능, 비정형 자료 적재, 휴먼 리더블 원본 유지, 낮은 운영 복잡도라는 네 가지 목표를 동시에 만족시키기 위한 파이프라인 제안서입니다.
 
 관련 문서:
-- [tech-stack](/knowledge-base/work/tech-stack/)
-- [operations](/knowledge-base/work/operations/)
+- [tech-stack](/knowledge-base/work/develop/tech-stack/)
+- [operations](/knowledge-base/work/develop/operations/)
 - [research-and-development](/knowledge-base/research-and-development/)
-- [claude-code-mcp](/knowledge-base/work/claude-code-mcp/)
+- [claude-code-mcp](/knowledge-base/work/develop/claude-code-mcp/)
 
 ---
 

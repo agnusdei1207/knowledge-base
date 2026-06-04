@@ -11,10 +11,10 @@ tags = ["work"]
 이 문서는 전 직원이 Codex를 업무 도구로 쓰는 상황에서, 내부적으로 Python Codex SDK를 어떻게 문서 업무 자동화에 활용할지 정리한 운영안입니다.
 
 관련 문서:
-- [claude-code-mcp](/knowledge-base/work/claude-code-mcp/)
-- [knowledge-pipeline](/knowledge-base/work/knowledge-pipeline/)
-- [mcp-client-setup](/knowledge-base/work/mcp-client-setup/)
-- [operations](/knowledge-base/work/operations/)
+- [claude-code-mcp](/knowledge-base/work/develop/claude-code-mcp/)
+- [knowledge-pipeline](/knowledge-base/work/develop/knowledge-pipeline/)
+- [mcp-client-setup](/knowledge-base/work/develop/mcp-client-setup/)
+- [operations](/knowledge-base/work/develop/operations/)
 
 ---
 

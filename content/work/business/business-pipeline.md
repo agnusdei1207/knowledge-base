@@ -11,7 +11,7 @@ tags = ["work"]
 이 문서는 사업 기회, 제안 상태, 다음 액션을 기록하는 예시 문서입니다.
 
 상위 문서:
-- [business](/knowledge-base/work/business/)
+- [business](/knowledge-base/work/business/business/)
 
 ---
 
@@ -39,7 +39,7 @@ tags = ["work"]
   - Claude Code 기반 초안 자동 정리 체계
 - 다음 액션:
   - 온보딩 FAQ 샘플 10개 구성
-  - [go-to-market](/knowledge-base/work/go-to-market/)의 패키지 가격안 반영
+  - [go-to-market](/knowledge-base/work/business/go-to-market/)의 패키지 가격안 반영
 
 ### C. 연구소형 조직 R&D 노트 아카이브
 
