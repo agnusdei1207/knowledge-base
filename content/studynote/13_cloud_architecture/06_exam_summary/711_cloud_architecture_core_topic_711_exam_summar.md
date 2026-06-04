@@ -7,7 +7,7 @@ tags:
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 아키텍처는 컨테이너 오케스트레이션(Kubernetes/서비스 메시), 선언적 IaC(Terraform/CloudFormation), 이벤트 기반 FaaS(Lambda/Cloud Functions), 그리고 12-Factor App 원칙을 통해 **탄력적 컴퓨팅·무상태 서비스·격리된 보안 경계**를 코드화한 컴퓨팅 패러다임의 결정체이다.
-> 2. **가치**: AWS Well-Architected Framework 5대 축(운영우수성·보안·신뢰성·성능효율·비용최적화) 적용 시 **가용성 99.99% SLA, MTTR 60% 단축, CapEx→OpEx 전환으로 TCO 30~50% 절감, Auto Scaling으로 트래픽 10배 변동 흡수** 등 정량적 효과를 입증한다.
+> 2. **가치**: AWS Well-Architected Framework 5대 축(운영우수성·보안·신뢰성·성능효율·비용최적화) 적용 시 **가용성 99.99% SLA, MTTR 60% 단축, CapEx->OpEx 전환으로 TCO 30~50% 절감, Auto Scaling으로 트래픽 10배 변동 흡수** 등 정량적 효과를 입증한다.
 > 3. **판단 포인트**: **Lift&Shift vs Cloud-Native Refactoring**의 ROI trade-off, **단일 클라우드 종속(Vendor Lock-in) vs Multi-Cloud/Inter-Cloud**의 운영 복잡도, **동기 API vs 이벤트 드리븐(EDA) 비동기**의 일관성·확장성 딜레마가 기술사의 핵심 의사결정 프레임이다.
 
 ---
@@ -16,29 +16,29 @@ tags:
 
 전통적 온프레미스 3-Tier 아키텍처(웹서버-WAS-DB)는 **CAPEX 중심의 수직적 용량 계획(Over-Provisioning 30~40%)**, 하드웨어 수명 주기(3~5년)에 종속된 배포 주기, **단일 장애점(SPOF)** 회피를 위한 Active-Standby 구성의 이중화 비용 증가, 그리고 비즈니스 트래픽 피크(블랙프라이데이, 연말 결제 폭주) 대비 유휴 자원 낭비라는 구조적 한계를 내포한다.
 
-클라우드 아키텍처는 **NIST SP 800-145**(云计算 정의)에서 제시한 5대 핵심 특성(온디맨드 셀프서비스, 광대역 네트워크 접근, 자원 풀링, 빠른 탄력성, 측정 가능한 서비스)을 기반으로, **IaaS→PaaS→SaaS→FaaS(Serverless)**로 추상화 수준을 점진적으로 높여 엔지니어가 인프라가 아닌 비즈니스 로직에 집중하도록 한다. 이는 2006년 AWS S3·EC2 출시 이후 18년간 진화하여, 2024년 기준 글로벌 퍼블릭 클라우드 시장이 **$679B**(Gartner) 규모로 성장하며 엔터프라이즈 IT의 de-facto 표준이 되었다.
+클라우드 아키텍처는 **NIST SP 800-145**(云计算 정의)에서 제시한 5대 핵심 특성(온디맨드 셀프서비스, 광대역 네트워크 접근, 자원 풀링, 빠른 탄력성, 측정 가능한 서비스)을 기반으로, **IaaS->PaaS->SaaS->FaaS(Serverless)**로 추상화 수준을 점진적으로 높여 엔지니어가 인프라가 아닌 비즈니스 로직에 집중하도록 한다. 이는 2006년 AWS S3·EC2 출시 이후 18년간 진화하여, 2024년 기준 글로벌 퍼블릭 클라우드 시장이 **$679B**(Gartner) 규모로 성장하며 엔터프라이즈 IT의 de-facto 표준이 되었다.
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                  클라우드 진화 단계 (Evolution)              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐ │
-│  │ On-Prem  │──▶│  IaaS    │──▶│  PaaS    │──▶│  FaaS    │ │
-│  │ 3-Tier   │   │ (EC2,    │   │ (Bean-   │   │(Lambda,  │ │
-│  │ (Web-    │   │  VPC,    │   │  stalk,  │   │ Cloud    │ │
-│  │  WAS-DB) │   │  S3)     │   │  RDS)    │   │ Funcs)   │ │
-│  └──────────┘   └──────────┘   └──────────┘   └──────────┘ │
-│       │              │              │              │       │
-│    추상화0%       추상화30%       추상화60%       추상화100% │
-│    수직확장       수평+수직        컨테이너         이벤트기반 │
-│    수동운영       API 제어        선언적 배포        과금/실행 │
-│    HW 수명주기    분 단위 프로비저닝  초 단위 배포       ms 단위  │
-│                                                             │
-│  비즈니스 민첩성 ────────────────────────────────────────▶  │
-│  운영 복잡도   ────────────────────────────────────────▶  │
-│  콜드 스타트   ◀──────────────────────────────────────  │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                  클라우드 진화 단계 (Evolution)              |
++-------------------------------------------------------------+
+|                                                             |
+|  +----------+   +----------+   +----------+   +----------+ |
+|  | On-Prem  |--->|  IaaS    |--->|  PaaS    |--->|  FaaS    | |
+|  | 3-Tier   |   | (EC2,    |   | (Bean-   |   |(Lambda,  | |
+|  | (Web-    |   |  VPC,    |   |  stalk,  |   | Cloud    | |
+|  |  WAS-DB) |   |  S3)     |   |  RDS)    |   | Funcs)   | |
+|  +----------+   +----------+   +----------+   +----------+ |
+|       |              |              |              |       |
+|    추상화0%       추상화30%       추상화60%       추상화100% |
+|    수직확장       수평+수직        컨테이너         이벤트기반 |
+|    수동운영       API 제어        선언적 배포        과금/실행 |
+|    HW 수명주기    분 단위 프로비저닝  초 단위 배포       ms 단위  |
+|                                                             |
+|  비즈니스 민첩성 ----------------------------------------->  |
+|  운영 복잡도   ----------------------------------------->  |
+|  콜드 스타트   <---------------------------------------  |
++-------------------------------------------------------------+
 ```
 
 **Old Paradigm vs New Paradigm 비교:**
@@ -60,64 +60,64 @@ tags:
 
 클라우드 아키텍처는 **7계층 참조모델**(OCA: Oracle Cloud Architecture 또는 AWS Well-Architected Framework)을 기반으로, 다음 4대 핵심 메커니즘이 상호작용한다:
 
-1. **컴퓨팅 추상화 계층**: Hypervisor(KVM/Xen) → 컨테이너 런타임(containerd/CRI-O) → 서버리스 런타임(Firecracker/microVM)
+1. **컴퓨팅 추상화 계층**: Hypervisor(KVM/Xen) -> 컨테이너 런타임(containerd/CRI-O) -> 서버리스 런타임(Firecracker/microVM)
 2. **네트워크 오버레이 계층**: VPC(Virtual Private Cloud) + SDN(Software Defined Network) + CNI(Container Network Interface, Cilium/Calico)
 3. **상태 저장 계층**: 객체 스토리지(S3) + 블록 스토리지(EBS) + 분산 데이터베이스(DynamoDB/Cassandra)
 4. **제어 평면(Control Plane)**: API Gateway + Service Mesh(Istio) + Orchestrator(K8s Control Loop)
 
 ```text
-              ┌───── 클라우드 네이티브 4계층 아키텍처 ─────┐
+              +----- 클라우드 네이티브 4계층 아키텍처 -----+
 
-  [Client] ─HTTP/3, gRPC─▶ [Edge Layer]
-                              │
-                              ▼
-                    ┌──────────────────┐
-                    │   CDN/Edge       │ ← CloudFront, Cloudflare
-                    │   (캐시, WAF)    │   L7 DDoS, TLS 1.3, HTTP/3
-                    └──────────────────┘
-                              │
-                              ▼
-                    ┌──────────────────┐
-                    │  API Gateway     │ ← Kong, AWS API GW, Apigee
-                    │ (라우팅, thrott) │   Rate Limit, OAuth 2.0/JWT
-                    └──────────────────┘
-                              │
-              ┌───────────────┼───────────────┐
-              ▼               ▼               ▼
-        ┌──────────┐    ┌──────────┐    ┌──────────┐
-        │ Service  │    │ Service  │    │ Service  │  ← Microservices
-        │    A     │    │    B     │    │    C     │     (Polyglot)
-        │ (Node)   │    │ (Go)     │    │ (Py)     │
-        └──────────┘    └──────────┘    └──────────┘
-              │               │               │
-              └───────┬───────┴───────┬───────┘
-                      ▼               ▼
-              ┌──────────────┐  ┌──────────────┐
-              │ Service Mesh │  │  Event Bus   │
-              │   (Istio)    │  │  (Kafka,     │
-              │ mTLS, Retry  │  │   EventBridge│
-              └──────────────┘  └──────────────┘
-                      │               │
-                      ▼               ▼
-              ┌──────────────────────────────┐
-              │      Data Plane              │
-              │  ┌────────┐  ┌────────┐      │
-              │  │ RDS/   │  │ Redis  │      │
-              │  │ Aurora │  │/Memcd  │      │
-              │  └────────┘  └────────┘      │
-              │  ┌────────────────────┐     │
-              │  │ S3/Object Storage  │     │
-              │  └────────────────────┘     │
-              └──────────────────────────────┘
-                      │
-                      ▼
-              ┌──────────────────┐
-              │ Observability    │ ← Prometheus, Grafana
-              │ (3 Pillars)      │   OpenTelemetry, ELK
-              │  - Metrics       │
-              │  - Logs          │
-              │  - Traces        │
-              └──────────────────┘
+  [Client] -HTTP/3, gRPC--> [Edge Layer]
+                              |
+                              v
+                    +------------------+
+                    |   CDN/Edge       | <- CloudFront, Cloudflare
+                    |   (캐시, WAF)    |   L7 DDoS, TLS 1.3, HTTP/3
+                    +------------------+
+                              |
+                              v
+                    +------------------+
+                    |  API Gateway     | <- Kong, AWS API GW, Apigee
+                    | (라우팅, thrott) |   Rate Limit, OAuth 2.0/JWT
+                    +------------------+
+                              |
+              +---------------+---------------+
+              v               v               v
+        +----------+    +----------+    +----------+
+        | Service  |    | Service  |    | Service  |  <- Microservices
+        |    A     |    |    B     |    |    C     |     (Polyglot)
+        | (Node)   |    | (Go)     |    | (Py)     |
+        +----------+    +----------+    +----------+
+              |               |               |
+              +-------+-------+-------+-------+
+                      v               v
+              +--------------+  +--------------+
+              | Service Mesh |  |  Event Bus   |
+              |   (Istio)    |  |  (Kafka,     |
+              | mTLS, Retry  |  |   EventBridge|
+              +--------------+  +--------------+
+                      |               |
+                      v               v
+              +------------------------------+
+              |      Data Plane              |
+              |  +--------+  +--------+      |
+              |  | RDS/   |  | Redis  |      |
+              |  | Aurora |  |/Memcd  |      |
+              |  +--------+  +--------+      |
+              |  +--------------------+     |
+              |  | S3/Object Storage  |     |
+              |  +--------------------+     |
+              +------------------------------+
+                      |
+                      v
+              +------------------+
+              | Observability    | <- Prometheus, Grafana
+              | (3 Pillars)      |   OpenTelemetry, ELK
+              |  - Metrics       |
+              |  - Logs          |
+              |  - Traces        |
+              +------------------+
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
@@ -133,9 +133,9 @@ tags:
 
 **핵심 알고리즘 및 파라미터:**
 
-- **HashiCorp Consistent Hashing** (분산 캐시 키 분배): `hash(key) mod N` → **Virtual Nodes(vnode)** 100~200개로 핫스팟 방지, O(log N) 키 재분배
-- **Raft 합의 알고리즘** (etcd, K8s Control Plane): Leader Election(Term 기반), Log Replication(Commit Index), Heartbeat(150ms), Quorum(N/2+1) → 3-Node 클러스터가 1개 장애 허용
-- **RPS 산정 공식**: `RPS = (DAU × Avg_Session_Time × Action_Per_Session) / 86,400 × Peak_Factor(3~5)`. 예: DAU 100만, 세션 30분, 액션 10회, Peak 5배 → 약 17,361 RPS
+- **HashiCorp Consistent Hashing** (분산 캐시 키 분배): `hash(key) mod N` -> **Virtual Nodes(vnode)** 100~200개로 핫스팟 방지, O(log N) 키 재분배
+- **Raft 합의 알고리즘** (etcd, K8s Control Plane): Leader Election(Term 기반), Log Replication(Commit Index), Heartbeat(150ms), Quorum(N/2+1) -> 3-Node 클러스터가 1개 장애 허용
+- **RPS 산정 공식**: `RPS = (DAU × Avg_Session_Time × Action_Per_Session) / 86,400 × Peak_Factor(3~5)`. 예: DAU 100만, 세션 30분, 액션 10회, Peak 5배 -> 약 17,361 RPS
 - **Auto Scaling 공식**: `Desired = ceil(Current_CPU / Target_CPU × Current_Instance)` (Target Tracking), 또는 `ceil(Metric / TargetValue)` (Step Scaling)
 
 - **📢 섹션 요약 비유**: 클라우드 아키텍처는 **레이어드 케이크(千層蛋糕)**와 같다. 가장 아래 과일(물리 데이터센터), 그 위에 크림(IaaS), 그 다음 생크림(PaaS), 그리고 위에 장식(SaaS/FaaS). 맨 아래는 잘 안 보이지만 무게를 받치고, 맨 위는 화려하지만 무너지기 쉽다. 케이크가 무너지지 않으려면 **각 층의 비율과 무게중심**(아키텍처 일관성)이 핵심이다.
@@ -161,7 +161,7 @@ tags:
 ```text
 클라우드 아키텍처는 다음 7개 영역과 밀접하게 연결된다:
 
-  [CI/CD] ────▶ [Container Registry] ────▶ [Orchestrator]
+  [CI/CD] -----> [Container Registry] -----> [Orchestrator]
    (Jenkins,        (ECR, ACR,                (EKS, AKS, GKE
 ## 🔗 이전/다음 글 (Navigation)
 

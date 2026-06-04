@@ -19,33 +19,33 @@ IPv6 전환은 단순한 주소 체계 확장이 아닌, 클라우드 시대의 
 특히 클라우드 환경은 엔터프라이즈 데이터센터와 달리 **탄력적 스케일링, 멀티 리전, 멀티 VPC 피어링, 그리고 매니지드 서비스 종속성**이라는 4가지 특이점이 있어, 온프레미스에서 사용하던 6rd나 DS-Lite 같은 CPE 기반 터널링 기법을 그대로 적용할 수 없다. 클라우드에서는 **가상 라우터(VRF), Transit Gateway, SD-WAN Edge, 그리고 CNI Plugin 수준에서의 이중 처리**가 요구된다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│           IPv6 전환 클라우드 듀얼 스택의 패러다임 비교               │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│ [Legacy Paradigm - IPv4 Single Stack]                                │
-│                                                                      │
-│   Internet ──IPv4──> NAT Gateway ──> Private VPC (10.0.0.0/16)      │
-│                                          │                            │
-│                                          └─> EC2/VM (IPv4 only)      │
-│                                                                      │
-│   문제점: 주소 고갈, 1:1 NAT 비용, EIP 부족, 로그 4-tuple 제한       │
-│                                                                      │
-│ ──────────────────────────────────────────────────────────────────── │
-│                                                                      │
-│ [Modern Paradigm - Cloud Dual Stack + IPv6 Native]                   │
-│                                                                      │
-│   Internet ──┬──IPv4──> NAT GW ──┐                                  │
-│              │                    ├──> Transit GW ──> VPC Dual      │
-│              │                    │      │                            │
-│              └──IPv6──> EIGW ─────┘      ├─> Subnet1: 10.0.1.0/24    │
-│                                          │    + 2600:1f01::/64        │
-│                                          ├─> Subnet2: 10.0.2.0/24    │
-│                                          │    + 2600:1f02::/64        │
-│                                          └─> EKS/AKS Pod (Dual CIDR) │
-│                                                                      │
-│   효과: EIP-free, Path MTU 1500 보존, End-to-End 암호화(WAM/EH)      │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|           IPv6 전환 클라우드 듀얼 스택의 패러다임 비교               |
++----------------------------------------------------------------------+
+|                                                                      |
+| [Legacy Paradigm - IPv4 Single Stack]                                |
+|                                                                      |
+|   Internet --IPv4--> NAT Gateway --> Private VPC (10.0.0.0/16)      |
+|                                          |                            |
+|                                          +-> EC2/VM (IPv4 only)      |
+|                                                                      |
+|   문제점: 주소 고갈, 1:1 NAT 비용, EIP 부족, 로그 4-tuple 제한       |
+|                                                                      |
+| -------------------------------------------------------------------- |
+|                                                                      |
+| [Modern Paradigm - Cloud Dual Stack + IPv6 Native]                   |
+|                                                                      |
+|   Internet --+--IPv4--> NAT GW --+                                  |
+|              |                    +--> Transit GW --> VPC Dual      |
+|              |                    |      |                            |
+|              +--IPv6--> EIGW -----+      +-> Subnet1: 10.0.1.0/24    |
+|                                          |    + 2600:1f01::/64        |
+|                                          +-> Subnet2: 10.0.2.0/24    |
+|                                          |    + 2600:1f02::/64        |
+|                                          +-> EKS/AKS Pod (Dual CIDR) |
+|                                                                      |
+|   효과: EIP-free, Path MTU 1500 보존, End-to-End 암호화(WAM/EH)      |
++----------------------------------------------------------------------+
 ```
 
 기존 IPv4 단일 스택 운영은 **NAT444, CGN(Carrier-Grade NAT), Stateful Firewall의 3중 의존**으로 인해 클라우드 워크로드의 east-west 트래픽 가시성을 저해하고, 컨테이너 오케스트레이션(Kubernetes Service Mesh)의 mTLS 인증서 발급을 IPv4 소스 NAT 한정으로 강제하는 한계를 노출했다. 듀얼 스택은 이를 **L3/L4 헤더 양방향 검증 + SLAAC Stateless Addressing + Privacy Extension(RFC 4941)** 으로 해결한다.
@@ -59,64 +59,64 @@ IPv6 전환은 단순한 주소 체계 확장이 아닌, 클라우드 시대의 
 클라우드 듀얼 스택의 아키텍처는 **7개 계층(Underlay/Overlay/Subnet/Service/Pod/Service-Mesh/Egress)** 에서 각각 다른 메커니즘으로 동작한다. 핵심은 **Dual CIDR Allocation, Multi-protocol Routing, Happy Eyeballs Connection, 그리고 Dual DNS Resolution**의 4대 원리다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│         Cloud Dual Stack 7-Layer Reference Architecture              │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  [Layer 1: Internet Edge]                                            │
-│    ┌────────────┐    ┌────────────┐    ┌────────────┐                │
-│    │  IPv4 IGW  │    │  IPv6 IGW  │    │   CDN/Edge │                │
-│    │ (Anycast)  │    │  (Egress-  │    │  CloudFront│                │
-│    └─────┬──────┘    │   only IGW)│    │ /Azure CDN │                │
-│          │           └─────┬──────┘    └─────┬──────┘                │
-│          │                 │                  │                       │
-│  [Layer 2: Transit / Routing Plane]                                  │
-│    ┌─────┴─────────────────┴──────────────────┴─────┐                │
-│    │  Transit GW  /  Virtual WAN Hub  /  NCC Spoke    │                │
-│    │  ─ BGP IPv4 Unicast + Labeled IPv6 Unicast ─    │                │
-│    │  ─ Route Reflector: 2개 AS-Path 정책 동시 유지 ─│                │
-│    └─────────────────────┬───────────────────────────┘                │
-│                          │                                            │
-│  [Layer 3: VPC/VNet Dual CIDR]                                       │
-│    ┌─────────────────────┴───────────────────────────┐                │
-│    │  VPC: 10.0.0.0/16  +  2600:1f00:4860::/56       │                │
-│    │  ├─ Subnet A: 10.0.1.0/24 + 2600:1f01:4860::/64 │                │
-│    │  ├─ Subnet B: 10.0.2.0/24 + 2600:1f02:4860::/64 │                │
-│    │  └─ Route Table: IPv4 0.0.0.0/0 → NAT GW         │                │
-│    │                 IPv6 ::/0      → EIGW            │                │
-│    └─────────────────────┬───────────────────────────┘                │
-│                          │                                            │
-│  [Layer 4: Compute - VM/Bare-metal]                                  │
-│    ┌─────────────────────┴───────────────────────────┐                │
-│    │  ENI/VNIC: Primary IPv4 + Multiple IPv6 /128    │                │
-│    │  ─ Privacy Extension(RFC 4941) Stable SLAAC      │                │
-│    │  ─ DHCPv6-PD: 멀티 서브넷 /60, /56 위임          │                │
-│    └─────────────────────┬───────────────────────────┘                │
-│                          │                                            │
-│  [Layer 5: Container Orchestration]                                   │
-│    ┌─────────────────────┴───────────────────────────┐                │
-│    │  K8s:  --feature-gates=IPv6DualStack=true        │                │
-│    │       --ip-family=IPv4,IPv6                       │                │
-│    │  CNI: Cilium DualStack (--ipv4-range, --ipv6-range)│             │
-│    │       Calico IPAM: IPv6 pool /48                 │                │
-│    │  Pod CIDR:  fd00::/64 per namespace              │                │
-│    └─────────────────────┬───────────────────────────┘                │
-│                          │                                            │
-│  [Layer 6: Service Mesh / API Gateway]                               │
-│    ┌─────────────────────┴───────────────────────────┐                │
-│    │  Istio:  Dual Listener (0.0.0.0:443, [::]:443)  │                │
-│    │  Envoy:  Happy Eyeballs v3 (RFC 8305)            │                │
-│    │  mTLS:  SPIFFE ID = spiffe://trust/domain/ipv4   │                │
-│    │         spiffe://trust/domain/ipv6                │                │
-│    └─────────────────────┬───────────────────────────┘                │
-│                          │                                            │
-│  [Layer 7: Egress / Observability]                                   │
-│    ┌─────────────────────┴───────────────────────────┐                │
-│    │  NAT64 (RFC 6146) + DNS64 (RFC 6147)             │                │
-│    │  Cloud NAT IPv6 egress (GCP), NAT GW IPv6 (Azure)│                │
-│    │  VPC Flow Logs v6 + v4, ALB Access Log dual      │                │
-│    └──────────────────────────────────────────────────┘                │
-└──────────────────────────────────────────────────────────────────────┘
++----------------------------------------------------------------------+
+|         Cloud Dual Stack 7-Layer Reference Architecture              |
++----------------------------------------------------------------------+
+|                                                                      |
+|  [Layer 1: Internet Edge]                                            |
+|    +------------+    +------------+    +------------+                |
+|    |  IPv4 IGW  |    |  IPv6 IGW  |    |   CDN/Edge |                |
+|    | (Anycast)  |    |  (Egress-  |    |  CloudFront|                |
+|    +-----+------+    |   only IGW)|    | /Azure CDN |                |
+|          |           +-----+------+    +-----+------+                |
+|          |                 |                  |                       |
+|  [Layer 2: Transit / Routing Plane]                                  |
+|    +-----+-----------------+------------------+-----+                |
+|    |  Transit GW  /  Virtual WAN Hub  /  NCC Spoke    |                |
+|    |  - BGP IPv4 Unicast + Labeled IPv6 Unicast -    |                |
+|    |  - Route Reflector: 2개 AS-Path 정책 동시 유지 -|                |
+|    +---------------------+---------------------------+                |
+|                          |                                            |
+|  [Layer 3: VPC/VNet Dual CIDR]                                       |
+|    +---------------------+---------------------------+                |
+|    |  VPC: 10.0.0.0/16  +  2600:1f00:4860::/56       |                |
+|    |  +- Subnet A: 10.0.1.0/24 + 2600:1f01:4860::/64 |                |
+|    |  +- Subnet B: 10.0.2.0/24 + 2600:1f02:4860::/64 |                |
+|    |  +- Route Table: IPv4 0.0.0.0/0 -> NAT GW         |                |
+|    |                 IPv6 ::/0      -> EIGW            |                |
+|    +---------------------+---------------------------+                |
+|                          |                                            |
+|  [Layer 4: Compute - VM/Bare-metal]                                  |
+|    +---------------------+---------------------------+                |
+|    |  ENI/VNIC: Primary IPv4 + Multiple IPv6 /128    |                |
+|    |  - Privacy Extension(RFC 4941) Stable SLAAC      |                |
+|    |  - DHCPv6-PD: 멀티 서브넷 /60, /56 위임          |                |
+|    +---------------------+---------------------------+                |
+|                          |                                            |
+|  [Layer 5: Container Orchestration]                                   |
+|    +---------------------+---------------------------+                |
+|    |  K8s:  --feature-gates=IPv6DualStack=true        |                |
+|    |       --ip-family=IPv4,IPv6                       |                |
+|    |  CNI: Cilium DualStack (--ipv4-range, --ipv6-range)|             |
+|    |       Calico IPAM: IPv6 pool /48                 |                |
+|    |  Pod CIDR:  fd00::/64 per namespace              |                |
+|    +---------------------+---------------------------+                |
+|                          |                                            |
+|  [Layer 6: Service Mesh / API Gateway]                               |
+|    +---------------------+---------------------------+                |
+|    |  Istio:  Dual Listener (0.0.0.0:443, [::]:443)  |                |
+|    |  Envoy:  Happy Eyeballs v3 (RFC 8305)            |                |
+|    |  mTLS:  SPIFFE ID = spiffe://trust/domain/ipv4   |                |
+|    |         spiffe://trust/domain/ipv6                |                |
+|    +---------------------+---------------------------+                |
+|                          |                                            |
+|  [Layer 7: Egress / Observability]                                   |
+|    +---------------------+---------------------------+                |
+|    |  NAT64 (RFC 6146) + DNS64 (RFC 6147)             |                |
+|    |  Cloud NAT IPv6 egress (GCP), NAT GW IPv6 (Azure)|                |
+|    |  VPC Flow Logs v6 + v4, ALB Access Log dual      |                |
+|    +--------------------------------------------------+                |
++----------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
@@ -133,7 +133,7 @@ IPv6 전환은 단순한 주소 체계 확장이 아닌, 클라우드 시대의 
 
 듀얼 스택 환경에서 클라이언트(브라우저, curl, Envoy 등)는 다음의 **3-Phase Race**를 수행한다:
 
-1. **Resolution Phase**: `getaddrinfo("api.example.com")` → IPv4 주소 리스트와 IPv6 주소 리스트를 별도 배열로 수신
+1. **Resolution Phase**: `getaddrinfo("api.example.com")` -> IPv4 주소 리스트와 IPv6 주소 리스트를 별도 배열로 수신
 2. **Sort Phase**: RFC 6724 알고리즘으로 양 리스트를 **Policy Table**(12개 rule: Loopback > Global > Site-local > ... ) 기반 정렬. 같은 Prefix Length면 IPv6가 우선(Site/Organization Local이 아닌 Global Unicast일 때).
 3. **Race Phase**: 첫 번째 IPv6 주소로 `connect()` 시도(300ms timeout), 그 사이 50ms 간격으로 IPv4 주소도 `connect()` 시도. **먼저 connect()가 성공한 family의 socket을 사용**하고 나머지는 RST로 폐기.
 
@@ -150,7 +150,7 @@ IPv6 전환은 단순한 주소 체계 확장이 아닌, 클라우드 시대의 
 | **주소 공간** | 32-bit, /8 할당 고갈, CGN 강제 | 128-bit, 사실상 무한, SLAAC | 양쪽 모두 활성, 2배 라우팅 테이블 |
 | **End-to-End 연결성** | NAT로 차단, P2P 불가, STUN/TURN 의존 | Native, 모든 단말 직접 도달 | IPv6는 Direct, IPv4는 NAT(legacy) |
 | **보안 모델** | Stateful Firewall + NAT(암묵적 차단) | IPsec 의무화(원칙), RA Guard, SEND | IPsec/QUIC는 v6 우선, v4는 v4 정책 유지 |
-| **클라우드 비용** | EIP/NAT GW 과금, ALB IPv4 charge | Egress IPv6 50% 저렴(AWS 기준), EIP 무료 | 양쪽 요금 동시 발생, 단 IPv6 트래픽 ↑ 시 TCO ↓ |
+| **클라우드 비용** | EIP/NAT GW 과금, ALB IPv4 charge | Egress IPv6 50% 저렴(AWS 기준), EIP 무료 | 양쪽 요금 동시 발생, 단 IPv6 트래픽 ^ 시 TCO v |
 | **운영 복잡도** | 1 set (단일 ACL, 단일 Flow Log) | 1 set but SIEM 룰셋 v6 확장 | 2 set (ACL×2, Flow Log×2, DNS×2), DNS Resolver 정책 2배 |
 | **Fragmentation / MTU** | PMTUD 표준, MSS Clamp 일반화 | Path MTU 1280 minimum, EH Fragment 사용 | 이기종 패킷 병행 시 MTU Mismatch(IPv4 1500, IPv6 1500 + EH),
 ## 🔗 이전/다음 글 (Navigation)

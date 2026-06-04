@@ -23,48 +23,48 @@ tags:
 ```text
 [ 하이브리드 클라우드 연결 아키텍처 - 4-Tier Connectivity Model ]
 
-                          ┌──────────────────────────────────────────┐
-                          │   CSP Region (예: AWS ap-northeast-2)    │
-                          │  ┌────────────────────────────────────┐  │
-                          │  │  VPC 10.0.0.0/16                   │  │
-                          │  │  ┌─────────┐    ┌──────────────┐  │  │
-                          │  │  │ Private │    │  Public      │  │  │
-                          │  │  │ Subnet  │    │  Subnet      │  │  │
-                          │  │  │(Web/App)│    │  (NAT/IGW)   │  │  │
-                          │  │  └────┬────┘    └──────┬───────┘  │  │
-                          │  │       │                │          │  │
-                          │  │  ┌────┴────────────────┴──────┐   │  │
-                          │  │  │  Virtual Private Gateway    │   │  │
-                          │  │  │  (VGW) / Transit Gateway    │   │  │
-                          │  │  └──┬───────────────────┬──────┘   │  │
-                          │  └─────┼───────────────────┼──────────┘  │
-                          └────────┼───────────────────┼─────────────┘
-                                   │                   │
-        ┌──────────────────────────┘                   └──────────────────────┐
-        │ TIER 3: 전용 회선                                       │ TIER 2: IPsec VPN
-        │ (Direct Connect)                                       │ (Site-to-Site VPN)
-┌───────┴──────────┐                                    ┌────────┴──────────────┐
-│ AWS Direct       │                                    │ Customer Gateway(CGW) │
-│ Connect Location │                                    │ + VGW = IPsec Tunnel │
-│ (DX LoA,         │                                    │ IKEv2 / AES-256-GCM  │
-│  Cross-Connect)  │                                    │ ESP Tunnel MTU=1437  │
-└───────┬──────────┘                                    └────────────┬──────────┘
-        │ 802.1Q VLAN                                              │ UDP/500, UDP/4500
-        │ BGP (Public/Private VIF)                                 │ ESP(AH/ESP)
-┌───────┴──────────┐                                    ┌────────────┴──────────┐
-│ On-Premise DC    │◄────────── Active/Active ────────►│ On-Premise DC         │
-│ BGP ASN 65000    │                                    │ Firewall / VPN Router │
-│ CPE (CSR 1000v,  │                                    │ (ASA, FortiGate,      │
-│  MX, vMX)        │                                    │  StrongSwan)          │
-└──────────────────┘                                    └───────────────────────┘
-        ▲                                                            ▲
-        │                                                            │
-        │            ┌─────────────────────────────────┐              │
-        └────────────│ TIER 4: SD-WAN Overlay          ├──────────────┘
-                     │ (Cisco Viptela, Fortinet,         │
-                     │  Prisma Access, Cato)             │
-                     │  Application-Aware Path Steering │
-                     └─────────────────────────────────┘
+                          +------------------------------------------+
+                          |   CSP Region (예: AWS ap-northeast-2)    |
+                          |  +------------------------------------+  |
+                          |  |  VPC 10.0.0.0/16                   |  |
+                          |  |  +---------+    +--------------+  |  |
+                          |  |  | Private |    |  Public      |  |  |
+                          |  |  | Subnet  |    |  Subnet      |  |  |
+                          |  |  |(Web/App)|    |  (NAT/IGW)   |  |  |
+                          |  |  +----+----+    +------+-------+  |  |
+                          |  |       |                |          |  |
+                          |  |  +----+----------------+------+   |  |
+                          |  |  |  Virtual Private Gateway    |   |  |
+                          |  |  |  (VGW) / Transit Gateway    |   |  |
+                          |  |  +--+-------------------+------+   |  |
+                          |  +-----+-------------------+----------+  |
+                          +--------+-------------------+-------------+
+                                   |                   |
+        +--------------------------+                   +----------------------+
+        | TIER 3: 전용 회선                                       | TIER 2: IPsec VPN
+        | (Direct Connect)                                       | (Site-to-Site VPN)
++-------+----------+                                    +--------+--------------+
+| AWS Direct       |                                    | Customer Gateway(CGW) |
+| Connect Location |                                    | + VGW = IPsec Tunnel |
+| (DX LoA,         |                                    | IKEv2 / AES-256-GCM  |
+|  Cross-Connect)  |                                    | ESP Tunnel MTU=1437  |
++-------+----------+                                    +------------+----------+
+        | 802.1Q VLAN                                              | UDP/500, UDP/4500
+        | BGP (Public/Private VIF)                                 | ESP(AH/ESP)
++-------+----------+                                    +------------+----------+
+| On-Premise DC    |◄---------- Active/Active --------►| On-Premise DC         |
+| BGP ASN 65000    |                                    | Firewall / VPN Router |
+| CPE (CSR 1000v,  |                                    | (ASA, FortiGate,      |
+|  MX, vMX)        |                                    |  StrongSwan)          |
++------------------+                                    +-----------------------+
+        ^                                                            ^
+        |                                                            |
+        |            +---------------------------------+              |
+        +------------| TIER 4: SD-WAN Overlay          +--------------+
+                     | (Cisco Viptela, Fortinet,         |
+                     |  Prisma Access, Cato)             |
+                     |  Application-Aware Path Steering |
+                     +---------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: VPN은 "터널 도시에 뚫린 자동차 전용 도로(고속도로, 표지판이 암호화됨)"이고, Direct Connect는 "도심과 도심을 직선으로 잇는 고속철도(KTX) 전용 트랙"입니다. 택배(데이터)를 한 번에 많이 보내려면 기차(DX)가, 빠르고 가끔 보내야 한다면 자동차(VPN)가 효율적입니다.
@@ -82,25 +82,25 @@ Site-to-Site VPN은 **IKEv2(Internet Key Exchange v2, RFC 7296)** 와 **ESP(Enca
 
  On-Premise CGW                                          Cloud VGW/VPN GW
  (203.0.113.1)                                          (52.x.x.x)
-      │                                                       │
-      │  [Phase 1: IKE_SA_INIT]                               │
-      │ ── IKE_SA_INIT (HDR, SAi, KEi, Ni) ────────────────► │  ← 암호 알고리즘/DH그룹 협상
-      │ ◄── IKE_SA_INIT (HDR, SAr, KEr, Nr) ──────────────── │  ← AES-256-GCM / DH-14(2048bit)
-      │                                                       │
-      │  [Phase 1.5: IKE_AUTH]                                │
-      │ ── IKE_AUTH (IDi, AUTH, SAi2, TSi, TSr) ───────────► │  ← PSK or X.509v3 인증
-      │ ◄── IKE_AUTH (IDr, AUTH, SAr2, TSr, TSi) ──────────── │  ← Child SA(ESP) 생성
-      │                                                       │
-      │  ======= ESP Encrypted Tunnel (SPI: 0xCAFE1234) ======│
-      │ ── [ESP HDR | IV | Enc(Payload) | ICV] ──────────────► │  ← Mode: Tunnel (IP-in-IP)
-      │ ◄── [ESP HDR | IV | Enc(Payload) | ICV] ────────────── │  ← Anti-Replay: 32bit Seq
-      │                                                       │
-      │  [Phase 2: Rekey / DPD (Dead Peer Detection)]         │
-      │ ── INFORMATIONAL (DPD Request) ─────────────────────► │  ← 10s 주기 keepalive
-      │                                                       │
-      │  [Dead Peer Detection Timeout = 30s]                  │
-      │  → IKE_SA 삭제, IPSec SA 무효화                      │
-      │  → BGP Hold-Down(180s) → Failover 트리거              │
+      |                                                       |
+      |  [Phase 1: IKE_SA_INIT]                               |
+      | -- IKE_SA_INIT (HDR, SAi, KEi, Ni) ----------------► |  <- 암호 알고리즘/DH그룹 협상
+      | ◄-- IKE_SA_INIT (HDR, SAr, KEr, Nr) ---------------- |  <- AES-256-GCM / DH-14(2048bit)
+      |                                                       |
+      |  [Phase 1.5: IKE_AUTH]                                |
+      | -- IKE_AUTH (IDi, AUTH, SAi2, TSi, TSr) -----------► |  <- PSK or X.509v3 인증
+      | ◄-- IKE_AUTH (IDr, AUTH, SAr2, TSr, TSi) ------------ |  <- Child SA(ESP) 생성
+      |                                                       |
+      |  ======= ESP Encrypted Tunnel (SPI: 0xCAFE1234) ======|
+      | -- [ESP HDR | IV | Enc(Payload) | ICV] --------------► |  <- Mode: Tunnel (IP-in-IP)
+      | ◄-- [ESP HDR | IV | Enc(Payload) | ICV] -------------- |  <- Anti-Replay: 32bit Seq
+      |                                                       |
+      |  [Phase 2: Rekey / DPD (Dead Peer Detection)]         |
+      | -- INFORMATIONAL (DPD Request) ---------------------► |  <- 10s 주기 keepalive
+      |                                                       |
+      |  [Dead Peer Detection Timeout = 30s]                  |
+      |  -> IKE_SA 삭제, IPSec SA 무효화                      |
+      |  -> BGP Hold-Down(180s) -> Failover 트리거              |
 ```
 
 **핵심 파라미터 & 고려사항:**
@@ -116,39 +116,39 @@ Direct Connect는 CSP의 **DX Location**(예: AWS: Equinix IC1~IC11, KDDI, LG U+
 ```text
 [ AWS Direct Connect 3-Tier Architecture (Public + Private VIF) ]
 
-┌─────────────────────────────────────────────────────────────────────────┐
-│                    AWS Direct Connect Location                         │
-│                   (예: Equinix SL1, Seoul)                             │
-│  ┌───────────────────┐         ┌───────────────────┐                  │
-│  │ AWS DX Endpoint   │         │ Customer Router   │                  │
-│  │ (10G/100G LR4)    │◄══CX══►│ (Cisco ASR9k,     │                  │
-│  │ + VLAN Tag 0x64   │  1G/10G│  Juniper MX,       │                  │
-│  │ + BGP AS 64512    │ Fiber  │  Arista 7280)      │                  │
-│  └─────────┬─────────┘         └─────────┬─────────┘                  │
-└────────────┼───────────────────────────────┼────────────────────────────┘
-             │                               │
-             │  VIF (Virtual Interface)      │
-             │  ┌──────────┬──────────┐      │
-             │  │ Private  │ Public   │ Transit
-             │  │ VIF      │ VIF      │ VIF
-             │  │(RFC1918) │(AWS 공인)│(TGW)
-             │  └────┬─────┴────┬─────┴───┬──────┐
-             │       │          │          │      │
-     ┌───────┴───────┴──────┐   │   ┌──────┴──────┴──────┐
-     │  Virtual Private     │   │   │   Transit Gateway   │
-     │  Gateway (VGW)       │   │   │  (Inter-Region TGW) │
-     │  → VPC 10.0.0.0/16   │   │   │  → 50+ VPCs          │
-     └──────────────────────┘   │   └─────────────────────┘
-                                │
-                          ┌─────┴──────────┐
-                          │ AWS Public     │
-                          │ Services       │
-                          │ (S3, DynamoDB, │
-                          │  API Gateway)  │
-                          └────────────────┘
++-------------------------------------------------------------------------+
+|                    AWS Direct Connect Location                         |
+|                   (예: Equinix SL1, Seoul)                             |
+|  +-------------------+         +-------------------+                  |
+|  | AWS DX Endpoint   |         | Customer Router   |                  |
+|  | (10G/100G LR4)    |◄--CX--►| (Cisco ASR9k,     |                  |
+|  | + VLAN Tag 0x64   |  1G/10G|  Juniper MX,       |                  |
+|  | + BGP AS 64512    | Fiber  |  Arista 7280)      |                  |
+|  +---------+---------+         +---------+---------+                  |
++------------+-------------------------------+----------------------------+
+             |                               |
+             |  VIF (Virtual Interface)      |
+             |  +----------+----------+      |
+             |  | Private  | Public   | Transit
+             |  | VIF      | VIF      | VIF
+             |  |(RFC1918) |(AWS 공인)|(TGW)
+             |  +----+-----+----+-----+---+------+
+             |       |          |          |      |
+     +-------+-------+------+   |   +------+------+------+
+     |  Virtual Private     |   |   |   Transit Gateway   |
+     |  Gateway (VGW)       |   |   |  (Inter-Region TGW) |
+     |  -> VPC 10.0.0.0/16   |   |   |  -> 50+ VPCs          |
+     +----------------------+   |   +---------------------+
+                                |
+                          +-----+----------+
+                          | AWS Public     |
+                          | Services       |
+                          | (S3, DynamoDB, |
+                          |  API Gateway)  |
+                          +----------------+
 
       BGP Configuration Example:
-      ─────────────────────────────────────
+      -------------------------------------
       router bgp 65000                   # On-Prem ASN
        neighbor 169.254.0.1 remote-as 64512   # AWS ASN
        neighbor 169.254.0.1 password 7 xxx

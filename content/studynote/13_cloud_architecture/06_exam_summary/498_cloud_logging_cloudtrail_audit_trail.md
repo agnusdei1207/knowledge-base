@@ -25,30 +25,30 @@ tags:
 
 ```text
 [Legacy On-Prem SIEM]                       [Cloud-Native Audit Trail - CloudTrail]
-┌──────────────┐                             ┌──────────────────────────────────────┐
-│ Firewall     │── syslog ──┐                 │      AWS CloudTrail Event Sources    │
-│ Server       │            │                 │ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ │
-│ (syslog)     │            ├── Splunk        │ │IAM  │ │EC2   │ │S3    │ │Lambda│ │
-└──────────────┘            │   (중앙 SIEM)   │ │KMS  │ │RDS   │ │EKS   │ │Dynamo│ │
-┌──────────────┐            │                 │ │+236  │ │      │ │      │ │DB    │ │
-│ OS/Windows   │── WinEvt ──┤                 │ └──────┘ └──────┘ └──────┘ └──────┘ │
-│ Event Log    │            │                 │            │  (Control Plane API)    │
-└──────────────┘            │                 │            ▼                        │
-┌──────────────┐            │                 │ ┌────────────────────────────────┐  │
-│ App Log      │── file ────┘                 │ │   AWS CloudTrail Service      │  │
-└──────────────┘                              │ │  (Event History, Trails, Lake)│  │
-                                             │ └────────────────────────────────┘  │
-⚠ 클라우드 API 미수집                          │            │                        │
-⚠ 무결성 위변조 검증 불가                       │            ▼                        │
-⚠ 클라우드 컨텍스트(IAM Role) 부재              │ ┌────────┐ ┌────────┐ ┌────────┐   │
-                                             │ │  S3    │ │CloudWatch│ │Event  │   │
-                                             │ │(WORM)  │ │ Logs     │ │Bridge │   │
-                                             │ └────────┘ └────────┘ └────────┘   │
-                                             │     ▲        ▲           ▲         │
-                                             │     │        │           │         │
-                                             │   KMS-CMK  Lambda    Security Hub │
-                                             │  (암호화)  (자동 대응) (위협 통합)  │
-                                             └──────────────────────────────────────┘
++--------------+                             +--------------------------------------+
+| Firewall     |-- syslog --+                 |      AWS CloudTrail Event Sources    |
+| Server       |            |                 | +------+ +------+ +------+ +------+ |
+| (syslog)     |            +-- Splunk        | |IAM  | |EC2   | |S3    | |Lambda| |
++--------------+            |   (중앙 SIEM)   | |KMS  | |RDS   | |EKS   | |Dynamo| |
++--------------+            |                 | |+236  | |      | |      | |DB    | |
+| OS/Windows   |-- WinEvt --+                 | +------+ +------+ +------+ +------+ |
+| Event Log    |            |                 |            |  (Control Plane API)    |
++--------------+            |                 |            v                        |
++--------------+            |                 | +--------------------------------+  |
+| App Log      |-- file ----+                 | |   AWS CloudTrail Service      |  |
++--------------+                              | |  (Event History, Trails, Lake)|  |
+                                             | +--------------------------------+  |
+⚠ 클라우드 API 미수집                          |            |                        |
+⚠ 무결성 위변조 검증 불가                       |            v                        |
+⚠ 클라우드 컨텍스트(IAM Role) 부재              | +--------+ +--------+ +--------+   |
+                                             | |  S3    | |CloudWatch| |Event  |   |
+                                             | |(WORM)  | | Logs     | |Bridge |   |
+                                             | +--------+ +--------+ +--------+   |
+                                             |     ^        ^           ^         |
+                                             |     |        |           |         |
+                                             |   KMS-CMK  Lambda    Security Hub |
+                                             |  (암호화)  (자동 대응) (위협 통합)  |
+                                             +--------------------------------------+
                                              ✅ 모든 API 자동 캡처
                                              ✅ SHA-256 + SHA-256 디지털 서명
                                              ✅ 클라우드 컨텍스트 자동 포함
@@ -63,63 +63,63 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-CloudTrail의 핵심은 **"API 호출이 발생할 때마다 1개의 이벤트 레코드(EventRecord)를 생성 → 5~20분 단위 배치로 gzip 압축 JSON 파일 작성 → S3 버킷에 적재 → 동시에 CloudWatch Logs/EventBridge로 스트리밍"**의 3단계 파이프라인이다. 각 단계의 메커니즘을 분해한다.
+CloudTrail의 핵심은 **"API 호출이 발생할 때마다 1개의 이벤트 레코드(EventRecord)를 생성 -> 5~20분 단위 배치로 gzip 압축 JSON 파일 작성 -> S3 버킷에 적재 -> 동시에 CloudWatch Logs/EventBridge로 스트리밍"**의 3단계 파이프라인이다. 각 단계의 메커니즘을 분해한다.
 
 ```text
 [Step 1: 이벤트 캡처 - Push/비동기]
-┌────────────────────────────────────────────────────────────────────────┐
-│  User/IAM Role/Service                                                  │
-│      │                                                                  │
-│      │ AWS API Call (e.g., ec2:TerminateInstances)                      │
-│      ▼                                                                  │
-│  AWS Service Endpoint (Regional/Global)                                │
-│      │                                                                  │
-│      ├─[1] EventSelector 매칭 확인 (S3/Lambda Data Event)              │
-│      │                                                                  │
-│      ▼                                                                  │
-│  CloudTrail Event Pipeline (us-east-1 중앙 + 리전별)                   │
-│      │                                                                  │
-│      │ EventRecord 생성 (JSON, 약 1~5KB)                                │
-│      │   { eventTime, eventName, userIdentity, sourceIPAddress,        │
-│      │     userAgent, requestParameters, responseElements, ... }        │
-│      ▼                                                                  │
-│  CloudTrail 내부 버퍼 (5분 또는 최대 100KB 누적 시 flush)              │
-└────────────────────────────────────────────────────────────────────────┘
-                                    │
-                                    ▼
++------------------------------------------------------------------------+
+|  User/IAM Role/Service                                                  |
+|      |                                                                  |
+|      | AWS API Call (e.g., ec2:TerminateInstances)                      |
+|      v                                                                  |
+|  AWS Service Endpoint (Regional/Global)                                |
+|      |                                                                  |
+|      +-[1] EventSelector 매칭 확인 (S3/Lambda Data Event)              |
+|      |                                                                  |
+|      v                                                                  |
+|  CloudTrail Event Pipeline (us-east-1 중앙 + 리전별)                   |
+|      |                                                                  |
+|      | EventRecord 생성 (JSON, 약 1~5KB)                                |
+|      |   { eventTime, eventName, userIdentity, sourceIPAddress,        |
+|      |     userAgent, requestParameters, responseElements, ... }        |
+|      v                                                                  |
+|  CloudTrail 내부 버퍼 (5분 또는 최대 100KB 누적 시 flush)              |
++------------------------------------------------------------------------+
+                                    |
+                                    v
 [Step 2: 파일 작성 + 무결성 서명]
-┌────────────────────────────────────────────────────────────────────────┐
-│  CloudTrail Internal                                                    │
-│      │                                                                  │
-│      ├─[2] gzip 압축 → JSON Lines 형식                                  │
-│      │                                                                  │
-│      ├─[3] 파일명 규칙:                                                 │
-│      │       aws_cloudtrail_logs_<AccountID>_<TrailName>_               │
-│      │       <YYYYMMDD>T<HHMMSS>Z_<UniqueID>.json.gz                   │
-│      │                                                                  │
-│      ├─[4] SHA-256 해시 계산 (디지털 핑거프린트)                       │
-│      │                                                                  │
-│      └─[5] RSA 디지털 서명 (AWS 관리형 키 또는 자체 키)                │
-│             → 매시간 digest 파일 작성:                                  │
-│               aws_cloudtrail_logs_<AccountID>_<Region>_                │
-│               <YYYYMMDD>T<HHMMSS>Z.json.gz.sig                          │
-│               (이전 digest + 현재 digest들의 해시를 다시 서명)          │
-└────────────────────────────────────────────────────────────────────────┘
-                                    │
-                                    ▼
++------------------------------------------------------------------------+
+|  CloudTrail Internal                                                    |
+|      |                                                                  |
+|      +-[2] gzip 압축 -> JSON Lines 형식                                  |
+|      |                                                                  |
+|      +-[3] 파일명 규칙:                                                 |
+|      |       aws_cloudtrail_logs_<AccountID>_<TrailName>_               |
+|      |       <YYYYMMDD>T<HHMMSS>Z_<UniqueID>.json.gz                   |
+|      |                                                                  |
+|      +-[4] SHA-256 해시 계산 (디지털 핑거프린트)                       |
+|      |                                                                  |
+|      +-[5] RSA 디지털 서명 (AWS 관리형 키 또는 자체 키)                |
+|             -> 매시간 digest 파일 작성:                                  |
+|               aws_cloudtrail_logs_<AccountID>_<Region>_                |
+|               <YYYYMMDD>T<HHMMSS>Z.json.gz.sig                          |
+|               (이전 digest + 현재 digest들의 해시를 다시 서명)          |
++------------------------------------------------------------------------+
+                                    |
+                                    v
 [Step 3: 배포 - S3 / CloudWatch Logs / EventBridge / CloudTrail Lake]
-┌────────────────────────────────────────────────────────────────────────┐
-│  ┌────────────┐  ┌──────────────┐  ┌────────────┐  ┌──────────────┐   │
-│  │ S3 버킷    │  │CloudWatch    │  │EventBridge │  │CloudTrail    │   │
-│  │ (gzip/JSON)│  │Logs          │  │ (실시간)   │  │Lake (SQL)    │   │
-│  │ 5분~20분   │  │ (실시간)     │  │            │  │ (1~수십분)   │   │
-│  └────────────┘  └──────────────┘  └────────────┘  └──────────────┘   │
-│       │                 │                  │                │           │
-│       ▼                 ▼                  ▼                ▼           │
-│   KMS-CMK            Lambda           Security Hub     Athena/         │
-│   암호화            자동 대응          자동 격리        QuickSight      │
-│   S3 Object Lock     (보안 자동화)     GuardDuty 연동   분석/리포팅     │
-└────────────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------------+
+|  +------------+  +--------------+  +------------+  +--------------+   |
+|  | S3 버킷    |  |CloudWatch    |  |EventBridge |  |CloudTrail    |   |
+|  | (gzip/JSON)|  |Logs          |  | (실시간)   |  |Lake (SQL)    |   |
+|  | 5분~20분   |  | (실시간)     |  |            |  | (1~수십분)   |   |
+|  +------------+  +--------------+  +------------+  +--------------+   |
+|       |                 |                  |                |           |
+|       v                 v                  v                v           |
+|   KMS-CMK            Lambda           Security Hub     Athena/         |
+|   암호화            자동 대응          자동 격리        QuickSight      |
+|   S3 Object Lock     (보안 자동화)     GuardDuty 연동   분석/리포팅     |
++------------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
@@ -133,7 +133,7 @@ CloudTrail의 핵심은 **"API 호출이 발생할 때마다 1개의 이벤트 �
 
 | 이벤트 타입 | 예시 | 기본 포함 여부 | 가격 (us-east-1, 2024 기준) |
 | :--- | :--- | :--- | :--- |
-| **Management Events** | `ec2:RunInstances`, `iam:CreateUser`, `s3:CreateBucket` | ✅ 첫 1건/리전 무료 (Control Plane 전체) | $0.00/100,000건 (첫 건) → 이후 $2.00/100,000건 |
+| **Management Events** | `ec2:RunInstances`, `iam:CreateUser`, `s3:CreateBucket` | ✅ 첫 1건/리전 무료 (Control Plane 전체) | $0.00/100,000건 (첫 건) -> 이후 $2.00/100,000건 |
 | **Data Events** | `s3:GetObject`, `s3:PutObject`, `lambda:InvokeFunction` | ❌ 명시적 활성화 필요 | $0.10/100,000건 (상위 1개), 추가 시 $0.025/100,000건 |
 | **Insights Events** | 비정상 API 호출률, API 오류율 자동 탐지 | ❌ 별도 활성화 ($0.35/100,000 이벤트 분석 비용) | CloudTrail ML 모델이 60일 베이스라인 대비 이상 탐지 |
 
@@ -146,7 +146,7 @@ CloudTrail은 **이중 해시 체인(Merkle-tree-like) 서명**을 사용한다.
 2) 시간 윈도우 T (기본 1시간) 내 모든 h1, h2, ..., hn을 모아서
 3) digest 파일 D_T 생성: D_T = { startTime, endTime, accountID, [h1..hn] }
 4) 디지털 서명: Sig_T = RSA-Sign(privateKey, SHA256(D_T ∥ Sig_{T-1}))
-   → 즉, 매시간의 digest는 *이전 digest의 서명값*을 입력에 포함 (체인)
+   -> 즉, 매시간의 digest는 *이전 digest의 서명값*을 입력에 포함 (체인)
 5) 클라이언트는 aws cloudtrail validate-logs 명령으로:
    - 공개키로 Sig_T 검증 (서명 위변조 불가)
    - 각 hi 재계산 (파일 위변조 불가)
