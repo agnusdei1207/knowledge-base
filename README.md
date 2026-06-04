@@ -24,7 +24,7 @@ content/
 ├── personal/
 ├── study/
 ├── studynote/
-└── r-and-d/
+└── research-and-development/
 ```
 
 Zola 규칙에 따라 섹션 문서는 `_index.md`를 사용합니다. 일반 문서는 TOML frontmatter(`+++`)를 사용하며, 검색 인덱스는 Zola 내장 검색이 아니라 Pagefind가 생성합니다.

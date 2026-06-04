@@ -27,7 +27,7 @@ tags = ["work"]
   - AI 질의응답용 정리 데이터 확보
 - 다음 액션:
   - 샘플 문서 30건 받아 구조 분석
-  - [r-and-d](/knowledge-base/r-and-d/)의 검색 성능 검증 결과와 연결
+  - [research-and-development](/knowledge-base/research-and-development/)의 검색 성능 검증 결과와 연결
 
 ### B. IT 서비스사 온보딩 위키 구축
 
@@ -51,7 +51,7 @@ tags = ["work"]
   - 추후 검색/보고서 자동화 기반 확보
 - 다음 액션:
   - 실험 기록 템플릿 초안 작성
-  - [r-and-d-roadmap](/knowledge-base/r-and-d/r-and-d-roadmap/)와 연결
+  - [research-and-development-roadmap](/knowledge-base/research-and-development/research-and-development-roadmap/)와 연결
 
 ---
 

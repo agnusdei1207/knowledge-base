@@ -13,7 +13,7 @@ tags = ["work"]
 관련 문서:
 - [tech-stack](/knowledge-base/work/tech-stack/)
 - [operations](/knowledge-base/work/operations/)
-- [r-and-d](/knowledge-base/r-and-d/)
+- [research-and-development](/knowledge-base/research-and-development/)
 - [claude-code-mcp](/knowledge-base/work/claude-code-mcp/)
 
 ---

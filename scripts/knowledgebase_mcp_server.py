@@ -15,7 +15,7 @@ from starlette.responses import JSONResponse
 from starlette.routing import Mount, Route
 
 
-CONTENT_DIR = Path(os.getenv("CONTENT_DIR", "/workspace/content")).resolve()
+CONTENT_DIR = Path(os.getenv("CONTENT_DIR", str(Path(__file__).parent.parent / "content"))).resolve()
 BASE_URL = os.getenv("KB_BASE_URL", "http://localhost:8080").rstrip("/")
 HOST = os.getenv("MCP_HOST", "0.0.0.0")
 PORT = int(os.getenv("MCP_PORT", "8090"))

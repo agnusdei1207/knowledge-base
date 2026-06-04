@@ -12,7 +12,7 @@ tags = ["work"]
 
 관련 문서:
 - [tech-stack](/knowledge-base/work/tech-stack/)
-- [r-and-d](/knowledge-base/r-and-d/)
+- [research-and-development](/knowledge-base/research-and-development/)
 - [operations](/knowledge-base/work/operations/)
 - [projects](/knowledge-base/work/projects/)
 - [knowledge-pipeline](/knowledge-base/work/knowledge-pipeline/)
@@ -61,7 +61,7 @@ tags = ["work"]
 ## 3. 연결 문서
 
 - 기반 기술: [tech-stack](/knowledge-base/work/tech-stack/)
-- 실험과 검증: [r-and-d](/knowledge-base/r-and-d/)
+- 실험과 검증: [research-and-development](/knowledge-base/research-and-development/)
 - 운영 기준: [operations](/knowledge-base/work/operations/)
 - 데이터 흐름: [knowledge-pipeline](/knowledge-base/work/knowledge-pipeline/)
 - Claude Code + MCP: [claude-code-mcp](/knowledge-base/work/claude-code-mcp/)

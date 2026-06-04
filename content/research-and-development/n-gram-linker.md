@@ -2,10 +2,10 @@
 title = "🚀 N-gram 해시 링커 알고리즘 설명서"
 
 [taxonomies]
-tags = ["r-and-d"]
+tags = ["research-and-development"]
 
 [extra]
-tags = ["r-and-d"]
+tags = ["research-and-development"]
 +++
 
 # 🚀 N-gram 해시 링커 알고리즘 (N-Gram Hash Linker)

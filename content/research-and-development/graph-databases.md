@@ -2,10 +2,10 @@
 title = "🌐 Neo4j vs Dgraph 그래프 DB 심층 비교 가이드"
 
 [taxonomies]
-tags = ["r-and-d"]
+tags = ["research-and-development"]
 
 [extra]
-tags = ["r-and-d"]
+tags = ["research-and-development"]
 +++
 
 본 문서는 사내 지식 그래프(Knowledge Graph) 인프라 확장 및 차세대 Graph RAG 아키텍처 설계를 대비하여, 대표적인 그래프 데이터베이스인 <strong>Neo4j</strong>와 <strong>Dgraph</strong>의 아키텍처, 성능, 확장성 및 비즈니스 적합성을 비교 분석한 기술 아카이브입니다.
@@ -102,4 +102,4 @@ Dgraph는 처음부터 <strong>대규모 수평 확장(Horizontal Scaling)</stro
 
 
 > [!IMPORTANT]
-> 무리하게 도입 비용이 높은 분산 그래프 DB를 초기에 연동하기보다는, 현재의 마크다운 링킹 관계를 <strong><a href="/knowledge-base/r-and-d/n-gram-linker/">N-gram 링커</a></strong>를 통해 촘촘히 유지하고, 임베딩을 통한 pgvector 검색을 1순위로 둔 뒤, 필요 시 Neo4j에 이를 임시 로딩하여 의미 추론 레이어를 얹는 하이브리드 방안을 권장합니다.
+> 무리하게 도입 비용이 높은 분산 그래프 DB를 초기에 연동하기보다는, 현재의 마크다운 링킹 관계를 <strong><a href="/knowledge-base/research-and-development/n-gram-linker/">N-gram 링커</a></strong>를 통해 촘촘히 유지하고, 임베딩을 통한 pgvector 검색을 1순위로 둔 뒤, 필요 시 Neo4j에 이를 임시 로딩하여 의미 추론 레이어를 얹는 하이브리드 방안을 권장합니다.

@@ -394,6 +394,7 @@ footer {
 
 .markdown-rendered {
   min-width: 0;
+  padding-left: 2rem;
 }
 
 .markdown-rendered h1,

@@ -14,7 +14,7 @@ tags = ["work"]
 - [README](../README.md)
 - [quartz-deployment](/knowledge-base/work/quartz-deployment/)
 - [business](/knowledge-base/work/business/)
-- [r-and-d](/knowledge-base/r-and-d/)
+- [research-and-development](/knowledge-base/research-and-development/)
 - [knowledge-pipeline](/knowledge-base/work/knowledge-pipeline/)
 - [decap-cms](/knowledge-base/work/decap-cms/)
 

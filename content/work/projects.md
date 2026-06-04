@@ -20,7 +20,7 @@ tags = ["work"]
 *   **이론적 배경:** **AI/LLM/RAG 스터디노트** 및 **데이터베이스 검색 기법** 참고.
 *   **진행 상태:** 기획 및 핵심 프레임워크 설계 중.
 *   **관련 아이디어:** <strong><a href="/knowledge-base/inbox/">inbox</a></strong>에 올라온 시맨틱 RAG 관련 메모 참조.
-*   **연결 문서:** <strong><a href="/knowledge-base/r-and-d/">r-and-d</a></strong>, <strong><a href="/knowledge-base/r-and-d/r-and-d-roadmap/">r-and-d-roadmap</a></strong>
+*   **연결 문서:** <strong><a href="/knowledge-base/research-and-development/">research-and-development</a></strong>, <strong><a href="/knowledge-base/research-and-development/research-and-development-roadmap/">research-and-development-roadmap</a></strong>
 
 ### 🏛️ 지식 운영 계층 설계
 *   **목적:** 여러 직원과 AI 에이전트가 같은 지식베이스를 안정적으로 읽고 쓰도록 하는 공용 운영 계층을 설계하는 것.

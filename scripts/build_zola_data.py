@@ -19,27 +19,27 @@ WIKILINK_RE = re.compile(r"\[\[([^\]|#]+)(?:#[^\]|]*)?(?:\|[^\]]+)?\]\]")
 MARKDOWN_INTERNAL_RE = re.compile(r"\[[^\]]+\]\((/knowledge-base/[^)#]+/?)(?:#[^)]+)?\)")
 
 STUDY_SUBJECT_TITLES = {
-    "01_computer_architecture": "01: Computer Architecture",
-    "02_operating_system": "02: Operating System",
-    "03_network": "03: Network",
-    "04_software_engineering": "04: Software Engineering",
-    "05_database": "05: Database",
-    "06_ict_convergence": "06: ICT Convergence",
-    "07_enterprise_systems": "07: Enterprise Systems",
-    "08_algorithm_stats": "08: Algorithms & Statistics",
-    "09_security": "09: Security",
-    "10_ai": "10: Artificial Intelligence",
-    "11_design_supervision": "11: Design & Supervision",
-    "12_it_management": "12: IT Management",
-    "13_cloud_architecture": "13: Cloud Architecture",
-    "14_data_engineering": "14: Data Engineering",
-    "15_devops_sre": "15: DevOps & SRE",
-    "16_bigdata": "16: Big Data",
+    "01_computer_architecture": "01. Computer Architecture",
+    "02_operating_system": "02. Operating System",
+    "03_network": "03. Network",
+    "04_software_engineering": "04. Software Engineering",
+    "05_database": "05. Database",
+    "06_ict_convergence": "06. ICT Convergence",
+    "07_enterprise_systems": "07. Enterprise Systems",
+    "08_algorithm_stats": "08. Algorithms & Statistics",
+    "09_security": "09. Security",
+    "10_ai": "10. Artificial Intelligence",
+    "11_design_supervision": "11. Design & Supervision",
+    "12_it_management": "12. IT Management",
+    "13_cloud_architecture": "13. Cloud Architecture",
+    "14_data_engineering": "14. Data Engineering",
+    "15_devops_sre": "15. DevOps & SRE",
+    "16_bigdata": "16. Big Data",
 }
 
 NAV_PATH_TITLES = {
     "personal": "Personal",
-    "r-and-d": "R&D",
+    "research-and-development": "R&D",
     "studynote": "Study Note",
     "work": "Work",
     "inbox": "Inbox",
@@ -177,7 +177,7 @@ def readable_ascii_phrase(text: str) -> str:
 
 
 def title_from_segment(segment: str) -> str:
-    if segment == "r-and-d":
+    if segment == "research-and-development":
         return "R&D"
     if segment == "personal":
         return "Personal"
@@ -191,7 +191,7 @@ def title_from_segment(segment: str) -> str:
     rest = re.sub(r"^\d+[._-]*", "", segment)
     label = readable_ascii_phrase(rest)
     if number:
-        return f"{number}: {label or 'Topic'}"
+        return f"{number}. {label or 'Topic'}"
     return label or "Topic"
 
 
@@ -210,7 +210,7 @@ def studynote_nav_title(path: Path, title: str) -> str:
     title_candidate = strip_number_prefix(readable_ascii_phrase(title))
     segment_candidate = strip_number_prefix(readable_ascii_phrase(segment))
     candidate = title_candidate or segment_candidate or "Topic"
-    return f"{number}: {candidate}" if number else candidate
+    return f"{number}. {candidate}" if number else candidate
 
 
 def general_nav_title(path: Path, title: str) -> str:
@@ -235,7 +235,7 @@ def general_nav_title(path: Path, title: str) -> str:
         candidate = segment_candidate or candidate or "Topic"
         
     if number:
-        return f"{number}: {candidate}"
+        return f"{number}. {candidate}"
     return candidate
 
 

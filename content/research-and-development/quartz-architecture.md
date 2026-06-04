@@ -2,10 +2,10 @@
 title = "Quartz v5 아키텍처 분석 — 백링크·그래프 뷰·빌드 한계"
 
 [taxonomies]
-tags = ["r-and-d", "quartz", "knowledge-base"]
+tags = ["research-and-development", "quartz", "knowledge-base"]
 
 [extra]
-tags = ["r-and-d", "quartz", "knowledge-base"]
+tags = ["research-and-development", "quartz", "knowledge-base"]
 +++
 
 [ 종합 지식 포털 ] > R&D > **Quartz 분석**

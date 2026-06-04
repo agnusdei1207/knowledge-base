@@ -40,10 +40,10 @@ Technical study notes organized by subject area.
 ### R&D
 Research notes, experiments, architecture ideas, and prototypes.
 
-- [R&D Hub](/knowledge-base/r-and-d/)
-- [R&D Roadmap](/knowledge-base/r-and-d/r-and-d-roadmap/)
-- [N-Gram Linker](/knowledge-base/r-and-d/n-gram-linker/)
-- [Graph Databases](/knowledge-base/r-and-d/graph-databases/)
+- [R&D Hub](/knowledge-base/research-and-development/)
+- [R&D Roadmap](/knowledge-base/research-and-development/research-and-development-roadmap/)
+- [N-Gram Linker](/knowledge-base/research-and-development/n-gram-linker/)
+- [Graph Databases](/knowledge-base/research-and-development/graph-databases/)
 
 ### Inbox
 
