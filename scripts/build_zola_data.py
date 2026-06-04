@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import re
 import tomllib
+import unicodedata
 from pathlib import Path
 from typing import Any
 from urllib.parse import quote
@@ -16,6 +17,90 @@ BASE = "/knowledge-base"
 
 WIKILINK_RE = re.compile(r"\[\[([^\]|#]+)(?:#[^\]|]*)?(?:\|[^\]]+)?\]\]")
 MARKDOWN_INTERNAL_RE = re.compile(r"\[[^\]]+\]\((/knowledge-base/[^)#]+/?)(?:#[^)]+)?\)")
+
+STUDY_SUBJECT_TITLES = {
+    "01_computer_architecture": "01: Computer Architecture",
+    "02_operating_system": "02: Operating System",
+    "03_network": "03: Network",
+    "04_software_engineering": "04: Software Engineering",
+    "05_database": "05: Database",
+    "06_ict_convergence": "06: ICT Convergence",
+    "07_enterprise_systems": "07: Enterprise Systems",
+    "08_algorithm_stats": "08: Algorithms & Statistics",
+    "09_security": "09: Security",
+    "10_ai": "10: Artificial Intelligence",
+    "11_design_supervision": "11: Design & Supervision",
+    "12_it_management": "12: IT Management",
+    "13_cloud_architecture": "13: Cloud Architecture",
+    "14_data_engineering": "14: Data Engineering",
+    "15_devops_sre": "15: DevOps & SRE",
+    "16_bigdata": "16: Big Data",
+}
+
+NAV_PATH_TITLES = {
+    "personal": "Personal",
+    "r-and-d": "R&D",
+    "studynote": "Study Note",
+    "work": "Work",
+    "inbox": "Inbox",
+}
+
+TITLE_ACRONYMS = {
+    "aa",
+    "ai",
+    "api",
+    "arb",
+    "ba",
+    "bpr",
+    "brm",
+    "cicd",
+    "ci",
+    "cmm",
+    "cmmi",
+    "cpu",
+    "cps",
+    "crm",
+    "da",
+    "db",
+    "devops",
+    "dce",
+    "drm",
+    "dte",
+    "ea",
+    "eai",
+    "erp",
+    "esb",
+    "etl",
+    "fep",
+    "fsk",
+    "hdlc",
+    "ict",
+    "isi",
+    "isa",
+    "isp",
+    "ismp",
+    "it",
+    "itil",
+    "itsm",
+    "llm",
+    "ml",
+    "msa",
+    "nlp",
+    "npu",
+    "os",
+    "pcm",
+    "psk",
+    "qam",
+    "rag",
+    "sdlc",
+    "scm",
+    "sre",
+    "srm",
+    "ta",
+    "toc",
+    "togaf",
+    "trm",
+}
 
 
 def split_frontmatter(text: str) -> tuple[dict[str, Any], str]:
@@ -54,6 +139,90 @@ def title_for(path: Path, data: dict[str, Any]) -> str:
     return path.stem.replace("_", " ").replace("-", " ").title()
 
 
+def strip_emoji(text: str) -> str:
+    cleaned = "".join(
+        char
+        for char in text
+        if unicodedata.category(char) != "So"
+        and char not in {"\ufe0f", "\u200d"}
+    )
+    return re.sub(r"\s+", " ", cleaned).strip()
+
+
+def number_from_segment(segment: str) -> str:
+    match = re.match(r"^(\d+)[._-]*", segment)
+    return match.group(1) if match else ""
+
+
+def strip_number_prefix(text: str) -> str:
+    return re.sub(r"^\s*\d+\s*[:.)_-]*\s*", "", text).strip()
+
+
+def title_word(word: str) -> str:
+    lower = word.lower()
+    if lower == "vs":
+        return "vs"
+    if lower in TITLE_ACRONYMS or word.isupper() or re.search(r"\d", word):
+        return word.upper()
+    return word.capitalize()
+
+
+def readable_ascii_phrase(text: str) -> str:
+    text = strip_emoji(text).replace("_", " ").replace("-", " ")
+    text = re.sub(r"[가-힣一-龥ぁ-ゟ゠-ヿ]+", " ", text)
+    text = re.sub(r"[^A-Za-z0-9+#&./\s]+", " ", text)
+    words = [word.strip("./") for word in text.split()]
+    words = [word for word in words if word]
+    return " ".join(title_word(word) for word in words)
+
+
+def title_from_segment(segment: str) -> str:
+    number = number_from_segment(segment)
+    rest = re.sub(r"^\d+[._-]*", "", segment)
+    label = readable_ascii_phrase(rest)
+    if number:
+        return f"{number}: {label or 'Topic'}"
+    return label or "Topic"
+
+
+def studynote_nav_title(path: Path, title: str) -> str:
+    rel = path.relative_to(CONTENT)
+    if rel.as_posix() == "studynote/_index.md":
+        return "Study Note"
+    if rel.name == "_index.md":
+        segment = rel.parts[-2]
+    else:
+        segment = rel.stem
+    if segment in STUDY_SUBJECT_TITLES:
+        return STUDY_SUBJECT_TITLES[segment]
+
+    number = number_from_segment(segment)
+    title_candidate = strip_number_prefix(readable_ascii_phrase(title))
+    segment_candidate = strip_number_prefix(readable_ascii_phrase(segment))
+    candidate = title_candidate or segment_candidate or "Topic"
+    return f"{number}: {candidate}" if number else candidate
+
+
+def general_nav_title(path: Path, title: str) -> str:
+    rel = path.relative_to(CONTENT)
+    if rel.name == "_index.md":
+        segment = rel.parts[-2] if len(rel.parts) > 1 else rel.stem
+    else:
+        segment = rel.stem
+    if segment in NAV_PATH_TITLES:
+        return NAV_PATH_TITLES[segment]
+
+    return strip_number_prefix(title_from_segment(segment)) or "Topic"
+
+
+def nav_title_for(path: Path, title: str) -> str:
+    rel = path.relative_to(CONTENT)
+    parts = rel.parts
+    if parts and parts[0] == "studynote":
+        return studynote_nav_title(path, title)
+    return general_nav_title(path, title)
+
+
 def get_tags(data: dict[str, Any]) -> list[str]:
     extra = data.get("extra") or {}
     taxonomies = data.get("taxonomies") or {}
@@ -69,7 +238,7 @@ def insert_tree(root: dict[str, Any], segments: list[str], item: dict[str, Any])
       if found is None:
           found = {
               "segment": segment,
-              "title": segment.replace("_", " ").replace("-", " ").title(),
+              "title": title_from_segment(segment),
               "url": f"{BASE}/{'/'.join(segments[:segments.index(segment)+1])}/",
               "section": True,
               "children": [],
@@ -175,6 +344,7 @@ def main() -> None:
             "section": path.name == "_index.md",
             "body": body,
         }
+        doc["nav_title"] = nav_title_for(path, doc["title"])
         docs.append(doc)
         by_path[doc["path"]] = doc
         if not doc["section"]:
@@ -190,7 +360,8 @@ def main() -> None:
             segments = list(rel.parent.parts)
         else:
             segments = list(rel.with_suffix("").parts)
-        item = {k: doc[k] for k in ("title", "url", "path", "section")}
+        item = {k: doc[k] for k in ("url", "path", "section")}
+        item["title"] = doc["nav_title"]
         item["segment"] = segments[-1] if segments else ""
         item["children"] = []
         insert_tree(tree, segments, item)

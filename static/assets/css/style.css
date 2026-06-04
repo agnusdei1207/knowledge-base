@@ -1,28 +1,30 @@
 :root {
-  --light: #F4EFE3;
-  --lightgray: #E5DEC9;
-  --gray: #8E8575;
-  --darkgray: #383228;
-  --dark: #191715;
-  --secondary: #A65B32;
-  --tertiary: #73826F;
-  --highlight: rgba(166, 91, 50, 0.08);
-  --textHighlight: #F5D0A988;
-  --headerFont: "Schibsted Grotesk", sans-serif;
-  --bodyFont: "Source Sans Pro", sans-serif;
+  --light: #faf7f2;
+  --lightgray: #e9ded2;
+  --gray: #8a7c70;
+  --darkgray: #4e463f;
+  --dark: #211f1c;
+  --secondary: #c96442;
+  --tertiary: #6f5f52;
+  --highlight: rgba(201, 100, 66, 0.12);
+  --textHighlight: #f3c49b66;
+  --panel: color-mix(in srgb, var(--light) 92%, var(--lightgray));
+  --headerFont: "Inter", sans-serif;
+  --bodyFont: "Inter", sans-serif;
   --codeFont: "IBM Plex Mono", monospace;
 }
 
 :root[saved-theme="dark"] {
-  --light: #191715;
-  --lightgray: #2D2A27;
-  --gray: #8C867E;
-  --darkgray: #D4CEC5;
-  --dark: #F2ECE4;
-  --secondary: #E2A06E;
-  --tertiary: #A4B3A2;
-  --highlight: rgba(226, 160, 110, 0.15);
-  --textHighlight: #b3aa0288;
+  --light: #1f1b18;
+  --lightgray: #3b312b;
+  --gray: #9b8879;
+  --darkgray: #dfd2c4;
+  --dark: #f8efe5;
+  --secondary: #d9825f;
+  --tertiary: #c6a582;
+  --highlight: rgba(217, 130, 95, 0.18);
+  --textHighlight: #8a522b88;
+  --panel: color-mix(in srgb, var(--light) 92%, var(--lightgray));
 }
 
 * {
@@ -38,9 +40,12 @@ html {
 
 body {
   margin: 0;
-  background: var(--light);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--secondary) 5%, transparent), transparent 260px),
+    var(--light);
   color: var(--darkgray);
   font-family: var(--bodyFont);
+  letter-spacing: 0;
 }
 
 ::selection {
@@ -92,6 +97,7 @@ a.internal:hover {
 .left.sidebar {
   grid-area: grid-sidebar-left;
   z-index: 2;
+  border-right: 1px solid color-mix(in srgb, var(--lightgray) 72%, transparent);
 }
 
 .right.sidebar {
@@ -120,6 +126,7 @@ footer {
   font-family: var(--headerFont);
   font-size: 1.4rem;
   margin: 0;
+  letter-spacing: 0;
 }
 
 .page-title a {
@@ -141,9 +148,9 @@ footer {
 .explorer-toggle,
 .toc-header {
   border: 1px solid var(--lightgray);
-  background: var(--light);
+  background: var(--panel);
   color: var(--darkgray);
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
   font: inherit;
 }
@@ -154,6 +161,8 @@ footer {
   align-items: center;
   gap: 0.5rem;
   padding: 0.45rem 0.7rem;
+  font-weight: 500;
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--light) 70%, transparent);
 }
 
 .icon-search {
@@ -255,7 +264,7 @@ footer {
 .folder-button {
   display: block;
   width: 100%;
-  padding: 0.2rem 0.25rem;
+  padding: 0.22rem 0.35rem;
   border: 0;
   background: transparent;
   color: var(--darkgray);
@@ -263,6 +272,8 @@ footer {
   text-align: left;
   cursor: pointer;
   border-radius: 4px;
+  font-size: 0.94rem;
+  line-height: 1.35;
 }
 
 .explorer-link:hover,
@@ -275,7 +286,7 @@ footer {
   background: var(--highlight);
   color: var(--secondary);
   font-weight: 600;
-  border-left: 3px solid var(--secondary);
+  box-shadow: inset 3px 0 0 var(--secondary);
 }
 
 .folder-button::before {
@@ -289,8 +300,17 @@ footer {
   content: "▸";
 }
 
+.folder > ul {
+  max-height: 1500px;
+  opacity: 1;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+}
+
 .folder.collapsed > ul {
-  display: none;
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .hamburger,
@@ -301,6 +321,7 @@ footer {
   height: 2px;
   background: var(--darkgray);
   position: relative;
+  transition: transform 0.3s ease, background 0.3s ease, top 0.3s ease;
 }
 
 .hamburger::before,
@@ -316,6 +337,20 @@ footer {
 
 .hamburger::after {
   top: 7px;
+}
+
+.explorer.open .hamburger {
+  background: transparent !important;
+}
+
+.explorer.open .hamburger::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+
+.explorer.open .hamburger::after {
+  top: 0;
+  transform: rotate(-45deg);
 }
 
 .note-properties {
@@ -523,9 +558,20 @@ footer {
   pointer-events: none;
 }
 
-.toc.collapsed .toc-content,
-.explorer.collapsed .explorer-content {
-  display: none;
+.explorer-content,
+.toc-content {
+  max-height: calc(100vh - 15rem);
+  opacity: 1;
+  overflow: auto;
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+}
+
+.explorer.collapsed .explorer-content,
+.toc.collapsed .toc-content {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
 }
 
 .section-list li {
@@ -659,12 +705,21 @@ footer {
   }
 
   .left.sidebar {
-    position: initial;
+    position: sticky;
+    top: 0;
+    z-index: 8;
     height: auto;
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
     gap: 0.75rem;
-    padding: 1rem 0 0;
+    padding: 0.85rem 0 0.75rem;
+    border-right: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--lightgray) 72%, transparent);
+    background:
+      linear-gradient(180deg, color-mix(in srgb, var(--light) 96%, transparent), color-mix(in srgb, var(--light) 88%, transparent)),
+      var(--light);
+    backdrop-filter: blur(10px);
   }
 
   .page-title {
@@ -692,6 +747,12 @@ footer {
     width: 34px;
     height: 34px;
     padding: 0 5px;
+    position: relative;
+  }
+
+  .explorer.open .mobile-explorer {
+    background: var(--highlight);
+    border-color: color-mix(in srgb, var(--secondary) 36%, var(--lightgray));
   }
 
   .desktop-explorer {
@@ -700,25 +761,41 @@ footer {
 
   .explorer {
     order: -1;
+    width: auto;
+  }
+
+  .explorer.open {
+    flex-basis: 100%;
+    width: 100%;
   }
 
   .explorer-content {
-    display: none;
-    position: absolute;
-    left: 1rem;
-    right: 1rem;
-    top: 4.4rem;
-    max-height: 70vh;
+    position: static;
+    width: 100%;
+    max-height: 0;
     overflow: auto;
     border: 1px solid var(--lightgray);
     border-radius: 8px;
-    padding: 0.8rem;
-    background: var(--light);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+    padding: 0;
+    background: var(--panel);
+    box-shadow: 0 18px 44px rgba(33, 31, 28, 0.12);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-4px);
+    transition:
+      max-height 0.24s ease,
+      opacity 0.18s ease,
+      transform 0.18s ease,
+      padding 0.18s ease;
   }
 
   .explorer.open .explorer-content {
-    display: block;
+    max-height: min(68vh, 560px);
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+    padding: 0.75rem;
+    margin-top: 0.75rem;
   }
 
   .page-header {
