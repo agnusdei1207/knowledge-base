@@ -12,7 +12,7 @@ tags = ["studynote-design-supervision"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 아키텍처 거버넌스(Architecture Governance)는 **TOGAF ADM의 Phase G(Implementation Governance)와 Phase H(Architecture Change Management)**를 중심으로, 의사결정 권한·정책·리뷰 사이클·컴플라이언스 통제를 통해 엔터프라이즈 아키텍처가 비즈니스 전략·표준·법규에 부합하도록 강제하는 **제어 체계(Control System)**이며, 단순한 표준 집합이 아닌 **PDCA(Plan-Do-Check-Act) 피드백 루프**를 내장한 운영 거버넌스 프레임워크다.
-> 2. **가치**: 성숙도 Level 3 이상의 거버넌스 모델 도입 시 **중복 투자 20~30% 절감**(Gartner, 2023), 아키텍처 드리프트(drift) 발생률 **60%↓**, 신규 시스템 표준 준수율 **95% 이상**, 변경 요청 평균 처리 시간(Lead Time) **40% 단축**, 그리고 ISO 27001/15288/42010 등 글로벌 표준 인증 획득 시 발주처 신뢰도 향상과 **감사 비용 25% 절감** 효과를 제공한다.
+> 2. **가치**: 성숙도 Level 3 이상의 거버넌스 모델 도입 시 **중복 투자 20~30% 절감**(Gartner, 2023), 아키텍처 드리프트(drift) 발생률 **60%v**, 신규 시스템 표준 준수율 **95% 이상**, 변경 요청 평균 처리 시간(Lead Time) **40% 단축**, 그리고 ISO 27001/15288/42010 등 글로벌 표준 인증 획득 시 발주처 신뢰도 향상과 **감사 비용 25% 절감** 효과를 제공한다.
 > 3. **판단 포인트**: 기술사의 핵심 판단 축은 ① **중앙화(Centralized) vs 분권화(Federated) 거버넌스 모델 선택** — 통제 강도 vs 현장 자율성 trade-off, ② **Lightweight ADR(Architecture Decision Record) vs Formal ARB Review** — 의사결정 속도 vs 위험 통제, ③ **Policy-as-Code(OPA, Sentinel) 기반 자동 검증** vs **수동 리뷰** — DevOps 속도 보존, ④ **전사 원칙(Base Principles) 우선 vs 컨텍스트 원칙(Contextual Principles)** — 글로벌 표준 vs 도메인 특수성, ⑤ **거버넌스 성숙도 단계적 고도화**(Hofler·CMMI·ACMM) — Big-Bang 도입 실패 회피.
 
 ---
@@ -33,46 +33,46 @@ tags = ["studynote-design-supervision"]
 ```text
 [현대 아키텍처 거버넌스 운영 모델 (Hybrid Governance)]
 
-       ┌──────────────────────────────────────────────────┐
-       │         Enterprise Strategy & Vision             │
-       │  (비즈니스 목표, 규제 요건, 디지털 전략 KPI)        │
-       └────────────────────┬─────────────────────────────┘
-                            ▼
-       ┌──────────────────────────────────────────────────┐
-       │   아키텍처 거버넌스 위원회 (AGC: Architecture      │
-       │   Governance Council) — 의사결정 최종 권위         │
-       │   (CIO, EA Director, CISO, CDO, Business VP)     │
-       └────────────────────┬─────────────────────────────┘
-                            ▼
-       ┌──────────────────────────────────────────────────┐
-       │  4대 거버넌스 통제 메커니즘                        │
-       │                                                   │
-       │  ① 원칙·표준 (Principles & Standards)              │
-       │     - Base Principles (전사 공통)                  │
-       │     - Technology Standards (Approved List)         │
-       │     - Reference Architectures (표준 패턴)          │
-       │                                                   │
-       │  ② 의사결정 프로세스 (Decision Process)             │
-       │     - ADR (Architecture Decision Record)           │
-       │     - ARB (Architecture Review Board)              │
-       │     - Exception Management (예외 승인)             │
-       │                                                   │
-       │  ③ 자동화 통제 (Automated Controls)                │
-       │     - Policy-as-Code (OPA, Sentinel, Rego)         │
-       │     - CI/CD Gate (Spectral, Conftest)             │
-       │     - Continuous Compliance (Drata, Vanta)        │
-       │                                                   │
-       │  ④ 측정·피드백 (Metrics & Feedback)                │
-       │     - Architecture Debt Index                      │
-       │     - Compliance Score (% of in-standard tech)     │
-       │     - MTTR for Architecture Violations            │
-       └──────────┬──────────────┬──────────────┬──────────┘
-                  ▼              ▼              ▼
-       ┌──────────────┐  ┌──────────────┐  ┌──────────────┐
-       │  Application │  │   Data       │  │ Infrastructure│
-       │  Portfolio   │  │   Domain     │  │   & Cloud     │
-       │  (MSA, API)  │  │ (Lake, MDM)  │  │ (K8s, IaC)    │
-       └──────────────┘  └──────────────┘  └──────────────┘
+       +--------------------------------------------------+
+       |         Enterprise Strategy & Vision             |
+       |  (비즈니스 목표, 규제 요건, 디지털 전략 KPI)        |
+       +--------------------+-----------------------------+
+                            v
+       +--------------------------------------------------+
+       |   아키텍처 거버넌스 위원회 (AGC: Architecture      |
+       |   Governance Council) — 의사결정 최종 권위         |
+       |   (CIO, EA Director, CISO, CDO, Business VP)     |
+       +--------------------+-----------------------------+
+                            v
+       +--------------------------------------------------+
+       |  4대 거버넌스 통제 메커니즘                        |
+       |                                                   |
+       |  ① 원칙·표준 (Principles & Standards)              |
+       |     - Base Principles (전사 공통)                  |
+       |     - Technology Standards (Approved List)         |
+       |     - Reference Architectures (표준 패턴)          |
+       |                                                   |
+       |  ② 의사결정 프로세스 (Decision Process)             |
+       |     - ADR (Architecture Decision Record)           |
+       |     - ARB (Architecture Review Board)              |
+       |     - Exception Management (예외 승인)             |
+       |                                                   |
+       |  ③ 자동화 통제 (Automated Controls)                |
+       |     - Policy-as-Code (OPA, Sentinel, Rego)         |
+       |     - CI/CD Gate (Spectral, Conftest)             |
+       |     - Continuous Compliance (Drata, Vanta)        |
+       |                                                   |
+       |  ④ 측정·피드백 (Metrics & Feedback)                |
+       |     - Architecture Debt Index                      |
+       |     - Compliance Score (% of in-standard tech)     |
+       |     - MTTR for Architecture Violations            |
+       +----------+--------------+--------------+----------+
+                  v              v              v
+       +--------------+  +--------------+  +--------------+
+       |  Application |  |   Data       |  | Infrastructure|
+       |  Portfolio   |  |   Domain     |  |   & Cloud     |
+       |  (MSA, API)  |  | (Lake, MDM)  |  | (K8s, IaC)    |
+       +--------------+  +--------------+  +--------------+
 ```
 
 - **📢 섹션 요약 비유**: 아키텍처 거버넌스는 도시의 **종합 설계 조례(Zoning Ordinance)**와 같다. 개별 건축가는 건물을 멋지게 짓고 싶어하지만, 도시 전체의 교통·일조·재난 안전·환경을 고려한 **조례와 건축 심의위원회**가 없으면 무질서한 개발로 도시가 무너진다. 그러나 조례가 너무 엄격하면 건축이 멈추므로, **자동 신호등(Policy-as-Code)**과 **인허가 담당관(ARB)**의 균형이 핵심이다.
@@ -90,31 +90,31 @@ tags = ["studynote-design-supervision"]
 ```text
 [원칙 계층 및 계승 관계 (Inheritance & Specialization)]
 
-   ┌─────────────────────────────────────────────┐
-   │ Tier 1: Base Principles (전사 공통)          │
-   │  - 비즈니스 전략 정렬 (Business Alignment)   │
-   │  - 컴플라이언스 우선 (Compliance First)       │
-   │  - 정보 보안 내재화 (Security-by-Design)     │
-   │  - 개방형 표준 우선 (Open Standards First)   │
-   │  - 데이터 주권 보장 (Data Sovereignty)       │
-   └──────────────────┬──────────────────────────┘
-                      │  계승(Inherit) + 맥락화(Contextualize)
-                      ▼
-   ┌─────────────────────────────────────────────┐
-   │ Tier 2: Domain Principles (도메인별)        │
-   │  [Application]  - API-First, 12-Factor       │
-   │  [Data]         - Single Source of Truth     │
-   │  [Infrastructure] - Cloud-Native, Immutable  │
-   │  [Security]     - Zero Trust, Defense in Depth│
-   └──────────────────┬──────────────────────────┘
-                      │  구현 패턴으로 구체화
-                      ▼
-   ┌─────────────────────────────────────────────┐
-   │ Tier 3: Implementation Patterns (참조모델)  │
-   │  - Saga, CQRS, Strangler Fig, Circuit Breaker│
-   │  - 3-Tier, Clean Architecture, Hexagonal     │
-   │  - Landing Zone Blueprint (AWS)              │
-   └─────────────────────────────────────────────┘
+   +---------------------------------------------+
+   | Tier 1: Base Principles (전사 공통)          |
+   |  - 비즈니스 전략 정렬 (Business Alignment)   |
+   |  - 컴플라이언스 우선 (Compliance First)       |
+   |  - 정보 보안 내재화 (Security-by-Design)     |
+   |  - 개방형 표준 우선 (Open Standards First)   |
+   |  - 데이터 주권 보장 (Data Sovereignty)       |
+   +------------------+--------------------------+
+                      |  계승(Inherit) + 맥락화(Contextualize)
+                      v
+   +---------------------------------------------+
+   | Tier 2: Domain Principles (도메인별)        |
+   |  [Application]  - API-First, 12-Factor       |
+   |  [Data]         - Single Source of Truth     |
+   |  [Infrastructure] - Cloud-Native, Immutable  |
+   |  [Security]     - Zero Trust, Defense in Depth|
+   +------------------+--------------------------+
+                      |  구현 패턴으로 구체화
+                      v
+   +---------------------------------------------+
+   | Tier 3: Implementation Patterns (참조모델)  |
+   |  - Saga, CQRS, Strangler Fig, Circuit Breaker|
+   |  - 3-Tier, Clean Architecture, Hexagonal     |
+   |  - Landing Zone Blueprint (AWS)              |
+   +---------------------------------------------+
 ```
 
 ### 2) 의사결정 권리 매트릭스(RACI-AD 확장)
@@ -135,31 +135,31 @@ COBIT 2019의 **RACI(Responsible, Accountable, Consulted, Informed)** 모델을 
 ```text
 [아키텍처 거버넌스 라이프사이클 — PDCA 통합]
 
-  ┌──────────── PLAN ────────────┐
-  │ ① 비즈니스 요구사항 (Request)  │  ← Change Request, New Project
-  │ ② 아키텍처 원칙·표준 매핑      │  ← Principles Catalog 조회
-  │ ③ 영향 분석 (Impact Analysis) │  ← Ardoq dependency graph
-  └──────────────┬───────────────┘
-                 ▼
-  ┌──────────── DO ──────────────┐
-  │ ④ To-Be 아키텍처 설계         │  ← ArchiMate 3.1 / C4 Model
-  │ ⑤ ADR 작성 (MADR 템플릿)      │  ← Status: Proposed/Accepted/Deprecated
-  │ ⑥ ARB 리뷰 (5 영업일 SLA)     │  ← 70점 기준 Pass/Fail
-  │ ⑦ 예외 관리 (필요 시)          │  ← Exception Ticket, 보완 통제 명시
-  └──────────────┬───────────────┘
-                 ▼
-  ┌─────────── CHECK ────────────┐
-  │ ⑧ Policy-as-Code 자동 검증    │  ← OPA, Sentinel, conftest
-  │ ⑨ 구현 검증 (As-Is 측정)      │  ← Backstage, StackQL, Catalog
-  │ ⑩ 컴플라이언스 점수 산출       │  ← Compliance Score = f(표준 준수율)
-  └──────────────┬───────────────┘
-                 ▼
-  ┌─────────── ACT ──────────────┐
-  │ ⑪ 위반 사항 리포팅            │  ← Grafana + Prometheus (K8s 정책 위반)
-  │ ⑫ 표준 카탈로그 업데이트      │  ← Quarterly Standards Review
-  │ ⑬ 기술 부채 회계 반영         │  ← Architecture Debt Index
-  │ ⑭ 차기 사이클 개선 사항 반영   │  ← Retrospective
-  └──────────────────────────────┘
+  +------------ PLAN ------------+
+  | ① 비즈니스 요구사항 (Request)  |  <- Change Request, New Project
+  | ② 아키텍처 원칙·표준 매핑      |  <- Principles Catalog 조회
+  | ③ 영향 분석 (Impact Analysis) |  <- Ardoq dependency graph
+  +--------------+---------------+
+                 v
+  +------------ DO --------------+
+  | ④ To-Be 아키텍처 설계         |  <- ArchiMate 3.1 / C4 Model
+  | ⑤ ADR 작성 (MADR 템플릿)      |  <- Status: Proposed/Accepted/Deprecated
+  | ⑥ ARB 리뷰 (5 영업일 SLA)     |  <- 70점 기준 Pass/Fail
+  | ⑦ 예외 관리 (필요 시)          |  <- Exception Ticket, 보완 통제 명시
+  +--------------+---------------+
+                 v
+  +----------- CHECK ------------+
+  | ⑧ Policy-as-Code 자동 검증    |  <- OPA, Sentinel, conftest
+  | ⑨ 구현 검증 (As-Is 측정)      |  <- Backstage, StackQL, Catalog
+  | ⑩ 컴플라이언스 점수 산출       |  <- Compliance Score = f(표준 준수율)
+  +--------------+---------------+
+                 v
+  +----------- ACT --------------+
+  | ⑪ 위반 사항 리포팅            |  <- Grafana + Prometheus (K8s 정책 위반)
+  | ⑫ 표준 카탈로그 업데이트      |  <- Quarterly Standards Review
+  | ⑬ 기술 부채 회계 반영         |  <- Architecture Debt Index
+  | ⑭ 차기 사이클 개선 사항 반영   |  <- Retrospective
+  +------------------------------+
 ```
 
 ### 4) 거버넌스 7대 원칙 (TOGAF 권장 + 기술사 보강)
