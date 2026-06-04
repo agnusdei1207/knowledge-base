@@ -36,7 +36,7 @@ tags = ["work"]
 
 ### 💼 지식 운영 체계 사업화 검토
 *   **목적:** 내부 지식베이스 운영 경험을 기반으로 외부 고객 제안 패키지를 구조화하는 것.
-*   **핵심 문서:** <strong><a href="/knowledge-base/work/business/business/">business</a></strong>, <strong><a href="/knowledge-base/work/business/business-pipeline/">business-pipeline</a></strong>, <strong><a href="/knowledge-base/work/business/go-to-market/">go-to-market</a></strong>, <strong><a href="/knowledge-base/work/business/sales/">sales</a></strong>
+*   **핵심 문서:** <strong><a href="/knowledge-base/work/business/">business</a></strong>, <strong><a href="/knowledge-base/work/business/business-pipeline/">business-pipeline</a></strong>, <strong><a href="/knowledge-base/work/business/go-to-market/">go-to-market</a></strong>, <strong><a href="/knowledge-base/work/business/sales/">sales</a></strong>
 *   **이론적 배경:** **IT 경영 및 서비스 관리** 참고.
 *   **진행 상태:** 초기 제안 구조 및 고객 문제 정의 정리 중.
 

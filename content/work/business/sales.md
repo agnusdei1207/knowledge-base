@@ -11,7 +11,7 @@ tags = ["work"]
 고객 대화 포인트, 제안 메시지, 반대 의견 대응, 영업 단계별 메모를 연결하는 상위 문서입니다.
 
 관련 문서:
-- [business](/knowledge-base/work/business/business/)
+- [business](/knowledge-base/work/business/)
 - [business-pipeline](/knowledge-base/work/business/business-pipeline/)
 - [go-to-market](/knowledge-base/work/business/go-to-market/)
 - [operations](/knowledge-base/work/develop/operations/)

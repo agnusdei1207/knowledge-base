@@ -483,10 +483,9 @@ def main() -> None:
     sorted_linked_ids = sorted(degrees.keys(), key=lambda x: degrees[x], reverse=True)
     docs_by_nid = {node_ids[doc["path"]]: doc for doc in docs}
 
-    selected_ids = set(sorted_linked_ids[:3200])
-    for doc in docs:
-        if doc["section"]:
-            selected_ids.add(node_ids[doc["path"]])
+    ranked_ids = {nid: rank for rank, nid in enumerate(sorted_linked_ids)}
+    linked_ids = set(sorted_linked_ids[:3200])
+    selected_ids = set(node_ids.values())
 
     nodes = [
         {
@@ -538,6 +537,7 @@ def main() -> None:
                 "level": 2 if doc["section"] else 3,
                 "section": doc["section"],
                 "degree": degrees.get(nid, 0),
+                "rank": ranked_ids.get(nid, 999999),
                 "group": group,
                 "chapter": chapter,
             })
@@ -545,7 +545,7 @@ def main() -> None:
     graph_links = [
         {**link, "type": "doc"}
         for link in links
-        if link["source"] in selected_ids and link["target"] in selected_ids
+        if link["source"] in linked_ids and link["target"] in linked_ids
     ][:9000]
 
     hierarchy_links = [{"source": "cluster:root", "target": f"cluster:{key}", "type": "hierarchy"} for key in cluster_keys]

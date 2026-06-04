@@ -13,7 +13,7 @@ tags = ["work"]
 관련 문서:
 - [README](../README.md)
 - [quartz-deployment](/knowledge-base/work/develop/quartz-deployment/)
-- [business](/knowledge-base/work/business/business/)
+- [business](/knowledge-base/work/business/)
 - [research-and-development](/knowledge-base/research-and-development/)
 - [knowledge-pipeline](/knowledge-base/work/develop/knowledge-pipeline/)
 - [decap-cms](/knowledge-base/work/develop/decap-cms/)

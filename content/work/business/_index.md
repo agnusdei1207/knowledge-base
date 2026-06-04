@@ -1,9 +1,6 @@
 +++
 title = "💼 사업 문서 허브"
 
-[taxonomies]
-tags = ["work"]
-
 [extra]
 tags = ["work"]
 +++

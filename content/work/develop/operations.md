@@ -12,7 +12,7 @@ tags = ["work"]
 
 관련 문서:
 - [quartz-deployment](/knowledge-base/work/develop/quartz-deployment/)
-- [development](/knowledge-base/work/develop/development/)
+- [development](/knowledge-base/work/develop/)
 - [sales](/knowledge-base/work/business/sales/)
 - [knowledgebase-decision-log](/knowledge-base/work/develop/knowledgebase-decision-log/)
 - [knowledge-pipeline](/knowledge-base/work/develop/knowledge-pipeline/)
@@ -58,7 +58,7 @@ tags = ["work"]
 ## 3. 연결 문서
 
 - 배포 가이드: [quartz-deployment](/knowledge-base/work/develop/quartz-deployment/)
-- 구현 관점: [development](/knowledge-base/work/develop/development/)
+- 구현 관점: [development](/knowledge-base/work/develop/)
 - 고객 대응과 전달 포인트: [sales](/knowledge-base/work/business/sales/)
 - 검색/적재 흐름: [knowledge-pipeline](/knowledge-base/work/develop/knowledge-pipeline/)
 - 웹 편집 계층: [decap-cms](/knowledge-base/work/develop/decap-cms/)

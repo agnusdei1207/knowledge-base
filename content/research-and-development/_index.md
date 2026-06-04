@@ -67,7 +67,7 @@ R&D 문서는 "연구 결과 보관소"가 아니라, 가설과 검증 결과를
 
 - 기술 로드맵: [research-and-development-roadmap](/knowledge-base/research-and-development/research-and-development-roadmap/)
 - 기반 기술 정리: [tech-stack](/knowledge-base/work/develop/tech-stack/)
-- 사업 연결 관점: [business](/knowledge-base/work/business/business/)
+- 사업 연결 관점: [business](/knowledge-base/work/business/)
 - 기술사 스터디 노트: index
 
 ---

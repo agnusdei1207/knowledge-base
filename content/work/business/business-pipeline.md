@@ -11,7 +11,7 @@ tags = ["work"]
 이 문서는 사업 기회, 제안 상태, 다음 액션을 기록하는 예시 문서입니다.
 
 상위 문서:
-- [business](/knowledge-base/work/business/business/)
+- [business](/knowledge-base/work/business/)
 
 ---
 

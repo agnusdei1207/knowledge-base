@@ -172,6 +172,6 @@ DVFS 연동 · 전원 인식 검증 (Power-Aware Verification)
 **진행 상황**: 472 / 803
 
 ← **이전**: [470. 클럭 게이팅 (Clock Gating)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/)
-**다음**: [473. 서멀 스로틀링 (Thermal Throttling)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/) →
+**다음**: [472. 열 설계 전력 (TDP, Thermal Design Power)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/472_thermal_design_power_tdp/) → →
 
 ---

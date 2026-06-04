@@ -185,7 +185,7 @@ DVFS 연계 온도 보호
 
 **진행 상황**: 473 / 803
 
-← **이전**: [471. 전력 게이팅 (Power Gating)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)
+← **이전**: [472. 열 설계 전력 (TDP, Thermal Design Power)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/472_thermal_design_power_tdp/)
 **다음**: [474. 에너지 비례 컴퓨팅 (Energy Proportional Computing)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/474_energy_proportional_computing/) →
 
 ---

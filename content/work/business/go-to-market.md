@@ -11,7 +11,7 @@ tags = ["work"]
 이 문서는 초기 시장 진입 방식과 패키징 가설을 정리한 초안입니다.
 
 상위 문서:
-- [business](/knowledge-base/work/business/business/)
+- [business](/knowledge-base/work/business/)
 
 ---
 

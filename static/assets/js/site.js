@@ -248,6 +248,7 @@
         chapter: n.chapter || n.group || "root",
         type: n.type || (n.section ? "section" : "doc"),
         level: Number(n.level ?? 3),
+        rank: Number(n.rank ?? 999999),
         isCurrent,
       }
     })
@@ -327,6 +328,7 @@
           node.isCurrent ? "current" : "",
           neighborIds.has(node.id) ? "neighbor" : "",
           node.level >= 3 && !neighborIds.has(node.id) ? "detail-only" : "",
+          node.level >= 3 && node.rank > 3200 && !neighborIds.has(node.id) ? "deep-only" : "",
           node.type === "chapter" ? "mid-only" : "",
         ].filter(Boolean).join(" "),
         data: {
@@ -336,6 +338,7 @@
           degree: node.degree,
           type: node.type,
           level: node.level,
+          rank: node.rank,
           group: node.group,
           chapter: node.chapter,
         },
@@ -508,6 +511,9 @@
       } else if (zoom < 1.1) {
         cy.nodes(".detail-only").addClass("hidden-by-zoom")
         cy.edges(".doc").addClass("hidden-by-zoom")
+      } else if (zoom < 1.75) {
+        cy.nodes(".deep-only").addClass("hidden-by-zoom")
+        cy.edges(".membership").addClass("hidden-by-zoom")
       } else {
         cy.edges(".membership").addClass("hidden-by-zoom")
       }
