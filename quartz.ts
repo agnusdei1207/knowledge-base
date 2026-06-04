@@ -6,6 +6,7 @@ type ExplorerNode = {
 }
 
 componentRegistry.setOptionOverrides("explorer", {
+  title: "Explorer",
   mapFn: (node: ExplorerNode) => {
     const emojiPattern =
       /[\p{Emoji_Presentation}\p{Extended_Pictographic}\uFE0F\u200D\u20E3]|\p{Regional_Indicator}/gu

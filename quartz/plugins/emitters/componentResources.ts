@@ -91,6 +91,29 @@ function addGlobalPageResources(ctx: BuildCtx, componentResources: ComponentReso
   }
 
   componentResources.afterDOMLoaded.push(`
+    const revealExplorerMenu = () => {
+      document.querySelectorAll(".explorer").forEach((explorer) => {
+        const mobileExplorer = explorer.querySelector(".mobile-explorer")
+        if (!mobileExplorer) return
+
+        mobileExplorer.classList.remove("hide-until-loaded")
+
+        if (mobileExplorer.checkVisibility && mobileExplorer.checkVisibility()) {
+          explorer.classList.add("collapsed")
+          explorer.setAttribute("aria-expanded", "false")
+          document.documentElement.classList.remove("mobile-no-scroll")
+        }
+      })
+    }
+
+    document.addEventListener("nav", revealExplorerMenu)
+    document.addEventListener("render", revealExplorerMenu)
+    revealExplorerMenu()
+    window.setTimeout(revealExplorerMenu, 0)
+    window.setTimeout(revealExplorerMenu, 500)
+  `)
+
+  componentResources.afterDOMLoaded.push(`
     const installCodeCopyButtons = () => {
       document.querySelectorAll("pre").forEach((pre) => {
         if (pre.dataset.copyReady === "true") return
