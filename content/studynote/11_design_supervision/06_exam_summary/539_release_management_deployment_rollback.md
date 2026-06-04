@@ -11,160 +11,170 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 릴리스 관리 배포 전략 롤백은(는) 시험 빈출 핵심 요약 및 융합 토픽 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 릴리스 관리의 배포 롤백은 단순한 "이전 버전으로 되돌리기"가 아니라, **불변 인프라(Immutable Infrastructure) 기반의 버전된 아티팩트**, **데이터베이스 Expand & Contract 마이그레이션 패턴**, **Feature Flag의 동적 토글링**, **카나리 분석용 SLO/Error Budget 기반 자동 판정**이 결합된 4축 안전망(Safety Net) 체계이다.
+> 2. **가치**: MTTR(Mean Time To Recovery)을 30분 -> 90초로 단축(GitHub, Amazon 사례), 배포 실패로 인한 매출 손실을 90% 이상 절감하며, SLA 99.99% 환경에서 무중단 배포(Zero-Downtime Deployment) 및 자동화된 Progressive Delivery를 가능하게 한다.
+> 3. **판단 포인트**: **Forward Rollback(Blue-Green)** vs **Backward Rollback(Git Revert + DB 복원)** 선택, **DB Schema의 하위 호환성 유지 여부**, **Stateful(StatefulSet) vs Stateless(Deployment) 워크로드의 롤백 전략 분리**, **카나리 분석의 통계적 유의성(Statistical Significance) 확보**, **Feature Flag Flag-Flagging 안티패턴 회피**가 핵심 의사결정 축이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-릴리스 관리 배포 전략 롤백은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+현대 엔터프라이즈 시스템의 릴리스 빈도는 기존 분기 1회 -> 일일 수십 회(Daily Deployment), 나아가 지속적 배포(Continuous Deployment)로 진화했다. Netflix는 하루 평균 4,000회, Amazon은 평균 11.6초마다 코드를 배포한다(2023 DORA Report 기준 Elite Performer). 이 빈도에서 **"배포는 실패를 전제한다(Assume Failure)"**는 원칙이 필수적이며, 배포 롤백은 SRE(Site Reliability Engineering)의 **Error Budget 정책**과 직결되는 핵심 운영 역량이다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Release Management Deployment Rollback 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+기존 패러다임에서는 신규 버전 배포 후 장애 발생 시 야간/주말에 DBA가 수동으로 DB 복구, 운영팀이 WAR/EAR를 SCP로 재배포하는 **수동·장기·고위험(MANUAL · LONG · RISKY)** 방식이었다. 현대 패러다임에서는 **GitOps 기반 선언적 상태 복원(Declarative State Reconciliation)**, **컨테이너 이미지 다이제스트(Digest) 핀 고정**, **데이터베이스 Forward-only Migration with Backward-Compatible Schema**를 통해 **자동·즉시·무중단(AUTOMATIC · INSTANT · ZERO-DOWNTIME)** 복구가 가능해졌다.
 
 ```text
-+--------------------------------------------------------------+
-|                    릴리스 관리 배포 전략 롤백 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[기존 패러다임: 수동 롤백]                [현대 패러다임: 자동 롤백 안전망]
++------------------+                      +---------------------------------+
+| 배포 실패 감지   |                      | Canary 5% -> 메트릭 이상 -> 자동|
+| (사용자 신고 2h) |                      | Argo Rollouts Progressive |
++--------+---------+                      | Delivery 중단 + 이전 Replica |
+         |                                +----------+----------------------+
+         v                                           v
++------------------+                      +---------------------------------+
+| DBA 야간 호출    |                      | 1. Traffic Shift: 5% -> 0%     |
+| ① DB Restore     |                      | 2. Helm/ArgoCD: stable 복원    |
+| ② App Redeploy   |                      | 3. Feature Flag: kill-switch ON|
+| ③ Cache Warm-up  |                      | 4. DB: dual-write 안전 종료     |
++--------+---------+                      +--------+------------------------+
+         |                                          v
+         v                                +---------------------------------+
+   MTTR: 2~8시간                         | 사용자 인지 불가: MTTR < 90초  |
+   Revenue Loss: $$$$                    | Revenue Loss: $0                |
++------------------+                      +---------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
-
-- **📢 섹션 요약 비유**: 릴리스 관리 배포 전략 롤백은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 옛날 화재 시 소방차가 도착해 물을 퍼부어 끄는 방식이었다면, 현대에는 스프링클러가 **불꽃 감지 0.3초 만에** 자동으로 물을 뿌리고 출입문을 닫는 **자동화된 화재 진압 시스템**과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-릴리스 관리 배포 전략 롤백의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+릴리스 배포 롤백 아키텍처는 **4계층 안전망(Four-Layer Safety Net)**으로 구성된다. 단일 메커니즘에 의존하지 않고, 각 계층이 서로 다른 시간축(Time Scale)과 책임 범위(Blast Radius)를 갖는다.
 
 ```text
-+--------------------------------------------------------------+
-|              Release Management Deployment Rollback 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+[4-Layer Safety Net 아키텍처]
++--------------------------------------------------------------------------+
+| Layer 4: 비즈니스 정책 롤백 (분 단위, 비즈니스 영향 최소화)              |
+|  +------------------------------------------------------------------+  |
+|  |  Feature Flag (LaunchDarkly / Unleash / Flagsmith)              |  |
+|  |  - kill-switch: 신규 기능 OFF, 코드 배포 없이 즉시 비활성화    |  |
+|  |  - Percentage Rollout: 100% -> 1% 트래픽 즉시 전환             |  |
+|  |  - Targeted Rollback: 특정 세그먼트(결제 실패 사용자)만 롤백   |  |
+|  +------------------------------------------------------------------+  |
+|  ------------------------ L4 End ------------------------------------  |
+| Layer 3: 트래픽 라우팅 롤백 (초 단위, 무중단)                            |
+|  +------------------------------------------------------------------+  |
+|  |  Service Mesh / Ingress Controller                              |  |
+|  |  - Istio VirtualService: v2 weight 100 -> 0                      |  |
+|  |  - AWS ALB Target Group: 신규 ASG에서 Old ASG로 weight 100%    |  |
+|  |  - Cloudflare Workers: A/B -> 100% A                             |  |
+|  +------------------------------------------------------------------+  |
+|  ------------------------ L3 End ------------------------------------  |
+| Layer 2: 워크로드(애플리케이션) 롤백 (10~60초, 상태 비저장)               |
+|  +------------------------------------------------------------------+  |
+|  |  GitOps Controller (ArgoCD / Flux) + Kubernetes Rollout         |  |
+|  |  - kubectl rollout undo deployment/v1-app                       |  |
+|  |  - Argo Rollouts: canary.abort + analysisTemplate 실패 시 자동 |  |
+|  |  - Helm: helm rollback my-release 3 (Revision 3로 즉시 복귀)    |  |
+|  +------------------------------------------------------------------+  |
+|  ------------------------ L2 End ------------------------------------  |
+| Layer 1: 데이터/스키마 롤백 (분~시간 단위, 가장 신중)                   |
+|  +------------------------------------------------------------------+  |
+|  |  Database Migration (Flyway / Liquibase / Atlas)                |  |
+|  |  - Forward-only 원칙: Down Migration 최소화                    |  |
+|  |  - Expand & Contract Pattern: 컬럼 추가(Expand) -> 코드 전환 ->   |  |
+|  |    구 컬럼 제거(Contract)                                       |  |
+|  |  - Blue-Green DB: 읽기 복제본 swap, Write는 무중단 유지         |  |
+|  +------------------------------------------------------------------+  |
++--------------------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **CI/CD Orchestrator** | 빌드/배포 자동화, 아티팩트 버전 관리 | Jenkins(Shared Library), GitLab CI(Parent-Child Pipeline), GitHub Actions(Reusable Workflow), Tekton(Custom Resource 기반), CircleCI(Orbs) — **아티팩트 불변성(Immutability)** 위해 Semantic Versioning + Git SHA 태깅 |
+| **Artifact Registry** | 컨테이너 이미지/바이너리 버전 저장 | Harbor(Chart Museum + Image Replication), AWS ECR(Immutable Tag 정책), JFrog Artifactory, GHCR — **SHA-256 Digest 고정**으로 Tag 변경(Mutable Tag) 공격 방지 |
+| **Progressive Delivery Controller** | 카나리/블루그린 배포·롤백 자동화 | Argo Rollouts(AnalysisTemplate + Prometheus 쿼리), Spinnaker(Canary Config + Judge), Flagger(자동 카나리 분석), AWS CodeDeploy(Deployment Group + Alarm 기반 롤백) |
+| **GitOps Reconciler** | 선언적 상태 동기화, Drift 감지 | ArgoCD(ApplicationSet + Sync Wave), Flux CD(HelmRelease + Kustomization), Pulumi ESC — **Self-Healing**: Helm Revision 3로 자동 복원 |
+| **Observability (3 Pillars)** | 롤백 트리거 판정 | Prometheus(Metrics, e.g., `http_error_rate`), Loki/ELK(Logs), Jaeger/Tempo(Traces, p99 latency) — **RED Method**(Rate, Error, Duration) + **USE Method** |
+| **Feature Flag Service** | 코드 재배포 없는 기능 OFF | LaunchDarkly(SDK + Edge Worker), Unleash(OSS, Gradual Rollout), Split.io(Experimentation), Optimizely — **Trunk-Based Development** 지원 |
+| **Database Migration Tool** | 스키마 진화 관리 | Flyway(Versioned Migration), Liquibase(Changelog XML/YAML), Atlas(HCL 선언적), Prisma Migrate — **Forward-only + Backward-Compatible** |
+| **Service Mesh / LB** | L7 트래픽 라우팅 | Istio(VirtualService weight 조정), Linkerd(SMI TrafficSplit), NGINX Ingress(canary annotation), Envoy(Istiod xDS push) |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**핵심 알고리즘: Argo Rollouts의 자동 카나리 분석(Automated Canary Analysis)**
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+```text
+[AnalysisTemplate 판정 로직 (의사코드)]
+loop for analysisRun.interval (기본 60초):
+    metrics = Prometheus.query("""
+        sum(rate(http_requests_total{status=~"5..", rollout=~"$rollout"}[5m]))
+        / sum(rate(http_requests_total{rollout=~"$rollout"}[5m]))
+    """)
+    success_rate = 1 - metrics.error_rate
+
+    if success_rate < SLO_threshold (e.g., 0.999):
+        abort_canary()        # <- 자동 롤백 트리거
+        notify_slack(channel="#release-incident")
+        return FAIL
+
+    if canary_traffic_weight == 100% AND success_rate >= SLO:
+        promote_canary()      # <- 정식 승격
+        return PASS
+```
+
+**핵심 파라미터 & 공식**:
+
+- **MTTR (Mean Time To Recovery)**: `MTTR = Σ(복구 완료 시각 - 장애 발생 시각) / 장애 건수` — Google SRE Book은 MTTR < 1시간을 SLO 권고
+- **Error Budget Burn Rate**: `burn_rate = (1 - 현재 SLI) / (1 - SLO 목표)` — 1.0 초과 시 자동 롤백 정책 발동
+- **카나리 분석 통계적 유의성**: 최소 표본 크기 `n ≥ (Z_α/2)² × p(1-p) / ε²` — e.g., 5% 오차 허용 시 약 1,500 샘플 필요
+- **PDB (Pod Disruption Budget)**: `minAvailable = ceil(replicas × (1 - maxSurge))` — 롤백 시에도 PDB를 반드시 만족해야 함
+
+- **📢 섹션 요약 비유**: 4계층 안전망은 자동차의 **에어백(0.03초) -> ABS(0.1초) -> 자동 브레이크(0.5초) -> 운전자 경고등(1초)** 처럼, 위험 단계별로 다중 안전장치가 작동하는 **Defensive Driving System**과 같다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-릴리스 관리 배포 전략 롤백을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+### A. 주요 배포 전략 비교
 
-| 구분 | 전통적 접근 | 릴리스 관리 배포 전략 롤백 |
+| 구분 | Recreate (Big-Bang) | Rolling Update | Blue-Green | Canary | Shadow (Dark Launch) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **롤백 시간 (MTTR)** | 30분~2시간 (재배포) | 5~15분 (kubectl rollout undo) | **< 30초 (DNS/LB 스위치)** | **< 60초 (트래픽 0% 전환)** | 즉시 (트래픽 미전송) |
+| **다운타임** | **있음 (수 분)** | **없음 (무중단)** | **없음 (무중단)** | **없음 (무중단)** | **없음** |
+| **리소스 사용량** | 1x | 1.1x (maxSurge) | **2x (Old + New 동시 운영)** | 1.05~1.5x | 1.1x |
+| **롤백 안전성** | 낮음 (이전 버전 재기동 필요) | 중간 (점진적 복귀) | **높음 (Old 환경 보존)** | **높음 (이전 버전 Replica 유지)** | 매우 높음 (실사용자 미영향) |
+| **DB 마이그레이션** | 자유 (Down 가능) | **양방향 호환 필수** | **양방향 호환 필수** | **양방향 호환 필수** | **양방향 호환 필수** |
+| **적합 시나리오** | 초기 구축, 대형 리팩토링 | Stateless API, 무중단 필수 | 결제/금융, 규제 환경 | B2C, 트래픽 패턴 분석 | 신규 알고리즘, ML 모델 |
+| **대표 도구** | kubectl set image | K8s Deployment 기본 | Argo Rollouts, Spinnaker | Argo Rollouts, Flagger | Istio Mirror, AWS App Mesh |
+| **Stateful 대응** | 가능 | StatefulSet (순차적) | 어려움 (DB는 별도) | 어려움 | 어려움 |
+
+### B. Forward Rollback vs Backward Rollback
+
+| 구분 | Forward Rollback (Blue-Green 스위치) | Backward Rollback (Git Revert + 재배포) |
 | :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+| **메커니즘** | Old 환경 유지 -> 트래픽 라우팅만 복귀 | 이전 버전 코드 체크아웃 -> 재빌드 -> 배포 |
+| **DB 호환성** | Old 버전이 신규 스키마를 모르므로 **신규 스키마는 Old와 호환되어야 함** | Old 코드 + Old 스키마 완전 복원으로 **DB 자체를 Down Migration** |
+| **배포 속도** | **< 10초 (DNS/Envoy 라우팅 변경)** | 3~10분 (CI 파이프라인 재실행) |
+| **데이터 손실** | 신규 버전이 쓴 데이터는 **잠시 비일관 상태** (이벤트 소싱/Outbox로 보완) | 신규 데이터 유실 위험, 별도 백업/복원 필요 |
+| **적합 사례** | 무중단 필수, 빠른 롤백 | DB 스키마가 비호환적으로 변경된 경우 |
 
-관련 기술 영역과의 연결점도 중요하다. 릴리스 관리 배포 전략 롤백은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
+### C. 관련 시스템·도구 통합
 
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 릴리스 관리 배포 전략 롤백은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
+- **APM (Application Performance Monitoring)**: Datadog, New Relic, Dynatrace, **Pinpoint** — 카나리 분석 시 SLO 위반 자동 감지
+- **Incident Management**: PagerDuty, Opsgenie — 롤백 이벤트를 Incident로 자동 등록
+- **ChatOps**: Slack/Teams + ArgoCD Notifications — `!rollback prod` 명령으로 수동 트리거
+- **IaC (Infrastructure as Code)**: Terraform, Pulumi — 인프라 레벨 롤백을 `terraform apply -target`로 선택적 복원
+- **Chaos Engineering**: Chaos Monkey, Gremlin, LitmusChaos — 롤백 절차가 **실전에서 작동하는지 Chaos Test로 사전 검증**
+
+- **📢 섹션 요약 비유**: Blue-Green은 **예비 발전기**가 대기 중이라 메인 정전이 즉시 전환되는 것이고, Backward Revert는 **시계 태엽을 되감는** 것이라 시간이 걸리지만 정확하다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 릴리스 관리 배포 전략 롤백을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
 ### 기술사형 판단 체크리스트
 
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-릴리스 관리 배포 전략 롤백을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 릴리스 관리 배포 전략 롤백 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 릴리스 관리 배포 전략 롤백은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 릴리스 관리 배포 전략 롤백의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 릴리스 관리 배포 전략 롤백의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-릴리스 관리 배포 전략 롤백 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 릴리스 관리 배포 전략 롤백은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+1. **DB 스키마 하위 호환성 검증**: 배포 전 모든 DDL이 **Expand-then-Contract 패턴**
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 539 / 600

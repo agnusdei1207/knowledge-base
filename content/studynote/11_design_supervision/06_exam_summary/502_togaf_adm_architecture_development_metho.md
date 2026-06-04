@@ -19,44 +19,44 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 개요 및 필요성
 
-TOGAF ADM은 1995년 The Open Group의 전신인 The Open Group consortium에서 출발하여, 기존 Zachman Framework이 제공하는 분류 체계(What/How/Where/Who/When/Why)는 있으나 **"어떻게 만들어야 하는가"**에 대한 프로세스가 부재한 한계를 해결하기 위해 등장했다. ADM은 단순 문서 템플릿이 아니라, **"전략적 목표 → 아키텍처 비전 → 상세 설계 → 이행 → 거버넌스"**로 이어지는 엔터프라이즈 아키텍처 라이프사이클 전체를 정의하는 **반복적-점진적(Iterative-Incremental) 개발 방법론**이다.
+TOGAF ADM은 1995년 The Open Group의 전신인 The Open Group consortium에서 출발하여, 기존 Zachman Framework이 제공하는 분류 체계(What/How/Where/Who/When/Why)는 있으나 **"어떻게 만들어야 하는가"**에 대한 프로세스가 부재한 한계를 해결하기 위해 등장했다. ADM은 단순 문서 템플릿이 아니라, **"전략적 목표 -> 아키텍처 비전 -> 상세 설계 -> 이행 -> 거버넌스"**로 이어지는 엔터프라이즈 아키텍처 라이프사이클 전체를 정의하는 **반복적-점진적(Iterative-Incremental) 개발 방법론**이다.
 
-기존 2000년대 초반까지의 엔터프라이즈 아키텍처는 **Big-Bang Approach**(수년 단위 일회성 문서화)에 의존하여, 비즈니스 환경 변화 시 산출물이 즉각 obsolete 처리되거나, 문서는 존재하지만 실제 프로젝트와 괴리가 큰 **"Drawerware(서랍속 아키텍처)"** 현상이 빈번했다. ADM은 **Requirements Management**를 사이클 중앙에 배치하여 사이클 외부의 새로운 요구사항을 흡수하고, Phase A~H 각 단계의 **Statement of Architecture Work**를 통해 점진적으로 정제하는 방식을 채택한다. 또한 **TOGAF 9.2 → 10(2024~2025 발행 예정)**의 흐름에서는 **Agile/Lean 통합**, **Digital Transformation 가속화**, **Practical EA** 트랙을 통해 경량화(Lean ADM) 지원을 강화하고 있다.
+기존 2000년대 초반까지의 엔터프라이즈 아키텍처는 **Big-Bang Approach**(수년 단위 일회성 문서화)에 의존하여, 비즈니스 환경 변화 시 산출물이 즉각 obsolete 처리되거나, 문서는 존재하지만 실제 프로젝트와 괴리가 큰 **"Drawerware(서랍속 아키텍처)"** 현상이 빈번했다. ADM은 **Requirements Management**를 사이클 중앙에 배치하여 사이클 외부의 새로운 요구사항을 흡수하고, Phase A~H 각 단계의 **Statement of Architecture Work**를 통해 점진적으로 정제하는 방식을 채택한다. 또한 **TOGAF 9.2 -> 10(2024~2025 발행 예정)**의 흐름에서는 **Agile/Lean 통합**, **Digital Transformation 가속화**, **Practical EA** 트랙을 통해 경량화(Lean ADM) 지원을 강화하고 있다.
 
 ```text
 [ TOGAF ADM 사이클 전체 구조 ]
 
-                     ┌────────────────────────────────┐
-                     │  Preliminary Phase             │
-                     │  (프레임워크/거버넌스 정의)    │
-                     └─────────────┬──────────────────┘
-                                   │
-                                   ▼
-              ┌─────────────────────────────────────────┐
-              │   Requirements Management (중앙 허브)   │◄──────┐
-              │   (요구사항 변경 흡수)                  │       │
-              └────┬──────┬──────┬──────┬──────┬────────┘       │
-                   │      │      │      │      │                │
-                   ▼      ▼      ▼      ▼      ▼                │
-              Phase A  Phase B Phase C Phase D Phase E ...──────┘
+                     +--------------------------------+
+                     |  Preliminary Phase             |
+                     |  (프레임워크/거버넌스 정의)    |
+                     +-------------+------------------+
+                                   |
+                                   v
+              +-----------------------------------------+
+              |   Requirements Management (중앙 허브)   |◄------+
+              |   (요구사항 변경 흡수)                  |       |
+              +----+------+------+------+------+--------+       |
+                   |      |      |      |      |                |
+                   v      v      v      v      v                |
+              Phase A  Phase B Phase C Phase D Phase E ...------+
               (Vision) (Biz)  (Info)  (App)  (Tech)
-                   │      │      │      │      │
-                   └──────┴──────┴──────┴──────┘
-                              │  Gap 분석
-                              ▼
+                   |      |      |      |      |
+                   +------+------+------+------+
+                              |  Gap 분석
+                              v
                        Phase F (Migration Planning)
-                              │
-                              ▼
+                              |
+                              v
                        Phase G (Implementation Governance)
-                              │
-                              ▼
+                              |
+                              v
                        Phase H (Architecture Change Management)
-                              │
-                              ▼
+                              |
+                              v
               (전체 사이클 재진입 / 신규 사이클 시작)
 ```
 
-- **📢 섹션 요약 비유**: ADM은 마치 **도시계획 수립-시공-유지보수**의 전 과정을 다루는 마스터플랜과 같다. 한 번 도시를 짓고 끝나는 것이 아니라, 신축·재개발·재정비의 순환 과정을 거쳐 도시가 진화하듯, ADM도 **"지금의 도시(As-Is) → 5년 후的理想 도시(To-Be) → 단계별 재개발(Transition)"** 사이클을 끊임없이 반복한다.
+- **📢 섹션 요약 비유**: ADM은 마치 **도시계획 수립-시공-유지보수**의 전 과정을 다루는 마스터플랜과 같다. 한 번 도시를 짓고 끝나는 것이 아니라, 신축·재개발·재정비의 순환 과정을 거쳐 도시가 진화하듯, ADM도 **"지금의 도시(As-Is) -> 5년 후的理想 도시(To-Be) -> 단계별 재개발(Transition)"** 사이클을 끊임없이 반복한다.
 
 ---
 
@@ -70,7 +70,7 @@ ADM의 8개 Phase는 다음의 역할을 수행한다:
 - **Phase B (Business Architecture)**: Baseline/Target Business Architecture, 조직·역할·프로세스·기능 모델링(BPMN, ARIS, UML Activity)
 - **Phase C (Information Systems Architectures)**: Data Architecture(CIA - Conceptual/Logical/Physical)와 Application Architecture 매핑
 - **Phase D (Technology Architecture)**: 물리적/논리적 컴포넌트 배치, 플랫폼(OS, 미들웨어, 네트워크) 정의
-- **Phase E (Opportunities & Solutions)**: SBB 식별, Work Package/Architecture Building Block(ABB) → SBB 매핑
+- **Phase E (Opportunities & Solutions)**: SBB 식별, Work Package/Architecture Building Block(ABB) -> SBB 매핑
 - **Phase F (Migration Planning)**: Transition Architecture, Implementation & Migration Plan, Project Portfolio 매핑
 - **Phase G (Implementation Governance)**: 실제 이행 프로젝트의 아키텍처 적합성 검증(Compliance Review)
 - **Phase H (Architecture Change Management)**: 새로운 요구·기술 변화에 대한 Architecture Repository 업데이트 및 사이클 재시작 트리거
@@ -85,37 +85,37 @@ ADM의 8개 Phase는 다음의 역할을 수행한다:
 [ ADM Phase별 산출물 및 핵심 기법 흐름 ]
 
  Preliminary          Phase A             Phase B             Phase C/D
-┌──────────┐      ┌──────────┐       ┌──────────┐       ┌──────────┐
-│ 원칙     │      │ 비전     │       │ Baseline │       │ Baseline │
-│ 거버넌스 │─────▶│ 이해관계 │──────▶│ Target   │──────▶│ Target   │
-│ 표준     │      │ 자 맵    │       │ Biz Mod  │       │ Data/App │
-│ Repository│     │ SOW 초안 │       │ Gap      │       │ Tech Mod │
-└──────────┘      └──────────┘       └──────────┘       └──────────┘
-                                                                │
-                                                                ▼
-                          Phase E ◀─────  Phase F  ◀───── Gap 분석
-                       ┌──────────┐    ┌──────────┐      ┌──────────┐
-                       │ SBB 식별 │    │ 이행계획 │      │ Gap      │
-                       │ WP 정의  │    │ Portfolio│      │ Statement│
-                       │ ROA/CBA  │    │ Transition│     │ Impact   │
-                       └──────────┘    └──────────┘      └──────────┘
-                              │              │
-                              ▼              ▼
-                          Phase G  ◀───── Implementation
-                       ┌──────────┐
-                       │ Architecture
-                       │ Contract
-                       │ Compliance
-                       │ Review
-                       └──────────┘
-                              │
-                              ▼
++----------+      +----------+       +----------+       +----------+
+| 원칙     |      | 비전     |       | Baseline |       | Baseline |
+| 거버넌스 |------>| 이해관계 |------->| Target   |------->| Target   |
+| 표준     |      | 자 맵    |       | Biz Mod  |       | Data/App |
+| Repository|     | SOW 초안 |       | Gap      |       | Tech Mod |
++----------+      +----------+       +----------+       +----------+
+                                                                |
+                                                                v
+                          Phase E <------  Phase F  <------ Gap 분석
+                       +----------+    +----------+      +----------+
+                       | SBB 식별 |    | 이행계획 |      | Gap      |
+                       | WP 정의  |    | Portfolio|      | Statement|
+                       | ROA/CBA  |    | Transition|     | Impact   |
+                       +----------+    +----------+      +----------+
+                              |              |
+                              v              v
+                          Phase G  <------ Implementation
+                       +----------+
+                       | Architecture
+                       | Contract
+                       | Compliance
+                       | Review
+                       +----------+
+                              |
+                              v
                           Phase H
-                       ┌──────────┐
-                       │ Change   │
-                       │ Repository│
-                       │ Update   │
-                       └──────────┘
+                       +----------+
+                       | Change   |
+                       | Repository|
+                       | Update   |
+                       +----------+
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
@@ -131,7 +131,7 @@ ADM의 진정한 차별점은 **Gap Analysis**를 통해 Baseline(현재 상태)
 **ArchiMate 3.2와의 매핑**:
 TOGAF ADM 산출물은 **ArchiMate** 언어와 1:1 매핑된다. 예) Phase A의 Architecture Vision은 ArchiMate의 **Motivation Layer(Goal, Driver, Stakeholder)**, Phase B의 Business Architecture는 **Business Layer(Process, Service, Function, Actor)**, Phase C/D는 **Application/Technology Layer**로 표현된다. 이는 **TOGAF Series Guide: ArchiMate 3.0 Bridge** 문서에 상세히 명세되어 있다.
 
-- **📢 섹션 요약 비유**: ADM Phase A~H는 마치 **집 짓기 공정도**와 같다. A(설계 컨셉 도출) → B(거실·주방 배치) → C(배관·전기 배선) → D(자재·규격 확정) → E(인테리어 옵션 선정) → F(시공 일정표) → G(시공 감리) → H(완공 후 증축·개조). 각 공정마다 도면(Deliverable)이 쌓여 결국 **건축물 증명서(Architecture Contract)**로 귀결된다.
+- **📢 섹션 요약 비유**: ADM Phase A~H는 마치 **집 짓기 공정도**와 같다. A(설계 컨셉 도출) -> B(거실·주방 배치) -> C(배관·전기 배선) -> D(자재·규격 확정) -> E(인테리어 옵션 선정) -> F(시공 일정표) -> G(시공 감리) -> H(완공 후 증축·개조). 각 공정마다 도면(Deliverable)이 쌓여 결국 **건축물 증명서(Architecture Contract)**로 귀결된다.
 
 ---
 
@@ -166,8 +166,8 @@ EA 사업을 수행하는 기술사는 ADM의 **적용 범위(Scope)**, **Iterat
 ### 기술사형 판단 체크리스트
 
 1. **Iteration Depth 결정**: 단일 프로젝트 EA vs 전사 EA에 따라 Phase 반복 깊이를 결정했는가? (예: Digital Transformation SI는 Phase A+B 집중, Legacy Modernization은 Phase D~G 반복)
-2. **Baseline 정밀도 검증**: As-Is Architecture를 정량적 지표(응답시간, 가용성, ROI)로 측정 가능한 수준으로 작성했는가? (단순 org chart ❌ → 정량 KPI 매핑 ⭕)
-3. **Gap 분석의 Work Package 분해 정밀도**: Gap → Transition Architecture → Work Package로 3단계 이상 분해했는가? WP가 6개월 이내 1팀 단위 수행 가능한 크기(<= 50 person-month)인가?
+2. **Baseline 정밀도 검증**: As-Is Architecture를 정량적 지표(응답시간, 가용성, ROI)로 측정 가능한 수준으로 작성했는가? (단순 org chart ❌ -> 정량 KPI 매핑 ⭕)
+3. **Gap 분석의 Work Package 분해 정밀도**: Gap -> Transition Architecture -> Work Package로 3단계 이상 분해했는가? WP가 6개월 이내 1팀 단위 수행 가능한 크기(<= 50 person-month)인가?
 4. **SBB-ABB 매핑 검증**: Phase E에서 정의한 SBB가 기존 SI Vendor 솔루션과 **100% 1:1 매핑** 가능한지, 또는 커스터마이징 발생 시 Architecture Contract에 반영했는가?
 5. **Architecture Governance 활성화**: Phase G의 Compliance Review가 단순 체크리스트 ❌, 실제 프로젝트 Board 승인 게이트 ⭕로 작동하는가? 비준수 시 Architecture Exception Process가 운영되는가?
 

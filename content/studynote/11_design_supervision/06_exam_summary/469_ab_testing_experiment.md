@@ -11,160 +11,156 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: A/B 테스팅 실험 주도 개발은(는) 시험 빈출 핵심 요약 및 융합 토픽 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: A/B 테스팅 실험 주도 개발(EDD: Experiment-Driven Development)은 가설-실험-학습의 사이클을 소프트웨어 릴리스 파이프라인에 통합하여, *Randomized Controlled Trial* 기반의 인과적 추론(Causal Inference)으로 제품 변경의 *Average Treatment Effect(ATE)* 를 측정하고, 통계적 유의성(p-value, 신뢰구간)과 *Minimum Detectable Effect(MDE)* 를 통해 의사결정을 자동화하는 데이터 중심 개발 방법론이다.
+> 2. **가치**: Microsoft·LinkedIn·Airbnb의 사례로 검증된 바와 같이 효과적인 실험 플랫폼은 의사결정 속도를 **30~70%** 단축시키고, 잘못된 기능 출시로 인한 ROI 손실을 사전에 차단하여 연 평균 **수십억 원** 규모의 엔지니어링 낭비를 회피하며, 95% 신뢰수준 기준 False Positive율 5% 이하를 보장하는 통계적 엄밀성을 제공한다.
+> 3. **판단 포인트**: (a) Frequentist vs Bayesian (b) Sample Ratio Mismatch(SRM) 검증과 Peeking 문제 해결을 위한 Sequential Testing vs Fixed Horizon 선택 (c) Cuped/Stratified Sampling을 통한 분산 감소(Variance Reduction) (d) Feature Flag Service의 Sticky Bucketing 일관성 보장 (e) Experiment-Owner-Defined Metric vs North Star Metric의 계층 구조 설계를 트레이드오프로 고려해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-A/B 테스팅 실험 주도 개발은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+전통적 SW 개발은 **Conway의 법칙**과 **Cargo Cult**처럼, 정성적 직관(HiPPO: Highest Paid Person's Opinion)과 사용자 인터뷰에 의존했다. 그러나 디지털 트래픽이 폭증하고 마이크로서비스·클라우드 네이티브 환경이 일반화되면서, **"변경(Change)"이 곧 "리스크"**가 되는 시대가 도래했다. 더 이상 PoC(Proof of Concept) 단계의 내부 검증만으로는 수백만 명에게 노출되는 기능의 영향을 보장할 수 없으며, *Postmortem* 사후 분석으로는 이미 손실된 매출을 복구할 수 없다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, A/B Testing Experiment Driven Development 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+**A/B Testing Experiment Driven Development**는 이 문제를 해결하기 위해, *Lean Startup*의 *Build-Measure-Learn* 사이클, *TDD*의 Red-Green-Refactor 정신, 그리고 *Clinical Trial*의 통계적 무작위 배정(Randomized Assignment)을 결합한 방법론이다. Microsoft의 **ExP**(Experimentation Platform), LinkedIn의 **XLNT**, Airbnb의 **ERF**(Experimentation Reporting Framework) 같은 대규모 시스템은 하루 1,000건 이상의 동시 실험을 운영하며, **Netflix**는 카탈로그 알고리즘 변경 시 *Counterfactual Evaluation* 기반 *Off-Policy Evaluation*을 수행한다.
+
+가장 큰 기술적 과제는 (1) **Hashing-based User Assignment**에서 발생하는 *Sample Ratio Mismatch(SRM)*, (2) 반복적 *Peeking*으로 인한 p-hacking, (3) 네트워크 비동기성에 따른 *Bot Filtering*과 *Latency Bias*, (4) *Novelty Effect* / *Primacy Effect* 같은 시간 의존 교란변수, (5) *Interference* (네트워크 효과, 시장 점유율) 문제 해결이다. 따라서 단순한 50:50 트래픽 분할이 아니라, **Consistent Hashing + Salt Rotation + Stratified Sampling + CUPED**의 다층적 통계 엔진이 필수적이다.
 
 ```text
-+--------------------------------------------------------------+
-|                    A/B 테스팅 실험 주도 개발 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+        A/B Testing Experiment Driven Development (EDD) Lifecycle
+        ==========================================================
+
+   [아이디에이션]                [가설 정의]                 [실험 설계]
+   +----------+    KPI 정렬     +----------+    MDE/α/β     +----------+
+   |  Product | -------------► |  Data    | -------------► |  Stats   |
+   |  Owner   |   North Star   | Scientist|   Power Calc   | Engineer |
+   |  /PM     |     Metric     |          |   SRM Check    |          |
+   +----------+                +----------+                +----+-----+
+        ^                                                      |
+        |                     [개발/배포]                        v
+        |                                              +--------------+
+        |                                              |  Feature Flag |
+        |                                              |  + SDK       |
+        |                                              |  (GrowthBook,|
+        |                                              |   LaunchDark) |
+        |                                              +------+-------+
+        |                                                     |  Sticky
+        |                                                     |  Bucketing
+        |                                                     v
+   +----+-----+  Seaquenced   +--------------+  Event     +------------+
+   |  학습 &  | ◄------------ |  통계 엔진   | ◄---------- | 데이터 수집|
+   |  회고    |  Guardrail    |  (Frequentist|  Pipeline  |  (Snowplow,|
+   |          |  Metrics      |   /Bayesian) |  Kafka->S3  |   Segment) |
+   +----------+               +------+-------+            +------------+
+                                     | Decide
+                                     v
+                              [Ship / Iterate / Kill]
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**Old vs New Paradigm 비교**
 
-- **📢 섹션 요약 비유**: A/B 테스팅 실험 주도 개발은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **Old (Intuition-Driven)**: "PM이 A안이 좋다고 함" -> 일괄 배포 -> 지표 악화 -> 원인 불명 -> Postmortem -> 다음 릴리스.
+- **New (Experiment-Driven)**: "H1: 신규 CTA는 CVR을 +3% 이상 개선한다" -> A안 50% / B안 50% 무작위 배정 -> 7일간 CUPED 보정 -> p<0.01 검증 -> 자동 Ship 또는 Rollback.
+
+- **📢 섹션 요약 비유**: A/B 테스팅은 마치 **신약 임상시험**과 같다. 신약을 모든 환자에게 일괄 투여하지 않고, 무작위로 대조군(Placebo)과 실험군에 나눠 *Double-Blind RCT*를 수행해 *p-value*로 효과를 입증하는 것처럼, 소프트웨어도 "모든 사용자에게 배포"하기 전 작은 코호트에서 *Treatment Effect*를 검증한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-A/B 테스팅 실험 주도 개발의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+EDD 시스템은 **5계층 아키텍처**로 구성된다: (1) **Experiment Configuration Plane**, (2) **Client/Server SDK + Feature Flag Service**, (3) **Event Telemetry Pipeline**, (4) **Metrics Computation Layer**, (5) **Statistical Engine & Decisioning**.
 
-```text
-+--------------------------------------------------------------+
-|              A/B Testing Experiment Driven Development 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+핵심 메커니즘은 **사용자-변형 매핑(User-to-Variant Assignment)** 이다. 표준 방식은 다음과 같다:
+
+```
+Bucket = Hash(UserID + ExperimentID + Salt) mod 10000
+if Bucket < 5000 -> Control (기존)
+else            -> Treatment (변경안)
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+이때 *Salt*는 실험 간 교차 오염(Cross-Contamination)을 막고, *Sticky* 속성으로 한 사용자는 실험 기간 동안 동일한 변형에 머무른다. Netflix의 *Chaos Experimentation Platform*은 SHA-256을, Spotify의 *Confidant*는 MurmurHash3를 사용한다.
+
+**통계적 유의성 검정**에서는 두 가지 패러다임이 사용된다:
+
+1. **Frequentist (Neyman-Pearson)**: 귀무가설 H0: μ_t = μ_c, 검정통계량 Z = (X̄_t - X̄_c) / SE, p-value 기반 결정. 장점: 단순, 보수적. 단점: 표본 크기 사전 고정 필요, *Peaking* 불가.
+2. **Bayesian (Beta-Binomial, Normal-Normal)**: 사전분포 + 데이터 -> 사후분포, *Probability of B>0*, *Expected Loss* 산출. 장점: Peeking 자유, 직관적. 단점: Prior 선택 민감, MCMC 비용.
+
+**분산 감소(Variance Reduction) 기법**:
+- **CUPED** (Controlled-experiment Using Pre-Experiment Data): Y_adj = Y - θ(X - E[X]) where θ = Cov(Y,X)/Var(X). 사전 지표 X의 공분산을 활용해 분산을 30~50% 감소시킨다. Microsoft 2013 논문의 핵심.
+- **Stratified Sampling**: 사용자 세그먼트(국가, 디바이스, 신규/기존)별로 균등 배정 -> 효과 추정 분산 감소.
+- **Regression Adjustment**: 다변량 회귀로 교란변수 통제.
+
+**Sample Ratio Mismatch (SRM)** 검출: χ² goodness-of-fit test로 실제 트래픽 비율이 의도한 비율(예: 50:50)에서 3σ 이상 벗어나는지 확인. *Bot Traffic*, *Hash Collision*, *Client SDK 버그*의 지표.
+
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Experiment Config Service** | 실험 메타데이터 중앙 관리, Versioning, Targeting Rule | PostgreSQL/MySQL + gRPC API, GrowthBook/Eppo/Statsig 내부적으로 *Assignment Service* 운영, *Experiment Lifecycle* (Draft->Running->Stopped) 상태 머신 |
+| **Feature Flag SDK (Client/Server)** | 런타임에 사용자별 변형 결정, Low Latency 평가 | Java/Node/Go SDK, 로컬 캐시 + Long Polling(5~30s), Sticky Hashing(MurmurHash3/SHA-256), *Forced Bucket* (QA용 Override) 지원 |
+| **Event Telemetry Pipeline** | 노출/전환 이벤트 수집, Bot Filtering, Dedup | Kafka -> Flink/Spark Streaming -> S3/HDFS (Parquet/Avro), Snowplow/Segment/RudderStack SDK, *User-ID Resolution* (anonymous->logged-in stitch) |
+| **Metrics Computation Layer** | 정의된 지표(Conversion, ARPU, Retention) 일별 집계 | dbt/Airflow + Spark SQL, *Metric Layer* (Cube.dev, Transform.co, Airbnb Minerva), Counterfactual 노출(assignment≠exposure) 추적 |
+| **Statistical Engine & Decisioning** | ATE, p-value, 신뢰구간, MDE 계산, SRM/Peeking 가드 | R/Python (SciPy, Pingouin, Bayesian), Sequential Testing (mSPRT, Always Valid CIs - Howard & Bowden 2022), CURE(Controlled Regression Estimator) |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**Sequential Testing**은 *Peeking Problem*을 해결하기 위해 사용된다. 고정 표본의 Wald Z-test를 *Alpha Spending Function* (OBrien-Fleming, Pocock) 기반으로 분할해, 매 Peek마다 누적된 *Information Fraction*을 고려해 p-value를 보정한다. mSPRT( mixture Sequential Probability Ratio Test)는 *Always Valid Inference*로, 언제 Peek해도 유효한 p-value를 반환한다.
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+**Novelty/Primacy Effect** 대응: 실험 시작 1~3일 데이터를 *Burn-in Period*로 제외하거나, 시간 교차항(Time × Treatment) 회귀모형으로 추세 분석한다. **Network Interference** (실험군 사용자가 대조군 사용자에게 영향을 주는 경우)는 *Cluster Randomization* 또는 *Switchback Design*(Uber, Lyft의 Ride-share 실험)으로 대응한다.
+
+```text
+     [Statistical Engine 내부 데이터 플로우]
+     =====================================
+
+     Raw Events (JSON)              User-Experiment Mapping
+     +------------------+           +----------------------+
+     |  user_id         |           | user_id, exp_id, var |
+     |  exp_id, variant |           | 0x3F2A,  btn_42,  T  |
+     |  timestamp, evt  |  ------►  | 0x8B91,  btn_42,  C  |
+     +--------+---------+  Join    +----------+-----------+
+              |                            |
+              |     +----------------------+-----------+
+              v     v                                  |
+     +--------------------+                            |
+     | Bot Filter         |  Filtering:                |
+     | + Dedup            |  - User-Agent in Bot List  |
+     | + Session Stitch   |  - IP from Datacenter      |
+     +---------+----------+  - Session w/o Cookie      |
+               |                                      |
+               v                                      v
+     +----------------------+              +----------------------+
+     |  Metric Aggregation  |              |  CUPED Adjustment     |
+     |  per (user, day)     | -----------► |  Y' = Y - θ(X - μ_X) |
+     |  Y = sum/revenue     |              |  θ = Cov(Y,X)/Var(X) |
+     +----------+-----------+              +----------+-----------+
+                |                                     |
+                v                                     v
+     +----------------------------------------------------------+
+     |  Hypothesis Test (Sequential mSPRT / Bayesian)           |
+     |  Z = (Ȳ_T - Ȳ_C) / SE  with α-spending function         |
+     |  Output: { p_value, lift, CI_low, CI_high, decision }    |
+     +----------------------------------------------------------+
+                |
+                v
+     +----------------------------------------------------------+
+     |  Decision Gate:  p<0.05 & SRM_OK & Guardrail_Metric_OK  |
+     |                  -> Auto-Ship  (Canary 1%->10%->100%)      |
+     |                  p<0.05 & Guardrail_FAIL                 |
+     |                  -> Auto-Rollback + Slack Alert            |
+     |                  p≥0.05 & Power<0.8                      |
+     |                  -> Extend Runtime / Increase Sample      |
+     +----------------------------------------------------------+
+```
+
+- **📢 섹션 요약 비유**: 통계 엔진은 **법정(법무적 판단)** 과 같다. 검사(실험 설계)는 증거(Event)를 수집하고, 배심원(통계 모델)은 `p-value`로 유죄/무죄를 판정한다. 하지만 *Peeking*은 마치 매일 배심원을 교체해 판결을 바꾸는 것과 같아, *Sequential Test*는 일관된 법정 절차로 이런 *p-hacking*을 막는다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-A/B 테스팅 실험 주도 개발을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | A/B 테스팅 실험 주도 개발 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. A/B 테스팅 실험 주도 개발은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 A/B 테스팅 실험 주도 개발은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 A/B 테스팅 실험 주도 개발을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-A/B 테스팅 실험 주도 개발을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, A/B 테스팅 실험 주도 개발 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: A/B 테스팅 실험 주도 개발은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | A/B 테스팅 실험 주도 개발의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | A/B 테스팅 실험 주도 개발의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-A/B 테스팅 실험 주도 개발 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. A/B 테스팅 실험 주도 개발은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| 구분 | **A/B 테스팅 (Frequentist)** | **Bayesian A/B** | **Multi-Armed Bandit (MAB)** | **Feature Flag Toggle** | **Canary Release** |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **핵심 목적** | 두 변형의 인과적 차이 검증 | 사후 확률 기반 의사결정 | 실시간 트래픽 최적화(Thompson Sampling) | 코드 변경 없이 On/Off 제어 | 배포 리스크 점진적 완화 |
+| **의사결정 방식** | p-value < 0.05 -> Ship | P(B>A) > 0.95 -> Ship | Expected Reward 최대화로 동적 재분배 | Boolean 조건 분기 | Error Rate·Latency SLO 기반 |
+| **표본 고정성** | Fixed Horizon 필수 | Adaptive 가능 | Continuous Learning | N/A (트래픽 무관) | SLO Window 내 평가 |
+| **주 사용 도구** | Optimizely, GrowthBook, Eppo | Statsig, VWO, Google Optimize(legacy) | Eppo Bandit, MAB-Tabular (Azure Personalizer) | LaunchDarkly, Unleash, Flagsmith | Argo Rollouts, Spinnaker, Flagger |
+| **주 사용처** | UI/카피/알고리즘 검증 | 신규 기능 시장 수용도 | 가격/추천 최적화, 동적 CTA | 백엔드 모듈 노출 제어 | 인프라/ML 모델 배포 |
+| **장점** | 보수적·학술적 엄밀성 | Peeking 자유, 직관적 결과 | Exploration-Exploitation 균형, 손실 최소화 | 분리 배포와 테스트, 즉각 Rollback
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 469 / 600

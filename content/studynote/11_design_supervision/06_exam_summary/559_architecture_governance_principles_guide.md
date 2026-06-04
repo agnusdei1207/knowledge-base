@@ -11,160 +11,163 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 아키텍처 거버넌스 원칙 가이드라인은(는) 시험 빈출 핵심 요약 및 융합 토픽 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 아키텍처 거버넌스(Architecture Governance)는 **TOGAF ADM의 Phase G(Implementation Governance)와 Phase H(Architecture Change Management)**를 중심으로, 의사결정 권한·정책·리뷰 사이클·컴플라이언스 통제를 통해 엔터프라이즈 아키텍처가 비즈니스 전략·표준·법규에 부합하도록 강제하는 **제어 체계(Control System)**이며, 단순한 표준 집합이 아닌 **PDCA(Plan-Do-Check-Act) 피드백 루프**를 내장한 운영 거버넌스 프레임워크다.
+> 2. **가치**: 성숙도 Level 3 이상의 거버넌스 모델 도입 시 **중복 투자 20~30% 절감**(Gartner, 2023), 아키텍처 드리프트(drift) 발생률 **60%↓**, 신규 시스템 표준 준수율 **95% 이상**, 변경 요청 평균 처리 시간(Lead Time) **40% 단축**, 그리고 ISO 27001/15288/42010 등 글로벌 표준 인증 획득 시 발주처 신뢰도 향상과 **감사 비용 25% 절감** 효과를 제공한다.
+> 3. **판단 포인트**: 기술사의 핵심 판단 축은 ① **중앙화(Centralized) vs 분권화(Federated) 거버넌스 모델 선택** — 통제 강도 vs 현장 자율성 trade-off, ② **Lightweight ADR(Architecture Decision Record) vs Formal ARB Review** — 의사결정 속도 vs 위험 통제, ③ **Policy-as-Code(OPA, Sentinel) 기반 자동 검증** vs **수동 리뷰** — DevOps 속도 보존, ④ **전사 원칙(Base Principles) 우선 vs 컨텍스트 원칙(Contextual Principles)** — 글로벌 표준 vs 도메인 특수성, ⑤ **거버넌스 성숙도 단계적 고도화**(Hofler·CMMI·ACMM) — Big-Bang 도입 실패 회피.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-아키텍처 거버넌스 원칙 가이드라인은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+현대 엔터프라이즈는 평균 **200개 이상의 애플리케이션, 50개 이상의 데이터 소스, 15개 이상의 클라우드 계정**을 운영하며(Forrester, 2024), 디지털 트랜스포메이션 가속화로 마이크로서비스·API·이벤트 스트림·AI/ML 파이프라인이 폭증하면서 **"아키텍처 야생 성장(Architecture Wild Growth)"** 현상이 심화되고 있다. 이러한 환경에서 아키텍처 거버넌스 부재 시 다음 4대 문제가 발생한다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Architecture Governance Principles Guidelines 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+1. **아키텍처 드리프트(Architecture Drift)**: 초기 설계된 To-Be 아키텍처가 구현 과정에서 변질되어 SLA·보안·확장성 요건 미충족
+2. **섀도 IT(Shadow IT) 증대**: 현업 부서의 BYOA(Bring Your Own App)·암호화 클라우드 도입으로 거버넌스 공백 발생
+3. **규제 컴플라이언스 실패**: 개인정보보호법·전자금융감독규정·DORA·GDPR 등 cross-cutting 규제에 대한 일관된 통제 부재
+4. **기술 부채 누적**: 비표준 기술 스택(예: 12종 NoSQL DB 공존)으로 인한 유지보수 비용 폭증
+
+아키텍처 거버넌스는 **TOGAF(2018+, 9.2), Zachman Framework 3.0, FEAF v3, DoDAF 2.02, ISO/IEC 42010:2011** 등 국제 표준 프레임워크를 기반으로, **"Who decides what, when, how, and based on which criteria"**라는 의사결정 권리 매트릭스(Decision Rights Matrix)와 **컴플라이언스 자동화 메커니즘**을 결합한 통합 통제 체계다.
+
+과거(2000년대) **Heavyweight EA Governance**는 수개월 소요되는 waterfall 기반 ARB(Architecture Review Board) 검토·문서 중심 통제로 **Agile/DevOps 환경과 충돌**하여 "Governance Theater(거버넌스 허례)"로 전락했다. 현대 거버넌스는 **GitOps·Policy-as-Code·ADR·Lean EA** 패러다임으로 전환되어, **자동화된 통제(Automated Guardrails) + 사람 중심 예외 관리(Exception Management)**의 하이브리드 모델이 표준으로 자리잡았다.
 
 ```text
-+--------------------------------------------------------------+
-|                    아키텍처 거버넌스 원칙 가이드라인 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[현대 아키텍처 거버넌스 운영 모델 (Hybrid Governance)]
+
+       ┌──────────────────────────────────────────────────┐
+       │         Enterprise Strategy & Vision             │
+       │  (비즈니스 목표, 규제 요건, 디지털 전략 KPI)        │
+       └────────────────────┬─────────────────────────────┘
+                            ▼
+       ┌──────────────────────────────────────────────────┐
+       │   아키텍처 거버넌스 위원회 (AGC: Architecture      │
+       │   Governance Council) — 의사결정 최종 권위         │
+       │   (CIO, EA Director, CISO, CDO, Business VP)     │
+       └────────────────────┬─────────────────────────────┘
+                            ▼
+       ┌──────────────────────────────────────────────────┐
+       │  4대 거버넌스 통제 메커니즘                        │
+       │                                                   │
+       │  ① 원칙·표준 (Principles & Standards)              │
+       │     - Base Principles (전사 공통)                  │
+       │     - Technology Standards (Approved List)         │
+       │     - Reference Architectures (표준 패턴)          │
+       │                                                   │
+       │  ② 의사결정 프로세스 (Decision Process)             │
+       │     - ADR (Architecture Decision Record)           │
+       │     - ARB (Architecture Review Board)              │
+       │     - Exception Management (예외 승인)             │
+       │                                                   │
+       │  ③ 자동화 통제 (Automated Controls)                │
+       │     - Policy-as-Code (OPA, Sentinel, Rego)         │
+       │     - CI/CD Gate (Spectral, Conftest)             │
+       │     - Continuous Compliance (Drata, Vanta)        │
+       │                                                   │
+       │  ④ 측정·피드백 (Metrics & Feedback)                │
+       │     - Architecture Debt Index                      │
+       │     - Compliance Score (% of in-standard tech)     │
+       │     - MTTR for Architecture Violations            │
+       └──────────┬──────────────┬──────────────┬──────────┘
+                  ▼              ▼              ▼
+       ┌──────────────┐  ┌──────────────┐  ┌──────────────┐
+       │  Application │  │   Data       │  │ Infrastructure│
+       │  Portfolio   │  │   Domain     │  │   & Cloud     │
+       │  (MSA, API)  │  │ (Lake, MDM)  │  │ (K8s, IaC)    │
+       └──────────────┘  └──────────────┘  └──────────────┘
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
-
-- **📢 섹션 요약 비유**: 아키텍처 거버넌스 원칙 가이드라인은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 아키텍처 거버넌스는 도시의 **종합 설계 조례(Zoning Ordinance)**와 같다. 개별 건축가는 건물을 멋지게 짓고 싶어하지만, 도시 전체의 교통·일조·재난 안전·환경을 고려한 **조례와 건축 심의위원회**가 없으면 무질서한 개발로 도시가 무너진다. 그러나 조례가 너무 엄격하면 건축이 멈추므로, **자동 신호등(Policy-as-Code)**과 **인허가 담당관(ARB)**의 균형이 핵심이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-아키텍처 거버넌스 원칙 가이드라인의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+아키텍처 거버넌스의 4대 핵심 메커니즘을 TOGAF ADM Phase G·H, ISO 42010, COBIT 2019의 통제 목표(Control Objective) 관점에서 분해한다.
+
+### 1) 거버넌스 원칙(Governance Principles) 계층 구조
+
+원칙은 **3-tier 계층**으로 구성되며, 상위 원칙은 절대적(Base), 하위 원칙은 컨텍스트(Contextual)이다.
 
 ```text
-+--------------------------------------------------------------+
-|              Architecture Governance Principles Guidelines 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+[원칙 계층 및 계승 관계 (Inheritance & Specialization)]
+
+   ┌─────────────────────────────────────────────┐
+   │ Tier 1: Base Principles (전사 공통)          │
+   │  - 비즈니스 전략 정렬 (Business Alignment)   │
+   │  - 컴플라이언스 우선 (Compliance First)       │
+   │  - 정보 보안 내재화 (Security-by-Design)     │
+   │  - 개방형 표준 우선 (Open Standards First)   │
+   │  - 데이터 주권 보장 (Data Sovereignty)       │
+   └──────────────────┬──────────────────────────┘
+                      │  계승(Inherit) + 맥락화(Contextualize)
+                      ▼
+   ┌─────────────────────────────────────────────┐
+   │ Tier 2: Domain Principles (도메인별)        │
+   │  [Application]  - API-First, 12-Factor       │
+   │  [Data]         - Single Source of Truth     │
+   │  [Infrastructure] - Cloud-Native, Immutable  │
+   │  [Security]     - Zero Trust, Defense in Depth│
+   └──────────────────┬──────────────────────────┘
+                      │  구현 패턴으로 구체화
+                      ▼
+   ┌─────────────────────────────────────────────┐
+   │ Tier 3: Implementation Patterns (참조모델)  │
+   │  - Saga, CQRS, Strangler Fig, Circuit Breaker│
+   │  - 3-Tier, Clean Architecture, Hexagonal     │
+   │  - Landing Zone Blueprint (AWS)              │
+   └─────────────────────────────────────────────┘
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+### 2) 의사결정 권리 매트릭스(RACI-AD 확장)
+
+COBIT 2019의 **RACI(Responsible, Accountable, Consulted, Informed)** 모델을 아키텍처 거버넌스에 특화하여 **RACI-AD(Add: Approver, Driver)** 형태로 확장한다.
+
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **AGC (Architecture Governance Council)** | 거버넌스 최종 의사결정 권위(Accountable) — CIO/EA Director chair, 의사결정 정족수(Quorum) 60% 이상, 월 1회 정기 회의 + 임시 회의(긴급 변경) | 의사결정 대상: 신규 기술 승인/폐기, 예외(Exception) 승인, 표준 변경, Reference Architecture 승인. 의사록은 Git-based ADR Repo에 immutable로 commit (예: GitHub Main Branch protected + signed commit) |
+| **ARB (Architecture Review Board)** | 아키텍처 설계 검토(Consulted + Recommend) — EA Lead, Solution Architect, Security Architect, Data Architect, Infra Architect로 구성. PRD/설계서 기반 리뷰, 표준 적합성 평가 | SLA: 5영업일 내 의견 회신. 도구: LeanIX(EA Repository), Confluence + Jira 워크플로우, ArchiMate 3.1 모델 기반 impact analysis. Review Score 0~100점, 70점 미만 시 반려 |
+| **EA Team (Enterprise Architecture)** | 거버넌스 운영 및 표준 정비(Responsible) — 표준 카탈로그 관리, Reference Architecture 작성, 기술雷达(Technology Radar: Adopt/Trial/Assess/Hold) 운영 | 도구: Ardoq, LeanIX, BiZZdesign, Avolution. 산출물: Architecture Principles Document, Standards Catalog, Decision Log. Gartner Magic Quadrant 기준 4사(Ardoop, LeanIX, Bizzdesign, Orbus)가 EA Tool 시장 70% 점유(2023) |
+| **Project / Delivery Team** | 표준 준수 및 ADR 작성(Driver + Informed) — 개발팀이 기술 선택 시 사전 ADR(예: ADR-0242 "Why we choose ScyllaDB over Cassandra") 작성, Git PR과 연계 | 도구: ADR Tools (Python 기반: `adr-tools`, `log4brains`), `adr-viewer` (MkDocs 플러그인), MADR(Markdown ADR) 3.0 템플릿. PR에 ADR 링크 필수 — "No ADR = No Merge" 정책 운영 |
+| **Policy-as-Code Engine** | 자동 컴플라이언스 검증(Automated Control) — OPA(Open Policy Agent) + Rego, HashiCorp Sentinel, AWS SCP(Service Control Policy), Azure Policy, GCP Org Policy | 동작: Terraform Plan 단계에서 `conftest test -p opa-policies/`, Kubernetes Admission Controller(Kyverno, OPA Gatekeeper)로 런타임 강제. 위반 시 PR 차단 또는 배포 실패 |
+| **Compliance & Audit** | 사후 검증 및 보고(Informed + Monitor) — Drata, Vanta, Tugboat Logic(SCCM 2.0), Cloud Custodian | ISO 27001, SOC 2, PCI-DSS, ISMS-P 등 인증 자동 수집, evidence 자동 생성. 일 1회 continuous control monitoring |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
-
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
-
----
-
-## Ⅲ. 비교 및 연결
-
-아키텍처 거버넌스 원칙 가이드라인을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 아키텍처 거버넌스 원칙 가이드라인 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 아키텍처 거버넌스 원칙 가이드라인은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 아키텍처 거버넌스 원칙 가이드라인은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 아키텍처 거버넌스 원칙 가이드라인을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-아키텍처 거버넌스 원칙 가이드라인을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 아키텍처 거버넌스 원칙 가이드라인 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 아키텍처 거버넌스 원칙 가이드라인은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 아키텍처 거버넌스 원칙 가이드라인의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 아키텍처 거버넌스 원칙 가이드라인의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
+### 3) 핵심 거버넌스 프로세스 플로우 (TOGAF ADM Phase G + Phase H 통합)
 
 ```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-아키텍처 거버넌스 원칙 가이드라인 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
+[아키텍처 거버넌스 라이프사이클 — PDCA 통합]
+
+  ┌──────────── PLAN ────────────┐
+  │ ① 비즈니스 요구사항 (Request)  │  ← Change Request, New Project
+  │ ② 아키텍처 원칙·표준 매핑      │  ← Principles Catalog 조회
+  │ ③ 영향 분석 (Impact Analysis) │  ← Ardoq dependency graph
+  └──────────────┬───────────────┘
+                 ▼
+  ┌──────────── DO ──────────────┐
+  │ ④ To-Be 아키텍처 설계         │  ← ArchiMate 3.1 / C4 Model
+  │ ⑤ ADR 작성 (MADR 템플릿)      │  ← Status: Proposed/Accepted/Deprecated
+  │ ⑥ ARB 리뷰 (5 영업일 SLA)     │  ← 70점 기준 Pass/Fail
+  │ ⑦ 예외 관리 (필요 시)          │  ← Exception Ticket, 보완 통제 명시
+  └──────────────┬───────────────┘
+                 ▼
+  ┌─────────── CHECK ────────────┐
+  │ ⑧ Policy-as-Code 자동 검증    │  ← OPA, Sentinel, conftest
+  │ ⑨ 구현 검증 (As-Is 측정)      │  ← Backstage, StackQL, Catalog
+  │ ⑩ 컴플라이언스 점수 산출       │  ← Compliance Score = f(표준 준수율)
+  └──────────────┬───────────────┘
+                 ▼
+  ┌─────────── ACT ──────────────┐
+  │ ⑪ 위반 사항 리포팅            │  ← Grafana + Prometheus (K8s 정책 위반)
+  │ ⑫ 표준 카탈로그 업데이트      │  ← Quarterly Standards Review
+  │ ⑬ 기술 부채 회계 반영         │  ← Architecture Debt Index
+  │ ⑭ 차기 사이클 개선 사항 반영   │  ← Retrospective
+  └──────────────────────────────┘
 ```
 
-### 👶 어린이를 위한 3줄 비유 설명
+### 4) 거버넌스 7대 원칙 (TOGAF 권장 + 기술사 보강)
 
-1. 아키텍처 거버넌스 원칙 가이드라인은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| # | 원칙 | 핵심 문구 | 측정 지표 (KPI) |
+|:--|:-----|:---------|:----------------|
+| 1 | **비즈니스 정렬 (Business Alignment)** | "모든 아키텍처 결정은 측정 가능한 비즈니스 가치를 창출해야 한다" | ROI > N%, 비즈니스 KPI와의 인과 매핑 100% |
+| 2 | **컴플라이언스 우선 (Compliance
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 559 / 600

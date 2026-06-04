@@ -11,160 +11,139 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 문제 관리 근본 원인 분석 RCA은(는) 시험 빈출 핵심 요약 및 융합 토픽 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 문제 관리(Problem Management)는 반복 발생하는 인시던트(Incident)의 근본 원인(Root Cause)을 과학적 분석 기법(5 Whys, Fishbone, FTA 등)으로 규명하여 Known Error DB(KEDB)에 영구 지식으로 축적하고, RFC(Change Request)를 통해 구조적 해결(Permanent Fix)을 수행하는 ITIL Service Operation의 핵심 프로세스임. 단순히 **"왜 1번이 고장났는가"**(Incident)를 다루는 것이 아니라 **"왜 1번이 반복 고장나는가"**(Problem)의 인과 체인(Causal Chain)을 추적하는 Proactive 거버넌스임.
+> 2. **가치**: McKinsey & Gartner 보고 기준, 효과적인 Problem Management 운영 시 인시던트 재발률 35~60% 감소, MTTR(Mean Time To Repair) 평균 40% 단축, IT 운영 비용(OpEx) 약 25% 절감이 가능하며, SRE(Site Reliability Engineering) 환경에서는 Error Budget 보존 및 Toil Elimination의 기초 자료로 활용됨.
+> 3. **판단 포인트**: Reactive(사후 대응) ↔ Proactive(사전 예방) 운영 비중의 균형, RCA 기법 선택 시 문제 도메인(네트워크/DB/애플리케이션/인프라)에 따른 정성/정량 분석의 조합, 그리고 KEDB ↔ CMDB(CI 관계성) ↔ Change Management 간 데이터 정합성 확보가 시스템 신뢰성의 핵심 분기점임.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-문제 관리 근본 원인 분석 RCA은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+전통적인 IT 운영 환경에서는 운영팀이 사용자 신고(Help Desk Ticket) 기반으로 장애를 처리하는 **"Fire-fighting(소방수)"** 방식에 의존했음. 이 방식은 SLA(Service Level Agreement) 기준 복구(Time-to-Recover)는 충족할 수 있으나, 동일한 결함(Cause)이 임의의 시간·장소에서 반복적으로 발생하는 **"Whack-a-Mole(두더지 잡기)"** 현상을 야기함. IT Infrastructure Library(ITIL) v2(2001년)부터 Problem Management는 Incident Management와 분리된 독립 프로세스로 정립되었으며, v3(2007년) 및 v4(2019년)에서는 **"사전 예방 및 가치 공동창조(Value Co-creation)"**의 핵심 축으로 재정의됨.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Problem Management Root Cause Analysis 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+현대 MSA(Microservices Architecture) 환경에서는 단일 서비스의 결함이 200여 종의 의존 서비스로 전파(Cascading Failure)될 수 있어, RCA의 정확도가 곧 **전체 시스템 회복탄력성(Resilience)**을 결정함. ISO/IEC 20000(2018), COBIT 2019, DevOps Research and Assessment(DORA) 4 Keys Metrics 중 **Mean Time to Restore(MTTR)** 및 **Change Failure Rate(CFR)** 개선의 전제 조건이 체계적 RCA임.
 
 ```text
-+--------------------------------------------------------------+
-|                    문제 관리 근본 원인 분석 RCA 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[ Reactive vs Proactive IT 운영 패러다임 비교 ]
+
+  +--------------------------------------+   +--------------------------------------+
+  |       Legacy "Fire-fighting" 운용    |   |   ITIL-Aligned Proactive 운용         |
+  |                                      |   |                                      |
+  |  User ---> Help Desk ---> L1/L2 Eng    |   |  Monitor ---> Event Mgmt ---> Problem  |
+  |                |                     |   |    |                          |       |
+  |                v                     |   |    v                          v       |
+  |            임시 복구(Restart)         |   |  Threshold 분석              RCA 기법 |
+  |                |                     |   |    |                          |       |
+  |                v                     |   |    v                          v       |
+  |            동일 장애 재발             |   |  KEDB 축적 ---> RFC ---> Permanent Fix|
+  |                                      |   |                                      |
+  |  ❌ 증상치료(Symptom)                |   |  ✅ 원인치료(Cause)                  |
+  |  ❌ MTTR 누적 증가                   |   |  ✅ MTTR 추세 감소                   |
+  |  ❌ Knowledge 유실                   |   |  ✅ Knowledge 자산화                 |
+  +--------------------------------------+   +--------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**전통적 방식 대비 새로운 패러다임의 기술적 차별점**은 다음 4가지로 요약됨:
 
-- **📢 섹션 요약 비유**: 문제 관리 근본 원인 분석 RCA은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+1. **Event -> Alert -> Incident -> Problem**의 계층적 상관관계 분석(Correlation Analysis)을 통한 노이즈 제거
+2. **Post-Mortem(사후 분석)** 의 무관용 문화(Just Culture) 도입으로 blameless 환경 조성
+3. **Topology-aware RCA**: CMDB의 CI(Configuration Item) 관계 그래프를 활용한 의존성 매핑
+4. **ML/LLM 기반 AIOps**: 반복 패턴 자동 클러스터링(예: Moogsoft, BigPanda, ServiceNow ITSM Predictive Intelligence)
+
+- **📢 섹션 요약 비유**: 증상 치료만 하는 방식은 "감기에 걸릴 때마다 해열제만 먹는 것"과 같고, 진정한 Problem Management는 "왜 자주 감기에 걸리는지(면역력 문제)를 진단해 생활 습관까지 개선하는 것"입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-문제 관리 근본 원인 분석 RCA의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+ITIL v4 기반 Problem Management는 **Problem Lifecycle** 7단계로 구성되며, 각 단계는 명확한 입출력(Input/Output) 데이터 객체와 책임 주체(RACI: Responsible, Accountable, Consulted, Informed)를 가짐. 특히 v4에서는 **"Service Value System(SVS)"**의 일환으로 4가지 활동(Engage, Design & Transition, Obtain/Build, Deliver & Support)과 통합됨.
 
 ```text
-+--------------------------------------------------------------+
-|              Problem Management Root Cause Analysis 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+[ Problem Management Process Flow - ITIL v4 기준 ]
+
+   +----------------+
+   | 1. Problem      | <--- Event Mgmt(AIOps), Incident Trend, Supplier Alert
+   |    Detection    |
+   +--------+-------+
+            v
+   +----------------+         +-----------------+
+   | 2. Problem      |--------->|  CMDB 동기화    | (CI Impact Relation)
+   |    Logging      |         |  Ticket Linking |
+   +--------+-------+         +-----------------+
+            v
+   +----------------+
+   | 3. Problem      | <--- Priority Matrix: Impact(#Users) × Urgency(Business Loss)
+   |    Categorization|      Category: HW | SW | NW | DB | App | Security
+   |    & Prioritize |      Sub-category 예: DB-Lock-Wait, NW-DNS-Resolve
+   +--------+-------+
+            v
+   +----------------+
+   | 4. RCA          | <--- 기법 선택: 5-Whys | Fishbone | FTA | Pareto | KT
+   | (Investigation) |      Evidence: Log, Packet Capture, APM Trace, Core Dump
+   +--------+-------+
+            v
+   +----------------+         +-----------------+
+   | 5. Workaround   |--------->| KEDB Publish    | (Known Error Database)
+   |    & Known Error|         | Self-Service KB |
+   +--------+-------+         +-----------------+
+            v
+   +----------------+
+   | 6. RFC(Change)  | ---> Change Management ---> CAB/ECAB 승인 ---> Permanent Fix
+   |    Raised       |
+   +--------+-------+
+            v
+   +----------------+
+   | 7. Problem      | <--- Post-Implementation Review, Effect 확인 (30/60/90일)
+   |    Closure      |
+   +----------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Problem Detection** | 인시던트 패턴/이벤트 분석을 통한 잠재 문제 식별 | AIOps Event Correlation(예: PagerDuty Event Rules, Splunk ITSI Glass Table), Threshold Breach(CPU/Mem/Latency p99), Threshold + Anomaly Detection 동시 적용 |
+| **Problem Categorization & Prioritization** | 비즈니스 영향도 기반 우선순위 산정 | Priority = Impact(1~5) × Urgency(1~5) Matrix, Category/Sub-category Taxonom: ServiceNow CMDB Class Hierarchy 또는 BMC Remedy Asset Model 기반 정규화 |
+| **Root Cause Analysis (RCA)** | 인과관계 추적 및 근본 원인 도출 | 5-Whys(단순 인과), Fishbone(Ishikawa, 6M: Man/Machine/Material/Method/Measurement/Mother Nature), FTA(Fault Tree Analysis, AND/OR Gate Boolean Logic), Pareto(80/20 Rule), Kepner-Tregoe(문제분석 vs 의사결정 격리), Apollo RCA(1980년대 NASA, 물리적·인적·관리적 원인 3-tier) |
+| **Known Error Database (KEDB)** | 분석된 원인과 우회책 영구 저장 | CMDB 연동, KB Article RFC 2119 상태(State: Draft/Published/Archived), 검색 인덱스(Elasticsearch/OpenSearch), Tag 기반 Fault Pattern 분류, Machine Readable JSON-LD 스키마 |
+| **Problem -> Change 연동** | 영구 해결책의 안전한 배포 | RFC(Change Record) 자동 생성, Risk Assessment, Pre/Post Implementation Test Plan, Rollback Strategy, Change Advisory Board(CAB) 승인 워크플로우 |
+| **Post Implementation Review (PIR)** | 해결책 효과 측정 및 지속 개선 | KPI: Incident Re-occurrence Rate(IRR), Mean Time Between Failures(MTBF), Customer Satisfaction(CSAT), Defect Density Trend, Mean Time to Detect(MTTD) |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**핵심 알고리즘 및 기법 심화:**
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+- **5-Whys 한계점**: 선형적 인과만 추적하므로, 시스템적 결함(Systemic Cause)을 놓칠 수 있음. **Systemic RCA(서스테이너, Sidney Dekker)**는 인적 오류를 "원인"이 아닌 "증상"으로 보고, Latent Failure(잠재 결함)와 Triggering Condition을 분리 분석함.
+- **Fault Tree Analysis (FTA)**: 최상위 이벤트(Top Event)부터 Boolean Logic(AND/OR Gate)으로 분해. 항공·원자력·금융 코어 시스템에서 MIL-STD-1629A 또는 IEC 61025 표준 사용. 정량화 시 Basic Event 확률 입력 -> Cut Set 도출 -> Minimal Cut Set(MCS) 순서로 위험도 계산.
+- **Pareto + Fishbone 결합**: 발생 빈도 Top 20% 결함을 Fishbone 6M으로 분해 -> 정성적 인과 매핑 -> FMEA(Failure Mode and Effects Analysis) RPN(Risk Priority Number = S × O × D) 산출.
+- **RCA Evidence Chain 무결성**: 로그 무결성 보장을 위해 WORM(Write Once Read Many) 스토리지 또는 SIEM(Splunk/Elastic) 원본 해시 보존. 법적 분쟁 대비 chain-of-custody 유지.
+
+- **📢 섹션 요약 비유**: Problem Management는 "병원에서 종합 검진 후 처방전을 받는 과정"과 같습니다. 5-Whys는 "어디 아픈지 묻는 1차 문진", Fishbone는 "6가지 부위 X-ray", FTA는 "CT처럼 인과를 계층적으로 스캔"하는 것이며, KEDB는 모든 환자의 진료 기록이 누적된 "의학 백과사전"입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-문제 관리 근본 원인 분석 RCA을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+Problem Management는 ITSM 내에서 Incident, Change, Knowledge, Service Continuity Management와 긴밀히 결합되어 있으며, 동시에 DevOps/SRE 문화의 Post-Mortem, Agile의 Retrospective, 품질경영(QM)의 8D Report와도 개념적 교집합을 가짐. 다음은 이들과의 체계적 비교임.
 
-| 구분 | 전통적 접근 | 문제 관리 근본 원인 분석 RCA |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+| 구분 | **Problem Management (ITIL)** | **Incident Management** | **SRE Incident Post-Mortem** | **8D Report (QM/제조)** | **FMEA (Reliability Eng)** |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **목적** | 근본 원인 제거 및 재발 방지 | 서비스 즉시 복구(Time-to-Recover) | 학습·개선·Blameless 문화 | 고객 클레임 영구 해결 | 잠재 결함 사전 식별 |
+| **시점** | 인시던트 발생 후/사전 예방 | 인시던트 발생 즉시 | 인시던트 발생 후(보통 24~72h 내) | 고객 클레임 접수 후 | 설계/개발 단계 |
+| **접근 방식** | Reactive + Proactive 통합 | Purely Reactive | Reactive + Proactive | Reactive | Purely Proactive |
+| **핵심 산출물** | RCA Report + KEDB + RFC | Resolution Note, SLA Report | Post-Mortem Doc, Action Items | D1~D8 8단계 보고서 | RPN 점수표, R-Map |
+| **원인 분석 기법** | 5-Whys, Fishbone, FTA, Pareto | X(증상 해결) | Timeline + 5-Whys, Fishbone | 5-Whys, Ishikawa | Failure Mode × Effect × Cause Tree |
+| **지식 자산화** | KEDB(서비스 운영 지식) | Self-Service KB | Confluence/Notion Runbook | Corrective Action Register | DFMEA/PFMEA Master |
+| **연계 프로세스** | Change, Knowledge, CMDB, SLA | Problem, Change, Service Desk | SLO/Error Budget, Runbook Automation | CAPA(Corrective/Preventive Action) | Reliability Test, MTBF/MTTR |
+| **성공 KPI** | 재발률v, MTBF^, MTTRv | SLA 준수율, FCR^ | Toilv, SLO 달성, Error Budget 보존 | 클레임 재발률, CAPA 종결률 | RPN 감소 추세 |
+| **표준/참조** | ITIL 4, ISO/IEC 20000 | ITIL 4, ISO/IEC 20000 | Google SRE Book, DORA Metrics | AIAG-VDA FMEA 2019, QS-9000 | IEC 60812, SAE J1739 |
 
-관련 기술 영역과의 연결점도 중요하다. 문제 관리 근본 원인 분석 RCA은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
+**타 시스템·도구와의 연결 구조:**
 
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 문제 관리 근본 원인 분석 RCA은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
+- **CMDB(ServiceNow CMDB, BMC Atrium)**: Problem의 Affected CI, Caused-by CI, Related-to CI를 3-tier relationship으로 매핑. RCA 시 Blast Radius 분석의 기반 데이터.
+- **Observability Stack(Prometheus, Grafana, Loki, Tempo, Jaeger, Datadog, Dynatrace)**: Problem Ticket에 Evidence로 자동 첨부. Trace ID, Log Correlation, Metric Snapshot을 RCA Evidence로 활용.
+- **AIOps/ITSM 통합 플랫폼**: ServiceNow ITSM + Predictive Intelligence, BMC Helix ITSM + cognitive automation, Moogsoft(Algo-level Event Clustering), BigPanda(Event Correlation), PagerDuty + Slack Bot.
+- **Knowledge Management(KEDB ↔ KB)**: KEDB Article은 구조화된 Schema(원인/증상/우회책/Permanent Fix/RFC Link)를 가지며, L1/L2 Engineer 및 Self-Service Portal에서 즉시 조회 가능.
+- **Change Management**: 모든 Permanent Fix는 RFC를 통해 CAB 승인을 받고, Pre/Post Check Script, Rollback Plan, Backout Plan이 필수 첨부됨.
+- **SLA/OLA/UC**: Problem이 SLO를 위협할 경우 Service Level Manager에게 자동 에스컬레이션.
 
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 문제 관리 근본 원인 분석 RCA을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-문제 관리 근본 원인 분석 RCA을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 문제 관리 근본 원인 분석 RCA 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 문제 관리 근본 원인 분석 RCA은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 문제 관리 근본 원인 분석 RCA의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 문제 관리 근본 원인 분석 RCA의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-문제 관리 근본 원인 분석 RCA 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 문제 관리 근본 원인 분석 RCA은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+- **📢 섹션 요약 비유**: Incident Management가 "119 소방관"이라면, Problem Management는 "건축 구조 엔지니어"입니다. 소방
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 541 / 600
