@@ -11,160 +11,153 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: AutoML 자동 모델 선택 하이퍼파라미터은(는) ICT 융합 기술 심화 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: AutoML은 CASH(Combined Algorithm Selection and Hyperparameter optimization) 문제를 해결하기 위해 **탐색 공간 설계(Search Space)**, **탐색 전략(Search Strategy: BO/TPE/Hyperband)**, **조기 종료(Early Stopping/Successive Halving)**의 3축으로 모델·하이퍼파라미터·파이프라인을 자동 탐색하는 Meta-learning 기반 MLOps 자동화 패러다임이다.
+> 2. **가치**: 숙련 ML 엔지니어 대비 **모델 개발 시간 60~80% 단축**, Auto-sklearn/AutoGluon 등에서 비전문가의 **Kaggle급 성능 도달**(상위 5% 이내), GPU 자원의 Multi-fidelity 최적화로 **연산 비용 5~50배 절감**이 가능하다.
+> 3. **판단 포인트**: **탐색 공간-비용-지연시간** 트레이드오프와 **Warm-start vs Cold-start**, **Black-box 제약조건(SLA/규제)** 하에서 해석가능성 확보 여부, 그리고 **NAS(Neural Architecture Search)** 적용 시 재현성과 Transferability 확보가 핵심 의사결정 기준이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-AutoML 자동 모델 선택 하이퍼파라미터은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+전통적 ML 개발 프로세스는 **데이터 분석 -> 피처 엔지니어링 -> 모델 후보군 탐색 -> 하이퍼파라미터 튜닝 -> 앙상블/스태킹 -> 검증**이라는 다단계 수작업 사이클을 거친다. Kaggle Grandmaster조차 단일 프로젝트에 수백 회의 실험을 수행하며, KDD 2019 AutoML 트렌드 서베이에 따르면 **데이터 사이언티스트 업무 시간의 80% 이상이 피처 엔지니어링과 HPO(Hyperparameter Optimization)에 소모**된다. 또한 DL에서는 CNN 셀 구조, Transformer attention head 수, activation/skip connection 등 탐색 차원이 기하급수적으로 증가하여 **수동 설계는 더 이상 확장 불가능**하다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, AutoML Auto Model Selection Hyperparameter 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+AutoML은 이를 **"AutoModelSelection ⊕ HPO ⊕ Feature Engineering ⊕ Pipeline Optimization ⊕ NAS"**로 통합 자동화하여, *알고리즘 선택(Algorithm Selection)*과 *하이퍼파라미터 최적화(HPO)*를 결합한 **CASH 문제(Thornton et al., KDD 2013)**를 단일 베이지안 최적화 프레임워크로 정형화한다.
 
 ```text
-+--------------------------------------------------------------+
-|                    AutoML 자동 모델 선택 하이퍼파라미터 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[AutoML End-to-End Pipeline Concept]
+  +---------------------------------------------------------------------+
+  |                         AutoML Orchestrator                        |
+  |             (Meta-Learner / Controller / Scheduler)                |
+  +-----+-------------+--------------+----------------+-------------+---+
+        |             |              |                |             |
+        v             v              v                v             v
+  +----------+  +----------+  +--------------+  +----------+  +----------+
+  | Dataset  |  | Feature  |  | Model        |  |Hyperparam|  | Ensemble |
+  | Meta-    |  | Engineer |  | Selection    |  |Optimizati|  | & Stacki |
+  | Feature  |  | (Auto FE)|  | (Algorithm   |  | on (BO/  |  | ng       |
+  | Extract  |  |          |  |  Library)    |  |  TPE/HB) |  |          |
+  +----+-----+  +----+-----+  +------+-------+  +----+-----+  +----+-----+
+       |             |               |                |              |
+       +-------------+---------------+----------------+--------------+
+                                    |
+                                    v
+                  +-------------------------------+
+                  |  Best Pipeline + Leaderboard |
+                  |  (모델·전처리·튜닝 결과 리포트)|
+                  +-------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**구 패러다임 vs AutoML 비교**
+- **구 방식**: Scikit-learn 코드 직접 작성, GridSearchCV로 수십~수천 조합 전수조사, 각 trial별 수동 로깅 -> 엔지니어 의존성 ^, 재현성 v
+- **AutoML 방식**: 탐색 공간 선언 -> 메타러너가 **Surrogate Model(GP/TPE) + Acquisition Function(Expected Improvement/UCB)**로 다음 trial 지시 -> 비동기 분산 실행 + 조기 종료로 자원 효율화
 
-- **📢 섹션 요약 비유**: AutoML 자동 모델 선택 하이퍼파라미터은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+MLOps 측면에서도 AutoML은 **Feature Store + Model Registry + CI/CD**와 결합되어 "데이터 -> 모델 -> 배포"의 Lead Time을 수주에서 수시간으로 단축시킨다.
+
+- **📢 섹션 요약 비유**: AutoML은 마치 **미슐랭 셰프들이 수만 가지 레시피 후보 중에서 요리 재료 조합과 불 세기를 자동으로 시뮬레이션해 최고의 레시피를 골라주는 'AI 미슐랭 오거나이저'**와 같다. 셰프(데이터 사이언티스트)가 레시피 후보군(탐색 공간)을 정해주면, 오거나이저(메타러너)가 시식(evaluation)을 통해 다음 후보를 지능적으로 선택한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-AutoML 자동 모델 선택 하이퍼파라미터의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+AutoML 시스템은 일반적으로 **① Search Space ② Search Strategy ③ Evaluation/Resource Manager ④ Meta-Learning/Memory ⑤ Pipeline Constructor**의 5계층으로 구성된다. 대표 구현체인 **Auto-sklearn 2.0**의 구조를 기준으로 분해하면 다음과 같다.
 
 ```text
-+--------------------------------------------------------------+
-|              AutoML Auto Model Selection Hyperparameter 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+[Auto-sklearn / AutoGluon 내부 아키텍처]
+   +--------------------------------------------------------------+
+   |  Layer 5: Pipeline Constructor (Stacked Ensemble Selector)   |
+   |   +--> 15개 base model -> weighted ensemble (caruana 2004)    |
+   +--------------------------------------------------------------+
+   |  Layer 4: Meta-Learning Memory (Warm-Starting Knowledge)     |
+   |   +- Dataset Meta-features (43-dim: #rows, skew, kurt, …)  |
+   |   +- k-NN over OpenML-CC18 -> similar task config 추천        |
+   |   +- Iterative ensemble (top-k configurations 누적)          |
+   +--------------------------------------------------------------+
+   |  Layer 3: Search Strategy (Sequential Model-Based Opt.)      |
+   |   +- Bayesian Opt. (SMAC / GP / TPE)                         |
+   |   +- Acquisition: EI / PI / UCB / LCB                       |
+   |   +- Hyperband scheduler (Successive Halving)                |
+   +--------------------------------------------------------------+
+   |  Layer 2: Resource Manager (Multi-Fidelity Pruner)           |
+   |   +- BOHB (Bayesian+Hyperband, Falkner 2018)                 |
+   |   +- ASHA (Asynchronous Successive Halving, Ray)             |
+   |   +- Population-Based Training (PBT, DeepMind)               |
+   +--------------------------------------------------------------+
+   |  Layer 1: Search Space Definition (Configuration Space)      |
+   |   +- Preprocessors: 14 (imputation, scaling, one-hot…)       |
+   |   +- Feature Preprocessors: 14 (PCA, LDA, …)                |
+   |   +- Models: 15 (RF, XGBoost, LightGBM, CatBoost, …)        |
+   |   +- Hyperparameters: Conditional / Tree-structured (TPE)    |
+   +--------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Search Space Designer** | 알고리즘·전처리·하이퍼파라미터 후보군 정의 | Conditional HP(예: `solver='liblinear'`일 때만 `penalty` 활성), **Log-scale prior**(학습률 `1e-5~1e-1`는 log-uniform), **Hierarchical Space**(Optuna `suggest_int/log/categorical`) |
+| **Search Strategy (SMBO)** | 다음 trial의 configuration 추천 | **SMAC**(Random Forest 기반 surrogate), **GP-EI**(Matern 5/2 kernel), **TPE**(Tree-structured Parzen Estimator, 각 HP별 `l(x)`/`g(x)` KDE 분리 추정 후 EI 계산), **BOHB**(BO + Hyperband 결합) |
+| **Resource Manager (Multi-Fidelity)** | 저비용 평가로 유망 config 조기 선별 | **Hyperband**: `s_max=4, η=3`로 bracket 구성 -> Successive Halving으로 하위 (1/η) trial 제거, **ASHA**: 비동기 promotion으로 straggler 문제 해결, **PBT**: 주기적 perturbation + exploitation으로 신경망 HPO |
+| **Meta-Learning Memory** | 유사 데이터셋의 과거 실험 결과로 warm-start | **Dataset Meta-feature**(statistical/landmark: 1-NN accuracy, decision tree leaf 수) -> **k-NN 거리**로 k개 dataset 선정 -> 그 dataset에서 가장 좋았던 config를 초기 seed로 사용 (Auto-sklearn의 핵심 차별점) |
+| **Pipeline Constructor & Ensemble** | top-k trial들의 예측을 결합 | **Caruana Ensemble Selection**(greedy forward selection with replacement, 50개 sub-sample bag), **Stacking**(meta-learner로 Logistic Regression), **Bayesian Model Averaging** |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+### 핵심 알고리즘: TPE (Tree-structured Parzen Estimator, Bergstra 2011)
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+`l(x)` = objective value의 quantile threshold `y*` **이하**인 configuration의 KDE 분포
+`g(x)` = threshold **초과**인 configuration의 KDE 분포
+
+Acquisition function:
+$$\text{EI}_{\text{TPE}}(x) \propto \frac{l(x)}{g(x)} \quad (\text{最大化})$$
+
+-> `l(x)/g(x)`가 클수록 "objective를 낮게 만드는 HP 영역"에 가까움. **Tree-structured**이기 때문에 categorical/conditional HP를 자연스럽게 다룰 수 있어 Optuna/Hyperopt의 기본 엔진이다.
+
+### HPO의 수학적 정형화
+
+$$\min_{x \in \mathcal{X}} f(x), \quad f(x) = \mathbb{E}_{(x_i, y_i)\sim \mathcal{D}}\left[\mathcal{L}\left(M_{x}(\mathcal{D}_{\text{train}}), \mathcal{D}_{\text{val}}\right)\right]$$
+
+- `X`: search space (categorical × numerical mixed)
+- `f(x)`: expensive black-box (한 trial 평가에 수분~수일)
+- **Gradient 없음** -> BO가 적합, **Multi-fidelity**로 `f_budget(x; r)` (resource r로 평가) 근사
+
+### NAS (Neural Architecture Search) 확장
+
+| NAS 패러다임 | 대표 알고리즘 | 특징 |
+| :--- | :--- | :--- |
+| Reinforcement Learning | NAS-RL (Zoph 2017), ENAS | RNN controller가 child network sampling -> reward=val accuracy |
+| Evolutionary | AmoebaNet, NSGANet | Population mutation/crossover, elitism selection |
+| **Differentiable** | DARTS, PDARTS, PC-DARTS | α(architecture)와 w(weight)를 bilevel gradient로 joint optimize, **GPU 1일**만에 탐색 |
+| One-shot / Weight-sharing | DARTS, ProxylessNAS, SPOS | Supernet 1회 학습 -> sub-network 평가, **SLM/TPU 가속** |
+| Predictor-based | NAS-Bench-101/201, XGBoost predictor | 미리 계산된 lookup table 또는 학습된 predictor로 score 예측 |
+
+**📢 섹션 요약 비유**: AutoML의 메타러너는 **"미지의 산맥에서 가장 높은 봉우리를 찾는 등반대"**와 같다. 베이지안 옵티마이저(Surrogate)는 **지형도**를 그려주고, Acqusition Function은 **"다음에 어디를 탐사할지 지시"**하며, Hyperband는 **"약한 등반대는 일찍 퇴출시켜 시간을 아끼는 컨트롤 타워"**다. 메타러닝은 **"이전에 등반한 비슷한 산의 노하우"**를 미리 가져다주는 등반 코치 역할이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-AutoML 자동 모델 선택 하이퍼파라미터을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+### 1. AutoML 구성 기술 비교
 
-| 구분 | 전통적 접근 | AutoML 자동 모델 선택 하이퍼파라미터 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+| 구분 | Grid Search | Random Search | Bayesian Opt. (SMAC/TPE) | Hyperband / BOHB | Population-Based |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **탐색 방식** | 전수 격자 | 균등 무작위 | Surrogate + Acquisition | Random + 자원 적응 | 집단 진화 |
+| **성능** | 저차원만 유효 | 차원^에도 robust | 50~200 trial로 SOTA | 동일 budget에 5~50× 효율 | DL에 강점 |
+| **연산 비용** | 매우 높음 | 선형 | 중간 (surrogate 비용 추가) | 매우 낮음 (pruning) | 중간 |
+| **조건부 HP 지원** | △ | △ | ◎ (TPE tree) | △ | × |
+| **조기 종료** | × | × | △ (early stopping surrogate) | ◎ (Successive Halving) | ◎ (kill + exploit) |
+| **분산 환경** | △ (trivial parallel) | ◎ | △ (배치 BO 필요) | ◎ (ASHA 비동기) | ◎ |
+| **대표 툴** | sklearn | sklearn, Ray Tune | Optuna, SMAC, Hyperopt | Ray Tune, BOHB, Determined | Ray Tune PBT, DeepMind |
 
-관련 기술 영역과의 연결점도 중요하다. AutoML 자동 모델 선택 하이퍼파라미터은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
+### 2. 주요 AutoML 프레임워크 비교
 
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 AutoML 자동 모델 선택 하이퍼파라미터은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 AutoML 자동 모델 선택 하이퍼파라미터을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-AutoML 자동 모델 선택 하이퍼파라미터을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, AutoML 자동 모델 선택 하이퍼파라미터 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: AutoML 자동 모델 선택 하이퍼파라미터은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | AutoML 자동 모델 선택 하이퍼파라미터의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | AutoML 자동 모델 선택 하이퍼파라미터의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-AutoML 자동 모델 선택 하이퍼파라미터 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. AutoML 자동 모델 선택 하이퍼파라미터은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| 프레임워크 | 지원 영역 | 백엔드 | 특징 | 한계 |
+| :--- | :--- | :--- | :--- | :--- |
+| **Auto-sklearn 2.0** | Tabular | sklearn, XGBoost, RF | Meta-learning + ensemble, OpenML 1000+ dataset | DL 미지원, 단일 머신 |
+| **H2O AutoML** | Tabular | H2O, XGBoost | Stacked ensemble, MOJO 배포, Java/Spark 연동 | HP 공간 custom 어려움 |
+| **TPOT** | Tabular | sklearn + genetic | Pipeline 전체를 GP 트리로 표현 | 학습 시간 길음 |
+| **AutoGluon** | Tabular/Text/Image | MXNet, Torch | OOF stacking, multi-modal, GPU 가속 | 백엔드 lock-in |
+| **FLAML** | Tabular/LLMs | sklearn, XGBoost, HF | CFO/CFO+ (cost-frugal optimization), LiteLLM | DL NAS 미지원 |
+| **Auto-PyTorch** | Tabular/Image/Text | PyTorch | NAS + HPO 결합, Auto-Net 2.0 | 학습 시간 큼 |
+| **Ray Tune + Optuna** | 범용 | Any | 분산 hyperparameter search, ASHA, PBT | 직접 구성 필요 |
+| **NNI (Microsoft)** | 범용 | Any | NAS + HPO + compression, GUI/CLI 제공 | 야생 생태계 분산 |
+| **Vertex AI / SageMaker Autopilot / Azure ML** | Managed | 클라우드 통합 | AutoML + MLOps 통합, 거버넌스 | 비용·벤더 종속 |
+| **Google Vizier** | 범용 | Cloud | Multi-objective
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 670 / 800

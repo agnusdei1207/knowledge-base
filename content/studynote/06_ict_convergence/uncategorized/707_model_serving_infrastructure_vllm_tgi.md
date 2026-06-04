@@ -11,160 +11,195 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 모델 서빙 인프라 vLLM TGI 최적화은(는) ICT 융합 기술 심화 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: vLLM은 PagedAttention을 통해 KV Cache를 OS 페이징처럼 비연속적 블록(Block)으로 관리하여 메모리 파편화를 제거하고, TGI(HuggingFace)는 Rust 기반의 async runtime(Tokio) 위에 tensor parallelism과 Flash Attention을 결합해 안정적인 처리량을 보장하는 LLM 추론 전용 서빙 프레임워크다.
+> 2. **가치**: Static batching 대비 14~24배 처리량(throughput) 향상, GPU 메모리 utilization 90% 이상 달성, p99 latency 50% 절감, TTFT(Time-To-First-Token) 200ms 이하 유지가 가능해 동일 H100 8-GPU 노드 기준 동시접속 1,000+ 세션 처리가 현실화된다.
+> 3. **판단 포인트**: `vLLM ↔ TGI` 선택은 워크로드 특성(다중 LoRA/prefix 공유 vs. 단순 text generation), `max_num_seqs·max_model_len·gpu_memory_utilization` 튜닝, 양자화 전략(AWQ/GPTQ/FP8), 그리고 speculative decoding 도입 여부에 따라 결정되며, 단일 모델·고지연 환경 vs. 멀티테넌트·저지연 환경의 trade-off를 정확히 분리해 설계해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-모델 서빙 인프라 vLLM TGI 최적화은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+LLM(Large Language Model) 서빙은 전통적인 웹 서비스와 근본적으로 다른 특성을 갖는다. (1) **Compute-bound** 단계(prefill)와 **Memory-bound** 단계(decode)가 동일 request 내에서 공존하고, (2) 각 request의 output token 수는 예측 불가(1~4,096 tokens)하여 batch 내 finish time 편차가 극심하며, (3) autoregressive decoding은 본질적으로 sequential하므로 GPU utilization이 떨어진다. 기존 `HuggingFace Transformers + FastAPI` 조합은 request를 순차적으로 처리하거나 naive padding 기반 static batching을 사용해 GPU SM(Streaming Multiprocessor) 점유율이 30~40%에 그쳤다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Model Serving Infrastructure vLLM TGI 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+vLLM(Kwon et al., SOSP'23)과 TGI(HuggingFace, 2022~)는 이러한 문제를 해결하기 위해 등장한 **추론 전용(inference-specialized) 서빙 시스템**이다. vLLM은 Berkeley에서 학계 중심의 연구 결과로 PagedAttention을 도입했고, TGI는 production-grade 안정성과 HuggingFace 모델 생태계 통합에 강점을 가진다. 두 시스템 모두 **continuous batching(continuous-batching·in-flight batching)**, **Paged KV Cache**, **FlashAttention-2**, **CUDA Graph capture**를 핵심 기법으로 채택한다.
+
+기존 paradigm은 "request 단위 batch"였으나, 새로운 paradigm은 "**token 단위 batch + iteration-level scheduling**"이다. 이는 OS의 preemptive multitasking과 유사하며, GPU가 한 번에 처리하는 단위가 request가 아니라 token sequence 전체의 forward pass iteration이 된다.
 
 ```text
-+--------------------------------------------------------------+
-|                    모델 서빙 인프라 vLLM TGI 최적화 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
++------------------------------------------------------------------+
+|          기존 Static Batching vs. Continuous Batching            |
++------------------------------------------------------------------+
+|                                                                  |
+|  [Static Batching - 기존]                                        |
+|  +---- req1 [████████]██████████████████████░░░░░░░░░░░░░░░░░░░ | <- 짧은 답    |
+|  |  req2 [██]░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ | <- padding 낭비|
+|  |  req3 [████████████████████████]░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ | <- 중간       |
+|  |  GPU: ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ | <- idle 큼   |
+|  +--------------------------------------------------------------|
+|  문제: 짧은 요청도 가장 긴 요청이 끝날 때까지 GPU 낭비 (O(n) tail)|
+|                                                                  |
+|  [Continuous Batching - vLLM/TGI]                                |
+|  Iter 1: [req1(req2)(req3)               ]   <- 모두 prefill      |
+|  Iter 2: [tok1,tok1,tok1   ]               <- 1st decode token  |
+|  Iter 3: [tok1,tok1,tok1   ]               <- 2nd decode token  |
+|  Iter 4: [--- ,tok1,tok1   ]               <- req1 종료, req4 진입|
+|  Iter 5: [--- ,tok1,tok1,tok1]             <- new req 즉시 합류  |
+|  GPU:   [████████████████████]            <- 100% 활용           |
+|  효과: tail latency 제거, 처리량 14~24×, TTFT 안정               |
++------------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
-
-- **📢 섹션 요약 비유**: 모델 서빙 인프라 vLLM TGI 최적화은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 기존 static batching은 "한 버스에 손님 30명이 타면 가장 먼 손님이 내릴 때까지 전원 대기"하는 것이고, continuous batching은 "각 손님이 내리는 즉시 새로운 손문이 탄다"는 일본의 **Belt Conveyor(회전초밥)** 시스템과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-모델 서빙 인프라 vLLM TGI 최적화의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+### 1. vLLM 내부 아키텍처 (PagedAttention 중심)
 
 ```text
-+--------------------------------------------------------------+
-|              Model Serving Infrastructure vLLM TGI 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
++---------------------------------------------------------------------+
+|                       vLLM System Architecture                      |
++---------------------------------------------------------------------+
+|                                                                     |
+|  +------------------+   +-----------------+   +------------------+ |
+|  |  OpenAI-Compatible|   |   Async LLM     |   |  Scheduler       | |
+|  |  API Server       |◄--+   Engine        |◄--+  (FCFS/SJF/VLLM) | |
+|  |  (FastAPI+uvicorn|   |  (ray/asyncio)  |   |  - Chunked Prefill| |
+|  +--------+---------+   +--------+--------+   |  - Preemption    | |
+|           |                      |             +---------+--------+ |
+|           | token streaming      |                       |          |
+|           v                      v                       v          |
+|  +--------------------------------------------------------------+   |
+|  |            BlockManager (PagedAttention Core)                |   |
+|  |  +---------+ +---------+ +---------+ +---------+            |   |
+|  |  |Block 0  | |Block 1  | |Block 2  | |Block 3  |  ...       |   |
+|  |  |seq A[0:7]| |seq A[8:15]| |seq B[0:7]| |seq C[0:7]|          |   |
+|  |  +---------+ +---------+ +---------+ +---------+            |   |
+|  |  Block Size: 16 tokens (default), fixed-size pages           |   |
+|  |  Block Table: seq->[blk3, blk1, blk7, ...] (logical->phys)     |   |
+|  +--------------------------------------------------------------+   |
+|                              |                                      |
+|                              v                                      |
+|  +--------------------------------------------------------------+   |
+|  |   Worker (per-GPU, Ray actor)                                |   |
+|  |   +----------------+  +----------------+  +---------------+  |   |
+|  |   |  Model Runner   |  | CUDA Graph     |  | Attention    |  |   |
+|  |   |  (forward pass) |  | (capture/replay)|  |  Backend:    |  |   |
+|  |   |                 |  |                 |  |  FLASHINFER |  |   |
+|  |   |                 |  |                 |  |  FLASH_ATTN |  |   |
+|  |   |                 |  |                 |  |  XFORMERS   |  |   |
+|  |   +----------------+  +----------------+  +---------------+  |   |
+|  |   Parallel: TP(within node) + PP + DP + EP (MoE)             |   |
+|  +--------------------------------------------------------------+   |
+|                              |                                      |
+|                              v                                      |
+|            +------------------------------+                         |
+|            |  GPU 0,1,2,3 (A100/H100)     |                         |
+|            |  KV Cache: ~80% VRAM         |                         |
+|            |  Weights:  ~15% VRAM         |                         |
+|            |  Workspace: ~5%              |                         |
+|            +------------------------------+                         |
++---------------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+### 2. PagedAttention 동작 원리
+
+PagedAttention은 OS의 **virtual memory paging**을 KV Cache 관리에 적용한 것이다.
+
+- **물리 블록(Physical Block)**: GPU 메모리 상의 고정 크기(보통 16 tokens) contiguous chunk
+- **논리 블록(Logical Block)**: sequence의 토큰 위치에 대응되는 가상 주소
+- **Block Table**: sequence ID -> 물리 블록 배열의 매핑 테이블 (per-request)
+- **Copy-on-Write(CoW)**: parallel sampling, beam search에서 동일 prefix를 공유할 때 block ref-count로 중복 저장 회피
+
+이 구조로 인해:
+1. **내부 단편화(internal fragmentation)**이 `block_size` (16 tokens) 이하로 제한됨
+2. **외부 단편화(external fragmentation)**이 0 (모든 block 동일 크기)
+3. 메모리 utilization 4~8% 낭비 -> **55% -> 90%+**로 향상
+
+### 3. TGI(HuggingFace Text Generation Inference) 아키텍처
+
+TGI는 **Rust + actix-web**으로 작성되어 Python GIL의 한계를 우회한다.
+
+```text
++--------------------------------------------------------------------+
+|                  TGI (Text Generation Inference) v3.x              |
++--------------------------------------------------------------------+
+|  Client -> HTTP/gRPC (token-streaming SSE)                         |
+|              |                                                     |
+|              v                                                     |
+|  +--------------------------------------------------+              |
+|  |  Rust Server (actix-web, Tokio runtime)          |              |
+|  |  - sharded client (request fan-out)              |              |
+|  |  - dynamic batching queue (max_batch_size)       |              |
+|  +----------------------+---------------------------+              |
+|                         v                                          |
+|  +--------------------------------------------------+              |
+|  |  Python shard (per GPU)                          |              |
+|  |  +----------------+  +----------------------+    |              |
+|  |  |  Scheduler     |  |  Model:              |    |              |
+|  |  |  - continuous  |  |  - PyTorch + custom  |    |              |
+|  |  |    batching    |  |    CUDA kernels      |    |              |
+|  |  |  - prefill/    |  |  - FlashAttention-2  |    |              |
+|  |  |    decode      |  |  - bitsandbytes      |    |              |
+|  |  |    disaggreg.  |  |    (INT8/INT4)       |    |              |
+|  |  +----------------+  |  - Tensor Parallel   |    |              |
+|  |                      |    (Megatron-style)  |    |              |
+|  |                      +----------------------+    |              |
+|  |                      KV Cache: Paged (vLLM과 유사)|              |
+|  |                      Quantization: GPTQ, AWQ, EETQ|              |
+|  +--------------------------------------------------+              |
+|         |              |              |              |              |
+|         v              v              v              v              |
+|      GPU 0          GPU 1          GPU 2          GPU 3             |
+|   (shard 0)      (shard 1)      (shard 2)      (shard 3)         |
++--------------------------------------------------------------------+
+```
+
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **vLLM BlockManager** | KV Cache paging | 16-token block, Block Table, CoW, prefix sharing, logical↔physical 매핑, eviction policy (LRU) |
+| **vLLM Scheduler** | Iteration-level scheduling | FCFS / SJF policy, Chunked prefill(max_num_batched_tokens), preemption(recompute vs. swap), prefix cache hit |
+| **vLLM Model Runner** | GPU forward pass | CUDA Graph capture로 kernel launch overhead 제거, FlashInfer/FlashAttn-2/vLLM-Flash backend 선택, 4D parallel(TP/PP/DP/EP) |
+| **vLLM Engine/AsyncLLM** | Request lifecycle | `add_request->step()->outputs`, asyncio로 비동기 처리, Ray로 multi-node orchestration |
+| **TGI Rust Server** | API gateway & sharding | actix-web async I/O, sharded-client가 gRPC로 Python shard에 분배, SSE(Server-Sent Events)로 token streaming |
+| **TGI Scheduler** | Batching 결정 | `max_batch_size=32`, `max_wait_tokens=20ms`, prefill/decode 시간 균형(batching window) |
+| **TGI Quantization Module** | Weight 압축 | GPTQ(4-bit), AWQ(Activation-aware Weight Quant), bitsandbytes NF4(4-bit NormalFloat), EETQ, FP8(H100) |
+| **TGI KV Cache** | 메모리 관리 | PagedAttention(vLLM과 동일), `max_batchable_tokens`, prefix caching, sliding window attention 지원 |
+| **Speculative Decoding 모듈** (v0.6+) | 추론 가속 | draft model(EAGLE/Medusa/n-gram)로 N tokens 추측 -> target model로 1회 verify -> 2~3× 속도 향상 |
+| **LoRA Adapter Manager** | Multi-tenant serving | `--enable-lora --lora-modules`, Hot-swap, base model 공유, per-request LoRA dispatch |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+### 4. 핵심 파라미터와 튜닝 공식
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+```
+Throughput(tokens/sec) ≈ min(  (batch_size × FLOPs/iter) / time_per_iter,
+                                (mem_bandwidth × GPU_count) / (KV_per_token × model_dim)  )
+
+KV Cache size per token = 2 × num_layers × num_kv_heads × head_dim × dtype_bytes
+                        (예: LLaMA-70B: 2×80×8×128×2 = 327,680 bytes = 320 KB/token)
+```
+
+| 파라미터 | vLLM | TGI | 영향 |
+| :--- | :--- | :--- | :--- |
+| `max_num_seqs` | 256 (default) | `max_batch_size=32` | 동시 처리 request 수, GPU OOM 직접 영향 |
+| `max_num_batched_tokens` | 2048 | `max_batch_total_tokens` | 1 iteration에 처리할 총 token 수 |
+| `max_model_len` | 4096~32768 | `max_input_length`+`max_total_tokens` | KV cache 사전 할당량 결정 |
+| `gpu_memory_utilization` | 0.9 | (자동) | KV cache에 할당할 비율 (0.6~0.95) |
+| `block_size` | 16 | (내부) | PagedAttention granularity (8/16/32) |
+| `enforce_eager` | True/False | (X) | CUDA Graph 비활성화 (디버깅용) |
+| `quantization` | awq/gptq/squeezellm/bnb | awq/gptq/bitsandbytes/eetq/fp8 | Weight 정밀도 trade-off |
+
+- **📢 섹션 요약 비유**: PagedAttention은 **호텔 방을 통째로 빌리는 것**이 아니라, **다닥다닥 붙은 자전거 거치대처럼 16명씩 그룹 단위로 나누어 차곡차곡 채워 넣는 것**이라 빈 공간이 거의 없다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-모델 서빙 인프라 vLLM TGI 최적화을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+### vLLM vs. TGI 상세 비교
 
-| 구분 | 전통적 접근 | 모델 서빙 인프라 vLLM TGI 최적화 |
+| 구분 | **vLLM** | **TGI (Text Generation Inference)** |
 | :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 모델 서빙 인프라 vLLM TGI 최적화은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 모델 서빙 인프라 vLLM TGI 최적화은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 모델 서빙 인프라 vLLM TGI 최적화을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-모델 서빙 인프라 vLLM TGI 최적화을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 모델 서빙 인프라 vLLM TGI 최적화 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 모델 서빙 인프라 vLLM TGI 최적화은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 모델 서빙 인프라 vLLM TGI 최적화의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 모델 서빙 인프라 vLLM TGI 최적화의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-모델 서빙 인프라 vLLM TGI 최적화 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 모델 서빙 인프라 vLLM TGI 최적화은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| **개발 주체** | UC Berkeley (学术界) -> Anyscale 상
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 707 / 800

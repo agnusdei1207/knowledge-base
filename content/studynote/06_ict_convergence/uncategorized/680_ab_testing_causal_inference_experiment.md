@@ -11,160 +11,176 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: A/B 테스팅 인과 추론 실험 설계은(는) ICT 융합 기술 심화 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: A/B 테스팅은 Rubin Causal Model(RCM)과 Potential Outcomes(Y(1), Y(0)) 프레임워크 위에서 "처치(Treatment)의 인과 효과 τ = E[Y(1)−Y(0)]"를 무작위 배정(Random Assignment)을 통해 편향(Bias) 없이 추정하는 통계적 실험 설계이며, SUTVA, Ignorability, Positivity 가정이 성립해야 인과 추론이 가능하다.
+> 2. **가치**: CUPED 분산 감소 기법 적용 시 분산 30~50% 축소로 동일 검정력에서 샘플 수 ~50% 절감 가능하며, p-hacking·peeking 방지를 위한 sequential test(Always-Valid Inference, mSPRT) 적용 시 의사결정 속도 2~3배 향상, False Discovery Rate ≤ 0.05 통제 시 잘못된 출시 40% 감소 효과를 기대할 수 있다.
+> 3. **판단 포인트**: 사용자 단위 vs 세션 단위 vs 클러스터 단위의 **Randomization Unit** 선택, 검정력(1−β=80%)·유의수준(α=0.05)·최소탐지효과(MDE) 간 트레이드오프, SRM(Sample Ratio Mismatch) 탐지 임계치(χ² p<0.001), Bonferroni vs BH-FDR 다중검정 보정 방식, 네트워크 간섭(Interference) 시 Cluster-Randomized 설계 도입 여부가 핵심 설계 변수이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-A/B 테스팅 인과 추론 실험 설계은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
-
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, AB Testing Causal Inference Experiment 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+전통적인 의사결정은 직관, HiPPO(Highest-Paid Person's Opinion), 또는 단순 전·후 비교에 의존했다. 그러나 사용자 행동 데이터가 Big Data로 축적되고, ML 기반 추천·검색·광고 최적화가 고도화되면서 **"어떤 변경이 실제 KPI(전환율, ARPU, Retention)에 인과적 영향을 미쳤는가"**를 정량적으로 판별해야 할 필요성이 대두되었다. 이때 단순한 A/B 평균 비교는 (1) **Selection Bias**(처리군/대조군 분포 차이), (2) **Confounding**(체크아웃 버튼 개선 후 매출 상승이 계절 효과인지 변경 효과인지 구분 불가), (3) **Simpson's Paradox**(전체 평균과 세그먼트별 평균의 부호 반대) 등으로 인해 오해를 낳는다. 따라서 **Pearl의 DAG(Directed Acyclic Graph) + Rubin의 Potential Outcomes** 두 축을 결합한 인과 추론 기반 A/B 실험 설계가 데이터 주도 의사결정(Decision Intelligence)의 핵심 인프라로 자리 잡았다. Google·Microsoft·Meta·Netflix·Amazon·쿠팡·토스·당근마켓 등 모든 대형 플랫폼은 자체 실험 플랫폼(예: Google Optimize 360 -> 내부 시스템, Microsoft ExP, Meta PlanOut, Netflix A/B Platform)을 운영하며, 일 평균 수천~수만 건의 실험을 병행한다.
 
 ```text
-+--------------------------------------------------------------+
-|                    A/B 테스팅 인과 추론 실험 설계 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[ A/B Testing Causal Inference 전체 아키텍처 ]
+
+  +----------------------------------------------------------------------+
+  | ① 실험 설계 (Experimental Design)                                   |
+  |   - 가설 설정 (H1: 신규 UI -> CVR +2%p)                              |
+  |   - MDE/α/power -> 표본 크기 산출 (Power Analysis)                  |
+  |   - Randomization Unit 결정 (User / Session / Cluster)             |
+  |   - Truncation 기간, Stratification(국가/플랫폼) 결정               |
+  +----------------+-----------------------------------------------------+
+                   v
+  +----------------------------------------------------------------------+
+  | ② 트래픽 분배 (Traffic Allocation & Assignment)                     |
+  |   - Hash(uid + salt + experiment_id) % 100 -> bucket                |
+  |   - Feature Flag Service(LaunchDarkly/Statsig) or 내부 SDK         |
+  |   - Layer/Mutually Exclusive 처리, Holdout(5~10%) 보전              |
+  +----------------+-----------------------------------------------------+
+                   v
+  +----------------------------------------------------------------------+
+  | ③ 로그 수집 (Telemetry Pipeline)                                    |
+  |   - Exposure Event(사용자가 variant 노출 시)  <- SRM 검증 핵심      |
+  |   - KPI Event(purchase, click, view)                                 |
+  |   - Kafka -> Flink/Spark Streaming -> S3/BigQuery/Snowflake         |
+  +----------------+-----------------------------------------------------+
+                   v
+  +----------------------------------------------------------------------+
+  | ④ 통계 분석 & 인과 추론 (Causal Analysis)                          |
+  |   - SRM 검정 (Chi-square, p<0.001)                                  |
+  |   - A/A Sanity Check                                                  |
+  |   - Point Estimate + 95% CI (t-test / Welch's / Bootstrap)          |
+  |   - CUPED 분산 감소, Stratified Estimator                           |
+  |   - Sequential Test (mSPRT / Always-Valid CI)                       |
+  |   - Heterogeneous Treatment Effect (Causal Forest, BART)            |
+  |   - FDR 보정 (BH procedure)                                          |
+  +----------------+-----------------------------------------------------+
+                   v
+  +----------------------------------------------------------------------+
+  | ⑤ 의사결정 & 학습 (Decision & Learning)                             |
+  |   - 승자(Winner) Variant 전량 배포 (Ramp-up)                        |
+  |   - 장기 효과(90일 Retention) Holdout 관찰                          |
+  |   - 실험 카탈로그·지식 그래프 적재 -> 다음 가설 생성                  |
+  +----------------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+과거 가설검정 중심의 빈도주의(Frequentist) p-value 의존 접근은 **p-hacking**(유의할 때까지 반복 peeking), **Multiple Testing**(50개 지표 동시 검정 시 2.5개 Type I 오류), **Novelty/Primacy Effect**(신규 UI 초반 일시적 과대 효과)로 인해 오해의 소지가 컸다. 2020년 이후 업계는 (1) **사전 등록(Pre-registration)된 가설 + 단일 Primary Metric**, (2) **Sequential Testing**으로 인한 α-spending 통제, (3) **CUPED**·**Stratified RCT**로 분산 축소, (4) **Causal Forest** 등 머신러닝 인과 모델로 사용자별 HTE(Heterogeneous Treatment Effect) 추정으로 패러다임이 이동했다.
 
-- **📢 섹션 요약 비유**: A/B 테스팅 인과 추론 실험 설계은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: A/B 테스트는 "두 약을 똑같은 병에 든 환자 1,000명씩 나눠 투여하고 한 달 후 혈압을 비교하는 Randomized Controlled Trial"과 같다. 핵심은 **"우연이 아닌 약의 효과"**를 분리해내는 무작위 배정이며, 환자(사용자) 특성이 비슷하도록 층화(Stratification)하고, 사전에 필요한 환자 수(Power Analysis)를 계산하며, 단 1회만 판단(Pre-registration)해야 거짓 양성(p-hacking)을 막을 수 있다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-A/B 테스팅 인과 추론 실험 설계의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+### 1. 인과 추론 수학적 토대
 
-```text
-+--------------------------------------------------------------+
-|              AB Testing Causal Inference Experiment 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
-```
+**Potential Outcomes Framework (Neyman-Rubin Causal Model)**
 
-| 구성 요소 | 역할 | 핵심 기술 |
-| :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
-
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
-
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
-
----
-
-## Ⅲ. 비교 및 연결
-
-A/B 테스팅 인과 추론 실험 설계을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | A/B 테스팅 인과 추론 실험 설계 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. A/B 테스팅 인과 추론 실험 설계은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 A/B 테스팅 인과 추론 실험 설계은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 A/B 테스팅 인과 추론 실험 설계을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-A/B 테스팅 인과 추론 실험 설계을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, A/B 테스팅 인과 추론 실험 설계 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: A/B 테스팅 인과 추론 실험 설계은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
+| 기호 | 의미 |
 | :--- | :--- |
-| 자동화 (Automation) | A/B 테스팅 인과 추론 실험 설계의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | A/B 테스팅 인과 추론 실험 설계의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
+| $Y_i(1)$ | 사용자 $i$가 Treatment(T=1)를 받았을 때의 잠재 결과(Counterfactual) |
+| $Y_i(0)$ | 사용자 $i$가 Control(T=0)을 받았을 때의 잠재 결과 |
+| $T_i \in \{0,1\}$ | 실제 배정된 처치 (0=Control, 1=Treatment) |
+| $X_i$ | 공변량(Covariate) 벡터 (사전 행동, 디바이스, 지역 등) |
+| $Y_i^{obs} = T_i Y_i(1) + (1-T_i)Y_i(0)$ | 관측된 결과 (Fundamental Problem of Causal Inference) |
+| $\tau = E[Y(1)-Y(0)]$ | **Average Treatment Effect (ATE)** — 인과 효과 |
+| $\tau_{SATE} = \frac{1}{N}\sum Y_i$ | Sample ATE (Finite-sample) |
 
-### 📈 관련 키워드 및 발전 흐름도
+**필요 가정 (Identifiability Conditions)**
+1. **SUTVA (Stable Unit Treatment Value Assumption)**: 한 사용자의 처치가 다른 사용자의 결과에 영향을 주지 않음(Non-Interference) + 처치 형태가 일관(Stable). 네트워크 효과가 존재하면 Violation -> Cluster-Randomized 또는 Switchback Design 사용.
+2. **Ignorability / Unconfoundedness**: $(Y(1),Y(0)) \perp T \mid X$ — 공변량을 조건부로 하면 배정이 효과와 독립.
+3. **Positivity / Overlap**: $0 < P(T=1 \mid X=x) < 1$ for all $x$ — 모든 strata에 처치/대조군 존재.
+
+### 2. 표본 크기 산출 (Power Analysis)
+
+$$
+n_{\text{per arm}} = \frac{(z_{1-\alpha/2} + z_{1-\beta})^2 \cdot 2\sigma^2}{\Delta^2}
+$$
+
+- $z_{1-\alpha/2}=1.96$ ($\alpha=0.05$), $z_{1-\beta}=0.84$ ($\text{power}=80\%$)
+- $\Delta$: MDE (Minimum Detectable Effect), 예: CVR 3.0% -> 3.5%, 즉 $\Delta=0.005$
+- $\sigma^2$: KPI 분산 (CVR의 경우 $p(1-p)$)
+
+예) CVR baseline 5%, MDE +0.5%p, 양측 검정, power 80% -> 약 **30,000/arm = 60,000** 사용자 필요. CUPED 적용 시 효과적 분산 $\sigma^2(1-\rho^2)$로 감소($\rho$=사전·사후 상관, 통상 0.3~0.6).
+
+### 3. Randomization Unit (배정 단위)
+
+| 단위 | 장점 | 단점 | 사용 사례 |
+| :--- | :--- | :--- | :--- |
+| **User-level (uid)** | SUTVA 만족 용이, 분산 작음 | 신규 가입자 부족 시 시간 소요 | UI 변경, 추천 알고리즘 |
+| **Session-level** | 빠른 데이터 누적 | 동일 사용자가 두 variant 경험 -> Carry-over | 검색 결과 순서 |
+| **Page-view** | 노출 단위 | 매우 noisy, SRM 빈번 | 광고 배치 |
+| **Cluster (geo/shard)** | Network Interference 통제 | 분산 큼, ICC 고려 필요 | Push 알림, 가격 변경 |
+| **Switchback (시간)** | Network 효과 모델링 | Time-of-Day 효과 confound | 시장가(Marketplace) 가격 |
+
+배정 함수: `bucket = crc32(experiment_id + ":" + user_id) % 10000 / 10000.0` 후 `[0,0.5)=Control, [0.5,1.0)=Treatment` 등의 결정적 해시(Deterministic Hash)로 재현성·멱등성 보장.
+
+### 4. 시스템 아키텍처
 
 ```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-A/B 테스팅 인과 추론 실험 설계 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
+[ A/B Testing Platform 내부 구조 — Layered Architecture ]
+
+  +---------------------------------------------------------------------+
+  |   Experimentation UI (Web Console)                                  |
+  |   - 가설 카드 / Metric Catalog / Layer/Conflict Validator           |
+  |   - Pre-registration of Primary KPI & α-spending function          |
+  +------------------------+--------------------------------------------+
+                           | gRPC / REST
+  +------------------------v--------------------------------------------+
+  |   Configuration & Assignment Service                                |
+  |   +--------------+  +--------------+  +------------------------+  |
+  |   | Experiment DB|  | Feature Flag |  | Assignment Hash Engine |  |
+  |   | (MySQL/PG)   |  | Cache(Redis) |  | Murmur3(uid+salt)      |  |
+  |   +--------------+  +--------------+  +------------------------+  |
+  |   - Layered allocation (Mutually Exclusive Experiments)            |
+  |   - Sticky bucketing, Ramp-up, Kill-switch                          |
+  +------------------------+--------------------------------------------+
+                           | SDK (iOS/Android/Web/Server)
+  +------------------------v--------------------------------------------+
+  |   Client/Server SDK                                                  |
+  |   - getVariant('exp_2024_rec_v3') -> 'control' | 'treatment_A'      |
+  |   - Fire 'exposure' event with timestamp, uid, exp_id, variant     |
+  +------------------------+--------------------------------------------+
+                           |
+  +------------------------v--------------------------------------------+
+  |   Event Ingestion (Kafka / Kinesis / PubSub)                        |
+  |   - exposure, click, purchase, churn, latency, error                 |
+  |   - Exactly-Once Semantics via dedup key (uid+exp_id+ts)           |
+  +------------------------+--------------------------------------------+
+                           |
+  +------------------------v--------------------------------------------+
+  |   Streaming ETL (Flink / Spark Structured Streaming)                |
+  |   - De-duplication, late-arrival handling (event_time + 3d)        |
+  |   - Out-of-order correction (Watermark)                             |
+  +------------------------+--------------------------------------------+
+                           |
+  +------------------------v--------------------------------------------+
+  |   Warehouse (BigQuery / Snowflake / Redshift / Iceberg on S3)       |
+  |   - fact_exposure, fact_metric, dim_user_strata                      |
+  +------------------------+--------------------------------------------+
+                           |
+  +------------------------v--------------------------------------------+
+  |   Causal Analytics Engine (Python / R / Spark)                      |
+  |   - SRM/AA checks -> ATE, CUPED, Sequential, HTE, FDR                |
+  |   - Jupyter/Statsig/Eppo/Databricks Notebooks                       |
+  +---------------------------------------------------------------------+
 ```
 
-### 👶 어린이를 위한 3줄 비유 설명
+### 5. 핵심 구성 요소 역할
 
-1. A/B 테스팅 인과 추론 실험 설계은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
+| :--- | :--- | :--- |
+| **Assignment Service** | 사용자별 variant 결정 | Murmur3/SHA-256 Hash 기반 결정적 버킷팅, Layer(Mutually Exclusive), Sticky(세션/쿠키) 보장, Redis 캐시로 100k QPS 처리 |
+| **Feature Flag SDK** | 클라이언트 측 분기 처리 | LaunchDarkly, Statsig, Unleash, Split.io; Server-Side Evaluation, Bootstrap from CDN, Offline fallback |
+| **Exposure Logger** | 노출 시점 기록 (≠ Click) | `event_time`, `uid`, `exp_id`, `variant` 4-tuple -> SRM 및 ITT( Intention-to-Treat) 분석의 기준점 |
+| **Metric Store** | KPI 사전 정의·카탈로그화 | Conversion Rate, ARPPU, DAU/MAU, n-day Retention, p99 Latency; 비율/평균/분위/비율비(Metric Ratio) 구분 |
+| **Statistics Engine** | 인과 효과 추정 | t-test, Welch's t, Bootstrap BCa, Bayesian Beta-Binomial, mSPRT(α-spending=0.05), CUPED 공변량 보정 |
+| **Decision Service** | 출시/중단/연장 자동화 | Pre-registered rule (e.g., uplift>0 & 95%CI_lo>−0.1%p & SRM OK & ≥7d) -> CI/CD 연동으로 Ramp-up 트리거 |
 
----
+### 6. Sequential Testing (Peeking 문제 해결)
 
+빈도주의 t-test를 매일 보면 Type I 오류가 1−(1−0.05)^k ≈ 1−0.95^k 로 누적. **Always-Valid Confidence Sequence** (Howard et al., 2021)
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 680 / 800
