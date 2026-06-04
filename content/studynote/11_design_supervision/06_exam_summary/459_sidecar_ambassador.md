@@ -29,45 +29,45 @@ Brendan Burns(Google, Kubernetes 공동설계자)는 2018년 *Patterns for Distr
 
 ```text
 [기존: 라이브러리 침습형 아키텍처 (Fat Client Model)]
-┌──────────────────────────────────────────────────────────────┐
-│  Service A (Java)        Service B (Go)        Service C (Python) │
-│  ┌────────────────┐      ┌────────────┐        ┌────────────┐   │
-│  │ Business Logic │      │ Business   │        │ Business   │   │
-│  ├────────────────┤      ├────────────┤        ├────────────┤   │
-│  │ Ribbon Client  │      │ grpc-go    │        │ requests   │   │
-│  │ Hystrix CB     │      │ 自作 retry │        │ 自作 mTLS  │   │
-│  │ Eureka Client  │      │ 自作 auth  │        │ 自作 CB    │   │
-│  │ Sleuth Tracing │      │ 自作 OTel  │        │ 自作 log   │   │
-│  └────────────────┘      └────────────┘        └────────────┘   │
-│         │                       │                     │         │
-│         └───────────┬───────────┴──────────┬──────────┘         │
-│                     ▼                      ▼                    │
-│              언어별 SDK 중복 / 버전 드리프트 / 보안 패치 누락         │
-└──────────────────────────────────────────────────────────────┘
++--------------------------------------------------------------+
+|  Service A (Java)        Service B (Go)        Service C (Python) |
+|  +----------------+      +------------+        +------------+   |
+|  | Business Logic |      | Business   |        | Business   |   |
+|  +----------------+      +------------+        +------------+   |
+|  | Ribbon Client  |      | grpc-go    |        | requests   |   |
+|  | Hystrix CB     |      | 自作 retry |        | 自作 mTLS  |   |
+|  | Eureka Client  |      | 自作 auth  |        | 自作 CB    |   |
+|  | Sleuth Tracing |      | 自作 OTel  |        | 自作 log   |   |
+|  +----------------+      +------------+        +------------+   |
+|         |                       |                     |         |
+|         +-----------+-----------+----------+----------+         |
+|                     v                      v                    |
+|              언어별 SDK 중복 / 버전 드리프트 / 보안 패치 누락         |
++--------------------------------------------------------------+
 
 [신규: Sidecar Ambassador Proxy 아키텍처 (Thin Client Model)]
-┌──────────────────────────── Pod ─────────────────────────────┐
-│                                                                │
-│  ┌─────────────────────┐         ┌─────────────────────────┐   │
-│  │  Main Container     │ localhost│  Sidecar Container      │   │
-│  │  (User Application) │◄───────►│  (Envoy / Linkerd-proxy)│   │
-│  │                     │  :15001  │                         │   │
-│  │  - Business Logic   │  :15006  │  - mTLS (SPIFFE)       │   │
-│  │  - HTTP/gRPC Client │  :15021  │  - Circuit Breaker      │   │
-│  │  - No net code!     │  :15090  │  - Retry / Timeout      │   │
-│  │                     │         │  - L7 Routing (xDS)     │   │
-│  │  CPU/Mem: 500m/512Mi│         │  - OTel Trace + Metrics │   │
-│  └─────────────────────┘         │  - AuthorizationPolicy  │   │
-│                                  │                         │   │
-│                                  │  CPU/Mem: 100m/128Mi    │   │
-│                                  └────────────┬────────────┘   │
-└───────────────────────────────────────────────┼───────────────┘
-                                                │ mTLS (HBONE on :15008)
-                                                ▼
-                                   ┌─────────────────────────┐
-                                   │ Destination Pod Sidecar │
-                                   │ → localhost:port of App  │
-                                   └─────────────────────────┘
++---------------------------- Pod -----------------------------+
+|                                                                |
+|  +---------------------+         +-------------------------+   |
+|  |  Main Container     | localhost|  Sidecar Container      |   |
+|  |  (User Application) |◄-------►|  (Envoy / Linkerd-proxy)|   |
+|  |                     |  :15001  |                         |   |
+|  |  - Business Logic   |  :15006  |  - mTLS (SPIFFE)       |   |
+|  |  - HTTP/gRPC Client |  :15021  |  - Circuit Breaker      |   |
+|  |  - No net code!     |  :15090  |  - Retry / Timeout      |   |
+|  |                     |         |  - L7 Routing (xDS)     |   |
+|  |  CPU/Mem: 500m/512Mi|         |  - OTel Trace + Metrics |   |
+|  +---------------------+         |  - AuthorizationPolicy  |   |
+|                                  |                         |   |
+|                                  |  CPU/Mem: 100m/128Mi    |   |
+|                                  +------------+------------+   |
++-----------------------------------------------+---------------+
+                                                | mTLS (HBONE on :15008)
+                                                v
+                                   +-------------------------+
+                                   | Destination Pod Sidecar |
+                                   | -> localhost:port of App  |
+                                   +-------------------------+
 ```
 
 ### 1.3 Sidecar가 해결하는 7대 페인포인트
@@ -90,88 +90,88 @@ Brendan Burns(Google, Kubernetes 공동설계자)는 2018년 *Patterns for Distr
 
 ```text
 [방식 1: iptables REDIRECT (Istio Default ~1.18)]
-─────────────────────────────────────────────────
-App Pod Outbound → iptables PREROUTING/OUTPUT rule
-   │  -p TCP --dport <target_port> -j REDIRECT --to-ports 15001
-   ▼
-Envoy 15001 (outbound listener) → Cluster Discovery via xDS
-   │  - mTLS handshake
-   │  - L7 routing
-   ▼
-Destination Pod iptables → Envoy 15006 (inbound) → App localhost:8080
-   │
-   ▼
+-------------------------------------------------
+App Pod Outbound -> iptables PREROUTING/OUTPUT rule
+   |  -p TCP --dport <target_port> -j REDIRECT --to-ports 15001
+   v
+Envoy 15001 (outbound listener) -> Cluster Discovery via xDS
+   |  - mTLS handshake
+   |  - L7 routing
+   v
+Destination Pod iptables -> Envoy 15006 (inbound) -> App localhost:8080
+   |
+   v
 Envoy reports: req_total, req_5xx, req_duration_ms to Mixer/Istiod
 
 [방식 2: eBPF (Cilium Service Mesh, Linkerd 2.14+)]
-─────────────────────────────────────────────────
-App Pod Outbound → bpf_connect6() hook (cgroup/connect4)
-   │  - CO-RE(BTF) 기반 커널 우회
-   │  - 0-copy socket option 보존 (SO_REUSEADDR 등)
-   ▼
-socket-level redirect → linkerd-proxy-outbound OR userspace proxy
-   │
-   ▼ (P99 오버헤드: iptables 1.2ms vs eBPF 0.3ms)
+-------------------------------------------------
+App Pod Outbound -> bpf_connect6() hook (cgroup/connect4)
+   |  - CO-RE(BTF) 기반 커널 우회
+   |  - 0-copy socket option 보존 (SO_REUSEADDR 등)
+   v
+socket-level redirect -> linkerd-proxy-outbound OR userspace proxy
+   |
+   v (P99 오버헤드: iptables 1.2ms vs eBPF 0.3ms)
 
 [방식 3: Istio Ambient Mesh (1.18+ Sidecar-less)]
-─────────────────────────────────────────────────
-App Pod → ztunnel (per-node, DaemonSet)
-   │  - mTLS termination (HBONE: HTTP-Based Overlay Network)
-   │  - L4 처리 (TCP/UDP)
-   │  - Waypoint proxy (per-namespace) for L7 needs
-   ▼
-iptables 불필요 → Init Container (istio-init) 생략
-   → Pod startup time 약 200~800ms 단축
+-------------------------------------------------
+App Pod -> ztunnel (per-node, DaemonSet)
+   |  - mTLS termination (HBONE: HTTP-Based Overlay Network)
+   |  - L4 처리 (TCP/UDP)
+   |  - Waypoint proxy (per-namespace) for L7 needs
+   v
+iptables 불필요 -> Init Container (istio-init) 생략
+   -> Pod startup time 약 200~800ms 단축
 ```
 
 ### 2.2 Envoy 프록시 핵심 아키텍처 (xDS API)
 
 ```text
-┌─────────────── Envoy Process (Sidecar) ───────────────┐
-│                                                          │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐ │
-│  │ Listener │  │ Listener │  │ Listener │  │ Listener │ │
-│  │  :15006  │  │  :15001  │  │  :15021  │  │  :15090  │ │
-│  │ (Inbound)│  │(Outbound)│  │(Health)  │  │(Metrics) │ │
-│  └────┬─────┘  └────┬─────┘  └──────────┘  └──────────┘ │
-│       │              │                                    │
-│       ▼              ▼                                    │
-│  ┌─────────────────────────────────────────────────────┐ │
-│  │       Filter Chain (HTTP Connection Manager)        │ │
-│  │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌────────┐ │ │
-│  │  │RBAC Filt.│→│mTLS Filt.│→│Lua Filt. │→│Router  │ │ │
-│  │  └──────────┘ └──────────┘ └──────────┘ └───┬────┘ │ │
-│  └──────────────────────────────────────────────┼─────┘ │
-│                                                 │       │
-│       ┌─────────────────────────────────────────┘       │
-│       ▼                                                 │
-│  ┌─────────────────────────────────────────────────────┐ │
-│  │              Cluster (Upstream Service)             │ │
-│  │  ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌──────────┐ │ │
-│  │  │Endpoint │ │Endpoint │ │Endpoint │ │HealthChk │ │ │
-│  │  │10.4.1.2 │ │10.4.1.3 │ │10.4.1.4 │ │/healthz  │ │ │
-│  │  └─────────┘ └─────────┘ └─────────┘ └──────────┘ │ │
-│  └─────────────────────┬───────────────────────────────┘ │
-│                        │ gRPC xDS (port 15010)          │
-└────────────────────────┼────────────────────────────────┘
-                         ▼
-              ┌────────────────────────┐
-              │     istiod (Control Plane) │
-              │  - Pilot: xDS server     │
-              │  - Citadel: cert issuance│
-              │  - Galley: config valid. │
-              │  - Sidecar Injector:     │
-              │    webhook injection     │
-              └────────────┬────────────┘
-                           │
-                           ▼
-              ┌────────────────────────┐
-              │ SPIRE (Identity Plane)  │
-              │ - SVID (X.509 SVID)     │
-              │ - Rotated every 24h     │
-              │ - Workload Identity     │
-              │   spiffe://cluster.local/ns/default/sa/order  │
-              └────────────────────────┘
++--------------- Envoy Process (Sidecar) ---------------+
+|                                                          |
+|  +----------+  +----------+  +----------+  +----------+ |
+|  | Listener |  | Listener |  | Listener |  | Listener | |
+|  |  :15006  |  |  :15001  |  |  :15021  |  |  :15090  | |
+|  | (Inbound)|  |(Outbound)|  |(Health)  |  |(Metrics) | |
+|  +----+-----+  +----+-----+  +----------+  +----------+ |
+|       |              |                                    |
+|       v              v                                    |
+|  +-----------------------------------------------------+ |
+|  |       Filter Chain (HTTP Connection Manager)        | |
+|  |  +----------+ +----------+ +----------+ +--------+ | |
+|  |  |RBAC Filt.|->|mTLS Filt.|->|Lua Filt. |->|Router  | | |
+|  |  +----------+ +----------+ +----------+ +---+----+ | |
+|  +----------------------------------------------+-----+ |
+|                                                 |       |
+|       +-----------------------------------------+       |
+|       v                                                 |
+|  +-----------------------------------------------------+ |
+|  |              Cluster (Upstream Service)             | |
+|  |  +---------+ +---------+ +---------+ +----------+ | |
+|  |  |Endpoint | |Endpoint | |Endpoint | |HealthChk | | |
+|  |  |10.4.1.2 | |10.4.1.3 | |10.4.1.4 | |/healthz  | | |
+|  |  +---------+ +---------+ +---------+ +----------+ | |
+|  +---------------------+-------------------------------+ |
+|                        | gRPC xDS (port 15010)          |
++------------------------+--------------------------------+
+                         v
+              +------------------------+
+              |     istiod (Control Plane) |
+              |  - Pilot: xDS server     |
+              |  - Citadel: cert issuance|
+              |  - Galley: config valid. |
+              |  - Sidecar Injector:     |
+              |    webhook injection     |
+              +------------+------------+
+                           |
+                           v
+              +------------------------+
+              | SPIRE (Identity Plane)  |
+              | - SVID (X.509 SVID)     |
+              | - Rotated every 24h     |
+              | - Workload Identity     |
+              |   spiffe://cluster.local/ns/default/sa/order  |
+              +------------------------+
 ```
 
 ### 2.3 구성 요소 매핑 테이블
@@ -183,7 +183,7 @@ iptables 불필요 → Init Container (istio-init) 생략
 | **Envoy Sidecar (istio-proxy)** | L4/L7 프록시 엔진 | C++17, 50MB base memory. HTTP/3 지원, xDS API로 동적 설정 수신, WASM/Lua 스크립트로 커스텀 필터 확장, xDS 연결 시 `initial_fetch_timeout: 0s`, `connect_timeout: 1s` |
 | **istiod (Control Plane)** | 구성 분배 및 인증서 관리 | 단일 바이너리(Pilot + Citadel + Galley 통합). 5,000 노드/60,000 Pod 스케일 검증, P99 설정 전파 지연 약 1.5초 |
 | **SPIRE / Citadel** | 워크로드 신원 발급 | SPIFFE ID `spiffe://<trust-domain>/ns/<ns>/sa/<sa>`, SVID TTL 24h(기본), 1h 갱신 시도, mTLS 핸드셰이크에서 양방향 인증 |
-| **Pilot-xDS (gRPC)** | 설정 푸시 채널 | LDS(Listeners) → RDS(Routes) → CDS(Clusters) → EDS(Endpoints) 순서로 의존성 해결. ACK 시점 기준 P99 약 100ms |
+| **Pilot-xDS (gRPC)** | 설정 푸시 채널 | LDS(Listeners) -> RDS(Routes) -> CDS(Clusters) -> EDS(Endpoints) 순서로 의존성 해결. ACK 시점 기준 P99 약 100ms |
 
 ### 2.4 핵심 알고리즘: 서
 ## 🔗 이전/다음 글 (Navigation)

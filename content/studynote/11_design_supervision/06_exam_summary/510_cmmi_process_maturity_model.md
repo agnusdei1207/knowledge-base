@@ -11,160 +11,142 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: CMMI 프로세스 성숙도 모델은(는) 시험 빈출 핵심 요약 및 융합 토픽 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: CMMI(Capability Maturity Model Integration)는 SEI(Software Engineering Institute)가 개발한 **소프트웨어/시스템/서비스 개발 프로세스의 성숙도를 5단계 레벨(Level 1~5)**로 평가·개선하는 프레임워크로, **22개 프로세스 영역(Process Area, PA)**, **5개 범주(카테고리)**, **목표(SG/GG) 및 실행プラクティ스(GP/SP)**의 계층적 구조로 프로세스 정량화·최적화를 달성한다.
+> 2. **가치**: 통계적으로 **Level 2 도달 시 결함률 약 50% 감소, Level 3 도달 시 일정 준수율 65% -> 80%로 향상, Level 4/5에서는 PPM(Process Performance Model) 기반 변동성 1σ 이내 통제**가 가능하며, 글로벌 SW 발주처(DoD, NASA, 한전 등)의 **공급사 자격심사(Acquisition Gate)** 및 한국 SW진흥법의 **SW사업 대가산정 및 검증**의 핵심 평가척도로 활용된다.
+> 3. **판단 포인트**: **Staged Representation(단계적 표현)** vs **Continuous Representation(연속적 표현)**의 조직 적합성 판단, **CMMI-DEV/SVC/ACQ/PPL** 4개 모델 중 도메인 매칭, **Agile(Scrum/XP)·DevOps·ISO 9001·ITIL v4**와의 **Harmonization 전략**, 그리고 **SCAMPI A/B/C** 중 비용-기간-신뢰도 트레이드오프에 따른 인증 등급 결정이 핵심 의사결정 포인트이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-CMMI 프로세스 성숙도 모델은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
-
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, CMMI Process Maturity Model 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+CMMI는 1980년대 후반 미국 국방성(DoD)의 SW 납품 품질 문제(Standish Group CHAOS Report 기준 **31% 프로젝트 완전 실패**)를 해결하기 위해 SEI의 Watts Humphrey 등이 CMM(Capability Maturity Model, 1991)을 발전시켜 **2002년 v1.0, 2006년 v1.2, 2010년 v1.3, 2018년 v2.0**으로 통합·발전시킨 모델이다. 기존 CMM은 SW-CMM, SE-CMM, IPD-CMM 등 **파편화된 도메인별 모델**을 CMMI로 통합하여 **DEV(개발), SVC(서비스), ACQ(조달), PPL(인력)** 4개 콘스턴트(constant)로 재편, **중복 제거와 통합성(integration)**을 달성했다.
 
 ```text
-+--------------------------------------------------------------+
-|                    CMMI 프로세스 성숙도 모델 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[ CMMI 진화 계보도: 파편화 -> 통합 -> v2.0 ]
+
+   (1987)        (1991~2000)              (2002)              (2010)             (2018)
+    SPA -+         SW-CMM v1.1 --+
+         +- CMM --+              +-- CMMI v1.0 -- CMMI v1.2 -- CMMI v1.3 -- CMMI v2.0
+    DoD -+         SE-CMM -------+    (통합)         (확장)        (개선)         (Biz Value)
+                   IPD-CMM -----+
+                   SSA-CMM(SVC)-+
+                                            |
+                                  +---------+----------+----------+
+                                  v         v          v          v
+                              CMMI-DEV  CMMI-SVC   CMMI-ACQ   CMMI-PPL
+                              (개발)     (서비스)   (조달)     (인력)
+                                  |         |          |          |
+                                  +---------+----------+----------+
+                                              |
+                                              v
+                                  22개 PA / 5개 카테고리 / 5단계 레벨
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**기존 패러다임 vs CMMI 패러다임 비교**
 
-- **📢 섹션 요약 비유**: CMMI 프로세스 성숙도 모델은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+| 패러다임 | 접근 방식 | 한계점 |
+| :--- | :--- | :--- |
+| **SW-CMM(1991)** | SW 개발 프로세스만 평가 | 도메인 파편화(SW, 시스템, 인력 중복) |
+| **ISO 9001(2000)** | 범용 품질경영시스템(QMS) | **"무엇(What)"만 규정, "어떻게(How)" 부재** -> 프로세스 역량 측정 불가 |
+| **CMMI v1.x(2002~2010)** | **SW+시스템+서비스+조달 통합** | 문서화 부담, Agile과 충돌, 적용 비용 과다 |
+| **CMMI v2.0(2018)** | **Business Performance Integration** | Agile/DevOps/Lean 친화, 4개 콘스턴트 단순화, **Practice Area 단위 평가** 도입 |
+
+한국에서는 **SW진흥법(2013년 시행)**, **정보시스템 감리**, **SW사업 대가산정 가이드**, **공공기관 SW사업 검증**에서 CMMI 레벨을 발주사격 평가지표로 활용하며, 2024년 기준 국내 인증기업 약 **300여 개사(한국SW기술인협회 집계)**가 분포한다.
+
+- **📢 섹션 요약 비유**: CMMI는 **요리사 양성 시스템**과 같다. 초보(Level 1)->조리사(Level 2: 레시피 준수)->셰프(Level 3: 자신만의 시스템 정립)->마스터 셰프(Level 4: 정량적 맛 분석)->요리 거장(Level 5: 끊임없는 혁신)처럼 **요리하는 능력의 단계적 성장**을 체계적으로 진단·개선하는 프레임워크다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-CMMI 프로세스 성숙도 모델의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+CMMI의 핵심 아키텍처는 **3계층 계층구조(Layered Architecture)**로 구성된다. 최상위 **Maturity Level(5단계)** 또는 **Capability Level(6단계)**, 중간 **Process Area(PA, 22개)**, 최하위 **Goal(목표) + Practice(실행 관행)**이 위계적으로 연결된다.
 
 ```text
-+--------------------------------------------------------------+
-|              CMMI Process Maturity Model 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+[ CMMI v1.3 Staged Representation: 5단계 성숙도 모델 ]
+
+                            +-----------------------------+
+                Level 5 --- | Optimizing        (최적화)   |  <- CAR, OID 등 2 PA
+                            +-----------------------------+
+                Level 4 --- | Quantitatively    (정량적   |  <- OPP, QPM 등 2 PA
+                            |  Managed           관리)    |
+                            +-----------------------------+
+                Level 3 --- | Defined           (정의)    |  <- REQM, RD, TS, PI,
+                            |                                VER, VAL, PI, PP,
+                            |                                SAM, IPM, RSKM,
+                            |                                DAR, CM, MA, OEI 등
+                            |                                16~18 PA
+                            +-----------------------------+
+                Level 2 --- | Managed           (관리)    |  <- REQM, PP, SAM, MA,
+                            |                                CM, PMC, PPQA, IPM 등
+                            |                                7~8 PA
+                            +-----------------------------+
+                Level 1 --- | Initial           (초기)    |  <- (성공 요인 미정의)
+                            |  - Heroic Effort               |
+                            +-----------------------------+
+
+[ 프로세스 영역(PA) 계층구조 ]
+
+    Maturity Level (1~5)
+        |
+        +-- Process Area (PA, 22개)  - e.g., "Requirements Management (REQM)"
+        |       |
+        |       +-- Specific Goal (SG) - e.g., "SG 1: Requirements are managed"
+        |       |       |
+        |       |       +-- Specific Practice (SP) - e.g., "SP 1.1: Obtain an understanding of requirements"
+        |       |
+        |       +-- Generic Goal (GG) - e.g., "GG 2: The process is managed"
+        |               |
+        |               +-- Generic Practice (GP) - e.g., "GP 2.1: Establish an organizational policy"
+        |
+        +-- Work Product / Subprocess (산출물 / 하위프로세스)
+                - Process Asset Library (PAL)
+                - Measurement Repository
+                - Process Performance Model (PPM)
+                - Defect Repository
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Maturity Level (5단계)** | 조직 단위 성숙도 측정 척도 | L1=Initial / L2=Managed / L3=Defined / L4=Quantitatively Managed / L5=Optimizing. **누적성(Cumulativeness)**: 상위 레벨 달성은 하위 레벨의 모든 PA 충족을 전제 |
+| **Process Area (PA, 22개)** | 핵심 프로세스 영역 (e.g., REQM, PP, SAM, IPM, RSKM, CM, PMC, PPQA, MA, OEI) | 각 PA별로 **1~3개 SG(Specific Goal)**와 **다수의 SP(Specific Practice)** 보유. **5개 카테고리**: Process Management / Project Management / Engineering / Support / Cross-cutting |
+| **Goal (목표)** | SG(특정 목표) + GG(공통 목표) | SG는 PA별 **필수 달성 목표(Must)**, GG2~GG5는 **레벨별 공통 필수(Institutionalization)**: GG2=관리, GG3=정의, GG4=정량관리, GG5=최적화 |
+| **Practice (실행 관행)** | SP(특정 관행) + GP(공통 관행) | SP 1.1~3.x: PA별 상세 실행항목, **GP 2.1~5.2**: 정책 수립, 계획, 자원, 책임, 측정, 통제, 혁신 등 7개 영역의 **공통 프레임워크** |
+| **Appraisal Method** | 평가 방법론 | **SCAMPI(Standard CMMI Appraisal Method for Process Improvement)** A/B/C 3단계: **Class A**(리더 1+팀원 2~4, 4~7일, 공식 인증, **$80K~$150K** 비용) / **Class B**(내부 진단, 공식 인증 불가) / **Class C**(간이 평가, 1~3일) |
+| **CMMI v2.0의 Practice Area (PA, 25개)** | v2.0에서 재편된 영역 | **4 Performance Domain**(Doing, Managing, Enabling, Improving) × **Practice Area** 구조. **8개 핵심 PA**(`ESTIM, PLAN, MON, REQM, RD, TS, VAL, VER`) + 추가 영역 |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**CMMI 5단계 성숙도의 핵심 메커니즘 상세**
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+1. **Level 1 (Initial/초기단계)**: 프로세스 정의 부재, **Heroic Effort(영웅적 노력)**에 의존. SEI 통계에서 L1 조직의 **예산 초과율 89%, 결함 밀도 1.5 defects/KLOC** 기록.
+2. **Level 2 (Managed/관리단계)**: 프로젝트 단위 기본 프로세스 수립. **7개 PA 필수**: REQM, PP, SAM, MA, CM, PMC, PPQA (CMMI-DEV v1.3). 핵심 관행: **Commit to Plan(계획 수립 및 커밋먼트)**, **Manage Configurations(형상 통제)**, **Track Performance(성과 추적)**.
+3. **Level 3 (Defined/정의단계)**: 조직 표준 프로세스(OSP) **Process Asset Library(PAL)** 구축. **16개 추가 PA**: RD(Requirements Development), TS(Technical Solution), PI(Product Integration), VER(Verification), VAL(Validation), IPM(Integrated Project Management), RSKM(Risk Management), OEI(Organizational Environment for Integration) 등. **Tailoring Guidelines**로 프로젝트별 맞춤.
+4. **Level 4 (Quantitatively Managed/정량적 관리)**: **Process Performance Model(PPM)**, **Process Performance Baseline(PPB)** 수립. **통계적 기법(SPC, Statistical Process Control)** 적용: **Six Sigma 개념 통합**. 2개 PA: **OPP(Organizational Process Performance)**, **QPM(Quantitative Project Management)**. **σ-Level 측정**: **2σ(95.5%) -> 4σ(99.99%)** 수준 변동성 통제.
+5. **Level 5 (Optimizing/최적화)**: **지속적 혁신 프로세스(CAR/Causal Analysis and Resolution)** 및 **Organizational Innovation and Deployment(OID)**. **Defect Causal Analysis(DCA)**, **PIL(Process Improvement Lead)** 통한 **PDCA 사이클 가속화**.
+
+**CMMI v2.0의 핵심 변화(v1.3 -> v2.0)**
+
+- **평가 단위 변경**: PA 22개 -> **Practice Area 25개** + **Practice Group 76개** + **Practice 411개**로 세분화
+- **3-Pillar 구조**: **Practice(관행) + Performance(성과) + Skill(역량)** 통합 평가
+- **Burst 평가**: 프로젝트 단위 **단기/반복적** 평가 지원 (Agile 친화)
+- **CMMI Model Foundation**: 모든 콘스턴트의 **공통 베이스 12개 PA** 통합
+- **가격 정책 단순화**: ~$4,950/평가팀 + $1,650/사이트 (v2.0)
+
+- **📢 섹션 요약 비유**: CMMI의 5단계는 **운전면허 단계**와 같다. L1은 **도로 위 첫 차량**(무면허 위험), L2는 **응急運転免許(기본 운전 가능)**, L3는 **1종 보통면허(정통 운전 스킬)**, L4는 **1종 대형/특수면허(고속도로 장거리 안전 운전)**, L5는 **경찰·레이서(사고 시 즉각 원인 분석 및 예방)**에 비유할 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-CMMI 프로세스 성숙도 모델을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+CMMI는 유사한 프로세스 개선 프레임워크와 **상호 보완적 관계**이거나 **경쟁/대체 관계**에 있다. 기술사 시험에서는 이들의 차이를 정확히 구분하고 **조직 상황에 맞는 통합 전략**을 제시해야 한다.
 
-| 구분 | 전통적 접근 | CMMI 프로세스 성숙도 모델 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. CMMI 프로세스 성숙도 모델은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 CMMI 프로세스 성숙도 모델은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 CMMI 프로세스 성숙도 모델을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-CMMI 프로세스 성숙도 모델을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, CMMI 프로세스 성숙도 모델 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: CMMI 프로세스 성숙도 모델은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | CMMI 프로세스 성숙도 모델의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | CMMI 프로세스 성숙도 모델의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-CMMI 프로세스 성숙도 모델 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. CMMI 프로세스 성숙도 모델은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| 구분 | **CMMI** | **ISO 9001 / ISO/IEC 33001~33099** | **ITIL v4** | **Agile (Scrum/XP)** | **DevOps (CALMS)** |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **목적** | 프로세스 **역량/성숙도** 측정 | QMS 인증(전사 품질경영) | **IT 서비스 운영** 개선 | **반복적·적응적** 제품 개발 | **개발+운영 통합** 자동화 |
+| **구조** | 5단계 / 22 PA | 7 원칙 / 10개 조항(Clause) | 4 차원 / 34 Practice | Sprint / Ceremony | C-A-L-M-S 5개 축 |
+| **측정** | 정성(목표 달성) + 정량(PPM) | 정성(절차 준수) | 정성(Practice 채택) | **Velocity, Burn-down** | **DORA 4 Metrics**(배포빈도, 리드타임, MTTR, 변경실패율) |
+| **인증** | SCAMPI Class A (공식 인증, 3년 유효) | ISO 인증 (3년 유효, 매년 감시) | PeopleCert 공식 인증 (자격증) | Scrum.org, SAFe 등 (자격증) | DORA Assessment |
+| **적합 조직** | 중·대규모 SW/SI 사업체 | 전 산업군 | IT 운영/서비스 조직 | 스타트업·SW 제품 개발 | 클라우드 네이티브, MSA |
+| **한계** | 문서화 부담, 변화 대응 지연 | SW 프로세스 역량 미측정 | 개발 프로세스 미포함 | 스케일링·거버넌스 약점 | 측정 도구 의존 |
+| **통합** | **CM
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 510 / 600
